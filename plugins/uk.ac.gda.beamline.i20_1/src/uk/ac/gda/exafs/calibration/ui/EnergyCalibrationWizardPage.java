@@ -39,7 +39,9 @@ import org.dawnsci.plotting.api.region.ROIEvent;
 import org.dawnsci.plotting.api.trace.ILineTrace;
 import org.dawnsci.plotting.api.trace.ITrace;
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -131,16 +133,27 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		setPageComplete(true);
 	}
 
+
+	@Override
+	public void dispose() {
+		if (refPlottingSystem != null && !refPlottingSystem.isDisposed()) {
+			refPlottingSystem.dispose();
+		}
+		if (edePlottingSystem != null && !edePlottingSystem.isDisposed()) {
+			edePlottingSystem.dispose();
+		}
+		calibrationDataModel.clearListeners();
+		refCalibrationDataModel.clearListeners();
+		edeCalibrationDataModel.clearListeners();
+		super.dispose();
+	}
+
 	private void registerRegionShowHide(final CalibrationDataModel calibrationDataModel,
 			final IRegion[] dataPlottingRegions, final IPlottingSystem plottingSystem) {
 		calibrationDataModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(CalibrationDataModel.MANUAL_CALIBRATION_PROP_NAME)) {
-					for (int i = 0; i < dataPlottingRegions.length; i++) {
-						dataPlottingRegions[i].setVisible((boolean) (evt.getNewValue()));
-					}
-				} else if (evt.getPropertyName().equals(CalibrationDataModel.FILE_NAME_PROP_NAME)) {
+				if (evt.getPropertyName().equals(CalibrationDataModel.FILE_NAME_PROP_NAME)) {
 					for (int i = 0; i < dataPlottingRegions.length; i++) {
 						double index = calibrationDataModel.getReferencePoints()[i];
 						dataPlottingRegions[i].setROI(new LinearROI(new double[] { index, 0 }, new double[] { index, 1 }));
@@ -325,6 +338,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		polynomialFittingOrderSpinner.setMaximum(5);
 		polynomialFittingOrderSpinner.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+		dataBindingCtx.bindValue(
+				WidgetProperties.selection().observe(polynomialFittingOrderSpinner),
+				BeanProperties.value(EdeCalibrationModel.POLYNOMIAL_ORDER_PROP_NAME).observe(calibrationDataModel));
+
 		manualCalibrationCheckButton = new Button(calibrationDetailsComposite, SWT.CHECK);
 		manualCalibrationCheckButton.setText("Manual calibration");
 		manualCalibrationCheckButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -356,29 +373,27 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		polynomialValueText.setEditable(false);
 		polynomialValueText.setLayoutData(gridData);
 
+		dataBindingCtx.bindValue(
+				WidgetProperties.text().observe(polynomialValueText),
+				BeanProperties.value(EdeCalibrationModel.CALIBRATION_RESULT_PROP_NAME).observe(calibrationDataModel));
+
 		clearCalibrationButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				refPlottingSystem.clear();
 				loadPlot(refCalibrationDataModel, refPlottingSystem);
-
-				//				calibrationDataModel.setCalibrationResult(null);
-				//				polynomialValueText.setText("");
-				//				ITrace edeOverlayTrace = refPlottingSystem.getTrace(EDE_OVERLAY_TRACE_NAME);
-				//				if (edeOverlayTrace != null) {
-				//					refPlottingSystem.removeTrace(edeOverlayTrace);
-				//				}
-
 			}
 		});
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(manualCalibrationCheckButton),
-				BeanProperties.value(CalibrationDataModel.MANUAL_CALIBRATION_PROP_NAME).observe(refCalibrationDataModel));
+				BeanProperties.value(CalibrationDataModel.MANUAL_CALIBRATION_PROP_NAME).observe(refCalibrationDataModel),
+				refUpdateValueStrategy, refUpdateValueStrategy);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(manualCalibrationCheckButton),
-				BeanProperties.value(CalibrationDataModel.MANUAL_CALIBRATION_PROP_NAME).observe(edeCalibrationDataModel));
+				BeanProperties.value(CalibrationDataModel.MANUAL_CALIBRATION_PROP_NAME).observe(edeCalibrationDataModel),
+				edeUpdateValueStrategy, edeUpdateValueStrategy);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(manualCalibrationCheckButton),
@@ -400,6 +415,28 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 				WidgetProperties.enabled().observe(polynomialFittingOrderSpinner),
 				BeanProperties.value(EdeCalibrationModel.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 	}
+
+	private final UpdateValueStrategy refUpdateValueStrategy = new UpdateValueStrategy() {
+		@Override
+		protected IStatus doSet(IObservableValue observableValue, Object value) {
+			IStatus result = super.doSet(observableValue, value);
+			for (int i = 0; i < referenceDataPlottingRegions.length; i++) {
+				referenceDataPlottingRegions[i].setVisible((boolean) value);
+			}
+			return result;
+		}
+	};
+
+	private final UpdateValueStrategy edeUpdateValueStrategy = new UpdateValueStrategy() {
+		@Override
+		protected IStatus doSet(IObservableValue observableValue, Object value) {
+			IStatus result = super.doSet(observableValue, value);
+			for (int i = 0; i < edeDataPlottingRegions.length; i++) {
+				edeDataPlottingRegions[i].setVisible((boolean) value);
+			}
+			return result;
+		}
+	};
 
 	private void runEdeCalibration() {
 		try {
@@ -463,11 +500,11 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 						@Override
 						public void run() {
-
 							refPlottingSystem.clear();
 
 							ILineTrace refTrace = refPlottingSystem.createLineTrace("Ref");
 							refTrace.setData(refEnergySlice, refSpectrumSlice);
+
 							refTrace.setTraceColor(ColorConstants.blue);
 							refPlottingSystem.addTrace(refTrace);
 
@@ -479,7 +516,6 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 							refPlottingSystem.repaint();
 
 							calibrationDataModel.setCalibrationResult(edeCalibration.getEdeCalibrationPolynomial());
-							polynomialValueText.setText(edeCalibration.getEdeCalibrationPolynomial().toString());
 
 							runCalibrationButton.setEnabled(true);
 						}
@@ -521,14 +557,4 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		return new AbstractDataset[] {dataE, dataI};
 	}
 
-	@Override
-	public void dispose() {
-		if (refPlottingSystem != null && !refPlottingSystem.isDisposed()) {
-			refPlottingSystem.dispose();
-		}
-		if (edePlottingSystem != null && !edePlottingSystem.isDisposed()) {
-			edePlottingSystem.dispose();
-		}
-		super.dispose();
-	}
 }

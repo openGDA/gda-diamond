@@ -33,12 +33,14 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.model.TimeBarModel;
 
 public class CyclicExperimentModel extends TimeResolvedExperimentModel {
+
 	private static final String CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY = "CYCLIC_TIME_RESOLVED_EXPERIMENT_DATA";
 
 	private static final String CYCLIC_EXPERIMENT_OBJ = "cyclicExperiment";
 
 	public static final String NO_OF_REPEATED_GROUPS_PROP_NAME = "noOfRepeatedGroups";
-	private int noOfRepeatedGroups = 2;
+	private int noOfRepeatedGroups;
+	private static final int INITIAL_NO_OF_CYCLES = 2;
 
 	public static final String CYCLES_DURATION_PROP_NAME = "cyclesDuration";
 	private double cyclesDuration;
@@ -88,7 +90,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 			}
 		});
-		this.setNoOfRepeatedGroups(1);
+		this.setNoOfRepeatedGroups(INITIAL_NO_OF_CYCLES);
 	}
 
 	private void updateTimes() {

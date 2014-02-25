@@ -32,7 +32,11 @@ public class EdeCalibrationModel extends ObservableModel {
 	private final CalibrationDataModel edeData = new EdeCalibrationDataModel();
 	private final CalibrationDataModel refData = new RefCalibrationDataModel();
 
+	public static final String CALIBRATION_RESULT_PROP_NAME = "calibrationResult";
 	private PolynomialFunction calibrationResult;
+
+	public static final String POLYNOMIAL_ORDER_PROP_NAME = "polynomialOrder";
+	private int polynomialOrder = 2;
 
 	public void setRefData(String refFileName) throws Exception {
 		refData.setDataFile(refFileName);
@@ -71,7 +75,15 @@ public class EdeCalibrationModel extends ObservableModel {
 	}
 
 	public void setCalibrationResult(PolynomialFunction calibrationResult) {
-		this.calibrationResult = calibrationResult;
+		this.firePropertyChange(CALIBRATION_RESULT_PROP_NAME, this.calibrationResult, this.calibrationResult = calibrationResult);
+	}
+
+	public int getPolynomialOrder() {
+		return polynomialOrder;
+	}
+
+	public void setPolynomialOrder(int polynomialOrder) {
+		this.firePropertyChange(POLYNOMIAL_ORDER_PROP_NAME, this.polynomialOrder, this.polynomialOrder = polynomialOrder);
 	}
 }
 

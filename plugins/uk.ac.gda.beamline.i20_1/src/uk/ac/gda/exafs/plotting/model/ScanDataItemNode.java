@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.datawriters.EdeDataConstants;
 
 import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
@@ -98,7 +98,7 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 
 	@Override
 	public boolean isPlotByDefault() {
-		if (((SpectraNode) parent).getLabel().equals(EdeExperiment.LN_I0_IT_COLUMN_NAME)) {
+		if (((SpectraNode) parent).getLabel().equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME)) {
 			return true;
 		}
 		return false;

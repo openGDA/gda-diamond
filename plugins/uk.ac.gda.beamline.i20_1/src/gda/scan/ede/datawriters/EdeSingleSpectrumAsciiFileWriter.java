@@ -20,7 +20,6 @@ package gda.scan.ede.datawriters;
 
 import gda.device.detector.StripDetector;
 import gda.scan.EdeScan;
-import gda.scan.ede.EdeExperiment;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,7 +29,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
+public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 
 	private final EdeScan i0DarkScan;
 	private final EdeScan itDarkScan;
@@ -49,7 +48,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	@Override
-	public String writeAsciiFile() throws Exception {
+	public String writeDataFile() throws Exception {
 		// FIXME Check this
 		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(0);
 		DoubleDataset itDarkDataSet = itDarkScan.extractDetectorDataSet(0);
@@ -67,9 +66,9 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		FileWriter writer = new FileWriter(asciiFile);
 		log("Writing EDE format ascii file: " + asciiFilename);
 		writerHeader(writer);
-		writer.write("#" + EdeExperiment.STRIP_COLUMN_NAME + "\t" + EdeExperiment.ENERGY_COLUMN_NAME + "\t" + EdeExperiment.I0_CORR_COLUMN_NAME + "\t"
-				+ EdeExperiment.IT_CORR_COLUMN_NAME + "\t" + EdeExperiment.LN_I0_IT_COLUMN_NAME + "\t " + EdeExperiment.I0_RAW_COLUMN_NAME + "\t"
-				+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.I0_DARK_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
+		writer.write("#" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t" + EdeDataConstants.I0_CORR_COLUMN_NAME + "\t"
+				+ EdeDataConstants.IT_CORR_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\t " + EdeDataConstants.I0_RAW_COLUMN_NAME + "\t"
+				+ EdeDataConstants.IT_RAW_COLUMN_NAME + "\t" + EdeDataConstants.I0_DARK_COLUMN_NAME + "\t" + EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
@@ -122,9 +121,9 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		String filename = FilenameUtils.getBaseName(itFilename);
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			asciiFilename = folder + String.format(filenameTemplate, filename) + ASCII_FILE_EXTENSION;
+			asciiFilename = folder + String.format(filenameTemplate, filename) + EdeDataConstants.ASCII_FILE_EXTENSION;
 		} else {
-			asciiFilename = folder + filename + ASCII_FILE_EXTENSION;
+			asciiFilename = folder + filename + EdeDataConstants.ASCII_FILE_EXTENSION;
 		}
 	}
 }

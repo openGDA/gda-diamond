@@ -37,7 +37,8 @@ import gda.scan.MultiScan;
 import gda.scan.ScanBase;
 import gda.scan.ScanPlotSettings;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
-import gda.scan.ede.datawriters.EdeAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeDataConstants;
+import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
@@ -67,20 +68,6 @@ public abstract class EdeExperiment implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
 
-	public static final String TIMINGGROUP_COLUMN_NAME = "Timing_Group";
-	public static final String REP_COLUMN_NAME = "Cycle";
-	public static final String FRAME_COLUMN_NAME = "Frame";
-	public static final String STRIP_COLUMN_NAME = "Strip";
-	public static final String ENERGY_COLUMN_NAME = "Energy";
-	public static final String I0_CORR_COLUMN_NAME = "I0_corr";
-	public static final String IT_CORR_COLUMN_NAME = "It_corr";
-	public static final String LN_I0_IT_COLUMN_NAME = "LnI0It";
-	public static final String LN_I0_IREF_COLUMN_NAME = "LnI0IRef";
-	public static final String I0_RAW_COLUMN_NAME = "I0_raw";
-	public static final String IT_RAW_COLUMN_NAME = "It_raw";
-	public static final String I0_DARK_COLUMN_NAME = "I0_dark";
-	public static final String IT_DARK_COLUMN_NAME = "It_dark";
-	public static final String DATA_COLUMN_NAME = "Data";
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
 	 */
@@ -110,7 +97,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScanParameters i0ScanParameters;
 	protected EdeScanPosition i0Position;
 	protected EdeScanPosition itPosition;
-	protected EdeAsciiFileWriter writer;
+	protected EdeExperimentDataWriter writer;
 	protected String nexusFilename;
 
 	private ScriptControllerBase controller;
@@ -258,7 +245,7 @@ public abstract class EdeExperiment implements IObserver {
 		scansForExperiment.clear();
 		addScansForExperiment();
 		nexusFilename = addToMultiScanAndRun();
-		String asciiDataFile = writeAsciiFile();
+		String asciiDataFile = writeToFiles();
 		return asciiDataFile;
 	}
 
@@ -288,18 +275,18 @@ public abstract class EdeExperiment implements IObserver {
 		}
 	}
 
-	private String writeAsciiFile() throws Exception {
+	private String writeToFiles() throws Exception {
 		writer = createFileWritter();
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
 			writer.setFilenameTemplate(filenameTemplate);
 		}
 		logger.debug("EDE linear experiment writing its ascii derived data files...");
-		writer.writeAsciiFile();
+		writer.writeDataFile();
 		log("EDE single spectrum experiment complete.");
 		return writer.getAsciiFilename();
 	}
 
-	protected abstract EdeAsciiFileWriter createFileWritter();
+	protected abstract EdeExperimentDataWriter createFileWritter();
 
 	protected abstract double getPredictedExperimentTime();
 
@@ -375,12 +362,12 @@ public abstract class EdeExperiment implements IObserver {
 				lastI0DarkData = i0DarkScan.extractLastDetectorDataSet();
 
 				controller.update(i0DarkScan, new EdeExperimentProgressBean(getCollectionType(), progress,
-						EdeExperiment.I0_DARK_COLUMN_NAME, lastI0DarkData, lastEnergyData));
+						EdeDataConstants.I0_DARK_COLUMN_NAME, lastI0DarkData, lastEnergyData));
 			}
 			else if (source.equals(itDarkScan)) {
 				lastItDarkData = itDarkScan.extractLastDetectorDataSet();
 				controller.update(itDarkScan, new EdeExperimentProgressBean(getCollectionType(), progress,
-						EdeExperiment.IT_DARK_COLUMN_NAME, lastItDarkData, lastEnergyData));
+						EdeDataConstants.IT_DARK_COLUMN_NAME, lastItDarkData, lastEnergyData));
 			}
 			else if (source.equals(i0LightScan)) {
 				lastI0Data = i0LightScan.extractLastDetectorDataSet();
@@ -389,7 +376,7 @@ public abstract class EdeExperiment implements IObserver {
 				DoubleDataset i0DarkForI0LightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
 				lastI0Data = lastI0Data.isubtract(i0DarkForI0LightData);
 				controller.update(i0LightScan, new EdeExperimentProgressBean(getCollectionType(), progress,
-						EdeExperiment.I0_CORR_COLUMN_NAME, lastI0Data, lastEnergyData));
+						EdeDataConstants.I0_CORR_COLUMN_NAME, lastI0Data, lastEnergyData));
 			}
 			else if (ArrayUtils.contains(itScans, source)) {
 				if (shouldPublishItScanData(progress)) {
@@ -404,10 +391,10 @@ public abstract class EdeExperiment implements IObserver {
 						DoubleDataset i0DarkForItLightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
 						lastItData = lastItData.isubtract(i0DarkForItLightData);
 					}
-					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.IT_CORR_COLUMN_NAME,
+					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeDataConstants.IT_CORR_COLUMN_NAME,
 							lastItData, lastEnergyData));
-					DoubleDataset normalisedIt = EdeAsciiFileWriter.normaliseDatasset(lastItData, lastI0Data);
-					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeExperiment.LN_I0_IT_COLUMN_NAME,
+					DoubleDataset normalisedIt = EdeExperimentDataWriter.normaliseDatasset(lastItData, lastI0Data);
+					controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeDataConstants.LN_I0_IT_COLUMN_NAME,
 							normalisedIt, lastEnergyData));
 				}
 			}

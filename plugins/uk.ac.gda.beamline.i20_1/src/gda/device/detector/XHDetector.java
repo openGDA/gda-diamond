@@ -27,8 +27,8 @@ import gda.device.DeviceException;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
-import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.datawriters.EdeAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeDataConstants;
+import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.ScanDataHelper;
 
 import java.io.File;
@@ -379,8 +379,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), EdeExperiment.ENERGY_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
-		thisFrame.addData(getName(), EdeExperiment.DATA_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
+		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
+		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -903,9 +903,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	private void writeAsciiFile(ScanDataPoint sdp,String nexusFilePath) throws Exception {
 		DoubleDataset dataSet = ScanDataHelper.extractDetectorDataFromSDP(this.getName(), sdp);
-		String asciiFileFolder = EdeAsciiFileWriter.convertFromNexusToAsciiFolder(nexusFilePath);
+		String asciiFileFolder = EdeExperimentDataWriter.convertFromNexusToAsciiFolder(nexusFilePath);
 		String asciiFilename = FilenameUtils.getBaseName(nexusFilePath);
-		File asciiFile = new File(asciiFileFolder, asciiFilename + EdeAsciiFileWriter.ASCII_FILE_EXTENSION);
+		File asciiFile = new File(asciiFileFolder, asciiFilename + EdeDataConstants.ASCII_FILE_EXTENSION);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + asciiFilename + " already exists!");
 		}
@@ -913,7 +913,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		String line = System.getProperty("line.separator");
 		try {
 			asciiFileWriter = new FileWriter(asciiFile);
-			asciiFileWriter.write(String.format("#%s\t%s", EdeExperiment.STRIP_COLUMN_NAME, EdeExperiment.ENERGY_COLUMN_NAME));
+			asciiFileWriter.write(String.format("#%s\t%s", EdeDataConstants.STRIP_COLUMN_NAME, EdeDataConstants.ENERGY_COLUMN_NAME));
 			asciiFileWriter.write(line);
 			for (int i = 0; i < dataSet.getSize(); i++) {
 				asciiFileWriter.write(String.format("%d\t%f", i, dataSet.get(i)));

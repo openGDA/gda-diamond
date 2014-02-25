@@ -32,9 +32,10 @@ public abstract class CalibrationDataModel extends ObservableModel {
 	public static final String MANUAL_CALIBRATION_PROP_NAME = "manualCalibration";
 	private boolean manualCalibration;
 
-	private DataHolder dataHolder;
+	protected DataHolder dataHolder;
+	protected AbstractDataset energyNode;
+
 	private AbstractDataset dataNode;
-	private AbstractDataset energyNode;
 	private double startEnergy;
 	private double endEnergy;
 
@@ -103,7 +104,8 @@ public abstract class CalibrationDataModel extends ObservableModel {
 			}
 			this.dataHolder = dataHolder;
 			energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
-			dataNode = (AbstractDataset) this.dataHolder.getLazyDataset(dataNodePath).getSlice();
+			dataNode = (AbstractDataset) dataHolder.getLazyDataset(dataNodePath).getSlice();
+
 			setInitialEnergyRange(energyNode.min().doubleValue(), energyNode.max().doubleValue());
 			double mid = (double) energyNode.mean();
 			setReferencePoints(mid - PADDING_FOR_REFERENCE, mid, mid + PADDING_FOR_REFERENCE);
@@ -114,4 +116,5 @@ public abstract class CalibrationDataModel extends ObservableModel {
 			throw new Exception("Unable to load data for " + fileName, e);
 		}
 	}
+
 }

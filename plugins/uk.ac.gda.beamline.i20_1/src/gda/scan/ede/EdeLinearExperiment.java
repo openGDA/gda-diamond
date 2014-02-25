@@ -21,8 +21,8 @@ package gda.scan.ede;
 import gda.device.DeviceException;
 import gda.scan.EdeScan;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
-import gda.scan.ede.datawriters.EdeAsciiFileWriter;
-import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeExperimentDataWriter;
+import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
 import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 
 import java.util.List;
@@ -121,7 +121,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the I0 output file
 	 */
 	public String getI0Filename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiI0Filename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiI0Filename();
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the I0 output file
 	 */
 	public String getIRefFilename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiIRefFilename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiIRefFilename();
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the It output file
 	 */
 	public String getItFilename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItFilename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiItFilename();
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the It output file
 	 */
 	public String getItFinalFilename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItFinalFilename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiItFinalFilename();
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the It output file
 	 */
 	public String getItAveragedFilename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItAveragedFilename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiItAveragedFilename();
 	}
 
 
@@ -224,8 +224,8 @@ public class EdeLinearExperiment extends EdeExperiment {
 	}
 
 	@Override
-	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, itDarkScan, itScans, i0FinalScan, theDetector, nexusFilename);
+	protected EdeExperimentDataWriter createFileWritter() {
+		return new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, itDarkScan, itScans, i0FinalScan, theDetector, nexusFilename);
 	}
 
 	@Override

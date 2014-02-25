@@ -18,18 +18,23 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.dawb.common.ui.util.EclipseUtils;
 import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawb.common.ui.wizard.PlotDataConversionWizard;
-import org.dawb.common.ui.wizard.persistence.PersistenceExportWizard;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
@@ -89,8 +94,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
@@ -101,6 +108,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.nexusformat.NexusFile;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
@@ -121,9 +129,10 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private static final double STACK_OFFSET = 0.1;
 
-	private static final String GROUP_PATH = "/entry1/" + EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT + "/group";
-	private static final String TIME_AXIS_PATH = "/entry1/" + EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT + "/time";
-	private static final String CYCLE_AXIS_PATH = "/entry1/" + EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT + "/cycle";
+	private static final String GROUP_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/group";
+	private static final String TIME_AXIS_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/time";
+	private static final String CYCLE_AXIS_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/cycle";
+	private static final String ENERGY_SOURCE_PATH = "/entry1/instrument/xstrip/Energy";
 	private static final int ENERGY_AXIS_INDEX = 0;
 
 	private final TimeResolvedDataNode timeResolvedData = new TimeResolvedDataNode();
@@ -141,6 +150,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private IPlottingSystem plottingSystem;
 	private IImageTrace imageTrace;
+	private File imageFile;
 
 	private IDataset energy;
 
@@ -176,6 +186,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		imageTrace = image;
 		imageTrace.setHistoType(HistoType.OUTLIER_VALUES);
 		String path = metaData.getFilePath();
+		imageFile = new File(path);
 		try {
 			if (LoaderFactory.getData(path).contains(GROUP_PATH) && LoaderFactory.getData(path).contains(TIME_AXIS_PATH)) {
 				ILazyDataset groups = LoaderFactory.getData(path).getLazyDataset(GROUP_PATH);
@@ -235,9 +246,12 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private void clearRegionsOnPlot() {
-		Iterator<?> i = spectraRegionList.iterator();
-		while (i.hasNext()) {
-			getPlottingSystem().removeRegion(((SpectraRegionDataNode) i.next()).getRegion());
+		IRegion[] regionsToRemove = new IRegion[spectraRegionList.size()];
+		for (int i = 0; i < spectraRegionList.size(); i++) {
+			regionsToRemove[i] = ((SpectraRegionDataNode) spectraRegionList.get(i)).getRegion();
+		}
+		for (int i = 0; i < spectraRegionList.size(); i++) {
+			getPlottingSystem().removeRegion(regionsToRemove[i]);
 		}
 	}
 
@@ -447,6 +461,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		spectraTreeTable.setInput(timeResolvedData);
 	}
 
+	private final EdeCalibrationModel calibrationModel = new EdeCalibrationModel();
+
 	private void createTootbarForSpectraTable(final Composite treeParent) {
 		ToolBar toolBar = new ToolBar(treeParent, SWT.HORIZONTAL);
 		toolBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -492,20 +508,71 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		calibrateEnergy.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				EdeCalibrationModel calibrationModel = new EdeCalibrationModel();
-				try {
-					WizardDialog wizardDialog = new WizardDialog(treeParent.getShell(), new EnergyCalibrationWizard(calibrationModel));
-					wizardDialog.setPageSize(1024, 768);
-					if (wizardDialog.open() == Window.OK) {
-						if (calibrationModel.getCalibrationResult() != null) {
-							// TODO
+				WizardDialog wizardDialog = new WizardDialog(treeParent.getShell(), new EnergyCalibrationWizard(calibrationModel));
+				wizardDialog.setPageSize(1024, 768);
+				if (wizardDialog.open() == Window.OK) {
+					if (calibrationModel.getCalibrationResult() != null) {
+						double[] value = applyNewEnergy(calibrationModel);
+						try {
+							applyEnergyToNexusFiles(value);
+						} catch (Exception e) {
+							UIHelper.showError("Error apply energy calibration", e.getMessage());
+							logger.error("Error apply energy calibration", e);
 						}
 					}
-				} catch (Exception e2) {
-					e2.printStackTrace();
 				}
 			}
 		});
+	}
+
+	private void applyEnergyToNexusFiles(double[] value) throws Exception {
+		File[] selectedFiles = showNexusFileSaveDialog();
+		if (selectedFiles == null || selectedFiles.length < 1) {
+			return;
+		}
+		DirectoryDialog dlg = new DirectoryDialog(this.getSite().getShell());
+		dlg.setFilterPath(selectedFiles[0].getParent());
+		dlg.setText("Select a directory to store new data files");
+		String dir = dlg.open();
+		if (dir == null) {
+			return;
+		}
+		String tempPath = System.getProperty("java.io.tmpdir");
+		for(File fileName : selectedFiles) {
+			String newFileName = FilenameUtils.removeExtension(fileName.getName()) + "-calibrated." +  FilenameUtils.getExtension(fileName.getName());
+			Path path = Files.copy(fileName.toPath(), Paths.get(tempPath + File.separator + newFileName), StandardCopyOption.REPLACE_EXISTING);
+			NexusFile nexusFile = new NexusFile(path.toString(), NexusFile.NXACC_RDWR);
+			nexusFile.openpath(ENERGY_SOURCE_PATH);
+			nexusFile.putdata(value);
+			nexusFile.closedata();
+			nexusFile.close();
+			Files.copy(Paths.get(tempPath + File.separator + newFileName), Paths.get(dir + File.separator + newFileName), StandardCopyOption.REPLACE_EXISTING);
+		}
+	}
+
+
+	private File[] showNexusFileSaveDialog() {
+		FileDialog fileDialog = new FileDialog(this.getSite().getShell(), SWT.MULTI);
+		fileDialog.setFilterNames(new String[] {"Nexus (*.nxs)"});
+		fileDialog.setFilterExtensions(new String[] {"*.nxs"});
+		fileDialog.setText("Select file to apply new energy calibration...");
+		String folder = imageFile.getParent();
+		fileDialog.setFilterPath(folder);
+		if (fileDialog.open() != null) {
+			String[] filenames = fileDialog.getFileNames();
+			String filterPath = fileDialog.getFilterPath();
+			File[] selectedFiles = new File[filenames.length];
+			for (int i = 0; i < filenames.length; i++) {
+				if(filterPath != null && filterPath.trim().length() > 0) {
+					selectedFiles[i] = new File(filterPath, filenames[i]);
+				}
+				else {
+					selectedFiles[i] = new File(filenames[i]);
+				}
+			}
+			return selectedFiles;
+		}
+		return null;
 	}
 
 	private final Action createRegionAvgAction = new Action("Create region and average") {
@@ -776,16 +843,19 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		saveNexusToolItem.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				IWizard wiz;
-				try {
-					wiz = EclipseUtils.openWizard(PersistenceExportWizard.ID, false);
-					WizardDialog wd = new  WizardDialog(Display.getCurrent().getActiveShell(), wiz);
-					wd.setTitle(wiz.getWindowTitle());
-					wd.open();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					logger.error("TODO put description of error here", e);
-				}
+				//				String newFilePath = showNexusFileSaveDialog();
+				//				if (newFilePath != null) {
+				//					if (!Files.exists(Paths.get(newFilePath))) {
+				//						try {
+				//							Files.copy(Paths.get(imageFile.getAbsolutePath()), Paths.get(newFilePath));
+				//							NexusFile nexusFile = new NexusFile(newFilePath, NexusFile.NXACC_RDWR);
+				//							// TODO Implement this
+				//							nexusFile.closedata();
+				//						} catch (IOException | NexusException e) {
+				//
+				//						}
+				//					}
+				//				}
 			}
 		});
 	}
@@ -973,4 +1043,13 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	@Override
 	public void traceWillPlot(TraceWillPlotEvent evt) {}
+
+	private double[] applyNewEnergy(EdeCalibrationModel calibrationModel) {
+		int stripSize = energy.getSize();
+		double[] value = new double[stripSize];
+		for (int i = 0; i < stripSize; i++) {
+			value[i] = calibrationModel.getCalibrationResult().value(i) / stripSize;
+		}
+		return value;
+	}
 }
