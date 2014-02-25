@@ -5,7 +5,13 @@ SearchRef=Searchref2.Searchref2(cr,ub,BLi,gt)
 
 class pd_searchref2(PseudoDevice):
 	""" This pseudodevice search for a second reflection once the
-	first reflection in the ub matrix is known. It doesn't matter if 
+	first reflection in the ub matrix is known.
+	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	IF YOU UPDATE THE UB MATRIX PLEASE DELETE AND RERUN THE INSTANTIATION,
+	OTHERWISE IT WILL NOT WORK
+	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	It doesn't matter if 
 	the first reflection is specular or not and the second reflection 
 	found will belong to the same grain!!
 	to use the pd first type
