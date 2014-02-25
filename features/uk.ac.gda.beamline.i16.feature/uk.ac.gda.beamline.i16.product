@@ -11,12 +11,11 @@
    </configIni>
 
    <launcherArgs>
-
       <vmArgs>-Declipse.pluginCustomization=/dls_sw/i16/software/gda/config/pluginCustomization.ini
 -Djacorb.config.dir=/dls_sw/i16/software/gda/config/jacorb/live
 -Dgda.install.workspace.loc=/dls_sw/i16/software/gda/workspace
 -Dgda.config=/dls_sw/i16/software/gda/config
--Dgda.propertiesFile=/dls_sw/i16/software/gda/config/properties/live/java.properties
+-Dgda.propertiesFile=/dls_sw/i16/software/gda/config/properties/live/rcpclient.java.properties
 -Dgda.data=/dls/i16/data
 -Dgda.mode=live
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i16/software/gda/config/jca/live/JCALibrary.properties
