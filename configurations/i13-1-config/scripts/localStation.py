@@ -3,6 +3,7 @@ import os
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
 import gda.factory.FactoryException
+import time
 
 	
 #try:

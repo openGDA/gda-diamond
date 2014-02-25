@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>
+
+	<bean id="pcoADController"
+		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="serviceName" value="pco"/>
+		<property name="imageNDStats" ref="pco1_stat" />
+		<property name="liveViewNDProc" ref="pco1_proc2" />
+		<property name="imageNDArray" ref="pco1_arr" />
+		<property name="imageHistSize" value="256" />
+		<property name="imageMin" value="0" />
+		<property name="imageMax" value="65535" />
+		<property name="detectorName" value="PCO" />
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
+		<property name="ffmpegImageOutHeightMax" value="1200" />
+		<property name="ffmpegImageOutWidthMax" value="1600" />
+		<property name="cameraImageWidthMax" value="1388" />
+		<property name="cameraImageHeightMax" value="1032" />
+		<property name="imageNDROI" ref="pco1_roi1"/>
+	</bean>
+
+	<bean id="pcoADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
+		<property name="adController" ref="pcoADController" />
+	</bean>
+
+	<bean id="pcodictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+		<property name="map">
+			<map>
+				<entry key="SERVICE_NAME" value="pco" />
+			</map>
+		</property>
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="pcoADController" />
+		<property name="properties" ref="pcodictionary" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
+		<property name="service" ref="pcoADViewcreator" />
+		<property name="properties" ref="pcodictionary" />
+	</bean>
+
+	
+</beans>

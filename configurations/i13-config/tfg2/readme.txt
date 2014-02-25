@@ -3,8 +3,8 @@ How to setup procServ on tfg2 - as user on i13-ws001
 
 0. cd here (/dls_sw/i13/software/gda/config/tfg2
 1. 	scp daq_servers root@bl13i-ea-tfg2-01:/etc/init.d/
-2. 	scp server_list root@bl13i-ea-tfg2-01:/mnt/client/etc/
-3. 	scp da.server.rapidprocServ root@bl13i-ea-tfg2-01:/etc/init.d/
+2. 	scp server_list root@bl13i-ea-tfg2-01:/mnt/client/etc/ (mkdir /mnt/client/etc/ first)
+3. 	scp da.server.rapidprocServ root@bl13i-ea-tfg2-01:/etc/init.d/  (chmod so everyone can execute it)
 4. 	scp procServ root@bl13i-ea-tfg2-01:/usr/local/bin/
 5. 	ssh root@bl13i-ea-tfg2-01
 6. 	su i13detector
