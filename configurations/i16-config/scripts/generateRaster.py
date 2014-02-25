@@ -56,7 +56,7 @@ class RasterGenerator():
             rows = ymax - ymin + 1
 
         #verify the parameters
-        if rate > 20:
+        if rate > 50:
             raise(Exception("Error: rate too high. Motor lag approaches .5"
                             " microns over 20Hz"))
         if xmax < xmin or \
