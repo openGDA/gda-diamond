@@ -38,7 +38,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 	private static final String CYCLIC_EXPERIMENT_OBJ = "cyclicExperiment";
 
 	public static final String NO_OF_REPEATED_GROUPS_PROP_NAME = "noOfRepeatedGroups";
-	private int noOfRepeatedGroups;
+	private int noOfRepeatedGroups = 2;
 
 	public static final String CYCLES_DURATION_PROP_NAME = "cyclesDuration";
 	private double cyclesDuration;
