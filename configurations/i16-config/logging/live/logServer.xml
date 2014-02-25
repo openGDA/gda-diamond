@@ -30,13 +30,7 @@
         </layout>
     </appender> 
 
-<!--     <logger name="gda.scan.ScanDataPointPopulatorAndPublisher">-->
-<!--        <level value="DEBUG"/>-->
-<!--    </logger>-->
-     <logger name="gda.scan.MultithreadedScanDataPointPipeline">
-        <level value="DEBUG"/>
-    </logger>
-     <logger name="gda.device.continuouscontroller.EpicsTrajectoryScanControllerDev812">
+    <logger name="gda.device.continuouscontroller.EpicsTrajectoryScanControllerDev812">
         <level value="DEBUG"/>
     </logger>
      <logger name="gda.device.continuouscontroller.EpicsTrajectoryMoveControllerAdapter">
