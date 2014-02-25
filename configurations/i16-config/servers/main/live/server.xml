@@ -39,6 +39,8 @@
 	<import resource="epics/motor/sixcsample.xml" />
 
 	<import resource="../common/scannable/motors.xml" />
+	<import resource="../live/epics/pie725_raster.xml" />
+	<import resource="../live/epics/detector/rasterpil1.xml" />
 
 	<import resource="epics/monitor/currentamps.xml" />
 	<import resource="epics/monitor/machine.xml" />

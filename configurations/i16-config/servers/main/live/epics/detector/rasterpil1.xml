@@ -4,17 +4,16 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!-- AD hardware -->
-
-	<bean id="pilatus1_driver"
-		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
-		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
-	</bean>
+	<!-- AD hardware (these are duplicated in pil1tus100k)-->
 
 	<bean id="pilatus1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
 	</bean>
-
+	
+	<bean id="pilatus1_driver"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
+	</bean>
 
 	<bean id="pilatus1_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
@@ -24,40 +23,40 @@
 
 	<!-- NXDetector collection strategies -->
 
-
-	
-	<bean id="pilatus1_nxcollectionstrategy_for_hardware_triggering"
+	<bean id="rasterpil1_nxcollectionstrategy_for_hardware_triggering_from_pie"
 		class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
 		<constructor-arg ref="pilatus1_adbase" />
 		<constructor-arg ref="pilatus1_driver" />
-		<constructor-arg value=".003" />
+		<constructor-arg value=".004" />  <!-- At 3ms we had DMA error in camserver-->
 		<constructor-arg value="MULTIPLE_EXTERNAL_TRIGGER" />
 	</bean>
 
+
 	<!-- NXDetector file writers -->
 
-	<bean id="pilatus1_nxfilewriter_for_scans"
+	<bean id="rasterpil1_camserver_nxfilewriter_for_hardware_triggering"
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="fastpil1" />
+		<constructor-arg value="rasterpil1" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
+<!-- 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" /> -->
+		<property name="waitForFileArrival" value="false" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="writeErrorStatusSupported" value="false"/>
+<!-- 		<property name="returnPathRelativeToDatadir" value="true"/>  Erroneousely returns e.g.: tmp/434615-rasterpil1-files rather than tmp/434616-rasterpil1-files/00000_00097.tif-->
 	</bean>
 
+
 	<!-- NXDetectors -->
-<!-- 	 <bean id="fastpil1_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider"> -->
-<!-- 	 	<constructor-arg value="fastpil1" /> -->
-<!-- 		<constructor-arg value="6" /> -->
-<!-- 	 </bean> -->
+	
+	<bean id="rasterpil1" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="rasterpil1" />
+		<property name="hardwareTriggerProvider" value="#{pie.continuousMoveController}" />
 
-	 <bean id="fastpil1_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
-	 	<constructor-arg ref="pilatus1_adbase" />
-	 </bean>
-
-	<bean id="fastpil1" class="gda.device.detector.NXDetector">
-		<property name="name" value="fastpil1" />
-		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy" />
+		<property name="collectionStrategy" ref="rasterpil1_nxcollectionstrategy_for_hardware_triggering_from_pie" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="pilatus1_nxfilewriter_for_scans" />
+				<ref bean="rasterpil1_camserver_nxfilewriter_for_hardware_triggering" /> 
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats1" />
@@ -147,18 +146,31 @@
 					<property name="roiInputNdArrayPort" value="pilatus1.cam" />
 					<property name="enabledBasicStats" value="MaxValue,Total" />
 					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-<!-- 					<property name="roiProvider"> -->
-<!-- 						<bean -->
-<!-- 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
-<!-- 							<constructor-arg ref="fastpil1_plot_server_roi_provider" /> -->
-<!-- 							<constructor-arg value="5" /> -->
-<!-- 						</bean> -->
-<!-- 					</property> -->
+					<!-- 
+					<property name="roiProvider">
+						<bean
+							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+							<constructor-arg ref="fastpil1_plot_server_roi_provider" />
+							<constructor-arg value="5" />
+						</bean>
+					</property>
+					-->
 				</bean>
-				<ref bean="fastpil1_freerun_controller" />
+				<!-- <ref bean="fastpil1_freerun_controller" /> -->
 			</list>
 		</property>
 	</bean>
+	
+<!-- 
+	<bean id="fastpil1_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+	 	<constructor-arg value="fastpil1" />
+		<constructor-arg value="6" />
+	 </bean>
+
+	 <bean id="fastpil1_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
+	 	<constructor-arg ref="pilatus1_adbase" />
+	 </bean>
+ -->
 
 
 </beans>
