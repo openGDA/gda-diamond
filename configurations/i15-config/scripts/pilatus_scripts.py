@@ -1,3 +1,4 @@
+'''
 # Scripts for pilatus scans
 import sys
 from time import sleep
@@ -136,3 +137,4 @@ def resetPilatusScanNumber():
 	"""
 	checkConfigured()	
 	pilatus.setFileNumber(0)
+'''

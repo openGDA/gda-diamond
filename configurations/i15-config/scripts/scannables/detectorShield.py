@@ -9,13 +9,13 @@ class DetectorShield(ScannableBase):
         self.pvManager = pvManager
         
         self.setName(name);
-        self.setInputNames([name])
+        self.setInputNames([])
         self.setExtraNames([]);
-        self.setOutputFormat(["%5.5g"])
+        self.setOutputFormat([])
         self.setLevel(1)
         self.state=-1
         
-        self.verbose = True
+        self.verbose = False
         
         self.TIMEOUT=5
         
@@ -29,38 +29,43 @@ class DetectorShield(ScannableBase):
 
     # Either getPosition or rawGetPosition is required for default implementation of __str__():
     def getPosition(self):
-        return self.pvManager['STA'].caget()
-
-    def asynchronousMoveTo(self, position):
-        if self.verbose:
-            simpleLog("%s:%s(%r) called" % (self.name, self.pfuncname(), position))
-            simpleLog("%r, %r, %r" % (type(position), type(self.getPosition()), type(1)))
-        if (type(position) == type(self.getPosition())) and not type(position) == type(1):
-            self.stop()
-            simpleLog("%s:%s() stopped" % (self.name, self.pfuncname()))
+        return None
 
     def atScanStart(self):
         self.pvManager['CON'].caput(self.TIMEOUT, 0)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
+        else:
+            simpleLog("Detector Shield Opening...")
+        #self.waitFor(self.OPEN)
+        simpleLog("Detector Shield Open")
 
     def atScanEnd(self):
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
+        else:
+            simpleLog("Detector Shield Closing...")
+        #
+        #self.waitFor(self.CLOSED)
+        simpleLog("Detector Shield Closed")
 
     def atCommandFailure(self):
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
+        else:
+            simpleLog("Detector Shield Closing after failure...")
 
     def stop(self): # This is required because Interrupt Scan Gracefully calls stop, but not atCommandFailure
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
+        else:
+            simpleLog("Detector Shield Closing after stop...")
 
     def isBusy(self):
-        state = int(self.getPosition())
+        state = int(self.pvManager['STA'].caget())
         if self.verbose and state != self.state:
             simpleLog("%s:%s() state transitioned from %r to %r" % (self.name, self.pfuncname(), self.state, state))
             self.state = state

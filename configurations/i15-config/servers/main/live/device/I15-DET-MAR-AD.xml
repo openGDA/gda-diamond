@@ -25,9 +25,18 @@
 
 	<!-- We may need to make a Mar collection strategy which understands about Mar states -->
 
+	<!-- public SingleExposureStandard(ADBase adBase, double readoutTime) -->
+	<!-- 
 	<bean id="mar_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
 		<constructor-arg ref="marAD_config_base" />
 		<constructor-arg value="-1" />
+	</bean>
+	 -->
+	<!-- public SingleExposureUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
+	<bean id="mar_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureUnsynchronisedExternalShutter">
+		<constructor-arg ref="marAD_config_base" />
+		<constructor-arg value="-1" />
+		<constructor-arg value="5" />
 	</bean>
 
 	<!-- NXDetector file writers -->
@@ -51,6 +60,23 @@
 	</bean>
 
 	<!-- NXDetectors -->
+
+	<!-- 
+	 -->
+	<bean id="marHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="mar"/>
+		<!-- 
+		<property name="readOutTime" value="240"/>
+		 -->
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="mar_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mar_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mar_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="mar" class="gda.device.detector.NXDetector">
 		<property name="name" value="mar" />

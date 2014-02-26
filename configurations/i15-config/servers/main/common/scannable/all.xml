@@ -41,4 +41,5 @@
 	<import resource="I15-SMPL1.xml"/>
 	<import resource="I15-T2TB.xml"/>
 	<import resource="I15-VFM.xml"/>
+	<import resource="I15-Zebra.xml"/>
 </beans>

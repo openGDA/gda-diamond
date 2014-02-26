@@ -1,3 +1,4 @@
+'''
 import time
 from time import sleep
 import glob
@@ -244,3 +245,4 @@ def checkFileExistsWithTimeout(folder, f, timeout):
 
 	return False
 
+'''

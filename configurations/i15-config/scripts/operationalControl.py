@@ -191,7 +191,7 @@ def align():           # open EH and fast shutter
 	"""
 	close mar, move d2 and d3 in and reset and open EH & Atlas shutter.
 	"""
-	marAuxiliary.closeMarShield() 
+	#marAuxiliary.closeMarShield()
 	d2in()
 	d3in()
 	shutterCommands.sh('o')
@@ -204,7 +204,7 @@ def ready():
 	d1out()
 	d2out()
 	d3out()
-	marAuxiliary.openMarShield()		# N.b. if mar disconnected, will just do nothing
+	#marAuxiliary.openMarShield()		# N.b. if mar disconnected, will just do nothing
 	
 
 def cscanChecks(motor, start, step, param1, param2=-1, param3=-1):
