@@ -22,6 +22,8 @@ from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
+from gdascripts.metadata.metadat_commands import meta_add,meta_ll,meta_ls,meta_rm
+from gda.data.scan.datawriter import NexusDataWriter
 
 from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
 from edxd_calibrator import refinement #script refinement that is used to calibrate the vortex about once a year
@@ -36,6 +38,8 @@ gdaConfigDir = LocalProperties.get("gda.config")
 gdaConfigDir = gdaConfigDir + "/"
 
 rcpController = finder.find("RCPController")
+
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Create topup , detector and beam monitors to pause and resume scans"
@@ -136,6 +140,10 @@ alias("qexafs")
 alias("map")
 alias("raster_map")
 alias("raster_map_return_write")
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
 
 test = DummyScannable("test")
 

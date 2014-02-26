@@ -468,7 +468,18 @@
 	<bean id="hr_inout" class="gda.device.scannable.MirrorInOut" >
 		<property name="mirror" ref="HRY1_motor" />
 	</bean>
-	
+	<bean id="hrgroup" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hry1" />
+				<ref bean="hry2" />
+				<ref bean="hry" />
+				<ref bean="hrpitch" />
+				<ref bean="hr_inout" />
+				<ref bean="hr_coating" />
+			</list>
+		</property>
+	</bean>
 	<bean id="test" class="gda.device.scannable.ScannableMotor" >
 		<property name="motor" ref="test_motor" />
 	</bean>
@@ -542,5 +553,4 @@
 			</list>
 		</property>
 	</bean>
-	
 </beans>

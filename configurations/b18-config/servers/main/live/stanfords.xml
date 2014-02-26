@@ -193,4 +193,17 @@
 			</map>
 		</property>
 	</bean>
+	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="i0_stanford_sensitivity" />
+				<ref bean="i0_stanford_offset" />
+				<ref bean="iref_stanford_sensitivity" />
+				<ref bean="iref_stanford_offset" />
+				<ref bean="it_stanford_sensitivity" />
+				<ref bean="it_stanford_offset" />		
+			</list>
+		</property>
+	</bean>
+	
 </beans>

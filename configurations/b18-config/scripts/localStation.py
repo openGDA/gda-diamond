@@ -11,10 +11,11 @@ from gda.device.scannable import MonoCoolScannable
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from gda.jython.scriptcontroller.logging import LoggingScriptController
-from gda.scan import ScanBase#this is required for skip current repetition to work BLXVIIIB-99
 from gda.device.monitor import EpicsMonitor
-from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
+#from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
+from gda.data.scan.datawriter import NexusDataWriter
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
@@ -23,7 +24,7 @@ ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 
-NexusExtraMetadataDataWriter.removeAllMetadataEntries()
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
@@ -50,6 +51,12 @@ alias("xanes")
 alias("qexafs")
 alias("vortex")
 alias("xspress")
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
+alias("meta_clear")
+
 
 from gda.jython.commands.ScannableCommands import cv as cvscan
 vararg_alias("cvscan")

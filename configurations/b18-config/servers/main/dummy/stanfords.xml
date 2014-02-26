@@ -1,6 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     http://www.springframework.org/schema/util
@@ -156,5 +155,24 @@
 			</util:list>
 		</property>
 	</bean>
+	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="i0_stanford_sensitivity" />
+				<ref bean="i0_stanford_sensitivity_units" />
+				<ref bean="i0_stanford_offset" />
+				<ref bean="i0_stanford_offset_units" />
+				<ref bean="iref_stanford_sensitivity" />
+				<ref bean="iref_stanford_sensitivity_units" />
+				<ref bean="iref_stanford_offset" />
+				<ref bean="iref_stanford_offset_units" />
+				<ref bean="it_stanford_sensitivity" />
+				<ref bean="it_stanford_sensitivity_units" />
+				<ref bean="it_stanford_offset" />
+				<ref bean="it_stanford_offset_units" />
+			</list>
+		</property>
+	</bean>
+
 
 </beans>
