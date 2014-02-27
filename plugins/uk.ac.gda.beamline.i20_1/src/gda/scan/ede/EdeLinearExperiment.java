@@ -172,8 +172,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	}
 
 	@Override
-	protected void addScansForExperiment() {
-		super.addScansForExperiment();
+	protected void addScans() {
 
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 		scansForExperiment.add(i0FinalScan);

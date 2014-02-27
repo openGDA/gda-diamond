@@ -73,7 +73,7 @@ public abstract class EdeExperiment implements IObserver {
 	 */
 	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
-	protected final int firstRepetitionIndex = 0; // in case we swicth to 1-based indexing
+	protected final int firstRepetitionIndex = 0; // in case we switch to 1-based indexing
 
 
 	protected EdeScanParameters iRefScanParameters;
@@ -200,7 +200,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract boolean shouldRunItDark();
 
-	protected void addScansForExperiment() {
+	private void addScansForExperiment() {
 		int repetitions = getRepetitions();
 
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
@@ -238,8 +238,10 @@ public abstract class EdeExperiment implements IObserver {
 			scansForExperiment.add(itScans[repIndex]);
 		}
 
-
+		addScans();
 	}
+
+	protected abstract void addScans();
 
 	public String runExperiment() throws Exception {
 		scansForExperiment.clear();
