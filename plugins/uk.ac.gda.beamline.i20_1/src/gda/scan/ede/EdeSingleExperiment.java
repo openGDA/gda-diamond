@@ -111,4 +111,9 @@ public class EdeSingleExperiment extends EdeExperiment {
 	protected boolean shouldRunItDark() {
 		return runItDark;
 	}
+
+	@Override
+	protected void addScans() {
+		// Nothing to add
+	}
 }
