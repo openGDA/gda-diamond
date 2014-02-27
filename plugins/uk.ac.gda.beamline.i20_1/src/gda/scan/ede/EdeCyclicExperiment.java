@@ -31,8 +31,6 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class EdeCyclicExperiment extends EdeLinearExperiment {
 
-	private final int numberOfRepetitions;
-
 	public EdeCyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
@@ -58,10 +56,5 @@ public class EdeCyclicExperiment extends EdeLinearExperiment {
 		super(i0accumulationTime, i0NoOfAccumulcation, iTScanParameters, i0ScanableMotorPositions,
 				iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
 		this.numberOfRepetitions = numberOfRepetitions;
-	}
-
-	@Override
-	public int getRepetitions() {
-		return numberOfRepetitions;
 	}
 }

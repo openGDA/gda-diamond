@@ -1,5 +1,7 @@
 from uk.ac.gda.exafs.ui.data import EdeScanParameters
+
 from gda.configuration.properties import LocalProperties
+from gda.scan.ede import EdeCyclicExperiment
 
 run("roi_control.py")
 run("gdascripts/javajythonutil.py")
