@@ -10,7 +10,9 @@
 	<bean id="ionc2_gas_injector" class="gda.device.scannable.DummyScannable" />
 	<bean id="ionc3_gas_injector" class="gda.device.scannable.DummyScannable" />
 	
-	<bean id="lakeshore" class="gda.device.scannable.DummyScannable" />
+	<bean id="lakeshore" class="gda.device.scannable.DummyLakeshoreScannable" >
+		<property name="InputNames" value="lakeshore" />
+	</bean>
 	<bean id="pulsetube" class="gda.device.scannable.DummyScannable" />
 
 	<bean id="samplewheel" class="gda.device.scannable.DummySampleWheel">
