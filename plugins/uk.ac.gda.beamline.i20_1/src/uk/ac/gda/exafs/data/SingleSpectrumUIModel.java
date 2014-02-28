@@ -62,11 +62,11 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	public static final String IT_INTEGRATION_TIME_PROP_NAME = "itIntegrationTime";
 	@Expose
-	private double itIntegrationTime;
+	private double itIntegrationTime = 1.0;
 
 	public static final String IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "itNumberOfAccumulations";
 	@Expose
-	private int itNumberOfAccumulations;
+	private int itNumberOfAccumulations = 1;
 
 	public static final String ALIGNMENT_STAGE_SELECTION = "selectAlignmentStage";
 	@Expose

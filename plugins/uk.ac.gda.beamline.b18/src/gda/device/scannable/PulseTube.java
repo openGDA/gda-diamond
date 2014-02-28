@@ -26,6 +26,8 @@ import gda.factory.FactoryException;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
+import org.apache.commons.lang.ArrayUtils;
+
 public class PulseTube extends DetectorBase implements Scannable{
 	
 	private CAClient ca_client = new CAClient();
@@ -125,6 +127,13 @@ public class PulseTube extends DetectorBase implements Scannable{
 		return 0;
 	}
 
+	@Override
+	public Object getPosition() throws DeviceException {
+		double[] position = new double[]{};
+		position = ArrayUtils.add(position, 0);
+		position = ArrayUtils.addAll(position, data);
+		return position;
+	}
 	@Override
 	public Object readout() throws DeviceException {
 		return data;

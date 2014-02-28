@@ -21,8 +21,8 @@ package gda.scan.ede;
 import gda.device.DeviceException;
 import gda.scan.EdeScan;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
-import gda.scan.ede.datawriters.EdeAsciiFileWriter;
-import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeExperimentDataWriter;
+import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
 import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 
 import java.util.List;
@@ -49,7 +49,6 @@ public class EdeLinearExperiment extends EdeExperiment {
 	private int totalNumberOfspectra;
 	private double totalTime;
 	private EdeScan i0FinalScan;
-	private boolean runItDark;
 
 	public EdeLinearExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
@@ -90,9 +89,6 @@ public class EdeLinearExperiment extends EdeExperiment {
 			totalNumberOfspectra += group.getNumberOfFrames();
 			totalTime += (group.getTimePerFrame() * group.getNumberOfFrames()) + group.getPreceedingTimeDelay();
 		}
-
-		// TODO Check if this is the case!
-		runItDark = true;
 	}
 
 	@Override
@@ -121,7 +117,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the I0 output file
 	 */
 	public String getI0Filename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiI0Filename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiI0Filename();
 	}
 
 	/**
@@ -130,7 +126,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the I0 output file
 	 */
 	public String getIRefFilename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiIRefFilename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiIRefFilename();
 	}
 
 	/**
@@ -139,7 +135,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the It output file
 	 */
 	public String getItFilename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItFilename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiItFilename();
 	}
 
 	/**
@@ -148,7 +144,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the It output file
 	 */
 	public String getItFinalFilename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItFinalFilename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiItFinalFilename();
 	}
 
 	/**
@@ -157,7 +153,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	 * @return the name of the It output file
 	 */
 	public String getItAveragedFilename() {
-		return ((EdeLinearExperimentAsciiFileWriter) writer).getAsciiItAveragedFilename();
+		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiItAveragedFilename();
 	}
 
 
@@ -172,8 +168,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	}
 
 	@Override
-	protected void addScansForExperiment() {
-		super.addScansForExperiment();
+	protected void addScans() {
 
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 		scansForExperiment.add(i0FinalScan);
@@ -189,17 +184,17 @@ public class EdeLinearExperiment extends EdeExperiment {
 	protected String getHeaderText() {
 		StringBuilder header = new StringBuilder();
 		header.append("i0Dark: " + i0DarkScan.getHeaderDescription() + "\n");
-		if (runItDark) {
-			header.append("itDark: " + itDarkScan.getHeaderDescription() + "\n");
+		if (runIRef) {
+			header.append("iRefDarkScan: " + iRefDarkScan.getHeaderDescription() + "\n");
 		}
+		header.append("itDark: " + itDarkScan.getHeaderDescription() + "\n");
+
 		header.append("i0InitialScan: " + i0LightScan.getHeaderDescription() + "\n");
 		if (runIRef) {
-			if (runI0ForIRef) {
-				header.append("i0DarkScan: " + i0ForIRefScan.getHeaderDescription() + "\n");
-			}
 			header.append("iRefScan: " + iRefScan.getHeaderDescription() + "\n");
 		}
 		header.append("itScan: " + itScans[0].getHeaderDescription() + "\n");
+
 		header.append("i0FinalScan: " + i0FinalScan.getHeaderDescription() + "\n");
 		if (runIRef){
 			header.append("iRefFinalScan: " + iRefFinalScan.getHeaderDescription() + "\n");
@@ -224,12 +219,12 @@ public class EdeLinearExperiment extends EdeExperiment {
 	}
 
 	@Override
-	protected EdeAsciiFileWriter createFileWritter() {
-		return new EdeLinearExperimentAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, itDarkScan, itScans, i0FinalScan, theDetector, nexusFilename);
+	protected EdeExperimentDataWriter createFileWritter() {
+		return new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan, itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
 	}
 
 	@Override
 	protected boolean shouldRunItDark() {
-		return runItDark;
+		return true;  //TODO always true, so remove from the interface??
 	}
 }
