@@ -291,22 +291,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 	private double[][] calculateGroupAxis() {
 
-		//
-		// double[][] groupDetails = new double[scanParameters.getTotalNumberOfFrames()][4];
-		// double groupIndex = 0;
-		// int j = 0;
-		// for (TimingGroup group : scanParameters.getGroups()) {
-		// for (int i = 0; i < group.getNumberOfFrames(); i++) {
-		// groupDetails[j][0] = groupIndex;
-		// groupDetails[j][1] = group.getTimePerFrame();
-		// groupDetails[j][2] = group.getTimePerScan();
-		// groupDetails[j][3] = group.getPreceedingTimeDelay();
-		// j++;
-		// }
-		// groupIndex++;
-		// }
-		// return groupDetails;
-
 		EdeScanParameters scanParameters = itScans[0].getScanParameters();
 		double[][] groupDetailsForEachCycle = new double[scanParameters.getTotalNumberOfFrames()][4];
 		double groupIndex = 0;
@@ -441,8 +425,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		file.makedata("group", NexusFile.NX_FLOAT64, 2, new int[] { groupAxis.length, groupAxis[0].length });
 		file.opendata("group");
 		file.putdata(groupAxis);
-		// file.putattr("axis", "1".getBytes(), NexusFile.NX_CHAR);
-		// file.putattr("primary", "2".getBytes(), NexusFile.NX_CHAR);
 		file.closedata();
 	}
 
@@ -495,7 +477,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 
 		int numberCycles = itScans.length;
 		int numberOfSpectraPerCycle = itScans[0].getNumberOfAvailablePoints();
-		// int totalNumberOfSpectra = normalisedItSpectra.length;
 		int numChannelsInMCA = normalisedItSpectra[0].length;
 		double[][] averagednormalisedItSpectra = new double[numberOfSpectraPerCycle][numChannelsInMCA]; // spectrum, mca
 		// channel
@@ -610,8 +591,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeAsciiFileWriter {
 		String itFilename = itScans[0].getDataWriter().getCurrentFileName();
 		String folder = convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
-		// String suffix = "_I0_raw.txt";
-
 		String asciiFilename = folder + filename + suffix;
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
