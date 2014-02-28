@@ -16,16 +16,29 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.calibration.data;
+package uk.ac.gda.exafs.calibration.ui;
 
-import gda.scan.ede.datawriters.EdeDataConstants;
+import org.eclipse.jface.wizard.Wizard;
 
-public class EdeCalibrationDataModel extends CalibrationDataModel {
+import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
 
+public class EnergyCalibrationWizard extends Wizard {
 
-	@Override
-	public void setDataFile(String fileName) throws Exception {
-		setData(fileName, EdeDataConstants.STRIP_COLUMN_NAME, EdeDataConstants.LN_I0_IT_COLUMN_NAME);
+	private final EnergyCalibrationWizardPage page;
+
+	public EnergyCalibrationWizard(EdeCalibrationModel calibrationDataModel) {
+		super();
+		page = new EnergyCalibrationWizardPage(calibrationDataModel);
+		setNeedsProgressMonitor(true);
 	}
 
+	@Override
+	public void addPages() {
+		addPage(page);
+	}
+
+	@Override
+	public boolean performFinish() {
+		return true;
+	}
 }

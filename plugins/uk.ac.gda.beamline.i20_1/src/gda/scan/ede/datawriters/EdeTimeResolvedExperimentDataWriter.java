@@ -19,6 +19,7 @@
 package gda.scan.ede.datawriters;
 
 import gda.data.nexus.GdaNexusFile;
+import gda.device.DeviceException;
 import gda.device.detector.ExperimentLocationUtils;
 import gda.device.detector.StripDetector;
 import gda.scan.EdeScan;
@@ -27,11 +28,11 @@ import gda.scan.ScanDataPoint;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.nexusformat.NXlink;
 import org.nexusformat.NexusException;
 import org.nexusformat.NexusFile;
 
@@ -39,7 +40,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter {
+public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter {
 
 	public static final String NXDATA_LN_I0_IT_WITH_AVERAGED_I0 = "LnI0It_withAveragedI0";
 	public static final String NXDATA_LN_I0_IT_WITH_FINAL_I0 = "LnI0It_withFinalI0";
@@ -54,7 +55,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 	private final EdeScan itDarkScan;
 	private final EdeScan[] itScans; // one of these for each cycle (repetition)
 	private final EdeScan i0FinalLightScan;
-	private final String nexusfile;
+	private final String nexusfileName;
 
 	private String i0Filename;
 	private String iRefFilename;
@@ -62,7 +63,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 	private String itAveragedFilename;
 	private String itFinalFilename;
 
-	public EdeLinearExperimentAsciiFileWriter(EdeScan i0DarkScan, EdeScan i0LightScan, EdeScan iRefScan,
+	public EdeTimeResolvedExperimentDataWriter(EdeScan i0DarkScan, EdeScan i0LightScan, EdeScan iRefScan,
 			EdeScan itDarkScan, EdeScan[] itScans, EdeScan i0FinalScan, StripDetector theDetector, String nexusfile) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0DarkScan = i0DarkScan;
@@ -72,7 +73,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 		this.itScans = itScans;
 		i0FinalLightScan = i0FinalScan;
 		this.theDetector = theDetector;
-		this.nexusfile = nexusfile;
+		nexusfileName = nexusfile;
 	}
 
 	/**
@@ -80,6 +81,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 	 */
 	@Override
 	public String writeDataFile() throws Exception {
+
+
 		// it will be assumed that there is an I0 spectrum in both the initial and final data for every timing group in
 		// the itData.
 
@@ -93,7 +96,19 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 
 		createItFiles();
 
+		updateNexusFileEnergyWithPolynomialValue();
+
 		return itFilename;
+	}
+
+	private void updateNexusFileEnergyWithPolynomialValue() throws NexusException, DeviceException {
+		if (theDetector.getEnergyCalibration() != null) {
+			GdaNexusFile file = new GdaNexusFile(nexusfileName, NexusFile.NXACC_RDWR);
+			file.openpath("/entry1/instrument/" + theDetector.getName() + "/" + EdeDataConstants.ENERGY_COLUMN_NAME);
+			file.putattr("long_name", theDetector.getEnergyCalibration().toString().getBytes(), NexusFile.NX_CHAR);
+			file.closegroup();
+			file.close();
+		}
 	}
 
 	private void validateData() throws Exception {
@@ -277,7 +292,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 				}
 			}
 
-			writeItToNexus(normalisedItSpectra, fileSuffix, includeRepetitionColumn);
+			updateNexusWithItNormalisedData(normalisedItSpectra, fileSuffix, includeRepetitionColumn);
 
 		} finally {
 			if (writer != null) {
@@ -289,7 +304,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 	}
 
 	private double[][] calculateGroupAxis() {
-
 		EdeScanParameters scanParameters = itScans[0].getScanParameters();
 		double[][] groupDetailsForEachCycle = new double[scanParameters.getTotalNumberOfFrames()][4];
 		double groupIndex = 0;
@@ -319,16 +333,13 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 		EdeScanParameters scanParameters = itScans[0].getScanParameters();
 		double[] timeValues = new double[scanParameters.getTotalNumberOfFrames() * itScans.length];
 		int timeIndex = 0;
-		double totalTime = 0;
 		int numberOfSpectraPerCycle = itScans[0].getNumberOfAvailablePoints();
 		for (int cycle = 0; cycle < itScans.length; cycle++) {
 			for (int index = 0; index < numberOfSpectraPerCycle; index++) {
 				double thisFrameTime = ExperimentLocationUtils.getFrameTime(scanParameters, index);
-				timeValues[timeIndex] = thisFrameTime + totalTime;
+				timeValues[timeIndex] = thisFrameTime;
 				timeIndex++;
 			}
-			totalTime += ExperimentLocationUtils.getScanTime(scanParameters);
-
 		}
 		return timeValues;
 	}
@@ -349,41 +360,41 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 		writer.write(colsHeader.toString());
 	}
 
-	private void writeItToNexus(double[][] normalisedItSpectra, String fileSuffix, boolean includeRepetitionColumn)
+	private void updateNexusWithItNormalisedData(double[][] normalisedItSpectra, String fileSuffix, boolean includeRepetitionColumn)
 			throws NexusException {
 
-		if (nexusfile == null || nexusfile.isEmpty()) {
+		if (nexusfileName == null || nexusfileName.isEmpty()) {
 			return;
 		}
 
 		String datagroupname = deriveDatagroupName(fileSuffix);
 
-		GdaNexusFile file = new GdaNexusFile(nexusfile, NexusFile.NXACC_RDWR);
+		GdaNexusFile file = new GdaNexusFile(nexusfileName, NexusFile.NXACC_RDWR);
 		file.openpath("entry1");
 
 		double[] timeAxis = calculateTimeAxis();
 		double[][] groupAxis = calculateGroupAxis();
 		// this assumes we are at the top-level so must be done before opening the <datagroupname> group
-		double[] energyAxis = extractEnergyAxis(file);
+		// double[] energyAxis = extractEnergyAxis(file);
 
 		file.makegroup(datagroupname, "NXdata");
 		file.openpath(datagroupname);
 
-		String axes = includeRepetitionColumn ? "energy:time:cycle:group" : "energy:time:group";
+		String axes = includeRepetitionColumn ? "energy:time:cycle" : "energy:time";
 
 		addData(normalisedItSpectra, file, axes);
 
 		addTimeAxis(timeAxis, file);
 		addGroupAxis(groupAxis, file);
-		addEnergyAxis(energyAxis, file);
+		addEnergyLink(file);
 
 		if (includeRepetitionColumn) {
-			double[] cycleAxis = calculateCycleAxis();
-			file.makedata("cycle", NexusFile.NX_FLOAT64, 1, new int[] { normalisedItSpectra.length });
-			file.opendata("cycle");
+			int[] cycleAxis = calculateCycleAxis();
+			file.makedata(EdeDataConstants.CYCLE_COLUMN_NAME, NexusFile.NX_INT32, 1, new int[] { normalisedItSpectra.length });
+			file.opendata(EdeDataConstants.CYCLE_COLUMN_NAME);
 			file.putdata(cycleAxis);
 			file.putattr("axis", "1".getBytes(), NexusFile.NX_CHAR);
-			file.putattr("primary", "3".getBytes(), NexusFile.NX_CHAR);
+			file.putattr("primary", "2".getBytes(), NexusFile.NX_CHAR);
 			file.closedata();
 
 			file.closegroup(); // move out of <datagroupname> before writing the averaged data
@@ -391,16 +402,17 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 			int numberOfSpectraPerCycle = itScans[0].getNumberOfAvailablePoints();
 			addTimeAxis(ArrayUtils.subarray(timeAxis, 0, numberOfSpectraPerCycle), file);
 			addGroupAxis((double[][]) ArrayUtils.subarray(groupAxis, 0, numberOfSpectraPerCycle), file);
-			addEnergyAxis(energyAxis, file);
+			addEnergyLink(file);
 		}
 
 		file.close();
 	}
 
+
 	private void addData(double[][] normalisedItSpectra, GdaNexusFile file, String axes) throws NexusException {
-		file.makedata("data", NexusFile.NX_FLOAT64, 2,
+		file.makedata(EdeDataConstants.DATA_COLUMN_NAME, NexusFile.NX_FLOAT64, 2,
 				new int[] { normalisedItSpectra.length, theDetector.getNumberChannels() });
-		file.opendata("data");
+		file.opendata(EdeDataConstants.DATA_COLUMN_NAME);
 		file.putdata(normalisedItSpectra);
 		file.putattr("signal", "1".getBytes(), NexusFile.NX_CHAR);
 		file.putattr("interpretation", "2".getBytes(), NexusFile.NX_CHAR);
@@ -408,28 +420,26 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 		file.closedata();
 	}
 
-	private void addEnergyAxis(double[] energyAxis, GdaNexusFile file) throws NexusException {
-		file.makedata("energy", NexusFile.NX_FLOAT64, 1, new int[] { energyAxis.length });
-		file.opendata("energy");
-		file.putdata(energyAxis);
-		file.putattr("axis", "2".getBytes(), NexusFile.NX_CHAR);
-		file.putattr("primary", "1".getBytes(), NexusFile.NX_CHAR);
-		file.putattr("units", "eV".getBytes(), NexusFile.NX_CHAR);
-		file.closedata();
+	private void addEnergyLink(GdaNexusFile file) throws NexusException {
+		String currentPath = file.getpath();
+		file.openpath("/entry1/instrument/" + theDetector.getName() + "/" + EdeDataConstants.ENERGY_COLUMN_NAME);
+		NXlink link = file.getdataID();
+		file.closegroup();
+		file.openpath(currentPath);
+		file.makenamedlink("energy", link);
 	}
 
 	private void addGroupAxis(double[][] groupAxis, GdaNexusFile file/* , EdeScanParameters scanParameters */)
 			throws NexusException {
-
-		file.makedata("group", NexusFile.NX_FLOAT64, 2, new int[] { groupAxis.length, groupAxis[0].length });
-		file.opendata("group");
+		file.makedata(EdeDataConstants.TIMINGGROUP_COLUMN_NAME, NexusFile.NX_FLOAT64, 2, new int[] { groupAxis.length, groupAxis[0].length });
+		file.opendata(EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
 		file.putdata(groupAxis);
 		file.closedata();
 	}
 
 	private void addTimeAxis(double[] timeAxis, GdaNexusFile file) throws NexusException {
-		file.makedata("time", NexusFile.NX_FLOAT64, 1, new int[] { timeAxis.length });
-		file.opendata("time");
+		file.makedata(EdeDataConstants.TIME_COLUMN_NAME, NexusFile.NX_FLOAT64, 1, new int[] { timeAxis.length });
+		file.opendata(EdeDataConstants.TIME_COLUMN_NAME);
 		file.putdata(timeAxis);
 		file.putattr("axis", "1".getBytes(), NexusFile.NX_CHAR);
 		file.putattr("primary", "1".getBytes(), NexusFile.NX_CHAR);
@@ -437,9 +447,9 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 		file.closedata();
 	}
 
-	private double[] calculateCycleAxis() {
+	private int[] calculateCycleAxis() {
 		EdeScanParameters scanParameters = itScans[0].getScanParameters();
-		double[] cycleAxis = new double[scanParameters.getTotalNumberOfFrames() * itScans.length];
+		int[] cycleAxis = new int[scanParameters.getTotalNumberOfFrames() * itScans.length];
 
 		int axisIndex = 0;
 		for (int cycle = 0; cycle < itScans.length; cycle++) {
@@ -454,21 +464,6 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 		return cycleAxis;
 	}
 
-	private double[] extractEnergyAxis(GdaNexusFile file) throws NexusException {
-		file.openpath("/entry1/instrument/" + theDetector.getName() + "/Energy");
-		int[] iDim = new int[20];
-		int[] iStart = new int[2];
-		file.getinfo(iDim, iStart);
-		final int rank = iStart[0];
-		int[] shape = Arrays.copyOf(iDim, rank);
-		DoubleDataset ds = new DoubleDataset(shape);
-		ds.fill(0.0);
-		file.getdata(ds.getBuffer());
-		file.closegroup();
-		file.closegroup(); // back up to /entry1 level
-		return (double[]) ds.getBuffer();
-	}
-
 	private void averageCyclesAndInsert(double[][] normalisedItSpectra, String datagroupname, GdaNexusFile file)
 			throws NexusException {
 
@@ -476,6 +471,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 
 		int numberCycles = itScans.length;
 		int numberOfSpectraPerCycle = itScans[0].getNumberOfAvailablePoints();
+		// int totalNumberOfSpectra = normalisedItSpectra.length;
 		int numChannelsInMCA = normalisedItSpectra[0].length;
 		double[][] averagednormalisedItSpectra = new double[numberOfSpectraPerCycle][numChannelsInMCA]; // spectrum, mca
 		// channel
@@ -498,7 +494,7 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 		file.makegroup(avDataGroupName, "NXdata");
 		file.openpath(avDataGroupName);
 
-		String axes = "energy:time:group";
+		String axes = "energy:time";
 
 		addData(averagednormalisedItSpectra, file, axes);
 	}
@@ -590,6 +586,8 @@ public class EdeLinearExperimentAsciiFileWriter extends EdeExperimentDataWriter 
 		String itFilename = itScans[0].getDataWriter().getCurrentFileName();
 		String folder = convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
+		// String suffix = "_I0_raw.txt";
+
 		String asciiFilename = folder + filename + suffix;
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {

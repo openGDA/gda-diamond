@@ -20,7 +20,7 @@ package gda.scan.ede;
 
 import gda.device.DeviceException;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
-import gda.scan.ede.datawriters.EdeAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
 import gda.scan.ede.timeestimators.SingleExperimentTimeEstimator;
 
@@ -102,7 +102,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 	}
 
 	@Override
-	protected EdeAsciiFileWriter createFileWritter() {
+	protected EdeExperimentDataWriter createFileWritter() {
 		return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
 				i0DarkScan, itDarkScan, theDetector);
 	}
@@ -110,5 +110,10 @@ public class EdeSingleExperiment extends EdeExperiment {
 	@Override
 	protected boolean shouldRunItDark() {
 		return runItDark;
+	}
+
+	@Override
+	protected void addScans() {
+		// Nothing to add
 	}
 }

@@ -18,18 +18,13 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
-import gda.util.exafs.Element;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
 
-public class ReferenceCalibrationDataModel extends ObservableModel {
+public abstract class CalibrationDataModel extends ObservableModel {
+	private static final int PADDING_FOR_REFERENCE = 100;
 	// TODO Refactor to create ref data model
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	protected String fileName;
@@ -38,10 +33,13 @@ public class ReferenceCalibrationDataModel extends ObservableModel {
 	private boolean manualCalibration;
 
 	protected DataHolder dataHolder;
-	protected AbstractDataset dataNode;
 	protected AbstractDataset energyNode;
 
-	protected List<Double> refReferencePoints = new ArrayList<Double>();
+	private AbstractDataset dataNode;
+	private double startEnergy;
+	private double endEnergy;
+
+	private final double[] refReferencePoints = new double[3];
 
 	public boolean isManualCalibration() {
 		return manualCalibration;
@@ -55,19 +53,26 @@ public class ReferenceCalibrationDataModel extends ObservableModel {
 		return fileName;
 	}
 
-	public List<Double> getReferencePoints() {
+	private void setInitialEnergyRange(double start, double end) {
+		startEnergy = start;
+		endEnergy = end;
+	}
+
+	public double[] getReferencePoints() {
 		return refReferencePoints;
 	}
 
-	public void setReferencePoints(List<Double> refReferencePoints) {
-		this.refReferencePoints = refReferencePoints;
+	public void setReferencePoints(double start, double mid, double end) {
+		refReferencePoints[0] = start;
+		refReferencePoints[1] = mid;
+		refReferencePoints[2] = end;
 	}
 
-	public AbstractDataset getRefDataNode() {
+	public AbstractDataset getEdeDataset() {
 		return dataNode;
 	}
 
-	public AbstractDataset getRefEnergyNode() {
+	public AbstractDataset getRefEnergyDataset() {
 		return energyNode;
 	}
 
@@ -75,25 +80,18 @@ public class ReferenceCalibrationDataModel extends ObservableModel {
 		return dataHolder;
 	}
 
-	public void loadReferenceData(Element element, String edgeName) {
-		File folder = new File(EdeCalibrationModel.REF_DATA_PATH);
-		if (!folder.exists() || !folder.canRead()) {
-			return;
-		}
+	protected abstract void setDataFile(String fileName) throws Exception;
 
-		String fileName = element.getSymbol() + "_" + edgeName + EdeCalibrationModel.REF_DATA_EXT;
-		File file = new File(folder, fileName);
-		if (file.exists() && file.canRead()) {
-			try {
-				setData(file.getAbsolutePath());
-			} catch (Exception e) {
-				// TODO Handle this
-			}
-		}
+	public AbstractDataset getEnergyNode() {
+		return energyNode;
 	}
 
-	public void setData(String fileName) throws Exception {
-		setData(fileName, EdeCalibrationModel.REF_ENERGY_COLUMN_NAME, EdeCalibrationModel.REF_DATA_COLUMN_NAME);
+	public double getStartEnergy() {
+		return startEnergy;
+	}
+
+	public double getEndEnergy() {
+		return endEnergy;
 	}
 
 	protected void setData(String fileName, String energyNodePath, String dataNodePath) throws Exception {
@@ -101,23 +99,22 @@ public class ReferenceCalibrationDataModel extends ObservableModel {
 			DataHolder dataHolder = LoaderFactory.getData(fileName);
 			if (dataHolder == null) {
 				firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = null);
+				this.setManualCalibration(false);
 				return;
 			}
 			this.dataHolder = dataHolder;
 			energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
-			dataNode = (AbstractDataset) this.dataHolder.getLazyDataset(dataNodePath).getSlice();
-			loadReferencePoints();
+			dataNode = (AbstractDataset) dataHolder.getLazyDataset(dataNodePath).getSlice();
+
+			setInitialEnergyRange(energyNode.min().doubleValue(), energyNode.max().doubleValue());
+			double mid = (double) energyNode.mean();
+			setReferencePoints(mid - PADDING_FOR_REFERENCE, mid, mid + PADDING_FOR_REFERENCE);
 			firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = fileName);
 		} catch (Exception e) {
 			firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = null);
+			this.setManualCalibration(false);
 			throw new Exception("Unable to load data for " + fileName, e);
 		}
 	}
 
-	protected void loadReferencePoints() {
-		refReferencePoints = new ArrayList<Double>(3);
-		refReferencePoints.add(energyNode.min().doubleValue());
-		refReferencePoints.add((Double) energyNode.mean());
-		refReferencePoints.add(energyNode.max().doubleValue());
-	}
 }
