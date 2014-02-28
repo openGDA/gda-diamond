@@ -29,6 +29,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.apache.commons.configuration;bundle-version="[1.10.0,1.11.0)",
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)"
 Export-Package: gda.analysis.io,
+ gda.data.scan,
  gda.data.scan.datawriter,
  gda.device.detectorfilemonitor.impl,
  gda.device.scannable,
