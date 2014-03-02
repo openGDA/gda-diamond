@@ -87,17 +87,6 @@
          </contentTypeBinding>
       </editor>
       <editor
-            class="uk.ac.gda.exafs.ui.detector.vortex.VortexParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/ParametersEditorIcon.png"
-            id="uk.ac.gda.exafs.ui.VortexParametersEditor"
-            name="Vortex Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getVortexContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
             class="uk.ac.gda.exafs.ui.detector.xspress.XspressParametersEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
@@ -148,14 +137,6 @@
             file-extensions="xml"
             id="uk.ac.diamond.gda.client.exafs.getXspressContent"
             name="Xspress Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.VortexDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getVortexContent"
-            name="Vortex Bean File Content"
             priority="high">
       </content-type>
       <content-type
@@ -216,10 +197,6 @@
       <bean
             class="uk.ac.gda.beans.exafs.OutputParameters"
             describer="uk.ac.gda.exafs.ui.describers.OutputDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.vortex.VortexParameters"
-            describer="uk.ac.gda.exafs.ui.describers.VortexDescriber">
       </bean>
       <bean
             class="uk.ac.gda.beans.xspress.XspressParameters"
