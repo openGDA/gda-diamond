@@ -87,17 +87,6 @@
          </contentTypeBinding>
       </editor>
       <editor
-            class="uk.ac.gda.exafs.ui.detector.xspress.XspressParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/ParametersEditorIcon.png"
-            id="uk.ac.gda.exafs.ui.XspressParametersEditor"
-            name="Xspress Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getXspressContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
             class="uk.ac.gda.exafs.ui.QEXAFSParametersEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
@@ -129,14 +118,6 @@
             file-extensions="xml"
             id="uk.ac.diamond.gda.client.exafs.getOutputContent"
             name="Output Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.XspressDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getXspressContent"
-            name="Xspress Bean File Content"
             priority="high">
       </content-type>
       <content-type
@@ -197,10 +178,6 @@
       <bean
             class="uk.ac.gda.beans.exafs.OutputParameters"
             describer="uk.ac.gda.exafs.ui.describers.OutputDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.xspress.XspressParameters"
-            describer="uk.ac.gda.exafs.ui.describers.XspressDescriber">
       </bean>
       <bean
             class="uk.ac.gda.beans.exafs.QEXAFSParameters"
@@ -509,14 +486,6 @@
             name="Output"
             template="Output_Parameters"
             type="Output">
-      </describer>
-      <describer
-            bean="uk.ac.gda.beans.xspress.XspressParameters"
-            contentType="uk.ac.diamond.gda.client.exafs.getXspressContent"
-            includeInNew="false"
-            name="Xspress"
-            template="Xspress_Parameters"
-            type="UNREGISTERED">
       </describer>
    </extension>
   <extension
