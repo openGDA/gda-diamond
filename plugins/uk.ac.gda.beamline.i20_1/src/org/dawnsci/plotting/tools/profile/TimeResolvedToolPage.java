@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -106,8 +107,11 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.FileEditorInput;
 import org.nexusformat.NexusFile;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
@@ -117,6 +121,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.ILazyDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Maths;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
+import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
@@ -150,7 +155,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private IPlottingSystem plottingSystem;
 	private IImageTrace imageTrace;
-	private File imageFile;
+	private File dataFile;
 
 	private IDataset energy;
 
@@ -182,17 +187,18 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	private void validateAndLoadSpectra(IImageTrace image) {
 		clearRegionsOnPlot();
 		clearSpectra();
-		IMetaData metaData = image.getData().getMetadata();
 		imageTrace = image;
 		imageTrace.setHistoType(HistoType.OUTLIER_VALUES);
-		String path = metaData.getFilePath();
-		imageFile = new File(path);
 		try {
-			if (LoaderFactory.getData(path).contains(GROUP_PATH) && LoaderFactory.getData(path).contains(TIME_AXIS_PATH)) {
-				ILazyDataset groups = LoaderFactory.getData(path).getLazyDataset(GROUP_PATH);
-				ILazyDataset time = LoaderFactory.getData(path).getLazyDataset(TIME_AXIS_PATH);
-				if (LoaderFactory.getData(path).contains(CYCLE_AXIS_PATH)) {
-					ILazyDataset cycle = LoaderFactory.getData(path).getLazyDataset(CYCLE_AXIS_PATH);
+			String path = getDataFilePath(image);
+			dataFile = new File(path);
+			Collection<String> dataPaths = LoaderFactory.getMetaData(path, null).getDataNames();
+			if (dataPaths.contains(GROUP_PATH) && dataPaths.contains(TIME_AXIS_PATH)) {
+				DataHolder dataHolder = LoaderFactory.getData(path);
+				ILazyDataset groups = dataHolder.getLazyDataset(GROUP_PATH);
+				ILazyDataset time = dataHolder.getLazyDataset(TIME_AXIS_PATH);
+				if (dataHolder.contains(CYCLE_AXIS_PATH)) {
+					ILazyDataset cycle = dataHolder.getLazyDataset(CYCLE_AXIS_PATH);
 					timeResolvedData.setData(
 							(DoubleDataset) groups.getSlice(new Slice()),
 							(DoubleDataset) time.getSlice(new Slice()),
@@ -206,13 +212,26 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				energy = imageTrace.getAxes().get(ENERGY_AXIS_INDEX);
 				populateSpectraRegion();
 				spectraDataLoaded = true;
-
 			}
 
 		} catch (Exception e) {
 			logger.error("Unable to find group data, not a valid dataset", e);
 			UIHelper.showError("Unable to find group data, not a valid dataset", e.getMessage());
 		}
+	}
+
+	private String getDataFilePath(IImageTrace image) throws Exception {
+		IMetaData metaData = image.getData().getMetadata();
+		if (metaData != null) {
+			return metaData.getFilePath();
+		}
+		if (getPlottingSystem().getPart() instanceof EditorPart) {
+			IEditorInput editorInput = ((EditorPart) getPlottingSystem().getPart()).getEditorInput();
+			if (editorInput instanceof FileEditorInput) {
+				return ((FileEditorInput) editorInput).getURI().getPath();
+			}
+		}
+		throw new Exception("Unable to determine the data file");
 	}
 
 	private void populateSpectraRegion() {
@@ -556,7 +575,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		fileDialog.setFilterNames(new String[] {"Nexus (*.nxs)"});
 		fileDialog.setFilterExtensions(new String[] {"*.nxs"});
 		fileDialog.setText("Select file to apply new energy calibration...");
-		String folder = imageFile.getParent();
+		String folder = dataFile.getParent();
 		fileDialog.setFilterPath(folder);
 		if (fileDialog.open() != null) {
 			String[] filenames = fileDialog.getFileNames();
