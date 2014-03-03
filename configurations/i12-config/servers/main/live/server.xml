@@ -39,8 +39,8 @@
 	<import resource="t5.xml" />
 	<import resource="t7.xml" />
 	<import resource="t8.xml" />
-<!-- EPG - remove as classes in 8.36 have changed from 8.34	<import resource="../../../devices/live/p2r.xml"/>
- -->	<import resource="../../../devices/epics/zebra.xml"/>
+	<import resource="../../../devices/live/p2r.xml"/>
+	<import resource="../../../devices/epics/zebra.xml"/>
 	<import resource="../../../devices/zebra.xml"/>
 
 	<import resource="../main_common.xml" />

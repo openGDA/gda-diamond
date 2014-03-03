@@ -1,5 +1,11 @@
 print "Enabling attenuator changes in GDA"
 
+
+from gda.jython.commands.GeneralCommands import alias, vararg_alias
+import scisoftpy as dnp
+import time
+import math
+
 # Additional information:
 # filter 1:
 #    0:2mm
@@ -13,7 +19,7 @@ print "Enabling attenuator changes in GDA"
 
 
 
-def moveAttenuatorsTo(totalFiltration):
+def moveToAttenuation(totalFiltration):
     
     
     if (totalFiltration!=0 or totalFiltration!=1 or totalFiltration!=2 or totalFiltration!=3 or totalFiltration!=4 or totalFiltration!=6 or totalFiltration!=8 or totalFiltration!=9 or totalFiltration!=12):

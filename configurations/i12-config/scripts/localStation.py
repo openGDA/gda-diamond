@@ -4,11 +4,16 @@
 import sys	
 from gdascripts.messages import handle_messages
 from gda.jython.commands import GeneralCommands
+from gdascripts.utils import caput, caget
+from gda.device.scannable import ScannableMotionBase
+from gda.jython.commands import ScannableCommands
+
 
 print "Performing I12 specific initialisation code"
 print "=============================================="
 
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
+
 
 print "add EPICS scripts to system path"
 print "------------------------------------------------"
@@ -22,12 +27,20 @@ import i12utilities
 from i12utilities import DocumentationScannable
 import lookupTables
 
-#import beamEnergy
-#alias("setEnergy")
+from positionCompareMotorClass import PositionCompareMotorClass
+camMono2_y = PositionCompareMotorClass("camMono2_y", "BL12I-OP-DCM-01:CAM2:Y.VAL", "BL12I-OP-DCM-01:CAM2:Y.RBV", "BL12I-OP-DCM-01:CAM2:Y.STOP", 0.002, "mm", "%.3f")
 
-#from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode
+print "getting beamEnergy"
+import beamEnergy
+from beamEnergy import moveToBeamEnergy 
+
+# from beamAttenuation import moveToAttenuation
+
+import detectorModeSwitching
+from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
 #alias("moveToImagingMode")
 #alias("moveToDiffractionMode")
+
 
 print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdirectory('subdir-name')"
 print "-------------------------------------------------"
@@ -215,14 +228,6 @@ except :
 from gdascripts.pd.time_pds import * #@UnusedWildImport
 from gdascripts.pd.epics_pds import * #@UnusedWildImport
 
-print "create pixium scannables"
-try:
-    pixtimestamp = DisplayEpicsPVClass('pixtimestamp', 'BL12I-EA-DET-05:TIFF:TimeStamp_RBV', 's', '%.3f')
-    pixtemperature = DisplayEpicsPVClass('pixtemperature', 'BL12I-EA-DET-05:PIX:Temperature_RBV', 'degree', '%.1f') 
-    pixtotalcount = DisplayEpicsPVClass('pixtotalcount', 'BL12I-EA-DET-05:STAT:Total_RBV', 'count', '%d') 
-    pixexposure = DisplayEpicsPVClass('pixexposure', 'BL12I-EA-DET-05:PIX:AcquireTime_RBV', 's', '%.3f')
-except:
-    print "cannot create pixium scannables"
      
 try:
     pcotimestamp = DisplayEpicsPVClass('pcotimestamp', 'TEST:TIFF0:TimeStamp_RBV', 's', '%.3f')    
@@ -330,6 +335,11 @@ except:
     print "cannot create EH2 thermocouple scannables"
 
 print "--------------------------------------------------"
+
+print "disable 'waiting for file to be created'"
+pixium10_tif.pluginList[1].waitForFileArrival=False
+
+print "--------------------------------------------------"
 pdnames = []
 from detector_control_pds import * #@UnusedWildImport
 
@@ -357,6 +367,9 @@ ss2y = PositionCompareMotorClass("ss2y", "BL12I-MO-TAB-06:Y.VAL", "BL12I-MO-TAB-
 ss2z = PositionCompareMotorClass("ss2z", "BL12I-MO-TAB-06:Z.VAL", "BL12I-MO-TAB-06:Z.RBV", "BL12I-MO-TAB-06:Z.STOP", 0.002, "mm", "%.3f")
 ss2rx = PositionCompareMotorClass("ss2rx", "BL12I-MO-TAB-06:PITCH.VAL", "BL12I-MO-TAB-06:PITCH.RBV", "BL12I-MO-TAB-06:PITCH.STOP", 0.002, "deg", "%.3f")
 ss2ry = PositionCompareMotorClass("ss2ry", "BL12I-MO-TAB-06:THETA.VAL", "BL12I-MO-TAB-06:THETA.RBV", "BL12I-MO-TAB-06:THETA.STOP", 0.002, "deg", "%.3f")
+
+
+
 
 pco.setHdfFormat(False) #@UndefinedVariable
 
@@ -403,7 +416,7 @@ except:
 #from pv_scannable_utils import *
 #print "added pv_scannable_utils" 
 
-print "adding mass flow controller scannables"
+print "create mass flow controller scannables"
 try:
     mfc_pressure = DisplayEpicsPVClass('mfc_pressure', 'ME08G-EA-GIR-01:MFC2:PBAR:RD', 'bar', '%5.3g')
     mfc_temperature = DisplayEpicsPVClass('mfc_temperature', 'ME08G-EA-GIR-01:MFC2:TEMP:RD', 'C', '%5.3g')
@@ -412,18 +425,8 @@ except:
     print "cannot create mass flow controller scannables"
     
 
-from PixiumAfterIOCStart_ModeChange import pixiumExp80ms, pixiumExp500ms, pixiumExp1000ms,pixiumExp2000ms, pixiumExp4000ms,pixiumAfterIOCStart
-alias("pixiumExp80ms")
-alias("pixiumExp500ms")
-alias("pixiumExp1000ms")
-alias("pixiumExp2000ms")
-alias("pixiumExp4000ms")
-alias("pixiumAfterIOCStart")
 
-
-
-
-print "adding pixium10 scannables"
+print "create pixium10 scannables"
 try:
     pixium10_PUMode = DisplayEpicsPVClass('pixium10_PUMode', 'BL12I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
     pixium10_BaseExposure = DisplayEpicsPVClass('pixium10_BaseExposure', 'BL12I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
@@ -583,6 +586,8 @@ caput( "BL12I-EA-DET-02:COPY:Run", 0)
 caputStringAsWaveform( "BL12I-EA-DET-02:COPY:SourceFilePath", "d:\\i12\\data\\2014")
 caputStringAsWaveform( "BL12I-EA-DET-02:COPY:DestFilePath", "t:\\i12\\data\\2014")
 caput ("BL12I-EA-DET-02:COPY:Run", 1)
+
+#from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
 
 import os
 def stress12(exposureTime=1.0,startAng=0.0, stopAng=180.0, stepAng=0.05, subDir=None, loopNum=1):
