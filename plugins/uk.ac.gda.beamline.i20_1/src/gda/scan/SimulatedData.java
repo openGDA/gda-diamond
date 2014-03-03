@@ -27,19 +27,22 @@ import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.position.EdePositionType;
 
+import java.io.File;
+
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
-import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
+import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
 
 public class SimulatedData {
 
 	private static final Logger logger = LoggerFactory.getLogger(SimulatedData.class);
 
-	private static final String SIMULATED_DATA_FILE_PATH = "/simulated_data.dat";
+	private static final String SIMULATED_DATA_FILE_PATH = "simulated_data.dat";
 
 	private static double[] simulatedEnergies;
 	private static double[] simulatedI0_dark;
@@ -49,12 +52,14 @@ public class SimulatedData {
 
 	static {
 		try {
-			final DataHolder simulatedSpectrumData = LoaderFactory.getData(LocalProperties.getVarDir() + SIMULATED_DATA_FILE_PATH);
-			simulatedEnergies = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeDataConstants.STRIP_COLUMN_NAME)).getData();
-			simulatedI0_dark = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeDataConstants.I0_DARK_COLUMN_NAME)).getData();
-			simulatedIt_dark = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeDataConstants.IT_DARK_COLUMN_NAME)).getData();
-			simulatedI0_raw = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeDataConstants.I0_RAW_COLUMN_NAME)).getData();
-			simulatedIt_raw = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeDataConstants.IT_RAW_COLUMN_NAME)).getData();
+			String separator = File.separator;
+			String filePath = LocalProperties.getConfigDir() + "servers" + separator + "main" + separator + "dummy" + separator + SIMULATED_DATA_FILE_PATH;
+			final DataHolder simulatedSpectrumData = new SRSLoader(filePath).loadFile();
+			simulatedEnergies = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.STRIP_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
+			simulatedI0_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.I0_DARK_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
+			simulatedIt_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.IT_DARK_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
+			simulatedI0_raw = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.I0_RAW_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
+			simulatedIt_raw = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.IT_RAW_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
 		} catch (Exception e) {
 			logger.error("Unable to load simulated Data", e);
 		}
@@ -123,6 +128,8 @@ public class SimulatedData {
 	public static boolean isLoaded() {
 		return simulatedEnergies != null;
 	}
+
+
 
 	private SimulatedData() {}
 

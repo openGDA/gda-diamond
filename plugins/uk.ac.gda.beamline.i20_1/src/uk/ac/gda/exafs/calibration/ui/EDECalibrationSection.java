@@ -48,7 +48,7 @@ import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
 
 public class EDECalibrationSection extends ResourceComposite {
 
-	public static final String REF_DATA_PATH = LocalProperties.getVarDir() + "edeRefData";
+	public static final String REF_DATA_PATH = LocalProperties.getConfigDir() + "edeRefData";
 	public static final String REF_DATA_EXT = ".dat";
 
 	private final FormToolkit toolkit;
