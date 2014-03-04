@@ -5,17 +5,17 @@
 
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
-<!-- 		for 36Ge: -->
-<!--		<property name="host" value="i20-xspress1" /> -->
-<!-- 		for 64Ge: -->
+		<!-- for 36Ge: -->
+		<!-- <property name="host" value="i20-xspress1" /> -->
+		<!-- for 64Ge: -->
 		<property name="host" value="i20-xspress0" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
-			<list> 
-<!-- 		for 36Ge: -->
- <!--		<value>~config</value>  -->  
-<!-- 		for 64Ge: -->
-			<value>~config 9</value> 
+			<list>
+				<!-- for 36Ge: -->
+				<!-- <value>~config</value> -->
+				<!-- for 64Ge: -->
+				<value>~config 9</value>
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />
@@ -26,17 +26,18 @@
 		<property name="local" value="true" />
 		<property name="epicsDeviceName" value="xmap_dxp" />
 		<property name="NUMBER_OF_ELEMENTS" value="4" />
-		<property name="elementOffset" value="1"/>
+		<property name="elementOffset" value="1" />
 	</bean>
-	
+
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
-		<property name="edxdControllerName" value="edxdcontroller"/>
-		<property name="local" value="true"/>
+		<property name="edxdControllerName" value="edxdcontroller" />
+		<property name="local" value="true" />
 	</bean>
-	
-		<bean id="xmapMca1Element" class="gda.device.detector.xmap.NexusXmap">
+
+	<bean id="xmapMca1Element" class="gda.device.detector.xmap.NexusXmap">
 		<property name="xmapControllerName" value="xmapcontroller" />
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, one value for each element -->
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
+			one value for each element -->
 		<property name="eventProcessingTimes">
 			<list>
 				<value>1.1029752060937018e-007</value>
@@ -56,7 +57,8 @@
 
 	<bean id="xmapMca4Element" class="gda.device.detector.xmap.NexusXmap">
 		<property name="xmapControllerName" value="xmapcontroller" />
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, one value for each element -->
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
+			one value for each element -->
 		<property name="eventProcessingTimes">
 			<list>
 				<value>1.1029752060937018e-007</value>
@@ -79,17 +81,19 @@
 			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
 		<property name="tfg" ref="tfg" />
 	</bean>
-	
+
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
 		<property name="daServerName" value="DAServer" />
 		<property name="tfgName" value="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
-		<property name="alwaysRecordRawMCAs" value="true"/>
+		<property name="alwaysRecordRawMCAs" value="true" />
 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
-		<property name="configFileName" value="${gda.config}/var/templates/Xspress_Parameters.xml" />
-		<property name="dtcConfigFileName" value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />	
+		<property name="configFileName"
+			value="${gda.config}/var/templates/Xspress_Parameters.xml" />
+		<property name="dtcConfigFileName"
+			value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="fullMCABits" value="12" />
 		<property name="onlyDisplayFF" value="true" />
 		<property name="outputFormat">
@@ -128,7 +132,7 @@
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="3" />
-		<property name="useReset" value="false"/>
+		<property name="useReset" value="false" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -140,7 +144,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithFrames">
 		<property name="extraNames">
 			<list>
@@ -153,8 +157,8 @@
 		<property name="timeChannelRequired" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
-		<property name="useReset" value="false"/>
-		<property name="outputLogValues" value="false"/>
+		<property name="useReset" value="false" />
+		<property name="outputLogValues" value="false" />
 		<property name="firstDataChannel" value="3" />
 		<property name="darkCurrentRequired" value="true" />
 		<property name="outputFormat">
@@ -178,8 +182,8 @@
 		<property name="timeChannelRequired" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
-		<property name="useReset" value="false"/>
-		<property name="outputLogValues" value="false"/>
+		<property name="useReset" value="false" />
+		<property name="outputLogValues" value="false" />
 		<property name="firstDataChannel" value="4" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputFormat">
@@ -190,7 +194,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="allionchambers" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
 		<property name="extraNames">
 			<list>
@@ -207,7 +211,7 @@
 		<property name="outputLogValues" value="false" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="6" />
-		<property name="useReset" value="false"/>
+		<property name="useReset" value="false" />
 		<property name="outputFormat">
 			<list>
 				<value>%6.4g</value>
@@ -238,7 +242,7 @@
 				<value>1.1029752060937018e-007</value>
 			</list>
 		</property>
-		
+
 		<property name="outputFormat">
 			<list>
 				<value>%.2f</value>
@@ -277,7 +281,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="FFI1" class="gda.device.detector.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<!--property name="scaler" ref="CalMemory" / -->
@@ -287,7 +291,7 @@
 			<list>
 				<value>FFI1</value>
 			</list>
-		</property>		
+		</property>
 		<property name="outputFormat">
 			<list>
 				<value>%.6f</value>
@@ -311,7 +315,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="i0_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL2" />
 		<property name="values">
@@ -323,7 +327,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="i0_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOLV:SEL1" />
 		<property name="values">
@@ -340,7 +344,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="i0_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOLV:SEL2" />
 		<property name="values">
@@ -351,7 +355,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="i0_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOON" />
 		<property name="values">
@@ -361,7 +365,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="it_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:SENS:SEL1" />
 		<property name="values">
@@ -378,7 +382,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="it_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:SENS:SEL2" />
 		<property name="values">
@@ -390,7 +394,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="it_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:IOLV:SEL1" />
 		<property name="values">
@@ -407,7 +411,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="it_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:IOLV:SEL2" />
 		<property name="values">
@@ -418,7 +422,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="it_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:IOON" />
 		<property name="values">
@@ -445,7 +449,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="iref_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:SENS:SEL2" />
 		<property name="values">
@@ -457,7 +461,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="iref_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:IOLV:SEL1" />
 		<property name="values">
@@ -474,7 +478,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="iref_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:IOLV:SEL2" />
 		<property name="values">
@@ -485,7 +489,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="iref_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:IOON" />
 		<property name="values">
@@ -512,7 +516,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="i1_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:SENS:SEL2" />
 		<property name="values">
@@ -524,7 +528,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="i1_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:IOLV:SEL1" />
 		<property name="values">
@@ -541,7 +545,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="i1_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:IOLV:SEL2" />
 		<property name="values">
@@ -552,7 +556,7 @@
 			</map>
 		</property>
 	</bean>
-	
+
 	<bean id="i1_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:IOON" />
 		<property name="values">
@@ -562,5 +566,30 @@
 			</map>
 		</property>
 	</bean>
-
+	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="i0_stanford_offset_current" />
+				<ref bean="i0_stanford_offset" />
+				<ref bean="i0_stanford_offset_units" />
+				<ref bean="i0_stanford_sensitivity" />
+				<ref bean="i0_stanford_sensitivity_units" />
+				<ref bean="i1_stanford_offset_current" />
+				<ref bean="i1_stanford_offset" />
+				<ref bean="i1_stanford_offset_units" />
+				<ref bean="i1_stanford_sensitivity" />
+				<ref bean="i1_stanford_sensitivity_units" />
+				<ref bean="it_stanford_offset_current" />
+				<ref bean="it_stanford_offset" />
+				<ref bean="it_stanford_offset_units" />
+				<ref bean="it_stanford_sensitivity" />
+				<ref bean="it_stanford_sensitivity_units" />
+				<ref bean="iref_stanford_offset_current" />
+				<ref bean="iref_stanford_offset" />
+				<ref bean="iref_stanford_offset_units" />
+				<ref bean="iref_stanford_sensitivity" />
+				<ref bean="iref_stanford_sensitivity_units" />
+			</list>
+		</property>
+	</bean>
 </beans>

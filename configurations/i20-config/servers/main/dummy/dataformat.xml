@@ -19,38 +19,38 @@
 						</list>
 					</property>
 				</bean>
-<!--				<bean id="ringenergy" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Ring energy: %5.5f GeV" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="ringEnergy" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
-<!--				<bean id="ringcurrent" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Initial ring current: %5.5f mA" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="ringCurrent" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
-<!--				<bean id="fillingmode" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Filling mode: %5.5f" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="fillMode" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
-<!--				<bean id="wigglergap" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Wiggler gap selected: %5.5f mm" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="wigglerGap" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
+				<!-- <bean id="ringenergy" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" value="Ring energy: %5.5f GeV" /> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="ringEnergy" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
+				<!-- <bean id="ringcurrent" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" value="Initial ring current: %5.5f mA" /> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="ringCurrent" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
+				<!-- <bean id="fillingmode" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" value="Filling mode: %5.5f" /> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="fillMode" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
+				<!-- <bean id="wigglergap" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" value="Wiggler gap selected: %5.5f mm" /> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="wigglerGap" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
 				<bean id="newLine1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value=" " />
 				</bean>
@@ -93,39 +93,41 @@
 				<bean id="newLine2" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value=" " />
 				</bean>
-<!--				<bean id="ohcoating" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Optic Hutch Mirrors Coating: %s" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="ohcoating" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
-<!--				<bean id="crystalcut" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Monochromator crystal cut: %s" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="crystalcut" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
-<!--				<bean id="incidenceAngle" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label"-->
-<!--						value="Incident angle for Harmonic Rejection Mirrors: %9.2f mrad" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="incidenceAngle" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
-<!--				<bean id="hrmcoating" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Harmonic rejection mirrors coating: %s" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="hrmcoating" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
+				<!-- <bean id="ohcoating" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" value="Optic Hutch Mirrors Coating: %s" /> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="ohcoating" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
+				<!-- <bean id="crystalcut" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" value="Monochromator crystal cut: %s" /> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="crystalcut" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
+				<!-- <bean id="incidenceAngle" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" -->
+				<!-- value="Incident angle for Harmonic Rejection Mirrors: %9.2f mrad" 
+					/> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="incidenceAngle" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
+				<!-- <bean id="hrmcoating" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" value="Harmonic rejection mirrors coating: 
+					%s" /> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="hrmcoating" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
 			</list>
 		</property>
 		<property name="footer">
@@ -138,17 +140,357 @@
 						</list>
 					</property>
 				</bean>
-<!--				<bean id="ringcurrentend" class="gda.data.scan.datawriter.AsciiMetadataConfig">-->
-<!--					<property name="label" value="Final ring current: %5.5f" />-->
-<!--					<property name="labelValues">-->
-<!--						<list>-->
-<!--							<ref bean="ringCurrent" />-->
-<!--						</list>-->
-<!--					</property>-->
-<!--				</bean>-->
+				<!-- <bean id="ringcurrentend" class="gda.data.scan.datawriter.AsciiMetadataConfig"> -->
+				<!-- <property name="label" value="Final ring current: %5.5f" /> -->
+				<!-- <property name="labelValues"> -->
+				<!-- <list> -->
+				<!-- <ref bean="ringCurrent" /> -->
+				<!-- </list> -->
+				<!-- </property> -->
+				<!-- </bean> -->
 			</list>
 		</property>
-
 	</bean>
-
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="s1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/PrimarySlit:NXaperture/s1_hgap
+								</value>
+								<value>instrument:NXinstrument/PrimarySlit:NXaperture/s1_vgap
+								</value>
+								<value>instrument:NXinstrument/PrimarySlit:NXaperture/s1_hoffset
+								</value>
+								<value>instrument:NXinstrument/PrimarySlit:NXaperture/s1_voffset
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mrad</value>
+								<value>mrad</value>
+								<value>mrad</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="m1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/Mirror1:NXmirror/m1_pitch
+								</value>
+								<value>instrument:NXinstrument/Mirror1:NXmirror/m1_height
+								</value>
+								<value>instrument:NXinstrument/Mirror1:NXmirror/m1_curvature
+								</value>
+								<value>instrument:NXinstrument/Mirror1:NXmirror/m1_elip
+								</value>
+								<value>instrument:NXinstrument/Mirror1:NXmirror/m1_yaw
+								</value>
+								<value>instrument:NXinstrument/Mirror1:NXmirror/m1_sag
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mrad</value>
+								<value></value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="m2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/Mirror2:NXmirror/m2_pitch
+								</value>
+								<value>instrument:NXinstrument/Mirror2:NXmirror/m2_height
+								</value>
+								<value>instrument:NXinstrument/Mirror2:NXmirror/m2_curvature
+								</value>
+								<value>instrument:NXinstrument/Mirror2:NXmirror/m2_elip
+								</value>
+								<value>instrument:NXinstrument/Mirror2:NXmirror/m2_yaw
+								</value>
+								<value>instrument:NXinstrument/Mirror2:NXmirror/m2_sag
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mrad</value>
+								<value></value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="mono">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/Monochromator:NXmonochromator/crystal1_pitch
+								</value>
+								<value>instrument:NXinstrument/Monochromator:NXmonochromator/crystal2_roll
+								</value>
+								<value>instrument:NXinstrument/Monochromator:NXmonochromator/crystal34_roll
+								</value>
+								<value>instrument:NXinstrument/Monochromator:NXmonochromator/crystalcut
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mrad</value>
+								<value>urad</value>
+								<value></value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="s2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/MonoSlit:NXaperture/s2_hgap
+								</value>
+								<value>instrument:NXinstrument/MonoSlit:NXaperture/s2_vgap
+								</value>
+								<value>instrument:NXinstrument/MonoSlit:NXaperture/s2_hoffset
+								</value>
+								<value>instrument:NXinstrument/MonoSlit:NXaperture/s2_voffset
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="m3">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/Mirror3:NXmirror/m3_pitch
+								</value>
+								<value>instrument:NXinstrument/Mirror3:NXmirror/m3_height
+								</value>
+								<value>instrument:NXinstrument/Mirror3:NXmirror/m3_yaw
+								</value>
+								<value>instrument:NXinstrument/Mirror3:NXmirror/m3_stripe
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mm</value>
+								<value>mrad</value>
+								<value></value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="m4">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/Mirror4:NXmirror/m4_pitch
+								</value>
+								<value>instrument:NXinstrument/Mirror4:NXmirror/m4_height
+								</value>
+								<value>instrument:NXinstrument/Mirror4:NXmirror/m4_curvature
+								</value>
+								<value>instrument:NXinstrument/Mirror4:NXmirror/m4_elip
+								</value>
+								<value>instrument:NXinstrument/Mirror4:NXmirror/m4_yaw
+								</value>
+								<value>instrument:NXinstrument/Mirror4:NXmirror/m4_stripe
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mrad</value>
+								<value></value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="hrgroup">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/HRMirror:NXmirror/hr_pitch
+								</value>
+								<value>instrument:NXinstrument/HRMirror:NXmirror/hr_height
+								</value>
+								<value>instrument:NXinstrument/HRMirror:NXmirror/hr_stripe
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mrad</value>
+								<value>mm</value>
+								<value></value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="s3">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/SampleSlit:NXaperture/s3_hgap
+								</value>
+								<value>instrument:NXinstrument/SampleSlit:NXaperture/s3_vgap
+								</value>
+								<value>instrument:NXinstrument/SampleSlit:NXaperture/s3_hoffset
+								</value>
+								<value>instrument:NXinstrument/SampleSlit:NXaperture/s3_voffset
+								</value>
+							</list>
+						</property>
+						<property name="units">
+							<list>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+								<value>mm</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="stanford_amplifiers">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i0_stanford_offset_current
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i0_stanford_offset
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i0_stanford_offset_units
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i0_stanford_sensitivity
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i0_stanford_sensitivity_units
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i1_stanford_offset_current
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i1_stanford_offset
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i1_stanford_offset_units
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i1_stanford_sensitivity
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i1_stanford_sensitivity_units
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/it_stanford_offset_current
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/it_stanford_offset
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/it_stanford_offset_units
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/it_stanford_sensitivity
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/it_stanford_sensitivity_units
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/iref_stanford_offset_current
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/iref_stanford_offset
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/iref_stanford_offset_units
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/iref_stanford_sensitivity
+								</value>
+								<value>instrument:NXinstrument/StanfordAmplifiers:NXinstrument/iref_stanford_sensitivity_units
+								</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="ringCurrent">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/source:NXsource/current" />
+						<property name="units" value="mA" />
+					</bean>
+				</entry>
+				<entry key="ringEnergy">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/source:NXsource/energy" />
+						<property name="units" value="GeV" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>s1</value>
+				<value>m1</value>
+				<value>m2</value>
+				<value>mono</value>
+				<value>s2</value>
+				<value>m3</value>
+				<value>m4</value>
+				<value>hrgroup</value>
+				<value>stanford_amplifiers</value>
+				<value>ringCurrent</value>
+				<value>ringEnergy</value>
+			</set>
+		</property>
+	</bean>
+	<!-- <bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" /> -->
+	<!-- <bean id="sockpuppet" class="gda.data.fileregistrar.ClientFileAnnouncer" 
+		/> <bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar"> 
+		<property name="name" value="FileRegistrar" /> <property name="directory" 
+		value="/dls/bl-misc/dropfiles2/icat/dropZone/i05-" /> <property name="clientFileAnnouncer" 
+		ref="sockpuppet" /> </bean> <bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory"> 
+		<property name="name" value="DataWriterFactory" /> <property name="dataWriterExtenders"> 
+		<list> <ref bean="FileRegistrar" /> </list> </property> </bean> -->
 </beans>

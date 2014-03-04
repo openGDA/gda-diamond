@@ -394,5 +394,31 @@
 			</util:list>
 		</property>
 	</bean>
+	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<property name="groupMembers">
+			<list>
+				<ref bean="i0_stanford_offset_current" />
+				<ref bean="i0_stanford_offset" />
+				<ref bean="i0_stanford_offset_units" />
+				<ref bean="i0_stanford_sensitivity" />
+				<ref bean="i0_stanford_sensitivity_units" />
+				<ref bean="i1_stanford_offset_current" />
+				<ref bean="i1_stanford_offset" />
+				<ref bean="i1_stanford_offset_units" />
+				<ref bean="i1_stanford_sensitivity" />
+				<ref bean="i1_stanford_sensitivity_units" />
+				<ref bean="it_stanford_offset_current" />
+				<ref bean="it_stanford_offset" />
+				<ref bean="it_stanford_offset_units" />
+				<ref bean="it_stanford_sensitivity" />
+				<ref bean="it_stanford_sensitivity_units" />
+				<ref bean="iref_stanford_offset_current" />
+				<ref bean="iref_stanford_offset" />
+				<ref bean="iref_stanford_offset_units" />
+				<ref bean="iref_stanford_sensitivity" />
+				<ref bean="iref_stanford_sensitivity_units" />
+			</list>
+		</property>
+	</bean>
 
 </beans>

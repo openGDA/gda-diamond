@@ -370,4 +370,60 @@
 		<property name="pvNameGetPoint" value="BL20I-OP-HRM-05:PITCH.RBV" />
 		<property name="pvNameSetPoint" value="BL20I-OP-HRM-05:PITCH.RBV" />
 	</bean>
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1_pitch" />
+				<ref bean="m1_height" />
+				<ref bean="m1_curvature" />
+				<ref bean="m1_elip" />
+				<ref bean="m1_yaw" />
+				<ref bean="m1_sag" />
+			</list>
+		</property>
+	</bean>
+	<bean id="m2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m2_pitch" />
+				<ref bean="m2_height" />
+				<ref bean="m2_curvature" />
+				<ref bean="m2_elip" />
+				<ref bean="m2_yaw" />
+				<ref bean="m2_sag" />
+			</list>
+		</property>
+	</bean>
+	<bean id="m3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m3_pitch" />
+				<ref bean="m3_height" />
+				<ref bean="m3_yaw" />
+				<ref bean="m3_stripe" />
+			</list>
+		</property>
+	</bean>
+	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m4_pitch" />
+				<ref bean="m4_height" />
+				<ref bean="m4_curvature" />
+				<ref bean="m4_elip" />
+				<ref bean="m4_yaw" />
+				<ref bean="m4_stripe" />
+			</list>
+		</property>
+	</bean>
+	<bean id="hrgroup" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hr_pitch" />
+				<ref bean="m1_height" />
+				<ref bean="m1_stripe" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>
