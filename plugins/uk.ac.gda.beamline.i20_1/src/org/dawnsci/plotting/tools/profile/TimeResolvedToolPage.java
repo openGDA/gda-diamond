@@ -24,7 +24,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
 import org.dawb.common.ui.util.EclipseUtils;
 import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawb.common.ui.wizard.PlotDataConversionWizard;
@@ -55,6 +53,7 @@ import org.dawnsci.plotting.api.trace.ITrace;
 import org.dawnsci.plotting.api.trace.ITraceListener;
 import org.dawnsci.plotting.api.trace.TraceEvent;
 import org.dawnsci.plotting.api.trace.TraceWillPlotEvent;
+import org.dawnsci.slicing.tools.hyper.HyperComponent;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -98,9 +97,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
@@ -303,8 +303,13 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			ITrace trace = getPlottingSystem().getTraces().iterator().next();
 			if (trace instanceof IImageTrace) {
 				validateAndLoadSpectra((IImageTrace) trace);
+				setDataForEnergySelection();
 			}
 		}
+	}
+
+	private void setDataForEnergySelection() {
+		// TODO
 	}
 
 	private void doBinding() {
@@ -466,12 +471,38 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		menuManager.addMenuListener(new IMenuListener() {
 			@Override
 			public void menuAboutToShow(IMenuManager manager) {
-				if(spectraTreeTable.getSelection().isEmpty()) {
+				menuManager.add(createPlotEveryIntervalAction);
+
+				IStructuredSelection selection = (IStructuredSelection) spectraTreeTable.getSelection();
+				if(selection.isEmpty()) {
 					return;
 				}
+
+				if (isGroupsSelected(selection)) {
+					// menuManager.add(zoomToGroupAction);
+				}
+
+				if (isSingleSpectrumSelected(selection)) {
+					// menuManager.add(plotForEachGroupAction);
+				}
+
 				menuManager.add(createRegionAction);
 				menuManager.add(createRegionAvgAction);
 				menuManager.add(createRegionAvgEveryAction);
+			}
+
+			private boolean isSingleSpectrumSelected(IStructuredSelection selection) {
+				return (selection.size() == 1 && selection.getFirstElement() instanceof SpectrumDataNode);
+			}
+
+			private boolean isGroupsSelected(IStructuredSelection selection) {
+				Iterator<?> iterator = selection.iterator();
+				while (iterator.hasNext()) {
+					if (!(iterator.next() instanceof TimingGroupDataNode)) {
+						return false;
+					}
+				}
+				return true;
 			}
 		});
 		menuManager.setRemoveAllWhenShown(true);
@@ -545,7 +576,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private void applyEnergyToNexusFiles(double[] value) throws Exception {
-		File[] selectedFiles = showNexusFileSaveDialog();
+		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(this.getSite().getShell(), dataFile.getParent());
 		if (selectedFiles == null || selectedFiles.length < 1) {
 			return;
 		}
@@ -556,43 +587,45 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		if (dir == null) {
 			return;
 		}
-		String tempPath = System.getProperty("java.io.tmpdir");
-		for(File fileName : selectedFiles) {
-			String newFileName = FilenameUtils.removeExtension(fileName.getName()) + "-calibrated." +  FilenameUtils.getExtension(fileName.getName());
-			Path path = Files.copy(fileName.toPath(), Paths.get(tempPath + File.separator + newFileName), StandardCopyOption.REPLACE_EXISTING);
-			NexusFile nexusFile = new NexusFile(path.toString(), NexusFile.NXACC_RDWR);
+
+		for(File file : selectedFiles) {
+			String path = DataFileHelper.copyToTempFolder(file, "calibrated");
+			NexusFile nexusFile = new NexusFile(path, NexusFile.NXACC_RDWR);
 			nexusFile.openpath(ENERGY_SOURCE_PATH);
 			nexusFile.putdata(value);
 			nexusFile.closedata();
 			nexusFile.close();
-			Files.copy(Paths.get(tempPath + File.separator + newFileName), Paths.get(dir + File.separator + newFileName), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(Paths.get(path), Paths.get(dir), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 
 
-	private File[] showNexusFileSaveDialog() {
-		FileDialog fileDialog = new FileDialog(this.getSite().getShell(), SWT.MULTI);
-		fileDialog.setFilterNames(new String[] {"Nexus (*.nxs)"});
-		fileDialog.setFilterExtensions(new String[] {"*.nxs"});
-		fileDialog.setText("Select file to apply new energy calibration...");
-		String folder = dataFile.getParent();
-		fileDialog.setFilterPath(folder);
-		if (fileDialog.open() != null) {
-			String[] filenames = fileDialog.getFileNames();
-			String filterPath = fileDialog.getFilterPath();
-			File[] selectedFiles = new File[filenames.length];
-			for (int i = 0; i < filenames.length; i++) {
-				if(filterPath != null && filterPath.trim().length() > 0) {
-					selectedFiles[i] = new File(filterPath, filenames[i]);
-				}
-				else {
-					selectedFiles[i] = new File(filenames[i]);
+
+	private final Action createPlotEveryIntervalAction = new Action("Select spectrum for every") {
+		@Override
+		public void run() {
+			if (dlg.open() == Window.OK) {
+				int intervalToPlot = Integer.parseInt(dlg.getValue());
+				int counter = 0;
+				for (Object objCycle : timeResolvedData.getCycles()) {
+					for (Object objTimingGroup : ((CycleDataNode) objCycle).getTimingGroups()) {
+						for (Object objSpectrum : ((TimingGroupDataNode) objTimingGroup).getSpectra()) {
+							SpectrumDataNode spectrumToPlot = (SpectrumDataNode) objSpectrum;
+							if (counter == 0) {
+								spectraTreeTable.expandAll();
+								selectedSpectraList.clear();
+								selectedSpectraList.add(spectrumToPlot);
+							}
+							else if (counter % intervalToPlot == 0) {
+								selectedSpectraList.add(spectrumToPlot);
+							}
+							counter++;
+						}
+					}
 				}
 			}
-			return selectedFiles;
 		}
-		return null;
-	}
+	};
 
 	private final Action createRegionAvgAction = new Action("Create region and average") {
 		@Override
@@ -612,8 +645,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	private final Action createRegionAvgEveryAction = new Action("Create region and average every...") {
 		@Override
 		public void run() {
-			InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
-					"", "Average every", "", new AvgSpectraValidator());
 			if (dlg.open() == Window.OK) {
 				try {
 					List<IRegion> regions = findSpectraAndCreateRegion();
@@ -627,30 +658,23 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				}
 			}
 		}
-
-		class AvgSpectraValidator implements IInputValidator {
-			@Override
-			public String isValid(String newText) {
-				try {
-					int avgValue = Integer.parseInt(newText);
-					if(spectraTreeTable.getSelection() instanceof IStructuredSelection) {
-						IStructuredSelection selection = (IStructuredSelection) spectraTreeTable.getSelection();
-						if (selection.isEmpty()) {
-							return "Not selected";
-						}
-						if (selection.size() % avgValue != 0) {
-							return selection.size() % avgValue + " spectra will be left";
-						}
-					} else {
-						return "Not selected";
-					}
-				} catch(NumberFormatException e) {
-					return "Not a number";
-				}
-				return null;
-			}
-		}
 	};
+
+	private final InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
+			"", "Enter number", "", new IInputValidator() {
+		@Override
+		public String isValid(String newText) {
+			try {
+				int avgValue = Integer.parseInt(newText);
+				if (avgValue < 1) {
+					return "Invalid number";
+				}
+			} catch(NumberFormatException e) {
+				return "Not a number";
+			}
+			return null;
+		}
+	});
 
 	private final Action createRegionAction = new Action("Create region") {
 		@Override
@@ -666,6 +690,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			}
 		}
 	};
+
+	private HyperComponent hyperComponent;
 
 	private void addRegionAction(SpectraRegionDataNode spectraRegion) {
 		selectedSpectraList.clear();
@@ -887,11 +913,31 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private void createPlotView(Composite parent) {
-		Composite plotParent = new Composite(parent, SWT.BORDER);
+		TabFolder folder = new TabFolder(parent, SWT.NONE);
 		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalSpan = 2;
-		plotParent.setLayoutData(gridData);
+		folder.setLayoutData(gridData);
+		TabItem plottingTab = new TabItem(folder, SWT.NONE);
+		plottingTab.setText("Plotting");
+		createPlottingComposite(folder, plottingTab);
+		TabItem energySelectionTab = new TabItem(folder, SWT.NONE);
+		energySelectionTab.setText("Energy selection");
+		createEnergySelectionComposite(folder, energySelectionTab);
+	}
+
+	private void createEnergySelectionComposite(TabFolder folder, TabItem tab) {
+		hyperComponent = new HyperComponent(this.getPart());
+		hyperComponent.createControl(folder);
+		hyperComponent.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		tab.setControl(hyperComponent.getControl());
+		setDataForEnergySelection();
+	}
+
+	private void createPlottingComposite(TabFolder folder, TabItem tab) {
+		Composite plotParent = new Composite(folder, SWT.None);
+		plotParent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		plotParent.setLayout(new GridLayout(1, false));
+		tab.setControl(plotParent);
 		ActionBarWrapper actionbarWrapper = ActionBarWrapper.createActionBars(plotParent, null);
 		try {
 			if (plottingSystem == null) {
