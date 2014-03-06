@@ -1,5 +1,4 @@
 print "\n\n****Running the I20 startup script****\n\n"
-
 from org.jscience.physics.quantities import Quantity
 from org.jscience.physics.units import Unit
 from gda.configuration.properties import LocalProperties
@@ -23,6 +22,8 @@ from xes.xes_calculate import XESCalculate
 from gdascripts.pd.time_pds import showtimeClass, waittime
 import mono_calibration 
 from vortex_elements import VortexElements
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
+from gda.data.scan.datawriter import NexusDataWriter
 
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
@@ -34,6 +35,7 @@ datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
 original_header_xes = Finder.getInstance().find("datawriterconfig").getHeader()[:]
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
@@ -46,6 +48,7 @@ if LocalProperties.get("gda.mode") == "live":
     vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+
 xspressConfig.initialize()
 alias("xspressConfig")
 
@@ -54,10 +57,8 @@ vortexConfig.initialize()
 alias("vortexConfig")
 
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
-
 samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
-
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
@@ -73,6 +74,11 @@ xanes = xas
 alias("xas")
 alias("xanes")
 alias("xes")
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
+alias("meta_clear")
 
 current_store_tracker = "none"
 

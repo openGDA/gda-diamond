@@ -333,8 +333,8 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="hr_pitch" />
-				<ref bean="m1_height" />
-				<ref bean="m1_stripe" />
+				<ref bean="hr_height" />
+				<ref bean="hr_stripe" />
 			</list>
 		</property>
 	</bean>

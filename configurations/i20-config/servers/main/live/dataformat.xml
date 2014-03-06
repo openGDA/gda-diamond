@@ -519,28 +519,28 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Attenuators:NXattenuator/A1" />
+							value="instrument:NXinstrument/A1:NXattenuator/atn1" />
 					</bean>
 				</entry>
 				<entry key="atn2">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Attenuators:NXattenuator/A2" />
+							value="instrument:NXinstrument/A2:NXattenuator/atn2" />
 					</bean>
 				</entry>
 				<entry key="atn3">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Attenuators:NXattenuator/A3" />
+							value="instrument:NXinstrument/A3:NXattenuator/atn3" />
 					</bean>
 				</entry>
 				<entry key="atn4">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Attenuators:NXattenuator/A4" />
+							value="instrument:NXinstrument/A4:NXattenuator/atn4" />
 					</bean>
 				</entry>
 				<entry key="atn5group">
@@ -548,37 +548,37 @@
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter1:NXfilter/atn5_filter1_name
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter1:NXfilter/atn5_filter1_name
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter1:NXfilter/atn5_filter1
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter1:NXfilter/atn5_filter1
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter2:NXfilter/atn5_filter2_name
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter2:NXfilter/atn5_filter2_name
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter2:NXfilter/atn5_filter2
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter2:NXfilter/atn5_filter2
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter3:NXfilter/atn5_filter3_name
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter3:NXfilter/atn5_filter3_name
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter3:NXfilter/atn5_filter3
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter3:NXfilter/atn5_filter3
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter4:NXfilter/atn5_filter4_name
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter4:NXfilter/atn5_filter4_name
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter4:NXfilter/atn5_filter4
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter4:NXfilter/atn5_filter4
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter5:NXfilter/atn5_filter5_name
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter5:NXfilter/atn5_filter5_name
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter5:NXfilter/atn5_filter5
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter5:NXfilter/atn5_filter5
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter6:NXfilter/atn5_filter6_name
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter6:NXfilter/atn5_filter6_name
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter6:NXfilter/atn5_filter6
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter6:NXfilter/atn5_filter6
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter7:NXfilter/atn5_filter7_name
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter7:NXfilter/atn5_filter7_name
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter7:NXfilter/atn5_filter7
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter7:NXfilter/atn5_filter7
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter8:NXfilter/atn5_filter8_name
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter8:NXfilter/atn5_filter8_name
 								</value>
-								<value>instrument:NXinstrument/Attenuators:NXattenuator/A5/Filter8:NXfilter/atn5_filter8
+								<value>instrument:NXinstrument/A5:NXattenuator/Filter8:NXfilter/atn5_filter8
 								</value>
 							</list>
 						</property>
@@ -824,13 +824,14 @@
 				<value>m3</value>
 				<value>m4</value>
 				<value>hrgroup</value>
+				<value>s3</value>
 				<value>stanford_amplifiers</value>
 				<value>ringCurrent</value>
 				<value>ringEnergy</value>
 			</set>
 		</property>
 	</bean>
-	<!-- <bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" /> -->
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" />
 	<!-- <bean id="sockpuppet" class="gda.data.fileregistrar.ClientFileAnnouncer" 
 		/> <bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar"> 
 		<property name="name" value="FileRegistrar" /> <property name="directory" 
