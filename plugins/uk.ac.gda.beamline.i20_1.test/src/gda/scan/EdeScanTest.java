@@ -255,7 +255,7 @@ public class EdeScanTest extends EdeTestBase {
 		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
 		testNumberLinesInEDEFile(theExperiment.getI0Filename(), MCA_WIDTH * 3 * 2);
 		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), MCA_WIDTH * 2);
+		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), MCA_WIDTH * 6);
 		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 9);
 		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), MCA_WIDTH * numberExpectedSpectra);
 		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 9);
@@ -349,7 +349,7 @@ public class EdeScanTest extends EdeTestBase {
 		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
 
 		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 2);
+		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 6);
 
 		testNumberColumnsInEDEFile(theExperiment.getItFilename(), 10);
 		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25 * 3));
