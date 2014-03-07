@@ -127,6 +127,14 @@ public abstract class ExperimentLocationUtils {
 		return totalTime;
 	}
 
+	public static Double getScanTime(EdeScanParameters scanParameters) {
+		double totalTime = 0.0;
+		for (int group = 0; group < scanParameters.getGroups().size(); group++){
+			totalTime += getGroupTotalTime(scanParameters.getGroups().get(group));
+		}
+		return totalTime;
+	}
+
 	private static double getTimeOfFrameInGroup(TimingGroup timingGroup, int frame) {
 		Double time = timingGroup.getPreceedingTimeDelay();
 		if (timingGroup.getNumberOfScansPerFrame() == 0) {

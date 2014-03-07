@@ -181,12 +181,104 @@
             class="uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer">
       </initializer>
    </extension>
-   
-      
 
    <extension
       name="d10"
       point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorArrayView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorProfileView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Set LiveView Scale"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Live View"
+            style="push">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorLiveView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i20-1.D10AreaDetectorLiveView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
+            label="Zoom To Fit"
+            style="push"
+            tooltip="Zoom To Fit">
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push"
+            tooltip="Set Exposure">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Set LiveView Scale"
+            style="push"
+            tooltip="Set LiveView Scale">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="d10ADController">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Profile View"
+            style="push"
+            tooltip="Show Profile ">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorProfileView">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            label="Show Image View"
+            style="push"
+            tooltip="Show Full Image">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i20-1.D10AreaDetectorArrayView">
+         </parameter>
+      </command>
+   </menuContribution>
    <menuContribution
          allPopups="false"
          locationURI="toolbar:uk.ac.gda.exafs.ui.views.calibrationEdeData">
@@ -292,26 +384,6 @@
             </with>
          </visibleWhen>
       </command>
-   </menuContribution>
-   <menuContribution
-         allPopups="false"
-         locationURI="menu:window?after=showView">
-      <menu
-            label="Area Detectors">
-         <command
-               commandId="org.eclipse.ui.views.showView"
-               label="d10 MPeg"
-               style="push">
-            <parameter
-                  name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="d10ADController">
-            </parameter>
-         </command>
-      </menu>
    </menuContribution>
 </extension>
    <extension

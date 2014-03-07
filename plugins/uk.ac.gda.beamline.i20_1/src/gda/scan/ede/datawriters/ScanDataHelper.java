@@ -22,7 +22,6 @@ import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.device.detector.NXDetectorData;
 import gda.scan.ScanDataPoint;
-import gda.scan.ede.EdeExperiment;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -42,7 +41,7 @@ public class ScanDataHelper {
 		Vector<Object> data = sdp.getDetectorData();
 		int detIndex = getIndexOfMyDetector(detectorName, sdp);
 		NXDetectorData detData = (NXDetectorData) data.get(detIndex);
-		String dataType = isEnergy? EdeExperiment.ENERGY_COLUMN_NAME : EdeExperiment.DATA_COLUMN_NAME;
+		String dataType = isEnergy? EdeDataConstants.ENERGY_COLUMN_NAME : EdeDataConstants.DATA_COLUMN_NAME;
 		NexusGroupData groupData = detData.getData(detectorName, dataType, NexusExtractor.SDSClassName);
 		double[] originalData = (double[]) groupData.getBuffer();
 		return new DoubleDataset(Arrays.copyOf(originalData, originalData.length), originalData.length);

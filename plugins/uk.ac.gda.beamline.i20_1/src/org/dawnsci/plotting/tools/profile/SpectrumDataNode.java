@@ -16,29 +16,45 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.calibration.ui;
+package org.dawnsci.plotting.tools.profile;
 
-import org.eclipse.jface.wizard.Wizard;
+import org.dawnsci.plotting.api.trace.ITrace;
 
-import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
 
-public class EnergyCalibrationWizard extends Wizard {
+public class SpectrumDataNode {
+	private final double startTime;
+	private final int index;
+	private final String name;
+	private ITrace trace;
 
-	private final EnergyCalibrationWizardPage page;
+	public SpectrumDataNode(int index, double startTime) {
+		this.startTime = startTime;
+		this.index = index;
+		name = "Spectrum " + index;
+	}
 
-	public EnergyCalibrationWizard(EdeCalibrationModel calibrationDataModel) {
-		super();
-		page = new EnergyCalibrationWizardPage(calibrationDataModel);
-		setNeedsProgressMonitor(true);
+	public double getStartTime() {
+		return startTime;
+	}
+
+	public int getIndex() {
+		return index;
 	}
 
 	@Override
-	public void addPages() {
-		addPage(page);
+	public String toString() {
+		return name;
 	}
 
-	@Override
-	public boolean performFinish() {
-		return true;
+	public ITrace getTrace() {
+		return trace;
+	}
+
+	public void setTrace(ITrace trace) {
+		this.trace = trace;
+	}
+
+	public void clearTrace() {
+		trace = null;
 	}
 }

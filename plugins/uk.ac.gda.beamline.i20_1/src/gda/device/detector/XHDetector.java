@@ -27,14 +27,17 @@ import gda.device.DeviceException;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
-import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.datawriters.EdeAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeDataConstants;
+import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.ScanDataHelper;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -129,9 +133,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 
-	private boolean externalOutputConfigSendToDetector;
-
 	private PolynomialFunction calibration;
+
+	private String tempLogFilename;
 
 	static {
 		STRIPS = new Integer[NUMBER_ELEMENTS];
@@ -225,6 +229,31 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			}
 		}
 	}
+
+	@Override
+	public void startTemperatureLogging() throws DeviceException {
+		// derive the filename
+		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+		Date date = new Date();
+		tempLogFilename = LocalProperties.getVarDir() + getName() + "_temperatures_" + dateFormat.format(date) + ".log";
+
+		// tell the detector to start temp logging to the filename
+		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt " + tempLogFilename);
+		if (result == -1) {
+			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
+		}
+	}
+
+	@Override
+	public void stopTemperatureLogging() throws DeviceException {
+		// TODO get the command from JH
+		// tell the detector to start temp logging to the filename
+		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt -1");
+		if (result == -1) {
+			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
+		}
+	}
+
 
 	@Override
 	public void disconnect() throws DeviceException {
@@ -379,8 +408,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), EdeExperiment.ENERGY_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
-		thisFrame.addData(getName(), EdeExperiment.DATA_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
+		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
+		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -903,9 +932,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	private void writeAsciiFile(ScanDataPoint sdp,String nexusFilePath) throws Exception {
 		DoubleDataset dataSet = ScanDataHelper.extractDetectorDataFromSDP(this.getName(), sdp);
-		String asciiFileFolder = EdeAsciiFileWriter.convertFromNexusToAsciiFolder(nexusFilePath);
+		String asciiFileFolder = EdeExperimentDataWriter.convertFromNexusToAsciiFolder(nexusFilePath);
 		String asciiFilename = FilenameUtils.getBaseName(nexusFilePath);
-		File asciiFile = new File(asciiFileFolder, asciiFilename + EdeAsciiFileWriter.ASCII_FILE_EXTENSION);
+		File asciiFile = new File(asciiFileFolder, asciiFilename + EdeDataConstants.ASCII_FILE_EXTENSION);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + asciiFilename + " already exists!");
 		}
@@ -913,7 +942,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		String line = System.getProperty("line.separator");
 		try {
 			asciiFileWriter = new FileWriter(asciiFile);
-			asciiFileWriter.write(String.format("#%s\t%s", EdeExperiment.STRIP_COLUMN_NAME, EdeExperiment.ENERGY_COLUMN_NAME));
+			asciiFileWriter.write(String.format("#%s\t%s", EdeDataConstants.STRIP_COLUMN_NAME, EdeDataConstants.ENERGY_COLUMN_NAME));
 			asciiFileWriter.write(line);
 			for (int i = 0; i < dataSet.getSize(); i++) {
 				asciiFileWriter.write(String.format("%d\t%f", i, dataSet.get(i)));
@@ -1337,5 +1366,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			throw new DeviceException("Error trying to read back from timing handle");
 		}
 		return result;
+	}
+
+	@Override
+	public IDataset[][] fetchTemperatureData() throws DeviceException {
+		return new XCHIPTemperatureLogParser(tempLogFilename).getTemperatures();
 	}
 }

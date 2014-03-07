@@ -27,11 +27,9 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public abstract class EdeAsciiFileWriter {
+public abstract class EdeExperimentDataWriter {
 
-	public static final String ASCII_FILE_EXTENSION = ".dat";
-
-	private static final Logger logger = LoggerFactory.getLogger(EdeAsciiFileWriter.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeExperimentDataWriter.class);
 
 	protected String filenameTemplate = "";
 	protected StripDetector theDetector;
@@ -40,7 +38,7 @@ public abstract class EdeAsciiFileWriter {
 
 	public abstract String getAsciiFilename();
 
-	public EdeAsciiFileWriter(DoubleDataset energyDataSet) {
+	public EdeExperimentDataWriter(DoubleDataset energyDataSet) {
 		this.energyDataSet = energyDataSet;
 	}
 
@@ -86,7 +84,7 @@ public abstract class EdeAsciiFileWriter {
 	 * @return the full path of the ascii file
 	 * @throws Exception
 	 */
-	public abstract String writeAsciiFile() throws Exception;
+	public abstract String writeDataFile() throws Exception;
 
 	public String getFilenameTemplate() {
 		return filenameTemplate;
