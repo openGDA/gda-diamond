@@ -50,12 +50,16 @@ public interface XCHIPDetector extends StripDetector {
 	int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException;
 
 	/**
-	 * Fetches the logged temperatures since the last GDA-restart.
+	 * Fetches the logged temperatures since the last time startTemperatureLogging called.
 	 * <p>
 	 * time is in epoch seconds.
 	 * 
 	 * @return an array of Datasets: time, temp for sensor1, temp for sensor 2 etc.
 	 * @throws DeviceException
 	 */
-	IDataset[] fetchTemperatureData() throws DeviceException;
+	IDataset[][] fetchTemperatureData() throws DeviceException;
+
+	public void startTemperatureLogging() throws DeviceException;
+
+	public void stopTemperatureLogging() throws DeviceException;
 }

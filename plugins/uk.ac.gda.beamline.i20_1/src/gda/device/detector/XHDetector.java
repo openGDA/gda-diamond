@@ -220,7 +220,6 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				createNewDataHandle();
 				// to read back timing data
 				createNewTimingHandle();
-				startTemperatureLogging();
 				connected = true;
 			} catch (DeviceException e) {
 				connected = false;
@@ -231,18 +230,30 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		}
 	}
 
-	private void startTemperatureLogging() throws DeviceException {
+	@Override
+	public void startTemperatureLogging() throws DeviceException {
 		// derive the filename
 		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 		Date date = new Date();
 		tempLogFilename = LocalProperties.getVarDir() + getName() + "_temperatures_" + dateFormat.format(date) + ".log";
 
 		// tell the detector to start temp logging to the filename
-		//		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt " + tempLogFilename);
-		//		if (result == -1) {
-		//			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
-		//		}
+		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt " + tempLogFilename);
+		if (result == -1) {
+			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
+		}
 	}
+
+	@Override
+	public void stopTemperatureLogging() throws DeviceException {
+		// TODO get the command from JH
+		// tell the detector to start temp logging to the filename
+		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt -1");
+		if (result == -1) {
+			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
+		}
+	}
+
 
 	@Override
 	public void disconnect() throws DeviceException {
@@ -1358,7 +1369,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	@Override
-	public IDataset[] fetchTemperatureData() throws DeviceException {
+	public IDataset[][] fetchTemperatureData() throws DeviceException {
 		return new XCHIPTemperatureLogParser(tempLogFilename).getTemperatures();
 	}
 }
