@@ -34,7 +34,10 @@ import gda.scan.ede.datawriters.ScanDataHelper;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -129,9 +133,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 
-	private boolean externalOutputConfigSendToDetector;
-
 	private PolynomialFunction calibration;
+
+	private String tempLogFilename;
 
 	static {
 		STRIPS = new Integer[NUMBER_ELEMENTS];
@@ -225,6 +229,31 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			}
 		}
 	}
+
+	@Override
+	public void startTemperatureLogging() throws DeviceException {
+		// derive the filename
+		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+		Date date = new Date();
+		tempLogFilename = LocalProperties.getVarDir() + getName() + "_temperatures_" + dateFormat.format(date) + ".log";
+
+		// tell the detector to start temp logging to the filename
+		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt " + tempLogFilename);
+		if (result == -1) {
+			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
+		}
+	}
+
+	@Override
+	public void stopTemperatureLogging() throws DeviceException {
+		// TODO get the command from JH
+		// tell the detector to start temp logging to the filename
+		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt -1");
+		if (result == -1) {
+			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
+		}
+	}
+
 
 	@Override
 	public void disconnect() throws DeviceException {
@@ -1337,5 +1366,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			throw new DeviceException("Error trying to read back from timing handle");
 		}
 		return result;
+	}
+
+	@Override
+	public IDataset[][] fetchTemperatureData() throws DeviceException {
+		return new XCHIPTemperatureLogParser(tempLogFilename).getTemperatures();
 	}
 }

@@ -79,10 +79,9 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScanParameters iRefScanParameters;
 	protected EdeScanPosition iRefPosition;
 	protected EdeScan iRefScan;
-	protected EdeScan i0ForIRefScan;
+	protected EdeScan iRefDarkScan;
 	protected EdeScan iRefFinalScan;
 	protected boolean runIRef;
-	protected boolean runI0ForIRef;
 
 	protected Scannable beamLightShutter;
 	protected StripDetector theDetector;
@@ -127,7 +126,6 @@ public abstract class EdeExperiment implements IObserver {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
 		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
 		runIRef = true;
-		runI0ForIRef = true;
 	}
 
 	private void setupScannables(Map<String, Double> i0ScanableMotorPositions,
@@ -207,6 +205,12 @@ public abstract class EdeExperiment implements IObserver {
 		i0DarkScan.setProgressUpdater(this);
 		scansForExperiment.add(i0DarkScan);
 
+		if (runIRef) {
+			iRefDarkScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
+			scansForExperiment.add(iRefDarkScan);
+			iRefDarkScan.setProgressUpdater(this);
+		}
+
 		if (shouldRunItDark()) {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
 			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
@@ -221,11 +225,6 @@ public abstract class EdeExperiment implements IObserver {
 		scansForExperiment.add(i0LightScan);
 
 		if (runIRef) {
-			if (runI0ForIRef) {
-				i0ForIRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter);
-				scansForExperiment.add(i0ForIRefScan);
-				i0ForIRefScan.setProgressUpdater(this);
-			}
 			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 			scansForExperiment.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
