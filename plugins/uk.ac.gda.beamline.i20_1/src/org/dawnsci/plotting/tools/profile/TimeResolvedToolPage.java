@@ -145,7 +145,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	private static final String ENERGY_SOURCE_PATH = "/entry1/instrument/xstrip/Energy";
 	private static final int ENERGY_AXIS_INDEX = 0;
 
-	private final TimeResolvedDataNode timeResolvedData = new TimeResolvedDataNode();
+	private TimeResolvedDataNode timeResolvedData; // = new TimeResolvedDataNode();
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
@@ -214,7 +214,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				//							(DoubleDataset) time.getSlice(new Slice()),
 				//							(IntegerDataset) cycle.getSlice(new Slice()));
 				//				} else {
-				//timeResolvedData = new TimeResolvedDataNode();
+				timeResolvedData = new TimeResolvedDataNode();
 				timeResolvedData.setData(
 						(DoubleDataset) groups.getSlice(new Slice()),
 						(DoubleDataset) time.getSlice(new Slice()),
