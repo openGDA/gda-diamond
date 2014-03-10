@@ -37,6 +37,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -98,12 +100,43 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			setupScannables();
 			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			createSampleDetailsSection(formParent);
 			EDECalibrationSection eDECalibrationSection = new EDECalibrationSection(formParent, SWT.None);
 			eDECalibrationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
+	}
+
+	private void createSampleDetailsSection(Composite formParent) {
+		final Section sampleDetailsSection = toolkit.createSection(formParent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		sampleDetailsSection.setText("Sample details");
+		sampleDetailsSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		Composite sectionComposite = toolkit.createComposite(sampleDetailsSection, SWT.NONE);
+		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		toolkit.paintBordersFor(sectionComposite);
+		sampleDetailsSection.setClient(sectionComposite);
+
+		Label fileNameLabel = toolkit.createLabel(sectionComposite, "File name");
+		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		Text fileNameText = toolkit.createText(sectionComposite, "", SWT.BORDER);
+		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		fileNameText.setEditable(false);
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.text(SWT.Modify).observe(fileNameText),
+				BeanProperties.value(SingleSpectrumUIModel.FILE_NAME_PROP_NAME).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						if (value != null) {
+							return value;
+						}
+						return "";
+					}
+				});
 	}
 
 	// FIXME Replicated code, refactor!

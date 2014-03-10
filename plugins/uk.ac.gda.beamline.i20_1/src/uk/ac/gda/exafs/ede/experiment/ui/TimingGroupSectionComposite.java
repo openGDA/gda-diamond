@@ -278,6 +278,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			NumberEditorControl repeatingGroupsControl = new NumberEditorControl(repeatingGroupsComposite, SWT.None, model, CyclicExperimentModel.NO_OF_REPEATED_GROUPS_PROP_NAME, false);
 			repeatingGroupsControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			repeatingGroupsControl.setRange(2, Integer.MAX_VALUE);
 		}
 	}
 

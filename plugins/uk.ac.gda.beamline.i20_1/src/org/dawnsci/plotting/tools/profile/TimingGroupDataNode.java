@@ -24,12 +24,12 @@ import java.util.List;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-public class TimingGroupToolDataModel {
-	private final IObservableList spectra = new WritableList(new ArrayList<SpectrumToolDataModel>(), SpectrumToolDataModel.class);
+public class TimingGroupDataNode {
+	private final IObservableList spectra = new WritableList(new ArrayList<SpectrumDataNode>(), SpectrumDataNode.class);
 	private final String name;
 	private final double timePerFrame;
 
-	public TimingGroupToolDataModel(String name, double timePerFrame, List<SpectrumToolDataModel> spectraData) {
+	public TimingGroupDataNode(String name, double timePerFrame, List<SpectrumDataNode> spectraData) {
 		this.timePerFrame = timePerFrame;
 		spectra.addAll(spectraData);
 		this.name = "Group " + name;

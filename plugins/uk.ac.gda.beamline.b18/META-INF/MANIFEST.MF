@@ -31,7 +31,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gda.device.scannable,
  uk.ac.gda.beamline.b18
 Bundle-Vendor: Diamond Light Source
-Import-Package: org.dawnsci.plotting.jreality.impl,
+Import-Package: org.apache.commons.lang;version="2.6.0",
+ org.dawnsci.plotting.jreality.impl,
  org.slf4j;version="[1.7.6,1.7.7)",
  org.springframework.beans.factory;version="3.0.4",
  uk.ac.gda.beans.validation,
