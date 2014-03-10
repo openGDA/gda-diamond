@@ -91,5 +91,11 @@
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>
+	
+	<gda:rmi-import
+		id="detectorInfoPath"
+		serviceUrl="gda/detectorInfoPath"
+		serviceInterface="uk.ac.gda.server.ncd.beans.StoredDetectorInfo" />
+	
 	<gda:rbac />
 </beans>
