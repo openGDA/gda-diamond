@@ -42,7 +42,7 @@
 		<property name="ifChannelNumber" value="4" />
 	</bean>
 
-	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
+	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<!--property name="scaler" ref="CalMemory" / -->
 		<property name="counterTimer" ref="ionchambers" />
@@ -58,7 +58,7 @@
 		</property>
 	</bean>
 	
-	<bean id="FFI1" class="gda.device.detector.TfgXMapFFoverI0">
+	<bean id="FFI1" class="gda.device.detector.xmap.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<!--property name="scaler" ref="CalMemory" / -->
 		<property name="counterTimer" ref="I1" />

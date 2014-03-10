@@ -142,7 +142,7 @@
 		<property name="scalerName" value="counterTimer01" />
 	</bean>
 
-	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
+	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<property name="scalerName" value="counterTimer01" />
 	</bean>
