@@ -143,37 +143,70 @@
 		<property name="hardwareUnitString" value="deg" />
 		<property name="initialUserUnits" value="deg" />
 	</bean>
-	
+
 	<bean id="det_slit" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="det_slit_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
-	
 
-	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable" />
-	<bean id="cut1" class="gda.device.scannable.DummyPersistentScannable">
+	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable">
 		<property name="outputFormat">
 			<util:list>
-				<value>%.0f</value>
+				<value>1.0</value>
 			</util:list>
 		</property>
 	</bean>
-	<bean id="cut2" class="gda.device.scannable.DummyPersistentScannable" >
+	
+	<bean id="cut1" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="cut2" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="cut3" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- <bean id="cut1" class="gda.device.scannable.DummyPersistentScannable">
+		<property name="currentPosition" value="1" />
+		<util:list> <value>1</value> </util:list> </property>
+	</bean> -->
+	
+	<!-- <bean id="cut2" class="gda.device.scannable.DummyPersistentScannable">
 		<property name="outputFormat">
 			<util:list>
-				<value>%.0f</value>
+				<value>1</value>
 			</util:list>
 		</property>
 	</bean>
-	<bean id="cut3" class="gda.device.scannable.DummyPersistentScannable" >
+	
+	<bean id="cut3" class="gda.device.scannable.DummyPersistentScannable">
 		<property name="outputFormat">
 			<util:list>
-				<value>%.0f</value>
+				<value>1</value>
 			</util:list>
 		</property>
-	</bean>
-	<bean id="material" class="gda.device.scannable.DummyPersistentEnumScannable" >
+	</bean> -->
+	<bean id="material" class="gda.device.scannable.DummyPersistentEnumScannable">
 		<property name="acceptableStrings">
 			<list>
 				<value>Si</value>
@@ -182,7 +215,7 @@
 		</property>
 	</bean>
 
-	
+
 	<bean id="spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -227,7 +260,7 @@
 		<property name="xtal_plus1_pitch" ref="xtal_plus1_pitch" />
 		<property name="xtal_plus1_rot" ref="xtal_plus1_rot" />
 	</bean>
-	
+
 	<bean id="XESEnergy" class="gda.device.scannable.XESEnergyScannable">
 		<property name="xes" ref="XESBragg" />
 		<property name="cut1" ref="cut1" />
@@ -235,12 +268,12 @@
 		<property name="cut3" ref="cut3" />
 		<property name="material" ref="material" />
 	</bean>
-	
-	
-	
-<!-- 	the following is for a simulation of values for use before moving -->
-	
-	
+
+
+
+	<!-- the following is for a simulation of values for use before moving -->
+
+
 	<bean id="dummy_xtal_minus1_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="200" />
 	</bean>
@@ -377,7 +410,7 @@
 		<property name="hardwareUnitString" value="deg" />
 		<property name="initialUserUnits" value="deg" />
 	</bean>
-	
+
 	<bean id="dummy_spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -422,20 +455,20 @@
 		<property name="xtal_plus1_pitch" ref="dummy_xtal_plus1_pitch" />
 		<property name="xtal_plus1_rot" ref="dummy_xtal_plus1_rot" />
 	</bean>
-	
+
 	<bean id="dummy_XESEnergy" class="gda.device.scannable.XESEnergyScannable">
 		<property name="xes" ref="dummy_XESBragg" />
 		<property name="cut1" ref="cut1" />
 		<property name="cut2" ref="cut2" />
 		<property name="cut3" ref="cut3" />
 		<property name="material" ref="material" />
-	</bean>	
-	
+	</bean>
+
 	<bean id="xes_slit_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="false"/>
+		<property name="local" value="false" />
 		<property name="speed" value="200" />
 	</bean>
-	
+
 	<bean id="xes_slits" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="xes_slit_motor" />
 		<property name="hardwareUnitString" value="mm" />

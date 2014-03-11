@@ -1,4 +1,5 @@
 print "\n\n****Running the I20 startup script****\n\n"
+
 from org.jscience.physics.quantities import Quantity
 from org.jscience.physics.units import Unit
 from gda.configuration.properties import LocalProperties
@@ -22,8 +23,8 @@ from xes.xes_calculate import XESCalculate
 from gdascripts.pd.time_pds import showtimeClass, waittime
 import mono_calibration 
 from vortex_elements import VortexElements
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
 from gda.data.scan.datawriter import NexusDataWriter
+
 
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
@@ -31,12 +32,12 @@ ScriptBase.interrupted = False
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
+print "Before datawriterconfig"
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
-datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
-original_header_xes = Finder.getInstance().find("datawriterconfig").getHeader()[:]
+print "After datawriterconfig"
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
-
+print "After metashop"
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
@@ -55,10 +56,14 @@ alias("xspressConfig")
 vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 vortexConfig.initialize()
 alias("vortexConfig")
-
+print "Before detectorPreparer"
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
+print "Before SamplePreparer"
 samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
-outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
+print "Before OutputPreparer"
+#outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
+outputPreparer = I20OutputPreparer(datawriterconfig)
+print "After OutputPreparer"
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
@@ -68,8 +73,10 @@ xes_offsets = XESOffsets(store_dir, spectrometer)
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, False, True, True, False, False)
-xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg)
+xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig, original_header, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, False)
+print "After XesScan"
 xanes = xas
+print "After xanes"
 
 alias("xas")
 alias("xanes")
