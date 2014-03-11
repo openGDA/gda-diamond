@@ -161,6 +161,10 @@
          id="uk.ac.gda.client.synoptic.site"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.gda.client.logpanel.site"
+         version="0.0.0"/>
+
    <plugin
          id="org.gda.tango"
          download-size="0"
@@ -195,6 +199,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
    <plugin
          id="uk.ac.gda.px.marccd"
          download-size="0"
