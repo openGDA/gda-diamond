@@ -404,14 +404,6 @@
             type="Output">
       </describer>
       <describer
-            bean="uk.ac.gda.beans.vortex.VortexParameters"
-            contentType="uk.ac.diamond.gda.client.exafs.getVortexContent"
-            includeInNew="false"
-            name="Vortex"
-            template="Vortex_Parameters"
-            type="UNREGISTERED">
-      </describer>
-      <describer
             bean="uk.ac.gda.beans.exafs.QEXAFSParameters"
             commandId="uk.ac.gda.client.exafs.CopyQEXAFSCommand"
             contentType="uk.ac.diamond.gda.client.exafs.getQexafsContent"

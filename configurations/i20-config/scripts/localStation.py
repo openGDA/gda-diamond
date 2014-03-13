@@ -26,6 +26,7 @@ from vortex_elements import VortexElements
 from gda.data.scan.datawriter import NexusDataWriter
 
 
+
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
 
