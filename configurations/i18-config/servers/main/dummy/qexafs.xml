@@ -14,7 +14,7 @@
 		</property>
 	</bean>
      
-	<bean id="qexafs_xspress" class="gda.device.detector.Xspress2BufferedDetector">
+	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
 		<property name="inputNames">
 			<list>

@@ -70,28 +70,6 @@
                contentTypeId="uk.ac.gda.beans.exafs.XesScanParametersContentType">
          </contentTypeBinding>
       </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.detector.xspress.XspressParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/page_refresh.png"
-            id="uk.ac.gda.exafs.ui.XspressParametersEditor"
-            name="Xspress Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getXspressContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.detector.vortex.VortexParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/page_refresh.png"
-            id="uk.ac.gda.exafs.ui.VortexParametersEditor"
-            name="Vortex Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getVortexContent">
-         </contentTypeBinding>
-      </editor>
     </extension>
    <extension
          point="org.eclipse.core.contenttype.contentTypes">
@@ -133,22 +111,6 @@
             file-extensions="xml"
             id="uk.ac.diamond.gda.client.exafs.getI20OutputContent"
             name="I20 Output Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.XspressDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getXspressContent"
-            name="Xspress Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.VortexDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getVortexContent"
-            name="Vortex Bean File Content"
             priority="high">
       </content-type>
       <content-type
@@ -340,12 +302,6 @@
       </preference>
    </extension>
    <extension
-         point="gda.scan.scan.data.point.formatter">
-      <formatter
-            class="gda.data.scan.datawriter.XasScanDataPointFormatter">
-      </formatter>
-   </extension>
-   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="popup:uk.ac.gda.client.experimentdefinition.FolderEditor">
@@ -484,21 +440,12 @@
             class="uk.ac.gda.beans.exafs.SampleElements">
       </bean>
       <bean
-            class="uk.ac.gda.beans.vortex.VortexParameters"
-            describer="uk.ac.gda.exafs.ui.describers.VortexDescriber">
-      </bean>
-      <bean
             class="uk.ac.gda.beans.exafs.XasScanParameters"
             describer="uk.ac.gda.exafs.ui.describers.XasDescriber">
       </bean>
       <bean
             class="uk.ac.gda.beans.exafs.XanesScanParameters"
             describer="uk.ac.gda.exafs.ui.describers.XanesDescriber">
-      </bean>
-
-      <bean
-            class="uk.ac.gda.beans.xspress.XspressParameters"
-            describer="uk.ac.gda.exafs.ui.describers.XspressDescriber">
       </bean>
    </extension>
    <extension
@@ -573,26 +520,10 @@
             type="Output">
       </describer>
       <describer
-            bean="uk.ac.gda.beans.vortex.VortexParameters"
-            contentType="uk.ac.diamond.gda.client.exafs.getVortexContent"
-            includeInNew="false"
-            name="Vortex"
-            template="Vortex_Parameters"
-            type="UNREGISTERED">
-      </describer>
-      <describer
             bean="uk.ac.gda.beans.exafs.SampleElements"
             includeInNew="false"
             name="Sample Elements"
             template="Sample_Elements"
-            type="UNREGISTERED">
-      </describer>
-      <describer
-            bean="uk.ac.gda.beans.xspress.XspressParameters"
-            contentType="uk.ac.diamond.gda.client.exafs.getXspressContent"
-            includeInNew="false"
-            name="Xspress"
-            template="Xspress_Parameters"
             type="UNREGISTERED">
       </describer>
    </extension>

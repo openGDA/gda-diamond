@@ -32,8 +32,6 @@
     <root>
         <level value="ALL"/>
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="WS001"/>
-        <appender-ref ref="WS001_LogPanel"/>
         <appender-ref ref="DebugFILE"/>
     </root>
 </configuration>

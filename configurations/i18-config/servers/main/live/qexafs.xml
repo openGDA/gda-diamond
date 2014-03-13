@@ -26,7 +26,7 @@
 		<property name="numPulsesPV" value="BL18I-OP-DCM-01:COMP:NPULSES" />
 	</bean>
      
-	<bean id="qexafs_xspress" class="gda.device.detector.Xspress2BufferedDetector">
+	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
 		<property name="inputNames">
 			<list>

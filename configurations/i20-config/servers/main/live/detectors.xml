@@ -30,6 +30,7 @@
 	</bean>
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
+		<property name="numberOfElements" value="4" />
 		<property name="edxdControllerName" value="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean>
@@ -229,57 +230,13 @@
 		<property name="scalerName" value="ionchambers" />
 	</bean>
 
-	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
-		<property name="xmapControllerName" value="xmapcontroller" />
-
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
-			one value for each element -->
-		<property name="eventProcessingTimes">
-			<list>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-			</list>
-		</property>
-
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-			</list>
-		</property>
-
-		<property name="alwaysRecordRawMCAs" value="true" />
-		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
-		<property name="tfg" ref="tfg" />
-	</bean>
+	
 
 	<bean id="If" class="gda.device.detector.XesIf">
 		<property name="xmap" ref="xmapMca" />
 		<property name="gdhist" ref="CalMemory" />
 		<property name="scaler" ref="ionchambers" />
 		<property name="ifChannelNumber" value="4" />
-	</bean>
-
-	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0">
-		<property name="xmap" ref="xmapMca" />
-		<!--property name="scaler" ref="CalMemory" / -->
-		<property name="counterTimer" ref="ionchambers" />
-		<property name="extraNames">
-			<list>
-				<value>FFI0</value>
-			</list>
-		</property>
-		<property name="outputFormat">
-			<list>
-				<value>%.6f</value>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="FFI1" class="gda.device.detector.xmap.TfgXMapFFoverI0">

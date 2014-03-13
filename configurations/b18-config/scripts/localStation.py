@@ -16,7 +16,7 @@ from gda.device.monitor import EpicsMonitor
 #from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
 from gda.data.scan.datawriter import NexusDataWriter
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
+#from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
