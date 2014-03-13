@@ -38,7 +38,8 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.apache.commons.io;bundle-version="[2.4.0,2.5.0)",
  org.apache.commons.beanutils;bundle-version="[1.9.1,1.9.2)",
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)",
- uk.ac.diamond.scisoft.deprecated
+ uk.ac.diamond.scisoft.deprecated,
+ uk.ac.gda.exafs.datawriter
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,
