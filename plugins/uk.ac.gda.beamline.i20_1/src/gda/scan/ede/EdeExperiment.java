@@ -124,7 +124,13 @@ public abstract class EdeExperiment implements IObserver {
 
 	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
-		iRefScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
+		iRefScanParameters = new EdeScanParameters();
+		TimingGroup newGroup = new TimingGroup();
+		newGroup.setLabel("IRef");
+		newGroup.setNumberOfFrames(1);
+		newGroup.setTimePerScan(accumulationTime);
+		newGroup.setNumberOfScansPerFrame(numberOfAccumulcations);
+		iRefScanParameters.addGroup(newGroup);
 		runIRef = true;
 	}
 
