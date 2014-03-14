@@ -676,6 +676,7 @@ pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
 															pilatus2_for_snaps,
 															[],
 															panel_name='Pilatus2M',
+															panel_name_rcp='Plot 1',
 															toreplace=None,
 															replacement=None,
 															iFileLoader=PilatusTiffLoader,
@@ -698,6 +699,7 @@ pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
 																pilatus1_for_snaps,
 																[],
 																panel_name='Pilatus100k',
+																panel_name_rcp='Plot 1',
 																toreplace=None,
 																replacement=None,
 																iFileLoader=PilatusTiffLoader,
@@ -792,6 +794,7 @@ andor = SwitchableHardwareTriggerableProcessingDetectorWrapper('andor',
 								andor1_for_snaps,
 								[],
 								panel_name='Andor CCD',
+								panel_name_rcp='Plot 1', 
 								toreplace=None,
 								replacement=None,
 								iFileLoader=TIFFImageLoader,
@@ -1008,7 +1011,9 @@ def open_valves():
 #ci=248.0; cj=106.0	#12/9/13 new value as previous is now bad pixel
 #ci=247.0; cj=109.0	#12/9/13 new value as previous is now bad pixel
 #ci=249.0; cj=108.0	#26/11/13
-ci=241.0; cj=107.0	#14/01/14
+#ci=241.0; cj=107.0	#14/01/14
+#ci=236.0; cj=107.0	#11/03/14
+ci=240.0; cj=108.0	#11/03/14
 
 maxi=486; maxj=194
 
@@ -1178,4 +1183,4 @@ run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
-
+run("startup_pie725")
