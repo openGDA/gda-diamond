@@ -18,7 +18,7 @@ print "To create pil3 as the base detector for Pilatus 100K in EH2"
 
 pil3 = ADPilatusPseudoDeviceClass("pil3", "Area Detector", "pilatus3");
 pil3.setAlive(False);
-#pil3.addShutter('fs');
+pil3.addShutter('fs');
 #pil3.setFile("pilatus3","p100kImage");
 pil3.setFile("pilatus3","p3Image");#Modified according to beamline scientist on 13/03/2013
 

@@ -19,7 +19,7 @@ print "To create pil2 as the base detector for Pilatus 2M"
 
 pil2 = ADPilatusPseudoDeviceClass("pil2", "Area Detector", "pilatus2");
 pil2.setAlive(False);
-#pil2.addShutter('fs');
+pil2.addShutter('fs')
 pil2.setFile("pilatus2", "p2mImage")
 
 
