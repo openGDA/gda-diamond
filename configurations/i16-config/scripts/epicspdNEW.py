@@ -541,7 +541,9 @@ class EnergyFromBraggFixedoffsetPD(PseudoDevice):
 		print 'Calculated offset='+str(bragg_offset())+' deg'
 
 class EnergyFromBraggFixedoffsetwithHarmonicPD(PseudoDevice):
-	'Energy PD with optional fixed offset with Harmonic PD - calls Bragg angle PD'
+	'''
+	Energy PD with optional fixed offset with Harmonic PD - calls Bragg angle PD
+	'''
 	def __init__(self,name,link,harmonicPD):
 		self.setName(name);
 		self.setInputNames([name])

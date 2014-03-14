@@ -31,13 +31,13 @@
     <appender name="DebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${gda.logs.dir}/gda_client.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/gda_client.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+            <FileNamePattern>${gda.logs.dir}/gda_client.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d %-5level [%logger] %ex - %m%n</pattern>
         </layout>
         <!--<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/gda.%i.log.zip</FileNamePattern>
+            <FileNamePattern>${gda.logs.dir}/gda.%i.log.gz</FileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>5</maxIndex>
             </rollingPolicy>
