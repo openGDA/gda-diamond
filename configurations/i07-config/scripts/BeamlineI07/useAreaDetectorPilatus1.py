@@ -17,7 +17,7 @@ print "To create pil1 as the base detector for Pilatus 100K in EH1"
 pilatus1.getFileWriter().setReturnExpectedFullFileName(False);
 pil1 = ADPilatusPseudoDeviceClass("pil1", "Area Detector", "pilatus1");
 pil1.setAlive(False);
-#pil1.addShutter('fs');
+pil1.addShutter('fs')
 pil1.setFile("pilatus1/","p100kImage");
 #print "             Use pil1.setFile('path/','prefix') to set the image directory and name"
 #print "             Current image directory: ", pil1.getFilePath();
