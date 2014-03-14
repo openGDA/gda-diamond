@@ -9,8 +9,8 @@
         <number>1</number>
         <ROI>
             <name>Mn_Ka</name>
-            <windowStart>578</windowStart>
-            <windowEnd>602</windowEnd>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,8 +22,8 @@
         <number>1</number>
         <ROI>
             <name>Mn_Ka</name>
-            <windowStart>559</windowStart>
-            <windowEnd>620</windowEnd>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -35,8 +35,8 @@
         <number>1</number>
         <ROI>
             <name>Mn_Ka</name>
-            <windowStart>552</windowStart>
-            <windowEnd>620</windowEnd>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,8 +48,86 @@
         <number>1</number>
         <ROI>
             <name>Mn_Ka</name>
-            <windowStart>550</windowStart>
-            <windowEnd>617</windowEnd>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element4</name>
+        <number>1</number>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element5</name>
+        <number>1</number>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element6</name>
+        <number>1</number>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element7</name>
+        <number>1</number>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element8</name>
+        <number>1</number>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element9</name>
+        <number>1</number>
+        <ROI>
+            <name>Mn_Ka</name>
+            <windowStart>575</windowStart>
+            <windowEnd>605</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

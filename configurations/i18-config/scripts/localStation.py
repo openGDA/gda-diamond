@@ -159,6 +159,6 @@ raster_xspress.setInputNames([])
 raster_xmap.setInputNames([])
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    photonccd.setOutputFolderRoot("x:/data/2013/nt3894-1/xrd/")
+    photonccd.setOutputFolderRoot("x:/data/2014/sp9114-1/xrd/")
 
 print "Initialization Complete";
