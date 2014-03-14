@@ -58,7 +58,6 @@ import uk.ac.diamond.scisoft.analysis.plotserver.GuiBean;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiParameters;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiPlotMode;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiUpdate;
-import uk.ac.diamond.scisoft.analysis.rcp.plotting.DataSetPlotter;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.IGuiInfoManager;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.IPlotUI;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.IUpdateNotificationListener;
@@ -415,15 +414,6 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		}
 	}
 
-	private void pushGUIState() {
-		try {
-			plotServer.updateGui(plotViewName, guiBean);
-		} catch (Exception e) {
-			logger.warn("Problem with updating plot server with GUI data");
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Push GUI information back to plot server
 	 * 
@@ -433,12 +423,8 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	@Override
 	public void putGUIInfo(GuiParameters key, Serializable value) {
 		getGUIState();
-
-		guiBean.put(GuiParameters.PLOTID, plotID); // put plotID in bean
-
 		guiBean.put(key, value);
-
-		pushGUIState();
+		sendGUIInfo(guiBean);
 	}
 
 	/**
@@ -449,12 +435,8 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	@Override
 	public void removeGUIInfo(GuiParameters key) {
 		getGUIState();
-
-		guiBean.put(GuiParameters.PLOTID, plotID); // put plotID in bean
-
 		guiBean.remove(key);
-
-		pushGUIState();
+		sendGUIInfo(guiBean);
 	}
 
 	@Override
@@ -484,10 +466,6 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		plotWindow.processGUIUpdate(bean);
 	}
 
-	public DataSetPlotter getMainPlotter() {
-		return plotWindow.getMainPlotter();
-	}
-
 	public PlotWindow getPlotWindow() {
 		return this.plotWindow;
 	}
@@ -498,13 +476,15 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 			plotConsumer.dataUpdateFinished();
 	}
 
-	@Override
-	public void mute() {
-		// do nothing
-	}
 
 	@Override
-	public void unmute() {
-		// do nothing
+	public void sendGUIInfo(GuiBean guiBean) {
+		guiBean.put(GuiParameters.PLOTID, plotID); // put plotID in bean
+		try {
+			plotServer.updateGui(plotViewName, guiBean);
+		} catch (Exception e) {
+			logger.warn("Problem with updating plot server with GUI data");
+			e.printStackTrace();
+		}
 	}
 }

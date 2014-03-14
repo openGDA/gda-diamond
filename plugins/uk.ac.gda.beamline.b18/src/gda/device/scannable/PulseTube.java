@@ -28,6 +28,8 @@ import gda.factory.FactoryException;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
+import org.apache.commons.lang.ArrayUtils;
+
 public class PulseTube extends DetectorBase implements Scannable{
 	
 	private CAClient ca_client = new CAClient();

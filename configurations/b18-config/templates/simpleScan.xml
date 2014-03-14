@@ -2,7 +2,7 @@
 <SimpleScan>
     <scannableName>sam2y</scannableName>
     <fromPos>0.0</fromPos>
-    <toPos>147.0</toPos>
+    <toPos>2.0</toPos>
     <stepSize>1.0</stepSize>
     <acqTime>1.0</acqTime>
     <scannables>

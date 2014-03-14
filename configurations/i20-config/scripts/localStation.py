@@ -23,6 +23,9 @@ from xes.xes_calculate import XESCalculate
 from gdascripts.pd.time_pds import showtimeClass, waittime
 import mono_calibration 
 from vortex_elements import VortexElements
+from gda.data.scan.datawriter import NexusDataWriter
+
+
 
 ScanBase.interrupted = False
 ScriptBase.interrupted = False
@@ -30,33 +33,38 @@ ScriptBase.interrupted = False
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
+print "Before datawriterconfig"
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
-datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
-original_header_xes = Finder.getInstance().find("datawriterconfig").getHeader()[:]
-
+print "After datawriterconfig"
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
+print "After metashop"
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
-xmapController = Finder.getInstance().find("xmapcontroller")
-
-vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
+if LocalProperties.get("gda.mode") == "live":
+    xmapController = Finder.getInstance().find("xmapcontroller")
+    from vortex_elements import VortexElements
+    vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+
 xspressConfig.initialize()
 alias("xspressConfig")
 
-vortex = VortexConfig(xmapMca, ExafsScriptObserver)
-vortex.initialize()
-alias("vortex")
-
-detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortex)
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel)
-outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
-
-
+vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
+vortexConfig.initialize()
+alias("vortexConfig")
+print "Before detectorPreparer"
+detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
+print "Before SamplePreparer"
+samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
+print "Before OutputPreparer"
+#outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
+outputPreparer = I20OutputPreparer(datawriterconfig)
+print "After OutputPreparer"
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
@@ -65,13 +73,22 @@ xes_offsets = XESOffsets(store_dir, spectrometer)
 
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, True, True, True, False)
-xes = I20XesScan(detectorPreparer, samplePreparer, outputPreparer,commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, twodplotter, I1, XESEnergy, XESBragg, xes_offsets)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, False, True, True, False, False)
+xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig, original_header, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, False)
+print "After XesScan"
 xanes = xas
+print "After xanes"
 
 alias("xas")
 alias("xanes")
 alias("xes")
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
+alias("meta_clear")
+
+current_store_tracker = "none"
 
 scansReturnToOriginalPositions = 1
 
@@ -99,8 +116,16 @@ else:
     remove_default([absorberChecker])
     remove_default([shutterChecker])
 
+#
+# XES offsets section
+#
+from xes import offsetsStore, setOffsets
+offsetsStore = offsetsStore.XESOffsets()
+offsetsStore.removeAllOffsets()
+# do nothing more so that offsets start at zero everytime
+
 if LocalProperties.get("gda.mode") == "live":
-    run 'adc_monitor'
+    run "adc_monitor"
     run "xspress_config"
     print "\nXspress detector set to high (>8KeV) mode."\
     + "\nIf you wish to collect predominately at lower energies, type:"\

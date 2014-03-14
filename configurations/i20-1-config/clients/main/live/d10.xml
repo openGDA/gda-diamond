@@ -40,17 +40,12 @@
 		<property name="imageNDArray" ref="d10_arr" />
 		<property name="imageHistSize" value="255" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="255" />
 		<property name="detectorName" value="D10" />
 		<property name="adBase" ref="d10_base" />
 		<property name="ffmpegStream" ref="d10_ffmpeg" />
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
 		<property name="imageNDROI" ref="d10_roi" />
-	</bean>
-
-	<bean id="d10ADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
-		<property name="adController" ref="d10ADController" />
 	</bean>
 
 	<bean id="d10_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
@@ -63,11 +58,6 @@
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
 		<property name="service" ref="d10ADController" />
-		<property name="properties" ref="d10_dictionary" />
-	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="d10ADViewcreator" />
 		<property name="properties" ref="d10_dictionary" />
 	</bean>
 </beans>

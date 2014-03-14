@@ -70,28 +70,6 @@
                contentTypeId="uk.ac.gda.beans.exafs.XesScanParametersContentType">
          </contentTypeBinding>
       </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.detector.xspress.XspressParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/page_refresh.png"
-            id="uk.ac.gda.exafs.ui.XspressParametersEditor"
-            name="Xspress Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getXspressContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.detector.vortex.VortexParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/page_refresh.png"
-            id="uk.ac.gda.exafs.ui.VortexParametersEditor"
-            name="Vortex Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getVortexContent">
-         </contentTypeBinding>
-      </editor>
     </extension>
    <extension
          point="org.eclipse.core.contenttype.contentTypes">
@@ -137,22 +115,6 @@
       </content-type>
       <content-type
             base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.XspressDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getXspressContent"
-            name="Xspress Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.VortexDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getVortexContent"
-            name="Vortex Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
             describer="uk.ac.gda.exafs.ui.describers.XesScanParametersDescriber"
             file-extensions="xml"
             id="uk.ac.gda.beans.exafs.XesScanParametersContentType"
@@ -165,10 +127,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 Beamline">
+            name="GDA I20 Offline">
          <property
                name="appName"
-               value="GDA I20 Beamline">
+               value="GDA I20 Offline">
          </property>
          <property
                name="preferenceCustomization"
@@ -180,40 +142,12 @@
          </property>
          <property
                name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo1628png">
          </property>         
       </product>
    </extension>
    <extension
          point="org.eclipse.ui.editorActions">
-      <editorContribution
-            id="uk.ac.gda.client.exafs.XspressEditorContribution"
-            targetID="uk.ac.gda.exafs.ui.XspressParametersEditor">
-         <action
-               class="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               definitionId="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               icon="icons/page_refresh.png"
-               id="uk.ac.gda.client.exafs.RevertXspressDetector"
-               label="Revert"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Revert detector configuration file.">
-         </action>
-      </editorContribution>
-      <editorContribution
-            id="uk.ac.gda.client.exafs.VortexEditorContribution"
-            targetID="uk.ac.gda.exafs.ui.VortexParametersEditor">
-         <action
-               class="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               definitionId="uk.ac.gda.exafs.ui.actions.RevertDetectorParametersToTemplateAction"
-               icon="icons/page_refresh.png"
-               id="uk.ac.gda.client.exafs.RevertXspressDetector"
-               label="Revert"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Revert detector configuration file.">
-         </action>
-      </editorContribution>
       <editorContribution
             id="uk.ac.gda.client.experimentdefinition.FolderEditorContribution"
             targetID="uk.ac.gda.client.experimentdefinition.FolderEditor">
@@ -368,12 +302,6 @@
       </preference>
    </extension>
    <extension
-         point="gda.scan.scan.data.point.formatter">
-      <formatter
-            class="gda.data.scan.datawriter.XasScanDataPointFormatter">
-      </formatter>
-   </extension>
-   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="popup:uk.ac.gda.client.experimentdefinition.FolderEditor">
@@ -512,21 +440,12 @@
             class="uk.ac.gda.beans.exafs.SampleElements">
       </bean>
       <bean
-            class="uk.ac.gda.beans.vortex.VortexParameters"
-            describer="uk.ac.gda.exafs.ui.describers.VortexDescriber">
-      </bean>
-      <bean
             class="uk.ac.gda.beans.exafs.XasScanParameters"
             describer="uk.ac.gda.exafs.ui.describers.XasDescriber">
       </bean>
       <bean
             class="uk.ac.gda.beans.exafs.XanesScanParameters"
             describer="uk.ac.gda.exafs.ui.describers.XanesDescriber">
-      </bean>
-
-      <bean
-            class="uk.ac.gda.beans.xspress.XspressParameters"
-            describer="uk.ac.gda.exafs.ui.describers.XspressDescriber">
       </bean>
    </extension>
    <extension
@@ -601,26 +520,10 @@
             type="Output">
       </describer>
       <describer
-            bean="uk.ac.gda.beans.vortex.VortexParameters"
-            contentType="uk.ac.diamond.gda.client.exafs.getVortexContent"
-            includeInNew="false"
-            name="Vortex"
-            template="Vortex_Parameters"
-            type="UNREGISTERED">
-      </describer>
-      <describer
             bean="uk.ac.gda.beans.exafs.SampleElements"
             includeInNew="false"
             name="Sample Elements"
             template="Sample_Elements"
-            type="UNREGISTERED">
-      </describer>
-      <describer
-            bean="uk.ac.gda.beans.xspress.XspressParameters"
-            contentType="uk.ac.diamond.gda.client.exafs.getXspressContent"
-            includeInNew="false"
-            name="Xspress"
-            template="Xspress_Parameters"
             type="UNREGISTERED">
       </describer>
    </extension>
@@ -738,132 +641,5 @@
             name="Reference Sample Wheel">
       </page>
    </extension>
-   
-   <extension
-         point="org.eclipse.ui.views">
-      <category
-            name="Camera D10 Views"
-            id="uk.ac.gda.beamline.i20"/>                     
-      <view
-            allowMultiple="false"
-            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:d10ADController"
-            category="uk.ac.gda.beamline.i20"
-            id="uk.ac.gda.beamline.i20.D10AreaDetectorProfileView"
-            name="D10 Image Profile View">
-      </view>                       
-      <view
-            allowMultiple="false"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:d10ADController"
-            category="uk.ac.gda.beamline.i20"
-            id="uk.ac.gda.beamline.i20.D10AreaDetectorArrayView"
-            name="D10 Image View">
-      </view>
-      <view
-            allowMultiple="false"
-            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:d10ADController"
-            category="uk.ac.gda.beamline.i20"
-            id="uk.ac.gda.beamline.i20.D10AreaDetectorLiveView"
-            name="D10 Live View">
-      </view>                       
-   </extension>
-
-<extension
-      name="d10"
-      point="org.eclipse.ui.menus">
-   <menuContribution
-         allPopups="false"
-         locationURI="toolbar:uk.ac.gda.beamline.i20.D10AreaDetectorArrayView">
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-            label="Set Exposure"
-            style="push">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="d10ADController">
-         </parameter>
-      </command>
-   </menuContribution>
-   <menuContribution
-         allPopups="false"
-         locationURI="toolbar:uk.ac.gda.beamline.i20.D10AreaDetectorProfileView">
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-            label="Set Exposure"
-            style="push">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="d10ADController">
-         </parameter>
-      </command>
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
-            label="Set LiveView Scale"
-            style="push">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="d10ADController">
-         </parameter>
-      </command>
-      <command
-            commandId="org.eclipse.ui.views.showView"
-            label="Show Live View"
-            style="push">
-         <parameter
-               name="org.eclipse.ui.views.showView.viewId"
-               value="uk.ac.gda.beamline.i20.D10AreaDetectorLiveView">
-         </parameter>
-      </command>
-   </menuContribution>
-   <menuContribution
-         allPopups="false"
-         locationURI="toolbar:uk.ac.gda.beamline.i20.D10AreaDetectorLiveView">
-      <command
-            commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
-            label="Zoom To Fit"
-            style="push"
-            tooltip="Zoom To Fit">
-      </command>
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
-            label="Set Exposure"
-            style="push"
-            tooltip="Set Exposure">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="d10ADController">
-         </parameter>
-      </command>
-      <command
-            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
-            label="Set LiveView Scale"
-            style="push"
-            tooltip="Set LiveView Scale">
-         <parameter
-               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
-               value="d10ADController">
-         </parameter>
-      </command>
-      <command
-            commandId="org.eclipse.ui.views.showView"
-            label="Show Profile View"
-            style="push"
-            tooltip="Show Profile ">
-         <parameter
-               name="org.eclipse.ui.views.showView.viewId"
-               value="uk.ac.gda.beamline.i20.D10AreaDetectorProfileView">
-         </parameter>
-      </command>
-      <command
-            commandId="org.eclipse.ui.views.showView"
-            label="Show Image View"
-            style="push"
-            tooltip="Show Full Image">
-         <parameter
-               name="org.eclipse.ui.views.showView.viewId"
-               value="uk.ac.gda.beamline.i20.D10AreaDetectorArrayView">
-         </parameter>
-      </command>
-   </menuContribution>
-</extension>  
       
 </plugin>

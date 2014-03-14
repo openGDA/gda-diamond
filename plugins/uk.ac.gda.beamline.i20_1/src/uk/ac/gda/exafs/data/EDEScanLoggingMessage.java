@@ -23,18 +23,20 @@ import gda.jython.scriptcontroller.logging.ScriptControllerLoggingMessage;
 
 public class EDEScanLoggingMessage implements ScriptControllerLoggingMessage {
 
-	private String statusMessage;
-	private String id;
-	private String scriptName;
-	private String percentComplete;
+	private final String visitID;
+	private final String statusMessage;
+	private final String id;
+	private final String scriptName;
+	private final String percentComplete;
 	// private Integer frameNum;
 	// private Integer scanNum;
 	// private Integer groupNum;
-	private String elaspedTime;
+	private final String elaspedTime;
 
-	public EDEScanLoggingMessage(String id, String scriptName, String statusMessage, String percentComplete,
+	public EDEScanLoggingMessage(String visitID, String id, String scriptName, String statusMessage, String percentComplete,
 			String elaspedTime) {
 		super();
+		this.visitID = visitID;
 		this.statusMessage = statusMessage;
 		this.id = id;
 		this.scriptName = scriptName;
@@ -68,7 +70,7 @@ public class EDEScanLoggingMessage implements ScriptControllerLoggingMessage {
 	}
 
 	@Override
-	@ScriptControllerLogColumn(columnName = "Status", refresh = true, columnIndex = 0)
+	@ScriptControllerLogColumn(columnName = "Status", refresh = true, columnIndex = 1)
 	public String getMsg() {
 		return statusMessage;
 	}
@@ -83,13 +85,19 @@ public class EDEScanLoggingMessage implements ScriptControllerLoggingMessage {
 		return scriptName;
 	}
 
-	@ScriptControllerLogColumn(columnName = "Percent Complete", refresh = true, columnIndex = 1)
+	@ScriptControllerLogColumn(columnName = "Percent Complete", refresh = true, columnIndex = 2)
 	public String getPercentComplete() {
 		return percentComplete;
 	}
 
-	@ScriptControllerLogColumn(columnName = "Elapsed Time", refresh = true, columnIndex = 2)
+	@ScriptControllerLogColumn(columnName = "Elapsed Time", refresh = true, columnIndex = 3)
 	public String getElaspedTime() {
 		return elaspedTime;
+	}
+
+	@Override
+	@ScriptControllerLogColumn(columnName = "Visit ID", refresh = false, columnIndex = 0)
+	public String getVisitID() {
+		return visitID;
 	}
 }

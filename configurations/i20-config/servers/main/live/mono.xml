@@ -116,4 +116,14 @@
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="jena_crystal34_roll_motor" />
 	</bean>
+	<bean id="mono" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="crystal1_pitch" />
+				<ref bean="crystal2_roll" />
+				<ref bean="crystal34_roll" />
+				<ref bean="crystalcut" />
+			</list>
+		</property>
+	</bean>
 </beans>

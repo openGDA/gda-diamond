@@ -102,37 +102,130 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-	<bean id="eh1filter1" class="gda.device.enumpositioner.DummyEnumPositioner">
+
+	<!-- <bean id="eh1filter1" class="gda.device.enumpositioner.DummyEnumPositioner"> 
+		<property name="positions"> <util:list list-class="java.util.ArrayList"> 
+		<value>out</value> <value>in</value> </util:list> </property> </bean> <bean 
+		id="eh1filter2" class="gda.device.enumpositioner.DummyEnumPositioner"> <property 
+		name="positions"> <util:list list-class="java.util.ArrayList"> <value>out</value> 
+		<value>in</value> </util:list> </property> </bean> <bean id="eh1filter3" 
+		class="gda.device.enumpositioner.DummyEnumPositioner"> <property name="positions"> 
+		<util:list list-class="java.util.ArrayList"> <value>out</value> <value>in</value> 
+		</util:list> </property> </bean> <bean id="eh1filter4" class="gda.device.enumpositioner.DummyEnumPositioner"> 
+		<property name="positions"> <util:list list-class="java.util.ArrayList"> 
+		<value>out</value> <value>in</value> </util:list> </property> </bean> -->
+
+
+	<bean id="atn5_filter1_name" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions" value="Al 0.2 mm" />
+	</bean>
+	<bean id="atn5_filter1" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
-			<util:list list-class="java.util.ArrayList">
-				<value>out</value>
+			<list>
 				<value>in</value>
-			</util:list>
+				<value>out</value>
+			</list>
 		</property>
 	</bean>
-	<bean id="eh1filter2" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="atn5_filter2_name" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions" value="Al 0.5 mm" />
+	</bean>
+	<bean id="atn5_filter2" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
-			<util:list list-class="java.util.ArrayList">
-				<value>out</value>
+			<list>
 				<value>in</value>
-			</util:list>
+				<value>out</value>
+			</list>
 		</property>
 	</bean>
-	<bean id="eh1filter3" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="atn5_filter3_name" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions" value="Al 1.0 mm" />
+	</bean>
+	<bean id="atn5_filter3" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
-			<util:list list-class="java.util.ArrayList">
-				<value>out</value>
+			<list>
 				<value>in</value>
-			</util:list>
+				<value>out</value>
+			</list>
 		</property>
 	</bean>
-	<bean id="eh1filter4" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="atn5_filter4_name" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions" value="Al 3.0 mm" />
+	</bean>
+	<bean id="atn5_filter4" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
-			<util:list list-class="java.util.ArrayList">
-				<value>out</value>
+			<list>
 				<value>in</value>
-			</util:list>
+				<value>out</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="atn5_filter5_name" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions" value="C 5.0 mm" />
+	</bean>
+	<bean id="atn5_filter5" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>in</value>
+				<value>out</value>
+			</list>
 		</property>
 	</bean>
 
+	<bean id="atn5_filter6_name" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions" value="C 1.0 mm" />
+	</bean>
+	<bean id="atn5_filter6" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>in</value>
+				<value>out</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="atn5_filter7_name" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions" value="C 2.0 mm" />
+	</bean>
+	<bean id="atn5_filter7" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>in</value>
+				<value>out</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="atn5_filter8_name" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions" value="C 4.0 mm" />
+	</bean>
+	<bean id="atn5_filter8" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>in</value>
+				<value>out</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="atn5group" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="atn5_filter1_name" />
+				<ref bean="atn5_filter1" />
+				<ref bean="atn5_filter2_name" />
+				<ref bean="atn5_filter2" />
+				<ref bean="atn5_filter3_name" />
+				<ref bean="atn5_filter3" />
+				<ref bean="atn5_filter4_name" />
+				<ref bean="atn5_filter4" />
+				<ref bean="atn5_filter5_name" />
+				<ref bean="atn5_filter5" />
+				<ref bean="atn5_filter6_name" />
+				<ref bean="atn5_filter6" />
+				<ref bean="atn5_filter7_name" />
+				<ref bean="atn5_filter7" />
+				<ref bean="atn5_filter8_name" />
+				<ref bean="atn5_filter8" />
+			</list>
+		</property>
+	</bean>
 </beans>

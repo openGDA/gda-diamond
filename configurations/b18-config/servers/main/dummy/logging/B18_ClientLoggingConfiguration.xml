@@ -15,7 +15,7 @@
         </layout>
     </appender>    
     <root>
-        <level value="INFO"/>
+        <level value="ALL"/>
         <appender-ref ref="SOCKET"/>
         <appender-ref ref="CONSOLE"/>
     </root>

@@ -40,7 +40,6 @@ var atn5 = new Packages.org.eclipse.core.runtime.Path("screens/common/atn5.css-s
 function execute(args) {
 
 	var argument1 = args[0];
-	Packages.java.lang.System.out.println("Display = "+argument1+"");
 	var result;
 
 	if ( argument1 == 's1') {

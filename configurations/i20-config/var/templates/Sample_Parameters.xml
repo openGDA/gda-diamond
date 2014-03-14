@@ -17,11 +17,18 @@
         <sample_name>Please enter a sample name...</sample_name>
         <sample_description></sample_description>
         <numberOfRepetitions>1</numberOfRepetitions>
+        <samXEnabled>true</samXEnabled>
+        <samYEnabled>true</samYEnabled>
+        <samZEnabled>true</samZEnabled>
+        <rotEnabled>true</rotEnabled>
+        <rollEnabled>true</rollEnabled>
+        <pitchEnabled>true</pitchEnabled>
+        <fineRotEnabled>true</fineRotEnabled>
     </sampleposition>
 	<cryostat>
 		<loopChoice>Loop over sample, then temperature</loopChoice>
 		<tolerance>1</tolerance>
-		<waitTime>5.0</waitTime>
+		<waitTime>5</waitTime>
 		<temperature>295</temperature>
 		<controlMode>Manual PID</controlMode>
 		<heaterRange>4mW</heaterRange>

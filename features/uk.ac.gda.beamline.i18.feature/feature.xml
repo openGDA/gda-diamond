@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i18.feature"
       label="I18-feature"
-      version="8.36.0.qualifier"
+      version="8.38.0.qualifier"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -75,7 +75,7 @@
          unpack="false"/>
 
    <plugin
-         id="com.springsource.org.apache.commons.lang"
+         id="org.apache.commons.lang"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -97,6 +97,45 @@
 
    <plugin
          id="uk.ac.gda.video"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.devices.xmap"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.client.xspress2"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.devices.xspress2"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.exafs.datawriter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.beans.vortex"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.client.vortex"
          download-size="0"
          install-size="0"
          version="0.0.0"

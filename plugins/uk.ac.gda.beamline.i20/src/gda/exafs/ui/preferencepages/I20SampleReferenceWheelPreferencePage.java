@@ -43,9 +43,7 @@ import uk.ac.gda.richbeans.components.selector.BeanSelectionListener;
 import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
 
 public class I20SampleReferenceWheelPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
-
 	private static final Logger logger = LoggerFactory.getLogger(I20SampleReferenceWheelPreferencePage.class);
-
 	public static final String ID = "gda.exafs.ui.preferences.i20samplewheelPreferencePage";
 
 	public I20SampleReferenceWheelPreferencePage() {
@@ -57,8 +55,7 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 
 	@Override
 	protected Control createContents(Composite parent) {
-
-		final Composite main = new Composite(parent, SWT.NULL);
+		Composite main = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		layout.marginHeight = 0;
@@ -66,7 +63,7 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 		main.setLayout(layout);
 		main.setFont(parent.getFont());
 
-		this.elementPositions = new VerticalListEditor(main, SWT.NONE);
+		elementPositions = new VerticalListEditor(main, SWT.NONE);
 		elementPositions.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		elementPositions.setNameField("label");
 		elementPositions.setEditorClass(PositionerLabelBean.class);
@@ -84,40 +81,7 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 				positionerLabelComposite.selectionChanged((PositionerLabelBean)evt.getSelectedBean());
 			}
 		});
-		
-//		timingGroups = new HorizontalListEditor(framesGroup, SWT.NONE);
-//		timingGroups.setTemplateName("TimingGroup");
-//		timingGroups.setEditorClass(TimingGroup.class);
-//		timingGroups.setNameField("Label");
-//		timingGroups.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-//		timingGroups.setMinItems(1);
-//		timingGroups.setListWidth(100);
-//
-//		final TimingGroupComposite groupParameters = new TimingGroupComposite(this, framesGroup, SWT.NONE);
-//		groupParameters.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 2));
-//		timingGroups.setEditorUI(groupParameters);
-//
-//		timingGroups.addBeanSelectionListener(new BeanSelectionListener() {
-//			@Override
-//			public void selectionChanged(BeanSelectionEvent evt) {
-//				groupParameters.selectionChanged((TimingGroup) evt.getSelectedBean());
-//				updatePlottedPoints();
-//			}
-//		});
-
-//		try {
-//			BeanUI.addValueListener(new PositionerLabelBean(), this, new ValueAdapter("Validate Elements Listener") {
-//				@Override
-//				public void valueChangePerformed(ValueEvent e) {
-//					String test = e.toString();
-//				}
-//			});
-//		} catch (Exception e) {
-//			logger.error("Cannot listen to value changes.", e);
-//		}
-
 		performDefaults();
-
 		return main;
 	}
 

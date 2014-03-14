@@ -8,33 +8,6 @@
            http://www.diamond.ac.uk/schema/gda/corba
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
-
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.config}/xml/BL20I-gda-interface.xml" />
-	</bean>
-
-	<import resource="file:${gda.config}/servers/main/server-common.xml" />
-
-	<!-- GDA configuration split up by part type -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mono.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/tables.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" /> -->
-<!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
-	<import resource="file:${gda.config}/servers/main/live/medipix.xml" />
-
-	<!-- Definition of the ascii data format -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/dataformat.xml" />
-
-	<!--should normally be called last -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />
+	<import resource="file:${gda.config}/servers/main/server.xml" />
 
 </beans>

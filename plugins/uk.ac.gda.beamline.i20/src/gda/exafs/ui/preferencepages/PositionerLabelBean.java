@@ -21,7 +21,6 @@ package gda.exafs.ui.preferencepages;
 import java.io.Serializable;
 
 public class PositionerLabelBean implements Serializable{
-	
 	public String label = "";
 	
 	public PositionerLabelBean() {

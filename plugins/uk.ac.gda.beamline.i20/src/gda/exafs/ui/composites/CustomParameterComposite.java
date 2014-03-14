@@ -36,42 +36,28 @@ import uk.ac.gda.components.wrappers.FindableNameWrapper;
 import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 
-/**
- * @author fcp94556
- *
- */
 public class CustomParameterComposite extends Composite {
-
 	private static final Logger logger = LoggerFactory.getLogger(CustomParameterComposite.class);
-	
 	private TextWrapper deviceName;
 	private ScaleBox value;
-
 	private SelectionAdapter selectionListener;
-
 	private Link valueLabel;
-	/**
-	 * @param parent
-	 * @param style
-	 */
+
 	public CustomParameterComposite(Composite parent, int style) {
 		super(parent, style);
-		final GridLayout gridLayout = new GridLayout();
+		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		setLayout(gridLayout);
 		setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-
-		final Label deviceNameLabel = new Label(this, SWT.NONE);
+		Label deviceNameLabel = new Label(this, SWT.NONE);
 		deviceNameLabel.setText("Device Name");
-
 		deviceName = new FindableNameWrapper(this, SWT.BORDER, Scannable.class);
 		deviceName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		this.valueLabel = new Link(this, SWT.NONE);
+		valueLabel = new Link(this, SWT.NONE);
 		valueLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		valueLabel.setText("<a>Value</a>");
 		valueLabel.setToolTipText("Gets the value of the device named in device name and sets the value in this box.");
-		this.selectionListener = new SelectionAdapter() {
+		selectionListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				final String name = deviceName.getValue() != null ? deviceName.getValue().toString() : null;
@@ -87,7 +73,6 @@ public class CustomParameterComposite extends Composite {
 			}
 		};
 		valueLabel.addSelectionListener(selectionListener);
-
 		value = new ScaleBox(this, SWT.NONE);
 		value.setMaximum(Integer.MAX_VALUE);
 		value.setMinimum(-Integer.MAX_VALUE);
@@ -99,20 +84,13 @@ public class CustomParameterComposite extends Composite {
 		valueLabel.removeSelectionListener(selectionListener);
 		super.dispose();
 	}
-	
-	/**
-	 * @return ScaleBox
-	 */
+
 	public ScaleBox getValue() {
 		return value;
 	}
-	/**
-	 * @return TextWrapper
-	 */
+
 	public TextWrapper getDeviceName() {
 		return deviceName;
 	}
 
 }
-
-	

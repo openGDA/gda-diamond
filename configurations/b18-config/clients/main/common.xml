@@ -15,13 +15,14 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/${gda.mode}/java.properties</value>
+				<value>file:${gda.config}/properties/${gda.mode}/java.properties
+				</value>
 				<value>file:${gda.config}/properties/common.properties</value>
 			</list>
 		</property>
 	</bean>
 
-	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>
+	<corba:adapterfactory namespace="${gda.factory.factoryName}" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
@@ -52,5 +53,8 @@
 		<property name="class" value="gda.commandqueue.Queue" />
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
+	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
+		<property name="clientFileAnnouncerName" value="sockpuppet" />
+	</bean> -->
 
 </beans>
