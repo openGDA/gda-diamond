@@ -1011,7 +1011,9 @@ def open_valves():
 #ci=248.0; cj=106.0	#12/9/13 new value as previous is now bad pixel
 #ci=247.0; cj=109.0	#12/9/13 new value as previous is now bad pixel
 #ci=249.0; cj=108.0	#26/11/13
-ci=241.0; cj=107.0	#14/01/14
+#ci=241.0; cj=107.0	#14/01/14
+#ci=236.0; cj=107.0	#11/03/14
+ci=240.0; cj=108.0	#11/03/14
 
 maxi=486; maxj=194
 
