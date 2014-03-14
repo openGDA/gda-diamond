@@ -16,7 +16,7 @@ from gda.device.monitor import EpicsMonitor
 #from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
 from gda.data.scan.datawriter import NexusDataWriter
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
-#from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
@@ -24,7 +24,6 @@ ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
-
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
@@ -42,7 +41,6 @@ detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sen
 #    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig)
-
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01)
 qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
