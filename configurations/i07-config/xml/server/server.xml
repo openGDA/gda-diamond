@@ -43,6 +43,7 @@
 		
     <import resource="fastpil1.xml" />
     <import resource="fastpil3.xml" />
+    <import resource="pil2multi.xml" />
     
     <import resource="file:${gda.config}/xml/server/pilatus1_824.xml" />
     <import resource="file:${gda.config}/xml/server/pilatus2_824.xml" />
