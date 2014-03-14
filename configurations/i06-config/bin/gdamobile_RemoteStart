@@ -6,5 +6,8 @@
  
  
 echo Starting Mobile Rack GDA Servers remotely...
+#echo ssh -n -i ~/.ssh/gdamobile.key i06user@bl06i-mo-serv-01.diamond.ac.uk "/dls_sw/i06/software/gda-mobile/bin/GDA_LocalMobileServer"
+#     ssh -n -i ~/.ssh/gdamobile.key i06user@bl06i-mo-serv-01.diamond.ac.uk "/dls_sw/i06/software/gda-mobile/bin/GDA_LocalMobileServer"
+
 echo ssh -n -i ~/.ssh/gdamobile.key i06user@bl06i-mo-serv-01.diamond.ac.uk "/dls_sw/i06/software/gda-mobile/bin/GDA_LocalMobileServer"
-ssh -n -i ~/.ssh/gdamobile.key i06user@bl06i-mo-serv-01.diamond.ac.uk "/dls_sw/i06/software/gda-mobile/bin/GDA_LocalMobileServer"
+     ssh -n -i ~/.ssh/gdamobile.key i06user@bl06i-mo-serv-01.diamond.ac.uk "/dls_sw/i06/software/gda-mobile/bin/GDA_LocalMobileServer"
