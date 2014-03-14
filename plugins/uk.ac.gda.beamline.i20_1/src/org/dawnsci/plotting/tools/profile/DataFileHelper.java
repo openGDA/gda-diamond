@@ -61,9 +61,13 @@ public class DataFileHelper {
 	private static String tempPath = System.getProperty("java.io.tmpdir");
 
 	public static String copyToTempFolder(File file, String suffix) throws IOException {
-		String newFileName = FilenameUtils.removeExtension(file.getName()) + "-" + suffix + "." +  FilenameUtils.getExtension(file.getName());
+		String newFileName = getFileNameWithSuffix(file, suffix);
 		Path path = Files.copy(file.toPath(), Paths.get(tempPath + File.separator + newFileName), StandardCopyOption.REPLACE_EXISTING);
 		return path.toString();
+	}
+
+	public static String getFileNameWithSuffix(File file, String suffix) {
+		return FilenameUtils.removeExtension(file.getName()) + "-" + suffix + "." +  FilenameUtils.getExtension(file.getName());
 	}
 
 }

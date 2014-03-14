@@ -82,6 +82,7 @@ import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -139,9 +140,12 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private static final double STACK_OFFSET = 0.1;
 
+	public static final String DATA_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/data";
+	public static final String CYCLE_AVERAGE_DATA_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_CYCLE_LN_I0_IT_WITH_AVERAGED + "/data";
+
+
 	private static final String GROUP_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/group";
 	private static final String TIME_AXIS_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/time";
-	private static final String CYCLE_AXIS_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/cycle";
 	private static final String ENERGY_SOURCE_PATH = "/entry1/instrument/xstrip/Energy";
 	private static final int ENERGY_AXIS_INDEX = 0;
 
@@ -193,6 +197,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	};
 
+	private int cycles = 0;
+
 	// TODO Validate data and manage UI if not correct dataset
 	private void validateAndLoadSpectra(IImageTrace image) {
 		//clearRegionsOnPlot();
@@ -207,19 +213,26 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				DataHolder dataHolder = LoaderFactory.getData(path);
 				ILazyDataset groups = dataHolder.getLazyDataset(GROUP_PATH);
 				ILazyDataset time = dataHolder.getLazyDataset(TIME_AXIS_PATH);
+				int[] dataShape = LoaderFactory.getMetaData(path, null).getDataShapes().get(DATA_PATH);
+				if (dataShape != null && dataShape.length == 3) {
+					cycles  = dataShape[0];
+				}
+
+				timeResolvedData = new TimeResolvedDataNode();
+
 				//				if (dataHolder.contains(CYCLE_AXIS_PATH)) {
 				//					ILazyDataset cycle = dataHolder.getLazyDataset(CYCLE_AXIS_PATH);
 				//					timeResolvedData.setData(
-				//							(DoubleDataset) groups.getSlice(new Slice()),
-				//							(DoubleDataset) time.getSlice(new Slice()),
-				//							(IntegerDataset) cycle.getSlice(new Slice()));
+				//							(DoubleDataset) groups.getSlice(),
+				//							(DoubleDataset) time.getSlice(),
+				//							(IntegerDataset) cycle.getSlice());
 				//				} else {
-				timeResolvedData = new TimeResolvedDataNode();
+
 				timeResolvedData.setData(
-						(DoubleDataset) groups.getSlice(new Slice()),
-						(DoubleDataset) time.getSlice(new Slice()),
+						(DoubleDataset) groups.getSlice(),
+						(DoubleDataset) time.getSlice(),
 						null);
-				//}
+				//				}
 				energy = imageTrace.getAxes().get(ENERGY_AXIS_INDEX);
 				if (spectraTreeTable != null) {
 					spectraTreeTable.setInput(timeResolvedData);
@@ -332,13 +345,14 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	}
 
-	private void setDataForEnergySelection() {
-		List<AbstractDataset> axes = new ArrayList<AbstractDataset>(imageTrace.getAxes().size());
-		for(IDataset dataset : imageTrace.getAxes()) {
-			axes.add((AbstractDataset) dataset);
-		}
-		hyperComponent.setData(imageTrace.getData(), axes, new Slice[2], new int[]{0,1}, main, side);
-	}
+	// TODO Replace with hyper component 2D
+	//	private void setDataForEnergySelection() {
+	//		List<AbstractDataset> axes = new ArrayList<AbstractDataset>(imageTrace.getAxes().size());
+	//		for(IDataset dataset : imageTrace.getAxes()) {
+	//			axes.add((AbstractDataset) dataset);
+	//		}
+	//		hyperComponent.setData(imageTrace.getData(), axes, new Slice[2], new int[]{0,1}, main, side);
+	//	}
 
 	private final IDatasetROIReducer main = new IDatasetROIReducer() {
 		private final RegionType regionType = RegionType.XAXIS_LINE;
@@ -607,12 +621,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 					return;
 				}
 
-				if (isCycleSelected(selection)) {
-					if (selection.size() == 1) {
-						menuManager.add(zoomToSelectedCycleAction);
-					}
-				}
-
 				if (isGroupsSelected(selection)) {
 					// menuManager.add(zoomToGroupAction);
 				}
@@ -640,15 +648,15 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				return true;
 			}
 
-			private boolean isCycleSelected(IStructuredSelection selection) {
-				Iterator<?> iterator = selection.iterator();
-				while (iterator.hasNext()) {
-					if (!(iterator.next() instanceof CycleDataNode)) {
-						return false;
-					}
-				}
-				return true;
-			}
+			//			private boolean isCycleSelected(IStructuredSelection selection) {
+			//				Iterator<?> iterator = selection.iterator();
+			//				while (iterator.hasNext()) {
+			//					if (!(iterator.next() instanceof CycleDataNode)) {
+			//						return false;
+			//					}
+			//				}
+			//				return true;
+			//			}
 		});
 		menuManager.setRemoveAllWhenShown(true);
 		spectraTreeTable.getTree().setMenu(menu);
@@ -718,6 +726,21 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				}
 			}
 		});
+
+		ToolItem exportCycle = new ToolItem(toolBar, SWT.PUSH);
+		exportCycle.setText("");
+		exportCycle.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVEAS_EDIT));
+		exportCycle.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				if (cycles > 0) {
+					DataExportUtils test = new DataExportUtils();
+					test.exportAndAverageCycles(dataFile, TimeResolvedToolPage.this.getControl().getDisplay(), cycles);
+				} else {
+					MessageDialog.openWarning(TimeResolvedToolPage.this.getControl().getShell(), "Unable to process", "Cycle data unavailable");
+				}
+			}
+		});
 	}
 
 	private void applyEnergyToNexusFiles(double[] value) throws Exception {
@@ -744,20 +767,19 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	}
 
-	private final Action zoomToSelectedCycleAction = new Action("Zoom") {
-		@Override
-		public void run() {
-			IStructuredSelection selection = (IStructuredSelection) spectraTreeTable.getSelection();
-			CycleDataNode cycle = (CycleDataNode) selection.getFirstElement();
-			double offset = timeResolvedData.getCycles().indexOf(cycle) * cycle.getCycleTime();
-			// Move to model
-			double start = offset + ((SpectrumDataNode) ((TimingGroupDataNode) cycle.getTimingGroups().get(0)).getSpectra().get(0)).getStartTime();
-			TimingGroupDataNode lastTimingGroup = (TimingGroupDataNode) cycle.getTimingGroups().get(cycle.getTimingGroups().size() - 1);
-			// FIXME
-			double end = offset + ((SpectrumDataNode) lastTimingGroup.getSpectra().get(lastTimingGroup.getSpectra().size() - 1)).getStartTime() + lastTimingGroup.getTimePerFrame() - 0.001;
-			getPlottingSystem().getSelectedYAxis().setRange(start, end);
-		}
-	};
+	//	private final Action zoomToSelectedCycleAction = new Action("Zoom") {
+	//		@Override
+	//		public void run() {
+	//			IStructuredSelection selection = (IStructuredSelection) spectraTreeTable.getSelection();
+	//			CycleDataNode cycle = (CycleDataNode) selection.getFirstElement();
+	//			double start = ((SpectrumDataNode) ((TimingGroupDataNode) cycle.getTimingGroups().get(0)).getSpectra().get(0)).getStartTime();
+	//			TimingGroupDataNode lastTimingGroup = (TimingGroupDataNode) cycle.getTimingGroups().get(cycle.getTimingGroups().size() - 1);
+	//			// FIXME
+	//			double end = ((SpectrumDataNode) lastTimingGroup.getSpectra().get(lastTimingGroup.getSpectra().size() - 1)).getStartTime() + lastTimingGroup.getTimePerFrame();
+	//			getPlottingSystem().getSelectedYAxis().setRange(end, start);
+	//
+	//		}
+	//	};
 
 	private final Action createPlotEveryIntervalAction = new Action("Select spectrum for every") {
 		@Override
@@ -1232,7 +1254,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			}
 		}
 
-		//		evt.getRegion().getUserObject());
+		// evt.getRegion().getUserObject());
 	}
 
 	@Override

@@ -49,6 +49,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	public static final String NXDATA_LN_I0_IT_WITH_AVERAGED_I0 = "LnI0It_withAveragedI0";
 	public static final String NXDATA_LN_I0_IT_WITH_FINAL_I0 = "LnI0It_withFinalI0";
 	public static final String NXDATA_LN_I0_IT = "LnI0It";
+	public static final String NXDATA_CYCLE_LN_I0_IT_WITH_AVERAGED = "LnI0It_averaged";
 	public static final String IT_RAW_AVERAGEDI0_SUFFIX = "_It_raw_averagedi0";
 	public static final String IT_RAW_FINALI0_SUFFIX = "_It_raw_finali0";
 	public static final String IT_RAW_SUFFIX = "_It_raw";
@@ -106,12 +107,15 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		updateEnergyAndCreateLink();
 
 		createI0File();
+
+		nexusfile.openpath("/entry1");
 		createItFiles();
 
 		if (iRefScan != null) {
 			createIRefFile();
 		}
 
+		nexusfile.closegroup(); // entry 1
 		nexusfile.close();
 		return itFilename;
 	}
@@ -244,8 +248,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		addSingleSpectrum(normalisedIRefSpectra, EdeDataConstants.ENERGY_COLUMN_NAME);
 
 		addEnergyLink();
-		nexusfile.closegroup();
-
+		nexusfile.closegroup(); // For datagroupname
 	}
 
 	private void writerHeader(FileWriter writer) throws IOException {
@@ -306,20 +309,16 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	}
 
 	private void createItFiles() throws Exception {
-		nexusfile.getpath();
-		nexusfile.openpath("/entry1");
 		double[] timeAxis = calculateTimeAxis();
 		addTimeAxisDataAndCreateLink(timeAxis);
+
 		double[][] groupAxis = calculateGroupAxis();
 		addGroupAxisDataAndCreateLink(groupAxis);
 
 		itFilename = createItFile(i0InitialLightScan, null, IT_RAW_SUFFIX);
 		itFinalFilename = createItFile(i0FinalLightScan, null, IT_RAW_FINALI0_SUFFIX);
 		itAveragedFilename = createItFile(i0InitialLightScan, i0FinalLightScan, IT_RAW_AVERAGEDI0_SUFFIX);
-
-		nexusfile.closegroup(); // entry1
 	}
-
 
 	private void addGroupAxisDataAndCreateLink(double[][] groupAxis) throws NexusException {
 		nexusfile.makedata(EdeDataConstants.TIMINGGROUP_COLUMN_NAME, NexusFile.NX_FLOAT64, 2, new int[] { groupAxis.length,
@@ -522,14 +521,12 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 		String datagroupname = deriveDatagroupName(fileSuffix);
 
-		String axes = "energy:time";
-
 		if (includeRepetitionColumn) {
 			addCyclicData(normalisedItSpectra, datagroupname);
 		} else {
 			nexusfile.makegroup(datagroupname, "NXdata");
 			nexusfile.openpath(datagroupname);
-			addMultipleSpectra(normalisedItSpectra, axes);
+			addMultipleSpectra(normalisedItSpectra, getAxisText());
 			addGroupLink();
 			addTimeLink();
 			addEnergyLink();
@@ -537,6 +534,9 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		}
 	}
 
+	private String getAxisText() {
+		return EdeDataConstants.ENERGY_COLUMN_NAME + ":" + EdeDataConstants.TIME_COLUMN_NAME;
+	}
 
 	private void addCyclicData(double[][] normalisedItSpectra, String datagroupname)
 			throws NexusException {
@@ -567,11 +567,9 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 			}
 		}
 
-		String axes = "energy:time";
-
 		nexusfile.makegroup(datagroupname, "NXdata");
 		nexusfile.openpath(datagroupname);
-		addCycleMultipleSpectra(cyclicNormalisedItSpectra, axes);
+		addCycleMultipleSpectra(cyclicNormalisedItSpectra, getAxisText());
 		addGroupLink();
 		addTimeLink();
 		addEnergyLink();
@@ -579,7 +577,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 		nexusfile.makegroup(avDataGroupName, "NXdata");
 		nexusfile.openpath(avDataGroupName);
-		addMultipleSpectra(averagednormalisedItSpectra, axes);
+		addMultipleSpectra(averagednormalisedItSpectra, getAxisText());
 		addGroupLink();
 		addTimeLink();
 		addEnergyLink();
