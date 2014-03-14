@@ -45,6 +45,7 @@
 	<import resource="motor/s6.xml" />
 	<import resource="motor/s7.xml" />
 	<import resource="motor/s8.xml" />
+	<import resource="motor/s9.xml" />
 	<import resource="motor/tbbase.xml" />
 	<import resource="motor/tb3.xml" />
 	<import resource="motor/tb2.xml" />
