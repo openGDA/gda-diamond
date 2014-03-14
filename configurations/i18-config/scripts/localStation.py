@@ -9,12 +9,10 @@ from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.device.scannable import BeamMonitorScannableForLineRepeat
 from gda.factory import Finder
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
-
 from microfocus.map_select import MapSelect
 from microfocus.map import Map
 from microfocus.raster_map import RasterMap
 from microfocus.raster_map_return_write import RasterMapReturnWrite
-
 from cid_photodiode import CidPhotoDiode
 from exafsscripts.exafs.i18DetectorPreparer import I18DetectorPreparer
 from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
@@ -22,7 +20,7 @@ from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
-from gdascripts.metadata.metadat_commands import meta_add,meta_ll,meta_ls,meta_rm
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
 from gda.data.scan.datawriter import NexusDataWriter
 
 from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
