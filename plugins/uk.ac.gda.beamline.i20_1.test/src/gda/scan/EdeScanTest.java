@@ -34,7 +34,7 @@ import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeLinearExperiment;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.EdeSingleExperiment;
-import gda.scan.ede.datawriters.EdeLinearExperimentAsciiFileWriter;
+import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.ExplicitScanPositions;
 
@@ -255,7 +255,7 @@ public class EdeScanTest extends EdeTestBase {
 		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
 		testNumberLinesInEDEFile(theExperiment.getI0Filename(), MCA_WIDTH * 3 * 2);
 		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), MCA_WIDTH * 6);
+		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), MCA_WIDTH * 2);
 		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 9);
 		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), MCA_WIDTH * numberExpectedSpectra);
 		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 9);
@@ -270,17 +270,17 @@ public class EdeScanTest extends EdeTestBase {
 		
 		// cyclic?
 		if (numberRepetitions > 1){
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT+"_averaged",numberExpectedSpectra, false);
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0+"_averaged",numberExpectedSpectra, false);
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0+"_averaged",numberExpectedSpectra, false);	
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT+"_averaged",numberExpectedSpectra, false);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0+"_averaged",numberExpectedSpectra, false);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0+"_averaged",numberExpectedSpectra, false);	
 			numberExpectedSpectra *= numberRepetitions;
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, true);
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, true);
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, true);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, true);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, true);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, true);
 		} else {
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, false);
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, false);
-			assertLinearData(file,EdeLinearExperimentAsciiFileWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, false);			
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, false);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, false);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, false);			
 		}
 		file.close();
 	}
@@ -349,7 +349,7 @@ public class EdeScanTest extends EdeTestBase {
 		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
 
 		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 6);
+		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 2);
 
 		testNumberColumnsInEDEFile(theExperiment.getItFilename(), 10);
 		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25 * 3));

@@ -181,7 +181,7 @@
             class="uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer">
       </initializer>
    </extension>
-
+   
    <extension
       name="d10"
       point="org.eclipse.ui.menus">
