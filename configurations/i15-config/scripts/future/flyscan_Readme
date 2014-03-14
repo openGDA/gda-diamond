@@ -1,0 +1,29 @@
+--------------------------------------------------------------------------------
+
+Tried copying over gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py:
+
+	import future.flyscan
+	LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, "/dls/cs-scratch/i13i-dummy1")
+	reload future.flyscan
+	
+then:
+
+	future.flyscan.flyscan(zebraTestZebraScannableMotor, 90, 90, 10 ,zebraTestContinuousMoveController, zebraTestDetector, 1 )
+
+However this didn't move the motor or do anything obvious.
+
+This is apparently because this will only work with 8.36, not 8.34.
+
+	# 360 x 0.5deg simple scan with 0.1s acquisition at each:
+	future.flyscan.flyscan(zebraTestZebraScannableMotor, -90, 90, .5,zebraTestContinuousMoveController, zebraTestDetector, .01 )
+
+	# 3 deg rock, with a 1 second acquisition
+	future.flyscan.flyscan(zebraTestZebraScannableMotor, 90, 90, 3 ,zebraTestContinuousMoveController, zebraTestDetector, 1 )
+
+	# 30 deg rock, with a 1 second acquisition
+	future.flyscan.flyscan(zebraTestZebraScannableMotor, 90, 90, 30 ,zebraTestContinuousMoveController, zebraTestDetector, 1 )
+
+	# 10 deg rock, with a 1 second acquisition
+	future.flyscan.flyscan(zebraTestZebraScannableMotor, 90, 90, 10 ,zebraTestContinuousMoveController, zebraTestDetector, 1 )
+
+--------------------------------------------------------------------------------
