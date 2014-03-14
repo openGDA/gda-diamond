@@ -1,3 +1,4 @@
+#@PydevCodeAnalysisIgnore
 from gda.configuration.properties import LocalProperties
 from gda.data import PathConstructor
 from gda.data.fileregistrar import IcatXMLCreator
@@ -32,10 +33,9 @@ print "Initialization Started";
 
 finder = Finder.getInstance()
 
-gdaConfigDir = LocalProperties.get("gda.config")
-gdaConfigDir = gdaConfigDir + "/"
+# gdaConfigDir = LocalProperties.get("gda.config")
+# gdaConfigDir = gdaConfigDir + "/"
 
-rcpController = finder.find("RCPController")
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Create topup , beam, detector-filling, beam monitors to pause and resume scans"
@@ -85,45 +85,42 @@ if (LocalProperties.get("gda.mode") == 'live'):
 #    micosy=SetPvAndWaitForCallbackWithSeparateReadback2(
 #        "micosy", "ME07M-EA-PIEZO-03:MMC:02:DEMAND",
 #                       "ME07M-EA-PIEZO-03:MMC:02:POS:ENC", 20, 0.000001)
-    micosx=DummyMonitor()
-    micosx.setName("micosx")
-    micosy=DummyMonitor()
-    micosy.setName("micosy")
+#     micosx=DummyMonitor()
+#     micosx.setName("micosx")
+#     micosy=DummyMonitor()
+#     micosy.setName("micosy")
     
 else:
-    micosx=DummyMonitor()
-    micosx.setName("micosx")
-    micosy=DummyMonitor()
-    micosy.setName("micosy")
+#     micosx=DummyMonitor()
+#     micosx.setName("micosx")
+#     micosy=DummyMonitor()
+#     micosy.setName("micosy")
     traj1PositionReader = finder.find("traj1PositionReader")
     traj3PositionReader = finder.find("traj3PositionReader")
     traj1xmap = finder.find("traj1xmap")
     traj3xmap = finder.find("traj3xmap")
 
-XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
-commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
-ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
+rcpController =                finder.find("RCPController")
+XASLoggingScriptController =   finder.find("XASLoggingScriptController")
+commandQueueProcessor =        finder.find("commandQueueProcessor")
+ExafsScriptObserver =          finder.find("ExafsScriptObserver")
 auto_mDeg_idGap_mm_converter = finder.find("auto_mDeg_idGap_mm_converter")
+loggingcontroller =            finder.find("XASLoggingScriptController")
+datawriterconfig =             finder.find("datawriterconfig")
+original_header =              finder.find("datawriterconfig").getHeader()[:]
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
-vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
-
-loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
-datawriterconfig = Finder.getInstance().find("datawriterconfig")
-original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
+vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
 
 detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig)
-samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
-#samplePreparer = I18SamplePreparer(rcpController, table_x, table_y, table_z, D7A, D7B, kb_vfm_x)
-outputPreparer = I18OutputPreparer(datawriterconfig)
+samplePreparer =   I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
+outputPreparer =   I18OutputPreparer(datawriterconfig)
 
-xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
-#xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+xas =  I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
-non_raster_map = Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, ExafsScriptObserver,outputPreparer, detectorPreparer)
-raster_map = RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController,outputPreparer, detectorPreparer)
-# 18/2/14 RJW I have not tested raster_map_return_write yet
-raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, rcpController, ExafsScriptObserver)
+non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
+raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress)
+raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress)
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
@@ -132,9 +129,7 @@ else:
     xas.addMonitors(None, None, None, None)
 
 qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
-xanes = xas
-
-
+xanes = xas
 alias("xas")
 alias("xanes")
 alias("qexafs")
@@ -144,19 +139,20 @@ alias("raster_map_return_write")
 
 test = DummyScannable("test")
 
-gdaRoot = LocalProperties.get("gda.root")
-gdaConfigDir = LocalProperties.get("gda.config")
-gdaConfigDir = gdaConfigDir + "/"
+# gdaRoot = LocalProperties.get("gda.root")
+# gdaConfigDir = LocalProperties.get("gda.config")
+# gdaConfigDir = gdaConfigDir + "/"
 
-global mapRunning
-mapRunning = 0
+# global mapRunning
+# mapRunning = 0
 
 #cid = CidPhotoDiode('cid', 'BL18I-DI-PHDGN-08')
 #cid.setExtraNames(['CID_Rminusdiode', 'CID_Rplusdiode', 'CID_Lminusdiode', 'CID_Lplusdiode']) 
 #cid.setOutputFormat(['%4.10f', '%4.10f', '%4.10f', '%4.10f'])
 
-raster_xspress.setInputNames([])
-raster_xmap.setInputNames([])
+# # TODO is this needed?
+# raster_xspress.setInputNames([])
+# raster_xmap.setInputNames([])
 
 if (LocalProperties.get("gda.mode") == 'live'):
     photonccd.setOutputFolderRoot("x:/data/2014/sp9114-1/xrd/")

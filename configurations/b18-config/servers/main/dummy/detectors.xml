@@ -1,7 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
@@ -32,8 +34,8 @@
 			</bean>
 		</property>
 	</bean>
-	
-		<bean id="DAServer36" class="gda.device.detector.DummyDAServer">
+
+	<bean id="DAServer36" class="gda.device.detector.DummyDAServer">
 		<property name="local" value="True" />
 		<property name="host" value="b18-xspress0" />
 		<property name="port" value="1972" />
@@ -80,8 +82,44 @@
 			</list>
 		</property>
 	</bean>
-	
-<!-- 	<bean id="cirrus" class="uk.ac.gda.devices.cirrus.DummyCirrusDetector"> -->
-<!-- 	</bean> -->
-	
+
+	<!-- <bean id="mythen" class="gda.device.detector.DummyDetector"> -->
+	<!-- <property name="dataDimensions"> -->
+	<!-- <util:list list-class="java.util.ArrayList"> -->
+	<!-- <value>8</value> -->
+	<!-- </util:list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl">
+		<property name="detectorID" value="b18-mcs01" />
+		<property name="mythenClient">
+			<bean class="gda.device.detector.mythen.client.DummyMythenClient">
+				<constructor-arg>
+					<value>1</value>
+				</constructor-arg>
+			</bean>
+		</property>
+
+		<property name="dataConverter">
+			<bean class="gda.device.detector.mythen.data.DataConverter">
+				<property name="angularCalibrationParameters">
+					<bean
+						class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters">
+						<constructor-arg>
+							<bean class="java.io.File">
+								<constructor-arg>
+									<value>${gda.config}/servers/main/calibration.dat</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- <bean id="cirrus" class="uk.ac.gda.devices.cirrus.DummyCirrusDetector"> -->
+	<!-- </bean> -->
+
 </beans>

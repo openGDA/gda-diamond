@@ -33,7 +33,9 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.analysis,
  uk.ac.gda.epics;bundle-version="1.0.0",
  uk.ac.gda.server.exafs.epics;bundle-version="1.0.0",
- uk.ac.gda.dls;bundle-version="1.0.0"
+ uk.ac.gda.dls;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.deprecated,
+ org.dawnsci.slicing.tools;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,
@@ -49,6 +51,7 @@ Import-Package: org.apache.commons.beanutils;version="1.8.0",
  org.apache.commons.configuration;version="1.6.0",
  org.apache.commons.lang,
  org.apache.commons.math3.util;version="3.2.0",
+ org.dawb.hdf5,
  org.eclipse.core.commands,
  org.eclipse.core.databinding,
  org.eclipse.core.databinding.beans,

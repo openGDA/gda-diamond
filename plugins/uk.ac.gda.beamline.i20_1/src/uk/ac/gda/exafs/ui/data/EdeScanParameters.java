@@ -134,6 +134,9 @@ public class EdeScanParameters implements Serializable {
 		setGroups(new Vector<TimingGroup>(Arrays.asList(groups)));
 	}
 
+	/**
+	 * @return  the total number of frames in each cycle
+	 */
 	public int getTotalNumberOfFrames() {
 		int sum = 0;
 

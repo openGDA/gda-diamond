@@ -21,6 +21,7 @@ package gda.scan;
 import static org.junit.Assert.assertEquals;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
+import gda.data.nexus.GdaNexusFile;
 import gda.device.detector.DummyXStripDAServer;
 import gda.device.detector.StepScanXHDetector;
 import gda.device.detector.XHDetector;
@@ -33,6 +34,7 @@ import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeLinearExperiment;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.EdeSingleExperiment;
+import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.ExplicitScanPositions;
 
@@ -45,17 +47,21 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.nexusformat.NexusException;
+import org.nexusformat.NexusFile;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class EdeScanTest extends EdeTestBase {
 
+	private static final int MCA_WIDTH = 1024;
 	private DummyXStripDAServer daserver;
 	private XHDetector xh;
 	private String testDir;
@@ -242,16 +248,66 @@ public class EdeScanTest extends EdeTestBase {
 		theExperiment.setIRefParameters(inOutBeamMotors, 0.1, 1);
 		String filename = theExperiment.runExperiment();
 
+		int numberExpectedSpectra = 25;
+		
 		testNumberColumnsInEDEFile(filename, 9);
-		testNumberLinesInEDEFile(filename, 1024 * 25);
+		testNumberLinesInEDEFile(filename, MCA_WIDTH * numberExpectedSpectra);
 		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
-		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
+		testNumberLinesInEDEFile(theExperiment.getI0Filename(), MCA_WIDTH * 3 * 2);
 		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 3);
+		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), MCA_WIDTH * 2);
 		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 9);
-		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), 1024 * 25);
+		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), MCA_WIDTH * numberExpectedSpectra);
 		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 9);
-		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), 1024 * 25);
+		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), MCA_WIDTH * numberExpectedSpectra);
+
+		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+	}
+
+	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws NexusException {
+		GdaNexusFile file = new GdaNexusFile(nexusFilename, NexusFile.NXACC_READ);
+		file.openpath("entry1");
+		
+		// cyclic?
+		if (numberRepetitions > 1){
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT+"_averaged",numberExpectedSpectra, false);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0+"_averaged",numberExpectedSpectra, false);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0+"_averaged",numberExpectedSpectra, false);	
+			numberExpectedSpectra *= numberRepetitions;
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, true);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, true);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, true);
+		} else {
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, false);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, false);
+			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, false);			
+		}
+		file.close();
+	}
+	
+	private void assertLinearData(GdaNexusFile file, String dataName, int numberSpectra, boolean testForCycles) throws NexusException{
+		file.openpath(dataName);
+		assertDimensions(file, "data", new int[] { numberSpectra, MCA_WIDTH });
+		assertDimensions(file, "energy", new int[] { MCA_WIDTH });
+		assertDimensions(file, "group", new int[] { numberSpectra,4 });
+		assertDimensions(file, "time", new int[] { numberSpectra });
+		if (testForCycles){
+			assertDimensions(file, "cycle", new int[] { numberSpectra });
+		}
+		file.closegroup();
+	}
+
+	private void assertDimensions(GdaNexusFile file, String dataName, int[] expectedDims) throws NexusException {
+		file.opendata(dataName);
+		int[] iDim = new int[20];
+		int[] iStart = new int[2];
+		file.getinfo(iDim, iStart);
+		final int rank = iStart[0];
+		int[] shape = Arrays.copyOf(iDim, rank);
+		for (int i = 0; i < expectedDims.length; i++) {
+			assertEquals(expectedDims[i], shape[i]);
+		}
+		file.closedata();
 	}
 
 	@Test
@@ -282,28 +338,29 @@ public class EdeScanTest extends EdeTestBase {
 		groups.add(group3);
 
 		EdeCyclicExperiment theExperiment = new EdeCyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
-				"xh", "topup", shutter.getName(),3);
+				"xh", "topup", shutter.getName(), 3);
 		theExperiment.setIRefParameters(inOutBeamMotors, 0.1, 1);
 		String filename = theExperiment.runExperiment();
 
 		testNumberColumnsInEDEFile(filename, 10);
 		testNumberLinesInEDEFile(filename, (1024 * 25 * 3));
-		
+
 		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
 		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
-		
+
 		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 3);
-		
+		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 2);
+
 		testNumberColumnsInEDEFile(theExperiment.getItFilename(), 10);
 		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25 * 3));
-		
+
 		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 10);
 		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), (1024 * 25 * 3));
-		
+
 		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 10);
 		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), (1024 * 25 * 3));
 
+		testNexusStructure(theExperiment.getNexusFilename(), 25, 3);
 	}
 
 	private void testNumberLinesInEDEFile(String filename, int numExpectedLines) throws IOException {
