@@ -21,6 +21,7 @@ package uk.ac.gda.beamline.i05.views;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.rcp.views.MotorPositionViewerComposite;
+import gda.rcp.views.NudgePositionerComposite;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -46,46 +47,27 @@ public class CryoView extends ViewPart {
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(null);
 		comp.setBounds(0, 0, 720, 750);
-		{
-			MotorPositionViewerComposite lblSay = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("say")), true, "photonEnergy", 4, null, true, true);
-			lblSay.setBounds(350, 166, 120, 24);
-		}
-		{
-			MotorPositionViewerComposite lblSaz = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saz")), true, "photonEnergy", 4, null, true, true);
-			lblSaz.setBounds(212, 61, 120, 24);
-		}
-		{
-			MotorPositionViewerComposite lblSax = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sax")), true, "photonEnergy", 4, null, true, true);
-			lblSax.setBounds(72, 166, 120, 24);
-		}
-		{
-			MotorPositionViewerComposite lblSatilt = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("satilt")), true, "photonEnergy", 4, null, true, true);
-			lblSatilt.setBounds(8, 497, 120, 24);
-		}
-		{
-			MotorPositionViewerComposite lblSaploar = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sapolar")), true, "photonEnergy", 4, null, true, true);
-			lblSaploar.setBounds(212, 596, 120, 24);
-		}
-		{
-			MotorPositionViewerComposite lblSaazimuth = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "photonEnergy", 4, null, true, true);
-			lblSaazimuth.setBounds(333, 584, 120, 24);
-		}
-		{
-			MotorPositionViewerComposite lblEnergy = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("pgm_energy")), true, "photonEnergy", 4, null, true, true);
-			lblEnergy.setBounds(590, 418, 120, 24);
-		}
-//		{
-//			MotorPositionViewerComposite lblPolarisation = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("energy")), true, "photonEnergy", 4, null, true, true);
-//			lblPolarisation.setBounds(590, 393, 120, 24);
-//		}
-//		{
-//			MotorPositionViewerComposite lblEntranceslit = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("analyser_slit")), true, "photonEnergy", 4, null, true, true);
-//			lblEntranceslit.setBounds(565, 498, 120, 24);
-//		}
-//		{
-//			MotorPositionViewerComposite lblSampletemp = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "photonEnergy", 4, null, true, true);
-//			lblSampletemp.setBounds(590, 61, 120, 24);
-//		}
+		
+		NudgePositionerComposite saxBox = new NudgePositionerComposite(comp, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sax")), false);
+		saxBox.setBounds(72, 166, 97, 85);
+		
+		NudgePositionerComposite sayBox = new NudgePositionerComposite(comp, SWT.RIGHT, (Scannable)(Finder.getInstance().find("say")), false);
+		sayBox.setBounds(350, 166, 97, 85);
+		
+		NudgePositionerComposite sazBox = new NudgePositionerComposite(comp, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saz")), false);
+		sazBox.setBounds(150, 21, 97, 85);
+		
+		NudgePositionerComposite tiltBox = new NudgePositionerComposite(comp, SWT.RIGHT, (Scannable)(Finder.getInstance().find("satilt")), false);
+		tiltBox.setBounds(8, 497, 97, 85);
+		
+		NudgePositionerComposite ploarBox = new NudgePositionerComposite(comp, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sapolar")), false);
+		ploarBox.setBounds(212, 596, 97, 85);
+		
+		NudgePositionerComposite azimuthBox = new NudgePositionerComposite(comp, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saazimuth")), false);
+		azimuthBox.setBounds(333, 584, 97, 85);
+		
+		NudgePositionerComposite energyBox = new NudgePositionerComposite(comp, SWT.RIGHT, (Scannable)(Finder.getInstance().find("pgm_energy")), false);
+		energyBox.setBounds(590, 380, 97, 85);
 		
 		Label lblNewLabel = new Label(comp, SWT.BACKGROUND);
 		lblNewLabel.setImage(ResourceManager.getPluginImage("uk.ac.gda.beamline.i05", "icons/cryo.png"));
