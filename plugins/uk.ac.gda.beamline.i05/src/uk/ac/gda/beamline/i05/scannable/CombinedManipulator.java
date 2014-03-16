@@ -31,8 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import javax.crypto.spec.PSource;
-
 @CorbaAdapterClass(ScannableAdapter.class)
 @CorbaImplClass(ScannableImpl.class)
 public class CombinedManipulator extends ScannableBase {
