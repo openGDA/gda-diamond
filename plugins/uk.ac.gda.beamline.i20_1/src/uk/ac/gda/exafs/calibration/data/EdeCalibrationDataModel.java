@@ -21,11 +21,8 @@ package uk.ac.gda.exafs.calibration.data;
 import gda.scan.ede.datawriters.EdeDataConstants;
 
 public class EdeCalibrationDataModel extends CalibrationDataModel {
-
-
 	@Override
 	public void setDataFile(String fileName) throws Exception {
 		setData(fileName, EdeDataConstants.STRIP_COLUMN_NAME, EdeDataConstants.LN_I0_IT_COLUMN_NAME);
 	}
-
 }

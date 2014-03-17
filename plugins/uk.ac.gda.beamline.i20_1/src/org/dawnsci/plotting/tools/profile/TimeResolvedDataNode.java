@@ -38,13 +38,16 @@ public class TimeResolvedDataNode {
 	}
 
 	public void clearData() {
+		for (Object obj : cycles) {
+			((CycleDataNode) obj).getTimingGroups().clear();
+		}
 		cycles.clear();
 	}
 
 	public void setData(DoubleDataset timingGroupsDataset, DoubleDataset timeDataset, IntegerDataset cycleDataset) {
 
 		// TODO Refactor this! This has hard coded index numbers!
-		double[] timingGroupsData = ((DoubleDataset)timingGroupsDataset.getSlice(new int[]{0,0}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
+		double[] timingGroupsData = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,0}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
 		double[] timePerFrame = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,1}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
 		double[] time = timeDataset.getData();
 		if (timingGroupsData.length > 0) {
@@ -68,7 +71,7 @@ public class TimeResolvedDataNode {
 					spectraList = new ArrayList<SpectrumDataNode>();
 				}
 				if (cycle[i] > cycleCounter) {
-					double lastFrameDuration =timePerFrame[timePerFrame.length - 1];
+					double lastFrameDuration = timePerFrame[timePerFrame.length - 1];
 					timingGroupList.add(new TimingGroupDataNode(Integer.toString(groupCounter), lastFrameDuration, spectraList));
 					cycles.add(new CycleDataNode(Integer.toString(cycleCounter), timingGroupList));
 					cycleCounter = cycle[i];
@@ -78,7 +81,7 @@ public class TimeResolvedDataNode {
 				}
 				spectraList.add(new SpectrumDataNode(i, time[i]));
 			}
-			double lastFrameDuration =timePerFrame[timePerFrame.length - 1];
+			double lastFrameDuration = timePerFrame[timePerFrame.length - 1];
 			timingGroupList.add(new TimingGroupDataNode(Integer.toString(groupCounter), lastFrameDuration, spectraList));
 			cycles.add(new CycleDataNode(Integer.toString(cycleCounter), timingGroupList));
 		}

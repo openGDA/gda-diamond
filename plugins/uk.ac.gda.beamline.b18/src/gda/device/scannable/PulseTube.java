@@ -18,6 +18,8 @@
 
 package gda.device.scannable;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DetectorBase;
