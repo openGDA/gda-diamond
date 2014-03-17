@@ -24,7 +24,7 @@ from gdascripts.pd.time_pds import showtimeClass, waittime
 import mono_calibration 
 from vortex_elements import VortexElements
 from gda.data.scan.datawriter import NexusDataWriter
-
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
 
 
 ScanBase.interrupted = False
@@ -33,12 +33,9 @@ ScriptBase.interrupted = False
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
-print "Before datawriterconfig"
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
-print "After datawriterconfig"
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
-print "After metashop"
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
