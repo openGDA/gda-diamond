@@ -1,5 +1,12 @@
 --------------------------------------------------------------------------------
 run "scannable/continuous/try_continuous_energy.py"                             # Command start ; First data point returned ; Last data point 
+scan idu_lin_hor_energy 840 880 0.5  macr16  1 macr17 macr19                    # 
+cvscan egy              840 880 0.5  mcsr16  1 mcsr17 mcsr19                    # 
+cvscan egy              840 880 0.5  mcsr16  1 mcsr17                           # 
+cvscan egy              840 880 0.05 mcsr16 .1 mcsr17                           # 
+
+--------------------------------------------------------------------------------
+run "scannable/continuous/try_continuous_energy.py"                             # Command start ; First data point returned ; Last data point 
 pos idu_circ_pos_energy 1225
 scan pgm_energy 1220 1230 0.5 macr16 .1                                         # 2013-10-31 14:21:34 ; 2013-10-31 14:21:38 ; 2013-10-31 14:22:24
 cvscan egy      1220 1230 0.5 mcsr16 .1                                         # 2013-10-31 14:22:28 ; 2013-10-31 14:22:33 ; 2013-10-31 14:22:35
