@@ -138,6 +138,7 @@ public class SpectraRegionDataNode extends ObservableModel implements IROIListen
 	public ITrace[] createTraces(IPlottingSystem plottingSystem, IImageTrace imageTrace, IDataset energy) {
 		for (SpectrumDataNode spectrum : this.getSpectra()) {
 			DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{spectrum.getIndex(), 0}, new int[]{spectrum.getIndex() + 1, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1,1});
+			data.squeeze();
 			ILineTrace trace = plottingSystem.createLineTrace(this.getRegion().getLabel() + " (" + spectrum.getIndex() + ")");
 			trace.setData(energy, data);
 			regionTraces.add(trace);

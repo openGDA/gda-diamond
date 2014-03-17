@@ -143,7 +143,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	public static final String DATA_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/data";
 	public static final String CYCLE_AVERAGE_DATA_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_CYCLE_LN_I0_IT_WITH_AVERAGED + "/data";
 
-
 	private static final String GROUP_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/group";
 	private static final String TIME_AXIS_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/time";
 	private static final String ENERGY_SOURCE_PATH = "/entry1/instrument/xstrip/Energy";
@@ -446,8 +445,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 							if (!plottingSystem.isDisposed()) {
 								ITrace trace = TimeResolvedToolPage.this.plotSpectrum(spectrum, Integer.toString(spectrum.getIndex()));
 								spectrum.setTrace(trace);
-								plottingSystem.repaint(true);
-								spectrum.setTrace(trace);
+								plottingSystem.repaint();
 							}
 						}
 					}
@@ -734,7 +732,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			@Override
 			public void handleEvent(Event event) {
 				if (cycles > 0) {
-					DataExportUtils test = new DataExportUtils();
+					TimeResolvedDataExportUtils test = new TimeResolvedDataExportUtils();
 					test.exportAndAverageCycles(dataFile, TimeResolvedToolPage.this.getControl().getDisplay(), cycles);
 				} else {
 					MessageDialog.openWarning(TimeResolvedToolPage.this.getControl().getShell(), "Unable to process", "Cycle data unavailable");
@@ -1168,6 +1166,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		int index  = spectrum.getIndex();
 		DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{index,0}, new int[]{index + 1, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1, 1});
 		data.setName(name);
+		data.squeeze();
 		ILineTrace trace = plottingSystem.createLineTrace(name);
 		trace.setData(energy, data);
 		trace.setUserObject(spectrum);

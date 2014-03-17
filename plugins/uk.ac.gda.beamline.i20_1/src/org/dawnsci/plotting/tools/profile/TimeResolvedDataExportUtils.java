@@ -40,10 +40,11 @@ import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
-public class DataExportUtils {
+public class TimeResolvedDataExportUtils {
 
-	private static final Logger logger = LoggerFactory.getLogger(DataExportUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedDataExportUtils.class);
 	public void exportAndAverageCycles(File nexusFile, Display display, int cycles) {
 		Integer[] intArray = new Integer[cycles];
 		for (int i = 0; i <cycles; i++) {
@@ -58,7 +59,6 @@ public class DataExportUtils {
 						"Select excluded cycles");
 
 		if (dialog.open() == Window.OK) {
-
 			DirectoryDialog dlg = new DirectoryDialog(display.getActiveShell());
 			dlg.setFilterPath(nexusFile.getParent());
 			dlg.setText("Select a directory to store new data files");
@@ -103,33 +103,21 @@ public class DataExportUtils {
 			AbstractDataset reducedAbstractData = dataset.take(includedCyclesIndices, 0);
 			DoubleDataset reducedDataset = (DoubleDataset) reducedAbstractData;
 			double[][] reducedAverageData = new double[reducedDataset.getShape()[1]][reducedDataset.getShape()[2]];
-			double[][][] reducedData = new double[reducedDataset.getShape()[0]][reducedDataset.getShape()[1]][reducedDataset.getShape()[2]];
 			for (int i = 0; i < reducedDataset.getShape()[1]; i++) {
 				reducedAverageData[i] = ((DoubleDataset) reducedDataset.getSlice(new int[]{0,i,0}, new int[]{reducedDataset.getShape()[0], reducedDataset.getShape()[1], reducedDataset.getShape()[2]}, new int[]{1,reducedDataset.getShape()[1],1}).squeeze().sum(0).idivide(reducedDataset.getShape()[0])).getData();
 			}
-			double[] data = reducedDataset.getData();
-			for (int i = 0; i < reducedDataset.getShape()[0]; i++) {
-				for (int l = 0; l < reducedDataset.getShape()[1]; l++) {
-					for (int k = 0; k < reducedDataset.getShape()[2]; k++) {
-						int index = k + (i * l);
-						reducedData[i][l][k] = data[index];
-					}
-				}
-			}
-
 			NexusFile nexusFileHandle = new NexusFile(nexusFile.getAbsolutePath(), NexusFile.NXACC_RDWR);
+			String excludedStrg = DataHelper.toString(excludedCycles, ':');
 
 			nexusFileHandle.openpath(TimeResolvedToolPage.CYCLE_AVERAGE_DATA_PATH);
 			nexusFileHandle.putdata(reducedAverageData);
+			nexusFileHandle.putattr("excluded", excludedStrg.getBytes(), NexusFile.NX_CHAR);
 			nexusFileHandle.closedata();
 			nexusFileHandle.closegroup();
 			nexusFileHandle.close();
 
-
 		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO Auto-generated catch block
-
+			logger.error("");
 		}
 	}
 }
