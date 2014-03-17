@@ -11,6 +11,8 @@ from Diamond.PseudoDevices.FastEnergyScan import FastEnergyDeviceClass;
 from Diamond.PseudoDevices.FastEnergyScan import EpicsScandataDeviceClass;
 from Diamond.PseudoDevices.FastEnergyScan import EpicsWaveformDeviceClass;
 
+# Change rootPV to switch zacscan between IDs.
+#rootPV = "BL06I-MO-FSCAN-01";
 rootPV = "BL06I-MO-FSCAN-02";
 fesController = FastEnergyScanControlClass("fesController", rootPV);
 zacmode = FastEnergyScanIDModeClass("zacmode", fesController);

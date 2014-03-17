@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I06-1" uid="uk.ac.gda.beamline.i06_1.product" id="uk.ac.gda.beamline.i06-1.product" application="uk.ac.gda.client.application" version="8.34.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I06-1" uid="uk.ac.gda.beamline.i06_1.product" id="uk.ac.gda.beamline.i06-1.product" version="8.34.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -21,10 +21,10 @@ http://www.opengda.org
 
    <launcherArgs>
       <programArgs>-consolelog</programArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/i06-config/client/i06-1/pluginCustomization.ini
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/config/client/i06-1/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
--Dgda.install.git.loc=/dls_sw/i06-1/software/gda.git
+-Dgda.install.git.loc=/dls_sw/i06-1/software/gda/workspace_git
 -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda
 -Dgda.data=/dls/i06-1
 -Dgda.var=/dls/i06-1/var
