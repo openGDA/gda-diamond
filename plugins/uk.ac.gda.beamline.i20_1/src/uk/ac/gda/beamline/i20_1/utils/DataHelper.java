@@ -26,11 +26,15 @@ public class DataHelper {
 	private DataHelper() {}
 
 	public static String toString(double[] value) {
+		return DataHelper.toString(value, ',');
+	}
+
+	public static String toString(double[] value, char delimiter) {
 		StringBuilder stringBuilder = new StringBuilder();
 		if (value.length > 0) {
 			for (double selected : value) {
 				stringBuilder.append(selected);
-				stringBuilder.append(",");
+				stringBuilder.append(delimiter);
 			}
 			remoteLastComma(stringBuilder);
 		}
@@ -38,11 +42,15 @@ public class DataHelper {
 	}
 
 	public static <T> String toString(T[] value) {
+		return DataHelper.toString(value, ',');
+	}
+
+	public static <T> String toString(T[] value, char delimiter) {
 		StringBuilder stringBuilder = new StringBuilder();
 		if (value.length > 0) {
 			for (T selected : value) {
 				stringBuilder.append(selected);
-				stringBuilder.append(",");
+				stringBuilder.append(delimiter);
 			}
 			remoteLastComma(stringBuilder);
 		}
