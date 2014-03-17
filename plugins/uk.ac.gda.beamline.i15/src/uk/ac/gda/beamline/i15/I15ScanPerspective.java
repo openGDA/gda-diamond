@@ -36,22 +36,31 @@ public class I15ScanPerspective implements IPerspectiveFactory {
 		IFolderLayout leftfolder = layout.createFolder("left",
 				IPageLayout.LEFT, 0.25f, editorArea);
 		leftfolder.addView("gda.rcp.jythonterminalview");
+		leftfolder.addPlaceholder("org.eclipse.ui.navigator.ProjectExplorer");
+		leftfolder.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
 
 		IFolderLayout bottomfolder = layout.createFolder(
 				"bottom", IPageLayout.BOTTOM, 0.8f, editorArea);
 		bottomfolder.addView("ch.qos.logback.eclipse.views.LogbackView");
-		bottomfolder.addView("gda.rcp.datavectorview");
+		bottomfolder.addPlaceholder("gda.rcp.datavectorview");
 		bottomfolder.addView("gda.rcp.views.baton.BatonView");
+		bottomfolder.addView("org.dawb.workbench.plotting.views.toolPageView.1D");
+		bottomfolder.addPlaceholder("org.dawb.passerelle.views.ValueView");
+		bottomfolder.addPlaceholder("org.eclipse.ui.views.ProgressView");
+		bottomfolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 
 		IFolderLayout middlefolder = layout.createFolder("middle",
 				IPageLayout.RIGHT, 0.75f, editorArea);
-		middlefolder.addView("uk.ac.gda.client.xyplotview");
-		middlefolder.addView("uk.ac.diamond.scisoft.analysis.rcp.plotView1");
+		middlefolder.addPlaceholder("uk.ac.gda.client.xyplotview");
+		middlefolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotView1");
+		middlefolder.addView("org.dawb.workbench.views.dataSetView");
+		middlefolder.addView("org.dawb.workbench.plotting.views.toolPageView.2D");
+		middlefolder.addView("uk.ac.gda.client.liveplot.LivePlotView");
 
 		IFolderLayout rightfolder = layout.createFolder("right",
 				IPageLayout.RIGHT, 0.75f, "middle");
 		rightfolder.addView("uk.ac.gda.exafs.ui.dashboardView");
-		rightfolder.addView("uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView:Plot 1");
+		rightfolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView:Plot 1");
 		rightfolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.views.HistogramView:Plot 1");
 		
 		layout.setEditorAreaVisible(false);
