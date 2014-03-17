@@ -17,8 +17,8 @@ export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.
 
 configDir=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config
 varDir=/tmp/gda/var
-#dataDir=/tmp/gda
-dataDir=/dls/i06
+dataDir=/tmp/gda
+#dataDir=/dls/i06
 logDir=/tmp/gda/logs
 
 Properties=$configDir/properties/java.properties_mobilerack
