@@ -1,3 +1,11 @@
+--------------------------------------------------------------------------------
+run "scannable/continuous/try_continuous_energy.py"                             # Command start ; First data point returned ; Last data point 
+scan idu_lin_hor_energy 840 880 0.5  macr16  1 macr17 macr19                    # 
+cvscan egy              840 880 0.5  mcsr16  1 mcsr17 mcsr19                    # 
+cvscan egy              840 880 0.5  mcsr16  1 mcsr17                           # 
+cvscan egy              840 880 0.05 mcsr16 .1 mcsr17                           # 
+
+--------------------------------------------------------------------------------
 run "scannable/continuous/try_continuous_energy.py"                             # Command start ; First data point returned ; Last data point 
 scan idu_circ_pos_energy 770 780 0.5 macj11 1 macj116 macj117 macr1 1 macr18    # 2013-10-09 16:45:35 ; 16:46:14 ; 16:48:24 => 2:10
 cvscan egy 770 780 0.5 mcsj1 1 mcsj16 mcsj17 mcsr1 1 mcsr18                     # Failed as mcsj doesn't seem to support MCS mode (PVs fail)
