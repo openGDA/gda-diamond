@@ -49,15 +49,15 @@ def main(argv):
 
 	if location == 'remote':
 		print 'Servers are running on beamline server remotely'
-		c='/dls_sw/%s/software/gda/bin/GDA_RemoteStart_Lin' %beamline
+		c='/dls_sw/%s/software/gda/bin/GDA_RemoteStart_Lin.old' %beamline
 		a=subprocess.Popen( [c] )
 	elif location == 'local':
 		print 'Servers are running on local station'
-		c='/dls_sw/%s/software/gda/bin/GDA_LocalStart_Lin' %beamline
+		c='/dls_sw/%s/software/gda/bin/GDA_LocalStart_Lin.old' %beamline
 		a=subprocess.Popen( [c] )
 	elif location == 'mobilerack':
 		print 'Servers are running on local mobilerack'
-		c='/dls_sw/%s/software/gda/bin/GDA_LocalMobileStart_Lin' %beamline
+		c='/dls_sw/%s/software/gda/bin/GDA_LocalMobileStart_Lin.old' %beamline
 		a=subprocess.Popen( [c] )
 	else:
 		print 'No valid server location information'

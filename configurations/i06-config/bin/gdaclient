@@ -1,150 +1,51 @@
-#! /usr/bin/env python
+PROCESSES="java i06-1"
 
-import subprocess
-import getopt
-import os, sys, getpass, pwd
-import tempfile
+RUNNING=false
+WRONG_USER=false
+REBOOT=false
 
-import time
-
-beamline, gdaLauncher, configDir=[[]]*3;
-Properties,	JacorbDir, JCAFile, varDir, dataDir, logDir, wpDir=[[]]*7
-
-def main(argv):
-	global beamline, gdaLauncher, configDir
-
-	if not os.environ.has_key('BEAMLINE'):
-		os.environ['BEAMLINE'] = 'i06-1'
-	beamline=os.environ['BEAMLINE'];
-	gdaLauncher='/dls_sw/%s/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda' %beamline
-	configDir  ='/dls_sw/%s/software/gda/workspace_git/gda-mt.git/configurations/i06-config'%beamline
-
-	def setRemote():
-		global Properties,	JacorbDir, JCAFile, varDir, dataDir, logDir, wpDir
-		Properties=configDir + '/properties/java.properties_%s' %beamline
-		JacorbDir =configDir + '/properties/jacorb_%s' %beamline
-		JCAFile   =configDir + '/properties/JCALibrary.properties'
-
-		varDir='/dls/%s/var' %beamline
-		dataDir='/dls/%s' %beamline
-		logDir='/dls_sw/%s/logs' %beamline
-
-		username=os.getlogin();
-		wpDir='/tmp/.workspace-%s' %username
-			
-	def setLocal():
-		global Properties,	JacorbDir, JCAFile, varDir, dataDir, logDir, wpDir
-		Properties=configDir + '/properties/java.properties_local'
-		JacorbDir =configDir + '/properties/jacorb_local'
-		JCAFile   =configDir + '/properties/JCALibrary.properties'
-
-		varDir ='/tmp/gda/var'
-		dataDir='/tmp/gda'
-		logDir ='/tmp/gda/logs'
-
-		username=os.getlogin();
-		wpDir='/tmp/.workspace-workstation-%s' %username
-			
-	def setMobile():
-		global Properties,	JacorbDir, JCAFile, varDir, dataDir, logDir, wpDir
-		Properties=configDir + '/properties/java.properties_mobilerack'
-		JacorbDir =configDir + '/properties/jacorb_local'
-		JCAFile   =configDir + '/properties/JCALibrary.properties_mobilerack'
-
-		varDir ='/tmp/gda/var'
-#		dataDir='/tmp/gda'
-		dataDir='/dls/%s' %beamline
-		logDir ='/tmp/gda/logs'
-
-		username=os.getlogin();
-		wpDir='/tmp/.workspace-workstation-%s' %username
-		
-	def launch(reset=False):
-		if reset:
-			print 'To reset the RCP worksapce'
-			clearWorksapce(wpDir);
-			
-		#/dls_sw/${BEAMLINE}/software/gda/client/gda-${BEAMLINE} -vmargs -Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true -Dgda.install.git.loc=/dls_sw/i06-1/software/gda.git -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda -Dgda.data=$dataDir -Dgda.var=$varDir -Dgda.logs.dir=$logDir -Djacorb.config.dir=$JacorbDir -Dgda.propertiesFile=$Properties -Dgda.config=$configDir -Dgov.aps.jca.JCALibrary.properties=$JCAFile
-		c=['/dls_sw/%s/software/gda/client/gda-%s' %(beamline, beamline)]
-		c.append( '-vmargs' )
-		c.append( '-Declipse.pluginCustomization=/dls_sw/%s/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/%s/pluginCustomization.ini' %(beamline,beamline) )
-		c.append( '-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true' )
-		c.append( '-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true' )
-		c.append( '-Dgda.install.git.loc=/dls_sw/%s/software/gda/workspace_git' %beamline )
-		c.append( '-Dgda.install.workspace.loc=/dls_sw/%s/software/gda' %beamline )
-		c.append( '-Dgda.data=%s' %dataDir )
-		c.append( '-Dgda.var=%s' %varDir )
-		c.append( '-Dgda.logs.dir=%s' %logDir )
-		c.append( '-Djacorb.config.dir=%s' %JacorbDir )
-		c.append( '-Dgda.propertiesFile=%s' %Properties )
-		c.append( '-Dgda.config=%s' %configDir )
-		c.append( '-Dgov.aps.jca.JCALibrary.properties=%s' %JCAFile )
-#		print 'Final command: ', c;
-#		a=subprocess.call( c )
-		a=subprocess.Popen( c )
-#		a=subprocess.call( ['/dls_sw/i06-1/software/gda/bin/GDA_StartMobileClient'] )
-			
-	def clearWorksapce(pathToWorkspace):
-		##To remove the pathToWorkspace
-		a=subprocess.call( ['rm', '-f', '-R', pathToWorkspace] )
-			
-	def helpfun():
-		print 'Usage:' 
-		print '      gdaclient [-s|--server [remote|local|mobilerack]] [-h|--help] [-r|--reset]'
-		sys.exit(2);
-
-	# To parse the parameters and run
-	letters = 'hs:r' #the : means an argument needs to be passed after the letter
-	keywords = ['help=', 'server=', 'reset' ] # the = means that a value is expected after the keyword
-
-	#opts is a list containing the pair "option"/"value"
-	#extraparms are extra arguments passed after all option/keywords are assigned
-	try:
-		opts, extraparams = getopt.getopt(sys.argv[1:], letters, keywords);
-	except getopt.GetoptError:
-		helpfun()
-		
-#	print 'Opts:', opts
-#	print 'Extra parameters:', extraparams
-#	print '---------------------------------'
-
-	server='remote'
-	helpme=False
-	reset=False
-
-	for o,p in opts:
-		if o in ['-s','--server']:
-			server = p
-		elif o in ['-h','--help']:
-			helpme = True
-		elif o in ['-r','--reset']:
-			reset = True
-
-	if helpme:
-		helpfun()
-
-	if reset:
-		print 'Reset the worksapce'
-
-	if server == 'remote':
-		print 'To starting a client that connecting to beamline server'
-		setRemote()
-		launch(reset);
-	elif server == 'local':
-		print 'To starting a client that connecting to servers on local workstation'
-		setLocal()
-		launch(reset);
-	elif server == 'mobilerack':
-		print 'To starting a client that connecting to servers on the mobilerack'
-		setMobile()
-		launch(reset);
-	else:
-		print 'No valid server location information'
-		helpfun();
-
-if __name__ == "__main__":
-	main(sys.argv[1:]);#starts at the second element of argv since the first one is the script name
+# Try to kill any processes left hanging around.
+#
+for process in $PROCESSES
+do
+if [ `uname` = "Linux" ]
+  then
+    echo kill -9 `ps -ef --cols 6000 | grep "$process" | grep -v grep | awk '{print $2}'` 
+    kill -9 `ps -ef --cols 6000 | grep "$process" | grep -v grep | awk '{print $2}'` 
+else
+  echo kill -9 `ps -ef | grep "$process" | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
+  kill -9 `ps -ef | grep "$process" | grep -v grep | awk '{print $2}'` > /dev/null 2>&1
+fi
+done
+#
+# Test if processes are still running
+#
+for process in $PROCESSES
+do
+  if [ `uname` = "Linux" ]
+    then
+      output=`ps -ef --cols 6000 | grep "$process" | grep -v grep | awk '{print $2}'`
+  else
+    output=`ps -ef | grep "$process" | grep -v grep | awk '{print $2}'`
+  fi
+  if [ -n "$output" ]
+    then
+      RUNNING=true
+      USERS=`ps -ef --cols 6000 | grep "$process" | grep -v grep | awk '{print $1}'`
+      for user in $USERS
+      do
+        if [ "$user" != "$USER" ]
+          then
+            echo "Resistant process identifier \"$process\" owned by $user"
+            WRONG_USER=true
+        fi
+      done
+      REBOOT=true
+  fi
+done
+#
 
 
-#a=subprocess.call( ['ls', '-l', '.' ] )
 
+
+/dls_sw/i06-1/software/gda/client/gda-i06-1 -consoleLog -showLocation --launcher.appendVmargs -vmargs -Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true -Dgda.install.git.loc=/dls_sw/i06-1/software/gda/workspace_git -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda -Dgda.data=/dls/i06-1 -Dgda.var=/dls/i06-1/var -Dgda.logs.dir=/dls_sw/i06-1/logs -Djacorb.config.dir=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/jacorb_i06-1 -Dgda.propertiesFile=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/java.properties_i06-1 -Dgda.config=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/JCALibrary.properties
