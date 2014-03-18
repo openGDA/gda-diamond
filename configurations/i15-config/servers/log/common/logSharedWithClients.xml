@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <!-- display message in Logger Server's console -->
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern>
+        </layout>
+    </appender>
+    <consolePlugin />
+
+    <!-- enable this if you want log message appear on local console -->
+    <appender name="LogPanel" class="gda.util.LogPanelAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date %-5level [%logger{36}] - %m%n</pattern>
+        </layout>
+    </appender>
+
+    <appender name="DebugPanel" class="gda.util.DebugPanelAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date %-5level [%logger] - %m%n</pattern>
+        </layout>
+    </appender>
+
+    <logger name="gda">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="gda.device.corba.impl">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="gda.device.detector.areadetector">
+        <level value="ALL"/>
+    </logger>
+
+    <logger name="gda.epics.connection.EpicsController">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="gda.jython.corba.impl.JythonImpl">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="gda.device.detector.mar345">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="gda.device.zebra.ZebraConstantVelocityMoveController">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="gda.epics.LazyPVFactory">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="gda.util.ElogEntry">
+        <level value="INFO"/>
+        <appender-ref ref="ELOG"/>
+    </logger> 
+</included>

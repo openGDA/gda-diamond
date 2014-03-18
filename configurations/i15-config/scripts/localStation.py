@@ -92,8 +92,8 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	xreye2x, xreye2y,\
 	bs2x, bs2y,\
 	\
-	d1, d2, d3, d4, d5, d6, d7, d8, d9,\
-	cryox, cryoy, cryoz, cryorot\
+	d1, d2, d3, d4, d5, d6, d7, d8, d9\
+#	,cryox, cryoy, cryoz, cryorot\
 
 #	det2z,
 
@@ -650,8 +650,9 @@ try:
 				bs2x, bs2y,
 				#det2z,
 				d1, d2, d3, d4, d5, d6, d7, d8, d9,
-				d1sum, d2sum, d3sum, d4sum, d5sum,
-				cryox, cryoy, cryoz, cryorot)
+				d1sum, d2sum, d3sum, d4sum, d5sum
+				#cryox, cryoy, cryoz, cryorot
+				)
 			setmeta_ret=setmeta(*stdmetadatascannables)
 			simpleLog("Standard metadata scannables: " + setmeta_ret)
 			#return ''

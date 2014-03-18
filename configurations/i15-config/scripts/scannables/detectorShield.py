@@ -78,3 +78,49 @@ class DetectorShield(ScannableBase):
     def pfuncname(self):
         import traceback
         return "%s" % traceback.extract_stack()[-2][2]
+
+'''
+def openMarShield():
+    """
+    Open Detector shield
+    """
+    try:
+        status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
+        if (status == 0):
+            simpleLog("Detector shield already open")
+        else:
+            beamline.setValue("Top","-RS-ABSB-06:CON", 0)
+            
+            # wait and check shield has opened
+            sleep(3)
+            status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
+            if (status == 0):
+                simpleLog("Detector shield opened")
+            else:
+                simpleLog("Detector shield failed to open - status is: " + `status`)
+    except:
+        typ, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "Problem opening Detector shield - ", typ, exception, traceback)
+
+def closeMarShield():
+    """
+    Close Detector shield
+    """
+    try:
+        status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
+        if (status == 1):
+            simpleLog("Detector shield already closed")
+        else:
+            beamline.setValue("Top","-RS-ABSB-06:CON", 1)
+            
+            # wait and check shield has closed
+            sleep(3)
+            status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
+            if (status == 1):
+                simpleLog("Detector shield closed")
+            else:
+                simpleLog("Detector shield failed to close - status is: " + `status`)
+    except:
+        typ, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "Problem closing mar shield - ", typ, exception, traceback)
+'''

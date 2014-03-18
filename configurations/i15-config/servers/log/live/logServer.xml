@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <!-- display message in Logger Server's console -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern>
-        </layout>
-    </appender>
+<configuration debug="true"> <!-- Add debug="true" in here to log logback configuration -->
+
+    <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
+    <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
+
+    <!-- include file is relative to the application directory -->
+
+    <!-- DebugFILE                                                                             servers/log/common/logServer.xml -->
+    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/> -->
+    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/>
+
+    <!-- Console                                                                               servers/log/common/logSharedWithClients.xml -->
+    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/> -->
+    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
+
+    <!-- WS001_LogPanel WS005_LogPanel WS005_LogPanel                                          servers/log/live/logSharedWithClients.xml"/> -->
+    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/live/logSharedWithClients.xml"/> -->
+    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/live/logSharedWithClients.xml"/>
+
     <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
     <appender name="WS001" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i15-ws001.diamond.ac.uk</RemoteHost>
         <Port>6789</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-    <appender name="WS001_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws001.diamond.ac.uk</RemoteHost>
-        <Port>6790</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
@@ -25,36 +31,13 @@
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
-    <appender name="WS002_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws002.diamond.ac.uk</RemoteHost>
-        <Port>6790</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
     <appender name="WS005" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i15-ws005.diamond.ac.uk</RemoteHost>
         <Port>6789</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
-    <appender name="WS005_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws005.diamond.ac.uk</RemoteHost>
-        <Port>6790</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
 	
-
-    <appender name="DebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${gda.logs.dir}/gda_server.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level %logger - %m %ex %n</pattern>
-        </layout>
-    </appender>
-
     <!--<appender name="HTMLFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${gda.logs.dir}/lastLogServerEntries.html</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -86,22 +69,7 @@
         	<pattern>%-5level [%logger] %ex - %m%n</pattern>
         </layout>	    
     </appender-->    
-    
-    <logger name="gda">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.detector.mar345">
-        <level value="INFO"/>
-    </logger>    
-    <logger name="gda.device.zebra.ZebraConstantVelocityMoveController">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.corba.impl">
-        <level value="INFO"/>
-    </logger>    
-    <logger name="gda.jython.corba.impl.JythonImpl">
-        <level value="INFO"/>
-    </logger>
+
     <root>
         <level value="INFO"/>
         <appender-ref ref="WS001"/>

@@ -36,8 +36,10 @@
 	<bean id="mar_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureUnsynchronisedExternalShutter">
 		<constructor-arg ref="marAD_config_base" />
 		<constructor-arg value="-1" />
-		<constructor-arg value="5" />
+		<constructor-arg value="10" />
 	</bean>
+	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
+	     dkphi set to minimumAccelerationDistance=0.004-->
 
 	<!-- NXDetector file writers -->
 
@@ -61,7 +63,13 @@
 
 	<!-- NXDetectors -->
 
-	<!-- 
+	<!-- Ideally I would like to use HardwareTriggeredNXDetectorWithReadoutTime for both
+		expose and rockScan, but for some reason using it for the expose results in an error like:
+		2014-03-04 16:36:17,100 INFO  gda.jython.logger.RedirectableFileLogger -  | 
+			java.lang.Exception: during scan collection: DeviceException: java.lang.IllegalArgumentException:
+			This single exposure triggering strategy expects to expose only 1 image, asked to expose 0
+	
+	<bean id="mar" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 	 -->
 	<bean id="marHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="mar"/>
