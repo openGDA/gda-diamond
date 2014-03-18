@@ -387,7 +387,10 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 					new UpdateValueStrategy() {
 						@Override
 						public Object convert(Object value) {
-							return ((AbsorptionEdge) value).getEdgeType();
+							if (value != null) {
+								return ((AbsorptionEdge) value).getEdgeType();
+							}
+							return null;
 						}
 					});
 

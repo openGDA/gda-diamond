@@ -147,7 +147,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	private final PropertyChangeListener listener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if(evt.getNewValue() != null) {
+			if(evt.getNewValue() != null && !evt.getPropertyName().equals(AUGGESTED_PARAMETERS_PROP_KEY)) {
 				getCalculations();
 			}
 		}
@@ -203,10 +203,11 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		this.setEdge(null);
 		this.firePropertyChange(ELEMENT_PROP_NAME, null, this.element = element);
 		this.firePropertyChange(ELEMENT_EDGES_NAMES_PROP_NAME, null, getElementEdges());
-		if (currentEdge == null || !crystalCut.getElementsInEnergyRange().get(element).contains(currentEdge.getEdgeType())) {
-			this.setEdge(element.getEdge(crystalCut.getElementsInEnergyRange().get(element).iterator().next()));
+		List<String> elementNames = crystalCut.getElementsInEnergyRange().get(element);
+		if (currentEdge == null || !elementNames.contains(currentEdge.getEdgeType())) {
+			this.setEdge(element.getEdge(elementNames.iterator().next()));
 		} else {
-			this.setEdge(currentEdge);
+			this.setEdge(element.getEdge(currentEdge.getEdgeType()));
 		}
 	}
 
