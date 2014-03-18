@@ -53,7 +53,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -110,7 +109,7 @@ public class LatestFileNameCompositeFactory implements CompositeFactory, Initial
 	}
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
+	public Composite createComposite(Composite parent, int style) {
 		final Image toLatestImage = GDAClientActivator.getImageDescriptor("icons/control_end_blue.png").createImage();
 		final Image toStartImage = GDAClientActivator.getImageDescriptor("icons/control_start_blue.png").createImage();
 		final Image backOneImage = GDAClientActivator.getImageDescriptor("icons/control_rewind_blue.png").createImage();

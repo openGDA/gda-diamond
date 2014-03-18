@@ -45,7 +45,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.springframework.beans.factory.InitializingBean;
 
 import uk.ac.gda.ui.utils.SWTUtils;
@@ -97,8 +96,8 @@ public class MetadataObjectCompositeFactory implements CompositeFactory, Initial
 	}
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new MetadataObjectComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), getLabel(),
+	public Composite createComposite(Composite parent, int style) {
+		return new MetadataObjectComposite(parent, style, getLabel(),
 				entry, outputFormat, unitString, styleChoice, comboChoices, columnWidth);
 	}
 
@@ -174,22 +173,22 @@ public class MetadataObjectCompositeFactory implements CompositeFactory, Initial
 		testMetadata.addMetadataEntry(testEntry2);
 		GDAMetadataProvider.setInstanceForTesting(testMetadata);
 
-		final MetadataObjectComposite compo = new MetadataObjectComposite(shell, SWT.NONE, display, "hello", testEntry,
+		final MetadataObjectComposite compo = new MetadataObjectComposite(shell, SWT.NONE, "hello", testEntry,
 				"%s", null, LABEL_STYLE, new String[] {}, 1);
 		GridDataFactory.fillDefaults().applyTo(compo);
 		compo.setVisible(true);
 
-		final MetadataObjectComposite compo2 = new MetadataObjectComposite(shell, SWT.NONE, display, "hello2",
+		final MetadataObjectComposite compo2 = new MetadataObjectComposite(shell, SWT.NONE, "hello2",
 				testEntry, "%s", "", COMBOBOX_STYLE, new String[] { "first choice", "second choice" }, 1);
 		GridDataFactory.fillDefaults().applyTo(compo2);
 		compo2.setVisible(true);
 
-		final MetadataObjectComposite compo3 = new MetadataObjectComposite(shell, SWT.NONE, display, "hello3",
+		final MetadataObjectComposite compo3 = new MetadataObjectComposite(shell, SWT.NONE, "hello3",
 				testEntry, "%s","", TEXTAREA_STYLE, new String[] {}, 1);
 		GridDataFactory.fillDefaults().applyTo(compo3);
 		compo3.setVisible(true);
 		
-		final MetadataObjectComposite compo4 = new MetadataObjectComposite(shell, SWT.NONE, display, "hello4",
+		final MetadataObjectComposite compo4 = new MetadataObjectComposite(shell, SWT.NONE, "hello4",
 				testEntry2, "###.##","mm", LABEL_STYLE, new String[] {}, 1);
 		GridDataFactory.fillDefaults().applyTo(compo4);
 		compo4.setVisible(true);
@@ -213,11 +212,10 @@ class MetadataObjectComposite extends Composite {
 	private String styleChoice;
 	private String unitString = "";
 
-	public MetadataObjectComposite(Composite parent, int style, Display display, String label,
+	public MetadataObjectComposite(Composite parent, int style, String label,
 			final IMetadataEntry entry, String outputFormat, String unitString, String styleChoice, String[] comboChoices,
 			Integer columnWidth) {
 		super(parent, style);
-		this.display = display;
 		this.label = label;
 		this.entry = entry;
 		this.outputFormat = outputFormat;

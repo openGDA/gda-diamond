@@ -33,7 +33,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -49,15 +48,15 @@ public class EnumCheckboxCompositeFactory implements CompositeFactory, Initializ
 	private String unselectedString;
 	private String selectedString;
 
-	public static Composite createComposite(Composite parent, int style, final Display display, String label,
+	public static Composite createComposite(Composite parent, int style, String label,
 			final Scannable scannable, final String selectedString, String unselectedString, String tooltip) {
-		return new EnumCheckboxComposite(parent, style, display, label, scannable, selectedString, unselectedString,
+		return new EnumCheckboxComposite(parent, style, label, scannable, selectedString, unselectedString,
 				tooltip);
 	}
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new EnumCheckboxComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), label, scannable,
+	public Composite createComposite(Composite parent, int style) {
+		return new EnumCheckboxComposite(parent, style, label, scannable,
 				selectedString, unselectedString, tooltip);
 	}
 
@@ -114,11 +113,11 @@ public class EnumCheckboxCompositeFactory implements CompositeFactory, Initializ
 		DummyEnumPositioner positioner = new DummyEnumPositioner();
 		positioner.setName("positioner");
 		positioner.setPositions(new String []{ "on", "off"});
-		final EnumCheckboxComposite comp = new EnumCheckboxComposite(shell, SWT.NONE, display, "My Label", positioner, "on", "off",
+		final EnumCheckboxComposite comp = new EnumCheckboxComposite(shell, SWT.NONE, "My Label", positioner, "on", "off",
 				"tooltip");
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
-		final EnumCheckboxComposite comp1 = new EnumCheckboxComposite(shell, SWT.NONE, display, "My Label", positioner, "on", "off",
+		final EnumCheckboxComposite comp1 = new EnumCheckboxComposite(shell, SWT.NONE, "My Label", positioner, "on", "off",
 		"tooltip");
 		comp1.setLayoutData(BorderLayout.SOUTH);
 		comp1.setVisible(true);
@@ -143,9 +142,10 @@ class EnumCheckboxComposite extends Composite {
 	final private String selectedString;
 	final private Scannable enumScannable;
 
-	EnumCheckboxComposite(Composite parent, int style, final Display display, String label,
+	EnumCheckboxComposite(Composite parent, int style, String label,
 			final Scannable enumScannable, final String selectedString, final String unselectedString, String tooltip) {
 		super(parent, style);
+		final Display display = parent.getDisplay();
 		this.selectedString = selectedString;
 		this.enumScannable = enumScannable;
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(this);

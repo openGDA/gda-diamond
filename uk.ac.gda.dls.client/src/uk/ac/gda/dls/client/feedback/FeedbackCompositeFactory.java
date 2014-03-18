@@ -19,14 +19,13 @@
 package uk.ac.gda.dls.client.feedback;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IWorkbenchPartSite;
 
 import gda.rcp.views.CompositeFactory;
 
 public class FeedbackCompositeFactory implements CompositeFactory {
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
+	public Composite createComposite(Composite parent, int style) {
 		FeedbackComposite fc = new FeedbackComposite(parent);
 		Composite c = fc.createComponents();
 		return c;

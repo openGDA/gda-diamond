@@ -39,7 +39,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -107,8 +106,8 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 	}
 	
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new LinearPositionerComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), positioner, label, labelWidth, contentWidth, lowScale, highScale);
+	public Composite createComposite(Composite parent, int style) {
+		return new LinearPositionerComposite(parent, style, positioner, label, labelWidth, contentWidth, lowScale, highScale);
 	}
 
 	public static void main(String... args) {
@@ -132,7 +131,7 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 			System.out.println("Can not move dummy to position 1");
 		}
 		
-		final LinearPositionerComposite comp = new LinearPositionerComposite(shell, SWT.NONE, display, dummy, "", new Integer(100), new Integer(200), new Integer(0), new Integer(60));
+		final LinearPositionerComposite comp = new LinearPositionerComposite(shell, SWT.NONE, dummy, "", new Integer(100), new Integer(200), new Integer(0), new Integer(60));
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();
@@ -165,9 +164,9 @@ class LinearPositionerComposite extends Composite {
 	private Runnable setSlideRunnable;
 	String [] formats;
 
-	LinearPositionerComposite(Composite parent, int style, final Display display, ScannableMotion positioner, String label, Integer labelWidth, Integer contentWidth, Integer lowScale, Integer highScale) {
+	LinearPositionerComposite(Composite parent, int style, ScannableMotion positioner, String label, Integer labelWidth, Integer contentWidth, Integer lowScale, Integer highScale) {
 		super(parent, style);
-		this.display = display;
+		this.display = parent.getDisplay();
 		this.positioner = positioner;
 		this.labelWidth=labelWidth;
 		this.contentWidth=contentWidth;
