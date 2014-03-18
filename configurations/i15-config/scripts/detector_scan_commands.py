@@ -5,6 +5,8 @@ from gdascripts.pd.dummy_pds import DummyPD
 from shutterCommands import openEHShutter, closeEHShutter
 from gda.device.scannable import ScannableBase
 from gdascripts.parameters import beamline_parameters
+from gda.device.detector import NXDetector
+from gdascripts.utils import caget, caput
 
 # If the functions or defaults values below change, please update the user wiki
 # page: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Exposures%20and%20scans%20using%20mar%2C%20ccd%2C%20Pilatus%2C%20etc.
@@ -140,7 +142,7 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		sampleSuffix="rockScan_test", d1out=True, d2out=True):
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
 	
-	hardwareTriggeredNXDetector = _configureDetector(detector, noOfRocks, sampleSuffix)
+	hardwareTriggeredNXDetector = _configureDetector(detector, noOfRocks, sampleSuffix, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis)
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
@@ -158,6 +160,9 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 						   sc1
 						 ])
 	scan.runScan()
+	
+	print "Moving %s back to %r" % (axis.name, centre)
+	axis.moveTo(centre)
 
 """
 def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
@@ -185,38 +190,59 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	scan.runScan()
 """
 
-def _configureDetector(detector, numberOfExposures, sampleSuffix):
-	supportedDetectors = ('mar', 'pe')
-	if not (detector.name in supportedDetectors):
-		raise Exception('Detector %r not in the list of supported detectors: %r' % (detector.name, supportedDetectors))
-	
+def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	
-	if detector.name == "mar":
-		hardwareTriggeredNXDetector = jythonNameMap.marHWT
-	elif detector.name == "pe":
-		hardwareTriggeredNXDetector = jythonNameMap.peHWT
+	supportedDetectors = {'mar':jythonNameMap.marHWT
+						, 'marHWT':detector
+						, 'pe': detector
+						}
+	
+	if supportedDetectors.has_key(detector.name):
+		hardwareTriggeredNXDetector = supportedDetectors[detector.name]
 	else:
-		raise Exception('Error configuring detector %r' % (detector.name))
+		raise Exception('Detector %r not in the list of supported detectors: %r' % (detector.name, supportedDetectors.keys()))
 	
-	detector.hdfwriter.setFileTemplate(		"%s%s.hdf5")
-	detector.hdfwriter.setFilePathTemplate(	"$datadir$")
-	detector.hdfwriter.setFileNameTemplate(	"$scan$-%s-" % detector.name + sampleSuffix)
+	# Ideally we would want to set the mar cam filename according to the scan number
+	#	BL15I-EA-MAR-01:CAM:FilePath_RBV = /tmp/mar345	=
+	#	BL15I-EA-MAR-01:CAM:FileName =     image		"$scan$-%s-" % (detector.name, sampleSuffix)
+	#	BL15I-EA-MAR-01:CAM:FileTemplate = %s%s_$03d	=
+	# Sadly NXDetector doesn't support this.
+	# Also we would need to reset the FileNumber to 1 for each scan:
+	#	BL15I-EA-MAR-01:CAM:FileNumber = 1
 	
-	detector.tifwriter.setFileTemplate(		"%s%s%05d.tif")
-	if numberOfExposures == 1:
-		detector.tifwriter.setFilePathTemplate(	"$datadir$/")
-		detector.tifwriter.setFileNameTemplate(	"$scan$-%s-" % detector.name + sampleSuffix)
+	filePathTemplate="$datadir$/"
+	fileNameTemplate="$scan$-%s-%s-" % (detector.name, sampleSuffix)
+	fileTemplate="%s%s"
+	
+	detector.hdfwriter.setFileTemplate(fileTemplate+".hdf5")
+	detector.hdfwriter.setFilePathTemplate(filePathTemplate)
+	detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
+	
+	if numberOfExposures != 1:
+		filePathTemplate="$datadir$/$scan$-%s-files-%s-" % (detector.name, sampleSuffix)
+		fileNameTemplate=""
+		fileTemplate="%s%s%05d"	# One image per file
+	
+	detector.tifwriter.setFileTemplate(fileTemplate+".tif")
+	detector.tifwriter.setFilePathTemplate(filePathTemplate)
+	detector.tifwriter.setFileNameTemplate(fileNameTemplate)
+	
+	darkSubtractionPVs=_darkSubtractionPVs(hardwareTriggeredNXDetector)
+	if darkSubtractionPVs:
+		darkSubtractionArray = caget(darkSubtractionPVs['array']+"EnableBackground_RBV")
+		darkSubtractionLive =  caget(darkSubtractionPVs['live'] +"EnableBackground_RBV")
+		darkSubtraction = darkSubtractionArray + " on array and " + darkSubtractionLive + " on live"
 	else:
-		detector.tifwriter.setFilePathTemplate(	"$datadir$/$scan$-%s-files-" % detector.name + sampleSuffix)
-		detector.tifwriter.setFileNameTemplate(	"")
-	
+		darkSubtraction = "unavailable"
+	print "Dark subtraction " + darkSubtraction + " for detector " + hardwareTriggeredNXDetector.name
+
 	return hardwareTriggeredNXDetector
 
 def expose(detector, exposureTime=1, noOfExposures=1,
 		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
-	_configureDetector(detector, noOfExposures, sampleSuffix)
+	_configureDetector(detector, noOfExposures, sampleSuffix, dark=False)
 
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	detectorShield = jythonNameMap.ds
@@ -231,15 +257,44 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	scan.runScan()
 
 def darkExpose(detector, exposureTime=1, 
-		sampleSuffix="darkExpose_test", d1out=True, d2out=True):
+		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
-	_configureDetector(detector, 1, sampleSuffix)
+	_configureDetector(detector, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
 
-	scan = ConcurrentScan([DiodeController(d1out, d2out, exposeDarkFlag=True), 1, 1, 1,
-						   detector, exposureTime,
-						 ])
+	darkSubtractionPVs = _darkSubtractionPVs(detector)
+	if not darkSubtractionPVs:
+		raise Exception('No support for dark subtraction on detector %r' % (detector.name))
+	
+	print "Dark subtraction is " + caget(darkSubtractionPVs['array']+"EnableBackground_RBV") + " on array"
+	print "Dark subtraction is " + caget(darkSubtractionPVs['live'] +"EnableBackground_RBV") + " on live"
+
+	print "Disabling dark subtraction before dark collection"
+	caput(darkSubtractionPVs['array']+"EnableBackground", 0)
+	caput(darkSubtractionPVs['live' ]+"EnableBackground", 0)
+	
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	detectorShield = jythonNameMap.ds
+	numExposuresPD = DummyPD("exposure")
+
+	scan = ConcurrentScan([numExposuresPD, 1, 1, 1,
+						   detectorShield,
+						   DiodeController(d1out, d2out, exposeDarkFlag=True),
+						   detector, exposureTime ])
 	scan.runScan()
 
+	print "Saving dark image into area detector after dark collection"
+	caput(darkSubtractionPVs['array']+"SaveBackground", 1)
+	caput(darkSubtractionPVs['live' ]+"SaveBackground", 1)
+
+	print "Enabling dark subtraction"
+	caput(darkSubtractionPVs['array']+"EnableBackground", 1)
+	caput(darkSubtractionPVs['live' ]+"EnableBackground", 1)
+
+def _darkSubtractionPVs(detector):
+	if detector.name in ("pe"):
+		return {'array':"BL15I-EA-DET-01:PROC3:", 'live':"BL15I-EA-DET-01:PROC1:"}
+	else:
+		return None
 """
 def darkExpose(detector, exposureTime=1, noOfExposures=1,
 		fileName="dark_expose_test", d1out=True, d2out=True):

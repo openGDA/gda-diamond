@@ -9,16 +9,76 @@
 	<import resource="../../../main/common/device/peAreaDetector.xml"/>
 	<!-- Devices which are defined in Epics but not needed by the client are defined below -->
 
+	<bean id="peAD_summary_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:ROI1:" />
+	</bean>
+
 	<bean id="peAD_summary_roi2" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ROI2:" />
+	</bean>
+
+	<bean id="peAD_summary_roi3" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:ROI3:" />
+	</bean>
+
+	<bean id="peAD_summary_roi4" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:ROI4:" />
+	</bean>
+
+	<bean id="peAD_summary_roi5" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:ROI5:" />
+	</bean>
+
+	<bean id="peAD_summary_roi6" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:ROI6:" />
+	</bean>
+
+	<bean id="peAD_summary_proc1" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:PROC1:" />
 	</bean>
 
 	<bean id="peAD_summary_proc2" class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:PROC2:" />
 	</bean>
 
+	<bean id="peAD_summary_proc3" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:PROC3:" />
+	</bean>
+
+	<bean id="peAD_summary_proc4" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:PROC4:" />
+	</bean>
+
+	<bean id="peAD_summary_proc5" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:PROC5:" />
+	</bean>
+
+	<bean id="peAD_summary_proc6" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:PROC6:" />
+	</bean>
+
+	<bean id="peAD_summary_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:STAT1:" />
+	</bean>
+
 	<bean id="peAD_summary_stat2" class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:STAT2:" />
+	</bean>
+
+	<bean id="peAD_summary_stat3" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:STAT3:" />
+	</bean>
+
+	<bean id="peAD_summary_stat4" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:STAT4:" />
+	</bean>
+
+	<bean id="peAD_summary_stat5" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:STAT5:" />
+	</bean>
+
+	<bean id="peAD_summary_stat6" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-01:STAT6:" />
 	</bean>
 
 	<bean id="pe_UnixToWindowsFilePathConverter" class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
@@ -27,7 +87,7 @@
 	</bean>
 
 	<bean id="pe_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL15I-EA-DET-01:TIF:" />
+		<property name="prefix" value="BL15I-EA-DET-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter" ref="pe_UnixToWindowsFilePathConverter" />
 	</bean>
@@ -35,15 +95,11 @@
 	<bean id="pe_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl">
 			<bean class="gda.spring.V17NDFileFactoryBean">
-				<property name="prefix" value="BL15I-EA-DET-01:HDF:" />
+				<property name="prefix" value="BL15I-EA-DET-01:HDF5:" />
 				<property name="resetToInitialValues" value="false" />
 				<property name="filePathConverter" ref="pe_UnixToWindowsFilePathConverter" />
 			</bean>
 		</property>
-	</bean>
-
-	<bean id="peAD_summary_mjpg2" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL15I-EA-DET-01:MPG2:" />
 	</bean>
 
 	<!-- NXDetector collection strategies -->
@@ -71,6 +127,18 @@
 	</bean>
 	 -->
 
+	<!-- MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
+	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" 
+		  class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter">
+		<constructor-arg ref="peAD_config_base" />
+		<constructor-arg value="-1" />
+		<constructor-arg value="10" />
+		<property name="ndProcess" ref="peAD_summary_proc2" />
+		<property name="readAcquireTimeFromHardware" value="True" />
+	</bean>
+	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
+	     dkphi set to minimumAccelerationDistance=0.004-->
+
 	<!-- NXDetector file writers -->
 
 	<bean id="pe_hdf5_MultipleImagesPerHDF5FileWriter"
@@ -85,11 +153,14 @@
 		<property name="lazyOpen" value="true" />
 		<!-- TODO: While we can set ndArrayPortVal from here, this filewriter may be used by detectors with different collection
 			 strategies so we should have the option to take the filewriter port from the collection Strategy. For example: -->
-		<!-- When using pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy this needs to be set we need to use pe1.proc2
+		<!-- When using pe_SingleExposureStandardCollectionStrategy it needs to be set to pe1.cam, but 
+			 When using pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy without dark subtraction this needs to be set
+			 we need to use pe1.proc.proc2 and with dark subtraction it needs to be set we need to use pe1.proc.proc3
 		 -->
-		<property name="ndArrayPortVal" value="pe1.proc2" />
-		<!-- When using pe_SingleExposureStandardCollectionStrategy however needs to be set we need to use pe1.cam1
-		<property name="ndArrayPortVal" value="pe1.cam1" />
+		<property name="ndArrayPortVal" value="pe1.proc.proc3" />
+		<!--
+		<property name="ndArrayPortVal" value="pe1.proc.proc2" />
+		<property name="ndArrayPortVal" value="pe1.cam" />
 		 -->
 	</bean>
 
@@ -102,22 +173,28 @@
 		<property name="keyNameForMetadataPathTemplate" value="pe_path_template" />
 		<!-- TODO: While we can set ndArrayPortVal from here, this filewriter may be used by detectors with different collection
 			 strategies so we should have the option to take the filewriter port from the collection Strategy. For example: -->
-		<!-- When using pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy this needs to be set we need to use pe1.proc2
+		<!-- When using pe_SingleExposureStandardCollectionStrategy it needs to be set to pe1.cam, but 
+			 When using pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy without dark subtraction this needs to be set
+			 we need to use pe1.proc.proc2 and with dark subtraction it needs to be set we need to use pe1.proc.proc3
 		 -->
-		<property name="ndArrayPortVal" value="pe1.proc2" />
-		<!-- When using pe_SingleExposureStandardCollectionStrategy however needs to be set we need to use pe1.cam1
-		<property name="ndArrayPortVal" value="pe1.cam1" />
+		<property name="ndArrayPortVal" value="pe1.proc.proc3" />
+		<!--
+		<property name="ndArrayPortVal" value="pe1.proc.proc2" />
+		<property name="ndArrayPortVal" value="pe1.cam" />
 		 -->
 	</bean>
 
 	<!-- NXDetectors -->
 
-	<bean id="pe" class="gda.device.detector.NXDetector">
-		<property name="name" value="pe" />
+	<bean id="pe" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="pe"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<!-- If switching to this, don't forget to switch the ndArrayPortVal properties above
 		<property name="collectionStrategy" ref="pe_SingleExposureStandardCollectionStrategy" />
-		 -->
 		<property name="collectionStrategy" ref="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
+		 -->
+		<property name="collectionStrategy" ref="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" />
+
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pe_hdf5_MultipleImagesPerHDF5FileWriter" />
