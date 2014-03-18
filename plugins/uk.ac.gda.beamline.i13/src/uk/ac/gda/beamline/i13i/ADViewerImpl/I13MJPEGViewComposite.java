@@ -113,7 +113,7 @@ public class I13MJPEGViewComposite extends Composite {
 			tabs.afterPropertiesSet();
 			cf = tabs;
 		}
-		cf.createComposite(c, SWT.NONE, null);
+		cf.createComposite(c, SWT.NONE);
 
 		Composite composite = new Composite(top, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
