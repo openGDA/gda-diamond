@@ -20,7 +20,7 @@
 	</bean>
 
 	<bean id="marAD_summary_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL15I-EA-MAR-01:MJPG2:" />
+		<property name="prefix" value="BL15I-EA-MAR-01:MPG2:" />
 	</bean>
 
 	<bean id="marAD_summary_proc" class="gda.spring.V17NDProcessFactoryBean">
