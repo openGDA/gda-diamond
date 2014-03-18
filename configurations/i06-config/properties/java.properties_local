@@ -30,7 +30,7 @@ gda.server.logging.port = 6000
 # port used by logPanel application to receive messages - normally from logserver; default 6002
 gda.logPanel.logging.port=6002
 
-gda.defVisit = cm5931-1
+gda.defVisit = cm4956-1
 
 ## For Camera data storage
 gda.data.directoryMappingGDA 	 = ${gda.data}
