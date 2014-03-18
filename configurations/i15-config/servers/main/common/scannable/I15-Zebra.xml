@@ -12,8 +12,16 @@
 		<property name="local" value="true" />
 		<property name="mode" value="1"/>
 		<property name="pcPulseGateNotTrigger" value="true"/>
-		<property name="minimumAccelerationDistance" value="0"/>
+		<property name="minimumAccelerationDistance" value="0.008"/>
 	</bean>
+	<!-- minimumAccelerationDistance is calculated from MRES=0.001deg *2 may need MRES*32=0.032 
+		 Failed with 0.002 minimumAccelerationDistance
+		 Found instances where requested position differed by 0.007, so use 0.008
+		 Different failure with 0.032 minimumAccelerationDistance
+		 -->
+	<!-- Note, if minimumAccelerationDistance changes, we probably need to set a new collectionExtensionTimeS on all
+		 detector UnsynchronisedExternalShutterNXCollectionStrategy.
+		 -->
 
 	<bean id="dkphiZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="DkphiMotor" />
