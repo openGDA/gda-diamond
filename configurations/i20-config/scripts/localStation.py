@@ -24,7 +24,7 @@ from gdascripts.pd.time_pds import showtimeClass, waittime
 import mono_calibration 
 from vortex_elements import VortexElements
 from gda.data.scan.datawriter import NexusDataWriter
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
 
 
 ScanBase.interrupted = False
@@ -83,7 +83,6 @@ alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
-alias("meta_clear")
 
 current_store_tracker = "none"
 
