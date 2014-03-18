@@ -25,6 +25,15 @@ echo
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 echo
 
+GDA_VAR=$(readlink -f $GDA_ROOT/../var)
+if [ -d $GDA_VAR ]; then
+	export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
+	echo OBJECT_SERVER_STARTUP_FILE=$OBJECT_SERVER_STARTUP_FILE
+else
+	zenity --title "Error starting GDA Server" --error --text "$GDA_VAR does not exist. Please contact your GDA representative." 
+	exit
+fi
+
 if [ "$GDA_MODE" = "live" ]; then
 	
 	echo Fix the OD PC issues
@@ -84,34 +93,31 @@ if [ "$GDA_MODE" = "live" ]; then
 		echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 	fi
 	
-	ssh  -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk
-	OK=$?
+	# Work around problem with ssh where remotestartupscript.sh completes, but ssh doesn't return. 
+	ssh -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk &
+	# Run in backgroud and wait for OBJECT_SERVER_STARTUP_FILE here. Note that due to network filesystem this is *much* less responsive
+	# but should start the client eventually, unlike ssh which may hand forever.
 	
-	# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
-	
-	if [ $OK != 0 ]; then
-	  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
-	  exit
-	fi
-
+	# Prevent asking for passwords, just fail
+	#  -o "BatchMode yes"
+	# Don't use stdin: -n 
+	#ssh -n -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk
+	#OK=$?
+	#
+	## 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
+	#
+	#if [ $OK != 0 ]; then
+	#  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
+	#  exit
+	#fi
 else
-
-	GDA_VAR=$(readlink -f $GDA_ROOT/../var)
-	if [ -d $GDA_VAR ]; then
-		export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
-		echo OBJECT_SERVER_STARTUP_FILE=$OBJECT_SERVER_STARTUP_FILE
-	else
-		echo ERROR: $GDA_VAR does not exist.
-		exit
-	fi
 	rm -f $OBJECT_SERVER_STARTUP_FILE
 	
 	$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/GDA_StartServers --mode=dummy
-	
-	# look for the output file which will tell us when the servers have started
-	
-	$GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/lookForFile $OBJECT_SERVER_STARTUP_FILE
 fi
+
+# look for the output file which will tell us when the servers have started
+$GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/lookForFile $OBJECT_SERVER_STARTUP_FILE Client
 
 #
 # wait for the remote command, which will look for the output file which will
