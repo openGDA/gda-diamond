@@ -44,9 +44,11 @@
 		<property name="dummyMode" value="true"/>
 	</bean>
 
+	<!-- 
 	<bean class="gda.factory.EpicsDeviceObjectCreator">
 		<property name="name" value="${gda.factory.factoryName}"></property>
 	</bean>
+	 -->
 
 	<!-- id="prop" not available in dummy -->	
 
