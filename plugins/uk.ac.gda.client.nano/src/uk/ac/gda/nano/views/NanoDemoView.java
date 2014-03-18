@@ -114,7 +114,7 @@ public class NanoDemoView extends ViewPart {
 				logger.error("Unable to find the composite factory " + findableGroupCompositeFactoryName, e);
 			}
 		
-		Composite c=((FindableGroupCompositeFactory)(findable)).createComposite(base, SWT.NONE, this.getSite());
+		Composite c=((FindableGroupCompositeFactory)(findable)).createComposite(base, SWT.NONE);
 		
 		return c;
 	}

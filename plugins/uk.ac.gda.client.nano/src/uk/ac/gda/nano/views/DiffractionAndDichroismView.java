@@ -112,7 +112,7 @@ public class DiffractionAndDichroismView extends ViewPart {
 				logger.error("Unable to find a gcf1", e);
 			}
 		
-		Composite c=((FindableGroupCompositeFactory)(findable)).createComposite(base, SWT.NONE, this.getSite());
+		Composite c=((FindableGroupCompositeFactory)(findable)).createComposite(base, SWT.NONE);
 		
 		return c;
 	}
