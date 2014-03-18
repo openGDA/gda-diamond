@@ -1,0 +1,362 @@
+digraph G {
+  ranksep=1
+  compound=true;
+  ratio = fill
+  graph [ overlap=false rankdir = "LR" ];
+  node [ shape=box ];
+  subgraph cluster_source { rank = source;
+#    IN1_TTL;
+#    IN1_NIM;
+#    IN1_LVDS;
+#    IN2_TTL;
+#    IN2_NIM;
+#    IN2_LVDS;
+#    IN3_TTL;
+    IN3_OC;
+#    IN3_LVDS;
+#    IN4_TTL;
+#    IN4_CMP;
+#    IN4_PECL;
+#    IN5_ENCA;
+#    IN5_ENCB;
+#    IN5_ENCZ;
+#    IN5_CONN;
+#    IN6_ENCA;
+#    IN6_ENCB;
+#    IN6_ENCZ;
+#    IN6_CONN;
+#    IN7_ENCA;
+#    IN7_ENCB;
+#    IN7_ENCZ;
+#    IN7_CONN;
+#    IN8_ENCA;
+#    IN8_ENCB;
+#    IN8_ENCZ;
+#    IN8_CONN;
+    CLOCK_1KHZ;
+    CLOCK_1MHZ;
+  }
+  subgraph cluster_sink { rank = sink;
+#    OUT1_TTL;
+#    OUT1_NIM;
+#    OUT1_LVDS;
+#    OUT2_TTL;
+#    OUT2_NIM;
+#    OUT2_LVDS;
+#    OUT3_TTL;
+    OUT3_OC;
+#    OUT3_LVDS;
+#    OUT4_TTL;
+#    OUT4_NIM;
+#    OUT4_PECL;
+#    OUT5_ENCA;
+#    OUT5_ENCB;
+#    OUT5_ENCZ;
+#    OUT5_CONN;
+#    OUT6_ENCA;
+#    OUT6_ENCB;
+#    OUT6_ENCZ;
+#    OUT6_CONN;
+#    OUT7_ENCA;
+#    OUT7_ENCB;
+#    OUT7_ENCZ;
+#    OUT7_CONN;
+#    OUT8_ENCA;
+#    OUT8_ENCB;
+#    OUT8_ENCZ;
+#    OUT8_CONN;
+  }
+
+  subgraph cluster_AND1 {
+    AND1_INP1 -> AND1
+    AND1_INP2 -> AND1
+    AND1_INP3 -> AND1
+    AND1_INP4 -> AND1
+#    AND1_INV  -> AND1;
+#    AND1_ENA  -> AND1;
+  }
+  subgraph cluster_1 {
+    AND2_INP1 -> AND2
+    AND2_INP2 -> AND2
+    AND2_INP3 -> AND2
+    AND2_INP4 -> AND2
+#    AND2_INV  -> AND2;
+#    AND2_ENA  -> AND2;
+  }
+  subgraph cluster_2 {
+    AND3_INP1 -> AND3
+    AND3_INP2 -> AND3
+    AND3_INP3 -> AND3
+    AND3_INP4 -> AND3
+#    AND3_INV  -> AND3;
+#    AND3_ENA  -> AND3;
+  }
+  subgraph cluster_3 {
+    AND4_INP1 -> AND4
+    AND4_INP2 -> AND4
+    AND4_INP3 -> AND4
+    AND4_INP4 -> AND4
+#    AND4_INV  -> AND4;
+#    AND4_ENA  -> AND4;
+  }
+  subgraph cluster_4 {
+#    OR1_INP1 -> OR1
+#    OR1_INP2 -> OR1
+#    OR1_INP3 -> OR1
+#    OR1_INP4 -> OR1
+##    OR1_INV  -> OR1;
+##    OR1_ENA  -> OR1;
+  }
+  subgraph cluster_5 {
+#    OR2_INP1 -> OR2
+#    OR2_INP2 -> OR2
+#    OR2_INP3 -> OR2
+#    OR2_INP4 -> OR2
+##    OR2_INV  -> OR2;
+##    OR2_ENA  -> OR2;
+  }
+  subgraph cluster_6 {
+    OR3_INP1 -> OR3
+    OR3_INP2 -> OR3
+    OR3_INP3 -> OR3
+    OR3_INP4 -> OR3
+#    OR3_INV  -> OR3;
+#    OR3_ENA  -> OR3;
+  }
+  subgraph cluster_7 {
+#    OR4_INP1 -> OR4
+#    OR4_INP2 -> OR4
+#    OR4_INP3 -> OR4
+#    OR4_INP4 -> OR4
+##    OR4_INV  -> OR4;
+##    OR4_ENA  -> OR4;
+  }
+  subgraph cluster_8 {
+#    GATE1_INP1 -> GATE1
+#    GATE1_INP2 -> GATE1
+  }
+  subgraph cluster_9 {
+#    GATE2_INP1 -> GATE2
+#    GATE2_INP2 -> GATE2
+  }
+  subgraph cluster_10 {
+#    GATE3_INP1 -> GATE3
+#    GATE3_INP2 -> GATE3
+  }
+  subgraph cluster_11 {
+#    GATE4_INP1 -> GATE4
+#    GATE4_INP2 -> GATE4
+  }
+  subgraph cluster_12 {
+    DIV1_INP -> DIV1
+    DIV1 -> DIV1_OUTD
+    DIV1 -> DIV1_OUTN
+  }
+  subgraph cluster_13 {
+    DIV2_INP -> DIV2
+    DIV2 -> DIV2_OUTD
+    DIV2 -> DIV2_OUTN
+  }
+  subgraph cluster_14 {
+    DIV3_INP -> DIV3
+    DIV3 -> DIV3_OUTD
+    DIV3 -> DIV3_OUTN
+  }
+  subgraph cluster_15 {
+    DIV4_INP -> DIV4
+    DIV4 -> DIV4_OUTD
+    DIV4 -> DIV4_OUTN
+  }
+  subgraph cluster_16 {
+#    PULSE1_INP -> PULSE1
+##    PULSE1_DLY -> PULSE1
+##    PULSE1_WID -> PULSE1
+##    PULSE1_PRE -> PULSE1
+  }
+  subgraph cluster_17 {
+#    PULSE2_INP -> PULSE2
+##    PULSE2_DLY -> PULSE2
+##    PULSE2_WID -> PULSE2
+##    PULSE2_PRE -> PULSE2
+  }
+  subgraph cluster_18 {
+#    PULSE3_INP -> PULSE3
+##    PULSE3_DLY -> PULSE3
+##    PULSE3_WID -> PULSE3
+##    PULSE3_PRE -> PULSE3
+  }
+  subgraph cluster_19 {
+#    PULSE4_INP -> PULSE4
+##    PULSE4_DLY -> PULSE4
+##    PULSE4_WID -> PULSE4
+##    PULSE4_PRE -> PULSE4
+  }
+  subgraph cluster_20 {
+    PC_ARM_INP -> PC -> PC_ARM 
+    PC_GATE_INP -> PC -> PC_GATE 
+    PC_PULSE_INP -> PC -> PC_PULSE 
+  }
+# ####################################################################
+#; Setup for a zebra box
+#[regs]
+PC_BIT_CAP = 977
+AND1_INV = 0
+AND2_INV = 0
+AND3_INV = 0
+AND4_INV = 0
+AND1_ENA = 3
+AND2_ENA = 3
+AND3_ENA = 3
+AND4_ENA = 3
+PC_ARM -> AND1_INP1 [ label = "29" ]
+CLOCK_1KHZ -> AND1_INP2 [ label = "58" ]
+#DISCONNECT -> AND1_INP3 [ label = "0" ]
+#DISCONNECT -> AND1_INP4 [ label = "0" ]
+PC_GATE -> AND2_INP1 [ label = "30" ]
+CLOCK_1KHZ -> AND2_INP2 [ label = "58" ]
+#DISCONNECT -> AND2_INP3 [ label = "0" ]
+#DISCONNECT -> AND2_INP4 [ label = "0" ]
+IN3_OC -> AND3_INP1 [ label = "8" ]
+CLOCK_1KHZ -> AND3_INP2 [ label = "58" ]
+#DISCONNECT -> AND3_INP3 [ label = "0" ]
+#DISCONNECT -> AND3_INP4 [ label = "0" ]
+PC_PULSE -> AND4_INP1 [ label = "31" ]
+CLOCK_1KHZ -> AND4_INP2 [ label = "58" ]
+#DISCONNECT -> AND4_INP3 [ label = "0" ]
+#DISCONNECT -> AND4_INP4 [ label = "0" ]
+#OR1_INV = 0
+#OR2_INV = 0
+OR3_INV = 0
+#OR4_INV = 0
+#OR1_ENA = 0
+#OR2_ENA = 0
+OR3_ENA = 3
+#OR4_ENA = 0
+##DISCONNECT -> OR1_INP1 [ label = "0" ]
+##DISCONNECT -> OR1_INP2 [ label = "0" ]
+##DISCONNECT -> OR1_INP3 [ label = "0" ]
+##DISCONNECT -> OR1_INP4 [ label = "0" ]
+##DISCONNECT -> OR2_INP1 [ label = "0" ]
+##DISCONNECT -> OR2_INP2 [ label = "0" ]
+##DISCONNECT -> OR2_INP3 [ label = "0" ]
+##DISCONNECT -> OR2_INP4 [ label = "0" ]
+PC_PULSE -> OR3_INP1 [ label = "31" ]
+SOFT_IN3 -> OR3_INP2 [ label = "62" ]
+#DISCONNECT -> OR3_INP3 [ label = "0" ]
+#DISCONNECT -> OR3_INP4 [ label = "0" ]
+##DISCONNECT -> OR4_INP1 [ label = "0" ]
+##DISCONNECT -> OR4_INP2 [ label = "0" ]
+##DISCONNECT -> OR4_INP3 [ label = "0" ]
+##DISCONNECT -> OR4_INP4 [ label = "0" ]
+##DISCONNECT -> GATE1_INP1 [ label = "0" ]
+##DISCONNECT -> GATE2_INP1 [ label = "0" ]
+##DISCONNECT -> GATE3_INP1 [ label = "0" ]
+##DISCONNECT -> GATE4_INP1 [ label = "0" ]
+##DISCONNECT -> GATE1_INP2 [ label = "0" ]
+##DISCONNECT -> GATE2_INP2 [ label = "0" ]
+##DISCONNECT -> GATE3_INP2 [ label = "0" ]
+##DISCONNECT -> GATE4_INP2 [ label = "0" ]
+DIV1_DIVLO = 10000
+DIV1_DIVHI = 0
+DIV2_DIVLO = 10000
+DIV2_DIVHI = 0
+DIV3_DIVLO = 10000
+DIV3_DIVHI = 0
+DIV4_DIVLO = 10000
+DIV4_DIVHI = 0
+AND1 -> DIV1_INP [ label = "32" ]
+AND2 -> DIV2_INP [ label = "33" ]
+AND3 -> DIV3_INP [ label = "34" ]
+AND4 -> DIV4_INP [ label = "35" ]
+#PULSE1_DLY = 0
+#PULSE2_DLY = 0
+#PULSE3_DLY = 0
+#PULSE4_DLY = 0
+#PULSE1_WID = 1000
+#PULSE2_WID = 1000
+#PULSE3_WID = 1000
+#PULSE4_WID = 1000
+#PULSE1_PRE = 50000
+#PULSE2_PRE = 50000
+#PULSE3_PRE = 50000
+#PULSE4_PRE = 50000
+##DISCONNECT -> PULSE1_INP [ label = "0" ]
+##DISCONNECT -> PULSE2_INP [ label = "0" ]
+##DISCONNECT -> PULSE3_INP [ label = "0" ]
+##DISCONNECT -> PULSE4_INP [ label = "0" ]
+POLARITY = 0
+#DISCONNECT -> QUAD_DIR [ label = "0" ]
+#DISCONNECT -> QUAD_STEP [ label = "0" ]
+#DISCONNECT -> PC_ARM_INP [ label = "0" ]
+CLOCK_1KHZ -> PC_GATE_INP [ label = "58" ]
+#DISCONNECT -> PC_PULSE_INP [ label = "0" ]
+##DISCONNECT -> OUT1_TTL [ label = "0" ]
+##DISCONNECT -> OUT1_NIM [ label = "0" ]
+##DISCONNECT -> OUT1_LVDS [ label = "0" ]
+##DISCONNECT -> OUT2_TTL [ label = "0" ]
+##DISCONNECT -> OUT2_NIM [ label = "0" ]
+##DISCONNECT -> OUT2_LVDS [ label = "0" ]
+##DISCONNECT -> OUT3_TTL [ label = "0" ]
+OR3 -> OUT3_OC [ label = "38" ]
+##DISCONNECT -> OUT3_LVDS [ label = "0" ]
+##DISCONNECT -> OUT4_TTL [ label = "0" ]
+##DISCONNECT -> OUT4_NIM [ label = "0" ]
+##DISCONNECT -> OUT4_PECL [ label = "0" ]
+#IN5_ENCA -> OUT5_ENCA [ label = "13" ]
+#IN5_ENCB -> OUT5_ENCB [ label = "14" ]
+#IN5_ENCZ -> OUT5_ENCZ [ label = "15" ]
+#IN5_CONN -> OUT5_CONN [ label = "16" ]
+#IN6_ENCA -> OUT6_ENCA [ label = "17" ]
+#IN6_ENCB -> OUT6_ENCB [ label = "18" ]
+#IN6_ENCZ -> OUT6_ENCZ [ label = "19" ]
+#IN6_CONN -> OUT6_CONN [ label = "20" ]
+#IN7_ENCA -> OUT7_ENCA [ label = "21" ]
+#IN7_ENCB -> OUT7_ENCB [ label = "22" ]
+#IN7_ENCZ -> OUT7_ENCZ [ label = "23" ]
+#IN7_CONN -> OUT7_CONN [ label = "24" ]
+#IN8_ENCA -> OUT8_ENCA [ label = "25" ]
+#IN8_ENCB -> OUT8_ENCB [ label = "26" ]
+#IN8_ENCZ -> OUT8_ENCZ [ label = "27" ]
+#IN8_CONN -> OUT8_CONN [ label = "28" ]
+SYS_RESET = 0
+SOFT_IN = 0
+POS1_SETLO = 0
+POS1_SETHI = 0
+POS2_SETLO = 0
+POS2_SETHI = 0
+POS3_SETLO = 0
+POS3_SETHI = 0
+POS4_SETLO = 0
+POS4_SETHI = 0
+#PC_ENC = 0
+PC_TSPRE = 5000
+PC_ARM_SEL = 0
+PC_ARM = 1
+PC_DISARM = 1
+PC_GATE_SEL = 1
+PC_GATE_STARTLO = 20000
+PC_GATE_STARTHI = 0
+PC_GATE_WIDLO = 60000
+PC_GATE_WIDHI = 0
+PC_GATE_NGATELO = 1
+PC_GATE_NGATEHI = 0
+PC_GATE_STEPLO = 0
+PC_GATE_STEPHI = 0
+PC_PULSE_SEL = 1
+PC_PULSE_STARTLO = 0
+PC_PULSE_STARTHI = 0
+PC_PULSE_WIDLO = 50000
+PC_PULSE_WIDHI = 0
+PC_PULSE_STEPLO = 50000
+PC_PULSE_STEPHI = 0
+PC_PULSE_MAXLO = 1
+PC_PULSE_MAXHI = 0
+PC_DIR = 0
+PC_PULSE_DLYLO = 50000
+PC_PULSE_DLYHI = 0
+SYS_VER = 32
+PC_NUM_CAPHI = 0
+# ####################################################################
+  labelloc="t";
+  label="My Diagram";
+}
