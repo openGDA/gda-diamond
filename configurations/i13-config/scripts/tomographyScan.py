@@ -254,14 +254,14 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     if dataKey is None:
         raise "Unable to find data in file"
     dataset=nxdata[dataKey]
-    dark=dnp.array((dataset[0,:,:])._jdataset().cast(6))
-    flat=dnp.array((dataset[imagesPerDark,:,:])._jdataset().cast(6))
-    image=dnp.array((dataset[imagesPerDark+imagesPerFlat,:,:])._jdataset().cast(6))
+    dark=dnp.array(dataset[0,:,:]).astype(dnp.float64)
+    flat=dnp.array(dataset[imagesPerDark,:,:]).astype(dnp.float64)
+    image=dnp.array(dataset[imagesPerDark+imagesPerFlat,:,:]).astype(dnp.float64)
     imageD=image-dark
     flatD=flat-dark
     t=imageD/flatD
 #    t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
-    t.name=lsdp.getScanIdentifier() + " image-dark/flat-dark"
+    t._jdataset().name=lsdp.getScanIdentifier() + " (image-dark)/(flat-dark)"
     hdfData = Hdf5HelperData(t.shape, t._jdataset().buffer)
     locs = HDF5HelperLocations("entry1")
     locs.add(tomography_detector.getName())

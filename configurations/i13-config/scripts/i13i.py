@@ -97,5 +97,6 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
 12. To use the fast shutter in a normal repscan of pco1_hw_hdf ( not a tomography scan) use the command:
     pco1_hw_hdf.collectionStrategy.useShutterPV=True
     
-    
+13. After restarting the PCO camera IOC you need to run the command:
+    >setupPCOCopy()
 """
