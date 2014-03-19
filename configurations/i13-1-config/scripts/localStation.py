@@ -326,3 +326,5 @@ import excalibur_config
 
 
 run("localStationUser.py")
+
+run("startup_pie725")
