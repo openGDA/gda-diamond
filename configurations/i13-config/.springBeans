@@ -136,6 +136,23 @@
 		<config>clients/main/d4.xml</config>
 		<config>clients/main/d5.xml</config>
 		<config>devices/zebra_test.xml</config>
+		<config>clients/main/float1.xml</config>
+		<config>clients/main/float2.xml</config>
+		<config>devices/central_stop.xml</config>
+		<config>devices/condenser.xml</config>
+		<config>devices/epics/central_stop_motors.xml</config>
+		<config>devices/epics/condenser_motors.xml</config>
+		<config>devices/epics/float1.xml</config>
+		<config>devices/epics/float2.xml</config>
+		<config>devices/epics/phase_ring_motors.xml</config>
+		<config>devices/epics/pinhole_motors.xml</config>
+		<config>devices/epics/zone_plate_motors.xml</config>
+		<config>devices/float1.xml</config>
+		<config>devices/float2.xml</config>
+		<config>devices/phase_ring.xml</config>
+		<config>devices/pinhole.xml</config>
+		<config>devices/zone_plate.xml</config>
+		<config>devices/p2r.xml</config>
 	</configs>
 	<configSets>
 	</configSets>
