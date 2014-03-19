@@ -40,6 +40,7 @@
 	<import resource="epics/motor/s6.xml" />
 	<import resource="epics/motor/s7.xml" />
 	<import resource="epics/motor/s8.xml" />
+	<import resource="epics/motor/s9.xml" />
 	<import resource="epics/motor/tbbase.xml" />
 	<import resource="epics/motor/tb3.xml" />
 	<import resource="epics/motor/tb2.xml" />
@@ -66,6 +67,7 @@
 	<import resource="epics/detector/mca_vortex.xml" />
 	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
 	<import resource="epics/detector/medipix.xml" />
+	<import resource="epics/detector/pcoedge.xml" />
 
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
