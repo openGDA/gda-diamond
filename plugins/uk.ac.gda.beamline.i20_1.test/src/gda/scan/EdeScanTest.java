@@ -191,7 +191,7 @@ public class EdeScanTest extends EdeTestBase {
 
 	@Test
 	public void testStepScan() throws Exception {
-		setup("testExperimentUsingStepScan");
+		setup("testStepScan");
 		LocalProperties.set("gda.nexus.createSRS", "true");
 		ScannableMotor xScannable = createMotor("xScannable");
 		StepScanXHDetector ssxh = new StepScanXHDetector();
@@ -312,7 +312,7 @@ public class EdeScanTest extends EdeTestBase {
 
 	@Test
 	public void testSimpleCyclicExperiment() throws Exception {
-		setup("testCyclicLinearExperiment");
+		setup("testSimpleCyclicExperiment");
 
 		List<TimingGroup> groups = new ArrayList<TimingGroup>();
 
