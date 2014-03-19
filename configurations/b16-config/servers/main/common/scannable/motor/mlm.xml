@@ -97,6 +97,20 @@
 		<constructor-arg value="3" />
 		<constructor-arg value="StoT" />
 	</bean>
+	<bean id="RuB4C_Xtal2Roll_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="RuB4C_Xtal2Roll_converter" />
+		<constructor-arg value="RuB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="4" />
+		<constructor-arg value="StoT" />
+	</bean>
+	<bean id="RuB4C_XtalXTrans_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="RuB4C_XtalXTrans_converter" />
+		<constructor-arg value="RuB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="5" />
+		<constructor-arg value="StoT" />
+	</bean>
 
 	<bean id="NiB4C_Xtal1Bragg_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="NiB4C_Xtal1Bragg_converter" />
@@ -126,6 +140,13 @@
 		<constructor-arg value="4" />
 		<constructor-arg value="StoT" />
 	</bean>
+	<bean id="NiB4C_XtalXTrans_converter" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="NiB4C_XtalXTrans_converter" />
+		<constructor-arg value="NiB4C_converter.txt" />
+		<constructor-arg value="0" />
+		<constructor-arg value="5" />
+		<constructor-arg value="StoT" />
+	</bean>
 
 
 	<bean id="RuB4C_Xtal1Bragg" class="gda.device.scannable.ConvertorScannable">
@@ -141,6 +162,16 @@
 	<bean id="RuB4C_Xtal2Z" class="gda.device.scannable.ConvertorScannable">
 		<property name="scannable" ref="mlmXtal2Z" />
 		<property name="convertor" ref="RuB4C_Xtal2Z_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="RuB4C_Xtal2Roll" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmXtal2Roll" />
+		<property name="convertor" ref="RuB4C_Xtal2Roll_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	<bean id="RuB4C_X" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmX" />
+		<property name="convertor" ref="RuB4C_XtalXTrans_converter" />
 		<property name="initialUserUnits" value="keV" />
 	</bean>
 
@@ -164,6 +195,12 @@
 		<property name="convertor" ref="NiB4C_Xtal2Roll_converter" />
 		<property name="initialUserUnits" value="keV" />
 	</bean>
+	<bean id="NiB4C_X" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="mlmX" />
+		<property name="convertor" ref="NiB4C_XtalXTrans_converter" />
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+
 
 	<bean id="NiB4C" class="gda.device.scannable.CoupledScannable">
 		<property name="scannables">
@@ -172,6 +209,7 @@
 				<ref bean="NiB4C_Xtal2Bragg"/>
 				<ref bean="NiB4C_Xtal2Z"/>
 				<ref bean="NiB4C_Xtal2Roll"/>
+				<ref bean="NiB4C_X" />
 			</list>
 		</property>
 	</bean>
@@ -181,10 +219,14 @@
 				<ref bean="RuB4C_Xtal1Bragg"/>
 				<ref bean="RuB4C_Xtal2Bragg"/>
 				<ref bean="RuB4C_Xtal2Z"/>
+				<ref bean="RuB4C_Xtal2Roll"/>
+				<ref bean="RuB4C_X" />
 			</list>
 		</property>
 		<property name="functions">
 			<list>
+				<bean class="gda.function.IdentityFunction"></bean>
+				<bean class="gda.function.IdentityFunction"></bean>
 				<bean class="gda.function.IdentityFunction"></bean>
 				<bean class="gda.function.IdentityFunction"></bean>
 				<bean class="gda.function.IdentityFunction"></bean>
