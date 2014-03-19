@@ -33,10 +33,6 @@ print "Initialization Started";
 
 finder = Finder.getInstance()
 
-# gdaConfigDir = LocalProperties.get("gda.config")
-# gdaConfigDir = gdaConfigDir + "/"
-
-
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Create topup , beam, detector-filling, beam monitors to pause and resume scans"
     topupMonitor = TopupScannable()
@@ -78,25 +74,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     archiver = IcatXMLCreator()
     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
-# TEMP SWITCHED OFF!  17/12/13 RJW
-#    micosx=SetPvAndWaitForCallbackWithSeparateReadback2(
-#        "micosx", "ME07M-EA-PIEZO-03:MMC:01:DEMAND",
-#                       "ME07M-EA-PIEZO-03:MMC:01:POS:ENC", 20, 0.000001)
-#    micosy=SetPvAndWaitForCallbackWithSeparateReadback2(
-#        "micosy", "ME07M-EA-PIEZO-03:MMC:02:DEMAND",
-#                       "ME07M-EA-PIEZO-03:MMC:02:POS:ENC", 20, 0.000001)
-#     micosx=DummyMonitor()
-#     micosx.setName("micosx")
-#     micosy=DummyMonitor()
-#     micosy.setName("micosy")
-    
 else:
-#     micosx=DummyMonitor()
-#     micosx.setName("micosx")
-#     micosy=DummyMonitor()
-#     micosy.setName("micosy")
-    traj1PositionReader = finder.find("traj1PositionReader")
-    traj3PositionReader = finder.find("traj3PositionReader")
     traj1xmap = finder.find("traj1xmap")
     traj3xmap = finder.find("traj3xmap")
 
@@ -120,7 +98,7 @@ xas =  I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueue
 
 non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
 raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress)
-raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress)
+raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress)
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
@@ -138,21 +116,6 @@ alias("raster_map")
 alias("raster_map_return_write")
 
 test = DummyScannable("test")
-
-# gdaRoot = LocalProperties.get("gda.root")
-# gdaConfigDir = LocalProperties.get("gda.config")
-# gdaConfigDir = gdaConfigDir + "/"
-
-# global mapRunning
-# mapRunning = 0
-
-#cid = CidPhotoDiode('cid', 'BL18I-DI-PHDGN-08')
-#cid.setExtraNames(['CID_Rminusdiode', 'CID_Rplusdiode', 'CID_Lminusdiode', 'CID_Lplusdiode']) 
-#cid.setOutputFormat(['%4.10f', '%4.10f', '%4.10f', '%4.10f'])
-
-# # TODO is this needed?
-# raster_xspress.setInputNames([])
-# raster_xmap.setInputNames([])
 
 if (LocalProperties.get("gda.mode") == 'live'):
     photonccd.setOutputFolderRoot("x:/data/2014/sp9114-1/xrd/")
