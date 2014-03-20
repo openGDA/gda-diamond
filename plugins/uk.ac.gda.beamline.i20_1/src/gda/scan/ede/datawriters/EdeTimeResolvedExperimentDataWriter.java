@@ -80,7 +80,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		i0FinalLightScan = i0FinalScan;
 		this.iRefFinalScan = iRefFinalScan;
 		this.theDetector = theDetector;
-		timeResolvedNexusFileHelper = new TimeResolvedNexusFileHelper(nexusfileName, theDetector.getName());
+		timeResolvedNexusFileHelper = new TimeResolvedNexusFileHelper(nexusfileName);
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		// the itData.
 		validateData();
 		createI0File();
-		timeResolvedNexusFileHelper.openNexusFile();
+		timeResolvedNexusFileHelper.openNexusFile(theDetector.getName());
 		createItFiles();
 		if (iRefScan != null) {
 			createIRefFile();

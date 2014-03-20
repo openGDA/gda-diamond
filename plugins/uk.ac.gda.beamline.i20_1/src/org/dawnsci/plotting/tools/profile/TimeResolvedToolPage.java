@@ -19,7 +19,7 @@
 package org.dawnsci.plotting.tools.profile;
 
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
-import gda.scan.ede.datawriters.TimeResolvedDataExportUtil;
+import gda.scan.ede.datawriters.TimeResolvedNexusFileHelper;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -100,8 +100,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
@@ -165,7 +163,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private Binding selectedSpectraBinding;
 
-	TimeResolvedDataExportUtil timeResolvedDataExportUtil = new TimeResolvedDataExportUtil();
+	TimeResolvedNexusFileHelper timeResolvedNexusFileHelper;
 
 	// TODO Review the page lifecycle
 	private boolean spectraDataLoaded = false;
@@ -215,15 +213,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				}
 
 				timeResolvedData = new TimeResolvedDataNode();
-
-				//				if (dataHolder.contains(CYCLE_AXIS_PATH)) {
-				//					ILazyDataset cycle = dataHolder.getLazyDataset(CYCLE_AXIS_PATH);
-				//					timeResolvedData.setData(
-				//							(DoubleDataset) groups.getSlice(),
-				//							(DoubleDataset) time.getSlice(),
-				//							(IntegerDataset) cycle.getSlice());
-				//				} else {
-
 				timeResolvedData.setData(
 						(DoubleDataset) groups.getSlice(),
 						(DoubleDataset) time.getSlice(),
@@ -235,6 +224,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				}
 				populateSpectraRegion();
 				spectraDataLoaded = true;
+				timeResolvedNexusFileHelper = new TimeResolvedNexusFileHelper(path);
 			}
 
 		} catch (Exception e) {
@@ -665,7 +655,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			@Override
 			public void handleEvent(Event event) {
 				if (cycles > 0) {
-					timeResolvedDataExportUtil.averageCyclesAndExport(dataFile, TimeResolvedToolPage.this.getControl().getDisplay(), cycles);
+					timeResolvedNexusFileHelper.averageCyclesAndExport(dataFile, TimeResolvedToolPage.this.getControl().getDisplay(), cycles);
 				} else {
 					MessageDialog.openWarning(TimeResolvedToolPage.this.getControl().getShell(), "Unable to process", "Cycle data unavailable");
 				}
@@ -961,7 +951,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		saveNexusToolItem.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				timeResolvedDataExportUtil.averageSpectrumAndExport(dataFile, saveNexusToolItem.getDisplay(), (SpectraRegionDataNode[]) spectraRegionList.toArray(new SpectraRegionDataNode[]{}));
+				timeResolvedNexusFileHelper.averageSpectrumAndExport(dataFile, saveNexusToolItem.getDisplay(), (SpectraRegionDataNode[]) spectraRegionList.toArray(new SpectraRegionDataNode[]{}));
 			}
 		});
 	}
@@ -974,31 +964,10 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private void createPlotView(Composite parent) {
-		TabFolder folder = new TabFolder(parent, SWT.NONE);
-		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gridData.horizontalSpan = 2;
-		folder.setLayoutData(gridData);
-		TabItem plottingTab = new TabItem(folder, SWT.NONE);
-		plottingTab.setText("Plotting");
-		createPlottingComposite(folder, plottingTab);
-		TabItem energySelectionTab = new TabItem(folder, SWT.NONE);
-		energySelectionTab.setText("Energy selection");
-		createEnergySelectionComposite(folder, energySelectionTab);
-	}
-
-	private void createEnergySelectionComposite(TabFolder folder, TabItem tab) {
-		hyperComponent = new HyperComponent(this.getPart());
-		hyperComponent.createControl(folder);
-		hyperComponent.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		tab.setControl(hyperComponent.getControl());
-		//setDataForEnergySelection();
-	}
-
-	private void createPlottingComposite(TabFolder folder, TabItem tab) {
-		Composite plotParent = new Composite(folder, SWT.None);
+		Composite plotParent = new Composite(parent, SWT.None);
 		plotParent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		plotParent.setLayout(new GridLayout(1, false));
-		tab.setControl(plotParent);
+		// tab.setControl(plotParent);
 		ActionBarWrapper actionbarWrapper = ActionBarWrapper.createActionBars(plotParent, null);
 		try {
 			if (plottingSystem == null) {
@@ -1017,7 +986,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			}
 		} catch (Exception e) {
 			logger.error("Unable to create plotting system", e);
-			return;
 		}
 	}
 
