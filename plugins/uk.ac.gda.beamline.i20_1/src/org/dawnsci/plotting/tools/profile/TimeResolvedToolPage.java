@@ -19,6 +19,7 @@
 package org.dawnsci.plotting.tools.profile;
 
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
+import gda.scan.ede.datawriters.TimeResolvedDataExportUtil;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -32,9 +33,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-import org.dawb.common.ui.util.EclipseUtils;
 import org.dawb.common.ui.widgets.ActionBarWrapper;
-import org.dawb.common.ui.wizard.PlotDataConversionWizard;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
@@ -42,7 +41,6 @@ import org.dawnsci.plotting.api.filter.AbstractPlottingFilter;
 import org.dawnsci.plotting.api.filter.IFilterDecorator;
 import org.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.dawnsci.plotting.api.region.IRegion;
-import org.dawnsci.plotting.api.region.IRegion.RegionType;
 import org.dawnsci.plotting.api.region.IRegionListener;
 import org.dawnsci.plotting.api.region.RegionEvent;
 import org.dawnsci.plotting.api.region.RegionUtils;
@@ -55,7 +53,6 @@ import org.dawnsci.plotting.api.trace.ITraceListener;
 import org.dawnsci.plotting.api.trace.TraceEvent;
 import org.dawnsci.plotting.api.trace.TraceWillPlotEvent;
 import org.dawnsci.slicing.tools.hyper.HyperComponent;
-import org.dawnsci.slicing.tools.hyper.IDatasetROIReducer;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateSetStrategy;
@@ -90,7 +87,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -124,12 +120,9 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.ILazyDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Maths;
-import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
-import uk.ac.diamond.scisoft.analysis.roi.IROI;
-import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.common.rcp.UIHelper;
@@ -172,9 +165,14 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private Binding selectedSpectraBinding;
 
+	TimeResolvedDataExportUtil timeResolvedDataExportUtil = new TimeResolvedDataExportUtil();
+
+	// TODO Review the page lifecycle
 	private boolean spectraDataLoaded = false;
 
 	private HyperComponent hyperComponent;
+
+	private int cycles = 0;
 
 	@Override
 	public void activate() {
@@ -196,7 +194,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	};
 
-	private int cycles = 0;
 
 	// TODO Validate data and manage UI if not correct dataset
 	private void validateAndLoadSpectra(IImageTrace image) {
@@ -300,6 +297,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private void clearRegionsOnPlot() {
+		// TODO Review the page lifecycle
 		//		IRegion[] regionsToRemove = new IRegion[spectraRegionList.size()];
 		//		for (int i = 0; i < spectraRegionList.size(); i++) {
 		//			regionsToRemove[i] = ((SpectraRegionDataNode) spectraRegionList.get(i)).getRegion();
@@ -345,6 +343,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	// TODO Replace with hyper component 2D
+
 	//	private void setDataForEnergySelection() {
 	//		List<AbstractDataset> axes = new ArrayList<AbstractDataset>(imageTrace.getAxes().size());
 	//		for(IDataset dataset : imageTrace.getAxes()) {
@@ -353,72 +352,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	//		hyperComponent.setData(imageTrace.getData(), axes, new Slice[2], new int[]{0,1}, main, side);
 	//	}
 
-	private final IDatasetROIReducer main = new IDatasetROIReducer() {
-		private final RegionType regionType = RegionType.XAXIS_LINE;
-		private final List<IDataset> traceAxes  = new ArrayList<IDataset>();
-		@Override
-		public boolean isOutput1D() {
-			return true;
-		}
-		@Override
-		public IDataset reduce(ILazyDataset data, List<AbstractDataset> axes, IROI roi, Slice[] slices, int[] order) {
-			traceAxes.clear();
-			traceAxes.add(axes.get(0).getSlice());
-			return null;
-		}
-		@Override
-		public List<RegionType> getSupportedRegionType() {
-			List<IRegion.RegionType> regionList = new ArrayList<IRegion.RegionType>();
-			regionList.add(regionType);
-			return regionList;
-		}
-		@Override
-		public IROI getInitialROI(List<AbstractDataset> axes, int[] order) {
-			return new LinearROI(new double[]{500, 0}, new double[]{500, 10});
-		}
-		@Override
-		public boolean supportsMultipleRegions() {
-			return false;
-		}
-		@Override
-		public List<IDataset> getAxes() {
-			return traceAxes;
-		}
-	};
-
-	private final IDatasetROIReducer side = new IDatasetROIReducer() {
-		private final RegionType regionType = RegionType.XAXIS_LINE;
-		private final List<IDataset> traceAxes = new ArrayList<IDataset>();
-		@Override
-		public boolean isOutput1D() {
-			return true;
-		}
-		@Override
-		public IDataset reduce(ILazyDataset data, List<AbstractDataset> axes, IROI roi, Slice[] slices, int[] order) {
-			traceAxes.clear();
-			traceAxes.add(axes.get(1).getSlice());
-
-			return null;
-		}
-		@Override
-		public List<RegionType> getSupportedRegionType() {
-			List<IRegion.RegionType> regionList = new ArrayList<IRegion.RegionType>();
-			regionList.add(regionType);
-			return regionList;
-		}
-		@Override
-		public IROI getInitialROI(List<AbstractDataset> axes, int[] order) {
-			return new LinearROI(new double[]{0, 0}, new double[]{0, 10});
-		}
-		@Override
-		public boolean supportsMultipleRegions() {
-			return false;
-		}
-		@Override
-		public List<IDataset> getAxes() {
-			return traceAxes;
-		}
-	};
 
 	private void doBinding() {
 		createSpectraSelectionBinding();
@@ -732,8 +665,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			@Override
 			public void handleEvent(Event event) {
 				if (cycles > 0) {
-					TimeResolvedDataExportUtils test = new TimeResolvedDataExportUtils();
-					test.exportAndAverageCycles(dataFile, TimeResolvedToolPage.this.getControl().getDisplay(), cycles);
+					timeResolvedDataExportUtil.averageCyclesAndExport(dataFile, TimeResolvedToolPage.this.getControl().getDisplay(), cycles);
 				} else {
 					MessageDialog.openWarning(TimeResolvedToolPage.this.getControl().getShell(), "Unable to process", "Cycle data unavailable");
 				}
@@ -764,20 +696,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			Files.copy(Paths.get(path), Paths.get(dir), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
-
-	//	private final Action zoomToSelectedCycleAction = new Action("Zoom") {
-	//		@Override
-	//		public void run() {
-	//			IStructuredSelection selection = (IStructuredSelection) spectraTreeTable.getSelection();
-	//			CycleDataNode cycle = (CycleDataNode) selection.getFirstElement();
-	//			double start = ((SpectrumDataNode) ((TimingGroupDataNode) cycle.getTimingGroups().get(0)).getSpectra().get(0)).getStartTime();
-	//			TimingGroupDataNode lastTimingGroup = (TimingGroupDataNode) cycle.getTimingGroups().get(cycle.getTimingGroups().size() - 1);
-	//			// FIXME
-	//			double end = ((SpectrumDataNode) lastTimingGroup.getSpectra().get(lastTimingGroup.getSpectra().size() - 1)).getStartTime() + lastTimingGroup.getTimePerFrame();
-	//			getPlottingSystem().getSelectedYAxis().setRange(end, start);
-	//
-	//		}
-	//	};
 
 	private final Action createPlotEveryIntervalAction = new Action("Select spectrum for every") {
 		@Override
@@ -1037,47 +955,13 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			}
 		});
 
-		ToolItem saveAsciiToolItem = new ToolItem(toolBar, SWT.PUSH);
-		saveAsciiToolItem.setText("");
-		saveAsciiToolItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVE_EDIT));
-		saveAsciiToolItem.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				IWizard wiz;
-				try {
-					wiz = EclipseUtils.openWizard(PlotDataConversionWizard.ID, false);
-					WizardDialog wd = new  WizardDialog(Display.getCurrent().getActiveShell(), wiz);
-					wd.setTitle(wiz.getWindowTitle());
-					if (wiz instanceof PlotDataConversionWizard) {
-						((PlotDataConversionWizard)wiz).setPlottingSystem(plottingSystem);
-					}
-					wd.open();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					logger.error("TODO put description of error here", e);
-				}
-			}
-		});
-
-		ToolItem saveNexusToolItem = new ToolItem(toolBar, SWT.PUSH);
+		final ToolItem saveNexusToolItem = new ToolItem(toolBar, SWT.PUSH);
 		saveNexusToolItem.setText("");
 		saveNexusToolItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVEAS_EDIT));
 		saveNexusToolItem.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				//				String newFilePath = showNexusFileSaveDialog();
-				//				if (newFilePath != null) {
-				//					if (!Files.exists(Paths.get(newFilePath))) {
-				//						try {
-				//							Files.copy(Paths.get(imageFile.getAbsolutePath()), Paths.get(newFilePath));
-				//							NexusFile nexusFile = new NexusFile(newFilePath, NexusFile.NXACC_RDWR);
-				//							// TODO Implement this
-				//							nexusFile.closedata();
-				//						} catch (IOException | NexusException e) {
-				//
-				//						}
-				//					}
-				//				}
+				timeResolvedDataExportUtil.averageSpectrumAndExport(dataFile, saveNexusToolItem.getDisplay(), (SpectraRegionDataNode[]) spectraRegionList.toArray(new SpectraRegionDataNode[]{}));
 			}
 		});
 	}

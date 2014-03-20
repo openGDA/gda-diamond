@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.dawnsci.plotting.tools.profile;
+package gda.scan.ede.datawriters;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +26,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
 import org.apache.commons.io.FilenameUtils;
+import org.dawnsci.plotting.tools.profile.DataFileHelper;
+import org.dawnsci.plotting.tools.profile.SpectraRegionDataNode;
+import org.dawnsci.plotting.tools.profile.TimeResolvedToolPage;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -47,15 +50,16 @@ import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
-public class TimeResolvedDataExportUtils {
+public class TimeResolvedDataExportUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedDataExportUtils.class);
-	public void exportAndAverageCycles(File nexusFile, Display display, int cycles) {
+	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedDataExportUtil.class);
+
+	public void averageCyclesAndExport(File nexusFile, Display display, int cycles) {
 		Integer[] intArray = new Integer[cycles];
 		for (int i = 0; i <cycles; i++) {
 			intArray[i] = new Integer(i);
 		}
-		ListSelectionDialog dialog =
+		ListSelectionDialog excludedCyclesSelectionDialog =
 				new ListSelectionDialog(
 						display.getActiveShell(),
 						intArray,
@@ -75,16 +79,13 @@ public class TimeResolvedDataExportUtils {
 				return clientDialogArea;
 			}
 		};
-		if (dialog.open() == Window.OK) {
-			DirectoryDialog dlg = new DirectoryDialog(display.getActiveShell());
-			dlg.setFilterPath(nexusFile.getParent());
-			dlg.setText("Select a directory to store new data files");
-			String dir = dlg.open();
+		if (excludedCyclesSelectionDialog.open() == Window.OK) {
+			String dir = showSaveDirectory(nexusFile, display);
 			if (dir == null) {
 				return;
 			}
 
-			Object[] selection = dialog.getResult();
+			Object[] selection = excludedCyclesSelectionDialog.getResult();
 			Integer[] integerArray = Arrays.copyOf(selection, selection.length, Integer[].class);
 			File tempFile;
 			try {
@@ -96,7 +97,27 @@ public class TimeResolvedDataExportUtils {
 			} catch (IOException e) {
 				logger.error("Unable to save the updated cyclic data", e);
 			}
+		}
+	}
 
+	private String showSaveDirectory(File nexusFile, Display display) {
+		DirectoryDialog dlg = new DirectoryDialog(display.getActiveShell());
+		dlg.setFilterPath(nexusFile.getParent());
+		dlg.setText("Select a directory to store new data files");
+		return dlg.open();
+	}
+
+	public void averageSpectrumAndExport(File nexusFile, Display display, SpectraRegionDataNode[] spectraRegionDataNodes) {
+		String dir = showSaveDirectory(nexusFile, display);
+		if (dir == null) {
+			return;
+		}
+		File tempFile;
+		try {
+			tempFile = copyAsTempFile(nexusFile);
+
+		} catch (IOException e) {
+			logger.error("Unable to save the data", e);
 		}
 	}
 
