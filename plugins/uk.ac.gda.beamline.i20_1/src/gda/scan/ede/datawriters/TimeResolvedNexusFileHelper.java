@@ -79,6 +79,8 @@ public class TimeResolvedNexusFileHelper {
 		nexusfile.closedata();
 	}
 
+	// TODO Calibration polynomial
+
 	//	private void updateNexusFileEnergyWithPolynomialValue() throws NexusException, DeviceException {
 	//		if (theDetector.getEnergyCalibration() != null) {
 	//			nexusfile.putattr("long_name", theDetector.getEnergyCalibration().toString().getBytes(), NexusFile.NX_CHAR);
@@ -147,8 +149,7 @@ public class TimeResolvedNexusFileHelper {
 		for (int cycle = 0; cycle < numberCycles; cycle++) {
 			for (int spectrumNum = 0; spectrumNum < numberOfSpectraPerCycle; spectrumNum++) {
 				for (int channelIndex = 0; channelIndex < numChannelsInMCA; channelIndex++) {
-					int absoulteSpectrumNum = channelIndex + (cycle * spectrumNum);
-					averagednormalisedItSpectra[absoulteSpectrumNum][channelIndex] += normalisedItSpectra[cycle][spectrumNum][channelIndex];
+					averagednormalisedItSpectra[spectrumNum][channelIndex] += normalisedItSpectra[cycle][spectrumNum][channelIndex];
 				}
 			}
 		}
@@ -158,7 +159,7 @@ public class TimeResolvedNexusFileHelper {
 				averagednormalisedItSpectra[spectrumNum][channelIndex] /= numberCycles;
 			}
 		}
-
+		nexusfile.getpath();
 		nexusfile.makegroup(datagroupname, "NXdata");
 		nexusfile.openpath(datagroupname);
 		addCycleMultipleSpectra(normalisedItSpectra, getAxisText());
