@@ -67,13 +67,19 @@ public class TimeResolvedDataExportUtil {
 						new LabelProvider(),
 						"Select excluded cycles") {
 			@Override
+			protected void createButtonsForButtonBar(Composite parent) {
+				super.createButtonsForButtonBar(parent);
+				getOkButton().setEnabled(false);
+			}
+
+			@Override
 			protected Control createDialogArea(Composite parent) {
 				Control clientDialogArea = super.createDialogArea(parent);
 				final CheckboxTableViewer viewer = getViewer();
 				viewer.addCheckStateListener(new ICheckStateListener() {
 					@Override
 					public void checkStateChanged(CheckStateChangedEvent event) {
-						getOkButton().setEnabled((viewer.getCheckedElements().length != ((Integer[]) viewer.getInput()).length) || (viewer.getCheckedElements().length > 0));
+						getOkButton().setEnabled((viewer.getCheckedElements().length != ((Integer[]) viewer.getInput()).length) && (viewer.getCheckedElements().length > 0));
 					}
 				});
 				return clientDialogArea;
