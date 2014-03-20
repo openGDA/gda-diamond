@@ -24,7 +24,7 @@ from gdascripts.pd.time_pds import showtimeClass, waittime
 import mono_calibration 
 from vortex_elements import VortexElements
 from gda.data.scan.datawriter import NexusDataWriter
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 
 
 ScanBase.interrupted = False
@@ -54,14 +54,12 @@ alias("xspressConfig")
 vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 vortexConfig.initialize()
 alias("vortexConfig")
-print "Before detectorPreparer"
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
 print "Before SamplePreparer"
 samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
-print "Before OutputPreparer"
 #outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 outputPreparer = I20OutputPreparer(datawriterconfig)
-print "After OutputPreparer"
+
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
@@ -83,6 +81,7 @@ alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
+alias("meta_clear_alldynamical")
 
 current_store_tracker = "none"
 

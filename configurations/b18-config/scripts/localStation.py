@@ -16,7 +16,7 @@ from gda.device.monitor import EpicsMonitor
 #from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
 from gda.data.scan.datawriter import NexusDataWriter
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
@@ -54,6 +54,7 @@ alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
+alias("meta_clear_alldynamical")
 
 
 from gda.jython.commands.ScannableCommands import cv as cvscan
