@@ -155,7 +155,7 @@ if [ ! -z $GDA_RESET ] ; then
 fi
 
 if [ -z $GDA_LOG ] ; then
-	LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
+	LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
 	if [ "X$LOGPANEL" == "X" ] ; then
 		nohup gdalog 2>/dev/null &
 	else
