@@ -52,7 +52,6 @@ import org.dawnsci.plotting.api.trace.ITrace;
 import org.dawnsci.plotting.api.trace.ITraceListener;
 import org.dawnsci.plotting.api.trace.TraceEvent;
 import org.dawnsci.plotting.api.trace.TraceWillPlotEvent;
-import org.dawnsci.slicing.tools.hyper.HyperComponent;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateSetStrategy;
@@ -167,8 +166,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	// TODO Review the page lifecycle
 	private boolean spectraDataLoaded = false;
-
-	private HyperComponent hyperComponent;
 
 	private int cycles = 0;
 

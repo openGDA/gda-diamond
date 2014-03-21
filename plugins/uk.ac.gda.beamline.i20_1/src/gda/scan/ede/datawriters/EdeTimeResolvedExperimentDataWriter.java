@@ -261,10 +261,10 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	private void createItFiles() throws Exception {
 		double[] timeAxis = calculateTimeAxis();
-		timeResolvedNexusFileHelper.addTimeAxisDataAndCreateLink(timeAxis);
+		timeResolvedNexusFileHelper.createTimeAxisDataAndLink(timeAxis);
 
 		double[][] groupAxis = calculateGroupAxis();
-		timeResolvedNexusFileHelper.addGroupAxisDataAndCreateLink(groupAxis);
+		timeResolvedNexusFileHelper.createGroupAxisDataAndLink(groupAxis);
 
 		itFilename = createItFile(i0InitialLightScan, null, IT_RAW_SUFFIX);
 		itFinalFilename = createItFile(i0FinalLightScan, null, IT_RAW_FINALI0_SUFFIX);
@@ -300,7 +300,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 					normalisedItSpectra[repIndex][spectrumNum] = normalisedIt.getData();
 				}
 			}
-			timeResolvedNexusFileHelper.writeItToNexus(normalisedItSpectra, fileSuffix, includeRepetitionColumn);
+			timeResolvedNexusFileHelper.updateItDataToNexusFile(normalisedItSpectra, fileSuffix, includeRepetitionColumn);
 		} catch (Exception ex) {
 			logger.error("Unable to create data file", ex);
 		} finally {
@@ -308,13 +308,10 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 				writer.close();
 			}
 		}
-
 		return filename;
 	}
 
-
 	private double[][] calculateGroupAxis() {
-
 		EdeScanParameters scanParameters = itScans[0].getScanParameters();
 		double[][] groupDetailsForEachCycle = new double[scanParameters.getTotalNumberOfFrames()][4];
 		double groupIndex = 0;

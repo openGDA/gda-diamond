@@ -91,7 +91,7 @@ public class TimeResolvedNexusFileHelper {
 	}
 
 
-	void addGroupAxisDataAndCreateLink(double[][] groupAxis) throws NexusException {
+	void createGroupAxisDataAndLink(double[][] groupAxis) throws NexusException {
 		nexusfile.makedata(EdeDataConstants.TIMINGGROUP_COLUMN_NAME, NexusFile.NX_FLOAT64, 2, new int[] { groupAxis.length,
 				groupAxis[0].length });
 		nexusfile.opendata(EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
@@ -100,7 +100,7 @@ public class TimeResolvedNexusFileHelper {
 		nexusfile.closedata();
 	}
 
-	void addTimeAxisDataAndCreateLink(double[] timeAxis) throws NexusException {
+	void createTimeAxisDataAndLink(double[] timeAxis) throws NexusException {
 		nexusfile.makedata(EdeDataConstants.TIME_COLUMN_NAME, NexusFile.NX_FLOAT64, 1, new int[] { timeAxis.length });
 		nexusfile.opendata(EdeDataConstants.TIME_COLUMN_NAME);
 		nexusfile.putdata(timeAxis);
@@ -139,7 +139,7 @@ public class TimeResolvedNexusFileHelper {
 		return datagroupname;
 	}
 
-	void writeItToNexus(double[][][] normalisedItSpectra, String fileSuffix, boolean includeRepetitionColumn)
+	void updateItDataToNexusFile(double[][][] normalisedItSpectra, String fileSuffix, boolean includeRepetitionColumn)
 			throws NexusException {
 
 		String datagroupname = deriveDatagroupName(fileSuffix);
@@ -200,6 +200,7 @@ public class TimeResolvedNexusFileHelper {
 		addEnergyLink();
 		nexusfile.closegroup();
 
+		// Adding average
 		nexusfile.makegroup(avDataGroupName, "NXdata");
 		nexusfile.openpath(avDataGroupName);
 		addMultipleSpectra(averagednormalisedItSpectra, getAxisText());
