@@ -27,7 +27,7 @@ import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObserver;
-import gda.rcp.views.NudgePositionerComposite;
+import gda.rcp.views.MotorPositionViewerComposite;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -88,30 +88,26 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 	@Override
 	public void createPartControl(Composite parent) {	
 		capabilities = (AnalyserCapabilties) Finder.getInstance().listAllLocalObjects(AnalyserCapabilties.class.getCanonicalName()).get(0);
+		MotorPositionViewerComposite mpvc;
+		GridData gd;
 		
 		Composite comp = new Composite(parent, SWT.NONE);
-		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.horizontalSpacing=0;
-		
-		comp.setLayout(gridLayout);
-
+		comp.setLayout(new GridLayout(3, true));
 		
 		{
 			composite = new Composite(comp, SWT.NONE);
 			composite.setLayout(new GridLayout(3, false));
+			composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 2));
 			
 			Label label = new Label(composite, SWT.NONE);
+			label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			label.setText("lensMode");
-			
 			lensMode = new Combo(composite, SWT.NONE);
-			lensMode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+			lensMode.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 			lensModes = capabilities.getLensModes();
 			lensMode.setItems(lensModes);
-			
 			String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
-			
 			lensMode.select(comboForMode(activeLensMode));
-			
 			SelectionListener lensModeListener = new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -156,7 +152,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		{
 			composite = new Composite(comp, SWT.NONE);
 			composite.setLayout(new GridLayout(2, false));
-			composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+			composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 2));
 			
 			startButton = new Button(composite, SWT.NONE);
 			startButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
@@ -202,15 +198,15 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			zeroButton.addSelectionListener(zeroListener);
 		}
 		
-		Composite composite_1 = new Composite(comp, SWT.NONE);
-		composite_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-		GridLayout gl_composite_1 = new GridLayout(3, false);
-		gl_composite_1.horizontalSpacing = 25;
-		composite_1.setLayout(gl_composite_1);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("raw_centre_energy")), true, "centreEnergy", 4, null, false, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 4;
+		mpvc.setLayoutData(gd);
 		
-		NudgePositionerComposite nudgePositionerComposite = new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("raw_centre_energy")), true, "centerEnergy");
-		
-		NudgePositionerComposite nudgePositionerComposite_4 = new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep");
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep", 2, null, false, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 4;
+		mpvc.setLayoutData(gd);
 		
 		ScannableBase wrappedEnergyScannable = new ScannableBase() {
 			private Scannable pgmEnergy = (Scannable) (Finder.getInstance().find("pgm_energy"));
@@ -227,7 +223,6 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 						we.notifyIObservers(we, arg);
 					}
 				});
-				this.configured=true;
 			}
 
 			@Override
@@ -247,25 +242,49 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		};
 		try {
 			wrappedEnergyScannable.configure();
-			wrappedEnergyScannable.setName("wrappedEnergyScannable");
 		} catch (FactoryException e) {
 			logger.error("error configuring wrapped energy scannable", e);
 		}
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, wrappedEnergyScannable, true, "photonEnergy", 4, null, false, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 4;
+		mpvc.setLayoutData(gd);
 		
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, wrappedEnergyScannable, true, "photonEnergy");
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sax")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("say")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saz")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("satilt")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sapolar")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saazimuth")));
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", 4, null, false, false);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")), true, "s2_ysize", 4, null, false, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		mpvc.setLayoutData(gd);
+		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")), true, "s2_xsize", 4, null, false, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		mpvc.setLayoutData(gd);
+		
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sax")), true, "sax", 4, null, false, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 8;
+		mpvc.setLayoutData(gd);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("say")), true, "say", 4, null, false, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 8;
+		mpvc.setLayoutData(gd);
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saz")), true, "saz", 4, null, false, false);
+		gd = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd.verticalIndent = 8;
+		mpvc.setLayoutData(gd);
+
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("satilt")), true, "satilt", 4, null, false, false);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sapolar")), true, "sapolar", 4, null, false, false);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		mpvc = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("saazimuth")), true, "saazimuth", 4, null, false, false);
+		mpvc.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		
 		analyser = (Device) Finder.getInstance().find("analyser");
-		if (analyser != null)
+		if (analyser != null) {
 			analyser.addIObserver(this);
+		}
 	}
 
 	@Override
