@@ -55,7 +55,6 @@ vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 vortexConfig.initialize()
 alias("vortexConfig")
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
-print "Before SamplePreparer"
 samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
 #outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 outputPreparer = I20OutputPreparer(datawriterconfig)
@@ -70,9 +69,7 @@ xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, False, True, True, False, False)
 xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig, original_header, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, False)
-print "After XesScan"
 xanes = xas
-print "After xanes"
 
 alias("xas")
 alias("xanes")
