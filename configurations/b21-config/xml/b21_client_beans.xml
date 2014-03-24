@@ -94,7 +94,7 @@
 	
 	<gda:rmi-import
 		id="detectorInfoPath"
-		serviceUrl="gda/detectorInfoPath"
+		serviceUrl="rmi://b21-control.diamond.ac.uk/gda/detectorInfoPath"
 		serviceInterface="uk.ac.gda.server.ncd.beans.StoredDetectorInfo" />
 	
 	<gda:rbac />
