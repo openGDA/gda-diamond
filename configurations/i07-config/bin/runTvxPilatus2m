@@ -12,5 +12,5 @@ fi
  
  
 echo Starting Pilatus CamServer remotely...
-echo ssh -n -Y -i /dls/$BEAMLINE/software/gda/i07-config/${BEAMLINE}-pilatus2m.key det@${BEAMLINE}-pilatus2.diamond.ac.uk "cd p2_det;./tvxonly"
-ssh -n -Y -i /dls/$BEAMLINE/software/gda/i07-config/${BEAMLINE}-pilatus2m.key det@${BEAMLINE}-pilatus2.diamond.ac.uk "cd p2_det;./tvxonly"
+echo ssh -n -Y -i /dls/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i07-config/${BEAMLINE}-pilatus2m.key det@${BEAMLINE}-pilatus2.diamond.ac.uk "cd p2_det;./tvxonly"
+ssh -n -Y -i /dls/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i07-config/${BEAMLINE}-pilatus2m.key det@${BEAMLINE}-pilatus2.diamond.ac.uk "cd p2_det;./tvxonly"
