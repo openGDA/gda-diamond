@@ -49,7 +49,6 @@
 		<property name="ffmpegStream" ref="pil3_ffmpeg" />
 		<property name="imageHistSize" value="500" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="1048576" />
 		<property name="ffmpegImageOutHeightMax" value="195" />
 		<property name="ffmpegImageOutWidthMax" value="487" />
 		<property name="setExposureTimeCmd" value="fastpil3.freerun.start(%f)" />
