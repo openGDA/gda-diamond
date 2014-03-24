@@ -1,21 +1,3 @@
-/*-
- * Copyright © 2012 Diamond Light Source Ltd.
- *
- * This file is part of GDA.
- *
- * GDA is free software: you can redistribute it and/or modify it under the
- * terms of the GNU General Public License version 3 as published by the Free
- * Software Foundation.
- *
- * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along
- * with GDA. If not, see <http://www.gnu.org/licenses/>.
- */
-
 package uk.ac.gda.beamline.i05.views;
 
 import gda.device.Device;
@@ -27,6 +9,7 @@ import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObserver;
+import gda.rcp.views.MotorPositionViewerComposite;
 import gda.rcp.views.NudgePositionerComposite;
 
 import java.util.Comparator;
@@ -52,8 +35,6 @@ import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class ContinuousModeControllerView extends ViewPart implements IObserver {
 	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerView.class);
-
-	
 	private AnalyserCapabilties capabilities;
 	private Combo lensMode;
 	private Combo passEnergy;
@@ -65,9 +46,6 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 	private String[] passArray;
 	private Device analyser;
 	private boolean running = false;
-
-	public ContinuousModeControllerView() {
-	}
 
 	private int comboForMode(String mode) {
 		for (int i = 0; i < lensModes.length; i++) {
@@ -90,28 +68,25 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		capabilities = (AnalyserCapabilties) Finder.getInstance().listAllLocalObjects(AnalyserCapabilties.class.getCanonicalName()).get(0);
 		
 		Composite comp = new Composite(parent, SWT.NONE);
-		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.horizontalSpacing=0;
-		
-		comp.setLayout(gridLayout);
-
+		comp.setLayout(new GridLayout(3, true));
+		comp.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 		
 		{
 			composite = new Composite(comp, SWT.NONE);
 			composite.setLayout(new GridLayout(3, false));
+			composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 2));
 			
 			Label label = new Label(composite, SWT.NONE);
+			label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 			label.setText("lensMode");
 			
 			lensMode = new Combo(composite, SWT.NONE);
-			lensMode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
+			lensMode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 			lensModes = capabilities.getLensModes();
 			lensMode.setItems(lensModes);
 			
 			String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
-			
 			lensMode.select(comboForMode(activeLensMode));
-			
 			SelectionListener lensModeListener = new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -136,12 +111,14 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			label = new Label(composite, SWT.NONE);
 			label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			label.setText("passEnergy");
+			
 			passEnergy = new Combo(composite, SWT.NONE);
 			passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 			passArray = passMap.keySet().toArray(new String[] {});
 			passEnergy.setItems(passArray);
 			String activePE = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
 			passEnergy.select(comboForPE(activePE));
+			
 			SelectionListener passEnergyListener = new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -156,7 +133,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		{
 			composite = new Composite(comp, SWT.NONE);
 			composite.setLayout(new GridLayout(2, false));
-			composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
+			composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
 			
 			startButton = new Button(composite, SWT.NONE);
 			startButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
@@ -164,7 +141,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			SelectionListener startListener = new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					JythonServerFacade.getInstance().runCommand("am.start()");				
+					JythonServerFacade.getInstance().runCommand("am.start()");
 				}
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
@@ -178,7 +155,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			SelectionListener stopListener = new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					JythonServerFacade.getInstance().runCommand("am.stop()");				
+					JythonServerFacade.getInstance().runCommand("am.stop()");
 				}
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
@@ -193,7 +170,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			SelectionListener zeroListener = new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					JythonServerFacade.getInstance().runCommand("analyser.zeroSupplies()");				
+					JythonServerFacade.getInstance().runCommand("analyser.zeroSupplies()");
 				}
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
@@ -201,16 +178,6 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 			};
 			zeroButton.addSelectionListener(zeroListener);
 		}
-		
-		Composite composite_1 = new Composite(comp, SWT.NONE);
-		composite_1.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-		GridLayout gl_composite_1 = new GridLayout(3, false);
-		gl_composite_1.horizontalSpacing = 25;
-		composite_1.setLayout(gl_composite_1);
-		
-		NudgePositionerComposite nudgePositionerComposite = new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("raw_centre_energy")), true, "centerEnergy");
-		
-		NudgePositionerComposite nudgePositionerComposite_4 = new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, "timePerStep");
 		
 		ScannableBase wrappedEnergyScannable = new ScannableBase() {
 			private Scannable pgmEnergy = (Scannable) (Finder.getInstance().find("pgm_energy"));
@@ -227,7 +194,6 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 						we.notifyIObservers(we, arg);
 					}
 				});
-				this.configured=true;
 			}
 
 			@Override
@@ -245,27 +211,49 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 				return pgmEnergy.getPosition();
 			}
 		};
+		wrappedEnergyScannable.setName("photonEnergy");
 		try {
 			wrappedEnergyScannable.configure();
-			wrappedEnergyScannable.setName("wrappedEnergyScannable");
 		} catch (FactoryException e) {
 			logger.error("error configuring wrapped energy scannable", e);
 		}
 		
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, wrappedEnergyScannable, true, "photonEnergy");
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sax")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("say")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saz")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("satilt")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sapolar")));
-		new NudgePositionerComposite(composite_1, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saazimuth")));
+		Composite viewerComposite = new Composite(comp, SWT.NONE);
+		viewerComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+		GridLayout glViewerComposite = new GridLayout(3, false);
+		glViewerComposite.horizontalSpacing = 25;
+		viewerComposite.setLayout(glViewerComposite);
+		
+		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, null, true, false);
+		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, wrappedEnergyScannable, true, null, true, false);
+		new Label(viewerComposite, SWT.NONE);
+		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", true, false);
+		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")), true, null, true, false);
+		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")), true, null, true, false);
+		
+		
+		Composite nudgeComposite = new Composite(viewerComposite, SWT.NONE);
+		nudgeComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
+		GridLayout glNudgeComposite = new GridLayout(3, false);
+		glNudgeComposite.horizontalSpacing = 25;
+		nudgeComposite.setLayout(glNudgeComposite);
+		
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("raw_centre_energy")), true, "centerEnergy", false, true);
+		
+		new Label(nudgeComposite, SWT.NONE);
+		new Label(nudgeComposite, SWT.NONE);
+		
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sax")));
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("say")));
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saz")));
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("satilt")));
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sapolar")));
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saazimuth")));
 		
 		analyser = (Device) Finder.getInstance().find("analyser");
-		if (analyser != null)
+		if (analyser != null) {
 			analyser.addIObserver(this);
+		}
 	}
 
 	@Override
