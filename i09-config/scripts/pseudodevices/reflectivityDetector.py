@@ -12,7 +12,8 @@ SLITXOFFSET=10.85 #mm 1 mm slit
 SLITZOFFSET=2.75 #mm
 TTHOFFSET=3.0 #-2.9131 #degree
 SINEBARLENGTH=12.5 #mm
-XTDIRECTBEAM=-155.265 #mm -136.847
+#XTDIRECTBEAM=-155.265 #mm -136.847
+XTDIRECTBEAM=-135.878 #mm -136.847
 
 from gdascripts.constants import pi
 from math import sin, cos, tan

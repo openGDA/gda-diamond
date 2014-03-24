@@ -39,10 +39,16 @@ def multiregionscan(*args):
             while (InterfaceProvider.getScanStatusHolder().getScanStatus()==Jython.PAUSED):
                 sleep(1.0) # wait for user saving dirty file
             arg.setSequenceFilename(filename)
+            sequence=arg.loadSequenceData(filename)
+            if sequence.getRegion().size()==1:
+                arg.createSingleFile(True)
+            else:
+                arg.createSingleFile(False)
             if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
-                arg.getCollectionStrategy().setSequence(arg.loadSequenceData(filename))
+                arg.getCollectionStrategy().setSequence(sequence)
             i=i+1
     scan(newargs)
+    
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
 

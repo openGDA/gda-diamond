@@ -33,7 +33,7 @@ from org.opengda.detector.electronanalyser.scan import RegionScannable,\
 import os
 
 
-def pathscan(scannables, path, args): #@UndefinedVariable
+def pathscan(scannables, path, *args): #@UndefinedVariable
     ''' 
     Scan a group of scannables following the specified path and 
     collect data at each point from scannables args
@@ -112,7 +112,6 @@ def analyserpathscan(scannables, path, *args):
             i=i+1
     pathscan(scannables, path, newargs)
 
-mrapathscan=multiregionanalyserpathscan
-srapathscan=analyserpathscan
-alias("mrapathscan")
-alias("srapathscan")
+alias("multiregionanalyserpathscan")
+alias("analyserpathscan")
+alias("pathscan")
