@@ -23,7 +23,7 @@ http://www.opengda.org
       <vmArgs>-Declipse.pluginCustomization=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/client/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
--Dgda.install.git.loc=/dls_sw/i07/software/gda.git
+-Dgda.install.git.loc=/dls_sw/i07/software/gda/workspace_git
 -Dgda.install.workspace.loc=/dls_sw/i07/software/gda
 -Dgda.data=/dls/i07/data
 -Dgda.var=/dls_sw/i07/var
