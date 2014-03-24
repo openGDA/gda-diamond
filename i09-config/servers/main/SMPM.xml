@@ -28,7 +28,7 @@
 				<ref bean="smpmazimuth" />
 <!-- 				<ref bean="smpmiamp10" /> -->
 <!-- 				<ref bean="smpmiamp19" /> -->
-<!-- 				<ref bean="smpmiamp39" /> -->
+				<ref bean="smpmiamp39" />
 			</list>
 		</property>
 	</bean>
