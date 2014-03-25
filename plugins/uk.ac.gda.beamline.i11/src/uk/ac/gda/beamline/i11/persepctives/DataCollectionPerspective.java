@@ -35,7 +35,8 @@ import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 import uk.ac.gda.beamline.i11.views.DetectorFilePlotView;
 import uk.ac.gda.client.XYPlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
-import uk.ac.gda.client.scripting.JythonPerspective;
+import uk.ac.gda.pydev.extension.ui.perspective.JythonPerspective;
+
 
 public class DataCollectionPerspective implements IPerspectiveFactory {
 
