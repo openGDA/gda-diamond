@@ -39,6 +39,7 @@ import uk.ac.gda.client.scripting.JythonPerspective;
 
 
 
+
 public class DataCollectionPerspective implements IPerspectiveFactory {
 
 	public static final String ID="uk.ac.gda.beamline.i11.dataCollectionPerspective";
