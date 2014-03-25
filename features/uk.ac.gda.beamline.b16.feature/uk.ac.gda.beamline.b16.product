@@ -12,6 +12,7 @@
 
    <launcherArgs>
       <vmArgs>-Declipse.pluginCustomization=/dls_sw/b16/software/gda/config/pluginCustomization.ini
+-Dgda.install.git.loc=/dls_sw/b16/software/gda/workspace_git
 -Djacorb.config.dir=/dls_sw/b16/software/gda/config/jacorb/live
 -Dgda.install.workspace.loc=/dls_sw/b16/software/gda/workspace
 -Dgda.config=/dls_sw/b16/software/gda/config
