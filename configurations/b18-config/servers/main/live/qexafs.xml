@@ -1,4 +1,3 @@
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -24,7 +23,6 @@
 		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" />
 		<property name="stepIncDegPV" value="BL18B-OP-DCM-01:PC:STEP" />
 		<property name="stepIncDemandPV" value="BL18B-OP-DCM-01:PC:CONVSTEP" />
-		<property name="pulseWidthDegPV" value="BL18B-OP-DCM-01:PC:PULSE" />
 		<property name="numPulsesPV" value="BL18B-OP-DCM-01:PC:NPULSES" />
 	</bean>
 
