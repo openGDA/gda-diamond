@@ -1,0 +1,26 @@
+#!/bin/bash
+
+LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
+
+if [ "X$LOGPANEL" == "X" ] ; then
+  export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+  . $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_log_output
+
+  # i06 & i06-1 all share the same i06-config directory, so overrride the one from gda_setup_env
+  export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i06-config
+
+  ARGS="--properties $GDA_CONFIG/properties/java.properties_$GDA_MODE"
+  ARGS="--jacorb     $GDA_CONFIG/properties/jacorb_$GDA_MODE                $ARGS"
+  ARGS="--jca        $GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $ARGS"
+  ARGS="--vardir     $GDA_ROOT/../var                                       $ARGS"
+
+  echo Starting GDA Log Panel...
+  echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
+  echo  $GDA_CORE_SCRIPT logpanel $ARGS
+  echo  $GDA_CORE_SCRIPT logpanel $ARGS >> $GDA_CONSOLE_LOG
+  nohup $GDA_CORE_SCRIPT logpanel $ARGS >> $GDA_CONSOLE_LOG 2>&1
+
+else
+  echo Raising GDA Log Panel...
+  wmctrl -R "GDA Log Panel"
+fi

@@ -21,8 +21,7 @@ com.cosylab.epics.caj.CAJContext.logger              = com.cosylab.epics.caj.CAJ
 #com.cosylab.epics.caj.CAJContext.addr_list           = 172.23.106.255 172.23.106.35 172.23.106.96 172.23.106.97 172.23.106.98 172.23.106.99 172.23.106.100 172.23.106.101
 #com.cosylab.epics.caj.CAJContext.addr_list           = 172.23.106.255 i06-cagateway.diamond.ac.uk
 
-#com.cosylab.epics.caj.CAJContext.addr_list           = 172.23.106.255 172.23.106.35 172.23.7.255 172.23.19.255 172.23.16.86
-com.cosylab.epics.caj.CAJContext.addr_list           = 172.23.106.255 172.23.106.35
+com.cosylab.epics.caj.CAJContext.addr_list           = 172.23.106.255 172.23.106.35 172.23.7.255 172.23.19.255 172.23.16.86
 
 com.cosylab.epics.caj.CAJContext.auto_addr_list      = false
 com.cosylab.epics.caj.CAJContext.connection_timeout  = 30.0
@@ -33,11 +32,11 @@ com.cosylab.epics.caj.CAJContext.repeater_port      = 5065
 com.cosylab.epics.caj.CAJContext.server_port        = 5064
 
 
-com.cosylab.epics.caj.CAJContext.max_array_bytes   = 4000000
+com.cosylab.epics.caj.CAJContext.max_array_bytes   = 10000000
 
 #com.cosylab.epics.caj.CAJContext.event_dispatcher	= gov.aps.jca.event.QueuedEventDispatcher
 com.cosylab.epics.caj.CAJContext.event_dispatcher= gov.aps.jca.event.SplitQueuedEventDispatcher
 
 com.cosylab.epics.caj.impl.reactor.lf.LeaderFollowersThreadPool.thread_pool_size = 5
-com.cosylab.epics.caj.impl.CachedByteBufferAllocator.buffer_size=32000
+com.cosylab.epics.caj.impl.CachedByteBufferAllocator.buffer_size=64000
 
