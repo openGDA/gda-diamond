@@ -1,3 +1,7 @@
+# vvv Disable Baton for Mobile workstation:
+gda.accesscontrol.useAccessControl = false
+gda.accesscontrol.useBatonControl = false
+# ^^^ Disable Baton for Mobile workstation:
 
 gda.beamline.name = i06-1
 gda.instrument = workstation
