@@ -28,13 +28,14 @@ export JAVA_OPTS="-Dgda.deploytype=1 -XX:MaxPermSize=1024m"
 
 GDA_CORE_SCRIPT_OPTIONS="--headless servers --debug"
 
-# i06 & i06-1 all share the same i06-config directory, so overrride the one from gda_setup_env
+# i06 & i06-1 all share the same i06-config directory, so override the one from gda_setup_env
 export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i06-config
 
 ARGS="--properties $GDA_CONFIG/properties/java.properties_$GDA_MODE"
 ARGS="--jacorb     $GDA_CONFIG/properties/jacorb_$GDA_MODE                $ARGS"
 ARGS="--jca        $GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $ARGS"
 ARGS="--vardir     $GDA_ROOT/../var                                       $ARGS"
+ARGS="--logsdir    /dls/$BEAMLINE/logs                                    $ARGS"
 
 echo  $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS $ARGS
 echo  $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS $ARGS >> $GDA_CONSOLE_LOG
