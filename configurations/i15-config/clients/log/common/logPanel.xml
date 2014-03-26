@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="true"> <!-- Add debug="true" in here to log logback configuration -->
+
+    <!-- The logPanel.xml file defines which messages sent to the appenders are displayed on the log panel. -->
+    <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
+
     <appender name="LogPanel" class="gda.util.LogPanelAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ALL</level>
@@ -7,12 +11,10 @@
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%date %-5level %logger - %m %ex %n</pattern>
         </layout>
-    </appender>    
-    <logger name="gda">
-        <level value="INFO"/>
-    </logger>
+    </appender>
+
     <root>
-        <level value="INFO"/>
+        <level value="ALL"/>
         <appender-ref ref="LogPanel"/>
     </root>
 </configuration>

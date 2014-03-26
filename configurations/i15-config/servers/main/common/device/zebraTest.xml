@@ -7,8 +7,8 @@
 		<property name="zebraPrefix" value="TESTZEBRA:ZEBRA:"/>
 	</bean>
 
-	<bean id="zebraTestMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="TESTZEBRA:M1"/>
+	<bean id="zebraTestMotor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="zebraTestMotor"/>
 		<property name="local" value="true" />
 	</bean>
 

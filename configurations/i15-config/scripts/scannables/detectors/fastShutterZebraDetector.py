@@ -182,3 +182,34 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         if self.verbose:
             simpleLog("%s:%s() started..." % (self.name, self.pfuncname()))
         return "FastShutterDetector";
+
+    ###    HardwareTriggeredDetector interface implementations:
+
+    def getHardwareTriggerProvider(self):
+        """ Get the HardwareTriggerProvider that represents the controller this Detector is wired to."""
+        if self.verbose:
+            simpleLog("FastShutterDetector.getHardwareTriggerProvider started...")
+        return self.continuousMoveController
+
+    def setNumberImagesToCollect(self, numberImagesToCollect):
+        """ Tell the detector how many scan points to collect. (Unfortunately named images)."""
+        if self.verbose:
+            simpleLog("FastShutterDetector.setNumberImagesToCollect started...")
+        if not numberImagesToCollect == 1:
+            pass
+
+    def integratesBetweenPoints(self):
+        """ Detectors that sample some value at the time of a trigger should return False. Detectors such as counter timers
+            should return True. If true ,TrajectoryScanLine will generate a trigger half a point before the motor reaches a
+            demanded point such that the resulting bin of data is centred on the demand position. Area detectors that will be
+            triggered by the first pulse should also return true."""
+        if self.verbose:
+            simpleLog("FastShutterDetector.integratesBetweenPoints started...")
+        return True
+
+    ###    DetectorWithReadoutTime interface implementations:
+
+    def getReadOutTime(self):
+        if self.verbose:
+            simpleLog("FastShutterDetector.getReadOutTime started...")
+        return 0.1 # To match the PE
