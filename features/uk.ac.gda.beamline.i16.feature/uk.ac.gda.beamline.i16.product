@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Light Source Beamline I16" id="uk.ac.gda.beamline.i16.product" application="uk.ac.gda.client.application" version="8.36.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Light Source Beamline I16" id="uk.ac.gda.beamline.i16.product" application="uk.ac.gda.client.application" version="8.38.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -11,12 +11,11 @@
    </configIni>
 
    <launcherArgs>
-
       <vmArgs>-Declipse.pluginCustomization=/dls_sw/i16/software/gda/config/pluginCustomization.ini
 -Djacorb.config.dir=/dls_sw/i16/software/gda/config/jacorb/live
 -Dgda.install.workspace.loc=/dls_sw/i16/software/gda/workspace
 -Dgda.config=/dls_sw/i16/software/gda/config
--Dgda.propertiesFile=/dls_sw/i16/software/gda/config/properties/live/java.properties
+-Dgda.propertiesFile=/dls_sw/i16/software/gda/config/properties/live/rcpclient.java.properties
 -Dgda.data=/dls/i16/data
 -Dgda.mode=live
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i16/software/gda/config/jca/live/JCALibrary.properties

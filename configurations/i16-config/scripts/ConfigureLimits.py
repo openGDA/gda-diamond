@@ -17,9 +17,9 @@ NOMINAL_LIMITS = {phi : (-999, 999),
 				}
 
 kgam_minus_kmu_min = -11
-#kth_minus_kdelta_max_MODE1 = 80
-kth_minus_kdelta_max_MODE1 = 95
-kth_minus_kdelta_max_MODE2 = 136
+kth_minus_kdelta_max_MODE1 = 80
+#kth_minus_kdelta_max_MODE1 = 95
+#kth_minus_kdelta_max_MODE2 = 136
 
 # Record same defaults from kappa axes to make non-nominal limits report complete
 limits.NOMINAL_LIMITS = NOMINAL_LIMITS

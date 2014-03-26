@@ -37,6 +37,8 @@
 	<import resource="transient/kbmbase.xml" />
 
 	<import resource="../common/scannable/motors.xml" />
+	<import resource="../live/epics/pie725_raster.xml" />
+	<import resource="../live/epics/detector/labcam.xml" />
 
 	<import resource="monitor/currentamps.xml" />
 	<import resource="monitor/machine.xml" />

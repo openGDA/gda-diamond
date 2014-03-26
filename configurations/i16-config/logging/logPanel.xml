@@ -12,12 +12,6 @@
         <level value="INFO"/>
     </logger>
     
-         <logger name="gda.scan.ScanDataPointPopulatorAndPublisher">
-        <level value="DEBUG"/>
-    </logger>
-     <logger name="gda.scan.MultithreadedScanDataPointPipeline">
-        <level value="DEBUG"/>
-    </logger>
      <logger name="gda.device.scannable.ScannableMotor">
         <level value="DEBUG"/>
     </logger>

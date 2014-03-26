@@ -79,9 +79,9 @@ try_execfile("BeamlineI07/useDetectors.py", "Start detectors")
 #execfile("BeamlineI07/init_bimorph_voltage_setter.py")
 try_execfile("BeamlineI07/setBimorphMirror.py", "Start bimorph stuff")
 
-try_execfile("BeamlineI07/diffractometer.py", "Diffractometer setup")
+#try_execfile("BeamlineI07/diffractometer.py", "Diffractometer setup")
 
-#try_execfile("BeamlineI07/diff1_horizontal_geometry.py", "Diffractometer Horizontal geometry setup (surface normal vertical)")
+try_execfile("BeamlineI07/diff1_horizontal_geometry.py", "Diffractometer Horizontal geometry setup (surface normal vertical)")
 
 try_execfile("BeamlineI07/useDCD.py", "Creating the DCD motors for Liquid Surface Reflectivity Measurement")
 
@@ -124,4 +124,8 @@ try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialis
 
 print "==================================================================="
 print
-print
+#print
+#print "running 'i07-config/scripts/si9328.py'"
+#run('si9328_setup')
+#print "try e.g.:"
+#print "scan vspeed profile(10, 20, 40, 1) t 0 .1 point 0 1 clock epoch dt"
