@@ -29,14 +29,31 @@ class NexusMetaData():
         self.addScannableWriter( scannable, scannableWriter )
 
     def addScannableWriter( self, scannable, scannableWriter ):
-        self.metadataScannables.add( scannable.name )
-        self.metadataPaths.put( scannable.name, scannableWriter )
+        name = scannable.name if hasattr( scannable, 'name' ) else scannable
+        self.metadataScannables.add( name )
+        self.metadataPaths.put( name, scannableWriter )
 
     def removeScannable( self, scannable ):
         scannableName = scannable.name if hasattr( scannable, 'name' ) else scannable
         self.metadataPaths.remove( scannableName )
         self.metadataScannables.remove( scannableName )
 
+    def clear( self ):
+        self.metadataPaths.clear()
+        self.metadataScannables.clear()
+
+    def resetToDefault( self ):
+        self.clear()
+        paths = [ 'instrument:NXinstrument/FEM:NXcollection/femX',
+            'instrument:NXinstrument/FEM:NXcollection/femY',
+            'instrument:NXinstrument/FEM:NXcollection/femYaw',
+            'instrument:NXinstrument/FEM:NXcollection/femRoll',
+            'instrument:NXinstrument/FEM:NXcollection/femPitch' ]
+        units = [ 'mm', 'mm', 'deg', 'deg', 'deg' ]
+        writer = gda.data.scan.datawriter.scannablewriter.SingleScannableWriter()
+        writer.setPaths( paths )
+        writer.setUnits( units )
+        self.addScannableWriter( 'fem', writer )
 
 def constructScannableWriter( paths, units ):
     entry = gda.data.scan.datawriter.scannablewriter.SingleScannableWriter()
