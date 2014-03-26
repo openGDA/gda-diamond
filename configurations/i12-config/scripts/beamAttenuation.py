@@ -10,7 +10,8 @@ from gda.factory import Finder
 finder = Finder.getInstance()
 
 oh2shtr=finder.find("oh2shtr")
-
+f1=finder.find("f1")
+f2=finder.find("f2")
 
 # Additional information:
 # filter 1:
@@ -32,37 +33,37 @@ def moveToAttenuation(totalFiltration):
     pos(oh2shtr, "Close")
     print "Shutter now closed."
     if totalFiltration == 0:
-        pos f1 "Clear" f2 "1mm"
         print "Moving Attenuators."
-    if totalFiltration = 1:
-        pos f1 1 f2 0
+        pos(f1, "clear", f2, "clear")
+    elif totalFiltration == 1:
         print "Moving Attenuators."
-    if totalFiltration = 2:
-        pos f1 0 f2 1
+        pos(f1, "clear", f2, "1mm")
+    elif totalFiltration == 2:
         print "Moving Attenuators."
-    if totalFiltration = 3:
-        pos f1 0 f2 0
+        pos(f1, "2mm", f2, "clear")
+    elif totalFiltration == 3:
         print "Moving Attenuators."
-    if totalFiltration = 4:
-        pos f1 1 f2 2
+        pos(f1, "2mm", f2, "1mm")
+    elif totalFiltration == 4:
         print "Moving Attenuators."
-    if totalFiltration = 6:
-        pos f1 0 f2 2
+        pos(f1, "clear", f2, "4mm")
+    elif totalFiltration == 6:
         print "Moving Attenuators."
-    if totalFiltration = 8:
-        pos f1 2 f2 1
+        pos(f1, "2mm", f2, "4mm")
+    elif totalFiltration == 8:
         print "Moving Attenuators."
-    if totalFiltration = 9:
-        pos f1 2 f2 0
+        pos(f1, "8mm", f2, "clear")
+    elif totalFiltration == 9:
         print "Moving Attenuators."
-    if totalFiltration = 12:
-        pos f1 2 f2 2
+        pos(f1, "8mm", f2, "1mm")
+    elif totalFiltration == 12:
         print "Moving Attenuators."
+        pos(f1, "8mm", f2, "4mm")
     else:
         print "Chosen attenuation thickness not available."
         print "Possible thickness: 0mm, 1mm, 2mm, 3mm, 4mm, 6mm, 8mm, 9mm or 12mm"
         
-    print "Attenuators at requested thickness " + `totalThickness` + "mm. OH2 shutter closed."
+    print "Attenuators at requested thickness " + `totalFiltration` + "mm. OH2 shutter closed."
     
 
 print "finished loading 'moveToAttenuation' "

@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="p2r_telnet" class="gda.io.socket.SocketBidiAsciiCommunicator">
-	<property name="address" value="172.23.112.10"/>
+	<property name="address" value="172.23.112.78"/>
 	<property name="port" value="23"/>
 	</bean>
 	<bean id="p2r_rot_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
@@ -65,7 +65,7 @@
 	
 	<bean id="p2r_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="p2r_flyScanDetector"/>
-		<property name="readOutTime" value=".250"/>
+		<property name="readOutTime" value=".001"/>
 		<property name="hardwareTriggerProvider" ref="p2rcvmc"/>
 		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -77,7 +77,7 @@
 	
 	<bean id="p2r_flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="p2r_flyScanDetectorTIF"/>
-		<property name="readOutTime" value=".250"/>
+		<property name="readOutTime" value=".001"/>
 		<property name="hardwareTriggerProvider" ref="p2rcvmc"/>
 		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">

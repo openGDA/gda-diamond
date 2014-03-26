@@ -55,7 +55,7 @@ http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help
     remove_default <scannable>....to remove a given scannable from the list of default scannables
 
 10. To close down the telnet connection for P2R, please use the following Jython console command:
-    p2r_rot.motor.smc.simc.bidiAsciiCommunicator.closeConnection()
+    p2r_rot.motor.smc.bidiAsciiCommunicator.closeConnection()
 
 11. flyscanning using zebra
     clear_defaults
