@@ -39,24 +39,30 @@ if [ "$GDA_MODE" = "i06" -o "$GDA_MODE" = "i06-1" ]; then
 
 else
 
-	GDA_VAR=$(readlink -f $GDA_ROOT/../var)
+	. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_servers_output_$GDA_MODE
+
+	GDA_VAR=$(readlink -f $GDA_ROOT/../var/$GDA_MODE)
 	if [ -d $GDA_VAR ]; then
-		export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
-		echo OBJECT_SERVER_STARTUP_FILE=$OBJECT_SERVER_STARTUP_FILE
+		#export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
+		export OBJECT_SERVER_STARTUP_FILE=/tmp/object_server_startup_server_$GDA_MODE
+		echo i06-config/bin/gdaservers: OBJECT_SERVER_STARTUP_FILE=$OBJECT_SERVER_STARTUP_FILE
 	else
 		echo ERROR: $GDA_VAR does not exist.
 		exit
 	fi
 	rm -f $OBJECT_SERVER_STARTUP_FILE
-	
+
+	GDA_CORE_SCRIPT_OPTIONS="--headless servers --debug"
+
 	ARGS="--properties $GDA_CONFIG/properties/java.properties_$GDA_MODE"
 	ARGS="--jacorb     $GDA_CONFIG/properties/jacorb_$GDA_MODE                $ARGS"
 	ARGS="--jca        $GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $ARGS"
-	ARGS="--vardir     $GDA_ROOT/../var                                       $ARGS"
+	ARGS="--vardir     $GDA_VAR                                               $ARGS"
+	ARGS="--logsdir    /dls/$BEAMLINE/logs/$GDA_MODE                          $ARGS"
 
-	echo  $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS $ARGS
-	echo  $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS $ARGS >> $GDA_CONSOLE_LOG
-	nohup $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS $ARGS >> $GDA_CONSOLE_LOG  2>&1 &
+	echo  $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS
+	echo  $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG
+	nohup $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG  2>&1 &
 	
 	echo "Waiting for server startup completion:" $OBJECT_SERVER_STARTUP_FILE
 	# look for the output file which will tell us when the servers have started
