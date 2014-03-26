@@ -17,7 +17,7 @@ fi
 case $HOSTNAME in
     bl06i-mo-serv-01.diamond.ac.uk) NEW_BEAMLINE=i06 ;;
     bl06i-mo-serv-02.diamond.ac.uk) NEW_BEAMLINE=i06-1 ;;
-    i06-ws010)                      NEW_BEAMLINE=i06
+    i06-ws010.diamond.ac.uk)        NEW_BEAMLINE=i06
                                     export GDA_MODE=mobilerack ;;
     *)                              NEW_BEAMLINE=${HOSTNAME%-ws*uk} ;;
 esac
