@@ -37,6 +37,9 @@ import uk.ac.gda.client.XYPlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 
+
+
+
 public class DataCollectionPerspective implements IPerspectiveFactory {
 
 	public static final String ID="uk.ac.gda.beamline.i11.dataCollectionPerspective";

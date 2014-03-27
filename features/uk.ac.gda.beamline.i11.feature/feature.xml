@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i11.feature"
       label="I11_feature Feature"
-      version="8.38.0.qualifier"
+      version="8.36.0.qualifier"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -92,18 +92,17 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.epics.client.mythen"
+         id="com.springsource.org.apache.commons.vfs"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="com.springsource.org.apache.commons.vfs"
+         id="uk.ac.gda.epics.client.mythen"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="uk.ac.gda.devices.pixium"
