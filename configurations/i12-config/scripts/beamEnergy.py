@@ -5,9 +5,6 @@ import time
 import math
 from gda.factory import Finder
 
-
-print "setting up beamEnergy script"
-
 finder = Finder.getInstance()
 
 mc1_bragg=finder.find("mc1_bragg")
@@ -15,13 +12,7 @@ mc2_bragg=finder.find("mc2_bragg")
 mc2_z=finder.find("mc2_z")
 camMono2_y=finder.find("camMono2_y")
 
-#try:
-#    camMono2_y
-#    print "Finder did find camMono2_y"
-    #print "camMono2_y.getName()=" + str(camMono2_y.getName())
-#    print "camMono2_y.getName()=" + str(camMono2_y.getLevel())
-#except:
-#    print "Finder did not find camMono2_y"
+
 try:
     from positionCompareMotorClass import PositionCompareMotorClass
     camMono2_y = PositionCompareMotorClass("camMono2_y", "BL12I-OP-DCM-01:CAM2:Y.VAL", "BL12I-OP-DCM-01:CAM2:Y.RBV", "BL12I-OP-DCM-01:CAM2:Y.STOP", 0.002, "mm", "%.3f")
@@ -150,14 +141,6 @@ def moveToBeamEnergy(target_energy):
     print "WARNING: Old calibration data used, so crude offsets are applied to output motor positions: Crystal 1, -38; Crystal 2, -18; z, -4.5, Camera position, +18.5."
     print "         Crystal and camera positions will still require adjustment and the energy should still be measured if accuracy is required."
     
-#    print "hello Christina 1"
-#    print "type(target_c1)=" + str(type(target_c1))
-#    print "type(target_c2)=" + str(type(target_c2))
-#    print "type(target_z)=" + str(type(target_z))
-#    print "type(target_cam)=" + str(type(target_cam))
-#    print "type(camMono2_y)=" + str(type(camMono2_y))
-    #print "camMono2_y.getName()=" + camMono2_y.getName()
-    
     crystal1 = 1000*target_c1[0,0] - 38
     crystal2 = 1000*target_c2[0,0] - 18
     translation = target_z[0,0] - 4.5
@@ -178,4 +161,4 @@ def moveToBeamEnergy(target_energy):
     print ""
     print "Monochromator at nominally ", target_energy, "keV. Manual adjustment likely to be required."
 
-
+print "finished loading 'moveToBeamEnergy' "
