@@ -283,14 +283,19 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	private String writeToFiles() throws Exception {
-		writer = createFileWritter();
-		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			writer.setFilenameTemplate(filenameTemplate);
+		try {
+			writer = createFileWritter();
+			if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
+				writer.setFilenameTemplate(filenameTemplate);
+			}
+			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
+			writer.writeDataFile();
+			log("EDE single spectrum experiment complete.");
+			return writer.getAsciiFilename();
+		} catch(Exception ex) {
+			logger.error("Error creating data files", ex);
+			throw new Exception("Error creating data files");
 		}
-		logger.debug("EDE linear experiment writing its ascii derived data files...");
-		writer.writeDataFile();
-		log("EDE single spectrum experiment complete.");
-		return writer.getAsciiFilename();
 	}
 
 	protected abstract EdeExperimentDataWriter createFileWritter();
