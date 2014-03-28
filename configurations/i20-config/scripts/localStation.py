@@ -35,6 +35,8 @@ commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
+datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
+original_header_xes = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
@@ -55,11 +57,9 @@ vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 vortexConfig.initialize()
 alias("vortexConfig")
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
-print "Before SamplePreparer"
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
-#outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
-outputPreparer = I20OutputPreparer(datawriterconfig)
 
+samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
+outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
@@ -69,10 +69,10 @@ xes_offsets = XESOffsets(store_dir, spectrometer)
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, False, True, True, False, False)
-xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig, original_header, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, False)
-print "After XesScan"
+xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig_xes, original_header_xes, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, False)
+
 xanes = xas
-print "After xanes"
+
 
 alias("xas")
 alias("xanes")
