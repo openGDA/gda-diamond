@@ -91,11 +91,35 @@
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>
-	
-	<gda:rmi-import
-		id="detectorInfoPath"
+
+	<gda:rmi-import id="detectorInfoPath"
 		serviceUrl="rmi://b21-control.diamond.ac.uk/gda/detectorInfoPath"
 		serviceInterface="uk.ac.gda.server.ncd.beans.StoredDetectorInfo" />
-	
+
 	<gda:rbac />
+
+	<bean id="ispybNotifier" class="uk.ac.gda.devices.bssc.ispyb.NotifyISpyBObserversObject">
+		<constructor-arg value="localhost" />
+		<constructor-arg value="9877" />
+	</bean>
+
+	<bean id="ispyb" class="uk.ac.gda.devices.bssc.ispyb.BioSAXSISPyBviaOracle">
+		<constructor-arg value="jdbc:oracle:thin:@ws096.diamond.ac.uk:1521:xe" />
+		<constructor-arg ref="ispybNotifier" />
+	</bean>
+
+	<bean id="model" class="java.util.ArrayList">
+	</bean>
+
+	<bean id="controller" class="uk.ac.gda.devices.bssc.beans.BioSAXSProgressController">
+		<property name="Model" ref="model" />
+		<property name="ISpyBAPI" ref="ispyb" />
+		<property name="UDPListenerName" value="udplistener" />
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class"
+			value="uk.ac.gda.devices.bssc.beans.BioSAXSProgressController" />
+		<property name="service" ref="controller" />
+	</bean>
 </beans>
