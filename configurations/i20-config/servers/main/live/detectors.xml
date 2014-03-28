@@ -25,13 +25,12 @@
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
 		<property name="epicsDeviceName" value="xmap_dxp" />
-		<property name="NUMBER_OF_ELEMENTS" value="4" />
 		<property name="elementOffset" value="1" />
 	</bean>
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
+		<property name="edxdController" ref="edxdcontroller" />
 		<property name="numberOfElements" value="4" />
-		<property name="edxdControllerName" value="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean>
 
