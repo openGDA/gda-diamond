@@ -44,9 +44,8 @@ public class TimeResolvedDataNode {
 		cycles.clear();
 	}
 
+	// TODO Refactor this! This has hard coded index numbers!
 	public void setData(DoubleDataset timingGroupsDataset, DoubleDataset timeDataset, IntegerDataset cycleDataset) {
-
-		// TODO Refactor this! This has hard coded index numbers!
 		double[] timingGroupsData = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,0}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
 		double[] timePerFrame = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,1}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
 		double[] time = timeDataset.getData();

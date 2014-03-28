@@ -20,7 +20,7 @@ from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm,meta_clear_alldynamical
 from gda.data.scan.datawriter import NexusDataWriter
 
 from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
@@ -147,6 +147,7 @@ alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
+alias("meta_clear_alldynamical")
 
 test = DummyScannable("test")
 
