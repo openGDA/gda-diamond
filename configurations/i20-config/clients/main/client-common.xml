@@ -63,6 +63,10 @@
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
+	
+	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
+		<property name="ClientFileAnnouncerName" value="sockpuppet" />
+	</bean> -->
 
 
 </beans>
