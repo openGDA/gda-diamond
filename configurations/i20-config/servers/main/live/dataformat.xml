@@ -280,7 +280,7 @@
 				</bean>
 				<bean id="primaryslits2" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label"
-						value="Primary slits:  vertical gap= %4.5f mm; horizontal gap= %4.5f mm; vertical offset= %4.5f mm; horizontal offset= %4.5f mm" />
+						value="Primary slits:  vertical gap= %4.5f mrad; horizontal gap= %4.5f mrad; vertical offset= %4.5f mrad; horizontal offset= %4.5f mrad" />
 					<property name="labelValues">
 						<list>
 							<ref bean="s1_vgap" />
