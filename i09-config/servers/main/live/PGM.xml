@@ -16,8 +16,7 @@
 		<property name="deviceName" value="PGM.GRATINGSTRANS" />
 	</bean>
 	<bean id="pgmenergy_motor" class="gda.device.motor.EpicsMotor">
-<!-- 		<property name="deviceName" value="PGM.ENERGY" /> -->
-		<property name="pvName" value="TEST-PGM-01:ENERGY_DEMAND" />
+		<property name="deviceName" value="PGM.ENERGY" />
 	</bean>
 
 	<bean id="pgmgratingselect" class="gda.spring.EpicsPositionerFactoryBean">
