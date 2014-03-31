@@ -16,6 +16,7 @@ export GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i06-config
 VMARGS="-Djacorb.config.dir=$GDA_CONFIG/properties/jacorb_$GDA_MODE                                $VMARGS"
 VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/java.properties_$GDA_MODE                      $VMARGS"
 VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $VMARGS"
+VMARGS="-Dgda.data=/dls/$BEAMLINE $VMARGS"
 # VAR? like  ARGS="--vardir     $GDA_ROOT/../var $ARGS"
 
 
