@@ -45,10 +45,9 @@ def multiregionscan(*args):
             else:
                 arg.createSingleFile(False)
             if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
-                arg.getCollectionStrategy().setSequence(sequence)
+                arg.getCollectionStrategy().setSequence(arg.loadSequenceData(filename))
             i=i+1
     scan(newargs)
-    
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
 
