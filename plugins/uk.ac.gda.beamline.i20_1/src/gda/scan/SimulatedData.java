@@ -89,7 +89,11 @@ public class SimulatedData {
 					simulatedData = createCorrectedSimulatedData(simulatedIt_dark, theDetector);
 				}
 			} else {
-				// TODO Add Iref
+				if (scanType == EdeScanType.LIGHT) {
+					simulatedData = createCorrectedSimulatedData(simulatedIt_raw, theDetector);
+				} else {
+					simulatedData = createCorrectedSimulatedData(simulatedIt_dark, theDetector);
+				}
 			}
 			//	addNoise(simulatedData);
 			thisFrame.addData(theDetector.getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedData, "eV", 1);

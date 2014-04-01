@@ -32,6 +32,15 @@ public class CycleDataNode {
 		timingGroups = new WritableList(timingGroupList, TimingGroupDataNode.class);
 	}
 
+	public double getCycleTime() {
+		double cycleTime = 0.0;
+		for (Object obj : timingGroups) {
+			TimingGroupDataNode timingGroup = (TimingGroupDataNode) obj;
+			cycleTime += timingGroup.getTimePerFrame() * timingGroup.getSpectra().size();
+		}
+		return cycleTime;
+	}
+
 	public IObservableList getTimingGroups() {
 		return timingGroups;
 	}

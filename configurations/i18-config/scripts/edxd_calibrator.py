@@ -113,7 +113,7 @@ class refinement() :
 			self.interrupted = 1  
 		#self.edxd.verifyData()
 		data =[]
-		for i in range(self.edxd.getNUMBER_OF_ELEMENTS()):
+		for i in range(self.edxd.getNumberOfElements()):
 			det = self.edxd.getSubDetector(i)
 			data.append(DataSet(det.getName(), det.readoutDoubles()))
 			
