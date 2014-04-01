@@ -9,37 +9,78 @@
 	</bean>
 
 	<bean id="qbpmgain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
-		<property name="pvName" value="BL22I-DI-IAMP-06:RANGE_MENU" />
+		<property name="pvName" value="BL22I-DI-PHDGN-07:Y:PLUS:GAIN" />
+		<property name='fixed' value='true' />
 		<property name="gaintosando">
 			<map>
+				<entry key="0">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e8" />
+					</bean>
+				</entry>
 				<entry key="1">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="2000" />
+						<property name="scaling" value="10e7" />
 					</bean>
 				</entry>
 				<entry key="2">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="1000" />
+						<property name="scaling" value="10e6" />
 					</bean>
 				</entry>
 				<entry key="3">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="500" />
+						<property name="scaling" value="10e5" />
 					</bean>
 				</entry>
 				<entry key="4">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="100" />
+						<property name="scaling" value="10e4" />
 					</bean>
 				</entry>
 				<entry key="5">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10" />
+						<property name="scaling" value="10e3" />
 					</bean>
 				</entry>
 				<entry key="6">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="1" />
+						<property name="scaling" value="10e2" />
+					</bean>
+				</entry>
+				<entry key="7">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e6" />
+					</bean>
+				</entry>
+				<entry key="8">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e5" />
+					</bean>
+				</entry>
+				<entry key="9">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e4" />
+					</bean>
+				</entry>
+				<entry key="10">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e3"></property>
+					</bean>
+				</entry>
+				<entry key="11">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e2"></property>
+					</bean>
+				</entry>
+				<entry key="12">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e1"></property>
+					</bean>
+				</entry>
+				<entry key="13">
+					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e0"></property>
 					</bean>
 				</entry>
 			</map>
