@@ -24,9 +24,9 @@ echo "Kill all GDA Clients running locally"
 gda --stop client
 sleep 2;
 
-echo "Restaring GDA Log Panel locally"
-echo gda --restart logpanel &
-gda --restart logpanel &
+echo "Restarting GDA Log Panel locally"
+echo gda logpanel --restart $@ &
+gda logpanel --restart $@ &
 sleep 2
 
 SSHOPTS="-o StrictHostKeyChecking=no -o BatchMode=yes"
