@@ -220,6 +220,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				createNewDataHandle();
 				// to read back timing data
 				createNewTimingHandle();
+				startTemperatureLogging();
 				connected = true;
 			} catch (DeviceException e) {
 				connected = false;
@@ -258,6 +259,11 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	@Override
 	public void disconnect() throws DeviceException {
 		if (isConnected()) {
+			try {
+				stopTemperatureLogging();
+			} catch (Exception e) {
+				logger.error("Exception when stopping temperature logging when disconnecting", e);
+			}
 			close();
 		}
 		connected = false;
