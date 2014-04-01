@@ -161,6 +161,14 @@
             name="Slits scan plot"
             restorable="true">
       </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
+            icon="icons/Temperature.png"
+            id="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
+            name="Detector Temperatures "
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
