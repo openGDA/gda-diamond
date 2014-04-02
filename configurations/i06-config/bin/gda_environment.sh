@@ -1,33 +1,38 @@
-#!/bin/sh
-# This script assumes that $BEAMLINE is set (e.g. i07, i18, b16) if not exit...
+# This file is sourced from /dls_sw/$BEAMLINE/etc/$BEAMLINE_profile.sh
+# which is sourced from /etc/profile.d/gda_environment.sh
 
-if [ ! -n "$BEAMLINE" ];
-then
-  echo "Please set BEAMLINE environment variable."
+if [ ! -n "$BEAMLINE" ]; then
+  echo "ERROR: BEAMLINE not set" 1>&2
   exit 1
 fi
-# echo Beamline Name: $BEAMLINE
 
-# Getting access to the tools used by DASC
-if [ -f /dls_sw/dasc/tools_versions/set_tools.sh ];
-then
-	OLDDIR=`pwd`
-	cd /dls_sw/dasc/tools_versions
-#	source set_tools.sh > ~/.set_tools_report.txt
-	module load java/gda826
-	cd $OLDDIR
+if [ -f "/etc/profile.d/modules.sh" ]; then
+    . /etc/profile.d/modules.sh
 fi
 
-module load java/gda830
+# Correct the beamline name based on login host name BL-ws00?.diamond.ac.uk:
+# Strip out shortest match between '-' and 'k', at end of string
 
+#To deal with non-standard beamline machines:
+case $HOSTNAME in
+    bl06i-mo-serv-01.diamond.ac.uk) NEW_BEAMLINE=i06 ;;
+    bl06i-mo-serv-02.diamond.ac.uk) NEW_BEAMLINE=i06-1 ;;
+    i06-ws010.diamond.ac.uk)        NEW_BEAMLINE=i06
+                                    export GDA_MODE=mobilerack ;;
+    *)                              NEW_BEAMLINE=${HOSTNAME%-ws*uk} ;;
+esac
 
-export DASC_SOFTWARE=/dls_sw/$BEAMLINE/software
+if [ -z $GDA_MODE ] ; then
+	export GDA_MODE=$NEW_BEAMLINE
+fi
 
-#export GDA_CORE=$DASC_SOFTWARE/gda/plugins/uk.ac.gda.core
-export GDA_CORE=$DASC_SOFTWARE/gda/workspace_git/gda-core.git/uk.ac.gda.core
+if [ ! $BEAMLINE == $NEW_BEAMLINE ]; then
+    echo $0: BEAMLINE was $BEAMLINE , it is now $NEW_BEAMLINE
+    export BEAMLINE=$NEW_BEAMLINE
+fi
 
-export GDA_LIBRARY_SUBDIR=`uname`-`uname -i`
+GDA_ROOT=/dls_sw/$BEAMLINE/software/gda
+GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i06-config
+MT_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config
 
-export LD_LIBRARY_PATH=$GDA_CORE/lib/$GDA_LIBRARY_SUBDIR:${LD_LIBRARY_PATH}
-
-export PATH=$DASC_SOFTWARE/gda/bin:/dls_sw/$BEAMLINE/bin:${PATH}
+export PATH=$GDA_CONFIG/bin:$MT_CONFIG/bin:/dls_sw/$BEAMLINE/bin:${PATH}

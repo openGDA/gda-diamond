@@ -1,3 +1,7 @@
+# vvv Disable Baton for Mobile workstation:
+gda.accesscontrol.useAccessControl = false
+gda.accesscontrol.useBatonControl = false
+# ^^^ Disable Baton for Mobile workstation:
 
 gda.beamline.name = i06-1
 gda.instrument = workstation
@@ -30,7 +34,7 @@ gda.server.logging.port = 6000
 # port used by logPanel application to receive messages - normally from logserver; default 6002
 gda.logPanel.logging.port=6002
 
-gda.defVisit = cm4955-1
+gda.defVisit = cm4955-2
 
 
 ## For Camera data storage
