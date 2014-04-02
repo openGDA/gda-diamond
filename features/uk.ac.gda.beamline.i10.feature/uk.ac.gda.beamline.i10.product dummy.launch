@@ -12,6 +12,7 @@
 <booleanAttribute key="default" value="true"/>
 <booleanAttribute key="includeOptional" value="true"/>
 <stringAttribute key="location" value=""/>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.config=../workspace_git/gda-mt.git/configurations/i10-config&#10;-Dgda.mode=dummy&#10;-Djacorb.config.dir=../workspace_git/gda-mt.git/configurations/i10-config/jacorb/dummy&#10;-Dgda.propertiesFile=../workspace_git/gda-mt.git/configurations/i10-config/properties/dummy/java.properties&#10;-Dgov.aps.jca.JCALibrary.properties=../workspace_git/gda-mt.git/configurations/i10-config/jca/dummy/JCALibrary.properties&#10;-Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i10-config/clients/main/common/pluginCustomization.ini&#10;-Dgda.logs.dir=../../../../logs&#10;-Dgda.client.jython.automatic.interpreter=1&#10;-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True&#10;-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True&#10;-Xms512m&#10;-Xmx1024m&#10;-XX:PermSize=128m&#10;-XX:MaxPermSize=1024m&#10;-XX:+DisableExplicitGC"/>
