@@ -254,6 +254,12 @@
 	<simpleMotor desc="S6 y-gapcentre mtr (cmpnd)" name="SLITS6.YGAPCENTRE">
 		<RECORD desc="Motor" pv="BL10I-AL-SLITS-06:YCENTRE" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleBinary desc="M1 Hexapod Leg CS deferred moves" name="M1.DEFER_HEXAPOD">
+		<RECORD desc="m1 hexapod leg cs deferred moves" pv="BL10I-OP-COL-01:DEFER_HEXAPOD" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="M3M5 Hexapod Leg CS deferred moves" name="M3M5.DEFER_HEXAPOD">
+		<RECORD desc="m3m5 hexapod leg cs deferred moves" pv="BL10I-OP-SWTCH-01:DEFER_HEXAPOD" ro="false" type="binary"/>
+	</simpleBinary>
 	<simpleMotor desc="D2 detector motor" name="D2.DETX">
 		<RECORD desc="Motor" pv="BL10I-DI-PHDGN-02:DET:X" ro="false" type="motor"/>
 	</simpleMotor>
@@ -293,6 +299,9 @@
 	<simpleMotor desc="M3M5 roll (Rz) mtr (cmpnd)" name="M3M5.ROLL">
 		<RECORD desc="Motor" pv="BL10I-OP-SWTCH-01:ROLL" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleBinary desc="M4 Hexapod Leg CS deferred moves" name="M4.DEFER_HEXAPOD">
+		<RECORD desc="m4 hexapod leg cs deferred moves" pv="BL10I-OP-FOCS-01:DEFER_HEXAPOD" ro="false" type="binary"/>
+	</simpleBinary>
 	<simpleMotor desc="M4 x transl mtr (cmpnd)" name="M4.X">
 		<RECORD desc="Motor" pv="BL10I-OP-FOCS-01:X" ro="false" type="motor"/>
 	</simpleMotor>
@@ -443,6 +452,9 @@
 	<simpleMotor desc="S9 y-gapcentre mtr (cmpnd)" name="SLITS9.YGAPCENTRE">
 		<RECORD desc="Motor" pv="BL10J-AL-SLITS-03:YCENTRE" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleBinary desc="M6 Hexapod Leg CS deferred moves" name="M6.DEFER_HEXAPOD">
+		<RECORD desc="m6 hexapod leg cs deferred moves" pv="BL10J-OP-FOCA-01:DEFER_HEXAPOD" ro="false" type="binary"/>
+	</simpleBinary>
 	<simpleMotor desc="M6 x transl mtr (cmpnd)" name="M6.X">
 		<RECORD desc="Motor" pv="BL10J-OP-FOCA-01:X" ro="false" type="motor"/>
 	</simpleMotor>
@@ -465,100 +477,162 @@
 		<RECORD desc="Scaler" pv="BL10I-DI-SCLR-01:SCALER1" ro="false" type="scaler"/>
 	</simpleScaler>
 	<simpleScaler desc="Scaler Card J1" name="SCALERJ1">
-		<RECORD desc="Scaler" pv="BL10J-DI-SCLR-01:SCALER1" ro="false" type="scaler"/>
+		<RECORD desc="Scaler" pv="BL10J-DI-SCLR-01:SCALERJ1" ro="false" type="scaler"/>
 	</simpleScaler>
 	<mcaGroup desc="SIS3820 multichannel scaler 1" name="MCS1">
-		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL10I-DI-SCLR-01:MCA01:EraseStart" ro="false" type="binary"/>
 		<ERASE desc="Clear all spectrums" pv="BL10I-DI-SCLR-01:MCA01:EraseAll" ro="false" type="binary"/>
+		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL10I-DI-SCLR-01:MCA01:EraseStart" ro="false" type="binary"/>
 		<START desc="Start acquiring" pv="BL10I-DI-SCLR-01:MCA01:StartAll" ro="false" type="binary"/>
-		<STOP desc="Stop acquiring" pv="BL10I-DI-SCLR-01:MCA01:StopAll" ro="false" type="binary"/>
-		<NBINS desc="Number of bins to use in spectrum" pv="BL10I-DI-SCLR-01:MCA01:NuseAll" ro="false" type="pv"/>
-		<STATRATE desc="Status update rate" pv="BL10I-DI-SCLR-01:MCA01:StatusAll.SCAN" ro="false" type="pv"/>
-		<READRATE desc="Data update rate" pv="BL10I-DI-SCLR-01:MCA01:ReadAll.SCAN" ro="false" type="pv"/>
-		<TREAL desc="Real time since start of acquisition" pv="BL10I-DI-SCLR-01:MCA01:ElapsedReal" ro="true" type="pv"/>
 		<ACQ desc="Acquiring status" pv="BL10I-DI-SCLR-01:MCA01:Acquiring" ro="true" type="binary"/>
+		<STOP desc="Stop acquiring" pv="BL10I-DI-SCLR-01:MCA01:StopAll" ro="false" type="binary"/>
 		<TACQ desc="Set total acquisition time" pv="BL10I-DI-SCLR-01:MCA01:PresetReal" ro="false" type="pv"/>
+		<TREAL desc="Real time since start of acquisition" pv="BL10I-DI-SCLR-01:MCA01:ElapsedReal" ro="true" type="pv"/>
+		<READRATE desc="Data update rate" pv="BL10I-DI-SCLR-01:MCA01:ReadAll.SCAN" ro="false" type="pv"/>
+		<NBINS desc="Number of bins to use in spectrum" pv="BL10I-DI-SCLR-01:MCA01:NuseAll" ro="false" type="pv"/>
 		<TDWELL desc="Set integration time [s] for incrementing bin number" pv="BL10I-DI-SCLR-01:MCA01:Dwell" ro="false" type="pv"/>
 		<BINADV desc="Set internal or external bin advance signal" pv="BL10I-DI-SCLR-01:MCA01:ChannelAdvance" ro="false" type="binary"/>
 		<EXTPRE desc="External bin advance prescaler" pv="BL10I-DI-SCLR-01:MCA01:Prescale" ro="false" type="pv"/>
+		<SIG1 desc="SIS3820 input signal number 1" pv="BL10I-DI-SCLR-01:MCA01:mca1" ro="false" type="mca"/>
+		<SIG2 desc="SIS3820 input signal number 2" pv="BL10I-DI-SCLR-01:MCA01:mca2" ro="false" type="mca"/>
+		<SIG3 desc="SIS3820 input signal number 3" pv="BL10I-DI-SCLR-01:MCA01:mca3" ro="false" type="mca"/>
+		<SIG4 desc="SIS3820 input signal number 4" pv="BL10I-DI-SCLR-01:MCA01:mca4" ro="false" type="mca"/>
+		<SIG5 desc="SIS3820 input signal number 5" pv="BL10I-DI-SCLR-01:MCA01:mca5" ro="false" type="mca"/>
+		<SIG6 desc="SIS3820 input signal number 6" pv="BL10I-DI-SCLR-01:MCA01:mca6" ro="false" type="mca"/>
+		<SIG7 desc="SIS3820 input signal number 7" pv="BL10I-DI-SCLR-01:MCA01:mca7" ro="false" type="mca"/>
+		<SIG8 desc="SIS3820 input signal number 8" pv="BL10I-DI-SCLR-01:MCA01:mca8" ro="false" type="mca"/>
+		<SIG9 desc="SIS3820 input signal number 9" pv="BL10I-DI-SCLR-01:MCA01:mca9" ro="false" type="mca"/>
+		<SIG10 desc="SIS3820 input signal number 10" pv="BL10I-DI-SCLR-01:MCA01:mca10" ro="false" type="mca"/>
+		<SIG11 desc="SIS3820 input signal number 11" pv="BL10I-DI-SCLR-01:MCA01:mca11" ro="false" type="mca"/>
+		<SIG12 desc="SIS3820 input signal number 12" pv="BL10I-DI-SCLR-01:MCA01:mca12" ro="false" type="mca"/>
+		<SIG13 desc="SIS3820 input signal number 13" pv="BL10I-DI-SCLR-01:MCA01:mca13" ro="false" type="mca"/>
+		<SIG14 desc="SIS3820 input signal number 14" pv="BL10I-DI-SCLR-01:MCA01:mca14" ro="false" type="mca"/>
+		<SIG15 desc="SIS3820 input signal number 15" pv="BL10I-DI-SCLR-01:MCA01:mca15" ro="false" type="mca"/>
+		<SIG16 desc="SIS3820 input signal number 16" pv="BL10I-DI-SCLR-01:MCA01:mca16" ro="false" type="mca"/>
+		<SIG17 desc="SIS3820 input signal number 17" pv="BL10I-DI-SCLR-01:MCA01:mca17" ro="false" type="mca"/>
+		<SIG18 desc="SIS3820 input signal number 18" pv="BL10I-DI-SCLR-01:MCA01:mca18" ro="false" type="mca"/>
+		<SIG19 desc="SIS3820 input signal number 19" pv="BL10I-DI-SCLR-01:MCA01:mca19" ro="false" type="mca"/>
+		<SIG20 desc="SIS3820 input signal number 20" pv="BL10I-DI-SCLR-01:MCA01:mca20" ro="false" type="mca"/>
+		<SIG21 desc="SIS3820 input signal number 21" pv="BL10I-DI-SCLR-01:MCA01:mca21" ro="false" type="mca"/>
+		<SIG22 desc="SIS3820 input signal number 22" pv="BL10I-DI-SCLR-01:MCA01:mca22" ro="false" type="mca"/>
+		<SIG23 desc="SIS3820 input signal number 23" pv="BL10I-DI-SCLR-01:MCA01:mca23" ro="false" type="mca"/>
+		<SIG24 desc="SIS3820 input signal number 24" pv="BL10I-DI-SCLR-01:MCA01:mca24" ro="false" type="mca"/>
+		<SIG25 desc="SIS3820 input signal number 25" pv="BL10I-DI-SCLR-01:MCA01:mca25" ro="false" type="mca"/>
+		<SIG26 desc="SIS3820 input signal number 26" pv="BL10I-DI-SCLR-01:MCA01:mca26" ro="false" type="mca"/>
+		<SIG27 desc="SIS3820 input signal number 27" pv="BL10I-DI-SCLR-01:MCA01:mca27" ro="false" type="mca"/>
+		<SIG28 desc="SIS3820 input signal number 28" pv="BL10I-DI-SCLR-01:MCA01:mca28" ro="false" type="mca"/>
+		<SIG29 desc="SIS3820 input signal number 29" pv="BL10I-DI-SCLR-01:MCA01:mca29" ro="false" type="mca"/>
+		<SIG30 desc="SIS3820 input signal number 30" pv="BL10I-DI-SCLR-01:MCA01:mca30" ro="false" type="mca"/>
+		<SIG31 desc="SIS3820 input signal number 31" pv="BL10I-DI-SCLR-01:MCA01:mca31" ro="false" type="mca"/>
+		<SIG32 desc="SIS3820 input signal number 32" pv="BL10I-DI-SCLR-01:MCA01:mca32" ro="false" type="mca"/>
 	</mcaGroup>
 	<mcaGroup desc="SIS3820 multichannel scaler J1" name="MCSJ1">
-		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL10J-DI-SCLR-01:MCAJ01:EraseStart" ro="false" type="binary"/>
 		<ERASE desc="Clear all spectrums" pv="BL10J-DI-SCLR-01:MCAJ01:EraseAll" ro="false" type="binary"/>
+		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL10J-DI-SCLR-01:MCAJ01:EraseStart" ro="false" type="binary"/>
 		<START desc="Start acquiring" pv="BL10J-DI-SCLR-01:MCAJ01:StartAll" ro="false" type="binary"/>
-		<STOP desc="Stop acquiring" pv="BL10J-DI-SCLR-01:MCAJ01:StopAll" ro="false" type="binary"/>
-		<NBINS desc="Number of bins to use in spectrum" pv="BL10J-DI-SCLR-01:MCAJ01:NuseAll" ro="false" type="pv"/>
-		<STATRATE desc="Status update rate" pv="BL10J-DI-SCLR-01:MCAJ01:StatusAll.SCAN" ro="false" type="pv"/>
-		<READRATE desc="Data update rate" pv="BL10J-DI-SCLR-01:MCAJ01:ReadAll.SCAN" ro="false" type="pv"/>
-		<TREAL desc="Real time since start of acquisition" pv="BL10J-DI-SCLR-01:MCAJ01:ElapsedReal" ro="true" type="pv"/>
 		<ACQ desc="Acquiring status" pv="BL10J-DI-SCLR-01:MCAJ01:Acquiring" ro="true" type="binary"/>
+		<STOP desc="Stop acquiring" pv="BL10J-DI-SCLR-01:MCAJ01:StopAll" ro="false" type="binary"/>
 		<TACQ desc="Set total acquisition time" pv="BL10J-DI-SCLR-01:MCAJ01:PresetReal" ro="false" type="pv"/>
+		<TREAL desc="Real time since start of acquisition" pv="BL10J-DI-SCLR-01:MCAJ01:ElapsedReal" ro="true" type="pv"/>
+		<READRATE desc="Data update rate" pv="BL10J-DI-SCLR-01:MCAJ01:ReadAll.SCAN" ro="false" type="pv"/>
+		<NBINS desc="Number of bins to use in spectrum" pv="BL10J-DI-SCLR-01:MCAJ01:NuseAll" ro="false" type="pv"/>
 		<TDWELL desc="Set integration time [s] for incrementing bin number" pv="BL10J-DI-SCLR-01:MCAJ01:Dwell" ro="false" type="pv"/>
 		<BINADV desc="Set internal or external bin advance signal" pv="BL10J-DI-SCLR-01:MCAJ01:ChannelAdvance" ro="false" type="binary"/>
 		<EXTPRE desc="External bin advance prescaler" pv="BL10J-DI-SCLR-01:MCAJ01:Prescale" ro="false" type="pv"/>
+		<SIG1 desc="SIS3820 input signal number 1" pv="BL10J-DI-SCLR-01:MCAJ01:mca1" ro="false" type="mca"/>
+		<SIG2 desc="SIS3820 input signal number 2" pv="BL10J-DI-SCLR-01:MCAJ01:mca2" ro="false" type="mca"/>
+		<SIG3 desc="SIS3820 input signal number 3" pv="BL10J-DI-SCLR-01:MCAJ01:mca3" ro="false" type="mca"/>
+		<SIG4 desc="SIS3820 input signal number 4" pv="BL10J-DI-SCLR-01:MCAJ01:mca4" ro="false" type="mca"/>
+		<SIG5 desc="SIS3820 input signal number 5" pv="BL10J-DI-SCLR-01:MCAJ01:mca5" ro="false" type="mca"/>
+		<SIG6 desc="SIS3820 input signal number 6" pv="BL10J-DI-SCLR-01:MCAJ01:mca6" ro="false" type="mca"/>
+		<SIG7 desc="SIS3820 input signal number 7" pv="BL10J-DI-SCLR-01:MCAJ01:mca7" ro="false" type="mca"/>
+		<SIG8 desc="SIS3820 input signal number 8" pv="BL10J-DI-SCLR-01:MCAJ01:mca8" ro="false" type="mca"/>
+		<SIG9 desc="SIS3820 input signal number 9" pv="BL10J-DI-SCLR-01:MCAJ01:mca9" ro="false" type="mca"/>
+		<SIG10 desc="SIS3820 input signal number 10" pv="BL10J-DI-SCLR-01:MCAJ01:mca10" ro="false" type="mca"/>
+		<SIG11 desc="SIS3820 input signal number 11" pv="BL10J-DI-SCLR-01:MCAJ01:mca11" ro="false" type="mca"/>
+		<SIG12 desc="SIS3820 input signal number 12" pv="BL10J-DI-SCLR-01:MCAJ01:mca12" ro="false" type="mca"/>
+		<SIG13 desc="SIS3820 input signal number 13" pv="BL10J-DI-SCLR-01:MCAJ01:mca13" ro="false" type="mca"/>
+		<SIG14 desc="SIS3820 input signal number 14" pv="BL10J-DI-SCLR-01:MCAJ01:mca14" ro="false" type="mca"/>
+		<SIG15 desc="SIS3820 input signal number 15" pv="BL10J-DI-SCLR-01:MCAJ01:mca15" ro="false" type="mca"/>
+		<SIG16 desc="SIS3820 input signal number 16" pv="BL10J-DI-SCLR-01:MCAJ01:mca16" ro="false" type="mca"/>
+		<SIG17 desc="SIS3820 input signal number 17" pv="BL10J-DI-SCLR-01:MCAJ01:mca17" ro="false" type="mca"/>
+		<SIG18 desc="SIS3820 input signal number 18" pv="BL10J-DI-SCLR-01:MCAJ01:mca18" ro="false" type="mca"/>
+		<SIG19 desc="SIS3820 input signal number 19" pv="BL10J-DI-SCLR-01:MCAJ01:mca19" ro="false" type="mca"/>
+		<SIG20 desc="SIS3820 input signal number 20" pv="BL10J-DI-SCLR-01:MCAJ01:mca20" ro="false" type="mca"/>
+		<SIG21 desc="SIS3820 input signal number 21" pv="BL10J-DI-SCLR-01:MCAJ01:mca21" ro="false" type="mca"/>
+		<SIG22 desc="SIS3820 input signal number 22" pv="BL10J-DI-SCLR-01:MCAJ01:mca22" ro="false" type="mca"/>
+		<SIG23 desc="SIS3820 input signal number 23" pv="BL10J-DI-SCLR-01:MCAJ01:mca23" ro="false" type="mca"/>
+		<SIG24 desc="SIS3820 input signal number 24" pv="BL10J-DI-SCLR-01:MCAJ01:mca24" ro="false" type="mca"/>
+		<SIG25 desc="SIS3820 input signal number 25" pv="BL10J-DI-SCLR-01:MCAJ01:mca25" ro="false" type="mca"/>
+		<SIG26 desc="SIS3820 input signal number 26" pv="BL10J-DI-SCLR-01:MCAJ01:mca26" ro="false" type="mca"/>
+		<SIG27 desc="SIS3820 input signal number 27" pv="BL10J-DI-SCLR-01:MCAJ01:mca27" ro="false" type="mca"/>
+		<SIG28 desc="SIS3820 input signal number 28" pv="BL10J-DI-SCLR-01:MCAJ01:mca28" ro="false" type="mca"/>
+		<SIG29 desc="SIS3820 input signal number 29" pv="BL10J-DI-SCLR-01:MCAJ01:mca29" ro="false" type="mca"/>
+		<SIG30 desc="SIS3820 input signal number 30" pv="BL10J-DI-SCLR-01:MCAJ01:mca30" ro="false" type="mca"/>
+		<SIG31 desc="SIS3820 input signal number 31" pv="BL10J-DI-SCLR-01:MCAJ01:mca31" ro="false" type="mca"/>
+		<SIG32 desc="SIS3820 input signal number 32" pv="BL10J-DI-SCLR-01:MCAJ01:mca32" ro="false" type="mca"/>
 	</mcaGroup>
 	<simplePv desc="M1" name="M1.FPITCH.AOCTRL">
-		<RECORD desc="RECORD" pv="BL10I-OP-COL-01:FPITCH:DMD:AO" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-OP-COL-01:FPITCH:DMD:AO" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="M3M5" name="M3M5.FPITCH.AOCTRL">
-		<RECORD desc="RECORD" pv="BL10I-OP-SWTCH-01:FPITCH:DMD:AO" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-OP-SWTCH-01:FPITCH:DMD:AO" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="M4" name="M4.FPITCH.AOCTRL">
-		<RECORD desc="RECORD" pv="BL10I-OP-FOCS-01:FPITCH:DMD:AO" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-OP-FOCS-01:FPITCH:DMD:AO" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel 1 analogue output 1" name="UI1.AO1">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:AO1" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-EA-USER-01:AO1" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel 1 analogue output 2" name="UI1.AO2">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:AO2" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-EA-USER-01:AO2" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel 1 analogue output 3" name="UI1.AO3">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:AO3" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-EA-USER-01:AO3" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel 1 analogue output 4" name="UI1.AO4">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:AO4" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-EA-USER-01:AO4" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel 1 analogue output 5" name="UI1.AO5">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:AO5" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-EA-USER-01:AO5" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel 1 analogue output 6" name="UI1.AO6">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:AO6" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-EA-USER-01:AO6" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel 1 analogue output 7" name="UI1.AO7">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:AO7" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-EA-USER-01:AO7" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel 1 analogue output 8" name="UI1.AO8">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:AO8" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10I-EA-USER-01:AO8" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="M6" name="M6.FPITCH.AOCTRL">
-		<RECORD desc="RECORD" pv="BL10J-OP-FOCA-01:FPITCH:DMD:AO" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-OP-FOCA-01:FPITCH:DMD:AO" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="M7" name="M7.FPITCH.AOCTRL">
-		<RECORD desc="RECORD" pv="BL10J-OP-FOCA-02:FPITCH:DMD:AO" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-OP-FOCA-02:FPITCH:DMD:AO" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel J1 analogue output 1" name="UJ1.AO1">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:AO1" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-EA-USER-01:AO1" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel J1 analogue output 2" name="UJ1.AO2">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:AO2" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-EA-USER-01:AO2" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel J1 analogue output 3" name="UJ1.AO3">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:AO3" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-EA-USER-01:AO3" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel J1 analogue output 4" name="UJ1.AO4">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:AO4" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-EA-USER-01:AO4" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel J1 analogue output 5" name="UJ1.AO5">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:AO5" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-EA-USER-01:AO5" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel J1 analogue output 6" name="UJ1.AO6">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:AO6" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-EA-USER-01:AO6" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel J1 analogue output 7" name="UJ1.AO7">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:AO7" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-EA-USER-01:AO7" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="User patch panel J1 analogue output 8" name="UJ1.AO8">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:AO8" ro="false" type="pv"/>
+		<RECORD desc="analogue output" pv="BL10J-EA-USER-01:AO8" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="M1" name="M1.FPITCH.RB">
 		<RECORD desc="RECORD" pv="BL10I-OP-COL-01:FPITCH:RBV:AI" ro="true" type="pv"/>
@@ -632,53 +706,83 @@
 	<simpleArray desc="User patch panel 1 analogue i/p waveform 3" name="UIW1.WAI3">
 		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:WAI3" ro="true" type="array"/>
 	</simpleArray>
+	<simplePv desc="User patch panel 1 ADC setup control" name="UI.ADC1.SoftTrigger">
+		<RECORD desc="send 1 to trigger" pv="BL10I-EA-USER-01:ADC:SOFTTRIGGER:OUT" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel 1 ADC setup control" name="UI.ADC1.Mode">
+		<RECORD desc="set mode" pv="BL10I-EA-USER-01:ADC:MODE" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel 1 ADC setup control" name="UI.ADC1.ExtClock">
+		<RECORD desc="set ext clock" pv="BL10I-EA-USER-01:ADC:EXTCLOCK" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel 1 ADC setup control" name="UI.ADC1.Enable">
+		<RECORD desc="set enable" pv="BL10I-EA-USER-01:ADC:ENABLE" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel 1 ADC setup control" name="UI.ADC1.Reenable">
+		<RECORD desc="set reenable" pv="BL10I-EA-USER-01:ADC:REENABLE" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel J1 ADC setup control" name="UJ1.ADC1.SoftTrigger">
+		<RECORD desc="send 1 to trigger" pv="BL10J-EA-USER-01:ADC:SOFTTRIGGER:OUT" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel J1 ADC setup control" name="UJ1.ADC1.Mode">
+		<RECORD desc="set mode" pv="BL10J-EA-USER-01:ADC:MODE" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel J1 ADC setup control" name="UJ1.ADC1.ExtClock">
+		<RECORD desc="set ext clock" pv="BL10J-EA-USER-01:ADC:EXTCLOCK" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel J1 ADC setup control" name="UJ1.ADC1.Enable">
+		<RECORD desc="set enable" pv="BL10J-EA-USER-01:ADC:ENABLE" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="User patch panel J1 ADC setup control" name="UJ1.ADC1.Reenable">
+		<RECORD desc="set reenable" pv="BL10J-EA-USER-01:ADC:REENABLE" ro="false" type="pv"/>
+	</simplePv>
 	<simpleBinary desc="User patch panel 1 digital input 1" name="UI1.BI1">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:BI1" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10I-EA-USER-01:BI1" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel 1 digital input 2" name="UI1.BI2">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:BI2" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10I-EA-USER-01:BI2" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel 1 digital input 3" name="UI1.BI3">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:BI3" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10I-EA-USER-01:BI3" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel 1 digital input 4" name="UI1.BI4">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:BI4" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10I-EA-USER-01:BI4" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel 1 digital input 5" name="UI1.BI5">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:BI5" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10I-EA-USER-01:BI5" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel 1 digital input 6" name="UI1.BI6">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:BI6" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10I-EA-USER-01:BI6" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel 1 digital input 7" name="UI1.BI7">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:BI7" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10I-EA-USER-01:BI7" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel 1 digital input 8" name="UI1.BI8">
-		<RECORD desc="RECORD" pv="BL10I-EA-USER-01:BI8" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10I-EA-USER-01:BI8" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel J1 digital input 1" name="UJ1.BI1">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:BI1" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10J-EA-USER-01:BI1" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel J1 digital input 2" name="UJ1.BI2">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:BI2" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10J-EA-USER-01:BI2" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel J1 digital input 3" name="UJ1.BI3">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:BI3" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10J-EA-USER-01:BI3" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel J1 digital input 4" name="UJ1.BI4">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:BI4" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10J-EA-USER-01:BI4" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel J1 digital input 5" name="UJ1.BI5">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:BI5" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10J-EA-USER-01:BI5" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel J1 digital input 6" name="UJ1.BI6">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:BI6" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10J-EA-USER-01:BI6" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel J1 digital input 7" name="UJ1.BI7">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:BI7" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10J-EA-USER-01:BI7" ro="true" type="binary"/>
 	</simpleBinary>
 	<simpleBinary desc="User patch panel J1 digital input 8" name="UJ1.BI8">
-		<RECORD desc="RECORD" pv="BL10J-EA-USER-01:BI8" ro="true" type="binary"/>
+		<RECORD desc="binary input" pv="BL10J-EA-USER-01:BI8" ro="true" type="binary"/>
 	</simpleBinary>
 	<simplePv desc="S2 Current Amplifier channel 1 (XRING blade)" name="S2.XRING.I">
 		<RECORD desc="analogue input" pv="BL10I-AL-SLITS-02:XRING:I" ro="true" type="pv"/>
@@ -766,36 +870,43 @@
 	</simplePv>
 	<currAmpQuad desc="S2 Current Amplifier (S2)" name="S2.IAMP.CTRL">
 		<RANGE desc="Range Selection" pv="BL10I-AL-SLITS-02:IAMP:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL10I-AL-SLITS-02:IAMP:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL10I-AL-SLITS-02:IAMP:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL10I-AL-SLITS-02:IAMP:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="Current Amplifier 1 (S3|D3|M3M5)" name="CA1.CTRL">
 		<RANGE desc="Range Selection" pv="BL10I-DI-IAMP-01:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL10I-DI-IAMP-01:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL10I-DI-IAMP-01:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL10I-DI-IAMP-01:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="Current Amplifier 2 (D4|S4|D5)" name="CA2.CTRL">
 		<RANGE desc="Range Selection" pv="BL10I-DI-IAMP-02:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL10I-DI-IAMP-02:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL10I-DI-IAMP-02:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL10I-DI-IAMP-02:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="Current Amplifier 3 (M4|S5)" name="CA3.CTRL">
 		<RANGE desc="Range Selection" pv="BL10I-DI-IAMP-03:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL10I-DI-IAMP-03:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL10I-DI-IAMP-03:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL10I-DI-IAMP-03:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="Current Amplifier 4 (S6|D6)" name="CA4.CTRL">
 		<RANGE desc="Range Selection" pv="BL10I-DI-IAMP-04:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL10I-DI-IAMP-04:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL10I-DI-IAMP-04:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL10I-DI-IAMP-04:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="Current Amplifier J1 (DJ1|S7|DJ2)" name="CAJ1.CTRL">
 		<RANGE desc="Range Selection" pv="BL10J-DI-IAMP-01:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL10J-DI-IAMP-01:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL10J-DI-IAMP-01:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL10J-DI-IAMP-01:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
 	<currAmpQuad desc="Current Amplifier J2 (M6|S8|DJ3)" name="CAJ2.CTRL">
 		<RANGE desc="Range Selection" pv="BL10J-DI-IAMP-02:SETRANGE" ro="false" type="mbbinary"/>
+		<RANGE_READBACK desc="Range Readback" pv="BL10J-DI-IAMP-02:MRREADBACK" ro="true" type="mbbinary"/>
 		<VENDOR desc="Vendor String" pv="BL10J-DI-IAMP-02:VENDOR" ro="true" type="pv"/>
 		<MODEL desc="Model String" pv="BL10J-DI-IAMP-02:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
@@ -5230,6 +5341,7 @@
 		<ScaleFlatField desc="Set ScaleFlatField" pv="BL10I-DI-PHDGN-01:DCAM:PROC:ScaleFlatField" ro="false" type="pv"/>
 		<ScaleFlatField_RBV desc="Readback for ScaleFlatField" pv="BL10I-DI-PHDGN-01:DCAM:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
 		<EnableOffsetScale desc="Set EnableOffsetScale" pv="BL10I-DI-PHDGN-01:DCAM:PROC:EnableOffsetScale" ro="false" type="binary"/>
+		<AutoOffsetScale desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL10I-DI-PHDGN-01:DCAM:PROC:AutoOffsetScale" ro="false" type="pv"/>
 		<EnableOffsetScale_RBV desc="Readback for EnableOffsetScale" pv="BL10I-DI-PHDGN-01:DCAM:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
 		<Offset desc="Set Offset" pv="BL10I-DI-PHDGN-01:DCAM:PROC:Offset" ro="false" type="pv"/>
 		<Offset_RBV desc="Readback for Offset" pv="BL10I-DI-PHDGN-01:DCAM:PROC:Offset_RBV" ro="true" type="pv"/>
@@ -5309,6 +5421,7 @@
 		<ScaleFlatField desc="Set ScaleFlatField" pv="BL10I-DI-PHDGN-02:DCAM:PROC:ScaleFlatField" ro="false" type="pv"/>
 		<ScaleFlatField_RBV desc="Readback for ScaleFlatField" pv="BL10I-DI-PHDGN-02:DCAM:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
 		<EnableOffsetScale desc="Set EnableOffsetScale" pv="BL10I-DI-PHDGN-02:DCAM:PROC:EnableOffsetScale" ro="false" type="binary"/>
+		<AutoOffsetScale desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL10I-DI-PHDGN-02:DCAM:PROC:AutoOffsetScale" ro="false" type="pv"/>
 		<EnableOffsetScale_RBV desc="Readback for EnableOffsetScale" pv="BL10I-DI-PHDGN-02:DCAM:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
 		<Offset desc="Set Offset" pv="BL10I-DI-PHDGN-02:DCAM:PROC:Offset" ro="false" type="pv"/>
 		<Offset_RBV desc="Readback for Offset" pv="BL10I-DI-PHDGN-02:DCAM:PROC:Offset_RBV" ro="true" type="pv"/>
@@ -5388,6 +5501,7 @@
 		<ScaleFlatField desc="Set ScaleFlatField" pv="BL10I-DI-PHDGN-03:DCAM:PROC:ScaleFlatField" ro="false" type="pv"/>
 		<ScaleFlatField_RBV desc="Readback for ScaleFlatField" pv="BL10I-DI-PHDGN-03:DCAM:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
 		<EnableOffsetScale desc="Set EnableOffsetScale" pv="BL10I-DI-PHDGN-03:DCAM:PROC:EnableOffsetScale" ro="false" type="binary"/>
+		<AutoOffsetScale desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL10I-DI-PHDGN-03:DCAM:PROC:AutoOffsetScale" ro="false" type="pv"/>
 		<EnableOffsetScale_RBV desc="Readback for EnableOffsetScale" pv="BL10I-DI-PHDGN-03:DCAM:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
 		<Offset desc="Set Offset" pv="BL10I-DI-PHDGN-03:DCAM:PROC:Offset" ro="false" type="pv"/>
 		<Offset_RBV desc="Readback for Offset" pv="BL10I-DI-PHDGN-03:DCAM:PROC:Offset_RBV" ro="true" type="pv"/>
@@ -5467,6 +5581,7 @@
 		<ScaleFlatField desc="Set ScaleFlatField" pv="BL10I-DI-PHDGN-04:DCAM:PROC:ScaleFlatField" ro="false" type="pv"/>
 		<ScaleFlatField_RBV desc="Readback for ScaleFlatField" pv="BL10I-DI-PHDGN-04:DCAM:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
 		<EnableOffsetScale desc="Set EnableOffsetScale" pv="BL10I-DI-PHDGN-04:DCAM:PROC:EnableOffsetScale" ro="false" type="binary"/>
+		<AutoOffsetScale desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL10I-DI-PHDGN-04:DCAM:PROC:AutoOffsetScale" ro="false" type="pv"/>
 		<EnableOffsetScale_RBV desc="Readback for EnableOffsetScale" pv="BL10I-DI-PHDGN-04:DCAM:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
 		<Offset desc="Set Offset" pv="BL10I-DI-PHDGN-04:DCAM:PROC:Offset" ro="false" type="pv"/>
 		<Offset_RBV desc="Readback for Offset" pv="BL10I-DI-PHDGN-04:DCAM:PROC:Offset_RBV" ro="true" type="pv"/>
@@ -5546,6 +5661,7 @@
 		<ScaleFlatField desc="Set ScaleFlatField" pv="BL10I-DI-PHDGN-05:DCAM:PROC:ScaleFlatField" ro="false" type="pv"/>
 		<ScaleFlatField_RBV desc="Readback for ScaleFlatField" pv="BL10I-DI-PHDGN-05:DCAM:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
 		<EnableOffsetScale desc="Set EnableOffsetScale" pv="BL10I-DI-PHDGN-05:DCAM:PROC:EnableOffsetScale" ro="false" type="binary"/>
+		<AutoOffsetScale desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL10I-DI-PHDGN-05:DCAM:PROC:AutoOffsetScale" ro="false" type="pv"/>
 		<EnableOffsetScale_RBV desc="Readback for EnableOffsetScale" pv="BL10I-DI-PHDGN-05:DCAM:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
 		<Offset desc="Set Offset" pv="BL10I-DI-PHDGN-05:DCAM:PROC:Offset" ro="false" type="pv"/>
 		<Offset_RBV desc="Readback for Offset" pv="BL10I-DI-PHDGN-05:DCAM:PROC:Offset_RBV" ro="true" type="pv"/>
@@ -5625,6 +5741,7 @@
 		<ScaleFlatField desc="Set ScaleFlatField" pv="BL10J-DI-PHDGN-01:DCAM:PROC:ScaleFlatField" ro="false" type="pv"/>
 		<ScaleFlatField_RBV desc="Readback for ScaleFlatField" pv="BL10J-DI-PHDGN-01:DCAM:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
 		<EnableOffsetScale desc="Set EnableOffsetScale" pv="BL10J-DI-PHDGN-01:DCAM:PROC:EnableOffsetScale" ro="false" type="binary"/>
+		<AutoOffsetScale desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL10J-DI-PHDGN-01:DCAM:PROC:AutoOffsetScale" ro="false" type="pv"/>
 		<EnableOffsetScale_RBV desc="Readback for EnableOffsetScale" pv="BL10J-DI-PHDGN-01:DCAM:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
 		<Offset desc="Set Offset" pv="BL10J-DI-PHDGN-01:DCAM:PROC:Offset" ro="false" type="pv"/>
 		<Offset_RBV desc="Readback for Offset" pv="BL10J-DI-PHDGN-01:DCAM:PROC:Offset_RBV" ro="true" type="pv"/>
@@ -5704,6 +5821,7 @@
 		<ScaleFlatField desc="Set ScaleFlatField" pv="BL10J-DI-PHDGN-02:DCAM:PROC:ScaleFlatField" ro="false" type="pv"/>
 		<ScaleFlatField_RBV desc="Readback for ScaleFlatField" pv="BL10J-DI-PHDGN-02:DCAM:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
 		<EnableOffsetScale desc="Set EnableOffsetScale" pv="BL10J-DI-PHDGN-02:DCAM:PROC:EnableOffsetScale" ro="false" type="binary"/>
+		<AutoOffsetScale desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL10J-DI-PHDGN-02:DCAM:PROC:AutoOffsetScale" ro="false" type="pv"/>
 		<EnableOffsetScale_RBV desc="Readback for EnableOffsetScale" pv="BL10J-DI-PHDGN-02:DCAM:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
 		<Offset desc="Set Offset" pv="BL10J-DI-PHDGN-02:DCAM:PROC:Offset" ro="false" type="pv"/>
 		<Offset_RBV desc="Readback for Offset" pv="BL10J-DI-PHDGN-02:DCAM:PROC:Offset_RBV" ro="true" type="pv"/>
@@ -5773,15 +5891,15 @@
 		<BgdWidth desc="Set BgdWidth" pv="BL10I-DI-PHDGN-01:DCAM:STAT:BgdWidth" ro="false" type="pv"/>
 		<BgdWidth_RBV desc="Readback for BgdWidth" pv="BL10I-DI-PHDGN-01:DCAM:STAT:BgdWidth_RBV" ro="true" type="pv"/>
 		<MinValue_RBV desc="Readback for MinValue" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MinValue_RBV" ro="true" type="pv"/>
-		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
-		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
 		<MaxValue_RBV desc="Readback for MaxValue" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MaxValue_RBV" ro="true" type="pv"/>
-		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
-		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<MeanValue_RBV desc="Readback for MeanValue" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MeanValue_RBV" ro="true" type="pv"/>
 		<Sigma_RBV desc="Readback for Sigma" pv="BL10I-DI-PHDGN-01:DCAM:STAT:Sigma_RBV" ro="true" type="pv"/>
 		<Total_RBV desc="Readback for Total" pv="BL10I-DI-PHDGN-01:DCAM:STAT:Total_RBV" ro="true" type="pv"/>
 		<Net_RBV desc="Readback for Net" pv="BL10I-DI-PHDGN-01:DCAM:STAT:Net_RBV" ro="true" type="pv"/>
+		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
+		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
+		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
+		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-01:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<ComputeCentroid desc="Set ComputeCentroid" pv="BL10I-DI-PHDGN-01:DCAM:STAT:ComputeCentroid" ro="false" type="binary"/>
 		<ComputeCentroid_RBV desc="Readback for ComputeCentroid" pv="BL10I-DI-PHDGN-01:DCAM:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
 		<CentroidThreshold desc="Set CentroidThreshold" pv="BL10I-DI-PHDGN-01:DCAM:STAT:CentroidThreshold" ro="false" type="pv"/>
@@ -5847,15 +5965,15 @@
 		<BgdWidth desc="Set BgdWidth" pv="BL10I-DI-PHDGN-02:DCAM:STAT:BgdWidth" ro="false" type="pv"/>
 		<BgdWidth_RBV desc="Readback for BgdWidth" pv="BL10I-DI-PHDGN-02:DCAM:STAT:BgdWidth_RBV" ro="true" type="pv"/>
 		<MinValue_RBV desc="Readback for MinValue" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MinValue_RBV" ro="true" type="pv"/>
-		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
-		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
 		<MaxValue_RBV desc="Readback for MaxValue" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MaxValue_RBV" ro="true" type="pv"/>
-		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
-		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<MeanValue_RBV desc="Readback for MeanValue" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MeanValue_RBV" ro="true" type="pv"/>
 		<Sigma_RBV desc="Readback for Sigma" pv="BL10I-DI-PHDGN-02:DCAM:STAT:Sigma_RBV" ro="true" type="pv"/>
 		<Total_RBV desc="Readback for Total" pv="BL10I-DI-PHDGN-02:DCAM:STAT:Total_RBV" ro="true" type="pv"/>
 		<Net_RBV desc="Readback for Net" pv="BL10I-DI-PHDGN-02:DCAM:STAT:Net_RBV" ro="true" type="pv"/>
+		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
+		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
+		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
+		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-02:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<ComputeCentroid desc="Set ComputeCentroid" pv="BL10I-DI-PHDGN-02:DCAM:STAT:ComputeCentroid" ro="false" type="binary"/>
 		<ComputeCentroid_RBV desc="Readback for ComputeCentroid" pv="BL10I-DI-PHDGN-02:DCAM:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
 		<CentroidThreshold desc="Set CentroidThreshold" pv="BL10I-DI-PHDGN-02:DCAM:STAT:CentroidThreshold" ro="false" type="pv"/>
@@ -5921,15 +6039,15 @@
 		<BgdWidth desc="Set BgdWidth" pv="BL10I-DI-PHDGN-03:DCAM:STAT:BgdWidth" ro="false" type="pv"/>
 		<BgdWidth_RBV desc="Readback for BgdWidth" pv="BL10I-DI-PHDGN-03:DCAM:STAT:BgdWidth_RBV" ro="true" type="pv"/>
 		<MinValue_RBV desc="Readback for MinValue" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MinValue_RBV" ro="true" type="pv"/>
-		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
-		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
 		<MaxValue_RBV desc="Readback for MaxValue" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MaxValue_RBV" ro="true" type="pv"/>
-		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
-		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<MeanValue_RBV desc="Readback for MeanValue" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MeanValue_RBV" ro="true" type="pv"/>
 		<Sigma_RBV desc="Readback for Sigma" pv="BL10I-DI-PHDGN-03:DCAM:STAT:Sigma_RBV" ro="true" type="pv"/>
 		<Total_RBV desc="Readback for Total" pv="BL10I-DI-PHDGN-03:DCAM:STAT:Total_RBV" ro="true" type="pv"/>
 		<Net_RBV desc="Readback for Net" pv="BL10I-DI-PHDGN-03:DCAM:STAT:Net_RBV" ro="true" type="pv"/>
+		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
+		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
+		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
+		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-03:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<ComputeCentroid desc="Set ComputeCentroid" pv="BL10I-DI-PHDGN-03:DCAM:STAT:ComputeCentroid" ro="false" type="binary"/>
 		<ComputeCentroid_RBV desc="Readback for ComputeCentroid" pv="BL10I-DI-PHDGN-03:DCAM:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
 		<CentroidThreshold desc="Set CentroidThreshold" pv="BL10I-DI-PHDGN-03:DCAM:STAT:CentroidThreshold" ro="false" type="pv"/>
@@ -5995,15 +6113,15 @@
 		<BgdWidth desc="Set BgdWidth" pv="BL10I-DI-PHDGN-04:DCAM:STAT:BgdWidth" ro="false" type="pv"/>
 		<BgdWidth_RBV desc="Readback for BgdWidth" pv="BL10I-DI-PHDGN-04:DCAM:STAT:BgdWidth_RBV" ro="true" type="pv"/>
 		<MinValue_RBV desc="Readback for MinValue" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MinValue_RBV" ro="true" type="pv"/>
-		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
-		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
 		<MaxValue_RBV desc="Readback for MaxValue" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MaxValue_RBV" ro="true" type="pv"/>
-		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
-		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<MeanValue_RBV desc="Readback for MeanValue" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MeanValue_RBV" ro="true" type="pv"/>
 		<Sigma_RBV desc="Readback for Sigma" pv="BL10I-DI-PHDGN-04:DCAM:STAT:Sigma_RBV" ro="true" type="pv"/>
 		<Total_RBV desc="Readback for Total" pv="BL10I-DI-PHDGN-04:DCAM:STAT:Total_RBV" ro="true" type="pv"/>
 		<Net_RBV desc="Readback for Net" pv="BL10I-DI-PHDGN-04:DCAM:STAT:Net_RBV" ro="true" type="pv"/>
+		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
+		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
+		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
+		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-04:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<ComputeCentroid desc="Set ComputeCentroid" pv="BL10I-DI-PHDGN-04:DCAM:STAT:ComputeCentroid" ro="false" type="binary"/>
 		<ComputeCentroid_RBV desc="Readback for ComputeCentroid" pv="BL10I-DI-PHDGN-04:DCAM:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
 		<CentroidThreshold desc="Set CentroidThreshold" pv="BL10I-DI-PHDGN-04:DCAM:STAT:CentroidThreshold" ro="false" type="pv"/>
@@ -6069,15 +6187,15 @@
 		<BgdWidth desc="Set BgdWidth" pv="BL10I-DI-PHDGN-05:DCAM:STAT:BgdWidth" ro="false" type="pv"/>
 		<BgdWidth_RBV desc="Readback for BgdWidth" pv="BL10I-DI-PHDGN-05:DCAM:STAT:BgdWidth_RBV" ro="true" type="pv"/>
 		<MinValue_RBV desc="Readback for MinValue" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MinValue_RBV" ro="true" type="pv"/>
-		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
-		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
 		<MaxValue_RBV desc="Readback for MaxValue" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MaxValue_RBV" ro="true" type="pv"/>
-		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
-		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<MeanValue_RBV desc="Readback for MeanValue" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MeanValue_RBV" ro="true" type="pv"/>
 		<Sigma_RBV desc="Readback for Sigma" pv="BL10I-DI-PHDGN-05:DCAM:STAT:Sigma_RBV" ro="true" type="pv"/>
 		<Total_RBV desc="Readback for Total" pv="BL10I-DI-PHDGN-05:DCAM:STAT:Total_RBV" ro="true" type="pv"/>
 		<Net_RBV desc="Readback for Net" pv="BL10I-DI-PHDGN-05:DCAM:STAT:Net_RBV" ro="true" type="pv"/>
+		<MinX_RBV desc="Readback for MinX" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
+		<MinY_RBV desc="Readback for MinY" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
+		<MaxX_RBV desc="Readback for MaxX" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
+		<MaxY_RBV desc="Readback for MaxY" pv="BL10I-DI-PHDGN-05:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<ComputeCentroid desc="Set ComputeCentroid" pv="BL10I-DI-PHDGN-05:DCAM:STAT:ComputeCentroid" ro="false" type="binary"/>
 		<ComputeCentroid_RBV desc="Readback for ComputeCentroid" pv="BL10I-DI-PHDGN-05:DCAM:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
 		<CentroidThreshold desc="Set CentroidThreshold" pv="BL10I-DI-PHDGN-05:DCAM:STAT:CentroidThreshold" ro="false" type="pv"/>
@@ -6143,15 +6261,15 @@
 		<BgdWidth desc="Set BgdWidth" pv="BL10J-DI-PHDGN-01:DCAM:STAT:BgdWidth" ro="false" type="pv"/>
 		<BgdWidth_RBV desc="Readback for BgdWidth" pv="BL10J-DI-PHDGN-01:DCAM:STAT:BgdWidth_RBV" ro="true" type="pv"/>
 		<MinValue_RBV desc="Readback for MinValue" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MinValue_RBV" ro="true" type="pv"/>
-		<MinX_RBV desc="Readback for MinX" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
-		<MinY_RBV desc="Readback for MinY" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
 		<MaxValue_RBV desc="Readback for MaxValue" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MaxValue_RBV" ro="true" type="pv"/>
-		<MaxX_RBV desc="Readback for MaxX" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
-		<MaxY_RBV desc="Readback for MaxY" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<MeanValue_RBV desc="Readback for MeanValue" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MeanValue_RBV" ro="true" type="pv"/>
 		<Sigma_RBV desc="Readback for Sigma" pv="BL10J-DI-PHDGN-01:DCAM:STAT:Sigma_RBV" ro="true" type="pv"/>
 		<Total_RBV desc="Readback for Total" pv="BL10J-DI-PHDGN-01:DCAM:STAT:Total_RBV" ro="true" type="pv"/>
 		<Net_RBV desc="Readback for Net" pv="BL10J-DI-PHDGN-01:DCAM:STAT:Net_RBV" ro="true" type="pv"/>
+		<MinX_RBV desc="Readback for MinX" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
+		<MinY_RBV desc="Readback for MinY" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
+		<MaxX_RBV desc="Readback for MaxX" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
+		<MaxY_RBV desc="Readback for MaxY" pv="BL10J-DI-PHDGN-01:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<ComputeCentroid desc="Set ComputeCentroid" pv="BL10J-DI-PHDGN-01:DCAM:STAT:ComputeCentroid" ro="false" type="binary"/>
 		<ComputeCentroid_RBV desc="Readback for ComputeCentroid" pv="BL10J-DI-PHDGN-01:DCAM:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
 		<CentroidThreshold desc="Set CentroidThreshold" pv="BL10J-DI-PHDGN-01:DCAM:STAT:CentroidThreshold" ro="false" type="pv"/>
@@ -6217,15 +6335,15 @@
 		<BgdWidth desc="Set BgdWidth" pv="BL10J-DI-PHDGN-02:DCAM:STAT:BgdWidth" ro="false" type="pv"/>
 		<BgdWidth_RBV desc="Readback for BgdWidth" pv="BL10J-DI-PHDGN-02:DCAM:STAT:BgdWidth_RBV" ro="true" type="pv"/>
 		<MinValue_RBV desc="Readback for MinValue" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MinValue_RBV" ro="true" type="pv"/>
-		<MinX_RBV desc="Readback for MinX" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
-		<MinY_RBV desc="Readback for MinY" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
 		<MaxValue_RBV desc="Readback for MaxValue" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MaxValue_RBV" ro="true" type="pv"/>
-		<MaxX_RBV desc="Readback for MaxX" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
-		<MaxY_RBV desc="Readback for MaxY" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<MeanValue_RBV desc="Readback for MeanValue" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MeanValue_RBV" ro="true" type="pv"/>
 		<Sigma_RBV desc="Readback for Sigma" pv="BL10J-DI-PHDGN-02:DCAM:STAT:Sigma_RBV" ro="true" type="pv"/>
 		<Total_RBV desc="Readback for Total" pv="BL10J-DI-PHDGN-02:DCAM:STAT:Total_RBV" ro="true" type="pv"/>
 		<Net_RBV desc="Readback for Net" pv="BL10J-DI-PHDGN-02:DCAM:STAT:Net_RBV" ro="true" type="pv"/>
+		<MinX_RBV desc="Readback for MinX" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MinX_RBV" ro="true" type="pv"/>
+		<MinY_RBV desc="Readback for MinY" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MinY_RBV" ro="true" type="pv"/>
+		<MaxX_RBV desc="Readback for MaxX" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MaxX_RBV" ro="true" type="pv"/>
+		<MaxY_RBV desc="Readback for MaxY" pv="BL10J-DI-PHDGN-02:DCAM:STAT:MaxY_RBV" ro="true" type="pv"/>
 		<ComputeCentroid desc="Set ComputeCentroid" pv="BL10J-DI-PHDGN-02:DCAM:STAT:ComputeCentroid" ro="false" type="binary"/>
 		<ComputeCentroid_RBV desc="Readback for ComputeCentroid" pv="BL10J-DI-PHDGN-02:DCAM:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
 		<CentroidThreshold desc="Set CentroidThreshold" pv="BL10J-DI-PHDGN-02:DCAM:STAT:CentroidThreshold" ro="false" type="pv"/>
