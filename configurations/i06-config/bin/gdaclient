@@ -4,10 +4,10 @@ export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
 
 if [ "$GDA_MODE" = "i06" -o "$GDA_MODE" = "i06-1" ]; then
 	. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_client_output
-	VMARGS="-Dgda.logs.dir=/dls/$BEAMLINE/logs"
+	VMARGS="-Dgda.logs.dir=/dls_sw/$BEAMLINE/logs"
 else
 	. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_client_output_$GDA_MODE
-	VMARGS="-Dgda.logs.dir=/dls/$BEAMLINE/logs/$GDA_MODE"
+	VMARGS="-Dgda.logs.dir=/dls_sw/$BEAMLINE/logs/$GDA_MODE"
 fi
 
 # i06 & i06-1 all share the same i06-config directory, so overrride the one from gda_setup_env

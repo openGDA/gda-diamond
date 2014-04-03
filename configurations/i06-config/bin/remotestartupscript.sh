@@ -35,7 +35,7 @@ ARGS="--properties $GDA_CONFIG/properties/java.properties_$GDA_MODE"
 ARGS="--jacorb     $GDA_CONFIG/properties/jacorb_$GDA_MODE                $ARGS"
 ARGS="--jca        $GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $ARGS"
 ARGS="--vardir     $GDA_ROOT/../var                                       $ARGS"
-ARGS="--logsdir    /dls/$BEAMLINE/logs                                    $ARGS"
+ARGS="--logsdir    /dls_sw/$BEAMLINE/logs                                 $ARGS"
 
 echo  $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS $ARGS
 echo  $GDA_CORE_SCRIPT $GDA_CORE_SCRIPT_OPTIONS $ARGS >> $GDA_CONSOLE_LOG

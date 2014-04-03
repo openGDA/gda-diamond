@@ -58,7 +58,7 @@ else
 	ARGS="--jacorb     $GDA_CONFIG/properties/jacorb_$GDA_MODE                $ARGS"
 	ARGS="--jca        $GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $ARGS"
 	ARGS="--vardir     $GDA_VAR                                               $ARGS"
-	ARGS="--logsdir    /dls/$BEAMLINE/logs/$GDA_MODE                          $ARGS"
+	ARGS="--logsdir    /dls_sw/$BEAMLINE/logs/$GDA_MODE                       $ARGS"
 
 	echo  $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS
 	echo  $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG
