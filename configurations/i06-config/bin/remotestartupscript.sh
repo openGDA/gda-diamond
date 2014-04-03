@@ -40,7 +40,7 @@ ARGS="--properties $GDA_CONFIG/properties/java.properties_$GDA_MODE"
 ARGS="--jacorb     $GDA_CONFIG/properties/jacorb_$GDA_MODE                $ARGS"
 ARGS="--jca        $GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $ARGS"
 ARGS="--vardir     $GDA_ROOT/../var                                       $ARGS"
-ARGS="--logsdir    /dls/$BEAMLINE/logs                                    $ARGS"
+ARGS="--logsdir    /dls_sw/$BEAMLINE/logs                                 $ARGS"
 
 if [ "$BEAMLINE" = "i06-1" ]; then
   ARGS="--nsport 6701 $ARGS"
