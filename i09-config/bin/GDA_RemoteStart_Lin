@@ -24,14 +24,15 @@ echo "Kill all GDA Clients running locally"
 gda --stop client
 sleep 2;
 
-echo "Restarting GDA Log Panel locally"
-echo gda logpanel --restart $@ &
-gda logpanel --restart $@ &
-sleep 2
-
 SSHOPTS="-o StrictHostKeyChecking=no -o BatchMode=yes"
 
 echo "Starting GDA Servers remotely..."
 ssh $SSHOPTS -i /$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
 
-cd 
+# Start log panel if not already started
+LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
+if [ "X$LOGPANEL" == "X" ] ; then
+nohup gdalog >/dev/null 2>&1 &
+else
+wmctrl -R "GDA Log Panel"
+fi

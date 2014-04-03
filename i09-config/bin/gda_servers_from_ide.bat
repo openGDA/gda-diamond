@@ -1,3 +1,8 @@
-set JAVA_HOME=C:\Program Files\Java\jdk1.7.0_21
-set JAVA_OPTS=-Xms128m -Xmx1024m -XX:MaxPermSize=128m
-C:\Python\Python27\python.exe  %1/bin/gda  --config=%2 --smart --trace servers -v --mode=%3 %4 %5 %6 %7
+#bash file used to easily create External Program launch configurations in Eclipse to start servers from the IDE
+#The arguments give the location of the gda command, config , the mode and the command (start or stop)
+#${project_loc:uk.ac.gda.core} ${project_loc:i11-config} dummy --restart
+echo $1 $2 $3 $4
+$1/bin/gda --smart --verbose --config $2 --mode $3 $4 logserver
+$1/bin/gda --smart --verbose --config $2 --mode $3 $4 nameserver 
+$1/bin/gda --smart --verbose --config $2 --mode $3 $4 eventserver
+$1/bin/gda --smart --verbose --config $2 --mode $3 $4 --debug objectserver

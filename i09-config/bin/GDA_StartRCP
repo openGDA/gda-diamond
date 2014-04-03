@@ -19,7 +19,7 @@ else
 fi
 
 # Start log panel if not already started
-LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
+LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
 if [ "X$LOGPANEL" == "X" ] ; then
 	nohup GDA_StartLogPanel 2>/dev/null &
 else
