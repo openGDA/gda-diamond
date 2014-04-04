@@ -60,6 +60,8 @@ else
 	ARGS="--vardir     $GDA_VAR                                               $ARGS"
 	ARGS="--logsdir    /dls_sw/$BEAMLINE/logs/$GDA_MODE                       $ARGS"
 
+	echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE | tee -a $GDA_CONSOLE_LOG
+	echo Starting GDA Servers...
 	echo  $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS
 	echo  $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG
 	nohup $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG  2>&1 &

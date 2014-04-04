@@ -20,8 +20,8 @@ if [ "X$LOGPANEL" == "X" ] ; then
   ARGS="--jca        $GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $ARGS"
   ARGS="--vardir     $GDA_ROOT/../var                                       $ARGS"
 
+  echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE   | tee -a $GDA_CONSOLE_LOG
   echo Starting GDA Log Panel...
-  echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
   echo  $GDA_CORE_SCRIPT $ARGS logpanel
   echo  $GDA_CORE_SCRIPT $ARGS logpanel >> $GDA_CONSOLE_LOG
   nohup $GDA_CORE_SCRIPT $ARGS logpanel >> $GDA_CONSOLE_LOG 2>&1
