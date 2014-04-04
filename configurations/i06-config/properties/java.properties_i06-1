@@ -21,15 +21,17 @@ gda.gui.beans.xml		= ${gda.config}/xml/client/client_${gda.beamline.name}.xml
 gda.jython.socket = 7778
 
 #GDA Logging Server and Client configuration
-#The client port must match with the port setting in SocketAppender element of the LogServer.xml. 
-#default port is 6001
-gda.client.logging.port = 6011
+#The client port must match with the port setting in SocketAppender element of the LogServer.xml; default 6001
+gda.client.logging.port = 6799
+#gda.client.logging.port = 6011
 
-#The server port must match with the port number in SocketAppender element of the ServerLoggingConfiguration.xml. Default port is 6000
-gda.server.logging.port = 6010
+#The server port must match with the port number in SocketAppender element of the ServerLoggingConfiguration.xml; default 6000
+gda.server.logging.port = 6798
+#gda.server.logging.port = 6010
 
-# port used by logPanel application to receive messages - normally from logserver
-gda.logPanel.logging.port=6012
+# port used by logPanel application to receive messages - normally from logserver; default 6002
+gda.logPanel.logging.port = 6797
+#gda.logPanel.logging.port=6012
 
 gda.defVisit = cm4956-2
 
