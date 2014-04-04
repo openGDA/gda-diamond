@@ -7,9 +7,9 @@ import scisoftpy.external
 reload(scisoftpy.external)
 
 
-GDA_EXTERNAL_PATH = "/dls_sw/i16/software/gda/config/pythonscripts/gda_external"
+GDA_EXTERNAL_PATH = "/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/gda_external"
 
-print "Importing scannable.tripod. This calls /dls_sw/i16/software/gda/config/pythonscripts/gda_external.py"
+print "Importing scannable.tripod. This calls the python code: '%s/tripod.p'y" % GDA_EXTERNAL_PATH
 
 tool_to_base = create_function("tool_to_base",
                                module="tripod",
@@ -90,4 +90,4 @@ kbmbase_dummyY2 = SingleInputDummy('kbmbase_dummyY2')
 kbmbase_dummyY3 = SingleInputDummy('kbmbase_dummyY3')
 
 kbmbase_dummy = ScannableGroup("kbmbase_dummy", [kbmbase_dummyX1, kbmbase_dummyX2, kbmbase_dummyX3,kbmbase_dummyY1, kbmbase_dummyY2, kbmbase_dummyY3])
-kbmtool_dummy = TripodToolBase("kbmtool_dummy", kbmbase_dummy, print_base_target=True)
+#kbmtool_dummy = TripodToolBase("kbmtool_dummy", kbmbase_dummy, print_base_target=True)
