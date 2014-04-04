@@ -152,6 +152,8 @@ if [ ! -z $GDA_RESET ] ; then
     echo deleting config ${CONFIG}
     rm -rf ${CONFIG}
   fi
+else
+  GDA_CLIENT_RESET_MESSAGE="If it fails to open, try 'gdaclient --reset'"
 fi
 
 if [ -z $GDA_LOG ] ; then
@@ -182,7 +184,7 @@ if [ -z $GDA_CLIENT ] ; then
   fi
 fi
 
-notify-send -t 10000 "GDA client is starting... If it fails to open try 'gdaclient --reset'"
+notify-send -t 10000 "GDA client is starting... $GDA_CLIENT_RESET_MESSAGE"
 
 PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG} $@"
 
