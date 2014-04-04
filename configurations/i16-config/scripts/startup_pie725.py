@@ -20,10 +20,11 @@ rasterpil1.tifwriter.filePathTemplate='/ramdisk'  # @UndefinedVariable
 
 
 # Medipix
-
-pie725.setup_overlay_plugin(pvbase_det='BL16I-EA-DET-12:')
-caput_wait('BL16I-EA-DET-12:MJPG:MinCallbackTime', .2) # limit MJPG stream rate to prevent IOC overload and dropped frames
-
+try:
+    pie725.setup_overlay_plugin(pvbase_det='BL16I-EA-DET-12:')
+    caput_wait('BL16I-EA-DET-12:MJPG:MinCallbackTime', .2) # limit MJPG stream rate to prevent IOC overload and dropped frames
+except java.lang.IllegalStateException:
+    print "* Could not connect to Medipix camera on 'BL16I-EA-DET-12"
 
 # Dummy detector
 
