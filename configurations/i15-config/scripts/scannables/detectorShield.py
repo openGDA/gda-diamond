@@ -5,7 +5,7 @@ from gdascripts.scannable.epics.PvManager import PvManager
 class DetectorShield(ScannableBase):
     def __init__(self, name, pvManager):
         self.name = name
-        self.pvManager = PvManager()
+        self.pvManager = PvManager() # Just to get PyDev completion
         self.pvManager = pvManager
         
         self.setName(name);
@@ -16,9 +16,11 @@ class DetectorShield(ScannableBase):
         self.state=-1
         
         self.verbose = False
+        self.ignoreFault = False
         
         self.TIMEOUT=5
         
+        self.FAULT=0
         self.OPEN=1
         self.OPENING=2
         self.CLOSED=3
@@ -73,7 +75,9 @@ class DetectorShield(ScannableBase):
             return False
         elif state in (self.OPENING, self.CLOSING):
             return True
-        raise Exception("%r is not %r, %r, %r, or %r" % (self.state, self.OPEN, self.CLOSED, self.OPENING, self.CLOSING))
+        elif state == self.FAULT and self.ignoreFault:
+            return False
+        raise Exception("%r is not %r, %r, %r, or %r on %r" % (self.state, self.OPEN, self.CLOSED, self.OPENING, self.CLOSING, self.pvManager['STA'].pvName))
 
     def pfuncname(self):
         import traceback
