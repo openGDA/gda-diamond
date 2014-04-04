@@ -13,7 +13,6 @@ gda.simulation = False
 
 gda.factory.doStringInterpolation = True
 gda.oe.oefactory        = remote
-#gda.oe.oefactory        = local
 gda.objectserver.xml    = ${gda.config}/xml/server/server_${gda.beamline.name}.xml
 gda.gui.beans.xml		= ${gda.config}/xml/client/client_${gda.beamline.name}.xml
 

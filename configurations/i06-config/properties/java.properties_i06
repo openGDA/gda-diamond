@@ -43,7 +43,5 @@ gda.data.directoryMappingDetector = X:
 include=./java_common.properties
 
 #The default rcp workspace is:
-#gda.rcp.workspace = ${gda.var}/.workspace-$federalid$-$visit$/
-#gda.rcp.workspace = ${gda.var}/.workspace-$federalid$/
 gda.rcp.workspace = /tmp/.workspace-$federalid$/
 
