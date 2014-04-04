@@ -4,7 +4,7 @@ gda.accesscontrol.useBatonControl = false
 # ^^^ Disable Baton for Mobile workstation:
 
 gda.beamline.name = i06-1
-gda.instrument = workstation
+gda.instrument = mobilerack
 
 gda.factory.factoryName = I06-LOCAL
 
