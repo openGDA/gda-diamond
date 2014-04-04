@@ -5,6 +5,9 @@ print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
 
+from gda.configuration.properties import LocalProperties
+LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
+
 import installation
 
 if installation.isDummy():
