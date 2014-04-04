@@ -937,8 +937,11 @@ try:
 	mds=meta
 	print "Removing frontend from metadata collection"
 	meta.rm(frontend)
-	addmeta(kbm1)
-	addmeta(kbmbase)
+	try:
+		addmeta(kbm1)
+		addmeta(kbmbase)
+	except NameError:
+		print "Not adding kbm1 or kbm1base metadata as these are unavailable"
 
 	
 except NameError, e:
