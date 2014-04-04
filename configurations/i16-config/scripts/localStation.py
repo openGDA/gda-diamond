@@ -1169,13 +1169,7 @@ if installation.isLive():
 ###############################################################################
 from scannable.detector import pilatuscbfswitcher
 # NOTE: state will be stored across calls to reset_namespace
-try:
-	pilatuscbfswitcher.set(pil2m, 'cbf')
-except Exception, e:
-	print "Could not set filetemplate for pil2m"
-	print e
-#pilatuscbfswitcher.set(pil2m, 'tif')
-
+pilatuscbfswitcher.set(pil2m, 'cbf')
 
 ###############################################################################
 ###                           Run beamline scripts                          ###
@@ -1192,11 +1186,7 @@ run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
-try:
-	run("startup_pie725")
-except Exception, e:
-	print "Could not run startup_pie725.py"
-	print e
+run("startup_pie725")
 
 print "======================================================================"
 print "Local Station Script completed"
