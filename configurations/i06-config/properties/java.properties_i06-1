@@ -35,9 +35,12 @@ gda.logPanel.logging.port = 6797
 
 gda.defVisit = cm4956-2
 
+#{gda.data} not getting resolved when pulling in java_common.properties
+gda.data.scan.datawriter.datadir    = /dls/i06-1/data/$year$/$visit$
 
 ## For Camera data storage
-gda.data.directoryMappingGDA 	 = ${gda.data}
+#gda.data.directoryMappingGDA 	 = ${gda.data}
+gda.data.directoryMappingGDA 	 = $/dls/i06-1/data
 gda.data.directoryMappingDetector = X:
 
 include=./java_common.properties
