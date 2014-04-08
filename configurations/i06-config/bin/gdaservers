@@ -27,6 +27,19 @@ echo
 
 if [ "$GDA_MODE" = "i06" -o "$GDA_MODE" = "i06-1" ]; then
 
+	KNOWN_HOST="i06-control.diamond.ac.uk,172.23.106.32 ssh-rsa"
+	KNOWN_HOST_KEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAypfcOk6D5FOtoai6k502UdL+rBcQYEjEEFpQ6GwNd3RMdGBO9f+xooOuT+DiDgVny5j9ZFc62evRQDI1v9G1puMG2Sinvyh1r6vFC4gdVP3gy1EbZvrmhXqCs1lIFCadu1H66aCFVj64jXAGJx2XanjxzXSlzW23iARuguwE8ZPKkcxfc6+hUWCUfPidlxzvx+qZ8fTAfzR86HrUnC0h1vYx+JCPc02Cyl6c5quVYSMP0JpkUpAetqWqCiH1uPUU9mOdoDnA/79aH6gV0O+JIZqcxLizXl9KSo4449hV7syRz8oMGwAZ5kwdrvDAyCJ8uzQFq9K69sXGM1JH0E18CQ=="
+	
+	ssh-keygen -R i06-control.diamond.ac.uk &> /dev/null
+	ssh-keygen -R 172.23.106.32 &> /dev/null
+	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
+
+	KNOWN_HOST="i06-1-control.diamond.ac.uk,172.23.106.49 ssh-rsa"
+
+	ssh-keygen -R i06-1-control.diamond.ac.uk &> /dev/null
+	ssh-keygen -R 172.23.106.49 &> /dev/null
+	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
+
 	ssh  -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk $BEAMLINE
 	OK=$?
 	
