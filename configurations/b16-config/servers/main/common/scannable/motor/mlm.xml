@@ -231,7 +231,7 @@
 	
 	<bean id="_ab0Toggle" class="gda.device.scannable.TogglerScannable">
 		<constructor-arg ref="ab0" />
-		<property name="startValue" value="Closed" />
+		<property name="startValue" value="Close" />
 		<property name="endValue" value="Open" />
 		<property name="hook">
 			<!-- <value>#{T(gda.device.scannable.TogglerScannable$Hook).AT_LEVEL}</value>-->
