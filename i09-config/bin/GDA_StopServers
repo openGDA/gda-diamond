@@ -7,11 +7,10 @@ else
 	exit 1
 fi
 
-GDA=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
-
 echo "Stopping main object server..."
-$GDA --stop objectserver --profile main
-$GDA --stop eventserver --verbose
-$GDA --stop nameserver --verbose
-$GDA --stop logserver --verbose
+`dirname $0`/gda_command objectserver --stop $@
+`dirname $0`/gda_command eventserver --stop $@
+`dirname $0`/gda_command nameserver --stop $@
+`dirname $0`/gda_command logserver --stop $@
+
 echo "Done"
