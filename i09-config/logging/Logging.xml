@@ -25,6 +25,31 @@
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
 
+<!-- 	<appender name="LogbackClassic" class="ch.qos.logback.classic.net.SocketAppender"> -->
+<!-- 	    <RemoteHost>i09-ws002.diamond.ac.uk</RemoteHost> -->
+<!-- 	    <Port>4560</Port> -->
+<!-- 	    <ReconnectionDelay>170</ReconnectionDelay> -->
+<!-- 	    <IncludeCallerData>true</IncludeCallerData> -->
+<!-- 	</appender> -->
+	
+	<appender name="multiplex" class="de.huxhorn.lilith.logback.appender.ClassicMultiplexSocketAppender">
+	    <Compressing>true</Compressing>
+	    <!-- will automatically use correct default port -->
+	    <!-- Default port for compressed is 10000 and uncompressed 10001 -->
+	    <ReconnectionDelay>10000</ReconnectionDelay>
+	    <IncludeCallerData>true</IncludeCallerData>
+	    <RemoteHosts>i09-ws001.diamond.ac.uk, i09-ws002.diamond.ac.uk, ws128.diamond.ac.uk</RemoteHosts>
+	    <!-- Alternatively:
+	    <RemoteHost>i09-ws001.diamond.ac.uk</RemoteHost>
+	    <RemoteHost>i09-ws002.diamond.ac.uk</RemoteHost>
+	    <RemoteHost>ws128.diamond.ac.uk</RemoteHost>
+	    -->
+	    <!--
+	    Optional:
+	    <CreatingUUID>false</CreatingUUID>
+	    -->
+	</appender>
+	
     <logger name="gda">
         <level value="DEBUG"/>
     </logger>
@@ -54,6 +79,9 @@
         <level value="INFO"/>
         <appender-ref ref="SOCKET"/>
         <appender-ref ref="CONSOLE"/>
+<!--         <appender-ref ref="LogbackClassic"/> -->
+        <appender-ref ref="multiplex"/>
+
    </root>
    <consolePlugin />
 </configuration>
