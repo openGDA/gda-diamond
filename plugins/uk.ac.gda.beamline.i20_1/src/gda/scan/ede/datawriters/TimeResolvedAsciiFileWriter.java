@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,27 +16,26 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.scan.ede.position;
+package gda.scan.ede.datawriters;
 
-public enum EdePositionType {
-	OUTBEAM("I0", 0),
-	INBEAM("It", 1),
-	OUTBEAM_REFERENCE("I0ForIRef", 2),
-	REFERENCE("IRef", 3);
 
-	private final String label;
-	private final int value;
-
-	private EdePositionType(String label, int value) {
-		this.label = label;
-		this.value = value;
+public class TimeResolvedAsciiFileWriter {
+	public void createI0RawFile(String nexusfileName) {
+		//
 	}
 
-	public String getLabel() {
-		return label;
+	public void createItRawFile() {
+
 	}
 
-	public int getValue() {
-		return value;
+	public void createItFile() {
+
+	}
+	public void createIRefRawFile() {
+
+	}
+
+	public void createIRefFile() {
+
 	}
 }

@@ -29,7 +29,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 /**
  *  An EDE Linear scan where the repetition number is not 1.
  */
-public class EdeCyclicExperiment extends EdeLinearExperiment {
+public class EdeCyclicExperiment extends TimeResolvedExperiment {
 
 	public EdeCyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,

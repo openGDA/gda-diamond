@@ -28,7 +28,6 @@ import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.datawriters.EdeDataConstants;
-import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.ScanDataHelper;
 
 import java.io.File;
@@ -46,6 +45,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -938,9 +938,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	private void writeAsciiFile(ScanDataPoint sdp,String nexusFilePath) throws Exception {
 		DoubleDataset dataSet = ScanDataHelper.extractDetectorDataFromSDP(this.getName(), sdp);
-		String asciiFileFolder = EdeExperimentDataWriter.convertFromNexusToAsciiFolder(nexusFilePath);
+		String asciiFileFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusFilePath);
 		String asciiFilename = FilenameUtils.getBaseName(nexusFilePath);
-		File asciiFile = new File(asciiFileFolder, asciiFilename + EdeDataConstants.ASCII_FILE_EXTENSION);
+		File asciiFile = new File(asciiFileFolder, asciiFilename + "." + EdeDataConstants.ASCII_FILE_EXTENSION);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + asciiFilename + " already exists!");
 		}

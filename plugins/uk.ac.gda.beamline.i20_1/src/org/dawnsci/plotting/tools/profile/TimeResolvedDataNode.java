@@ -18,6 +18,8 @@
 
 package org.dawnsci.plotting.tools.profile;
 
+import gda.scan.ede.datawriters.EdeDataConstants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,64 +27,36 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 
 public class TimeResolvedDataNode {
 
-	private final IObservableList cycles = new WritableList(new ArrayList<CycleDataNode>(), CycleDataNode.class);
+	private final IObservableList timingGroups = new WritableList(new ArrayList<TimingGroupDataNode>(), TimingGroupDataNode.class);
 
 	public static final int NUMBER_OF_STRIPS = 1024;
 
-	public IObservableList getCycles() {
-		return cycles;
+	public IObservableList getTimingGroups() {
+		return timingGroups;
 	}
 
 	public void clearData() {
-		for (Object obj : cycles) {
-			((CycleDataNode) obj).getTimingGroups().clear();
+		for (Object obj : timingGroups) {
+			((TimingGroupDataNode) obj).getSpectra().clear();
 		}
-		cycles.clear();
+		timingGroups.clear();
 	}
 
-	// TODO Refactor this! This has hard coded index numbers!
-	public void setData(DoubleDataset timingGroupsDataset, DoubleDataset timeDataset, IntegerDataset cycleDataset) {
-		double[] timingGroupsData = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,0}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
-		double[] timePerFrame = ((DoubleDataset) timingGroupsDataset.getSlice(new int[]{0,1}, new int[]{timingGroupsDataset.getShape()[0],3}, new int[]{1,3})).getData();
-		double[] time = timeDataset.getData();
-		if (timingGroupsData.length > 0) {
-
-			int[] cycle;
-			if (cycleDataset == null) {
-				cycle = new int[timingGroupsData.length];
-			} else {
-				cycle = cycleDataset.getData();
-			}
-
-			int groupCounter = 0;
-			int cycleCounter = 0;
+	public void setData(DoubleDataset metadata) {
+		int noOfGroups = metadata.getShape()[0];
+		double startTime = 0.0;
+		for (int i = 0; i < noOfGroups; i++) {
+			int noOfSpectra = EdeDataConstants.TimingGroupMetaData.getNoOfSpectra(i, metadata);
+			double timePerSpectrum = EdeDataConstants.TimingGroupMetaData.getTimePerSpectrum(i, metadata);
 			List<SpectrumDataNode> spectraList = new ArrayList<SpectrumDataNode>();
-			List<TimingGroupDataNode> timingGroupList = new ArrayList<TimingGroupDataNode>();
-			for (int i = 0; i < timingGroupsData.length; i++) {
-				if (timingGroupsData[i] > groupCounter) {
-					double lastFrameDuration = timePerFrame[i - 1];
-					timingGroupList.add(new TimingGroupDataNode(Integer.toString(groupCounter), lastFrameDuration, spectraList));
-					groupCounter = (int) timingGroupsData[i];
-					spectraList = new ArrayList<SpectrumDataNode>();
-				}
-				if (cycle[i] > cycleCounter) {
-					double lastFrameDuration = timePerFrame[timePerFrame.length - 1];
-					timingGroupList.add(new TimingGroupDataNode(Integer.toString(groupCounter), lastFrameDuration, spectraList));
-					cycles.add(new CycleDataNode(Integer.toString(cycleCounter), timingGroupList));
-					cycleCounter = cycle[i];
-					timingGroupList = new ArrayList<TimingGroupDataNode>();
-					spectraList = new ArrayList<SpectrumDataNode>();
-					groupCounter = 0;
-				}
-				spectraList.add(new SpectrumDataNode(i, time[i]));
+			for (int j = 0; j < noOfSpectra; j++) {
+				spectraList.add(new SpectrumDataNode(j + (i * noOfSpectra), startTime));
+				startTime += timePerSpectrum;
 			}
-			double lastFrameDuration = timePerFrame[timePerFrame.length - 1];
-			timingGroupList.add(new TimingGroupDataNode(Integer.toString(groupCounter), lastFrameDuration, spectraList));
-			cycles.add(new CycleDataNode(Integer.toString(cycleCounter), timingGroupList));
+			timingGroups.add(new TimingGroupDataNode(Integer.toString(i), timePerSpectrum, spectraList));
 		}
 	}
 }

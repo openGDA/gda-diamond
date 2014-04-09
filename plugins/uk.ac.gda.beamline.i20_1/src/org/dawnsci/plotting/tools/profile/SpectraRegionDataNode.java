@@ -71,30 +71,27 @@ public class SpectraRegionDataNode extends ObservableModel implements IROIListen
 			boolean ended = false;
 			ArrayList<SpectrumDataNode> tempSpectraList = new ArrayList<SpectrumDataNode>();
 			outerloop:
-				for (Object cycleObject : parentTimeResolvedData.getCycles()) {
-					CycleDataNode cycle = (CycleDataNode) cycleObject;
-					for (Object timingObject : cycle.getTimingGroups()) {
-						TimingGroupDataNode group = (TimingGroupDataNode) timingObject;
-						for (Object object1 : group.getSpectra()) {
-							SpectrumDataNode spectrum = (SpectrumDataNode) object1;
-							if (spectrum.getIndex() >= firstIndex) {
-								started = true;
+				for (Object timingObject : parentTimeResolvedData.getTimingGroups()) {
+					TimingGroupDataNode group = (TimingGroupDataNode) timingObject;
+					for (Object object1 : group.getSpectra()) {
+						SpectrumDataNode spectrum = (SpectrumDataNode) object1;
+						if (spectrum.getIndex() >= firstIndex) {
+							started = true;
+						}
+						if ((started && !ended)) {
+							tempSpectraList.add(spectrum);
+							if (spectrum.getIndex() == lastIndex) {
+								ended = true;
 							}
-							if ((started && !ended)) {
-								tempSpectraList.add(spectrum);
-								if (spectrum.getIndex() == lastIndex) {
-									ended = true;
-								}
-							}
-							if (started && ended) {
-								firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
-								firePropertyChange(START, null, this.getStart());
-								firePropertyChange(END, null, this.getEnd());
-								roi.setPoint(0, firstIndex);
-								((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex + 1});
-								plotRegion.setROI(roi);
-								break outerloop;
-							}
+						}
+						if (started && ended) {
+							firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
+							firePropertyChange(START, null, this.getStart());
+							firePropertyChange(END, null, this.getEnd());
+							roi.setPoint(0, firstIndex);
+							((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex + 1});
+							plotRegion.setROI(roi);
+							break outerloop;
 						}
 					}
 				}

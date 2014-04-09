@@ -38,11 +38,11 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * It will be assumed that the EdeScanParameters objects given to this class respresent a single TmingGroup producing a
  * single spectrum.
  */
-public class EdeSingleExperiment extends EdeExperiment {
+public class SingleSpectrumScan extends EdeExperiment {
 
 	private boolean runItDark;
 
-	public EdeSingleExperiment(double i0accumulationTime, double iTAccumulationTime, int iTnoOfAccumulcation,
+	public SingleSpectrumScan(double i0accumulationTime, double iTAccumulationTime, int iTnoOfAccumulcation,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName,
@@ -51,7 +51,7 @@ public class EdeSingleExperiment extends EdeExperiment {
 		this(i0accumulationTime, iTnoOfAccumulcation, iTAccumulationTime, iTnoOfAccumulcation, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
 	}
 
-	public EdeSingleExperiment(double i0AccumulationTime, int i0NoOfAccumulcation, double iTaccumulationTime, int iTnoOfAccumulcation,
+	public SingleSpectrumScan(double i0AccumulationTime, int i0NoOfAccumulcation, double iTaccumulationTime, int iTnoOfAccumulcation,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName,
