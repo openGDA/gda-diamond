@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.io.DataHolder;
+import uk.ac.diamond.scisoft.analysis.io.IDataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
@@ -342,7 +342,7 @@ public class TimeResolvedNexusFileHelper {
 
 	private void replaceData(Integer[] excludedCycles, File nexusFile) {
 		try {
-			DataHolder holder = LoaderFactory.getData(nexusFile.getAbsolutePath());
+			IDataHolder holder = LoaderFactory.getData(nexusFile.getAbsolutePath());
 			DoubleDataset dataset = (DoubleDataset) holder.getLazyDataset(TimeResolvedToolPage.DATA_PATH).getSlice();
 			int allCycleIndex = dataset.getShape()[0];
 			int[] includedCyclesIndices = new int[allCycleIndex - excludedCycles.length];

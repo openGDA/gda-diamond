@@ -117,7 +117,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.ILazyDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Maths;
-import uk.ac.diamond.scisoft.analysis.io.DataHolder;
+import uk.ac.diamond.scisoft.analysis.io.IDataHolder;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
@@ -201,7 +201,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			dataFile = new File(path);
 			Collection<String> dataPaths = LoaderFactory.getMetaData(path, null).getDataNames();
 			if (dataPaths.contains(GROUP_PATH) && dataPaths.contains(TIME_AXIS_PATH)) {
-				DataHolder dataHolder = LoaderFactory.getData(path);
+				IDataHolder dataHolder = LoaderFactory.getData(path);
 				ILazyDataset groups = dataHolder.getLazyDataset(GROUP_PATH);
 				ILazyDataset time = dataHolder.getLazyDataset(TIME_AXIS_PATH);
 				int[] dataShape = LoaderFactory.getMetaData(path, null).getDataShapes().get(DATA_PATH);
