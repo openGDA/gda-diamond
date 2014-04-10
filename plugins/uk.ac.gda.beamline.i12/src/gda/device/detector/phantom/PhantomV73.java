@@ -18,19 +18,20 @@
 
 package gda.device.detector.phantom;
 
+import gda.analysis.DataSet;
+import gda.analysis.ScanFileHolder;
+import gda.device.DeviceException;
+import gda.device.detector.DetectorBase;
+import gda.device.detector.Phantom;
+import gda.factory.FactoryException;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
 
 import javax.naming.TimeLimitExceededException;
 
-import gda.analysis.DataSet;
-import gda.analysis.ScanFileHolder;
-import gda.analysis.io.IFileSaver;
-import gda.analysis.io.ScanFileHolderException;
-import gda.device.DeviceException;
-import gda.device.detector.DetectorBase;
-import gda.device.detector.Phantom;
-import gda.factory.FactoryException;
+import uk.ac.diamond.scisoft.analysis.io.IFileSaver;
+import uk.ac.diamond.scisoft.analysis.io.ScanFileHolderException;
 
 /**
  * The main interface for the Phantom Camera, this is set on top of a set of hardware simulations and real classes.
