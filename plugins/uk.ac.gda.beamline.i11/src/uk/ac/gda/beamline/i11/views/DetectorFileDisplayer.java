@@ -19,7 +19,6 @@
 package uk.ac.gda.beamline.i11.views;
 
 import gda.analysis.io.MACLoader;
-import gda.analysis.io.ScanFileHolderException;
 import gda.device.detector.mythen.data.MythenMergedDataset;
 import gda.device.detector.mythen.data.MythenProcessedDataset;
 import gda.device.detectorfilemonitor.FileProcessor;
@@ -46,6 +45,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.HDF5Loader;
 import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
+import uk.ac.diamond.scisoft.analysis.io.ScanFileHolderException;
 import uk.ac.diamond.scisoft.analysis.io.TIFFImageLoader;
 import uk.ac.gda.beamline.i11.api.PlotConfigurable;
 
