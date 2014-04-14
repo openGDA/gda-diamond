@@ -65,6 +65,20 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
 
+5a To perform a tomogram using flyscan
+	>tomographyScan.tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1)
+    inBeamPosition - position of X drive to move sample into the beam to take a projection
+    outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
+    exposureTime - exposure time in seconds ( default = 1)
+    start - first rotation angle ( default=0.)
+    stop  - last rotation angle (default=180.)
+    step - rotation step size (default = 0.1)
+    darkFieldInterval - number of projections between each dark field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    flatFieldInterval - number of projections between each flat field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    imagesPerDark - number of images to be taken for each dark
+    imagesPerFlat - number of images to be taken for each flat
+    min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
 6. To perform a raster_scan
 	>help raster_scan.scan
@@ -97,6 +111,4 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
 12. To use the fast shutter in a normal repscan of pco1_hw_hdf ( not a tomography scan) use the command:
     pco1_hw_hdf.collectionStrategy.useShutterPV=True
     
-13. After restarting the PCO camera IOC you need to run the command:
-    >setupPCOCopy()
 """
