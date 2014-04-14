@@ -155,7 +155,7 @@
 							<bean class="gda.rcp.views.OpenViewOption">
 								<constructor-arg value="PCO" />
 								<constructor-arg
-									value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
+									value="uk.ac.gda.beamline.i13j.pcoAreaDetectorLiveView" />
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOption">
 								<constructor-arg value="d1" />

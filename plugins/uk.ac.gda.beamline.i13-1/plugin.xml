@@ -323,6 +323,34 @@
                                   
    </extension>
    <extension
+         id="pco views"
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i13j"
+            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:pco"
+            icon="icons/AreaDetectorProfileView.gif"
+            id="uk.ac.gda.beamline.i13j.pcoAreaDetectorProfileView"
+            name="PCO Image Histogram">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i13j"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:pco"
+            icon="icons/AreaDetectorImageView.gif"
+            id="uk.ac.gda.beamline.i13j.pcoAreaDetectorArrayView"
+            name="PCO Raw">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i13j"
+            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:pco"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.beamline.i13j.pcoAreaDetectorLiveView"
+            name="PCO Live">
+      </view>
+   </extension>
+   <extension
          point="org.eclipse.ui.perspectives">
       <perspective
             class="uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective"
@@ -1238,4 +1266,115 @@
  </menuContribution>                    
 
    </extension>
+<extension
+      id="pco menus"
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i13j.pcoAreaDetectorProfileView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="pco">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Rescale Live Image"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="pco">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            icon="icons/AreaDetectorLiveView.gif"
+            label="Show Live"
+            style="push">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i13j.pcoAreaDetectorLiveView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i13j.pcoAreaDetectorArrayView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="pco">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            icon="icons/AreaDetectorLiveView.gif"
+            label="Show Live"
+            style="push">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i13j.pcoAreaDetectorLiveView">
+         </parameter>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.beamline.i13j.pcoAreaDetectorLiveView">
+      <command
+            commandId="uk.ac.gda.epics.adviewer.command.zoomToFit"
+            label="Fit Image to Window"
+            style="push"
+            tooltip="Fit Image to Window">
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setExposure"
+            label="Set Exposure"
+            style="push"
+            tooltip="Set Exposure">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="pco">
+         </parameter>
+      </command>
+      <command
+            commandId="uk.ac.gda.epics.adviewer.commands.setLiveViewScale"
+            label="Rescale Live Image"
+            style="push"
+            tooltip="Rescale Live Image">
+         <parameter
+               name="uk.ac.gda.epics.adviewer.commandParameters.adcontrollerServiceName"
+               value="pco">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            icon="icons/AreaDetectorProfileView.gif"
+            label="Show Histogram"
+            style="push"
+            tooltip="Show Histogram ">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i13j.pcoAreaDetectorProfileView">
+         </parameter>
+      </command>
+      <command
+            commandId="org.eclipse.ui.views.showView"
+            icon="icons/AreaDetectorImageView.gif"
+            label="Show Raw Image"
+            style="push"
+            tooltip="Show Raw Image">
+         <parameter
+               name="org.eclipse.ui.views.showView.viewId"
+               value="uk.ac.gda.beamline.i13j.pcoAreaDetectorArrayView">
+         </parameter>
+      </command>
+   </menuContribution>
+</extension>
 </plugin>

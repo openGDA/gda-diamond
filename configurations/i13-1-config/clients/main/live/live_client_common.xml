@@ -16,6 +16,7 @@
 	<import resource="float1.xml"/>
 	<import resource="float2.xml"/>
 	<import resource="float3.xml"/>
+	<import resource="pco.xml"/>
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 
 	<import resource="../common.xml" />

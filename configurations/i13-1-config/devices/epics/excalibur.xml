@@ -123,6 +123,7 @@
 		<property name="roiPos1" value="0" />
 		<property name="roiPos2" value="0" />
 		<property name="gapEnabledPVName" value="BL13J-EA-EXCBR-01:CONFIG:GAP:EnableCallbacks"/>
+		<property name="checkPathExists" value="false"/>
 	</bean>
 
 
@@ -138,6 +139,7 @@
 		<property name="operationModePVName"
 			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode" />
 		<property name="burst" value="False" />
+		<property name="softwareTrigger" value="true"/>
 	</bean>
 	
 	<bean id="excalibur_dacscanmode" class="uk.ac.gda.devices.ExcaliburDacScanCollectionStrategy">
@@ -187,17 +189,51 @@
 		</property>
 	</bean>
 
-
-	<bean id="excalibur_tfgmode" class="gda.device.detector.addetector.triggering.TFG2NXCollectionStrategy">
+	<bean id="excalibur_burstmode_extTrigger" class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
-		<constructor-arg value="0.0" />
-		<constructor-arg ref="tfg" />
-		
+		<property name="burst" value="True" />
+		<property name="operationModePVName"
+			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode" />
+		<property name="triggerMode" value="1"/>
+	</bean>
+
+	<bean id="excalibur_config_burst_extTrigger" class="gda.device.detector.NXDetector">
+		<property name="name" value="excalibur_config_burst" />
+		<property name="collectionStrategy" ref="excalibur_burstmode_extTrigger" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="excalibur_config_phdf5_filewriter" />
+				<bean
+					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="continousScannable" class="gda.device.continuouscontroller.CSViacontrollerScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="ix"/>	
+		<property name="cmc" ref="tfg2CVMoveController"/>
+	</bean>
+
+	<bean id="tfg2CVMoveController" class="gda.device.detector.addetector.triggering.TFG2CVmoveController"/>
+
+
+
+	<bean id="tfgCollectionStrategy" class="gda.device.detector.addetector.triggering.TFG2NXCollectionStrategy">
+	<constructor-arg ref="excalibur_config_base"/>
+	<constructor-arg ref="tfg"/>
 	</bean>
 	
-	<bean id="excalibur_config_tfg" class="gda.device.detector.NXDetector">
+	<bean id="excalibur_config_tfg" class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="excalibur_config_tfg" />
-		<property name="collectionStrategy" ref="excalibur_tfgmode" />
+		<property name="hardwareTriggerProvider" ref="tfg2CVMoveController"/>
+		<property name="collectionStrategy" ref="tfgCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />

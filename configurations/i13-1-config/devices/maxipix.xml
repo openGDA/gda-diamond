@@ -30,6 +30,7 @@
 		<property name="maxiPix2" ref="__maxiPix2" />
 		<property name="fastMode" value="false"/>
 		<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+		<property name="hardwareTriggerProvider" value="#{pie.continuousMoveController}" />		
 	</bean>
 
 	<bean id="mpx" class="gda.device.detector.maxipix2.MaxiPix2NexusDetector">
@@ -81,7 +82,12 @@
 		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	
 
-	
+<!-- 	<bean id="mpx_hw_wrap" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+		<property name="detector" ref="__maxiPix2MultiFrameDetector" />
+		<property name="processor" ref="mpx_processors" />
+		<property name="mergeWithDetectorData" value="true"/>
+	</bean>	
+ -->	
 	<!-- Not used as the preferred mode is accumulation with 1 image per many exposures 
 	bean id="maxiPix2RepScanNexusDetector" class="gda.device.detector.maxipix2.MaxiPix2RepScanNexusDetector">
 		<property name="maxiPix2MultiFrameDetector" ref="maxiPix2MultiFrameDetector" />
