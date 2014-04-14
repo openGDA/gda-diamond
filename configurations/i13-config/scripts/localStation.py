@@ -231,9 +231,9 @@ try:
 		flyScanDetector.readOutTime=.03 #Manta_G-125B camera	
 #		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="c:\\data"	
 
-	from gda.device.detector.areadetector.v17 import ADDriverPco
-	if isLive():
-		flyScanDetector.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
+#	from gda.device.detector.areadetector.v17 import ADDriverPco
+#	if isLive():
+#		flyScanDetector.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
 #	run("i13diffcalc")
 
 #   It seemed on using Jon's first driver that pcoEdge needs timestamp 0, must I am not sure now as 
@@ -253,11 +253,12 @@ try:
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
-	if isLive():
-		setupPCOCopy()
+	# 8/4/14 EPG We no longer have the copy plugins 
+#	if isLive():
+#		setupPCOCopy()
 		
-	pco1_hw_tif.pluginList[1].waitForFileArrival=True
-	pco1_tif.pluginList[1].waitForFileArrival=True
+	pco1_hw_tif.pluginList[1].waitForFileArrival=False
+	pco1_tif.pluginList[1].waitForFileArrival=False
 	if isLive():
 		run("localStationUser.py")
 

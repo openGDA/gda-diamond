@@ -241,22 +241,40 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     
     lsdp=jns.lastScanDataPoint()
     detName=tomography_detector.getName()
+    #wait for the image file to arrive from the detector system
+#    time.sleep(5)
+    found=False 
+    attempt=0
+    while not found and attempt<11: 
+        attempt+=1
+        try:
+            nxdata=dnp.io.load(lsdp.currentFilename)[str('entry1/' + tomography_detector.getName())] 
+            dataKey=None
+            for key in nxdata.keys():
+                if key == "image_data":
+                    dataKey=key
+                    break
+                if key == "data":
+                    dataKey=key
+                    break
+            if dataKey is None:
+                raise "Unable to find data in file"
+            dataset=nxdata[dataKey]
+            dark=dnp.array(dataset[0,:,:]).astype(dnp.float64)
+            flat=dnp.array(dataset[imagesPerDark,:,:]).astype(dnp.float64)
+            image=dnp.array(dataset[imagesPerDark+imagesPerFlat,:,:]).astype(dnp.float64)
+            found = True
+        except:
+            exceptionType, exception, traceback = sys.exc_info()
+            handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)            
+            updateProgress(90, "Wait 5 seconds for image file to arrive from the detector system")
+            time.sleep(5)
 
-    nxdata=dnp.io.load(lsdp.currentFilename)[str('entry1/' + tomography_detector.getName())] 
-    datakey=None
-    for key in nxdata.keys():
-        if key == "image_data":
-            dataKey=key
-            break
-        if key == "data":
-            dataKey=key
-            break
-    if dataKey is None:
-        raise "Unable to find data in file"
-    dataset=nxdata[dataKey]
-    dark=dnp.array(dataset[0,:,:]).astype(dnp.float64)
-    flat=dnp.array(dataset[imagesPerDark,:,:]).astype(dnp.float64)
-    image=dnp.array(dataset[imagesPerDark+imagesPerFlat,:,:]).astype(dnp.float64)
+
+    
+    if not found:
+        raise "Unable to analyse data as it has not arrived from detector in time"
+
     imageD=image-dark
     flatD=flat-dark
     t=imageD/flatD
@@ -274,7 +292,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
 
 from java.lang import Runnable
 class PreScanRunnable(Runnable):
-    def __init__(self, msg, percentage, shutter, shutterPosition, xMotor, xMotorPosition, image_key, image_key_value):
+    def __init__(self, msg, percentage, shutter, shutterPosition, xMotor, xMotorPosition, image_key, image_key_value, thetaMotor, thetaMotorPosition):
         self.msg = msg
         self.percentage = percentage
         self.shutter=shutter
@@ -283,11 +301,17 @@ class PreScanRunnable(Runnable):
         self.xMotorPosition =xMotorPosition
         self.image_key =image_key
         self.image_key_value =image_key_value
+        self.thetaMotor = thetaMotor
+        self.thetaMotorPosition =thetaMotorPosition
         
     def run(self):
         updateProgress(self.percentage, self.msg)
-        self.shutter.moveTo(self.shutterPosition)
+        updateProgress(self.percentage, "Move x")
         self.xMotor.moveTo(self.xMotorPosition)
+        updateProgress(self.percentage, "Move theta")
+        self.thetaMotor.moveTo(self.thetaMotorPosition)
+        updateProgress(self.percentage, "Move shutter")
+        self.shutter.moveTo(self.shutterPosition)
         self.image_key.moveTo(self.image_key_value)
 
 
@@ -321,6 +345,11 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         tomodet=jns.tomodet
         if tomodet is None:
 	        raise "tomodet is not defined in Jython namespace"
+
+        tomography_theta=jns.tomography_theta
+        if tomography_theta is None:
+            raise "tomography_theta is not defined in Jython namespace"
+
         tomography_flyscan_theta=jns.tomography_flyscan_theta
         if tomography_flyscan_theta is None:
             raise "tomography_flyscan_theta is not defined in Jython namespace"
@@ -406,20 +435,22 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 
         if imagesPerDark > 0:
             darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-            multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark)))
+            multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, tomography_theta, start)))
         if imagesPerFlat > 0:
             flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-            multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat)))
+            multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, tomography_theta, start)))
         
         scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections forwards",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
+#        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, tomography_theta, start)))
 #        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections backwards",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
         addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
         multiScanObj.runScan()
-        time.sleep(2)
+        tomography_shutter.moveTo("Close")
+            
+#        time.sleep(2)
         updateProgress(100, "Scan complete")
         return multiScanObj;
     except :
