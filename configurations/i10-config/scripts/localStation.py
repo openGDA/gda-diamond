@@ -348,13 +348,12 @@ if pixis_installed:
         localStation_exception(sys.exc_info(), "creating pixis & pixisGV12 objects")
 
 polarimeter_installed = False
-
 if polarimeter_installed:
     try:
-        run("polarimeter/hexapodAxises4.py")
-        run("polarimeter/rotationTemperature.py")
-        run("polarimeter/detector.py")
-        run("polarimeter/feScannables.py")
+        run("polarimeter/hexapodAxises4.py")        # /dls_sw/i10/scripts/polarimeter
+        run("polarimeter/rotationTemperature.py")   # /dls_sw/i10/scripts/polarimeter
+        run("polarimeter/detector.py")              # /dls_sw/i10/scripts/polarimeter
+        run("polarimeter/feScannables.py")          # i10-config/scripts/polarimeter/feScannables.py
     except:
         localStation_exception(sys.exc_info(), "initialising polarimeter")
 
