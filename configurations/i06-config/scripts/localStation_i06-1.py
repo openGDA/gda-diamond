@@ -92,11 +92,11 @@ except:
     localStationErrorCount+=1
 
     
-##to setup the scan processing wrappers
-#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-#scan_processor.rootNamespaceDict=globals()
-#import gdascripts.utils #@UnusedImport
-#gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
+# Set up the scan processing wrappers
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+import gdascripts.utils #@UnusedImport
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
 
 print "-------------------------------------------------------------------"
 print "==================================================================="
