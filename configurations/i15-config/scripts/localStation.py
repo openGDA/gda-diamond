@@ -490,6 +490,13 @@ try:
 		localStation_exception(sys.exc_info(), "creating rot_dkphi object")
 
 	try:
+		from scannables.ContinuouslyRockingScannable import ContinuouslyRockingScannable
+		dkphi_rocker = ContinuouslyRockingScannable('dkphi_rocker', scannable=dkphi)
+		alias('dkphi_rocker')
+	except:
+		localStation_exception(sys.exc_info(), "creating dkphi_rocker object")
+
+	try:
 		dx.setOutputFormat(["%.6g"])
 		dy.setOutputFormat(["%.6g"])
 		dz.setOutputFormat(["%.6g"])
