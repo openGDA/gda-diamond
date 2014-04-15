@@ -3,7 +3,7 @@
     <!-- display message in Logger Server's console -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>
     </appender>
     <consolePlugin />
@@ -14,7 +14,7 @@
             <level>INFO</level>
         </filter>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level [%logger{36}] - %m%n</pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>
     </appender>
 
@@ -23,7 +23,7 @@
             <level>DEBUG</level>
         </filter>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level [%logger] - %m%n</pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>
     </appender>
 
