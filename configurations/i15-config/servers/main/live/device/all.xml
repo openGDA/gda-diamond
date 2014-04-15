@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- 
+	<!-- To dummy out whole sections add: ../../dummy/device/
 	<import resource="I15-.xml"/>
 	 -->
 
@@ -11,8 +11,8 @@
 	<import resource="I15-BASE1.xml"/>
 	<import resource="I15-BASE2.xml"/>
 	<import resource="I15-BS.xml"/>
-	<import resource="I15-BS2.xml"/>
-	<import resource="I15-D6.xml"/>
+	<import resource="../../dummy/device/I15-BS2.xml"/>
+	<import resource="../../dummy/device/I15-D6.xml"/>
 	<import resource="I15-D7.xml"/>
 	<import resource="I15-DCM.xml"/>
 	<import resource="I15-DET-MAR-AD.xml" />
@@ -20,7 +20,7 @@
 	<import resource="I15-DET1.xml"/>
 	<import resource="I15-DET2.xml"/>
 	<import resource="I15-EYE1.xml"/>
-	<import resource="I15-EYE2.xml"/>
+	<import resource="../../dummy/device/I15-EYE2.xml"/>
 	<import resource="I15-FE.xml"/>
 	<import resource="I15-FM.xml"/>
 	<import resource="I15-FS.xml"/>
