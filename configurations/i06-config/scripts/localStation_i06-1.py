@@ -12,6 +12,11 @@ from gda.configuration.properties import LocalProperties
 
 localStationErrorCount=0
 
+# Since the BeamlineFunctionClass is common between Main and Branch line, if
+# we want i06-1 elog messages to be written to the i06-1 eLog, we have to
+# override elogID here:
+i06.elogID="BLI06-1"
+
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
 
