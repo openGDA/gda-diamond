@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+
+<!-- SR08I-MO-SERVC-01:BLGAPMTR -->
+
+	<!-- <bean id="atn2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="local" value="false"/>
+		<property name="pvBase" value="BL08I-OP-ATTN-02:MP"/>
+	</bean> -->
+<!--	<bean id="pgm_energy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-PGM-01:ENERGY"></property>
+		<property name="local" value="true" />
+	</bean>-->
+	
+	
+</beans>
