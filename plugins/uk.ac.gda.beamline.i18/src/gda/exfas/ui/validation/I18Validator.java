@@ -68,7 +68,8 @@ public class I18Validator extends ExafsValidator {
 	private List<InvalidBeanMessage> validateIScanParameters(IScanParameters scanParams) {
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 		if (scanParams instanceof XasScanParameters) {
-			errors.addAll(validateXasScanParameters((XasScanParameters) scanParams, MINENERGY, MAXENERGY));
+			// for I18 will need our own logic for this	
+//			errors.addAll(validateXasScanParameters((XasScanParameters) scanParams, MINENERGY, MAXENERGY));
 		} else if (scanParams instanceof XanesScanParameters) {
 			errors.addAll(validateXanesScanParameters((XanesScanParameters) scanParams));
 		} else if (scanParams instanceof MicroFocusScanParameters) {
@@ -115,9 +116,30 @@ public class I18Validator extends ExafsValidator {
 		return errors;
 	}
 
-	protected List<InvalidBeanMessage> validateI18SampleParameters(@SuppressWarnings("unused") I18SampleParameters s) {
+	protected List<InvalidBeanMessage> validateI18SampleParameters(I18SampleParameters s) {
+
+		if (s == null) {
+			return Collections.emptyList();
+		}
+		
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
-		// TODO
+
+		if (s.getName() == null) {
+			errors.add(new InvalidBeanMessage("Please set a sample name."));
+		}
+		if (s.getDescription() == null) {
+			errors.add(new InvalidBeanMessage("Please set a sample description."));
+		}
+
+		if (s.getName().compareTo("name") == 0) {
+			errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
+		} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())) {
+			errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName()
+					+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
+		}
+
+		// TODO add some other validation here?
+		
 		return errors;
 	}
 

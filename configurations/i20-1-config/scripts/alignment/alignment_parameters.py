@@ -12,13 +12,15 @@ from gda.factory import Finder
 
 def calc_parameters(parametersBean):
     
-    parametersBean = _setFixedValues(parametersBean) # wiggler and benders at the moment
+    parametersBean = _setFixedValues(parametersBean) # wiggler at the moment
     
     parametersBean = _chooseStripes(parametersBean)
     
     parametersBean = _choosePitchAndAttenuators(parametersBean)
     
     parametersBean = _calcBragg(parametersBean) # also set twotheta
+    
+    parametersBean = _calcBenders(parametersBean) # must be done after bragg
     
     parametersBean = _calcPrimarySlits(parametersBean)
     
@@ -39,8 +41,8 @@ def _calcEnergy(parametersBean):
 def _setFixedValues(parametersBean):
     
     parametersBean.setWigglerGap(18.5)
-    parametersBean.setPolyBend1(5)
-    parametersBean.setPolyBend2(5)
+#    parametersBean.setPolyBend1(5)
+#    parametersBean.setPolyBend2(5)
     return parametersBean
     
 def _chooseStripes(parametersBean):
@@ -159,6 +161,41 @@ def _calcBragg(parametersBean):
     
     return parametersBean
 
+def _calcBenders(parametersBean):
+    
+    bragg = parametersBean.getBraggAngle() # degrees
+    sineBragg = math.sin(math.radians(bragg))
+    
+    q = parametersBean.getQ() # set in UI
+    if q == None:
+        raise "Q value not set, so cannot calculate bender values"
+    
+    offset1 = -0.31833 # mm, fixed at the moment
+    offset2 =  0.90130 # mm, fixed at the moment
+    
+    if q == 0.8 :
+        bend1 = offset1 + (11.55945 * sineBragg)
+        bend2 = offset2 + (10.65425 * sineBragg)
+        parametersBean.setPolyBend1(bend1)
+        parametersBean.setPolyBend2(bend2)
+        return parametersBean
+    
+    elif q == 1.0 :
+        bend1 = offset1 + ( 9.2847 * sineBragg)
+        bend2 = offset2 + ( 8.55763* sineBragg)
+        parametersBean.setPolyBend1(bend1)
+        parametersBean.setPolyBend2(bend2)
+        return parametersBean
+    
+    elif q == 1.2 :
+        bend1 = offset1 + ( 7.77129 * sineBragg)
+        bend2 = offset2 + ( 7.16274 * sineBragg)
+        parametersBean.setPolyBend1(bend1)
+        parametersBean.setPolyBend2(bend2)
+        return parametersBean
+    
+    raise "Q value not valid!. Must be 0.8, 1.0 or 1.2"
+    
 def _calcPrimarySlits(parametersBean):
     
     poly_length = 250.0 # mm
@@ -245,7 +282,7 @@ def _calcPower(parametersBean):
     
 def _getRealDetDistanceInM():
     
-    det_z = Finder.getInstance().find("detector_z")
+    det_z = Finder.getInstance().find("det_z")
     return det_z.getPosition() / 1000.
 
 def _getDetectorSizeInMM(parametersBean):

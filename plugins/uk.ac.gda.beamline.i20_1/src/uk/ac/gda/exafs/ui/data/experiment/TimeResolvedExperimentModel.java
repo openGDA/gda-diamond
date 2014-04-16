@@ -51,7 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.beamline.i20_1.utils.TimebarHelper;
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
@@ -59,31 +59,35 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel.TimingGroupTimeBarRowModel;
-import de.jaret.util.date.Interval;
+
+import com.google.gson.annotations.Expose;
+
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
-import de.jaret.util.ui.timebars.model.TimeBarRow;
-
 
 public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
+	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
+
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentModel.class);
 
-	private static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
+	protected static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
 	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
-	public static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
+	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
 
-	private static final String JYTHON_DRIVER_OBJ = "timeresolvedexperiment";
+	private static final String LINEAR_EXPERIMENT_OBJ = "linearExperiment";
 
 	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
 
 	private DefaultTimeBarModel timebarModel;
+	private TimingGroupTimeBarRowModel timingGroupRowModel;
+	private TimingGroupTimeBarRowModel spectraRowModel;
 
 	public static final String NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME = "noOfSecPerSpectrumToPublish";
 	private int noOfSecPerSpectrumToPublish = EdeLinearExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
@@ -94,26 +98,10 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
-	public static final String USE_IT_TIME_FOR_I0_PROP_NAME = "useItTimeForI0";
-	private boolean useItTimeForI0 = true;
-
-	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";
-	private double i0IntegrationTime;
-
-	public static final String I0_NO_OF_ACCUMULATION_PROP_NAME = "i0NoOfAccumulations";
-	private int i0NoOfAccumulations;
-
-	public static final String IREF_INTEGRATION_TIME_PROP_NAME = "irefIntegrationTime";
-	private double irefIntegrationTime;
-
-	public static final String IREF_NO_OF_ACCUMULATION_PROP_NAME = "irefNoOfAccumulations";
-	private int irefNoOfAccumulations;
-
 	public static final String SCAN_DATA_SET_PROP_NAME = "scanDataSet";
 
 	private static final int MAX_TOP_UP_TIMES = 10;
 	private static final int DURATION_BETWEEN_TOP_UP_IN_MINUTES = 10;
-	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
 
 	public static class Topup extends TimeBarMarkerImpl {
 		public Topup(boolean draggable, JaretDate date) {
@@ -125,21 +113,28 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	static {
 		for(int i=0; i < topupTimes.length; i++) {
-			topupTimes[i] = new Topup(false, TimebarHelper.getTime().advanceMinutes((i + 1) * DURATION_BETWEEN_TOP_UP_IN_MINUTES));
+			topupTimes[i] = new Topup(false, ExperimentTimeHelper.getTime().advanceMinutes((i + 1) * DURATION_BETWEEN_TOP_UP_IN_MINUTES));
 		}
 	}
 
 	private DoubleDataset[] scanDataSet;
 
-	protected WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
-
-	public static final String NO_OF_REPEATED_GROUPS_PROP_NAME = "noOfRepeatedGroups";
-	private int noOfRepeatedGroups = 1;
+	private final WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
 
 	private ScanJob experimentDataCollectionJob;
 
 	public static final String UNIT_PROP_NAME = "unit";
 	private ExperimentUnit unit = ExperimentUnit.SEC;
+
+	public static final String UNIT_IN_STRING_PROP_NAME = "unitInStr";
+
+	protected static final String IO_IREF_DATA_SUFFIX_KEY = "_IO_IREF_DATA";
+
+	@Expose
+	private String unitInStr = unit.getUnitText();
+
+	@Expose
+	private ExperimentDataModel experimentDataModel;
 
 	public void setup() {
 		setupTimebarModel();
@@ -151,12 +146,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 					public void handleRemove(int index, Object element) {
 						TimingGroupUIModel timingGroupModel = ((TimingGroupUIModel) element);
 						timingGroupModel.dispose();
-						removeIntervals(timingGroupModel);
+						timingGroupRowModel.remInterval(timingGroupModel);
 					}
 
 					@Override
 					public void handleAdd(int index, Object element) {
-						addIntervals((IntervalImpl) element);
+						timingGroupRowModel.addInterval((IntervalImpl) element);
 					}
 				});
 			}
@@ -169,18 +164,8 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			((Scriptcontroller) controller).addIObserver(experimentDataCollectionJob);
 		}
 		experimentDataCollectionJob.setUser(true);
-	}
 
-	private void addIntervals(IntervalImpl groupModel) {
-		for(int i = 0; i < timebarModel.getRowCount(); i += 2) {
-			((TimingGroupTimeBarRowModel) timebarModel.getRow(i)).addInterval(groupModel);
-		}
-	}
-
-	private void removeIntervals(IntervalImpl groupModel) {
-		for(int i = 0; i < timebarModel.getRowCount(); i += 2) {
-			((TimingGroupTimeBarRowModel) timebarModel.getRow(i)).remInterval(groupModel);
-		}
+		loadSavedGroups();
 	}
 
 	public void addGroupListChangeListener(IListChangeListener listener) {
@@ -195,15 +180,28 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return topupTimes;
 	}
 
-	public void loadSavedGroups(String key) {
-		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(key, TimingGroupUIModel[].class);
+	private void loadSavedGroups() {
+		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
+		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
+		if (savedExperimentDataModel == null) {
+			experimentDataModel = new ExperimentDataModel();
+		} else {
+			experimentDataModel = savedExperimentDataModel;
+		}
+		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(getI0IRefDataKey(), experimentDataModel);
+			}
+		});
 		if (savedGroups == null) {
 			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
-			addGroup();
+			addItGroup();
 			return;
 		}
+
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
-			TimingGroupUIModel timingGroup = new TimingGroupUIModel(timebarModel, unit.getWorkingUnit(), this);
+			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());
 			timingGroup.setUseExernalTrigger(loadedGroup.isUseExernalTrigger());
 			timingGroup.setExernalTriggerAvailable(loadedGroup.isExernalTriggerAvailable());
@@ -223,49 +221,18 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		updateExperimentDuration();
 	}
 
-	protected String getGroupHeaderPrefix(@SuppressWarnings("unused") int index) {
-		return "Groups";
+	protected String getDataStoreKey() {
+		return LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY;
 	}
 
 	private void setupTimebarModel() {
-		// Each group has 2 rows, for group and spectra
-		int existingRows = 0;
-		if (timebarModel == null) {
-			timebarModel = new DefaultTimeBarModel();
-		} else {
-			existingRows = timebarModel.getRowCount() / 2;
-		}
-		for (int i=0; i < noOfRepeatedGroups; i++) {
-			if (i >= existingRows) {
-				DefaultRowHeader header = new DefaultRowHeader(getGroupHeaderPrefix(i));
-				TimingGroupTimeBarRowModel timingGroupRowModel = new TimingGroupTimeBarRowModel(header);
-				timebarModel.addRow(timingGroupRowModel);
-
-				header = new DefaultRowHeader("");
-				TimingGroupTimeBarRowModel spectraRowModel = new TimingGroupTimeBarRowModel(header);
-				timebarModel.addRow(spectraRowModel);
-
-				if (existingRows > 0) {
-					for (Interval interval : timebarModel.getRow(0).getIntervals()) {
-						timingGroupRowModel.addInterval(interval);
-					}
-					for (Interval interval : timebarModel.getRow(1).getIntervals()) {
-						spectraRowModel.addInterval(interval);
-					}
-				}
-			}
-		}
-		if (noOfRepeatedGroups < existingRows) {
-			List<TimeBarRow> rowsToRemove = new ArrayList<TimeBarRow>();
-			for (int i = noOfRepeatedGroups; i < existingRows; i++) {
-				int rowIndex = i * 2;
-				rowsToRemove.add(timebarModel.getRow(rowIndex));
-				rowsToRemove.add(timebarModel.getRow(rowIndex + 1));
-			}
-			for (TimeBarRow rowToRemove : rowsToRemove) {
-				timebarModel.remRow(rowToRemove);
-			}
-		}
+		timebarModel = new DefaultTimeBarModel();
+		DefaultRowHeader header = new DefaultRowHeader("Groups");
+		timingGroupRowModel = new TimingGroupTimeBarRowModel(header);
+		header = new DefaultRowHeader("Spectra");
+		spectraRowModel = new TimingGroupTimeBarRowModel(header);
+		timebarModel.addRow(timingGroupRowModel);
+		timebarModel.addRow(spectraRowModel);
 	}
 
 	public DefaultTimeBarModel getTimeBarModel() {
@@ -281,7 +248,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		double endTime = groupToSplit.getEndTime();
 		double startTime = groupToSplit.getStartTime();
 		groupToSplit.resetInitialTime(startTime, duration / 2, 0, duration / 2);
-		TimingGroupUIModel newGroup = new TimingGroupUIModel(timebarModel, unit.getWorkingUnit(), this);
+		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + (groupList.indexOf(groupToSplit) + 2));
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
@@ -291,13 +258,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		}
 	}
 
-	public TimingGroupUIModel addGroup() {
-		TimingGroupUIModel newGroup = new TimingGroupUIModel(timebarModel, unit.getWorkingUnit(), this);
+	public TimingGroupUIModel addItGroup() {
+		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + groupList.size());
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(this.getDuration() / groupList.size());
-		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
 
@@ -312,7 +279,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				}
 				updateExperimentDuration();
 			}
-			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
+			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(TimeResolvedExperimentModel.this.getDataStoreKey(), groupList);
 		}
 	};
 
@@ -332,10 +299,11 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public void removeGroup(TimingGroupUIModel group) {
-		if (groupList.size() > 1) {
+		if (groupList.size() > 1 && groupList.indexOf(group) > 0) {
+			TimingGroupUIModel groupToExpend = (TimingGroupUIModel) groupList.get(groupList.indexOf(group) - 1);
 			removeFromInternalGroupList(group);
-			resetInitialGroupTimes(this.getDuration() / groupList.size());
-			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY, groupList);
+			groupToExpend.setEndTime(group.getEndTime());
+			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(getDataStoreKey(), groupList);
 		}
 	}
 
@@ -343,30 +311,30 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		experimentDataCollectionJob.schedule();
 	}
 
-	private String buildScanCommand() {
-		StringBuilder builder = new StringBuilder(String.format("from gda.scan.ede import EdeLinearExperiment;" +
-				JYTHON_DRIVER_OBJ + " = EdeLinearExperiment(%s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");" +
-				JYTHON_DRIVER_OBJ + ".setNoOfSecPerSpectrumToPublish(%s);",
+	protected String buildScanCommand() {
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeLinearExperiment;");
+		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = EdeLinearExperiment(%f, %d",
+					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime()),
+					this.getExperimentDataModel().getI0NumberOfAccumulations()));
+		} else {
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = EdeLinearExperiment(%f",
+					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime())));
+		}
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
 				TIMING_GROUPS_OBJ_NAME,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
-				DetectorModel.SHUTTER_NAME,
-				this.getNoOfSecPerSpectrumToPublish()));
+				DetectorModel.SHUTTER_NAME));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
-					unit.getWorkingUnit().convertToSecond(irefIntegrationTime), irefNoOfAccumulations));
+					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getIrefIntegrationTime()), this.getExperimentDataModel().getIrefNoOfAccumulations()));
 		}
-		if (!this.isUseItTimeForI0()) {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setCommonI0Parameters(%f, %d);",
-					unit.getWorkingUnit().convertToSecond(i0IntegrationTime), i0NoOfAccumulations));
-		} else {
-			builder.append(String.format(JYTHON_DRIVER_OBJ + ".setCommonI0Parameters(%f);",
-					unit.getWorkingUnit().convertToSecond(i0IntegrationTime)));
-		}
-		builder.append(JYTHON_DRIVER_OBJ + ".runExperiment();");
+		builder.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
 	}
 
@@ -394,16 +362,23 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				currentNormalisedItData.setName("Normalised It");
 				currentEnergyData = edeExperimentProgress.getEnergyData();
 				currentEnergyData.setName("Energy");
-				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
-				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						final TimingGroupUIModel currentGroup = (TimingGroupUIModel) groupList.get(currentGroupNumber);
-						// TODO refactor the group to manage its own state
-						TimeResolvedExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
-					}
-				});
+
+				// This is commented out to disable the marker feature to show currently scanning spectra
+
+				//				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
+				//				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
+				//				Display.getDefault().asyncExec(new Runnable() {
+				//					//					@Override
+				//					//					public void run() {
+				//					//						if (groupList.size() -1 < currentGroupNumber) {
+				//					//							System.out.println(groupList.size());
+				//					//							System.out.println(currentGroupNumber);
+				//					//						}
+				//					//						final TimingGroupUIModel currentGroup = (TimingGroupUIModel) groupList.get(currentGroupNumber);
+				//					//						// TODO refactor the group to manage its own state
+				//					//						TimeResolvedExperimentModel.this.setCurrentScanningSpectrum((SpectrumModel) currentGroup.getSpectrumList().get(currentFrameNumber));
+				//					//					}
+				//					//				});
 			}
 		}
 
@@ -509,6 +484,10 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		}
 	}
 
+	public ExperimentDataModel getExperimentDataModel() {
+		return experimentDataModel;
+	}
+
 	public void stopScan() {
 		if (this.isScanning()) {
 			JythonServerFacade.getInstance().haltCurrentScan();
@@ -584,6 +563,20 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		resetInitialGroupTimes(unit.convertToMilli(value) / groupList.size());
 	}
 
+	public void setupExperiment(ExperimentUnit unit, double duration, int noOfGroups) {
+		this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(duration));
+		this.setUnit(unit);
+		groupList.clear();
+		for(int i = 0; i < noOfGroups; i++) {
+			TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
+			newGroup.setName("Group " + groupList.size());
+			newGroup.setIntegrationTime(1.0);
+			addToInternalGroupList(newGroup);
+		}
+		resetInitialGroupTimes(this.getDuration() / groupList.size());
+		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
+	}
+
 	public double getExperimentDuration() {
 		return unit.convertFromMilli(getDuration());
 	}
@@ -596,8 +589,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return unit;
 	}
 
+	public String getUnitInStr() {
+		return unitInStr;
+	}
+
 	public void setUnit(ExperimentUnit unit) {
 		this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
+		this.firePropertyChange(UNIT_IN_STRING_PROP_NAME, unitInStr, unitInStr = this.unit.getUnitText());
 		for (Object object : getGroupList()) {
 			((TimingGroupUIModel) object).setUnit(this.unit.getWorkingUnit());
 		}
@@ -607,59 +605,19 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		return noOfSecPerSpectrumToPublish;
 	}
 
-	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) {
+	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) throws IllegalArgumentException {
+		if (noOfSecPerSpectrumToPublish >= this.getDurationInSec()) {
+			throw new IllegalArgumentException("Cannot be longer than experiment duration");
+		}
 		this.firePropertyChange(NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, this.noOfSecPerSpectrumToPublish, this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish);
 	}
 
-	public boolean isUseItTimeForI0() {
-		return useItTimeForI0;
-	}
-
-	public void setUseItTimeForI0(boolean useItTimeForI0) {
-		this.firePropertyChange(USE_IT_TIME_FOR_I0_PROP_NAME, this.useItTimeForI0, this.useItTimeForI0 = useItTimeForI0);
-	}
-
-	public double getI0IntegrationTime() {
-		return i0IntegrationTime;
-	}
-
-	public void setI0IntegrationTime(double i0IntegrationTime) {
-		this.firePropertyChange(I0_INTEGRATION_TIME_PROP_NAME, this.i0IntegrationTime, this.i0IntegrationTime = i0IntegrationTime);
-	}
-
-	public int getI0NoOfAccumulations() {
-		return i0NoOfAccumulations;
-	}
-
-	public void setI0NoOfAccumulations(int i0NoOfAccumulations) {
-		this.firePropertyChange(I0_NO_OF_ACCUMULATION_PROP_NAME, this.i0NoOfAccumulations, this.i0NoOfAccumulations = i0NoOfAccumulations);
-	}
-
-	public double getIrefIntegrationTime() {
-		return irefIntegrationTime;
-	}
-
-	public void setIrefIntegrationTime(double irefIntegrationTime) {
-		this.firePropertyChange(IREF_INTEGRATION_TIME_PROP_NAME, this.irefIntegrationTime, this.irefIntegrationTime = irefIntegrationTime);
-	}
-
-	public int getIrefNoOfAccumulations() {
-		return irefNoOfAccumulations;
-	}
-
-	public void setIrefNoOfAccumulations(int irefNoOfAccumulations) {
-		this.firePropertyChange(IREF_NO_OF_ACCUMULATION_PROP_NAME, this.irefNoOfAccumulations, this.irefNoOfAccumulations = irefNoOfAccumulations);
-	}
-
-	public int getNoOfRepeatedGroups() {
-		return noOfRepeatedGroups;
-	}
-
-	public void setNoOfRepeatedGroups(int noOfRepeatedGroups) {
-		this.firePropertyChange(NO_OF_REPEATED_GROUPS_PROP_NAME, this.noOfRepeatedGroups, this.noOfRepeatedGroups = noOfRepeatedGroups);
-		setupTimebarModel();
-	}
-
 	@Override
-	public void dispose() {}
+	public void dispose() {
+		// Nothing to dispose
+	}
+
+	private String getI0IRefDataKey() {
+		return getDataStoreKey() + IO_IREF_DATA_SUFFIX_KEY;
+	}
 }

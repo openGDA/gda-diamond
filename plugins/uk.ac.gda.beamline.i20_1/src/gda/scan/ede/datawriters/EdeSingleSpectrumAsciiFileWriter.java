@@ -20,7 +20,6 @@ package gda.scan.ede.datawriters;
 
 import gda.device.detector.StripDetector;
 import gda.scan.EdeScan;
-import gda.scan.ede.EdeExperiment;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,7 +29,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
+public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 
 	private final EdeScan i0DarkScan;
 	private final EdeScan itDarkScan;
@@ -40,7 +39,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 
 	public EdeSingleSpectrumAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan,
 			EdeScan itDarkScan, StripDetector theDetector) {
-		super(extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0)));
+		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0InitialScan = i0InitialScan;
 		this.itScan = itScan;
 		this.i0DarkScan = i0DarkScan;
@@ -49,11 +48,12 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 	}
 
 	@Override
-	public String writeAsciiFile() throws Exception {
-		DoubleDataset i0DarkDataSet = extractDetectorDataSets(theDetector.getName(), i0DarkScan, 0);
-		DoubleDataset itDarkDataSet = extractDetectorDataSets(theDetector.getName(), itDarkScan, 0);
-		DoubleDataset i0InitialDataSet = extractDetectorDataSets(theDetector.getName(), i0InitialScan, 0);
-		DoubleDataset itDataSet = extractDetectorDataSets(theDetector.getName(), itScan, 0);
+	public String writeDataFile() throws Exception {
+		// FIXME Check this
+		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(0);
+		DoubleDataset itDarkDataSet = itDarkScan.extractDetectorDataSet(0);
+		DoubleDataset i0InitialDataSet = i0InitialScan.extractDetectorDataSet(0);
+		DoubleDataset itDataSet = itScan.extractDetectorDataSet(0);
 
 		determineAsciiFilename();
 
@@ -66,9 +66,9 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		FileWriter writer = new FileWriter(asciiFile);
 		log("Writing EDE format ascii file: " + asciiFilename);
 		writerHeader(writer);
-		writer.write("#" + EdeExperiment.STRIP_COLUMN_NAME + "\t" + EdeExperiment.ENERGY_COLUMN_NAME + "\t" + EdeExperiment.I0_CORR_COLUMN_NAME + "\t"
-				+ EdeExperiment.IT_CORR_COLUMN_NAME + "\t" + EdeExperiment.LN_I0_IT_COLUMN_NAME + "\t " + EdeExperiment.I0_RAW_COLUMN_NAME + "\t"
-				+ EdeExperiment.IT_RAW_COLUMN_NAME + "\t" + EdeExperiment.I0_DARK_COLUMN_NAME + "\t" + EdeExperiment.IT_DARK_COLUMN_NAME + "\n");
+		writer.write("#" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t" + EdeDataConstants.I0_CORR_COLUMN_NAME + "\t"
+				+ EdeDataConstants.IT_CORR_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\t " + EdeDataConstants.I0_RAW_COLUMN_NAME + "\t"
+				+ EdeDataConstants.IT_RAW_COLUMN_NAME + "\t" + EdeDataConstants.I0_DARK_COLUMN_NAME + "\t" + EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
 		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
@@ -109,6 +109,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 		writer.write("\n");
 	}
 
+	@Override
 	public String getAsciiFilename() {
 		return asciiFilename;
 	}
@@ -116,13 +117,13 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeAsciiFileWriter {
 	private void determineAsciiFilename() {
 		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
-		String folder = convertFromNextToAsciiFolder(itFilename);
+		String folder = convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
 
 		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			asciiFilename = folder + String.format(filenameTemplate, filename) + ASCII_FILE_EXTENSION;
+			asciiFilename = folder + String.format(filenameTemplate, filename) + EdeDataConstants.ASCII_FILE_EXTENSION;
 		} else {
-			asciiFilename = folder + filename + ASCII_FILE_EXTENSION;
+			asciiFilename = folder + filename + EdeDataConstants.ASCII_FILE_EXTENSION;
 		}
 	}
 }

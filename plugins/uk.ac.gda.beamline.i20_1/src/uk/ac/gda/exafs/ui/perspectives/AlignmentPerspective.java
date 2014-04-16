@@ -25,13 +25,14 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
-import uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView;
-import uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView;
-import uk.ac.gda.exafs.ui.views.BeamlineAlignmentView;
-import uk.ac.gda.exafs.ui.views.DetectorLiveModeView;
-import uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView;
-import uk.ac.gda.exafs.ui.views.FocusingView;
-import uk.ac.gda.exafs.ui.views.plot.DataPlotView;
+import uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView;
+import uk.ac.gda.exafs.ede.alignment.ui.AlignmentSingleSpectrumView;
+import uk.ac.gda.exafs.ede.alignment.ui.AlignmentStageCalibrationView;
+import uk.ac.gda.exafs.ede.alignment.ui.BeamlineAlignmentView;
+import uk.ac.gda.exafs.ede.alignment.ui.DetectorLiveModeView;
+import uk.ac.gda.exafs.ede.alignment.ui.FocusingView;
+import uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView;
+import uk.ac.gda.exafs.plotting.ui.SlitsScanPlotView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
@@ -71,10 +72,10 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);
+		topPlotFolder.addView(SlitsScanPlotView.ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
-		topPlotFolder.addView(LIVE_PLOT_VIEW_ID);
-		topPlotFolder.addView(DataPlotView.ID);
+		topPlotFolder.addView(ExperimentDataPlotView.ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 
 	}

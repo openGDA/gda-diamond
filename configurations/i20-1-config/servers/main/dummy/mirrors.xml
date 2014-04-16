@@ -39,8 +39,15 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="me2_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
 	<bean id="me2_stripe_motor" class="gda.device.motor.DummyMotor" />
-
 	<bean id="me2y_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="me2pitch_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="me2roll_motor" class="gda.device.motor.DummyMotor" />
@@ -53,7 +60,7 @@
 	<bean id="poly_y2_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="poly_y3_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="poly_theta_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="poly_yfine_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="poly_finey_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="poly_yawfine_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="poly_rollfine_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="poly_curvature_motor" class="gda.device.motor.DummyMotor" />

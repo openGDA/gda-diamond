@@ -18,28 +18,36 @@
 
 package uk.ac.gda.exafs.ui.data.experiment;
 
+import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
+
 public enum ExperimentModelHolder {
 	INSTANCE;
 
 	private final TimeResolvedExperimentModel linerExperimentModel;
 	private final CyclicExperimentModel cyclicExperimentModel;
+	private final SingleSpectrumUIModel singleSpectrumExperimentModel;
 
 	private ExperimentModelHolder() {
 
 		linerExperimentModel = new TimeResolvedExperimentModel();
 		linerExperimentModel.setup();
-		linerExperimentModel.loadSavedGroups(TimeResolvedExperimentModel.LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY);
 
 		cyclicExperimentModel = new CyclicExperimentModel();
 		cyclicExperimentModel.setup();
-		cyclicExperimentModel.loadSavedGroups(CyclicExperimentModel.CYCLIC_EXPERIMENT_MODEL_DATA_STORE_KEY);
+
+		singleSpectrumExperimentModel = new SingleSpectrumUIModel();
+		singleSpectrumExperimentModel.setup();
 	}
 
 	public TimeResolvedExperimentModel getLinerExperimentModel() {
 		return linerExperimentModel;
 	}
 
-	public TimeResolvedExperimentModel getCyclicExperimentModel() {
+	public CyclicExperimentModel getCyclicExperimentModel() {
 		return cyclicExperimentModel;
+	}
+
+	public SingleSpectrumUIModel getSingleSpectrumExperimentModel() {
+		return singleSpectrumExperimentModel;
 	}
 }

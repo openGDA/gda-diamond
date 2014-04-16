@@ -2,50 +2,57 @@
 # Example script to run a single spectrum scan.
 #
 # Uses new EDE scanning mechanism
-#
-# Richard Woolliscroft 22 July 2013
-#
 
 from gda.scan.ede import EdeLinearExperiment
-from gda.scan.ede.position import EdePositionType,ExplicitScanPositions
-from uk.ac.gda.exafs.ui.data import EdeScanParameters, TimingGroup
-
+from uk.ac.gda.exafs.ui.data import  TimingGroup
 
 def runlinearexperment():
     ########################
     # EDIT THESE VALUES:
+    i0AccumulationTime = 0.1 # In second
+    i0NoOfAccumulcation = 1
     
-    xmotorobject   = sample_x
-    ymotorobject   = sample_y
-    detectorobject = xstrip
+    i0MotorPositions = {'sample_x':0.0,'sample_y':1.0,'sample_finex':1.0}
+    itMotorPositions = {'sample_x':1.0,'sample_y':2.0,'sample_finex':1.0}
     
-    inbeam_xmotorposition = 0
-    inbeam_ymotorposition = 0
-     
-    outbeam_xmotorposition = 0.2
-    outbeam_ymotorposition = 0.2
+    # Uncomment the following 3 lines to use IRef
+        
+    iRefMotorPositions = {'sample_x':1.0,'sample_y':2.0,'sample_finex':1.0}
+    irefIntegrationTime = 0.2 # In second
+    irefNoOfAccumulations = 4
+    
+    plotEvery = 2 # In second
     
     groups = []
     #
     # repeat this section for every timing group
     #
     group = TimingGroup();
-    group.setLabel("group");
+    group.setLabel("group1");
     group.setNumberOfFrames(10);
     group.setTimePerScan(0.05);
-    group.setNumberOfScansPerFrame(5);
+    group.setTimePerFrame(5);
+    group.setPreceedingTimeDelay(0.0)
     groups += [group];
+        
+    group = TimingGroup();
+    group.setLabel("group2");
+    group.setNumberOfFrames(10);
+    group.setTimePerScan(0.05);
+    group.setTimePerFrame(5);
+    group.setPreceedingTimeDelay(0.0)
+    groups += [group];
+
+    detectorName = "xh"
+    topCheckerScannable = "topup"
+    shutterName = "shutter2"
 
     ########################
 
-    scanparams = EdeScanParameters(groups)
-    
-    outBeamPosition = ExplicitScanPositions(EdePositionType.OUTBEAM,outbeam_xmotorposition,outbeam_ymotorposition,xmotorobject,ymotorobject);
-    inBeamPosition = ExplicitScanPositions(EdePositionType.INBEAM, inbeam_xmotorposition, inbeam_ymotorposition, xmotorobject, ymotorobject);
-    
-    theExperiment = EdeLinearExperiment(scanparams, outBeamPosition, inBeamPosition, detectorobject);
+    theExperiment = EdeLinearExperiment(i0AccumulationTime, i0NoOfAccumulcation, groups,  mapToJava(i0MotorPositions), mapToJava(itMotorPositions), detectorName, topCheckerScannable, shutterName)
+    theExperiment.setNoOfSecPerSpectrumToPublish(plotEvery)
+    if 'iRefMotorPositions' in locals():
+        theExperiment.setIRefParameters(mapToJava(iRefMotorPositions), irefIntegrationTime, irefNoOfAccumulations)
     theExperiment.runExperiment()
     
 runlinearexperment()
-
-

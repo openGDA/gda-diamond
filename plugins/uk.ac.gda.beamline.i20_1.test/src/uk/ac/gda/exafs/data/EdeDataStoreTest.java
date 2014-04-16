@@ -32,14 +32,13 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.junit.Test;
 
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
+import uk.ac.gda.exafs.ui.data.experiment.ExperimentUnit;
+import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel.ExperimentUnit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
 public class EdeDataStoreTest {
@@ -56,7 +55,8 @@ public class EdeDataStoreTest {
 			@Override
 			public void run() {
 				WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
-				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarModel(), ExperimentUnit.SEC, ExperimentModelHolder.INSTANCE.getLinerExperimentModel());
+				TimeResolvedExperimentModel testLinerExperimentModel = new TimeResolvedExperimentModel();
+				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarRowModel() , ExperimentUnit.SEC, testLinerExperimentModel);
 				group.setTimes(0.0, 1000.0);
 				group.setNumberOfSpectrum(100);
 				group.setTimePerSpectrum(10);
@@ -67,7 +67,7 @@ public class EdeDataStoreTest {
 				try {
 					configuration.save();
 				} catch (ConfigurationException e) {
-					assertFalse(true); 
+					assertFalse(true);
 				}
 			}
 		});
@@ -81,8 +81,8 @@ public class EdeDataStoreTest {
 			assertTrue(test.length == 1);
 			assertTrue(test[0].getEndTime() == 1000.0);
 		} catch (ConfigurationException e) {
-			assertFalse(true); 
+			assertFalse(true);
 		}
-		
+
 	}
 }

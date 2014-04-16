@@ -23,25 +23,30 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Display;
 
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import de.jaret.util.ui.timebars.TimeBarMarker;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultTimeBarMarkerRenderer;
 
 public class ExperimentMarkerRenderer extends DefaultTimeBarMarkerRenderer {
+	// This class should be created when display is ready :-)
 	private static final Color TOP_UP_MARKER_COLOR = Display.getCurrent().getSystemColor(SWT.COLOR_GREEN);
 	private static final Color SCANNING_MARKER_COLOR = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+
 	@Override
 	public void draw(GC gc, TimeBarViewerDelegate tbv, TimeBarMarker marker, boolean isDragged, boolean printing) {
 		Color oldFgCol = gc.getForeground();
 		Color oldBgCol = gc.getBackground();
-
 		int startY = Math.min(tbv.getXAxisRect().y, tbv.getDiagramRect().y);
 		int x = tbv.xForDate(marker.getDate());
 		int height = tbv.getXAxisRect().height + tbv.getDiagramRect().height;
 		if (marker instanceof TimeResolvedExperimentModel.Topup) {
 			gc.setBackground(TOP_UP_MARKER_COLOR);
 			int x1 = tbv.xForDate(marker.getDate().copy().advanceSeconds(TimeResolvedExperimentModel.TOP_UP_DURATION_IN_SECONDS));
-			gc.fillRectangle(x, startY, x1 - x, height);
+			int width = x1 - x;
+			gc.fillRectangle(x, startY, width, height);
+			int x2 = tbv.xForDate(ExperimentTimeHelper.getTime());
+			gc.fillRectangle(x2 - width, startY, width, height);
 		} else {
 			gc.setForeground(SCANNING_MARKER_COLOR);
 			gc.drawLine(x, startY, x, startY + height);

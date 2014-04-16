@@ -90,6 +90,12 @@ public class EdeScanParameters implements Serializable {
 		return params;
 	}
 
+	public static EdeScanParameters createEdeScanParameters(List<TimingGroup> groups) {
+		EdeScanParameters params = new EdeScanParameters();
+		params.setGroups(groups);
+		return params;
+	}
+
 	// for repeatableExperiments
 	private Integer numberOfRepetitions = 1; // number of times to repeat the sequence of timingGroups, between bookend
 	// I0 data
@@ -128,6 +134,9 @@ public class EdeScanParameters implements Serializable {
 		setGroups(new Vector<TimingGroup>(Arrays.asList(groups)));
 	}
 
+	/**
+	 * @return  the total number of frames in each cycle
+	 */
 	public int getTotalNumberOfFrames() {
 		int sum = 0;
 

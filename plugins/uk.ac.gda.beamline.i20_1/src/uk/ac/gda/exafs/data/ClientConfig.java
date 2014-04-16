@@ -18,22 +18,20 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.configuration.properties.LocalProperties;
 import gda.device.Scannable;
 import gda.factory.Finder;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.ui.composites.ScannableWrapper;
+import uk.ac.gda.client.observablemodels.ScannableWrapper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -105,7 +103,7 @@ public class ClientConfig {
 
 	public enum ScannableSetup {
 
-		WIGGLER_GAP("Wiggler gap", "wigglerGap", UnitSetup.MILLI_METER),
+		WIGGLER_GAP("Wiggler gap", "wiggler_gap", UnitSetup.MILLI_METER),
 		POLY_BENDER_1("Bender 1", "poly_bend1", UnitSetup.MILLI_METER),
 		POLY_BENDER_2("Bender 2", "poly_bend2",UnitSetup.MILLI_METER),
 
@@ -131,11 +129,11 @@ public class ClientConfig {
 		POLY_BRAGG ("Bragg", "poly_theta", UnitSetup.DEGREE),
 		ARM_2_THETA_ANGLE ("Arm 2theta", "twotheta", UnitSetup.DEGREE),
 
-		DETECTOR_HEIGHT ("Detector height", "detector_y", UnitSetup.MILLI_METER),
-		DETECTOR_DISTANCE ("Detector distance", "detector_z", UnitSetup.MILLI_METER),
+		DETECTOR_HEIGHT ("Detector height", "det_y", UnitSetup.MILLI_METER),
+		DETECTOR_DISTANCE ("Detector distance", "det_z", UnitSetup.MILLI_METER),
 
 		POLY_CURVATURE("Curvature", "poly_curve", UnitSetup.MILLI_METER),
-		POLY_Y_ELLIPTICITY("Ellipticity","poly_yellip", UnitSetup.MILLI_METER),
+		POLY_Y_ELLIPTICITY("Ellipticity","poly_ellip", UnitSetup.MILLI_METER),
 		POLY_TWIST("Twist","poly_twist", UnitSetup.MILLI_METER),
 
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
@@ -220,42 +218,30 @@ public class ClientConfig {
 	public enum EdeDataStore {
 		INSTANCE;
 
-		private PropertiesConfiguration store;
+		private static final String EDE_DATA_PERFERENCES = "EDE_data_perferences";
 		final GsonBuilder gsonBuilder;
 		private final Gson gson;
+		private final Preferences prefs = ConfigurationScope.INSTANCE.getNode(EDE_DATA_PERFERENCES);
 
 		private EdeDataStore() {
 			gsonBuilder = new GsonBuilder();
 			gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
-			File propertiesFile = new File(LocalProperties.getVarDir(), EDE_GUI_DATA);
-			store = new PropertiesConfiguration();
-			store.setDelimiterParsingDisabled(true);
-			store.setAutoSave(true);
-			store.setFile(propertiesFile);
-			try {
-				if (!propertiesFile.exists()) {
-					propertiesFile.createNewFile();
-				}
-				store.load();
-			} catch (IOException | ConfigurationException e) {
-				logger.error("Unable to setup data store for Ede client", e);
-				store = null;
-			}
 		}
 
 		public <T> T loadConfiguration(String key, Class<T> classType) {
-			if (store != null) {
-				String data = store.getString(key);
-				if (data != null) {
-					return gson.fromJson(data, classType);
-				}
+			String gsonText = prefs.get(key, null);
+			if (gsonText != null) {
+				return gson.fromJson(gsonText, classType);
 			}
 			return null;
 		}
 
 		public <T> void saveConfiguration(String key, T data) {
-			if (store != null) {
-				store.setProperty(key, gson.toJson(data));
+			prefs.put(key, gson.toJson(data));
+			try {
+				prefs.flush();
+			} catch (BackingStoreException e) {
+				logger.error("Unable to store preference", e);
 			}
 		}
 	}

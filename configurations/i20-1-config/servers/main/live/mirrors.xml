@@ -68,15 +68,15 @@
 	<bean id="me2_stripe_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PM-02:X" />
 	</bean>
-	
+	<bean id="me2_position" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL20J-OP-PM-02:MP2:SELECT"/>
+	</bean>	
 	<bean id="me2y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PM-02:Y" />
 	</bean>
-	
 	<bean id="me2pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PM-02:PITCH" />
 	</bean>
-	
 	<bean id="me2roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PM-02:ROLL" />
 	</bean>
@@ -100,7 +100,7 @@
 	<bean id="poly_theta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:THETA" />
 	</bean>
-	<bean id="poly_yfine_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="poly_finey_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:YF" />
 	</bean>
 	<bean id="poly_yawfine_motor" class="gda.device.motor.EpicsMotor">

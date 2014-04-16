@@ -20,6 +20,9 @@ package gda.device.detector;
 
 import gda.device.Detector;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -167,6 +170,13 @@ public class DummyXStripDAServer extends DummyDAServer {
 			break;
 		case "print":
 			return tcSerialPortOpened ? 1 : 0;
+		case "set":
+			// this is the command to start logging the temperature
+			tokenizer.nextToken(); // system name - ignore
+			tokenizer.nextToken(); // 'logt' - ignore
+			String logfilename = tokenizer.nextToken();
+			writeTempLogFile(logfilename);
+			break;
 		case "get":
 			if (!tcSerialPortOpened) {
 				return -1;
@@ -179,6 +189,29 @@ public class DummyXStripDAServer extends DummyDAServer {
 			return -1;
 		}
 		return 0;
+	}
+
+	private void writeTempLogFile(String logfilename) {
+
+		try {
+			PrintWriter writer = new PrintWriter(logfilename, "UTF-8");
+			writer.println("1392715507         ch0=38.25");
+			writer.println("1392715507         ch1=37.50");
+			writer.println("1392715508         ch2=35.25");
+			writer.println("1392715508         ch3=38.50");
+			writer.println("1392715509         ch0=38.25");
+			writer.println("1392715509         ch1=37.50");
+			writer.println("1392715509         ch2=35.25");
+			writer.println("1392715509         ch3=38.50");
+			writer.println("1392715510         ch0=38.25");
+			writer.println("1392715510         ch1=37.50");
+			writer.println("1392715536         ch3=38.50");
+			writer.close();
+		} catch (FileNotFoundException e) {
+			logger.error("FileNotFoundException " + logfilename, e);
+		} catch (UnsupportedEncodingException e) {
+			logger.error("UnsupportedEncodingException, UTF-8 not supported. Really?", e);
+		}
 	}
 
 	private Object parseXstripHVCommand(String command) {
@@ -431,7 +464,7 @@ public class DummyXStripDAServer extends DummyDAServer {
 						}
 					}
 				}
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				logger.info("Timing groups aborted");
 			} finally {
 				stopRun = false;

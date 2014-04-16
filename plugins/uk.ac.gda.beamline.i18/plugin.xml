@@ -305,7 +305,7 @@
             category="uk.ac.gda.client.microfocus.category"
             class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
             id="uk.ac.gda.beamline.i18.McaView"
-            name="McaPlot"
+            name="MCA Plot"
             restorable="true">
       </view>
       <category
@@ -426,18 +426,6 @@
                name="uk.ac.gda.beamline.i20.separator2"
                visible="true">
          </separator>
-      </menuContribution>
-      <menuContribution
-            locationURI="popup:uk.ac.gda.beamline.i18.MapView?after=additions">
-         <menu
-               id="uk.ac.gda.beamline.i18.RunExafsMenu"
-               label="run">
-            <command
-                  commandId="uk.ac.gda.client.microfocus.runExafsCommand"
-                  id="uk.ac.gda.beamline.i18.menus.RunExafs"
-                  style="push">
-            </command>
-         </menu>
       </menuContribution>
    </extension>
    <extension

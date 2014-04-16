@@ -68,7 +68,7 @@
       </category>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.BeamlineAlignmentView"
+            class="uk.ac.gda.exafs.ede.alignment.ui.BeamlineAlignmentView"
             icon="icons/crosshairs.gif"
             id="uk.ac.gda.exafs.ui.views.beamlinealignmentview"
             name="Optics"
@@ -77,7 +77,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.AlignmentSingleSpectrumView"
+            class="uk.ac.gda.exafs.ede.alignment.ui.AlignmentSingleSpectrumView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView"
             name="Single Collection"
@@ -85,7 +85,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.FocusingView"
+            class="uk.ac.gda.exafs.ede.alignment.ui.FocusingView"
             id="uk.ac.gda.exafs.ui.views.focusingview"
             name="Focusing View"
             restorable="true">
@@ -93,7 +93,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
+            class="uk.ac.gda.exafs.ede.alignment.ui.DetectorLiveModeView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             name="Live Mode"
@@ -102,7 +102,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView"
+            class="uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationreference"
             name="Reference Spectrum"
@@ -111,7 +111,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.diamond.scisoft.analysis.rcp"
-            class="uk.ac.gda.exafs.ui.views.EdeManualCalibrationPlotView"
+            class="uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationEdeData"
             name="EDE Data Spectrum"
@@ -119,7 +119,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.AlignmentStageCalibrationView"
+            class="uk.ac.gda.exafs.ede.alignment.ui.AlignmentStageCalibrationView"
             icon="icons/brick.png"
             id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
             name="Alignment Stage"
@@ -127,7 +127,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.ExperimentSingleSpectrumView"
+            class="uk.ac.gda.exafs.ede.experiment.ui.ExperimentSingleSpectrumView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView"
             name="Single Collection"
@@ -135,14 +135,14 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.ui.views.LinearExperimentView"
+            class="uk.ac.gda.exafs.ede.experiment.ui.LinearExperimentView"
             id="uk.ac.gda.exafs.ui.views.linearExperimentView"
             name="Linear experiment"
             restorable="true">
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ui.views.plot.DataPlotView"
+            class="uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.dataplotview"
             name="Ede experiment plot"
@@ -150,9 +150,15 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.ui.views.CyclicExperimentView"
+            class="uk.ac.gda.exafs.ede.experiment.ui.CyclicExperimentView"
             id="uk.ac.gda.exafs.ui.views.cyclicExperimentView"
-            name="Cyclic experiment"
+            name="Cyclic experiment "
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.plotting.ui.SlitsScanPlotView"
+            id="uk.ac.gda.exafs.ui.views.slitsscanplotview"
+            name="Slits scan plot"
             restorable="true">
       </view>
    </extension>
@@ -342,6 +348,72 @@
          </visibleWhen>
       </command>
    </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:uk.ac.gda.exafs.ui.views.linearExperimentView">
+      <command
+            commandId="uk.ac.gda.exafs.ui.data.experiment.removegroup"
+            label="Remove Group"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
+                  </instanceof>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:uk.ac.gda.exafs.ui.views.cyclicExperimentView">
+      <command
+            commandId="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
+            label="Split Group"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
+                  </instanceof>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="popup:uk.ac.gda.exafs.ui.views.cyclicExperimentView">
+      <command
+            commandId="uk.ac.gda.exafs.ui.data.experiment.removegroup"
+            label="Remove Group"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <with
+                  variable="selection">
+               <iterate
+                     ifEmpty="false"
+                     operator="or">
+                  <instanceof
+                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
+                  </instanceof>
+               </iterate>
+            </with>
+         </visibleWhen>
+      </command>
+   </menuContribution>
 </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -355,6 +427,24 @@
             id="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
             name="Split Group">
       </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.ui.data.experiment.RemoveTimeGroupCommandHandler"
+            id="uk.ac.gda.exafs.ui.data.experiment.removegroup"
+            name="Remove Group">
+      </command>
    </extension>
+   <extension
+         point="org.dawnsci.plotting.api.toolPage">
+      <plotting_tool_page
+            category="org.dawnsci.plotting.tools.category.Science"
+            class="org.dawnsci.plotting.tools.profile.TimeResolvedToolPage"
+            id="org.dawnsci.plotting.tools.profile.timeresolvedtool"
+            label="Time resolved Tool">
+      </plotting_tool_page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+   </extension>
+
    
 </plugin>
