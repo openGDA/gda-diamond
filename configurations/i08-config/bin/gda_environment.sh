@@ -5,4 +5,4 @@ export GDAVAR=/dls_sw/$BEAMLINE/software/gda_versions/var
 export GDALOGS=/dls_sw/$BEAMLINE/logs
 export GDAMODE=live
 
-export PATH=$GDAFOLDER/bin:/dls_sw/$BEAMLINE/software/gda_git/gda-diamond.git/dls-config/bin:${PATH}
+export PATH=${GDAFOLDER}/config/bin:${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin:${PATH}

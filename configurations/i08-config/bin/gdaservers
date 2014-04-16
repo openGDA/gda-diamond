@@ -20,11 +20,9 @@ cmd="ssh -v -o BatchMode=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChe
 echo $cmd
 $cmd
 
-notify-send -t 10000 "GDA Servers started. Launch GDA client"
 
-#zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
-#zenity --title "Start gdaclient" --question --text "The GDA servers have restarted. Start the GDA Client by typing gdaclient in the terminal." --window-icon=question
-#STARTCLIENT=$?
-#if [ $STARTCLIENT == 0 ]; then
-#  gdaclient
-#fi
+zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+STARTCLIENT=$?
+if [ $STARTCLIENT == 0 ]; then
+  gdaclient
+fi
