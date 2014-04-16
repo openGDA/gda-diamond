@@ -24,9 +24,14 @@
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	
 <!-- 	live only files -->
-	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
+		
 <!-- 	shared files -->
-	<import resource="file:${gda.config}/servers/main/diagnostics.xml" />
+
+	<import resource="file:${gda.config}/servers/main/opticsScannables.xml" />
 	<import resource="file:${gda.config}/servers/main/metadata.xml" />
 	
 <!-- 	Command Server at the end -->
