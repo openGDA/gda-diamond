@@ -36,23 +36,6 @@
 							<property name="name" value="Scripts: Core" />
 							<property name="type" value="CORE" />
 						</bean>
-<<<<<<< 8.36
-	<bean id="epics_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.install.git.loc}/gda-epics.git/uk.ac.gda.epics/scripts" />
-		<constructor-arg index="1" value="Scripts: Core" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
-	<bean id="scisoft_script_project" class="gda.jython.ScriptProject">
-		<constructor-arg index="0"
-			value="${gda.install.git.loc}/scisoft-core.git/uk.ac.diamond.scisoft.python/src" />
-		<constructor-arg index="1" value="Scripts: Core" />
-		<constructor-arg index="2" type="gda.jython.ScriptProjectType"
-			value="CORE" />
-	</bean>
-=======
->>>>>>> d38af05 I08 config changes to remove I18 stuff and get server started
 					</list>
 				</property>
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py"></property>
@@ -63,21 +46,13 @@
 		<property name="remotePort" value="9999" />
 	</bean>
 	
-<!-- 	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/> -->
-	
-<<<<<<< 8.36
-<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
-<!-- 		<property name="serviceName" value="gda/rcpController" /> -->
-<!-- 		<property name="service" ref="RCPController" /> -->
-<!-- 		<property name="serviceInterface" value="gda.gui.RCPController" /> -->
-<!-- 	</bean> -->
-=======
+	<!-- <bean id="RCPController" class="gda.gui.RCPControllerImpl"/> -->
+	<!-- 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/rcpController" />
 		<property name="service" ref="RCPController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
-	</bean>
->>>>>>> d38af05 I08 config changes to remove I18 stuff and get server started
+	</bean> -->
 	
 	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase"/>
 	
