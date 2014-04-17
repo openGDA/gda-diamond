@@ -15,7 +15,7 @@
 <stringAttribute key="featureDefaultLocation" value="workspace"/>
 <stringAttribute key="featurePluginResolution" value="workspace"/>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="/scratch/users"/>
+<stringAttribute key="location" value="/scratch/i08"/>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="GDK_NATIVE_WINDOWS" value="true"/>
 <mapEntry key="LD_LIBRARY_PATH" value="${workspace_loc:uk.ac.gda.core}/lib/${target.os}-${target.arch}:${workspace_loc:uk.ac.gda.nexus}/lib/${target.os}-${target.arch}:${workspace_loc:uk.ac.gda.common}/lib/${target.os}-${target.arch}:${workspace_loc:org.dawb.hdf5}/lib/${target.os}-${target.arch}"/>
@@ -23,10 +23,6 @@
 <mapAttribute key="org.eclipse.debug.core.preferred_launchers">
 <mapEntry key="[debug]" value="org.eclipse.pde.ui.RuntimeWorkbench"/>
 </mapAttribute>
-<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
-<listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
-<listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
-</listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>

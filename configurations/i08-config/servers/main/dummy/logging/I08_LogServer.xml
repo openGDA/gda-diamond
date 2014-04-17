@@ -19,9 +19,19 @@
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
+    
+    <appender name="DebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${gda.logs.dir}/gda_server.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d %-5level [%logger] %ex - %m%n</pattern>
+        </layout>
+    </appender>
    
     <logger name="gda">
-        <level value="INFO"/>
+        <level value="ALL"/>
     </logger>
     
     <logger name="gda.device.monitor.corba.impl">
@@ -37,6 +47,7 @@
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="WS001"/>
         <appender-ref ref="WS001_LogPanel"/>
+        <appender-ref ref="DebugFILE"/>
 		
     </root>
 </configuration>

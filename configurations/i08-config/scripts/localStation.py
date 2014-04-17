@@ -21,10 +21,10 @@ try:
         ls_names(Scannable)
 
 
-    from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
-    alias("createPVScannable")
-    alias("caput")
-    alias("caget")
+    #from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
+    #alias("createPVScannable")
+    #alias("caput")
+    #alias("caget")
 
     from gda.scan.RepeatScan import create_repscan, repscan
     vararg_alias("repscan")
@@ -44,7 +44,7 @@ try:
     inctime=showincrementaltimeClass('inctime')
     actualTime=actualTimeClass("actualTime")
     
-    run "gda_startup.py"
+    #run "gda_startup.py"
     print "Initialisation Complete";
 
 except:

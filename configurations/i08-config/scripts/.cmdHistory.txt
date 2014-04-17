@@ -1,5 +1,3 @@
-sc_MicroFocusSampleStage
-scan test 0 10 1
 qexafs 'Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False
 qexafs ('Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False)
 qexafs('Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False)
@@ -98,3 +96,6 @@ import scisoftpy as dnp
 scan d1motor 0 10 1 energy
 scan d1motor 0 10 1 energy d2motor 
 scan d1motor 0 10 1 energy d2motor 0 1
+pos
+reset_namespace
+pos
