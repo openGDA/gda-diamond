@@ -1,12 +1,12 @@
 #!/bin/bash
 # starts logpanel, servers and namemanager
 
-zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
-SURE=$?
-if [ $SURE == 1 ]; then
-  exit
-fi
-notify-send -t 10000 "GDA Servers are starting..."
+#zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
+#SURE=$?
+#if [ $SURE == 1 ]; then
+#  exit
+#fi
+#notify-send -t 10000 "GDA Servers are starting..."
 
 #identify install folder and JAVA_HOME
 source /dls_sw/i08/etc/i08_profile.sh
@@ -21,8 +21,8 @@ echo $cmd
 $cmd
 
 
-zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
-STARTCLIENT=$?
-if [ $STARTCLIENT == 0 ]; then
-  gdaclient
-fi
+#zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+#STARTCLIENT=$?
+#if [ $STARTCLIENT == 0 ]; then
+#  gdaclient
+#fi
