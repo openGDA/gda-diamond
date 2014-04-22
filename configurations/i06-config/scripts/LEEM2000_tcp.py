@@ -47,7 +47,7 @@ class leem_scannable(ScannableBase):
 
     def isBusy(self):
         reply = self.leem2000.send("get " + self.moduleName + "\0")
-        return reply != "ErrorCode -102"
+        return reply == "ErrorCode -102"
 
     def getPosition(self):
         try:
@@ -56,7 +56,7 @@ class leem_scannable(ScannableBase):
             return self.lastValue
 
     def asynchronousMoveTo(self,new_position):
-        cmd="set " + self.moduleName +"="+`new_position` + "\0"
+        cmd="set " + self.moduleName +"="+`new_position`
         reply=self.leem2000.send(cmd)
         if reply != "0":
             raise Exception("Failed in command " + `cmd` + " reply=" + `reply` + "")
