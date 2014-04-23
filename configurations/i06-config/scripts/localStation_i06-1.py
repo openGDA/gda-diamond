@@ -12,6 +12,15 @@ from gda.configuration.properties import LocalProperties
 
 localStationErrorCount=0
 
+from scannables import Keithley2612, Keith2612CurrentMeter, Keith2612VoltSource
+Keithley=Keithley2612.Keithley2612(channel=0, function=1, pvBase='BL06J-EA-USER-01:ASYN6.')
+volt=Keith2612VoltSource.Keith2612VoltSource('volt', Keithley, 1)
+curr=Keith2612CurrentMeter.Keith2612CurrentMeter('curr', Keithley, 1)
+kon=Keithley.turnOn
+koff=Keithley.turnOff
+alias('kon')
+alias('koff')
+
 # Since the BeamlineFunctionClass is common between Main and Branch line, if
 # we want i06-1 elog messages to be written to the i06-1 eLog, we have to
 # override elogID here:
@@ -91,7 +100,6 @@ except:
     logger.dump("---> ", exceptionType, exception, traceback)
     localStationErrorCount+=1
 
-    
 # Set up the scan processing wrappers
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
