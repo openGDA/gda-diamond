@@ -42,7 +42,7 @@
 	</bean>
 
 
-	<bean id="pco1_ndfilehdf5_base" class="gda.spring.V17NDFileCopyFactoryBean">
+	<bean id="pco1_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL13I-EA-DET-01:HDF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
@@ -54,7 +54,7 @@
 		</property>
 	</bean>
 
-	<bean id="pco1_ndfiletif" class="gda.spring.V17NDFileCopyFactoryBean">
+	<bean id="pco1_ndfiletif" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL13I-EA-DET-01:TIF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">

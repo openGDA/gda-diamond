@@ -284,7 +284,8 @@ class ReconArrayXML():
 #reconstruction script
 set -x
 #add the modules required 
-source /dls_sw/i12/modulefiles/modules.sh
+#source /dls_sw/i12/modulefiles/modules.sh
+source /etc/profile.d/modules.sh
 module add /dls_sw/i12/modulefiles/local-64
 myjob=$JOB_ID
 mytask=$SGE_TASK_ID
@@ -400,7 +401,9 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 		#execute job in current working directory
 		args+=["-cwd"]
 		#args+=[ "-pe", "smp", "4"]
-		args+=[ "-l", "tesla64", "-pe", "smp", "6"]
+		#nodesID = "tesla"
+		nodesID = "tesla64"
+		args+=[ "-l", nodesID, "-pe", "smp", "6"]
 		args+=[ "-t", "%i-%i"%(self.firstchunk, self.nchunks)]
 
 		#script
@@ -689,8 +692,7 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 			print "Timed-out after approx %s sec"%totWait
 		
 		return (not waiting)
-if __name__=="__main__":
-	main(sys.argv)
+if __name__=="__main__":	main(sys.argv)
 
 
 

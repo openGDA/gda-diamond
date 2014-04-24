@@ -413,7 +413,8 @@ class SinoListener():
 set -x
 
 #add the modules required 
-source /dls_sw/i12/modulefiles/modules.sh
+#source /dls_sw/i12/modulefiles/modules.sh
+source /etc/profile.d/modules.sh
 module add i12
 module add global/cluster
 module add/dls_sw/i12/modulefiles/local-64
@@ -536,7 +537,9 @@ fi
 #       In this, you use the "-pe smp 6" to make sure there are only two jobs on the node in total (it only offers 12 slots). 
 #       There is a different way of doing this which might be more sensible - there is a 'gpus' complex that's consumable, 
 #       i.e. the nodes offer two of it & if two jobs run you can't start another job. If you use that the above becomes:
-		args += [ "-l", "tesla64", "-l", "gpus=1"]
+		#nodesID = "tesla"
+		nodesID = "tesla64" 	 		
+		args += [ "-l", nodesID, "-l", "gpus=1"]
 
 		#submit array jobs
 		#self.firstchunk is used to define SGE-TASK_FIRST
@@ -571,7 +574,9 @@ fi
 		self.out.write ( "Spawning the sinogram finishing job ... " )
 		finishname = "f_%s" % self.jobname
 		self.out.write( "JOB NAME IS %s\n" % finishname )
-		args = ["qsub", "-P", self.qsub_project, "-l", "tesla64", "-pe", "smp", "6", "-e", self.settingsfolder+os.sep+'sge_err.txt', "-o", self.settingsfolder+os.sep+'sge_out.txt', "-q", "medium.q", "-hold_jid", self.jobname, "-N", finishname, self.finishscript]
+		#nodesID = "tesla"
+		nodesID = "tesla64" 
+		args = ["qsub", "-P", self.qsub_project, "-l", nodesID, "-pe", "smp", "6", "-e", self.settingsfolder+os.sep+'sge_err.txt', "-o", self.settingsfolder+os.sep+'sge_out.txt', "-q", "medium.q", "-hold_jid", self.jobname, "-N", finishname, self.finishscript]
 
 		try:
 			self.PopenWait( args, env = qenviron )
@@ -591,7 +596,8 @@ fi
 set -x
 
 #add the modules required 
-source	/dls_sw/i12/modulefiles/modules.sh
+#source	/dls_sw/i12/modulefiles/modules.sh
+source /etc/profile.d/modules.sh
 module add i12
 module add global/cluster
 #add environment required by epics channel access (ezca) 
