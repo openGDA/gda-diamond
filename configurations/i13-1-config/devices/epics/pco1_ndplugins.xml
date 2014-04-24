@@ -8,7 +8,11 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-
+	<bean id="adDriverPco1"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
+		<property name="basePvName" value="BL13J-EA-DET-01:CAM" />
+	</bean>
+	
 	<bean id="pco1_cam_base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-01:CAM:" />
 	</bean>
@@ -46,7 +50,7 @@
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13-1/data" />
-				<property name="windowsSubString" value="z:\data" />
+				<property name="windowsSubString" value="x:\\data" />
 			</bean>
 		</property>
 	</bean>
@@ -57,7 +61,7 @@
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i13-1/data" />
-				<property name="windowsSubString" value="z:\data" />
+				<property name="windowsSubString" value="x:\\data" />
 			</bean>
 		</property>
 	</bean>

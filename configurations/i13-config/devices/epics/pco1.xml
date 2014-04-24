@@ -188,6 +188,17 @@
 		</property>
 	</bean>	
 
+	<bean id="pco1_sw_hdf_nochunking" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw_hdf_nochunking"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>	
+
+
 	<bean id="pco1_hw_hdf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_hw_hdf"/>
 		<property name="addCollectTimeMs" value="true"/>
