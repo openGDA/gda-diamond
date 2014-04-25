@@ -30,7 +30,7 @@ import gda.jython.scriptcontroller.Scriptcontroller;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
-import gda.scan.ede.EdeLinearExperiment;
+import gda.scan.ede.TimeResolvedExperiment;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -90,7 +90,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	private TimingGroupTimeBarRowModel spectraRowModel;
 
 	public static final String NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME = "noOfSecPerSpectrumToPublish";
-	private int noOfSecPerSpectrumToPublish = EdeLinearExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
+	private int noOfSecPerSpectrumToPublish = TimeResolvedExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 
 	public static final String CURRENT_SCANNING_SPECTRUM_PROP_NAME = "currentScanningSpectrum";
 	private SpectrumModel currentScanningSpectrum;
@@ -311,14 +311,16 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		experimentDataCollectionJob.schedule();
 	}
 
+	// Jython command build
+	// TODO This is very messy!
 	protected String buildScanCommand() {
-		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeLinearExperiment;");
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import TimeResolvedExperiment;");
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
-			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = EdeLinearExperiment(%f, %d",
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f, %d",
 					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime()),
 					this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		} else {
-			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = EdeLinearExperiment(%f",
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f",
 					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime())));
 		}
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
@@ -330,12 +332,28 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 				DetectorModel.SHUTTER_NAME));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
-					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
-					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getIrefIntegrationTime()), this.getExperimentDataModel().getIrefNoOfAccumulations()));
+			addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
 		}
 		builder.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
+	}
+
+	protected void addIRefMethodCallStrToCommand(String linearExperimentObj, StringBuilder builder) {
+		int i0ForIRefNoOfAccumulations;
+		int irefNoOfAccumulations = this.getExperimentDataModel().getIrefNoOfAccumulations();
+		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
+			i0ForIRefNoOfAccumulations = this.getExperimentDataModel().getI0NumberOfAccumulations();
+		} else {
+			i0ForIRefNoOfAccumulations = irefNoOfAccumulations;
+		}
+		double irefIntegrationTime = ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getIrefIntegrationTime());
+		builder.append(String.format(linearExperimentObj + ".setIRefParameters(mapToJava(%s), mapToJava(%s), %f, %d, %f, %d);",
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
+				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
+				irefIntegrationTime,
+				i0ForIRefNoOfAccumulations,
+				irefIntegrationTime,
+				irefNoOfAccumulations));
 	}
 
 	private class ScanJob extends Job implements IObserver {

@@ -77,7 +77,12 @@ public abstract class EdeExperiment implements IObserver {
 
 
 	protected EdeScanParameters iRefScanParameters;
+	protected EdeScanPosition i0ForiRefPosition;
 	protected EdeScanPosition iRefPosition;
+	protected EdeScanParameters i0ForiRefScanParameters;
+	private EdeScan i0ForiRefScan;
+
+
 	protected EdeScan iRefScan;
 	protected EdeScan iRefDarkScan;
 	protected EdeScan iRefFinalScan;
@@ -103,6 +108,7 @@ public abstract class EdeExperiment implements IObserver {
 	private String filenameTemplate = "";
 	private Monitor topup;
 
+
 	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
@@ -122,15 +128,29 @@ public abstract class EdeExperiment implements IObserver {
 				beamShutterScannableName);
 	}
 
-	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
+	public void setIRefParameters(Map<String, Double> i0ForIRefScanableMotorPositions, Map<String, Double> iRefScanableMotorPositions,
+			double i0AccumulationTime, int i0NumberOfAccumulcations,
+			double accumulationTime, int numberOfAccumulcations) throws DeviceException {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
 		iRefScanParameters = new EdeScanParameters();
+
 		TimingGroup newGroup = new TimingGroup();
-		newGroup.setLabel("IRef");
+		newGroup.setLabel(EdeDataConstants.IREF_DATA_NAME);
 		newGroup.setNumberOfFrames(1);
 		newGroup.setTimePerScan(accumulationTime);
+		newGroup.setTimePerFrame(accumulationTime);
 		newGroup.setNumberOfScansPerFrame(numberOfAccumulcations);
 		iRefScanParameters.addGroup(newGroup);
+
+		i0ForiRefPosition = this.setPosition(EdePositionType.OUTBEAM_REFERENCE, i0ForIRefScanableMotorPositions);
+		i0ForiRefScanParameters = new EdeScanParameters();
+		newGroup = new TimingGroup();
+		newGroup.setLabel(EdeDataConstants.IREF_DATA_NAME);
+		newGroup.setNumberOfFrames(1);
+		newGroup.setTimePerScan(i0AccumulationTime);
+		newGroup.setTimePerFrame(i0AccumulationTime);
+		newGroup.setNumberOfScansPerFrame(i0NumberOfAccumulcations);
+		i0ForiRefScanParameters.addGroup(newGroup);
 		runIRef = true;
 	}
 
@@ -231,6 +251,10 @@ public abstract class EdeExperiment implements IObserver {
 		scansForExperiment.add(i0LightScan);
 
 		if (runIRef) {
+			i0ForiRefScan = new EdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+			scansForExperiment.add(i0ForiRefScan);
+			i0ForiRefScan.setProgressUpdater(this);
+
 			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 			scansForExperiment.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
@@ -294,7 +318,7 @@ public abstract class EdeExperiment implements IObserver {
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {
 			logger.error("Error creating data files", ex);
-			throw new Exception("Error creating data files");
+			throw new Exception("Error creating data files" , ex);
 		}
 	}
 

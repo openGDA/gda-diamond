@@ -21,7 +21,6 @@ package gda.scan.ede.datawriters;
 import gda.device.detector.StripDetector;
 import gda.jython.InterfaceProvider;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,16 +106,5 @@ public abstract class EdeExperimentDataWriter {
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
-	}
-
-	// TODO Check folder exist
-	public static String convertFromNexusToAsciiFolder(String nexusFilePath) {
-		String nexusFolder = FilenameUtils.getFullPath(nexusFilePath);
-		int nexusLocation = nexusFolder.lastIndexOf("nexus");
-		if (nexusLocation != -1) {
-			String path = nexusFolder.substring(0, nexusLocation);
-			return path + "ascii/";
-		}
-		return nexusFolder;
 	}
 }

@@ -18,14 +18,14 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import gda.scan.ede.datawriters.TimeResolvedNexusFileHelper;
+import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
+import gda.scan.ede.datawriters.TimeResolvedDataFileHelper;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -46,10 +46,12 @@ public class TimeResolvedToolPageHelper {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedToolPageHelper.class);
 
-	public void averageCyclesAndExport(File nexusFile, Display display, int cycles) {
-		Integer[] intArray = new Integer[cycles];
-		for (int i = 0; i <cycles; i++) {
-			intArray[i] = new Integer(i);
+	public void averageCyclesAndExport(File nexusFile, Display display) {
+		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusFile.getAbsolutePath());
+		int[] availableCycles = timeResolvedNexusFileHelper.getAvailableCycles();
+		Integer[] intArray = new Integer[availableCycles.length];
+		for (int i = 0; i <availableCycles.length; i++) {
+			intArray[i] = new Integer(availableCycles[i]);
 		}
 		ListSelectionDialog excludedCyclesSelectionDialog =
 				new ListSelectionDialog(
@@ -77,25 +79,68 @@ public class TimeResolvedToolPageHelper {
 				return clientDialogArea;
 			}
 		};
+
 		if (excludedCyclesSelectionDialog.open() == Window.OK) {
 			String dir = showSaveDirectory(nexusFile, display);
 			if (dir == null) {
 				return;
 			}
 
-			Object[] selection = excludedCyclesSelectionDialog.getResult();
-			Integer[] integerArray = Arrays.copyOf(selection, selection.length, Integer[].class);
+			Object[] selectionObj = excludedCyclesSelectionDialog.getResult();
+			int[] selection = new int[selectionObj.length];
+			for (int i = 0; i < selection.length; i++) {
+				selection[i] = ((Integer) selectionObj[i]).intValue();
+			}
 			File tempFile;
 			try {
 				tempFile = copyAsTempFile(nexusFile);
-				TimeResolvedNexusFileHelper timeResolvedNexusFileHelper = new TimeResolvedNexusFileHelper(tempFile.getAbsolutePath());
-				// timeResolvedNexusFileHelper.reduceCyclicData(integerArray);
+				timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(tempFile.getAbsolutePath());
+				timeResolvedNexusFileHelper.excludeCyclesInData(selection);
 				// TODO Refactor
 				String newFilePath = dir + File.separator + FilenameUtils.getName(tempFile.getAbsolutePath());
 				Files.copy(tempFile.toPath(), Paths.get(newFilePath), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				logger.error("Unable to save the updated cyclic data", e);
 			}
+		}
+	}
+
+	public void applyEnergyToNexusFiles(File nexusFile, Display display, double[] value) throws Exception {
+		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(display.getActiveShell(), nexusFile.getParent());
+		if (selectedFiles == null || selectedFiles.length < 1) {
+			return;
+		}
+		String dirToStoreCalibratedFiles = showSaveDirectory(nexusFile, display);
+		if (dirToStoreCalibratedFiles == null) {
+			return;
+		}
+		TimeResolvedDataFileHelper timeResolvedNexusFileHelper;
+		for(File file : selectedFiles) {
+			String path = DataFileHelper.copyToTempFolder(file, "calibrated");
+			timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(path);
+			timeResolvedNexusFileHelper.replaceEnergy(value);
+			Files.copy(Paths.get(path), Paths.get(dirToStoreCalibratedFiles), StandardCopyOption.REPLACE_EXISTING);
+		}
+	}
+
+	public void averageSpectrumAndExport(File nexusFile, Display display, SpectraRegionDataNode[] spectraRegionDataNode) {
+		String dirToStoreReducedFiles = showSaveDirectory(nexusFile, display);
+		if (dirToStoreReducedFiles == null) {
+			return;
+		}
+		RangeData[] rangeData = new RangeData[spectraRegionDataNode.length];
+		for (int i = 0; i < spectraRegionDataNode.length; i++) {
+			rangeData[i] = new RangeData(spectraRegionDataNode[i].getStart().getIndex(), spectraRegionDataNode[i].getEnd().getIndex());
+		}
+		File tempFile;
+		try {
+			tempFile = copyAsTempFile(nexusFile);
+			TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(tempFile.getAbsolutePath());
+			timeResolvedNexusFileHelper.averageSpectrumAndReplace(rangeData);
+			String newFilePath = dirToStoreReducedFiles + File.separator + FilenameUtils.getName(tempFile.getAbsolutePath());
+			Files.copy(tempFile.toPath(), Paths.get(newFilePath), StandardCopyOption.REPLACE_EXISTING);
+		} catch (Exception e) {
+			logger.error("Unable to save the updated reduced data", e);
 		}
 	}
 

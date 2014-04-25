@@ -32,14 +32,14 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 /**
- * Similar to the {@link EdeLinearExperiment} class except that a series of TimingGroups are run which will produce
+ * Similar to the {@link TimeResolvedExperiment} class except that a series of TimingGroups are run which will produce
  * multiple spectra. In other words the itScanParameters given to this class is not assumed to be a single timing group
  * producing a single spectrum.
  * <p>
  * The experiment is not repeated, so all the spectra will occur at a different point in time wrt the progress of a
  * chemical reaction or other state of the sample.
  */
-public class EdeLinearExperiment extends EdeExperiment {
+public class TimeResolvedExperiment extends EdeExperiment {
 
 	public static final int DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2;
 
@@ -50,7 +50,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 	private double totalTime;
 	private EdeScan i0FinalScan;
 
-	public EdeLinearExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
+	public TimeResolvedExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
@@ -59,7 +59,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 		setupTimingGroups();
 	}
 
-	public EdeLinearExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
+	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
@@ -73,7 +73,7 @@ public class EdeLinearExperiment extends EdeExperiment {
 				beamShutterScannableName);
 	}
 
-	public EdeLinearExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
+	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {

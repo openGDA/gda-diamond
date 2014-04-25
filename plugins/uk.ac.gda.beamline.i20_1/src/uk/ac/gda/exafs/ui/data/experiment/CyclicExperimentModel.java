@@ -128,7 +128,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	@Override
 	protected String buildScanCommand() {
-		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeLinearExperiment;");
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import TimeResolvedExperiment;");
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
 			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = EdeCyclicExperiment(%f, %d",
 					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime()),
@@ -147,9 +147,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 				this.getNoOfRepeatedGroups()));
 		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
-					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
-					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getIrefIntegrationTime()), this.getExperimentDataModel().getIrefNoOfAccumulations()));
+			addIRefMethodCallStrToCommand(CYCLIC_EXPERIMENT_OBJ, builder);
 		}
 		builder.append(CYCLIC_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
