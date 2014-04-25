@@ -1,9 +1,11 @@
 #    MainLineUser.py
 #
 #    For user specific initialisation code on I06 PEEM Line.
+import sys
 
 print "--->>>Start initalization of user specific code."
 
+global reset_peem, logger
 
 userScriptsList=["/dls_sw/i06-1/scripts/hello.py"]
 
@@ -41,5 +43,8 @@ for userScript in userScriptsList:
         exceptionType, exception, traceback=sys.exc_info();
         print "XXXXXXXXXX:  User script: " + userScript + " Error"
         logger.dump("---> ", exceptionType, exception, traceback)
+
+from scannables import BipolarPS
+magPulse=BipolarPS('magPulse', pvBase = 'BL06I-PC-CTRL-01')
 
 print "--->>>Initalization of user specific code done."
