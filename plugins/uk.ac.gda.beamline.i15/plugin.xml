@@ -48,6 +48,19 @@
             </command>
             <command
                   commandId="org.eclipse.ui.views.showView"
+                  label="mpx (Merlin) Array"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="mpx">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
                   label="pe MPeg"
                   style="push">
                <parameter

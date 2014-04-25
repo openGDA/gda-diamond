@@ -42,12 +42,16 @@ class ScanCommandsTests(unittest.TestCase):
 		loggerContext.shutdownAndReset();
 		joranConfigurator.setContext(loggerContext);
 		f = '<?xml version="1.0" encoding="UTF-8"?>' + \
-		'<configuration>' + \
-		'<appender name="DebugFILE" class="ch.qos.logback.core.FileAppender">' + \
-		'<File>' +  outputPath +"/log.txt" + '</File>'+ \
-		'<layout class="ch.qos.logback.classic.PatternLayout"><pattern>%-5level %logger %ex - %m%n</pattern></layout></appender>' + \
-		'<logger name="gda"><level value="DEBUG"/></logger>' + \
-		'<root><level value="ALL"/><appender-ref ref="DebugFILE"/></root></configuration>'
+			'<configuration>' + \
+				'<appender name="DebugFILE" class="ch.qos.logback.core.FileAppender">' + \
+						'<File>' +  outputPath +"/log.txt" + '</File>'+ \
+						'<layout class="ch.qos.logback.classic.PatternLayout">' + \
+							'<pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>' + \
+						'</layout>' + \
+					'</appender>' + \
+				'<logger name="gda"><level value="DEBUG"/></logger>' + \
+				'<root><level value="ALL"/><appender-ref ref="DebugFILE"/></root>' + \
+			'</configuration>'
 		joranConfigurator.doConfigure(ByteArrayInputStream(java.lang.String(f).getBytes()))
 
 		mockJythonServerFacade = MockJythonServerFacade()

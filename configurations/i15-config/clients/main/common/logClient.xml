@@ -10,7 +10,7 @@
             <FileNamePattern>${gda.logs.dir}/gda_client.%d{yyyy-MM-dd}.${user.name}.log.gz</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level [%logger] %ex - %m%n</pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>
     </appender>
 
