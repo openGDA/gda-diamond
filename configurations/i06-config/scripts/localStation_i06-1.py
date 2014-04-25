@@ -23,7 +23,6 @@ alias('koff')
 
 from scannables import KepkoCurrent, KepkoMagnet
 print"-> connect the Kepko to Analogue output 2 in patch panel U2 (branchline)"
-kepko = KepkoCurrent.KepkoCurrent("kepko", "BL06J-EA-USER-01:AO2")
 magnet = KepkoMagnet.KepkoMagnet("magnet", "BL06J-EA-USER-01:AO2")
 print"-> magnet calibration for pole gap = 35.4 mm and bobbin turns = 784" 
 magnet.setConvCoeff([0, 253.16, 7.22765, 9.37523, -1.81716, -3.49587, 0.155178, 0.267718, -0.00433883, -0.00662351])

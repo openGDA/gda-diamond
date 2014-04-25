@@ -18,6 +18,9 @@ class KepkoMagnet(ScannableMotionBase):
         self.ch.configure() 
         self.coeff=[0.0, 1.0]
         self.invCoeff=[0.0, 1.0]
+        self.useInvCoeff=False
+        self.fieldTolerance=10
+        self.lastField = -999
 
     def setConvCoeff(self, coeff):
         self.coeff=coeff
@@ -42,7 +45,14 @@ class KepkoMagnet(ScannableMotionBase):
         for i in self.coeff:
             oersted+= i*pow(ampere, k)
             k+=1
-        return oersted
+        if self.useInvCoeff:
+            return oersted
+        diff=abs(oersted-self.lastField)
+        if diff > self.fieldTolerance:
+            print "The last oersted value written (%r) differs from the oersted value (%r) calculated from the current (%r) by %r" % (
+                self.lastField, oersted, ampere, diff)
+            print "This is more than the warning tolerance (%r)" % self.fieldTolerance
+        return self.lastField
 
     #scannable implementation
 
@@ -56,6 +66,7 @@ class KepkoMagnet(ScannableMotionBase):
         return self.calcField(self.getCurrent())
 
     def asynchronousMoveTo(self, newfield):
+        self.lastField = newfield
         newcurrent = self.calcCurrent(newfield)
         self.ch.caput(newcurrent/0.4)
         sleep(0.5)
