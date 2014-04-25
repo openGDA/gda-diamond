@@ -69,6 +69,10 @@ public class DataHelper {
 		return stringBuilder.toString();
 	}
 
+	public static int[] toArray(String commaSepString) {
+		return null;
+	}
+
 	public static StringBuilder removeLastChar(StringBuilder stringBuilder) {
 		return stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
 	}

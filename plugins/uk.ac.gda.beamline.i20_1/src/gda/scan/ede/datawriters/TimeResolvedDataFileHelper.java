@@ -33,6 +33,7 @@ import java.util.Map.Entry;
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.Datatype;
 import ncsa.hdf.object.Group;
+import ncsa.hdf.object.HObject;
 
 import org.dawb.hdf5.HierarchicalDataFactory;
 import org.dawb.hdf5.HierarchicalDataFileUtils;
@@ -54,7 +55,7 @@ import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
 public class TimeResolvedDataFileHelper {
 
-	private static final String EXCLUDED_ATTRIBUTE_NAME = "excluded";
+	private static final String EXCLUDED_CYCLE_ATTRIBUTE_NAME = "excluded";
 	private static final String AVG_ATTRIBUTE_NAME = "avg";
 
 	private static final String NEXUS_ROOT_ENTRY_NAME = "/entry1/";
@@ -109,90 +110,77 @@ public class TimeResolvedDataFileHelper {
 	public void averageSpectrumAndReplace(RangeData[] spectrumToAvg) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
-			String parentDataPath = NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/";
-			String fullDataPath = parentDataPath + EdeDataConstants.DATA_COLUMN_NAME;
-			DoubleDataset dataset = getDataFromFile(file, fullDataPath);
-			Map<String, Object> attributes = file.getAttributeValues(fullDataPath);
-			Map<String, String> newAttributes = new HashMap<String, String>();
-			int numberOfSpectrum = dataset.getShape()[0];
-			int numberOfChannels = dataset.getShape()[1];
-			int j = 0;
-			DoubleDataset newDataset = new DoubleDataset(new int[]{0, numberOfChannels});
-			for (int i = 0; i < numberOfSpectrum; i++) {
-				DoubleDataset tempDataset;
-				if (spectrumToAvg[j].getStartIndex() == i) {
-					int start = spectrumToAvg[j].getStartIndex();
-					int end = spectrumToAvg[j].getEndIndex();
-					tempDataset = (DoubleDataset) dataset.getSliceView(new int[]{start, 0}, new int[]{end + 1, numberOfChannels}, null);
-					tempDataset = (DoubleDataset) tempDataset.sum(0);
-					tempDataset.idivide(end - start + 1); // From index to count
-					tempDataset.setShape(new int[]{1, numberOfChannels});
-					i = end;
-					j++;
-				} else {
-					tempDataset = (DoubleDataset) dataset.getSliceView(new int[]{i, 0}, new int[]{i + 1, numberOfChannels}, null);
 
-				}
-				newDataset = (DoubleDataset) DatasetUtils.append(newDataset, tempDataset, 0);
-			}
-			Group parent = HierarchicalDataFileUtils.createParentEntry(file, parentDataPath, Nexus.DATA);
-			for (Entry<String, Object> entry : attributes.entrySet()) {
-				newAttributes.put(entry.getKey(), entry.getValue().toString());
-			}
-			newAttributes.put(AVG_ATTRIBUTE_NAME, DataHelper.toString(spectrumToAvg));
-			this.addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, parent, newDataset, newAttributes);
-			// TODO Replace time and group
+			HObject itDataNode = file.getData(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
+			file.setAttribute(itDataNode, AVG_ATTRIBUTE_NAME, DataHelper.toString(spectrumToAvg));
+			//			String parentDataPath = NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/";
+			//			String fullDataPath = parentDataPath + EdeDataConstants.DATA_COLUMN_NAME;
+			//			DoubleDataset dataset = getDataFromFile(file, fullDataPath);
+			//			Map<String, Object> attributes = file.getAttributeValues(fullDataPath);
+			//			Map<String, String> newAttributes = new HashMap<String, String>();
+			//			int numberOfSpectrum = dataset.getShape()[0];
+			//			int numberOfChannels = dataset.getShape()[1];
+			//			int j = 0;
+			//			DoubleDataset newDataset = new DoubleDataset(new int[]{0, numberOfChannels});
+			//			for (int i = 0; i < numberOfSpectrum; i++) {
+			//				DoubleDataset tempDataset;
+			//				if (spectrumToAvg[j].getStartIndex() == i) {
+			//					int start = spectrumToAvg[j].getStartIndex();
+			//					int end = spectrumToAvg[j].getEndIndex();
+			//					tempDataset = (DoubleDataset) dataset.getSliceView(new int[]{start, 0}, new int[]{end + 1, numberOfChannels}, null);
+			//					tempDataset = (DoubleDataset) tempDataset.sum(0);
+			//					tempDataset.idivide(end - start + 1); // From index to count
+			//					tempDataset.setShape(new int[]{1, numberOfChannels});
+			//					i = end;
+			//					j++;
+			//				} else {
+			//					tempDataset = (DoubleDataset) dataset.getSliceView(new int[]{i, 0}, new int[]{i + 1, numberOfChannels}, null);
+			//
+			//				}
+			//				newDataset = (DoubleDataset) DatasetUtils.append(newDataset, tempDataset, 0);
+			//			}
+			//			Group parent = HierarchicalDataFileUtils.createParentEntry(file, parentDataPath, Nexus.DATA);
+			//			for (Entry<String, Object> entry : attributes.entrySet()) {
+			//				newAttributes.put(entry.getKey(), entry.getValue().toString());
+			//			}
+			//			newAttributes.put(AVG_ATTRIBUTE_NAME, DataHelper.toString(spectrumToAvg));
+			//			this.addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, parent, newDataset, newAttributes);
+			//			// TODO Replace time and group
 		} finally {
 			file.close();
 		}
 	}
 
-	private DoubleDataset getAverageDataset(DoubleDataset cyclicDataset) {
-		int[] shape = cyclicDataset.getShape();
-		int noOfCycles = shape[0];
-		int numberOfSpectrum = shape[1];
-		int numberOfChannels = shape[2];
-		DoubleDataset avgDataset = null;
-
-		if (noOfCycles > 1) {
-			avgDataset = new DoubleDataset(new int[]{0, numberOfChannels});
-			for (int i = 0; i < numberOfSpectrum; i++) {
-				AbstractDataset tempDataset = cyclicDataset.getSlice(new int[]{0,i,0}, new int[]{noOfCycles, numberOfSpectrum, numberOfChannels}, new int[]{1, numberOfSpectrum, 1});
-				tempDataset.squeeze(true);
-				tempDataset = tempDataset.sum(0);
-				tempDataset.idivide(noOfCycles).setShape(new int[]{1, numberOfChannels});
-				avgDataset = (DoubleDataset) DatasetUtils.append(avgDataset, tempDataset, 0);
-			}
-		} else {
-			avgDataset = (DoubleDataset) cyclicDataset.clone();
-			avgDataset.setShape(new int[]{numberOfSpectrum, numberOfChannels});
-		}
-		return avgDataset;
-	}
-
-	public void reduceCyclicData(int[] excludedCycles) throws Exception {
+	public void excludeCyclesInData(int[] cyclesToExclude) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
-		String fullDataPath = NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_RAW_COLUMN_NAME;
-		DoubleDataset dataset = getDataFromFile(file, fullDataPath);
-		int allCycleIndex = dataset.getShape()[0];
-		int[] includedCyclesIndices = new int[allCycleIndex - excludedCycles.length];
-		int j = 0;
-
-		for (int i = 0; i < allCycleIndex && j < excludedCycles.length; i++) {
-			if (excludedCycles[j] == i) {
-				includedCyclesIndices[j++] = i;
-			}
+		try {
+			HObject itDataNode = file.getData(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
+			file.setAttribute(itDataNode, EXCLUDED_CYCLE_ATTRIBUTE_NAME, DataHelper.toString(cyclesToExclude));
+		} finally {
+			file.close();
 		}
-		DoubleDataset reducedDataset = (DoubleDataset) dataset.take(includedCyclesIndices, 0);
-		DoubleDataset reducedAvgDataset = getAverageDataset(reducedDataset);
-		Map<String, String> attributes = new HashMap<String, String>();
-		attributes.put(EXCLUDED_ATTRIBUTE_NAME, DataHelper.toString(excludedCycles));
-		attributes.put(NexusUtils.SIGNAL, "1");
-		Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, fullDataPath, Nexus.DATA);
-		addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, targetPath, reducedAvgDataset, attributes);
+		//		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
+		//		String fullDataPath = NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_RAW_COLUMN_NAME;
+		//		DoubleDataset dataset = getDataFromFile(file, fullDataPath);
+		//		int allCycleIndex = dataset.getShape()[0];
+		//		int[] includedCyclesIndices = new int[allCycleIndex - excludedCycles.length];
+		//		int j = 0;
+		//
+		//		for (int i = 0; i < allCycleIndex && j < excludedCycles.length; i++) {
+		//			if (excludedCycles[j] == i) {
+		//				includedCyclesIndices[j++] = i;
+		//			}
+		//		}
+		//		DoubleDataset reducedDataset = (DoubleDataset) dataset.take(includedCyclesIndices, 0);
+		//		DoubleDataset reducedAvgDataset = getAverageDataset(reducedDataset);
+		//		Map<String, String> attributes = new HashMap<String, String>();
+		//		attributes.put(EXCLUDED_ATTRIBUTE_NAME, DataHelper.toString(excludedCycles));
+		//		attributes.put(NexusUtils.SIGNAL, "1");
+		//		Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, fullDataPath, Nexus.DATA);
+		//		addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, targetPath, reducedAvgDataset, attributes);
 	}
 
-	public void updateWithMetaData(TimingGroupMetaData[] i0TimingGroupMetaData, TimingGroupMetaData[] itTimingGroupMetaData,
+	public void createMetaDataEntries(TimingGroupMetaData[] i0TimingGroupMetaData, TimingGroupMetaData[] itTimingGroupMetaData,
 			TimingGroupMetaData[] i0ForRefTimingGroupMetaData, TimingGroupMetaData[] iRefTimingGroupMetaData, String scannablesConfiguration) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
@@ -237,6 +225,31 @@ public class TimeResolvedDataFileHelper {
 		} finally {
 			file.close();
 		}
+	}
+
+	private DoubleDataset getAverageDataset(DoubleDataset cyclicDataset, int[] excludedCycles) {
+		int[] shape = cyclicDataset.getShape();
+		int noOfCycles = shape[0];
+		int numberOfSpectrum = shape[1];
+		int numberOfChannels = shape[2];
+		DoubleDataset avgDataset = null;
+		if (noOfCycles > 1) {
+			avgDataset = new DoubleDataset(new int[]{0, numberOfChannels});
+			for (int i = 0; i < numberOfSpectrum; i++) {
+				AbstractDataset tempDataset = cyclicDataset.getSlice(new int[]{0,i,0}, new int[]{noOfCycles, numberOfSpectrum, numberOfChannels}, new int[]{1, numberOfSpectrum, 1});
+				if (excludedCycles != null && excludedCycles.length > 0) {
+					tempDataset = tempDataset.take(excludedCycles, 0);
+				}
+				tempDataset.squeeze(true);
+				tempDataset = tempDataset.sum(0);
+				tempDataset.idivide(noOfCycles).setShape(new int[]{1, numberOfChannels});
+				avgDataset = (DoubleDataset) DatasetUtils.append(avgDataset, tempDataset, 0);
+			}
+		} else {
+			avgDataset = (DoubleDataset) cyclicDataset.clone();
+			avgDataset.setShape(new int[]{numberOfSpectrum, numberOfChannels});
+		}
+		return avgDataset;
 	}
 
 	private void createAsciiFiles(IHierarchicalDataFile file) throws Exception {
@@ -290,8 +303,8 @@ public class TimeResolvedDataFileHelper {
 			writer.write("# index\t" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 					+ EdeDataConstants.IT_CORR_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\t" + EdeDataConstants.IT_RAW_COLUMN_NAME + "\t"
 					+ EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
-			DoubleDataset itiAvgData = getAverageDataset(itData);
-			DoubleDataset itiCorrectedAvgData = getAverageDataset(itCorrectedDataSet);
+			DoubleDataset itiAvgData = getAverageDataset(itData, null);
+			DoubleDataset itiCorrectedAvgData = getAverageDataset(itCorrectedDataSet, null);
 
 			for (int g = 0; g < numberOfGroups; g++) {
 				for (int j = 0; j < numberOfChannels; j++) {
@@ -404,10 +417,22 @@ public class TimeResolvedDataFileHelper {
 	}
 
 	private void updateNexusFileWithNormalisedData(IHierarchicalDataFile file) throws Exception {
-		Map<String, String> attributes = new HashMap<String, String>();
-		attributes.put(NexusUtils.AXIS, "1");
+		//HObject itDataNode = file.getData(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
+		String avgSpectrumInfo = file.getAttributeValue(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME + "@" + AVG_ATTRIBUTE_NAME);
+		String excludedCyclesInfo = file.getAttributeValue(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME + "@" + EXCLUDED_CYCLE_ATTRIBUTE_NAME);
+		RangeData[] avgSpectraList = null;
+		int[] excludedCycles = null;
+		if (avgSpectrumInfo != null && !avgSpectrumInfo.isEmpty()) {
+			avgSpectraList = RangeData.toRangeDataList(avgSpectrumInfo);
+		}
+		if (excludedCyclesInfo != null && !excludedCyclesInfo.isEmpty()) {
+			excludedCycles = DataHelper.toArray(excludedCyclesInfo);
+		}
 
+		Map<String, String> attributes = new HashMap<String, String>();
 		// Adding Axis
+
+		attributes.put(NexusUtils.AXIS, "1");
 		Group parent = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME, Nexus.DATA);
 		addDatasetToNexus(file, EdeDataConstants.TIMINGGROUP_COLUMN_NAME, parent, groupAxisData, attributes);
 
@@ -420,15 +445,15 @@ public class TimeResolvedDataFileHelper {
 		attributes.put(NexusUtils.SIGNAL, "1");
 
 		Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/", Nexus.DATA);
-		checkCyclicDataAndAddData(file, targetPath, itNormalisedWithI0iData, attributes);
+		checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithI0iData, attributes);
 		addLinks(file, targetPath);
 
 		targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME + "/", Nexus.DATA);
-		checkCyclicDataAndAddData(file, targetPath, itNormalisedWithI0fData, attributes);
+		checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithI0fData, attributes);
 		addLinks(file, targetPath);
 
 		targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME + "/", Nexus.DATA);
-		checkCyclicDataAndAddData(file, targetPath, itNormalisedWithAvgI0iAndI0fData, attributes);
+		checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithAvgI0iAndI0fData, attributes);
 		addLinks(file, targetPath);
 
 		if (iRefiNormalisedData != null) {
@@ -437,15 +462,32 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
-	private void checkCyclicDataAndAddData(IHierarchicalDataFile file, Group fullPath, DoubleDataset data, Map<String, String> attributes) throws Exception {
+	private void checkCyclicDataAndAddData(IHierarchicalDataFile file, Group fullPath, RangeData[] avgSpectraList, int[] excludedCycles, DoubleDataset data, Map<String, String> attributes) throws Exception {
+		DoubleDataset dataToAdd = null;
 		if (data.getShape()[0] == 1) {
-			data.squeeze();
-			addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, fullPath, data, attributes);
+			data.squeeze(true);
+			dataToAdd = data;
 		} else {
 			addDatasetToNexus(file, EdeDataConstants.DATA_RAW_COLUMN_NAME, fullPath, data, attributes);
-			DoubleDataset logI0ItRawData = getAverageDataset(data);
-			addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, fullPath, logI0ItRawData, attributes);
+			dataToAdd = getAverageDataset(data, excludedCycles);
 		}
+		if (avgSpectraList != null) {
+			int noOfChannels = dataToAdd.getShape()[1];
+			for (int i = 0; i < avgSpectraList.length; i++) {
+				RangeData avgInfo = avgSpectraList[i];
+				int noOfSpectrumToAvg = avgInfo.getEndIndex() - avgInfo.getStartIndex() + 1;
+				DoubleDataset avgDataItem = (DoubleDataset) dataToAdd.getSlice(new int[]{avgInfo.getStartIndex(), 0}, new int[]{avgInfo.getEndIndex() + 1, noOfChannels}, null).sum(0).idivide(noOfSpectrumToAvg);
+				if (noOfSpectrumToAvg > 1) {
+					int[] indexToRemove = new int[noOfSpectrumToAvg - 1];
+					for (int j = 0; j <= indexToRemove.length; j++) {
+						indexToRemove[j] = avgInfo.getStartIndex() + 1 + j;
+					}
+					dataToAdd = (DoubleDataset) dataToAdd.take(indexToRemove, 0);
+				}
+				dataToAdd.set(avgDataItem, avgInfo.getStartIndex());
+			}
+		}
+		addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, fullPath, dataToAdd, attributes);
 	}
 
 	private void addLinks(IHierarchicalDataFile file, Group targetPath)

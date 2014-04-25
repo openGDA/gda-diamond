@@ -158,6 +158,11 @@ public class EdeDataConstants {
 		public String toString() {
 			return startIndex + ":" + endIndex;
 		}
+
+		public static RangeData[] toRangeDataList(String commaSepString) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 
 }

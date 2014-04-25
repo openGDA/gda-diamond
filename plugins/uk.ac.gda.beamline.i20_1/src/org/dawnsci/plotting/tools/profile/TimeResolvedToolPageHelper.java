@@ -79,6 +79,7 @@ public class TimeResolvedToolPageHelper {
 				return clientDialogArea;
 			}
 		};
+
 		if (excludedCyclesSelectionDialog.open() == Window.OK) {
 			String dir = showSaveDirectory(nexusFile, display);
 			if (dir == null) {
@@ -94,7 +95,7 @@ public class TimeResolvedToolPageHelper {
 			try {
 				tempFile = copyAsTempFile(nexusFile);
 				timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(tempFile.getAbsolutePath());
-				timeResolvedNexusFileHelper.reduceCyclicData(selection);
+				timeResolvedNexusFileHelper.excludeCyclesInData(selection);
 				// TODO Refactor
 				String newFilePath = dir + File.separator + FilenameUtils.getName(tempFile.getAbsolutePath());
 				Files.copy(tempFile.toPath(), Paths.get(newFilePath), StandardCopyOption.REPLACE_EXISTING);
