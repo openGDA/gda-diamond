@@ -220,7 +220,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				createNewDataHandle();
 				// to read back timing data
 				createNewTimingHandle();
-				startTemperatureLogging();
+				// startTemperatureLogging();
 				connected = true;
 			} catch (DeviceException e) {
 				connected = false;
