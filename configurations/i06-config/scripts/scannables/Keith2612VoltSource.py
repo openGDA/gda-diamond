@@ -18,7 +18,6 @@ class Keith2612VoltSource(ScannableMotionBase):
 		self.currentPosition = 0#self.PS.getVoltage()
 		self.iambusy = 0
 
-	#PseudoDevice Implementation
 	def atScanStart(self):
 		self.PS.turnOn()
 		return;
@@ -40,6 +39,7 @@ class Keith2612VoltSource(ScannableMotionBase):
 		#else:
 		#	self.PS.turnOn()
 		sleep(2)	  #this delay is necessary, because after setting the voltage, the instrument takes 2 sec to answer
+		#sleep(0.5)	# Is 0.5s enough?
 		return None
 
 	def isBusy(self):

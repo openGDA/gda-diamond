@@ -1,6 +1,12 @@
 from gda.epics import CAClient 
 from time import sleep
 
+#Create Pseudo Device for Keithley2612A System Source Meter 
+#IMPORTANT: use a null modem cable and a LF terminator
+#rs232 paramater in the same way as on EPICS (defauls is 9600, 8, 1, none, none)
+#use a null modem cable and a LF terminator
+#this class does not set up the epics panel rs232 port, so do it manually!!!! (9600, 8, 1, none, none)
+
 class Keithley2612():
 	def __init__(self, channel, function, pvBase):
 		self.channel = channel
@@ -37,6 +43,7 @@ class Keithley2612():
 		self.chOut.caput(strcom+"OEOS","\n")
 		sleep(0.5)
 		self.chOut.caput(strcom+"IEOS","\n")
+		print "-> serial port configured"
 
 	def send(self, strCom):
 		self.chOut.caput(strCom)
@@ -74,9 +81,9 @@ class Keithley2612():
 
 	def setVoltage(self, v):
 		strOut = self.strVoltageSet[self.channel] + '=' + str(round(v,5));
-		sleep(0.2)
 		#print "Out String: " + strOut
 		self.chOut.caput(strOut)
+		sleep(0.2)
 		return
 
 	def setCurrent(self, i):
