@@ -48,7 +48,6 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	private int noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	private int totalNumberOfspectra;
 	private double totalTime;
-	private EdeScan i0FinalScan;
 
 	public TimeResolvedExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
@@ -171,10 +170,12 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	protected void addScans() {
 
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+		i0FinalScan.setProgressUpdater(this);
 		scansForExperiment.add(i0FinalScan);
 
 		if (runIRef) {
 			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+			iRefFinalScan.setProgressUpdater(this);
 			scansForExperiment.add(iRefFinalScan);
 		}
 

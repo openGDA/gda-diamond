@@ -29,6 +29,7 @@ public class EdeDataConstants {
 	public static final String STRIP_COLUMN_NAME = "strip";
 	public static final String ENERGY_COLUMN_NAME = "energy";
 	public static final String I0_CORR_COLUMN_NAME = "i0_corr";
+	public static final String I0_FINAL_CORR_COLUMN_NAME = "i0_final_corr";
 	public static final String IT_CORR_COLUMN_NAME = "it_corr";
 	public static final String I0_RAW_COLUMN_NAME = "i0_raw";
 	public static final String IT_RAW_COLUMN_NAME = "it_raw";
@@ -51,6 +52,7 @@ public class EdeDataConstants {
 	public static final String LN_I0_IT_AVG_I0S_COLUMN_NAME = "lnI0It_avgI0s";
 	public static final String IREF_FINAL_DATA_NAME = "iref_final";
 	public static final String LN_I0_IREF_COLUMN_NAME = "lnI0IRef";
+	public static final String LN_I0_IREF_FINAL_COLUMN_NAME = "lnI0IRef_final";
 	public static final String META_DATA_NAME = "metaData";
 	public static final String SCANNABLES_CONFIG_DATA_NAME = "config";
 
