@@ -1,23 +1,15 @@
-from java import lang
-from java.lang import System
-from time import sleep
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
+from time import sleep
 
-class kepko(PseudoDevice):
-    def __init__(self,name,pvOut,pvIn):
+class KepkoCurrent(ScannableMotionBase):
+    def __init__(self, name, pv):
         self.setName(name);
         self.setInputNames(['Ampere'])
         self.setOutputFormat(['%2.4f'])
         self.setLevel(6)
-        self.currentPosition = 0.0
-        self.iambusy = 0
-        self.pvOut = pvOut
-        self.pvIn = pvIn
-        self.chIn=CAClient(self.pvIn)
-        self.chIn.configure() 
-        self.chOut=CAClient(self.pvOut)
-        self.chOut.configure()
+        self.ch=CAClient(pv)
+        self.ch.configure() 
 
     def atScanStart(self):
         return
@@ -26,17 +18,16 @@ class kepko(PseudoDevice):
         return
 
     def getPosition(self):
-        self.currentPosition = float(self.chIn.caget())*0.4 
-        return self.currentPosition
+        return float(self.ch.caget())*0.4
 
     def asynchronousMoveTo(self, newpos):
-        self.chOut.caput(newpos/0.4)
+        self.ch.caput(newpos/0.4)
         sleep(0.5)
         return None
 
     def isBusy(self):
-        return self.iambusy 
+        return False 
  
-exec("kepko = None")
-print"-> connect the Kepko to Analogue output 2 in patch panel U2 (branchline)"
-kepko = kepko("kepko","BL06J-EA-USER-01:AO2","BL06J-EA-USER-01:AO2")
+#exec("kepko = None")
+#print"-> connect the Kepko to Analogue output 2 in patch panel U2 (branchline)"
+#kepko = KepkoCurrent("kepko", "BL06J-EA-USER-01:AO2")
