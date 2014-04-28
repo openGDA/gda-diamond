@@ -16,7 +16,7 @@ if [ -z $GDA_MODE ] ; then
   export GDA_MODE=dummy
 fi
 
-module load java/gda836-64
+. $GDA_ROOT/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 export GDA_CORE_SCRIPT=$GDA_ROOT/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 export GDA_CLIENT_SCRIPT=$GDA_ROOT/workspace_git/gda-diamond.git/dls-config/bin/gdaclient
