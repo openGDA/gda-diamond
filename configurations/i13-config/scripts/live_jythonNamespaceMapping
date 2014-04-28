@@ -24,8 +24,8 @@ tomography_optimizer=beam_optimizer
 #Possible values:
 #pco1_hw_tif - uses tfg trigger, saves each image to a separate tif file
 #pco1_hw_hdf - uses tfg trigger, saves all images to 1 hdf file 
-tomography_detector=pco1_hw_hdf
-#tomography_detector=pco1_hw_tif
+#tomography_detector=pco1_hw_hdf
+tomography_detector=pco1_hw_tif
 
 #tomography_normalisedImage_detector is the detector used to take normalised images
 #Possible values:
@@ -47,12 +47,16 @@ tomography_time=actualTime
 tomography_beammonitor=ionc_i
 
 #normal flyscan - uncomment the following 3 lines
+
+#Collecting HDF data with flyscans
 tomography_flyscan_theta=zebraSM1
 tomography_flyscan_det=flyScanDetectorNoChunking
 tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorNoChunking
+
+
+#Collecting TIFF data with flyscans
 #tomography_flyscan_det=flyScanDetector
 #tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
-
 #tomography_flyscan_det=flyScanDetectorTIF
 
 #connect p2r trigger to exposure out of PCO and connect that to Zebra TTL1. The busy is used by the tfg
