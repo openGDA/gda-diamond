@@ -3,7 +3,8 @@
 export BEAMLINE=i05
 
 . /usr/share/Modules/init/bash
-module load java/gda
+
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 LOGFILE=/dls_sw/$BEAMLINE/logs/gda_server.log
 
