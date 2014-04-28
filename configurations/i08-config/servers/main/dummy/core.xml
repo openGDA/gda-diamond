@@ -23,26 +23,18 @@
 				<property name="projects">
 					<list>
 						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="/scratch/users/scripts"></property>
+							<property name="name" value="Scripts: User"></property>
+							<property name="type" value="USER"></property>
+						</bean>
+						<bean class="gda.jython.ScriptProject">
 							<property name="path" value="${gda.config}/scripts"></property>
 							<property name="name" value="Scripts: Config"></property>
 							<property name="type" value="CONFIG"></property>
 						</bean>
 						<bean class="gda.jython.ScriptProject">
-							<property name="path"
-								value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
+							<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
 							<property name="name" value="Scripts: Core" />
-							<property name="type" value="CORE" />
-						</bean>
-						<bean class="gda.jython.ScriptProject">
-							<property name="path"
-								value="${gda.install.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/scripts" />
-							<property name="name" value="Scripts: Exafs" />
-							<property name="type" value="CORE" />
-						</bean>
-						<bean class="gda.jython.ScriptProject">
-							<property name="path"
-								value="${gda.install.git.loc}/gda-xas-core.git/uk.ac.gda.client.microfocus/scripts" />
-							<property name="name" value="Scripts: Microfocus" />
 							<property name="type" value="CORE" />
 						</bean>
 					</list>

@@ -3,6 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
            
+	<bean id="idgap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="idgap_motor" />
+	</bean>
 	
 	<bean id="bda_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
@@ -111,6 +115,14 @@
 		<property name="motor" ref="m4_pitch_motor" />	
 	</bean>
 	
+	<bean id="id_energy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="idgap" />
+				<ref bean="pgm_energy" />
+			</list>
+		</property>
+	</bean>
 	
 	<!-- <bean id="m1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_x_motor" />
@@ -138,5 +150,6 @@
 		<property name="motor" ref="s1_y_size_motor" />
 	</bean> -->
 
+	
 
 </beans>

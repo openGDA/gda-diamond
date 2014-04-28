@@ -5,6 +5,10 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
+	 <bean id="idgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR08I-MO-SERVC-01:BLGAPMTR" />
+		<property name="local" value="true" />
+	</bean>
 
 
 	 <bean id="bda_x_motor" class="gda.device.motor.EpicsMotor">

@@ -1,21 +1,3 @@
-sc_MicroFocusSampleStage
-scan test 0 10 1
-qexafs 'Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False
-qexafs ('Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False)
-qexafs('Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False)
-qexafs('Sample_Parameters', 'QEXAFS_Parameters', 'Detector_Parameters', 'Output_Parameters', 'Experiment_1', 1, False)
-qexafs
-res
-reset_namespace
-qexafs
-qexafs.getInputNames()
-qexafs
-qexafs_energy
-qexafs_counterTimer01
-qexafs_counterTimer01.collectData()
-qexafs_counterTimer01.readout()
-qexafs_energy
-qexafs
 scan test 0 10 1 qexafs_counterTimer01 1
 qexafs_counterTimer01.getInputNames()
 qexafs_counterTimer01.getExtraNames()
@@ -98,3 +80,21 @@ import scisoftpy as dnp
 scan d1motor 0 10 1 energy
 scan d1motor 0 10 1 energy d2motor 
 scan d1motor 0 10 1 energy d2motor 0 1
+pos
+scan m1_x 32 40 1 
+scan test 10 2 1
+pos
+pos m1_x 0.1
+pos m1_x 0
+pos m1_x3
+pos m1_x 3
+scan m1_x 0 3 0.1 
+scan m1_x 0 20 0.1 
+scan m1_x 0 50 0.1 
+scan m1_x 0 500 1 
+scan m1_x 0 200 1 
+pos
+scan m1_x 0 20 1 
+pos
+scan m2_x 0 50 0.1
+scan m2_x 50 0 0.1

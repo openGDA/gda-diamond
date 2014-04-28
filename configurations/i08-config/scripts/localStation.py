@@ -43,6 +43,8 @@ try:
     showtime=showtimeClass('showtime')
     inctime=showincrementaltimeClass('inctime')
     actualTime=actualTimeClass("actualTime")
+
+    from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
     
     #run "gda_startup.py"
     print "Initialisation Complete";
