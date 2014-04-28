@@ -1,5 +1,6 @@
 . /usr/share/Modules/init/bash
-module load java/gda/836
+
+. /dls_sw/i18/software/gda_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 python /dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i18/software/gda/config --restart -v --mode=live nameserver &
 python /dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i18/software/gda/config --restart -v --mode=live logserver &
