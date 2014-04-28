@@ -7,6 +7,7 @@ BEAMLINE=$BEAMLINE
 fi
 
 . /usr/share/Modules/init/bash
-module load java/gda
+
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 exec /dls_sw/$BEAMLINE/software/gda/bin/gda logpanel

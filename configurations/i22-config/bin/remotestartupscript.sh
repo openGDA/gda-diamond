@@ -2,7 +2,8 @@
 
 export BEAMLINE=i22
 . /usr/share/Modules/init/bash
-module load java/gda
+
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 mv -f nohup.out nohup.out.0 || true
 touch nohup.out
