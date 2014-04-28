@@ -47,6 +47,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.LoggerFactory;
@@ -71,7 +72,7 @@ public class BatonStatusCompositeFactory implements CompositeFactory {
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
-		return new BatonStatusComposite(parent, style, label);
+		return new BatonStatusComposite(parent, style, parent.getDisplay(), label);
 	}
 }
 
@@ -94,7 +95,7 @@ class BatonStatusComposite extends Composite {
 	private MenuItem openChat;
 
 
-	public BatonStatusComposite(Composite parent, int style, String label) {
+	public BatonStatusComposite(Composite parent, int style, final Display display, String label) {
 		super(parent, style);
 
 		GridDataFactory.fillDefaults().applyTo(this);
@@ -105,7 +106,7 @@ class BatonStatusComposite extends Composite {
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(grp);
 		grp.setText(label);
 
-		this.display = parent.getDisplay();
+		this.display = display;
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
 		
