@@ -3,7 +3,8 @@
 
 . /usr/share/Modules/init/bash
 . /dls_sw/i13-1/etc/i13-1_profile.sh
-module load java/gda830-64
+
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 #this is needed to ensure the acls work properly
 umask 0002

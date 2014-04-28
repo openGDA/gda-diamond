@@ -3,7 +3,8 @@
 #identify install folder and JAVA_HOME
 source /dls_sw/i13/etc/i13_profile.sh
 
-module load java/gda830-64
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
+
 # Start log panel if not already started
 LOGPANEL=$(ps -ef | grep NameManager | grep -v grep)
 if [ "X$LOGPANEL" == "X" ] ; then
