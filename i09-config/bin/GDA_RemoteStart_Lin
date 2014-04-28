@@ -10,13 +10,8 @@ then
   echo "Please set BEAMLINE environment variable."
   exit 1
 fi
-if [ -f "/etc/profile.d/modules.sh" ]; then
-	. /etc/profile.d/modules.sh	
-	module load java/gda
-else
-	echo "cannot source /etc/profile.d/modules.sh"	
-	exit 1
-fi
+
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 notify-send -t 10000 "GDA Remote Servers are starting..."
 

@@ -10,13 +10,7 @@ notify-send -t 10000 "GDA RCP Client is starting..."
 
 . /$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/bin/gda_environment.sh
 
-if [ -f "/etc/profile.d/modules.sh" ]; then
-	. /etc/profile.d/modules.sh	
-	module load java/gda
-else
-	echo "cannot source /etc/profile.d/modules.sh"	
-	exit 1
-fi
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 # Start log panel if not already started
 LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)

@@ -2,11 +2,12 @@
 
 if [ -f "/etc/profile.d/modules.sh" ]; then
 	. /etc/profile.d/modules.sh	
-	module load java/gda832
 else
 	echo "cannot source /etc/profile.d/modules.sh"	
 	exit 1
 fi
+
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
 `dirname $0`/gda_command nameserver --stop $@
 `dirname $0`/gda_command logserver --stop $@
