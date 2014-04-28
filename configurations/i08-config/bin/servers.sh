@@ -1,4 +1,4 @@
-module load java/gda836-64
+. ${GDAFOLDER}/gda_git/gda-diamond.git/dls-config/bin/loadjava.sh
 echo "JAVA_HOME=$JAVA_HOME"
 
 #this is needed to ensure the acls work properly
