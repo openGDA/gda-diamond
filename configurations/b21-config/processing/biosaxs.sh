@@ -123,14 +123,13 @@ $ISPYBUPDATE analysis $DATACOLLID STARTED \"\"
 #run-sas-pipeline.py --data \$REDUCEDFILE --nxsQ '/entry1/detector_result/q' --nxsData '/entry1/detector_result/data' --rMaxStart 50 --rMaxStop 600 --rMaxIntervals 25 --rMaxAbsTol 0.1 --mode fast --threads 10 --columns 10 --symmetry P6 --qmin 0.005 --qmax 0.3 --plotFit
 ## update ispyb
 
-#module load edna/sas-local  ## we are on the cluster
 module load numpy/1.6.1
 mkdir $ANALYSISOUTPUT
 $ISPYBUPDATE analysis $DATACOLLID STARTED \"\"
-python $EDNAPYSCRIPT --filename \$REDUCEDFILE --backgroundFilename \$BACKGROUNDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 4 
+python $EDNAPYSCRIPT --filename \$REDUCEDFILE --backgroundFilename $BACKGROUNDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 4 
 $ISPYBUPDATE analysis $DATACOLLID COMPLETE $ANALYSISOUTPUT
 
 EOF
 
-bash $SCRIPT > ${SCRIPT}.stdout 2> ${SCRIPT}.errout
-#qsub $SCRIPT
+#bash $SCRIPT > ${SCRIPT}.stdout 2> ${SCRIPT}.errout
+qsub $SCRIPT
