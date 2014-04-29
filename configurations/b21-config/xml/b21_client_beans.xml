@@ -108,7 +108,7 @@
 	</bean>
 
 	<bean id="ispyb" class="uk.ac.gda.devices.bssc.ispyb.BioSAXSISPyBviaOracle">
-		<constructor-arg value="jdbc:oracle:thin:@ws096.diamond.ac.uk:1521:xe" />
+		<constructor-arg value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
 		<constructor-arg ref="ispybNotifier" />
 	</bean>
 
