@@ -205,14 +205,6 @@ def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 	else:
 		raise Exception('Detector %r not in the list of supported detectors: %r' % (detector.name, supportedDetectors.keys()))
 	
-	# Ideally we would want to set the mar cam filename according to the scan number
-	#	BL15I-EA-MAR-01:CAM:FilePath_RBV = /tmp/mar345	=
-	#	BL15I-EA-MAR-01:CAM:FileName =     image		"$scan$-%s-" % (detector.name, sampleSuffix)
-	#	BL15I-EA-MAR-01:CAM:FileTemplate = %s%s_$03d	=
-	# Sadly NXDetector doesn't support this.
-	# Also we would need to reset the FileNumber to 1 for each scan:
-	#	BL15I-EA-MAR-01:CAM:FileNumber = 1
-	
 	filePathTemplate="$datadir$/"
 	fileNameTemplate="$scan$-%s-%s-" % (detector.name, sampleSuffix)
 	fileTemplate="%s%s"
@@ -226,9 +218,29 @@ def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 		fileNameTemplate=""
 		fileTemplate="%s%s%05d"	# One image per file
 	
-	detector.tifwriter.setFileTemplate(fileTemplate+".tif")
-	detector.tifwriter.setFilePathTemplate(filePathTemplate)
-	detector.tifwriter.setFileNameTemplate(fileNameTemplate)
+	if detector.name == 'mar':
+		# Since the mar doesn't like underscores and replaces all characters after the underscore with a three
+		# digit sequence number, we have to strip out the sample suffix (as it might contain an underscore) and
+		# set the sequence number to the expected sequence number.
+		filePathTemplate="$datadir$/"
+		fileNameTemplate="$scan$-%s" % (detector.name)
+		fileTemplate="%s%s_%03d" # Breaks GDA because it expects the file to be called blah and it is blah.mar3450 on the filesystem
+		#fileTemplate="%s%s_%03d.mar3450" # Breaks Area detector because it expects the file to be called blah.mar3450.mar3450 and it is blah.mar3450 on the filesystem
+		
+		detector.marwriter.setFileTemplate(fileTemplate)
+		detector.marwriter.setFilePathTemplate(filePathTemplate)
+		detector.marwriter.setFileNameTemplate(fileNameTemplate)
+		#fileTemplatePv = detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FileTemplate')
+		#filePathPv =     detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FilePath')
+		#fileNamePv =     detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FileName')
+		## This assumes mar is using a PvProvider rather than a basePv.
+		#caput(fileTemplatePv, fileTemplate)
+		#caput(filePathPv,     filePathTemplate)
+		#caput(fileNamePv,     fileNameTemplate)
+	else:
+		detector.tifwriter.setFileTemplate(fileTemplate+".tif")
+		detector.tifwriter.setFilePathTemplate(filePathTemplate)
+		detector.tifwriter.setFileNameTemplate(fileNameTemplate)
 	
 	darkSubtractionPVs=_darkSubtractionPVs(hardwareTriggeredNXDetector)
 	if darkSubtractionPVs:
