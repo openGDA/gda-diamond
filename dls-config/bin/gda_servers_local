@@ -2,6 +2,8 @@
 
 # Command to start the GDA servers on current PC
 
+DLS_CONFIG_BIN=$(readlink -f $(dirname $0))
+
 function usage {
 	cat 1>&2 <<EOF
 
@@ -31,10 +33,12 @@ if [[ $# < 2 ]]; then
 fi
 
 module load global/http_proxy
-module load java/gda838
+
+. $DLS_CONFIG_BIN/loadjava.sh
 if [[ $? -ne 0 ]]; then
    echo module failed - assuming java is already on the path
 fi
+
 module load python
 if [[ $? -ne 0 ]]; then
    echo module failed - assuming python is already on the path
