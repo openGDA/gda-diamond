@@ -101,35 +101,6 @@
    </extension>  
 
 
-
-   <extension
-         id="pco views"
-         point="org.eclipse.ui.views">
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13j"
-            class="uk.ac.gda.epics.adviewer.views.HistogramViewCreator:pco"
-            icon="icons/AreaDetectorProfileView.gif"
-            id="uk.ac.gda.beamline.i13j.pcoAreaDetectorProfileView"
-            name="PCO Image Histogram">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13j"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayViewCreator:pco"
-            icon="icons/AreaDetectorImageView.gif"
-            id="uk.ac.gda.beamline.i13j.pcoAreaDetectorArrayView"
-            name="PCO Raw">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13j"
-            class="uk.ac.gda.epics.adviewer.views.MJPegViewCreator:pco"
-            icon="icons/AreaDetectorLiveView.gif"
-            id="uk.ac.gda.beamline.i13j.pcoAreaDetectorLiveView"
-            name="PCO Live">
-      </view>
-   </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
@@ -171,26 +142,6 @@
 </extension>
 
 
-<!-- menus for float1 -->
-
-<!-- menus for float3 -->
-
-
-<!-- menus for d1 -->
-
-
-<!-- menus for d2 -->
-
-
-<!-- menus for d3 -->
-
-
-<!-- menus for d4 -->
-
-
-
-
-<!-- menus for excalibur -->
 
 
 </plugin>

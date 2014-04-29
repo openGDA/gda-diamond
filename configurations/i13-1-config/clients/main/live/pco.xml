@@ -18,19 +18,12 @@
 		<property name="imageNDArray" ref="pco1_arr" />
 		<property name="imageHistSize" value="256" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="65535" />
 		<property name="detectorName" value="PCO" />
 		<property name="adBase" ref="pco1_cam_base" />
 		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
 		<property name="ffmpegImageOutHeightMax" value="1200" />
 		<property name="ffmpegImageOutWidthMax" value="1600" />
-		<property name="cameraImageWidthMax" value="1388" />
-		<property name="cameraImageHeightMax" value="1032" />
 		<property name="imageNDROI" ref="pco1_roi1"/>
-	</bean>
-
-	<bean id="pcoADViewcreator" class="uk.ac.gda.epics.adviewer.views.ViewCreatorImpl">
-		<property name="adController" ref="pcoADController" />
 	</bean>
 
 	<bean id="pcodictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
@@ -45,11 +38,5 @@
 		<property name="service" ref="pcoADController" />
 		<property name="properties" ref="pcodictionary" />
 	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.views.ViewCreator" />
-		<property name="service" ref="pcoADViewcreator" />
-		<property name="properties" ref="pcodictionary" />
-	</bean>
-
 	
 </beans>
