@@ -193,9 +193,11 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	
-	supportedDetectors = {'mar':jythonNameMap.marHWT
-						, 'marHWT':detector
-						, 'pe': detector
+	supportedDetectors = {'mar':    jythonNameMap.marHWT
+						, 'marHWT': detector
+						, 'pe':     detector
+						, 'mpx':    jythonNameMap.mpxHWT
+						, 'mpxHWT': detector
 						}
 	
 	if supportedDetectors.has_key(detector.name):
