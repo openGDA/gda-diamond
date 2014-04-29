@@ -103,7 +103,7 @@
 	</bean>
 
 	<bean id="ispybNotifier" class="uk.ac.gda.devices.bssc.ispyb.NotifyISpyBObserversObject">
-		<constructor-arg value="localhost" />
+		<constructor-arg value="b21-control.diamond.ac.uk" />
 		<constructor-arg value="9877" />
 	</bean>
 

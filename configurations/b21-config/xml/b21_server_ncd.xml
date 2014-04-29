@@ -96,12 +96,13 @@
 	       <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
 	       <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
            <!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
+           <property name="notifyObject" ref="ispybNotifier" />
     </bean>
 	
 	<import resource="b21_biosaxscam.xml"/>
 	
 	<bean id="ispybNotifier" class="uk.ac.gda.devices.bssc.ispyb.NotifyISpyBObserversObject">
-		<constructor-arg value="localhost" />
+		<constructor-arg value="b21-control.diamond.ac.uk" />
 		<constructor-arg value="9877" />
 	</bean>
 
