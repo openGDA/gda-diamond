@@ -140,10 +140,19 @@
 				<value>2.1322543748867164e-08</value>
 				<value>2.1412068256345848e-08</value>
 				<value>2.5302404673324592e-08</value>
-				<value>3.297e-08</value>
-				<value>2.813e-08</value>
-				<value>2.065e-08</value>
-				<value>1.781e-08</value>
+				
+<!-- 				old values changed 10/04/14 -->
+<!-- 				<value>3.297e-08</value> -->
+<!-- 				<value>2.813e-08</value> -->
+<!-- 				<value>2.065e-08</value> -->
+<!-- 				<value>1.781e-08</value> -->
+				
+<!-- 				new values changed 10/04/14 -->
+				<value>7.9028e-07</value>
+				<value>8.2e-07</value>
+				<value>2.616e-06</value>
+				<value>2.616e-06</value>
+				
 				<value>1.387e-08</value>
 				<value>3.604e-08</value>
 			</list>
@@ -202,6 +211,46 @@
 				<value>%9d</value>
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="buffered_cid" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>right_minus_diode</value>
+				<value>right_plus_diode</value>
+				<value>left_minus_diode</value>
+				<value>left_plus_diode</value>
+			</list>
+		</property>
+		
+<!-- 		<property name="scaler" ref="CalMemory" /> -->
+<!-- 		<property name="timer" ref="tfg" /> -->
+<!-- 		<property name="daserver" ref="daserver" /> -->
+<!-- 		<property name="timeChannelRequired" value="false" /> -->
+<!-- 		<property name="darkCurrentRequired" value="false" /> -->
+<!-- 		<property name="outputLogValues" value="false" /> -->
+<!-- 		<property name="TFGv2" value="true" /> -->
+<!-- 		<property name="numChannelsToRead" value="4" /> -->
+<!-- 		<property name="ttlSocket" value="1" /> -->
+		
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserver" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="5" />
+		<property name="firstDataChannel" value="3" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="ttlSocket" value="1" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+			</list>
+		</property>
+		<property name="slave" value="true" />
 	</bean>
 	
 	<bean id="photonccd" class="gda.device.detector.IPPserver">
