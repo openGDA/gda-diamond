@@ -2,6 +2,8 @@
 
 # Command to start the GDA client
 
+DLS_CONFIG_BIN=$(readlink -f $(dirname $0))
+
 function gdaclienthelp {
 	cat 1>&2 <<EOF
 Usage: gdaclient [OPTION]... [-- CLIENT_OPTION [CLIENT_OPTION]... ]
@@ -137,7 +139,8 @@ done
 
 . /usr/share/Modules/init/bash
 module load global/http_proxy
-module load java/gda838
+
+. $DLS_CONFIG_BIN/loadjava.sh
 
 if [ ! -z $GDA_RESET ] ; then
   if [ ! -z $GDA_KEEP ] ; then

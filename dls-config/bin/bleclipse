@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DLS_CONFIG_BIN=$(readlink -f $(dirname $0))
+
 # Unload existing modules which might conflict with the modules to be loaded
 
 module unload java
@@ -8,7 +10,8 @@ module unload buckminster
 
 # Load the standard modules for this version of GDA
 
-module load java/gda838
+. $DLS_CONFIG_BIN/loadjava.sh
+
 module load eclipse/43
 
 # Add diamond specific options for Eclipse
