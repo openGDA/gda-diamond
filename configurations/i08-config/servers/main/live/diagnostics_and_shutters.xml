@@ -6,6 +6,7 @@
 
 <!-- SR08I-MO-SERVC-01:BLGAPMTR -->
 
+	
 	<bean id="opticsShutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="local" value="false"/>
 		<property name="pvBase" value="FE08I-PS-SHTR-02"/>

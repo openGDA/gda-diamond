@@ -6,12 +6,12 @@
 
 <!-- SR08I-MO-SERVC-01:BLGAPMTR -->
 
-	<!-- <bean id="photoDiode1" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL08I-DI-PHDGN-06:DIODE1"/>
+	<bean id="photoDiode1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08I-EA-PATCH-01:AI1"/>
 		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean> 
-	 -->
+	
 	
 	<!-- <bean id="d1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="local" value="false"/>

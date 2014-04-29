@@ -5,7 +5,10 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-
+	<bean id="idgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR08I-MO-SERVC-01:BLGAPMTR" />
+		<property name="local" value="true" />
+	</bean>
 
 	 <bean id="bda_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE08I-AL-APTR-02:X" />
@@ -24,6 +27,21 @@
 	
 	 <bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-COLM-01:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-COLM-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+	
+	 <bean id="m1_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-COLM-01:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m1_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-COLM-01:YAW" />
 		<property name="local" value="true" />
 	</bean>
 	
@@ -72,6 +90,11 @@
 		<property name="local" value="true" />
 	</bean>
 	
+	<bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-PGM-01:CFF" />
+		<property name="local" value="true" />
+	</bean>
+	
 	 <bean id="grating_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-PGM-01:GRT:PITCH" />
 		<property name="local" value="true" />
@@ -101,6 +124,21 @@
 		<property name="pvName" value="BL08I-OP-VFM-03:PITCH" />
 		<property name="local" value="true" />
 	</bean>
+	
+	<bean id="m3_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-VFM-03:YAW" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m3_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-VFM-03:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m3_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-VFM-03:Y" />
+		<property name="local" value="true" />
+	</bean>
 
 	<bean id="m4_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:X" />
@@ -109,6 +147,31 @@
 	
 	 <bean id="m4_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m4_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:Y" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m4_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:YAW" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m4_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m4_ellipticity_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:ELLIP" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m4_curvature_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-OP-HFM-04:CURVE" />
 		<property name="local" value="true" />
 	</bean>
 	

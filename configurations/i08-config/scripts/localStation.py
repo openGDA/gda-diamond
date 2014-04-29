@@ -38,6 +38,8 @@ try:
     from gda.data.scan.datawriter import NexusDataWriter
     LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
+    from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+    
     from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
     waittime=waittimeClass2('waittime')
     showtime=showtimeClass('showtime')

@@ -1,4 +1,3 @@
-qexafs 'Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False
 qexafs ('Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False)
 qexafs('Sample_Parameters' 'QEXAFS_Parameters' 'Detector_Parameters' 'Output_Parameters' 'Experiment_1' 1 False)
 qexafs('Sample_Parameters', 'QEXAFS_Parameters', 'Detector_Parameters', 'Output_Parameters', 'Experiment_1', 1, False)

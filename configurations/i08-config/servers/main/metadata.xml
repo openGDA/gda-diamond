@@ -46,4 +46,7 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" />
+	
 </beans>
