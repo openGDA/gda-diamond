@@ -69,8 +69,13 @@ public class DataHelper {
 		return stringBuilder.toString();
 	}
 
-	public static int[] toArray(String commaSepString) {
-		return null;
+	public static int[] toArray(String commaSepString) throws NumberFormatException {
+		String[] strValues = commaSepString.split(",");
+		int[] values = new int[strValues.length];
+		for (int i = 0; i < strValues.length; i++) {
+			values[i] = Integer.parseInt(strValues[i]);
+		}
+		return values;
 	}
 
 	public static StringBuilder removeLastChar(StringBuilder stringBuilder) {

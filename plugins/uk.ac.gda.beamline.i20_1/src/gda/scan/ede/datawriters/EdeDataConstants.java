@@ -81,6 +81,7 @@ public class EdeDataConstants {
 			return index;
 		}
 
+		// FIXME Change to spectrum
 		public int getNoOfFrames() {
 			return noOfFrames;
 		}
@@ -130,6 +131,14 @@ public class EdeDataConstants {
 			return DataHelper.removeLastChar(metadataStr).toString();
 		}
 
+		public static TimingGroupMetaData[] toTimingGroupMetaData(DoubleDataset data) {
+			TimingGroupMetaData[] groups =  new TimingGroupMetaData[data.getShape()[0]];
+			for (int i = 0; i < groups.length; i++) {
+				groups[i] = new TimingGroupMetaData((int) data.get(i, 0), (int) data.get(i, 1), data.get(i, 2), data.get(i, 3), data.get(i, 4), (int) data.get(i, 5));
+			}
+			return groups;
+		}
+
 		public static int getNoOfSpectra(int groupIndex, DoubleDataset metadata) {
 			return metadata.getInt(groupIndex, 1);
 		}
@@ -162,8 +171,13 @@ public class EdeDataConstants {
 		}
 
 		public static RangeData[] toRangeDataList(String commaSepString) {
-			// TODO Auto-generated method stub
-			return null;
+			String[] rangesStr = commaSepString.split(",");
+			RangeData[] rangeData = new RangeData[rangesStr.length];
+			for (int i = 0; i < rangesStr.length; i++) {
+				String[] rangeStartEnd = rangesStr[i].split(":");
+				rangeData[i] = new RangeData(Integer.parseInt(rangeStartEnd[0]), Integer.parseInt(rangeStartEnd[1]));
+			}
+			return rangeData;
 		}
 	}
 

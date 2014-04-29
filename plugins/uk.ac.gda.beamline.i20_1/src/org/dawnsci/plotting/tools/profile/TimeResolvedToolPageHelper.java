@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -42,21 +44,33 @@ import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.common.rcp.UIHelper;
+
 public class TimeResolvedToolPageHelper {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedToolPageHelper.class);
 
 	public void averageCyclesAndExport(File nexusFile, Display display) {
 		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusFile.getAbsolutePath());
-		int[] availableCycles = timeResolvedNexusFileHelper.getAvailableCycles();
-		Integer[] intArray = new Integer[availableCycles.length];
-		for (int i = 0; i <availableCycles.length; i++) {
-			intArray[i] = new Integer(availableCycles[i]);
+		int[] availableCycles;
+		try {
+			availableCycles = timeResolvedNexusFileHelper.getCyclesInfo();
+		} catch (Exception e) {
+			UIHelper.showWarning("Unable to retrieve cycles information", e.getMessage());
+			return;
+		}
+		Integer[] availArray = new Integer[availableCycles.length];
+		List<Integer> excludedList = new ArrayList<Integer>();
+		for (int i = 0; i <availArray.length; i++) {
+			availArray[i] = new Integer(i);
+			if (availableCycles[i] == 1) {
+				excludedList.add(availArray[i]);
+			}
 		}
 		ListSelectionDialog excludedCyclesSelectionDialog =
 				new ListSelectionDialog(
 						display.getActiveShell(),
-						intArray,
+						availArray,
 						new ArrayContentProvider(),
 						new LabelProvider(),
 						"Select excluded cycles") {
@@ -79,6 +93,8 @@ public class TimeResolvedToolPageHelper {
 				return clientDialogArea;
 			}
 		};
+
+		excludedCyclesSelectionDialog.setInitialElementSelections(excludedList);
 
 		if (excludedCyclesSelectionDialog.open() == Window.OK) {
 			String dir = showSaveDirectory(nexusFile, display);

@@ -120,13 +120,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private static final double STACK_OFFSET = 0.1;
 
-	//public static final String DATA_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/data";
-	//public static final String CYCLE_AVERAGE_DATA_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_CYCLE_LN_I0_IT_WITH_AVERAGED + "/data";
-
-	//private static final String GROUP_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/group";
-	//private static final String TIME_AXIS_PATH = "/entry1/" + EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT + "/time";
-	//private static final String ENERGY_SOURCE_PATH = "/entry1/instrument/xstrip/Energy";
-	//private static final int ENERGY_AXIS_INDEX = 0;
 
 	private TimeResolvedDataNode timeResolvedData; // = new TimeResolvedDataNode();
 
@@ -152,7 +145,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private Binding selectedSpectraBinding;
 
-	//	TimeResolvedNexusFileHelper timeResolvedNexusFileHelper;
 
 	// TODO Review the page lifecycle
 	private boolean spectraDataLoaded = false;
@@ -308,17 +300,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	}
 
-	// TODO Replace with hyper component 2D
-
-	//	private void setDataForEnergySelection() {
-	//		List<AbstractDataset> axes = new ArrayList<AbstractDataset>(imageTrace.getAxes().size());
-	//		for(IDataset dataset : imageTrace.getAxes()) {
-	//			axes.add((AbstractDataset) dataset);
-	//		}
-	//		hyperComponent.setData(imageTrace.getData(), axes, new Slice[2], new int[]{0,1}, main, side);
-	//	}
-
-
 	private void doBinding() {
 		createSpectraSelectionBinding();
 
@@ -332,7 +313,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 							SpectrumDataNode spectrum = (SpectrumDataNode) element;
 							if (!plottingSystem.isDisposed()) {
 								plottingSystem.removeTrace(spectrum.getTrace());
-								plottingSystem.repaint(true);
+								plottingSystem.repaint();
 							}
 							spectrum.clearTrace();
 						}
@@ -538,16 +519,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				}
 				return true;
 			}
-
-			//			private boolean isCycleSelected(IStructuredSelection selection) {
-			//				Iterator<?> iterator = selection.iterator();
-			//				while (iterator.hasNext()) {
-			//					if (!(iterator.next() instanceof CycleDataNode)) {
-			//						return false;
-			//					}
-			//				}
-			//				return true;
-			//			}
 		});
 		menuManager.setRemoveAllWhenShown(true);
 		spectraTreeTable.getTree().setMenu(menu);
@@ -634,16 +605,29 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			}
 		});
 
-		final ToolItem stackToggle = new ToolItem(toolBar, SWT.CHECK);
-		stackToggle.setText("");
+		final ToolItem stackToggle = new ToolItem(toolBar, SWT.PUSH);
 		stackToggle.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_DEF_VIEW));
+		stackToggle.setToolTipText(Double.toString(traceStack));
 		stackToggle.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				if (stackToggle.getSelection()) {
-					traceStack = 0.0;
-				} else {
-					traceStack = STACK_OFFSET;
+				InputDialog dlg = new InputDialog(stackToggle.getDisplay().getActiveShell(), "Stack offset", "Enter new offset", Double.toString(traceStack), new IInputValidator() {
+					@Override
+					public String isValid(String newText) {
+						try {
+							double value = Double.parseDouble(newText);
+							if (value > 0) {
+								return null;
+							}
+							return "Only positive number is allowed";
+						} catch (NumberFormatException e) {
+							return "Invalid valid";
+						}
+					}
+				});
+				if (dlg.open() ==  Window.OK) {
+					traceStack = Double.parseDouble(dlg.getValue());
+					stackToggle.setToolTipText(Double.toString(traceStack));
 				}
 			}
 		});

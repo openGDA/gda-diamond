@@ -149,6 +149,7 @@ public class TimeResolvedDataFileHelper {
 		} finally {
 			file.close();
 		}
+		updateWithNormalisedData(false);
 	}
 
 	public void excludeCyclesInData(int[] cyclesToExclude) throws Exception {
@@ -159,25 +160,7 @@ public class TimeResolvedDataFileHelper {
 		} finally {
 			file.close();
 		}
-		//		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
-		//		String fullDataPath = NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_RAW_COLUMN_NAME;
-		//		DoubleDataset dataset = getDataFromFile(file, fullDataPath);
-		//		int allCycleIndex = dataset.getShape()[0];
-		//		int[] includedCyclesIndices = new int[allCycleIndex - excludedCycles.length];
-		//		int j = 0;
-		//
-		//		for (int i = 0; i < allCycleIndex && j < excludedCycles.length; i++) {
-		//			if (excludedCycles[j] == i) {
-		//				includedCyclesIndices[j++] = i;
-		//			}
-		//		}
-		//		DoubleDataset reducedDataset = (DoubleDataset) dataset.take(includedCyclesIndices, 0);
-		//		DoubleDataset reducedAvgDataset = getAverageDataset(reducedDataset);
-		//		Map<String, String> attributes = new HashMap<String, String>();
-		//		attributes.put(EXCLUDED_ATTRIBUTE_NAME, DataHelper.toString(excludedCycles));
-		//		attributes.put(NexusUtils.SIGNAL, "1");
-		//		Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, fullDataPath, Nexus.DATA);
-		//		addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, targetPath, reducedAvgDataset, attributes);
+		updateWithNormalisedData(false);
 	}
 
 	public void createMetaDataEntries(TimingGroupMetaData[] i0TimingGroupMetaData, TimingGroupMetaData[] itTimingGroupMetaData,
@@ -215,8 +198,20 @@ public class TimeResolvedDataFileHelper {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
 			deriveTimingGroupsAndGenerateNormalisedData(file);
-			createAxisForNormalisedItData(file);
-			updateNexusFileWithNormalisedData(file);
+
+			Object avgSpectrumInfo = file.getAttributeValues(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME).get(AVG_ATTRIBUTE_NAME);
+			Object excludedCyclesInfo = file.getAttributeValues(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME).get(EXCLUDED_CYCLE_ATTRIBUTE_NAME);
+			RangeData[] avgSpectraList = null;
+			int[] excludedCycles = null;
+			if (avgSpectrumInfo != null) {
+				avgSpectraList = RangeData.toRangeDataList(((String[]) avgSpectrumInfo)[0]);
+			}
+			if (excludedCyclesInfo != null) {
+				excludedCycles = DataHelper.toArray(((String[]) excludedCyclesInfo)[0]);
+			}
+
+			createAxisForNormalisedItData(file, avgSpectraList);
+			updateNexusFileWithNormalisedData(file, avgSpectraList, excludedCycles);
 			if (generateAsciiFiles) {
 				createAsciiFiles(file);
 			}
@@ -416,22 +411,10 @@ public class TimeResolvedDataFileHelper {
 		writer.write("# " + TimingGroupMetaData.toMetadataString(metaData).replace("\n", "\n# ") + "\n#\n");
 	}
 
-	private void updateNexusFileWithNormalisedData(IHierarchicalDataFile file) throws Exception {
-		//HObject itDataNode = file.getData(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
-		String avgSpectrumInfo = file.getAttributeValue(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME + "@" + AVG_ATTRIBUTE_NAME);
-		String excludedCyclesInfo = file.getAttributeValue(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME + "@" + EXCLUDED_CYCLE_ATTRIBUTE_NAME);
-		RangeData[] avgSpectraList = null;
-		int[] excludedCycles = null;
-		if (avgSpectrumInfo != null && !avgSpectrumInfo.isEmpty()) {
-			avgSpectraList = RangeData.toRangeDataList(avgSpectrumInfo);
-		}
-		if (excludedCyclesInfo != null && !excludedCyclesInfo.isEmpty()) {
-			excludedCycles = DataHelper.toArray(excludedCyclesInfo);
-		}
-
+	private void updateNexusFileWithNormalisedData(IHierarchicalDataFile file, RangeData[] avgSpectraList, int[] excludedCycles) throws Exception {
 		Map<String, String> attributes = new HashMap<String, String>();
-		// Adding Axis
 
+		// Adding Axis
 		attributes.put(NexusUtils.AXIS, "1");
 		Group parent = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME, Nexus.DATA);
 		addDatasetToNexus(file, EdeDataConstants.TIMINGGROUP_COLUMN_NAME, parent, groupAxisData, attributes);
@@ -472,20 +455,33 @@ public class TimeResolvedDataFileHelper {
 			dataToAdd = getAverageDataset(data, excludedCycles);
 		}
 		if (avgSpectraList != null) {
+			int noOfSpectrum = dataToAdd.getShape()[0];
 			int noOfChannels = dataToAdd.getShape()[1];
+			DoubleDataset dataToAvgAndAdd = new DoubleDataset(0, noOfChannels);
+			int j = 0;
 			for (int i = 0; i < avgSpectraList.length; i++) {
 				RangeData avgInfo = avgSpectraList[i];
 				int noOfSpectrumToAvg = avgInfo.getEndIndex() - avgInfo.getStartIndex() + 1;
 				DoubleDataset avgDataItem = (DoubleDataset) dataToAdd.getSlice(new int[]{avgInfo.getStartIndex(), 0}, new int[]{avgInfo.getEndIndex() + 1, noOfChannels}, null).sum(0).idivide(noOfSpectrumToAvg);
-				if (noOfSpectrumToAvg > 1) {
-					int[] indexToRemove = new int[noOfSpectrumToAvg - 1];
-					for (int j = 0; j <= indexToRemove.length; j++) {
-						indexToRemove[j] = avgInfo.getStartIndex() + 1 + j;
-					}
-					dataToAdd = (DoubleDataset) dataToAdd.take(indexToRemove, 0);
+				avgDataItem.setShape(new int[]{1, noOfChannels});
+				if (avgInfo.getStartIndex() - j > 0) {
+					AbstractDataset sliceToAppend = dataToAdd.getSlice(new int[]{j, 0}, new int[]{avgInfo.getStartIndex(), noOfChannels}, null);
+					dataToAvgAndAdd = (DoubleDataset) DatasetUtils.append(dataToAvgAndAdd, sliceToAppend, 0);
 				}
-				dataToAdd.set(avgDataItem, avgInfo.getStartIndex());
+				dataToAvgAndAdd = (DoubleDataset) DatasetUtils.append(dataToAvgAndAdd, avgDataItem, 0);
+				j = avgSpectraList[i].getEndIndex() + 1;
 			}
+			if (j < noOfSpectrum - 1) {
+				DoubleDataset sliceToAppend = (DoubleDataset) dataToAdd.getSlice(new int[]{j + 1, 0}, new int[]{noOfSpectrum, noOfChannels}, null);
+				dataToAvgAndAdd = (DoubleDataset) DatasetUtils.append(dataToAvgAndAdd, sliceToAppend, 0);
+			}
+			dataToAdd = dataToAvgAndAdd;
+		}
+		if (excludedCycles != null && excludedCycles.length > 0) {
+			attributes.put(EXCLUDED_CYCLE_ATTRIBUTE_NAME, DataHelper.toString(excludedCycles));
+		}
+		if (avgSpectraList != null && avgSpectraList.length > 0) {
+			attributes.put(AVG_ATTRIBUTE_NAME, DataHelper.toString(avgSpectraList));
 		}
 		addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, fullPath, dataToAdd, attributes);
 	}
@@ -707,31 +703,51 @@ public class TimeResolvedDataFileHelper {
 
 	}
 
-	// FIXME Refactor this, this is not easily understandable!
-	private void createAxisForNormalisedItData(IHierarchicalDataFile file) throws Exception {
+	private void createAxisForNormalisedItData(IHierarchicalDataFile file, RangeData[] avgSpectraList) throws Exception {
 		DoubleDataset metaDataset = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
-		int noOfSpectrum = 0;
-		int noOfGroups = metaDataset.getShape()[0];
+		TimingGroupMetaData[] timingGroupMetaData = TimingGroupMetaData.toTimingGroupMetaData(metaDataset);
+		int totalSpectra = 0;
+		int noOfGroups = timingGroupMetaData.length;
 		for (int i = 0; i < noOfGroups; i++) {
-			noOfSpectrum += metaDataset.getInt(i, 1);
+			totalSpectra += timingGroupMetaData[i].getNoOfFrames();
 		}
-		timeAxisData = new DoubleDataset(new int[]{noOfSpectrum});
-		groupAxisData = new DoubleDataset(new int[]{noOfSpectrum});
-		int groupIndex = 0;
-		int spectrumInGroup = (int) metaDataset.get(groupIndex, 1);
+		int totalAvgSpectra  = totalSpectra;
+		if (avgSpectraList != null) {
+			for (int i = 0; i < avgSpectraList.length; i++) {
+				totalAvgSpectra -= avgSpectraList[i].getEndIndex() - avgSpectraList[i].getStartIndex();
+			}
+		}
+		timeAxisData = new DoubleDataset(new int[]{totalAvgSpectra});
+		groupAxisData = new DoubleDataset(new int[]{totalAvgSpectra});
+		int currentGroupIndex = 0;
+		int j = 0;
+		int k = 0;
+		RangeData avgRange = null;
 		double time = 0.0d;
-		int group;
-		for (int i = 0; i < noOfSpectrum; i++) {
-			timeAxisData.set(time, i);
-			time += metaDataset.get(groupIndex, 2);
-			group = (int) metaDataset.get(groupIndex, 0);
-			groupAxisData.set(group, i);
-			if (i + 1 == spectrumInGroup) {
-				groupIndex++;
-				if (groupIndex < noOfGroups) {
-					spectrumInGroup += (int) metaDataset.get(groupIndex, 1);
+		int totalSpectraUptoCurrentGroup = timingGroupMetaData[currentGroupIndex].getNoOfFrames();
+		for (int i = 0; i < totalSpectra; i++) {
+			if (avgSpectraList != null && j < avgSpectraList.length) {
+				avgRange = avgSpectraList[j];
+				if (avgRange.getStartIndex() == i) {
+					while(i < avgRange.getEndIndex()) {
+						time += timingGroupMetaData[currentGroupIndex].getTimePerSpectrum();
+						i++;
+						if (i == totalSpectraUptoCurrentGroup) {
+							currentGroupIndex++;
+							totalSpectraUptoCurrentGroup += timingGroupMetaData[currentGroupIndex].getNoOfFrames();
+						}
+					}
+					j++;
 				}
 			}
+			time += timingGroupMetaData[currentGroupIndex].getTimePerSpectrum();
+			timeAxisData.set(time, k);
+			groupAxisData.set(currentGroupIndex, k);
+			if (i == totalSpectraUptoCurrentGroup) {
+				currentGroupIndex++;
+				totalSpectraUptoCurrentGroup += timingGroupMetaData[currentGroupIndex].getNoOfFrames();
+			}
+			k++;
 		}
 	}
 
@@ -858,9 +874,35 @@ public class TimeResolvedDataFileHelper {
 		return true;
 	}
 
-	public int[] getAvailableCycles() {
-		// TODO
-		return new int[]{0,1,2};
+	public int[] getCyclesInfo() throws Exception {
+		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
+		try {
+			String fullDataPath = NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_RAW_COLUMN_NAME;
+			HObject data = file.getData(fullDataPath);
+			if (data != null) {
+				String excludedStr = file.getAttributeValue(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME + "@" + EXCLUDED_CYCLE_ATTRIBUTE_NAME);
+				int[] excludedCycles = null;
+				if (excludedStr != null) {
+					excludedCycles = DataHelper.toArray(excludedStr);
+				}
+				long[] dimension = ((Dataset) data).getDims();
+				int[] cyclesInfo = new int[(int) dimension[0]];
+				int j = 0;
+				for (int i = 0; i < dimension[0]; i++) {
+					if (excludedCycles != null && i < excludedCycles.length && i == excludedCycles[j]) {
+						cyclesInfo[i] = 1;
+						j++;
+					} else {
+						cyclesInfo[i] = 0;
+					}
+				}
+				return cyclesInfo;
+			}
+			return new int[]{};
+		}
+		finally {
+			file.close();
+		}
 	}
 
 	public void replaceEnergy(double[] value) throws Exception {
