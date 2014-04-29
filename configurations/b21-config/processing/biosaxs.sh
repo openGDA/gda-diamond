@@ -75,7 +75,7 @@ $ISPYBUPDATE reduction $DATACOLLID STARTED \"\"
 module load java/7-64
 module load python/2.7.2-64
 
-export MALLOC_ARENA_MAX=1
+export MALLOC_ARENA_MAX=4
 
 $DAWN -noSplash -application com.isencia.passerelle.workbench.model.launch \
 -data $WORKSPACE \
@@ -132,4 +132,4 @@ $ISPYBUPDATE analysis $DATACOLLID COMPLETE $ANALYSISOUTPUT
 EOF
 
 #bash $SCRIPT > ${SCRIPT}.stdout 2> ${SCRIPT}.errout
-qsub $SCRIPT
+qsub -pe smp 8-16 -q medium.q $SCRIPT
