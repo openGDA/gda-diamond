@@ -102,8 +102,6 @@
 		<config>devices/dummy/pco1_ndplugins.xml</config>
 		<config>devices/epics/pco1_ndplugins.xml</config>
 		<config>devices/zebra/pco1_ndplugins.xml</config>
-		<config>devices/dummy/pco1.xml</config>
-		<config>devices/epics/pco1.xml</config>
 		<config>devices/pco1.xml</config>
 		<config>devices/zebra/pco1.xml</config>
 		<config>devices/dummy/robot_motors.xml</config>
@@ -136,7 +134,6 @@
 		<config>clients/main/d4.xml</config>
 		<config>clients/main/d5.xml</config>
 		<config>devices/zebra_test.xml</config>
-		<config>clients/main/dummy/epg_camera.xml</config>
 		<config>devices/dummy/central_stop_motors.xml</config>
 		<config>devices/dummy/condenser_motors.xml</config>
 		<config>devices/dummy/float1.xml</config>
@@ -144,7 +141,6 @@
 		<config>devices/dummy/phase_ring_motors.xml</config>
 		<config>devices/dummy/pinhole_motors.xml</config>
 		<config>devices/dummy/zone_plate_motors.xml</config>
-		<config>devices/epics/epg_camera.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

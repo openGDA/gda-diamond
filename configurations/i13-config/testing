@@ -1,0 +1,7 @@
+Testing of pcoedge
+
+use ext+soft to get 100Hz
+ext on its own gives 50hz
+
+writing to hdf worked but copy plugin failed
+writing to tif flyScanDetectorTIF works but crash in server at nxiopengroup_+0x54

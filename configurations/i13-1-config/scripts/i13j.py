@@ -196,6 +196,10 @@ To take an image from the maxipix detector:
     To view the current title use the command:
     >getTitle
 
+
+15. To change the folder into which the data is written use the command:
+    >LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, "/dls/$instrument$/data/$year$/$visit$/" + <folder>)
+
 """
 
 

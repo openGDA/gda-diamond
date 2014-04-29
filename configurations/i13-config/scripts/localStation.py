@@ -41,7 +41,13 @@ def fs_control():
 		pos fs "Closed"
 	else:
 		pos fs "Open"
-		
+
+def setupPCOCopy():
+	caput( "BL13I-EA-DET-01:COPY:Run", 0)
+	caputStringAsWaveform( "BL13I-EA-DET-01:COPY:SourceFilePath", "d:\\i13\\data\\2014")
+	caputStringAsWaveform( "BL13I-EA-DET-01:COPY:DestFilePath", "t:\\i13\\data\\2014")
+	caput ("BL13I-EA-DET-01:COPY:Run", 1)		
+
 def isLive():
 	mode = LocalProperties.get("gda.mode")
 	return mode =="live" or mode =="live_localhost"
@@ -106,28 +112,57 @@ try:
 			expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
 			
 			#if you change these you need to change the values in cameraScaleProviders
-			lensX2="X2 7mm x 5mm"
-			lensX4="X4 4mm x 3mm"
-			lensX4Pink="X4 CWD 200"
-			lensX10="X10 2mm x 1mm"
+			#edited by J. Vila-Comamala to match new objective lens configuration 25.04.2014
+			lensX2="X4 4mm x 3mm"
+			lensX4="X10 2mm x 1mm"
+			lensX10="X10 2mm x 1m"
 			
-			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX10 )
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX10)
+			
+			lensX10Pink="X2 Pink"
+			lensX4Pink="X4 Pink"
+			lensX2Pink="X2 7mm x 5mm"
+
+			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX2 )
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX2)
 		
 			caput("BL13I-EA-TURR-01:DEMAND.ONST", lensX4)
 			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", lensX4)
-			caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX2)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX2)
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX10)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX10)
 			caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
 			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
-			caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "5")
+			caput("BL13I-EA-TURR-01:DEMAND.FRST", lensX10Pink)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", lensX10Pink)
 		
 		
-			caput("BL13I-EA-TURR-01:DEMAND.FVST", "6")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "6")
-			caput("BL13I-EA-TURR-01:DEMAND.SXST", "7")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", "7")
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", lensX4Pink)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", lensX4Pink)
+			caput("BL13I-EA-TURR-01:DEMAND.SXST", lensX2Pink)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", lensX2Pink)
+
+
+			#lensX2="X2 7mm x 5mm"
+			#lensX4="X4 4mm x 3mm"
+			#lensX4Pink="X4 CWD 200"
+			#lensX10="X10 2mm x 1mm"
+			
+			#caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX10 )
+			#caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX10)
+		
+			#caput("BL13I-EA-TURR-01:DEMAND.ONST", lensX4)
+			#caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", lensX4)
+			#caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX2)
+			#caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX2)
+			#caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
+			#caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
+			#caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
+			#caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "5")
+		
+		
+			#caput("BL13I-EA-TURR-01:DEMAND.FVST", "6")
+			#caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "6")
+			#caput("BL13I-EA-TURR-01:DEMAND.SXST", "7")
+			#caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", "7")
 			#make the lens re-read its list of positions following setting them in EPICS above
 			lens.initializationCompleted()
 
@@ -193,14 +228,14 @@ try:
 	tomography_additional_scannables=[] # [p2r_force, p2r_y]
 	#for fast flyscans
 	if isLive():
-		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="t:\\i13\\data"
+		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="d:\\i13\\data"
 	else:
 		flyScanDetector.readOutTime=.03 #Manta_G-125B camera	
 #		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="c:\\data"	
 
-	from gda.device.detector.areadetector.v17 import ADDriverPco
-	if isLive():
-		flyScanDetector.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
+#	from gda.device.detector.areadetector.v17 import ADDriverPco
+#	if isLive():
+#		flyScanDetector.pluginList[0].triggerMode=ADDriverPco.PcoTriggerMode.EXTERNAL_AND_SOFTWARE	
 #	run("i13diffcalc")
 
 #   It seemed on using Jon's first driver that pcoEdge needs timestamp 0, must I am not sure now as 
@@ -220,15 +255,12 @@ try:
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
-	if isLive():
-		#setup pco cpy plugin
-		caput( "BL13I-EA-DET-01:COPY:Run", 0)
-		caputStringAsWaveform( "BL13I-EA-DET-01:COPY:SourceFilePath", "d:\\i13\\data\\2014")
-		caputStringAsWaveform( "BL13I-EA-DET-01:COPY:DestFilePath", "t:\\i13\\data\\2014")
-		caput ("BL13I-EA-DET-01:COPY:Run", 1)
+	# 8/4/14 EPG We no longer have the copy plugins 
+#	if isLive():
+#		setupPCOCopy()
 		
-	pco1_hw_tif.pluginList[1].waitForFileArrival=True
-	pco1_tif.pluginList[1].waitForFileArrival=True
+	pco1_hw_tif.pluginList[1].waitForFileArrival=False
+	pco1_tif.pluginList[1].waitForFileArrival=False
 	if isLive():
 		run("localStationUser.py")
 
