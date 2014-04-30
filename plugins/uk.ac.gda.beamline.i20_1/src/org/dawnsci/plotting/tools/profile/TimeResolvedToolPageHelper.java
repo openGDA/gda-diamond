@@ -121,7 +121,7 @@ public class TimeResolvedToolPageHelper {
 		}
 	}
 
-	public void applyEnergyToNexusFiles(File nexusFile, Display display, double[] value) throws Exception {
+	public void applyEnergyCalibrationToNexusFiles(File nexusFile, Display display, String energyCalibration, double[] value) throws Exception {
 		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(display.getActiveShell(), nexusFile.getParent());
 		if (selectedFiles == null || selectedFiles.length < 1) {
 			return;
@@ -134,7 +134,7 @@ public class TimeResolvedToolPageHelper {
 		for(File file : selectedFiles) {
 			String path = DataFileHelper.copyToTempFolder(file, "calibrated");
 			timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(path);
-			timeResolvedNexusFileHelper.replaceEnergy(value);
+			timeResolvedNexusFileHelper.replaceEnergy(energyCalibration, value);
 			Files.copy(Paths.get(path), Paths.get(dirToStoreCalibratedFiles), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}

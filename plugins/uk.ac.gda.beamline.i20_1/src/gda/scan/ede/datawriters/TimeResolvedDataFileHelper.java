@@ -57,6 +57,7 @@ public class TimeResolvedDataFileHelper {
 
 	private static final String EXCLUDED_CYCLE_ATTRIBUTE_NAME = "excluded";
 	private static final String AVG_ATTRIBUTE_NAME = "avg";
+	private static final String ENERGY_POLYNOMIAL = "polynomial";
 
 	private static final String NEXUS_ROOT_ENTRY_NAME = "/entry1/";
 
@@ -164,7 +165,7 @@ public class TimeResolvedDataFileHelper {
 	}
 
 	public void createMetaDataEntries(TimingGroupMetaData[] i0TimingGroupMetaData, TimingGroupMetaData[] itTimingGroupMetaData,
-			TimingGroupMetaData[] i0ForRefTimingGroupMetaData, TimingGroupMetaData[] iRefTimingGroupMetaData, String scannablesConfiguration) throws Exception {
+			TimingGroupMetaData[] i0ForRefTimingGroupMetaData, TimingGroupMetaData[] iRefTimingGroupMetaData, String scannablesConfiguration, String polynomialValForEnergy) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
 			Group parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
@@ -189,6 +190,10 @@ public class TimeResolvedDataFileHelper {
 			}
 
 			file.setAttribute(parent, NexusUtils.LABEL, scannablesConfiguration);
+
+			if (polynomialValForEnergy != null) {
+				file.setAttribute(parent, ENERGY_POLYNOMIAL, scannablesConfiguration);
+			}
 		} finally {
 			file.close();
 		}
@@ -905,12 +910,14 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
-	public void replaceEnergy(double[] value) throws Exception {
+	public void replaceEnergy(String energyCalibration, double[] value) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
 		try {
 			DoubleDataset data = new DoubleDataset(value, new int[]{value.length});
 			Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME, Nexus.DATA);
 			addDatasetToNexus(file, EdeDataConstants.ENERGY_COLUMN_NAME, targetPath, data, null);
+			Group parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
+			file.setAttribute(parent, ENERGY_POLYNOMIAL, energyCalibration);
 		}
 		finally {
 			file.close();

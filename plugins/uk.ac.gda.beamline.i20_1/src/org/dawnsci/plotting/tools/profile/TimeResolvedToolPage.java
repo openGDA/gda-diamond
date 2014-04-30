@@ -580,7 +580,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 						double[] value = applyNewEnergy(calibrationModel);
 						try {
 							TimeResolvedToolPageHelper timeResolvedToolPageHelper = new TimeResolvedToolPageHelper();
-							timeResolvedToolPageHelper.applyEnergyToNexusFiles(dataFile, calibrateEnergy.getDisplay(), value);
+							timeResolvedToolPageHelper.applyEnergyCalibrationToNexusFiles(dataFile, calibrateEnergy.getDisplay(), calibrationModel.getCalibrationResult().toString(), value);
 						} catch (Exception e) {
 							UIHelper.showError("Error apply energy calibration", e.getMessage());
 							logger.error("Error apply energy calibration", e);

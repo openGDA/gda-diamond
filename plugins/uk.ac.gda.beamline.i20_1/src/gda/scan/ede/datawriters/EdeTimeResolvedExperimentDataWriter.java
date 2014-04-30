@@ -113,12 +113,13 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		TimingGroupMetaData[] i0ForIRefScanMetaData = null;
 
 		String scannablesConfiguration = getScannablesConfiguration();
-		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration);
+		String energyCalibration = null;
+		if (itScans[0].getDetector().isEnergyCalibrationSet()) {
+			energyCalibration = itScans[0].getDetector().getEnergyCalibration().toString();
+		}
+		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);
 
 		timeResolvedNexusFileHelper.updateWithNormalisedData(true);
-		//		if (iRefScan != null) {
-		//			createIRefFile();
-		//		}
 
 		return itFilename;
 	}
