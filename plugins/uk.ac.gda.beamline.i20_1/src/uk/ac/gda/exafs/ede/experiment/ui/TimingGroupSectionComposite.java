@@ -656,7 +656,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-
 			noOfSpectrumValueText.setModel(group, TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME);
 
 			integrationTimeValueText.setModel(group, TimingGroupUIModel.INTEGRATION_TIME_PROP_NAME);

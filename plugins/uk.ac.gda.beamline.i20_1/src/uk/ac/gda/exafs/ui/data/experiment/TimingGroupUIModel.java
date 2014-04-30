@@ -243,6 +243,9 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	public void setTimePerSpectrum(double timePerSpectrum) {
 		updateTimePerSpectrum(timePerSpectrum);
 		setSpectrumAndAdjustEndTime(timePerSpectrum);
+		if (integrationTime > timePerSpectrum) {
+			this.setIntegrationTime(timePerSpectrum);
+		}
 	}
 
 	public ExperimentUnit getUnit() {
