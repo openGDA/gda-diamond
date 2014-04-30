@@ -1,67 +1,116 @@
-#! /usr/bin/env python
+#!/bin/bash
 
-import subprocess
-import getopt
-import os, sys, getpass
-import tempfile
+if [ -z $GDA_MODE ] ; then
+  export GDA_MODE=dummy
+fi
 
-import time
+export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
 
-def main(argv):
-	if not os.environ.has_key('BEAMLINE'):
-		os.environ['BEAMLINE'] = 'i06'
+echo Ensure the Log panel is running...
+$GDA_ROOT/workspace_git/gda-mt.git/configurations/i06-config/bin/gdalog
 
-	beamline=os.environ['BEAMLINE'];
+echo
+echo Making sure we want to restart GDA servers now...
+echo
 
-	def helpfun():
-		print 'Usage: gdaservers [-l|--location [remote|local|mobielrack]] [-h|--help]'
-		sys.exit(2);
-  
-	letters = 'hl:' # the : means an argument needs to be passed after the letter
-	keywords = ['help=', 'location='] # the = means that a value is expected after the keyword
+zenity --title "Are you sure?" --question --text "Are you sure you want to restart the $GDA_MODE $BEAMLINE GDA servers?" --window-icon=question
+SURE=$?
+if [ $SURE == 1 ]; then # 0=Ok, 1=Cancel
+  exit
+fi
 
-	# opts is a list containing the pair "option"/"value"
-	# extraparms are extra arguments passed after all option/keywords are assigned
-	try:
-		opts, extraparams = getopt.getopt(sys.argv[1:], letters, keywords);
-	except getopt.GetoptError:
-		helpfun()
-		
-#	print 'Opts:', opts
-#	print 'Extra parameters:', extraparams
-#	print '---------------------------------'
+echo
+echo "Restarting the GDA Server, please wait..."
+echo
+echo "Keep this window open, and you will see a pop-up when the restart has completed"
+echo
 
-	location='remote'
-	helpme=False
-	reset=False
+if [ "$GDA_MODE" = "i06" -o "$GDA_MODE" = "i06-1" ]; then
 
-	for o,p in opts:
-		if o in ['-l','--location']:
-			location = p
-		elif o in ['-h','--help']:
-			helpme = True
-		else:
-			print "???"
-			pass;
+	KNOWN_HOST="i06-control.diamond.ac.uk,172.23.106.32 ssh-rsa"
+	KNOWN_HOST_KEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAypfcOk6D5FOtoai6k502UdL+rBcQYEjEEFpQ6GwNd3RMdGBO9f+xooOuT+DiDgVny5j9ZFc62evRQDI1v9G1puMG2Sinvyh1r6vFC4gdVP3gy1EbZvrmhXqCs1lIFCadu1H66aCFVj64jXAGJx2XanjxzXSlzW23iARuguwE8ZPKkcxfc6+hUWCUfPidlxzvx+qZ8fTAfzR86HrUnC0h1vYx+JCPc02Cyl6c5quVYSMP0JpkUpAetqWqCiH1uPUU9mOdoDnA/79aH6gV0O+JIZqcxLizXl9KSo4449hV7syRz8oMGwAZ5kwdrvDAyCJ8uzQFq9K69sXGM1JH0E18CQ=="
+	
+	ssh-keygen -R i06-control.diamond.ac.uk &> /dev/null
+	ssh-keygen -R 172.23.106.32 &> /dev/null
+	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 
-	if helpme:
-		helpfun()
+	KNOWN_HOST="i06-1-control.diamond.ac.uk,172.23.106.49 ssh-rsa"
 
-	if location == 'remote':
-		print 'Servers are running on beamline server remotely'
-		c='/dls_sw/%s/software/gda/bin/GDA_RemoteStart_Lin' %beamline
-		a=subprocess.Popen( [c] )
-	elif location == 'local':
-		print 'Servers are running on local station'
-		c='/dls_sw/%s/software/gda/bin/GDA_LocalStart_Lin' %beamline
-		a=subprocess.Popen( [c] )
-	elif location == 'mobilerack':
-		print 'Servers are running on local mobilerack'
-		c='/dls_sw/%s/software/gda/bin/GDA_LocalMobileStart_Lin' %beamline
-		a=subprocess.Popen( [c] )
-	else:
-		print 'No valid server location information'
-		helpfun();
+	ssh-keygen -R i06-1-control.diamond.ac.uk &> /dev/null
+	ssh-keygen -R 172.23.106.49 &> /dev/null
+	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 
-if __name__ == "__main__":
-	main(sys.argv[1:]);#starts at the second element of argv since the first one is the script name
+	ssh  -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk $BEAMLINE
+	OK=$?
+	
+	# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
+	
+	if [ $OK != 0 ]; then
+	  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
+	  exit
+	fi
+
+else
+
+	. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_servers_output_$GDA_MODE
+
+	GDA_VAR=$(readlink -f $GDA_ROOT/../var/$GDA_MODE)
+	if [ -d $GDA_VAR ]; then
+		#export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
+		export OBJECT_SERVER_STARTUP_FILE=/tmp/object_server_startup_server_$GDA_MODE
+		echo i06-config/bin/gdaservers: OBJECT_SERVER_STARTUP_FILE=$OBJECT_SERVER_STARTUP_FILE
+	else
+		echo ERROR: $GDA_VAR does not exist.
+		exit
+	fi
+	rm -f $OBJECT_SERVER_STARTUP_FILE
+
+	GDA_CORE_SCRIPT_OPTIONS="--headless servers --debug"
+
+	ARGS="--properties $GDA_CONFIG/properties/java.properties_$GDA_MODE"
+	ARGS="--jacorb     $GDA_CONFIG/properties/jacorb_$GDA_MODE                $ARGS"
+	ARGS="--jca        $GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $ARGS"
+	ARGS="--vardir     $GDA_VAR                                               $ARGS"
+	ARGS="--logsdir    /dls_sw/$BEAMLINE/logs/$GDA_MODE                       $ARGS"
+
+	echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE | tee -a $GDA_CONSOLE_LOG
+	echo Starting GDA Servers...
+	echo  $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS
+	echo  $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG
+	nohup $GDA_CORE_SCRIPT $ARGS $GDA_CORE_SCRIPT_OPTIONS >> $GDA_CONSOLE_LOG  2>&1 &
+	
+	echo "Waiting for server startup completion:" $OBJECT_SERVER_STARTUP_FILE
+	# look for the output file which will tell us when the servers have started
+	while true; do
+	  if [ -r $OBJECT_SERVER_STARTUP_FILE ]; then
+	        echo .
+	        rm -f $OBJECT_SERVER_STARTUP_FILE
+	        exit 0
+	  fi
+	
+	  sleep 1
+	  echo -n .
+	done
+fi
+
+#
+# wait for the remote command, which will look for the output file which will
+# tell us when the servers have started before returning, then display to the
+# user that a client may be started.
+#
+echo
+echo Making sure we want to start GDA client now...
+echo
+
+zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+STARTCLIENT=$?
+if [ $STARTCLIENT == 0 ] ; then # 0=Ok, 1=Cancel
+  echo Starting GDA RCP Client...
+  echo
+  $GDA_ROOT/workspace_git/gda-mt.git/configurations/i06-config/bin/gdaclient &
+  echo
+  echo Moving GDA Log Panel...
+  wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+  echo
+  for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
+fi

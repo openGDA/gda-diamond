@@ -10,6 +10,9 @@ from os import system;
 from gda.configuration.properties import LocalProperties
 import scisoftpy as dnp;
 
+# BLVI-110 GDA-5921: Work around ScanBase generating erroneous exceptions after default was changed from False to True:
+LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
+
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
 
@@ -89,7 +92,7 @@ try:
 	execfile(gdaScriptDir + "BeamlineI06/setSpecialScans.py");
 except:
 	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  rscan Error "
+	print "XXXXXXXXXX:  mrscan Error "
 	logger.dump("---> ", exceptionType, exception, traceback)
 
 try:

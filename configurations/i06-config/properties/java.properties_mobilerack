@@ -1,6 +1,10 @@
+# vvv Disable Baton for Mobile workstation:
+gda.accesscontrol.useAccessControl = false
+gda.accesscontrol.useBatonControl = false
+# ^^^ Disable Baton for Mobile workstation:
 
 gda.beamline.name = i06-1
-gda.instrument = workstation
+gda.instrument = mobilerack
 
 gda.factory.factoryName = I06-LOCAL
 
@@ -22,15 +26,18 @@ gda.jython.socket = 7777
 
 #GDA Logging Server and Client configuration
 #The client port must match with the port setting in SocketAppender element of the LogServer.xml; default 6001
-gda.client.logging.port = 6001
+gda.client.logging.port = 6789
+#gda.client.logging.port = 6001
 
 #The server port must match with the port number in SocketAppender element of the ServerLoggingConfiguration.xml; default 6000
-gda.server.logging.port = 6000
+gda.server.logging.port = 6788
+#gda.server.logging.port = 6000
 
 # port used by logPanel application to receive messages - normally from logserver; default 6002
-gda.logPanel.logging.port=6002
+gda.logPanel.logging.port = 6790
+#gda.logPanel.logging.port=6002
 
-gda.defVisit = cm4955-1
+gda.defVisit = cm4955-2
 
 
 ## For Camera data storage

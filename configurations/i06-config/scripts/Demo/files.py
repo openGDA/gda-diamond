@@ -7,7 +7,7 @@ pointArray = [ [1.0,   2.0,   3.0,   4.0,   5.0,   6.0],
 
 srsHeader=[" &SRS\n", " SRSRUN=null,SRSDAT=null,SRSTIM=null,\n", " SRSSTN='null',SRSPRJ='null    ',SRSEXP='null    ',\n", " SRSTLE='                                                            ',\n", " SRSCN1='        ',SRSCN2='        ',SRSCN3='        ',\n", " &END\n"];
 try:
-	fileName = "/dls/i06/logs/try.dat"
+	fileName = "/dls_sw/i06/logs/try.dat"
 	print fileName
 	fh=open(fileName, 'w');
 

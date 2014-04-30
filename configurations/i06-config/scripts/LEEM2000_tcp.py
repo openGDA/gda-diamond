@@ -7,12 +7,12 @@ class leem2000:
     def __init__(self):
         self.comms_started=False
         try:
-            self.leem_com=(finder.find("leem200_objects")).get("leem2000_com")
+            self.leem_com=(finder.find("leem2000_objects")).get("leem2000_com")
             self.leem_com.setReplyTerm('\0')
             self.leem_com.setCmdTerm('\0')
         except:
             exceptionType, exception, traceback=sys.exc_info();
-            handle_messages.log(None, "Error getting leem200_com from leem2000_objects", exceptionType, exception, traceback, True)
+            handle_messages.log(None, "Error getting leem2000_com from leem2000_objects", exceptionType, exception, traceback, True)
 
     def close(self):
         """
@@ -32,7 +32,7 @@ class leem2000:
                 self.comms_started=True
             except:
                 exceptionType, exception, traceback=sys.exc_info();
-                handle_messages.log(None, "Error sending asc command to leem2000 at " + self.leem_com.address + ":" + self.leem_com.port +". Try restarting Leem2000 ", exceptionType, exception, traceback, True)
+                handle_messages.log(None, "Error sending asc command to leem2000 at " + str(self.leem_com.address) + ":" + str(self.leem_com.port) +". Try restarting Leem2000 ", exceptionType, exception, traceback, True)
         return self.leem_com.send(cmd)
 
 
@@ -43,18 +43,24 @@ class leem_scannable(ScannableBase):
         self.moduleName=moduleName
         self.setInputNames([name]);
         self.leem2000=leem2000
+        self.lastValue = 0;
 
     def isBusy(self):
-        return False
+        reply = self.leem2000.send("get " + self.moduleName + "\0")
+        return reply == "ErrorCode -102"
 
     def getPosition(self):
-        return float(self.leem2000.send("get " + self.moduleName))
+        try:
+            return float(self.leem2000.send("get " + self.moduleName + "\0"))
+        except:
+            return self.lastValue
 
     def asynchronousMoveTo(self,new_position):
         cmd="set " + self.moduleName +"="+`new_position`
         reply=self.leem2000.send(cmd)
         if reply != "0":
             raise Exception("Failed in command " + `cmd` + " reply=" + `reply` + "")
+        self.lastValue = new_position
         return
 
 class leem_readonly(ScannableBase):

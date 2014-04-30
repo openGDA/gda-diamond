@@ -8,7 +8,7 @@
       <text>
          GDA for DLS Beamine i06-1.
 
-Build id: 
+Build id:
 
 Copyright © 2009 Diamond Light Source Ltd.
 
@@ -21,7 +21,7 @@ http://www.opengda.org
 
    <launcherArgs>
       <programArgs>-consolelog</programArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/config/client/i06-1/pluginCustomization.ini
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
 -Dgda.install.git.loc=/dls_sw/i06-1/software/gda/workspace_git
@@ -29,10 +29,10 @@ http://www.opengda.org
 -Dgda.data=/dls/i06-1
 -Dgda.var=/dls/i06-1/var
 -Dgda.logs.dir=/dls_sw/i06-1/logs
--Djacorb.config.dir=/dls_sw/i06-1/software/gda/i06-config/properties/jacorb_i06-1
--Dgda.propertiesFile=/dls_sw/i06-1/software/gda/i06-config/properties/java.properties_i06-1
--Dgda.config=/dls_sw/i06-1/software/gda/i06-config
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06-1/software/gda/i06-config/properties/JCALibrary.properties
+-Djacorb.config.dir=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/jacorb_i06-1
+-Dgda.propertiesFile=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/java.properties_i06-1
+-Dgda.config=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir</vmArgs>
       <vmArgsLin>-client
 -Xms128m

@@ -19,6 +19,19 @@ print "-------------------------------------------------------------------"
 print "Note: Use image.open('/full/file/name') to plot image on the 'PEEM Image' panel"
 execfile(gdaScriptDir + "BeamlineI06/useImageUtility.py");
 
+# Setup Leem2000 before calling usePeem as leem_fov is needed by it.
+try:
+    import LEEM2000_tcp
+    leem2000=LEEM2000_tcp.leem2000()
+    leem_stv=LEEM2000_tcp.leem_scannable("leem_stv","Start voltage", '%.2f' , leem2000)
+    leem_obj=LEEM2000_tcp.leem_scannable("leem_obj","Objective", '%.2f' , leem2000)
+    leem_objStigmA=LEEM2000_tcp.leem_scannable("leem_objStigmA","Obj.stigm. a", '%.2f' , leem2000)
+    leem_objStigmB=LEEM2000_tcp.leem_scannable("leem_objStigmB","Obj.stigm. b", '%.2f' , leem2000)
+    leem_fov=LEEM2000_tcp.leem_readonly("leem_fov", "prl", leem2000)
+except:
+    exceptionType, exception, traceback=sys.exc_info();
+    handle_messages.log(None, "Error connecting to LEEM2000 ", exceptionType, exception, traceback, False)
+
 #Setup the PEEM and the UView Camera software
 try:
     print "-------------------------------------------------------------------"
@@ -95,15 +108,3 @@ except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  Errors when running the BeamlineI06/XEnergy/xenergy.py from localstation_i06.py"
     logger.dump("---> ", exceptionType, exception, traceback)
-
-try:
-    import LEEM2000_tcp
-    leem2000=LEEM2000_tcp.leem2000()
-    leem_stv=LEEM2000_tcp.leem_scannable("leem_stv","Start voltage", '%.2f' , leem2000)
-    leem_obj=LEEM2000_tcp.leem_scannable("leem_obj","Objective", '%.2f' , leem2000)
-    leem_objStigmA=LEEM2000_tcp.leem_scannable("leem_objStigmA","Obj.stigm. a", '%.2f' , leem2000)
-    leem_objStigmB=LEEM2000_tcp.leem_scannable("leem_objStigmB","Obj.stigm. b", '%.2f' , leem2000)
-    leem_fov=LEEM2000_tcp.leem_readonly("leem_fov", "prl", leem2000)
-except:
-    exceptionType, exception, traceback=sys.exc_info();
-    handle_messages.log(None, "Error connecting to LEEM2000 ", exceptionType, exception, traceback, False)

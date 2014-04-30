@@ -12,6 +12,27 @@ from gda.configuration.properties import LocalProperties
 
 localStationErrorCount=0
 
+from scannables import Keithley2612, Keith2612CurrentMeter, Keith2612VoltSource
+Keithley=Keithley2612.Keithley2612(channel=0, function=1, pvBase='BL06J-EA-USER-01:ASYN6.')
+volt=Keith2612VoltSource.Keith2612VoltSource('volt', Keithley, 1)
+curr=Keith2612CurrentMeter.Keith2612CurrentMeter('curr', Keithley, 1)
+kon=Keithley.turnOn
+koff=Keithley.turnOff
+alias('kon')
+alias('koff')
+
+from scannables import KepkoCurrent, KepkoMagnet
+print"-> connect the Kepko to Analogue output 2 in patch panel U2 (branchline)"
+magnet = KepkoMagnet.KepkoMagnet("magnet", "BL06J-EA-USER-01:AO2")
+print"-> magnet calibration for pole gap = 35.4 mm and bobbin turns = 784" 
+magnet.setConvCoeff([0, 253.16, 7.22765, 9.37523, -1.81716, -3.49587, 0.155178, 0.267718, -0.00433883, -0.00662351])
+magnet.setInvConvCoeff([0, 0.00369277, -7.65554e-07, 6.49905e-09,5.76312e-12, -6.23302e-14, -1.77119e-17, 2.0429e-19,1.8207e-23, -1.70236e-25])
+
+# Since the BeamlineFunctionClass is common between Main and Branch line, if
+# we want i06-1 elog messages to be written to the i06-1 eLog, we have to
+# override elogID here:
+i06.elogID="BLI06-1"
+
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
 
@@ -86,12 +107,11 @@ except:
     logger.dump("---> ", exceptionType, exception, traceback)
     localStationErrorCount+=1
 
-    
-##to setup the scan processing wrappers
-#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-#scan_processor.rootNamespaceDict=globals()
-#import gdascripts.utils #@UnusedImport
-#gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
+# Set up the scan processing wrappers
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+import gdascripts.utils #@UnusedImport
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
 
 print "-------------------------------------------------------------------"
 print "==================================================================="

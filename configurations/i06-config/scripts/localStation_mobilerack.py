@@ -89,7 +89,7 @@ try:
 	execfile(gdaScriptDir + "BeamlineI06/setSpecialScans.py");
 except:
 	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  rscan Error "
+	print "XXXXXXXXXX:  mrscan Error "
 	logger.dump("---> ", exceptionType, exception, traceback)
 
 try:	
