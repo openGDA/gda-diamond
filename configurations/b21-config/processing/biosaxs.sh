@@ -65,7 +65,7 @@ mkdir ${WORKSPACE}/workflows/
 WORKSPACEMOML=${WORKSPACE}/workflows/reduction.moml
 ln -s $MOML $WORKSPACEMOML
 
-SCRIPT=$TMPDIR/qsub.script
+SCRIPT=$TMPDIR/biosaxsqsub.script
 cat >> $SCRIPT <<EOF
 #! /bin/sh
 
@@ -124,4 +124,4 @@ $ISPYBUPDATE analysis $DATACOLLID COMPLETE $ANALYSISOUTPUT
 EOF
 
 #bash $SCRIPT > ${SCRIPT}.stdout 2> ${SCRIPT}.errout
-qsub -pe smp 8-16 -q medium.q $SCRIPT
+qsub -pe smp 8-16 -q medium.q -l h_rt=01:30:00 -N ${BEAMLINE}BIOSAXS $SCRIPT
