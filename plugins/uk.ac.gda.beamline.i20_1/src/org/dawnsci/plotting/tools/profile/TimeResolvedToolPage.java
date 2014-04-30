@@ -616,7 +616,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 					public String isValid(String newText) {
 						try {
 							double value = Double.parseDouble(newText);
-							if (value > 0) {
+							if (value >= 0) {
 								return null;
 							}
 							return "Only positive number is allowed";
@@ -628,6 +628,10 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				if (dlg.open() ==  Window.OK) {
 					traceStack = Double.parseDouble(dlg.getValue());
 					stackToggle.setToolTipText(Double.toString(traceStack));
+					// TODO Have to redraw
+					//					filterDecorator.removeFilter(stackFilter);
+					//					filterDecorator.addFilter(stackFilter);
+					//					filterDecorator.apply();
 				}
 			}
 		});
@@ -720,6 +724,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			}
 		}
 	};
+
+
+	private IFilterDecorator filterDecorator;
 
 
 	private void addRegionAction(SpectraRegionDataNode spectraRegion) {
@@ -925,9 +932,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				plottingSystem.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 				plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
 				plottingSystem.getSelectedYAxis().setAxisAutoscaleTight(true);
-				IFilterDecorator filter = PlottingFactory.createFilterDecorator(plottingSystem);
+				filterDecorator = PlottingFactory.createFilterDecorator(plottingSystem);
 				plottingSystem.setRescale(true);
-				filter.addFilter(stackFilter);
+				filterDecorator.addFilter(stackFilter);
 			}
 		} catch (Exception e) {
 			logger.error("Unable to create plotting system", e);
