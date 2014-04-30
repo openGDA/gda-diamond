@@ -35,11 +35,11 @@
                label="Area Detectors">
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="mar MPeg"
+                  label="Mar345 (mar) Array View"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
                </parameter>
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
@@ -48,7 +48,7 @@
             </command>
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="mpx (Merlin) Array"
+                  label="Merlin (mpx) Array View"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
@@ -61,7 +61,20 @@
             </command>
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="pe MPeg"
+                  label="Perkin Elmer (pe) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pe">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Perkin Elmer (pe) Live (MPeg) View"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
