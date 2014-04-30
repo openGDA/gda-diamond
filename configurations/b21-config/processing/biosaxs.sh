@@ -69,11 +69,13 @@ SCRIPT=$TMPDIR/biosaxsqsub.script
 cat >> $SCRIPT <<EOF
 #! /bin/sh
 
-## set data reduction to started
-$ISPYBUPDATE reduction $DATACOLLID STARTED \"\"
+. /usr/share/Modules/init/sh
 
 module load java/7-64
-module load python/2.7.2-64
+module load python/ana
+
+## set data reduction to started
+$ISPYBUPDATE reduction $DATACOLLID STARTED \"\"
 
 export MALLOC_ARENA_MAX=4
 
@@ -116,7 +118,6 @@ fi
 # tell ispyb reduction worked and result is in \$REDUCEDFILE
 $ISPYBUPDATE reduction $DATACOLLID COMPLETE \$REDUCEDFILE
 
-module load numpy/1.6.1
 mkdir $ANALYSISOUTPUT
 $ISPYBUPDATE analysis $DATACOLLID STARTED \"\"
 python $EDNAPYSCRIPT --filename \$REDUCEDFILE --backgroundFilename $BACKGROUNDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 4 
