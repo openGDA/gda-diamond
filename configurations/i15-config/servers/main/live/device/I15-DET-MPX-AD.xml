@@ -1,0 +1,135 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<!-- Devices which are required by the Image views are defined in the spring config shared with the client -->
+	<import resource="../../../main/common/device/mpxAreaDetector.xml"/>
+	<!-- Devices which are defined in Epics but not needed by the client are defined below -->
+
+	<bean id="mpxAD_summary_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:ROI1:" />
+	</bean>
+
+	<bean id="mpxAD_summary_roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:ROI2:" />
+	</bean>
+
+	<bean id="mpxAD_summary_roi3" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:ROI3:" />
+	</bean>
+
+	<bean id="mpxAD_summary_roi4" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:ROI4:" />
+	</bean>
+
+	<bean id="mpxAD_summary_roi5" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:ROI5:" />
+	</bean>
+
+	<bean id="mpxAD_summary_roi6" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:ROI6:" />
+	</bean>
+
+	<bean id="mpxAD_summary_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:STAT1:" />
+	</bean>
+
+	<bean id="mpxAD_summary_stat2" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:STAT2:" />
+	</bean>
+
+	<bean id="mpxAD_summary_stat3" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:STAT3:" />
+	</bean>
+
+	<bean id="mpxAD_summary_stat4" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:STAT4:" />
+	</bean>
+
+	<bean id="mpxAD_summary_stat5" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:STAT5:" />
+	</bean>
+
+	<bean id="mpxAD_summary_stat6" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:STAT6:" />
+	</bean>
+
+	<bean id="mpx_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15I-EA-DET-18:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="mpx_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL15I-EA-DET-18:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<!-- We need to make a PE collection strategy which understands about PE states -->
+
+	<!-- MultipleExposureSoftwareTriggerAutoMode(ADBase adBase, double maxExposureTime) -->
+
+	<bean id="mpx_SingleExposureStandardCollectionStrategy"
+		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="mpxAD_config_base" />
+		<constructor-arg value="-1" />
+	</bean>
+	<!-- Here we need a Merlin specific collection strategy which understands the different modes
+	 -->
+
+	<!-- NXDetector file writers -->
+
+	<bean id="mpx_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="mpx_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-mpx" />
+		<property name="fileNumberAtScanStart" value="-1" /> <!-- 1 results in filenames of the form 92920-pe92920.hdf5 -->
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+
+	<!-- SingleImagePerFileWriter(String detectorName)
+	 -->
+	<bean id="mpx_tiff_SingleImagePerFileWriter"
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="mpx" />
+		<property name="ndFile" ref="mpx_NDFileTiff" />
+		<property name="keyNameForMetadataPathTemplate" value="mpx_path_template" />
+		<property name="fileNumberAtScanStart" value="1" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="mpx" class="gda.device.detector.NXDetector">
+		<property name="name" value="mpx" />
+		<property name="collectionStrategy" ref="mpx_SingleExposureStandardCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mpxHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="mpx"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="mpx_SingleExposureStandardCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mar_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mar_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+</beans>

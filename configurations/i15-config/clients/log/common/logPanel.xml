@@ -9,7 +9,7 @@
             <level>ALL</level>
         </filter>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level %logger - %m %ex %n</pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>
     </appender>
 

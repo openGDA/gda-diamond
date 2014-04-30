@@ -22,7 +22,7 @@
 		<GroupID>DA</GroupID>
 		<UserID>gda</UserID>
         <layout class="ch.qos.logback.classic.PatternLayout">
-        	<pattern>%-5level [%logger] %ex - %m%n</pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>	    
     </appender>-->  
 

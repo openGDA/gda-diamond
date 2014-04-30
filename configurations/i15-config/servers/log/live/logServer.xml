@@ -47,7 +47,7 @@
             <cssBuilder class="ch.qos.logback.core.html.UrlCssBuilder">
                 <url>address_of_a_custom_stylesheet.css</url>
             </cssBuilder>
-            <Pattern>%date%thread%level%logger%msg</Pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
             <Title>Logging Events</Title>
         </layout>
     </appender>-->
@@ -56,7 +56,7 @@
         <To>paul.gibbons@diamond.ac.uk</To>
         <From>gda-support@dl.ac.uk</From>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{35} - %message%n</Pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>	    
     </appender>-->
     
@@ -66,7 +66,7 @@
 		<GroupID>DA</GroupID>
 		<UserID>GDA</UserID>
         <layout class="ch.qos.logback.classic.PatternLayout">
-        	<pattern>%-5level [%logger] %ex - %m%n</pattern>
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>	    
     </appender-->    
 

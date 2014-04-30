@@ -5,6 +5,7 @@
 
 	<import resource="dummy.xml"/>
 	<import resource="marAreaDetector.xml"/>
+	<import resource="mpxAreaDetector.xml"/>
 	<import resource="peAreaDetector.xml"/>
 	<!-- 
 	<import resource="zebraTestAreaDetector.xml"/>
