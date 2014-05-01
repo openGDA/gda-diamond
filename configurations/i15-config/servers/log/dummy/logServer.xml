@@ -6,7 +6,7 @@
 
     <!-- include file is relative to the application directory -->
 
-    <!-- DebugFILE                                                             servers/log/common/logServer.xml -->
+    <!-- ServerDebugFILE                                                       servers/log/common/logServer.xml -->
     <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/>
 
     <!-- Console LogPanel DebugPanel                                           servers/log/common/logSharedWithClients.xml -->
@@ -17,7 +17,7 @@
 
     <root>
         <level value="INFO"/>
-        <appender-ref ref="DebugFILE"/>
+        <appender-ref ref="ServerDebugFILE"/>
         <appender-ref ref="localhost"/>
         <appender-ref ref="localhost_LogPanel"/>
      </root>

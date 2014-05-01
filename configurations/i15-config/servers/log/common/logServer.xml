@@ -4,7 +4,7 @@
     <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
     <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
 
-    <appender name="DebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="ServerDebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>${gda.logs.dir}/gda_server.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>

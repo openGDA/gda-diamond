@@ -6,7 +6,7 @@
 
     <!-- Client include files are relative to the application directory -->
 
-    <!-- DebugFILE                                                       clients/main/common/logClient.xml -->
+    <!-- ClientDebugFILE                                                 clients/main/common/logClient.xml -->
     <include file="../workspace_git/gda-mt.git/configurations/i15-config/clients/main/common/logClient.xml"/>
 
     <!-- Console LogPanel DebugPanel                                     servers/log/common/logSharedWithClients.xml -->
@@ -19,7 +19,7 @@
         <level value="INFO"/>
         <appender-ref ref="Console"/>
         <appender-ref ref="LogPanel"/>
-        <appender-ref ref="DebugFILE"/>
+        <appender-ref ref="ClientDebugFILE"/>
         <appender-ref ref="WS001_LogPanel"/>
         <appender-ref ref="WS002_LogPanel"/>
         <appender-ref ref="WS005_LogPanel"/>
