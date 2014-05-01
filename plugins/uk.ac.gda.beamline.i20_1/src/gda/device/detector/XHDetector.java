@@ -1318,7 +1318,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	@Override
 	public boolean isEnergyCalibrationSet() {
-		return (calibration == null);
+		return (calibration != null);
 	}
 
 	@Override
