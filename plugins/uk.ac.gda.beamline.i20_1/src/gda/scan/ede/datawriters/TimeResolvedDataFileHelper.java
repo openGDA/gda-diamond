@@ -251,8 +251,8 @@ public class TimeResolvedDataFileHelper {
 					tempDataset = tempDataset.take(excludedCycles, 0);
 				}
 				tempDataset.squeeze(true);
-				tempDataset = tempDataset.sum(0);
-				tempDataset.idivide(noOfCycles).setShape(new int[]{1, numberOfChannels});
+				tempDataset = tempDataset.mean(0);
+				tempDataset.setShape(new int[]{1, numberOfChannels});
 				avgDataset = (DoubleDataset) DatasetUtils.append(avgDataset, tempDataset, 0);
 			}
 		} else {
@@ -476,8 +476,7 @@ public class TimeResolvedDataFileHelper {
 			int j = 0;
 			for (int i = 0; i < avgSpectraList.length; i++) {
 				RangeData avgInfo = avgSpectraList[i];
-				int noOfSpectrumToAvg = avgInfo.getEndIndex() - avgInfo.getStartIndex() + 1;
-				DoubleDataset avgDataItem = (DoubleDataset) dataToAdd.getSlice(new int[]{avgInfo.getStartIndex(), 0}, new int[]{avgInfo.getEndIndex() + 1, noOfChannels}, null).sum(0).idivide(noOfSpectrumToAvg);
+				DoubleDataset avgDataItem = (DoubleDataset) dataToAdd.getSlice(new int[]{avgInfo.getStartIndex(), 0}, new int[]{avgInfo.getEndIndex() + 1, noOfChannels}, null).mean(0);
 				avgDataItem.setShape(new int[]{1, noOfChannels});
 				if (avgInfo.getStartIndex() - j > 0) {
 					AbstractDataset sliceToAppend = dataToAdd.getSlice(new int[]{j, 0}, new int[]{avgInfo.getStartIndex(), noOfChannels}, null);

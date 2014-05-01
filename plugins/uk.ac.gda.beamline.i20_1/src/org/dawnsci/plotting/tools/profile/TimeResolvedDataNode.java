@@ -62,6 +62,7 @@ public class TimeResolvedDataNode {
 		double time = 0.0d;
 		int totalSpectraUptoCurrentGroup = timingGroupsArray[currentGroupIndex].getNoOfFrames();
 		List<SpectrumDataNode> spectraList = new ArrayList<SpectrumDataNode>();
+		boolean averaged = false;
 		for (int i = 0; i < totalSpectra; i++) {
 			if (avgSpectraList != null && j < avgSpectraList.length) {
 				avgRange = avgSpectraList[j];
@@ -77,10 +78,12 @@ public class TimeResolvedDataNode {
 						}
 					}
 					j++;
+					averaged = true;
 				}
 			}
 			time += timingGroupsArray[currentGroupIndex].getTimePerSpectrum();
-			spectraList.add(new SpectrumDataNode(k, time));
+			spectraList.add(new SpectrumDataNode(k, time, averaged));
+			averaged = false;
 			if (i == totalSpectraUptoCurrentGroup) {
 				timingGroups.add(new TimingGroupDataNode("", timingGroupsArray[currentGroupIndex].getTimePerSpectrum(), spectraList));
 				spectraList = new ArrayList<SpectrumDataNode>();

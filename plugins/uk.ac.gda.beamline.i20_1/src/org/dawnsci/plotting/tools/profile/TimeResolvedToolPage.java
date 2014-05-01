@@ -85,6 +85,8 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -462,7 +464,17 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		nameColumn.setText("Name");
 		nameColumn.setWidth(155);
 		TreeViewerColumn nameViewerColumn = new TreeViewerColumn(spectraTreeTable, nameColumn);
-		nameViewerColumn.setLabelProvider(new ColumnLabelProvider());
+		nameViewerColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public Image getImage(Object element) {
+				if (element instanceof SpectrumDataNode) {
+					if (((SpectrumDataNode) element).isAveraged()) {
+						return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJS_INFO_TSK);
+					}
+				}
+				return super.getImage(element);
+			}
+		});
 
 		TreeColumn timeColumn = new TreeColumn(spectraTree, SWT.CENTER);
 		timeColumn.setAlignment(SWT.LEFT);
@@ -472,10 +484,19 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		timeViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				if (element instanceof TimingGroupDataNode || element instanceof CycleDataNode) {
-					return "";
+				if (element instanceof SpectrumDataNode) {
+					return DataHelper.roundDoubletoString(((SpectrumDataNode) element).getEndTime()) + " s";
 				}
-				return DataHelper.roundDoubletoString(((SpectrumDataNode) element).getEndTime()) + " s";
+				return "";
+			}
+			@Override
+			public Color getBackground(Object element) {
+				if (element instanceof SpectrumDataNode) {
+					if (((SpectrumDataNode) element).isAveraged()) {
+						return  Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW);
+					}
+				}
+				return super.getBackground(element);
 			}
 		});
 

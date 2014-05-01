@@ -25,11 +25,13 @@ public class SpectrumDataNode {
 	private final double endTime;
 	private final int index;
 	private final String name;
+	private final boolean isAveraged;
 	private ITrace trace;
 
-	public SpectrumDataNode(int index, double endTime) {
+	public SpectrumDataNode(int index, double endTime, boolean isAveraged) {
 		this.endTime = endTime;
 		this.index = index;
+		this.isAveraged = isAveraged;
 		name = "Spectrum " + index;
 	}
 
@@ -52,6 +54,10 @@ public class SpectrumDataNode {
 
 	public void setTrace(ITrace trace) {
 		this.trace = trace;
+	}
+
+	public boolean isAveraged() {
+		return isAveraged;
 	}
 
 	public void clearTrace() {
