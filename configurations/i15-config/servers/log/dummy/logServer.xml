@@ -6,18 +6,14 @@
 
     <!-- include file is relative to the application directory -->
 
-    <!-- DebugFILE                                                                             servers/log/common/logServer.xml -->
-    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/> -->
-    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/>
+    <!-- DebugFILE                                                             servers/log/common/logServer.xml -->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/>
 
-    <!-- Console                                                                               servers/log/common/logSharedWithClients.xml -->
-    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/> -->
-    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
+    <!-- Console LogPanel DebugPanel                                           servers/log/common/logSharedWithClients.xml -->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
 
-    <!-- localhost localhost_LogPanel                                                          servers/log/dummy/logSharedWithClients.xml"/> -->
-    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/dummy/logSharedWithClients.xml"/> -->
-    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/dummy/logSharedWithClients.xml"/>
-
+    <!-- localhost localhost_LogPanel                                          servers/log/dummy/logSharedWithClients.xml-->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/dummy/logSharedWithClients.xml"/>
 
     <root>
         <level value="INFO"/>
