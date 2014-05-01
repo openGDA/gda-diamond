@@ -637,8 +637,8 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             lsdp=jns.lastScanDataPoint()
             OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
         
-        #ensure the soft control of the shutter is open at the end of the scan
-        tomography_shutter.moveTo( "Open")	
+        #Close the fast shutter to prevent warming of sample
+        tomography_shutter.moveTo( "Close")	
         #turn camera back on
         tomodet.setupForAlignment()
         

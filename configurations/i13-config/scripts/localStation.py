@@ -105,8 +105,8 @@ try:
 	try:
 		if isLive():
 
-			createPVScannable( "mono_fine_pitch_demand", "BL13I-OP-DCM-01:BRAGG:FINE:DEMANDPOS")
-			createPVScannable( "mono_fine_pitch", "BL13I-OP-DCM-01:BRAGG:FINE:CURPOS")
+			createPVScannable( "dcm_fine_pitch_demand", "BL13I-OP-DCM-01:BRAGG:FINE:DEMANDPOS")
+			createPVScannable( "dcm_fine_pitch", "BL13I-OP-DCM-01:BRAGG:FINE:CURPOS")
 			createPVScannable( "d1_total", "BL13I-DI-PHDGN-01:STAT:Total_RBV")
 			createPVScannable( "expt_fastshutter_raw", "BL13I-EA-FSHTR-01:CONTROL", hasUnits=False)
 			expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
