@@ -73,7 +73,6 @@ import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -147,13 +146,12 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private Binding selectedSpectraBinding;
 
-
 	// TODO Review the page lifecycle
 	private boolean spectraDataLoaded = false;
 
-	private boolean isCyclicExperiment = false;
-
 	private double traceStack = STACK_OFFSET;
+
+	private int[] cyclesInfo;
 
 	@Override
 	public void activate() {
@@ -188,7 +186,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			if (!timeResolvedNexusFileHelper.isTimeResolvedDataFile()) {
 				return;
 			}
-			isCyclicExperiment = timeResolvedNexusFileHelper.isCyclicExperiment();
+			cyclesInfo = timeResolvedNexusFileHelper.getCyclesInfo();
 			timeResolvedData = new TimeResolvedDataNode();
 			timeResolvedData.setData(timeResolvedNexusFileHelper.getItMetadata());
 			energy = timeResolvedNexusFileHelper.getEnergy();
@@ -610,21 +608,19 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				}
 			}
 		});
+		if (cyclesInfo != null) {
+			ToolItem exportCycle = new ToolItem(toolBar, SWT.PUSH);
+			exportCycle.setText("");
+			exportCycle.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVEAS_EDIT));
+			exportCycle.addListener(SWT.Selection, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
 
-		ToolItem exportCycle = new ToolItem(toolBar, SWT.PUSH);
-		exportCycle.setText("");
-		exportCycle.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVEAS_EDIT));
-		exportCycle.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				if (isCyclicExperiment) {
 					TimeResolvedToolPageHelper timeResolvedToolPageHelper = new TimeResolvedToolPageHelper();
-					timeResolvedToolPageHelper.averageCyclesAndExport(dataFile, TimeResolvedToolPage.this.getControl().getDisplay());
-				} else {
-					MessageDialog.openWarning(TimeResolvedToolPage.this.getControl().getShell(), "Unable to process", "Cycle data unavailable");
+					timeResolvedToolPageHelper.averageCyclesAndExport(dataFile, TimeResolvedToolPage.this.getControl().getDisplay(), cyclesInfo);
 				}
-			}
-		});
+			});
+		}
 
 		final ToolItem stackToggle = new ToolItem(toolBar, SWT.PUSH);
 		stackToggle.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_DEF_VIEW));

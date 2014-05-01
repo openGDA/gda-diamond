@@ -84,14 +84,16 @@ public class TimeResolvedDataNode {
 			time += timingGroupsArray[currentGroupIndex].getTimePerSpectrum();
 			spectraList.add(new SpectrumDataNode(k, time, averaged));
 			averaged = false;
-			if (i == totalSpectraUptoCurrentGroup) {
+			if (i == totalSpectraUptoCurrentGroup - 1) { // to index
 				timingGroups.add(new TimingGroupDataNode("", timingGroupsArray[currentGroupIndex].getTimePerSpectrum(), spectraList));
 				spectraList = new ArrayList<SpectrumDataNode>();
 				currentGroupIndex++;
-				totalSpectraUptoCurrentGroup += timingGroupsArray[currentGroupIndex].getNoOfFrames();
+				if (currentGroupIndex < timingGroupsArray.length) {
+					totalSpectraUptoCurrentGroup += timingGroupsArray[currentGroupIndex].getNoOfFrames();
+				}
 			}
 			k++;
 		}
-		timingGroups.add(new TimingGroupDataNode("", timingGroupsArray[currentGroupIndex].getTimePerSpectrum(), spectraList));
+		// timingGroups.add(new TimingGroupDataNode("", timingGroupsArray[currentGroupIndex].getTimePerSpectrum(), spectraList));
 	}
 }

@@ -44,21 +44,12 @@ import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.common.rcp.UIHelper;
-
 public class TimeResolvedToolPageHelper {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedToolPageHelper.class);
 
-	public void averageCyclesAndExport(File nexusFile, Display display) {
+	public void averageCyclesAndExport(File nexusFile, Display display, int[] availableCycles) {
 		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusFile.getAbsolutePath());
-		int[] availableCycles;
-		try {
-			availableCycles = timeResolvedNexusFileHelper.getCyclesInfo();
-		} catch (Exception e) {
-			UIHelper.showWarning("Unable to retrieve cycles information", e.getMessage());
-			return;
-		}
 		Integer[] availArray = new Integer[availableCycles.length];
 		List<Integer> excludedList = new ArrayList<Integer>();
 		for (int i = 0; i <availArray.length; i++) {
