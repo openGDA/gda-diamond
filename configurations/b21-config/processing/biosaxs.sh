@@ -120,7 +120,7 @@ $ISPYBUPDATE reduction $DATACOLLID COMPLETE \$REDUCEDFILE
 
 mkdir $ANALYSISOUTPUT
 $ISPYBUPDATE analysis $DATACOLLID STARTED \"\"
-python $EDNAPYSCRIPT --filename \$REDUCEDFILE --backgroundFilename $BACKGROUNDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 10 
+python $EDNAPYSCRIPT --filename \$REDUCEDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 4 
 $ISPYBUPDATE analysis $DATACOLLID COMPLETE $ANALYSISOUTPUT
 EOF
 
