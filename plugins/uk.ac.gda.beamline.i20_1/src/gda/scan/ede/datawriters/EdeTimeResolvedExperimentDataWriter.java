@@ -26,7 +26,7 @@ import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.scan.EdeScan;
 import gda.scan.ScanDataPoint;
-import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetaData;
+import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -96,21 +96,18 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	 */
 	@Override
 	public String writeDataFile() throws Exception {
-		// it will be assumed that there is an I0 spectrum in both the initial and final data for every timing group in
-		// the itData.
 		validateData();
-		//createI0File();
 		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusfileName);
 
 		// Writing out meta data
-		TimingGroupMetaData[] i0ScanMetaData = createTimingGroupsMetaData(i0InitialLightScan.getScanParameters());
-		TimingGroupMetaData[] itScanMetaData = createTimingGroupsMetaData(itScans[0].getScanParameters());
-		TimingGroupMetaData[] irefScanMetaData = null;
+		TimingGroupMetadata[] i0ScanMetaData = createTimingGroupsMetaData(i0InitialLightScan.getScanParameters());
+		TimingGroupMetadata[] itScanMetaData = createTimingGroupsMetaData(itScans[0].getScanParameters());
+		TimingGroupMetadata[] irefScanMetaData = null;
 		if (iRefScan != null) {
 			irefScanMetaData = createTimingGroupsMetaData(iRefScan.getScanParameters());
 		}
 		// FIXME
-		TimingGroupMetaData[] i0ForIRefScanMetaData = null;
+		TimingGroupMetadata[] i0ForIRefScanMetaData = null;
 
 		String scannablesConfiguration = getScannablesConfiguration();
 		String energyCalibration = null;
@@ -144,11 +141,11 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		return configBuilder.toString();
 	}
 
-	private EdeDataConstants.TimingGroupMetaData[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
-		TimingGroupMetaData[] metaData = new TimingGroupMetaData[scanParameters.getGroups().size()];
+	private EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
+		TimingGroupMetadata[] metaData = new TimingGroupMetadata[scanParameters.getGroups().size()];
 		for (int i = 0; i < scanParameters.getGroups().size(); i++) {
 			TimingGroup group = scanParameters.getGroups().get(i);
-			metaData[i] = new TimingGroupMetaData(i, group.getNumberOfFrames(), group.getTimePerScan(),
+			metaData[i] = new TimingGroupMetadata(i, group.getNumberOfFrames(), group.getTimePerScan(),
 					group.getTimePerFrame(), group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
 		}
 		return metaData;

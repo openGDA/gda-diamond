@@ -466,7 +466,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 		TreeColumn timeColumn = new TreeColumn(spectraTree, SWT.CENTER);
 		timeColumn.setAlignment(SWT.LEFT);
-		timeColumn.setText("Start time");
+		timeColumn.setText("End time");
 		timeColumn.setWidth(60);
 		TreeViewerColumn timeViewerColumn = new TreeViewerColumn(spectraTreeTable, timeColumn);
 		timeViewerColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -475,7 +475,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				if (element instanceof TimingGroupDataNode || element instanceof CycleDataNode) {
 					return "";
 				}
-				return DataHelper.roundDoubletoString(((SpectrumDataNode) element).getStartTime()) + " s";
+				return DataHelper.roundDoubletoString(((SpectrumDataNode) element).getEndTime()) + " s";
 			}
 		});
 

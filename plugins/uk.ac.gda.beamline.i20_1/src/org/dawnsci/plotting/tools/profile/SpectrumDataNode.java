@@ -22,19 +22,19 @@ import org.dawnsci.plotting.api.trace.ITrace;
 
 
 public class SpectrumDataNode {
-	private final double startTime;
+	private final double endTime;
 	private final int index;
 	private final String name;
 	private ITrace trace;
 
-	public SpectrumDataNode(int index, double startTime) {
-		this.startTime = startTime;
+	public SpectrumDataNode(int index, double endTime) {
+		this.endTime = endTime;
 		this.index = index;
 		name = "Spectrum " + index;
 	}
 
-	public double getStartTime() {
-		return startTime;
+	public double getEndTime() {
+		return endTime;
 	}
 
 	public int getIndex() {

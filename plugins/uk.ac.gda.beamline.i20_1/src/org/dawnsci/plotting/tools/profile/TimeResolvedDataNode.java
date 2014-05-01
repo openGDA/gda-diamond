@@ -18,15 +18,15 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import gda.scan.ede.datawriters.EdeDataConstants;
+import gda.scan.ede.datawriters.EdeDataConstants.ItMetadata;
+import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
+import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
-
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public class TimeResolvedDataNode {
 
@@ -45,18 +45,50 @@ public class TimeResolvedDataNode {
 		timingGroups.clear();
 	}
 
-	public void setData(DoubleDataset metadata) {
-		int noOfGroups = metadata.getShape()[0];
-		double startTime = 0.0;
-		for (int i = 0; i < noOfGroups; i++) {
-			int noOfSpectra = EdeDataConstants.TimingGroupMetaData.getNoOfSpectra(i, metadata);
-			double timePerSpectrum = EdeDataConstants.TimingGroupMetaData.getTimePerSpectrum(i, metadata);
-			List<SpectrumDataNode> spectraList = new ArrayList<SpectrumDataNode>();
-			for (int j = 0; j < noOfSpectra; j++) {
-				spectraList.add(new SpectrumDataNode(j + (i * noOfSpectra), startTime));
-				startTime += timePerSpectrum;
-			}
-			timingGroups.add(new TimingGroupDataNode(Integer.toString(i), timePerSpectrum, spectraList));
+	public void setData(ItMetadata itMetadata) {
+		TimingGroupMetadata[] timingGroupsArray = itMetadata.getTimingGroups();
+		RangeData[] avgSpectraList = null;
+		int totalSpectra = 0;
+		for (int i = 0; i < timingGroupsArray.length; i++) {
+			totalSpectra += timingGroupsArray[i].getNoOfFrames();
 		}
+		if (itMetadata.getAvgSpectra() != null) {
+			avgSpectraList = itMetadata.getAvgSpectra();
+		}
+		int currentGroupIndex = 0;
+		int j = 0;
+		int k = 0;
+		RangeData avgRange = null;
+		double time = 0.0d;
+		int totalSpectraUptoCurrentGroup = timingGroupsArray[currentGroupIndex].getNoOfFrames();
+		List<SpectrumDataNode> spectraList = new ArrayList<SpectrumDataNode>();
+		for (int i = 0; i < totalSpectra; i++) {
+			if (avgSpectraList != null && j < avgSpectraList.length) {
+				avgRange = avgSpectraList[j];
+				if (avgRange.getStartIndex() == i) {
+					while(i < avgRange.getEndIndex()) {
+						time += timingGroupsArray[currentGroupIndex].getTimePerSpectrum();
+						i++;
+						if (i == totalSpectraUptoCurrentGroup) {
+							timingGroups.add(new TimingGroupDataNode("", timingGroupsArray[currentGroupIndex].getTimePerSpectrum(), spectraList));
+							spectraList = new ArrayList<SpectrumDataNode>();
+							currentGroupIndex++;
+							totalSpectraUptoCurrentGroup += timingGroupsArray[currentGroupIndex].getNoOfFrames();
+						}
+					}
+					j++;
+				}
+			}
+			time += timingGroupsArray[currentGroupIndex].getTimePerSpectrum();
+			spectraList.add(new SpectrumDataNode(k, time));
+			if (i == totalSpectraUptoCurrentGroup) {
+				timingGroups.add(new TimingGroupDataNode("", timingGroupsArray[currentGroupIndex].getTimePerSpectrum(), spectraList));
+				spectraList = new ArrayList<SpectrumDataNode>();
+				currentGroupIndex++;
+				totalSpectraUptoCurrentGroup += timingGroupsArray[currentGroupIndex].getNoOfFrames();
+			}
+			k++;
+		}
+		timingGroups.add(new TimingGroupDataNode("", timingGroupsArray[currentGroupIndex].getTimePerSpectrum(), spectraList));
 	}
 }

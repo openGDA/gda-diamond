@@ -58,7 +58,27 @@ public class EdeDataConstants {
 
 	public static final String ASCII_FILE_EXTENSION = "dat";
 
-	public static class TimingGroupMetaData {
+	public static class ItMetadata {
+		private final TimingGroupMetadata[] timingGroups;
+		private final RangeData[] avgSpectra;
+		private final int[] excludedCycles;
+		public ItMetadata(TimingGroupMetadata[] timingGroups, RangeData[] avgSpectra, int[] excludedCycles) {
+			this.timingGroups = timingGroups;
+			this.avgSpectra = avgSpectra;
+			this.excludedCycles = excludedCycles;
+		}
+		public TimingGroupMetadata[] getTimingGroups() {
+			return timingGroups;
+		}
+		public RangeData[] getAvgSpectra() {
+			return avgSpectra;
+		}
+		public int[] getExcludedCycles() {
+			return excludedCycles;
+		}
+	}
+
+	public static class TimingGroupMetadata {
 		private final int index;
 		private final int noOfFrames;
 		private final double accumulationTime;
@@ -66,7 +86,7 @@ public class EdeDataConstants {
 		private final double preceedingTimeDelay;
 		private final int noOfAccumulations;
 
-		public TimingGroupMetaData(int index, int noOfFrames, double accumulationTime, double timePerSpectrum,
+		public TimingGroupMetadata(int index, int noOfFrames, double accumulationTime, double timePerSpectrum,
 				double preceedingTimeDelay, int noOfAccumulations) {
 			super();
 			this.index = index;
@@ -102,10 +122,10 @@ public class EdeDataConstants {
 			return noOfAccumulations;
 		}
 
-		public static DoubleDataset toDataset(TimingGroupMetaData[] metaData) {
+		public static DoubleDataset toDataset(TimingGroupMetadata[] metaData) {
 			DoubleDataset metaDataset = new DoubleDataset(new int[]{metaData.length, 6});
 			for (int i = 0; i < metaData.length; i++) {
-				TimingGroupMetaData metaDataItem = metaData[i];
+				TimingGroupMetadata metaDataItem = metaData[i];
 				metaDataset.set(metaDataItem.getIndex(), i, 0);
 				metaDataset.set(metaDataItem.getNoOfFrames(), i, 1);
 				metaDataset.set(metaDataItem.getTimePerSpectrum(), i, 2);
@@ -131,10 +151,10 @@ public class EdeDataConstants {
 			return DataHelper.removeLastChar(metadataStr).toString();
 		}
 
-		public static TimingGroupMetaData[] toTimingGroupMetaData(DoubleDataset data) {
-			TimingGroupMetaData[] groups =  new TimingGroupMetaData[data.getShape()[0]];
+		public static TimingGroupMetadata[] toTimingGroupMetaData(DoubleDataset data) {
+			TimingGroupMetadata[] groups =  new TimingGroupMetadata[data.getShape()[0]];
 			for (int i = 0; i < groups.length; i++) {
-				groups[i] = new TimingGroupMetaData((int) data.get(i, 0), (int) data.get(i, 1), data.get(i, 2), data.get(i, 3), data.get(i, 4), (int) data.get(i, 5));
+				groups[i] = new TimingGroupMetadata((int) data.get(i, 0), (int) data.get(i, 1), data.get(i, 2), data.get(i, 3), data.get(i, 4), (int) data.get(i, 5));
 			}
 			return groups;
 		}
