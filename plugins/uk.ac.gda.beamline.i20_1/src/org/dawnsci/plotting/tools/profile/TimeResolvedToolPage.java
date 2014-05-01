@@ -26,13 +26,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
-import org.dawnsci.plotting.api.filter.AbstractPlottingFilter;
 import org.dawnsci.plotting.api.filter.IFilterDecorator;
 import org.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.dawnsci.plotting.api.region.IRegion;
@@ -106,10 +106,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.Maths;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -312,8 +310,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 						if (element instanceof SpectrumDataNode) {
 							SpectrumDataNode spectrum = (SpectrumDataNode) element;
 							if (!plottingSystem.isDisposed()) {
-								plottingSystem.removeTrace(spectrum.getTrace());
-								plottingSystem.repaint();
+								removeFromPlottingSystem((ILineTrace) spectrum.getTrace());
 							}
 							spectrum.clearTrace();
 						}
@@ -325,7 +322,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 							if (!plottingSystem.isDisposed()) {
 								ITrace trace = TimeResolvedToolPage.this.plotSpectrum(spectrum, Integer.toString(spectrum.getIndex()));
 								spectrum.setTrace(trace);
-								plottingSystem.repaint();
+								//	plottingSystem.repaint();
 							}
 						}
 					}
@@ -643,12 +640,10 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 					}
 				});
 				if (dlg.open() ==  Window.OK) {
+					double old = traceStack;
 					traceStack = Double.parseDouble(dlg.getValue());
 					stackToggle.setToolTipText(Double.toString(traceStack));
-					// TODO Have to redraw
-					//					filterDecorator.removeFilter(stackFilter);
-					//					filterDecorator.addFilter(stackFilter);
-					//					filterDecorator.apply();
+					updateStackOffset(old, traceStack);
 				}
 			}
 		});
@@ -948,10 +943,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 						this.getViewPart());
 				plottingSystem.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 				plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
-				plottingSystem.getSelectedYAxis().setAxisAutoscaleTight(true);
-				filterDecorator = PlottingFactory.createFilterDecorator(plottingSystem);
 				plottingSystem.setRescale(true);
-				filterDecorator.addFilter(stackFilter);
 			}
 		} catch (Exception e) {
 			logger.error("Unable to create plotting system", e);
@@ -969,17 +961,15 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	private void addTracesForRegion(SpectraRegionDataNode region) {
 		ITrace[] traces = region.createTraces(plottingSystem, imageTrace, energy);
 		for(ITrace trace : traces) {
-			plottingSystem.addTrace(trace);
+			addToPlottingSystem((ILineTrace) trace);
 		}
-		plottingSystem.repaint(true);
 	}
 
 	private void removeTracesForRegion(SpectraRegionDataNode region) {
 		for(ITrace object : region.getTraces()) {
-			plottingSystem.removeTrace(object);
+			removeFromPlottingSystem((ILineTrace) object);
 		}
 		region.clearTrace();
-		plottingSystem.repaint(true);
 	}
 
 	private ILineTrace plotSpectrum(SpectrumDataNode spectrum, String name) {
@@ -990,23 +980,37 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		ILineTrace trace = plottingSystem.createLineTrace(name);
 		trace.setData(energy, data);
 		trace.setUserObject(spectrum);
-		plottingSystem.addTrace(trace);
+		addToPlottingSystem(trace);
 		return trace;
 	}
 
-	private final AbstractPlottingFilter stackFilter = new AbstractPlottingFilter() {
-		@Override
-		protected IDataset[] filter(IDataset x, IDataset y) {
-			int traces = plottingSystem.getTraces().size();
-			IDataset newY = Maths.add((AbstractDataset) y, new Double(traces * traceStack));
-			newY.setName(y.getName());
-			return new IDataset[]{x, newY};
+	private final List<ILineTrace> stackList = new LinkedList<ILineTrace>();
+	private void addToPlottingSystem(ILineTrace trace) {
+		((DoubleDataset) trace.getYData()).iadd(stackList.size() * traceStack);
+		plottingSystem.addTrace(trace);
+		stackList.add(trace);
+		plottingSystem.repaint();
+	}
+
+	private void removeFromPlottingSystem(ILineTrace trace) {
+		int index = stackList.indexOf(trace);
+		stackList.remove(index);
+		plottingSystem.removeTrace(trace);
+		for (int i = index; i < stackList.size(); i++) {
+			((DoubleDataset) stackList.get(i).getYData()).isubtract(traceStack);
 		}
-		@Override
-		public int getRank() {
-			return 1;
+		plottingSystem.repaint();
+	}
+
+	private void updateStackOffset(double oldOffset, double newOffset) {
+		for (int i = 0; i < stackList.size(); i++) {
+			((DoubleDataset) stackList.get(i).getYData()).isubtract(i * oldOffset);
 		}
-	};
+		for (int i = 0; i < stackList.size(); i++) {
+			((DoubleDataset) stackList.get(i).getYData()).iadd(i * newOffset);
+		}
+		plottingSystem.repaint();
+	}
 
 	private final Action removeRegionAction = new Action("Remove") {
 		@Override
@@ -1106,7 +1110,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	public void tracesUpdated(TraceEvent evt) {}
 
 	@Override
-	public void tracesRemoved(TraceEvent evet) {}
+	public void tracesRemoved(TraceEvent evet) {
+		evet.getSource();
+	}
 
 	@Override
 	public void tracesAdded(TraceEvent evt) {}
