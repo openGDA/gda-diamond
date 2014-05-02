@@ -28,6 +28,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawnsci.plotting.api.IPlottingSystem;
@@ -119,7 +121,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private static final double STACK_OFFSET = 0.1;
 
-
 	private TimeResolvedDataNode timeResolvedData; // = new TimeResolvedDataNode();
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
@@ -150,6 +151,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	private double traceStack = STACK_OFFSET;
 
 	private int[] cyclesInfo;
+
+	private String cycleIndex;
 
 	@Override
 	public void activate() {
@@ -185,6 +188,14 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				return;
 			}
 			cyclesInfo = timeResolvedNexusFileHelper.getCyclesInfo();
+			if (cyclesInfo != null) {
+				Matcher matcher = Pattern.compile("Slice of.*=\\s*(\\d+)\\)").matcher(imageTrace.getName());
+				if (matcher.find()) {
+					cycleIndex = matcher.group(1);
+				}
+			} else {
+				cycleIndex = "";
+			}
 			timeResolvedData = new TimeResolvedDataNode();
 			timeResolvedData.setData(timeResolvedNexusFileHelper.getItMetadata());
 			energy = timeResolvedNexusFileHelper.getEnergy();
@@ -320,9 +331,8 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 						if (element instanceof SpectrumDataNode) {
 							SpectrumDataNode spectrum = (SpectrumDataNode) element;
 							if (!plottingSystem.isDisposed()) {
-								ITrace trace = TimeResolvedToolPage.this.plotSpectrum(spectrum, Integer.toString(spectrum.getIndex()));
+								ITrace trace = TimeResolvedToolPage.this.plotSpectrum(spectrum);
 								spectrum.setTrace(trace);
-								//	plottingSystem.repaint();
 							}
 						}
 					}
@@ -972,11 +982,14 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		region.clearTrace();
 	}
 
-	private ILineTrace plotSpectrum(SpectrumDataNode spectrum, String name) {
+	private ILineTrace plotSpectrum(SpectrumDataNode spectrum) {
 		int index  = spectrum.getIndex();
 		DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{index,0}, new int[]{index + 1, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1, 1});
-		data.setName(name);
 		data.squeeze();
+		String name = Integer.toString(spectrum.getIndex());
+		if (!cycleIndex.isEmpty()) {
+			name = cycleIndex + "-" + name;
+		}
 		ILineTrace trace = plottingSystem.createLineTrace(name);
 		trace.setData(energy, data);
 		trace.setUserObject(spectrum);
