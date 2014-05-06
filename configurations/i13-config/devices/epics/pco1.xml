@@ -105,6 +105,7 @@
 		<property name="lazyOpen" value="true"/>
 <!-- 		<property name="boundaryAlign" value="1048576"/>
  -->		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+		<property name="pathErrorSuppressed" value="true"></property>
 	</bean>
 
 	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
@@ -121,6 +122,7 @@
 		<property name="lazyOpen" value="true"/>
 		<!-- property name="boundaryAlign" value="1048576"/ -->
 		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+		<property name="pathErrorSuppressed" value="true"></property>
 	</bean>
 
 
