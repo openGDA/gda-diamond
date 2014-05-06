@@ -57,9 +57,7 @@ def zacstop():
 	try:
 		fastEnergy.stop();
 		i06util.restoreArchiving();
-#		finder.find("command_server").haltCurrentScan("");
-		InterfaceProvider.getCurrentScanController().haltCurrentScan()
-		InterfaceProvider.getScriptController().haltCurrentScript()
+		InterfaceProvider.getCommandAborter().abortCommands()
 	except :
 		type, exception, traceback = sys.exc_info();
 		logger.fullLog(None, "Error in stopping the zacscan ", type, exception , traceback, False);		

@@ -11,8 +11,6 @@ global RetTilt, RetRotation, AnaTilt ,AnaRotation, \
         AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb
 global mac116, mac117, mac118, mac119, mac120
 
-ScriptBase.interrupted = False  #(RobW, uncomment when this can be safely tested"
-
 import sys
 #from rasor.init_scan_commands_and_processing import * 
 from gda.configuration.properties import LocalProperties
