@@ -1,6 +1,5 @@
 #@PydevCodeAnalysisIgnore
 from gda.jython import ScriptBase
-ScriptBase.interrupted = False
 print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="

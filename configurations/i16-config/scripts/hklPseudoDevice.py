@@ -50,7 +50,7 @@ class hklPseudoDevice(PseudoDevice):
 		# have to check the limits on the DOF motors it moves.  However if a request is made it will not 
 		# be able to perform it will throw an exception.  As long as delta and gamma are moved after it, then we 
 		# logically safe (assuming the exception really stops program flow)
-		panicStop = JythonServerFacade.getInstance().panicStop
+		panicStop = JythonServerFacade.getInstance().beamlineHalt
 		
 		# No need to checkEuler, as it will stop code if a limit is exceeded. 
 		# Delta
