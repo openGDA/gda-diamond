@@ -24,7 +24,6 @@ import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.jython.scriptcontroller.Scriptcontroller;
 import gda.observable.IObserver;
@@ -490,7 +489,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 
 	public void stopScan() {
 		if (this.isScanning()) {
-			JythonServerFacade.getInstance().haltCurrentScan();
+			InterfaceProvider.getCurrentScanController().requestFinishEarly();
 		}
 	}
 
@@ -521,9 +520,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public void doStop() {
-		if (this.isScanning()) {
-			JythonServerFacade.getInstance().haltCurrentScan();
-		}
+		stopScan();
 	}
 
 	public SpectrumModel getCurrentScanningSpectrum() {

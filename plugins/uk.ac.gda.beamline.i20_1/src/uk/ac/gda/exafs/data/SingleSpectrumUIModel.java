@@ -22,7 +22,6 @@ import gda.device.scannable.AlignmentStageScannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
@@ -356,7 +355,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	public void doStop() {
 		if (this.isScanning()) {
-			JythonServerFacade.getInstance().haltCurrentScan();
+			InterfaceProvider.getCurrentScanController().requestFinishEarly();
 		}
 	}
 }
