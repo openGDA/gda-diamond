@@ -96,8 +96,7 @@ public class CheckingScannable extends ScannableBase implements Scannable {
 				}
 				Thread.sleep(1000);
 				curVal = getCurrentValue();
-				ScanBase.checkForInterrupts();
-				if (ScriptBase.isInterrupted()) {
+				if (Thread.interrupted()) {
 					throw new InterruptedException("Script interrupt called inside " + getName());
 				}
 			}

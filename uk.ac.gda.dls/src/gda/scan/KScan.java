@@ -159,13 +159,20 @@ public class KScan extends ScanBase implements Scan {
 				double mdegPosition = mDegForK(currentPosition);
 				double secTime = timeForK(currentPosition);
 
-				checkForInterrupts();
+				checkThreadInterrupted();
+				if (isFinishEarlyRequested()) {
+					break;
+				}
+
 				logger.debug("Moving " + allScannables.get(0).getName() + " by " + step + " to " + currentPosition
 						+ "\n");
 				allScannables.get(0).moveTo(new Double(mdegPosition));
 				// run a nested scan if there is one
 				if (childScan != null) {
-					checkForInterrupts();
+					checkThreadInterrupted();
+					if (isFinishEarlyRequested()) {
+						break;
+					}
 					childScan.run();
 				} else {
 					// Set the collection time for all detectors
@@ -178,14 +185,14 @@ public class KScan extends ScanBase implements Scan {
 				currentPosition += step;
 			}
 
-			if (!interrupted) {
+			if (!getStatus().isAborting()) {
 				logger.debug("Finished scanning over " + allScannables.get(0).getName() + "\n");
 			}
 		}
 		// catch all errors, including InterruptedExceptions thrown by
 		// checkForInterrupts() calls.
 		catch (Exception ex1) {
-			interrupted = true;
+			setStatus(ScanStatus.TIDYING_UP_AFTER_FAILURE);
 			throw ex1;
 		}
 		// at end of scan remove all the observers of the detectors which were

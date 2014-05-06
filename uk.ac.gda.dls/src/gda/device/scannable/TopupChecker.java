@@ -20,8 +20,8 @@ package gda.device.scannable;
 
 import gda.device.DeviceException;
 import gda.device.Monitor;
+import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
-import gda.scan.ScanBase;
 
 import java.util.Date;
 
@@ -105,7 +105,9 @@ public class TopupChecker extends ScannableBase {
 			sendAndPrintMessage(message);
 			while (topupImminent()) {
 
-				ScanBase.checkForInterrupts();
+				if (InterfaceProvider.getCurrentScanController().isFinishEarlyRequested()){
+					return;
+				}
 
 				// check no timeout
 				if ((new Date().getTime() - start) > (timeout * 1000)) {
