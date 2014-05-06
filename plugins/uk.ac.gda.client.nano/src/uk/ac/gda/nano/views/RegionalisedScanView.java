@@ -523,7 +523,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		if( InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE){
 			return;
 		}
-		InterfaceProvider.getCurrentScanController().haltCurrentScan();
+		InterfaceProvider.getCurrentScanController().requestFinishEarly();
 		logger.info("Scan stopped");
 	}
 	
