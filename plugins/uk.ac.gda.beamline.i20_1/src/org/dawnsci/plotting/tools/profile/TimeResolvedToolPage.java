@@ -35,7 +35,6 @@ import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
-import org.dawnsci.plotting.api.filter.IFilterDecorator;
 import org.dawnsci.plotting.api.histogram.ImageServiceBean.HistoType;
 import org.dawnsci.plotting.api.region.IRegion;
 import org.dawnsci.plotting.api.region.IRegionListener;
@@ -187,15 +186,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			if (!timeResolvedNexusFileHelper.isTimeResolvedDataFile()) {
 				return;
 			}
-			cyclesInfo = timeResolvedNexusFileHelper.getCyclesInfo();
-			if (cyclesInfo != null) {
-				Matcher matcher = Pattern.compile("Slice of.*=\\s*(\\d+)\\)").matcher(imageTrace.getName());
-				if (matcher.find()) {
-					cycleIndex = matcher.group(1);
-				}
-			} else {
-				cycleIndex = "";
-			}
+			checkAndFillCyclicInfo(timeResolvedNexusFileHelper);
 			timeResolvedData = new TimeResolvedDataNode();
 			timeResolvedData.setData(timeResolvedNexusFileHelper.getItMetadata());
 			energy = timeResolvedNexusFileHelper.getEnergy();
@@ -207,6 +198,18 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		} catch (Exception e) {
 			logger.error("Unable to find group data, not a valid dataset", e);
 			UIHelper.showError("Unable to find group data, not a valid dataset", e.getMessage());
+		}
+	}
+
+	private void checkAndFillCyclicInfo(TimeResolvedDataFileHelper timeResolvedNexusFileHelper) throws Exception {
+		cyclesInfo = timeResolvedNexusFileHelper.getCyclesInfo();
+		if (cyclesInfo != null) {
+			Matcher matcher = Pattern.compile("Slice of.*=\\s*(\\d+)\\)").matcher(this.getPlottingSystem().getTitle());
+			if (matcher.find()) {
+				cycleIndex = matcher.group(1);
+			}
+		} else {
+			cycleIndex = "";
 		}
 	}
 
@@ -747,10 +750,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		}
 	};
 
-
-	private IFilterDecorator filterDecorator;
-
-
 	private void addRegionAction(SpectraRegionDataNode spectraRegion) {
 		selectedSpectraList.clear();
 		addSpectraRegion(spectraRegion);
@@ -852,7 +851,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				case 0: return spectraRegionToolDataModel.getRegion().getLabel();
 				case 1: return Integer.toString(spectraRegionToolDataModel.getStart().getIndex());
 				case 2: return Integer.toString(spectraRegionToolDataModel.getEnd().getIndex());
-				case 3: return spectraRegionToolDataModel.getDescription();
+				case 3: return spectraRegionToolDataModel.toString();
 				default : return "Unkown column";
 				}
 			}
@@ -969,9 +968,21 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private void addTracesForRegion(SpectraRegionDataNode region) {
-		ITrace[] traces = region.createTraces(plottingSystem, imageTrace, energy);
-		for(ITrace trace : traces) {
-			addToPlottingSystem((ILineTrace) trace);
+		DoubleDataset data = region.getDataset((DoubleDataset) imageTrace.getData());
+		int noOfSpectra = data.getShape()[0];
+		int noOfChannels = data.getShape()[1];
+		String name = region.toString();
+		if (!cycleIndex.isEmpty()) {
+			name = cycleIndex + "-" + name;
+		}
+		for (int i = 0; i < noOfSpectra; i++) {
+			DoubleDataset dataItem = (DoubleDataset) data.getSliceView(new int[]{i, 0}, new int[]{i + 1, noOfChannels}, null);
+			dataItem.setName(name + " " + i);
+			dataItem.squeeze();
+			ILineTrace trace = plottingSystem.createLineTrace(name + " " + i);
+			region.addTrace(trace);
+			trace.setData(energy, dataItem);
+			addToPlottingSystem(trace);
 		}
 	}
 

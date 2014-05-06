@@ -45,7 +45,7 @@ public class SpectrumDataNode {
 
 	@Override
 	public String toString() {
-		return name;
+		return Integer.toString(index);
 	}
 
 	public ITrace getTrace() {
