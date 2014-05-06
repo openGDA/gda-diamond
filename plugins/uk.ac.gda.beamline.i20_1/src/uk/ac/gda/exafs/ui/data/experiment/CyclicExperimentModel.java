@@ -71,7 +71,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 					for (int i=existingCycles; i < noOfRepeatedGroups; i++) {
 						CyclicExperimentDataModel experimentCycleModel = new CyclicExperimentDataModel(CyclicExperimentModel.this);
 						experimentCycleModel.setName("Cycle " + (i + 1));
-						experimentCycleModel.setTimes(i * CyclicExperimentModel.this.getDuration(), CyclicExperimentModel.this.getDuration());
+						experimentCycleModel.setTimes(i * CyclicExperimentModel.this.experimentTimingData.getDuration(), CyclicExperimentModel.this.experimentTimingData.getDuration());
 						cyclicTimeBarRowModel.addInterval(experimentCycleModel);
 
 					}

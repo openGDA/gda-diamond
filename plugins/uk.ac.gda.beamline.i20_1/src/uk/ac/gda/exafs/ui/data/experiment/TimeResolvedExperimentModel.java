@@ -52,6 +52,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
+import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
@@ -68,7 +69,7 @@ import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 
-public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
+public class TimeResolvedExperimentModel extends ObservableModel {
 
 	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
 
@@ -136,6 +137,13 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	@Expose
 	private ExperimentDataModel experimentDataModel;
 
+	protected final ExperimentTimingDataModel experimentTimingData = new ExperimentTimingDataModel() {
+		@Override
+		public void dispose() {
+			// Nothing to dispose
+		}
+	};
+
 	public void setup() {
 		setupTimebarModel();
 		groupList.addListChangeListener(new IListChangeListener() {
@@ -195,7 +203,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			}
 		});
 		if (savedGroups == null) {
-			this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
+			experimentTimingData.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addItGroup();
 			return;
 		}
@@ -263,7 +271,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		newGroup.setName("Group " + groupList.size());
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
-		resetInitialGroupTimes(this.getDuration() / groupList.size());
+		resetInitialGroupTimes(experimentTimingData.getDuration() / groupList.size());
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
@@ -557,12 +565,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		for (Object loadedGroup : groupList) {
 			experimentDuration += ((TimingGroupUIModel)loadedGroup).getDuration();
 		}
-		this.setTimes(EXPERIMENT_START_TIME, experimentDuration);
+		experimentTimingData.setTimes(EXPERIMENT_START_TIME, experimentDuration);
 		this.firePropertyChange(EXPERIMENT_DURATION_PROP_NAME, null, getExperimentDuration());
 	}
 
 	private void resetInitialGroupTimes(double groupDuration) {
-		double startTime = this.getStartTime();
+		double startTime = experimentTimingData.getStartTime();
 		for (int i = 0; i < groupList.size(); i++) {
 			TimingGroupUIModel group = (TimingGroupUIModel) groupList.get(i);
 			if (i > 0) {
@@ -582,7 +590,7 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 	}
 
 	public void setupExperiment(ExperimentUnit unit, double duration, int noOfGroups) {
-		this.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(duration));
+		experimentTimingData.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(duration));
 		this.setUnit(unit);
 		groupList.clear();
 		for(int i = 0; i < noOfGroups; i++) {
@@ -591,16 +599,16 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 			newGroup.setIntegrationTime(1.0);
 			addToInternalGroupList(newGroup);
 		}
-		resetInitialGroupTimes(this.getDuration() / groupList.size());
+		resetInitialGroupTimes(experimentTimingData.getDuration() / groupList.size());
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
 	}
 
 	public double getExperimentDuration() {
-		return unit.convertFromMilli(getDuration());
+		return unit.convertFromMilli(experimentTimingData.getDuration());
 	}
 
 	public double getDurationInSec() {
-		return unit.convertToSecond(unit.convertFromMilli(getDuration()));
+		return unit.convertToSecond(unit.convertFromMilli(experimentTimingData.getDuration()));
 	}
 
 	public ExperimentUnit getUnit() {
@@ -630,12 +638,12 @@ public class TimeResolvedExperimentModel extends ExperimentTimingDataModel {
 		this.firePropertyChange(NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME, this.noOfSecPerSpectrumToPublish, this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish);
 	}
 
-	@Override
-	public void dispose() {
-		// Nothing to dispose
-	}
 
 	private String getI0IRefDataKey() {
 		return getDataStoreKey() + IO_IREF_DATA_SUFFIX_KEY;
+	}
+
+	public double getDuration() {
+		return experimentTimingData.getDuration();
 	}
 }
