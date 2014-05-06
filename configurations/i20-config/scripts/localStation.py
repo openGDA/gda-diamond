@@ -26,10 +26,6 @@ from vortex_elements import VortexElements
 from gda.data.scan.datawriter import NexusDataWriter
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 
-
-ScanBase.interrupted = False
-ScriptBase.interrupted = False
-
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
