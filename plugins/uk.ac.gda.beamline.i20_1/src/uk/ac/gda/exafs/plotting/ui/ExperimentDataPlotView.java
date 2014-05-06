@@ -59,6 +59,7 @@ public class ExperimentDataPlotView extends ViewPart {
 		ctx.bindValue(
 				WidgetProperties.selection().observe(useStripsIndex),
 				BeanProperties.value(ExperimentDataNode.USE_STRIPS_AS_X_AXIS_PROP_NAME).observe(rootNode));
+
 	}
 
 	@Override

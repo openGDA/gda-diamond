@@ -62,6 +62,7 @@ public class EdeDataConstants {
 		private final TimingGroupMetadata[] timingGroups;
 		private final RangeData[] avgSpectra;
 		private final int[] excludedCycles;
+
 		public ItMetadata(TimingGroupMetadata[] timingGroups, RangeData[] avgSpectra, int[] excludedCycles) {
 			this.timingGroups = timingGroups;
 			this.avgSpectra = avgSpectra;

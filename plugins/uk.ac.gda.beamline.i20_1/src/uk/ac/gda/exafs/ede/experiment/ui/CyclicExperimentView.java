@@ -39,6 +39,6 @@ public class CyclicExperimentView extends LinearExperimentView {
 		createTimeBarComposite(parentComposite);
 		CyclicExperimentTimeBarComposite cyclicExperimentTimeBarComposite = new CyclicExperimentTimeBarComposite(parentComposite, SWT.None, getModel());
 		cyclicExperimentTimeBarComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		parentComposite.setWeights(new int[] {5, 2, 1});
+		parentComposite.setWeights(new int[] {8, 2, 1});
 	}
 }

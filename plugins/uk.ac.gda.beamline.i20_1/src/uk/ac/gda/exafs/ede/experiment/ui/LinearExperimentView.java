@@ -87,7 +87,7 @@ public class LinearExperimentView extends ViewPart {
 	protected void createSections(final SashForm parentComposite) {
 		createExperimentPropertiesComposite(parentComposite);
 		createTimeBarComposite(parentComposite);
-		parentComposite.setWeights(new int[] {3, 1});
+		parentComposite.setWeights(new int[] {5, 1});
 	}
 
 	protected TimeResolvedExperimentModel getModel() {

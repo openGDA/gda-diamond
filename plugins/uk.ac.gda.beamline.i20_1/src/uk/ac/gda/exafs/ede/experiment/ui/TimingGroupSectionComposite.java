@@ -331,21 +331,22 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		noOfSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		noOfSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupDetailsSectionComposite, "Accumulation time", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		integrationTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
-		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		label = toolkit.createLabel(groupDetailsSectionComposite, "No. of accumulations", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		noOfAccumulationValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
-		noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 		// Group delay and trigger section
 
 		final Composite groupTriggerSectionComposite = toolkit.createComposite(groupSectionComposite, SWT.NONE);
 		groupTriggerSectionComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
 		groupTriggerSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+
+		label = toolkit.createLabel(groupTriggerSectionComposite, "Accumulation time", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		integrationTimeValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		label = toolkit.createLabel(groupTriggerSectionComposite, "No. of accumulations", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		noOfAccumulationValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+		noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
 
 		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay before start of group", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
