@@ -6,10 +6,14 @@
 
 <!-- SR08I-MO-SERVC-01:BLGAPMTR -->
 
+	<!-- <bean id="topup" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+		<property name="local" value="true" />
+	</bean> -->
 	
 	<bean id="opticsShutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="local" value="false"/>
-		<property name="pvBase" value="FE08I-PS-SHTR-02"/>
+		<property name="pvBase" value="setShutterPV"/>
 	</bean>
 	
 	<bean id="d1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
