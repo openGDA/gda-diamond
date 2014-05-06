@@ -1,2 +1,7 @@
 #This file is used by beamline_parameters.jythonNamespaceMapping
 x=x
+tomography_translation=diff_x
+tomography_theta=t1_theta
+tomography_shutter=expt_fastshutter
+tomography_normalisedImage_detector=pco1_hw_tif
+tomography_detector=pco1_sw_hdf_nochunking
