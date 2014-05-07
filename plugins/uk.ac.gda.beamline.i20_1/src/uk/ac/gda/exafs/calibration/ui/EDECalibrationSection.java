@@ -42,9 +42,9 @@ import org.eclipse.ui.forms.widgets.Section;
 import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 import uk.ac.gda.exafs.ui.ResourceComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
 
 public class EDECalibrationSection extends ResourceComposite {
 

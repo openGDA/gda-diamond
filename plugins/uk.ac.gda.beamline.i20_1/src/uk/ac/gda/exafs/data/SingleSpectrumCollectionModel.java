@@ -43,11 +43,11 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
+import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
+import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentDataModel;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentMotorPostion;
-import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
-import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
 
 import com.google.gson.annotations.Expose;
 
@@ -147,7 +147,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	}
 
 	private String buildScanCommand() {
-		StringBuilder builder = new StringBuilder("from gda.scan.ede import EdeSingleExperiment; \n");
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import SingleSpectrumScan; \n");
 		int noOfAccumulations;
 		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
 			noOfAccumulations = experimentDataModel.getI0NumberOfAccumulations();
