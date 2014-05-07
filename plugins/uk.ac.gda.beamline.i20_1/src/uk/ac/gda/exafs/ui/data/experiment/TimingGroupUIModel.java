@@ -39,7 +39,7 @@ import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 
-public class TimingGroupUIModel extends ExperimentTimingDataModel {
+public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimingGroupUIModel.class);
 
@@ -134,7 +134,7 @@ public class TimingGroupUIModel extends ExperimentTimingDataModel {
 	public TimingGroupUIModel(DefaultTimeBarRowModel spectraTimeBarRowModel, ExperimentUnit unit, TimeResolvedExperimentModel parent) {
 		this.spectraTimeBarRowModel = spectraTimeBarRowModel;
 		this.parent = parent;
-		this.resetInitialTime(ExperimentTimingDataModel.INITIAL_START_TIME, ExperimentTimingDataModel.MIN_DURATION_TIME, 0.0, ExperimentTimingDataModel.MIN_DURATION_TIME);
+		this.resetInitialTime(TimeIntervalDataModel.INITIAL_START_TIME, TimeIntervalDataModel.MIN_DURATION_TIME, 0.0, TimeIntervalDataModel.MIN_DURATION_TIME);
 		setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
 		this.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override

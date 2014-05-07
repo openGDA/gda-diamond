@@ -72,7 +72,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CyclicExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentDataModel;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimeIntervalDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentUnit;
 import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
@@ -435,11 +435,11 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		IObservableSet knownElements = contentProvider.getKnownElements();
 
 		final IObservableMap names = BeanProperties.value(TimingGroupUIModel.class,
-				ExperimentTimingDataModel.NAME_PROP_NAME).observeDetail(knownElements);
+				TimeIntervalDataModel.NAME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap startTimes = BeanProperties.value(TimingGroupUIModel.class,
-				ExperimentTimingDataModel.START_TIME_PROP_NAME).observeDetail(knownElements);
+				TimeIntervalDataModel.START_TIME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap endTimes = BeanProperties.value(TimingGroupUIModel.class,
-				ExperimentTimingDataModel.END_TIME_PROP_NAME).observeDetail(knownElements);
+				TimeIntervalDataModel.END_TIME_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap timePerSpectrum = BeanProperties.value(TimingGroupUIModel.class,
 				TimingGroupUIModel.TIME_PER_SPECTRUM_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap noOfSpectrum = BeanProperties.value(TimingGroupUIModel.class,
@@ -629,7 +629,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					ViewersObservables.observeSingleSelection(groupUnitSelectionCombo),
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group)));
 
-			startTimeValueText.setModel(group, ExperimentTimingDataModel.START_TIME_PROP_NAME);
+			startTimeValueText.setModel(group, TimeIntervalDataModel.START_TIME_PROP_NAME);
 			startTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			startTimeValueText.setEditable(false);
 			startTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
@@ -639,7 +639,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-			endTimeValueText.setModel(group, ExperimentTimingDataModel.END_TIME_PROP_NAME);
+			endTimeValueText.setModel(group, TimeIntervalDataModel.END_TIME_PROP_NAME);
 			endTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			endTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
@@ -666,7 +666,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			noOfAccumulationValueText.setModel(group, TimingGroupUIModel.NO_OF_ACCUMULATION_PROP_NAME);
 			noOfAccumulationValueText.setEditable(false);
 
-			delayBeforeFristSpectrumValueText.setModel(group, ExperimentTimingDataModel.DELAY_PROP_NAME);
+			delayBeforeFristSpectrumValueText.setModel(group, TimeIntervalDataModel.DELAY_PROP_NAME);
 			delayBeforeFristSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			delayBeforeFristSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			delayBeforeFristSpectrumValueText.setUnit(group.getUnit().getWorkingUnit().getUnitText());

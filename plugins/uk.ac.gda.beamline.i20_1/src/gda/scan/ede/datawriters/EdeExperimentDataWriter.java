@@ -77,31 +77,8 @@ public abstract class EdeExperimentDataWriter {
 		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
 
 	}
-	/**
-	 * Write out the ascii file of derived data based on the data collected.
-	 * 
-	 * @return the full path of the ascii file
-	 * @throws Exception
-	 */
-	public abstract String writeDataFile() throws Exception;
 
-	public String getFilenameTemplate() {
-		return filenameTemplate;
-	}
-
-	/**
-	 * A String format for the name of the ascii file to be written.
-	 * <p>
-	 * It <b>must</b> contain a '%s' to substitute the nexus file name into the given template.
-	 * <p>
-	 * E.g. if the nexus file created was: '/dls/i01/data/1234.nxs' then the filenameTemplate given in this method
-	 * should be something like: 'Fe-Kedge_%s' for the final ascii file to be: '/dls/i01/data/Fe-Kedge_1234.txt'
-	 * 
-	 * @param filenameTemplate
-	 */
-	public void setFilenameTemplate(String filenameTemplate) {
-		this.filenameTemplate = filenameTemplate;
-	}
+	public abstract String writeDataFile(String fileNamePrefix) throws Exception;
 
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);

@@ -43,6 +43,9 @@ public class ExperimentDataModel extends UIObservableModel {
 	@Expose
 	private boolean useNoOfAccumulationsForI0 = false;
 
+	public static final String FILE_NAME_PREFIX_PROP_NAME = "fileNamePrefix";
+	private String fileNamePrefix;
+
 	public double getI0IntegrationTime() {
 		return i0IntegrationTime;
 	}
@@ -84,5 +87,14 @@ public class ExperimentDataModel extends UIObservableModel {
 
 	public void setUseNoOfAccumulationsForI0(boolean useNoOfAccumulationsForI0) {
 		this.firePropertyChange(USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME, this.useNoOfAccumulationsForI0, this.useNoOfAccumulationsForI0 = useNoOfAccumulationsForI0);
+	}
+
+
+	public String getFileNamePrefix() {
+		return fileNamePrefix;
+	}
+
+	public void setFileNamePrefix(String fileNamePrefix) {
+		this.firePropertyChange(FILE_NAME_PREFIX_PROP_NAME, this.fileNamePrefix, this.fileNamePrefix = fileNamePrefix);
 	}
 }

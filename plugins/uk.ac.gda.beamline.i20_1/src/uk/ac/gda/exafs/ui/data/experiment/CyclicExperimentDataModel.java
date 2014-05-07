@@ -20,7 +20,7 @@ package uk.ac.gda.exafs.ui.data.experiment;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
-public class CyclicExperimentDataModel extends ExperimentTimingDataModel {
+public class CyclicExperimentDataModel extends TimeIntervalDataModel {
 
 	private final CyclicExperimentModel parent;
 

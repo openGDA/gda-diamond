@@ -18,14 +18,14 @@
 
 package uk.ac.gda.exafs.ui.data.experiment;
 
-import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
+import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 
 public enum ExperimentModelHolder {
 	INSTANCE;
 
 	private final TimeResolvedExperimentModel linerExperimentModel;
 	private final CyclicExperimentModel cyclicExperimentModel;
-	private final SingleSpectrumUIModel singleSpectrumExperimentModel;
+	private final SingleSpectrumCollectionModel singleSpectrumExperimentModel;
 
 	private ExperimentModelHolder() {
 
@@ -35,7 +35,7 @@ public enum ExperimentModelHolder {
 		cyclicExperimentModel = new CyclicExperimentModel();
 		cyclicExperimentModel.setup();
 
-		singleSpectrumExperimentModel = new SingleSpectrumUIModel();
+		singleSpectrumExperimentModel = new SingleSpectrumCollectionModel();
 		singleSpectrumExperimentModel.setup();
 	}
 
@@ -47,7 +47,7 @@ public enum ExperimentModelHolder {
 		return cyclicExperimentModel;
 	}
 
-	public SingleSpectrumUIModel getSingleSpectrumExperimentModel() {
+	public SingleSpectrumCollectionModel getSingleSpectrumExperimentModel() {
 		return singleSpectrumExperimentModel;
 	}
 }

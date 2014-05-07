@@ -137,7 +137,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	@Expose
 	private ExperimentDataModel experimentDataModel;
 
-	protected final ExperimentTimingDataModel experimentTimingData = new ExperimentTimingDataModel() {
+	protected final TimeIntervalDataModel timeIntervalData = new TimeIntervalDataModel() {
 		@Override
 		public void dispose() {
 			// Nothing to dispose
@@ -203,7 +203,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 		});
 		if (savedGroups == null) {
-			experimentTimingData.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
+			timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addItGroup();
 			return;
 		}
@@ -271,7 +271,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		newGroup.setName("Group " + groupList.size());
 		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
-		resetInitialGroupTimes(experimentTimingData.getDuration() / groupList.size());
+		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
@@ -279,7 +279,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private final PropertyChangeListener groupPropertyChangeListener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (evt.getPropertyName().equals(ExperimentTimingDataModel.END_TIME_PROP_NAME)) {
+			if (evt.getPropertyName().equals(TimeIntervalDataModel.END_TIME_PROP_NAME)) {
 				TimingGroupUIModel group = (TimingGroupUIModel) evt.getSource();
 				if (groupList.indexOf(evt.getSource()) < groupList.size() - 1) {
 					TimingGroupUIModel nextGroup = (TimingGroupUIModel) groupList.get(groupList.indexOf(evt.getSource()) + 1);
@@ -315,7 +315,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 	}
 
-	public void doCollection() {
+	public void doCollection(String fileNamePrefix) {
+		experimentDataModel.setFileNamePrefix(fileNamePrefix);
 		experimentDataCollectionJob.schedule();
 	}
 
@@ -514,6 +515,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return experimentDataModel;
 	}
 
+	public TimeIntervalDataModel getTimeIntervalDataModel() {
+		return timeIntervalData;
+	}
+
 	public void stopScan() {
 		if (this.isScanning()) {
 			JythonServerFacade.getInstance().haltCurrentScan();
@@ -565,12 +570,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		for (Object loadedGroup : groupList) {
 			experimentDuration += ((TimingGroupUIModel)loadedGroup).getDuration();
 		}
-		experimentTimingData.setTimes(EXPERIMENT_START_TIME, experimentDuration);
+		timeIntervalData.setTimes(EXPERIMENT_START_TIME, experimentDuration);
 		this.firePropertyChange(EXPERIMENT_DURATION_PROP_NAME, null, getExperimentDuration());
 	}
 
 	private void resetInitialGroupTimes(double groupDuration) {
-		double startTime = experimentTimingData.getStartTime();
+		double startTime = timeIntervalData.getStartTime();
 		for (int i = 0; i < groupList.size(); i++) {
 			TimingGroupUIModel group = (TimingGroupUIModel) groupList.get(i);
 			if (i > 0) {
@@ -590,7 +595,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public void setupExperiment(ExperimentUnit unit, double duration, int noOfGroups) {
-		experimentTimingData.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(duration));
+		timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(duration));
 		this.setUnit(unit);
 		groupList.clear();
 		for(int i = 0; i < noOfGroups; i++) {
@@ -599,16 +604,16 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			newGroup.setIntegrationTime(1.0);
 			addToInternalGroupList(newGroup);
 		}
-		resetInitialGroupTimes(experimentTimingData.getDuration() / groupList.size());
+		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
 	}
 
 	public double getExperimentDuration() {
-		return unit.convertFromMilli(experimentTimingData.getDuration());
+		return unit.convertFromMilli(timeIntervalData.getDuration());
 	}
 
 	public double getDurationInSec() {
-		return unit.convertToSecond(unit.convertFromMilli(experimentTimingData.getDuration()));
+		return unit.convertToSecond(unit.convertFromMilli(timeIntervalData.getDuration()));
 	}
 
 	public ExperimentUnit getUnit() {
@@ -644,6 +649,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public double getDuration() {
-		return experimentTimingData.getDuration();
+		return timeIntervalData.getDuration();
 	}
 }

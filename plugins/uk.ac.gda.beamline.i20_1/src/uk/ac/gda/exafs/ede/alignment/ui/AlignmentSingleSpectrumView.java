@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.calibration.ui.EDECalibrationSection;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
+import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentModelHolder;
 import uk.ac.gda.ui.components.NumberEditorControl;
@@ -126,7 +126,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text(SWT.Modify).observe(fileNameText),
-				BeanProperties.value(SingleSpectrumUIModel.FILE_NAME_PROP_NAME).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
+				BeanProperties.value(SingleSpectrumCollectionModel.FILE_NAME_PROP_NAME).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
@@ -141,7 +141,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 	// FIXME Replicated code, refactor!
 	private void createRunCollectionButtons(Composite formParent) {
-		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 		Composite acquisitionButtonsComposite = new Composite(formParent, SWT.NONE);
 		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
@@ -154,7 +154,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					singleSpectrumDataModel.doCollection(false);
+					singleSpectrumDataModel.doCollection(false, null);
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 					logger.error("Unable to scan", e);
@@ -164,7 +164,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
+				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -178,7 +178,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
+				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
 		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -190,7 +190,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 	private void setupScannables() {
 		sampleStageCompositeBinding = dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(sampleStageSectionsParent),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
+				BeanProperties.value(SingleSpectrumCollectionModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
@@ -204,7 +204,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 		alignmentStageCompositeBinding = dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(alignmentStageSectionsParent),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
+				BeanProperties.value(SingleSpectrumCollectionModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override
@@ -218,13 +218,13 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 		switchWithSamplePositionButtonBinding = dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(switchWithSamplePositionButton),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()));
+				BeanProperties.value(SingleSpectrumCollectionModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()));
 
 	}
 
 	@SuppressWarnings("static-access")
 	private void createAlignmentSections(Composite body) throws Exception {
-		SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+		SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 		alignmentStageSectionsParent = toolkit.createComposite(body);
 		alignmentStageSectionsParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		alignmentStageSectionsParent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));

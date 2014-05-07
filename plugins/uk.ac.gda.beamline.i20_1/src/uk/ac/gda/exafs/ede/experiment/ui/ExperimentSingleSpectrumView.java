@@ -25,25 +25,25 @@ import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
+import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ede.alignment.ui.SampleStageMotorsComposite;
 import uk.ac.gda.exafs.ede.alignment.ui.SingleSpectrumParametersSection;
 import uk.ac.gda.exafs.ui.data.UIHelper;
@@ -84,43 +84,55 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 			setupScannables();
 			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-			createSampleDetailsSection(formParent);
+			//createSampleDetailsSection(formParent);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
 	}
 
-	private void createSampleDetailsSection(Composite formParent) {
-		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
-
-		final Section sampleDetailsSection = toolkit.createSection(formParent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		sampleDetailsSection.setText("Sample details");
-		sampleDetailsSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		Composite sectionComposite = toolkit.createComposite(sampleDetailsSection, SWT.NONE);
-		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		toolkit.paintBordersFor(sectionComposite);
-		sampleDetailsSection.setClient(sectionComposite);
-
-		Label fileNameLabel = toolkit.createLabel(sectionComposite, "File name prefix");
-		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		Text fileNamePrefixText = toolkit.createText(sectionComposite, "", SWT.BORDER);
-		fileNamePrefixText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		// FIXME Add validation
-		dataBindingCtx.bindValue(
-				WidgetProperties.text(SWT.Modify).observe(fileNamePrefixText),
-				BeanProperties.value(SingleSpectrumUIModel.FILE_TEMPLATE_PROP_NAME).observe(singleSpectrumDataModel),
-				new UpdateValueStrategy(),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
-
-		Label sampleDescLabel = toolkit.createLabel(sectionComposite, "Sample description");
-		sampleDescLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		Text sampleDescLabelText = toolkit.createText(sectionComposite, "", SWT.BORDER);
-		sampleDescLabelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-	}
+	//	private void createSampleDetailsSection(Composite formParent) {
+	//		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+	//
+	//		final Section sampleDetailsSection = toolkit.createSection(formParent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+	//		sampleDetailsSection.setText("Sample details");
+	//		sampleDetailsSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+	//		Composite sectionComposite = toolkit.createComposite(sampleDetailsSection, SWT.NONE);
+	//		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+	//		toolkit.paintBordersFor(sectionComposite);
+	//		sampleDetailsSection.setClient(sectionComposite);
+	//
+	//		Label fileNameLabel = toolkit.createLabel(sectionComposite, "File name prefix");
+	//		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+	//		Text fileNamePrefixText = toolkit.createText(sectionComposite, "", SWT.BORDER);
+	//		fileNamePrefixText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	//		// FIXME Add validation
+	//		dataBindingCtx.bindValue(
+	//				WidgetProperties.text(SWT.Modify).observe(fileNamePrefixText),
+	//				BeanProperties.value(ExperimentDataModel.FILE_NAME_PREFIX_PROP_NAME).observe(singleSpectrumDataModel),
+	//				new UpdateValueStrategy(),
+	//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+	//
+	//		Label sampleDescLabel = toolkit.createLabel(sectionComposite, "Sample description");
+	//		sampleDescLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+	//		Text sampleDescLabelText = toolkit.createText(sectionComposite, "", SWT.BORDER);
+	//		sampleDescLabelText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	//	}
+	private final InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
+			"", "Enter file name prefix", "", new IInputValidator() {
+		@Override
+		public String isValid(String newText) {
+			if (newText.isEmpty()) {
+				return "File name can't be empty";
+			} else if (!newText.matches("[_a-zA-Z0-9\\-\\.]+")) {
+				return "Invalid file name";
+			}
+			return null;
+		}
+	});
 
 	private void createRunCollectionButtons(Composite formParent) {
-		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 		Composite acquisitionButtonsComposite = new Composite(formParent, SWT.NONE);
 		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
@@ -133,10 +145,8 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					if (singleSpectrumDataModel.getFileTemplate() != null) {
-						singleSpectrumDataModel.doCollection(true);
-					} else {
-						UIHelper.showWarning("Unable to scan", "File name prefix is not defined");
+					if (dlg.open() == Window.OK) {
+						singleSpectrumDataModel.doCollection(true, dlg.getValue());
 					}
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
@@ -147,7 +157,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
+				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -161,7 +171,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(SingleSpectrumUIModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
+				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
 		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
@@ -173,7 +183,7 @@ public class ExperimentSingleSpectrumView extends ViewPart {
 	private void setupScannables() {
 		sampleStageCompositeBinding = dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(sampleStageSectionsParent),
-				BeanProperties.value(SingleSpectrumUIModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
+				BeanProperties.value(SingleSpectrumCollectionModel.ALIGNMENT_STAGE_SELECTION).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
 					@Override

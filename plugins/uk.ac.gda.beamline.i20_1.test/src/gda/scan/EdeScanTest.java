@@ -29,7 +29,7 @@ import gda.device.enumpositioner.DummyPositioner;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Findable;
-import gda.scan.ede.EdeCyclicExperiment;
+import gda.scan.ede.CyclicExperiment;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.EdeScanType;
@@ -340,7 +340,7 @@ public class EdeScanTest extends EdeTestBase {
 		group3.setNumberOfScansPerFrame(5);
 		groups.add(group3);
 
-		EdeCyclicExperiment theExperiment = new EdeCyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
+		CyclicExperiment theExperiment = new CyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
 				"xh", "topup", shutter.getName(), 3);
 		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
 		String filename = theExperiment.runExperiment();

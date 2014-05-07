@@ -27,13 +27,17 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
@@ -158,6 +162,19 @@ public class LinearExperimentView extends ViewPart {
 		form.layout();
 	}
 
+	private final InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
+			"", "Enter file name prefix", "", new IInputValidator() {
+		@Override
+		public String isValid(String newText) {
+			if (newText.isEmpty()) {
+				return "File name can't be empty";
+			} else if (!newText.matches("[_a-zA-Z0-9\\-\\.]+")) {
+				return "Invalid file name";
+			}
+			return null;
+		}
+	});
+
 	private void createExperimentDetailsSection(Composite parent) {
 		// Start stop buttons
 
@@ -175,7 +192,9 @@ public class LinearExperimentView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					getModel().doCollection();
+					if (dlg.open() == Window.OK) {
+						getModel().doCollection(dlg.getValue());
+					}
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}

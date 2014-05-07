@@ -51,9 +51,9 @@ import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPosti
 
 import com.google.gson.annotations.Expose;
 
-public class SingleSpectrumUIModel extends ObservableModel {
+public class SingleSpectrumCollectionModel extends ObservableModel {
 
-	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumUIModel.class);
+	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumCollectionModel.class);
 
 	private final AlignmentStageScannable.Location holeLocationForAlignment = new AlignmentStageScannable.Location();
 	private final AlignmentStageScannable.Location foilLocationForAlignment = new AlignmentStageScannable.Location();
@@ -80,15 +80,10 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	private ScanJob job;
 
-	public static final String FILE_TEMPLATE_PROP_NAME = "fileTemplate";
-	private String fileTemplate;
-
-	private String elementSymbol;
-
-	private String filePefix = "%s";
-
 	@Expose
 	private ExperimentDataModel experimentDataModel;
+
+	private String elementSymbol;
 
 	protected Binding binding;
 
@@ -103,12 +98,12 @@ public class SingleSpectrumUIModel extends ObservableModel {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getNewValue() != null) {
-					SingleSpectrumUIModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
+					SingleSpectrumCollectionModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
 				}
 			}
 		});
 		if (AlignmentParametersModel.INSTANCE.getElement() != null) {
-			SingleSpectrumUIModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
+			SingleSpectrumCollectionModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
 		}
 
 		loadSingleSpectrumData();
@@ -134,7 +129,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 	}
 
 	private void loadSingleSpectrumData() {
-		SingleSpectrumUIModel singleSpectrumData = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumUIModel.class);
+		SingleSpectrumCollectionModel singleSpectrumData = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumCollectionModel.class);
 		if (singleSpectrumData == null) {
 			experimentDataModel = new ExperimentDataModel();
 			return;
@@ -160,7 +155,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 			noOfAccumulations = itNumberOfAccumulations;
 		}
 		builder.append(
-				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = EdeSingleExperiment(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
+				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumScan(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
 						ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getI0IntegrationTime()),
 						noOfAccumulations,
 						ExperimentTimeHelper.fromMilliToSec(itIntegrationTime),
@@ -176,7 +171,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
 					ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getIrefIntegrationTime()), experimentDataModel.getIrefNoOfAccumulations()));
 		}
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFilenameTemplate(\"%s\");", filePefix));
+		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNamePrefix(\"%s\");", experimentDataModel.getFileNamePrefix()));
 		return builder.toString();
 	}
 
@@ -207,13 +202,13 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		public void update(Object source, Object arg) {
 			if (arg instanceof JythonServerStatus) {
 				JythonServerStatus status = (JythonServerStatus) arg;
-				if (SingleSpectrumUIModel.this.isScanning() && Jython.RUNNING == status.scanStatus) {
+				if (SingleSpectrumCollectionModel.this.isScanning() && Jython.RUNNING == status.scanStatus) {
 					monitor.subTask(scanJobName.getText());
 					if (scanJobName.ordinal() <  ScanJobName.values().length - 1) {
 						scanJobName = ScanJobName.values()[scanJobName.ordinal() + 1];
 					}
 				}
-				if (SingleSpectrumUIModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+				if (SingleSpectrumCollectionModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
 			}
@@ -225,7 +220,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
-					SingleSpectrumUIModel.this.setScanning(true);
+					SingleSpectrumCollectionModel.this.setScanning(true);
 				}
 			});
 			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
@@ -244,7 +239,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 					@Override
 					public void run() {
 						try {
-							SingleSpectrumUIModel.this.setFileName(resultFileName);
+							SingleSpectrumCollectionModel.this.setFileName(resultFileName);
 						} catch (Exception e) {
 							UIHelper.showWarning("Error while loading data from saved file", e.getMessage());
 						}
@@ -257,7 +252,7 @@ public class SingleSpectrumUIModel extends ObservableModel {
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
-					SingleSpectrumUIModel.this.setScanning(false);
+					SingleSpectrumCollectionModel.this.setScanning(false);
 				}
 			});
 			return Status.OK_STATUS;
@@ -273,12 +268,13 @@ public class SingleSpectrumUIModel extends ObservableModel {
 		return experimentDataModel;
 	}
 
-	public void doCollection(boolean forExperiment) throws Exception {
-		if (forExperiment) {
-			filePefix = fileTemplate + "_%s";
+	public void doCollection(boolean forExperiment, String fileNamePrefix) throws Exception {
+		if (!forExperiment) {
+			experimentDataModel.setFileNamePrefix(elementSymbol + "_cal");
 		} else {
-			filePefix = elementSymbol + "_cal" + "_%s";
+			experimentDataModel.setFileNamePrefix(fileNamePrefix);
 		}
+
 		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
 			throw new DetectorUnavailableException();
 		}
@@ -304,14 +300,6 @@ public class SingleSpectrumUIModel extends ObservableModel {
 
 	public String getFileName() {
 		return fileName;
-	}
-
-	public String getFileTemplate() {
-		return fileTemplate;
-	}
-
-	public void setFileTemplate(String fileTemplate) {
-		this.firePropertyChange(FILE_TEMPLATE_PROP_NAME, this.fileTemplate, this.fileTemplate = fileTemplate);
 	}
 
 	public boolean isScanning() {

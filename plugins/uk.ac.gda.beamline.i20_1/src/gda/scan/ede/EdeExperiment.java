@@ -75,7 +75,6 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected final int firstRepetitionIndex = 0; // in case we switch to 1-based indexing
 
-
 	protected EdeScanParameters iRefScanParameters;
 	protected EdeScanPosition i0ForiRefPosition;
 	protected EdeScanPosition iRefPosition;
@@ -105,7 +104,9 @@ public abstract class EdeExperiment implements IObserver {
 	protected String nexusFilename;
 
 	protected ScriptControllerBase controller;
-	private String filenameTemplate = "";
+
+	private String fileNamePrefix = "";
+
 	private Monitor topup;
 
 
@@ -309,11 +310,8 @@ public abstract class EdeExperiment implements IObserver {
 	private String writeToFiles() throws Exception {
 		try {
 			writer = createFileWritter();
-			if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-				writer.setFilenameTemplate(filenameTemplate);
-			}
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
-			writer.writeDataFile();
+			writer.writeDataFile(fileNamePrefix);
 			log("EDE single spectrum experiment complete.");
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {
@@ -339,21 +337,12 @@ public abstract class EdeExperiment implements IObserver {
 		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
 	}
 
-	public String getFilenameTemplate() {
-		return filenameTemplate;
+	public String getFileNamePrefix() {
+		return fileNamePrefix;
 	}
-	/**
-	 * A String format for the name of the ascii file to be written.
-	 * <p>
-	 * It <b>must</b> contain a '%s' to substitute the nexus file name into the given template.
-	 * <p>
-	 * E.g. if the nexus file created was: '/dls/i01/data/1234.nxs' then the filenameTemplate given in this method
-	 * should be something like: 'Fe-Kedge_%s' for the final ascii file to be: '/dls/i01/data/Fe-Kedge_1234.txt'
-	 * 
-	 * @param filenameTemplate
-	 */
-	public void setFilenameTemplate(String filenameTemplate) {
-		this.filenameTemplate = filenameTemplate;
+
+	public void setFileNamePrefix(String fileNamePrefix) {
+		this.fileNamePrefix = fileNamePrefix;
 	}
 
 	public String getNexusFilename() {

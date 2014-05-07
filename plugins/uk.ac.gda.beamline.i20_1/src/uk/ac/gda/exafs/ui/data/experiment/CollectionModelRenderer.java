@@ -73,8 +73,8 @@ public class CollectionModelRenderer extends DefaultRenderer {
 		gc.drawRectangle(iRect);
 		Color fg = gc.getForeground();
 		gc.setForeground((Display.getCurrent().getSystemColor(SWT.COLOR_WHITE)));
-		if (interval instanceof ExperimentTimingDataModel) {
-			ExperimentTimingDataModel collectionModel = (ExperimentTimingDataModel) interval;
+		if (interval instanceof TimeIntervalDataModel) {
+			TimeIntervalDataModel collectionModel = (TimeIntervalDataModel) interval;
 			StringBuilder name = new StringBuilder(collectionModel.getName());
 
 			Font currentFont = gc.getFont();

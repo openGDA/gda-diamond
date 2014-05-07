@@ -29,9 +29,9 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 /**
  *  An EDE Linear scan where the repetition number is not 1.
  */
-public class EdeCyclicExperiment extends TimeResolvedExperiment {
+public class CyclicExperiment extends TimeResolvedExperiment {
 
-	public EdeCyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
+	public CyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
 					throws DeviceException {
@@ -40,7 +40,7 @@ public class EdeCyclicExperiment extends TimeResolvedExperiment {
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
 
-	public EdeCyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
+	public CyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetition)
 					throws DeviceException {
@@ -49,7 +49,7 @@ public class EdeCyclicExperiment extends TimeResolvedExperiment {
 				beamShutterScannableName, numberOfRepetition);
 	}
 
-	public EdeCyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
+	public CyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
 					throws DeviceException {

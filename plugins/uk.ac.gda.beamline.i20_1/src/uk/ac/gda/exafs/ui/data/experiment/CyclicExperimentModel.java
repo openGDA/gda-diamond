@@ -54,24 +54,15 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 		DefaultRowHeader header = new DefaultRowHeader("Cycles");
 		cyclicTimeBarRowModel = new DefaultTimeBarRowModel(header);
 		cyclicTimebarModel.addRow(cyclicTimeBarRowModel);
-
 		this.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(ExperimentTimingDataModel.DURATION_PROP_NAME)) {
-					double startTime = 0.0;
-					for(Interval object : cyclicTimeBarRowModel.getIntervals()) {
-						CyclicExperimentDataModel experimentCycleModel = (CyclicExperimentDataModel) object;
-						experimentCycleModel.setTimes(startTime, (double) evt.getNewValue());
-						startTime += experimentCycleModel.getDuration();
-					}
-					updateTimes();
-				} else if (evt.getPropertyName().equals(NO_OF_REPEATED_GROUPS_PROP_NAME)) {
+				if (evt.getPropertyName().equals(NO_OF_REPEATED_GROUPS_PROP_NAME)) {
 					int existingCycles = cyclicTimeBarRowModel.getIntervals().size();
 					for (int i=existingCycles; i < noOfRepeatedGroups; i++) {
 						CyclicExperimentDataModel experimentCycleModel = new CyclicExperimentDataModel(CyclicExperimentModel.this);
 						experimentCycleModel.setName("Cycle " + (i + 1));
-						experimentCycleModel.setTimes(i * CyclicExperimentModel.this.experimentTimingData.getDuration(), CyclicExperimentModel.this.experimentTimingData.getDuration());
+						experimentCycleModel.setTimes(i * CyclicExperimentModel.this.timeIntervalData.getDuration(), CyclicExperimentModel.this.timeIntervalData.getDuration());
 						cyclicTimeBarRowModel.addInterval(experimentCycleModel);
 
 					}
@@ -85,15 +76,28 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 							cyclicTimeBarRowModel.remInterval(cycleToRemove);
 						}
 					}
-					updateTimes();
+					updateTotalCycleDuration();
 				}
-
+			}
+		});
+		timeIntervalData.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(TimeIntervalDataModel.DURATION_PROP_NAME)) {
+					double startTime = 0.0;
+					for(Interval object : cyclicTimeBarRowModel.getIntervals()) {
+						CyclicExperimentDataModel experimentCycleModel = (CyclicExperimentDataModel) object;
+						experimentCycleModel.setTimes(startTime, (double) evt.getNewValue());
+						startTime += experimentCycleModel.getDuration();
+					}
+					updateTotalCycleDuration();
+				}
 			}
 		});
 		this.setNoOfRepeatedGroups(INITIAL_NO_OF_CYCLES);
 	}
 
-	private void updateTimes() {
+	private void updateTotalCycleDuration() {
 		if (cyclicTimeBarRowModel.getIntervals().size() > 0) {
 			CyclicExperimentDataModel lastCycle = ((CyclicExperimentDataModel) cyclicTimeBarRowModel.getIntervals().get(cyclicTimeBarRowModel.getIntervals().size() - 1));
 			this.firePropertyChange(CYCLES_DURATION_PROP_NAME, cyclesDuration, cyclesDuration = lastCycle.getEndTime());
@@ -128,13 +132,13 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 
 	@Override
 	protected String buildScanCommand() {
-		StringBuilder builder = new StringBuilder("from gda.scan.ede import TimeResolvedExperiment;");
+		StringBuilder builder = new StringBuilder("from gda.scan.ede import CyclicExperiment;");
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
-			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = EdeCyclicExperiment(%f, %d",
+			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f, %d",
 					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime()),
 					this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		} else {
-			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = EdeCyclicExperiment(%f",
+			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f",
 					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime())));
 		}
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", %d);",

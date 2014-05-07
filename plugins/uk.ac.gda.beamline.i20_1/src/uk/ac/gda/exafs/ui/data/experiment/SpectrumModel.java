@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-public class SpectrumModel extends ExperimentTimingDataModel {
+public class SpectrumModel extends TimeIntervalDataModel {
 
 	private final TimingGroupUIModel parent;
 

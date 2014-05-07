@@ -49,14 +49,14 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	}
 
 	@Override
-	public String writeDataFile() throws Exception {
+	public String writeDataFile(String fileNamePrefix) throws Exception {
 		// FIXME Check this
 		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(0);
 		DoubleDataset itDarkDataSet = itDarkScan.extractDetectorDataSet(0);
 		DoubleDataset i0InitialDataSet = i0InitialScan.extractDetectorDataSet(0);
 		DoubleDataset itDataSet = itScan.extractDetectorDataSet(0);
 
-		determineAsciiFilename();
+		determineFileAsciiFilePath(fileNamePrefix);
 
 		File asciiFile = new File(asciiFilename);
 		if (asciiFile.exists()) {
@@ -115,16 +115,10 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		return asciiFilename;
 	}
 
-	private void determineAsciiFilename() {
-		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
+	private void determineFileAsciiFilePath(String fileNamePrefix) {
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
 		String folder = DataFileHelper.convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
-
-		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			asciiFilename = folder + String.format(filenameTemplate, filename) + "." + EdeDataConstants.ASCII_FILE_EXTENSION;
-		} else {
-			asciiFilename = folder + filename + EdeDataConstants.ASCII_FILE_EXTENSION;
-		}
+		asciiFilename = String.format("%s%s_%s.%s", folder, fileNamePrefix, filename, EdeDataConstants.ASCII_FILE_EXTENSION);
 	}
 }

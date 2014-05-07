@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.data.SingleSpectrumUIModel;
+import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ui.ResourceComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentDataModel;
@@ -84,7 +84,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 	}
 
 	private void bind() {
-		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 
 		Binding i0NoOfAccumulationCheckBinding = dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
@@ -125,7 +125,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 	}
 
 	private void createI0IRefComposites() throws Exception {
-		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 
 		// I0 and IRef accumulation times
 		Composite composite = toolkit.createComposite(this);
@@ -192,7 +192,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 	private void setupUI() throws Exception {
 
-		final SingleSpectrumUIModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 
 		createIncludedStripsSelection();
@@ -217,7 +217,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		Label itIntegrationTimeLabel = toolkit.createLabel(acquisitionSettingsComposite, "Accumulation time");
 		itIntegrationTimeLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		NumberEditorControl itIntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, singleSpectrumDataModel, SingleSpectrumUIModel.IT_INTEGRATION_TIME_PROP_NAME, true);
+		NumberEditorControl itIntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, singleSpectrumDataModel, SingleSpectrumCollectionModel.IT_INTEGRATION_TIME_PROP_NAME, true);
 		itIntegrationTimeText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		itIntegrationTimeText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
 		itIntegrationTimeText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -225,7 +225,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		Label itNoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "Number of accumulations");
 		itNoOfAccumulationLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		NumberEditorControl itNoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, singleSpectrumDataModel, SingleSpectrumUIModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		NumberEditorControl itNoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, singleSpectrumDataModel, SingleSpectrumCollectionModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
 		itNoOfAccumulationText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite acquisitionSettingsFileNameComposite = new Composite(sectionComposite, SWT.NONE);
@@ -252,11 +252,11 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		dataBindingCtx.dispose();
 	}
 
-	private void updateI0noOfAccuBinding(final SingleSpectrumUIModel singleSpectrumDataModel, Object value) {
+	private void updateI0noOfAccuBinding(final SingleSpectrumCollectionModel singleSpectrumDataModel, Object value) {
 		if (!(boolean) value && binding == null) {
 			binding = dataBindingCtx.bindValue(
 					BeanProperties.value(ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME).observe(singleSpectrumDataModel.getExperimentDataModel()),
-					BeanProperties.value(SingleSpectrumUIModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME).observe(singleSpectrumDataModel));
+					BeanProperties.value(SingleSpectrumCollectionModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME).observe(singleSpectrumDataModel));
 		} else {
 			if (binding != null) {
 				dataBindingCtx.removeBinding(binding);

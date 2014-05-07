@@ -26,7 +26,7 @@ import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.IntervalImpl;
 
-public abstract class ExperimentTimingDataModel extends IntervalImpl {
+public abstract class TimeIntervalDataModel extends IntervalImpl {
 
 	protected static final double MIN_DURATION_TIME = 20;
 	protected static final double INITIAL_START_TIME = 0.0;

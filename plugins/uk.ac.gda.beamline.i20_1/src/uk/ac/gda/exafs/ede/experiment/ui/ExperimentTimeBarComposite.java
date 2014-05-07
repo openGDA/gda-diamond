@@ -36,8 +36,8 @@ import uk.ac.gda.exafs.ui.ResourceComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.exafs.ui.data.experiment.CollectionModelRenderer;
 import uk.ac.gda.exafs.ui.data.experiment.ExperimentMarkerRenderer;
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentTimingDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.SpectrumModel;
+import uk.ac.gda.exafs.ui.data.experiment.TimeIntervalDataModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
 import uk.ac.gda.exafs.ui.data.experiment.TimingGroupsScaleRenderer;
@@ -85,7 +85,17 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 			} else if (propertyName.equals(TimeResolvedExperimentModel.CURRENT_SCANNING_SPECTRUM_PROP_NAME)) {
 				SpectrumModel spectrum = (SpectrumModel) evt.getNewValue();
 				marker.setDate(spectrum.getEnd().copy());
-			} else if (propertyName.equals(ExperimentTimingDataModel.DURATION_PROP_NAME)) {
+			}
+		}
+	};
+
+
+	private final PropertyChangeListener experimentChangedListener = new PropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			String propertyName = evt.getPropertyName();
+			Object newValue =  evt.getNewValue();
+			if (propertyName.equals(TimeIntervalDataModel.DURATION_PROP_NAME)) {
 				resetToDisplayWholeExperimentTime();
 				updateScaleSelection();
 				updateTopupMarkers((double) newValue);
@@ -94,6 +104,7 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 	};
 
 	private void doBinding() {
+		model.getTimeIntervalDataModel().addPropertyChangeListener(experimentChangedListener);
 		model.addPropertyChangeListener(modelChangedListener);
 	}
 
@@ -104,7 +115,7 @@ public class ExperimentTimeBarComposite extends ResourceComposite {
 
 		timeBarViewer.setDrawRowGrid(true);
 		timeBarViewer.setAutoScaleRows(2);
-		//		timeBarViewer.setAutoscrollEnabled(true);
+
 		timeBarViewer.setMilliAccuracy(true);
 		timeBarViewer.setDrawOverlapping(true);
 		timeBarViewer.setYAxisWidth(80);

@@ -74,8 +74,6 @@ public class CyclicExperimentTimeBarComposite extends ResourceComposite {
 			@Override
 			public void controlMoved(ControlEvent e) {}
 		});
-
-
 		resetToDisplayWholeExperimentTime();
 	}
 
@@ -112,7 +110,7 @@ public class CyclicExperimentTimeBarComposite extends ResourceComposite {
 	private void resetToDisplayWholeExperimentTime() {
 		timeBarViewer.scrollIntervalToVisible(timeBarViewer.getModel().getRow(0).getIntervals().get(0));
 		double width = timeBarViewer.getClientArea().width - timeBarViewer.getYAxisWidth();
-		if (width > 0) {
+		if (width > 0 && model.getCyclesDurationInSec() > 0) {
 			double pixelPerSecond = width / model.getCyclesDurationInSec();
 			if (pixelPerSecond > 0) {
 				timeBarViewer.setPixelPerSecond(pixelPerSecond);
