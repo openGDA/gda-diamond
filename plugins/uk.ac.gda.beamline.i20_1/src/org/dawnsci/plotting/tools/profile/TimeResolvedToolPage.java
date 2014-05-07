@@ -230,9 +230,17 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	private void populateSpectraRegion() {
 		for (IRegion region : this.getPlottingSystem().getRegions()) {
 			if (plottedRegions.contains(region)) {
-				SpectraRegionDataNode spectraRegion = new SpectraRegionDataNode(region, timeResolvedData);
-				addSpectraRegion(spectraRegion);
-				checkedRegionSpectraList.add(spectraRegion);
+				if (region.getUserObject() != null) {
+					SpectraRegionDataNode spectraRegion;
+					if (region.getUserObject() instanceof AvgRegionToolDataModel) {
+						spectraRegion = new AvgRegionToolDataModel(region, timeResolvedData);
+					}
+					else {
+						spectraRegion = new SpectraRegionDataNode(region, timeResolvedData);
+					}
+					addSpectraRegion(spectraRegion);
+					checkedRegionSpectraList.add(spectraRegion);
+				}
 			}
 		}
 		plottedRegions.clear();
