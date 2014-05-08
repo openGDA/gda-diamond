@@ -10,6 +10,7 @@ from gda.device.scannable import ScannableBase
 from gda.device.scannable import TopupScannable
 from gda.device.scannable import BeamMonitorScannableWithResume
 from gda.device.monitor import EpicsMonitor
+from gdascripts.parameters.beamline_parameters import JythonNameSpaceMapping
 #from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 
 print "Initialisation Started";
@@ -42,6 +43,10 @@ try:
     from gda.data.scan.datawriter import NexusDataWriter
     LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
+    # Remove this metadata scriptfor 8.38 version writes metadata in before_scan folder
+    from metadata import setMetadata
+    setMetadata()
+
     from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
     scan_processor.rootNamespaceDict=globals()
     
@@ -60,28 +65,11 @@ try:
     #checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1])
     #checkbeam.configure()
     
-    if (LocalProperties.get("gda.mode") == 'live'):
-        topup = EpicsMonitor()
-        topup.setName("topup")
-        topup.setExtraNames(["topup"])
-        topup.setPvName("SR-CS-FILL-01:COUNTDOWN")
-        
-        topupMonitor = TopupScannable()
-        topupMonitor.setName("topupMonitor")
-        topupMonitor.setTolerance(5)
-        topupMonitor.setWaittime(1)
-        topupMonitor.setTimeout(60)
-        topupMonitor.setScannableToBeMonitored(topup)
-
-        beamMonitor = BeamMonitorScannableWithResume()
-        beamMonitor.setName("beamMonitor")
-        beamMonitor.setTimeout(7200)
-        beamMonitor.setWaittime(60)
-        beamMonitor.setShutterPV("FE08I-RS-ABSB-01:STA")
+    if (LocalProperties.get("gda.mode") == 'live'): 
         beamMonitor.configure()
-        #add_default topupMonitor
-        #add_default beamMonitor
-    
+        add_default beamMonitor
+        add_default topupMonitor 
+        
     #run "gda_startup.py"
     print "Initialisation Complete";
 

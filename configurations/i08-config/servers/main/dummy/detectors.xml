@@ -6,9 +6,9 @@
 
 <!-- SR08I-MO-SERVC-01:BLGAPMTR -->
 
-	<!-- <bean id="photoDiode1" class="gda.device.monitor.DummyEpicsMonitor">
+	<bean id="photoDiode1" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="2.0"/>
-	</bean>  -->
+	</bean> 
 	
 	
 	<!-- <bean id="d1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
