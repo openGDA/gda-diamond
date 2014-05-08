@@ -262,12 +262,28 @@
 		<property name="port" value="9555" />
 	</bean>
 
+	<bean id="saxsprocessingrunner" class="uk.ac.gda.server.ncd.data.ProcessingRunner">
+		<property name="environment">
+			<map>
+				<entry key="GDA_CONFIG" value="${gda.config}" />
+				<entry key="DAWN" value="/dls_sw/b21/software/DawnDiamond-1.5.0.v20140425-2056-linux64/dawn" />
+				<entry key="MOML" value="${gda.config}/processing/ncd_model.moml" />
+			</map>
+		</property>
+		<property name="executablePath" value="${gda.config}/processing/saxs.sh" />
+		<property name="detectorInfo" ref="detectorInfoPath" />
+	</bean>
+
+        <bean class="uk.ac.gda.server.ncd.beans.StoredDetectorInfoImpl" id="detectorInfoPath">
+		<property name="currentDataDirectoryUpdater" ref="observableSubdirectory"/>
+	</bean>
+
 	<import resource="cameras/i22_mfgige.xml" />
 	<import resource="cameras/i22_biosaxscam.xml" />
 	<import resource="cameras/i22_floatingcam.xml" />
+
 	<bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
-		<property name="jdbcURL"
-			value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
+		<property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
 		<!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
 		<!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
 	</bean>
