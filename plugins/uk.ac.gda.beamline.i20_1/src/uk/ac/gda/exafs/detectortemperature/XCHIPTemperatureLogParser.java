@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.detector;
+package uk.ac.gda.exafs.detectortemperature;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -39,7 +39,19 @@ public class XCHIPTemperatureLogParser {
 		this.tempLogFilename = tempLogFilename;
 	}
 
+	public IDataset[][] getTemperaturesSince(long startTime) {
+		return readLogFile(startTime, Long.MAX_VALUE);
+	}
+
+	public IDataset[][] getTemperaturesBefore(long finalTime, long duration) {
+		return readLogFile(finalTime - duration, finalTime);
+	}
+
 	public IDataset[][] getTemperatures() {
+		return readLogFile(0L, Long.MAX_VALUE);
+	}
+
+	private IDataset[][] readLogFile(long startTime, long endTime) {
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(tempLogFilename));
@@ -49,15 +61,13 @@ public class XCHIPTemperatureLogParser {
 
 			String sCurrentLine;
 			while ((sCurrentLine = br.readLine()) != null) {
-				parseLine(sCurrentLine);
+				parseLine(sCurrentLine, startTime, endTime);
 			}
 
 			br.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			return null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			return null;
 		}
 
@@ -72,18 +82,24 @@ public class XCHIPTemperatureLogParser {
 		return new IDataset[][] { timeDatasets, temperatureDatasets };
 	}
 
-	private void parseLine(String sCurrentLine) {
-		// 1392715507 ch0=38.25
+	private void parseLine(String sCurrentLine, long startTime, long endTime) {
+		// format: 1392715507 ch0=38.25
 
 		String[] parts = sCurrentLine.split("\\s+");
 		long time = Long.parseLong(parts[0]);
-		parts = parts[1].split("=");
-		int sensor = Integer.parseInt(parts[0].substring(2)); // chX
-		double temp = Double.parseDouble(parts[1]);
 
-		times[sensor] = ArrayUtils.add(times[sensor], time);
-		temps[sensor] = ArrayUtils.add(temps[sensor], temp);
+		startTime /= 1000;
+		endTime /= 1000;
 
+		if (time > startTime && time < endTime) {
+
+			parts = parts[1].split("=");
+			int sensor = Integer.parseInt(parts[0].substring(2)); // chX
+			double temp = Double.parseDouble(parts[1]);
+
+			times[sensor] = ArrayUtils.add(times[sensor], time);
+			temps[sensor] = ArrayUtils.add(temps[sensor], temp);
+		}
 	}
 
 }

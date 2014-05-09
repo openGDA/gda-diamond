@@ -166,7 +166,7 @@
             class="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
             icon="icons/Temperature.png"
             id="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
-            name="Detector Temperatures "
+            name="Detector Temperatures"
             restorable="true">
       </view>
    </extension>
@@ -393,6 +393,20 @@
          </visibleWhen>
       </command>
    </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView">
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.StartTemperaturePlotting"
+            label="Start"
+            style="push">
+      </command>
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.StopTemperaturePlotting"
+            label="Stop"
+            style="push">
+      </command>
+   </menuContribution>
 </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -410,6 +424,18 @@
             defaultHandler="uk.ac.gda.exafs.ui.data.experiment.RemoveTimeGroupCommandHandler"
             id="uk.ac.gda.exafs.ui.data.experiment.removegroup"
             name="Remove Group">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.detectortemperature.plot.handlers.StartPlottingHandler"
+            description="Start live plotting of detector temperature"
+            id="uk.ac.gda.beamline.i20_1.StartTemperaturePlotting"
+            name="Start">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.detectortemperature.plot.handlers.StopPlottingHandler"
+            description="Stop live plotting of detector temperature"
+            id="uk.ac.gda.beamline.i20_1.StopTemperaturePlotting"
+            name="Stop">
       </command>
    </extension>
    <extension
