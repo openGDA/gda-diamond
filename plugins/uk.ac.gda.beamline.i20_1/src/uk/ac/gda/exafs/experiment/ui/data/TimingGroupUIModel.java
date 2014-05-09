@@ -77,6 +77,10 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	@Expose
 	private InputTriggerLemoNumbers exernalTriggerInputLemoNumber = InputTriggerLemoNumbers.ZERO;
 
+	public static final String END_TIME_IS_LOCKED = "endTimeIsLocked";
+	@Expose
+	private boolean endTimeIsLocked;
+
 	private final TimeResolvedExperimentModel parent;
 
 	public static final String NO_OF_SPECTRUM_PROP_NAME = "numberOfSpectrum";
@@ -190,13 +194,19 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		spectrumList.remove(spectrum);
 	}
 
-	public void setEndTime(double endTime) {
+	public void setEndTime(double endTime) throws Exception {
 		double availableSpectraTime = endTime - this.getStartTimeForSpectra();
 		if (availableSpectraTime < timePerSpectrum) {
 			updateTimePerSpectrum(availableSpectraTime);
 		}
-		this.setTimes(this.getStartTime(), endTime - this.getStartTimeForSpectra());
-		this.setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
+		this.setTimes(this.getStartTime(), availableSpectraTime);
+		if (endTimeIsLocked) {
+			if (this.getAvailableDurationAfterDelay() % this.getTimePerSpectrum() != 0) {
+				this.setTimePerSpectrum(this.getAvailableDurationAfterDelay());
+			}
+		} else {
+			this.setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
+		}
 	}
 
 	public void moveTo(double startTime) {
@@ -209,7 +219,10 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		return spectrumList.size();
 	}
 
-	public void setNumberOfSpectrum(int numberOfSpectrum) {
+	public void setNumberOfSpectrum(int numberOfSpectrum) throws Exception {
+		if (endTimeIsLocked && this.getAvailableDurationAfterDelay() % numberOfSpectrum != 0) {
+			throw new Exception("The number of spectrum does not fit with the locked endtime.");
+		}
 		double newTimePerSpectrum = 0.0;
 		if (this.getUnit().getWorkingUnit() != ExperimentUnit.MILLI_SEC) {
 			newTimePerSpectrum = Math.round(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
@@ -240,7 +253,10 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		return timePerSpectrum;
 	}
 
-	public void setTimePerSpectrum(double timePerSpectrum) {
+	public void setTimePerSpectrum(double timePerSpectrum) throws Exception {
+		if (endTimeIsLocked && this.getAvailableDurationAfterDelay() % timePerSpectrum != 0) {
+			throw new Exception("Unable to fit with fixed endtime");
+		}
 		updateTimePerSpectrum(timePerSpectrum);
 		setSpectrumAndAdjustEndTime(timePerSpectrum);
 		if (integrationTime > timePerSpectrum) {
@@ -254,6 +270,14 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	public void setUnit(ExperimentUnit unit) {
 		this.firePropertyChange(UNIT_PROP_NAME, this.unit, this.unit = unit);
+	}
+
+	public boolean isEndTimeIsLocked() {
+		return endTimeIsLocked;
+	}
+
+	public void setEndTimeIsLocked(boolean endTimeIsLocked) {
+		this.firePropertyChange(END_TIME_IS_LOCKED, this.endTimeIsLocked, this.endTimeIsLocked = endTimeIsLocked);
 	}
 
 	public double getDelayBetweenSpectrum() {

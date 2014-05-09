@@ -120,7 +120,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private static final double STACK_OFFSET = 0.1;
 
-	private TimeResolvedDataNode timeResolvedData; // = new TimeResolvedDataNode();
+	private TimeResolvedDataNode timeResolvedData;
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 

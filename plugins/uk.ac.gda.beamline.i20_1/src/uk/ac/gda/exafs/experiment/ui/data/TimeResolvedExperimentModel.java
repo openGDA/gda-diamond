@@ -306,7 +306,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		groupList.remove(group);
 	}
 
-	public void removeGroup(TimingGroupUIModel group) {
+	public void removeGroup(TimingGroupUIModel group) throws Exception {
 		if (groupList.size() > 1 && groupList.indexOf(group) > 0) {
 			TimingGroupUIModel groupToExpend = (TimingGroupUIModel) groupList.get(groupList.indexOf(group) - 1);
 			removeFromInternalGroupList(group);

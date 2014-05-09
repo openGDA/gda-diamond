@@ -135,7 +135,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.experiment.ui.LinearExperimentView"
+            class="uk.ac.gda.exafs.experiment.ui.TimeResolvedExperimentView"
             id="uk.ac.gda.exafs.ui.views.linearExperimentView"
             name="Linear experiment"
             restorable="true">
