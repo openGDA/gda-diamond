@@ -35,7 +35,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/cryo.xml" />
 
 	<!-- Definition of the ascii data format -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/dataformat.xml" />
+	<import resource="file:${gda.config}/servers/main/dataformat.xml" />
 
 	<!--should normally be called last -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />

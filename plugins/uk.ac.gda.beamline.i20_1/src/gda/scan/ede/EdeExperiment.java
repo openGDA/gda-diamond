@@ -75,12 +75,15 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected final int firstRepetitionIndex = 0; // in case we switch to 1-based indexing
 
-
 	protected EdeScanParameters iRefScanParameters;
+	protected EdeScanPosition i0ForiRefPosition;
 	protected EdeScanPosition iRefPosition;
+	protected EdeScanParameters i0ForiRefScanParameters;
+
+	protected EdeScan iRefFinalScan;
+	protected EdeScan i0ForiRefScan;
 	protected EdeScan iRefScan;
 	protected EdeScan iRefDarkScan;
-	protected EdeScan iRefFinalScan;
 	protected boolean runIRef;
 
 	protected Scannable beamLightShutter;
@@ -89,6 +92,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan itDarkScan;
 	protected EdeScan i0LightScan;
 	protected EdeScan itLightScan;
+	protected EdeScan i0FinalScan;
 	protected EdeScan[] itScans;
 	protected final EdeScanParameters itScanParameters;
 	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
@@ -99,9 +103,12 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeExperimentDataWriter writer;
 	protected String nexusFilename;
 
-	private ScriptControllerBase controller;
-	private String filenameTemplate = "";
+	protected ScriptControllerBase controller;
+
+	private String fileNamePrefix = "";
+
 	private Monitor topup;
+
 
 	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
@@ -122,15 +129,29 @@ public abstract class EdeExperiment implements IObserver {
 				beamShutterScannableName);
 	}
 
-	public void setIRefParameters(Map<String, Double> iRefScanableMotorPositions, double accumulationTime, int numberOfAccumulcations) throws DeviceException {
+	public void setIRefParameters(Map<String, Double> i0ForIRefScanableMotorPositions, Map<String, Double> iRefScanableMotorPositions,
+			double i0AccumulationTime, int i0NumberOfAccumulcations,
+			double accumulationTime, int numberOfAccumulcations) throws DeviceException {
 		iRefPosition = this.setPosition(EdePositionType.REFERENCE, iRefScanableMotorPositions);
 		iRefScanParameters = new EdeScanParameters();
+
 		TimingGroup newGroup = new TimingGroup();
-		newGroup.setLabel("IRef");
+		newGroup.setLabel(EdeDataConstants.IREF_DATA_NAME);
 		newGroup.setNumberOfFrames(1);
 		newGroup.setTimePerScan(accumulationTime);
+		newGroup.setTimePerFrame(accumulationTime);
 		newGroup.setNumberOfScansPerFrame(numberOfAccumulcations);
 		iRefScanParameters.addGroup(newGroup);
+
+		i0ForiRefPosition = this.setPosition(EdePositionType.OUTBEAM_REFERENCE, i0ForIRefScanableMotorPositions);
+		i0ForiRefScanParameters = new EdeScanParameters();
+		newGroup = new TimingGroup();
+		newGroup.setLabel(EdeDataConstants.IREF_DATA_NAME);
+		newGroup.setNumberOfFrames(1);
+		newGroup.setTimePerScan(i0AccumulationTime);
+		newGroup.setTimePerFrame(i0AccumulationTime);
+		newGroup.setNumberOfScansPerFrame(i0NumberOfAccumulcations);
+		i0ForiRefScanParameters.addGroup(newGroup);
 		runIRef = true;
 	}
 
@@ -231,6 +252,10 @@ public abstract class EdeExperiment implements IObserver {
 		scansForExperiment.add(i0LightScan);
 
 		if (runIRef) {
+			i0ForiRefScan = new EdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+			scansForExperiment.add(i0ForiRefScan);
+			i0ForiRefScan.setProgressUpdater(this);
+
 			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 			scansForExperiment.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
@@ -285,16 +310,13 @@ public abstract class EdeExperiment implements IObserver {
 	private String writeToFiles() throws Exception {
 		try {
 			writer = createFileWritter();
-			if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-				writer.setFilenameTemplate(filenameTemplate);
-			}
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
-			writer.writeDataFile();
+			writer.writeDataFile(fileNamePrefix);
 			log("EDE single spectrum experiment complete.");
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {
 			logger.error("Error creating data files", ex);
-			throw new Exception("Error creating data files");
+			throw new Exception("Error creating data files" , ex);
 		}
 	}
 
@@ -315,21 +337,12 @@ public abstract class EdeExperiment implements IObserver {
 		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
 	}
 
-	public String getFilenameTemplate() {
-		return filenameTemplate;
+	public String getFileNamePrefix() {
+		return fileNamePrefix;
 	}
-	/**
-	 * A String format for the name of the ascii file to be written.
-	 * <p>
-	 * It <b>must</b> contain a '%s' to substitute the nexus file name into the given template.
-	 * <p>
-	 * E.g. if the nexus file created was: '/dls/i01/data/1234.nxs' then the filenameTemplate given in this method
-	 * should be something like: 'Fe-Kedge_%s' for the final ascii file to be: '/dls/i01/data/Fe-Kedge_1234.txt'
-	 * 
-	 * @param filenameTemplate
-	 */
-	public void setFilenameTemplate(String filenameTemplate) {
-		this.filenameTemplate = filenameTemplate;
+
+	public void setFileNamePrefix(String fileNamePrefix) {
+		this.fileNamePrefix = fileNamePrefix;
 	}
 
 	public String getNexusFilename() {
@@ -364,7 +377,11 @@ public abstract class EdeExperiment implements IObserver {
 	private DoubleDataset lastItDarkData = null;
 	private DoubleDataset lastI0Data = null;
 	private DoubleDataset lastItData = null;
-
+	private DoubleDataset lastIRefData = null;
+	private DoubleDataset lastI0ForIRefData = null;
+	private DoubleDataset lastDarkRefData = null;
+	private DoubleDataset lastIRefFinalData = null;
+	private DoubleDataset lastI0FinalData = null;
 	@Override
 	public void update(Object source, Object arg) {
 		if (controller != null && arg instanceof EdeScanProgressBean) {
@@ -389,8 +406,35 @@ public abstract class EdeExperiment implements IObserver {
 				lastI0Data = lastI0Data.isubtract(i0DarkForI0LightData);
 				controller.update(i0LightScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeDataConstants.I0_CORR_COLUMN_NAME, lastI0Data, lastEnergyData));
+			} else if (source.equals(i0FinalScan)) {
+				lastI0FinalData = i0FinalScan.extractLastDetectorDataSet();
+				// Get the first spectrum for each group is current group number because I0 has only one spectrum for each group
+				int i0DarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
+				DoubleDataset i0DarkForI0LightData = i0FinalScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
+				lastI0FinalData = lastI0FinalData.isubtract(i0DarkForI0LightData);
+				controller.update(i0LightScan, new EdeExperimentProgressBean(getCollectionType(), progress,
+						EdeDataConstants.I0_FINAL_CORR_COLUMN_NAME, lastI0FinalData, lastEnergyData));
+			} else if (source.equals(iRefDarkScan)) {
+				lastDarkRefData = iRefDarkScan.extractLastDetectorDataSet();
+				controller.update(itDarkScan, new EdeExperimentProgressBean(getCollectionType(), progress,
+						EdeDataConstants.IREF_DARK_DATA_NAME, lastDarkRefData, lastEnergyData));
 			}
-			else if (ArrayUtils.contains(itScans, source)) {
+			else if (source.equals(i0ForiRefScan)) {
+				lastI0ForIRefData = i0ForiRefScan.extractLastDetectorDataSet();
+				lastI0ForIRefData = lastI0ForIRefData.isubtract(lastDarkRefData);
+			} else if (source.equals(iRefScan)) {
+				lastIRefData = iRefScan.extractLastDetectorDataSet();
+				lastIRefData = lastIRefData.isubtract(lastDarkRefData);
+				DoubleDataset normalisedIRef = EdeExperimentDataWriter.normaliseDatasset(lastIRefData, lastI0ForIRefData);
+				controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeDataConstants.LN_I0_IREF_COLUMN_NAME,
+						normalisedIRef, lastEnergyData));
+			} else if (source.equals(iRefFinalScan)) {
+				lastIRefFinalData = iRefFinalScan.extractLastDetectorDataSet();
+				lastIRefFinalData = lastIRefFinalData.isubtract(lastDarkRefData);
+				DoubleDataset normalisedIRef = EdeExperimentDataWriter.normaliseDatasset(lastIRefFinalData, lastI0ForIRefData);
+				controller.update(source, new EdeExperimentProgressBean(getCollectionType(), progress, EdeDataConstants.LN_I0_IREF_FINAL_COLUMN_NAME,
+						normalisedIRef, lastEnergyData));
+			} else if (ArrayUtils.contains(itScans, source)) {
 				if (shouldPublishItScanData(progress)) {
 					lastItData = ((EdeScan)source).extractLastDetectorDataSet();
 					if (this.shouldRunItDark() & lastItDarkData != null) {

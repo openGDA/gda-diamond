@@ -18,14 +18,16 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import gda.scan.ede.datawriters.TimeResolvedNexusFileHelper;
+import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
+import gda.scan.ede.datawriters.TimeResolvedDataFileHelper;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -46,15 +48,20 @@ public class TimeResolvedToolPageHelper {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedToolPageHelper.class);
 
-	public void averageCyclesAndExport(File nexusFile, Display display, int cycles) {
-		Integer[] intArray = new Integer[cycles];
-		for (int i = 0; i <cycles; i++) {
-			intArray[i] = new Integer(i);
+	public void averageCyclesAndExport(File nexusFile, Display display, int[] availableCycles) {
+		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusFile.getAbsolutePath());
+		Integer[] availArray = new Integer[availableCycles.length];
+		List<Integer> excludedList = new ArrayList<Integer>();
+		for (int i = 0; i <availArray.length; i++) {
+			availArray[i] = new Integer(i);
+			if (availableCycles[i] == 1) {
+				excludedList.add(availArray[i]);
+			}
 		}
 		ListSelectionDialog excludedCyclesSelectionDialog =
 				new ListSelectionDialog(
 						display.getActiveShell(),
-						intArray,
+						availArray,
 						new ArrayContentProvider(),
 						new LabelProvider(),
 						"Select excluded cycles") {
@@ -77,25 +84,70 @@ public class TimeResolvedToolPageHelper {
 				return clientDialogArea;
 			}
 		};
+
+		excludedCyclesSelectionDialog.setInitialElementSelections(excludedList);
+
 		if (excludedCyclesSelectionDialog.open() == Window.OK) {
 			String dir = showSaveDirectory(nexusFile, display);
 			if (dir == null) {
 				return;
 			}
 
-			Object[] selection = excludedCyclesSelectionDialog.getResult();
-			Integer[] integerArray = Arrays.copyOf(selection, selection.length, Integer[].class);
+			Object[] selectionObj = excludedCyclesSelectionDialog.getResult();
+			int[] selection = new int[selectionObj.length];
+			for (int i = 0; i < selection.length; i++) {
+				selection[i] = ((Integer) selectionObj[i]).intValue();
+			}
 			File tempFile;
 			try {
 				tempFile = copyAsTempFile(nexusFile);
-				TimeResolvedNexusFileHelper timeResolvedNexusFileHelper = new TimeResolvedNexusFileHelper(tempFile.getAbsolutePath());
-				// timeResolvedNexusFileHelper.reduceCyclicData(integerArray);
+				timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(tempFile.getAbsolutePath());
+				timeResolvedNexusFileHelper.excludeCyclesInData(selection);
 				// TODO Refactor
 				String newFilePath = dir + File.separator + FilenameUtils.getName(tempFile.getAbsolutePath());
 				Files.copy(tempFile.toPath(), Paths.get(newFilePath), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				logger.error("Unable to save the updated cyclic data", e);
 			}
+		}
+	}
+
+	public void applyEnergyCalibrationToNexusFiles(File nexusFile, Display display, String energyCalibration, double[] value) throws Exception {
+		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(display.getActiveShell(), nexusFile.getParent());
+		if (selectedFiles == null || selectedFiles.length < 1) {
+			return;
+		}
+		String dirToStoreCalibratedFiles = showSaveDirectory(nexusFile, display);
+		if (dirToStoreCalibratedFiles == null) {
+			return;
+		}
+		TimeResolvedDataFileHelper timeResolvedNexusFileHelper;
+		for(File file : selectedFiles) {
+			String path = DataFileHelper.copyToTempFolder(file, "calibrated");
+			timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(path);
+			timeResolvedNexusFileHelper.replaceEnergy(energyCalibration, value);
+			Files.copy(Paths.get(path), Paths.get(dirToStoreCalibratedFiles), StandardCopyOption.REPLACE_EXISTING);
+		}
+	}
+
+	public void averageSpectrumAndExport(File nexusFile, Display display, SpectraRegionDataNode[] spectraRegionDataNode) {
+		String dirToStoreReducedFiles = showSaveDirectory(nexusFile, display);
+		if (dirToStoreReducedFiles == null) {
+			return;
+		}
+		RangeData[] rangeData = new RangeData[spectraRegionDataNode.length];
+		for (int i = 0; i < spectraRegionDataNode.length; i++) {
+			rangeData[i] = new RangeData(spectraRegionDataNode[i].getStart().getIndex(), spectraRegionDataNode[i].getEnd().getIndex());
+		}
+		File tempFile;
+		try {
+			tempFile = copyAsTempFile(nexusFile);
+			TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(tempFile.getAbsolutePath());
+			timeResolvedNexusFileHelper.averageSpectrumAndReplace(rangeData);
+			String newFilePath = dirToStoreReducedFiles + File.separator + FilenameUtils.getName(tempFile.getAbsolutePath());
+			Files.copy(tempFile.toPath(), Paths.get(newFilePath), StandardCopyOption.REPLACE_EXISTING);
+		} catch (Exception e) {
+			logger.error("Unable to save the updated reduced data", e);
 		}
 	}
 

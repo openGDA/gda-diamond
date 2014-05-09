@@ -19,6 +19,16 @@
 package gda.scan.ede;
 
 public enum EdeScanType {
-	LIGHT,
-	DARK
+	LIGHT(1),
+	DARK(0);
+
+	private final int value;
+
+	private EdeScanType(int value) {
+		this.value = value;
+	}
+
+	public int getValue() {
+		return value;
+	}
 }

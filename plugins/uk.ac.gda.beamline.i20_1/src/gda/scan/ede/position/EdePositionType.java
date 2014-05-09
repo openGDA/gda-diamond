@@ -19,17 +19,24 @@
 package gda.scan.ede.position;
 
 public enum EdePositionType {
-	INBEAM("It"),
-	OUTBEAM("I0"),
-	REFERENCE("IRef");
+	OUTBEAM("I0", 0),
+	INBEAM("It", 1),
+	OUTBEAM_REFERENCE("I0ForIRef", 2),
+	REFERENCE("IRef", 3);
 
 	private final String label;
+	private final int value;
 
-	private EdePositionType(String label) {
+	private EdePositionType(String label, int value) {
 		this.label = label;
+		this.value = value;
 	}
 
 	public String getLabel() {
 		return label;
+	}
+
+	public int getValue() {
+		return value;
 	}
 }

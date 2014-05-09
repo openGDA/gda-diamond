@@ -27,10 +27,10 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 public class TimingGroupDataNode {
 	private final IObservableList spectra = new WritableList(new ArrayList<SpectrumDataNode>(), SpectrumDataNode.class);
 	private final String name;
-	private final double timePerFrame;
+	private final double timePerSpectrum;
 
-	public TimingGroupDataNode(String name, double timePerFrame, List<SpectrumDataNode> spectraData) {
-		this.timePerFrame = timePerFrame;
+	public TimingGroupDataNode(String name, double timePerSpectrum, List<SpectrumDataNode> spectraData) {
+		this.timePerSpectrum = timePerSpectrum;
 		spectra.addAll(spectraData);
 		this.name = "Group " + name;
 	}
@@ -39,8 +39,8 @@ public class TimingGroupDataNode {
 		return spectra;
 	}
 
-	public double getTimePerFrame() {
-		return timePerFrame;
+	public double getTimePerSpectrum() {
+		return timePerSpectrum;
 	}
 
 	@Override

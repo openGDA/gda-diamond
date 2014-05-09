@@ -20,6 +20,7 @@ package gda.device.scannable;
 
 import gda.device.DeviceException;
 import gda.scan.ede.EdeScanType;
+import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.position.EdePositionType;
 
 /**
@@ -31,7 +32,7 @@ import gda.scan.ede.position.EdePositionType;
  */
 public class FrameIndexer extends ScannableBase {
 
-	public static Integer[] generateIndex(EdeScanType scantype, EdePositionType positionsType, int repetitionNumber,
+	private Integer[] generateIndex(EdeScanType scantype, EdePositionType positionsType, int repetitionNumber,
 			int timingGroup, int frameNumber) {
 		Integer[] position = new Integer[5];
 		position[0] = scantype == EdeScanType.DARK ? 0 : 1;
@@ -42,8 +43,11 @@ public class FrameIndexer extends ScannableBase {
 		case INBEAM:
 			position[1] = 1;
 			break;
-		case REFERENCE:
+		case OUTBEAM_REFERENCE:
 			position[1] = 2;
+			break;
+		case REFERENCE:
+			position[1] = 3;
 			break;
 		}
 		position[2] = repetitionNumber;
@@ -60,7 +64,11 @@ public class FrameIndexer extends ScannableBase {
 
 	public FrameIndexer(EdeScanType scanType, EdePositionType type, Integer repetitionNumber) {
 		inputNames = new String[] {};
-		extraNames = new String[] { "Light", "It", "Repetition", "Group", "Frame" };
+		extraNames = new String[] { EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME,
+				EdeDataConstants.IT_COLUMN_NAME,
+				EdeDataConstants.CYCLE_COLUMN_NAME,
+				EdeDataConstants.TIMINGGROUP_COLUMN_NAME,
+				EdeDataConstants.FRAME_COLUMN_NAME };
 		outputFormat = new String[] { "%1d", "%1d", "%d", "%d", "%d" };
 		scantype = scanType;
 		positionsType = type;
