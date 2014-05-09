@@ -25,7 +25,7 @@ import org.eclipse.swt.layout.GridData;
 import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 
-public class CyclicExperimentView extends LinearExperimentView {
+public class CyclicExperimentView extends TimeResolvedExperimentView {
 	public static final String CYCLIC_EXPERIMENT_VIEW_ID = "uk.ac.gda.exafs.ui.views.cyclicExperimentView";
 
 	@Override

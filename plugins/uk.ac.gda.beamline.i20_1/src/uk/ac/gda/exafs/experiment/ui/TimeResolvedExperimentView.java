@@ -56,11 +56,11 @@ import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 import de.jaret.util.date.Interval;
 
-public class LinearExperimentView extends ViewPart {
+public class TimeResolvedExperimentView extends ViewPart {
 
 	public static final String LINEAR_EXPERIMENT_VIEW_ID = "uk.ac.gda.exafs.ui.views.linearExperimentView";
 
-	private static Logger logger = LoggerFactory.getLogger(LinearExperimentView.class);
+	private static Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentView.class);
 
 	protected FormToolkit toolkit;
 	private DataBindingContext dataBindingCtx;
@@ -176,8 +176,8 @@ public class LinearExperimentView extends ViewPart {
 	});
 
 	private void createExperimentDetailsSection(Composite parent) {
-		// Start stop buttons
 
+		// Start stop buttons
 		Composite acquisitionButtonsComposite = new Composite(parent, SWT.NONE);
 		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 		gridData.horizontalSpan = 2;

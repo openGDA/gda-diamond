@@ -25,6 +25,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import uk.ac.gda.common.rcp.UIHelper;
+
 public class RemoveTimeGroupCommandHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -33,7 +35,11 @@ public class RemoveTimeGroupCommandHandler extends AbstractHandler {
 		if (selection != null && selection instanceof IStructuredSelection) {
 			if (!selection.isEmpty() && ((IStructuredSelection) selection).getFirstElement() instanceof TimingGroupUIModel) {
 				TimingGroupUIModel timingGroupUIModel = (TimingGroupUIModel) ((IStructuredSelection) selection).getFirstElement();
-				timingGroupUIModel.getParent().removeGroup(timingGroupUIModel);
+				try {
+					timingGroupUIModel.getParent().removeGroup(timingGroupUIModel);
+				} catch (Exception e) {
+					UIHelper.showError("Error removing group", e.getMessage());
+				}
 			}
 		}
 		return null;

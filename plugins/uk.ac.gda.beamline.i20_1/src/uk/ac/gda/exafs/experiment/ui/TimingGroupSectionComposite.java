@@ -50,6 +50,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -57,6 +58,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -128,6 +131,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	private Section sectionIRefaccumulationSection;
 
 	private Composite i0NoOfaccumulationsComposite;
+
+	private Button endTimeValueFixedFlag;
+
+	private final Image pin = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_DEC_FIELD_WARNING);
 
 	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit, TimeResolvedExperimentModel model) {
 		super(parent, style);
@@ -316,10 +323,21 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		startTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		startTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+
 		label = toolkit.createLabel(groupDetailsSectionComposite, "End time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		endTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
+
+		final Composite changableGroupDetailsSectionComposite = toolkit.createComposite(groupDetailsSectionComposite, SWT.NONE);
+		changableGroupDetailsSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
+		changableGroupDetailsSectionComposite.setLayoutData(gridData);
+
+		endTimeValueText = new NumberEditorControl(changableGroupDetailsSectionComposite, SWT.None, false);
 		endTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		endTimeValueFixedFlag = toolkit.createButton(changableGroupDetailsSectionComposite, "", SWT.CHECK);
+		endTimeValueFixedFlag.setImage(pin);
+		endTimeValueFixedFlag.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
 
 		label = toolkit.createLabel(groupDetailsSectionComposite, "Time per spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -638,6 +656,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
+
+			groupBindings.add(dataBindingCtx.bindValue(
+					WidgetProperties.selection().observe(endTimeValueFixedFlag),
+					BeanProperties.value(TimingGroupUIModel.END_TIME_IS_LOCKED).observe(group)));
 
 			endTimeValueText.setModel(group, TimeIntervalDataModel.END_TIME_PROP_NAME);
 			endTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
