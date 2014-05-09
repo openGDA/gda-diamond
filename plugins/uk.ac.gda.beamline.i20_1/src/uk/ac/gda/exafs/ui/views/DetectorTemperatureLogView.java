@@ -30,7 +30,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.ede.alignment.ui.DetectorLiveModeView;
+import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorTemperatureLogView extends ViewPart{
