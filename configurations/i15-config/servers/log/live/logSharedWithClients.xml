@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
 
+    <!-- The include statement in the following java.properties file is not read so you need to reference both -->
+    <property file="${gda.config}/properties/${gda.mode}/java.properties" />
+    <property file="${gda.config}/properties/common/java.properties" />
+
     <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
     <appender name="WS001_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i15-ws001.diamond.ac.uk</RemoteHost>
-        <Port>6790</Port>
+        <Port>${gda.logPanel.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
     <appender name="WS002_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i15-ws002.diamond.ac.uk</RemoteHost>
-        <Port>6790</Port>
+        <Port>${gda.logPanel.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
     <appender name="WS005_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i15-ws005.diamond.ac.uk</RemoteHost>
-        <Port>6790</Port>
+        <Port>${gda.logPanel.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
