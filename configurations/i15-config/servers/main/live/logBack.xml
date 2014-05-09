@@ -7,7 +7,7 @@
     <!-- Console LogPanel DebugPanel                                           servers/log/common/logSharedWithClients.xml -->
     <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
 
-	<!-- address where the messages from Object Servers send to - the LogServer-->
+    <!-- address where the messages from Object Servers send to - the LogServer-->
     <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i15-control.diamond.ac.uk</RemoteHost>
         <Port>6788</Port>
@@ -16,14 +16,14 @@
     </appender>
 
     <!--<appender name="ELOG" class="gda.util.ElogAppender">
-    	<Visit></Visit>
-		<LogID>BLI15</LogID>
-		<GroupID>DA</GroupID>
-		<UserID>gda</UserID>
+        <Visit></Visit>
+        <LogID>BLI15</LogID>
+        <GroupID>DA</GroupID>
+        <UserID>gda</UserID>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
-        </layout>	    
-    </appender>-->  
+        </layout>
+    </appender>-->
 
     <root>
         <level value="INFO"/>

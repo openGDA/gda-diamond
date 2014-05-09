@@ -58,10 +58,10 @@
     </appender>-->
     
     <!-- appender name="ELOG" class="gda.util.ElogAppender">
-    	<Visit></Visit>
-		<LogID>BLI15</LogID>
-		<GroupID>DA</GroupID>
-		<UserID>GDA</UserID>
+        <Visit></Visit>
+        <LogID>BLI15</LogID>
+        <GroupID>DA</GroupID>
+        <UserID>GDA</UserID>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
         </layout>	    
