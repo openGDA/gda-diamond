@@ -74,6 +74,8 @@ h_ch2_pv_in =  'BL22I-OP-KBM-01:HFM:SET-VOUT02'
 h_ch3_pv_in =  'BL22I-OP-KBM-01:HFM:SET-VOUT03'
 h_ch4_pv_in =  'BL22I-OP-KBM-01:HFM:SET-VOUT04'
 h_ch5_pv_in =  'BL22I-OP-KBM-01:HFM:SET-VOUT05'
+h_ch6_pv_in =  'BL22I-OP-KBM-01:HFM:SET-VOUT06'
+h_ch7_pv_in =  'BL22I-OP-KBM-01:HFM:SET-VOUT07'
 
 h_ch0_pv_out = 'BL22I-OP-KBM-01:HFM:GET-VOUT00'
 h_ch1_pv_out =  'BL22I-OP-KBM-01:HFM:GET-VOUT01'
@@ -81,6 +83,8 @@ h_ch2_pv_out =  'BL22I-OP-KBM-01:HFM:GET-VOUT02'
 h_ch3_pv_out =  'BL22I-OP-KBM-01:HFM:GET-VOUT03'
 h_ch4_pv_out =  'BL22I-OP-KBM-01:HFM:GET-VOUT04'
 h_ch5_pv_out =  'BL22I-OP-KBM-01:HFM:GET-VOUT05'
+h_ch6_pv_out =  'BL22I-OP-KBM-01:HFM:GET-VOUT06'
+h_ch7_pv_out =  'BL22I-OP-KBM-01:HFM:GET-VOUT07'
 
 hfm_ch0 = SingleChannelBimorphClass('hfm_ch0',h_ch0_pv_in,h_ch0_pv_out,h_status,'V', format)
 hfm_ch1 = SingleChannelBimorphClass('hfm_ch1',h_ch1_pv_in,h_ch1_pv_out,h_status,'V', format)
@@ -88,8 +92,10 @@ hfm_ch2 = SingleChannelBimorphClass('hfm_ch2',h_ch2_pv_in,h_ch2_pv_out,h_status,
 hfm_ch3 = SingleChannelBimorphClass('hfm_ch3',h_ch3_pv_in,h_ch3_pv_out,h_status,'V', format)
 hfm_ch4 = SingleChannelBimorphClass('hfm_ch4',h_ch4_pv_in,h_ch4_pv_out,h_status,'V', format)
 hfm_ch5 = SingleChannelBimorphClass('hfm_ch5',h_ch5_pv_in,h_ch5_pv_out,h_status,'V', format)
+hfm_ch6 = SingleChannelBimorphClass('hfm_ch6',h_ch6_pv_in,h_ch6_pv_out,h_status,'V', format)
+hfm_ch7 = SingleChannelBimorphClass('hfm_ch7',h_ch7_pv_in,h_ch7_pv_out,h_status,'V', format)
 
-for device in [hfm_ch0, hfm_ch1, hfm_ch2, hfm_ch3, hfm_ch4, hfm_ch5 ]:
+for device in [hfm_ch0, hfm_ch1, hfm_ch2, hfm_ch3, hfm_ch4, hfm_ch5, hfm_ch6, hfm_ch7]:
 	device.setProtectionLevel(3)
 del device
 
@@ -182,4 +188,4 @@ class SYS900SBimorph(PseudoDevice):
 		return True
 
 vfm_v=SYS900SBimorph("vfm_v","BL22I-OP-KBM-01:VFM", 16)
-hfm_v=SYS900SBimorph("hfm_v","BL22I-OP-KBM-01:HFM", 6)
+hfm_v=SYS900SBimorph("hfm_v","BL22I-OP-KBM-01:HFM", 8)
