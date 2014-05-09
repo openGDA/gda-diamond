@@ -70,6 +70,11 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	<bean id="me2_stripe" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}me2_stripe" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 	<bean id="wiggler_gap" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}wiggler_gap" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />

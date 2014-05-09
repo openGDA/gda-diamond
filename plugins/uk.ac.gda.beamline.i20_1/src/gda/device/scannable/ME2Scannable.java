@@ -22,7 +22,7 @@ import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.enumpositioner.EnumPositionerBase;
 
-public class ME2Scannable extends EnumPositionerBase {
+public class ME2Scannable extends EnumPositionerBase implements EnumPositioner {
 
 	public enum Positions {
 		Rhodium, Silicon, out
