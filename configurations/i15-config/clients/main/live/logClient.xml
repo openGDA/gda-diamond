@@ -9,19 +9,13 @@
     <!-- ClientDebugFILE                                                 clients/main/common/logClient.xml -->
     <include file="../workspace_git/gda-mt.git/configurations/i15-config/clients/main/common/logClient.xml"/>
 
-    <!-- Console LogPanel DebugPanel                                     servers/log/common/logSharedWithClients.xml -->
+    <!-- Console                                                         servers/log/common/logSharedWithClients.xml -->
     <include file="../workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
-
-    <!-- WS001_LogPanel WS002_LogPanel WS005_LogPanel                    servers/log/live/logSharedWithClients.xml-->
-    <include file="../workspace_git/gda-mt.git/configurations/i15-config/servers/log/live/logSharedWithClients.xml"/>
 
     <root>
         <level value="INFO"/>
         <appender-ref ref="Console"/>
         <appender-ref ref="LogPanel"/>
         <appender-ref ref="ClientDebugFILE"/>
-        <appender-ref ref="WS001_LogPanel"/>
-        <appender-ref ref="WS002_LogPanel"/>
-        <appender-ref ref="WS005_LogPanel"/>
     </root>
 </configuration>

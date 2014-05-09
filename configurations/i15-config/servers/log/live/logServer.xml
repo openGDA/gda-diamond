@@ -9,45 +9,12 @@
     <!-- ServerDebugFILE LogServer                                             servers/log/common/logServer.xml -->
     <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/>
 
-    <!-- Console LogPanel DebugPanel                                           servers/log/common/logSharedWithClients.xml -->
+    <!-- Console                                                               servers/log/common/logSharedWithClients.xml -->
     <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
-
-    <!-- The include statement in the following java.properties file is not read so you need to reference both -->
-    <property file="${gda.config}/properties/${gda.mode}/java.properties" />
-    <property file="${gda.config}/properties/common/java.properties" />
-
-    <!-- WS001_LogPanel WS002_LogPanel WS005_LogPanel                          servers/log/live/logSharedWithClients.xml-->
-    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/live/logSharedWithClients.xml"/>
-
-    <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
-    <appender name="WS001" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws001.diamond.ac.uk</RemoteHost>
-        <Port>${gda.client.logging.port}</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-    <appender name="WS002" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws002.diamond.ac.uk</RemoteHost>
-        <Port>${gda.client.logging.port}</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-    <appender name="WS005" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws005.diamond.ac.uk</RemoteHost>
-        <Port>${gda.client.logging.port}</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
 
     <root>
         <level value="INFO"/>
         <appender-ref ref="LogServer" />
-        <appender-ref ref="WS001"/>
-        <appender-ref ref="WS001_LogPanel"/>
-        <appender-ref ref="WS002"/>
-        <appender-ref ref="WS002_LogPanel"/>
-        <appender-ref ref="WS005"/>
-        <appender-ref ref="WS005_LogPanel"/>
         <appender-ref ref="ServerDebugFILE"/>
      </root>
 </configuration>
