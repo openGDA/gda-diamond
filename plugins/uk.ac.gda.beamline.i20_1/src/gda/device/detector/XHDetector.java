@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -1377,5 +1378,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	@Override
 	public IDataset[][] fetchTemperatureData() throws DeviceException {
 		return new XCHIPTemperatureLogParser(tempLogFilename).getTemperatures();
+	}
+
+	@Override
+	public String getTemperatureLogFile() {
+		return tempLogFilename;
 	}
 }
