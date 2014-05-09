@@ -1,18 +1,15 @@
 #!/bin/bash
 
-LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)
-
-if [ "X$LOGPANEL" == "X" ] ; then
-  export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
-  . $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_log_output
-
-  echo Starting GDA Log Panel...
-  echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
-  echo  $GDA_CORE_SCRIPT logpanel --mode=$GDA_MODE
-  echo  $GDA_CORE_SCRIPT logpanel --mode=$GDA_MODE >> $GDA_CONSOLE_LOG
-  nohup $GDA_CORE_SCRIPT logpanel --mode=$GDA_MODE >> $GDA_CONSOLE_LOG 2>&1 &
-
-else
-  echo Raising GDA Log Panel...
-  wmctrl -R "GDA Log Panel"
+if [ -z $GDA_MODE ] ; then
+  export GDA_MODE=dummy
 fi
+
+export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
+. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_log_output
+GDA_LOGPANEL_APP_ARGS="-vmargs -Dgda.propertiesFile=$GDA_CONFIG/properties/$GDA_MODE/java.properties -Dgda.install.git.loc=$GDA_INSTALL_GIT_LOC"
+
+echo Starting GDA Log Panel...
+echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE , GDA_MODE = $GDA_MODE
+echo  $GDA_LOGPANEL_APP $GDA_LOGPANEL_APP_ARGS
+echo  $GDA_LOGPANEL_APP $GDA_LOGPANEL_APP_ARGS >> $GDA_CONSOLE_LOG
+nohup $GDA_LOGPANEL_APP $GDA_LOGPANEL_APP_ARGS >> $GDA_CONSOLE_LOG 2>&1 &
