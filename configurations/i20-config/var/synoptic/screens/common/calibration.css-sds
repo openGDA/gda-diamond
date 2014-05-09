@@ -848,7 +848,7 @@
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0" />
-  <property type="sds.string" id="server.command" value="offsetsStore.getName()" />
+  <property type="sds.string" id="server.command" value="xes_offsets.current_offsets_file" />
 </widget>
 
 </display>

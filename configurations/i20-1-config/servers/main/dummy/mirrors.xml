@@ -30,7 +30,7 @@
 
 <!-- me2 -->
 
-	<bean id="me2_stripe" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="me2_stripe_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Rhodium</value>

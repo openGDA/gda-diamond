@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
+import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 
 public class XCHIPTemperatureParserTest {
 

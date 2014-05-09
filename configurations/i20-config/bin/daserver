@@ -21,13 +21,13 @@ echo "Configure the XMAP/Vortex detector before (re)starting GDA servers..."
 if [  "$XSPRESS_ELEMENTS" == "64" ];
 then
 	echo ""
-	echo "Will now sleep for 30 seconds for port 1972 to become available on da.server machine..."
-	sleep 30
+	echo "Will now sleep for 60 seconds for port 1972 to become available on da.server machine..."
+	sleep 60
 	echo "Restarting da.server on 64 element xspress control machine..."
 	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress0 'cd xspress2_64element/; da.server -port=1972 -log' &
 else
-	echo "Will now sleep for 30 seconds for port 1972 to become available on da.server machine..."
-	sleep 30
+	echo "Will now sleep for 60 seconds for port 1972 to become available on da.server machine..."
+	sleep 60
 	echo "Restarting da.server on 36 element xspress control machine..."
 	ssh -i /dls_sw/i20/software/gda/config/daserver.key i20detector@i20-xspress1 'cd xspress2_36element/; da.server -port=1972 -log' &
 fi

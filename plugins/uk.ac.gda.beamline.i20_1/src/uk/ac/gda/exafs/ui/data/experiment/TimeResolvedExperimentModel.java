@@ -29,7 +29,6 @@ import gda.jython.scriptcontroller.Scriptcontroller;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
-import gda.scan.ede.EdeLinearExperiment;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -54,10 +53,15 @@ import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
+import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
+import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
+import uk.ac.gda.exafs.experiment.ui.data.SpectrumModel;
+import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
+import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.data.experiment.SampleStageMotors.ExperimentMotorPostionType;
-import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 
 import com.google.gson.annotations.Expose;
 

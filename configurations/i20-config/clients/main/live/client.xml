@@ -107,7 +107,7 @@
 	</bean>
 	
 	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}filterwheel" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}/filterwheel" />
 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
@@ -116,5 +116,8 @@
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>
+	
+	<import resource="../medipix_device.xml" />
+	<import resource="../medipix.xml" />
 	
 </beans>

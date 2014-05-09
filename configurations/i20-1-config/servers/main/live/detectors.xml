@@ -7,21 +7,21 @@
 <!-- Config used to test against hardware during installation in detectors lab  -->
 
 <!-- Replace with dummy while detector is away -->
-<!--	<bean id="DAServer" class="gda.device.detector.DAServer">
+	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
 		<property name="host" value="i20-1-xh0.diamond.ac.uk" />
-		<property name="port" value="1972" /> -->
+		<property name="port" value="1972" />
 <!-- 		<property name="startupCommands"> -->
 <!-- 			<list> -->
 <!-- 				<value>~config_xs</value> -->
 <!-- 			</list> -->
 <!-- 		</property> -->
-<!-- 	<property name="dataPort" value="20030" />
+ 	<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
 	</bean>
--->
 
-<!-- Replace with dummy while detector is away -->
+
+<!-- Replace with dummy while detector is away 
 	<bean id="DAServer" class="gda.device.detector.DummyXStripDAServer">
 		<property name="local" value="True" />
 		<property name="host" value="localhost" />
@@ -34,7 +34,7 @@
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
 	</bean>	
-	
+	-->
 	<import resource="file:${gda.config}/servers/main/detectors-common.xml" />
 	
 </beans>

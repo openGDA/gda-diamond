@@ -251,16 +251,28 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 	}
 
 	public void selectionChanged(SampleStageParameters selectedBean) {
-		selectedBean.setNumberOfRepetitions((Integer) numberOfRepetitions.getValue());
-		selectedBean.setSample_description(sample_description.getText());
-		selectedBean.setSample_finerotation((Double) sample_finerotation.getValue());
-		selectedBean.setSample_rotation((Double) sample_rotation.getValue());
-		selectedBean.setSample_x((Double) sample_x.getValue());
-		selectedBean.setSample_y((Double) sample_y.getValue());
-		selectedBean.setSample_z((Double) sample_z.getValue());
-		selectedBean.setSample_roll((Double) sample_roll.getValue());
-		selectedBean.setSample_pitch((Double) sample_pitch.getValue());
-		selectedBean.setSample_name(sample_name.getText());
+		//if(numberOfRepetitions!=null){
+			int numberOfRepetitionsValue = (Integer) numberOfRepetitions.getValue();
+			selectedBean.setNumberOfRepetitions(numberOfRepetitionsValue);
+		//}
+		//if(sample_description!=null)
+			selectedBean.setSample_description(sample_description.getText());
+		if(sample_finerotation!=null)
+			selectedBean.setSample_finerotation((Double) sample_finerotation.getValue());
+		if(sample_rotation!=null)
+			selectedBean.setSample_rotation((Double) sample_rotation.getValue());
+		//if(sample_x!=null)
+			selectedBean.setSample_x((Double) sample_x.getValue());
+		//if(sample_y!=null)
+			selectedBean.setSample_y((Double) sample_y.getValue());
+		//if(sample_z!=null)
+			selectedBean.setSample_z((Double) sample_z.getValue());
+		//if(sample_roll!=null)
+			selectedBean.setSample_roll((Double) sample_roll.getValue());
+		//if(sample_pitch!=null)
+			selectedBean.setSample_pitch((Double) sample_pitch.getValue());
+		//if(sample_name!=null)
+			selectedBean.setSample_name(sample_name.getText());
 	}
 
 	@Override

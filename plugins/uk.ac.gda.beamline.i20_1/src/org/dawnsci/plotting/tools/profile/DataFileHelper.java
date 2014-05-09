@@ -67,7 +67,25 @@ public class DataFileHelper {
 	}
 
 	public static String getFileNameWithSuffix(File file, String suffix) {
-		return FilenameUtils.removeExtension(file.getName()) + "-" + suffix + "." +  FilenameUtils.getExtension(file.getName());
+		return FilenameUtils.removeExtension(file.getName()) + "_" + suffix + "." +  FilenameUtils.getExtension(file.getName());
 	}
 
+	public static String getFileNameWithSuffixAndExt(File file, String suffix, String ext) {
+		return FilenameUtils.removeExtension(file.getName()) + "_" + suffix + "." +  ext;
+	}
+
+	public static String getFileNameWithPrefixSuffixAndExt(File file, String prefix, String suffix, String ext) {
+		return prefix + "_" + FilenameUtils.removeExtension(file.getName()) + "_" + suffix + "." +  ext;
+	}
+
+	// TODO Check folder exist
+	public static String convertFromNexusToAsciiFolder(String nexusFilePath) {
+		String nexusFolder = FilenameUtils.getFullPath(nexusFilePath);
+		int nexusLocation = nexusFolder.lastIndexOf("nexus");
+		if (nexusLocation != -1) {
+			String path = nexusFolder.substring(0, nexusLocation);
+			return path + "ascii/";
+		}
+		return nexusFolder;
+	}
 }

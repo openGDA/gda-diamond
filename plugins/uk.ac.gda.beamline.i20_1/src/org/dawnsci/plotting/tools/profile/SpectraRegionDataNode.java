@@ -21,16 +21,13 @@ package org.dawnsci.plotting.tools.profile;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.region.IROIListener;
 import org.dawnsci.plotting.api.region.IRegion;
 import org.dawnsci.plotting.api.region.ROIEvent;
-import org.dawnsci.plotting.api.trace.IImageTrace;
-import org.dawnsci.plotting.api.trace.ILineTrace;
 import org.dawnsci.plotting.api.trace.ITrace;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.roi.IROI;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beans.ObservableModel;
@@ -71,30 +68,27 @@ public class SpectraRegionDataNode extends ObservableModel implements IROIListen
 			boolean ended = false;
 			ArrayList<SpectrumDataNode> tempSpectraList = new ArrayList<SpectrumDataNode>();
 			outerloop:
-				for (Object cycleObject : parentTimeResolvedData.getCycles()) {
-					CycleDataNode cycle = (CycleDataNode) cycleObject;
-					for (Object timingObject : cycle.getTimingGroups()) {
-						TimingGroupDataNode group = (TimingGroupDataNode) timingObject;
-						for (Object object1 : group.getSpectra()) {
-							SpectrumDataNode spectrum = (SpectrumDataNode) object1;
-							if (spectrum.getIndex() >= firstIndex) {
-								started = true;
+				for (Object timingObject : parentTimeResolvedData.getTimingGroups()) {
+					TimingGroupDataNode group = (TimingGroupDataNode) timingObject;
+					for (Object object1 : group.getSpectra()) {
+						SpectrumDataNode spectrum = (SpectrumDataNode) object1;
+						if (spectrum.getIndex() >= firstIndex) {
+							started = true;
+						}
+						if ((started && !ended)) {
+							tempSpectraList.add(spectrum);
+							if (spectrum.getIndex() == lastIndex) {
+								ended = true;
 							}
-							if ((started && !ended)) {
-								tempSpectraList.add(spectrum);
-								if (spectrum.getIndex() == lastIndex) {
-									ended = true;
-								}
-							}
-							if (started && ended) {
-								firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
-								firePropertyChange(START, null, this.getStart());
-								firePropertyChange(END, null, this.getEnd());
-								roi.setPoint(0, firstIndex);
-								((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex + 1});
-								plotRegion.setROI(roi);
-								break outerloop;
-							}
+						}
+						if (started && ended) {
+							firePropertyChange(SPECTRA_CHANGED, spectraList, spectraList = tempSpectraList);
+							firePropertyChange(START, null, this.getStart());
+							firePropertyChange(END, null, this.getEnd());
+							roi.setPoint(0, firstIndex);
+							((RectangularROI) roi).setLengths(new double[]{boxRoi.getLength(0), lastIndex - firstIndex + 1});
+							plotRegion.setROI(roi);
+							break outerloop;
 						}
 					}
 				}
@@ -135,19 +129,21 @@ public class SpectraRegionDataNode extends ObservableModel implements IROIListen
 	@Override
 	public void roiSelected(ROIEvent evt) {}
 
-	public ITrace[] createTraces(IPlottingSystem plottingSystem, IImageTrace imageTrace, IDataset energy) {
+	public DoubleDataset getDataset(DoubleDataset fullData) {
+		DoubleDataset result = new DoubleDataset(new int[]{0, TimeResolvedDataNode.NUMBER_OF_STRIPS});
 		for (SpectrumDataNode spectrum : this.getSpectra()) {
-			DoubleDataset data = (DoubleDataset) imageTrace.getData().getSlice(new int[]{spectrum.getIndex(), 0}, new int[]{spectrum.getIndex() + 1, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1,1});
-			data.squeeze();
-			ILineTrace trace = plottingSystem.createLineTrace(this.getRegion().getLabel() + " (" + spectrum.getIndex() + ")");
-			trace.setData(energy, data);
-			regionTraces.add(trace);
+			DoubleDataset data = (DoubleDataset) fullData.getSliceView(new int[]{spectrum.getIndex(), 0}, new int[]{spectrum.getIndex() + 1, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1,1});
+			result = (DoubleDataset) DatasetUtils.append(result, data, 0);
 		}
-		return regionTraces.toArray(new ITrace[]{});
+		return result;
 	}
 
 	public ITrace[] getTraces() {
 		return regionTraces.toArray(new ITrace[]{});
+	}
+
+	public void addTrace(ITrace trace) {
+		regionTraces.add(trace);
 	}
 
 
@@ -155,7 +151,8 @@ public class SpectraRegionDataNode extends ObservableModel implements IROIListen
 		regionTraces.clear();
 	}
 
-	public String getDescription() {
-		return "";
+	@Override
+	public String toString() {
+		return this.getStart() + ":" + this.getEnd();
 	}
 }

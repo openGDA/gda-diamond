@@ -62,4 +62,11 @@ public interface XCHIPDetector extends StripDetector {
 	public void startTemperatureLogging() throws DeviceException;
 
 	public void stopTemperatureLogging() throws DeviceException;
+
+	/**
+	 * This will be a file of format LocalProperties.getVarDir() + getName() + "_temperatures_" + today's date + ".log";
+	 * 
+	 * @return String - full path to the current fiel being written to.
+	 */
+	public String getTemperatureLogFile();
 }

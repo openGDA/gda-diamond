@@ -36,7 +36,7 @@ public class CycleDataNode {
 		double cycleTime = 0.0;
 		for (Object obj : timingGroups) {
 			TimingGroupDataNode timingGroup = (TimingGroupDataNode) obj;
-			cycleTime += timingGroup.getTimePerFrame() * timingGroup.getSpectra().size();
+			cycleTime += timingGroup.getTimePerSpectrum() * timingGroup.getSpectra().size();
 		}
 		return cycleTime;
 	}
