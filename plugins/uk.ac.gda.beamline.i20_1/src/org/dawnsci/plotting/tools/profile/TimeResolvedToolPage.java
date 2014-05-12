@@ -203,7 +203,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private void checkAndFillCyclicInfo(TimeResolvedDataFileHelper timeResolvedNexusFileHelper) throws Exception {
 		cyclesInfo = timeResolvedNexusFileHelper.getCyclesInfo();
-		if (cyclesInfo != null) {
+		if (cyclesInfo.length > 0) {
 			Matcher matcher = Pattern.compile("Slice of.*=\\s*(\\d+)\\)").matcher(this.getPlottingSystem().getTitle());
 			if (matcher.find()) {
 				cycleIndex = matcher.group(1);
