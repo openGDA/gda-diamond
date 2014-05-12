@@ -64,7 +64,13 @@
 		<property name="remotePort" value="9999" />
 	</bean>
 
-
+	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/rcpController" />
+		<property name="service" ref="RCPController" />
+		<property name="serviceInterface" value="gda.gui.RCPController" />
+	</bean>
 
 	<bean id="plot_server"
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
@@ -75,6 +81,5 @@
 	<!-- Please create an observer to go with the dashboard. This means that 
 		scannables created with scripts can be observed with the DashboardView -->
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-
 
 </beans>
