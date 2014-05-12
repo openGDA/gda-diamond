@@ -27,7 +27,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" />
 	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" /> -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/checkBeamScannables.xml" />
 		
 <!-- 	shared files -->
 

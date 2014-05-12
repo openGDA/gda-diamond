@@ -7,6 +7,7 @@ from gda.factory import Finder
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
+from gda.data.scan.datawriter import NexusDataWriter
 
 print "Initialisation Started";
 
@@ -20,7 +21,7 @@ try:
     def ls_scannables():
         ls_names(Scannable)
 
-
+    
     #from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
     #alias("createPVScannable")
     #alias("caput")
@@ -38,13 +39,15 @@ try:
     from gda.data.scan.datawriter import NexusDataWriter
     LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
-    from gdascripts.pd.time_pds import waittimeClass2, showtimeClass, showincrementaltimeClass, actualTimeClass
-    waittime=waittimeClass2('waittime')
+    from gdascripts.pd.time_pds import waittimeClass, showtimeClass, showincrementaltimeClass, actualTimeClass
+    waittime=waittimeClass('waittime')
     showtime=showtimeClass('showtime')
     inctime=showincrementaltimeClass('inctime')
     actualTime=actualTimeClass("actualTime")
 
+    # After scan process the data, fit the spectrum with a gaussian and obtain the peak value (important for calibration)
     from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+    scan_processor.rootNamespaceDict=globals()
     
     #run "gda_startup.py"
     print "Initialisation Complete";

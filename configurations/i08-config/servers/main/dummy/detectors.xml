@@ -7,7 +7,7 @@
 <!-- SR08I-MO-SERVC-01:BLGAPMTR -->
 
 	 <bean id="photoDiode1" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="2.0"/>
+		<property name="value" value="-2.0"/>
 	</bean> 
 	
 	

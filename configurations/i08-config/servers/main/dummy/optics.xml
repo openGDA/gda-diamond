@@ -19,6 +19,12 @@
 	 <bean id="m1_x_motor" class="gda.device.motor.DummyMotor" />
 	
 	 <bean id="m1_pitch_motor" class="gda.device.motor.DummyMotor" />
+	 
+	 <bean id="m1_y_motor" class="gda.device.motor.DummyMotor" />
+	 
+	 <bean id="m1_roll_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="m1_yaw_motor" class="gda.device.motor.DummyMotor" />
 	
 	 <bean id="s1_xsize_motor" class="gda.device.motor.DummyMotor" />
 	 
@@ -38,21 +44,39 @@
 	
 	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor" />
 	
-	 <bean id="grating_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="grating_pitch_motor" class="gda.device.motor.DummyMotor" />
 	
 	<bean id="grating_x_motor" class="gda.device.motor.DummyMotor" />
 	
 	<bean id="m2_x_motor" class="gda.device.motor.DummyMotor" />
 	
-	 <bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor" />
 	
-	 <bean id="m3_x_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m3_x_motor" class="gda.device.motor.DummyMotor" />
 	
-	 <bean id="m3_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m3_pitch_motor" class="gda.device.motor.DummyMotor" />
+	 
+	<bean id="m3_yaw_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="m3_roll_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="m3_y_motor" class="gda.device.motor.DummyMotor" />
+	 
 
 	<bean id="m4_x_motor" class="gda.device.motor.DummyMotor" />
 	
-	 <bean id="m4_pitch_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="m4_pitch_motor" class="gda.device.motor.DummyMotor" />
+	 
+	<bean id="m4_y_motor" class="gda.device.motor.DummyMotor" />
 	
+	<bean id="m4_yaw_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="m4_roll_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="m4_ellipticity_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="m4_curvature_motor" class="gda.device.motor.DummyMotor" />
 
 </beans>
