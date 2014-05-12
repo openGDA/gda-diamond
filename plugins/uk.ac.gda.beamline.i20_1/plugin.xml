@@ -68,7 +68,7 @@
       </category>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ede.alignment.ui.BeamlineAlignmentView"
+            class="uk.ac.gda.exafs.alignment.ui.BeamlineAlignmentView"
             icon="icons/crosshairs.gif"
             id="uk.ac.gda.exafs.ui.views.beamlinealignmentview"
             name="Optics"
@@ -77,7 +77,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ede.alignment.ui.AlignmentSingleSpectrumView"
+            class="uk.ac.gda.exafs.alignment.ui.AlignmentSingleSpectrumView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView"
             name="Single Collection"
@@ -85,7 +85,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ede.alignment.ui.FocusingView"
+            class="uk.ac.gda.exafs.alignment.ui.FocusingView"
             id="uk.ac.gda.exafs.ui.views.focusingview"
             name="Focusing View"
             restorable="true">
@@ -93,7 +93,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ede.alignment.ui.DetectorLiveModeView"
+            class="uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             name="Live Mode"
@@ -119,7 +119,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ede.alignment.ui.AlignmentStageCalibrationView"
+            class="uk.ac.gda.exafs.alignment.ui.AlignmentStageCalibrationView"
             icon="icons/brick.png"
             id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
             name="Alignment Stage"
@@ -127,7 +127,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.ede.experiment.ui.ExperimentSingleSpectrumView"
+            class="uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView"
             name="Single Collection"
@@ -135,7 +135,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.ede.experiment.ui.LinearExperimentView"
+            class="uk.ac.gda.exafs.experiment.ui.TimeResolvedExperimentView"
             id="uk.ac.gda.exafs.ui.views.linearExperimentView"
             name="Linear experiment"
             restorable="true">
@@ -150,7 +150,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.ede.experiment.ui.CyclicExperimentView"
+            class="uk.ac.gda.exafs.experiment.ui.CyclicExperimentView"
             id="uk.ac.gda.exafs.ui.views.cyclicExperimentView"
             name="Cyclic experiment "
             restorable="true">
@@ -159,6 +159,14 @@
             class="uk.ac.gda.exafs.plotting.ui.SlitsScanPlotView"
             id="uk.ac.gda.exafs.ui.views.slitsscanplotview"
             name="Slits scan plot"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
+            icon="icons/Temperature.png"
+            id="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
+            name="Detector Temperatures"
             restorable="true">
       </view>
    </extension>
@@ -312,7 +320,7 @@
                      ifEmpty="false"
                      operator="or">
                   <instanceof
-                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
+                        value="uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel">
                   </instanceof>
                </iterate>
             </with>
@@ -334,7 +342,7 @@
                      ifEmpty="false"
                      operator="or">
                   <instanceof
-                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
+                        value="uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel">
                   </instanceof>
                </iterate>
             </with>
@@ -356,7 +364,7 @@
                      ifEmpty="false"
                      operator="or">
                   <instanceof
-                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
+                        value="uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel">
                   </instanceof>
                </iterate>
             </with>
@@ -378,11 +386,25 @@
                      ifEmpty="false"
                      operator="or">
                   <instanceof
-                        value="uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel">
+                        value="uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel">
                   </instanceof>
                </iterate>
             </with>
          </visibleWhen>
+      </command>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="toolbar:uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView">
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.StartTemperaturePlotting"
+            label="Start"
+            style="push">
+      </command>
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.StopTemperaturePlotting"
+            label="Stop"
+            style="push">
       </command>
    </menuContribution>
 </extension>
@@ -394,14 +416,26 @@
             name="Reset">
       </command>
       <command
-            defaultHandler="uk.ac.gda.exafs.ui.data.experiment.SplitTimingGroupCommandHandler"
+            defaultHandler="uk.ac.gda.exafs.experiment.ui.data.SplitTimingGroupCommandHandler"
             id="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
             name="Split Group">
       </command>
       <command
-            defaultHandler="uk.ac.gda.exafs.ui.data.experiment.RemoveTimeGroupCommandHandler"
+            defaultHandler="uk.ac.gda.exafs.experiment.ui.data.RemoveTimeGroupCommandHandler"
             id="uk.ac.gda.exafs.ui.data.experiment.removegroup"
             name="Remove Group">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.detectortemperature.plot.handlers.StartPlottingHandler"
+            description="Start live plotting of detector temperature"
+            id="uk.ac.gda.beamline.i20_1.StartTemperaturePlotting"
+            name="Start">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.detectortemperature.plot.handlers.StopPlottingHandler"
+            description="Stop live plotting of detector temperature"
+            id="uk.ac.gda.beamline.i20_1.StopTemperaturePlotting"
+            name="Stop">
       </command>
    </extension>
    <extension

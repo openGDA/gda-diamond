@@ -28,7 +28,6 @@ import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.datawriters.EdeDataConstants;
-import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.ScanDataHelper;
 
 import java.io.File;
@@ -46,6 +45,7 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -220,7 +221,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				createNewDataHandle();
 				// to read back timing data
 				createNewTimingHandle();
-				startTemperatureLogging();
+				// startTemperatureLogging();
 				connected = true;
 			} catch (DeviceException e) {
 				connected = false;
@@ -938,9 +939,9 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	private void writeAsciiFile(ScanDataPoint sdp,String nexusFilePath) throws Exception {
 		DoubleDataset dataSet = ScanDataHelper.extractDetectorDataFromSDP(this.getName(), sdp);
-		String asciiFileFolder = EdeExperimentDataWriter.convertFromNexusToAsciiFolder(nexusFilePath);
+		String asciiFileFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusFilePath);
 		String asciiFilename = FilenameUtils.getBaseName(nexusFilePath);
-		File asciiFile = new File(asciiFileFolder, asciiFilename + EdeDataConstants.ASCII_FILE_EXTENSION);
+		File asciiFile = new File(asciiFileFolder, asciiFilename + "." + EdeDataConstants.ASCII_FILE_EXTENSION);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + asciiFilename + " already exists!");
 		}
@@ -1318,7 +1319,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 
 	@Override
 	public boolean isEnergyCalibrationSet() {
-		return (calibration == null);
+		return (calibration != null);
 	}
 
 	@Override
@@ -1377,5 +1378,10 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	@Override
 	public IDataset[][] fetchTemperatureData() throws DeviceException {
 		return new XCHIPTemperatureLogParser(tempLogFilename).getTemperatures();
+	}
+
+	@Override
+	public String getTemperatureLogFile() {
+		return tempLogFilename;
 	}
 }

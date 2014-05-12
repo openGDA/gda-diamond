@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
+import org.dawnsci.plotting.tools.profile.DataFileHelper;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
@@ -55,7 +56,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		DoubleDataset i0InitialDataSet = i0InitialScan.extractDetectorDataSet(0);
 		DoubleDataset itDataSet = itScan.extractDetectorDataSet(0);
 
-		determineAsciiFilename();
+		determineFileAsciiFilePath();
 
 		File asciiFile = new File(asciiFilename);
 		if (asciiFile.exists()) {
@@ -114,16 +115,10 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		return asciiFilename;
 	}
 
-	private void determineAsciiFilename() {
-		// the scans would have created Nexus files, so base an ascii file on this plus any template, if supplied
+	private void determineFileAsciiFilePath() {
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
-		String folder = convertFromNexusToAsciiFolder(itFilename);
+		String folder = DataFileHelper.convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
-
-		if (filenameTemplate != null && !filenameTemplate.isEmpty()) {
-			asciiFilename = folder + String.format(filenameTemplate, filename) + EdeDataConstants.ASCII_FILE_EXTENSION;
-		} else {
-			asciiFilename = folder + filename + EdeDataConstants.ASCII_FILE_EXTENSION;
-		}
+		asciiFilename = String.format("%s%s.%s", folder, filename, EdeDataConstants.ASCII_FILE_EXTENSION);
 	}
 }

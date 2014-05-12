@@ -22,19 +22,21 @@ import org.dawnsci.plotting.api.trace.ITrace;
 
 
 public class SpectrumDataNode {
-	private final double startTime;
+	private final double endTime;
 	private final int index;
 	private final String name;
+	private final boolean isAveraged;
 	private ITrace trace;
 
-	public SpectrumDataNode(int index, double startTime) {
-		this.startTime = startTime;
+	public SpectrumDataNode(int index, double endTime, boolean isAveraged) {
+		this.endTime = endTime;
 		this.index = index;
+		this.isAveraged = isAveraged;
 		name = "Spectrum " + index;
 	}
 
-	public double getStartTime() {
-		return startTime;
+	public double getEndTime() {
+		return endTime;
 	}
 
 	public int getIndex() {
@@ -43,7 +45,7 @@ public class SpectrumDataNode {
 
 	@Override
 	public String toString() {
-		return name;
+		return Integer.toString(index);
 	}
 
 	public ITrace getTrace() {
@@ -52,6 +54,10 @@ public class SpectrumDataNode {
 
 	public void setTrace(ITrace trace) {
 		this.trace = trace;
+	}
+
+	public boolean isAveraged() {
+		return isAveraged;
 	}
 
 	public void clearTrace() {

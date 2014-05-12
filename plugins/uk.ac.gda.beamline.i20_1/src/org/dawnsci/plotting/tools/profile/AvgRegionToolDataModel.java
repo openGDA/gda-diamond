@@ -18,14 +18,10 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.region.IRegion;
-import org.dawnsci.plotting.api.trace.IImageTrace;
-import org.dawnsci.plotting.api.trace.ILineTrace;
-import org.dawnsci.plotting.api.trace.ITrace;
 
+import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 
 public class AvgRegionToolDataModel extends SpectraRegionDataNode {
 	private int noOfSpectraToAvg;
@@ -43,19 +39,18 @@ public class AvgRegionToolDataModel extends SpectraRegionDataNode {
 	}
 
 	@Override
-	public ITrace[] createTraces(IPlottingSystem plottingSystem, IImageTrace imageTrace, IDataset energy) {
+	public DoubleDataset getDataset(DoubleDataset fullData) {
+		DoubleDataset result = new DoubleDataset(new int[]{0, TimeResolvedDataNode.NUMBER_OF_STRIPS});
 		for (int i = this.getStart().getIndex(); i  < this.getEnd().getIndex() + 1; i = i + noOfSpectraToAvg) {
-			DoubleDataset data = (DoubleDataset) ((DoubleDataset) imageTrace.getData().getSlice(new int[]{i, 0}, new int[]{i + noOfSpectraToAvg, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1,1})).mean(0);
-			ILineTrace trace = plottingSystem.createLineTrace(this.getRegion().getLabel() + " avg(" + i + ":" + (i + noOfSpectraToAvg - 1) + ")");
-			trace.setData(energy, data);
-			regionTraces.add(trace);
+			DoubleDataset data = (DoubleDataset) ((DoubleDataset) fullData.getSliceView(new int[]{i, 0}, new int[]{i + noOfSpectraToAvg, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1,1})).mean(0);
+			data.setShape(new int[]{1, TimeResolvedDataNode.NUMBER_OF_STRIPS});
+			result = (DoubleDataset) DatasetUtils.append(result, data, 0);
 		}
-		return regionTraces.toArray(new ITrace[]{});
+		return result;
 	}
 
-
 	@Override
-	public String getDescription() {
-		return "AVG (" + noOfSpectraToAvg + ")";
+	public String toString() {
+		return super.toString() + " avg(" + noOfSpectraToAvg + ")";
 	}
 }
