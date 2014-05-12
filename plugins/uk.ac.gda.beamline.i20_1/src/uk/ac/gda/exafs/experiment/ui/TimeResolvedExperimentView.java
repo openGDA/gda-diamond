@@ -27,23 +27,23 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
-import org.eclipse.jface.dialogs.IInputValidator;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,39 +162,39 @@ public class TimeResolvedExperimentView extends ViewPart {
 		form.layout();
 	}
 
-	private final InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
-			"", "Enter file name prefix", "", new IInputValidator() {
-		@Override
-		public String isValid(String newText) {
-			if (newText.isEmpty()) {
-				return "File name can't be empty";
-			} else if (!newText.matches("[_a-zA-Z0-9\\-\\.]+")) {
-				return "Invalid file name";
-			}
-			return null;
-		}
-	});
-
 	private void createExperimentDetailsSection(Composite parent) {
 
 		// Start stop buttons
-		Composite acquisitionButtonsComposite = new Composite(parent, SWT.NONE);
-		GridData gridData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
-		gridData.horizontalSpan = 2;
-		acquisitionButtonsComposite.setLayoutData(gridData);
-		acquisitionButtonsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
-		toolkit.paintBordersFor(acquisitionButtonsComposite);
+		final Section dataCollectionSection = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
+		dataCollectionSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		Composite dataCollectionSectionComposite = toolkit.createComposite(dataCollectionSection, SWT.NONE);
+		dataCollectionSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+		dataCollectionSection.setClient(dataCollectionSectionComposite);
 
-		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
+		Composite prefixNameComposite = toolkit.createComposite(dataCollectionSectionComposite, SWT.NONE);
+		prefixNameComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		prefixNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		Label prefixLabel = toolkit.createLabel(prefixNameComposite, "File prefix", SWT.None);
+		prefixLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		final Text prefixText = toolkit.createText(prefixNameComposite, "", SWT.BORDER);
+		prefixText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+
+		Composite sampleDescComposite = toolkit.createComposite(dataCollectionSectionComposite, SWT.NONE);
+		sampleDescComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		sampleDescComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		Label sampleDescLabel = toolkit.createLabel(sampleDescComposite, "Sample details", SWT.None);
+		sampleDescLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		Text sampleDescText = toolkit.createText(sampleDescComposite, "", SWT.BORDER);
+		sampleDescText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+
+		Button startAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Start", SWT.PUSH);
 		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					if (dlg.open() == Window.OK) {
-						getModel().doCollection(dlg.getValue());
-					}
+					getModel().doCollection(prefixText.getText());
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}
@@ -212,7 +212,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 					}
 				});
 
-		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
+		Button stopAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Stop", SWT.PUSH);
 		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		dataBindingCtx.bindValue(

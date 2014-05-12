@@ -200,10 +200,8 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			updateTimePerSpectrum(availableSpectraTime);
 		}
 		this.setTimes(this.getStartTime(), availableSpectraTime);
-		if (endTimeIsLocked) {
-			if (this.getAvailableDurationAfterDelay() % this.getTimePerSpectrum() != 0) {
-				this.setTimePerSpectrum(this.getAvailableDurationAfterDelay());
-			}
+		if (endTimeIsLocked && this.getAvailableDurationAfterDelay() % this.getTimePerSpectrum() != 0.0) {
+			this.setTimePerSpectrum(this.getAvailableDurationAfterDelay());
 		} else {
 			this.setSpectrumAndAdjustEndTime(this.getTimePerSpectrum());
 		}
@@ -220,7 +218,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public void setNumberOfSpectrum(int numberOfSpectrum) throws Exception {
-		if (endTimeIsLocked && this.getAvailableDurationAfterDelay() % numberOfSpectrum != 0) {
+		if (endTimeIsLocked && (this.getAvailableDurationAfterDelay() % numberOfSpectrum) != 0.0) {
 			throw new Exception("The number of spectrum does not fit with the locked endtime.");
 		}
 		double newTimePerSpectrum = 0.0;
@@ -254,7 +252,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public void setTimePerSpectrum(double timePerSpectrum) throws Exception {
-		if (endTimeIsLocked && this.getAvailableDurationAfterDelay() % timePerSpectrum != 0) {
+		if (endTimeIsLocked && ((this.getAvailableDurationAfterDelay() * 100) % timePerSpectrum) != 0) {
 			throw new Exception("Unable to fit with fixed endtime");
 		}
 		updateTimePerSpectrum(timePerSpectrum);

@@ -118,10 +118,6 @@ public class CryostatSampleDetailsComposite extends I20SampleParametersComposite
 		cryostick_pos.setDecimalPlaces(2);
 		cryostick_pos.setLayoutData(new RowData(100, 25));
 
-		try {
-			setMotorLimits("cryostick", cryostick);
-		} catch (Exception e) {
-		}
 		
 		try {
 			setMotorLimits("cryostick_pos", cryostick_pos);
@@ -132,8 +128,19 @@ public class CryostatSampleDetailsComposite extends I20SampleParametersComposite
 	}
 
 	public void setMotorLimits(String motorName, ScaleBox box) throws Exception {
-		double lowerLimit = Double.parseDouble(JythonServerFacade.getInstance().evaluateCommand(motorName + ".getLowerInnerLimit()"));
-		double upperLimit = Double.parseDouble(JythonServerFacade.getInstance().evaluateCommand(motorName + ".getUpperInnerLimit()"));
+		String lowerLimitString = null;
+		String upperLimitString = null;
+		try {
+			lowerLimitString = JythonServerFacade.getInstance().evaluateCommand(motorName + ".getLowerInnerLimit()");
+			upperLimitString = JythonServerFacade.getInstance().evaluateCommand(motorName + ".getUpperInnerLimit()");
+		} catch (Exception e) {
+		}
+		double lowerLimit=-1000000;
+		double upperLimit=1000000;
+		if(lowerLimitString!=null)
+			lowerLimit = Double.parseDouble(lowerLimitString);
+		if(upperLimitString!=null)
+			upperLimit = Double.parseDouble(upperLimitString);
 		if(lowerLimit<-1000000)
 			lowerLimit=-1000000;
 		if(upperLimit>1000000)
@@ -165,11 +172,13 @@ public class CryostatSampleDetailsComposite extends I20SampleParametersComposite
 	}
 
 	public void selectionChanged(CryostatSampleDetails selectedBean) {
-		selectedBean.setNumberOfRepetitions((Integer) numberOfRepetitions.getValue());
-		selectedBean.setSampleDescription(sample_description.getText());
-		selectedBean.setPosition((Double) cryostick.getValue());
-		selectedBean.setFinePosition((Double) cryostick_pos.getValue());
-		selectedBean.setSample_name(sample_name.getText());
+		if(selectedBean!=null){
+			selectedBean.setNumberOfRepetitions((Integer) numberOfRepetitions.getValue());
+			selectedBean.setSampleDescription(sample_description.getText());
+			selectedBean.setPosition((Double) cryostick.getValue());
+			selectedBean.setFinePosition((Double) cryostick_pos.getValue());
+			selectedBean.setSample_name(sample_name.getText());
+		}
 	}
 
 	@Override

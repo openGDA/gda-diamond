@@ -22,6 +22,7 @@ import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
 import gda.data.scan.datawriter.NexusFileMetadata;
 import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
 import gda.data.scan.datawriter.NexusFileMetadata.NXinstrumentSubTypes;
+import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
@@ -295,7 +296,15 @@ public abstract class EdeExperiment implements IObserver {
 			plotNothing.setYAxesShown(new String[]{});
 			plotNothing.setYAxesNotShown(new String[]{});
 
+			XasAsciiNexusDataWriter dataWriter = new XasAsciiNexusDataWriter();
+
+			String template = fileNamePrefix.isEmpty() ? "ascii/" + "%d.dat" : "ascii/" + fileNamePrefix + "_%d.dat";
+			dataWriter.setAsciiFileNameTemplate(template);
+
+			template = fileNamePrefix.isEmpty() ? "nexus/" + "%d.nxs" : "nexus/" + fileNamePrefix + "_%d.nxs";
+			dataWriter.setNexusFileNameTemplate(template);
 			MultiScan theScan = new MultiScan(scansForExperiment);
+			theScan.setDataWriter(dataWriter);
 			theScan.setScanPlotSettings(plotNothing);
 
 			pauseForToup();
@@ -311,7 +320,7 @@ public abstract class EdeExperiment implements IObserver {
 		try {
 			writer = createFileWritter();
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
-			writer.writeDataFile(fileNamePrefix);
+			writer.writeDataFile();
 			log("EDE single spectrum experiment complete.");
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {
