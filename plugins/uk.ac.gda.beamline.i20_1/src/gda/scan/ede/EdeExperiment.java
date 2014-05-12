@@ -297,9 +297,11 @@ public abstract class EdeExperiment implements IObserver {
 			plotNothing.setYAxesNotShown(new String[]{});
 
 			XasAsciiNexusDataWriter dataWriter = new XasAsciiNexusDataWriter();
+
 			String template = fileNamePrefix.isEmpty() ? "ascii/" + "%d.dat" : "ascii/" + fileNamePrefix + "_%d.dat";
 			dataWriter.setAsciiFileNameTemplate(template);
-			template = fileNamePrefix.isEmpty() ? "nexus/" + "%d.dat" : "ascii/" + fileNamePrefix + "_%d.nxs";
+
+			template = fileNamePrefix.isEmpty() ? "nexus/" + "%d.nxs" : "nexus/" + fileNamePrefix + "_%d.nxs";
 			dataWriter.setNexusFileNameTemplate(template);
 			MultiScan theScan = new MultiScan(scansForExperiment);
 			theScan.setDataWriter(dataWriter);
