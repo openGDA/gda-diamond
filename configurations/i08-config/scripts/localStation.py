@@ -7,7 +7,11 @@ from gda.factory import Finder
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
-from gda.data.scan.datawriter import NexusDataWriter
+from gda.device.scannable import TopupScannable
+from gda.device.scannable import BeamMonitorScannableWithResume
+from gda.device.monitor import EpicsMonitor
+from gdascripts.parameters.beamline_parameters import JythonNameSpaceMapping
+#from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 
 print "Initialisation Started";
 
@@ -21,7 +25,7 @@ try:
     def ls_scannables():
         ls_names(Scannable)
 
-    
+
     #from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
     #alias("createPVScannable")
     #alias("caput")
@@ -39,19 +43,40 @@ try:
     from gda.data.scan.datawriter import NexusDataWriter
     LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
+    # Remove this metadata scriptfor 8.38 version writes metadata in before_scan folder
+    from metadata import setMetadata
+    setMetadata()
+
+    from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+    scan_processor.rootNamespaceDict=globals()
+    
     from gdascripts.pd.time_pds import waittimeClass, showtimeClass, showincrementaltimeClass, actualTimeClass
     waittime=waittimeClass('waittime')
     showtime=showtimeClass('showtime')
     inctime=showincrementaltimeClass('inctime')
     actualTime=actualTimeClass("actualTime")
-
-    # After scan process the data, fit the spectrum with a gaussian and obtain the peak value (important for calibration)
-    from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-    scan_processor.rootNamespaceDict=globals()
+    # Use for the calibration of the pgm energy, create a scannable idEnergy
+    from idEnergy import my_energy_class1
+    myEnergy = my_energy_class1("idEnergy")
     
+    #checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
+    #checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
+    #checkshtr1 = WaitForScannableState('checkshtr1', shtr1, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
+    #checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1])
+    #checkbeam.configure()
+    
+    if (LocalProperties.get("gda.mode") == 'live'): 
+        beamMonitor.configure()
+        add_default beamMonitor
+        add_default topupMonitor 
+        
     #run "gda_startup.py"
     print "Initialisation Complete";
 
 except:
     exceptionType, exception, traceback = sys.exc_info()
     handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
+
+
+
+
