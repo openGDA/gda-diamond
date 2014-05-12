@@ -74,6 +74,10 @@ public class DataFileHelper {
 		return FilenameUtils.removeExtension(file.getName()) + "_" + suffix + "." +  ext;
 	}
 
+	public static String getFileNameWithPrefixSuffixAndExt(File file, String prefix, String suffix, String ext) {
+		return prefix + "_" + FilenameUtils.removeExtension(file.getName()) + "_" + suffix + "." +  ext;
+	}
+
 	// TODO Check folder exist
 	public static String convertFromNexusToAsciiFolder(String nexusFilePath) {
 		String nexusFolder = FilenameUtils.getFullPath(nexusFilePath);

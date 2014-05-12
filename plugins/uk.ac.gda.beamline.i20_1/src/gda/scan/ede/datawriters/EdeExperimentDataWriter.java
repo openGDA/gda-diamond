@@ -78,7 +78,7 @@ public abstract class EdeExperimentDataWriter {
 
 	}
 
-	public abstract String writeDataFile(String fileNamePrefix) throws Exception;
+	public abstract String writeDataFile() throws Exception;
 
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);

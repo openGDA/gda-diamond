@@ -90,7 +90,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	 * This method creates more than one ascii file. The filename it returns is for the It data.
 	 */
 	@Override
-	public String writeDataFile(String fileNamePrefix) throws Exception {
+	public String writeDataFile() throws Exception {
 		validateData();
 		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusfileName);
 

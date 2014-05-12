@@ -115,39 +115,6 @@ public class TimeResolvedDataFileHelper {
 
 			HObject itDataNode = file.getData(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
 			file.setAttribute(itDataNode, AVG_ATTRIBUTE_NAME, DataHelper.toString(spectrumToAvg));
-			//			String parentDataPath = NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/";
-			//			String fullDataPath = parentDataPath + EdeDataConstants.DATA_COLUMN_NAME;
-			//			DoubleDataset dataset = getDataFromFile(file, fullDataPath);
-			//			Map<String, Object> attributes = file.getAttributeValues(fullDataPath);
-			//			Map<String, String> newAttributes = new HashMap<String, String>();
-			//			int numberOfSpectrum = dataset.getShape()[0];
-			//			int numberOfChannels = dataset.getShape()[1];
-			//			int j = 0;
-			//			DoubleDataset newDataset = new DoubleDataset(new int[]{0, numberOfChannels});
-			//			for (int i = 0; i < numberOfSpectrum; i++) {
-			//				DoubleDataset tempDataset;
-			//				if (spectrumToAvg[j].getStartIndex() == i) {
-			//					int start = spectrumToAvg[j].getStartIndex();
-			//					int end = spectrumToAvg[j].getEndIndex();
-			//					tempDataset = (DoubleDataset) dataset.getSliceView(new int[]{start, 0}, new int[]{end + 1, numberOfChannels}, null);
-			//					tempDataset = (DoubleDataset) tempDataset.sum(0);
-			//					tempDataset.idivide(end - start + 1); // From index to count
-			//					tempDataset.setShape(new int[]{1, numberOfChannels});
-			//					i = end;
-			//					j++;
-			//				} else {
-			//					tempDataset = (DoubleDataset) dataset.getSliceView(new int[]{i, 0}, new int[]{i + 1, numberOfChannels}, null);
-			//
-			//				}
-			//				newDataset = (DoubleDataset) DatasetUtils.append(newDataset, tempDataset, 0);
-			//			}
-			//			Group parent = HierarchicalDataFileUtils.createParentEntry(file, parentDataPath, Nexus.DATA);
-			//			for (Entry<String, Object> entry : attributes.entrySet()) {
-			//				newAttributes.put(entry.getKey(), entry.getValue().toString());
-			//			}
-			//			newAttributes.put(AVG_ATTRIBUTE_NAME, DataHelper.toString(spectrumToAvg));
-			//			this.addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, parent, newDataset, newAttributes);
-			//			// TODO Replace time and group
 		} finally {
 			file.close();
 		}

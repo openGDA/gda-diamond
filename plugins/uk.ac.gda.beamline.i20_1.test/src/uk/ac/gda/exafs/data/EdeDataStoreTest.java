@@ -58,8 +58,12 @@ public class EdeDataStoreTest {
 				TimeResolvedExperimentModel testLinerExperimentModel = new TimeResolvedExperimentModel();
 				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarRowModel() , ExperimentUnit.SEC, testLinerExperimentModel);
 				group.setTimes(0.0, 1000.0);
-				group.setNumberOfSpectrum(100);
-				group.setTimePerSpectrum(10);
+				try {
+					group.setNumberOfSpectrum(100);
+					group.setTimePerSpectrum(10);
+				} catch (Exception e1) {
+					assertFalse(true);
+				}
 
 				groupList.add(group);
 				Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();

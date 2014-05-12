@@ -49,14 +49,14 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	}
 
 	@Override
-	public String writeDataFile(String fileNamePrefix) throws Exception {
+	public String writeDataFile() throws Exception {
 		// FIXME Check this
 		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(0);
 		DoubleDataset itDarkDataSet = itDarkScan.extractDetectorDataSet(0);
 		DoubleDataset i0InitialDataSet = i0InitialScan.extractDetectorDataSet(0);
 		DoubleDataset itDataSet = itScan.extractDetectorDataSet(0);
 
-		determineFileAsciiFilePath(fileNamePrefix);
+		determineFileAsciiFilePath();
 
 		File asciiFile = new File(asciiFilename);
 		if (asciiFile.exists()) {
@@ -115,10 +115,10 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		return asciiFilename;
 	}
 
-	private void determineFileAsciiFilePath(String fileNamePrefix) {
+	private void determineFileAsciiFilePath() {
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
 		String folder = DataFileHelper.convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
-		asciiFilename = String.format("%s%s_%s.%s", folder, fileNamePrefix, filename, EdeDataConstants.ASCII_FILE_EXTENSION);
+		asciiFilename = String.format("%s%s.%s", folder, filename, EdeDataConstants.ASCII_FILE_EXTENSION);
 	}
 }

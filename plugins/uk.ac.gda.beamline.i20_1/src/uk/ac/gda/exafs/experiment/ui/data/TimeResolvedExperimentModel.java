@@ -340,6 +340,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				DetectorModel.TOPUP_CHECKER,
 				DetectorModel.SHUTTER_NAME));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
 		}
