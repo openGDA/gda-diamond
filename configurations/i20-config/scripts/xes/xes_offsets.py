@@ -65,18 +65,19 @@ class XESOffsets:
 
     #Loads and sets the Spectrometer offsets from the named store.
     def apply(self, filename):
-        store = LocalParameters.getXMLConfiguration(self.store_dir, filename, False)
-        valuesDict = {}
-        print "Applying offsets from store",filename,"..."
-        for scannable in self.spectrometer_scannables:
-            name = scannable.getName()
-            prop = store.getProperty(name)
-            if prop == None:
-                prop = 0.0
-            valuesDict[name] = float(prop)
-        self._applyFromDict(valuesDict)
-        self.current_offsets_file=filename
-        print "Offsets applied."
+        if filename!='var':
+            store = LocalParameters.getXMLConfiguration(self.store_dir, filename, False)
+            valuesDict = {}
+            print "Applying offsets from store",filename,"..."
+            for scannable in self.spectrometer_scannables:
+                name = scannable.getName()
+                prop = store.getProperty(name)
+                if prop == None:
+                    prop = 0.0
+                valuesDict[name] = float(prop)
+            self._applyFromDict(valuesDict)
+            self.current_offsets_file=filename
+            print "Offsets applied."
     
     def _applyFromDict(self, offsetsDict):
         self._checkNameExists(offsetsDict)

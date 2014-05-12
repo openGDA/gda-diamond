@@ -30,6 +30,7 @@ public class DummyLakeshore340Controller  implements ILakeshore340{
 	private double setpointControl = 0;
 	private double controlMode = 0;
 	private double manualOutput = 0;
+	private double tempReadback = 0;
 	
 	@Override
 	public void configure() {
@@ -39,7 +40,7 @@ public class DummyLakeshore340Controller  implements ILakeshore340{
 
 	@Override
 	public Double getTempReadback(int index) throws IOException {
-		return Math.random();
+		return tempReadback;
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class DummyLakeshore340Controller  implements ILakeshore340{
 
 	@Override
 	public Double getSetpoint() throws IOException {
-		return setpoint;
+		return setpointControl;
 	}
 
 	@Override
@@ -122,6 +123,15 @@ public class DummyLakeshore340Controller  implements ILakeshore340{
 	@Override
 	public void setSetpointControl(double setpointControl) throws IOException {
 		this.setpointControl = setpointControl;
+		this.setpoint = setpoint;
+		while(tempReadback<setpointControl){
+			tempReadback+=0.01;
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				
+			}
+		}
 		
 	}
 
