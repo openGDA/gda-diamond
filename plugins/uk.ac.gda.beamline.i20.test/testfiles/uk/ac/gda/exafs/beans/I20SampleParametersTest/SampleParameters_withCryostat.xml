@@ -13,7 +13,7 @@
 		<waitTime>5</waitTime>
 		<temperature>295</temperature>
 		<controlMode>Manual PID</controlMode>
-		<heaterRange>4mW</heaterRange>
+		<heaterRange>Off</heaterRange>
 		<p>1</p>
 		<i>1</i>
 		<d>1</d>
