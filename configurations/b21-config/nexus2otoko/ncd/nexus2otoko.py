@@ -11,7 +11,7 @@ import sys
 import numpy, nxs
 import logging
 
-LOG_FILENAME = '/dls_sw/b21/software/logs/nexus2otoko.log'
+LOG_FILENAME = '/dls_sw/b21/logs/nexus2otoko.log'
 logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
 
 class DetInfo:
