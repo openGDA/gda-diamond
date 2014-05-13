@@ -54,6 +54,7 @@ saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center
 saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
 
 # preseed listener dispatcher
+print "Pre-seeding listener dispatcher"
 finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
 finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 
@@ -97,6 +98,9 @@ sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 run("/BeamlineScripts/master.py")
 execfile(gdaScriptDir + "atten.py")
 execfile(gdaScriptDir + "rate.py")
+
+from gdascripts.pd.time_pds import actualTimeClass
+epoch=actualTimeClass("epoch")
 
 import uk.ac.gda.server.ncd.config.DeviceLister
 import gda.util.ElogEntry
