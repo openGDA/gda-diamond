@@ -40,7 +40,7 @@ public class ME2Scannable extends EnumPositionerBase implements EnumPositioner {
 
 	@Override
 	public boolean isBusy() throws DeviceException {
-		return stripeScannable.isBusy() && yScannable.isBusy();
+		return stripeScannable.isBusy() || yScannable.isBusy();
 	}
 
 	@Override
