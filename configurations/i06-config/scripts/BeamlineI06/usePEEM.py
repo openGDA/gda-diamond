@@ -120,15 +120,10 @@ else:
 		uvpreview();
 
 def uvpreview():
-	uv.detector.setCameraInProgress(True)
-	uv.setImageAverage(0)
-	uv.setCollectionTime(0.5)
-	sleep(1)
-	uv.setCollectionTime(0.25)
-	sleep(0.5)
+	uv.detector.setCameraInProgress(False)
 	uv.setCollectionTime(0.1)
 	uv.setImageAverage(1)
-	uv.detector.setCameraSequentialMode(False)
+	uv.detector.setCameraInProgress(True)
 
 def uvimaging():
 	uv.detector.setCameraInProgress(True)
