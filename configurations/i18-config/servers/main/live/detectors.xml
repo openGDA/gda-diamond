@@ -200,7 +200,7 @@
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="false" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
+		<property name="numChannelsToRead" value="3" />
 		<property name="ttlSocket" value="1" />
 		<property name="outputFormat">
 			<list>
@@ -237,8 +237,9 @@
 		<property name="timer" ref="tfg" />
 		<property name="daserver" ref="daserver" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="5" />
+		<property name="numChannelsToRead" value="4" />
 		<property name="firstDataChannel" value="3" />
+		<property name="timeChannelRequired" value="false" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="ttlSocket" value="1" />
 		<property name="outputFormat">
