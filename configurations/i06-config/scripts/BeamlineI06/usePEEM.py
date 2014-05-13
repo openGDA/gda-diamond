@@ -112,10 +112,12 @@ if useCorbaNotTcpip:
 		uvpreview();
 else:
 	global leem_fov
+	global leem_stv
+	global leem_obj
 	def picture(tt):
 		uvimaging()
 	#	scan testMotor1 0 1 2 uv tt psx psy stv obj fov
-		pictureScan = ConcurrentScan([testMotor1, 0, 1, 2, uv, tt, psx, psy, stv, obj, leem_fov])
+		pictureScan = ConcurrentScan([testMotor1, 0, 1, 2, uv, tt, psx, psy, leem_stv, leem_obj, leem_fov])
 		pictureScan.runScan()
 		uvpreview();
 
