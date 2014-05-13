@@ -114,6 +114,7 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	@Test()
+	@Ignore
 	public void testRunExperimentSameParameters() throws Exception {
 		setup("testRunExperimentSameParameters");
 
