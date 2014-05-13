@@ -44,7 +44,6 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
@@ -53,6 +52,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -134,7 +134,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 
-	private PolynomialFunction calibration;
+	private EdeCalibrationModel calibration;
 
 	private String tempLogFilename;
 
@@ -1124,13 +1124,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 			store.clear();
 			store.setProperty(ROIS_PROP_KEY, GSON.toJson(getRois()));
 			if (calibration != null) {
-				double[] coeffs = calibration.getCoefficients();
-				String coeffsString = "";
-				for (double coeff : coeffs) {
-					coeffsString += coeff + " ";
-				}
-				coeffsString.trim();
-				store.setProperty(CALIBRATION_PROP_KEY, coeffsString);
+				store.setProperty(CALIBRATION_PROP_KEY, GSON.toJson(calibration));
 			}
 			store.save();
 		} catch (Exception e) {
@@ -1163,11 +1157,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				for (int index = 0; index < coeffsString.length; index++) {
 					coeffs[index] = Double.parseDouble(coeffsString[index]);
 				}
-				calibration = new PolynomialFunction(coeffs);
+				calibration = GSON.fromJson(storeCalibration, EdeCalibrationModel.class);
 			}
-			//			else {
-			//				calibration = new PolynomialFunction(new double[] { 0., 1. });
-			//			}
 		} catch (Exception e) {
 			logger.error("Error loading ROIs, now loading defaults", e);
 			setDefaultROIs();
@@ -1313,7 +1304,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	@Override
-	public PolynomialFunction getEnergyCalibration() throws DeviceException {
+	public EdeCalibrationModel getEnergyCalibration() throws DeviceException {
 		return calibration;
 	}
 
@@ -1323,7 +1314,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	@Override
-	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException {
+	public void setEnergyCalibration(EdeCalibrationModel calibration) throws DeviceException {
 		this.calibration = calibration;
 		saveToXML();
 		this.notifyIObservers(this, CALIBRATION_PROP_KEY);
@@ -1342,7 +1333,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		if (calibration == null) {
 			return channel;
 		}
-		return calibration.value((double) channel / (double) NUMBER_ELEMENTS);
+		return calibration.getCalibrationResult().value((double) channel / (double) NUMBER_ELEMENTS);
 	}
 
 	@Override

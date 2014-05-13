@@ -38,6 +38,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
@@ -47,6 +49,8 @@ import uk.ac.gda.exafs.ui.ResourceComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class EDECalibrationSection extends ResourceComposite {
+
+	private static final Logger logger = LoggerFactory.getLogger(EDECalibrationSection.class);
 
 	public static final String REF_DATA_PATH = LocalProperties.getConfigDir() + "edeRefData";
 	public static final String REF_DATA_EXT = ".dat";
@@ -90,7 +94,7 @@ public class EDECalibrationSection extends ResourceComposite {
 		runCalibrationButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetSelected(SelectionEvent e) {
+			public void widgetSelected(SelectionEvent selectionEvent) {
 				EdeCalibrationModel calibrationModel = new EdeCalibrationModel();
 				String lastEdeScanFileName = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel().getFileName();
 				String referenceDataFileName = loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
@@ -106,14 +110,15 @@ public class EDECalibrationSection extends ResourceComposite {
 					if (wizardDialog.open() == Window.OK) {
 						if (calibrationModel.getCalibrationResult() != null) {
 							try {
-								DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationModel.getCalibrationResult());
+								DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationModel);
 							} catch (DeviceException e1) {
 								UIHelper.showError("Unable to set energy calibration", e1.getMessage());
+								logger.warn("Unable to set energy calibration", e1);
 							}
 						}
 					}
-				} catch (Exception e2) {
-					e2.printStackTrace();
+				} catch (Exception e) {
+					logger.error("Unable to perform energy calibration", e);
 				}
 
 			}

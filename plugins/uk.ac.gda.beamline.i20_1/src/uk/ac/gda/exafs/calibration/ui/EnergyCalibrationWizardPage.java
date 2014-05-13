@@ -65,6 +65,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
@@ -82,6 +84,8 @@ import uk.ac.gda.exafs.data.ClientConfig;
 public class EnergyCalibrationWizardPage extends WizardPage {
 
 	private static final String EDE_OVERLAY_TRACE_NAME = "Ede";
+
+	private static final Logger logger = LoggerFactory.getLogger(EnergyCalibrationWizardPage.class);
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private IRegion[] referenceDataPlottingRegions;
@@ -125,8 +129,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			registerRegionShowHide(edeCalibrationDataModel, edeDataPlottingRegions, edePlottingSystem);
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO Auto-generated catch block
+			logger.error("Unable to create controls", e);
 		}
 		createCalibrationDetails(container);
 		setControl(container);
@@ -248,7 +251,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 					null);
 			plottingSystem.getPlotComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Unable to create plotting system", e);
 		}
 		calibrationDataModel.addPropertyChangeListener(CalibrationDataModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
