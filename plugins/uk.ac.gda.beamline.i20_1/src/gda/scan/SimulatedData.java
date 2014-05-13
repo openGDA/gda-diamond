@@ -130,6 +130,7 @@ public class SimulatedData {
 	}
 
 	public static boolean isLoaded() {
+		//return false;
 		return simulatedEnergies != null;
 	}
 

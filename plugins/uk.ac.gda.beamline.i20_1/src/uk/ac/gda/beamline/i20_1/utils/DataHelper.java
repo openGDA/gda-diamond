@@ -36,7 +36,7 @@ public class DataHelper {
 				stringBuilder.append(selected);
 				stringBuilder.append(delimiter);
 			}
-			remoteLastComma(stringBuilder);
+			removeLastChar(stringBuilder);
 		}
 		return stringBuilder.toString();
 	}
@@ -52,7 +52,7 @@ public class DataHelper {
 				stringBuilder.append(selected);
 				stringBuilder.append(delimiter);
 			}
-			remoteLastComma(stringBuilder);
+			removeLastChar(stringBuilder);
 		}
 		return stringBuilder.toString();
 	}
@@ -64,13 +64,22 @@ public class DataHelper {
 				stringBuilder.append(selected);
 				stringBuilder.append(",");
 			}
-			remoteLastComma(stringBuilder);
+			removeLastChar(stringBuilder);
 		}
 		return stringBuilder.toString();
 	}
 
-	public static void remoteLastComma(StringBuilder stringBuilder) {
-		stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+	public static int[] toArray(String commaSepString) throws NumberFormatException {
+		String[] strValues = commaSepString.split(",");
+		int[] values = new int[strValues.length];
+		for (int i = 0; i < strValues.length; i++) {
+			values[i] = Integer.parseInt(strValues[i]);
+		}
+		return values;
+	}
+
+	public static StringBuilder removeLastChar(StringBuilder stringBuilder) {
+		return stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
 	}
 
 	public static int getDecimalPlacePowValue(int decimalPlace) {

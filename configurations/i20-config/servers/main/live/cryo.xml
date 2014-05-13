@@ -7,6 +7,8 @@
 		<property name="pvName" value="BL20I-CG-CRYO-02:POSN" />
 		<property name="local" value="true" />
 	</bean>
+
+<!-- 	<bean id="cryostick_pos_motor" class="gda.device.motor.DummyMotor"/> -->
 	
 	<bean id="cryostick_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="cryostick_pos_motor" />

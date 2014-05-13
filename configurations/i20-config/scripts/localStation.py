@@ -26,15 +26,12 @@ from vortex_elements import VortexElements
 from gda.data.scan.datawriter import NexusDataWriter
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 
-
-ScanBase.interrupted = False
-ScriptBase.interrupted = False
-
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
+
 datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
 original_header_xes = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
@@ -58,9 +55,10 @@ vortexConfig.initialize()
 alias("vortexConfig")
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
 
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
-#outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos)
+
+rcpController = finder.find("RCPController")
+
+samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos, rcpController)
 outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
@@ -71,7 +69,8 @@ xes_offsets = XESOffsets(store_dir, spectrometer)
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, False, True, True, False, False)
-xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig_xes, original_header_xes, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, False)
+
+xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig_xes, original_header_xes, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, xes_offsets, False)
 
 xanes = xas
 
@@ -115,9 +114,12 @@ else:
 #
 # XES offsets section
 #
-from xes import offsetsStore, setOffsets
-offsetsStore = offsetsStore.XESOffsets()
-offsetsStore.removeAllOffsets()
+#from xes import offsetsStore, setOffsets
+#offsetsStore = offsetsStore.XESOffsets()
+#offsetsStore.removeAllOffsets()
+
+xes_offsets.removeAll()
+
 # do nothing more so that offsets start at zero everytime
 
 if LocalProperties.get("gda.mode") == "live":
@@ -135,8 +137,43 @@ if LocalProperties.get("gda.mode") == "live":
     
     FFI0.setInputNames([])
     run "vortexLiveTime"
-    testVortexWiredCorrectly()
+    #testVortexWiredCorrectly()
     calibrate_mono = mono_calibration.calibrate_mono()
+    
+    print "-------------------------------MEDIPIX INIT---------------------------------------"
+    try:
+        
+        #visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
+        from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
+        from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor, DetectorDataProcessorWithRoi, HardwareTriggerableDetectorDataProcessor
+        from gda.analysis.io import  PilatusTiffLoader
+        from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
+        medipix = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix',
+                                                                        _medipix,
+                                                                        None,
+                                                                        _medipix_for_snaps,
+                                                                        [],
+                                                                        panel_name='Medipix',
+                                                                        panel_name_rcp='Plot 1',
+                                                                        iFileLoader=PilatusTiffLoader,
+                                                                        fileLoadTimout=60,
+                                                                        printNfsTimes=False,
+                                                                        returnPathAsImageNumberOnly=True)
+        medipix.disable_operation_outside_scans = False # True
+        # medipix_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix_threshold_kev', 'BL16I-EA-DET-02:Merlin:ThresholdEnergy0', 'BL16B-EA-DET-02:Merlin:ThresholdEnergy0_RBV', 10)
+        #pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
+        #pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+        #pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
+        #pil100k.printNfsTimes = True
+        
+        
+        medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
+    
+    except gda.factory.FactoryException:
+        print " *** Could not connect to pilatus (FactoryException)"
+    except     java.lang.IllegalStateException:
+        print " *** Could not connect to pilatus (IllegalStateException)"
+    print "-------------------------------MEDIPIX INIT COMPLETE---------------------------------------"
 
 else :
     if material() == None:

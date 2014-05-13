@@ -20,7 +20,6 @@ package uk.ac.gda.exafs.data;
 
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 
@@ -187,7 +186,7 @@ public class SlitsScanModel extends ObservableModel implements IObserver {
 
 	public void stopScan() {
 		if (this.getState() != Jython.IDLE) {
-			JythonServerFacade.getInstance().haltCurrentScan();
+			InterfaceProvider.getCurrentScanController().requestFinishEarly();
 		}
 	}
 }

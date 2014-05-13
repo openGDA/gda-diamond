@@ -22,7 +22,7 @@ import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.StripDetector;
 import gda.factory.Finder;
-import gda.scan.ede.EdeLinearExperiment;
+import gda.scan.ede.TimeResolvedExperiment;
 
 import java.util.Arrays;
 import java.util.Vector;
@@ -37,7 +37,7 @@ public class LinearExperimentDriver extends ScanDriver {
 	private final EdeScanParameters iTScanParameters;
 	private final Monitor topupMonitor;
 	private final Scannable shutter2;
-	private int noOfSecPerSpectrumToPublish = EdeLinearExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
+	private int noOfSecPerSpectrumToPublish = TimeResolvedExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	public LinearExperimentDriver(String detectorName, String topupMonitorName, Vector<TimingGroup> timingGroups, Scannable shutter2) {
 		super();
 		detector = Finder.getInstance().find(detectorName);

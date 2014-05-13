@@ -32,9 +32,9 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.junit.Test;
 
-import uk.ac.gda.exafs.ui.data.experiment.ExperimentUnit;
-import uk.ac.gda.exafs.ui.data.experiment.TimeResolvedExperimentModel;
-import uk.ac.gda.exafs.ui.data.experiment.TimingGroupUIModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
+import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
+import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -58,8 +58,12 @@ public class EdeDataStoreTest {
 				TimeResolvedExperimentModel testLinerExperimentModel = new TimeResolvedExperimentModel();
 				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarRowModel() , ExperimentUnit.SEC, testLinerExperimentModel);
 				group.setTimes(0.0, 1000.0);
-				group.setNumberOfSpectrum(100);
-				group.setTimePerSpectrum(10);
+				try {
+					group.setNumberOfSpectrum(100);
+					group.setTimePerSpectrum(10);
+				} catch (Exception e1) {
+					assertFalse(true);
+				}
 
 				groupList.add(group);
 				Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();

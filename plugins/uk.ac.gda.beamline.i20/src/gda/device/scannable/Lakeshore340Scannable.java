@@ -20,8 +20,11 @@ package gda.device.scannable;
 
 import gda.device.DeviceException;
 import gda.factory.FactoryException;
+
 import java.io.IOException;
+
 import org.apache.commons.lang.ArrayUtils;
+
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 import uk.ac.gda.util.ThreadManager;
 
@@ -42,6 +45,7 @@ public class Lakeshore340Scannable extends ScannableBase{
 
 	public void setController(ILakeshore340 lakeshore340Controller) {
 		this.controller = lakeshore340Controller;
+		this.controller.configure();
 	}
 
 	@Override
@@ -110,7 +114,8 @@ public class Lakeshore340Scannable extends ScannableBase{
 			}
 		}
 		// if manual PID
-		if (controlMode == CryostatProperties.CONTROL_MODE[1]) {
+		String controlModeValue = CryostatProperties.CONTROL_MODE[1];
+		if (controlMode.equals(controlModeValue)) {
 			try {
 				controller.setpValue(pValue);
 			} catch (IOException e) {

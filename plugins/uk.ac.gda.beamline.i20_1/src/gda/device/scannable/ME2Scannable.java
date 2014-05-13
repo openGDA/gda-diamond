@@ -25,7 +25,7 @@ import gda.device.enumpositioner.EnumPositionerBase;
 public class ME2Scannable extends EnumPositionerBase {
 
 	public enum Positions {
-		rhodium, silicon, out
+		Rhodium, Silicon, out
 	}
 
 	private EnumPositioner stripeScannable;
@@ -34,7 +34,7 @@ public class ME2Scannable extends EnumPositionerBase {
 	private Double yOutPosition = 0.0;
 
 	public ME2Scannable() {
-		setPositions(new String[] { Positions.rhodium.toString(), Positions.silicon.toString(),
+		setPositions(new String[] { Positions.Rhodium.toString(), Positions.Silicon.toString(),
 				Positions.out.toString() });
 	}
 
@@ -49,12 +49,12 @@ public class ME2Scannable extends EnumPositionerBase {
 		Positions targetPosition = Positions.valueOf(position.toString());
 
 		switch (targetPosition) {
-		case rhodium:
-			stripeScannable.asynchronousMoveTo(Positions.rhodium.toString());
+		case Rhodium:
+			stripeScannable.asynchronousMoveTo(Positions.Rhodium.toString());
 			yScannable.asynchronousMoveTo(yInPosition);
 			break;
-		case silicon:
-			stripeScannable.asynchronousMoveTo(Positions.silicon.toString());
+		case Silicon:
+			stripeScannable.asynchronousMoveTo(Positions.Silicon.toString());
 			yScannable.asynchronousMoveTo(yInPosition);
 			break;
 		case out:

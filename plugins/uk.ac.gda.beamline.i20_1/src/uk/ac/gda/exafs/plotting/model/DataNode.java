@@ -24,17 +24,18 @@ import uk.ac.gda.beans.ObservableModel;
 
 public abstract class DataNode extends ObservableModel {
 
-	protected final DataNode parent;
-
 	public static final String DATA_CHANGED_PROP_NAME = "changedData";
-
 	public static final String DATA_ADDED_PROP_NAME = "addedData";
+
+	protected final DataNode parent;
 
 	public DataNode(DataNode parent) {
 		this.parent = parent;
 	}
 
 	public abstract IObservableList getChildren();
+
+	public abstract String getIdentifier();
 
 	public DataNode getParent() {
 		return parent;
@@ -43,6 +44,4 @@ public abstract class DataNode extends ObservableModel {
 	public String getLabel() {
 		return toString();
 	}
-
-	public abstract String getIdentifier();
 }

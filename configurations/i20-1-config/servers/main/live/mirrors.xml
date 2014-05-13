@@ -57,7 +57,7 @@
 
 	<!-- me2 -->
 
-	<bean id="me2_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="me2_stripe_positioner" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="deviceName" value="M2EP" />
 		<property name="inputNames">
 			<list>

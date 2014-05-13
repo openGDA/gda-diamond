@@ -3,7 +3,7 @@
 #
 # Uses new EDE scanning mechanism
 
-from gda.scan.ede import EdeCyclicExperiment
+from gda.scan.ede import CyclicExperiment
 from uk.ac.gda.exafs.ui.data import TimingGroup
 
 def runcyclicexperment():
@@ -51,7 +51,7 @@ def runcyclicexperment():
 
     ########################
 
-    theExperiment = EdeCyclicExperiment(i0AccumulationTime, i0NoOfAccumulcation, groups,  mapToJava(i0MotorPositions), mapToJava(itMotorPositions), detectorName, topCheckerScannable, shutterName, numberOfRepetitions)
+    theExperiment = CyclicExperiment(i0AccumulationTime, i0NoOfAccumulcation, groups,  mapToJava(i0MotorPositions), mapToJava(itMotorPositions), detectorName, topCheckerScannable, shutterName, numberOfRepetitions)
     theExperiment.setNoOfSecPerSpectrumToPublish(plotEvery)
     if 'iRefMotorPositions' in locals():
         theExperiment.setIRefParameters(mapToJava(iRefMotorPositions), irefIntegrationTime, irefNoOfAccumulations)
