@@ -119,6 +119,6 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		String itFilename = itScan.getDataWriter().getCurrentFileName();
 		String folder = DataFileHelper.convertFromNexusToAsciiFolder(itFilename);
 		String filename = FilenameUtils.getBaseName(itFilename);
-		asciiFilename = String.format("%s%s.%s", folder, filename, EdeDataConstants.ASCII_FILE_EXTENSION);
+		asciiFilename = String.format("%s%s_%s.%s", folder, filename, EdeDataConstants.LN_I0_IT_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
 	}
 }

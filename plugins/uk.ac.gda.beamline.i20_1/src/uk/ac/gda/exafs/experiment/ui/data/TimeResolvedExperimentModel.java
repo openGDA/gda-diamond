@@ -475,8 +475,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 								progressReportingJob.schedule();
 								queue.addToTail(new JythonCommandCommandProvider(scanCommand, "Do a collection", null));
 							} catch (Exception e) {
-								e.printStackTrace();
-								// TODO Auto-generated catch block
+								logger.error("Unable to collect data", e);
 							}
 						}
 					}

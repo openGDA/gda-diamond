@@ -22,7 +22,7 @@ import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.enumpositioner.EnumPositionerBase;
 
-public class ME2Scannable extends EnumPositionerBase {
+public class ME2Scannable extends EnumPositionerBase implements EnumPositioner {
 
 	public enum Positions {
 		Rhodium, Silicon, out
@@ -40,7 +40,7 @@ public class ME2Scannable extends EnumPositionerBase {
 
 	@Override
 	public boolean isBusy() throws DeviceException {
-		return stripeScannable.isBusy() && yScannable.isBusy();
+		return stripeScannable.isBusy() || yScannable.isBusy();
 	}
 
 	@Override

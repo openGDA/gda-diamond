@@ -22,8 +22,11 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 
 import uk.ac.gda.beans.ObservableModel;
 
+import com.google.gson.annotations.Expose;
+
 public class EdeCalibrationModel extends ObservableModel {
 	public static final String MANUAL_PROP_NAME = "manual";
+	@Expose
 	private boolean manual;
 
 	public static final String DATA_READY_PROP_NAME = "dataReady";
@@ -32,18 +35,27 @@ public class EdeCalibrationModel extends ObservableModel {
 	private final CalibrationDataModel edeData = new EdeCalibrationDataModel();
 	private final CalibrationDataModel refData = new RefCalibrationDataModel();
 
+	@Expose
+	private String refFileName;
+	@Expose
+	private String edeSpectrumDataFileName;
+
 	public static final String CALIBRATION_RESULT_PROP_NAME = "calibrationResult";
+	@Expose
 	private PolynomialFunction calibrationResult;
 
 	public static final String POLYNOMIAL_ORDER_PROP_NAME = "polynomialOrder";
+	@Expose
 	private int polynomialOrder = 2;
 
 	public void setRefData(String refFileName) throws Exception {
+		this.refFileName = refFileName;
 		refData.setDataFile(refFileName);
 		checkAndFireDataReady();
 	}
 
 	public void setEdeData(String edeSpectrumDataFileName) throws Exception {
+		this.edeSpectrumDataFileName = edeSpectrumDataFileName;
 		edeData.setDataFile(edeSpectrumDataFileName);
 		checkAndFireDataReady();
 	}

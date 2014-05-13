@@ -30,12 +30,16 @@ import org.dawnsci.plotting.api.tool.IToolPageSystem;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.exafs.calibration.data.CalibrationDataModel;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 
 public class EdeManualCalibrationPlotView  extends ViewPart implements CalibrationPlotViewer {
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeManualCalibrationPlotView.class);
 
 	private static final int ZOOM_START_LEVEL = 100;
 	public static final String REFERENCE_ID = "uk.ac.gda.exafs.ui.views.calibrationreference";
@@ -61,16 +65,14 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 				try {
 					plotData();
 				} catch (Exception e) {
-					// TODO Handle this
-					e.printStackTrace();
+					logger.error("Unable to plot data", e);
 				}
 			}
 		});
 		try {
 			plotData();
 		} catch (Exception e) {
-			// TODO Handle this
-			e.printStackTrace();
+			logger.error("Unable to plot data", e);
 		}
 	}
 

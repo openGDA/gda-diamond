@@ -20,9 +20,7 @@ package gda.device.detector;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
-
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
-
+import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -189,7 +187,7 @@ public interface StripDetector extends NexusDetector {
 	 * @return PolynomialFunction
 	 * @throws DeviceException
 	 */
-	public PolynomialFunction getEnergyCalibration() throws DeviceException;
+	public EdeCalibrationModel getEnergyCalibration() throws DeviceException;
 
 	/**
 	 * Set the energy calibration. The detector object should persist this between GDA server restarts.
@@ -197,7 +195,7 @@ public interface StripDetector extends NexusDetector {
 	 * @param calibration
 	 * @throws DeviceException
 	 */
-	public void setEnergyCalibration(PolynomialFunction calibration) throws DeviceException;
+	public void setEnergyCalibration(EdeCalibrationModel calibration) throws DeviceException;
 
 	boolean isEnergyCalibrationSet();
 }
