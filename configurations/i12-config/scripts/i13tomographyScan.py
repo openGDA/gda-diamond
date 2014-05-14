@@ -260,7 +260,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     flatD=flat-dark
     t=imageD/flatD
 #    t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
-    t.name=lsdp.getScanIdentifier() + " image-dark/flat-dark"
+    t.name= str(lsdp.getScanIdentifier()) + " image-dark/flat-dark"
     hdfData = Hdf5HelperData(t.shape, t._jdataset().buffer)
     locs = HDF5HelperLocations("entry1")
     locs.add(tomography_detector.getName())
