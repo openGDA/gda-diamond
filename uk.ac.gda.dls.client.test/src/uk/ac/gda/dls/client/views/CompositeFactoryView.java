@@ -46,7 +46,7 @@ public class CompositeFactoryView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		_compositeFactory.createComposite(parent, SWT.NONE, this.getSite());
+		_compositeFactory.createComposite(parent, SWT.NONE);
 
 	}
 

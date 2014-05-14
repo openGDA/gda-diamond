@@ -19,10 +19,11 @@
 
 package gda.analysis.io;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 import gda.util.TestUtils;
 
 import java.io.File;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 

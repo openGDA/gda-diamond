@@ -44,7 +44,6 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,8 +79,8 @@ public class HealthCheckCompositeFactory implements CompositeFactory {
 	}
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new HealthCheckComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), label,
+	public Composite createComposite(Composite parent, int style) {
+		return new HealthCheckComposite(parent, style, label,
 				healthScannable, heartBeatScannable);
 	}
 }
@@ -128,7 +127,7 @@ class HealthCheckComposite extends Composite {
 		return uri;
 	}
 
-	HealthCheckComposite(Composite parent, int style, final Display display, String label, Scannable healthScannable,
+	HealthCheckComposite(Composite parent, int style, String label, Scannable healthScannable,
 			Scannable heartBeatScannable) {
 		super(parent, style);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(this);
@@ -138,7 +137,7 @@ class HealthCheckComposite extends Composite {
 		GridDataFactory.fillDefaults().applyTo(grp);
 		grp.setText(label);
 
-		this.display = display;
+		this.display = parent.getDisplay();
 		this.healthScannable = healthScannable;
 		this.heartBeatScannable = heartBeatScannable;
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(this);

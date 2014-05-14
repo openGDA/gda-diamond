@@ -148,13 +148,22 @@ public class EnergyKScan extends ScanBase implements Scan {
 				currentPosition = kToEv(mdegPosition, edgeEnergy);
 				double secTime = timeForK(mdegPosition);
 
-				checkForInterrupts();
+				checkThreadInterrupted();
+				if (isFinishEarlyRequested()) {
+					break;
+				}
+				
 				logger.debug("Moving " + allScannables.get(0).getName() + " to " + currentPosition
 						+ "\n");
 				allScannables.get(0).moveTo(new Double(currentPosition));
 				// run a nested scan if there is one
 				if (childScan != null) {
-					checkForInterrupts();
+					
+					checkThreadInterrupted();
+					if (isFinishEarlyRequested()) {
+						break;
+					}
+					
 					// The following line is required to ensure that for nested scans
 					// the addData is called by the outer scan first in order to setup
 					// the required columns and headers.
@@ -173,14 +182,14 @@ public class EnergyKScan extends ScanBase implements Scan {
 				}
 			}
 
-			if (!interrupted) {
+			if (!getStatus().isAborting()) {
 				logger.debug("Finished scanning over " + allScannables.get(0).getName() + "\n");
 			}
 		}
 		// catch all errors, including InterruptedExceptions thrown by
 		// checkForInterrupts() calls.
 		catch (Exception ex1) {
-			interrupted = true;
+			setStatus(ScanStatus.TIDYING_UP_AFTER_FAILURE);
 			throw ex1;
 		}
 		// at end of scan remove all the observers of the detectors which were

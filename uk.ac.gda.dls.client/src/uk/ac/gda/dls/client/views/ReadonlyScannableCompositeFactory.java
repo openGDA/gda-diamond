@@ -26,7 +26,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.springframework.beans.factory.InitializingBean;
 
 import swing2swt.layout.BorderLayout;
@@ -100,8 +99,8 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 	}
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		ReadonlyScannableComposite readonlyScannableComposite = new ReadonlyScannableComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), scannable,
+	public Composite createComposite(Composite parent, int style) {
+		ReadonlyScannableComposite readonlyScannableComposite = new ReadonlyScannableComposite(parent, style, scannable,
 				label, units, decimalPlaces);
 		readonlyScannableComposite.setMinPeriodMS(minPeriodMS);
 		return readonlyScannableComposite;
@@ -116,7 +115,7 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 		DummyMonitor dummy = new DummyMonitor();
 		dummy.setName("dummy");
 		dummy.configure();
-		final ReadonlyScannableComposite comp = new ReadonlyScannableComposite(shell, SWT.NONE, display, dummy, "", "units", new Integer(2));
+		final ReadonlyScannableComposite comp = new ReadonlyScannableComposite(shell, SWT.NONE, dummy, "", "units", new Integer(2));
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();

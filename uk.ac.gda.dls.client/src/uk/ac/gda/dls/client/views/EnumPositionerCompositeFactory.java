@@ -38,7 +38,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -92,8 +91,8 @@ public class EnumPositionerCompositeFactory implements CompositeFactory, Initial
 
 	
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new EnumPositionerComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), positioner, label, labelWidth, contentWidth);
+	public Composite createComposite(Composite parent, int style) {
+		return new EnumPositionerComposite(parent, style, positioner, label, labelWidth, contentWidth);
 	}
 
 	public static void main(String... args) {
@@ -117,7 +116,7 @@ public class EnumPositionerCompositeFactory implements CompositeFactory, Initial
 			System.out.println("Can not move dummy to position 1");
 		}
 		
-		final EnumPositionerComposite comp = new EnumPositionerComposite(shell, SWT.NONE, display, dummy, "", new Integer(100), new Integer(200));
+		final EnumPositionerComposite comp = new EnumPositionerComposite(shell, SWT.NONE, dummy, "", new Integer(100), new Integer(200));
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();
@@ -147,9 +146,9 @@ class EnumPositionerComposite extends Composite {
 	private Runnable setComboRunnable;
 	String [] formats;
 
-	EnumPositionerComposite(Composite parent, int style, final Display display, EnumPositioner positioner, String label, Integer labelWidth, Integer contentWidth ) {
+	EnumPositionerComposite(Composite parent, int style, EnumPositioner positioner, String label, Integer labelWidth, Integer contentWidth ) {
 		super(parent, style);
-		this.display = display;
+		this.display = parent.getDisplay();
 		this.positioner = positioner;
 		this.labelWidth=labelWidth;
 		this.contentWidth=contentWidth;

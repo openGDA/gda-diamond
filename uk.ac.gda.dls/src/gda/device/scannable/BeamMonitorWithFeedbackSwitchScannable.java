@@ -164,7 +164,6 @@ public class BeamMonitorWithFeedbackSwitchScannable extends TopupScannable imple
 				break;
 			//else switch the feedback off and sleep for 1 minute 
 			try {
-				ScanBase.checkForInterrupts();
 				sendAndPrintMessage("Beam lost : Pausing until resumed");				
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {

@@ -63,10 +63,10 @@ public class ReadonlyScannableComposite extends Composite {
 		this.minPeriodMS = minPeriodMS;
 	}
 
-	public ReadonlyScannableComposite(Composite parent, int style, final Display display, final Scannable scannable, String label, final String units, 
+	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units,
 			Integer decimalPlaces) {
 		super(parent, style);
-		this.display = display;
+		this.display = parent.getDisplay();
 		this.scannable = scannable;
 		this.decimalPlaces = decimalPlaces;
 		

@@ -22,7 +22,7 @@ import gda.device.DeviceException;
 import gda.epics.connection.EpicsChannelManager;
 import gda.epics.connection.EpicsController;
 import gda.epics.connection.InitializationListener;
-import gda.scan.ScanBase;
+import gda.jython.InterfaceProvider;
 import gov.aps.jca.CAException;
 import gov.aps.jca.Channel;
 import gov.aps.jca.TimeoutException;
@@ -131,9 +131,12 @@ public class MonoCoolScannable extends ScannableBase implements InitializationLi
 		try {
 			logger.info("bragg motor too hot - waiting for it to cool to " + temperatureCoolLevel +"C...");
 			while (getCurrentTemp() > temperatureCoolLevel){
-				ScanBase.checkForInterrupts();
 				Long start = new Date().getTime();
 				Thread.sleep(10000);
+				// stop waiting if Scan has been asked to finish
+				if (InterfaceProvider.getCurrentScanController().isFinishEarlyRequested()){
+					return;
+				}
 				if ((new Date().getTime() - start) > (coolingTimeout * 1000)) {
 					String message = getName() + " had timeout waiting for motor to cool so will abort scan";
 					logger.error(message);

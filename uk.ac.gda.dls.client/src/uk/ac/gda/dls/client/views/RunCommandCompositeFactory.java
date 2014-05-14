@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
@@ -52,16 +51,16 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 	String jobTitle;
 	String tooltip="";
 
-	public static Composite createComposite(Composite parent, int style, final Display display,
+	public static Composite createComposite(Composite parent, int style,
 			final ICommandRunner commandRunner, String label, final String command, final String commandObserver,
 			final String jobTitle, String tooltip) {
-		return new RunCommandComposite(parent, style, display, commandRunner, label, command, commandObserver,
+		return new RunCommandComposite(parent, style, commandRunner, label, command, commandObserver,
 				jobTitle, tooltip);
 	}
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new RunCommandComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), commandRunner, label,
+	public Composite createComposite(Composite parent, int style) {
+		return new RunCommandComposite(parent, style, commandRunner, label,
 				command, commandObserver, jobTitle, tooltip);
 	}
 
@@ -159,7 +158,7 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 				return null;
 			}
 		};
-		final RunCommandComposite comp = new RunCommandComposite(shell, SWT.NONE, display, iCommandRunner, "My Label",
+		final RunCommandComposite comp = new RunCommandComposite(shell, SWT.NONE, iCommandRunner, "My Label",
 				"My Command", "", "Job Title", "tooltip");
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
@@ -180,10 +179,10 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 
 class RunCommandComposite extends Composite {
 
-	RunCommandComposite(Composite parent, int style, final Display display, final ICommandRunner commandRunner,
+	RunCommandComposite(Composite parent, int style, final ICommandRunner commandRunner,
 			String label, final String command, final String commandObserver, final String jobTitle, String tooltip) {
 		super(parent, style);
-
+		final Display display = parent.getDisplay();
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
 		final Button btn = new Button(this, SWT.PUSH);

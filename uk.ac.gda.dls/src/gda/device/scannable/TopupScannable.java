@@ -22,7 +22,6 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.epics.CAClient;
 import gda.jython.JythonServerFacade;
-import gda.scan.ScanBase;
 
 import java.util.Date;
 
@@ -107,8 +106,6 @@ public class TopupScannable extends ScannableBase implements Scannable {
 			sendAndPrintMessage(message);
 			while (topupTime > -1 && topupTime < (collectionTime + tolerance)) { // We are inside the tolerance and
 																					// should pause
-
-				ScanBase.checkForInterrupts();
 
 				// check no timeout
 				if ((new Date().getTime() - start) > (timeout * 1000)) {

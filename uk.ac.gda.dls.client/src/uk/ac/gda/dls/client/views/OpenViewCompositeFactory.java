@@ -28,7 +28,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
@@ -71,7 +70,7 @@ public class OpenViewCompositeFactory implements CompositeFactory, InitializingB
 	}
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
+	public Composite createComposite(Composite parent, int style) {
 		Image buttonImage = buttonImagePath != null ? Activator.getImageDescriptor(buttonImagePath).createImage() : null;
 		return new OpenViewComposite(parent, style, buttonText, tooltipText, buttonImage, viewID);
 	}

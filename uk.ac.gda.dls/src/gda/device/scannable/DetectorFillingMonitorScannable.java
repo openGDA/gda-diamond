@@ -20,7 +20,6 @@ package gda.device.scannable;
 
 import gda.device.DeviceException;
 import gda.jython.commands.ScannableCommands;
-import gda.scan.ScanBase;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -56,25 +55,24 @@ public class DetectorFillingMonitorScannable extends TopupScannable {
 	}
 	
 	@Override
-	protected void testShouldPause() throws DeviceException{
-		while(isFilling())
-		{
+	protected void testShouldPause() throws DeviceException {
+		while (isFilling()) {
 			try {
-				
-					ScanBase.checkForInterrupts();
-					sendAndPrintMessage("Detector Filling : Pausing until completed");
-				
-				//sleep for a minute
+
+				sendAndPrintMessage("Detector Filling : Pausing until completed");
+
+				// sleep for a minute
 				Thread.sleep(60000);
-				
+
 			} catch (InterruptedException e) {
 				// someone trying to kill the thread so re-throw to kill any scan
 				throw new DeviceException(e.getMessage(), e);
 			}
-			
+
 		}
 
 	}
+	
 	private boolean isFilling() {
 		if(!fillingOverride)
 		{

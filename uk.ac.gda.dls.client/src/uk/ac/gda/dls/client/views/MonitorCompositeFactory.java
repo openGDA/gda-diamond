@@ -38,7 +38,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchPartSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -105,8 +104,8 @@ public class MonitorCompositeFactory implements CompositeFactory, InitializingBe
 	}
 	
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new MonitorComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), scannable,
+	public Composite createComposite(Composite parent, int style) {
+		return new MonitorComposite(parent, style, scannable,
 				label, units, decimalPlaces, labelWidth, contentWidth);
 	}
 
@@ -118,7 +117,7 @@ public class MonitorCompositeFactory implements CompositeFactory, InitializingBe
 		DummyMonitor dummy = new DummyMonitor();
 		dummy.setName("dummy");
 		dummy.configure();
-		final MonitorComposite comp = new MonitorComposite(shell, SWT.NONE, display, dummy, "", "units", new Integer(2), new Integer(100), new Integer(200));
+		final MonitorComposite comp = new MonitorComposite(shell, SWT.NONE, dummy, "", "units", new Integer(2), new Integer(100), new Integer(200));
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();
@@ -147,10 +146,9 @@ class MonitorComposite extends Composite {
 	Integer labelWidth;
 	Integer contentWidth;
 
-	MonitorComposite(Composite parent, int style, final Display display, Scannable scannable, String label, final String units, 
+	MonitorComposite(Composite parent, int style, Scannable scannable, String label, final String units,
 			Integer decimalPlaces, Integer labelWidth, Integer contentWidth) {
 		super(parent, style);
-		this.display = display;
 		this.scannable = scannable;
 		this.decimalPlaces = decimalPlaces;
 		this.labelWidth=labelWidth;

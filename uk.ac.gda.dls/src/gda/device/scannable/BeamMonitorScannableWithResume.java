@@ -108,7 +108,6 @@ public class BeamMonitorScannableWithResume extends TopupScannable implements In
 				String message = "Pausing scan and waiting for " + getName() + ". Press stop button to cancel.";
 				sendAndPrintMessage(message);
 				while (!beamAvailable()) {
-					ScanBase.checkForInterrupts();
 					Thread.sleep(1000);
 				}
 

@@ -71,8 +71,8 @@ public class BatonStatusCompositeFactory implements CompositeFactory {
 	}
 
 	@Override
-	public Composite createComposite(Composite parent, int style, IWorkbenchPartSite iWorkbenchPartSite) {
-		return new BatonStatusComposite(parent, style, iWorkbenchPartSite.getShell().getDisplay(), label);
+	public Composite createComposite(Composite parent, int style) {
+		return new BatonStatusComposite(parent, style, parent.getDisplay(), label);
 	}
 }
 
