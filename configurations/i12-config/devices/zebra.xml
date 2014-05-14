@@ -8,7 +8,7 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
 
-	<bean id="zebra_pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco.hdf" />
 		<property name="fileNameTemplate" value="pco1"/>
 		<property name="filePathTemplate" value="$datadir$"/>
@@ -36,7 +36,7 @@
 		<property name="scurveTimeToVelocity" value="5"/> <!--  read from weight system -->
 	</bean>	
 	
-	<bean id="flyScanDetectorCollectionStrategy"
+	<bean id="flyScanCollectionStrategy" 
 		class="gda.device.detector.addetector.triggering.PCOHWTriggerBase">
 		<constructor-arg ref="pco.cam" />
 		<constructor-arg ref="pco_hdf_adDriverPco" />
@@ -47,10 +47,10 @@
 		<property name="name" value="flyScanDetector"/>
 		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<property name="collectionStrategy" ref="flyScanDetectorCollectionStrategy" />
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="zebra_pco1_hdf5_filewriter" />
+				<ref bean="pco1_hdf5_filewriter" />
 			</list>
 		</property>
 	</bean>	
@@ -66,7 +66,7 @@
 		<property name="name" value="flyScanDetectorTIF"/>
 		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<property name="collectionStrategy" ref="flyScanDetectorCollectionStrategy" />
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pco1_tif_writer" />
@@ -81,7 +81,7 @@
 		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="zebra_pco1_hdf5_filewriter" />
+				<ref bean="pco1_hdf5_filewriter" />
 			</list>
 		</property>
 	</bean>	

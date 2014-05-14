@@ -4,11 +4,16 @@
 import sys	
 from gdascripts.messages import handle_messages
 from gda.jython.commands import GeneralCommands
+from gdascripts.utils import caput, caget
+from gda.device.scannable import ScannableMotionBase
+from gda.jython.commands import ScannableCommands
+
 
 print "Performing I12 specific initialisation code"
 print "=============================================="
 
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
+
 
 print "add EPICS scripts to system path"
 print "------------------------------------------------"
@@ -22,13 +27,26 @@ import i12utilities
 from i12utilities import DocumentationScannable
 import lookupTables
 
-#import beamEnergy
-#alias("setEnergy")
 
-#from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode
-#alias("moveToImagingMode")
-#alias("moveToDiffractionMode")
+from pv_scannable_utils import createPVScannable
 
+print "-------------------------------------------------"
+print "getting beamEnergy"
+#from positionCompareMotorClass import PositionCompareMotorClass
+#camMono2_y = PositionCompareMotorClass("camMono2_y", "BL12I-OP-DCM-01:CAM2:Y.VAL", "BL12I-OP-DCM-01:CAM2:Y.RBV", "BL12I-OP-DCM-01:CAM2:Y.STOP", 0.002, "mm", "%.3f")
+from beamEnergy import moveToBeamEnergy 
+
+
+print "-------------------------------------------------"
+print "getting detectorModeSwitching"
+from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
+
+print "-------------------------------------------------"
+print "getting beamAttenuation"
+import beamAttenuation
+from beamAttenuation import moveToAttenuation
+
+print "-------------------------------------------------"
 print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdirectory('subdir-name')"
 print "-------------------------------------------------"
 # function to find the last file path
@@ -40,7 +58,7 @@ alias("nwd")
 alias("nfn")
 alias("cfn")
 alias("setSubdirectory")
-
+from i12utilities import createScannableFromPV
 
 print "create commands for Data Writer operations: setDataWriterToNexus, setDataWriterToSrs, getDataWriter"
 print "-------------------------------------------------"
@@ -215,14 +233,6 @@ except :
 from gdascripts.pd.time_pds import * #@UnusedWildImport
 from gdascripts.pd.epics_pds import * #@UnusedWildImport
 
-print "create pixium scannables"
-try:
-    pixtimestamp = DisplayEpicsPVClass('pixtimestamp', 'BL12I-EA-DET-05:TIFF:TimeStamp_RBV', 's', '%.3f')
-    pixtemperature = DisplayEpicsPVClass('pixtemperature', 'BL12I-EA-DET-05:PIX:Temperature_RBV', 'degree', '%.1f') 
-    pixtotalcount = DisplayEpicsPVClass('pixtotalcount', 'BL12I-EA-DET-05:STAT:Total_RBV', 'count', '%d') 
-    pixexposure = DisplayEpicsPVClass('pixexposure', 'BL12I-EA-DET-05:PIX:AcquireTime_RBV', 's', '%.3f')
-except:
-    print "cannot create pixium scannables"
      
 try:
     pcotimestamp = DisplayEpicsPVClass('pcotimestamp', 'TEST:TIFF0:TimeStamp_RBV', 's', '%.3f')    
@@ -330,6 +340,13 @@ except:
     print "cannot create EH2 thermocouple scannables"
 
 print "--------------------------------------------------"
+
+print "disable 'waiting for file to be created'"
+pixium10_tif.pluginList[1].waitForFileArrival=False
+pco4000_dio_tif.setCheckFileExists(False)
+pco4000_dio_hdf.setCheckFileExists(False)
+
+print "--------------------------------------------------"
 pdnames = []
 from detector_control_pds import * #@UnusedWildImport
 
@@ -357,6 +374,9 @@ ss2y = PositionCompareMotorClass("ss2y", "BL12I-MO-TAB-06:Y.VAL", "BL12I-MO-TAB-
 ss2z = PositionCompareMotorClass("ss2z", "BL12I-MO-TAB-06:Z.VAL", "BL12I-MO-TAB-06:Z.RBV", "BL12I-MO-TAB-06:Z.STOP", 0.002, "mm", "%.3f")
 ss2rx = PositionCompareMotorClass("ss2rx", "BL12I-MO-TAB-06:PITCH.VAL", "BL12I-MO-TAB-06:PITCH.RBV", "BL12I-MO-TAB-06:PITCH.STOP", 0.002, "deg", "%.3f")
 ss2ry = PositionCompareMotorClass("ss2ry", "BL12I-MO-TAB-06:THETA.VAL", "BL12I-MO-TAB-06:THETA.RBV", "BL12I-MO-TAB-06:THETA.STOP", 0.002, "deg", "%.3f")
+
+
+
 
 pco.setHdfFormat(False) #@UndefinedVariable
 
@@ -403,7 +423,7 @@ except:
 #from pv_scannable_utils import *
 #print "added pv_scannable_utils" 
 
-print "adding mass flow controller scannables"
+print "create mass flow controller scannables"
 try:
     mfc_pressure = DisplayEpicsPVClass('mfc_pressure', 'ME08G-EA-GIR-01:MFC2:PBAR:RD', 'bar', '%5.3g')
     mfc_temperature = DisplayEpicsPVClass('mfc_temperature', 'ME08G-EA-GIR-01:MFC2:TEMP:RD', 'C', '%5.3g')
@@ -412,30 +432,26 @@ except:
     print "cannot create mass flow controller scannables"
     
 
-from PixiumAfterIOCStart_ModeChange import pixiumExp80ms, pixiumExp500ms, pixiumExp1000ms,pixiumExp2000ms, pixiumExp4000ms,pixiumAfterIOCStart
-alias("pixiumExp80ms")
-alias("pixiumExp500ms")
-alias("pixiumExp1000ms")
-alias("pixiumExp2000ms")
-alias("pixiumExp4000ms")
-alias("pixiumAfterIOCStart")
 
-
-
-
-print "adding pixium10 scannables"
+print "create pixium10 scannables"
 try:
     pixium10_PUMode = DisplayEpicsPVClass('pixium10_PUMode', 'BL12I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
     pixium10_BaseExposure = DisplayEpicsPVClass('pixium10_BaseExposure', 'BL12I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
     pixium10_BaseAcquirePeriod = DisplayEpicsPVClass('pixium10_BaseAcquirePeriod', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
-    pixium10_EarlyFrames = DisplayEpicsPVClass('pixium10_EarlyFrames', 'BL12I-EA-DET-10:CAM:MotionBlur', 'status', '%.0f')
-
+    pixium10_ExcludeEarlyFrames = createScannableFromPV("pixium10_ExcludeEarlyFrames", "BL12I-EA-DET-10:CAM:MotionBlur", addToNameSpace=True, getAsString=True, hasUnits=False)
+    
     pixium10_TotalCount = DisplayEpicsPVClass('pixium10_TotalCount', 'BL12I-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
+    pixium10_TimeStamp = DisplayEpicsPVClass('pixium10_TimeStamp', 'BL12I-EA-DET-10:STAT:TimeStamp_RBV', 'time', '%.3f')
+    
+    pixium10_DataType=createScannableFromPV("pixium10_DataType", "BL12I-EA-DET-10:CAM:DataType", addToNameSpace=True, getAsString=True, hasUnits=False)
+    pixium10_ID = DisplayEpicsPVClass('pixium10_ID', 'BL12I-EA-DET-10:STAT:UniqueId_RBV', 'no', '%.0f')
+    pixium10_Counter = DisplayEpicsPVClass('pixium10_Counter', 'BL12I-EA-DET-10:CAM:ArrayCounter_RBV', 'no', '%.0f')
     pixium10_FanSpeed1 = DisplayEpicsPVClass('pixium10_FanSpeed1', 'BL12I-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
     pixium10_FanSpeed2 = DisplayEpicsPVClass('pixium10_FanSpeed2', 'BL12I-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
     pixium10_DetectorTemperature = DisplayEpicsPVClass('pixium10_DetectorTemperature', 'BL12I-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
 except:
     print "cannot create pixium10 scannables"
+
 
 
 print "\n Finding requested default scannables in the Jython namespace..."
@@ -496,9 +512,8 @@ try:
     meta_scannables.append(cam1)
     #meta_scannables.append(cam3)
     
+    meta_scannables.append(f1)
     meta_scannables.append(f2)
-    meta_scannables.append(f3)
-    meta_scannables.append(f4)
     
     #meta_scannables.append(mc1_bragg)
     #meta_scannables.append(mc2)
@@ -509,6 +524,7 @@ try:
     
     meta_scannables.append(t3)
     meta_scannables.append(t7)
+#    meta_scannables.append(eh1therm1)
     
     for s in meta_scannables:
         meta_add(s)
@@ -543,6 +559,7 @@ _meta_scannables_names_PIXIUMi12.append("pixium10_PUMode")
 _meta_scannables_names_PIXIUMi12.append("pixium10_BaseExposure")
 _meta_scannables_names_PIXIUMi12.append("pixium10_BaseAcquirePeriod")
 _meta_scannables_names_PIXIUMi12.append("pixium10_EarlyFrames")
+_meta_scannables_names_PIXIUMi12.append("pixium10_TotalCount")
 
 _meta_scannables_PIXIUMi12 = []
 def meta_add_allPIXIUM():
@@ -584,14 +601,22 @@ caputStringAsWaveform( "BL12I-EA-DET-02:COPY:SourceFilePath", "d:\\i12\\data\\20
 caputStringAsWaveform( "BL12I-EA-DET-02:COPY:DestFilePath", "t:\\i12\\data\\2014")
 caput ("BL12I-EA-DET-02:COPY:Run", 1)
 
+#from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
+
+#import p2r_utilities
+#from p2r_utilities import flyp2r, stepp2r
+
 import os
 def stress12(exposureTime=1.0,startAng=0.0, stopAng=180.0, stepAng=0.05, subDir=None, loopNum=1):
     """
-    Function to collect a tomogram for stress test on i12
+    Description:
+    Function to run a step scan in the TIFF format for stress test on i12 
+    (all scan files are saved in the tmp sub-directory of the current visit directory) 
+    
     Arguments:
     exposureTime - exposure time in seconds (default = 1.0)
-    startAng - first rotation angle (default=0.0)
-    stopAng  - last rotation angle (default=180.0)
+    startAng - start rotation angle (default = 0.0)
+    stopAng  - last rotation angle (default = 180.0)
     stepAng - rotation step size (default = 0.05)
     subDir - name of the sub-directory of the visit/tmp directory to be used for saving out images 
             (default = None, in which case data go to /dls/i12/data/yyyy/visitID/tmp/)
@@ -604,10 +629,18 @@ def stress12(exposureTime=1.0,startAng=0.0, stopAng=180.0, stepAng=0.05, subDir=
     setSubdirectory(sub)
     msg = pwd()
     print "Saving data in: " + msg
-    for i in range(0, loopNum):
-        print "scan index : %i" %(i) 
-        tomoScan("stress12", ss1_x_dummy(), ss1_x_dummy(), exposureTime, startAng, stopAng, stepAng, darkFieldInterval=0, flatFieldInterval=0, imagesPerDark=0, imagesPerFlat=0, optimizeBeamInterval=0, pattern='default', tomoRotationAxis=0, addNXEntry=True, autoAnalyse=False, additionalScannables=[])
-    print "Finished stress12"
+    try:
+        for i in range(0, loopNum):
+            interruptable()
+            print "scan index: %i (of %i)" %(i+1,loopNum)
+            tomoScan("stress12", ss1_x_dummy(), ss1_x_dummy(), exposureTime, startAng, stopAng, stepAng, darkFieldInterval=0, flatFieldInterval=0, imagesPerDark=0, imagesPerFlat=0, optimizeBeamInterval=0, pattern='default', tomoRotationAxis=0, addNXEntry=True, autoAnalyse=False, additionalScannables=[])
+            interruptable()
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "Exception in stress12", exceptionType, exception, traceback, False)
+    finally:
+        setSubdirectory("")
+    print "Finished stress12 consisting of %i scan(s)" %(loopNum)
 
 print 
 print "==================================================="

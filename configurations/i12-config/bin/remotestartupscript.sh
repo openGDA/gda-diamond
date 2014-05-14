@@ -4,7 +4,8 @@
 source /dls_sw/i12/etc/i12_profile.sh
 
 . /usr/share/Modules/init/bash
-module load java/gda836-64
+
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 echo "JAVA_HOME=$JAVA_HOME"
 
 #this is needed to ensure the acls work properly

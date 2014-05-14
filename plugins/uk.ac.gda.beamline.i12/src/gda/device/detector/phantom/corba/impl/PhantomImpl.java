@@ -533,6 +533,11 @@ public class PhantomImpl extends CorbaPhantomPOA {
 	}
 	
 	@Override
+	public void atLevelEnd() throws CorbaDeviceException {
+
+	}
+	
+	@Override
 	public void atCommandFailure() throws CorbaDeviceException {
 		
 	}

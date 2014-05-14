@@ -3,7 +3,8 @@
 #identify install folder and JAVA_HOME
 source /dls_sw/i12/etc/i12_profile.sh
 
-module load java/gda836
+. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
+
 # Start log panel if not already started
 CLASSPATH=$GDAFOLDER/workspace_git/gda-legacy.git/uk.ac.gda.swingclient/bin; export CLASSPATH
 LOGPANEL=$(ps -ef | grep LogPanel | grep -v grep)

@@ -24,10 +24,12 @@
 		<!-- <property name="deviceName" value="pco.cam_ADBase" /> -->
 		<property name="basePVName" value="BL12I-EA-DET-02:CAM:" />
 		<property name="initialDataType" value="UInt16" />
-		<property name="initialMinX" value="1" />
-		<property name="initialMinY" value="1" />
-		<property name="initialSizeX" value="4008" />
-		<property name="initialSizeY" value="2672" />
+		<property name="initialMinX" value="0" />
+		<property name="initialMinY" value="0" />
+		<property name="initialSizeX" value="2560" />
+		<!-- <property name="initialSizeX" value="4008" /> -->
+		<property name="initialSizeY" value="2160" />
+		<!-- <property name="initialSizeY" value="2672" /> -->
 		<property name="initialBinX" value="1" />
 		<property name="initialBinY" value="1" />
 		<!-- <property name="initialNDAttributesFile" value="Z:/epics/areadetector/pixiumattributes.xml" 
