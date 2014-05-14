@@ -49,11 +49,12 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.exafs.plotting.model.DataNode;
+import uk.ac.gda.exafs.plotting.model.LineTraceProvider;
+import uk.ac.gda.exafs.plotting.model.LineTraceProvider.TraceStyleDetails;
+import uk.ac.gda.exafs.plotting.ui.DataPlotterCheckedTreeViewer;
+import uk.ac.gda.exafs.ui.ResourceComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.exafs.ui.sections.ResourceComposite;
-import uk.ac.gda.exafs.ui.views.plot.model.DataNode;
-import uk.ac.gda.exafs.ui.views.plot.model.LineTraceProvider;
-import uk.ac.gda.exafs.ui.views.plot.model.LineTraceProvider.TraceStyleDetails;
 
 public class ScanDataPlotter extends ResourceComposite {
 
@@ -129,7 +130,7 @@ public class ScanDataPlotter extends ResourceComposite {
 	private void updateTrace(DataNode node) {
 		if (node instanceof LineTraceProvider) {
 			LineTraceProvider lineTraceProvider = (LineTraceProvider) node;
-			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier().toString());
+			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
 			if (trace != null) {
 				trace.setData(lineTraceProvider.getXAxisDataset(), lineTraceProvider.getYAxisDataset());
 				plottingSystem.repaint();
@@ -229,7 +230,7 @@ public class ScanDataPlotter extends ResourceComposite {
 			if (isAdded) {
 				addTrace((LineTraceProvider) dataItemNode, dataItemNode.getIdentifier());
 			} else {
-				removeTrace(dataItemNode.getIdentifier().toString());
+				removeTrace(dataItemNode.getIdentifier());
 			}
 		}
 	}

@@ -30,6 +30,9 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
+import uk.ac.gda.exafs.plotting.model.DataNode;
+import uk.ac.gda.exafs.plotting.model.SlitsScanDataNode;
+
 public class SlitsScanRootDataNode extends DataNode implements IScanDataPointObserver {
 
 	private final Map<Integer, SlitsScanDataNode> scans = new HashMap<Integer, SlitsScanDataNode>();

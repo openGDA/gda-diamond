@@ -42,7 +42,7 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 
 	public final static DoubleDataset scriptsData = new DoubleDataset(XHDetector.getStripsInDouble());
 
-	private final Map<String, ScanDataNode> scans = new HashMap<String, ScanDataNode>();
+	private final Map<Integer, ScanDataNode> scans = new HashMap<Integer, ScanDataNode>();
 	private final IObservableList dataset = new WritableList(new ArrayList<ScanDataNode>(), ScanDataNode.class);
 
 	private DataNode changedData;
@@ -102,11 +102,11 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 		if (arg instanceof EdeExperimentProgressBean) {
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
-			final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
+			final int scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
 			ScanDataNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
 				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
-				final ScanDataNode newNode = new ScanDataNode(scanIdentifier, isMulti, this);
+				final ScanDataNode newNode = new ScanDataNode(Integer.toString(scanIdentifier), isMulti, this);
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;
