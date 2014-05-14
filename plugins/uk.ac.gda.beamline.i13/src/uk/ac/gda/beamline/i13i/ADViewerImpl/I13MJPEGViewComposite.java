@@ -113,7 +113,7 @@ public class I13MJPEGViewComposite extends Composite {
 			tabs.afterPropertiesSet();
 			cf = tabs;
 		}
-		cf.createComposite(c, SWT.NONE, null);
+		cf.createComposite(c, SWT.NONE);
 
 		Composite composite = new Composite(top, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
@@ -220,18 +220,16 @@ public class I13MJPEGViewComposite extends Composite {
 			if (desc != null) {
 				normalizedImage_image = desc.createImage();
 				showNormalisedImage.setImage(normalizedImage_image);
-			} else {
-				showNormalisedImage.setText("Get Normalised\nImage...");
 			}
+			showNormalisedImage.setText("Normalised\nImage...");
 		}
 		{
 			ImageDescriptor desc = TomoClientActivator.getImageDescriptor("icons/sinogram.gif");
 			if (desc != null) {
 				sinogram_image = desc.createImage();
 				openScanDlg.setImage(sinogram_image);
-			} else {
-				openScanDlg.setText("Tomography\nScan");
 			}
+			openScanDlg.setText("Tomography\nScan...");
 		}
 		btnShowRotAxis = new Button(composite, SWT.CHECK);
 		btnShowRotAxis.setText("Show Rotation & Image Axes");

@@ -20,4 +20,10 @@
 		<property name="local" value="true" />
 	</bean>
 
+ 	<bean id="scope1_turret" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL13J-EA-TURR-01:DEMAND"/>
+		<property name="statusPv" value="BL13J-EA-TURR-01:CURRENTPOS"/>
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+	</bean>
+
 </beans>	

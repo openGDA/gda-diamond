@@ -8,29 +8,35 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean id="epgADController"
+	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>
+
+	<bean id="pcoADController"
 		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
-		<property name="serviceName" value="epg"/>
-		<property name="imageNDStats" ref="epg_stat" />
-		<property name="liveViewNDProc" ref="epg_proc" />
-		<property name="imageNDArray" ref="epg_arr" />
-		<property name="detectorName" value="epg" />
-		<property name="adBase" ref="epg_cam_base" />
-		<property name="ffmpegStream" ref="epg_ffmpeg" />
-		<property name="imageNDROI" ref="epg_roi"/>
+		<property name="serviceName" value="pco"/>
+		<property name="imageNDStats" ref="pco1_stat" />
+		<property name="liveViewNDProc" ref="pco1_proc2" />
+		<property name="imageNDArray" ref="pco1_arr" />
+		<property name="imageHistSize" value="256" />
+		<property name="imageMin" value="0" />
+		<property name="detectorName" value="PCO" />
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
+		<property name="ffmpegImageOutHeightMax" value="1200" />
+		<property name="ffmpegImageOutWidthMax" value="1600" />
+		<property name="imageNDROI" ref="pco1_roi1"/>
 	</bean>
 
-	<bean id="epgdictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+	<bean id="pcodictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
 			<map>
-				<entry key="SERVICE_NAME" value="epg" />
+				<entry key="SERVICE_NAME" value="pco" />
 			</map>
 		</property>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
-		<property name="service" ref="epgADController" />
-		<property name="properties" ref="epgdictionary" />
+		<property name="service" ref="pcoADController" />
+		<property name="properties" ref="pcodictionary" />
 	</bean>
 	
 </beans>

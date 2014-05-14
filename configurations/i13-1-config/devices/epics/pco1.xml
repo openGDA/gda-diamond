@@ -8,67 +8,8 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-
-	<bean id="pco1_cam_base" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:CAM:" />
-	</bean>
-	<bean id="pco1_arr" class="gda.spring.V17NDArrayFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:ARR:" />
-	</bean>
-
-	<bean id="pco1_stat" class="gda.spring.V17NDStatsFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:STAT:" />
-	</bean>
-	<bean id="pco1_roi1" class="gda.spring.V17NDROIFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:ROI1:" />
-	</bean>
-	<bean id="pco1_roi2" class="gda.spring.V17NDROIFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:ROI2:" />
-	</bean>
-
-	<bean id="pco1_ffmpeg1" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:MPG1:" />
-	</bean>
-
-	<bean id="pco1_ffmpeg2" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:MPG2:" />
-	</bean>
-
-
-	<bean id="pco1_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="pco1_ndfilehdf5_base" />
-	</bean>
-
-
-	<bean id="pco1_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:HDF:" />
-		<property name="resetToInitialValues" value="false" />
-		<property name="filePathConverter">
-			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i13-1/data" />
-				<property name="windowsSubString" value="z:\data" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="pco1_ndfiletif" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:TIF:" />
-		<property name="resetToInitialValues" value="false" />
-		<property name="filePathConverter">
-			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i13-1/data" />
-				<property name="windowsSubString" value="z:\data" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="pco1_proc1" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:PRO1:" />
-	</bean>
-
-	<bean id="pco1_proc2" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:PRO2:" />
-	</bean>
+	<import resource="pco1_ndplugins.xml"/>
+	
 
 	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
@@ -79,20 +20,25 @@
 				<entry key="pco1_ffmpeg2" value-ref="pco1_ffmpeg2" />
 				<entry key="pco1_roi1" value-ref="pco1_roi1" />
 				<entry key="pco1_roi2" value-ref="pco1_roi2" />
+				<entry key="pco1_proc1" value-ref="pco1_proc1" />
+				<entry key="pco1_proc2" value-ref="pco1_proc2" />				
 				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file" />
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif" />
+				<entry key="pco1_stat" value-ref="pco1_stat"/>				
 				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco" />
 				<entry key="pco1_multipleExposurePco" value-ref="pco1_multipleExposurePco" />
 				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger" />
+				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
 			</util:map>
 		</property>
 	</bean>
 
-	<bean id="adDriverPco1"
-		class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
-		<property name="basePvName" value="BL13J-EA-DET-01:CAM" />
-	</bean>
 
+	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.PCOAutoContinuous">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<property name="adcMode" value="0"/>		
+	</bean>
 
 	<bean id="pco1_singleExposurePcoSoftwareTrigger"
 		class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
@@ -112,10 +58,10 @@
 	<bean id="pco1_multipleExposurePco"
 		class="gda.device.detector.addetector.triggering.PCOMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value="2." />
+		<constructor-arg value="100." />
 		<constructor-arg ref="adDriverPco1" />
 		<property name="ndProcess" ref="pco1_proc1" />
-		<property name="exposureTime" value="1." />
+		<property name="exposureTime" value="2." />
 	</bean>
 
 
@@ -176,7 +122,7 @@
 
 				</bean>
 
-				<bean
+<!-- 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
 					<constructor-arg ref="pco1_arr" />
 				</bean>
@@ -184,10 +130,55 @@
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
 					<constructor-arg ref="pco1_stat" />
 				</bean>
-
+ -->
 			</list>
 		</property>
 	</bean>
+
+
+	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="0"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="0"/>
+		<property name="framesFlush" value="0"/>
+		<property name="lazyOpen" value="true"/>
+		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+	</bean>
+
+	<bean id="pco1_sw_hdf_nochunking" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw_hdf_nochunking"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pco1_sw_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw_tif" />
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<bean
+					class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+					<constructor-arg value="pco1_tif" />
+					<property name="ndFile" ref="pco1_ndfiletif" />
+					<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor" />
+					<property name="waitForFileArrival" value="false" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
 	<!-- <bean id="pcoEdge_tif" class="gda.device.detector.addetector.ADPco"> 
 		<property name="adBase" ref="pco1_cam_base" /> <property name="ndStats" ref="pco1_stat" 
 		/> <property name="ndArray" ref="pco1_arr" /> <property name="ndFile" ref="pco1_ndfiletif" 

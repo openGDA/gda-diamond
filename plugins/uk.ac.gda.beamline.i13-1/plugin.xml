@@ -101,7 +101,6 @@
    </extension>  
 
 
-
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
@@ -143,25 +142,6 @@
 </extension>
 
 
-<!-- menus for float1 -->
 
-<!-- menus for float3 -->
-
-
-<!-- menus for d1 -->
-
-
-<!-- menus for d2 -->
-
-
-<!-- menus for d3 -->
-
-
-<!-- menus for d4 -->
-
-
-
-
-<!-- menus for excalibur -->
 
 </plugin>

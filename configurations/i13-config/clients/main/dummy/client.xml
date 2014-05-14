@@ -17,10 +17,8 @@
 	<import resource="../../../devices/dummy/d5.xml"/>
 	<import resource="../../../devices/dummy/float1.xml"/>
 	<import resource="../../../devices/dummy/float2.xml"/>	
-	<import resource="../../../devices/epics/epg_camera.xml"/>	
 
 	<import resource="../common.xml" />
-	<import resource="epg_camera.xml" />
 	
 	<import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
 <!-- 	<import resource="../../../devices/zebra/pco1_ndplugins.xml"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.2.0.201303060654-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.4.0.201310051539-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -159,6 +159,11 @@
 		<config>clients/main/live/float2.xml</config>
 		<config>clients/main/live/float3.xml</config>
 		<config>devices/live/tfg2.xml</config>
+		<config>clients/main/live/pco.xml</config>
+		<config>devices/epics/merlin.xml</config>
+		<config>devices/epics/merlin_ndplugins.xml</config>
+		<config>devices/epics/pco1_ndplugins.xml</config>
+		<config>devices/pie725_raster.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

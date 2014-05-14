@@ -230,6 +230,10 @@ public class EnumPositionerDelegator extends DeviceBase implements EnumPositione
 		getDelegate().atLevelStart();
 	}
 	@Override
+	public void atLevelEnd() throws DeviceException {
+		getDelegate().atLevelEnd();
+	}
+	@Override
 	public void atCommandFailure() throws DeviceException {
 		getDelegate().atCommandFailure();
 	}

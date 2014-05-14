@@ -16,6 +16,7 @@
 	<import resource="float1.xml"/>
 	<import resource="float2.xml"/>
 	<import resource="float3.xml"/>
+	<import resource="pco.xml"/>
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 
 	<import resource="../common.xml" />
@@ -45,17 +46,13 @@
 		<property name="imageNDArray" ref="excalibur_summary_arr" />
 		<property name="imageHistSize" value="500" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="65535" />
 		<property name="detectorName" value="Excalibur" />
 		<property name="adBase" ref="excalibur_config_base" />
 		<property name="ffmpegStream" ref="excalibur_summary_mjpg" />
 		<property name="ffmpegImageOutHeightMax" value="1200" />
 		<property name="ffmpegImageOutWidthMax" value="1600" />
-		<property name="cameraImageWidthMax" value="2069" />
-		<property name="cameraImageHeightMax" value="1793" />
 		<property name="imageNDROI" ref="excalibur_summary_roi"/>
 		<property name="setExposureTimeCmd" value="excalibur_config.runContinuous(exposureTime=%f)"/>
-		<property name="imageNDArrayPortInput" value="master.slaves"/>
 	</bean>
 
 	<bean id="excalibur_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">

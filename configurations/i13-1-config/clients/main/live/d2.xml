@@ -18,14 +18,11 @@
 		<property name="imageNDArray" ref="d2_arr" />
 		<property name="imageHistSize" value="256" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="4095" />
 		<property name="detectorName" value="d2" />
 		<property name="adBase" ref="d2_cam_base" />
 		<property name="ffmpegStream" ref="d2_ffmpeg" />
 		<property name="ffmpegImageOutHeightMax" value="1200" />
 		<property name="ffmpegImageOutWidthMax" value="1600" />
-		<property name="cameraImageWidthMax" value="1388" />
-		<property name="cameraImageHeightMax" value="1032" />
 		<property name="imageNDROI" ref="d2_roi"/>
 	</bean>
 

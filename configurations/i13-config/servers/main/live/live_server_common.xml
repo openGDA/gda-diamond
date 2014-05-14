@@ -10,7 +10,6 @@
 
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-	<import resource="GDAMetadata.xml" />
 	<bean class="gda.configuration.epics.EpicsConfiguration">
 		<constructor-arg value="${gda.epics.interface.xml}" />
 	</bean>
@@ -69,7 +68,7 @@
 	<import resource="../../../devices/epics/table_motors.xml" />
 	<import resource="../../../devices/epics/camera_stage_motors.xml" />
 
-	<import resource="../../../devices/epics/pco1.xml" />
+	<import resource="../../../devices/epics/pco1_ndplugins.xml" />
 	<import resource="../../../devices/epics/lens.xml" />
 	<import resource="../../../devices/epics/zebra.xml" />
 	

@@ -21,7 +21,7 @@
 	
 	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="flyScanDetector"/>
-		<property name="readOutTime" value=".001"/>
+		<property name="readOutTime" value=".0101"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -30,10 +30,23 @@
 			</list>
 		</property>
 	</bean>	
+
+	<!-- detector used in flyscans to write to hdf but with no chunking for speed -->
+	<bean id="flyScanDetectorNoChunking" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetectorNoChunking"/>
+		<property name="readOutTime" value=".0101"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>	
 	
 	<bean id="flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="flyScanDetectorTIF"/>
-		<property name="readOutTime" value=".001"/>
+		<property name="readOutTime" value=".0101"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -53,6 +66,17 @@
 			</list>
 		</property>
 	</bean>	
+
+	<bean id="flyScanFlatDarkDetectorNoChunking" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetectorNoChunking"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>	
+
 
 	<bean id="flyScanFlatDarkDetectorTIF" class="gda.device.detector.NXDetector">
 		<property name="name" value="flyScanFlatDarkDetectorTIF"/>

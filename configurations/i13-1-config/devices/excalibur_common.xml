@@ -50,7 +50,10 @@
 			<property name="mst" ref="excalibur_readoutNode6_mst" />
 		</bean>
 	</util:list>
-	
+	<bean id="configAdBase" class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl">
+		<property name="basePVName"
+			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
+	</bean>
 	<bean id="excalibur_config" class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<util:map>
@@ -67,6 +70,7 @@
 				<entry key="readoutFems" value-ref="readoutFems" />
 				<entry key="arr" value-ref="excalibur_config_arr"/>
 				<entry key="excaliburDev" value-ref="excaliburDev"/>
+				<entry key="configAdBase" value-ref="configAdBase"/>
 			</util:map>
 		</property>
 	</bean>	
