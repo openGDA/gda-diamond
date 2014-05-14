@@ -73,17 +73,22 @@
 
 	<!-- NXDetector collection strategies -->
 
-	<!-- We need to make a PE collection strategy which understands about PE states -->
+	<!-- We need to make a Merlin collection strategy which understands about Merlin states -->
 
 	<!-- MultipleExposureSoftwareTriggerAutoMode(ADBase adBase, double maxExposureTime) -->
 
-	<bean id="mpx_SingleExposureStandardCollectionStrategy"
-		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+	<bean id="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy"
+			class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="mpxAD_config_base" />
-		<constructor-arg value="-1" />
+		<property name="readAcquireTimeFromHardware" value="True" />
+		<!-- No ndProcess since we want multiple images in colour mode. -->
 	</bean>
-	<!-- Here we need a Merlin specific collection strategy which understands the different modes
-	 -->
+
+	<!-- We also need a Merlin specific colour mode -->
+	<bean id="mpx_MerlinColourModeCollectionStrategy" class="gda.device.detector.addetector.triggering.MerlinColourModeDecorator">
+		<property name="imagesPerCollectionMultiplier" value="8" />
+		<property name="decoratee" ref="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
+	</bean>
 
 	<!-- NXDetector file writers -->
 
@@ -106,13 +111,25 @@
 		<property name="ndFile" ref="mpx_NDFileTiff" />
 		<property name="keyNameForMetadataPathTemplate" value="mpx_path_template" />
 		<property name="fileNumberAtScanStart" value="1" />
+		<property name="fullFileNameFromRBV" value="true" />
 	</bean>
 
 	<!-- NXDetectors -->
 
 	<bean id="mpx" class="gda.device.detector.NXDetector">
 		<property name="name" value="mpx" />
-		<property name="collectionStrategy" ref="mpx_SingleExposureStandardCollectionStrategy" />
+		<property name="collectionStrategy" ref="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mpxc" class="gda.device.detector.NXDetector">
+		<property name="name" value="mpx"/>
+		<property name="collectionStrategy" ref="mpx_MerlinColourModeCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
@@ -124,11 +141,23 @@
 	<bean id="mpxHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="mpx"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<property name="collectionStrategy" ref="mpx_SingleExposureStandardCollectionStrategy" />
+		<property name="collectionStrategy" ref="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="mar_hdf5_MultipleImagesPerHDF5FileWriter" />
-				<ref bean="mar_tiff_SingleImagePerFileWriter" />
+				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mpxcHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="mpx"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="mpx_MerlinColourModeCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
 			</list>
 		</property>
 	</bean>

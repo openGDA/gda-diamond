@@ -142,7 +142,7 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		sampleSuffix="rockScan_test", d1out=True, d2out=True):
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
 	
-	hardwareTriggeredNXDetector = _configureDetector(detector, noOfRocks, sampleSuffix, dark=False)
+	hardwareTriggeredNXDetector = _configureDetector(detector, exposureTime, noOfRocks, sampleSuffix, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis)
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
@@ -190,7 +190,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	scan.runScan()
 """
 
-def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
+def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	
 	supportedDetectors = {'mar':    jythonNameMap.marHWT
@@ -198,6 +198,8 @@ def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 						, 'pe':     detector
 						, 'mpx':    jythonNameMap.mpxHWT
 						, 'mpxHWT': detector
+						, 'mpxc':   jythonNameMap.mpxcHWT
+						, 'mpxcHWT':detector
 						}
 	
 	if supportedDetectors.has_key(detector.name):
@@ -213,7 +215,8 @@ def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 	detector.hdfwriter.setFilePathTemplate(filePathTemplate)
 	detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
 	
-	if numberOfExposures != 1:
+	
+	if numberOfExposures != 1 or detector.getCollectionStrategy().getNumberImagesPerCollection(exposureTime) > 1:
 		filePathTemplate="$datadir$/$scan$-%s-files-%s-" % (detector.name, sampleSuffix)
 		fileNameTemplate=""
 		fileTemplate="%s%s%05d"	# One image per file
@@ -256,7 +259,7 @@ def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 def expose(detector, exposureTime=1, noOfExposures=1,
 		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
-	_configureDetector(detector, noOfExposures, sampleSuffix, dark=False)
+	_configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark=False)
 
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	detectorShield = jythonNameMap.ds
@@ -273,7 +276,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 def darkExpose(detector, exposureTime=1, 
 		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
-	_configureDetector(detector, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
+	_configureDetector(detector, exposureTime, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
 
 	darkSubtractionPVs = _darkSubtractionPVs(detector)
 	if not darkSubtractionPVs:
