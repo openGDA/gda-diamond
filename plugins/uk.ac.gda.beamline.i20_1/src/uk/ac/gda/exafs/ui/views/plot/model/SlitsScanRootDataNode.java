@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class SlitsScanRootDataNode extends DataNode implements IScanDataPointObserver {
 
-	private final Map<String, SlitsScanDataNode> scans = new HashMap<String, SlitsScanDataNode>();
+	private final Map<Integer, SlitsScanDataNode> scans = new HashMap<Integer, SlitsScanDataNode>();
 	private final IObservableList children = new WritableList(new ArrayList<SlitsScanDataNode>(), SlitsScanDataNode.class);
 
 	public SlitsScanRootDataNode() {
@@ -47,7 +47,7 @@ public class SlitsScanRootDataNode extends DataNode implements IScanDataPointObs
 
 	@Override
 	public String getIdentifier() {
-		return "";
+		return null;
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class SlitsScanRootDataNode extends DataNode implements IScanDataPointObs
 
 		SlitsScanDataNode slitsScanDataNode;
 		if (!scans.containsKey(scanDataPoint.getScanIdentifier())) {
-			slitsScanDataNode = new SlitsScanDataNode(scanDataPoint.getScanIdentifier(), scanDataPoint.getDetectorHeader(), this);
+			slitsScanDataNode = new SlitsScanDataNode(Integer.toString(scanDataPoint.getScanIdentifier()), scanDataPoint.getDetectorHeader(), this);
 			children.add(0, slitsScanDataNode);
 			scans.put(scanDataPoint.getScanIdentifier(), slitsScanDataNode);
 		} else {

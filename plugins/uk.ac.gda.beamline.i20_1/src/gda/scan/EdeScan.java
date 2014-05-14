@@ -297,7 +297,7 @@ public class EdeScan extends ConcurrentScanChild {
 			thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
 			thisPoint.setInstrument(instrument);
 			thisPoint.setCommand(getCommand());
-			thisPoint.setScanIdentifier(String.valueOf(getScanNumber()));
+			thisPoint.setScanIdentifier(getScanNumber());
 
 			// then write data to data handler
 			storeAndBroadcastSDP(thisFrame, thisPoint);

@@ -102,12 +102,12 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 		if (arg instanceof EdeExperimentProgressBean) {
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
-			final String scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
+			final int scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
 			ScanDataNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
 				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
-				final ScanDataNode newNode = new ScanDataNode(scanIdentifier, isMulti, this);
-				scans.put(scanIdentifier, newNode);
+				final ScanDataNode newNode = new ScanDataNode(Integer.toString(scanIdentifier), isMulti, this);
+				scans.put(Integer.toString(scanIdentifier), newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;
 			} else {

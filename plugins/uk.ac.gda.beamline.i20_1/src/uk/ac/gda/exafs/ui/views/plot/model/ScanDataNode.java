@@ -47,7 +47,7 @@ public class ScanDataNode extends DataNode {
 	public DataNode updateData(final EdeExperimentProgressBean arg) {
 		SpectraNode dataNode;
 		String label = arg.getDataLabel();
-		String identifier = this.toString() + "@" + label;
+		String identifier = scanIdentifier + "@" + label;
 		if (!scans.containsKey(identifier)) {
 			final SpectraNode newNode = new SpectraNode(identifier, label, this);
 			scans.put(identifier, newNode);

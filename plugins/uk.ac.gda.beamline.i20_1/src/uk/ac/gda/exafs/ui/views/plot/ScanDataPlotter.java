@@ -129,7 +129,7 @@ public class ScanDataPlotter extends ResourceComposite {
 	private void updateTrace(DataNode node) {
 		if (node instanceof LineTraceProvider) {
 			LineTraceProvider lineTraceProvider = (LineTraceProvider) node;
-			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
+			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier().toString());
 			if (trace != null) {
 				trace.setData(lineTraceProvider.getXAxisDataset(), lineTraceProvider.getYAxisDataset());
 				plottingSystem.repaint();
@@ -139,9 +139,9 @@ public class ScanDataPlotter extends ResourceComposite {
 
 	private void addTrace(LineTraceProvider node, String identifier) {
 		LineTraceProvider lineTraceProvider = node;
-		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(identifier);
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(identifier.toString());
 		if (trace == null) {
-			trace = plottingSystem.createLineTrace(identifier);
+			trace = plottingSystem.createLineTrace(identifier.toString());
 			TraceStyleDetails traceDetails = lineTraceProvider.getTraceStyleDetails();
 			if (traceDetails.getColorHexValue() != null) {
 				trace.setTraceColor(getTraceColor(traceDetails.getColorHexValue()));
@@ -229,7 +229,7 @@ public class ScanDataPlotter extends ResourceComposite {
 			if (isAdded) {
 				addTrace((LineTraceProvider) dataItemNode, dataItemNode.getIdentifier());
 			} else {
-				removeTrace(dataItemNode.getIdentifier());
+				removeTrace(dataItemNode.getIdentifier().toString());
 			}
 		}
 	}
