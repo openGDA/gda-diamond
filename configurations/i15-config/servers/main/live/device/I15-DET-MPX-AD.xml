@@ -114,6 +114,17 @@
 		<property name="fullFileNameFromRBV" value="true" />
 	</bean>
 
+	<!-- TODO: Test this ListFactoryBean, it should simplify later config
+	<bean id="mpx_additionalPluginList" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+	 -->
+
 	<!-- NXDetectors -->
 
 	<bean id="mpx" class="gda.device.detector.NXDetector">
@@ -125,6 +136,9 @@
 				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
 			</list>
 		</property>
+		<!-- 
+		<property name="additionalPluginList" ref="mpx_additionalPluginList" />
+		 -->
 	</bean>
 
 	<bean id="mpxc" class="gda.device.detector.NXDetector">

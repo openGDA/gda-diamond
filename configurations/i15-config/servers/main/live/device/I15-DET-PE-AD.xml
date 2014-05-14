@@ -127,6 +127,15 @@
 	</bean>
 	 -->
 
+	<!-- Should now apply UnsynchronisedExternalShutterDecorator to MultipleExposureSoftwareTriggerAutoMode -->
+	<!-- 
+	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" 
+			class="gda.device.detector.addetector.triggering.UnsynchronisedExternalShutterDecorator">
+		<property name="decoratee" ref="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
+		<property name="collectionExtensionTimeS" value="10" />
+	</bean>
+	 -->
+
 	<!-- MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
 	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" 
 		  class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter">
