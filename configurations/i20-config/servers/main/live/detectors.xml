@@ -3,93 +3,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
-<!-- 		for 36Ge: -->
-<!--		<property name="host" value="i20-xspress1" /> -->
-<!-- 		for 64Ge: -->
-		<property name="host" value="i20-xspress0" />
-		<property name="port" value="1972" />
-		<property name="startupCommands">
-			<list> 
-<!-- 		for 36Ge: -->
- <!--		<value>~config</value>  -->  
-<!-- 		for 64Ge: -->
-			<value>~config 9</value> 
-			</list>
-		</property>
-		<property name="dataPort" value="20030" />
-		<property name="replyTimeOut" value="5000" />
-	</bean>
+	<import resource="file:${gda.config}/servers/main/live/xspress0.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/live/xspress1.xml" /> -->
 
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
-		<property name="local" value="true" />
-		<property name="epicsDeviceName" value="xmap_dxp" />
-		<property name="NUMBER_OF_ELEMENTS" value="4" />
-		<property name="elementOffset" value="1"/>
-	</bean>
+	<import resource="file:${gda.config}/servers/main/live/ionchambers.xml" />
 	
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
-		<property name="edxdControllerName" value="edxdcontroller"/>
-		<property name="local" value="true"/>
-	</bean>
-	
-		<bean id="xmapMca1Element" class="gda.device.detector.xmap.NexusXmap">
-		<property name="xmapControllerName" value="xmapcontroller" />
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, one value for each element -->
-		<property name="eventProcessingTimes">
-			<list>
-				<value>1.1029752060937018e-007</value>
-			</list>
-		</property>
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-			</list>
-		</property>
-		<property name="alwaysRecordRawMCAs" value="true" />
-		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
-		<property name="tfg" ref="tfg" />
-	</bean>
+	<import resource="file:${gda.config}/servers/main/live/1-element-xmap.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/live/4-element-xmap.xml" /> -->
 
-	<bean id="xmapMca4Element" class="gda.device.detector.xmap.NexusXmap">
-		<property name="xmapControllerName" value="xmapcontroller" />
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, one value for each element -->
-		<property name="eventProcessingTimes">
-			<list>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-			</list>
-		</property>
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-			</list>
-		</property>
-		<property name="alwaysRecordRawMCAs" value="true" />
-		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
-		<property name="tfg" ref="tfg" />
-	</bean>
-	
 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
 		<property name="daServerName" value="DAServer" />
 		<property name="tfgName" value="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
-		<property name="alwaysRecordRawMCAs" value="true"/>
+		<property name="alwaysRecordRawMCAs" value="true" />
 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
-		<property name="configFileName" value="${gda.config}/var/templates/Xspress_Parameters.xml" />
-		<property name="dtcConfigFileName" value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />	
+		<property name="configFileName"
+			value="${gda.config}/var/templates/Xspress_Parameters.xml" />
+		<property name="dtcConfigFileName"
+			value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="fullMCABits" value="12" />
 		<property name="onlyDisplayFF" value="true" />
 		<property name="outputFormat">
@@ -112,60 +45,6 @@
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
 
-	<bean id="ionchambers" class="gda.device.detector.countertimer.TfgScalerWithFrames">
-		<property name="extraNames">
-			<list>
-				<value>I0</value>
-				<value>It</value>
-				<value>Iref</value>
-				<value>lnI0It</value>
-				<value>lnItIref</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="timeChannelRequired" value="false" />
-		<property name="outputLogValues" value="true" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="3" />
-		<property name="useReset" value="false"/>
-		<property name="outputFormat">
-			<list>
-				<value>%.4f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.5f</value>
-				<value>%.5f</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="I1" class="gda.device.detector.countertimer.TfgScalerWithFrames">
-		<property name="extraNames">
-			<list>
-				<value>Time</value>
-				<value>I1</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="1" />
-		<property name="useReset" value="false"/>
-		<property name="outputLogValues" value="false"/>
-		<property name="firstDataChannel" value="3" />
-		<property name="darkCurrentRequired" value="true" />
-		<property name="outputFormat">
-			<list>
-				<value>%.4f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="apd" class="gda.device.detector.AceApdDetector">
 		<property name="extraNames">
 			<list>
@@ -178,42 +57,13 @@
 		<property name="timeChannelRequired" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
-		<property name="useReset" value="false"/>
-		<property name="outputLogValues" value="false"/>
+		<property name="useReset" value="false" />
+		<property name="outputLogValues" value="false" />
 		<property name="firstDataChannel" value="4" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="allionchambers" class="gda.device.detector.countertimer.TfgScalerWithLogValues">
-		<property name="extraNames">
-			<list>
-				<value>I0</value>
-				<value>It</value>
-				<value>Iref</value>
-				<value>I1</value>
-				<value>APD</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="timeChannelRequired" value="false" />
-		<property name="outputLogValues" value="false" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="6" />
-		<property name="useReset" value="false"/>
-		<property name="outputFormat">
-			<list>
-				<value>%6.4g</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
 				<value>%.2f</value>
 				<value>%.2f</value>
 			</list>
@@ -225,60 +75,7 @@
 		<property name="scalerName" value="ionchambers" />
 	</bean>
 
-	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
-		<property name="xmapControllerName" value="xmapcontroller" />
-
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
-			one value for each element -->
-		<property name="eventProcessingTimes">
-			<list>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-				<value>1.1029752060937018e-007</value>
-			</list>
-		</property>
-		
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-				<value>%.2f</value>
-			</list>
-		</property>
-
-		<property name="alwaysRecordRawMCAs" value="true" />
-		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
-		<property name="tfg" ref="tfg" />
-	</bean>
-
-	<bean id="If" class="gda.device.detector.XesIf">
-		<property name="xmap" ref="xmapMca" />
-		<property name="gdhist" ref="CalMemory" />
-		<property name="scaler" ref="ionchambers" />
-		<property name="ifChannelNumber" value="4" />
-	</bean>
-
-	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
-		<property name="xmap" ref="xmapMca" />
-		<!--property name="scaler" ref="CalMemory" / -->
-		<property name="counterTimer" ref="ionchambers" />
-		<property name="extraNames">
-			<list>
-				<value>FFI0</value>
-			</list>
-		</property>
-		<property name="outputFormat">
-			<list>
-				<value>%.6f</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="FFI1" class="gda.device.detector.TfgXMapFFoverI0">
+	<bean id="FFI1" class="gda.device.detector.xmap.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<!--property name="scaler" ref="CalMemory" / -->
 		<property name="counterTimer" ref="I1" />
@@ -287,279 +84,11 @@
 			<list>
 				<value>FFI1</value>
 			</list>
-		</property>		
+		</property>
 		<property name="outputFormat">
 			<list>
 				<value>%.6f</value>
 			</list>
-		</property>
-	</bean>
-
-	<bean id="i0_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="i0_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA/V" value="pA/V" />
-				<entry key="nA/V" value="nA/V" />
-				<entry key="uA/V" value="uA/V" />
-				<entry key="mA/V" value="mA/V" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="i0_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-01:IOLV:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="i0_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-01:IOLV:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA" value="pA" />
-				<entry key="nA" value="nA" />
-				<entry key="uA" value="uA" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="i0_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-01:IOON" />
-		<property name="values">
-			<map>
-				<entry key="Off" value="Off" />
-				<entry key="On" value="On" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="it_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-02:SENS:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="it_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-02:SENS:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA/V" value="pA/V" />
-				<entry key="nA/V" value="nA/V" />
-				<entry key="uA/V" value="uA/V" />
-				<entry key="mA/V" value="mA/V" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="it_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-02:IOLV:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="it_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-02:IOLV:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA" value="pA" />
-				<entry key="nA" value="nA" />
-				<entry key="uA" value="uA" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="it_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-02:IOON" />
-		<property name="values">
-			<map>
-				<entry key="Off" value="Off" />
-				<entry key="On" value="On" />
-			</map>
-		</property>
-	</bean>
-
-	<bean id="iref_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-03:SENS:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="iref_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-03:SENS:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA/V" value="pA/V" />
-				<entry key="nA/V" value="nA/V" />
-				<entry key="uA/V" value="uA/V" />
-				<entry key="mA/V" value="mA/V" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="iref_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-03:IOLV:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="iref_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-03:IOLV:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA" value="pA" />
-				<entry key="nA" value="nA" />
-				<entry key="uA" value="uA" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="iref_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-03:IOON" />
-		<property name="values">
-			<map>
-				<entry key="Off" value="Off" />
-				<entry key="On" value="On" />
-			</map>
-		</property>
-	</bean>
-
-	<bean id="i1_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-04:SENS:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="i1_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-04:SENS:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA/V" value="pA/V" />
-				<entry key="nA/V" value="nA/V" />
-				<entry key="uA/V" value="uA/V" />
-				<entry key="mA/V" value="mA/V" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="i1_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-04:IOLV:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="i1_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-04:IOLV:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA" value="pA" />
-				<entry key="nA" value="nA" />
-				<entry key="uA" value="uA" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="i1_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL20I-EA-IAMP-04:IOON" />
-		<property name="values">
-			<map>
-				<entry key="Off" value="Off" />
-				<entry key="On" value="On" />
-			</map>
 		</property>
 	</bean>
 

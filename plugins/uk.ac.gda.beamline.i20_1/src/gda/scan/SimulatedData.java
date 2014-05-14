@@ -23,23 +23,26 @@ import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.StripDetector;
 import gda.device.detector.XHDetector;
-import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeScanType;
+import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.position.EdePositionType;
+
+import java.io.File;
 
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
-import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
+import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
 
 public class SimulatedData {
 
 	private static final Logger logger = LoggerFactory.getLogger(SimulatedData.class);
 
-	private static final String SIMULATED_DATA_FILE_PATH = "/simulated_data.dat";
+	private static final String SIMULATED_DATA_FILE_PATH = "simulated_data.dat";
 
 	private static double[] simulatedEnergies;
 	private static double[] simulatedI0_dark;
@@ -49,12 +52,14 @@ public class SimulatedData {
 
 	static {
 		try {
-			final DataHolder simulatedSpectrumData = LoaderFactory.getData(LocalProperties.getVarDir() + SIMULATED_DATA_FILE_PATH);
-			simulatedEnergies = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeExperiment.STRIP_COLUMN_NAME)).getData();
-			simulatedI0_dark = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeExperiment.I0_DARK_COLUMN_NAME)).getData();
-			simulatedIt_dark = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeExperiment.IT_DARK_COLUMN_NAME)).getData();
-			simulatedI0_raw = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeExperiment.I0_RAW_COLUMN_NAME)).getData();
-			simulatedIt_raw = ((DoubleDataset) simulatedSpectrumData.getLazyDataset(EdeExperiment.IT_RAW_COLUMN_NAME)).getData();
+			String separator = File.separator;
+			String filePath = LocalProperties.getConfigDir() + "servers" + separator + "main" + separator + "dummy" + separator + SIMULATED_DATA_FILE_PATH;
+			final DataHolder simulatedSpectrumData = new SRSLoader(filePath).loadFile();
+			simulatedEnergies = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.STRIP_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
+			simulatedI0_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.I0_DARK_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
+			simulatedIt_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.IT_DARK_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
+			simulatedI0_raw = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.I0_RAW_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
+			simulatedIt_raw = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.IT_RAW_COLUMN_NAME).cast(AbstractDataset.FLOAT64)).getData();
 		} catch (Exception e) {
 			logger.error("Unable to load simulated Data", e);
 		}
@@ -69,7 +74,7 @@ public class SimulatedData {
 
 		for(int i = 0; i < numberOfFrames; i++) {
 			NXDetectorData thisFrame = new NXDetectorData(theDetector);
-			thisFrame.addAxis(theDetector.getName(), EdeExperiment.ENERGY_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedEnergies, 1, 1, "eV", false);
+			thisFrame.addAxis(theDetector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedEnergies, 1, 1, "eV", false);
 			double[] simulatedData = null;
 			if (positionType == EdePositionType.OUTBEAM) {
 				if (scanType == EdeScanType.LIGHT) {
@@ -84,10 +89,14 @@ public class SimulatedData {
 					simulatedData = createCorrectedSimulatedData(simulatedIt_dark, theDetector);
 				}
 			} else {
-				// TODO Add Iref
+				if (scanType == EdeScanType.LIGHT) {
+					simulatedData = createCorrectedSimulatedData(simulatedIt_raw, theDetector);
+				} else {
+					simulatedData = createCorrectedSimulatedData(simulatedIt_dark, theDetector);
+				}
 			}
 			//	addNoise(simulatedData);
-			thisFrame.addData(theDetector.getName(), EdeExperiment.DATA_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedData, "eV", 1);
+			thisFrame.addData(theDetector.getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedData, "eV", 1);
 			for (String name : thisFrame.getExtraNames()) {
 				thisFrame.setPlottableValue(name, 0.0);
 			}
@@ -121,8 +130,11 @@ public class SimulatedData {
 	}
 
 	public static boolean isLoaded() {
+		//return false;
 		return simulatedEnergies != null;
 	}
+
+
 
 	private SimulatedData() {}
 

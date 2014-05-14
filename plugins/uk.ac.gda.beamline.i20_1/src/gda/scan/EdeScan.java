@@ -155,13 +155,21 @@ public class EdeScan extends ConcurrentScanChild {
 		if (scanType == EdeScanType.DARK){
 			// close the shutter
 			shutter2.moveTo("Close");
-			checkForInterrupts();
+			checkThreadInterrupted();
+			waitIfPaused();
+			if (isFinishEarlyRequested()) {
+				return;
+			}
 		} else {
 			// open the shutter
 			logger.debug(toString() + " moving motors into position...");
 			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 			motorPositions.moveIntoPosition();
-			checkForInterrupts();
+			checkThreadInterrupted();
+			waitIfPaused();
+			if (isFinishEarlyRequested()) {
+				return;
+			}
 			shutter2.moveTo("Open");
 		}
 		if (!isChild()) {
@@ -185,7 +193,10 @@ public class EdeScan extends ConcurrentScanChild {
 					nextFrameToRead = currentFrame;
 				}
 				Thread.sleep(100);
-				checkForInterrupts();
+				waitIfPaused();
+				if (isFinishEarlyRequested()) {
+					return;
+				}
 				progressData = fetchStatusAndWait();
 				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			}
@@ -210,7 +221,6 @@ public class EdeScan extends ConcurrentScanChild {
 		boolean sendMessage = true;
 		while (progressData.detectorStatus == Detector.PAUSED) {
 			Thread.sleep(1000);
-			checkForInterrupts();
 			if (sendMessage) {
 				logger.info("Detector paused and waiting for a trigger. Abort the scan if this takes too long.");
 				sendMessage = false;
@@ -275,7 +285,9 @@ public class EdeScan extends ConcurrentScanChild {
 		logger.info("data read successfully");
 
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
-			checkForInterrupts();
+			checkThreadInterrupted();
+			waitIfPaused();
+
 			currentPointCount++;
 			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
 
@@ -303,7 +315,8 @@ public class EdeScan extends ConcurrentScanChild {
 			storeAndBroadcastSDP(thisFrame, thisPoint);
 			getDataWriter().addData(thisPoint);
 
-			checkForInterrupts();
+			checkThreadInterrupted();
+			waitIfPaused();
 
 			// update the filename (if this was the first data point and so filename would never be defined until first
 			// data added

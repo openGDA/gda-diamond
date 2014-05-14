@@ -86,13 +86,13 @@
 		</property>
 	</bean>
 
-	<bean id="atn6" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Empty</value>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="atn6" class="gda.device.enumpositioner.DummyEnumPositioner"> -->
+<!-- 		<property name="positions"> -->
+<!-- 			<list> -->
+<!-- 				<value>Empty</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
 	<bean id="d5" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">

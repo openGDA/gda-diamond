@@ -30,7 +30,7 @@
 
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
-		<property name="numberOfElements" value="1" />
+		<property name="numberOfElements" value="4" />
 		<property name="numberOfBins" value="1024" />
 		<!-- <property name="numberOfROIs" value="5" /> -->
 		<property name="local" value="true" />
@@ -132,7 +132,7 @@
 		<property name="counterTimer" ref="ionchambers" />
 	</bean>
 
-	<bean id="FFI1" class="gda.device.detector.TfgXMapFFoverI0">
+	<bean id="FFI1" class="gda.device.detector.xmap.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<!--property name="scaler" ref="CalMemory" / -->
 		<property name="counterTimer" ref="I1" />
@@ -392,6 +392,32 @@
 				<value>off</value>
 				<value>on</value>
 			</util:list>
+		</property>
+	</bean>
+	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<property name="groupMembers">
+			<list>
+				<ref bean="i0_stanford_offset_current" />
+				<ref bean="i0_stanford_offset" />
+				<ref bean="i0_stanford_offset_units" />
+				<ref bean="i0_stanford_sensitivity" />
+				<ref bean="i0_stanford_sensitivity_units" />
+				<ref bean="i1_stanford_offset_current" />
+				<ref bean="i1_stanford_offset" />
+				<ref bean="i1_stanford_offset_units" />
+				<ref bean="i1_stanford_sensitivity" />
+				<ref bean="i1_stanford_sensitivity_units" />
+				<ref bean="it_stanford_offset_current" />
+				<ref bean="it_stanford_offset" />
+				<ref bean="it_stanford_offset_units" />
+				<ref bean="it_stanford_sensitivity" />
+				<ref bean="it_stanford_sensitivity_units" />
+				<ref bean="iref_stanford_offset_current" />
+				<ref bean="iref_stanford_offset" />
+				<ref bean="iref_stanford_offset_units" />
+				<ref bean="iref_stanford_sensitivity" />
+				<ref bean="iref_stanford_sensitivity_units" />
+			</list>
 		</property>
 	</bean>
 

@@ -30,7 +30,7 @@
 
 <!-- me2 -->
 
-	<bean id="me2_stripe" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="me2_stripe_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Rhodium</value>
@@ -39,8 +39,15 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="me2_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
 	<bean id="me2_stripe_motor" class="gda.device.motor.DummyMotor" />
-
 	<bean id="me2y_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="me2pitch_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="me2roll_motor" class="gda.device.motor.DummyMotor" />

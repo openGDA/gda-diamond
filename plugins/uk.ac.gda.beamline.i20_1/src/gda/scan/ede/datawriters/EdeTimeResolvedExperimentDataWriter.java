@@ -1,0 +1,248 @@
+/*-
+ * Copyright © 2014 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package gda.scan.ede.datawriters;
+
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.data.scan.datawriter.AsciiMetadataConfig;
+import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
+import gda.device.detector.StripDetector;
+import gda.factory.Findable;
+import gda.factory.Finder;
+import gda.scan.EdeScan;
+import gda.scan.ScanDataPoint;
+import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
+
+public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter {
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeTimeResolvedExperimentDataWriter.class);
+
+	public static final String NXDATA_LN_I0_IT_WITH_AVERAGED_I0 = "LnI0It_withAveragedI0";
+	public static final String NXDATA_LN_I0_IT_WITH_FINAL_I0 = "LnI0It_withFinalI0";
+	public static final String NXDATA_LN_I0_IT = "LnI0It";
+	public static final String NXDATA_CYCLE_LN_I0_IT_WITH_AVERAGED = "LnI0It_averaged";
+
+	public static final String IT_RAW_AVERAGEDI0_SUFFIX = "_It_raw_averagedi0";
+	public static final String IT_RAW_FINALI0_SUFFIX = "_It_raw_finali0";
+	public static final String IT_RAW_SUFFIX = "_It_raw";
+
+	protected final EdeScan i0DarkScan;
+	protected final EdeScan i0InitialLightScan;
+	protected final EdeScan iRefDarkScan;
+	protected final EdeScan iRefScan;
+	protected final EdeScan itDarkScan;
+	protected final EdeScan[] itScans; // one of these for each cycle (repetition)
+	protected final EdeScan i0FinalLightScan;
+	protected final EdeScan iRefFinalScan;
+
+	private String i0Filename;
+	private String iRefFilename;
+	private String itFilename;
+	private String itAveragedFilename;
+	private String itFinalFilename;
+
+	private final String nexusfileName;
+	//private final TimeResolvedNexusFileHelper timeResolvedNexusFileHelper;
+
+	public EdeTimeResolvedExperimentDataWriter(EdeScan i0DarkScan, EdeScan i0LightScan, EdeScan iRefScan,
+			EdeScan iRefDarkScan, EdeScan itDarkScan, EdeScan[] itScans, EdeScan i0FinalScan, EdeScan iRefFinalScan,
+			StripDetector theDetector, String nexusfileName) {
+		super(i0DarkScan.extractEnergyDetectorDataSet());
+		this.i0DarkScan = i0DarkScan;
+		i0InitialLightScan = i0LightScan;
+		this.iRefScan = iRefScan;
+		this.iRefDarkScan = iRefDarkScan;
+		this.itDarkScan = itDarkScan;
+		this.itScans = itScans;
+		i0FinalLightScan = i0FinalScan;
+		this.iRefFinalScan = iRefFinalScan;
+		this.theDetector = theDetector;
+		this.nexusfileName = nexusfileName;
+	}
+
+	/**
+	 * This method creates more than one ascii file. The filename it returns is for the It data.
+	 */
+	@Override
+	public String writeDataFile() throws Exception {
+		validateData();
+		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusfileName);
+
+		// Writing out meta data
+		TimingGroupMetadata[] i0ScanMetaData = createTimingGroupsMetaData(i0InitialLightScan.getScanParameters());
+		TimingGroupMetadata[] itScanMetaData = createTimingGroupsMetaData(itScans[0].getScanParameters());
+		TimingGroupMetadata[] irefScanMetaData = null;
+		if (iRefScan != null) {
+			irefScanMetaData = createTimingGroupsMetaData(iRefScan.getScanParameters());
+		}
+		// FIXME
+		TimingGroupMetadata[] i0ForIRefScanMetaData = null;
+
+		String scannablesConfiguration = getScannablesConfiguration();
+		String energyCalibration = null;
+		if (itScans[0].getDetector().isEnergyCalibrationSet()) {
+			energyCalibration = itScans[0].getDetector().getEnergyCalibration().toString();
+		}
+		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);
+
+		timeResolvedNexusFileHelper.updateWithNormalisedData(true);
+
+		return itFilename;
+	}
+
+	// FIXME
+	private String getScannablesConfiguration() {
+		ArrayList<Findable> configs = Finder.getInstance().listAllObjects(FindableAsciiDataWriterConfiguration.class.getSimpleName());
+		if (configs == null) {
+			return "";
+		}
+		StringBuilder configBuilder = new StringBuilder();
+		try {
+			if (!configs.isEmpty()) {
+				AsciiDataWriterConfiguration config = (AsciiDataWriterConfiguration) configs.get(0);
+				for (AsciiMetadataConfig line : config.getHeader()) {
+					configBuilder.append(config.getCommentMarker() + " " + line.toString() + "\n");
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Unable to get scannable configuration information", e);
+		}
+		return configBuilder.toString();
+	}
+
+	private EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
+		TimingGroupMetadata[] metaData = new TimingGroupMetadata[scanParameters.getGroups().size()];
+		for (int i = 0; i < scanParameters.getGroups().size(); i++) {
+			TimingGroup group = scanParameters.getGroups().get(i);
+			metaData[i] = new TimingGroupMetadata(i, group.getNumberOfFrames(), group.getTimePerScan(),
+					group.getTimePerFrame(), group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
+		}
+		return metaData;
+	}
+
+	private void validateData() throws Exception {
+		List<ScanDataPoint> i0DarkData = i0DarkScan.getData();
+		List<ScanDataPoint> i0LightData = i0InitialLightScan.getData();
+		List<ScanDataPoint> i0FinalData = i0FinalLightScan.getData();
+
+		int numberOfTimingGroups = getNumberOfTimingGroups();
+
+		if (numberOfTimingGroups != i0DarkData.size()) {
+			throw new Exception(
+					"Cannot reduce the data as the number of darks is not the same as the number of timing groups!");
+		}
+		if (numberOfTimingGroups != i0LightData.size()) {
+			throw new Exception(
+					"Cannot reduce the data as the number of I0 spectra is not the same as the number of timing groups!");
+		}
+		if (numberOfTimingGroups != i0FinalData.size()) {
+			throw new Exception(
+					"Cannot reduce the data as the number of I0 final spectra is not the same as the number of timing groups!");
+		}
+	}
+
+	private int getNumberOfTimingGroups() {
+		return itScans[0].getScanParameters().getGroups().size();
+	}
+
+	public DoubleDataset deriveAndWriteItSpectrum(int spectrumIndex, EdeScan i0DarkScan,
+			EdeScan itDarkScan, EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan) {
+		int timingGroupNumber = deriveTimingGroupFromSpectrumIndex(spectrumIndex);
+		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(timingGroupNumber);
+		DoubleDataset i0FirstDataSet = firstI0Scan.extractDetectorDataSet(timingGroupNumber);
+		DoubleDataset itDarkDataSet = itDarkScan.extractDetectorDataSet(timingGroupNumber);
+		DoubleDataset itDataSet = transmissionScan.extractDetectorDataSet(spectrumIndex);
+		if (secondI0Scan != null) {
+			DoubleDataset i0SecondDataSet = secondI0Scan.extractDetectorDataSet(timingGroupNumber);
+			DoubleDataset i0DataSet_averaged = i0FirstDataSet.iadd(i0SecondDataSet).idivide(2);
+			i0FirstDataSet = i0DataSet_averaged;
+		}
+		DoubleDataset normalisedDataset = createNormalisedDataset(i0DarkDataSet, itDarkDataSet, i0FirstDataSet, itDataSet);
+		return normalisedDataset;
+	}
+
+	private int deriveTimingGroupFromSpectrumIndex(int spectrumIndex) {
+		ScanDataPoint sdp = itScans[0].getData().get(spectrumIndex);
+		String sdpString = sdp.toDelimitedString();
+		int indexOfGroup = ArrayUtils.indexOf(sdp.getScannableHeader(), "Group");
+		String timingGroup = sdpString.split(ScanDataPoint.delimiter)[indexOfGroup];
+		return Integer.parseInt(timingGroup);
+	}
+
+	private DoubleDataset createNormalisedDataset(DoubleDataset i0DarkDataSet, DoubleDataset itDarkDataSet, DoubleDataset i0DataSet, DoubleDataset itDataSet) {
+		int channels = itDataSet.getShape()[0];
+		DoubleDataset normalisedIt = new DoubleDataset(channels);
+		for (int channel = 0; channel < channels; channel++) {
+			Double i0Raw = i0DataSet.get(channel);
+			Double i0Dark = i0DarkDataSet.get(channel);
+			Double itRaw = itDataSet.get(channel);
+			Double itDark = itDarkDataSet.get(channel);
+			Double i0_corrected = i0Raw - i0Dark;
+			Double it_corrected = itRaw - itDark;
+			Double lni0it = calcLnI0It(i0_corrected, it_corrected);
+			normalisedIt.set(lni0it, channel);
+		}
+		return normalisedIt;
+	}
+
+	public String getAsciiI0Filename() {
+		return i0Filename;
+	}
+
+	public String getAsciiIRefFilename() {
+		return iRefFilename;
+	}
+
+	/**
+	 * @return full path of the ascii data file of It data derived using the initial I0 data
+	 */
+	public String getAsciiItFilename() {
+		return itFilename;
+	}
+
+	/**
+	 * @return full path of the ascii data file of It data derived using the final I0 data
+	 */
+	public String getAsciiItFinalFilename() {
+		return itFinalFilename;
+	}
+
+	/**
+	 * @return full path of the ascii data file of It data derived using an average of the initial and final I0 data
+	 */
+	public String getAsciiItAveragedFilename() {
+		return itAveragedFilename;
+	}
+
+	@Override
+	public String getAsciiFilename() {
+		return this.getAsciiItFilename();
+	}
+
+}

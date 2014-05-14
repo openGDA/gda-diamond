@@ -9,12 +9,10 @@ from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.device.scannable import BeamMonitorScannableForLineRepeat
 from gda.factory import Finder
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
-
 from microfocus.map_select import MapSelect
 from microfocus.map import Map
 from microfocus.raster_map import RasterMap
 from microfocus.raster_map_return_write import RasterMapReturnWrite
-
 from cid_photodiode import CidPhotoDiode
 from exafsscripts.exafs.i18DetectorPreparer import I18DetectorPreparer
 from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
@@ -22,6 +20,8 @@ from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.i18ScanScripts import I18XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
+from gda.data.scan.datawriter import NexusDataWriter
 
 from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
 from edxd_calibrator import refinement #script refinement that is used to calibrate the vortex about once a year
@@ -37,8 +37,10 @@ gdaConfigDir = gdaConfigDir + "/"
 
 rcpController = finder.find("RCPController")
 
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
+
 if (LocalProperties.get("gda.mode") == 'live'):
-    print "Create topup , detector and beam monitors to pause and resume scans"
+    print "Create topup , beam, detector-filling, beam monitors to pause and resume scans"
     topupMonitor = TopupScannable()
     topupMonitor.setName("topupMonitor")
     topupMonitor.setTolerance(1.0)
@@ -71,6 +73,8 @@ if (LocalProperties.get("gda.mode") == 'live'):
     trajBeamMonitor.setLevel(1)
 
     add_default topupMonitor
+    add_default beam
+    add_default detectorFillingMonitor
     add_default trajBeamMonitor
 
     archiver = IcatXMLCreator()
@@ -112,13 +116,15 @@ original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 
 detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig)
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
+#samplePreparer = I18SamplePreparer(rcpController, table_x, table_y, table_z, D7A, D7B, kb_vfm_x)
 outputPreparer = I18OutputPreparer(datawriterconfig)
 
 xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 #xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
-non_raster_map = Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, micosx, micosy, ExafsScriptObserver,outputPreparer)
-raster_map = RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController,outputPreparer)
+non_raster_map = Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, ExafsScriptObserver,outputPreparer, detectorPreparer)
+raster_map = RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, rcpController,outputPreparer, detectorPreparer)
+# 18/2/14 RJW I have not tested raster_map_return_write yet
 raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, rcpController, ExafsScriptObserver)
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
@@ -130,12 +136,17 @@ else:
 qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
+
 alias("xas")
 alias("xanes")
 alias("qexafs")
 alias("map")
 alias("raster_map")
 alias("raster_map_return_write")
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
 
 test = DummyScannable("test")
 

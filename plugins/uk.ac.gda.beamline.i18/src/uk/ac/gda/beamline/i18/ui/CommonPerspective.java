@@ -25,8 +25,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 import uk.ac.gda.beamline.i18.views.CameraView;
 import uk.ac.gda.client.microfocus.views.CameraFocusZoomControlView;
 import uk.ac.gda.client.microfocus.views.SampleStagePositionControlView;
-import uk.ac.gda.exafs.ui.views.scalersmonitor.ScalersMonitorView;
-import uk.ac.gda.exafs.ui.views.scalersmonitor.XmapMonitorView;
+import uk.ac.gda.exafs.ui.views.scalersmonitor.XspressMonitorView;
 
 public class CommonPerspective implements IPerspectiveFactory {
 
@@ -40,14 +39,12 @@ public class CommonPerspective implements IPerspectiveFactory {
 		folderLayout_0.addView(CameraView.ID);
 		
 		IFolderLayout folderLayout_2 = layout.createFolder("folder1", IPageLayout.RIGHT, 0.55f,"folder10");	
-		folderLayout_2.addView(ScalersMonitorView.ID);
-		folderLayout_2.addView(XmapMonitorView.ID);
+		folderLayout_2.addView(XspressMonitorView.ID);
+		folderLayout_2.addView("uk.ac.gda.exafs.ui.views.xmapmonitor");
 		IFolderLayout folderLayout = layout.createFolder("folder", IPageLayout.BOTTOM, 0.65f, "folder1");
 		folderLayout.addView(SampleStagePositionControlView.ID);
 		IFolderLayout folderLayout_3 = layout.createFolder("folder11", IPageLayout.BOTTOM, 0.78f, "folder10");
 		folderLayout_3.addView(CameraFocusZoomControlView.ID);
 	}
-
-	
 
 }

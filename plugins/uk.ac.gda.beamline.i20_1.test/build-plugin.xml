@@ -28,7 +28,7 @@
                 <pathelement location="${jythonjar.loc}" />
                 <pathelement location="${plugin.basedir}/bin" />
                 <pathelement location="${workspace.git.loc}/gda-common.git/uk.ac.diamond.test.runners/logging" />  <!-- to pick up logback-test.xml -->
-                <pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.test.helpers/bin" />
+                <pathelement location="${workspace.git.loc}/gda-common.git/uk.ac.gda.test.helpers/bin" />
                 <pathelement location="${plugin.host.basedir}/bin" />
                 <pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.api/bin" />
                 <pathelement location="${workspace.git.loc}/gda-common.git/uk.ac.gda.common/bin" />
@@ -40,11 +40,12 @@
                 <pathelement location="${workspace.git.loc}/scisoft-core.git/uk.ac.diamond.scisoft.analysis/bin" />
                 <pathelement location="${workspace.git.loc}/scisoft-core.git/uk.ac.diamond.scisoft.analysis.dataset/bin" />
                 <pathelement location="${workspace.git.loc}/scisoft-core.git/uk.ac.diamond.scisoft.analysis/jars/*" />
-                <pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/bin" />
-                <pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/jars/*" />
+            	<pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/bin" />
+            	<pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/jars/*" />
                 <pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/bin" />
                 <pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/jars/*" />
                 <pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/bin" />
+                <pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.exafs.datawriter/bin" />
                 <pathelement path="${workspace.loc}/tp/plugins/uk.ac.diamond.org.jscience_2.0.2.jar" />  <!--ensure that 2.0.2 appears first in classpath -->
                 <pathelement location="${workspace.git.loc}/diamond-springframework.git/uk.ac.diamond.org.springframework/jars/*" />
                 <path refid="libs.jars.path" />

@@ -184,7 +184,7 @@
 	</bean>
 	<bean id="m3_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="m3_x_motor" />		
+		<property name="motor" ref="m3_x_motor" />
 	</bean>
 
 	<bean id="m4_yaw" class="gda.device.scannable.ScannableMotor">
@@ -241,7 +241,7 @@
 	</bean>
 	<bean id="hr_height_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="hr_pitch_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="hr_height" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
@@ -258,7 +258,7 @@
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="10" />
 	</bean>
-	
+
 	<bean id="hrmcoating" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
 			<list>
@@ -272,8 +272,9 @@
 			</list>
 		</property>
 	</bean>
-	
-<!-- 	seems to be the same as hrm pitch but this exists in the live config so copy here -->
+
+	<!-- seems to be the same as hrm pitch but this exists in the live config 
+		so copy here -->
 	<bean id="incidenceAngle" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="deg" />
@@ -282,5 +283,59 @@
 		<property name="lowerGdaLimits" value="0" />
 		<property name="upperGdaLimits" value="10" />
 	</bean>
-
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1_pitch" />
+				<ref bean="m1_height" />
+				<ref bean="m1_curvature" />
+				<ref bean="m1_elip" />
+				<ref bean="m1_yaw" />
+				<ref bean="m1_sag" />
+			</list>
+		</property>
+	</bean>
+	<bean id="m2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m2_pitch" />
+				<ref bean="m2_height" />
+				<ref bean="m2_curvature" />
+				<ref bean="m2_elip" />
+				<ref bean="m2_yaw" />
+				<ref bean="m2_sag" />
+			</list>
+		</property>
+	</bean>
+	<bean id="m3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m3_pitch" />
+				<ref bean="m3_height" />
+				<ref bean="m3_yaw" />
+				<ref bean="m3_stripe" />
+			</list>
+		</property>
+	</bean>
+	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m4_pitch" />
+				<ref bean="m4_height" />
+				<ref bean="m4_curvature" />
+				<ref bean="m4_elip" />
+				<ref bean="m4_yaw" />
+				<ref bean="m4_stripe" />
+			</list>
+		</property>
+	</bean>
+	<bean id="hrgroup" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hr_pitch" />
+				<ref bean="hr_height" />
+				<ref bean="hr_stripe" />
+			</list>
+		</property>
+	</bean>
 </beans>

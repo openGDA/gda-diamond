@@ -17,13 +17,13 @@
 	<gda:rbac />
 	
 	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}XASLoggingScriptController" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}/XASLoggingScriptController" />
 		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	
 	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}commandQueueProcessor" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}/commandQueueProcessor" />
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
@@ -63,6 +63,11 @@
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
-
-
+	
+	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/rcpController" />
+		<property name="serviceInterface" value="gda.gui.RCPController" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>	
+	
 </beans>

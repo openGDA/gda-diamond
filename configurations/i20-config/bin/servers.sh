@@ -2,8 +2,9 @@
 # runs the servers locally
 
 . /usr/share/Modules/init/bash
+
 echo "Loading correct Java version..."
-module load java/gda830-64
+. /dls_sw/i20/software/gda_git/gda-diamond.git/dls-config/bin/loadjava.sh
 echo $JAVA_HOME
 
 umask 0002

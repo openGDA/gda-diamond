@@ -18,6 +18,8 @@
 
 package gda.device.scannable;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DetectorBase;
@@ -25,6 +27,8 @@ import gda.epics.CAClient;
 import gda.factory.FactoryException;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
+
+import org.apache.commons.lang.ArrayUtils;
 
 public class PulseTube extends DetectorBase implements Scannable{
 	
@@ -125,6 +129,13 @@ public class PulseTube extends DetectorBase implements Scannable{
 		return 0;
 	}
 
+	@Override
+	public Object getPosition() throws DeviceException {
+		double[] position = new double[]{};
+		position = ArrayUtils.add(position, 0);
+		position = ArrayUtils.addAll(position, data);
+		return position;
+	}
 	@Override
 	public Object readout() throws DeviceException {
 		return data;
