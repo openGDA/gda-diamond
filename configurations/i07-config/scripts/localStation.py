@@ -122,6 +122,10 @@ try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialis
 	#import gdascripts.utils #@UnusedImport
 	#gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+from BeamlineI07.gaspanel import GasPanel, GasPanelScannable
+gp = GasPanel("gp", "BL07I-EA-GAS-01:")
+gpscan = GasPanelScannable("gpscan", "BL07I-EA-GAS-01:")
+
 print "==================================================================="
 print
 #print
