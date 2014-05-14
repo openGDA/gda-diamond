@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -267,10 +268,20 @@ public class DetectorModel extends ObservableModel {
 	public static class EnergyCalibrationSetObserver extends ObservableModel implements IObserver {
 		public static final String ENERGY_CALIBRATION_SET_PROP_NAME = "energyCalibrationSet";
 		@Override
-		public void update(Object source, Object arg) {
+		public void update(final Object source, Object arg) {
 			if (arg.equals(StripDetector.CALIBRATION_PROP_KEY)) {
-				this.firePropertyChange(ENERGY_CALIBRATION_SET_PROP_NAME, null, ((StripDetector) source).isEnergyCalibrationSet());
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_SET_PROP_NAME, null, ((StripDetector) source).isEnergyCalibrationSet());
+					}
+				});
+
 			}
+		}
+
+		public boolean isEnergyCalibrationSet() {
+			return DetectorModel.INSTANCE.getCurrentDetector() == null ? false : DetectorModel.INSTANCE.getCurrentDetector().isEnergyCalibrationSet();
 		}
 	}
 }

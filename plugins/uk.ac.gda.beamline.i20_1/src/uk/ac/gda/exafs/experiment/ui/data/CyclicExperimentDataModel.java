@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
 public class CyclicExperimentDataModel extends TimeIntervalDataModel {
 
@@ -35,8 +34,7 @@ public class CyclicExperimentDataModel extends TimeIntervalDataModel {
 
 	@Override
 	public String toString() {
-		String timeResolution = DataHelper.roundDoubletoStringWithOptionalDigits(parent.getUnit().convertFromMilli(this.getEndTime())) + " " + parent.getUnit().getUnitText();
-		return this.getName() + "\n" + timeResolution;
+		return this.getName();
 	}
 
 }

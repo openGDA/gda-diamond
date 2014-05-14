@@ -18,13 +18,13 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.io.FilenameUtils;
 
 import uk.ac.gda.beans.ObservableModel;
 
 import com.google.gson.annotations.Expose;
 
-public class EdeCalibrationModel extends ObservableModel {
+public class EnergyCalibration extends ObservableModel {
 	public static final String MANUAL_PROP_NAME = "manual";
 	@Expose
 	private boolean manual;
@@ -32,31 +32,24 @@ public class EdeCalibrationModel extends ObservableModel {
 	public static final String DATA_READY_PROP_NAME = "dataReady";
 	private boolean dataReady;
 
-	private final CalibrationDataModel edeData = new EdeCalibrationDataModel();
-	private final CalibrationDataModel refData = new RefCalibrationDataModel();
-
-	@Expose
-	private String refFileName;
-	@Expose
-	private String edeSpectrumDataFileName;
-
-	public static final String CALIBRATION_RESULT_PROP_NAME = "calibrationResult";
-	@Expose
-	private PolynomialFunction calibrationResult;
+	private final DataForCalibration edeData = new SampleData();
+	private final DataForCalibration refData = new ReferenceData();
 
 	public static final String POLYNOMIAL_ORDER_PROP_NAME = "polynomialOrder";
 	@Expose
 	private int polynomialOrder = 2;
 
-	public void setRefData(String refFileName) throws Exception {
-		this.refFileName = refFileName;
-		refData.setDataFile(refFileName);
+	private final CalibrationDetails calibrationDetails = new CalibrationDetails();
+
+	public void setRefData(String referenceDataFileFullPath) throws Exception {
+		refData.setDataFile(referenceDataFileFullPath);
+		calibrationDetails.setReferenceDataFileName(FilenameUtils.getName(referenceDataFileFullPath));
 		checkAndFireDataReady();
 	}
 
-	public void setEdeData(String edeSpectrumDataFileName) throws Exception {
-		this.edeSpectrumDataFileName = edeSpectrumDataFileName;
-		edeData.setDataFile(edeSpectrumDataFileName);
+	public void setEdeData(String sampleDataFileFullPath) throws Exception {
+		edeData.setDataFile(sampleDataFileFullPath);
+		calibrationDetails.setSampleDataFileName(FilenameUtils.getName(sampleDataFileFullPath));
 		checkAndFireDataReady();
 	}
 
@@ -69,25 +62,20 @@ public class EdeCalibrationModel extends ObservableModel {
 		return dataReady;
 	}
 
-	public CalibrationDataModel getRefData() {
+	public DataForCalibration getRefData() {
 		return refData;
 	}
-	public CalibrationDataModel getEdeData() {
+
+	public DataForCalibration getEdeData() {
 		return edeData;
 	}
+
 	public boolean isManual() {
 		return manual;
 	}
+
 	public void setManual(boolean manual) {
 		firePropertyChange(MANUAL_PROP_NAME, this.manual, this.manual = manual);
-	}
-
-	public PolynomialFunction getCalibrationResult() {
-		return calibrationResult;
-	}
-
-	public void setCalibrationResult(PolynomialFunction calibrationResult) {
-		this.firePropertyChange(CALIBRATION_RESULT_PROP_NAME, this.calibrationResult, this.calibrationResult = calibrationResult);
 	}
 
 	public int getPolynomialOrder() {
@@ -97,5 +85,8 @@ public class EdeCalibrationModel extends ObservableModel {
 	public void setPolynomialOrder(int polynomialOrder) {
 		this.firePropertyChange(POLYNOMIAL_ORDER_PROP_NAME, this.polynomialOrder, this.polynomialOrder = polynomialOrder);
 	}
-}
 
+	public CalibrationDetails getCalibrationDetails() {
+		return calibrationDetails;
+	}
+}

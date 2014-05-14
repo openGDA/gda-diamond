@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
-import uk.ac.gda.exafs.calibration.data.CalibrationDataModel;
+import uk.ac.gda.exafs.calibration.data.DataForCalibration;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 
 public class EdeManualCalibrationPlotView  extends ViewPart implements CalibrationPlotViewer {
@@ -47,19 +47,19 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 
 	private final IPlottingSystem plottingSystemRef;
 
-	private CalibrationDataModel referenceData;
+	private DataForCalibration referenceData;
 
 	public EdeManualCalibrationPlotView() throws Exception {
 		plottingSystemRef = PlottingFactory.createPlottingSystem();
 	}
 
 	@Override
-	public void setCalibrationData(CalibrationDataModel referenceData) {
+	public void setCalibrationData(DataForCalibration referenceData) {
 		if (this.referenceData != null) {
 			return;
 		}
 		this.referenceData = referenceData;
-		this.referenceData.addPropertyChangeListener(CalibrationDataModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
+		this.referenceData.addPropertyChangeListener(DataForCalibration.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				try {

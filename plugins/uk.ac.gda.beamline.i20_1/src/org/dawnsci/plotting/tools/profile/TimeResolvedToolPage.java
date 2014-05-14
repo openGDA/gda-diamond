@@ -113,7 +113,7 @@ import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.common.rcp.UIHelper;
-import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
 import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationWizard;
 
 public class TimeResolvedToolPage extends AbstractToolPage implements IRegionListener, ITraceListener {
@@ -563,7 +563,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 		spectraTreeTable.setInput(timeResolvedData);
 	}
 
-	private final EdeCalibrationModel calibrationModel = new EdeCalibrationModel();
+	private final EnergyCalibration calibrationModel = new EnergyCalibration();
 
 	private void createTootbarForSpectraTable(final Composite treeParent) {
 		ToolBar toolBar = new ToolBar(treeParent, SWT.HORIZONTAL);
@@ -613,11 +613,11 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 				WizardDialog wizardDialog = new WizardDialog(treeParent.getShell(), new EnergyCalibrationWizard(calibrationModel));
 				wizardDialog.setPageSize(1024, 768);
 				if (wizardDialog.open() == Window.OK) {
-					if (calibrationModel.getCalibrationResult() != null) {
+					if (calibrationModel.getCalibrationDetails().getCalibrationResult() != null) {
 						double[] value = applyNewEnergy(calibrationModel);
 						try {
 							TimeResolvedToolPageHelper timeResolvedToolPageHelper = new TimeResolvedToolPageHelper();
-							timeResolvedToolPageHelper.applyEnergyCalibrationToNexusFiles(dataFile, calibrateEnergy.getDisplay(), calibrationModel.getCalibrationResult().toString(), value);
+							timeResolvedToolPageHelper.applyEnergyCalibrationToNexusFiles(dataFile, calibrateEnergy.getDisplay(), calibrationModel.getCalibrationDetails().getCalibrationResult().toString(), value);
 						} catch (Exception e) {
 							UIHelper.showError("Error apply energy calibration", e.getMessage());
 							logger.error("Error apply energy calibration", e);
@@ -1152,11 +1152,11 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	@Override
 	public void traceWillPlot(TraceWillPlotEvent evt) {}
 
-	private double[] applyNewEnergy(EdeCalibrationModel calibrationModel) {
+	private double[] applyNewEnergy(EnergyCalibration calibrationModel) {
 		int stripSize = energy.getSize();
 		double[] value = new double[stripSize];
 		for (int i = 0; i < stripSize; i++) {
-			value[i] = calibrationModel.getCalibrationResult().value(i) / stripSize;
+			value[i] = calibrationModel.getCalibrationDetails().getCalibrationResult().value(i) / stripSize;
 		}
 		return value;
 	}

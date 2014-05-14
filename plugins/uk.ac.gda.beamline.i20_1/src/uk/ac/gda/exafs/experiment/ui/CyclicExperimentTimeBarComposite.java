@@ -28,7 +28,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
-import uk.ac.gda.exafs.experiment.ui.data.ExperimentCyclesScaleRenderer;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMarkerRenderer;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.ResourceComposite;
@@ -62,7 +61,7 @@ public class CyclicExperimentTimeBarComposite extends ResourceComposite {
 		timeBarViewer.setMilliAccuracy(true);
 		timeBarViewer.setDrawOverlapping(true);
 		timeBarViewer.setYAxisWidth(80);
-		timeBarViewer.setTimeScaleRenderer(new ExperimentCyclesScaleRenderer(model));
+		timeBarViewer.setTimeScaleRenderer(new CyclesTimebarScaleRenderer(model));
 		timeBarViewer.setMarkerRenderer(new ExperimentMarkerRenderer());
 		timeBarViewer.setModel(model.getCyclicTimeBarModel());
 

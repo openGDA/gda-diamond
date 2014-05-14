@@ -20,7 +20,7 @@ package uk.ac.gda.exafs.calibration.data;
 
 
 
-public class RefCalibrationDataModel extends CalibrationDataModel {
+public class ReferenceData extends DataForCalibration {
 	public static final String REF_DATA_COLUMN_NAME = "lnI0It";
 	public static final String REF_ENERGY_COLUMN_NAME = "Energy";
 

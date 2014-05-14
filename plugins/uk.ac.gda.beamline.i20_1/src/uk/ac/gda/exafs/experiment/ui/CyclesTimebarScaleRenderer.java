@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.experiment.ui.data;
+package uk.ac.gda.exafs.experiment.ui;
 
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
@@ -24,23 +24,25 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.printing.Printer;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentDataModel;
+import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 import de.jaret.util.ui.timebars.swt.renderer.RendererBase;
 import de.jaret.util.ui.timebars.swt.renderer.TimeScaleRenderer;
 
-public class ExperimentCyclesScaleRenderer extends RendererBase implements TimeScaleRenderer {
+public class CyclesTimebarScaleRenderer extends RendererBase implements TimeScaleRenderer {
 
 	private static final int PREFERREDHEIGHT = 30;
 	private final CyclicExperimentModel model;
 
-	public ExperimentCyclesScaleRenderer(CyclicExperimentModel model) {
+	public CyclesTimebarScaleRenderer(CyclicExperimentModel model) {
 		super(null);
 		this.model = model;
 	}
 
-	public ExperimentCyclesScaleRenderer(Printer painter, CyclicExperimentModel model) {
+	public CyclesTimebarScaleRenderer(Printer painter, CyclicExperimentModel model) {
 		super(painter);
 		this.model = model;
 	}
@@ -83,6 +85,6 @@ public class ExperimentCyclesScaleRenderer extends RendererBase implements TimeS
 
 	@Override
 	public TimeScaleRenderer createPrintRenderer(Printer printer) {
-		return new ExperimentCyclesScaleRenderer(printer, model);
+		return new CyclesTimebarScaleRenderer(printer, model);
 	}
 }
