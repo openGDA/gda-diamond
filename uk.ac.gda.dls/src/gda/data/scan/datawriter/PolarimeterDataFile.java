@@ -208,9 +208,9 @@ public class PolarimeterDataFile extends IncrementalFile {
 	}
 
 	@Override
-	public String getCurrentScanIdentifier() {
+	public int getCurrentScanIdentifier() {
 		// TODO Auto-generated method stub
-		return null;
+		return -1;
 	}
 
 	@Override
