@@ -38,6 +38,16 @@
 		<constructor-arg value="-1" />
 	</bean>
 	 -->
+
+	<!-- Should now apply UnsynchronisedExternalShutterDecorator to SingleExposureStandard -->
+	<!-- 
+	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
+			class="gda.device.detector.addetector.triggering.UnsynchronisedExternalShutterDecorator">
+		<property name="decoratee" ref="mar_SingleExposureStandardCollectionStrategy" />
+		<property name="collectionExtensionTimeS" value="10" />
+	</bean>
+	 -->
+
 	<!-- public SingleExposureUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
 	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposureUnsynchronisedExternalShutter">
 		<constructor-arg ref="marAD_config_base" />

@@ -8,25 +8,6 @@
     </appender>
     <consolePlugin />
 
-    <!-- enable this if you want log message appear on local console -->
-    <appender name="LogPanel" class="gda.util.LogPanelAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
-        </layout>
-    </appender>
-
-    <appender name="DebugPanel" class="gda.util.DebugPanelAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
-        </filter>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
-        </layout>
-    </appender>
-
     <logger name="gda">
         <level value="INFO"/>
     </logger>
@@ -59,8 +40,10 @@
         <level value="DEBUG"/>
     </logger>
 
+    <!-- 
     <logger name="gda.util.ElogEntry">
         <level value="INFO"/>
         <appender-ref ref="ELOG"/>
-    </logger> 
+    </logger>
+     -->
 </included>
