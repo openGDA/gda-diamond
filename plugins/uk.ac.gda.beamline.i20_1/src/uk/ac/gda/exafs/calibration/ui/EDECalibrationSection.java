@@ -25,6 +25,9 @@ import gda.util.exafs.Element;
 import java.io.File;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
+import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -38,15 +41,20 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 import uk.ac.gda.exafs.ui.ResourceComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class EDECalibrationSection extends ResourceComposite {
+
+	private static final Logger logger = LoggerFactory.getLogger(EDECalibrationSection.class);
 
 	public static final String REF_DATA_PATH = LocalProperties.getConfigDir() + "edeRefData";
 	public static final String REF_DATA_EXT = ".dat";
@@ -62,6 +70,24 @@ public class EDECalibrationSection extends ResourceComposite {
 		super(parent, style);
 		toolkit = new FormToolkit(parent.getDisplay());
 		setupUI();
+		doBinding();
+	}
+
+	private void doBinding() {
+		dataBindingCtx.bindValue(
+				WidgetProperties.text().observe(polynomialValueLbl),
+				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						try {
+							return ((boolean) value) ? DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getCalibrationResult().toString() : "";
+						} catch (Exception e) {
+							return "";
+						}
+					}
+				});
 	}
 
 	public String loadReferenceData(Element element, String edgeName) {
@@ -90,8 +116,8 @@ public class EDECalibrationSection extends ResourceComposite {
 		runCalibrationButton.addSelectionListener(new SelectionListener() {
 
 			@Override
-			public void widgetSelected(SelectionEvent e) {
-				EdeCalibrationModel calibrationModel = new EdeCalibrationModel();
+			public void widgetSelected(SelectionEvent selectionEvent) {
+				EnergyCalibration calibrationModel = new EnergyCalibration();
 				String lastEdeScanFileName = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel().getFileName();
 				String referenceDataFileName = loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
 				if (lastEdeScanFileName == null || referenceDataFileName == null) {
@@ -104,16 +130,17 @@ public class EDECalibrationSection extends ResourceComposite {
 					WizardDialog wizardDialog = new WizardDialog(runCalibrationButton.getShell(), new EnergyCalibrationWizard(calibrationModel));
 					wizardDialog.setPageSize(1024, 768);
 					if (wizardDialog.open() == Window.OK) {
-						if (calibrationModel.getCalibrationResult() != null) {
+						if (calibrationModel.getCalibrationDetails().getCalibrationResult() != null) {
 							try {
-								DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationModel.getCalibrationResult());
+								DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationModel.getCalibrationDetails());
 							} catch (DeviceException e1) {
 								UIHelper.showError("Unable to set energy calibration", e1.getMessage());
+								logger.warn("Unable to set energy calibration", e1);
 							}
 						}
 					}
-				} catch (Exception e2) {
-					e2.printStackTrace();
+				} catch (Exception e) {
+					logger.error("Unable to perform energy calibration", e);
 				}
 
 			}

@@ -20,13 +20,13 @@ package uk.ac.gda.exafs.calibration.ui;
 
 import org.eclipse.jface.wizard.Wizard;
 
-import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
 
 public class EnergyCalibrationWizard extends Wizard {
 
 	private final EnergyCalibrationWizardPage page;
 
-	public EnergyCalibrationWizard(EdeCalibrationModel calibrationDataModel) {
+	public EnergyCalibrationWizard(EnergyCalibration calibrationDataModel) {
 		super();
 		page = new EnergyCalibrationWizardPage(calibrationDataModel);
 		setNeedsProgressMonitor(true);

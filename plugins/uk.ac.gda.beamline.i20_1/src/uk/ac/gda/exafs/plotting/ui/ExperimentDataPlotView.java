@@ -19,6 +19,7 @@
 package uk.ac.gda.exafs.plotting.ui;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
@@ -27,6 +28,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
 import uk.ac.gda.exafs.plotting.model.ExperimentDataNode;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
@@ -59,7 +62,25 @@ public class ExperimentDataPlotView extends ViewPart {
 		ctx.bindValue(
 				WidgetProperties.selection().observe(useStripsIndex),
 				BeanProperties.value(ExperimentDataNode.USE_STRIPS_AS_X_AXIS_PROP_NAME).observe(rootNode));
-
+		ctx.bindValue(
+				WidgetProperties.text().observe(useStripsIndex),
+				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						StringBuilder text = new StringBuilder();
+						try {
+							text.append("Use strips number for X axis");
+							if (((boolean) value) && DetectorModel.INSTANCE.getCurrentDetector() != null) {
+								text.append(" (calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getReferenceDataFileName() + ")");
+							}
+						} catch (Exception e) {
+							//
+						}
+						return text.toString();
+					}
+				});
 	}
 
 	@Override

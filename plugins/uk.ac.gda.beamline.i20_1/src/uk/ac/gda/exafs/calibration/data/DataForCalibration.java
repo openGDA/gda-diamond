@@ -23,7 +23,7 @@ import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
 
-public abstract class CalibrationDataModel extends ObservableModel {
+public abstract class DataForCalibration extends ObservableModel {
 	private static final int PADDING_FOR_REFERENCE = 100;
 	// TODO Refactor to create ref data model
 	public static final String FILE_NAME_PROP_NAME = "fileName";

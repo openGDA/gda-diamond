@@ -133,7 +133,7 @@ public class TimeResolvedDataFileHelper {
 	}
 
 	public void createMetaDataEntries(TimingGroupMetadata[] i0TimingGroupMetaData, TimingGroupMetadata[] itTimingGroupMetaData,
-			TimingGroupMetadata[] i0ForRefTimingGroupMetaData, TimingGroupMetadata[] iRefTimingGroupMetaData, String scannablesConfiguration, String polynomialValForEnergy) throws Exception {
+			TimingGroupMetadata[] i0ForRefTimingGroupMetaData, TimingGroupMetadata[] iRefTimingGroupMetaData, String scannablesConfiguration, String energyCalibrationDetails) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
 			Group parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
@@ -159,8 +159,8 @@ public class TimeResolvedDataFileHelper {
 
 			file.setAttribute(parent, NexusUtils.LABEL, scannablesConfiguration);
 
-			if (polynomialValForEnergy != null) {
-				file.setAttribute(parent, ENERGY_POLYNOMIAL, scannablesConfiguration);
+			if (energyCalibrationDetails != null) {
+				file.setAttribute(parent, ENERGY_POLYNOMIAL, energyCalibrationDetails);
 			}
 		} finally {
 			file.close();
@@ -238,6 +238,12 @@ public class TimeResolvedDataFileHelper {
 		DoubleDataset energyData = getDataFromFile(file, this.getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME);
 
 		String scannablesDescription = file.getAttributeValue(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "@" + NexusUtils.LABEL);
+
+		String energyCalibrationDetails = file.getAttributeValue(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "@" + ENERGY_POLYNOMIAL);
+
+		if (energyCalibrationDetails != null) {
+			scannablesDescription += "\n# " + energyCalibrationDetails;
+		}
 
 		// Create I0_raw
 		DoubleDataset metaData = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.I0_COLUMN_NAME);
