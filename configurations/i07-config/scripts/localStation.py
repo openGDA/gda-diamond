@@ -126,6 +126,9 @@ from BeamlineI07.gaspanel import GasPanel, GasPanelScannable
 gp = GasPanel("gp", "BL07I-EA-GAS-01:")
 gpscan = GasPanelScannable("gpscan", "BL07I-EA-GAS-01:")
 
+from BeamlineI07.lakeshore import LakeshoreDoubleReadout
+lakeshore = LakeshoreDoubleReadout("lakeshore", lakeshore_base)
+
 print "==================================================================="
 print
 #print

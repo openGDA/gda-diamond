@@ -56,8 +56,9 @@
     <import resource="fleacamera4_06.xml" />
 
     <import resource="server_core.xml" />
-    
-    
+
+    <import resource="lakeshore.xml" />
+
     <import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
     
     <bean id="script_paths" parent="common_script_paths">
