@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2013-2/gdaApp/src/genericBeamlineSchema.xsd">
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2014-1/gdaApp/src/genericBeamlineSchema.xsd">
 	<currAmpSingle desc="D2 femto amp" name="FEMTO2">
 		<SETGAIN IOC="BL15I-MO-IOC-01" desc="Set gain" pv="BL15I-DI-FEMTO-02:GAIN" ro="false" type="mbbinary"/>
 		<VENDOR IOC="BL15I-MO-IOC-01" desc="Vendor String" pv="BL15I-DI-FEMTO-02:VENDOR" ro="true" type="pv"/>
@@ -550,6 +550,15 @@
 	</simpleMotor>
 	<simpleMotor desc="Cross hair Y" name="XHAIR1.Y">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-XHAIR-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Smaract X" name="smar.x">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Smaract Y" name="smar.y">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Smaract Z" name="smar.z">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="S4 Pitch" name="S4.PITCH">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-AL-SLITS-04:PITCH" ro="false" type="motor"/>
@@ -1189,6 +1198,9 @@
 	<simpleMbbinary desc="Current status for IOC BL15I-MO-IOC-10:PSC" name="BL15I-MO-IOC-10:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-MO-IOC-10:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
+	<simpleMbbinary desc="Current status for IOC BL15I-MO-IOC-11:PSC" name="BL15I-MO-IOC-11:PSC">
+		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-MO-IOC-11:PSC:STATUS" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
 	<simpleMbbinary desc="Current status for IOC BL15I-DI-IOC-01:PSC" name="BL15I-DI-IOC-01:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-DI-IOC-01:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
@@ -1201,41 +1213,20 @@
 	<simpleMbbinary desc="Current status for IOC BL15I-DI-IOC-04:PSC" name="BL15I-DI-IOC-04:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-DI-IOC-04:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-02:PSC" name="BL15I-EA-IOC-02:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-02:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-04:PSC" name="BL15I-EA-IOC-04:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-04:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-08:PSC" name="BL15I-EA-IOC-08:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-08:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
 	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-09:PSC" name="BL15I-EA-IOC-09:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-09:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-10:PSC" name="BL15I-EA-IOC-10:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-10:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-11:PSC" name="BL15I-EA-IOC-11:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-11:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
 	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-15:PSC" name="BL15I-EA-IOC-15:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-15:PSC:STATUS" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-16:PSC" name="BL15I-EA-IOC-16:PSC">
+		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-16:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
 	<simpleMbbinary desc="Current status for IOC BL15I-CG-IOC-01:PSC" name="BL15I-CG-IOC-01:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-CG-IOC-01:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
 	<simpleMbbinary desc="Current status for IOC BL15I-CS-IOC-01:PSC" name="BL15I-CS-IOC-01:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-CS-IOC-01:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-12:PSC" name="BL15I-EA-IOC-12:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-12:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-13:PSC" name="BL15I-EA-IOC-13:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-13:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-14:PSC" name="BL15I-EA-IOC-14:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-14:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
 	<pilatus desc="Pilatus Detector 2 Control" name="PILATUS2">
 		<GEN_CMD IOC="BL15I-EA-IOC-02" desc="Generic command" pv="BL15I-EA-PILAT-02:GEN" ro="false" type="array"/>
@@ -2279,6 +2270,18 @@
 		<ERR IOC="BL15I-EA-IOC-14" desc="error message" pv="BL15I-EA-BLOW-02:ERR" ro="false" type="pv"/>
 		<DISABLE IOC="BL15I-EA-IOC-14" desc="disable comms" pv="BL15I-EA-BLOW-02:DISABLE" ro="false" type="binary"/>
 	</eurotherm2k>
+	<simpleBinary desc="Fast shutter" name="FSHTR.OVERRIDE">
+		<RECORD IOC="BL15I-EA-IOC-15" desc="RECORD" pv="BL15I-EA-FSHTR-01:OVERRIDE" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Fast shutter" name="FSHTR.STATE">
+		<RECORD IOC="BL15I-EA-IOC-15" desc="RECORD" pv="BL15I-EA-FSHTR-01:STATE" ro="true" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Fast shutter" name="FSHTR2.OVERRIDE">
+		<RECORD IOC="BL15I-EA-IOC-15" desc="RECORD" pv="BL15I-EA-FSHTR-02:OVERRIDE" ro="false" type="binary"/>
+	</simpleBinary>
+	<simpleBinary desc="Fast shutter" name="FSHTR2.STATE">
+		<RECORD IOC="BL15I-EA-IOC-15" desc="RECORD" pv="BL15I-EA-FSHTR-02:STATE" ro="true" type="binary"/>
+	</simpleBinary>
 	<ADBase desc="gige1.cam ADBase class instance" name="gige1.cam_ADBase">
 		<PortName_RBV IOC="BL15I-DI-IOC-01" desc="Readback for PortName" pv="BL15I-DI-GIGE-01:CAM:PortName_RBV" ro="true" type="pv"/>
 		<Manufacturer_RBV IOC="BL15I-DI-IOC-01" desc="Readback for Manufacturer" pv="BL15I-DI-GIGE-01:CAM:Manufacturer_RBV" ro="true" type="pv"/>

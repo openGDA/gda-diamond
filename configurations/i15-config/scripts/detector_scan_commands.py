@@ -142,7 +142,7 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		sampleSuffix="rockScan_test", d1out=True, d2out=True):
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
 	
-	hardwareTriggeredNXDetector = _configureDetector(detector, noOfRocks, sampleSuffix, dark=False)
+	hardwareTriggeredNXDetector = _configureDetector(detector, exposureTime, noOfRocks, sampleSuffix, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis)
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
@@ -190,26 +190,22 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	scan.runScan()
 """
 
-def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
+def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	
-	supportedDetectors = {'mar':jythonNameMap.marHWT
-						, 'marHWT':detector
-						, 'pe': detector
+	supportedDetectors = {'mar':    jythonNameMap.marHWT
+						, 'marHWT': detector
+						, 'pe':     detector
+						, 'mpx':    jythonNameMap.mpxHWT
+						, 'mpxHWT': detector
+						, 'mpxc':   jythonNameMap.mpxcHWT
+						, 'mpxcHWT':detector
 						}
 	
 	if supportedDetectors.has_key(detector.name):
 		hardwareTriggeredNXDetector = supportedDetectors[detector.name]
 	else:
 		raise Exception('Detector %r not in the list of supported detectors: %r' % (detector.name, supportedDetectors.keys()))
-	
-	# Ideally we would want to set the mar cam filename according to the scan number
-	#	BL15I-EA-MAR-01:CAM:FilePath_RBV = /tmp/mar345	=
-	#	BL15I-EA-MAR-01:CAM:FileName =     image		"$scan$-%s-" % (detector.name, sampleSuffix)
-	#	BL15I-EA-MAR-01:CAM:FileTemplate = %s%s_$03d	=
-	# Sadly NXDetector doesn't support this.
-	# Also we would need to reset the FileNumber to 1 for each scan:
-	#	BL15I-EA-MAR-01:CAM:FileNumber = 1
 	
 	filePathTemplate="$datadir$/"
 	fileNameTemplate="$scan$-%s-%s-" % (detector.name, sampleSuffix)
@@ -219,14 +215,35 @@ def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 	detector.hdfwriter.setFilePathTemplate(filePathTemplate)
 	detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
 	
-	if numberOfExposures != 1:
+	
+	if numberOfExposures != 1 or detector.getCollectionStrategy().getNumberImagesPerCollection(exposureTime) > 1:
 		filePathTemplate="$datadir$/$scan$-%s-files-%s-" % (detector.name, sampleSuffix)
 		fileNameTemplate=""
 		fileTemplate="%s%s%05d"	# One image per file
 	
-	detector.tifwriter.setFileTemplate(fileTemplate+".tif")
-	detector.tifwriter.setFilePathTemplate(filePathTemplate)
-	detector.tifwriter.setFileNameTemplate(fileNameTemplate)
+	if detector.name == 'mar':
+		# Since the mar doesn't like underscores and replaces all characters after the underscore with a three
+		# digit sequence number, we have to strip out the sample suffix (as it might contain an underscore) and
+		# set the sequence number to the expected sequence number.
+		filePathTemplate="$datadir$/"
+		fileNameTemplate="$scan$-%s" % (detector.name)
+		fileTemplate="%s%s_%03d" # Breaks GDA because it expects the file to be called blah and it is blah.mar3450 on the filesystem
+		#fileTemplate="%s%s_%03d.mar3450" # Breaks Area detector because it expects the file to be called blah.mar3450.mar3450 and it is blah.mar3450 on the filesystem
+		
+		detector.marwriter.setFileTemplate(fileTemplate)
+		detector.marwriter.setFilePathTemplate(filePathTemplate)
+		detector.marwriter.setFileNameTemplate(fileNameTemplate)
+		#fileTemplatePv = detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FileTemplate')
+		#filePathPv =     detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FilePath')
+		#fileNamePv =     detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FileName')
+		## This assumes mar is using a PvProvider rather than a basePv.
+		#caput(fileTemplatePv, fileTemplate)
+		#caput(filePathPv,     filePathTemplate)
+		#caput(fileNamePv,     fileNameTemplate)
+	else:
+		detector.tifwriter.setFileTemplate(fileTemplate+".tif")
+		detector.tifwriter.setFilePathTemplate(filePathTemplate)
+		detector.tifwriter.setFileNameTemplate(fileNameTemplate)
 	
 	darkSubtractionPVs=_darkSubtractionPVs(hardwareTriggeredNXDetector)
 	if darkSubtractionPVs:
@@ -242,7 +259,7 @@ def _configureDetector(detector, numberOfExposures, sampleSuffix, dark):
 def expose(detector, exposureTime=1, noOfExposures=1,
 		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
-	_configureDetector(detector, noOfExposures, sampleSuffix, dark=False)
+	_configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark=False)
 
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	detectorShield = jythonNameMap.ds
@@ -259,7 +276,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 def darkExpose(detector, exposureTime=1, 
 		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
-	_configureDetector(detector, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
+	_configureDetector(detector, exposureTime, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
 
 	darkSubtractionPVs = _darkSubtractionPVs(detector)
 	if not darkSubtractionPVs:
