@@ -1,5 +1,6 @@
 # ignore build output
 /bin
+/src/corba/
 
 # ignore backup and temporary files
 *~
