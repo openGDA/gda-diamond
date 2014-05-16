@@ -23,6 +23,10 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
 	</bean>
 
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop" />
+	</bean>
+
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
 
 	<import resource="device/all.xml"/>
@@ -30,7 +34,7 @@
 
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriterMetadataTree.setLocationmap" />
+			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
 		<property name="arguments">
 			<map>
 				<entry key="fem">
@@ -63,7 +67,7 @@
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriterMetadataTree.setMetadatascannables" />
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
 		<property name="arguments">
 			<set>
 				<value>fem</value>
