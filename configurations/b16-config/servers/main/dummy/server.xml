@@ -64,6 +64,7 @@
 
 	<import resource="positioner/attenuator.xml" />
 	<import resource="positioner/diagnostic.xml" />
+	<import resource="pneumatic/shutterabsorber.xml" />
 	
 	<import resource="detector/scaler_vortex.xml" />
 <!-- 	<import resource="detector/xmap_vortex.xml" /> -->

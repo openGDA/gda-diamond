@@ -61,8 +61,6 @@ from gdascripts.scannable.dummy import SingleInputDummy, SingleInputStringDummy
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 from gda.device.scannable.scannablegroup import ScannableGroup
 
-ScriptBase.interrupted = False #@UndefinedVariable
-
 print "======================================================================"
 print "Running B16 specific initialisation code"
 print "======================================================================"

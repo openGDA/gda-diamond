@@ -1,9 +1,11 @@
 #@PydevCodeAnalysisIgnore
 from gda.jython import ScriptBase
-ScriptBase.interrupted = False
 print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
+
+from gda.configuration.properties import LocalProperties
+LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
 import installation
 
@@ -413,7 +415,11 @@ if installation.isLive():
 	run("startup_cryocooler")
 
 	print "   running pd_femto_adc_current2.py"
-	run("pd_femto_adc_current2.py")
+	try:
+		run("pd_femto_adc_current2.py")
+	except java.lang.IllegalStateException, e:
+		print " Could not run pd_femto_adc_current2.py "
+		print e
 	
 	print "   running pd_xyslit.py"
 	run("pd_xyslit.py")
@@ -477,7 +483,11 @@ if installation.isLive():
 
 	### MCA ###
 	print "Creating MCA scannables: mca1, mca"
-	mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
+	try:
+		mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
+	except java.lang.IllegalStateException,e :
+		print "Could not initiliase mca1 scannable"
+		print e
 	#mca2=Mca('MCA2','BL16I-EA-DET-02:aim_adc1') 
   	#(RobW) Removed March 21st 2011 to reflect this devices romoval from the Epics experimaental IOC
   	
@@ -929,8 +939,11 @@ try:
 	mds=meta
 	print "Removing frontend from metadata collection"
 	meta.rm(frontend)
-	addmeta(kbm1)
-	addmeta(kbmbase)
+	try:
+		addmeta(kbm1)
+		addmeta(kbmbase)
+	except NameError:
+		print "Not adding kbm1 or kbm1base metadata as these are unavailable"
 
 	
 except NameError, e:
@@ -1117,9 +1130,6 @@ run('FlipperClass')
 
 # Restore data directory
 setDatadirPropertyFromPersistanceDatabase()
-print "======================================================================"
-print "Local Station Script completed"
-print "======================================================================"
 showlm()
 print "======================================================================"
 import gda.data.PathConstructor
@@ -1165,8 +1175,6 @@ if installation.isLive():
 from scannable.detector import pilatuscbfswitcher
 # NOTE: state will be stored across calls to reset_namespace
 pilatuscbfswitcher.set(pil2m, 'cbf')
-#pilatuscbfswitcher.set(pil2m, 'tif')
-
 
 ###############################################################################
 ###                           Run beamline scripts                          ###
@@ -1184,3 +1192,7 @@ run('pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
 run("startup_pie725")
+
+print "======================================================================"
+print "Local Station Script completed"
+print "======================================================================"
