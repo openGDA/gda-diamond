@@ -52,10 +52,12 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * writes data to given Nexus file.
  * <p>
  * Also holds data in memory for quick retrieval for online data.
+ * <p>
+ * This starts immediately and does not take sample environment triggering
  */
-public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan {
+public class EdeWithoutTriggerScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeWithoutTriggerScan.class);
 
 	private final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
@@ -81,7 +83,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan
 	 *            - if this is a negative number then frame index columns will not be added to the output. Useful for
 	 *            single spectrum scans where such indexing is meaningless.
 	 */
-	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+	public EdeWithoutTriggerScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			StripDetector theDetector, Integer repetitionNumber, Scannable shutter2) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
