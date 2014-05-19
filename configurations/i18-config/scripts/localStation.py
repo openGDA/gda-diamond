@@ -68,7 +68,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
 
     add_default topupMonitor
     add_default beam
-    add_default detectorFillingMonitor
+#     add_default detectorFillingMonitor
     add_default trajBeamMonitor
 
     archiver = IcatXMLCreator()
@@ -98,7 +98,7 @@ xas =  I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueue
 
 non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
 raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid)
-raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress)
+raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader)
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
@@ -118,6 +118,6 @@ alias("raster_map_return_write")
 test = DummyScannable("test")
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    photonccd.setOutputFolderRoot("x:/data/2014/sp9114-1/xrd/")
+    photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/")
 
 print "Initialization Complete";
