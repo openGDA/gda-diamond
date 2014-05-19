@@ -52,10 +52,12 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * writes data to given Nexus file.
  * <p>
  * Also holds data in memory for quick retrieval for online data.
+ * <p>
+ * This starts immediately and does not take sample environment triggering
  */
-public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan {
+public class EdeWithoutTriggerScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeWithoutTriggerScan.class);
 
 	private final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
@@ -81,7 +83,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan
 	 *            - if this is a negative number then frame index columns will not be added to the output. Useful for
 	 *            single spectrum scans where such indexing is meaningless.
 	 */
-	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+	public EdeWithoutTriggerScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			StripDetector theDetector, Integer repetitionNumber, Scannable shutter2) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
@@ -157,21 +159,13 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan
 		if (scanType == EdeScanType.DARK){
 			// close the shutter
 			shutter2.moveTo("Close");
-			checkThreadInterrupted();
-			waitIfPaused();
-			if (isFinishEarlyRequested()) {
-				return;
-			}
+			checkForInterrupts();
 		} else {
 			// open the shutter
 			logger.debug(toString() + " moving motors into position...");
 			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 			motorPositions.moveIntoPosition();
-			checkThreadInterrupted();
-			waitIfPaused();
-			if (isFinishEarlyRequested()) {
-				return;
-			}
+			checkForInterrupts();
 			shutter2.moveTo("Open");
 		}
 		if (!isChild()) {
@@ -195,10 +189,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan
 					nextFrameToRead = currentFrame;
 				}
 				Thread.sleep(100);
-				waitIfPaused();
-				if (isFinishEarlyRequested()) {
-					return;
-				}
+				checkForInterrupts();
 				progressData = fetchStatusAndWait();
 				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			}
@@ -223,6 +214,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan
 		boolean sendMessage = true;
 		while (progressData.detectorStatus == Detector.PAUSED) {
 			Thread.sleep(1000);
+			checkForInterrupts();
 			if (sendMessage) {
 				logger.info("Detector paused and waiting for a trigger. Abort the scan if this takes too long.");
 				sendMessage = false;
@@ -287,9 +279,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan
 		logger.info("data read successfully");
 
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
-			checkThreadInterrupted();
-			waitIfPaused();
-
+			checkForInterrupts();
 			currentPointCount++;
 			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
 
@@ -311,14 +301,13 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan
 			thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
 			thisPoint.setInstrument(instrument);
 			thisPoint.setCommand(getCommand());
-			thisPoint.setScanIdentifier(getScanNumber());
+			thisPoint.setScanIdentifier(String.valueOf(getScanNumber()));
 
 			// then write data to data handler
 			storeAndBroadcastSDP(thisFrame, thisPoint);
 			getDataWriter().addData(thisPoint);
 
-			checkThreadInterrupted();
-			waitIfPaused();
+			checkForInterrupts();
 
 			// update the filename (if this was the first data point and so filename would never be defined until first
 			// data added

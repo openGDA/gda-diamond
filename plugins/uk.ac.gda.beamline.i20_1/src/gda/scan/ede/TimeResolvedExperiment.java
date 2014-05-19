@@ -19,7 +19,7 @@
 package gda.scan.ede;
 
 import gda.device.DeviceException;
-import gda.scan.EdeScan;
+import gda.scan.EdeWithoutTriggerScan;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
@@ -169,12 +169,12 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	@Override
 	protected void addScans() {
 
-		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+		i0FinalScan = new EdeWithoutTriggerScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 		i0FinalScan.setProgressUpdater(this);
 		scansForExperiment.add(i0FinalScan);
 
 		if (runIRef) {
-			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+			iRefFinalScan = new EdeWithoutTriggerScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
 			iRefFinalScan.setProgressUpdater(this);
 			scansForExperiment.add(iRefFinalScan);
 		}

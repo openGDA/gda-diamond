@@ -18,18 +18,31 @@
 
 package gda.scan;
 
-import gda.device.Scannable;
-import gda.device.detector.StripDetector;
+import gda.observable.IObserver;
 import gda.scan.ede.EdeScanType;
-import gda.scan.ede.position.EdeScanPosition;
+
+import java.util.List;
+
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
-public class EdeItScan extends EdeScan implements EnergyDispersiveScan {
+public interface EnergyDispersiveExafsScan extends Scan {
 
-	public EdeItScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter2) {
-		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter2);
-		// TODO Auto-generated constructor stub
-	}
+	public void setProgressUpdater(IObserver progressUpdater);
 
+	public List<ScanDataPoint> getData();
+
+	public EdeScanParameters getScanParameters();
+
+	public void setScanParameters(EdeScanParameters scanParameters);
+
+	public EdeScanType getScanType();
+
+	public void setScanType(EdeScanType scanType);
+
+	public DoubleDataset extractEnergyDetectorDataSet();
+
+	public DoubleDataset extractDetectorDataSet(int i);
+
+	public String getHeaderDescription();
 }
