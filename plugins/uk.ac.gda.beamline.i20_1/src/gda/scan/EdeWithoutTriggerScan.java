@@ -28,6 +28,7 @@ import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
+import gda.device.scannable.TopupChecker;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
@@ -48,7 +49,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 /**
  * Runs a single set of timing groups for EDE through the XSTRIP DAServer interface.
  * <p>
- * So this: moves sample to correct position, opens/closes shutter, runs the timing groups through the TFG unit and
+ * So this: moves sample to correct position, waits for top-up to pass (if required), opens/closes shutter, runs the timing groups through the TFG unit and
  * writes data to given Nexus file.
  * <p>
  * Also holds data in memory for quick retrieval for online data.
@@ -68,7 +69,8 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 	private EdeScanType scanType;
 	private FrameIndexer indexer = null;
 	private IObserver progressUpdater;
-	private final Scannable shutter2;
+	private final Scannable shutter;
+	private final TopupChecker topup;
 
 	private boolean isSimulated = false;
 
@@ -82,15 +84,18 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 	 * @param repetitionNumber
 	 *            - if this is a negative number then frame index columns will not be added to the output. Useful for
 	 *            single spectrum scans where such indexing is meaningless.
+	 * @param shutter
+	 * @param topup - this is configured outside of this scan to enable control of how long to wait
 	 */
 	public EdeWithoutTriggerScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter2) {
+			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topup) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
 		this.scanType = scanType;
 		this.theDetector = theDetector;
-		this.shutter2 = shutter2;
+		this.shutter = shutter;
+		this.topup = topup;
 		allDetectors.add(theDetector);
 		if (repetitionNumber >= 0) {
 			// then use indexer to report progress of scan in data
@@ -158,7 +163,7 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		theDetector.loadParameters(scanParameters);
 		if (scanType == EdeScanType.DARK){
 			// close the shutter
-			shutter2.moveTo("Close");
+			shutter.moveTo("Close");
 			checkForInterrupts();
 		} else {
 			// open the shutter
@@ -166,11 +171,17 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 			motorPositions.moveIntoPosition();
 			checkForInterrupts();
-			shutter2.moveTo("Open");
+			if (topup != null){
+				// the TopupChecker object will run its test for an imminent top-up in atScanStart()
+				topup.atScanStart();
+			}
+			shutter.moveTo("Open");
 		}
 		if (!isChild()) {
 			currentPointCount = -1;
 		}
+
+		// TODO 264 wait here to test if we should wait for top-up?
 
 		logger.debug(toString() + " starting detector running...");
 		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");

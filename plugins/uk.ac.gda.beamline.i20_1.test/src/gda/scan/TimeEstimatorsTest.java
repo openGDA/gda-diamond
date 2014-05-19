@@ -54,7 +54,7 @@ public class TimeEstimatorsTest {
 		SingleExperimentTimeEstimator est = new SingleExperimentTimeEstimator(itParams, outBeam, inBeam);
 		
 		Double tot = est.getTotalDuration();
-		Double end = est.getBookendsDuration();
+		Double end = est.getAfterItDuration();
 		Double it = est.getItDuration();
 		
 		assertEquals(6.08,tot,0.1);
@@ -84,7 +84,8 @@ public class TimeEstimatorsTest {
 		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, outBeam, inBeam, null);
 		
 		Double tot = est.getTotalDuration();
-		Double end = est.getBookendsDuration();
+		Double before = est.getBeforeItDuration();
+		Double end = est.getAfterItDuration();
 		Double it = est.getItDuration();
 		
 		assertEquals(6.08,tot,0.1);
@@ -116,7 +117,7 @@ public class TimeEstimatorsTest {
 		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, outBeam, inBeam, irefPosition);
 		
 		Double tot = est.getTotalDuration();
-		Double end = est.getBookendsDuration();
+		Double end = est.getAfterItDuration();
 		Double it = est.getItDuration();
 		
 		assertEquals(6.08,tot,0.1);
@@ -156,11 +157,11 @@ public class TimeEstimatorsTest {
 		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, outBeam, inBeam, irefPosition);
 		
 		Double tot = est.getTotalDuration();
-		Double end = est.getBookendsDuration();
+		Double end = est.getAfterItDuration();
 		Double it = est.getItDuration();
 		
-		assertEquals(19.08,tot,0.1); //
-		assertEquals(4.04,end,0.1); // 2 * (1+0.02) + 2
+		assertEquals(20.10,tot,0.1); //
+		assertEquals(3.02,end,0.1); // 2 * (1+0.02) + 2
 		assertEquals(10.02,it,0.1); // 10 + 0.02
 
 	}

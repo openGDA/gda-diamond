@@ -161,7 +161,7 @@ public class EdeScanTest extends EdeTestBase {
 		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		// EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,"xScannable","yScannable");
 
-		EdeWithoutTriggerScan theScan = new EdeWithoutTriggerScan(scanParams, inBeam, EdeScanType.LIGHT, xh, repetitionNumber, createShutter2());
+		EdeWithoutTriggerScan theScan = new EdeWithoutTriggerScan(scanParams, inBeam, EdeScanType.LIGHT, xh, repetitionNumber, createShutter2(),null);
 		theScan.runScan();
 
 		List<ScanDataPoint> data = theScan.getData();

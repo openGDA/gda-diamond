@@ -37,10 +37,7 @@ public class SingleExperimentTimeEstimator extends TimeEstimatorBase implements 
 
 	@Override
 	public Double getTotalDuration() {
-		// there will also be two motor movements, so add 6s as a guess for now.
-		return estimateMovementDuration(null, i0Position) + estimateMovementDuration(i0Position, itPosition)
-				+ getItDuration() + estimateMovementDuration(itPosition, i0Position) + (3
-						* estimateOneFrameFromEachGroupDuration(itScanParameters));
+		return getBeforeItDuration() + getItDuration() + getAfterItDuration();
 	}
 
 	@Override
@@ -49,9 +46,13 @@ public class SingleExperimentTimeEstimator extends TimeEstimatorBase implements 
 	}
 
 	@Override
-	public Double getBookendsDuration() {
-		// time by two as dark and I0 mesurements
-		return estimateMovementDuration(null, i0Position) + 2 * estimateOneFrameFromEachGroupDuration(itScanParameters);
+	public Double getBeforeItDuration() {
+		return estimateMovementDuration(null, i0Position) + estimateOneFrameFromEachGroupDuration(itScanParameters) + estimateMovementDuration(i0Position, itPosition);
 	}
 
+
+	@Override
+	public Double getAfterItDuration() {
+		return estimateOneFrameFromEachGroupDuration(itScanParameters) + estimateMovementDuration(i0Position, itPosition);
+	}
 }
