@@ -53,7 +53,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * <p>
  * Also holds data in memory for quick retrieval for online data.
  */
-public class EdeScan extends ConcurrentScanChild {
+public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveScan {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
 
@@ -111,6 +111,7 @@ public class EdeScan extends ConcurrentScanChild {
 		return "EDE scan - type:" + scanType.toString() + " " + motorPositions.getType().toString();
 	}
 
+	@Override
 	public String getHeaderDescription() {
 		String desc = scanType.toString() + " " + motorPositions.getType().toString() + " scan with " + scanParameters.getGroups().size() + " timing groups";
 		for (int index = 0; index < scanParameters.getGroups().size(); index++){
@@ -129,6 +130,7 @@ public class EdeScan extends ConcurrentScanChild {
 		return rawData.size();
 	}
 
+	@Override
 	public void setProgressUpdater(IObserver progressUpdater) {
 		this.progressUpdater = progressUpdater;
 	}
@@ -328,7 +330,6 @@ public class EdeScan extends ConcurrentScanChild {
 	}
 
 	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
-
 		rawData.add(thisPoint);
 		if (progressUpdater != null) {
 			int groupNumOfThisSDP = ExperimentLocationUtils.getGroupNum(scanParameters, absoulteFrameNumber);
@@ -343,22 +344,27 @@ public class EdeScan extends ConcurrentScanChild {
 		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), rawData.get(rawData.size() - 1));
 	}
 
+	@Override
 	public DoubleDataset extractEnergyDetectorDataSet() {
 		return ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), rawData.get(0));
 	}
 
+	@Override
 	public DoubleDataset extractDetectorDataSet(int spectrumIndex) {
 		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), rawData.get(spectrumIndex));
 	}
 
+	@Override
 	public List<ScanDataPoint> getData() {
 		return getDataPoints(0, getNumberOfAvailablePoints() - 1);
 	}
 
+	@Override
 	public EdeScanParameters getScanParameters() {
 		return scanParameters;
 	}
 
+	@Override
 	public void setScanParameters(EdeScanParameters scanParameters) {
 		this.scanParameters = scanParameters;
 	}
@@ -371,10 +377,12 @@ public class EdeScan extends ConcurrentScanChild {
 		this.motorPositions = motorPositions;
 	}
 
+	@Override
 	public EdeScanType getScanType() {
 		return scanType;
 	}
 
+	@Override
 	public void setScanType(EdeScanType scanType) {
 		this.scanType = scanType;
 	}

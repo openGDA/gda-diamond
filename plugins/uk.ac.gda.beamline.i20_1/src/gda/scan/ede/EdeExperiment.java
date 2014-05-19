@@ -33,6 +33,7 @@ import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.observable.IObserver;
+import gda.scan.EdeItScan;
 import gda.scan.EdeScan;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
@@ -96,7 +97,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan i0LightScan;
 	protected EdeScan itLightScan;
 	protected EdeScan i0FinalScan;
-	protected EdeScan[] itScans;
+	protected EdeItScan[] itScans;
 	protected final EdeScanParameters itScanParameters;
 	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
 
@@ -264,9 +265,9 @@ public abstract class EdeExperiment implements IObserver {
 			iRefScan.setProgressUpdater(this);
 		}
 
-		itScans = new EdeScan[repetitions];
+		itScans = new EdeItScan[repetitions];
 		for(int repIndex = 0; repIndex < repetitions; repIndex++){
-			itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
+			itScans[repIndex] = new EdeItScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
 			itScans[repIndex].setProgressUpdater(this);
 			scansForExperiment.add(itScans[repIndex]);
 		}

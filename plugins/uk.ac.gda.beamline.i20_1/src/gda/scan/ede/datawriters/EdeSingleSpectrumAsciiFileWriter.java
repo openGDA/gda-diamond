@@ -19,7 +19,8 @@
 package gda.scan.ede.datawriters;
 
 import gda.device.detector.StripDetector;
-import gda.scan.EdeScan;
+import gda.scan.EdeItScan;
+import gda.scan.EnergyDispersiveScan;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -32,14 +33,14 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 
-	private final EdeScan i0DarkScan;
-	private final EdeScan itDarkScan;
-	private final EdeScan i0InitialScan;
-	private final EdeScan itScan;
+	private final EnergyDispersiveScan i0DarkScan;
+	private final EnergyDispersiveScan itDarkScan;
+	private final EnergyDispersiveScan i0InitialScan;
+	private final EdeItScan itScan;
 	private String asciiFilename;
 
-	public EdeSingleSpectrumAsciiFileWriter(EdeScan i0InitialScan, EdeScan itScan, EdeScan i0DarkScan,
-			EdeScan itDarkScan, StripDetector theDetector) {
+	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveScan i0InitialScan, EdeItScan itScan, EnergyDispersiveScan i0DarkScan,
+			EnergyDispersiveScan itDarkScan, StripDetector theDetector) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0InitialScan = i0InitialScan;
 		this.itScan = itScan;
