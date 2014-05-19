@@ -27,8 +27,8 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispersiveExafsScan {
 
 	public EdeWithTFGScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter2) {
-		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter2);
+			StripDetector theDetector, Integer repetitionNumber, Scannable shutter) {
+		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter,null);
 		// TODO Auto-generated constructor stub
 	}
 
