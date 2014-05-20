@@ -10,7 +10,7 @@
         <ROI>
             <name>Ti_Ka</name>
             <windowStart>435</windowStart>
-            <windowEnd>463</windowEnd>
+            <windowEnd>465</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -22,8 +22,8 @@
         <number>1</number>
         <ROI>
             <name>Ti_Ka</name>
-            <windowStart>430</windowStart>
-            <windowEnd>470</windowEnd>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -35,8 +35,8 @@
         <number>1</number>
         <ROI>
             <name>Ti_Ka</name>
-            <windowStart>430</windowStart>
-            <windowEnd>470</windowEnd>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
@@ -48,8 +48,86 @@
         <number>1</number>
         <ROI>
             <name>Ti_Ka</name>
-            <windowStart>430</windowStart>
-            <windowEnd>470</windowEnd>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element4</name>
+        <number>1</number>
+        <ROI>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element5</name>
+        <number>1</number>
+        <ROI>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element6</name>
+        <number>1</number>
+        <ROI>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element7</name>
+        <number>1</number>
+        <ROI>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element8</name>
+        <number>1</number>
+        <ROI>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element9</name>
+        <number>1</number>
+        <ROI>
+            <name>Ti_Ka</name>
+            <windowStart>435</windowStart>
+            <windowEnd>465</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>
