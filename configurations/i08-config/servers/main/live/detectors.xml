@@ -65,7 +65,6 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="andor_hdf5filewriter_for_scans" />
-				<!-- <ref bean="andor_tifffilewriter_for_scans" /> -->
 			</list>
 		</property>
 	</bean>
