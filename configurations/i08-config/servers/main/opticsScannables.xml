@@ -241,33 +241,5 @@
 			</list>
 		</property>
 	</bean>
-	
-	
-	<!-- <bean id="m1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1_x_motor" />
-	</bean>
-	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1_pitch_motor" />
-	</bean>
-	<bean id="m1_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1_roll_motor" />
-	</bean>
-	<bean id="m1_yaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m1_yaw_motor" />
-	</bean>
-
-	<bean id="s1_x_centre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_x_centre_motor" />
-	</bean>
-	<bean id="s1_x_size" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_x_size_motor" />
-	</bean>
-	<bean id="s1_y_centre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_y_centre_motor" />
-	</bean>
-	<bean id="s1_y_size" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_y_size_motor" />
-	</bean> -->
-
 
 </beans>
