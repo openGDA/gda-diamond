@@ -663,6 +663,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			endTimeValueText.setModel(group, TimeIntervalDataModel.END_TIME_PROP_NAME);
 			endTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			endTimeValueText.setValidators(null, group.getEndTimeValidator());
 			endTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(endTimeValueText),
@@ -672,6 +673,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			timePerSpectrumValueText.setModel(group, TimingGroupUIModel.TIME_PER_SPECTRUM_PROP_NAME);
 			timePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			timePerSpectrumValueText.setValidators(null, group.getTimePerSpectrumValidator());
 			timePerSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(timePerSpectrumValueText),
@@ -680,6 +682,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					unitConverter));
 
 			noOfSpectrumValueText.setModel(group, TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME);
+			noOfSpectrumValueText.setValidators(null, group.getNoOfSpectrumValidator());
 
 			integrationTimeValueText.setModel(group, TimingGroupUIModel.INTEGRATION_TIME_PROP_NAME);
 			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);

@@ -27,6 +27,9 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.databinding.validation.ValidationStatus;
+import org.eclipse.core.runtime.IStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -196,9 +199,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	public void setEndTime(double endTime) throws Exception {
 		double availableSpectraTime = endTime - this.getStartTimeForSpectra();
-		if (availableSpectraTime <= 0) {
-			throw new Exception("End time should be after start time");
-		}
 		if (availableSpectraTime < this.getTimePerSpectrum()) {
 			updateTimePerSpectrum(availableSpectraTime);
 		}
@@ -220,12 +220,8 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		return spectrumList.size();
 	}
 
-	public void setNumberOfSpectrum(int numberOfSpectrum) throws Exception {
-		if (endTimeIsLocked && (this.getAvailableDurationAfterDelay() % numberOfSpectrum) != 0.0) {
-			throw new Exception("The number of spectrum does not fit with the locked endtime.");
-		}
+	public void setNumberOfSpectrum(int numberOfSpectrum) {
 		double newTimePerSpectrum = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertToNearestFrame(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
-
 		updateTimePerSpectrum(newTimePerSpectrum);
 		adjustEndTimeForNumberOfSpectrum(numberOfSpectrum);
 		this.adjustSpectra(numberOfSpectrum);
@@ -251,12 +247,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public void setTimePerSpectrum(double timePerSpectrum) throws Exception {
-		if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame(timePerSpectrum)) {
-			throw new Exception("Unable to convert into frame");
-		}
-		if (endTimeIsLocked && ((this.getAvailableDurationAfterDelay() * 100) % timePerSpectrum) != 0) {
-			throw new Exception("Unable to fit with fixed endtime");
-		}
 		updateTimePerSpectrum(timePerSpectrum);
 		setSpectrumAndAdjustEndTime(timePerSpectrum);
 		if (integrationTime > timePerSpectrum) {
@@ -369,5 +359,48 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	public int getExternalTrigLemoNumber() {
 		return exernalTriggerInputLemoNumber.getLemoNumber();
+	}
+
+	public IValidator getEndTimeValidator() {
+		return new IValidator() {
+			@Override
+			public IStatus validate(Object value) {
+				double availableSpectraTime = ((double) value) - getStartTimeForSpectra();
+				if (availableSpectraTime <= 0) {
+					return ValidationStatus.error("End time should be higher than Start time");
+				}
+				return ValidationStatus.ok();
+			}
+		};
+	}
+
+	public IValidator getTimePerSpectrumValidator() {
+		return new IValidator() {
+			@Override
+			public IStatus validate(Object value) {
+				if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame((double) value)) {
+					return ValidationStatus.error("Unable to convert into frame");
+				}
+				if (endTimeIsLocked && (getAvailableDurationAfterDelay() % timePerSpectrum) != 0) {
+					return ValidationStatus.error("Unable to fit with fixed End time");
+				}
+				return ValidationStatus.ok();
+			}
+		};
+	}
+
+	public IValidator getNoOfSpectrumValidator() {
+		return new IValidator() {
+			@Override
+			public IStatus validate(Object value) {
+				if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame(getAvailableDurationAfterDelay() / ((int) value))) {
+					return ValidationStatus.info("The time per spectrum will be rounded to nearest " + ExperimentUnit.MAX_RESOLUTION_IN_NANO_SEC + " " + ExperimentUnit.NANO_SEC.getUnitText());
+				}
+				if (endTimeIsLocked && (getAvailableDurationAfterDelay() % ((int) value)) != 0.0) {
+					return ValidationStatus.error("The number of spectrum does not fit with the locked End time.");
+				}
+				return ValidationStatus.ok();
+			}
+		};
 	}
 }

@@ -21,6 +21,9 @@ package uk.ac.gda.exafs.experiment.ui;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.databinding.validation.ValidationStatus;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -93,6 +96,15 @@ public class TimingGroupsSetupPage extends WizardPage {
 			NumberEditorControl noOfGroupsControl;
 
 			noOfGroupsControl = new NumberEditorControl(container, SWT.None, model, TimingGroupWizardModel.NO_OF_GROUPS, false);
+			noOfGroupsControl.setValidators(null, new IValidator() {
+				@Override
+				public IStatus validate(Object value) {
+					if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame(model.getUnit().convertToDefaultUnit(model.getItTime()) / (int) value)) {
+						return ValidationStatus.info("The End time of each group will be rounded to nearest " + ExperimentUnit.MAX_RESOLUTION_IN_NANO_SEC + " " + ExperimentUnit.NANO_SEC.getUnitText());
+					}
+					return ValidationStatus.ok();
+				}
+			});
 			noOfGroupsControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			noOfGroupsControl.setRange(1, Integer.MAX_VALUE);
 			dataBindingCtx.bindValue(
