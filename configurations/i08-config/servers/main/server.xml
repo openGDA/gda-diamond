@@ -29,7 +29,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />	
 		
 <!-- 	shared files -->
-	<import resource="file:${gda.config}/servers/main/detector.xml" />
+	<import resource="file:${gda.config}/servers/main/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/opticsScannables.xml" />
 	<import resource="file:${gda.config}/servers/main/metadata.xml" /> 
 	
