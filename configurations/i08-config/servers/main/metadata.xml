@@ -20,8 +20,6 @@
 		<property name="metadataEntries">
 			<list>
 				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="scanDetector" />
-					<property name="value" value="counterTimer01" />
 				</bean>
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="instrument" />
@@ -46,8 +44,8 @@
 			</list>
 		</property>
 	</bean>
-
-<bean
+	
+	<!-- <bean
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod"
 			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
@@ -305,7 +303,7 @@
 				<value>m4_curvature</value>
 			</set>
 		</property>
-	</bean>	
+	</bean> -->
 	
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" />
 

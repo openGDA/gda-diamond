@@ -18,3 +18,4 @@ def setMetadata():
             meta_add(scannable)
         else:
             print 'This scannable does not exist:',s
+

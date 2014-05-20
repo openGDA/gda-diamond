@@ -6,4 +6,6 @@ fi
 
 #. /dls_sw/$BEAMLINE/etc/gda_environment.sh
 
+module load java
+
 /dls_sw/i08/software/gda/client/gda-$BEAMLINE

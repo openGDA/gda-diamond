@@ -19,5 +19,4 @@
 		<property name="waittime" value="60" />
 		<property name="local" value="true" />
 	</bean>
-           
 </beans>
