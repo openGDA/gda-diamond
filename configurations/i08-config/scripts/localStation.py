@@ -55,9 +55,7 @@ try:
     showtime=showtimeClass('showtime')
     inctime=showincrementaltimeClass('inctime')
     actualTime=actualTimeClass("actualTime")
-    # Use for the calibration of the pgm energy, create a scannable idEnergy
-    from idEnergy import my_energy_class1
-    myEnergy = my_energy_class1("idEnergy")
+   
     
     #checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
     #checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable

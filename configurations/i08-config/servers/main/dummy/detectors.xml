@@ -4,32 +4,70 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-<!-- SR08I-MO-SERVC-01:BLGAPMTR -->
+<!-- PhotoDiode -->
 
 	 <bean id="photoDiode1" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="-2.0"/>
 	</bean> 
 	
-	
-	
-	<!-- <bean id="d1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="false"/>
-		<property name="pvBase" value="BL08I-DI-PHDGN-01"/>
+<!-- Andor camera -->	
+	<bean id="andor_ad_pluginBase"
+		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+		<property name="dims" value="1000,1000" />
+		<property name="datatype" value="UINT32" />
 	</bean>
-	
-	<bean id="d2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="false"/>
-		<property name="pvBase" value="BL08I-DI-PHDGN-02"/>
+	<bean id="andor_adbase"
+		class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator">
+		<property name="model" value="AndorEdge" />
 	</bean>
-	
-	<bean id="d3" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="false"/>
-		<property name="pvBase" value="BL08I-DI-PHDGN-03"/>
+
+	<bean id="andor_arr"
+		class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
+		<property name="pluginBase" ref="andor_ad_pluginBase" />
 	</bean>
-	
-	<bean id="shutter1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="false"/>
-		<property name="pvBase" value="BL08I-PS-SHTR-01"/>
+
+	<bean id="andor_stat"
+		class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+		<property name="pluginBase" ref="andor_ad_pluginBase" />
+	</bean>
+
+	<bean id="andor_roi1"
+		class="gda.device.detector.areadetector.v17.impl.NDROISimulator">
+		<property name="pluginBase" ref="andor_ad_pluginBase" />
+	</bean>
+	<!-- <bean id="pco1_roi2"
+		class="gda.device.detector.areadetector.v17.impl.NDROISimulator">
+		<property name="pluginBase" ref="pco1_ad_pluginBase" />
+	</bean> -->
+
+	<bean id="andor_ffmpeg1"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamSimulator">
+		<property name="pluginBase" ref="andor_ad_pluginBase" />
+		<property name="mjpg_url" value="DummySwtVideoReceiver" />
+	</bean>
+
+	<!-- <bean id="pco1_ffmpeg2"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamSimulator">
+		<property name="pluginBase" ref="pco1_ad_pluginBase" />
+		<property name="mjpg_url" value="DummySwtVideoReceiver" />
+	</bean> -->
+
+	<bean id="andor_ndfilehdf5_base"
+		class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+		<property name="pluginBase" ref="andor_ad_pluginBase" />
+	</bean>
+
+	<bean id="andor_ndfilehdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
+		<property name="file" ref="andor_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="andor_proc1"
+		class="gda.device.detector.areadetector.v17.impl.NDProcessSimulator">
+		<property name="pluginBase" ref="andor_ad_pluginBase" />
+	</bean>
+	<!-- <bean id="pco1_proc2"
+		class="gda.device.detector.areadetector.v17.impl.NDProcessSimulator">
+		<property name="pluginBase" ref="pco1_ad_pluginBase" />
 	</bean> -->
 	
 </beans> 

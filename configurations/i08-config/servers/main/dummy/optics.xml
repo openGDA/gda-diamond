@@ -78,5 +78,23 @@
 	<bean id="m4_ellipticity_motor" class="gda.device.motor.DummyMotor" />
 	
 	<bean id="m4_curvature_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="s2_xsize_motor" class="gda.device.motor.DummyMotor" />
+	 
+	<bean id="s2_xcentre_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="s2_xminus_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="s2_xplus_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="s2_ysize_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="s2_ycentre_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="s2_yminus_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="s2_yplus_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="s2_ztranslation_motor" class="gda.device.motor.DummyMotor" />
 
 </beans>

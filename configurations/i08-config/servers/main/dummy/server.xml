@@ -9,8 +9,8 @@
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
-
-	<bean id="energy" class="gda.device.scannable.CoupledScannable">
+<!-- How to manage look-up table -->
+	<!-- <bean id="energy" class="gda.device.scannable.CoupledScannable">
 		<property name="scannables">
 			<list>
 				<ref bean="energy_gap" />
@@ -40,7 +40,7 @@
 		<property name="convertor" ref="energy_idgap_converter" />
 		<property name="initialUserUnits" value="eV" />
 		<property name="hardwareUnitString" value="eV" />
-	</bean>    
+	</bean>     -->
 
 
     
