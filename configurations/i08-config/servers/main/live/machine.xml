@@ -7,6 +7,7 @@
            
            
 <!--machine and front end -->
+
 	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE08I-RS-ABSB-01:STA" />
 		<property name="local" value="true" />

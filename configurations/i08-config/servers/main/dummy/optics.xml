@@ -1,16 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-2.0.xsd
-           http://www.diamond.ac.uk/schema/gda/corba
-           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-	 <bean id="idgap_motor" class="gda.device.motor.DummyMotor">
-	 <property name="unitString" value="mm"/>
-	 </bean>
+
 
 	 <bean id="bda_x_motor" class="gda.device.motor.DummyMotor" />
 	
@@ -19,12 +14,6 @@
 	 <bean id="m1_x_motor" class="gda.device.motor.DummyMotor" />
 	
 	 <bean id="m1_pitch_motor" class="gda.device.motor.DummyMotor" />
-	 
-	 <bean id="m1_y_motor" class="gda.device.motor.DummyMotor" />
-	 
-	 <bean id="m1_roll_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="m1_yaw_motor" class="gda.device.motor.DummyMotor" />
 	
 	 <bean id="s1_xsize_motor" class="gda.device.motor.DummyMotor" />
 	 
@@ -44,39 +33,19 @@
 	
 	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor" />
 	
-	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="grating_pitch_motor" class="gda.device.motor.DummyMotor" />
+	 <bean id="grating_pitch_motor" class="gda.device.motor.DummyMotor" />
 	
 	<bean id="grating_x_motor" class="gda.device.motor.DummyMotor" />
 	
 	<bean id="m2_x_motor" class="gda.device.motor.DummyMotor" />
 	
-	<bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor" />
+	 <bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor" />
 	
-	<bean id="m3_x_motor" class="gda.device.motor.DummyMotor" />
+	 <bean id="m3_x_motor" class="gda.device.motor.DummyMotor" />
 	
-	<bean id="m3_pitch_motor" class="gda.device.motor.DummyMotor" />
-	 
-	<bean id="m3_yaw_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="m3_roll_motor" class="gda.device.motor.DummyMotor" />
-
-	<bean id="m3_y_motor" class="gda.device.motor.DummyMotor" />
-	 
+	 <bean id="m3_pitch_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="m4_x_motor" class="gda.device.motor.DummyMotor" />
 	
-	<bean id="m4_pitch_motor" class="gda.device.motor.DummyMotor" />
-	 
-	<bean id="m4_y_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="m4_yaw_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="m4_roll_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="m4_ellipticity_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="m4_curvature_motor" class="gda.device.motor.DummyMotor" />
-
+	 <bean id="m4_pitch_motor" class="gda.device.motor.DummyMotor" />
 </beans>
