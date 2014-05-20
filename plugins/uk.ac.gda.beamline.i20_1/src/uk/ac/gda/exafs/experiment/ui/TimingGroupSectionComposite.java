@@ -470,9 +470,9 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			public String getColumnText(Object element, int columnIndex) {
 				switch (columnIndex) {
 				case 0: return (String) names.get(element);
-				case 1: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
-				case 2: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
-				case 3: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) timePerSpectrum.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
+				case 1: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromDefaultUnit((double) startTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
+				case 2: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromDefaultUnit((double) endTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
+				case 3: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromDefaultUnit((double) timePerSpectrum.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
 				case 4: return Integer.toString((int) noOfSpectrum.get(element));
 				default : return "Unkown column";
 				}
@@ -590,7 +590,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		}
 		@Override
 		public Object convert(Object fromObject) {
-			return group.getUnit().convertFromMilli((double) fromObject);
+			return group.getUnit().convertFromDefaultUnit((double) fromObject);
 		}
 		@Override
 		public Object getFromType() {
@@ -609,7 +609,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		}
 		@Override
 		public Object convert(Object fromObject) {
-			return group.getUnit().convertToMilli(Double.parseDouble((String) fromObject));
+			return group.getUnit().convertToDefaultUnit(Double.parseDouble((String) fromObject));
 		}
 		@Override
 		public Object getFromType() {

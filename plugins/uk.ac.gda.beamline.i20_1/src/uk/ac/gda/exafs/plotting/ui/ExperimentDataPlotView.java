@@ -73,7 +73,7 @@ public class ExperimentDataPlotView extends ViewPart {
 						try {
 							text.append("Use strips number for X axis");
 							if (((boolean) value) && DetectorModel.INSTANCE.getCurrentDetector() != null) {
-								text.append(" (calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getReferenceDataFileName() + ")");
+								text.append(" (calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getSampleDataFileName() + ")");
 							}
 						} catch (Exception e) {
 							//

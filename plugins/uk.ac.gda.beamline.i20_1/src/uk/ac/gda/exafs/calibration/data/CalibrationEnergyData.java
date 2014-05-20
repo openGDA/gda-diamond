@@ -23,13 +23,14 @@ import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
 
-public abstract class DataForCalibration extends ObservableModel {
-	private static final int PADDING_FOR_REFERENCE = 100;
+public abstract class CalibrationEnergyData extends ObservableModel {
 	// TODO Refactor to create ref data model
 	public static final String FILE_NAME_PROP_NAME = "fileName";
-	protected String fileName;
-
 	public static final String MANUAL_CALIBRATION_PROP_NAME = "manualCalibration";
+
+	private static final int PADDING_FOR_REFERENCE = 100;
+
+	protected String fileName;
 	private boolean manualCalibration;
 
 	protected DataHolder dataHolder;

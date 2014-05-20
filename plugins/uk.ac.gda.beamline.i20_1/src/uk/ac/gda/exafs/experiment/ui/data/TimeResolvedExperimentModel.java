@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import gda.commandqueue.JythonCommandCommandProvider;
-import gda.commandqueue.Queue;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -53,7 +51,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
-import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
@@ -203,7 +200,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 		});
 		if (savedGroups == null) {
-			timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(DEFAULT_INITIAL_EXPERIMENT_TIME));
+			timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToDefaultUnit(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addItGroup();
 			return;
 		}
@@ -326,11 +323,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import TimeResolvedExperiment;");
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f, %d",
-					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime()),
+					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
 					this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		} else {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f",
-					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime())));
+					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
 		}
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
 				TIMING_GROUPS_OBJ_NAME,
@@ -356,7 +353,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		} else {
 			i0ForIRefNoOfAccumulations = irefNoOfAccumulations;
 		}
-		double irefIntegrationTime = ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getIrefIntegrationTime());
+		double irefIntegrationTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getIrefIntegrationTime(), ExperimentUnit.SEC);
 		builder.append(String.format(linearExperimentObj + ".setIRefParameters(mapToJava(%s), mapToJava(%s), %f, %d, %f, %d);",
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
@@ -391,7 +388,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				currentEnergyData = edeExperimentProgress.getEnergyData();
 				currentEnergyData.setName("Energy");
 
-				// This is commented out to disable the marker feature to show currently scanning spectra
+				// TODO This is commented out to disable the marker feature to show currently scanning spectra
 
 				//				final int currentFrameNumber = edeExperimentProgress.getProgress().getFrameNumOfThisSDP();
 				//				final int currentGroupNumber = edeExperimentProgress.getProgress().getGroupNumOfThisSDP();
@@ -446,6 +443,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
+						// FIXME This scanning method needs to be improved
 						final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
 						TimeResolvedExperimentModel.this.setScanning(true);
 						for (Object object : groupList) {
@@ -453,9 +451,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							TimingGroup timingGroup = new TimingGroup();
 							timingGroup.setLabel(uiTimingGroup.getName());
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
-							timingGroup.setTimePerFrame(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getTimePerSpectrum())); // convert to S
-							timingGroup.setTimePerScan(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getIntegrationTime())); // convert to S
-							timingGroup.setPreceedingTimeDelay(unit.getWorkingUnit().convertToSecond(uiTimingGroup.getDelay())); // convert to S
+							timingGroup.setTimePerFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getTimePerSpectrum(), ExperimentUnit.SEC)); // convert to S
+							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
+							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
 							if (uiTimingGroup.isUseExernalTrigger()) {
 								timingGroup.setGroupTrig(true);
 								timingGroup.setGroupTrigLemo(uiTimingGroup.getExternalTrigLemoNumber());
@@ -468,16 +466,17 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
 						String scanCommand = buildScanCommand();
 						logger.info("Sending command: " + scanCommand);
-						//InterfaceProvider.getCommandRunner().runCommand(scanCommand);
-						Queue queue = CommandQueueViewFactory.getQueue();
-						if (queue != null) {
-							try {
-								progressReportingJob.schedule();
-								queue.addToTail(new JythonCommandCommandProvider(scanCommand, "Do a collection", null));
-							} catch (Exception e) {
-								logger.error("Unable to collect data", e);
-							}
-						}
+						InterfaceProvider.getCommandRunner().runCommand(scanCommand);
+						//						Queue queue = CommandQueueViewFactory.getQueue();
+						//						if (queue != null) {
+						//							try {
+						//								progressReportingJob.schedule();
+						//								queue.addToTail(new JythonCommandCommandProvider(scanCommand, "Do a collection", null));
+						//								CommandQueueViewFactory.getProcessor().start(1000);
+						//							} catch (Exception e) {
+						//								logger.error("Unable to collect data", e);
+						//							}
+						//						}
 					}
 				});
 
@@ -575,6 +574,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	private void resetInitialGroupTimes(double groupDuration) {
+		groupDuration = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertToNearestFrame(groupDuration);
 		double startTime = timeIntervalData.getStartTime();
 		for (int i = 0; i < groupList.size(); i++) {
 			TimingGroupUIModel group = (TimingGroupUIModel) groupList.get(i);
@@ -591,11 +591,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public void setExperimentDuration(double value) {
-		resetInitialGroupTimes(unit.convertToMilli(value) / groupList.size());
+		resetInitialGroupTimes(unit.convertToDefaultUnit(value) / groupList.size());
 	}
 
 	public void setupExperiment(ExperimentUnit unit, double duration, int noOfGroups) {
-		timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToMilli(duration));
+		timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToDefaultUnit(duration));
 		this.setUnit(unit);
 		groupList.clear();
 		for(int i = 0; i < noOfGroups; i++) {
@@ -609,11 +609,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public double getExperimentDuration() {
-		return unit.convertFromMilli(timeIntervalData.getDuration());
+		return unit.convertFromDefaultUnit(timeIntervalData.getDuration());
 	}
 
 	public double getDurationInSec() {
-		return unit.convertToSecond(unit.convertFromMilli(timeIntervalData.getDuration()));
+		return ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(timeIntervalData.getDuration(), ExperimentUnit.SEC);
 	}
 
 	public ExperimentUnit getUnit() {

@@ -196,7 +196,10 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	public void setEndTime(double endTime) throws Exception {
 		double availableSpectraTime = endTime - this.getStartTimeForSpectra();
-		if (availableSpectraTime < timePerSpectrum) {
+		if (availableSpectraTime <= 0) {
+			throw new Exception("End time should be after start time");
+		}
+		if (availableSpectraTime < this.getTimePerSpectrum()) {
 			updateTimePerSpectrum(availableSpectraTime);
 		}
 		this.setTimes(this.getStartTime(), availableSpectraTime);
@@ -221,12 +224,8 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		if (endTimeIsLocked && (this.getAvailableDurationAfterDelay() % numberOfSpectrum) != 0.0) {
 			throw new Exception("The number of spectrum does not fit with the locked endtime.");
 		}
-		double newTimePerSpectrum = 0.0;
-		if (this.getUnit().getWorkingUnit() != ExperimentUnit.MILLI_SEC) {
-			newTimePerSpectrum = Math.round(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
-		} else {
-			newTimePerSpectrum = ((int) (this.getAvailableDurationAfterDelay() / numberOfSpectrum * 100)) / 100.0;
-		}
+		double newTimePerSpectrum = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertToNearestFrame(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
+
 		updateTimePerSpectrum(newTimePerSpectrum);
 		adjustEndTimeForNumberOfSpectrum(numberOfSpectrum);
 		this.adjustSpectra(numberOfSpectrum);
@@ -252,6 +251,9 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public void setTimePerSpectrum(double timePerSpectrum) throws Exception {
+		if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame(timePerSpectrum)) {
+			throw new Exception("Unable to convert into frame");
+		}
 		if (endTimeIsLocked && ((this.getAvailableDurationAfterDelay() * 100) % timePerSpectrum) != 0) {
 			throw new Exception("Unable to fit with fixed endtime");
 		}
@@ -346,7 +348,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			if (integrationTime > 0 & timePerSpectrum > 0) {
 				StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
 				if (detector instanceof XCHIPDetector) {
-					int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(unit.convertToSecond(timePerSpectrum), unit.convertToSecond(integrationTime), noOfSpectra);
+					int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(timePerSpectrum, ExperimentUnit.SEC), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(integrationTime, ExperimentUnit.SEC), noOfSpectra);
 					setNoOfAccumulations(numberScansInFrame);
 				} else {
 					throw new DeviceException("Detector not found to get number of scans in frame");
