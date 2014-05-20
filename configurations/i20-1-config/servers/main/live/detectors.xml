@@ -14,7 +14,7 @@
 		<property name="startupCommands">
 			<list>
 				<value>~config_xs</value>
-				<value>~cool_xs</value>
+				<value>~cool_xs -20</value>
 			</list>
 		</property>
  	<property name="dataPort" value="20030" />
