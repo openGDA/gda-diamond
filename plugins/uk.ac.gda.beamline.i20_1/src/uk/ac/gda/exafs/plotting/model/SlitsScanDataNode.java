@@ -62,7 +62,7 @@ public class SlitsScanDataNode extends DataNode {
 
 	@Override
 	public String getIdentifier() {
-		return identifier;
+		return toString();
 	}
 
 	@Override

@@ -47,7 +47,7 @@ public class SlitsScanRootDataNode extends DataNode implements IScanDataPointObs
 
 	@Override
 	public String getIdentifier() {
-		return "";
+		return null;
 	}
 
 	@Override
@@ -72,9 +72,9 @@ public class SlitsScanRootDataNode extends DataNode implements IScanDataPointObs
 
 		SlitsScanDataNode slitsScanDataNode;
 		if (!scans.containsKey(scanDataPoint.getScanIdentifier())) {
-			slitsScanDataNode = new SlitsScanDataNode(scanDataPoint.getScanIdentifier(), scanDataPoint.getDetectorHeader(), this);
+			slitsScanDataNode = new SlitsScanDataNode(Integer.toString(scanDataPoint.getScanIdentifier()), scanDataPoint.getDetectorHeader(), this);
 			children.add(0, slitsScanDataNode);
-			scans.put(scanDataPoint.getScanIdentifier(), slitsScanDataNode);
+			scans.put(Integer.toString(scanDataPoint.getScanIdentifier()), slitsScanDataNode);
 		} else {
 			slitsScanDataNode = scans.get(scanDataPoint.getScanIdentifier());
 		}

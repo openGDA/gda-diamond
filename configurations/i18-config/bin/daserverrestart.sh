@@ -1,12 +1,21 @@
 #!/bin/bash
 ##check if da server is running
-isRunning=`pidof /usr/local/bin/da.server`
+
+#isRunning=`pidof /usr/local/bin/da.server` # what is this da.server in here?
 #isRunning=`/sbin/pidof java`
+isRunning=`/home/i18detector/xspress2_9element/da.server`
 if [ "$?" ==  "0" ]
 then
 echo "Da server running"
-#stop the da server 
-/etc/init.d/da.server stop
+#stop the da server
+
+# daserver directory changed from
+# /etc/init.d
+# to
+# /home/i18detector/xspress2_9element
+
+
+/home/i18detector/xspress2_9element/da.server stop
 fi
 counter=1
 #wait for the port to be disconnected
@@ -29,4 +38,4 @@ break
 fi
 done
 echo 'starting the da server'
-/etc/init.d/da.server start
+/home/i18detector/xspress2_9element/da.server start

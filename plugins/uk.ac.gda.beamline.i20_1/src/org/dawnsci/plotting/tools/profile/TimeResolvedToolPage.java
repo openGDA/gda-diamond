@@ -1083,6 +1083,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	public void regionCancelled(RegionEvent evt) {}
 
 	@Override
+	public void regionNameChanged(RegionEvent evt, String oldName) {}
+
+	@Override
 	public void regionAdded(RegionEvent evt) {
 		//		IRegion region = evt.getRegion();
 		//		region.setShowPosition(true);
