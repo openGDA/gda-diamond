@@ -68,6 +68,7 @@ print "Running B16 specific initialisation code"
 print "======================================================================"
 ENABLE_PILATUS = True
 ENABLE_PCOEDGE = True
+ENABLE_PCO4000 = True
 
 #USE_YOU_DIFFCALC_ENGINE = True
 USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
@@ -713,6 +714,21 @@ if installation.isLive() and ENABLE_PCOEDGE:
 																	panel_name_rcp='Plot 1',
 																	fileLoadTimout=60)
 
+if installation.isLive() and ENABLE_PCO4000:
+
+	pco4000 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'pco4000',
+		_pco4000,  # @UndefinedVariable
+		None,
+		_pco4000_for_snaps,  # @UndefinedVariable
+		[],
+		panel_name='ImageProPlus Plot',
+		panel_name_rcp='Plot 1',
+		fileLoadTimout=60)
+
+	pco4000peak2d = DetectorDataProcessorWithRoi('peak2d', pco4000, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	pco4000max2d = DetectorDataProcessorWithRoi('max2d', pco4000, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pco4000intensity2d = DetectorDataProcessorWithRoi('intensity2d', pco4000, [PixelIntensity()],prefix_name_to_extranames=False)
 
 
 	#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_pcoedge, subfolder='pcoedge', create_folder=True, toreplace='/dls/b16/', replacement='N:/')) #@UndefinedVariable)
