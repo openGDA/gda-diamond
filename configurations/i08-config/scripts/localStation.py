@@ -26,6 +26,9 @@ try:
         ls_names(Scannable)
 
 
+    from ScannableInvertedValue import PositionInvertedValue
+    photoDiode1Inverted = PositionInvertedValue("photoDiode1Inverted","photoDiode1")
+    
     #from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
     #alias("createPVScannable")
     #alias("caput")
@@ -69,6 +72,7 @@ try:
         beamMonitor.configure()
         add_default beamMonitor
         add_default topupMonitor 
+        
         
     #run "gda_startup.py"
     print "Initialisation Complete";

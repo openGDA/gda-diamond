@@ -14,6 +14,42 @@
 		 <property name="poll" value="true" />
 	</bean> 
 	
+	<bean id="d1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08I-DI-PHDGN-01:CAM1:STAT:Total_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	
+	<bean id="d2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08I-DI-PHDGN-02:CAM1:STAT:Total_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	
+	<bean id="d3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08I-DI-PHDGN-03:CAM1:STAT:Total_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	
+	<bean id="d4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08I-DI-PHDGN-04:CAM1:STAT:Total_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+		
+	<bean id="d5" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08I-DI-PHDGN-05:CAM1:STAT:Total_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	
+	<bean id="d6" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08I-DI-PHDGN-06:CAM1:STAT:Total_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean> 
+	
 <!-- Andor Camera Detector -->
 	
 	<bean id="andor_adbase_pvProvider"
@@ -128,9 +164,9 @@
 	
 	<!-- XIA Fluorescence Detector -->
 	
-	 <bean id="xmap_hdf5filewriter"
+	<bean id="xmap_hdf5filewriter"
 		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL18B-EA-DET-03:HDF:" />
+		<property name="basePVName" value="BL18B-EA-DET-02:HDF:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 				<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
@@ -164,18 +200,18 @@
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller" ref="xmapcontroller" />
 		<property name="slave" value="false" />
-		<!-- <property name="configFileName"
-			value="${gda.config}/templates/Vortex_Parameters.xml" />
-		<property name="tfg" ref="tfg" /> -->
-		<!-- <property name="eventProcessingTimes">
+		<property name="configFileName"
+			value="${gda.config}/templates/Xia_parameters.xml" />
+		<!--<property name="tfg" ref="tfg" /> -->
+		<property name="eventProcessingTimes">
 			<list>
 				<value>1.1029752060937018e-007</value>
 				<value>1.1407794527246737e-007</value>
 				<value>1.1465765791909203e-007</value>
 				<value>1.0675602460939456e-007</value>
 			</list>
-		</property> -->
-	</bean> 
+		</property>
+	</bean>  
 	
 	
 	
