@@ -200,6 +200,8 @@ def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, 
 						, 'mpxHWT': detector
 						, 'mpxc':   jythonNameMap.mpxcHWT
 						, 'mpxcHWT':detector
+						, 'mpxthr':   jythonNameMap.mpxcHWT
+						, 'mpxthrHWT':detector
 						}
 	
 	if supportedDetectors.has_key(detector.name):
