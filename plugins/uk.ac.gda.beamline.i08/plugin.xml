@@ -18,7 +18,7 @@
       <perspective
             class="uk.ac.gda.beamline.i08.perspectives.ExperimentPerspective"
             id="uk.ac.gda.microscopy.ExperimentPerspective"
-            name="Microscopy Experiment">
+            name="X-ray Microscopy Experiment">
       </perspective>
    </extension>
    <extension
@@ -50,64 +50,31 @@
 -->         
          <view
                closeable="false"
-               id="gda.rcp.jythoneditorview"
-               moveable="true"
-               ratio="0.4"
-               relationship="right"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
                id="uk.ac.gda.client.liveplotview"
                minimized="false"
                moveable="true"
                ratio="0.6"
                relationship="top"
-               relative="gda.rcp.jythoneditorview"
+               relative="gda.rcp.jythonterminalview"
                showTitle="true"
                visible="true">
          </view>
          <view
                closeable="true"
                id="uk.ac.gda.exafs.ui.dashboardView"
-               moveable="true"
-               ratio="0.60"
-               relationship="bottom"
+               moveable="false"
+               ratio="0.75"
+               relationship="right"
                relative="gda.rcp.jythonterminalview"
                showTitle="true"
                visible="true">
          </view>
          <view
-               closeable="true"
-               id="gda.rcp.views.baton.BatonView"
+               id="uk.ac.gda.client.navigator"
                minimized="false"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="org.eclipse.ui.console.ConsoleView"
-               minimized="false"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="ch.qos.logback.beagle.view.BeagleView"
-               minimized="false"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
-               showTitle="true"
-               visible="true">
+               ratio="0.2"
+               relationship="left"
+               relative="uk.ac.gda.client.liveplotview">
          </view>
             
       </perspectiveExtension>
@@ -115,24 +82,24 @@
    <extension
          point="uk.ac.gda.client.dashboard.objects">
       <Scannable
-            name="energy"
-            tooltip="Scannable for monitoring the monochromator energy setting">
+            name="pgm_energy"
+            tooltip="Plane Grating monochromator energy">
       </Scannable>
       <Scannable
-            name="sc_MicroFocusSampleX"
-            tooltip="Sample Stage X Axis">
+            name="topup"
+            tooltip="Topup">
       </Scannable>
       <Scannable
-            name="sc_MicroFocusSampleY"
-            tooltip="Sample Stage Y axis">
+            name="absorber"
+            tooltip="Front end absorber">
       </Scannable>
       <Scannable
-            name="sc_sample_z"
-            tooltip="MicroFocus sample Stage z axis">
+            name="opticsShutter"
+            tooltip="Optics Shutter">
       </Scannable>
       <Scannable
-            name="sc_sample_thetacoarse"
-            tooltip="MicroFocus sample stage theta coarse">
+            name="shutter1"
+            tooltip="Experimental shutter">
       </Scannable>
    </extension>
    <extension

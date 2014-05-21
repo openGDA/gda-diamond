@@ -44,8 +44,8 @@ try:
     LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
     # Remove this metadata scriptfor 8.38 version writes metadata in before_scan folder
-    from metadata import setMetadata
-    setMetadata()
+    #from metadata import setMetadata
+    #setMetadata()
 
     from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
     scan_processor.rootNamespaceDict=globals()

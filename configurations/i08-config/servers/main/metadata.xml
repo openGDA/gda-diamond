@@ -45,7 +45,7 @@
 		</property>
 	</bean>
 	
-	<!-- <bean
+	<bean
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod"
 			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
@@ -245,7 +245,61 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
-				<entry key="ringCurrent">
+				<entry key="s2_xsize">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_xsize" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_xcentre">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_xcentre" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_xminus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_xminus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_xplus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_xplus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_ysize">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_ysize" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_ycentre">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_ycentre" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_yminus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_yminus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_yplus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_yplus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_ztranslation">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_ztranslation" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<!-- <entry key="ringCurrent">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
@@ -260,7 +314,7 @@
 							value="instrument:NXinstrument/source:NXsource/energy" />
 						<property name="units" value="GeV" />
 					</bean>
-				</entry>
+				</entry> -->
 			</map>
 		</property>
 	</bean>
@@ -301,9 +355,18 @@
 				<value>m4_roll</value>
 				<value>m4_ellipticity</value>
 				<value>m4_curvature</value>
+				<value>s2_xsize</value>
+				<value>s2_xcentre</value>
+				<value>s2_xminus</value>
+				<value>s2_xplus</value>
+				<value>s2_ysize</value>
+				<value>s2_ycentre</value>
+				<value>s2_yminus</value>
+				<value>s2_yplus</value>
+				<value>s2_ztranslation</value>
 			</set>
 		</property>
-	</bean> -->
+	</bean> 
 	
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" />
 
