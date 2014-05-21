@@ -68,6 +68,8 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 
 public class TimeResolvedExperimentModel extends ObservableModel {
 
+	private static final double INITIAL_INTEGRATION_TIME = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(1.0d);
+
 	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentModel.class);
@@ -255,7 +257,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		groupToSplit.resetInitialTime(startTime, duration / 2, 0, duration / 2);
 		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + (groupList.indexOf(groupToSplit) + 2));
-		newGroup.setIntegrationTime(1.0);
+		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
 		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
 		newGroup.resetInitialTime(groupToSplit.getEndTime(), endTime - groupToSplit.getEndTime(), 0, endTime - groupToSplit.getEndTime());
 		for (int i = groupList.indexOf(groupToSplit) + 1; i < groupList.size(); i++) {
@@ -266,9 +268,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public TimingGroupUIModel addItGroup() {
 		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + groupList.size());
-		newGroup.setIntegrationTime(1.0);
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
+		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
 		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
@@ -467,23 +469,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 						String scanCommand = buildScanCommand();
 						logger.info("Sending command: " + scanCommand);
 						InterfaceProvider.getCommandRunner().runCommand(scanCommand);
-						//						Queue queue = CommandQueueViewFactory.getQueue();
-						//						if (queue != null) {
-						//							try {
-						//								progressReportingJob.schedule();
-						//								queue.addToTail(new JythonCommandCommandProvider(scanCommand, "Do a collection", null));
-						//								CommandQueueViewFactory.getProcessor().start(1000);
-						//							} catch (Exception e) {
-						//								logger.error("Unable to collect data", e);
-						//							}
-						//						}
 					}
 				});
-
-
-				// give the previous command a chance to run before calling doCollection()
-				//Thread.sleep(50);
-				//				InterfaceProvider.getCommandRunner().evaluateCommand(JYTHON_DRIVER_OBJ + ".doCollection()");
 
 			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
@@ -601,7 +588,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		for(int i = 0; i < noOfGroups; i++) {
 			TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			newGroup.setName("Group " + groupList.size());
-			newGroup.setIntegrationTime(1.0);
+			newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
 			addToInternalGroupList(newGroup);
 		}
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());

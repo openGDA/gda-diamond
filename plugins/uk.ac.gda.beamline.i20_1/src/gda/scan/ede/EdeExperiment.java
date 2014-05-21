@@ -275,11 +275,16 @@ public abstract class EdeExperiment implements IObserver {
 	protected abstract void addScans();
 
 	public String runExperiment() throws Exception {
-		scansForExperiment.clear();
-		addScansForExperiment();
-		nexusFilename = addToMultiScanAndRun();
-		String asciiDataFile = writeToFiles();
-		return asciiDataFile;
+		try {
+			scansForExperiment.clear();
+			addScansForExperiment();
+			nexusFilename = addToMultiScanAndRun();
+			String asciiDataFile = writeToFiles();
+			return asciiDataFile;
+		} catch(Exception e) {
+			logger.error("Error running experiment", e);
+			throw e;
+		}
 	}
 
 	protected abstract String getHeaderText();

@@ -166,14 +166,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()));
 
-		// Currently we show and hide the whole composite, so editable it not used
-
-		//		dataBindingCtx.bindValue(
-		//				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
-		//				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
-		//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-		//				new UpdateValueStrategy());
-
 		dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(i0NoOfaccumulationsComposite),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
@@ -370,13 +362,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		// Delay between spectra is not needed for now
-
-		//		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectra", SWT.None);
-		//		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		//		spectrumDelayValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
-		//		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite externalTriggerComposite = toolkit.createComposite(groupTriggerSectionComposite);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -685,8 +670,13 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			noOfSpectrumValueText.setValidators(null, group.getNoOfSpectrumValidator());
 
 			integrationTimeValueText.setModel(group, TimingGroupUIModel.INTEGRATION_TIME_PROP_NAME);
+			integrationTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			integrationTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+			groupBindings.add(dataBindingCtx.bindValue(
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(integrationTimeValueText),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
+					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+					unitConverter));
 
 			noOfAccumulationValueText.setModel(group, TimingGroupUIModel.NO_OF_ACCUMULATION_PROP_NAME);
 			noOfAccumulationValueText.setEditable(false);
@@ -700,17 +690,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
-
-			// This parameter is not needed for now
-
-			//			spectrumDelayValueText.setModel(group, TimingGroupUIModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
-			//			spectrumDelayValueText.setConverters(modelToTargetConverter, targetToModelConverter);
-			//			spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			//			groupBindings.add(dataBindingCtx.bindValue(
-			//					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(spectrumDelayValueText),
-			//					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
-			//					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-			//					unitConverter));
 
 			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.enabled().observe(useExternalTriggerCheckbox),
 					BeanProperties.value(TimingGroupUIModel.EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME).observe(group)));
