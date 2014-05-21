@@ -325,11 +325,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import TimeResolvedExperiment;");
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f, %d",
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
+					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
 					this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		} else {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f",
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
+					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
 		}
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
 				TIMING_GROUPS_OBJ_NAME,
@@ -355,7 +355,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		} else {
 			i0ForIRefNoOfAccumulations = irefNoOfAccumulations;
 		}
-		double irefIntegrationTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getIrefIntegrationTime(), ExperimentUnit.SEC);
+		double irefIntegrationTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getIrefIntegrationTime(), ExperimentUnit.SEC);
 		builder.append(String.format(linearExperimentObj + ".setIRefParameters(mapToJava(%s), mapToJava(%s), %f, %d, %f, %d);",
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),

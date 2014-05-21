@@ -29,6 +29,7 @@ public enum ExperimentUnit {
 	NANO_SEC(ClientConfig.UnitSetup.NANO_SEC, 1L);
 
 	public static final ExperimentUnit DEFAULT_EXPERIMENT_UNIT = ExperimentUnit.NANO_SEC;
+	public static final ExperimentUnit DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF = ExperimentUnit.MILLI_SEC;
 	public static final int MAX_RESOLUTION_IN_NANO_SEC = 20;
 
 	private final ClientConfig.UnitSetup unit;
