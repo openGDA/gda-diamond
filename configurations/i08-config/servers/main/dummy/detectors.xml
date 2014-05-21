@@ -70,4 +70,12 @@
 		<property name="pluginBase" ref="pco1_ad_pluginBase" />
 	</bean> -->
 	
+	<!-- Fluorescence detector  -->
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+		<property name="numberOfElements" value="4" />
+		<property name="numberOfBins" value="1024" />
+		<property name="numberOfROIs" value="10" />
+		<property name="local" value="true" />
+	</bean>
+	
 </beans> 
