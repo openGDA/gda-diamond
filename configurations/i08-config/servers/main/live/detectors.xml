@@ -98,6 +98,7 @@
 		<property name="local" value="true" />
 		<property name="numberOfElements" value="4" />
 		<property name="hdf5" ref="xmap_hdf5filewriter" />
+		<property name="aquisitionTimeOn" value="true" />
 	</bean>
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
