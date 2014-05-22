@@ -69,6 +69,9 @@ public enum ExperimentUnit {
 
 	public double convertToNearestFrame(double value) {
 		double defaultValue = this.convertFromDefaultUnit(value);
+		if (defaultValue < MAX_RESOLUTION_IN_NANO_SEC) {
+			return MAX_RESOLUTION_IN_NANO_SEC;
+		}
 		double remainder = defaultValue % MAX_RESOLUTION_IN_NANO_SEC;
 		if (remainder == 0) {
 			return value;
