@@ -641,7 +641,6 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			exportCycle.addListener(SWT.Selection, new Listener() {
 				@Override
 				public void handleEvent(Event event) {
-
 					TimeResolvedToolPageHelper timeResolvedToolPageHelper = new TimeResolvedToolPageHelper();
 					timeResolvedToolPageHelper.averageCyclesAndExport(dataFile, TimeResolvedToolPage.this.getControl().getDisplay(), cyclesInfo);
 				}
@@ -1096,6 +1095,9 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	@Override
 	public void regionCancelled(RegionEvent evt) {}
+
+	@Override
+	public void regionNameChanged(RegionEvent evt, String oldName) {}
 
 	@Override
 	public void regionAdded(RegionEvent evt) {

@@ -506,9 +506,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public void stopScan() {
-		if (this.isScanning()) {
-			JythonServerFacade.getInstance().haltCurrentScan();
-		}
+		doStop();
 	}
 
 	public DoubleDataset[] getScanDataSet() {
@@ -539,7 +537,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	public void doStop() {
 		if (this.isScanning()) {
-			JythonServerFacade.getInstance().haltCurrentScan();
+			JythonServerFacade.getInstance().requestFinishEarly();
 		}
 	}
 

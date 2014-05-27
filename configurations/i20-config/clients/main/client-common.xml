@@ -70,9 +70,4 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
 	
-	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
-		<property name="ClientFileAnnouncerName" value="sockpuppet" />
-	</bean> -->
-
-
 </beans>

@@ -344,7 +344,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 	public void doStop() {
 		if (this.isScanning()) {
-			JythonServerFacade.getInstance().haltCurrentScan();
+			JythonServerFacade.getInstance().requestFinishEarly();
 		}
 	}
 }

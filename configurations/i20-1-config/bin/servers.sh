@@ -1,7 +1,9 @@
 # runs the servers locally
 #source /dls_sw/dasc/tools_versions/set_tools.sh
 . /usr/share/Modules/init/bash
-module load java/gda
+
+. /dls_sw/i20-1/software/gda_git/gda-diamond.git/dls-config/bin/loadjava.sh
+
 umask 0002
 
 # stop old servers

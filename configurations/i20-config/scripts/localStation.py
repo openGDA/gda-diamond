@@ -26,10 +26,6 @@ from vortex_elements import VortexElements
 from gda.data.scan.datawriter import NexusDataWriter
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 
-
-ScanBase.interrupted = False
-ScriptBase.interrupted = False
-
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
@@ -59,6 +55,7 @@ vortexConfig.initialize()
 alias("vortexConfig")
 detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
 
+
 rcpController = finder.find("RCPController")
 
 samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos, rcpController)
@@ -72,6 +69,7 @@ xes_offsets = XESOffsets(store_dir, spectrometer)
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, False, True, True, False, False)
+
 xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig_xes, original_header_xes, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, xes_offsets, False)
 
 xanes = xas

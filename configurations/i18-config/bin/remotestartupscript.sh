@@ -1,5 +1,12 @@
 . /usr/share/Modules/init/bash
-module load java/gda/836
+
+. /dls_sw/i18/software/gda_git/gda-diamond.git/dls-config/bin/loadjava.sh
+
+# JRebel, for development when method signatures may change
+#JAVA_OPTS="-Xms128m -Xmx2024m -XX:MaxPermSize=128m"; export JAVA_OPTS
+#if [ -f "/dls_sw/dasc/jrebel/5.2/jrebel.jar" ]; then
+#	JAVA_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties $JAVA_OPTS"; export JAVA_OPTS
+#fi
 
 python /dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i18/software/gda/config --restart -v --mode=live nameserver &
 python /dls_sw/i18/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=/dls_sw/i18/software/gda/config --restart -v --mode=live logserver &
