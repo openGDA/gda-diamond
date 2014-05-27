@@ -236,9 +236,9 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public void setIntegrationTime(double integrationTime) throws IllegalArgumentException {
-		if (integrationTime > this.getTimePerSpectrum()) {
-			throw new IllegalArgumentException("Accumulation time cannot be longer than time per spectrum");
-		}
+		//				if (integrationTime > this.getTimePerSpectrum()) {
+		//					throw new IllegalArgumentException("Accumulation time cannot be longer than time per spectrum");
+		//				}
 		this.firePropertyChange(INTEGRATION_TIME_PROP_NAME, this.integrationTime, this.integrationTime = integrationTime);
 	}
 
@@ -378,6 +378,9 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		return new IValidator() {
 			@Override
 			public IStatus validate(Object value) {
+				if (endTimeIsLocked && getAvailableDurationAfterDelay() % ((double) value) != 0) {
+					ValidationStatus.error("Unable to fit with fixed endtime");
+				}
 				if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame((double) value)) {
 					return ValidationStatus.error("Unable to convert into frame");
 				}
@@ -393,6 +396,9 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		return new IValidator() {
 			@Override
 			public IStatus validate(Object value) {
+				if (endTimeIsLocked && getAvailableDurationAfterDelay() % ((int) value) != 0) {
+					ValidationStatus.error("The number of spectrum does not fit with the locked endtime.");
+				}
 				if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame(getAvailableDurationAfterDelay() / ((int) value))) {
 					return ValidationStatus.info("The time per spectrum will be rounded to nearest " + ExperimentUnit.MAX_RESOLUTION_IN_NANO_SEC + " " + ExperimentUnit.NANO_SEC.getUnitText());
 				}
