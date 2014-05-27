@@ -233,13 +233,40 @@
 	
 	<!--Scannable group containing IDgap and pgm_energy (monochromator) (both are connected, calibration file 
 	will be in EPICs rather than in a GDA lookup table -->
-	<bean id="id_energy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- <bean id="id_energy" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="idgap" />
 				<ref bean="pgm_energy" />
 			</list>
 		</property>
+	</bean> -->
+	
+	<bean id="pgmEnergyIDgap_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="pgmEnergyIDgap_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/energyIDgapConverter.xml" />
 	</bean>
+	
+	<bean id="pgmEnergy_IDgap" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="idgap" />
+		<property name="convertor" ref="pgmEnergyIDgap_converter" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean> 
+	
+	<bean id="energy" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="pgm_energy" />
+				<ref bean="pgmEnergy_IDgap" />
+			</list>
+		</property>
+		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean> 
+	
 </beans>
 

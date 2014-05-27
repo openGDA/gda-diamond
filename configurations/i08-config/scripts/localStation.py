@@ -3,9 +3,7 @@ from gda.device.scannable import DummyScannable
 from gda.factory import Finder
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
-from gda.device.scannable import ScannableBase
-from gda.device.scannable import TopupScannable
-from gda.device.scannable import BeamMonitorScannableWithResume
+from gda.device.scannable import ScannableBase, TopupScannable,BeamMonitorScannableWithResume, CoupledScannable
 from gda.device.monitor import EpicsMonitor
 from gdascripts.parameters.beamline_parameters import JythonNameSpaceMapping
 #from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
@@ -56,6 +54,9 @@ try:
     inctime=showincrementaltimeClass('inctime')
     actualTime=actualTimeClass("actualTime")
    
+    # Use for the calibration of the pgm energy, create a scannable idEnergy
+    from idEnergy import my_energy_class1
+    idEnergy = my_energy_class1("idEnergy")
     
     #checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
     #checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable

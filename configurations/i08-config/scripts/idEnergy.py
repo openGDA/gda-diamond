@@ -9,11 +9,12 @@ class my_energy_class1(PseudoDevice):
         self.setInputNames([name])
         self.setExtraNames([])
         self.setOutputFormat(["%5.5g"])
-        my_pgm_energy = Finder.getInstance().find("pgm_energy")
-        self.currentposition = (float)(my_pgm_energy.getPosition()) # this template scannable represents a single number
+        #my_pgm_energy = Finder.getInstance().find("pgm_energy")
+        #self.currentposition = (float)(my_pgm_energy.getPosition()) # this template scannable represents a single number
         self.iambusy = 0 # flag to hold the status of the scannable
         
     def getPosition(self):
+        print "Begin getPosition"
         return self.currentposition
     
     def asynchronousMoveTo(self, new_e):
@@ -22,7 +23,7 @@ class my_energy_class1(PseudoDevice):
         self.SetEnergy(new_e)
         self.currentposition = new_e
         self.iambusy = 0
-
+         
     def isBusy(self):
         """Returns the status of this Scannable."""
         return self.iambusy
@@ -30,9 +31,9 @@ class my_energy_class1(PseudoDevice):
     def SetEnergy(self, e):
         gap = self.CalcGap(e)
         my_idgap = Finder.getInstance().find("idgap")
-        my_pgm_energy = Finder.getInstance().find("pgm_energy")
+        #my_pgm_energy = Finder.getInstance().find("pgm_energy")
         my_idgap.moveTo(gap)        
-        my_pgm_energy.moveTo(e)
+        #my_pgm_energy.moveTo(e)
         
     def CalcGap(self, e):
         gap = 3.6887 + 0.10002*e - 0.00019451*e*e + e*e*e*2.5652*10**(-7)
