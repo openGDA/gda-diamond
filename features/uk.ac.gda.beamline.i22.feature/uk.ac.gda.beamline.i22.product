@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Beamline I22" id="uk.ac.gda.beamline.i22.product" application="uk.ac.gda.client.application" version="8.39.0" useFeatures="true" includeLaunchers="true">
+<product name="Beamline I22" id="uk.ac.gda.beamline.i22.product" application="uk.ac.gda.client.application" version="8.40.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
