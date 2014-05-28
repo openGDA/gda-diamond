@@ -74,9 +74,7 @@
 	<bean id="mpx_sweep_driver"
 		class="gda.device.detector.areadetector.v17.impl.ADDriverMerlinThresholdSweepImpl">
 		<property name="basePVName" value="BL15I-EA-DET-18:Merlin1:" />
-		<!-- TODO: Charles: Enable this on Friday 23rd May:
 		<property name="useTriggerModeNotStartThresholdScanning" value="True" />
-		 -->
 	</bean>
 
 	<!-- NXDetector collection strategies -->
