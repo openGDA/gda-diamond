@@ -13,10 +13,12 @@ rm -f -R $tp
 #To set the Eclipse debug port
 DebugPort=8000
 
-export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
+#export gdaLauncher=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
+export gdaLauncher=/dls_sw/i06/software/gda-mobile.prod/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
 
 
-configDir=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config
+#configDir=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config
+configDir=/dls_sw/i06/software/gda-mobile.prod/workspace_git/gda-mt.git/configurations/i06-config
 Properties=$configDir/properties/java.properties_mobilerack
 JacorbDir=$configDir/properties/jacorb_i06_local
 varDir=/tmp/gda/var
@@ -32,6 +34,7 @@ JCAFile=$configDir/properties/JCALibrary.properties_mobilerack
 
 
 #To run the RCP client directly
-/dls_sw/${BEAMLINE}/software/gda/client/gda-${BEAMLINE} -consoleLog -showLocation -vmargs -Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true -Dgda.install.git.loc=/dls_sw/i06-1/software/gda.git -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda -Dgda.data=$dataDir -Dgda.var=$varDir -Dgda.logs.dir=$logDir -Djacorb.config.dir=$JacorbDir -Dgda.propertiesFile=$Properties -Dgda.config=$configDir -Dgov.aps.jca.JCALibrary.properties=$JCAFile
+#/dls_sw/${BEAMLINE}/software/gda/client/gda-${BEAMLINE} -consoleLog -showLocation -vmargs -Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true -Dgda.install.git.loc=/dls_sw/i06-1/software/gda.git -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda -Dgda.data=$dataDir -Dgda.var=$varDir -Dgda.logs.dir=$logDir -Djacorb.config.dir=$JacorbDir -Dgda.propertiesFile=$Properties -Dgda.config=$configDir -Dgov.aps.jca.JCALibrary.properties=$JCAFile
+/dls_sw/i06/software/gda-mobile.prod/client/gda-${BEAMLINE} -consoleLog -showLocation -vmargs -Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true -Dgda.install.git.loc=/dls_sw/i06-1/software/gda.git -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda -Dgda.data=$dataDir -Dgda.var=$varDir -Dgda.logs.dir=$logDir -Djacorb.config.dir=$JacorbDir -Dgda.propertiesFile=$Properties -Dgda.config=$configDir -Dgov.aps.jca.JCALibrary.properties=$JCAFile
 #                                                       -consoleLog -showLocation -vmargs -Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true -Dgda.install.git.loc=/dls_sw/i06-1/software/gda.git -Dgda.install.workspace.loc=/dls_sw/i06-1/software/gda -Dgda.data=$dataDir -Dgda.var=$varDir -Dgda.logs.dir=$logDir -Djacorb.config.dir=$JacorbDir -Dgda.propertiesFile=$Properties -Dgda.config=$configDir -Dgov.aps.jca.JCALibrary.properties=$JCAFile
 

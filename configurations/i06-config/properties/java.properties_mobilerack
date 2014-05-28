@@ -1,3 +1,7 @@
+# vvv Disable Baton for Mobile workstation:
+gda.accesscontrol.useAccessControl = false
+gda.accesscontrol.useBatonControl = false
+# ^^^ Disable Baton for Mobile workstation:
 
 gda.beamline.name = i06-1
 gda.instrument = workstation
@@ -33,10 +37,10 @@ gda.logPanel.logging.port=6002
 gda.defVisit = cm4955-1
 
 # used for ICAT
-oracle.host=i06-control.diamond.ac.uk
-oracle.port=1521
-icat.username=ikiti06
-icat.password=d24sb4k
+#RobW# oracle.host=i06-control.diamond.ac.uk
+#RobW# oracle.port=1521
+#RobW# icat.username=ikiti06
+#RobW# icat.password=d24sb4k
 
 ## For Camera data storage
 gda.data.directoryMappingGDA 	 = ${gda.data}
