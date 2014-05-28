@@ -28,6 +28,7 @@ try:
     leem_objStigmA=LEEM2000_tcp.leem_scannable("leem_objStigmA","Obj.stigm. a", '%.2f' , leem2000)
     leem_objStigmB=LEEM2000_tcp.leem_scannable("leem_objStigmB","Obj.stigm. b", '%.2f' , leem2000)
     leem_fov=LEEM2000_tcp.leem_readonly("leem_fov", "prl", leem2000)
+    leem_p2alignx = LEEM2000_tcp.leem_scannable("leem_p2alignx","P2 align.x", '%.8f', leem2000)
 except:
     exceptionType, exception, traceback=sys.exc_info();
     handle_messages.log(None, "Error connecting to LEEM2000 ", exceptionType, exception, traceback, False)
