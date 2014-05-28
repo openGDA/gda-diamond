@@ -75,17 +75,18 @@ import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.gda.common.rcp.UIHelper;
-import uk.ac.gda.exafs.calibration.data.CalibrationDataModel;
-import uk.ac.gda.exafs.calibration.data.EdeCalibrationDataModel;
-import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
-import uk.ac.gda.exafs.calibration.data.RefCalibrationDataModel;
+import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
+import uk.ac.gda.exafs.calibration.data.CalibrationEnergyData;
+import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
+import uk.ac.gda.exafs.calibration.data.ReferenceData;
+import uk.ac.gda.exafs.calibration.data.SampleData;
 import uk.ac.gda.exafs.data.ClientConfig;
 
 public class EnergyCalibrationWizardPage extends WizardPage {
 
-	private static final String EDE_OVERLAY_TRACE_NAME = "Ede";
-
 	private static final Logger logger = LoggerFactory.getLogger(EnergyCalibrationWizardPage.class);
+
+	private static final String EDE_OVERLAY_TRACE_NAME = "Ede";
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private IRegion[] referenceDataPlottingRegions;
@@ -98,13 +99,13 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 	private IPlottingSystem refPlottingSystem;
 	private IPlottingSystem edePlottingSystem;
 
-	private final EdeCalibrationModel calibrationDataModel;
-	private final CalibrationDataModel edeCalibrationDataModel;
-	private final CalibrationDataModel refCalibrationDataModel;
+	private final EnergyCalibration calibrationDataModel;
+	private final CalibrationEnergyData edeCalibrationDataModel;
+	private final CalibrationEnergyData refCalibrationDataModel;
 
 	private Text polynomialValueText;
 
-	protected EnergyCalibrationWizardPage(EdeCalibrationModel calibrationDataModel) {
+	protected EnergyCalibrationWizardPage(EnergyCalibration calibrationDataModel) {
 		super("Energy calibration");
 		this.calibrationDataModel = calibrationDataModel;
 		refCalibrationDataModel = calibrationDataModel.getRefData();
@@ -151,12 +152,12 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		super.dispose();
 	}
 
-	private void registerRegionShowHide(final CalibrationDataModel calibrationDataModel,
+	private void registerRegionShowHide(final CalibrationEnergyData calibrationDataModel,
 			final IRegion[] dataPlottingRegions, final IPlottingSystem plottingSystem) {
 		calibrationDataModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(CalibrationDataModel.FILE_NAME_PROP_NAME)) {
+				if (evt.getPropertyName().equals(CalibrationEnergyData.FILE_NAME_PROP_NAME)) {
 					for (int i = 0; i < dataPlottingRegions.length; i++) {
 						double index = calibrationDataModel.getReferencePoints()[i];
 						dataPlottingRegions[i].setROI(new LinearROI(new double[] { index, 0 }, new double[] { index, 1 }));
@@ -167,7 +168,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		});
 	}
 
-	private IRegion[] createRegions(IPlottingSystem plottingSystem, CalibrationDataModel calibrationDataModel) throws Exception {
+	private IRegion[] createRegions(IPlottingSystem plottingSystem, CalibrationEnergyData calibrationDataModel) throws Exception {
 		IRegion[] dataPlottingRegions = new IRegion[3];
 
 		dataPlottingRegions[0] = makeVertLine("0", plottingSystem, calibrationDataModel.getReferencePoints()[0], ColorConstants.red);
@@ -196,13 +197,13 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			if (!dragged) {
 				return;
 			}
-			CalibrationDataModel model = (CalibrationDataModel) ((IRegion) evt.getSource()).getUserObject();
-			if (model instanceof RefCalibrationDataModel) {
+			CalibrationEnergyData model = (CalibrationEnergyData) ((IRegion) evt.getSource()).getUserObject();
+			if (model instanceof ReferenceData) {
 				model.setReferencePoints(
 						referenceDataPlottingRegions[0].getROI().getPointX(),
 						referenceDataPlottingRegions[1].getROI().getPointX(),
 						referenceDataPlottingRegions[2].getROI().getPointX());
-			} else if (model instanceof EdeCalibrationDataModel) {
+			} else if (model instanceof SampleData) {
 				model.setReferencePoints(
 						edeDataPlottingRegions[0].getROI().getPointX(),
 						edeDataPlottingRegions[1].getROI().getPointX(),
@@ -228,7 +229,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		return ref;
 	}
 
-	private void createDataPlotting(Composite container, String title, CalibrationDataModel calibrationDataModel, IPlottingSystem plottingSystem) {
+	private void createDataPlotting(Composite container, String title, CalibrationEnergyData calibrationDataModel, IPlottingSystem plottingSystem) {
 		Group group = new Group(container, SWT.None);
 		group.setText(title);
 		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -238,7 +239,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		createPlottingComposite(group, calibrationDataModel, plottingSystem);
 	}
 
-	private void createPlottingComposite(Group group, final CalibrationDataModel calibrationDataModel, final IPlottingSystem plottingSystem) {
+	private void createPlottingComposite(Group group, final CalibrationEnergyData calibrationDataModel, final IPlottingSystem plottingSystem) {
 		Composite plotParent = new Composite(group, SWT.None);
 		plotParent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		plotParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
@@ -253,7 +254,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		} catch (Exception e) {
 			logger.error("Unable to create plotting system", e);
 		}
-		calibrationDataModel.addPropertyChangeListener(CalibrationDataModel.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
+		calibrationDataModel.addPropertyChangeListener(CalibrationEnergyData.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				plottingSystem.clear();
@@ -267,14 +268,14 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		}
 	}
 
-	private void loadPlot(final CalibrationDataModel calibrationDataModel, final IPlottingSystem plottingSystem) {
+	private void loadPlot(final CalibrationEnergyData calibrationDataModel, final IPlottingSystem plottingSystem) {
 		List<IDataset> spectra = new ArrayList<IDataset>(1);
 		spectra.add(calibrationDataModel.getEdeDataset());
 		plottingSystem.getSelectedXAxis().setRange(calibrationDataModel.getStartEnergy(), calibrationDataModel.getEndEnergy());
 		plottingSystem.createPlot1D(calibrationDataModel.getRefEnergyDataset(), spectra, new NullProgressMonitor());
 	}
 
-	private void createFileBrowsingComposite(Group group, final CalibrationDataModel calibrationDataModel) {
+	private void createFileBrowsingComposite(Group group, final CalibrationEnergyData calibrationDataModel) {
 		final Composite dataComposite = new Composite(group, SWT.None);
 		dataComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		dataComposite.setLayout(new GridLayout(3, false));
@@ -300,10 +301,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		});
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(lblFileValue),
-				BeanProperties.value(CalibrationDataModel.FILE_NAME_PROP_NAME).observe(calibrationDataModel));
+				BeanProperties.value(CalibrationEnergyData.FILE_NAME_PROP_NAME).observe(calibrationDataModel));
 	}
 
-	private void showDataFileDialog(final Shell shell, CalibrationDataModel dataModel) {
+	private void showDataFileDialog(final Shell shell, CalibrationEnergyData dataModel) {
 		FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
 		fileDialog.setText("Load data");
 		fileDialog.setFilterPath(ClientConfig.DEFAULT_DATA_PATH);
@@ -312,9 +313,9 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			try {
 				File refFile = new File(selected);
 				if (refFile.exists() && refFile.canRead()) {
-					if (dataModel instanceof RefCalibrationDataModel) {
+					if (dataModel instanceof ReferenceData) {
 						calibrationDataModel.setRefData(selected);
-					} else if (dataModel instanceof EdeCalibrationDataModel) {
+					} else if (dataModel instanceof SampleData) {
 						calibrationDataModel.setEdeData(selected);
 					}
 				} else {
@@ -343,7 +344,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(polynomialFittingOrderSpinner),
-				BeanProperties.value(EdeCalibrationModel.POLYNOMIAL_ORDER_PROP_NAME).observe(calibrationDataModel));
+				BeanProperties.value(EnergyCalibration.POLYNOMIAL_ORDER_PROP_NAME).observe(calibrationDataModel));
 
 		manualCalibrationCheckButton = new Button(calibrationDetailsComposite, SWT.CHECK);
 		manualCalibrationCheckButton.setText("Manual calibration");
@@ -378,7 +379,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(polynomialValueText),
-				BeanProperties.value(EdeCalibrationModel.CALIBRATION_RESULT_PROP_NAME).observe(calibrationDataModel));
+				BeanProperties.value(CalibrationDetails.CALIBRATION_RESULT_PROP_NAME).observe(calibrationDataModel.getCalibrationDetails()));
 
 		clearCalibrationButton.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -390,33 +391,33 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(manualCalibrationCheckButton),
-				BeanProperties.value(CalibrationDataModel.MANUAL_CALIBRATION_PROP_NAME).observe(refCalibrationDataModel),
+				BeanProperties.value(CalibrationEnergyData.MANUAL_CALIBRATION_PROP_NAME).observe(refCalibrationDataModel),
 				refUpdateValueStrategy, refUpdateValueStrategy);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(manualCalibrationCheckButton),
-				BeanProperties.value(CalibrationDataModel.MANUAL_CALIBRATION_PROP_NAME).observe(edeCalibrationDataModel),
+				BeanProperties.value(CalibrationEnergyData.MANUAL_CALIBRATION_PROP_NAME).observe(edeCalibrationDataModel),
 				edeUpdateValueStrategy, edeUpdateValueStrategy);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(manualCalibrationCheckButton),
-				BeanProperties.value(EdeCalibrationModel.DATA_READY_PROP_NAME).observe(calibrationDataModel));
+				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(runCalibrationButton),
-				BeanProperties.value(EdeCalibrationModel.DATA_READY_PROP_NAME).observe(calibrationDataModel));
+				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(clearCalibrationButton),
-				BeanProperties.value(EdeCalibrationModel.DATA_READY_PROP_NAME).observe(calibrationDataModel));
+				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(polynomialValueText),
-				BeanProperties.value(EdeCalibrationModel.DATA_READY_PROP_NAME).observe(calibrationDataModel));
+				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(polynomialFittingOrderSpinner),
-				BeanProperties.value(EdeCalibrationModel.DATA_READY_PROP_NAME).observe(calibrationDataModel));
+				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 	}
 
 	private final UpdateValueStrategy refUpdateValueStrategy = new UpdateValueStrategy() {
@@ -518,7 +519,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 							refPlottingSystem.repaint();
 
-							calibrationDataModel.setCalibrationResult(edeCalibration.getEdeCalibrationPolynomial());
+							calibrationDataModel.getCalibrationDetails().setCalibrationResult(edeCalibration.getEdeCalibrationPolynomial());
 
 							runCalibrationButton.setEnabled(true);
 						}

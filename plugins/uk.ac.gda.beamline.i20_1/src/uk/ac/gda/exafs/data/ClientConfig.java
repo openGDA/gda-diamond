@@ -39,8 +39,8 @@ import com.google.gson.GsonBuilder;
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
-	public static final int DEFAULT_DECIMAL_PLACE = 3;
-	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.###");
+	public static final int DEFAULT_DECIMAL_PLACE = 6;
+	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#########");
 	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 	public static final String EDE_GUI_DATA = "ede_gui.properties";
 
@@ -56,6 +56,8 @@ public class ClientConfig {
 		EV("eV"),
 		VOLTAGE("V"),
 		MILLI_SEC("ms"),
+		MICRO_SEC("μs"),
+		NANO_SEC("ns"),
 		SEC("s"),
 		HOUR("h"),
 		MINUTE("min"),

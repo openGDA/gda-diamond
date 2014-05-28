@@ -18,9 +18,9 @@
 
 package uk.ac.gda.exafs.calibration.ui;
 
-import uk.ac.gda.exafs.calibration.data.CalibrationDataModel;
+import uk.ac.gda.exafs.calibration.data.CalibrationEnergyData;
 
 public interface CalibrationPlotViewer {
-	void setCalibrationData(CalibrationDataModel dataSet);
+	void setCalibrationData(CalibrationEnergyData dataSet);
 	void plotData() throws Exception;
 }

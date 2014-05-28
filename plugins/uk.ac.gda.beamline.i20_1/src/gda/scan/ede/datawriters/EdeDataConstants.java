@@ -20,6 +20,7 @@ package gda.scan.ede.datawriters;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
 public class EdeDataConstants {
 
@@ -62,6 +63,7 @@ public class EdeDataConstants {
 		private final TimingGroupMetadata[] timingGroups;
 		private final RangeData[] avgSpectra;
 		private final int[] excludedCycles;
+		private CalibrationDetails calibrationDetails;
 
 		public ItMetadata(TimingGroupMetadata[] timingGroups, RangeData[] avgSpectra, int[] excludedCycles) {
 			this.timingGroups = timingGroups;
@@ -76,6 +78,12 @@ public class EdeDataConstants {
 		}
 		public int[] getExcludedCycles() {
 			return excludedCycles;
+		}
+		public CalibrationDetails getCalibrationDetails() {
+			return calibrationDetails;
+		}
+		public void setCalibrationDetails(CalibrationDetails calibrationDetails) {
+			this.calibrationDetails = calibrationDetails;
 		}
 	}
 

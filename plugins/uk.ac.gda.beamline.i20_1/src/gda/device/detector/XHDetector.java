@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
-import uk.ac.gda.exafs.calibration.data.EdeCalibrationModel;
+import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -134,7 +134,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	private Integer[] excludedStrips;
 	private boolean connected;
 
-	private EdeCalibrationModel calibration;
+	private CalibrationDetails calibration;
 
 	private String tempLogFilename;
 
@@ -1157,7 +1157,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 				for (int index = 0; index < coeffsString.length; index++) {
 					coeffs[index] = Double.parseDouble(coeffsString[index]);
 				}
-				calibration = GSON.fromJson(storeCalibration, EdeCalibrationModel.class);
+				calibration = GSON.fromJson(storeCalibration, CalibrationDetails.class);
 			}
 		} catch (Exception e) {
 			logger.error("Error loading ROIs, now loading defaults", e);
@@ -1304,7 +1304,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	@Override
-	public EdeCalibrationModel getEnergyCalibration() throws DeviceException {
+	public CalibrationDetails getEnergyCalibration() throws DeviceException {
 		return calibration;
 	}
 
@@ -1314,7 +1314,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 	}
 
 	@Override
-	public void setEnergyCalibration(EdeCalibrationModel calibration) throws DeviceException {
+	public void setEnergyCalibration(CalibrationDetails calibration) throws DeviceException {
 		this.calibration = calibration;
 		saveToXML();
 		this.notifyIObservers(this, CALIBRATION_PROP_KEY);

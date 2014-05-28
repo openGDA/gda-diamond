@@ -18,14 +18,11 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
+import gda.scan.ede.datawriters.EdeDataConstants;
 
-
-public class RefCalibrationDataModel extends CalibrationDataModel {
-	public static final String REF_DATA_COLUMN_NAME = "lnI0It";
-	public static final String REF_ENERGY_COLUMN_NAME = "Energy";
-
+public class SampleData extends CalibrationEnergyData {
 	@Override
 	public void setDataFile(String fileName) throws Exception {
-		setData(fileName, REF_ENERGY_COLUMN_NAME, REF_DATA_COLUMN_NAME);
+		setData(fileName, EdeDataConstants.STRIP_COLUMN_NAME, EdeDataConstants.LN_I0_IT_COLUMN_NAME);
 	}
 }

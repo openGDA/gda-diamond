@@ -23,7 +23,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import de.jaret.util.date.Interval;
@@ -39,15 +38,17 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 	private static final String CYCLIC_EXPERIMENT_OBJ = "cyclicExperiment";
 
 	public static final String NO_OF_REPEATED_GROUPS_PROP_NAME = "noOfRepeatedGroups";
-	private int noOfRepeatedGroups;
-	private static final int INITIAL_NO_OF_CYCLES = 2;
 
-	public static final String CYCLES_DURATION_PROP_NAME = "cyclesDuration";
-	private double cyclesDuration;
+	private static final int INITIAL_NO_OF_CYCLES = 2;
 
 	private final DefaultTimeBarModel cyclicTimebarModel;
 
 	private final DefaultTimeBarRowModel cyclicTimeBarRowModel;
+
+	private int noOfRepeatedGroups;
+
+	public static final String CYCLES_DURATION_PROP_NAME = "cyclesDuration";
+	private double cyclesDuration;
 
 	public CyclicExperimentModel() {
 		cyclicTimebarModel = new DefaultTimeBarModel();
@@ -60,7 +61,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 				if (evt.getPropertyName().equals(NO_OF_REPEATED_GROUPS_PROP_NAME)) {
 					int existingCycles = cyclicTimeBarRowModel.getIntervals().size();
 					for (int i=existingCycles; i < noOfRepeatedGroups; i++) {
-						CyclicExperimentDataModel experimentCycleModel = new CyclicExperimentDataModel(CyclicExperimentModel.this);
+						CyclicExperimentDataModel experimentCycleModel = new CyclicExperimentDataModel();
 						experimentCycleModel.setName("Cycle " + (i + 1));
 						experimentCycleModel.setTimes(i * CyclicExperimentModel.this.timeIntervalData.getDuration(), CyclicExperimentModel.this.timeIntervalData.getDuration());
 						cyclicTimeBarRowModel.addInterval(experimentCycleModel);
@@ -122,7 +123,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 	}
 
 	public double getCyclesDurationInSec() {
-		return ExperimentUnit.MILLI_SEC.convertToSecond(cyclesDuration);
+		return ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(cyclesDuration, ExperimentUnit.SEC);
 	}
 
 	@Override
@@ -135,11 +136,11 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import CyclicExperiment;");
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
 			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f, %d",
-					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime()),
+					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
 					this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		} else {
 			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f",
-					ExperimentTimeHelper.fromMilliToSec(this.getExperimentDataModel().getI0IntegrationTime())));
+					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
 		}
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", %d);",
 				TIMING_GROUPS_OBJ_NAME,
