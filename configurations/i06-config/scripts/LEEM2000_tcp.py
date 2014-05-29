@@ -1,7 +1,9 @@
 import sys
 from gdascripts.messages import handle_messages
 from gda.device.scannable import ScannableBase
+from gda.device import DeviceException
 from gda.factory import Finder
+from gda.io.socket import SocketBidiAsciiCommunicator
 finder=Finder.getInstance()
 class leem2000:
     def __init__(self):
@@ -34,7 +36,21 @@ class leem2000:
                 exceptionType, exception, traceback=sys.exc_info();
                 handle_messages.log(None, "Error sending asc command to leem2000 at " + str(self.leem_com.address) + ":" + str(self.leem_com.port) +". Try restarting Leem2000 ", exceptionType, exception, traceback, True)
         return self.leem_com.send(cmd)
-
+       
+    def reconnect(self):
+        try:
+            #have to close the old one if it's not broken
+            self.leem_com.sendCmdNoReply("clo")
+        except DeviceException:
+            pass #we expect this
+        new_com = SocketBidiAsciiCommunicator()
+        new_com.setAddress( self.leem_com.address )
+        new_com.setPort( self.leem_com.port )
+        new_com.setCmdTerm( self.leem_com.cmdTerm )
+        new_com.setReplyTerm( self.leem_com.replyTerm )
+        new_finder_map = {"leem2000_com" : new_com}
+        finder.find("leem2000_objects").setMap(new_finder_map)
+        self.leem_com = new_com
 
 class leem_scannable(ScannableBase):
     def __init__(self, name, moduleName, format, leem2000):
