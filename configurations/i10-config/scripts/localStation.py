@@ -447,10 +447,9 @@ try:
     from gda.device.scannable.scannablegroup import ScannableGroup
     
     checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
-    #checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
-    #checkshtr1 = WaitForScannableState('checkshtr1', shtr1, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
-    #checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1])
-    checkbeam = ScannableGroup('checkbeam', [checkrc])
+    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', rc, 30, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=30) #@UndefinedVariable
+    checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
+    checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
     checkbeam.configure()
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
