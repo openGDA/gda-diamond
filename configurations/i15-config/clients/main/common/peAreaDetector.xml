@@ -17,9 +17,7 @@
 		<!-- Remove the imageNDROI to stop ARR input port being overwritten with pe1.roi
 		<property name="imageNDROI" ref="peAD_summary_roi"/>
 		 -->
-		 <!-- 
 		<property name="imageNDArrayPortInput" value="pe1.proc.proc3"/>
-		 -->
 		<property name="serviceName" value="pe"/>
 	</bean>
 

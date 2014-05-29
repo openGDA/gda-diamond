@@ -144,9 +144,15 @@
 		<constructor-arg value="10" />
 		<property name="ndProcess" ref="peAD_summary_proc2" />
 		<property name="readAcquireTimeFromHardware" value="True" />
+		<property name="procDataTypeOut" value="4" />
 	</bean>
 	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
 	     dkphi set to minimumAccelerationDistance=0.004-->
+	<!-- A value of 4 in procDataTypeOut set the proc output to Int32, it default to 5 which is UInt32
+		 although having the wrong value for this doesn't cause problems for the tiff write, it does cause
+		 twos complement signed data to be written to the HDF5 annotated as UInt32, i.e. small -ve values
+		 are seen as huge positive values. -->
+	
 
 	<!-- NXDetector file writers -->
 
