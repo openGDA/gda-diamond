@@ -46,6 +46,10 @@ from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
 ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
 
+import scannables.MerlinColourModeThresholdsScannable
+mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
+    PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
+
 from detector_scan_commands import *
 from centreProxy import *
 from scanPeak import *

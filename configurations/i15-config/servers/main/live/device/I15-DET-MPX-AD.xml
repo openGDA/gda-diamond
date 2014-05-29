@@ -71,6 +71,12 @@
 		</property>
 	</bean>
 
+	<bean id="mpx_sweep_driver"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverMerlinThresholdSweepImpl">
+		<property name="basePVName" value="BL15I-EA-DET-18:Merlin1:" />
+		<property name="useTriggerModeNotStartThresholdScanning" value="True" />
+	</bean>
+
 	<!-- NXDetector collection strategies -->
 
 	<!-- We need to make a Merlin collection strategy which understands about Merlin states -->
@@ -89,6 +95,19 @@
 		<property name="imagesPerCollectionMultiplier" value="8" />
 		<property name="decoratee" ref="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
 	</bean>
+
+	<bean id="mpx_threshold_sweep_strategy"
+			class="gda.device.detector.addetector.triggering.MerlinThresholdSweepTrigger">
+		<constructor-arg ref="mpxAD_config_base" />
+		<constructor-arg ref="mpx_sweep_driver" />
+	</bean>
+
+	<bean id="mpx_threshold_sweep_helper"
+			class="gda.device.detector.nxdetector.plugin.areadetector.MerlinThresholdSweepConfigurer">
+		<constructor-arg ref="mpx_sweep_driver" />
+		<property name="returnSweepSettings" value="true" />
+	</bean>
+
 
 	<!-- NXDetector file writers -->
 
@@ -172,6 +191,31 @@
 			<list>
 				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
 				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mpxthr" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipixthr" />
+		<property name="collectionStrategy" ref="mpx_threshold_sweep_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
+				<ref bean="mpx_threshold_sweep_helper" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mpxthrHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="mpxthr"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="mpx_threshold_sweep_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mpx_tiff_SingleImagePerFileWriter" />
+				<ref bean="mpx_threshold_sweep_helper" />
 			</list>
 		</property>
 	</bean>
