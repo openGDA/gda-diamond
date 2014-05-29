@@ -40,7 +40,7 @@ gda.data.scan.datawriter.datadir    = /dls/i06-1/data/$year$/$visit$
 
 ## For Camera data storage
 #gda.data.directoryMappingGDA 	 = ${gda.data}
-gda.data.directoryMappingGDA 	 = $/dls/i06-1/data
+gda.data.directoryMappingGDA 	 = /dls/i06-1
 gda.data.directoryMappingDetector = X:
 
 include=./java_common.properties

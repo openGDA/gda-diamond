@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- 
+Ring Energy:    CS-CS-MSTAT-01:BEAMENERGY
+Ring Current:   SR21C-DI-DCCT-01:SIGNAL
+Lifetime:       SR21C-DI-DCCT-01:LIFETIME
+Mode:           CS-CS-MSTAT-01:MODE
+Fill Mode:      LI-TI-MTGEN-01:MODE
+Top up:         SR-CS-FILL-01:COUNTDOWN
+ -->
+
+	<!-- 
+	<bean id="re" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="MSTAT.ENERGY" />
+		<property name="local" value="true" />
+	</bean>
+	 -->
+
+	<bean id="rc" class="gda.device.monitor.EpicsMonitor">
+		<!-- <property name="deviceName" value="MSTAT.CURRENT" /> -->
+		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="topup_time" class="gda.device.monitor.EpicsMonitor">
+		<!-- <property name="deviceName" value="MSTAT.CURRENT" /> -->
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="frontend" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="deviceName" value="FE.BEAM"/>
+		<property name="local" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
+	<bean id="ab0" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="deviceName" value="FE.ABSB02"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- 
+	<bean id="rlt" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="MSTAT.LIFETIME" />
+		<property name="local" value="true" />
+	</bean>
+	 -->
+</beans>
