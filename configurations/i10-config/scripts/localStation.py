@@ -433,6 +433,26 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating metadata objects")
 
+
+
+###############################################################################
+###                           Wait for beam device                          ###
+###############################################################################
+try:
+    print "Adding checkbeam device (rc>190mA, 60s wait after beam back)"
+    print "   (change threshold with checkrc.minumumThreshold=12345)"
+    
+    from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
+    from gda.device.scannable.scannablegroup import ScannableGroup
+    
+    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
+    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', rc, 30, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=30) #@UndefinedVariable
+    checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
+    checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
+    checkbeam.configure()
+except:
+    localStation_exception(sys.exc_info(), "creating checkbeam objects")
+
 print "Attempting to run localStationUser.py for users script directory"
 try:
     run("localStationUser")
