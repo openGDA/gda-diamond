@@ -50,7 +50,7 @@ EOF
 done
 
 . /usr/share/Modules/init/bash
-module load java/gda
+module load java/gda838
 
 export LD_LIBRARY_PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86:/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86
 
