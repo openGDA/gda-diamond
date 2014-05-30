@@ -112,6 +112,7 @@ if not LocalProperties.check("gda.dummy.mode"):
 		createPVScannable( "ic1_rate", "BL13J-DI-IONC-01:HRPHOTONRATE", hasUnits=True)
 		createPVScannable( "ic2", "BL13J-DI-IONC-02:I", hasUnits=True)
 		createPVScannable( "ic2_rate", "BL13J-DI-IONC-02:HRPHOTONRATE", hasUnits=True)
+		
 	except gda.factory.FactoryException, e:
 		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring ion chamber"
 		print e
@@ -327,4 +328,5 @@ import excalibur_config
 
 run("localStationUser.py")
 
-run("startup_pie725")
+#8/4/2014 pie725 not present
+#run("startup_pie725")

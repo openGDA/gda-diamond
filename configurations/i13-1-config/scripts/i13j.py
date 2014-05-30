@@ -200,6 +200,52 @@ To take an image from the maxipix detector:
 15. To change the folder into which the data is written use the command:
     >LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, "/dls/$instrument$/data/$year$/$visit$/" + <folder>)
 
+
+16. To perform a tomogram:
+    >tomographyScan.tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
+    
+   where:
+    inBeamPosition - position of X drive to move sample into the beam to take a projection
+    outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
+    exposureTime - exposure time in seconds ( default = 1)
+    start - first rotation angle ( default=0.)
+    stop  - last rotation angle (default=180.)
+    step - rotation step size (default = 0.1)
+    darkFieldInterval - number of projections between each dark field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    flatFieldInterval - number of projections between each flat field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    imagesPerDark - number of images to be taken for each dark
+    imagesPerFlat - number of images to be taken for each flat
+    min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
+
+
+17. Vortex detector
+    this is represented in gda as xmapMca
+    Edit the regions of interest in /dls_sw/i13-1/software/gda_versions/var/Vortex_Parameters.xml  and then in gda
+    There are 4 elements to the detector, each with its own set of ROI, each ROI is defined by its windowStart and windowEnd value
+    
+        <DetectorElement>
+        <name>Detector1</name>
+        <number>0</number>
+        <ROI>
+            <name>ROI1</name>
+            <windowStart>1</windowStart>
+            <windowEnd>500</windowEnd>
+        </ROI>
+        <ROI>
+            <name>ROI2</name>
+            <windowStart>501</windowStart>
+            <windowEnd>600</windowEnd>
+        </ROI>        
+        </DetectorElement>
+    
+    Save the changes.
+    Enter the command:
+    >xmapMca.loadConfigurationFromFile()
+    
+    Then use in an scan e.g. >repscan 10 xmapMca 2   ( to take 10 measurements of 2 seconds exposure each)
+    
+
 """
 
 
