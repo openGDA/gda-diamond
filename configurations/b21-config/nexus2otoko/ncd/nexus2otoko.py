@@ -32,7 +32,27 @@ class nexus2otoko:
                 
         self.instrumentname = "DLS"
         self.inspectfile()
-        
+
+	self.iscommissioningvisit = False
+	self.isindlsdata = False
+	
+	components = self.nexusname.split("/")
+	if len(components) > 6:
+		if "dls" == components[1]:
+			if "data" == components[3]:
+				try: 
+					int(components[4])
+					# is int
+					self.isindlsdata = True
+					self.logger.debug(  "is in dls data" )
+					if components[5].startswith("cm"):
+						self.iscommissioningvisit = True
+						self.logger.debug(  "is commissioning" )
+				except:
+					#not in year dir
+					self.logger.debug(  "no int year" )
+					pass
+		
     def parseISOdate(self, datestr):
         ## std python does not handle timezone parsing in any way
         datestr=datestr[0:-6]
@@ -98,7 +118,7 @@ class nexus2otoko:
             self.logger.info( "header file name "+headerfilename )
             self.logger.info( "header file dir "+os.path.dirname(headerfilename ))
             try:
-            	os.mkdir(os.path.dirname(headerfilename))
+            	os.makedirs(os.path.dirname(headerfilename))
             except Exception as e:
             	self.logger.error("error creating directory: "+e.__str__())
             headerfile = open(headerfilename, "w")
@@ -210,7 +230,12 @@ class nexus2otoko:
         [ nexusbase, ext ] = os.path.splitext(self.nexusname)
         if ext != ".nxs":
             raise RuntimeError("no nexus extension")
-        otokodir = nexusbase
+	comps = nexusbase.split("/")
+	if self.isindlsdata:
+		comps.insert(6,"bsl")
+		self.logger.debug( "bsl inserted" )
+	otokodir = "/".join(comps)
+	self.logger.debug( "otokodir is %s" % otokodir )
 
         [ scanname, ext ] = os.path.splitext(nexusbasename)
 	# remove first hyphen, should be beamline name
@@ -230,7 +255,8 @@ if __name__ == '__main__':
 	for file in sys.argv[1:]:
 		try:
 			n2o=nexus2otoko(file)
-			n2o.writeout()
+			if not n2o.iscommissioningvisit:
+				n2o.writeout()
 		except Exception as e:
 			logging.error("exception treating "+file+": "+e.__str__())
 
