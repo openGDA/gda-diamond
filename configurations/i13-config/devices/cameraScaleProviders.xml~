@@ -13,42 +13,30 @@
 		<property name="keyScannable" ref="lens" />
 		<property name="providers">
 			<map>
-				<entry key="X2 Pink">
+				<entry key="X2 7mm x 5mm">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="534" />
 					<property name="pixelsPerMMInY" value="534" />
 				</bean>
 				</entry>
-				<entry key="X4 Pink">
+				<entry key="X4 4mm x 3mm">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="1088" />
 					<property name="pixelsPerMMInY" value="1088" />
 				</bean>
 				</entry>
-				<entry key="X4 Mono">
+				<entry key="X4 CWD 200">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="1088" />
 					<property name="pixelsPerMMInY" value="1088" />
 				</bean>
 				</entry>
-				<entry key="X10 Pink">
+				<entry key="X10 2mm x 1mm">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="2740" />
 					<property name="pixelsPerMMInY" value="2740" />
 				</bean>
 				</entry>
-				<entry key="X10 Mono">
-				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="2740" />
-					<property name="pixelsPerMMInY" value="2740" />
-				</bean>
-				</entry>
-				<entry key="6"> <!-- unknown -->
-				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="2740" />
-					<property name="pixelsPerMMInY" value="2740" />
-				</bean>
-				</entry>				
 				<entry key="7"> <!-- unknown -->
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="2740" />

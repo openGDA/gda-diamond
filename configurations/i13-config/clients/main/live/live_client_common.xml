@@ -18,6 +18,7 @@
 	<import resource="../../../devices/epics/d5.xml"/>
 	<import resource="../../../devices/epics/float1.xml"/>
 	<import resource="../../../devices/epics/float2.xml"/>
+	<import resource="../../../devices/epics/float3.xml"/>
 
 	<import resource="../common.xml" />
 	

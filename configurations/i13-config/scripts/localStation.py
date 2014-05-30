@@ -113,56 +113,30 @@ try:
 			
 			#if you change these you need to change the values in cameraScaleProviders
 			#edited by J. Vila-Comamala to match new objective lens configuration 25.04.2014
-			lensX2="X4 4mm x 3mm"
-			lensX4="X10 2mm x 1mm"
-			lensX10="X10 2mm x 1m"
-			
-			
-			lensX10Pink="X2 Pink"
-			lensX4Pink="X4 Pink"
-			lensX2Pink="X2 7mm x 5mm"
+			position1="X4 Pink"
+			position2="X10 Pink"
+			position3="X2 Pink"
+			position4="X10 Mono"
+			position5="X4 Mono"
+			position6="6"
+			position7="7"
 
-			caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX2 )
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX2)
-		
-			caput("BL13I-EA-TURR-01:DEMAND.ONST", lensX4)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", lensX4)
-			caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX10)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX10)
-			caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
-			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
-			caput("BL13I-EA-TURR-01:DEMAND.FRST", lensX10Pink)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", lensX10Pink)
-		
-		
-			caput("BL13I-EA-TURR-01:DEMAND.FVST", lensX4Pink)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", lensX4Pink)
-			caput("BL13I-EA-TURR-01:DEMAND.SXST", lensX2Pink)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", lensX2Pink)
+			caput("BL13I-EA-TURR-01:DEMAND.ZRST",position1)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", position1)
+			caput("BL13I-EA-TURR-01:DEMAND.ONST", position2)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", position2)
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", position3)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", position3)
+			caput("BL13I-EA-TURR-01:DEMAND.THST", position4)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", position4)
+			caput("BL13I-EA-TURR-01:DEMAND.FRST", position5)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", position5)
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", position6)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", position6)
+			caput("BL13I-EA-TURR-01:DEMAND.SXST", position7)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", position7)
 
 
-			#lensX2="X2 7mm x 5mm"
-			#lensX4="X4 4mm x 3mm"
-			#lensX4Pink="X4 CWD 200"
-			#lensX10="X10 2mm x 1mm"
-			
-			#caput("BL13I-EA-TURR-01:DEMAND.ZRST",lensX10 )
-			#caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", lensX10)
-		
-			#caput("BL13I-EA-TURR-01:DEMAND.ONST", lensX4)
-			#caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", lensX4)
-			#caput("BL13I-EA-TURR-01:DEMAND.TWST", lensX2)
-			#caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", lensX2)
-			#caput("BL13I-EA-TURR-01:DEMAND.THST", "4")
-			#caput("BL13I-EA-TURR-01:CURRENTPOS.THST", "4")
-			#caput("BL13I-EA-TURR-01:DEMAND.FRST", "5")
-			#caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", "5")
-		
-		
-			#caput("BL13I-EA-TURR-01:DEMAND.FVST", "6")
-			#caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", "6")
-			#caput("BL13I-EA-TURR-01:DEMAND.SXST", "7")
-			#caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", "7")
 			#make the lens re-read its list of positions following setting them in EPICS above
 			lens.initializationCompleted()
 
