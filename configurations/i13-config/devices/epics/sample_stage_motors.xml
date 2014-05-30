@@ -36,23 +36,23 @@
 	<!-- Use SS1.SAMPLE2 motors if using Smaract motors - before that we used stage1.sample  -->
 
 	<bean id="ss1_samplex_motor" class="gda.device.motor.EpicsMotor">
-<!-- 		<property name="deviceName" value="SS1.SAMPLE2X" /> -->
-		<property name="deviceName" value="stage1.samplex" />
-		<property name="local" value="true" />
+	<property name="deviceName" value="SS1.SAMPLE2X" /> 
+<!-- 	<property name="deviceName" value="stage1.samplex" />
+ -->	<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_sampley_motor" class="gda.device.motor.EpicsMotor">
-<!-- 		<property name="deviceName" value="SS1.SAMPLE2Y" /> -->
-		<property name="deviceName" value="stage1.sampley" />
-		<property name="local" value="true" />
+  		<property name="deviceName" value="SS1.SAMPLE2Y" />
+<!-- 		<property name="deviceName" value="stage1.sampley" />
+ -->		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_samplez_motor" class="gda.device.motor.EpicsMotor">
-<!-- 		<property name="deviceName" value="SS1.SAMPLE2Z" /> -->
-		<property name="deviceName" value="stage1.samplez" />
-		<property name="local" value="true" />
+  		<property name="deviceName" value="SS1.SAMPLE2Z" />
+<!-- 		<property name="deviceName" value="stage1.samplez" />
+ -->		<property name="local" value="true" />
 	</bean>
 
 
 	
-</beans>	
+</beans>

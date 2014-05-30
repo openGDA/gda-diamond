@@ -84,7 +84,6 @@
 		<config>devices/front_end.xml</config>
 		<config>devices/epics/gas_bremsstrahlung1.xml</config>
 		<config>devices/epics/gas_bremsstrahlung2.xml</config>
-		<config>servers/main/live/GDAMetadata.xml</config>
 		<config>devices/epics/ion_chamber.xml</config>
 		<config>servers/main/jythonServerFacade.xml</config>
 		<config>devices/dummy/kb_motors.xml</config>

@@ -70,7 +70,6 @@
                        </view>
       <view
             allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
             class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.beamline.i13i.NormalisedImage"
@@ -79,7 +78,6 @@
       </view>
       <view
             allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
             class="uk.ac.gda.beamline.i13i.views.I13PCOHistogramView"
             icon="icons/AreaDetectorProfileView.gif"
             id="uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView"
@@ -87,7 +85,6 @@
       </view>                       
       <view
             allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
             class="uk.ac.gda.beamline.i13i.views.I13PCOArrayView"
             icon="icons/AreaDetectorImageView.gif"
             id="uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView"
@@ -95,7 +92,6 @@
       </view>
       <view
             allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
             class="uk.ac.gda.beamline.i13i.views.I13MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView"
@@ -270,6 +266,4 @@
       </menu>
    </menuContribution>
 </extension>   
-
-
 </plugin>

@@ -50,18 +50,22 @@ import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.epics.adviewer.composites.MJPeg;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.ImagePositionListener;
+import uk.ac.gda.epics.adviewer.composites.imageviewer.NewImageListener;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
 
-public class I13MJPegViewInitialiser  {
+public class I13MJPegViewInitialiser implements NewImageListener  {
 
 	I13ADControllerImpl adControllerImpl;
 	boolean changeRotationAxisX, changeImageMarker, vertMoveOnClickEnabled, horzMoveOnClickEnabled;
 	private RectangleFigure rotationAxisFigure;
 
-	RectangleFigure imageMarkerFigureX, imageMarkerFigureY;
+	RectangleFigure imageMarkerFigureX, imageMarkerFigureY, imageCenterFigureX, imageCenterFigureY;
 
 	private MJPeg mJPeg;
 	MJPegView mjPegView;
+	private Action rotationAxisAction;
+	private Action imageCenterAction;
+	private Action showImageMarkerAction;
 
 	public I13MJPegViewInitialiser(I13ADControllerImpl adController, MJPeg mJPeg, MJPegView mjPegView) {
 		super();
@@ -87,7 +91,7 @@ public class I13MJPegViewInitialiser  {
 			}
 		});
 
-		MenuItem setImageMarker = new MenuItem(rightClickMenu, SWT.PUSH);
+/*		MenuItem setImageMarker = new MenuItem(rightClickMenu, SWT.PUSH);
 		setImageMarker.setText("Mark next click position as beam centre");
 		setImageMarker.addSelectionListener(new SelectionListener() {
 
@@ -105,13 +109,14 @@ public class I13MJPegViewInitialiser  {
 				changeImageMarker = true;
 			}
 		});
-
+*/
 		mJPeg.getCanvas().setMenu(rightClickMenu);
-
+		mJPeg.addNewImageListener(this);
 		mJPeg.addImagePositionListener(new ImagePositionListener() {
 
 			@Override
 			public void imageStart(IImagePositionEvent event) {
+				
 			}
 
 			@Override
@@ -196,23 +201,24 @@ public class I13MJPegViewInitialiser  {
 								.getRotationAxisXScannable())[0];
 						double beamCenterY = ScannableUtils.getCurrentPositionArray(adControllerImpl
 								.getCameraXYScannable())[1];
+						beamCenterX = adControllerImpl.getFfmpegImageInWidth()/2;
 						final RealVector beamCenterV = createVectorOf(beamCenterX, beamCenterY);
 						final RealVector pixelOffset = beamCenterV.subtract(clickPointInImageCorrected);
 
 						DisplayScaleProvider scale = adControllerImpl.getCameraScaleProvider();
 
 						if( vertMoveOnClickEnabled){
-							double moveInY = pixelOffset.getEntry(1) / scale.getPixelsPerMMInY();
+							double moveInY = pixelOffset.getEntry(1) / (scale.getPixelsPerMMInY()/1000.);
 
 							ScannableMotionUnits sampleCentringYMotor = adControllerImpl.getSampleCentringYMotor();
 							sampleCentringYMotor.asynchronousMoveTo(ScannableUtils
-									.getCurrentPositionArray(sampleCentringYMotor)[0] + moveInY);
+									.getCurrentPositionArray(sampleCentringYMotor)[0] + moveInY); 
 							
 						}
 						if( horzMoveOnClickEnabled){
-							double moveInX = pixelOffset.getEntry(0) / scale.getPixelsPerMMInX();
+							double moveInX = pixelOffset.getEntry(0) / (scale.getPixelsPerMMInX()/1000.);
 	
-							ScannableMotionUnits sampleCentringXMotor = adControllerImpl.getSampleCentringXMotor();
+							ScannableMotionUnits sampleCentringXMotor = adControllerImpl.getSampleCentringXMotor(); 
 							sampleCentringXMotor.asynchronousMoveTo(ScannableUtils
 									.getCurrentPositionArray(sampleCentringXMotor)[0] + moveInX);
 						}
@@ -230,7 +236,7 @@ public class I13MJPegViewInitialiser  {
 
 		Vector<Action> showActions = new Vector<Action>();
 
-		final Action rotationAxisAction = new Action("Show rotation axis", IAction.AS_CHECK_BOX) {
+		rotationAxisAction = new Action("Show rotation axis", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
 				try {
@@ -246,7 +252,23 @@ public class I13MJPegViewInitialiser  {
 		} catch (Exception e) {
 			MJPegView.reportErrorToUserAndLog("Error showing rotation axis", e);
 		}
-		final Action showImageMarkerAction = new Action("Show beam centre", IAction.AS_CHECK_BOX) {
+		imageCenterAction = new Action("Show image center", IAction.AS_CHECK_BOX) {
+			@Override
+			public void run() {
+				try {
+					showImageCenter(isChecked());
+				} catch (Exception e) {
+					MJPegView.reportErrorToUserAndLog("Error showing image center", e);
+				}
+			}
+		};
+		try {
+			showImageCenter(true);
+			imageCenterAction.setChecked(true);// do not
+		} catch (Exception e) {
+			MJPegView.reportErrorToUserAndLog("Error showing image center", e);
+		}
+		showImageMarkerAction = new Action("Show beam centre", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
 				try {
@@ -257,14 +279,15 @@ public class I13MJPegViewInitialiser  {
 			}
 		};
 		try {
-			showImageMarker(true);
-			showImageMarkerAction.setChecked(true);// do not
+			showImageMarker(false);
+			showImageMarkerAction.setChecked(false);// do not
 		} catch (Exception e) {
 			MJPegView.reportErrorToUserAndLog("Error showing beam centre", e);
 		}
 
+		showActions.add(imageCenterAction);
 		showActions.add(rotationAxisAction);
-		showActions.add(showImageMarkerAction);
+//		showActions.add(showImageMarkerAction);
 
 		MenuCreator showMenu = new MenuCreator("Show",
 				"Actions that lead to items shown on the image or in other views", showActions);
@@ -318,6 +341,7 @@ public class I13MJPegViewInitialiser  {
 
 		showRotationAxisFromNonUIThread(rotationAxisAction);
 		showImageMarkerFromNonUIThread(showImageMarkerAction);
+		showImageCenterFromNonUIThread(imageCenterAction);
 
 	}
 
@@ -355,7 +379,32 @@ public class I13MJPegViewInitialiser  {
 			});
 		}
 	}
+	private void showImageCenterFromNonUIThread(final Action showImageCenter) {
+		if (showImageCenter.isChecked()) {
+			mjPegView.getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
 
+				@Override
+				public void run() {
+					try {
+						showImageCenter(true);
+					} catch (Exception e) {
+						MJPegView.reportErrorToUserAndLog("Error showing image centre", e);
+					}
+
+				}
+			});
+		}
+	}
+
+	public void setRotationAxisAction(boolean checked){
+		rotationAxisAction.setChecked(checked);
+		rotationAxisAction.run();
+	}
+	public void setImageCenterAction(boolean checked){
+		imageCenterAction.setChecked(checked);
+		imageCenterAction.run();
+	}
+	
 	void showRotationAxis(boolean show) throws Exception {
 		RectangleFigure rotationAxisFigure = getRotationAxisFigure();
 		if (rotationAxisFigure.getParent() == mJPeg.getTopFigure())
@@ -389,13 +438,62 @@ public class I13MJPegViewInitialiser  {
 
 		}
 	}
+	void showImageCenter(boolean show) {
+		RectangleFigure imageCenterFigureX = getImageCenterFigureX();
+		if (imageCenterFigureX.getParent() == mJPeg.getTopFigure())
+			mJPeg.getTopFigure().remove(imageCenterFigureX);
+		if (show) {
+			ImageData imageData = mJPeg.getImageData();
+			imageCenterFigureX.setSize(imageData.width, 5);
+			imageCenterFigureX.setAlpha(50);
+			imageCenterFigureX.setLineWidth( 5);
+
+			mJPeg.getTopFigure().add(imageCenterFigureX, new Rectangle(0, imageData.height/2, -1, -1));
+
+		}
+		RectangleFigure imageCenterFigureY = getImageCenterFigureY();
+		if (imageCenterFigureY.getParent() == mJPeg.getTopFigure())
+			mJPeg.getTopFigure().remove(imageCenterFigureY);
+		if (show) {
+			ImageData imageData = mJPeg.getImageData();
+
+			imageCenterFigureY.setSize(5, imageData.height);
+			imageCenterFigureY.setAlpha( 50);
+			imageCenterFigureY.setLineWidth( 5);
+
+			mJPeg.getTopFigure().add(imageCenterFigureY, new Rectangle(imageData.width/2, 0, -1, -1));
+
+		}
+	}
+	private RectangleFigure getImageCenterFigureX() {
+		if (imageCenterFigureX == null) {
+			imageCenterFigureX = new RectangleFigure();
+			imageCenterFigureX.setFill(true);
+			imageCenterFigureX.setSize(adControllerImpl.getCameraImageWidthMax(), 5);
+			imageCenterFigureX.setLineWidth(5);
+			imageCenterFigureX.setForegroundColor(ColorConstants.black);
+			imageCenterFigureX.setAlpha(50);
+		}
+		return imageCenterFigureX;
+	}
+
+	private RectangleFigure getImageCenterFigureY() {
+		if (imageCenterFigureY == null) {
+			imageCenterFigureY = new RectangleFigure();
+			imageCenterFigureY.setFill(true);
+			imageCenterFigureY.setSize(5, adControllerImpl.getCameraImageHeightMax());
+			imageCenterFigureY.setLineWidth(5);
+			imageCenterFigureY.setForegroundColor(ColorConstants.black);
+			imageCenterFigureY.setAlpha(50);
+		}
+		return imageCenterFigureY;
+	}
 
 	private RectangleFigure getRotationAxisFigure() {
-		if (rotationAxisFigure == null) {
+		if (rotationAxisFigure == null) { 
 			rotationAxisFigure = new RectangleFigure();
 			rotationAxisFigure.setFill(true);
 			rotationAxisFigure.setSize(5, adControllerImpl.getCameraImageHeightMax());
-			rotationAxisFigure.setLineWidth(5);
 			rotationAxisFigure.setForegroundColor(ColorConstants.red);
 			rotationAxisFigure.setAlpha(50);
 		}
@@ -407,6 +505,8 @@ public class I13MJPegViewInitialiser  {
 	private IObserver rotationAxisObserver;
 	private IObserver cameraXYObserver;
 	public Action moveOnClickAction;
+	private int lastImageHeight;
+	private int lastImageWidth;
 
 	void showImageMarker(boolean show) throws Exception {
 		RectangleFigure imageMarkerFigureX = getImageMarkerFigureX();
@@ -521,5 +621,16 @@ public class I13MJPegViewInitialiser  {
 	}
 	public void setHorzMoveOnClick(boolean selection) {
 		horzMoveOnClickEnabled = selection;
+	}
+
+	@Override
+	public void handlerNewImageNotification(ImageData lastImage2) throws Exception {
+		if( lastImageWidth != lastImage2.width || lastImageHeight != lastImage2.height){
+			showRotationAxisFromNonUIThread(rotationAxisAction);
+			showImageMarkerFromNonUIThread(showImageMarkerAction);
+			showImageCenterFromNonUIThread(imageCenterAction);
+			lastImageWidth = lastImage2.width;
+			lastImageHeight = lastImage2.height;
+		}
 	}
 }

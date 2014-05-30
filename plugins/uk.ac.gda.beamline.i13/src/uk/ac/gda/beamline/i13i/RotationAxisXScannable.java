@@ -136,7 +136,6 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0]; 
 		
 		double move = getOffset() - pixelsX/cameraScaleProvider.getPixelsPerMMInX() -x2;
-		Double.valueOf(move);
 		sampleStageXScannable.asynchronousMoveTo(move);
 		sampleStageXScannable.waitWhileBusy();
 		

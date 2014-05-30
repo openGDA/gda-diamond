@@ -232,18 +232,15 @@ public class I13MJPEGViewComposite extends Composite {
 			openScanDlg.setText("Tomography\nScan...");
 		}
 		btnShowRotAxis = new Button(composite, SWT.CHECK);
-		btnShowRotAxis.setText("Show Rotation & Image Axes");
+		btnShowRotAxis.setText("Show Image Center and Rotation Axis");
 		btnShowRotAxis.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					showRotationAxis();
-				} catch (Exception e1) {
-					logger.error("Error showing rot axis or beam center", e1);
-				}
+				actOnShowRotAxisSelection();
 			}
 		});
+		btnShowRotAxis.setSelection(true);
 
 		Composite composite_2 = new Composite(this, SWT.NONE);
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -255,22 +252,30 @@ public class I13MJPEGViewComposite extends Composite {
 		grpSampleMoveOn.setText("Sample Move On Click");
 		grpSampleMoveOn.setLayout(new FillLayout(SWT.HORIZONTAL));
 		btnVertMoveOnClick = new Button(grpSampleMoveOn, SWT.CHECK);
-		btnVertMoveOnClick.setText("Move Vertical");
+		btnVertMoveOnClick.setText("Move Vertical\n to Image Center");
 		btnVertMoveOnClick
 				.setToolTipText("When enabled the point clicked on in the image is moved to the rotation axis position");
 
 		btnHorzMoveOnClick = new Button(grpSampleMoveOn, SWT.CHECK);
 		btnHorzMoveOnClick.setBounds(0, 0, 93, 20);
-		btnHorzMoveOnClick.setText("Move Horizontal");
+		btnHorzMoveOnClick.setText("Move Horizontal\n to Rotation Axis");
 		btnVertMoveOnClick.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if( btnVertMoveOnClick.getSelection() && !btnShowRotAxis.getSelection()){
+					btnShowRotAxis.setSelection(true);
+					actOnShowRotAxisSelection();
+				}
 				setVertMoveOnClick();
 			}
 		});
 		btnHorzMoveOnClick.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if( btnVertMoveOnClick.getSelection() && !btnShowRotAxis.getSelection()){
+					actOnShowRotAxisSelection();
+					btnShowRotAxis.setSelection(true);
+				}
 				setHorzMoveOnClick();
 			}
 		});
@@ -304,12 +309,7 @@ public class I13MJPEGViewComposite extends Composite {
 			i13MJPegViewInitialiser.setHorzMoveOnClick(btnHorzMoveOnClick.getSelection());
 	}
 
-	protected void showRotationAxis() throws Exception {
-		if (i13MJPegViewInitialiser != null) {
-			i13MJPegViewInitialiser.showRotationAxis(btnShowRotAxis.getSelection());
-			i13MJPegViewInitialiser.showImageMarker(btnShowRotAxis.getSelection());
-		}
-	}
+
 
 	public void setADController(ADController adController, MJPegView mjPegView) {
 		if (!(adController instanceof I13ADControllerImpl)) {
@@ -344,5 +344,16 @@ public class I13MJPEGViewComposite extends Composite {
 
 	public MJPeg getMJPeg() {
 		return mJPeg;
+	}
+
+	private void actOnShowRotAxisSelection() {
+		try {
+			if (i13MJPegViewInitialiser != null) {
+				i13MJPegViewInitialiser.setRotationAxisAction(btnShowRotAxis.getSelection());
+				i13MJPegViewInitialiser.setImageCenterAction(btnShowRotAxis.getSelection());
+			}
+		} catch (Exception e1) {
+			logger.error("Error showing rot axis or beam center", e1);
+		}
 	}
 }
