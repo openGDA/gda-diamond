@@ -906,10 +906,10 @@ if installation.isLive():
 	mirrors=ReadPDGroupClass('mirrors',[mirror1, mirror2,mirror3])
 	###temporarilily remove cryolevel due to controls problem - go back to original when working
 	#mono=ReadPDGroupClass('Mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm,cryolevel])
-	mono=ReadPDGroupClass('Mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])
+	mono=ReadPDGroupClass('mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])
 	###
-	pa=ReadPDGroupClass('PA',[stoke, tthp, thp, zp])
-	pp=ReadPDGroupClass('PP',[ppth, ppx, ppy, ppchi])
+	pa=ReadPDGroupClass('pa',[stoke, tthp, thp, zp])
+	pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
 	xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
