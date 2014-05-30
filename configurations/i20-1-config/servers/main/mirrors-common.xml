@@ -88,10 +88,10 @@
 	<bean id="me2_stripe" class="gda.device.scannable.ME2Scannable">
 		<property name="stripeScannable" ref="me2_stripe_positioner" />
 		<property name="yScannable" ref="me2_y" />
-		<property name="yOutPosition" value="0.0" />
-		<property name="yInPosition" value="1.0" />
+		<property name="yOutPosition" value="-60.0" />
+		<property name="yInPosition" value="38.385" />
 	</bean>
-	
+
 	<bean id="me2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
