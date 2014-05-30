@@ -108,6 +108,10 @@
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 	<import resource="../../../devices/epics/excalibur.xml"/>
 
+	<import resource="../../../devices/vortex.xml"/>
+	<import resource="../../../devices/diamond_crl.xml"/>
+
+
 	<!-- piezo raster scan device -->
 	<import resource="../../../devices/pie725_raster.xml"/>
 	
