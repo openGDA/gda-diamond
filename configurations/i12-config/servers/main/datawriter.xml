@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="pixium10_PUMode">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_PUMode" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="pixium10_BaseExposure">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_BaseExposure" />
+						<property name="units" value="s" />
+					</bean>
+				</entry>
+				<entry key="pixium10_BaseAcquirePeriod">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_BaseAcquirePeriod" />
+						<property name="units" value="s" />
+					</bean>
+				</entry>
+				<entry key="pixium10_ExcludeEarlyFrames">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_ExcludeEarlyFrames" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				<entry key="pixium10_TotalCount">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_TotalCount" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- <bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>pixium10_PUMode</value>
+				<value>pixium10_BaseExposure</value>
+				<value>pixium10_BaseAcquirePeriod</value>
+				<value>pixium10_ExcludeEarlyFrames</value>
+				<value>pixium10_TotalCount</value>
+			</set>
+		</property>
+	</bean> -->
+</beans>
