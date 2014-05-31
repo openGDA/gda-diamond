@@ -739,15 +739,20 @@ if installation.isLive():
 
 if installation.isLive() and ENABLE_PCOEDGE:
 
+	pcoedge = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'pcoedge',
+		_pcoedge,  # @UndefinedVariable
+		None,
+		_pcoedge_for_snaps,  # @UndefinedVariable
+		[],
+		panel_name='ImageProPlus Plot',
+		panel_name_rcp='Plot 1',
+		fileLoadTimout=60)
 
-	pcoedge = SwitchableHardwareTriggerableProcessingDetectorWrapper('pcoedge',
-																	_pcoedge,  # @UndefinedVariable
-																	None,
-																	_pcoedge_for_snaps,  # @UndefinedVariable
-																	[],
-																	panel_name='ImageProPlus Plot',
-																	panel_name_rcp='Plot 1',
-																	fileLoadTimout=60)
+	pcoedgepeak2d = DetectorDataProcessorWithRoi('peak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	pcoedgemax2d = DetectorDataProcessorWithRoi('max2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pcoedgeintensity2d = DetectorDataProcessorWithRoi('intensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
+
 
 if installation.isLive() and ENABLE_PCO4000:
 
