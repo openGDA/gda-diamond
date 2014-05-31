@@ -19,7 +19,7 @@ else:
 
 USE_DUMMY_IDGAP_MOTOR = False
 #USE_DUMMY_IDGAP_MOTOR = True
-USE_XMAP= False
+USE_XMAP= True
 
 # Java
 import java
@@ -970,11 +970,10 @@ run('pd_adc_table')
 
 run('enable_xps_gda.py')
 
+from edgeDetectRobust import edgeDetectRobust as edge
 run('edgeDetectRobust')
 
-
 run('rePlot')
-edge=edgeDetectRobust
 
 run('whynobeam')
 
@@ -1027,7 +1026,8 @@ def open_valves():
 #ci=249.0; cj=108.0	#26/11/13
 #ci=241.0; cj=107.0	#14/01/14
 #ci=236.0; cj=107.0	#11/03/14
-ci=240.0; cj=108.0	#11/03/14
+#ci=240.0; cj=108.0	#11/03/14
+ci=243.0; cj=106.0	#09/04/14
 
 maxi=486; maxj=194
 
