@@ -6,7 +6,7 @@ import cendac
 import integrationTests
 import CrysalisDataCollection
 import pd_epicsdevice
-import ruby_scripts
+#import ruby_scripts
 import gdascripts.pd.epics_pds
 import gdascripts.pd.time_pds
 import gdascripts.utils
@@ -45,6 +45,10 @@ zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraD
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
 ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
+
+import scannables.MerlinColourModeThresholdsScannable
+mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
+    PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
 
 from detector_scan_commands import *
 from centreProxy import *
@@ -255,6 +259,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
 
+	""" Remove ODCCD/Ruby/Atlas objects
 	try:
 		ccd = finder.find("ODCCD")
 	except:
@@ -279,6 +284,7 @@ try:
 		atlas.connectIfNeeded()
 	except:
 		localStation_exception(sys.exc_info(), "connecting ruby")
+	"""
 
 	try:
 		global pe
@@ -486,6 +492,13 @@ try:
 		alias('rot_dkphi')
 	except:
 		localStation_exception(sys.exc_info(), "creating rot_dkphi object")
+
+	try:
+		from scannables.ContinuouslyRockingScannable import ContinuouslyRockingScannable
+		dkphi_rocker = ContinuouslyRockingScannable('dkphi_rocker', scannable=dkphi)
+		alias('dkphi_rocker')
+	except:
+		localStation_exception(sys.exc_info(), "creating dkphi_rocker object")
 
 	try:
 		dx.setOutputFormat(["%.6g"])

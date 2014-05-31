@@ -9,14 +9,13 @@
 		<property name="imageNDArray" ref="marAD_summary_arr" />
 		<property name="imageHistSize" value="500" />
 		<property name="imageMin" value="0" />
-		<property name="imageMax" value="2147483647" />
 		<property name="detectorName" value="mar" />
 		<property name="adBase" ref="marAD_config_base" />
 		<property name="ffmpegStream" ref="marAD_summary_mjpg" />
 		<property name="ffmpegImageOutHeightMax" value="3450" />
 		<property name="ffmpegImageOutWidthMax" value="3450" />
-		<property name="cameraImageWidthMax" value="3450" />
-		<property name="cameraImageHeightMax" value="3450" />
+		<!-- Remove the imageNDROI to stop ARR input port being overwritten with .roi
+		 -->
 		<property name="imageNDROI" ref="marAD_summary_roi"/>
 		<property name="serviceName" value="mar"/>
 	</bean>
