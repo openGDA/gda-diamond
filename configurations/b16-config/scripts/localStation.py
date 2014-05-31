@@ -74,10 +74,6 @@ ENABLE_PCO4000 = True
 USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
 
-print "<<< Running init/microfocus_startup.py"
-run("init/microfocus_startup.py")
-print ">>>"
-
 from gda.factory import Finder
 daserver = Finder.getInstance().find('daserver')
 from scannable.laser_experiment import LaserShutterPulseController
