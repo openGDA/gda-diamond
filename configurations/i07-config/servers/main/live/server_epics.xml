@@ -1233,6 +1233,14 @@
         <property name="deviceName" value="DIFF1.BASEY" />
         <property name="local" value="true" />
     </bean>
+    <bean id="MotorBASEY1_DIFF1" class="gda.device.motor.EpicsMotor">
+        <property name="deviceName" value="DIFF1.BASEY1" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="MotorBASEY2_DIFF1" class="gda.device.motor.EpicsMotor">
+        <property name="deviceName" value="DIFF1.BASEY2" />
+        <property name="local" value="true" />
+    </bean>
     <bean id="MotorBASEPITCH_DIFF1" class="gda.device.motor.EpicsMotor">
         <property name="deviceName" value="DIFF1.BASEPITCH" />
         <property name="local" value="true" />
