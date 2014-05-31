@@ -111,7 +111,25 @@ from spechelp import * # aliases man objects
 
 alias("jobs")
 
+USE_NEXUS_METADATA_COMMANDS = True
+WRITE_NEXUS_FILES = True
 
+LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter" if WRITE_NEXUS_FILES else "SrsDataFile")
+
+if USE_NEXUS_METADATA_COMMANDS:
+	
+	from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
+	alias("setTitle")
+	alias("getTitle")
+	alias("meta_add")
+	alias("meta_ll")
+	alias("meta_ls")
+	alias("meta_rm")
+	
+	meta.readFromNexus = True
+
+	from gda.data.scan.datawriter import NexusDataWriter
+	LocalProperties.set( NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop" )
 
 meta.rootNamespaceDict=globals()
 note.rootNamespaceDict=globals()
@@ -933,17 +951,37 @@ if installation.isLive():
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 try:
 	if not USE_DIFFCALC:
-		meta.add(dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
 	else:
-		meta.add(dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
-		
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
+
+	from gdascripts.scannable.metadata import _is_scannable
+
+	if USE_NEXUS_METADATA_COMMANDS:
+		for item in toadd:
+			print "Adding metadata:", item.name
+			print item
+			if _is_scannable(item):
+				meta_add(item)
+			else:
+				print "%s was not scannable and could not be entered as metadata" % item.name
+	else:
+		meta.add(*toadd)
+	
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
 	print "Removing frontend from metadata collection"
-	meta.rm(frontend)
+	if USE_NEXUS_METADATA_COMMANDS:
+		meta_rm(frontend)
+	else:
+		meta.rm(frontend)
 	try:
-		addmeta(kbm1)
-		addmeta(kbmbase)
+		if USE_NEXUS_METADATA_COMMANDS:
+			meta_add(kbm1)
+			meta_add(kbmbase)
+		else:
+			addmeta(kbm1)
+			addmeta(kbmbase)
 	except NameError:
 		print "Not adding kbm1 or kbm1base metadata as these are unavailable"
 
