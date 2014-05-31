@@ -14,6 +14,8 @@
 		<property name="ffmpegStream" ref="marAD_summary_mjpg" />
 		<property name="ffmpegImageOutHeightMax" value="3450" />
 		<property name="ffmpegImageOutWidthMax" value="3450" />
+		<!-- Remove the imageNDROI to stop ARR input port being overwritten with .roi
+		 -->
 		<property name="imageNDROI" ref="marAD_summary_roi"/>
 		<property name="serviceName" value="mar"/>
 	</bean>

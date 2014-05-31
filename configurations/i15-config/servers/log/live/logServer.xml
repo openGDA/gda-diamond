@@ -6,80 +6,15 @@
 
     <!-- include file is relative to the application directory -->
 
-    <!-- DebugFILE                                                                             servers/log/common/logServer.xml -->
-    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/> -->
-    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/>
+    <!-- ServerDebugFILE LogServer                                             servers/log/common/logServer.xml -->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/>
 
-    <!-- Console                                                                               servers/log/common/logSharedWithClients.xml -->
-    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/> -->
-    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
-
-    <!-- WS001_LogPanel WS005_LogPanel WS005_LogPanel                                          servers/log/live/logSharedWithClients.xml"/> -->
-    <!-- <include file=                 "../workspace_git/gda-mt.git/configurations/i15-config/servers/log/live/logSharedWithClients.xml"/> -->
-    <include file="/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/log/live/logSharedWithClients.xml"/>
-
-    <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
-    <appender name="WS001" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws001.diamond.ac.uk</RemoteHost>
-        <Port>6789</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-    <appender name="WS002" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws002.diamond.ac.uk</RemoteHost>
-        <Port>6789</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-    <appender name="WS005" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>i15-ws005.diamond.ac.uk</RemoteHost>
-        <Port>6789</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-	
-    <!--<appender name="HTMLFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${gda.logs.dir}/lastLogServerEntries.html</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/logServerEntries.%d{yyyy-MM-dd}.log</FileNamePattern>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.html.HTMLLayout">
-            <cssBuilder class="ch.qos.logback.core.html.UrlCssBuilder">
-                <url>address_of_a_custom_stylesheet.css</url>
-            </cssBuilder>
-            <Pattern>%date%thread%level%logger%msg</Pattern>
-            <Title>Logging Events</Title>
-        </layout>
-    </appender>-->
-    <!--<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
-        <SMTPHost>Outbox.rl.ac.uk</SMTPHost>
-        <To>paul.gibbons@diamond.ac.uk</To>
-        <From>gda-support@dl.ac.uk</From>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{35} - %message%n</Pattern>
-        </layout>	    
-    </appender>-->
-    
-    <!-- appender name="ELOG" class="gda.util.ElogAppender">
-    	<Visit></Visit>
-		<LogID>BLI15</LogID>
-		<GroupID>DA</GroupID>
-		<UserID>GDA</UserID>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-        	<pattern>%-5level [%logger] %ex - %m%n</pattern>
-        </layout>	    
-    </appender-->    
+    <!-- Console                                                               servers/log/common/logSharedWithClients.xml -->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
 
     <root>
         <level value="INFO"/>
-        <appender-ref ref="WS001"/>
-        <appender-ref ref="WS001_LogPanel"/>
-        <appender-ref ref="WS002"/>
-        <appender-ref ref="WS002_LogPanel"/>
-        <appender-ref ref="WS005"/>
-        <appender-ref ref="WS005_LogPanel"/>
-        <!--<appender-ref ref="EMAIL"/>-->
-        <appender-ref ref="DebugFILE"/>
-        <!--<appender-ref ref="HTMLFILE"/>-->
+        <appender-ref ref="LogServer" />
+        <appender-ref ref="ServerDebugFILE"/>
      </root>
 </configuration>

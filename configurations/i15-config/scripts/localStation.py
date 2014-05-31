@@ -46,6 +46,10 @@ from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
 ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
 
+import scannables.MerlinColourModeThresholdsScannable
+mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
+    PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
+
 from detector_scan_commands import *
 from centreProxy import *
 from scanPeak import *
@@ -488,6 +492,13 @@ try:
 		alias('rot_dkphi')
 	except:
 		localStation_exception(sys.exc_info(), "creating rot_dkphi object")
+
+	try:
+		from scannables.ContinuouslyRockingScannable import ContinuouslyRockingScannable
+		dkphi_rocker = ContinuouslyRockingScannable('dkphi_rocker', scannable=dkphi)
+		alias('dkphi_rocker')
+	except:
+		localStation_exception(sys.exc_info(), "creating dkphi_rocker object")
 
 	try:
 		dx.setOutputFormat(["%.6g"])
