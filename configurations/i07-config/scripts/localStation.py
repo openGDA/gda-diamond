@@ -79,9 +79,9 @@ try_execfile("BeamlineI07/useDetectors.py", "Start detectors")
 #execfile("BeamlineI07/init_bimorph_voltage_setter.py")
 try_execfile("BeamlineI07/setBimorphMirror.py", "Start bimorph stuff")
 
-#try_execfile("BeamlineI07/diffractometer.py", "Diffractometer setup")
+try_execfile("BeamlineI07/diffractometer.py", "Diffractometer setup")
 
-try_execfile("BeamlineI07/diff1_horizontal_geometry.py", "Diffractometer Horizontal geometry setup (surface normal vertical)")
+#try_execfile("BeamlineI07/diff1_horizontal_geometry.py", "Diffractometer Horizontal geometry setup (surface normal vertical)")
 
 try_execfile("BeamlineI07/useDCD.py", "Creating the DCD motors for Liquid Surface Reflectivity Measurement")
 
