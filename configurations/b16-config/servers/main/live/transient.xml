@@ -5,7 +5,7 @@
 <!-- BL16B-MO-KBM-01 -->
 <!-- <import resource="transient/kbm.xml"/>-->
 
-<!--<import resource="epics/detector/pcoedge.xml" /> -->
+<!-- <import resource="epics/detector/pcoedge.xml" />-->
 
 <!--<import resource="transient/ixs_slits.xml"/> -->
 
@@ -15,8 +15,8 @@
 
 <!--<import resource="transient/ixs_mirror.xml"/> -->
 
-<!-- BL16B-MO-TAB-02 - Motion Tower Stage-->
-<import resource="transient/motion_tower.xml"/>
+<!-- BL16B-MO-TAB-02 - Motion Tower Stage -->
+<!-- <import resource="transient/motion_tower.xml"/>-->
 
 <!-- BL16B-MO-BRICK-02 - Geobrick 2 user motion -->
 <!-- <import resource="transient/geo2.xml"/>  -->
@@ -24,13 +24,13 @@
 
 <!-- <import resource="transient/bend.xml" /> -->
 
-<import resource="transient/geo3.xml" />
+<!-- <import resource="transient/geo3.xml" /> -->
 
-<import resource="transient/geo4.xml"/>
+<!-- <import resource="transient/geo4.xml"/>-->
 
-<import resource="transient/kb_geo4.xml"/>
+<!-- <import resource="transient/kb_geo4.xml"/>-->
 
-<!--<import resource="transient/pcocam.xml" /> -->
+<!-- <import resource="transient/pcocam.xml" /> -->
 
 
 <!-- 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/mebrick.xml" /> -->
