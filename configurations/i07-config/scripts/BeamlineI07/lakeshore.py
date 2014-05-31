@@ -12,7 +12,6 @@ class LakeshoreDoubleReadout( ScannableBase ):
         return ( self.lakeshore.getCurrentTemperature(), self.lakeshore.controller.getChannel1Temp() )
 
     def rawAsynchronousMoveTo( self, temp ):
-        print "moveto"
         self.lakeshore.rawAsynchronousMoveTo( temp )
 
     def setTargetTemperature( self, temp ):
