@@ -3,13 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="epicsConfig" class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.config}/xml/epics/BL07I-gda-interface.xml" />
-	</bean>
-
 	<bean id="lakeshore_controller" class="gda.device.temperature.EpicsLakeshore340Controller">
 		<property name="deviceName" value="CRYO.TCTRL" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
 		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 	</bean>
