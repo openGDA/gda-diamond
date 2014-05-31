@@ -52,6 +52,8 @@
 		<property name="ffmpegImageOutHeightMax" value="195" />
 		<property name="ffmpegImageOutWidthMax" value="487" />
 		<property name="setExposureTimeCmd" value="fastpil1.freerun.start(%f)" />
+		<property name="connectToPlotServer" value="true" />
+		
 	</bean>
 
 	<bean id="fastpil1_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
