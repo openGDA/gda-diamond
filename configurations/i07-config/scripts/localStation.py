@@ -49,7 +49,7 @@ try_execfile("BeamlineI07/setSpecialScans.py", "Enable the multiple region scan"
 print "-------------------------------------------------------------------"
 print "Note: Use dnp (Diamond NumPy) from scisoftpy for data handling and plotting in GDA"
 print "Note: Use help dnp for all commands"
-print "Note: Use help <component> for help on all components ..." 
+print "Note: Use help <component> for help on all components ..."
 print "      (dnp.core, dnp.io, dnp.maths, dnp.plot, dnp.image)"
 print "For example: "
 print "		 To load data:  data=dnp.io.load(/full/path/to/data/file, formats=['srs'], asdict=True)"
@@ -60,9 +60,9 @@ print "		 To plot image: dnp.plot.image(data)"
 try_execfile("BeamlineI07/useMotors.py", "Motor Support")
 
 try_execfile("BeamlineI07/setFastShutter.py", "Creating the fast shutter fs")
-	
+
 try_execfile("BeamlineI07/useFilters.py", "FilterSet Support")
-	
+
 print "==================================================================="
 print "Ion Chamber ADC Scaler Support"
 print "Use ionsc for the scaler card and ionsc1, ionsc2, ... ionsc8 on channels"
@@ -114,7 +114,7 @@ try_execfile("BeamlineI07/useDummyCam.py")
 try_execfile("BeamlineI07/useEuroThermo.py")
 
 try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
-			
+
 # TODO: Restore scan wrappers!
 	##to setup the scan processing wrappers
 	#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
