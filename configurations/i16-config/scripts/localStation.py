@@ -275,7 +275,8 @@ scan_processor.rootNamespaceDict=globals()
 scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
 scan_processor.processors.append(Lcen())
 scan_processor.processors.append(Rcen())
-scan_processor.processors.append(GaussianEdge(name='spedge')) # edge already maps to a function edgeDetectRobust
+# Removed on May 1st 2014 as taking 100s
+# scan_processor.processors.append(GaussianEdge(name='spedge')) # edge already maps to a function edgeDetectRobust
 
 
 
