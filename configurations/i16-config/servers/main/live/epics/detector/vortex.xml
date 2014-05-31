@@ -37,6 +37,45 @@
 		<property name="local" value="true" />
 	</bean>
 
+
+
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+		<property name="local" value="true" />
+		<property name="epicsDeviceName" value="xmap_dxp" />
+		<property name="elementOffset" value="1" />
+	</bean>
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
+		<property name="edxdController" ref="edxdcontroller" />
+		<property name="numberOfElements" value="1" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="xmapControllerName" value="xmapcontroller" />
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+		<property name="extraNames">
+			<list>
+				<value>Element1</value>
+			</list>
+		</property>
+		<property name="alwaysRecordRawMCAs" value="true" />
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/xml/vortex_parameters.xml" />
+	</bean>
+
+
+
 </beans><!--
 
     <EpicsRecord>

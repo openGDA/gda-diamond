@@ -34,7 +34,7 @@
 	<import resource="epics/motor/s6.xml" />
 	<import resource="epics/motor/sixc.xml" />
 	<import resource="epics/motor/sixcbase.xml" />
-	<import resource="transient/kbmbase.xml" />
+<!-- 	<import resource="transient/kbmbase.xml" /> -->
 	
 	<import resource="epics/motor/sixcsample.xml" />
 
@@ -63,8 +63,9 @@
 <!-- 	<import resource="epics/detector/fastpil1.xml" /> -->
 	<import resource="epics/detector/pilatus2M.xml" />
 	<import resource="epics/detector/andor1.xml" />
-	<import resource="epics/detector/cam2.xml" />
 	<import resource="epics/detector/cam1.xml" />
+	<import resource="epics/detector/cam2.xml" />
+	<import resource="epics/detector/cam5.xml" />
 	<import resource="epics/detector/medipix.xml" />
 
 

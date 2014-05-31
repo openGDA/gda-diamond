@@ -49,7 +49,7 @@ try_execfile("BeamlineI07/setSpecialScans.py", "Enable the multiple region scan"
 print "-------------------------------------------------------------------"
 print "Note: Use dnp (Diamond NumPy) from scisoftpy for data handling and plotting in GDA"
 print "Note: Use help dnp for all commands"
-print "Note: Use help <component> for help on all components ..." 
+print "Note: Use help <component> for help on all components ..."
 print "      (dnp.core, dnp.io, dnp.maths, dnp.plot, dnp.image)"
 print "For example: "
 print "		 To load data:  data=dnp.io.load(/full/path/to/data/file, formats=['srs'], asdict=True)"
@@ -60,9 +60,9 @@ print "		 To plot image: dnp.plot.image(data)"
 try_execfile("BeamlineI07/useMotors.py", "Motor Support")
 
 try_execfile("BeamlineI07/setFastShutter.py", "Creating the fast shutter fs")
-	
+
 try_execfile("BeamlineI07/useFilters.py", "FilterSet Support")
-	
+
 print "==================================================================="
 print "Ion Chamber ADC Scaler Support"
 print "Use ionsc for the scaler card and ionsc1, ionsc2, ... ionsc8 on channels"
@@ -79,9 +79,9 @@ try_execfile("BeamlineI07/useDetectors.py", "Start detectors")
 #execfile("BeamlineI07/init_bimorph_voltage_setter.py")
 try_execfile("BeamlineI07/setBimorphMirror.py", "Start bimorph stuff")
 
-#try_execfile("BeamlineI07/diffractometer.py", "Diffractometer setup")
+try_execfile("BeamlineI07/diffractometer.py", "Diffractometer setup")
 
-try_execfile("BeamlineI07/diff1_horizontal_geometry.py", "Diffractometer Horizontal geometry setup (surface normal vertical)")
+#try_execfile("BeamlineI07/diff1_horizontal_geometry.py", "Diffractometer Horizontal geometry setup (surface normal vertical)")
 
 try_execfile("BeamlineI07/useDCD.py", "Creating the DCD motors for Liquid Surface Reflectivity Measurement")
 
@@ -114,13 +114,24 @@ try_execfile("BeamlineI07/useDummyCam.py")
 try_execfile("BeamlineI07/useEuroThermo.py")
 
 try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
-			
+
 # TODO: Restore scan wrappers!
 	##to setup the scan processing wrappers
 	#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 	#scan_processor.rootNamespaceDict=globals()
 	#import gdascripts.utils #@UnusedImport
 	#gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
+
+from scannable.pv_with_separate_readback_and_tolerance import PVWithSeparateReadbackAndToleranceScannable
+chiller1=PVWithSeparateReadbackAndToleranceScannable('chiller1', pv_set='BL07I-EA-CHIL-01:SET_TEMP', pv_read='BL07I-EA-CHIL-01:TEMP', timeout=30*60, tolerance=0.2)
+chiller2=PVWithSeparateReadbackAndToleranceScannable('chiller2', pv_set='BL07I-EA-CHIL-02:SET_SETPOINT', pv_read='BL07I-EA-CHIL-02:TEMPERATURE', timeout=30*60, tolerance=0.2)
+
+from BeamlineI07.gaspanel import GasPanel, GasPanelScannable
+gp = GasPanel("gp", "BL07I-EA-GAS-01:")
+gpscan = GasPanelScannable("gpscan", "BL07I-EA-GAS-01:")
+
+from BeamlineI07.lakeshore import LakeshoreDoubleReadout
+lakeshore = LakeshoreDoubleReadout("lakeshore", lakeshore_base)
 
 print "==================================================================="
 print

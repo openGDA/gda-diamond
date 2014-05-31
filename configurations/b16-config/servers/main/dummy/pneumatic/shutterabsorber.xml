@@ -6,7 +6,7 @@
 		<property name="positions">
 			<list>
 				<value>Open</value>
-				<value>Closed</value>
+				<value>Close</value>
 			</list>
 		</property>
 	</bean>
