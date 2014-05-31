@@ -11,14 +11,15 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i16/software/gda/config/pluginCustomization.ini
--Djacorb.config.dir=/dls_sw/i16/software/gda/config/jacorb/live
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/pluginCustomization.ini
+-Djacorb.config.dir=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/jacorb/live
 -Dgda.install.workspace.loc=/dls_sw/i16/software/gda/workspace
--Dgda.config=/dls_sw/i16/software/gda/config
--Dgda.propertiesFile=/dls_sw/i16/software/gda/config/properties/live/rcpclient.java.properties
+-Dgda.install.git.loc=/dls_sw/i16/software/gda/workspace_git
+-Dgda.config=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config
+-Dgda.propertiesFile=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/properties/live/rcpclient.java.properties
 -Dgda.data=/dls/i16/data
 -Dgda.mode=live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i16/software/gda/config/jca/live/JCALibrary.properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/jca/live/JCALibrary.properties
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Duk.ac.diamond.scisoft.analysis.io.nocaching=true
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true

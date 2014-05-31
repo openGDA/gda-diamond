@@ -10,16 +10,16 @@ def dump(pilatus_wrapper):
     d = pilatus_wrapper
     
     lines = []
-    lines.append("%s.detector.filewriter.fileTemplate = '%s'" % (d.name, d.detector.filewriter.fileTemplate))
-    lines.append("%s.detector.filewriter.fileTemplateForReadout = '%s'" % (d.name, d.detector.filewriter.fileTemplateForReadout))
+    lines.append("%s.detector.tifwriter.fileTemplate = '%s'" % (d.name, d.detector.tifwriter.fileTemplate))
+    lines.append("%s.detector.tifwriter.fileTemplateForReadout = '%s'" % (d.name, d.detector.tifwriter.fileTemplateForReadout))
     lines.append("\n")
     
-    lines.append("%s.detector_for_snaps.filewriter.fileTemplate = '%s'" % (d.name, d.detector_for_snaps.filewriter.fileTemplate))
-    lines.append("%s.detector_for_snaps.filewriter.fileTemplateForReadout = '%s'" % (d.name, d.detector_for_snaps.filewriter.fileTemplateForReadout))
+    lines.append("%s.detector_for_snaps.tifwriter.fileTemplate = '%s'" % (d.name, d.detector_for_snaps.tifwriter.fileTemplate))
+    lines.append("%s.detector_for_snaps.tifwriter.fileTemplateForReadout = '%s'" % (d.name, d.detector_for_snaps.tifwriter.fileTemplateForReadout))
     lines.append("\n")
     
-    lines.append("%s.hardware_triggered_detector.filewriter.fileTemplate = '%s'" % (d.name, d.hardware_triggered_detector.filewriter.fileTemplate))
-    lines.append("%s.hardware_triggered_detector.filewriter.fileTemplateForReadout = '%s'" % (d.name, d.hardware_triggered_detector.filewriter.fileTemplateForReadout))
+    lines.append("%s.hardware_triggered_detector.tifwriter.fileTemplate = '%s'" % (d.name, d.hardware_triggered_detector.tifwriter.fileTemplate))
+    lines.append("%s.hardware_triggered_detector.tifwriter.fileTemplateForReadout = '%s'" % (d.name, d.hardware_triggered_detector.tifwriter.fileTemplateForReadout))
     lines.append("\n")
     lines.append("%s.iFileLoader = %s" % (d.name, d.iFileLoader))
     print "\n".join(lines)
@@ -30,10 +30,10 @@ def set(pilatus_wrapper, extension):
         raise Exception("extension '%s' must be 'tif' or 'cbf'" % extension)
     print "*** switching %s to write .%s files ***" % (pilatus_wrapper.name, extension)
     d = pilatus_wrapper
-    d.detector.filewriter.fileTemplate = TEMPLATE + extension
-    d.detector_for_snaps.filewriter.fileTemplate = TEMPLATE + extension
-    d.hardware_triggered_detector.filewriter.fileTemplate = TEMPLATE + extension
-    d.hardware_triggered_detector.filewriter.fileTemplateForReadout = HW_TEMPLATE + extension
+    d.detector.tifwriter.fileTemplate = TEMPLATE + extension
+    d.detector_for_snaps.tifwriter.fileTemplate = TEMPLATE + extension
+    d.hardware_triggered_detector.tifwriter.fileTemplate = TEMPLATE + extension
+    d.hardware_triggered_detector.tifwriter.fileTemplateForReadout = HW_TEMPLATE + extension
     
     d.iFileLoader = FILEWRITERS[extension]
     

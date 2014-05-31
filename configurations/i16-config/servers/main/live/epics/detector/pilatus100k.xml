@@ -35,6 +35,14 @@
 		<constructor-arg value="EXTERNAL_TRIGGER" />
 	</bean>
 
+	<bean id="pilatus1_nxcollectionstrategy_for_multiple_exposures_per_collection_internal_triggering"
+		class="gda.device.detector.addetector.triggering.MultipleExposurePerCollectionStandard">
+		<constructor-arg ref="pilatus1_adbase" />
+		<constructor-arg value=".003" />
+		<property name="readAcquisitionPeriod" value="true" />
+		<property name="timeFormat" value="%.6f" />
+	</bean>
+
 
 	<!-- NXDetector file writers -->
 	
@@ -65,6 +73,17 @@
 		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 	
+	<bean id="pilatus1_nxfilewriter_for_multiple_exposures_per_collection_internal_triggering"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus100kmulti" />
+		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s%s%05d_nnnnn.tif" />
+		<property name="writeErrorStatusSupported" value="false"/>
+	</bean>
+	
 	<bean id="pilatus1_counter_monitor" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
 		<constructor-arg ref="pilatus1_adbase" />
 	</bean>
@@ -77,6 +96,16 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pilatus1_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pilatus1_multi" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus1" />
+		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_multiple_exposures_per_collection_internal_triggering"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus1_nxfilewriter_for_multiple_exposures_per_collection_internal_triggering" />
 			</list>
 		</property>
 	</bean>

@@ -6,16 +6,16 @@
 	<!-- AD hardware -->
 
 	<bean id="pilatus2_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL16I-EA-PILAT-02:cam1:" />
+		<property name="basePVName" value="BL16I-EA-PILAT-02:CAM:" />
 	</bean>
 
 	<bean id="pilatus2_driver"
 		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
-		<property name="basePVName" value="BL16I-EA-PILAT-02:cam1:" />
+		<property name="basePVName" value="BL16I-EA-PILAT-02:CAM:" />
 	</bean>
 
 	<bean id="pilatus2_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL16I-EA-PILAT-02:cam1:" />
+		<property name="basePVName" value="BL16I-EA-PILAT-02:CAM:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
@@ -65,7 +65,6 @@
 		<constructor-arg value="pilatus2M" />
 		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus2Msnaps" />
-		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
 		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
@@ -94,13 +93,7 @@
 
 	<bean id="pilatus2_for_snaps" class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus2_for_snaps" />
-		<property name="collectionStrategy">
-			<bean
-				class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
-				<constructor-arg ref="pilatus2_adbase" />
-				<constructor-arg value=".003" />
-			</bean>
-		</property>
+		<property name="collectionStrategy" ref="pilatus2_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pilatus2_nxfilewriter_for_snaps" />

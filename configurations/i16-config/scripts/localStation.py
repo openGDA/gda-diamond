@@ -5,6 +5,9 @@ print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
 
+from gda.configuration.properties import LocalProperties
+LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
+
 import installation
 
 if installation.isDummy():
@@ -16,7 +19,7 @@ else:
 
 USE_DUMMY_IDGAP_MOTOR = False
 #USE_DUMMY_IDGAP_MOTOR = True
-USE_XMAP= False
+USE_XMAP= True
 
 # Java
 import java
@@ -108,7 +111,25 @@ from spechelp import * # aliases man objects
 
 alias("jobs")
 
+USE_NEXUS_METADATA_COMMANDS = True
+WRITE_NEXUS_FILES = True
 
+LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter" if WRITE_NEXUS_FILES else "SrsDataFile")
+
+if USE_NEXUS_METADATA_COMMANDS:
+	
+	from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
+	alias("setTitle")
+	alias("getTitle")
+	alias("meta_add")
+	alias("meta_ll")
+	alias("meta_ls")
+	alias("meta_rm")
+	
+	meta.readFromNexus = True
+
+	from gda.data.scan.datawriter import NexusDataWriter
+	LocalProperties.set( NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop" )
 
 meta.rootNamespaceDict=globals()
 note.rootNamespaceDict=globals()
@@ -272,7 +293,8 @@ scan_processor.rootNamespaceDict=globals()
 scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
 scan_processor.processors.append(Lcen())
 scan_processor.processors.append(Rcen())
-scan_processor.processors.append(GaussianEdge(name='spedge')) # edge already maps to a function edgeDetectRobust
+# Removed on May 1st 2014 as taking 100s
+# scan_processor.processors.append(GaussianEdge(name='spedge')) # edge already maps to a function edgeDetectRobust
 
 
 
@@ -413,7 +435,11 @@ if installation.isLive():
 	run("startup_cryocooler")
 
 	print "   running pd_femto_adc_current2.py"
-	run("pd_femto_adc_current2.py")
+	try:
+		run("pd_femto_adc_current2.py")
+	except java.lang.IllegalStateException, e:
+		print " Could not run pd_femto_adc_current2.py "
+		print e
 	
 	print "   running pd_xyslit.py"
 	run("pd_xyslit.py")
@@ -477,7 +503,11 @@ if installation.isLive():
 
 	### MCA ###
 	print "Creating MCA scannables: mca1, mca"
-	mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
+	try:
+		mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
+	except java.lang.IllegalStateException,e :
+		print "Could not initiliase mca1 scannable"
+		print e
 	#mca2=Mca('MCA2','BL16I-EA-DET-02:aim_adc1') 
   	#(RobW) Removed March 21st 2011 to reflect this devices romoval from the Epics experimaental IOC
   	
@@ -895,10 +925,10 @@ if installation.isLive():
 	mirrors=ReadPDGroupClass('mirrors',[mirror1, mirror2,mirror3])
 	###temporarilily remove cryolevel due to controls problem - go back to original when working
 	#mono=ReadPDGroupClass('Mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm,cryolevel])
-	mono=ReadPDGroupClass('Mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])
+	mono=ReadPDGroupClass('mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])
 	###
-	pa=ReadPDGroupClass('PA',[stoke, tthp, thp, zp])
-	pp=ReadPDGroupClass('PP',[ppth, ppx, ppy, ppchi])
+	pa=ReadPDGroupClass('pa',[stoke, tthp, thp, zp])
+	pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
 	xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
@@ -921,16 +951,39 @@ if installation.isLive():
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 try:
 	if not USE_DIFFCALC:
-		meta.add(dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
 	else:
-		meta.add(dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2)
-		
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
+
+	from gdascripts.scannable.metadata import _is_scannable
+
+	if USE_NEXUS_METADATA_COMMANDS:
+		for item in toadd:
+			print "Adding metadata:", item.name
+			print item
+			if _is_scannable(item):
+				meta_add(item)
+			else:
+				print "%s was not scannable and could not be entered as metadata" % item.name
+	else:
+		meta.add(*toadd)
+	
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
 	print "Removing frontend from metadata collection"
-	meta.rm(frontend)
-	addmeta(kbm1)
-	addmeta(kbmbase)
+	if USE_NEXUS_METADATA_COMMANDS:
+		meta_rm(frontend)
+	else:
+		meta.rm(frontend)
+	try:
+		if USE_NEXUS_METADATA_COMMANDS:
+			meta_add(kbm1)
+			meta_add(kbmbase)
+		else:
+			addmeta(kbm1)
+			addmeta(kbmbase)
+	except NameError:
+		print "Not adding kbm1 or kbm1base metadata as these are unavailable"
 
 	
 except NameError, e:
@@ -956,11 +1009,10 @@ run('pd_adc_table')
 
 run('enable_xps_gda.py')
 
+from edgeDetectRobust import edgeDetectRobust as edge
 run('edgeDetectRobust')
 
-
 run('rePlot')
-edge=edgeDetectRobust
 
 run('whynobeam')
 
@@ -1013,7 +1065,8 @@ def open_valves():
 #ci=249.0; cj=108.0	#26/11/13
 #ci=241.0; cj=107.0	#14/01/14
 #ci=236.0; cj=107.0	#11/03/14
-ci=240.0; cj=108.0	#11/03/14
+#ci=240.0; cj=108.0	#11/03/14
+ci=243.0; cj=106.0	#09/04/14
 
 maxi=486; maxj=194
 
@@ -1117,9 +1170,6 @@ run('FlipperClass')
 
 # Restore data directory
 setDatadirPropertyFromPersistanceDatabase()
-print "======================================================================"
-print "Local Station Script completed"
-print "======================================================================"
 showlm()
 print "======================================================================"
 import gda.data.PathConstructor
@@ -1164,8 +1214,7 @@ if installation.isLive():
 ###############################################################################
 from scannable.detector import pilatuscbfswitcher
 # NOTE: state will be stored across calls to reset_namespace
-pilatuscbfswitcher.set(pil2m, 'cbf')
-#pilatuscbfswitcher.set(pil2m, 'tif')
+#pilatuscbfswitcher.set(pil2m, 'cbf')
 
 
 ###############################################################################
@@ -1184,3 +1233,7 @@ run('pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
 run("startup_pie725")
+
+print "======================================================================"
+print "Local Station Script completed"
+print "======================================================================"

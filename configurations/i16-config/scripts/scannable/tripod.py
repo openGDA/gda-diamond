@@ -7,14 +7,14 @@ import scisoftpy.external
 reload(scisoftpy.external)
 
 
-GDA_EXTERNAL_PATH = "/dls_sw/i16/software/gda/config/pythonscripts/gda_external"
+GDA_EXTERNAL_PATH = "/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/gda_external"
 
-print "Importing scannable.tripod. This calls /dls_sw/i16/software/gda/config/pythonscripts/gda_external.py"
+print "Importing scannable.tripod. This calls the python code: '%s/tripod.p'y" % GDA_EXTERNAL_PATH
 
 tool_to_base = create_function("tool_to_base",
                                module="tripod",
                                extra_path=[GDA_EXTERNAL_PATH],
-                               dls_module="scipy")
+                               dls_module="python/ana") # scipy")  # SEE SCI-1795
 #def tool_to_base(x, y, z, alpha1, alpha2, alpha3):
 """ Input tool position: x, y, z, alpha1, alpha2, alpha3 in (in mm and degrees).
     Calculate base settings: x1, x2, x3, y1, y2, y3 (all in mm)
@@ -24,7 +24,7 @@ tool_to_base = create_function("tool_to_base",
 base_to_tool = create_function("base_to_tool",
                                module="tripod",
                                extra_path=[GDA_EXTERNAL_PATH],
-                               dls_module="scipy")
+                               dls_module="python/ana") # scipy")  # SEE SCI-1795
 #def base_to_tool(x1, x2, x3, y1, y2, y3):
 """ Input base settings : x1, x2, x3, y1, y2, y3 (all in mm)
     Calculate tool position: x, y, z, alpha1, alpha2, alpha3 (in mm and degrees)
@@ -90,4 +90,4 @@ kbmbase_dummyY2 = SingleInputDummy('kbmbase_dummyY2')
 kbmbase_dummyY3 = SingleInputDummy('kbmbase_dummyY3')
 
 kbmbase_dummy = ScannableGroup("kbmbase_dummy", [kbmbase_dummyX1, kbmbase_dummyX2, kbmbase_dummyX3,kbmbase_dummyY1, kbmbase_dummyY2, kbmbase_dummyY3])
-kbmtool_dummy = TripodToolBase("kbmtool_dummy", kbmbase_dummy, print_base_target=True)
+#kbmtool_dummy = TripodToolBase("kbmtool_dummy", kbmbase_dummy, print_base_target=True)
