@@ -887,9 +887,11 @@ from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDe
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor
 
 # NOTE: BimorphParameters beans added in server/main/common/plumbing.xml
+# TODO: There is no server/main/common/plumbing.xml (MBB)
 #BeansFactory.setClasses([BimorphParameters])
 #b16beansfactory.setClassList(["uk.ac.gda.beans.exafs.DetectorParameters", "uk.ac.gda.beans.vortex.VortexParameters", "uk.ac.gda.beans.microfocus.MicroFocusScanParameters"])
 
+#slitscanner = SlitScanner(peak2dName="pcoedgepeak2d") # MBB Use new parameterised SlitScanner
 slitscanner = SlitScanner()
 from bimorph_mirror_optimising import ScanAborter
 scanAborter = ScanAborter("scanAborter",rc, 100) #@UndefinedVariable
