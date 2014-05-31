@@ -14,7 +14,7 @@ print "Importing scannable.tripod. This calls the python code: '%s/tripod.p'y" %
 tool_to_base = create_function("tool_to_base",
                                module="tripod",
                                extra_path=[GDA_EXTERNAL_PATH],
-                               dls_module="scipy")
+                               dls_module="python/ana") # scipy")  # SEE SCI-1795
 #def tool_to_base(x, y, z, alpha1, alpha2, alpha3):
 """ Input tool position: x, y, z, alpha1, alpha2, alpha3 in (in mm and degrees).
     Calculate base settings: x1, x2, x3, y1, y2, y3 (all in mm)
@@ -24,7 +24,7 @@ tool_to_base = create_function("tool_to_base",
 base_to_tool = create_function("base_to_tool",
                                module="tripod",
                                extra_path=[GDA_EXTERNAL_PATH],
-                               dls_module="scipy")
+                               dls_module="python/ana") # scipy")  # SEE SCI-1795
 #def base_to_tool(x1, x2, x3, y1, y2, y3):
 """ Input base settings : x1, x2, x3, y1, y2, y3 (all in mm)
     Calculate tool position: x, y, z, alpha1, alpha2, alpha3 (in mm and degrees)
