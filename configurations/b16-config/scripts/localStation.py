@@ -705,9 +705,9 @@ def configureScanPipeline(length = None, simultaneousPoints = None):
 		show()
 
 
-peak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
-max2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
-intensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
+ipppeak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
+ippmax2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
+ippintensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
 
 
 #ipp = ProcessingDetectorWrapper('ipp', ippws4, [p_peak], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
@@ -887,9 +887,11 @@ from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDe
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor
 
 # NOTE: BimorphParameters beans added in server/main/common/plumbing.xml
+# TODO: There is no server/main/common/plumbing.xml (MBB)
 #BeansFactory.setClasses([BimorphParameters])
 #b16beansfactory.setClassList(["uk.ac.gda.beans.exafs.DetectorParameters", "uk.ac.gda.beans.vortex.VortexParameters", "uk.ac.gda.beans.microfocus.MicroFocusScanParameters"])
 
+#slitscanner = SlitScanner(peak2dName="pcoedgepeak2d") # MBB Use new parameterised SlitScanner
 slitscanner = SlitScanner()
 from bimorph_mirror_optimising import ScanAborter
 scanAborter = ScanAborter("scanAborter",rc, 100) #@UndefinedVariable
@@ -964,4 +966,15 @@ caen1 = CaenHvSupply('caen1', 'BL16B-EA-CAEN-01:', 1)
 #medipix.returnPathAsImageNumberOnly = True
 #LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 print "Done!"
+from epics_scripts.device.scannable.pvscannables_with_logic import PVWithSeparateReadbackAndToleranceScannable
+furnace = PVWithSeparateReadbackAndToleranceScannable('furnace', pv_set='BL16B-EA-TEMPC-01:RAMP:LIMIT:SET', pv_read='BL16B-EA-TEMPC-01:TEMP', timeout=36000, tolerance = .1)
+#run('startup_pie725')
 
+
+#print "!!!! Renaming pcoedgepeak2d --> peak2d for bimorph scripts !!!!"
+#exec('peak2d = pcoedgepeak2d')
+print "!!!! Using pcoedgepeak2d for peak2d for bimorph scripts !!!!"
+
+peak2d=pcoedgepeak2d
+max2d=pcoedgemax2d
+intensity2d=pcoedgeintensity2d
