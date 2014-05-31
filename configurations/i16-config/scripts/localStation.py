@@ -1175,7 +1175,8 @@ if installation.isLive():
 ###############################################################################
 from scannable.detector import pilatuscbfswitcher
 # NOTE: state will be stored across calls to reset_namespace
-pilatuscbfswitcher.set(pil2m, 'cbf')
+#pilatuscbfswitcher.set(pil2m, 'cbf')
+
 
 ###############################################################################
 ###                           Run beamline scripts                          ###
