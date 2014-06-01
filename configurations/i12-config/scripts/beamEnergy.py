@@ -67,13 +67,30 @@ def moveToBeamEnergy(target_energy):
     #height = 50.0
     
     #collected with all 3 jacks set to 0.0, and the benders to 70-71 micrometers
-    c1 = - dnp.array([-2074.1, -1826.9, -1531.9, -1350.1, -1191.0, -1068.3, -956.4, -872.3, -796.7])/1000
-    c2 = - dnp.array([-1921.0, -1672.4, -1382.2, -1205.1, -1046.0, -914.2, -820.4, -734.3, -656.4])/1000
-    z = dnp.array([668.8, 757.5, 896.8, 1010.7, 1137.3, 1263.7, 1390.4, 1516.8, 1643.2])
-    E = dnp.array([53.15, 60.14, 70.15, 80.15, 90.2, 100.36, 110.36, 120.40, 130.49])
-    cam = dnp.array([-22.1, -50.8, -84.0, -104.3, -122.0, -136.0, -147.6, -157.4, -165.2])
+    #c1 = - dnp.array([-2074.1, -1826.9, -1531.9, -1350.1, -1191.0, -1068.3, -956.4, -872.3, -796.7])/1000
+    #c2 = - dnp.array([-1921.0, -1672.4, -1382.2, -1205.1, -1046.0, -914.2, -820.4, -734.3, -656.4])/1000
+    #z = dnp.array([668.8, 757.5, 896.8, 1010.7, 1137.3, 1263.7, 1390.4, 1516.8, 1643.2])
+    #E = dnp.array([53.15, 60.14, 70.15, 80.15, 90.2, 100.36, 110.36, 120.40, 130.49])
+    #cam = dnp.array([-22.1, -50.8, -84.0, -104.3, -122.0, -136.0, -147.6, -157.4, -165.2])
     
-    indices = dnp.array([0, 1, 3, 4, 5, 6, 7, 8])
+    #indices = dnp.array([0, 1, 3, 4, 5, 6, 7, 8])
+    
+    #user offsets
+    c1_offset = 290.18
+    c2_offset = 927.43
+    z_offset = 1900.9
+    
+    #calibration dial values for c1, c2, an dz
+    c1 = - (dnp.array([-2355.9, -1866.5, -1533.0]) + c1_offset)/1000
+    c2 = - (dnp.array([-2981.4, -2500.0, -2170.0]) + c2_offset)/1000
+    z =  - dnp.array([1204.5, 989.7, 750.0]) + z_offset
+    E = dnp.array([55.09, 72.02, 90.98])
+    cam = dnp.array([-1, -54.6, -90.7])
+    
+    indices = dnp.array([0, 1, 2])
+    
+    
+    
     c1 = c1[indices]    
     c2 = c2[indices]    
     z = z[indices]    
@@ -138,19 +155,22 @@ def moveToBeamEnergy(target_energy):
     target_c1, target_c2, target_z, target_cam = motor
     #target_c1, target_c2, target_z, target_cam = calc_motor(target_wavelength, lam_error, fitted_d0, d1_error, d_spacing, c2_error, 50, z_error_forcam, z_cam, h_cam_error)
     
-    print "WARNING: Old calibration data used, so crude offsets are applied to output motor positions: Crystal 1, -38; Crystal 2, -18; z, -4.5, Camera position, +18.5."
-    print "         Crystal and camera positions will still require adjustment and the energy should still be measured if accuracy is required."
+#    print "WARNING: Old calibration data used, so crude offsets are applied to output motor positions: Crystal 1, -38; Crystal 2, -18; z, -4.5, Camera position, +18.5."
+#    print "         Crystal and camera positions will still require adjustment and the energy should still be measured if accuracy is required."
     
-    crystal1 = 1000*target_c1[0,0] - 38
-    crystal2 = 1000*target_c2[0,0] - 18
-    translation = target_z[0,0] - 4.5
-    cam = target_cam[0,0] + 18.5
+    crystal1 = 1000*target_c1[0,0]# - 38
+    crystal2 = 1000*target_c2[0,0]# - 18
+    translation = target_z[0,0] # - 4.5
+    cam = target_cam[0,0]# + 18.5
         
-    print "Displaying calculated motor positions for desired energy of", target_energy, " keV: "
+    print ""
+    print "Displaying calculated motor positions for desired energy of", target_energy, " keV (", 10*wavelength , " Angstrom):"
     print "    Crystal 1                = ", crystal1
     print "    Crystal 2                = ", crystal2
     print "    z translation            = ", translation
     print "    Camera position          = ", cam
+    print ""
+    print "N.B. Only 3 calibration data points. Calibration unreliable. Use at your own risk! Definitely do not use above 90 keV."
     
     print ""
     print "Moving motors to calculated motor positions"
