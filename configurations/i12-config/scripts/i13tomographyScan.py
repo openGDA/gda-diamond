@@ -297,25 +297,29 @@ class PreScanRunnable(Runnable):
 
 
 """
-perform a continuous tomogrpahy scan
+perform a continuous tomography scan
 """
-def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=True, beamline="I13"):
+def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=True, extraFlatsAtEnd=False, closeShutterAfterScan=False, beamline="I12"):
     """
-    Function to collect a tomogram
+    Function to collect a tomography continuous-rotation scan
      Arguments:
+    description - description of the scan (or the sample that is being scanned. This is generally user-specific information that may be used to map to this scan later and is available in the NeXus file)
     inBeamPosition - position of X drive to move sample into the beam to take a projection
     outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
     exposureTime - exposure time in seconds ( default = 1)
     start - first rotation angle ( default=0.)
     stop  - last rotation angle (default=180.)
     step - rotation step size (default = 0.1)
-    darkFieldInterval - number of projections between each dark field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
-    flatFieldInterval - number of projections between each flat field. Note that a dark is always taken at the start and end of a tomogram (default=0.)
+    darkFieldInterval - number of projections between each dark field (default=0)
+    flatFieldInterval - number of projections between each flat field (default=0)
     imagesPerDark - number of images to be taken for each dark (default=20)
     imagesPerFlat - number of images to be taken for each flat (default=20)
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
-
+    setupForAlignment - if true (Default) the camera is switch back to continuous mode after the scan
+    extraFlatsAtEnd - if true then flats are taken after the flyscan as well as before
+    closeShutterAfterScan - if true shutter is closed after the flyscan
+    beamline - if set to I12 (Default) then perform I12 specific tasks
     """
     jns=beamline_parameters.JythonNameSpaceMapping()
     tomography_flyscan_flat_dark_det=jns.tomography_flyscan_flat_dark_det
@@ -411,29 +415,44 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 #        multiScanObj = MultiScan([darkFlatScan, scanObject, scanObject2,scanObject3])
         multiScanItems = []
 
-        zebraTriggerMode=None
+#darks before
         if imagesPerDark > 0:
             if beamline == "I13":
                 darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             else:
-                zebraTriggerMode=1
                 darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-            multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, zebraTriggerMode=zebraTriggerMode)))
+            multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, zebraTriggerMode=1)))
+
+#flats before
+
         if imagesPerFlat > 0:
             if beamline == "I13":
                 flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             else:
-                zebraTriggerMode=1
                 flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-            multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, zebraTriggerMode=zebraTriggerMode)))
+            multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, zebraTriggerMode=1)))
         
+#flyscan
         if beamline == "I13":
             scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         else: 
-            zebraTriggerMode=2
             scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, zebraTriggerMode=zebraTriggerMode)))
-#        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
+        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, zebraTriggerMode=2)))
+
+#flats after
+        if extraFlatsAtEnd:
+            if imagesPerFlat > 0:
+                if beamline == "I13":
+                    flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                else:
+                    flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, zebraTriggerMode=1)))
+        
+        if not description == None: 
+            setTitle(description)
+        else :
+            setTitle("undefined")
+        
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
         
@@ -446,7 +465,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             if tomodet is not None:
                 tomodet.setupForAlignment()
 
-        if beamline == "I12":
+        if beamline == "I12" or beamline == "i12":
             import zebra_utilities
             zebra_utilities.setZebra2Mode(1)
     
@@ -455,6 +474,10 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)
         tomography_flyscan_flat_dark_det.name = savename
+    finally:
+        if closeShutterAfterScan:
+            print "Closing the shutter after the flyscan."
+            tomography_shutter.moveTo("Close")
 
 
 
