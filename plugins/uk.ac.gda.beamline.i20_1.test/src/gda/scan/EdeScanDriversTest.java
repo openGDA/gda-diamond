@@ -39,10 +39,13 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
+@PowerMockIgnore({"javax.management.*", "javax.xml.parsers.*", "org.apache.xerces.*" ,"com.sun.org.apache.xerces.internal.jaxp.*", "ch.qos.logback.*", "org.slf4j.*"})
 public class EdeScanDriversTest extends EdeTestBase {
 	private static DummyXStripDAServer daserver;
 	private static XHDetector xh;
@@ -161,6 +164,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 	}
 	
 	@Test
+
 	public void testDriveLinearSpectrumScan_motorpositions() throws Exception {
 		setup("testDriveLinearSpectrumScan_motorpositions");
 		
