@@ -70,84 +70,91 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          id="uk.ac.gda.swingclient"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="uk.ac.gda.sisa.client"
          download-size="0"
          install-size="0"
-         version="8.32.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.opengda.detector.electronanalyser"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.opengda.detector.electronanalyser.client"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.opengda.detector.electronanalyser.model"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.opengda.detector.electronanalyser.model.edit"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.opengda.detector.electronanalyser.model.editor"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.opengda.detector.electronanalyser.server"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="uk.ac.gda.client.oe"
          download-size="0"
          install-size="0"
-         version="1.0.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="uk.ac.gda.epics.client"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="uk.ac.gda.video.views"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="uk.ac.gda.dls.client"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.ecore"
+         download-size="0"
+         install-size="0"
+         version="2.8.3.v20130125-0546"
          unpack="false"/>
 
    <plugin
@@ -169,20 +176,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          download-size="0"
          install-size="0"
          version="2.8.0.v20130125-0826"
-         unpack="false"/>
-
-   <plugin
-         id="org.opengda.logback.classic.fragment"
-         download-size="0"
-         install-size="0"
-         version="0.9.43"
-         fragment="true"/>
-
-   <plugin
-         id="org.eclipse.emf.ecore"
-         download-size="0"
-         install-size="0"
-         version="2.8.3.v20130125-0546"
          unpack="false"/>
 
 </feature>
