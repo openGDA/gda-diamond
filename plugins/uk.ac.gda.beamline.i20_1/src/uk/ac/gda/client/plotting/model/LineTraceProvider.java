@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.plotting.model;
+package uk.ac.gda.client.plotting.model;
 
 import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;

@@ -156,9 +156,9 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		}
 		builder.append(
 				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumScan(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
-						ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC),
+						ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC),
 						noOfAccumulations,
-						ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(itIntegrationTime, ExperimentUnit.SEC),
+						ExperimentUnit.MILLI_SEC.convertTo(itIntegrationTime, ExperimentUnit.SEC),
 						itNumberOfAccumulations,
 						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
@@ -169,7 +169,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC), experimentDataModel.getIrefNoOfAccumulations()));
+					ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC), experimentDataModel.getIrefNoOfAccumulations()));
 		}
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNamePrefix(\"%s\");", experimentDataModel.getFileNamePrefix()));
 		return builder.toString();
