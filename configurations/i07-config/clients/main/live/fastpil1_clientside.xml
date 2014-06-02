@@ -15,7 +15,7 @@
 
 
 	<bean id="pil1_cam_base" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL07I-EA-PILAT-01:cam1:" />
+		<property name="prefix" value="BL07I-EA-PILAT-01:CAM:" />
 	</bean>
 
 	<bean id="pil1_array" class="gda.spring.V17NDArrayFactoryBean">
@@ -23,7 +23,7 @@
 	</bean>
 
 	<bean id="pil1_stat" class="gda.spring.V17NDStatsFactoryBean">
-		<property name="prefix" value="BL07I-EA-PILAT-01:STATS:" />
+		<property name="prefix" value="BL07I-EA-PILAT-01:STAT:" />
 	</bean>
 
 	<bean id="pil1_roi" class="gda.spring.V17NDROIFactoryBean">
@@ -52,6 +52,8 @@
 		<property name="ffmpegImageOutHeightMax" value="195" />
 		<property name="ffmpegImageOutWidthMax" value="487" />
 		<property name="setExposureTimeCmd" value="fastpil1.freerun.start(%f)" />
+		<property name="connectToPlotServer" value="true" />
+		
 	</bean>
 
 	<bean id="fastpil1_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">

@@ -68,6 +68,7 @@
 	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
 	<import resource="epics/detector/medipix.xml" />
 	<import resource="epics/detector/pcoedge.xml" />
+	<import resource="epics/detector/pco4000.xml" />
 
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
@@ -91,11 +92,13 @@
 
 	<!-- live only -->
 	<import resource="transient.xml" />
+	<import resource="epics/pie725_raster.xml" />
 
 	<import resource="daserver.xml" />
 	<import resource="metadata.xml" />
 	<import resource="ippserver.xml" />
 	<import resource="epics/detector/pilatus300k.xml" />
+	<import resource="epics/detector/psl.xml" />
 	<import resource="epics/detector/medipix_threshold_sweep.xml" />
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
@@ -117,6 +120,11 @@
 				<bean class="gda.jython.ScriptProject">
 					<property name="path" value="${gda.install.git.loc}/gda-bimorph.git/uk.ac.gda.bimorph/scripts" />
 					<property name="name" value="Scripts: Bimorph" />
+					<property name="type" value="CORE" />
+				</bean>
+				<bean class="gda.jython.ScriptProject">
+					<property name="path" value="${gda.install.git.loc}/gda-epics.git/uk.ac.gda.epics/scripts" />
+					<property name="name" value="Scripts: Epics" />
 					<property name="type" value="CORE" />
 				</bean>
 			</list>

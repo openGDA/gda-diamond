@@ -1009,11 +1009,23 @@
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
     </bean>
+    <bean id="diff1basey1" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorBASEY1_DIFF1" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    <bean id="diff1basey2" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorBASEY2_DIFF1" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
     <bean id="diff1basepitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorBASEPITCH_DIFF1" />
         <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="Deg" />
-        <property name="hardwareUnitString" value="Deg" />
+        <property name="initialUserUnits" value="mrad" />
+        <property name="hardwareUnitString" value="mrad" />
     </bean>
     
     <bean id="DIFF1" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -1039,6 +1051,8 @@
                 <ref bean="diff1dets1rot" />
                 <ref bean="diff1basex" />
                 <ref bean="diff1basey" />
+                <ref bean="diff1basey1" />
+                <ref bean="diff1basey2" />
                 <ref bean="diff1basepitch" />
             </list>
         </property>
@@ -1623,6 +1637,8 @@
                 <ref bean="diff1dets1rot" />
                 <ref bean="diff1basex" />
                 <ref bean="diff1basey" />
+                <ref bean="diff1basey1" />
+                <ref bean="diff1basey2" />
                 <ref bean="diff1basepitch" />
 
                 <!-- DPS -->

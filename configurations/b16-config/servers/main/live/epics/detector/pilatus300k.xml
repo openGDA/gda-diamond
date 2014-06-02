@@ -8,16 +8,16 @@
 
 	<bean id="pilatus_driver"
 		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
-		<property name="basePVName" value="BL16B-EA-DET-04:cam1:" />
+		<property name="basePVName" value="BL16B-EA-DET-04:CAM:" />
 	</bean>
 
 	<bean id="pilatus_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL16B-EA-DET-04:cam1:" />
+		<property name="basePVName" value="BL16B-EA-DET-04:CAM:" />
 	</bean>
 
 
 	<bean id="pilatus_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL16B-EA-DET-04:cam1:" />
+		<property name="basePVName" value="BL16B-EA-DET-04:CAM:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
@@ -70,5 +70,63 @@
 			</list>
 		</property>
 	</bean>
+
+
+	<!--  RASTER SCANNING -->
+
+	<bean id="rasterpil_nxcollectionstrategy_for_hardware_triggering_from_pie"
+		class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
+		<constructor-arg ref="pilatus_adbase" />
+		<constructor-arg ref="pilatus_driver" />
+		<constructor-arg value=".004" />  <!-- At 3ms we had DMA error in camserver -->
+		<constructor-arg value="MULTIPLE_EXTERNAL_TRIGGER" />
+	</bean>
+
+	<bean id="rasterpil_camserver_nxfilewriter_for_hardware_triggering"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="rasterpil" />
+		<property name="ndFile" ref="pilatus_camserver_ndfile" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="writeErrorStatusSupported" value="false" />
+		<!-- <property name="returnPathRelativeToDatadir" value="true"/> Erroneousely 
+			returns e.g.: tmp/434615-rasterpil1-files rather than tmp/434616-rasterpil1-files/00000_00097.tif -->
+	</bean>
+
+
+	<bean id="rasterpil" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="rasterpil" />
+		<property name="hardwareTriggerProvider" value="#{pie.continuousMoveController}" />
+
+		<property name="collectionStrategy"
+			ref="rasterpil_nxcollectionstrategy_for_hardware_triggering_from_pie" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="rasterpil_camserver_nxfilewriter_for_hardware_triggering" />
+				<bean
+					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+					<property name="pluginName" value="roistats1" />
+					<property name="baseRoiPVName" value="BL16B-EA-DET-04:ROI1:" />
+					<property name="baseStatsPVName" value="BL16B-EA-DET-04:STAT1:" />
+					<property name="roiInputNdArrayPort" value="pilatus.cam" />
+					<property name="enabledBasicStats" value="MaxValue,Total" />
+					<property name="oneTimeSeriesCollectionPerLine" value="false" />
+
+					<!-- <property name="roiProvider"> -->
+					<!-- <bean -->
+					<!-- class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> -->
+					<!-- <constructor-arg ref="fastpil1_plot_server_roi_provider" /> -->
+					<!-- <constructor-arg value="0" /> -->
+					<!-- </bean> -->
+					<!-- </property> -->
+				</bean>
+
+				<!-- <ref bean="fastpil1_freerun_controller" /> -->
+			</list>
+		</property>
+	</bean>
+	
+	
 
 </beans>

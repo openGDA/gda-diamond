@@ -1,5 +1,6 @@
 #Gareth 11/06/2010
 #dir(gda.analysis.functions)
+
 from gda.analysis.io import *
 from gda.analysis.functions import *
 from math import exp
@@ -7,6 +8,8 @@ from gda.data import NumTracker
 from gda.data import PathConstructor
 from gda.analysis.functions import AFunction
 from math import exp
+from gda.analysis import ScanFileHolder, Plotter
+
 numTracker = NumTracker("scanbase_numtracker")
 def edgeDetectRobust(relativefilenumber,axis1,axis2):
 	if relativefilenumber > 0:
@@ -22,8 +25,6 @@ def edgeDetectRobust(relativefilenumber,axis1,axis2):
 	xdata=data.getAxis(axis1)
 	ydata=data.getAxis(axis2)
 	ydiffdata=ydata.diff(1)
-	ymax=ydiffdata.max()
-	ymin=ydiffdata.min()
 	maxyindex=ydiffdata.maxPos()[0]
 	minyindex=ydiffdata.minPos()[0]
 	maxpos=xdata[maxyindex]
@@ -54,6 +55,6 @@ def edgeDetectRobust(relativefilenumber,axis1,axis2):
 		secondintercept2=intercepts[0]
 		midpoint2=intercepts[0]
 		
-	return [firstintercept1 firstintercept2 secondintercept1 secondintercept2 midpoint1 midpoint2 filenumber]
+	return [firstintercept1, firstintercept2, secondintercept1, secondintercept2, midpoint1, midpoint2, filenumber]
 
 edgeDetectRobust.__doc__='0 is last file, -1 previous or +ve absolute file no.\nreturns list [left1,left2,right1,right2,centre1,centre2,filenum)\n1=halfway; 2=max/min derivative'

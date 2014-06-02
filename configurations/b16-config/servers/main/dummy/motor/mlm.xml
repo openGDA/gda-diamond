@@ -24,7 +24,9 @@
 	<bean id="DMMJack1Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="DMMJack2Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="DMMJack3Motor" class="gda.device.motor.DummyMotor" />
-	<bean id="DMMXMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="DMMXMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="10" />
+	</bean>
 	<bean id="DMMYawMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="DMMPitchMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="DMMRollMotor" class="gda.device.motor.DummyMotor" />

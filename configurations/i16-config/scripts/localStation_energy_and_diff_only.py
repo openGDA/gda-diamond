@@ -173,7 +173,7 @@ rc.setOutputFormat(['%.4f'])
 ###                             Xtalinfo
 ###############################################################################
 run("pd_crystal_info")
-xtalinfo=crystalinfo('xtal','A','%7.5f',ub,cr)
+xtalinfo=crystalinfo('xtalinfo','A','%7.5f',ub,cr)
 print "creating crystal info"
 ################################
 

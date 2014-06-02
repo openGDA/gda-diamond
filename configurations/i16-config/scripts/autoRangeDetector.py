@@ -3,6 +3,7 @@ from gdascripts.scannable.detector.ProcessingDetectorWrapper import SwitchableHa
 from gda.scan import ScanBase
 from misc_functions import list_scannables, listprint, frange, attributes, caput, caget, cagetArray, add, mult
 class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
+	
 	def collectData(self):
 		caput("BL16I-DI-COR-01:CAM:TriggerSource", "FixedRate")
 		caput("BL16I-DI-COR-01:CAM:AcquirePeriod", "0.1")
