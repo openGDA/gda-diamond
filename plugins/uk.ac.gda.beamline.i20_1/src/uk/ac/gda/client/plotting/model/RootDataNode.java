@@ -149,9 +149,9 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 		if (scanDataPoint.getScanPlotSettings() != null && scanDataPoint.getScanPlotSettings().getYAxesShown().length < 1) {
 			return;
 		}
-		ScanDataNode scanDataNode = findScan(scanDataPoint.getScanIdentifier());
+		ScanDataNode scanDataNode = findScan(Integer.toString(scanDataPoint.getScanIdentifier()));
 		if (scanDataNode == null) {
-			scanDataNode = new ScanDataNode(scanDataPoint.getScanIdentifier(), scanDataPoint.getCurrentFilename(), scanDataPoint.getDetectorHeader(), this);
+			scanDataNode = new ScanDataNode(Integer.toString(scanDataPoint.getScanIdentifier()), scanDataPoint.getCurrentFilename(), scanDataPoint.getDetectorHeader(), this);
 			children.addAndUpdate(scanDataNode);
 		}
 		scanDataNode.update(scanDataPoint);

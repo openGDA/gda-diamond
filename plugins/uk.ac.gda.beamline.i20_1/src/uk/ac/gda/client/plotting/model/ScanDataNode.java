@@ -99,7 +99,7 @@ public class ScanDataNode extends DataNode {
 
 	@Override
 	public String toString() {
-		return identifier;
+		return getIdentifier();
 	}
 
 	public void clearCache() {
