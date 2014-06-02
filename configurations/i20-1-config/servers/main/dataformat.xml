@@ -50,6 +50,14 @@
 						</list>
 					</property>
 				</bean>
+				<bean id="frontendaperture" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label" value="Wiggler gap selected: %5.5f mm" />
+					<property name="labelValues">
+						<list>
+							<ref bean="frontend_aperture" />
+						</list>
+					</property>
+				</bean>
 				<bean id="newLine1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value=" " />
 				</bean>
