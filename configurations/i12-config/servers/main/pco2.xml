@@ -25,7 +25,8 @@
 		<property name="readout1ADC32Mhz" value="500" />
 		<property name="readout2ADC8Mhz" value="750" />
 		<property name="readout2ADC32Mhz" value="400" />
-		<property name="triggerPV" value="BL12I-EA-DIO-01:OUT:00" />
+		<property name="triggerPV" value="BL12I-EA-DET-02:DIO:TRIGGER" />
+		<!-- <property name="triggerPV" value="BL12I-EA-DIO-01:OUT:00" /> -->
 		<!-- <property name="triggerPV" value="BL12I-EA-DIO-01:OUT:02" /> -->
 		<!--<property name="triggerPV" value="BL12I-MO-TAB-02:ST1:THETA:POSCOMP:CTRL" />-->
 		<property name="initialTimestampMode" value="1" />
@@ -52,14 +53,16 @@
 		<property name="nonLocalDataStoreWindows2LinuxFileName">
 			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
 				<!-- <property name="windowsPath" value="Z:" /> -->
-				<property name="windowsPath" value="t:\\i12" />
+				<!-- <property name="windowsPath" value="t:\\i12" /> -->
+				<property name="windowsPath" value="d:\\i12" />
 				<property name="linuxPath" value="/dls/i12" />
 			</bean>
 		</property>
 		<property name="demandRawDataStoreWindows2LinuxFileName">
 			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
 				<!-- <property name="windowsPath" value="Z:" /> -->
-				<property name="windowsPath" value="t:\\i12" />
+				<!-- <property name="windowsPath" value="t:\\i12" /> -->
+				<property name="windowsPath" value="d:\\i12" />
 				<property name="linuxPath" value="/dls/i12" />
 			</bean>
 		</property>
@@ -125,7 +128,7 @@
 		<property name="readArray" value="false" />
 	</bean>
 
-	<bean id="pco_tif" class="gda.device.detector.areadetector.v17.impl.NDFileCopy">
+	<bean id="pco_tif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<!-- <property name="deviceName" value="pco.tif_NDFile" /> -->
 		<property name="basePVName" value="BL12I-EA-DET-02:TIF:" />
 		<property name="pluginBase">
@@ -151,7 +154,6 @@
 				<property name="windowsSubString" value="d:\\i12\data" />
 			</bean>
 		</property>
-		<property name="copyPluginPrefix" value="BL12I-EA-DET-02:COPY"/>
 	</bean>
 
 	<bean id="pco1_tif_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">

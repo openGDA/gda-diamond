@@ -50,7 +50,7 @@
 	<import resource="I0eh2.xml" />
 	<import resource="mcs1.xml" />
 	<import resource="monitors.xml" />
-	<import resource="tfg2.xml" />
+	<!-- <import resource="tfg2.xml" /> -->
 	<import resource="ss2.xml" />
 	<import resource="s1.xml" />
 	<!-- End of comment for simulation environment -->
