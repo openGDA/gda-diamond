@@ -60,6 +60,41 @@ def setSubdirectory(dirname):
         print "Failed to set metadata (subdirectory) value to:", dirname, exception
         
 
+from gda.data.metadata import GDAMetadataProvider
+def getVisit():
+    """
+    Returns string representing current visit ID, eg cm4963-2
+    """
+    try:
+        gdaMetaProvider=GDAMetadataProvider.getInstance()
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "problem getting GDA metadata provider", exceptionType, exception, traceback, False)
+        print "Failed to get GDA metadata provider:", exception
+    return gdaMetaProvider.getMetadataValue(GDAMetadataProvider.EXPERIMENT_IDENTIFIER)
+
+def rreplace(s, old, new, occurrence):
+        li = s.rsplit(old, occurrence)
+        return new.join(li)
+
+def getVisitRootPath():
+    """
+    Returns string representing current visit root path, eg /dls/i12/data/2014/cm4963-2
+    """
+    try:
+        subDirname = finder.find("GDAMetadata").getMetadataValue("subdirectory")
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
+        print "Failed to get metadata value for subdirectory:", exception
+    workDirpath = wd()
+    if (subDirname is not None) and (subDirname != ""):
+        visitRootpath = rreplace(workDirpath, os.sep+subDirname,"",1)
+    else:
+        visitRootpath = workDirpath
+    return visitRootpath
+    
+    
 def setDataWriterToNexus():
     oldDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
     LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")

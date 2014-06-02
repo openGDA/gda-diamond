@@ -39,12 +39,18 @@ from beamEnergy import moveToBeamEnergy
 
 print "-------------------------------------------------"
 print "getting detectorModeSwitching"
+import detectorModeSwitching
 from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
 
 print "-------------------------------------------------"
 print "getting beamAttenuation"
 import beamAttenuation
 from beamAttenuation import moveToAttenuation
+
+print "-------------------------------------------------"
+print "getting pixium10_changeExposure"
+#import pixium10_changeExposure(exposure)
+from pixium10_utilities import pixium10_changeExposure
 
 print "-------------------------------------------------"
 print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdirectory('subdir-name')"
@@ -58,6 +64,9 @@ alias("nwd")
 alias("nfn")
 alias("cfn")
 alias("setSubdirectory")
+from i12utilities import getVisit, getVisitRootPath
+alias("getVisit")
+alias("getVisitRootPath")
 from i12utilities import createScannableFromPV
 
 print "create commands for Data Writer operations: setDataWriterToNexus, setDataWriterToSrs, getDataWriter"
@@ -338,6 +347,12 @@ try:
     eh2therm6 = DisplayEpicsPVClass('eh2therm6', 'BL12I-OP-THERM-02:TEMP:T6', 'degree', '%.3f')
 except:
     print "cannot create EH2 thermocouple scannables"
+    
+try:
+    instron_position = DisplayEpicsPVClass('instron_position', 'BL12I-EA-HYD-01:CH-01:POS_RBV', 'mm', '%.3f')
+    instron_load = DisplayEpicsPVClass('instron_load', 'BL12I-EA-HYD-01:CH-02:POS_RBV', 'kN', '%.3f')
+except:
+    print "cannot create Instron rig scannables"
 
 print "--------------------------------------------------"
 
@@ -346,7 +361,14 @@ pixium10_tif.pluginList[1].waitForFileArrival=False
 pco4000_dio_tif.setCheckFileExists(False)
 pco4000_dio_hdf.setCheckFileExists(False)
 
+print "disable 'Path does not exist on IOC'"
+pixium10_tif.pluginList[1].pathErrorSuppressed=True
+pco4000_dio_tif.fileWriter.pathErrorSuppressed=True
+pco4000_dio_hdf.fileWriter.pathErrorSuppressed=True
+
+
 print "--------------------------------------------------"
+
 pdnames = []
 from detector_control_pds import * #@UnusedWildImport
 
@@ -404,6 +426,7 @@ from tomographyScan import tomoScan, reportJythonNamespaceMapping, reportTomo  #
 alias("reportJythonNamespaceMapping")
 alias("reportTomo")
 
+
 tomography_additional_scannables=[]
 #try:
 #    tomography_additional_scannables.append(p2r_force)
@@ -451,7 +474,6 @@ try:
     pixium10_DetectorTemperature = DisplayEpicsPVClass('pixium10_DetectorTemperature', 'BL12I-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
 except:
     print "cannot create pixium10 scannables"
-
 
 
 print "\n Finding requested default scannables in the Jython namespace..."
@@ -512,12 +534,12 @@ try:
     meta_scannables.append(cam1)
     #meta_scannables.append(cam3)
     
-    meta_scannables.append(f1)
-    meta_scannables.append(f2)
+#    meta_scannables.append(f1)
+#    meta_scannables.append(f2)
     
     #meta_scannables.append(mc1_bragg)
     #meta_scannables.append(mc2)
-    
+#    meta_scannables.append(ss1)
     meta_scannables.append(s1)
     meta_scannables.append(s2)
     #meta_scannables.append(s3)
@@ -550,16 +572,22 @@ def clear_defaults():
         remove_default(s)
 alias("clear_defaults")
 
+# This should be added, but importing does not resolve ss1_x..
+#print "Set up scripts for tomograhy Rotation Axis Alignment"
+#import gda_sphere_alignment
+#from gda_sphere_alignment import sphere_alignment
+#alias("sphere_alignment")
+
 
 print "Selecting meta scannables for PIXIUM"
 _meta_scannables_names_PIXIUMi12 = []
 # append items to the list below as required
 #_meta_scannables_names_PIXIUMi12.append("ring")
-_meta_scannables_names_PIXIUMi12.append("pixium10_PUMode")
-_meta_scannables_names_PIXIUMi12.append("pixium10_BaseExposure")
-_meta_scannables_names_PIXIUMi12.append("pixium10_BaseAcquirePeriod")
-_meta_scannables_names_PIXIUMi12.append("pixium10_EarlyFrames")
-_meta_scannables_names_PIXIUMi12.append("pixium10_TotalCount")
+#_meta_scannables_names_PIXIUMi12.append("pixium10_PUMode")
+#_meta_scannables_names_PIXIUMi12.append("pixium10_BaseExposure")
+#_meta_scannables_names_PIXIUMi12.append("pixium10_BaseAcquirePeriod")
+#_meta_scannables_names_PIXIUMi12.append("pixium10_ExcludeEarlyFrames")
+#_meta_scannables_names_PIXIUMi12.append("pixium10_TotalCount")
 
 _meta_scannables_PIXIUMi12 = []
 def meta_add_allPIXIUM():
@@ -589,17 +617,17 @@ def meta_rm_allPIXIUM():
             print msg
 alias("meta_rm_allPIXIUM")
 
-from i12utilities import setUpCopyPluginForPCO, setUpCopyPluginForPIXIUM
-alias("setUpCopyPluginForPCO")
-alias("setUpCopyPluginForPIXIUM")
+#from i12utilities import setUpCopyPluginForPCO, setUpCopyPluginForPIXIUM
+#alias("setUpCopyPluginForPCO")
+#alias("setUpCopyPluginForPIXIUM")
 #setUpCopyPluginForPCO()
 
-print "setup pco cpy plugin"
-from epics_scripts.pv_scannable_utils import caputStringAsWaveform
-caput( "BL12I-EA-DET-02:COPY:Run", 0)
-caputStringAsWaveform( "BL12I-EA-DET-02:COPY:SourceFilePath", "d:\\i12\\data\\2014")
-caputStringAsWaveform( "BL12I-EA-DET-02:COPY:DestFilePath", "t:\\i12\\data\\2014")
-caput ("BL12I-EA-DET-02:COPY:Run", 1)
+#print "setup pco cpy plugin"
+#from epics_scripts.pv_scannable_utils import caputStringAsWaveform
+#caput( "BL12I-EA-DET-02:COPY:Run", 0)
+#caputStringAsWaveform( "BL12I-EA-DET-02:COPY:SourceFilePath", "d:\\i12\\data\\2014")
+#caputStringAsWaveform( "BL12I-EA-DET-02:COPY:DestFilePath", "t:\\i12\\data\\2014")
+#caput ("BL12I-EA-DET-02:COPY:Run", 1)
 
 #from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
 
