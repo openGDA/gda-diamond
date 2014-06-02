@@ -33,7 +33,6 @@ import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
 import uk.ac.gda.beamline.i11.views.DetectorFilePlotView;
-import uk.ac.gda.client.XYPlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 
@@ -98,7 +97,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
         layout.addShowViewShortcut(MYTHEN_PLOT_VIEW_ID);
         layout.addShowViewShortcut(MAC_PLOT_VIEW_ID);
         layout.addShowViewShortcut(DATA_PLOT_VIEW_ID);
-        layout.addShowViewShortcut(XYPlotView.ID);
+        layout.addShowViewShortcut(LivePlotView.ID);
         layout.addShowViewShortcut(JythonTerminalView.ID);
         layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
 	}
