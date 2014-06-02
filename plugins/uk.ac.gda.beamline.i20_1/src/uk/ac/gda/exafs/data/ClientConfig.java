@@ -107,6 +107,7 @@ public class ClientConfig {
 	public enum ScannableSetup {
 
 		WIGGLER_GAP("Wiggler gap", "wiggler_gap", UnitSetup.MILLI_METER),
+		FRONTEND_APERTURE("FE aperture", "frontend_aperture", UnitSetup.MILLI_METER),
 		POLY_BENDER_1("Bender 1", "poly_bend1", UnitSetup.MILLI_METER),
 		POLY_BENDER_2("Bender 2", "poly_bend2",UnitSetup.MILLI_METER),
 

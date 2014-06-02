@@ -20,23 +20,27 @@ package uk.ac.gda.client.plotting.model;
 
 import gda.scan.IScanDataPoint;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
+import org.eclipse.swt.widgets.Display;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.io.DataHolder;
-import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
+import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
 
 public class ScanDataNode extends DataNode {
 
+	private static final String SCAN_DATA_STORE_PREFIX = "scan:";
 	private final IObservableList children = new WritableList(new ArrayList<ScanDataItemNode>(), ScanDataItemNode.class);
-	private final List<Double> cachedData = new ArrayList<Double>();
+	private final List<Double> cachedData = Collections.synchronizedList(new ArrayList<Double>());
 	@Expose
 	private final String identifier;
 	@Expose
@@ -68,17 +72,19 @@ public class ScanDataNode extends DataNode {
 		return "Scan@" + identifier + "@" + scanDataItem;
 	}
 
-	public DoubleDataset getData() throws Exception {
-		if (cachedData.isEmpty()) {
-			return fileCachedDataFromFile();
+	public DoubleDataset getData() {
+		synchronized (cachedData) {
+			if (cachedData.isEmpty()) {
+				fileCachedDataFromFile();
+			}
+			return (DoubleDataset) AbstractDataset.createFromList(cachedData);
 		}
-		return (DoubleDataset) AbstractDataset.createFromList(cachedData);
 	}
 
-
-	private DoubleDataset fileCachedDataFromFile() throws Exception {
-		DataHolder dataHolder = LoaderFactory.getData(fileName);
-		return null;
+	private void fileCachedDataFromFile() {
+		Type listType = new TypeToken<ArrayList<Double>>() {}.getType();
+		List<Double> storedList = EdeDataStore.INSTANCE.loadConfiguration(getStoredIdentifier(), listType);
+		cachedData.addAll(storedList);
 	}
 
 	@Override
@@ -96,11 +102,15 @@ public class ScanDataNode extends DataNode {
 		return identifier;
 	}
 
-	public void clearCached() {
+	public void clearCache() {
 		cachedData.clear();
 		for (Object obj : children) {
-			((ScanDataItemNode) obj).clearCached();
+			((ScanDataItemNode) obj).clearCache();
 		}
+	}
+
+	private String getStoredIdentifier() {
+		return SCAN_DATA_STORE_PREFIX + identifier;
 	}
 
 	public String getFileName() {
@@ -108,7 +118,17 @@ public class ScanDataNode extends DataNode {
 	}
 
 	public void update(IScanDataPoint scanDataPoint) {
-		cachedData.add(scanDataPoint.getPositionsAsDoubles()[0]);
+		synchronized (cachedData) {
+			cachedData.add(scanDataPoint.getPositionsAsDoubles()[0]);
+		}
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				synchronized (cachedData) {
+					EdeDataStore.INSTANCE.saveConfiguration(getStoredIdentifier(), cachedData);
+				}
+			}
+		});
 		for (int i = 0; i < scanDataPoint.getDetectorDataAsDoubles().length; i ++) {
 			((ScanDataItemNode) children.get(i)).update(scanDataPoint.getDetectorDataAsDoubles()[i]);
 		}

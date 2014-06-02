@@ -12,6 +12,10 @@
 	<bean id="wiggler_gap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR20J-MO-SERVC-01:BLGAPMTR" />
 	</bean>
+	
+	<bean id="frontend_aperture_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE20I-AL-APTR-02:Y" />
+	</bean>
 
 	<import resource="file:${gda.config}/servers/main/server-common.xml" />
 
