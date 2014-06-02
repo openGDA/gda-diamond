@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <user_permissions>
 
-	<!-- beamline staff -->
-	<b21user>3</b21user>
-	<njt78>3</njt78>
-	<mm54>3</mm54>
-	<dgh72365>3</dgh72365>
-	<lsd43>3</lsd43>
-	<tyz49132>3</tyz49132>
-	<!-- data acq -->
-	<zjt21856>3</zjt21856>
-	<tjs15132>3</tjs15132>
+<!-- by default users have permission 1 -->
+<!-- level 2 will allow them to drive some extra motors (e.g. energy at the moment) -->
+<!-- with the current configuration all motors are accessible with level 3 -->
 
 </user_permissions>
