@@ -41,10 +41,10 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.ui.data.UIHelper;
@@ -156,9 +156,9 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		}
 		builder.append(
 				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumScan(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
-						ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getI0IntegrationTime()),
+						ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC),
 						noOfAccumulations,
-						ExperimentTimeHelper.fromMilliToSec(itIntegrationTime),
+						ExperimentUnit.MILLI_SEC.convertTo(itIntegrationTime, ExperimentUnit.SEC),
 						itNumberOfAccumulations,
 						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
@@ -169,7 +169,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
-					ExperimentTimeHelper.fromMilliToSec(experimentDataModel.getIrefIntegrationTime()), experimentDataModel.getIrefNoOfAccumulations()));
+					ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC), experimentDataModel.getIrefNoOfAccumulations()));
 		}
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNamePrefix(\"%s\");", experimentDataModel.getFileNamePrefix()));
 		return builder.toString();

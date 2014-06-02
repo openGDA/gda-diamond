@@ -53,6 +53,9 @@ import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
+
+import com.google.gson.Gson;
 
 public class TimeResolvedDataFileHelper {
 
@@ -858,6 +861,7 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
+	// TODO Replace with model
 	public int[] getCyclesInfo() throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
 		try {
@@ -910,7 +914,13 @@ public class TimeResolvedDataFileHelper {
 			TimingGroupMetadata[] timingGroupMetadata = TimingGroupMetadata.toTimingGroupMetaData(data);
 			RangeData[] avgSpectraList = getAvgSpectra(file);
 			int[] excludedCycles = getExcludedCycles(file);
-			return new ItMetadata(timingGroupMetadata, avgSpectraList, excludedCycles);
+			ItMetadata metadata = new ItMetadata(timingGroupMetadata, avgSpectraList, excludedCycles);
+			String energyCalibrationDetails = file.getAttributeValue(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "@" + ENERGY_POLYNOMIAL);
+			if (energyCalibrationDetails != null) {
+				Gson gson = new Gson();
+				metadata.setCalibrationDetails(gson.fromJson(energyCalibrationDetails, CalibrationDetails.class));
+			}
+			return metadata;
 		}
 		finally {
 			file.close();

@@ -166,14 +166,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()));
 
-		// Currently we show and hide the whole composite, so editable it not used
-
-		//		dataBindingCtx.bindValue(
-		//				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(i0NoOfAccumulationValueText),
-		//				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
-		//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-		//				new UpdateValueStrategy());
-
 		dataBindingCtx.bindValue(
 				WidgetProperties.visible().observe(i0NoOfaccumulationsComposite),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()),
@@ -371,13 +363,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		// Delay between spectra is not needed for now
-
-		//		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay between spectra", SWT.None);
-		//		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		//		spectrumDelayValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
-		//		spectrumDelayValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 		Composite externalTriggerComposite = toolkit.createComposite(groupTriggerSectionComposite);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
@@ -470,9 +455,9 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			public String getColumnText(Object element, int columnIndex) {
 				switch (columnIndex) {
 				case 0: return (String) names.get(element);
-				case 1: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) startTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
-				case 2: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) endTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
-				case 3: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromMilli((double) timePerSpectrum.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
+				case 1: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromDefaultUnit((double) startTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
+				case 2: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromDefaultUnit((double) endTimes.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
+				case 3: return DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().getWorkingUnit().convertFromDefaultUnit((double) timePerSpectrum.get(element))) + " " + model.getUnit().getWorkingUnit().getUnitText();
 				case 4: return Integer.toString((int) noOfSpectrum.get(element));
 				default : return "Unkown column";
 				}
@@ -590,7 +575,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		}
 		@Override
 		public Object convert(Object fromObject) {
-			return group.getUnit().convertFromMilli((double) fromObject);
+			return group.getUnit().convertFromDefaultUnit((double) fromObject);
 		}
 		@Override
 		public Object getFromType() {
@@ -609,7 +594,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		}
 		@Override
 		public Object convert(Object fromObject) {
-			return group.getUnit().convertToMilli(Double.parseDouble((String) fromObject));
+			return group.getUnit().convertToDefaultUnit(Double.parseDouble((String) fromObject));
 		}
 		@Override
 		public Object getFromType() {
@@ -663,6 +648,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			endTimeValueText.setModel(group, TimeIntervalDataModel.END_TIME_PROP_NAME);
 			endTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			endTimeValueText.setValidators(null, group.getEndTimeValidator());
 			endTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(endTimeValueText),
@@ -672,6 +658,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			timePerSpectrumValueText.setModel(group, TimingGroupUIModel.TIME_PER_SPECTRUM_PROP_NAME);
 			timePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			timePerSpectrumValueText.setValidators(null, group.getTimePerSpectrumValidator());
 			timePerSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(timePerSpectrumValueText),
@@ -680,10 +667,16 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					unitConverter));
 
 			noOfSpectrumValueText.setModel(group, TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME);
+			noOfSpectrumValueText.setValidators(null, group.getNoOfSpectrumValidator());
 
 			integrationTimeValueText.setModel(group, TimingGroupUIModel.INTEGRATION_TIME_PROP_NAME);
+			integrationTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			integrationTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+			groupBindings.add(dataBindingCtx.bindValue(
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(integrationTimeValueText),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
+					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+					unitConverter));
 
 			noOfAccumulationValueText.setModel(group, TimingGroupUIModel.NO_OF_ACCUMULATION_PROP_NAME);
 			noOfAccumulationValueText.setEditable(false);
@@ -697,17 +690,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
-
-			// This parameter is not needed for now
-
-			//			spectrumDelayValueText.setModel(group, TimingGroupUIModel.DELAY_BETWEEN_SPECTRUM_PROP_NAME);
-			//			spectrumDelayValueText.setConverters(modelToTargetConverter, targetToModelConverter);
-			//			spectrumDelayValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			//			groupBindings.add(dataBindingCtx.bindValue(
-			//					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(spectrumDelayValueText),
-			//					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
-			//					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-			//					unitConverter));
 
 			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.enabled().observe(useExternalTriggerCheckbox),
 					BeanProperties.value(TimingGroupUIModel.EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME).observe(group)));

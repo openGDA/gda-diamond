@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.plotting.model;
+package uk.ac.gda.client.plotting.model;
 
 import gda.rcp.GDAClientActivator;
 
@@ -33,12 +33,12 @@ import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
 
-public class SlitscanDataItemNode extends DataNode implements LineTraceProvider {
+public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	private final String identifier;
 	private final String label;
-	private final List<Double> data = new ArrayList<Double>();
+	private final List<Double> cachedData = new ArrayList<Double>();
 
-	public SlitscanDataItemNode(String identifier, String label, DataNode parent) {
+	public ScanDataItemNode(String identifier, String label, DataNode parent) {
 		super(parent);
 		this.identifier = identifier;
 		this.label = label;
@@ -46,19 +46,24 @@ public class SlitscanDataItemNode extends DataNode implements LineTraceProvider 
 
 	@Override
 	public DoubleDataset getYAxisDataset() {
-		return (DoubleDataset) AbstractDataset.createFromList(data);
+		return (DoubleDataset) AbstractDataset.createFromList(cachedData);
 	}
 
 	@Override
 	public DoubleDataset getXAxisDataset() {
-		return ((SlitsScanDataNode) parent).getData();
+		try {
+			return ((ScanDataNode) parent).getData();
+		} catch (Exception e) {
+			// FIXME
+			return new DoubleDataset();
+		}
 	}
 
 	@Override
 	public TraceStyleDetails getTraceStyleDetails() {
 		TraceStyleDetails traceStyle = new TraceStyleDetails();
-		SlitsScanDataNode scanDataNode = (SlitsScanDataNode) this.getParent();
-		SlitsScanRootDataNode experimentDataNode = (SlitsScanRootDataNode) scanDataNode.getParent();
+		ScanDataNode scanDataNode = (ScanDataNode) this.getParent();
+		RootDataNode experimentDataNode = (RootDataNode) scanDataNode.getParent();
 		if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(scanDataNode)) % 2 == 0) {
 			traceStyle.setTraceType(TraceType.DASH_LINE);
 			traceStyle.setPointStyle(PointStyle.DIAMOND);
@@ -100,7 +105,15 @@ public class SlitscanDataItemNode extends DataNode implements LineTraceProvider 
 	}
 
 	public void update(Double value) {
-		data.add(value);
+		cachedData.add(value);
+	}
+
+	public void clearCached() {
+		cachedData.clear();
+	}
+
+	public void setCachedData(List<Double> cachedData) {
+		this.cachedData.addAll(cachedData);
 	}
 
 	@Override

@@ -91,6 +91,7 @@ public class EDECalibrationSection extends ResourceComposite {
 	}
 
 	public String loadReferenceData(Element element, String edgeName) {
+		// FIXME Refactor the file name pattern out
 		File file = new File(REF_DATA_PATH, element.getSymbol() + "_" + edgeName + REF_DATA_EXT);
 		if (!file.exists() || !file.canRead()) {
 			return null;
