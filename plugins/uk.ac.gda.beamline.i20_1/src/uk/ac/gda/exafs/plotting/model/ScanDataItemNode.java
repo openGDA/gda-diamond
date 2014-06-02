@@ -25,6 +25,8 @@ import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.client.plotting.model.DataNode;
+import uk.ac.gda.client.plotting.model.LineTraceProvider;
 
 public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	private final String identifier;
@@ -63,7 +65,7 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	public DoubleDataset getXAxisDataset() {
 		ExperimentDataNode experimentDataNode = (ExperimentDataNode) parent.getParent().getParent();
 		if (experimentDataNode.isUseStripsAsXaxis()) {
-			return ExperimentDataNode.scriptsData;
+			return ExperimentDataNode.stripsData;
 		}
 		return ((SpectraNode) parent).getXAxisData();
 	}

@@ -37,10 +37,11 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.client.plotting.model.DataNode;
 
 public class ExperimentDataNode extends DataNode implements IScanDataPointObserver {
 
-	public final static DoubleDataset scriptsData = new DoubleDataset(XHDetector.getStripsInDouble());
+	public final static DoubleDataset stripsData = new DoubleDataset(XHDetector.getStripsInDouble());
 
 	private final Map<String, ScanDataNode> scans = new HashMap<String, ScanDataNode>();
 	private final IObservableList dataset = new WritableList(new ArrayList<ScanDataNode>(), ScanDataNode.class);
