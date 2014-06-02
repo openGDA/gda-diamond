@@ -48,16 +48,18 @@ import com.google.gson.reflect.TypeToken;
 
 public class RootDataNode extends DataNode implements IScanDataPointObserver {
 	public static final long DELAY_TO_PLOT_SCAN_DATA_POINTS_IN_MILLI = 300L;
-	public static final int MAX_HISTORY = 10;
-	public static final int MAX_NO_SCANS_TO_CACHE_DATA = 5;
+	public static final int MAX_SCAN_HISTORY = 100;
+	public static final int MAX_SCANS_WITH_CACHED_DATA = 10;
+
 	public static final String DATA_STORE_NAME = "plotting_data";
+	private static final int MAX_THREAD_POOL_FOR_PLOTTING = 5;
 
 	private final Collection<IScanDataPoint> cachedPoints = Collections.synchronizedCollection(new ArrayList<IScanDataPoint>());
-	private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(5);
+	private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(MAX_THREAD_POOL_FOR_PLOTTING);
 
 	private static final Logger logger = LoggerFactory.getLogger(ScanDataPlotter.class);
 	private final List<ScanDataNode> innerChildren = new LinkedList<ScanDataNode>();
-	private final IObservableList children = new RollingWritableList(innerChildren, ScanDataNode.class);
+	private final RollingWritableList children = new RollingWritableList(innerChildren, ScanDataNode.class);
 
 	public RootDataNode() {
 		super(null);
@@ -75,12 +77,12 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						saveData();
+						saveScanHistory();
 					}
 
 					@Override
 					public void handleAdd(int index, Object element) {
-						saveData();
+						saveScanHistory();
 					}
 				});
 			}
@@ -96,10 +98,6 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 				children.add(scanDataNode);
 			}
 		}
-	}
-
-	private void saveData() {
-		EdeDataStore.INSTANCE.saveConfiguration(DATA_STORE_NAME, innerChildren);
 	}
 
 	@Override
@@ -154,7 +152,7 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 		ScanDataNode scanDataNode = findScan(scanDataPoint.getScanIdentifier());
 		if (scanDataNode == null) {
 			scanDataNode = new ScanDataNode(scanDataPoint.getScanIdentifier(), scanDataPoint.getCurrentFilename(), scanDataPoint.getDetectorHeader(), this);
-			children.add(scanDataNode);
+			children.addAndUpdate(scanDataNode);
 		}
 		scanDataNode.update(scanDataPoint);
 		for (Object object : scanDataNode.getChildren()) {
@@ -177,30 +175,25 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 		executorService.shutdown();
 	}
 
-	private static class RollingWritableList extends WritableList {
+	private class RollingWritableList extends WritableList {
 
 		public RollingWritableList(List<?> toWrap, Object elementType) {
 			super(toWrap, elementType);
 		}
 
-		@Override
-		public void add(int index, Object element) {
-			super.add(index, element);
-			while (size() > MAX_HISTORY) {
-				super.remove(size() - 1);
-			}
-		}
-
-		@Override
-		public boolean add(Object element) {
-			if (size() >= MAX_NO_SCANS_TO_CACHE_DATA) {
-				((ScanDataNode) super.get(size() - 1)).clearCached();
+		public void addAndUpdate(ScanDataNode element) {
+			if (size() >= MAX_SCANS_WITH_CACHED_DATA) {
+				final ScanDataNode node = (ScanDataNode) RollingWritableList.super.get(MAX_SCANS_WITH_CACHED_DATA - 1);
+				node.clearCache();
 			}
 			super.add(0, element);
-			while (size() > MAX_HISTORY) {
+			while (size() > MAX_SCAN_HISTORY) {
 				super.remove(size() - 1);
 			}
-			return true;
 		}
+	}
+
+	private void saveScanHistory() {
+		EdeDataStore.INSTANCE.saveConfiguration(DATA_STORE_NAME, innerChildren);
 	}
 }

@@ -20,23 +20,30 @@ package uk.ac.gda.client.plotting.model;
 
 import gda.rcp.GDAClientActivator;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.swt.widgets.Display;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
+import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
+
+import com.google.gson.reflect.TypeToken;
 
 public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	private final String identifier;
 	private final String label;
-	private final List<Double> cachedData = new ArrayList<Double>();
+	private final List<Double> cachedData = Collections.synchronizedList(new ArrayList<Double>());
+	private static final String SCAN_DATA_STORE_PREFIX = "scan_item:";
 
 	public ScanDataItemNode(String identifier, String label, DataNode parent) {
 		super(parent);
@@ -46,17 +53,23 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 
 	@Override
 	public DoubleDataset getYAxisDataset() {
-		return (DoubleDataset) AbstractDataset.createFromList(cachedData);
+		synchronized (cachedData) {
+			if (cachedData.isEmpty()) {
+				fileCachedDataFromFile();
+			}
+			return (DoubleDataset) AbstractDataset.createFromList(cachedData);
+		}
+	}
+
+	private void fileCachedDataFromFile() {
+		Type listType = new TypeToken<ArrayList<Double>>() {}.getType();
+		List<Double> storedList = EdeDataStore.INSTANCE.loadConfiguration(getStoredIdentifier(), listType);
+		cachedData.addAll(storedList);
 	}
 
 	@Override
 	public DoubleDataset getXAxisDataset() {
-		try {
-			return ((ScanDataNode) parent).getData();
-		} catch (Exception e) {
-			// FIXME
-			return new DoubleDataset();
-		}
+		return ((ScanDataNode) parent).getData();
 	}
 
 	@Override
@@ -105,15 +118,25 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	}
 
 	public void update(Double value) {
-		cachedData.add(value);
+		synchronized (cachedData) {
+			cachedData.add(value);
+		}
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				synchronized (cachedData) {
+					EdeDataStore.INSTANCE.saveConfiguration(getStoredIdentifier(), cachedData);
+				}
+			}
+		});
 	}
 
-	public void clearCached() {
+	public void clearCache() {
 		cachedData.clear();
 	}
 
-	public void setCachedData(List<Double> cachedData) {
-		this.cachedData.addAll(cachedData);
+	private String getStoredIdentifier() {
+		return SCAN_DATA_STORE_PREFIX + identifier;
 	}
 
 	@Override
