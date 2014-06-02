@@ -2,6 +2,11 @@
     <cs:dependencies>
         <cs:dependency name="diffcalc" componentType="buckminster"/>
         <cs:dependency name="i10-shared" componentType="buckminster"/>
+        <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i10.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.test.helpers" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
