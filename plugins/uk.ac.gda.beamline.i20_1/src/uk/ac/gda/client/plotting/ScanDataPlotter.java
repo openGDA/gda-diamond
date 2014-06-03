@@ -120,8 +120,8 @@ public class ScanDataPlotter extends ResourceComposite {
 			public void propertyChange(final PropertyChangeEvent evt) {
 				DataNode node = (DataNode) evt.getNewValue();
 				dataTreeViewer.expandToLevel(node.getParent(), AbstractTreeViewer.ALL_LEVELS);
-				if (node instanceof LineTraceProvider) {
-					addTrace((LineTraceProvider) node, node.getIdentifier());
+				if (node instanceof LineTraceProvider && dataTreeViewer.getChecked(node)) {
+					addTrace((LineTraceProvider) node);
 				}
 			}
 		});
@@ -130,27 +130,25 @@ public class ScanDataPlotter extends ResourceComposite {
 			@Override
 			public void propertyChange(final PropertyChangeEvent evt) {
 				DataNode node = (DataNode) evt.getNewValue();
-				updateTrace(node);
+				if (node instanceof LineTraceProvider && dataTreeViewer.getChecked(node)) {
+					updateTrace((LineTraceProvider) node);
+				}
 			}
 		});
 	}
 
-	private void updateTrace(DataNode node) {
-		if (node instanceof LineTraceProvider) {
-			LineTraceProvider lineTraceProvider = (LineTraceProvider) node;
-			ILineTrace trace = (ILineTrace) plottingSystem.getTrace(node.getIdentifier());
-			if (trace != null) {
-				trace.setData(lineTraceProvider.getXAxisDataset(), lineTraceProvider.getYAxisDataset());
-				plottingSystem.repaint();
-			}
+	private void updateTrace(LineTraceProvider lineTraceProvider) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(((DataNode) lineTraceProvider).getIdentifier());
+		if (trace != null) {
+			trace.setData(lineTraceProvider.getXAxisDataset(), lineTraceProvider.getYAxisDataset());
+			plottingSystem.repaint();
 		}
 	}
 
-	private void addTrace(LineTraceProvider node, String identifier) {
-		LineTraceProvider lineTraceProvider = node;
-		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(identifier);
+	private void addTrace(LineTraceProvider lineTraceProvider) {
+		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(((DataNode) lineTraceProvider).getIdentifier());
 		if (trace == null) {
-			trace = plottingSystem.createLineTrace(identifier);
+			trace = plottingSystem.createLineTrace(((DataNode) lineTraceProvider).getIdentifier());
 			TraceStyleDetails traceDetails = lineTraceProvider.getTraceStyleDetails();
 			if (traceDetails.getColorHexValue() != null) {
 				trace.setTraceColor(getTraceColor(traceDetails.getColorHexValue()));
@@ -274,7 +272,7 @@ public class ScanDataPlotter extends ResourceComposite {
 	private void updateDataItemNode(DataNode dataItemNode, boolean isAdded) {
 		if (dataItemNode instanceof LineTraceProvider) {
 			if (isAdded) {
-				addTrace((LineTraceProvider) dataItemNode, dataItemNode.getIdentifier());
+				addTrace((LineTraceProvider) dataItemNode);
 			} else {
 				removeTrace(dataItemNode.getIdentifier());
 			}

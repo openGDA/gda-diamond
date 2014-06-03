@@ -41,6 +41,7 @@ public class ScanDataNode extends DataNode {
 	private static final String SCAN_DATA_STORE_PREFIX = "scan:";
 	private final IObservableList children = new WritableList(new ArrayList<ScanDataItemNode>(), ScanDataItemNode.class);
 	private final List<Double> cachedData = Collections.synchronizedList(new ArrayList<Double>());
+
 	@Expose
 	private final String identifier;
 	@Expose
@@ -103,7 +104,9 @@ public class ScanDataNode extends DataNode {
 	}
 
 	public void clearCache() {
-		cachedData.clear();
+		synchronized (cachedData) {
+			cachedData.clear();
+		}
 		for (Object obj : children) {
 			((ScanDataItemNode) obj).clearCache();
 		}
@@ -117,18 +120,20 @@ public class ScanDataNode extends DataNode {
 		return fileName;
 	}
 
+	private final Runnable saveData = new Runnable() {
+		@Override
+		public void run() {
+			synchronized (cachedData) {
+				EdeDataStore.INSTANCE.saveConfiguration(getStoredIdentifier(), cachedData);
+			}
+		}
+	};
+
 	public void update(IScanDataPoint scanDataPoint) {
 		synchronized (cachedData) {
 			cachedData.add(scanDataPoint.getPositionsAsDoubles()[0]);
 		}
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				synchronized (cachedData) {
-					EdeDataStore.INSTANCE.saveConfiguration(getStoredIdentifier(), cachedData);
-				}
-			}
-		});
+		Display.getDefault().asyncExec(saveData);
 		for (int i = 0; i < scanDataPoint.getDetectorDataAsDoubles().length; i ++) {
 			((ScanDataItemNode) children.get(i)).update(scanDataPoint.getDetectorDataAsDoubles()[i]);
 		}

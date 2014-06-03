@@ -64,6 +64,7 @@ public class StanfordScannable extends ScannableBase implements Scannable{
 	
 	@Override
 	public Object rawGetPosition() throws DeviceException {
+		this.inputNames = new String[]{getName()};
 		try {
 			return ca_client.caget(base_pv+"SENS:SEL1") + " " + ca_client.caget(base_pv+"SENS:SEL2");
 		} catch (Exception e) {

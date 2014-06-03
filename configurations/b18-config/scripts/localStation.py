@@ -92,10 +92,12 @@ if (LocalProperties.get("gda.mode") == 'live'):
     sample_temperature.setName("sample_temperature")
     sample_temperature.setExtraNames(["sample_temperature"])
     sample_temperature.setPvName("ME08G-EA-GIR-01:TEMP1")
+    
     blower_temperature = EpicsMonitor()
     blower_temperature.setName("blower_temperature")
     blower_temperature.setExtraNames(["blower_temperature"])
     blower_temperature.setPvName("ME08G-EA-GIR-01:TCTRL1:PV:RBV")
+    
     add_default topupMonitor
     add_default beamMonitor
     
