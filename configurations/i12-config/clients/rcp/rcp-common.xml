@@ -28,8 +28,8 @@
 
 	<import resource="tomoAlignment.xml" />
 	<import resource="tomoConfiguration.xml" />
-<!-- 	<import resource="tomoAlignment_dummy.xml" />
- -->	<import resource="edxd.xml" />
+<!-- 	<import resource="tomoAlignment_dummy.xml" /> -->	
+	<import resource="edxd.xml" />
 
 	<bean id="mono2_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="Mono2 Camera Preview" />
@@ -48,7 +48,7 @@
 		<property name="plotViewID" value="uk.ac.gda.beamline.i12.plotView" />
 	</bean>
 
-	<import resource="i13gui.xml"/>
+	<!-- <import resource="i13gui.xml"/> -->
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />

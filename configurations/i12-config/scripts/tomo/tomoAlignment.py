@@ -515,9 +515,12 @@ def moveToModule(moduleNum):
         cam1_roll = f.find("cam1_roll")
         cameraModuleLookup = f.find("moduleMotorPositionLUT")
         
+        print "Getting position for ss1_rx from lookup table"
         ss1RxLookup = cameraModuleLookup.lookupValue(moduleNum, "ss1_rx")
-        sampleTiltZ = 0.0
-        cameraSafeZ = -10.0
+        print "Getting position for ss1_rz from lookup table"
+        ss1RzLookup = cameraModuleLookup.lookupValue(moduleNum, "ss1_rz")
+        sampleTiltZ = ss1RzLookup
+        cameraSafeZ = -80.0
         updateScriptController("Module align:moving ss1_rx to" + `round(ss1RxLookup, 2)`)
         checkForPauses()
         ss1_rx.asynchronousMoveTo(ss1RxLookup)
@@ -589,7 +592,7 @@ def moveToModule(moduleNum):
             sleep(5)
             
         updateScriptController("Module align:complete")
-        handle_messages.simpleLog("complete module alignment:")
+        handle_messages.simpleLog("module alignment: complete")
     except:
         exceptionType, exception, traceback = sys.exc_info()
         updateScriptController(exception)
