@@ -13,15 +13,6 @@
 		<property name="constantValue" value="600.0" />
 	</bean>
 
-	<bean id="absorber" class="gda.device.enumpositioner.DummyPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Close</value>
-			</list>
-		</property>
-	</bean>
-
 	<import resource="file:${gda.config}/servers/main/scannables-common.xml" />
 
 </beans>
