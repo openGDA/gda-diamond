@@ -16,11 +16,10 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.client.plotting.model;
+package uk.ac.gda.plotting.model;
 
 import gda.rcp.GDAClientActivator;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,9 +34,6 @@ import org.osgi.framework.ServiceReference;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
-import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
-
-import com.google.gson.reflect.TypeToken;
 
 public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	private final String identifier;
@@ -62,8 +58,7 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	}
 
 	private void fileCachedDataFromFile() {
-		Type listType = new TypeToken<ArrayList<Double>>() {}.getType();
-		List<Double> storedList = EdeDataStore.INSTANCE.loadConfiguration(getStoredIdentifier(), listType);
+		List<Double> storedList = PlottingDataStore.INSTANCE.getPreferenceDataStore().loadArrayConfiguration(getStoredIdentifier(), Double.class);
 		cachedData.addAll(storedList);
 	}
 
@@ -121,7 +116,7 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 		@Override
 		public void run() {
 			synchronized (cachedData) {
-				EdeDataStore.INSTANCE.saveConfiguration(getStoredIdentifier(), cachedData);
+				PlottingDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getStoredIdentifier(), cachedData);
 			}
 		}
 	};

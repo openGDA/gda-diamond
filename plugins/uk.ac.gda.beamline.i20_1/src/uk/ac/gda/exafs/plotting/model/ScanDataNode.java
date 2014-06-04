@@ -27,7 +27,7 @@ import java.util.Map;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-import uk.ac.gda.client.plotting.model.DataNode;
+import uk.ac.gda.plotting.model.DataNode;
 
 public class ScanDataNode extends DataNode {
 	private final Map<String, SpectraNode> scans = new HashMap<String, SpectraNode>();

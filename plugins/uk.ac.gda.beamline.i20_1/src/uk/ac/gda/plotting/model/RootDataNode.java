@@ -16,13 +16,12 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.client.plotting.model;
+package uk.ac.gda.plotting.model;
 
 import gda.jython.IScanDataPointObserver;
 import gda.jython.InterfaceProvider;
 import gda.scan.IScanDataPoint;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,8 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
-
-import com.google.gson.reflect.TypeToken;
 
 public class RootDataNode extends DataNode implements IScanDataPointObserver {
 
@@ -91,8 +88,7 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 	}
 
 	private void loadData() {
-		Type listType = new TypeToken<ArrayList<ScanDataNode>>() {}.getType();
-		List<ScanDataNode> scansToLoad = EdeDataStore.INSTANCE.loadConfiguration(DATA_STORE_NAME, listType);
+		List<ScanDataNode> scansToLoad = EdeDataStore.INSTANCE.getPreferenceDataStore().loadArrayConfiguration(DATA_STORE_NAME, ScanDataNode.class);
 		if (scansToLoad != null) {
 			for (ScanDataNode loadedScan : scansToLoad) {
 				ScanDataNode scanDataNode = new ScanDataNode(loadedScan.getIdentifier(), loadedScan.getFileName(), loadedScan.getScanItemNames(), this);
@@ -195,6 +191,6 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 	}
 
 	private void saveScanHistory() {
-		EdeDataStore.INSTANCE.saveConfiguration(DATA_STORE_NAME, innerChildren);
+		PlottingDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(DATA_STORE_NAME, innerChildren);
 	}
 }

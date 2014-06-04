@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.client.plotting.model;
+package uk.ac.gda.plotting.model;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 

@@ -22,8 +22,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.gda.client.plotting.ScanDataPlotter;
-import uk.ac.gda.client.plotting.model.RootDataNode;
+import uk.ac.gda.plotting.ScanDataPlotter;
+import uk.ac.gda.plotting.model.RootDataNode;
 
 public class SlitsScanPlotView extends ViewPart {
 	public static String ID = "uk.ac.gda.exafs.ui.views.slitsscanplotview";

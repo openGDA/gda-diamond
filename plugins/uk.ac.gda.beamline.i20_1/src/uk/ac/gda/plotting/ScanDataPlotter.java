@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.client.plotting;
+package uk.ac.gda.plotting;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -58,11 +58,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.client.plotting.model.DataNode;
-import uk.ac.gda.client.plotting.model.LineTraceProvider;
-import uk.ac.gda.client.plotting.model.LineTraceProvider.TraceStyleDetails;
 import uk.ac.gda.exafs.ui.ResourceComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
+import uk.ac.gda.plotting.model.DataNode;
+import uk.ac.gda.plotting.model.LineTraceProvider;
+import uk.ac.gda.plotting.model.LineTraceProvider.TraceStyleDetails;
 
 public class ScanDataPlotter extends ResourceComposite {
 

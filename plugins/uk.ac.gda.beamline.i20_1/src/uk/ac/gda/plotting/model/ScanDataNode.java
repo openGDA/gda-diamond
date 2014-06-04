@@ -16,11 +16,10 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.client.plotting.model;
+package uk.ac.gda.plotting.model;
 
 import gda.scan.IScanDataPoint;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,10 +30,8 @@ import org.eclipse.swt.widgets.Display;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.reflect.TypeToken;
 
 public class ScanDataNode extends DataNode {
 
@@ -83,8 +80,7 @@ public class ScanDataNode extends DataNode {
 	}
 
 	private void fileCachedDataFromFile() {
-		Type listType = new TypeToken<ArrayList<Double>>() {}.getType();
-		List<Double> storedList = EdeDataStore.INSTANCE.loadConfiguration(getStoredIdentifier(), listType);
+		List<Double> storedList = PlottingDataStore.INSTANCE.getPreferenceDataStore().loadArrayConfiguration(getStoredIdentifier(), Double.class);
 		cachedData.addAll(storedList);
 	}
 
@@ -124,7 +120,7 @@ public class ScanDataNode extends DataNode {
 		@Override
 		public void run() {
 			synchronized (cachedData) {
-				EdeDataStore.INSTANCE.saveConfiguration(getStoredIdentifier(), cachedData);
+				PlottingDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getStoredIdentifier(), cachedData);
 			}
 		}
 	};

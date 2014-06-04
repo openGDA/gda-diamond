@@ -29,7 +29,7 @@ import org.osgi.framework.ServiceReference;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
-import uk.ac.gda.client.plotting.model.DataNode;
+import uk.ac.gda.plotting.model.DataNode;
 
 public class SpectraNode extends DataNode {
 

@@ -25,8 +25,8 @@ import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.client.plotting.model.DataNode;
-import uk.ac.gda.client.plotting.model.LineTraceProvider;
+import uk.ac.gda.plotting.model.DataNode;
+import uk.ac.gda.plotting.model.LineTraceProvider;
 
 public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	private final String identifier;
