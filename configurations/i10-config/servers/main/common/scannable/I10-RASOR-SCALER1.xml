@@ -191,7 +191,7 @@
 		<property name="scalerChannelIndex" value="31"/>
 	</bean>
 
-	<bean id="UI1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="RASOR_SCALER" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="rasor_scaler1" />
