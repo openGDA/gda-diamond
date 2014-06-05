@@ -44,4 +44,11 @@ public abstract class DataNode extends ObservableModel {
 	public String getLabel() {
 		return toString();
 	}
+
+	public abstract void removeChild(DataNode dataNode);
+
+	public void disposeResources() {
+		// TODO Auto-generated method stub
+
+	}
 }

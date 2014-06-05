@@ -18,18 +18,28 @@
 
 package uk.ac.gda.plotting.model;
 
+import gda.rcp.GDAClientActivator;
 import gda.scan.IScanDataPoint;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
+import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
+import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.client.liveplot.IPlotLineColorService;
+import uk.ac.gda.plotting.model.LineTraceProvider.TraceStyleDetails;
 
 import com.google.gson.annotations.Expose;
 
@@ -59,11 +69,57 @@ public class ScanDataNode extends DataNode {
 	}
 
 	private void createScanDataItems() {
-		for (String scanDataItem : scanItemNames) {
-			String dataItemIdentifier = createIdentifier(scanDataItem);
-			ScanDataItemNode slitscanDataItemNode = new ScanDataItemNode(dataItemIdentifier, scanDataItem, this);
+		for (String scanItemName : scanItemNames) {
+			String dataItemIdentifier = createIdentifier(scanItemName);
+			TraceStyleDetails traceStyle = createDefaultTraceStyle(scanItemName);
+			ScanDataItemNode slitscanDataItemNode = new ScanDataItemNode(dataItemIdentifier, scanItemName, this, traceStyle);
 			children.add(slitscanDataItemNode);
+			children.addListChangeListener(new IListChangeListener() {
+
+				@Override
+				public void handleListChange(ListChangeEvent event) {
+					event.diff.accept(new ListDiffVisitor() {
+
+						@Override
+						public void handleRemove(int index, Object element) {
+							((ScanDataItemNode) element).disposeResources();
+						}
+
+						@Override
+						public void handleAdd(int index, Object element) {}
+					});
+				}
+			});
 		}
+	}
+
+	private TraceStyleDetails createDefaultTraceStyle(String scanDataItem) {
+		// FIXME Should be able to setup
+		TraceStyleDetails traceStyle = new TraceStyleDetails();
+		RootDataNode experimentDataNode = (RootDataNode) this.getParent();
+		if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(this)) % 2 == 0) {
+			traceStyle.setTraceType(TraceType.DASH_LINE);
+			traceStyle.setPointStyle(PointStyle.DIAMOND);
+			traceStyle.setPointSize(6);
+		} else {
+			traceStyle.setTraceType(TraceType.SOLID_LINE);
+			traceStyle.setPointStyle(PointStyle.NONE);
+			traceStyle.setPointSize(0);
+		}
+		traceStyle.setColorHexValue(getColorInHex(scanDataItem));
+		return  traceStyle;
+	}
+
+	private String getColorInHex(String scanDataItem) {
+		BundleContext context = GDAClientActivator.getBundleContext();
+		ServiceReference<IPlotLineColorService> serviceRef = context.getServiceReference(IPlotLineColorService.class);
+		if (serviceRef != null) {
+			String colorValue = (String) serviceRef.getProperty(scanDataItem);
+			if (colorValue != null) {
+				return colorValue;
+			}
+		}
+		return null;
 	}
 
 	private String createIdentifier(String scanDataItem) {
@@ -73,13 +129,13 @@ public class ScanDataNode extends DataNode {
 	public DoubleDataset getData() {
 		synchronized (cachedData) {
 			if (cachedData.isEmpty()) {
-				fileCachedDataFromFile();
+				loadCachedDataFromFile();
 			}
 			return (DoubleDataset) AbstractDataset.createFromList(cachedData);
 		}
 	}
 
-	private void fileCachedDataFromFile() {
+	private void loadCachedDataFromFile() {
 		List<Double> storedList = PlottingDataStore.INSTANCE.getPreferenceDataStore().loadArrayConfiguration(getStoredIdentifier(), Double.class);
 		cachedData.addAll(storedList);
 	}
@@ -133,5 +189,15 @@ public class ScanDataNode extends DataNode {
 		for (int i = 0; i < scanDataPoint.getDetectorDataAsDoubles().length; i ++) {
 			((ScanDataItemNode) children.get(i)).update(scanDataPoint.getDetectorDataAsDoubles()[i]);
 		}
+	}
+
+	@Override
+	public void removeChild(DataNode dataNode) {
+		// Not supported
+	}
+
+	@Override
+	public void disposeResources() {
+		PlottingDataStore.INSTANCE.getPreferenceDataStore().removeConfiguration(getStoredIdentifier());
 	}
 }

@@ -18,33 +18,28 @@
 
 package uk.ac.gda.plotting.model;
 
-import gda.rcp.GDAClientActivator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
-import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.swt.widgets.Display;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.client.liveplot.IPlotLineColorService;
 
 public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	private final String identifier;
 	private final String label;
 	private final List<Double> cachedData = Collections.synchronizedList(new ArrayList<Double>());
+	private final TraceStyleDetails traceStyle;
 	private static final String SCAN_DATA_STORE_PREFIX = "scan_item:";
 
-	public ScanDataItemNode(String identifier, String label, DataNode parent) {
+	public ScanDataItemNode(String identifier, String label, DataNode parent, TraceStyleDetails traceStyle) {
 		super(parent);
 		this.identifier = identifier;
 		this.label = label;
+		this.traceStyle = traceStyle;
 	}
 
 	@Override
@@ -69,32 +64,7 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 
 	@Override
 	public TraceStyleDetails getTraceStyleDetails() {
-		TraceStyleDetails traceStyle = new TraceStyleDetails();
-		ScanDataNode scanDataNode = (ScanDataNode) this.getParent();
-		RootDataNode experimentDataNode = (RootDataNode) scanDataNode.getParent();
-		if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(scanDataNode)) % 2 == 0) {
-			traceStyle.setTraceType(TraceType.DASH_LINE);
-			traceStyle.setPointStyle(PointStyle.DIAMOND);
-			traceStyle.setPointSize(6);
-		} else {
-			traceStyle.setTraceType(TraceType.SOLID_LINE);
-			traceStyle.setPointStyle(PointStyle.NONE);
-			traceStyle.setPointSize(0);
-		}
-		traceStyle.setColorHexValue(getColorInHex());
 		return  traceStyle;
-	}
-
-	public String getColorInHex() {
-		BundleContext context = GDAClientActivator.getBundleContext();
-		ServiceReference<IPlotLineColorService> serviceRef = context.getServiceReference(IPlotLineColorService.class);
-		if (serviceRef != null) {
-			String colorValue = (String) serviceRef.getProperty(label);
-			if (colorValue != null) {
-				return colorValue;
-			}
-		}
-		return null;
 	}
 
 	@Override
@@ -141,5 +111,15 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	@Override
 	public boolean isPlotByDefault() {
 		return true;
+	}
+
+	@Override
+	public void removeChild(DataNode dataNode) {
+		// Nothing to remove
+	}
+
+	@Override
+	public void disposeResources() {
+		PlottingDataStore.INSTANCE.getPreferenceDataStore().removeConfiguration(getStoredIdentifier());
 	}
 }

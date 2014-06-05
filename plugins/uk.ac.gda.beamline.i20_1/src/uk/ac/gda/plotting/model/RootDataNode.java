@@ -40,8 +40,6 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
-
 public class RootDataNode extends DataNode implements IScanDataPointObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(RootDataNode.class);
@@ -75,6 +73,7 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
+						((ScanDataNode) element).disposeResources();
 						saveScanHistory();
 					}
 
@@ -88,7 +87,7 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 	}
 
 	private void loadData() {
-		List<ScanDataNode> scansToLoad = EdeDataStore.INSTANCE.getPreferenceDataStore().loadArrayConfiguration(DATA_STORE_NAME, ScanDataNode.class);
+		List<ScanDataNode> scansToLoad = PlottingDataStore.INSTANCE.getPreferenceDataStore().loadArrayConfiguration(DATA_STORE_NAME, ScanDataNode.class);
 		if (scansToLoad != null) {
 			for (ScanDataNode loadedScan : scansToLoad) {
 				ScanDataNode scanDataNode = new ScanDataNode(loadedScan.getIdentifier(), loadedScan.getFileName(), loadedScan.getScanItemNames(), this);
@@ -143,12 +142,13 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 
 	protected void updateDataSetInUI(IScanDataPoint scanDataPoint) {
 		// FIXME! More work needed to be able to configure which scan entries are shown
-		if (scanDataPoint.getScanPlotSettings() != null && scanDataPoint.getScanPlotSettings().getYAxesShown().length < 1) {
+		if ((scanDataPoint.getScanPlotSettings() != null && scanDataPoint.getScanPlotSettings().getYAxesShown().length < 1)) {
 			return;
 		}
 		ScanDataNode scanDataNode = findScan(Integer.toString(scanDataPoint.getScanIdentifier()));
 		if (scanDataNode == null) {
-			scanDataNode = new ScanDataNode(Integer.toString(scanDataPoint.getScanIdentifier()), scanDataPoint.getCurrentFilename(), scanDataPoint.getDetectorHeader(), this);
+			List<String> items = scanDataPoint.getDetectorHeader();
+			scanDataNode = new ScanDataNode(Integer.toString(scanDataPoint.getScanIdentifier()), scanDataPoint.getCurrentFilename(), items, this);
 			children.addAndUpdate(scanDataNode);
 		}
 		scanDataNode.update(scanDataPoint);
@@ -167,6 +167,7 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 		return null;
 	}
 
+	@Override
 	public void disposeResources() {
 		InterfaceProvider.getScanDataPointProvider().deleteIScanDataPointObserver(this);
 		executorService.shutdown();
@@ -192,5 +193,10 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 
 	private void saveScanHistory() {
 		PlottingDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(DATA_STORE_NAME, innerChildren);
+	}
+
+	@Override
+	public void removeChild(DataNode dataNode) {
+		children.remove(dataNode);
 	}
 }

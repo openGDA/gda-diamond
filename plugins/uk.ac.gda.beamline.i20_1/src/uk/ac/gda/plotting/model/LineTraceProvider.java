@@ -23,6 +23,8 @@ import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
+import com.google.gson.annotations.Expose;
+
 public interface LineTraceProvider {
 
 	public DoubleDataset getYAxisDataset();
@@ -33,9 +35,13 @@ public interface LineTraceProvider {
 	public boolean isPlotByDefault();
 
 	public static class TraceStyleDetails {
+		@Expose
 		private String colorHexValue = null;
+		@Expose
 		private TraceType traceType;
+		@Expose
 		private PointStyle pointStyle;
+		@Expose
 		private int pointSize;
 
 		public void setColorHexValue(String colorHexValue) {

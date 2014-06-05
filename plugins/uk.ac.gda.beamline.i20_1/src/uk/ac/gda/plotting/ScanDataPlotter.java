@@ -21,6 +21,7 @@ package uk.ac.gda.plotting;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.dawnsci.plotting.api.IPlottingSystem;
@@ -32,11 +33,17 @@ import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.masterdetail.IObservableFactory;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -50,6 +57,7 @@ import org.eclipse.swt.widgets.CoolItem;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
@@ -63,6 +71,7 @@ import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.plotting.model.DataNode;
 import uk.ac.gda.plotting.model.LineTraceProvider;
 import uk.ac.gda.plotting.model.LineTraceProvider.TraceStyleDetails;
+import uk.ac.gda.plotting.model.ScanDataNode;
 
 public class ScanDataPlotter extends ResourceComposite {
 
@@ -104,7 +113,7 @@ public class ScanDataPlotter extends ResourceComposite {
 				event.diff.accept(new ListDiffVisitor() {
 					@Override
 					public void handleRemove(int index, Object element) {
-						// TODO
+						//
 					}
 					@Override
 					public void handleAdd(int index, Object element) {
@@ -231,7 +240,7 @@ public class ScanDataPlotter extends ResourceComposite {
 			}
 		});
 
-		dataTreeViewer = new DataPlotterCheckedTreeViewer(dataTreeParent);
+		dataTreeViewer = new DataPlotterCheckedTreeViewer(dataTreeParent, SWT.MULTI);
 		dataTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		dataTreeViewer.setLabelProvider(new ColumnLabelProvider() {
 			@Override
@@ -267,6 +276,56 @@ public class ScanDataPlotter extends ResourceComposite {
 				}
 			}
 		});
+
+		registerViewerContextMenu();
+	}
+
+	private void registerViewerContextMenu() {
+		final MenuManager menuMgr = new MenuManager();
+
+		Menu menu = menuMgr.createContextMenu(dataTreeViewer.getControl());
+		menuMgr.addMenuListener(new IMenuListener() {
+			@Override
+			public void menuAboutToShow(IMenuManager manager) {
+				if (dataTreeViewer.getSelection().isEmpty() || !isSelectedOnSameNodeType(dataTreeViewer.getSelection())) {
+					return;
+				}
+				final IStructuredSelection selection = (IStructuredSelection) dataTreeViewer.getSelection();
+				// FIXME shouldn't have ScanDataNode reference here
+				if (selection.getFirstElement() instanceof ScanDataNode) {
+					menuMgr.add(new Action("Remove") {
+						@Override
+						public void run() {
+							Iterator<?> iterator = selection.iterator();
+							while(iterator.hasNext()) {
+								DataNode nodeToRemove = (DataNode) iterator.next();
+								if (dataTreeViewer.getChecked(nodeToRemove)) {
+									dataTreeViewer.updateCheckSelection(nodeToRemove, false);
+								}
+								rootDataNode.removeChild(nodeToRemove);
+							}
+						}
+					});
+				}
+			}
+
+			private boolean isSelectedOnSameNodeType(ISelection iSelection) {
+				if (!(iSelection instanceof IStructuredSelection)) {
+					return false;
+				}
+				IStructuredSelection selection = (IStructuredSelection) dataTreeViewer.getSelection();
+				Object firstSelection = selection.getFirstElement();
+				Iterator<?> iterator = selection.iterator();
+				while(iterator.hasNext()) {
+					if (!(iterator.next().getClass() == firstSelection.getClass())) {
+						return false;
+					}
+				}
+				return true;
+			}
+		});
+		menuMgr.setRemoveAllWhenShown(true);
+		dataTreeViewer.getControl().setMenu(menu);
 	}
 
 	private void updateDataItemNode(DataNode dataItemNode, boolean isAdded) {

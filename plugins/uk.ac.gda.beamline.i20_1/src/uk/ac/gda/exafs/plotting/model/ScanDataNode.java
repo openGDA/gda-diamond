@@ -82,4 +82,9 @@ public class ScanDataNode extends DataNode {
 	public String getIdentifier() {
 		return scanIdentifier;
 	}
+
+	@Override
+	public void removeChild(DataNode dataNode) {
+		// NOt supported
+	}
 }

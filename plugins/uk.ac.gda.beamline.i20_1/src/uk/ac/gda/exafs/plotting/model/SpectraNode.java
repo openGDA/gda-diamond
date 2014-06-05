@@ -102,4 +102,9 @@ public class SpectraNode extends DataNode {
 	public IObservableList getChildren() {
 		return yDoubleDataset;
 	}
+
+	@Override
+	public void removeChild(DataNode dataNode) {
+		// NOt supported
+	}
 }

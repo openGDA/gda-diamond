@@ -105,4 +105,9 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 		}
 		return false;
 	}
+
+	@Override
+	public void removeChild(DataNode dataNode) {
+		// NOt supported
+	}
 }
