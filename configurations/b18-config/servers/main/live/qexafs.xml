@@ -97,7 +97,7 @@
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
+		<property name="numChannelsToRead" value="3" />
 		<property name="outputFormat">
 			<list>
 				<value>%.6g</value>
@@ -132,7 +132,7 @@
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="false" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="9" />
+		<property name="numChannelsToRead" value="8" />
 		<property name="outputFormat">
 			<list>
 				<value>%.6g</value>

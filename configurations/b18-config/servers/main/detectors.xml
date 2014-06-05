@@ -272,21 +272,21 @@
 <!-- xspress3BufferedDetector.configure(); -->
 <!-- xspress3BufferedDetector.setWriteHDF5Files(True); -->
 
-	<bean id="xspress3Detector" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
-		<property name="name" value="xspress3Detector" />
-		<property name="controller" ref="xspress3Controller" />
-		<property name="numberOfChannelsToRead" value="4" />
-		<property name="firstChannelToRead" value="0" />
-		<property name="writeHDF5Files" value="true" />
-		<property name="numberOfFramesToCollect" value="6" />
-	</bean>
+<!-- 	<bean id="xspress3Detector" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector"> -->
+<!-- 		<property name="name" value="xspress3Detector" /> -->
+<!-- 		<property name="controller" ref="xspress3Controller" /> -->
+<!-- 		<property name="numberOfChannelsToRead" value="4" /> -->
+<!-- 		<property name="firstChannelToRead" value="0" /> -->
+<!-- 		<property name="writeHDF5Files" value="true" /> -->
+<!-- 		<property name="numberOfFramesToCollect" value="6" /> -->
+<!-- 	</bean> -->
 	
-	<bean id="xspress3BufferedDetector" class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
-		<property name="name" value="xspress3BufferedDetector" />
-		<property name="controller" ref="xspress3Controller" />
-		<property name="numberOfChannelsToRead" value="4" />
-		<property name="firstChannelToRead" value="0" />
-		<property name="writeHDF5Files" value="true" />
-	</bean>
+<!-- 	<bean id="xspress3BufferedDetector" class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector"> -->
+<!-- 		<property name="name" value="xspress3BufferedDetector" /> -->
+<!-- 		<property name="controller" ref="xspress3Controller" /> -->
+<!-- 		<property name="numberOfChannelsToRead" value="4" /> -->
+<!-- 		<property name="firstChannelToRead" value="0" /> -->
+<!-- 		<property name="writeHDF5Files" value="true" /> -->
+<!-- 	</bean> -->
 	
 </beans>
