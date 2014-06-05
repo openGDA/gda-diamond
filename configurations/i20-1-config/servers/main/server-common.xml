@@ -30,7 +30,6 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
 <!-- This is used to broadcast progress information and normalised spectra for display to the UI during linear and cyclic experiments -->

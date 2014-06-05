@@ -41,12 +41,14 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.client.plotting.ScanDataPlotter;
 import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
 
 import com.google.gson.reflect.TypeToken;
 
 public class RootDataNode extends DataNode implements IScanDataPointObserver {
+
+	private static final Logger logger = LoggerFactory.getLogger(RootDataNode.class);
+
 	public static final long DELAY_TO_PLOT_SCAN_DATA_POINTS_IN_MILLI = 300L;
 	public static final int MAX_SCAN_HISTORY = 100;
 	public static final int MAX_SCANS_WITH_CACHED_DATA = 10;
@@ -57,7 +59,6 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 	private final Collection<IScanDataPoint> cachedPoints = Collections.synchronizedCollection(new ArrayList<IScanDataPoint>());
 	private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(MAX_THREAD_POOL_FOR_PLOTTING);
 
-	private static final Logger logger = LoggerFactory.getLogger(ScanDataPlotter.class);
 	private final List<ScanDataNode> innerChildren = new LinkedList<ScanDataNode>();
 	private final RollingWritableList children = new RollingWritableList(innerChildren, ScanDataNode.class);
 

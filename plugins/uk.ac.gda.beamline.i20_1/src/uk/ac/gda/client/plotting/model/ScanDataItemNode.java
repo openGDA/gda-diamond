@@ -117,22 +117,26 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 		return label;
 	}
 
+	private final Runnable saveData = new Runnable() {
+		@Override
+		public void run() {
+			synchronized (cachedData) {
+				EdeDataStore.INSTANCE.saveConfiguration(getStoredIdentifier(), cachedData);
+			}
+		}
+	};
+
 	public void update(Double value) {
 		synchronized (cachedData) {
 			cachedData.add(value);
 		}
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				synchronized (cachedData) {
-					EdeDataStore.INSTANCE.saveConfiguration(getStoredIdentifier(), cachedData);
-				}
-			}
-		});
+		Display.getDefault().asyncExec(saveData);
 	}
 
 	public void clearCache() {
-		cachedData.clear();
+		synchronized (cachedData) {
+			cachedData.clear();
+		}
 	}
 
 	private String getStoredIdentifier() {
