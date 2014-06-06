@@ -100,7 +100,6 @@
 					<property name="label" value="ME2: %s; Coating: %s; Incident Angle: %.4fmrad"/>
 					<property name="labelValues">
 						<list>
-							<ref bean="me2_position"/>
 							<ref bean="me2_stripe"/>
 							<ref bean="me2_pitch"/>
 						</list>

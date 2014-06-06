@@ -71,13 +71,7 @@
 
 
 	<!-- me2 -->
-	
-	<bean id="me2_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="me2_stripe_motor" />
-	</bean>
-	<bean id="me2_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="me2y_motor" />
-	</bean>
+
 	<bean id="me2_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me2pitch_motor" />
 		<property name="initialUserUnits" value="mrad" />
@@ -85,19 +79,15 @@
 	<bean id="me2_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="me2roll_motor" />
 	</bean>
-	<bean id="me2_stripe" class="gda.device.scannable.ME2Scannable">
+	<bean id="me2_stripe" class="gda.device.scannable.ME2Positioner">
 		<property name="stripeScannable" ref="me2_stripe_positioner" />
-		<property name="yScannable" ref="me2_y" />
-		<property name="yOutPosition" value="-60.0" />
-		<property name="yInPosition" value="38.385" />
+		<property name="yScannable" ref="me2_y_positioner" />
 	</bean>
 
 	<bean id="me2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="me2_position" />
 				<ref bean="me2_stripe" />
-				<ref bean="me2_y" />
 				<ref bean="me2_pitch" />
 				<ref bean="me2_roll" />
 			</list>
