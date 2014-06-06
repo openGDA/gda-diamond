@@ -32,8 +32,17 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	private final String identifier;
 	private final String label;
 	private final List<Double> cachedData = Collections.synchronizedList(new ArrayList<Double>());
-	private final TraceStyleDetails traceStyle;
+	private TraceStyleDetails traceStyle;
+
 	private static final String SCAN_DATA_STORE_PREFIX = "scan_item:";
+
+	public TraceStyleDetails getTraceStyle() {
+		return traceStyle;
+	}
+
+	public void setTraceStyle(TraceStyleDetails traceStyle) {
+		this.traceStyle = traceStyle;
+	}
 
 	public ScanDataItemNode(String identifier, String label, DataNode parent, TraceStyleDetails traceStyle) {
 		super(parent);

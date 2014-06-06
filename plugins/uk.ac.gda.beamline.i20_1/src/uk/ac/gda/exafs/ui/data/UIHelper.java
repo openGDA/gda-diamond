@@ -110,4 +110,23 @@ public class UIHelper {
 
 		return new Color(display, new RGB(red, green, blue));
 	}
+
+	public static String convertRGBToHexadecimal(RGB rgb) {
+		int red = rgb.red;
+		int green = rgb.green;
+		int blue = rgb.blue;
+		String redHexadecimal = Integer.toHexString(red);
+		String greenHexadecimal = Integer.toHexString(green);
+		String blueHexadecimal = Integer.toHexString(blue);
+		if (redHexadecimal.length() == 1) {
+			redHexadecimal = "0" + redHexadecimal;
+		}
+		if (greenHexadecimal.length() == 1) {
+			greenHexadecimal = "0" + greenHexadecimal;
+		}
+		if (blueHexadecimal.length() == 1) {
+			blueHexadecimal = "0" + blueHexadecimal;
+		}
+		return "#" + redHexadecimal + greenHexadecimal + blueHexadecimal;
+	}
 }

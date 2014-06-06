@@ -20,10 +20,12 @@ package uk.ac.gda.plotting;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
@@ -45,6 +47,7 @@ import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Color;
@@ -71,6 +74,7 @@ import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.plotting.model.DataNode;
 import uk.ac.gda.plotting.model.LineTraceProvider;
 import uk.ac.gda.plotting.model.LineTraceProvider.TraceStyleDetails;
+import uk.ac.gda.plotting.model.ScanDataItemNode;
 import uk.ac.gda.plotting.model.ScanDataNode;
 
 public class ScanDataPlotter extends ResourceComposite {
@@ -162,6 +166,7 @@ public class ScanDataPlotter extends ResourceComposite {
 			if (traceDetails.getColorHexValue() != null) {
 				trace.setTraceColor(getTraceColor(traceDetails.getColorHexValue()));
 			}
+			trace.setLineWidth(traceDetails.getLineWidth());
 			trace.setTraceType(traceDetails.getTraceType());
 			trace.setPointSize(traceDetails.getPointSize());
 			trace.setPointStyle(traceDetails.getPointStyle());
@@ -205,26 +210,16 @@ public class ScanDataPlotter extends ResourceComposite {
 		CoolBar composite = new CoolBar(dataTreeParent, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		CoolItem toolbarCoolItem = new CoolItem(composite, SWT.NONE);
-		// TODO Do search text box
-		//CoolItem filterCoolItem = new CoolItem(composite, SWT.NONE);
 		ToolBar tb = new ToolBar(composite, SWT.FLAT);
 		ToolItem backToolItem = new ToolItem(tb, SWT.NONE);
 		backToolItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_BACK));
 		ToolItem forwardToolItem = new ToolItem(tb, SWT.NONE);
 		forwardToolItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_FORWARD));
-		//		Text filterText = new Text(composite, SWT.BORDER);
-		//		filterText.setText("");
 		Point p = tb.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		tb.setSize(p);
 		Point p2 = toolbarCoolItem.computeSize(p.x, p.y);
 		toolbarCoolItem.setControl(tb);
 		toolbarCoolItem.setSize(p2);
-		//		p = filterText.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		//		filterText.setSize(p);
-		//		p2 = filterCoolItem.computeSize(p.x, p.y);
-		//		filterCoolItem.setControl(tb);
-		//		filterCoolItem.setSize(p2);
-		//		filterCoolItem.setControl(filterText);
 
 		backToolItem.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -306,6 +301,35 @@ public class ScanDataPlotter extends ResourceComposite {
 							}
 						}
 					});
+				} else if (selection.getFirstElement() instanceof ScanDataItemNode) {
+					menuMgr.add(new Action("Change appearance") {
+						@Override
+						public void run() {
+							TraceStyleDetails traceStyle = null;
+							if (selection.size() == 1) {
+								traceStyle = ((ScanDataItemNode) selection.getFirstElement()).getTraceStyleDetails();
+							}
+							TraceStyleDialog dialog = new TraceStyleDialog(ScanDataPlotter.this.getShell(), traceStyle);
+							dialog.create();
+							if (dialog.open() == Window.OK) {
+								Iterator<?> iterator = selection.iterator();
+								while(iterator.hasNext()) {
+									ScanDataItemNode nodeToChange = (ScanDataItemNode) iterator.next();
+									try {
+										TraceStyleDetails newTraceStyleDetails = new TraceStyleDetails();
+										BeanUtils.copyProperties(newTraceStyleDetails, dialog.getTraceStyle());
+										nodeToChange.setTraceStyle(newTraceStyleDetails);
+										if (dataTreeViewer.getChecked(nodeToChange)) {
+											removeTrace(nodeToChange.getIdentifier());
+											addTrace(nodeToChange);
+										}
+									} catch (IllegalAccessException | InvocationTargetException e) {
+										// TODO
+									}
+								}
+							}
+						}
+					});
 				}
 			}
 
@@ -352,6 +376,4 @@ public class ScanDataPlotter extends ResourceComposite {
 			color.dispose();
 		}
 	}
-
-
 }

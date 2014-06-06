@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
-import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
@@ -94,17 +92,12 @@ public class ScanDataNode extends DataNode {
 	}
 
 	private TraceStyleDetails createDefaultTraceStyle(String scanDataItem) {
-		// FIXME Should be able to setup
-		TraceStyleDetails traceStyle = new TraceStyleDetails();
+		TraceStyleDetails traceStyle = null;
 		RootDataNode experimentDataNode = (RootDataNode) this.getParent();
 		if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(this)) % 2 == 0) {
-			traceStyle.setTraceType(TraceType.DASH_LINE);
-			traceStyle.setPointStyle(PointStyle.DIAMOND);
-			traceStyle.setPointSize(6);
+			traceStyle = TraceStyleDetails.createDefaultSolidTrace();
 		} else {
-			traceStyle.setTraceType(TraceType.SOLID_LINE);
-			traceStyle.setPointStyle(PointStyle.NONE);
-			traceStyle.setPointSize(0);
+			traceStyle = TraceStyleDetails.createDefaultDashTrace();
 		}
 		traceStyle.setColorHexValue(getColorInHex(scanDataItem));
 		return  traceStyle;
