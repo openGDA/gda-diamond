@@ -497,20 +497,26 @@
 	<simpleMotor desc="S5 X Gap" name="S5.XGAP">
 		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-AL-SLITS-05:X:SIZE" ro="false" type="motor"/>
 	</simpleMotor>
-	<simplePv desc="Spacefab Pivot Point X Coord" name="SFAB.PIVOTX">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:X" ro="false" type="pv"/>
-	</simplePv>
-	<simplePv desc="Spacefab Pivot Point Y Coord" name="SFAB.PIVOTY">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:Y" ro="false" type="pv"/>
-	</simplePv>
-	<simplePv desc="Spacefab Pivot Point Z Coord" name="SFAB.PIVOTZ">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:Z" ro="false" type="pv"/>
-	</simplePv>
 	<simplePv desc="Spacefab Demand Sync" name="SFAB.SYNC">
 		<RECORD IOC="BL15I-MO-IOC-04" desc="Sync demands with readbacks" pv="BL15I-MO-SFAB-01:SYNCDEMANDS" ro="false" type="pv"/>
 	</simplePv>
-	<simplePv desc="Spacefab Reset" name="SFAB.RESET">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Reset system error" pv="BL15I-MO-SFAB-01:RESETERR" ro="false" type="pv"/>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:X_RBV">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:X_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:X">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:X" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:Y_RBV">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Y_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:Y">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Y" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:Z_RBV">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Z_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:Z">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Z" ro="false" type="pv"/>
 	</simplePv>
 	<simpleMotor desc="" name="SFAB.X">
 		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:X" ro="false" type="motor"/>
