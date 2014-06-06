@@ -1,12 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- AD hardware -->
 
-	<!-- Devices which are required by the Image views are defined in the spring config shared with the client -->
-	<import resource="../../../main/common/device/mpxAreaDetector.xml"/>
 	<!-- Devices which are defined in Epics but not needed by the client are defined below -->
 
 	<bean id="mpxAD_summary_roi1" class="gda.spring.V17NDROIFactoryBean">
