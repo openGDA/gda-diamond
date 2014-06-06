@@ -1953,9 +1953,7 @@
 		<WriteStatus IOC="BL15I-EA-IOC-11" desc="Status of file open and write operations" pv="BL15I-EA-PSL-01:HDF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-EA-IOC-11" desc="Error message regarding any file operation failure" pv="BL15I-EA-PSL-01:HDF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="psl.tif NDFileTIFF class instance" name="psl.tif_NDFileTIFF"/>
-	 -->
 	<NDFileHDF5 desc="psl.hdf NDFileHDF5 class instance" name="psl.hdf_NDFileHDF5">
 		<NumRowChunks IOC="BL15I-EA-IOC-11" desc="Number of rows to use per chunk" pv="BL15I-EA-PSL-01:HDF:NumRowChunks" ro="false" type="pv"/>
 		<NumRowChunks_RBV IOC="BL15I-EA-IOC-11" desc="Readback of number of rows to use per chunk" pv="BL15I-EA-PSL-01:HDF:NumRowChunks_RBV" ro="true" type="pv"/>
@@ -2806,9 +2804,7 @@
 		<WriteStatus IOC="BL15I-DI-IOC-01" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-01:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-01" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-01:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="gige1.tiff NDFileTIFF class instance" name="gige1.tiff_NDFileTIFF"/>
-	 -->
 	<NDOverlay desc="gige1.draw NDOverlay class instance" name="gige1.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-01" desc="Set Name0" pv="BL15I-DI-GIGE-01:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-01" desc="Readback for Name0" pv="BL15I-DI-GIGE-01:DRAW:1:Name_RBV" ro="true" type="pv"/>
@@ -3560,9 +3556,7 @@
 		<WriteStatus IOC="BL15I-DI-IOC-02" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-02:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-02" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-02:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="gige2.tiff NDFileTIFF class instance" name="gige2.tiff_NDFileTIFF"/>
-	 -->
 	<NDOverlay desc="gige2.draw NDOverlay class instance" name="gige2.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-02" desc="Set Name0" pv="BL15I-DI-GIGE-02:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-02" desc="Readback for Name0" pv="BL15I-DI-GIGE-02:DRAW:1:Name_RBV" ro="true" type="pv"/>
@@ -4314,9 +4308,7 @@
 		<WriteStatus IOC="BL15I-DI-IOC-03" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-03:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-03" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-03:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="gige3.tiff NDFileTIFF class instance" name="gige3.tiff_NDFileTIFF"/>
-	 -->
 	<NDOverlay desc="gige3.draw NDOverlay class instance" name="gige3.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-03" desc="Set Name0" pv="BL15I-DI-GIGE-03:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-03" desc="Readback for Name0" pv="BL15I-DI-GIGE-03:DRAW:1:Name_RBV" ro="true" type="pv"/>
@@ -5068,9 +5060,7 @@
 		<WriteStatus IOC="BL15I-DI-IOC-04" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-04:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-04" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-04:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="gige4.tiff NDFileTIFF class instance" name="gige4.tiff_NDFileTIFF"/>
-	 -->
 	<NDOverlay desc="gige4.draw NDOverlay class instance" name="gige4.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-04" desc="Set Name0" pv="BL15I-DI-GIGE-04:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-04" desc="Readback for Name0" pv="BL15I-DI-GIGE-04:DRAW:1:Name_RBV" ro="true" type="pv"/>

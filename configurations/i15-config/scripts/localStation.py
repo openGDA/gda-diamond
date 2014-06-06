@@ -324,6 +324,15 @@ try:
 
 	try:
 		simpleLog("Create diodes")
+		finder.find("PHDGN1").configure()
+		finder.find("PHDGN2").configure()
+		finder.find("PHDGN3").configure()
+		finder.find("PHDGN4").configure()
+		finder.find("PHDGN5").configure()
+		finder.find("PHDGN6").configure()
+		finder.find("PHDGN7").configure()
+		finder.find("PHDGN8").configure()
+		finder.find("PHDGN9").configure()
 		d1 = finder.find("PHDGN1").createEpicsChannel("d1", ReturnType.DBR_NATIVE, "", "")
 		d1.setLevel(6)
 		d2 = finder.find("PHDGN2").createEpicsChannel("d2", ReturnType.DBR_NATIVE, "", "")
