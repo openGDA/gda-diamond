@@ -135,13 +135,16 @@ def plot(detector):
 	detector.clearLastAcquisitionState();
 	detector.display()
 
+localStation_exceptions = []
+
 def localStation_exception(exc_info, msg):
 	typ, exception, traceback = exc_info
 	simpleLog("! Failure %s !" % msg)
+	localStation_exceptions.append("    %s" % msg)
 	handle_messages.log(None, "Error %s -  " % msg , typ, exception, traceback, False)
 
 try:
-	simpleLog("================INITIALISING I15 GDA================")
+	simpleLog("================ INITIALISING I15 GDA ================")
 	
 	scansReturnToOriginalPositions = 1;
 	
@@ -700,5 +703,11 @@ except java.io.FileNotFoundException, e:
 	print "No localStationUser.py found in user scripts directory"
 except:
 	localStation_exception(sys.exc_info(), "running localStationUser user script")
+
+if len(localStation_exceptions) > 0:
+	simpleLog("=============== ERRORS DURING STARTUP ================")
+
+for localStationException in localStation_exceptions:
+	simpleLog(localStationException)
 
 simpleLog("===================== GDA ONLINE =====================")
