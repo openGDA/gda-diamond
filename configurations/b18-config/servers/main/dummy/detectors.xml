@@ -119,10 +119,15 @@
 		</property>
 	</bean>
 
-<!-- 	<bean id="xspress3Controller" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller"> -->
-<!-- 		<property name="daServer" ref="DAServer" /> -->
-<!-- 		<property name="tfg" ref="tfg" /> -->
-<!-- 	</bean> -->
+	<bean id="xspress3Controller"
+		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
+		<constructor-arg>
+			<ref bean="DAServer" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="tfg" />
+		</constructor-arg>
+	</bean>
 
 	<!-- <bean id="cirrus" class="uk.ac.gda.devices.cirrus.DummyCirrusDetector"> -->
 	<!-- </bean> -->

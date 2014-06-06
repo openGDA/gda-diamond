@@ -155,33 +155,6 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="oh_coating" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Cr</value>
-				<value>Pt</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="hr_coating" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Bran 1</value>
-				<value>Bran 2</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="hr_inout" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>in</value>
-				<value>out</value>
-			</list>
-		</property>
-	</bean>
 	
 	<bean id="dcm_branch" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
