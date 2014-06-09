@@ -26,14 +26,30 @@ import uk.ac.gda.beans.ObservableModel;
 
 import com.google.gson.annotations.Expose;
 
-public interface LineTraceProvider {
+public abstract class LineTraceProvider extends DataNode {
+	private TraceStyleDetails traceStyle;
 
-	public DoubleDataset getYAxisDataset();
-	public DoubleDataset getXAxisDataset();
+	public LineTraceProvider(DataNode parent, TraceStyleDetails traceStyle) {
+		super(parent);
+		this.setTraceStyle(traceStyle);
+	}
 
-	public TraceStyleDetails getTraceStyleDetails();
 
-	public boolean isPlotByDefault();
+	public TraceStyleDetails getTraceStyle() {
+		return traceStyle;
+	}
+
+
+	public void setTraceStyle(TraceStyleDetails traceStyle) {
+		this.traceStyle = traceStyle;
+	}
+
+
+	public abstract DoubleDataset getYAxisDataset();
+	public abstract DoubleDataset getXAxisDataset();
+
+
+	public abstract boolean isPlotByDefault();
 
 	public static class TraceStyleDetails extends ObservableModel {
 		public static final String COLOR_HAX_VALUE_PROP_NAME = "colorHexValue";

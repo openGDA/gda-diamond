@@ -162,7 +162,7 @@ public class ScanDataPlotter extends ResourceComposite {
 		ILineTrace trace = (ILineTrace) plottingSystem.getTrace(((DataNode) lineTraceProvider).getIdentifier());
 		if (trace == null) {
 			trace = plottingSystem.createLineTrace(((DataNode) lineTraceProvider).getIdentifier());
-			TraceStyleDetails traceDetails = lineTraceProvider.getTraceStyleDetails();
+			TraceStyleDetails traceDetails = lineTraceProvider.getTraceStyle();
 			if (traceDetails.getColorHexValue() != null) {
 				trace.setTraceColor(getTraceColor(traceDetails.getColorHexValue()));
 			}
@@ -244,7 +244,7 @@ public class ScanDataPlotter extends ResourceComposite {
 				cell.setText(element.toString());
 				if (element instanceof LineTraceProvider) {
 					LineTraceProvider item = ((LineTraceProvider) element);
-					String color = item.getTraceStyleDetails().getColorHexValue();
+					String color = item.getTraceStyle().getColorHexValue();
 					if (color != null) {
 						cell.setForeground(getTraceColor(color));
 					}
@@ -301,13 +301,13 @@ public class ScanDataPlotter extends ResourceComposite {
 							}
 						}
 					});
-				} else if (selection.getFirstElement() instanceof ScanDataItemNode) {
+				} else if (selection.getFirstElement() instanceof LineTraceProvider) {
 					menuMgr.add(new Action("Change appearance") {
 						@Override
 						public void run() {
 							TraceStyleDetails traceStyle = null;
 							if (selection.size() == 1) {
-								traceStyle = ((ScanDataItemNode) selection.getFirstElement()).getTraceStyleDetails();
+								traceStyle = ((LineTraceProvider) selection.getFirstElement()).getTraceStyle();
 							}
 							TraceStyleDialog dialog = new TraceStyleDialog(ScanDataPlotter.this.getShell(), traceStyle);
 							dialog.create();

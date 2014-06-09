@@ -28,27 +28,17 @@ import org.eclipse.swt.widgets.Display;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
-public class ScanDataItemNode extends DataNode implements LineTraceProvider {
+public class ScanDataItemNode extends LineTraceProvider {
 	private final String identifier;
 	private final String label;
 	private final List<Double> cachedData = Collections.synchronizedList(new ArrayList<Double>());
-	private TraceStyleDetails traceStyle;
 
 	private static final String SCAN_DATA_STORE_PREFIX = "scan_item:";
 
-	public TraceStyleDetails getTraceStyle() {
-		return traceStyle;
-	}
-
-	public void setTraceStyle(TraceStyleDetails traceStyle) {
-		this.traceStyle = traceStyle;
-	}
-
 	public ScanDataItemNode(String identifier, String label, DataNode parent, TraceStyleDetails traceStyle) {
-		super(parent);
+		super(parent, traceStyle);
 		this.identifier = identifier;
 		this.label = label;
-		this.traceStyle = traceStyle;
 	}
 
 	@Override
@@ -69,11 +59,6 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	@Override
 	public DoubleDataset getXAxisDataset() {
 		return ((ScanDataNode) parent).getData();
-	}
-
-	@Override
-	public TraceStyleDetails getTraceStyleDetails() {
-		return  traceStyle;
 	}
 
 	@Override
