@@ -90,7 +90,7 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 		List<ScanDataNode> scansToLoad = PlottingDataStore.INSTANCE.getPreferenceDataStore().loadArrayConfiguration(DATA_STORE_NAME, ScanDataNode.class);
 		if (scansToLoad != null) {
 			for (ScanDataNode loadedScan : scansToLoad) {
-				ScanDataNode scanDataNode = new ScanDataNode(loadedScan.getIdentifier(), loadedScan.getFileName(), loadedScan.getScanItemNames(), this);
+				ScanDataNode scanDataNode = new ScanDataNode(loadedScan.getIdentifier(), loadedScan.getFileName(), loadedScan.getDetectorScanItemNames(), loadedScan.getPositionScanItemNames(), this);
 				children.add(scanDataNode);
 			}
 		}
@@ -147,8 +147,21 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 		}
 		ScanDataNode scanDataNode = findScan(Integer.toString(scanDataPoint.getScanIdentifier()));
 		if (scanDataNode == null) {
-			List<String> items = scanDataPoint.getDetectorHeader();
-			scanDataNode = new ScanDataNode(Integer.toString(scanDataPoint.getScanIdentifier()), scanDataPoint.getCurrentFilename(), items, this);
+			// TODO Review this logic
+			List<String> detectorScanItemNames = null;
+			if (!scanDataPoint.getDetectorHeader().isEmpty() && scanDataPoint.getDetectorDataAsDoubles().length > 0) {
+				detectorScanItemNames = scanDataPoint.getDetectorHeader();
+			}
+			List<String> positionScanItemNames = null;
+			if (!scanDataPoint.getPositionHeader().isEmpty() && scanDataPoint.getPositionsAsDoubles().length > 0) {
+				positionScanItemNames = scanDataPoint.getPositionHeader();
+			}
+			scanDataNode = new ScanDataNode(
+					Integer.toString(scanDataPoint.getScanIdentifier()),
+					scanDataPoint.getCurrentFilename(),
+					detectorScanItemNames,
+					positionScanItemNames,
+					this);
 			children.addAndUpdate(scanDataNode);
 		}
 		scanDataNode.update(scanDataPoint);

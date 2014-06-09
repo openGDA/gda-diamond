@@ -78,13 +78,13 @@ import uk.ac.gda.plotting.model.ScanDataItemNode;
 import uk.ac.gda.plotting.model.ScanDataNode;
 
 public class ScanDataPlotter extends ResourceComposite {
-
-	private static Logger logger = LoggerFactory.getLogger(ScanDataPlotter.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScanDataPlotter.class);
 
 	private IPlottingSystem plottingSystem;
 
 	private DataPlotterCheckedTreeViewer dataTreeViewer;
 	private final DataNode rootDataNode;
+
 
 	public ScanDataPlotter(Composite parent, int style, ViewPart parentView, DataNode rootDataNode) {
 		super(parent, style);
@@ -324,7 +324,7 @@ public class ScanDataPlotter extends ResourceComposite {
 											addTrace(nodeToChange);
 										}
 									} catch (IllegalAccessException | InvocationTargetException e) {
-										// TODO
+										logger.error("Unable to copy properties", e);
 									}
 								}
 							}

@@ -119,7 +119,7 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 
 	@Override
 	public boolean isPlotByDefault() {
-		return true;
+		return !cachedData.isEmpty();
 	}
 
 	@Override

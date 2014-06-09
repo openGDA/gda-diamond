@@ -32,7 +32,7 @@ import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
 import uk.ac.gda.exafs.alignment.ui.FocusingView;
 import uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView;
-import uk.ac.gda.exafs.plotting.ui.SlitsScanPlotView;
+import uk.ac.gda.plotting.ScanDataPlotView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.
@@ -72,7 +72,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);
-		topPlotFolder.addView(SlitsScanPlotView.ID);
+		topPlotFolder.addView(ScanDataPlotView.ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
 		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
 		topPlotFolder.addView(ExperimentDataPlotView.ID);

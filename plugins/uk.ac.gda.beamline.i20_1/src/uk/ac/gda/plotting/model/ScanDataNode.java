@@ -52,43 +52,61 @@ public class ScanDataNode extends DataNode {
 	@Expose
 	private final String fileName;
 	@Expose
-	private final List<String> scanItemNames;
+	private final List<String> detectorScanItemNames;
+	@Expose
+	private final List<String> positionScanItemNames;
 
-	public List<String> getScanItemNames() {
-		return scanItemNames;
-	}
-
-	public ScanDataNode(String identifier, String fileName, List<String> scanItemNames, DataNode parent) {
+	public ScanDataNode(String identifier, String fileName, List<String> detectorScanItemNames, List<String> positionScanItemNames, DataNode parent) {
 		super(parent);
 		this.identifier = identifier;
 		this.fileName = fileName;
-		this.scanItemNames = scanItemNames;
+		this.detectorScanItemNames = detectorScanItemNames;
+		this.positionScanItemNames = positionScanItemNames;
 		createScanDataItems();
 	}
 
+	public List<String> getDetectorScanItemNames() {
+		return detectorScanItemNames;
+	}
+
+	public List<String> getPositionScanItemNames() {
+		return positionScanItemNames;
+	}
+
 	private void createScanDataItems() {
-		for (String scanItemName : scanItemNames) {
-			String dataItemIdentifier = createIdentifier(scanItemName);
-			TraceStyleDetails traceStyle = createDefaultTraceStyle(scanItemName);
-			ScanDataItemNode slitscanDataItemNode = new ScanDataItemNode(dataItemIdentifier, scanItemName, this, traceStyle);
-			children.add(slitscanDataItemNode);
-			children.addListChangeListener(new IListChangeListener() {
-
-				@Override
-				public void handleListChange(ListChangeEvent event) {
-					event.diff.accept(new ListDiffVisitor() {
-
-						@Override
-						public void handleRemove(int index, Object element) {
-							((ScanDataItemNode) element).disposeResources();
-						}
-
-						@Override
-						public void handleAdd(int index, Object element) {}
-					});
-				}
-			});
+		// TODO Currently detectorScanItemNames are added then positionScanItemNames, needs reviewing on how they are shown
+		if (detectorScanItemNames != null) {
+			for (String scanItemName : detectorScanItemNames) {
+				createScanDataItem(scanItemName);
+			}
 		}
+		if (positionScanItemNames != null) {
+			for (String scanItemName : positionScanItemNames) {
+				createScanDataItem(scanItemName);
+			}
+		}
+		children.addListChangeListener(new IListChangeListener() {
+			@Override
+			public void handleListChange(ListChangeEvent event) {
+				event.diff.accept(new ListDiffVisitor() {
+
+					@Override
+					public void handleRemove(int index, Object element) {
+						((ScanDataItemNode) element).disposeResources();
+					}
+
+					@Override
+					public void handleAdd(int index, Object element) {}
+				});
+			}
+		});
+	}
+
+	private void createScanDataItem(String scanItemName) {
+		String dataItemIdentifier = createIdentifier(scanItemName);
+		TraceStyleDetails traceStyle = createDefaultTraceStyle(scanItemName);
+		ScanDataItemNode scanDataItemNode = new ScanDataItemNode(dataItemIdentifier, scanItemName, this, traceStyle);
+		children.add(scanDataItemNode);
 	}
 
 	private TraceStyleDetails createDefaultTraceStyle(String scanDataItem) {
@@ -179,8 +197,17 @@ public class ScanDataNode extends DataNode {
 			cachedData.add(scanDataPoint.getPositionsAsDoubles()[0]);
 		}
 		Display.getDefault().asyncExec(saveData);
-		for (int i = 0; i < scanDataPoint.getDetectorDataAsDoubles().length; i ++) {
-			((ScanDataItemNode) children.get(i)).update(scanDataPoint.getDetectorDataAsDoubles()[i]);
+		// TODO Currently detectorScanItemNames are added then positionScanItemNames, needs reviewing on how they are shown
+		if (detectorScanItemNames != null) {
+			for (int i = 0; i < scanDataPoint.getDetectorDataAsDoubles().length; i ++) {
+				((ScanDataItemNode) children.get(i)).update(scanDataPoint.getDetectorDataAsDoubles()[i]);
+			}
+		}
+		if (positionScanItemNames != null) {
+			int offset = detectorScanItemNames == null ? 0 : detectorScanItemNames.size();
+			for (int i = 0; i < scanDataPoint.getPositionsAsDoubles().length; i ++) {
+				((ScanDataItemNode) children.get(i + offset)).update(scanDataPoint.getPositionsAsDoubles()[i]);
+			}
 		}
 	}
 
