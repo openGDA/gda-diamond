@@ -164,13 +164,21 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		if (scanType == EdeScanType.DARK){
 			// close the shutter
 			shutter.moveTo("Close");
-			checkForInterrupts();
+			checkThreadInterrupted();
+			waitIfPaused();
+			if (isFinishEarlyRequested()){
+				return;
+			}
 		} else {
 			// open the shutter
 			logger.debug(toString() + " moving motors into position...");
 			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 			motorPositions.moveIntoPosition();
-			checkForInterrupts();
+			checkThreadInterrupted();
+			waitIfPaused();
+			if (isFinishEarlyRequested()){
+				return;
+			}
 			if (topup != null){
 				// the TopupChecker object will run its test for an imminent top-up in atScanStart()
 				topup.atScanStart();
@@ -200,7 +208,10 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 					nextFrameToRead = currentFrame;
 				}
 				Thread.sleep(100);
-				checkForInterrupts();
+				waitIfPaused();
+				if (isFinishEarlyRequested()){
+					return;
+				}
 				progressData = fetchStatusAndWait();
 				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
 			}
@@ -225,7 +236,7 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		boolean sendMessage = true;
 		while (progressData.detectorStatus == Detector.PAUSED) {
 			Thread.sleep(1000);
-			checkForInterrupts();
+			waitIfPaused();
 			if (sendMessage) {
 				logger.info("Detector paused and waiting for a trigger. Abort the scan if this takes too long.");
 				sendMessage = false;
@@ -290,7 +301,11 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		logger.info("data read successfully");
 
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
-			checkForInterrupts();
+			checkThreadInterrupted();
+			waitIfPaused();
+			if (isFinishEarlyRequested()){
+				return;
+			}
 			currentPointCount++;
 			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
 
@@ -312,13 +327,17 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 			thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
 			thisPoint.setInstrument(instrument);
 			thisPoint.setCommand(getCommand());
-			thisPoint.setScanIdentifier(String.valueOf(getScanNumber()));
+			thisPoint.setScanIdentifier(getScanNumber());
 
 			// then write data to data handler
 			storeAndBroadcastSDP(thisFrame, thisPoint);
 			getDataWriter().addData(thisPoint);
 
-			checkForInterrupts();
+			checkThreadInterrupted();
+			waitIfPaused();
+			if (isFinishEarlyRequested()){
+				return;
+			}
 
 			// update the filename (if this was the first data point and so filename would never be defined until first
 			// data added
