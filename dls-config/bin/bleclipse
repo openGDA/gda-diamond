@@ -12,7 +12,7 @@ module unload buckminster
 
 . $DLS_CONFIG_BIN/loadjava.sh
 
-module load eclipse/43
+module load eclipse/432
 
 # Add diamond specific options for Eclipse
 
