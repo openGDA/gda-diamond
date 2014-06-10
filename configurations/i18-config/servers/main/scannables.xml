@@ -551,37 +551,35 @@
 		<property name="protectionLevel" value="0" />
 	</bean>
 
-	 <bean id="hrm_combined_x" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="hrm_combined_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
+<!-- 	<bean id="hrm_combined_x" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 		<property name="initialUserUnits" value="mm" /> -->
+<!-- 		<property name="motor" ref="hrm_combined_x_motor" /> -->
+<!-- 		<property name="hardwareUnitString" value="mm" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="hrm_shr_x" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 		<property name="initialUserUnits" value="mm" /> -->
+<!-- 		<property name="motor" ref="hrm_shr_x_motor" /> -->
+<!-- 		<property name="hardwareUnitString" value="mm" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="hrm_combined_pitch" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 		<property name="initialUserUnits" value="Deg" /> -->
+<!-- 		<property name="motor" ref="hrm_combined_pitch_motor" /> -->
+<!-- 		<property name="hardwareUnitString" value="Deg" /> -->
+<!-- 	</bean> -->
 	
-	<bean id="hrm_shr_x" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="hrm_shr_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	
-	<bean id="hrm_combined_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="motor" ref="hrm_combined_pitch_motor" />
-		<property name="hardwareUnitString" value="Deg" />
-	</bean>
-	
-	<bean id="HR" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="hrm_combined_x" />
-				<ref bean="hrm_shr_x" />
-				<ref bean="hrm_combined_pitch" />
-			</list>
-		</property>
-		<property name="protectionLevel" value="0" />
-	</bean>
+<!-- 	<bean id="HR" class="gda.device.scannable.scannablegroup.ScannableGroup"> -->
+<!-- 		<property name="groupMembers"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="hrm_combined_x" /> -->
+<!-- 				<ref bean="hrm_shr_x" /> -->
+<!-- 				<ref bean="hrm_combined_pitch" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="protectionLevel" value="0" /> -->
+<!-- 	</bean> -->
 	
 	<!-- ComboDCM controller -->
 	<bean id="sc_dcm_perp_mDeg" class="gda.device.scannable.ConvertorScannable">
