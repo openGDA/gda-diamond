@@ -21,12 +21,6 @@ package uk.ac.gda.exafs.experiment.ui.data;
 
 public class CyclicExperimentDataModel extends TimeIntervalDataModel {
 
-	private final CyclicExperimentModel parent;
-
-	public CyclicExperimentDataModel(CyclicExperimentModel parent) {
-		this.parent = parent;
-	}
-
 	@Override
 	public void dispose() {
 		// Nothing to dispose

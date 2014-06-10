@@ -26,14 +26,14 @@ import com.google.gson.annotations.Expose;
 
 public class EnergyCalibration extends ObservableModel {
 	public static final String MANUAL_PROP_NAME = "manual";
+	public static final String DATA_READY_PROP_NAME = "dataReady";
+
+	private boolean dataReady;
 	@Expose
 	private boolean manual;
 
-	public static final String DATA_READY_PROP_NAME = "dataReady";
-	private boolean dataReady;
-
-	private final DataForCalibration edeData = new SampleData();
-	private final DataForCalibration refData = new ReferenceData();
+	private final CalibrationEnergyData edeData = new SampleData();
+	private final CalibrationEnergyData refData = new ReferenceData();
 
 	public static final String POLYNOMIAL_ORDER_PROP_NAME = "polynomialOrder";
 	@Expose
@@ -62,11 +62,11 @@ public class EnergyCalibration extends ObservableModel {
 		return dataReady;
 	}
 
-	public DataForCalibration getRefData() {
+	public CalibrationEnergyData getRefData() {
 		return refData;
 	}
 
-	public DataForCalibration getEdeData() {
+	public CalibrationEnergyData getEdeData() {
 		return edeData;
 	}
 

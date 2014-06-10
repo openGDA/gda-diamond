@@ -63,8 +63,8 @@ public abstract class TimeIntervalDataModel extends IntervalImpl {
 
 	private void updateEndTimeAndInterval(double eventDuration) {
 		this.firePropertyChange(END_TIME_PROP_NAME,  endTime, endTime = getIntervalStartTime() + eventDuration);
-		this.setBegin(ExperimentTimeHelper.getTime().advanceMillis((long) getIntervalStartTime()));
-		this.setEnd(ExperimentTimeHelper.getTime().advanceMillis((long) endTime));
+		this.setBegin(ExperimentTimeHelper.getTime().advanceMillis((long) ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getIntervalStartTime(), ExperimentUnit.MILLI_SEC)));
+		this.setEnd(ExperimentTimeHelper.getTime().advanceMillis((long) ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(endTime, ExperimentUnit.MILLI_SEC)));
 		this.firePropertyChange(DURATION_PROP_NAME, null, this.getDuration());
 	}
 

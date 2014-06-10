@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.gda.client.plotting.ScanDataPlotter;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
 import uk.ac.gda.exafs.plotting.model.ExperimentDataNode;
@@ -73,7 +74,7 @@ public class ExperimentDataPlotView extends ViewPart {
 						try {
 							text.append("Use strips number for X axis");
 							if (((boolean) value) && DetectorModel.INSTANCE.getCurrentDetector() != null) {
-								text.append(" (calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getReferenceDataFileName() + ")");
+								text.append(" (calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getSampleDataFileName() + ")");
 							}
 						} catch (Exception e) {
 							//

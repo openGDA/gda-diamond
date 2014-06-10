@@ -99,12 +99,12 @@ import uk.ac.gda.ui.viewer.EnumPositionViewer;
  */
 public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySheetPageContributor {
 
+	public static String ID = "uk.ac.gda.exafs.ui.views.beamlinealignmentview";
+
 	private static final int LABEL_WIDTH = 125;
 	private static final int SUGGESTION_LABEL_WIDTH = 100;
 
 	private static final String SUGGESTION_UNAVAILABLE_TEXT = "-";
-
-	public static String ID = "uk.ac.gda.exafs.ui.views.beamlinealignmentview";
 
 	private static Logger logger = LoggerFactory.getLogger(BeamlineAlignmentView.class);
 

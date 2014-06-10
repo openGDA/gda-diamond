@@ -26,6 +26,7 @@ import org.eclipse.swt.printing.Printer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
@@ -54,7 +55,7 @@ public class CyclesTimebarScaleRenderer extends RendererBase implements TimeScal
 			int x = delegate.xForDate(interval.getEnd());
 			int startY = drawingArea.y + drawingArea.height - PREFERREDHEIGHT + 3;
 			gc.drawRectangle(x - 1, startY, 1, PREFERREDHEIGHT + 3);
-			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(model.getUnit().convertFromMilli(((CyclicExperimentDataModel) interval).getEndTime())) + " " + model.getUnit().getUnitText();
+			String endTimeString = DataHelper.roundDoubletoStringWithOptionalDigits(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo((((CyclicExperimentDataModel) interval).getEndTime()), model.getUnit())) + " " + model.getUnit().getUnitText();
 			Point point = gc.stringExtent(endTimeString);
 			gc.drawString(endTimeString, x - point.x - 10, startY + PREFERREDHEIGHT - point.y - 10);
 		}

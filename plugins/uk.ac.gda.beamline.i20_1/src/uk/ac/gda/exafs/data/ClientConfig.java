@@ -21,11 +21,12 @@ package uk.ac.gda.exafs.data;
 import gda.device.Scannable;
 import gda.factory.Finder;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 import org.slf4j.Logger;
@@ -39,8 +40,8 @@ import com.google.gson.GsonBuilder;
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
-	public static final int DEFAULT_DECIMAL_PLACE = 3;
-	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.###");
+	public static final int DEFAULT_DECIMAL_PLACE = 6;
+	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#########");
 	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 	public static final String EDE_GUI_DATA = "ede_gui.properties";
 
@@ -56,6 +57,8 @@ public class ClientConfig {
 		EV("eV"),
 		VOLTAGE("V"),
 		MILLI_SEC("ms"),
+		MICRO_SEC("μs"),
+		NANO_SEC("ns"),
 		SEC("s"),
 		HOUR("h"),
 		MINUTE("min"),
@@ -104,6 +107,7 @@ public class ClientConfig {
 	public enum ScannableSetup {
 
 		WIGGLER_GAP("Wiggler gap", "wiggler_gap", UnitSetup.MILLI_METER),
+		FRONTEND_APERTURE("FE aperture", "frontend_aperture", UnitSetup.MILLI_METER),
 		POLY_BENDER_1("Bender 1", "poly_bend1", UnitSetup.MILLI_METER),
 		POLY_BENDER_2("Bender 2", "poly_bend2",UnitSetup.MILLI_METER),
 
@@ -218,10 +222,10 @@ public class ClientConfig {
 	public enum EdeDataStore {
 		INSTANCE;
 
-		private static final String EDE_DATA_PERFERENCES = "EDE_data_perferences";
+		private static final String EDE_DATA_PERFERENCES = "uk.ac.gda.beamline.i20_1";
 		final GsonBuilder gsonBuilder;
 		private final Gson gson;
-		private final Preferences prefs = ConfigurationScope.INSTANCE.getNode(EDE_DATA_PERFERENCES);
+		private final Preferences prefs = InstanceScope.INSTANCE.getNode(EDE_DATA_PERFERENCES);
 
 		private EdeDataStore() {
 			gsonBuilder = new GsonBuilder();
@@ -232,6 +236,14 @@ public class ClientConfig {
 			String gsonText = prefs.get(key, null);
 			if (gsonText != null) {
 				return gson.fromJson(gsonText, classType);
+			}
+			return null;
+		}
+
+		public <T> T loadConfiguration(String key, Type type) {
+			String gsonText = prefs.get(key, null);
+			if (gsonText != null) {
+				return gson.fromJson(gsonText, type);
 			}
 			return null;
 		}

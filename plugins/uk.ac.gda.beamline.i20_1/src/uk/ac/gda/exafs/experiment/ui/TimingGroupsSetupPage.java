@@ -21,6 +21,9 @@ package uk.ac.gda.exafs.experiment.ui;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.validation.IValidator;
+import org.eclipse.core.databinding.validation.ValidationStatus;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -31,13 +34,18 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.common.rcp.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class TimingGroupsSetupPage extends WizardPage {
+
+	private static Logger logger = LoggerFactory.getLogger(TimingGroupsSetupPage.class);
 
 	private final TimingGroupWizardModel model = new TimingGroupWizardModel();
 
@@ -93,6 +101,15 @@ public class TimingGroupsSetupPage extends WizardPage {
 			NumberEditorControl noOfGroupsControl;
 
 			noOfGroupsControl = new NumberEditorControl(container, SWT.None, model, TimingGroupWizardModel.NO_OF_GROUPS, false);
+			noOfGroupsControl.setValidators(null, new IValidator() {
+				@Override
+				public IStatus validate(Object value) {
+					if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame(model.getUnit().convertToDefaultUnit(model.getItTime()) / (int) value)) {
+						return ValidationStatus.info("The End time of each group will be rounded to nearest " + ExperimentUnit.MAX_RESOLUTION_IN_NANO_SEC + " " + ExperimentUnit.NANO_SEC.getUnitText());
+					}
+					return ValidationStatus.ok();
+				}
+			});
 			noOfGroupsControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 			noOfGroupsControl.setRange(1, Integer.MAX_VALUE);
 			dataBindingCtx.bindValue(
@@ -110,7 +127,8 @@ public class TimingGroupsSetupPage extends WizardPage {
 						}
 					});
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			UIHelper.showError("Unable to create widget", e.getMessage());
+			logger.error("Unable to create widget", e);
 		}
 
 		// Required to avoid an error in the system
