@@ -59,7 +59,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	protected final EnergyDispersiveExafsScan iRefDarkScan;
 	protected final EnergyDispersiveExafsScan iRefScan;
 	protected final EnergyDispersiveExafsScan itDarkScan;
-	protected final EdeWithTFGScan[] itScans; // one of these for each cycle (repetition)
+	protected final EnergyDispersiveExafsScan[] itScans; // one of these for each cycle (repetition)
 	protected final EnergyDispersiveExafsScan i0FinalLightScan;
 	protected final EnergyDispersiveExafsScan iRefFinalScan;
 

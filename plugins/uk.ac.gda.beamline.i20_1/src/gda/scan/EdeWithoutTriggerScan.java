@@ -406,6 +406,7 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		this.scanType = scanType;
 	}
 
+	@Override
 	public StripDetector getDetector() {
 		return theDetector;
 	}

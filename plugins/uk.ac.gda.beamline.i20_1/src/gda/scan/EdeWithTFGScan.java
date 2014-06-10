@@ -29,7 +29,12 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 	public EdeWithTFGScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			StripDetector theDetector, Integer repetitionNumber, Scannable shutter) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter,null);
-		// TODO Auto-generated constructor stub
 	}
 
+
+	@Override
+	public void doCollection() throws Exception {
+		// TODO Auto-generated method stub
+		super.doCollection();
+	}
 }

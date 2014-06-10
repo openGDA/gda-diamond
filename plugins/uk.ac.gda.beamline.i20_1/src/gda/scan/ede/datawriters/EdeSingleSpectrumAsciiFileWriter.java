@@ -19,7 +19,6 @@
 package gda.scan.ede.datawriters;
 
 import gda.device.detector.StripDetector;
-import gda.scan.EdeWithTFGScan;
 import gda.scan.EnergyDispersiveExafsScan;
 
 import java.io.File;
@@ -36,10 +35,10 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	private final EnergyDispersiveExafsScan i0DarkScan;
 	private final EnergyDispersiveExafsScan itDarkScan;
 	private final EnergyDispersiveExafsScan i0InitialScan;
-	private final EdeWithTFGScan itScan;
+	private final EnergyDispersiveExafsScan itScan;
 	private String asciiFilename;
 
-	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0InitialScan, EdeWithTFGScan itScan, EnergyDispersiveExafsScan i0DarkScan,
+	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0InitialScan, EnergyDispersiveExafsScan itScan, EnergyDispersiveExafsScan i0DarkScan,
 			EnergyDispersiveExafsScan itDarkScan, StripDetector theDetector) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0InitialScan = i0InitialScan;
