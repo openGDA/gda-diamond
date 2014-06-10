@@ -43,16 +43,19 @@ public class ScanDataPlotView extends ViewPart {
 	private static final boolean SHOW_VIEW_ON_DATA_RECEIVE = true;
 	private boolean thisViewIsVisible = false;
 
-	ScanDataPlotter scanDataPlotter;
+	ScanDataPlotterComposite scanDataPlotter;
 	private RootDataNode rootNode;
 
 	@Override
 	public void createPartControl(Composite parent) {
 		rootNode = new RootDataNode();
-		scanDataPlotter = new ScanDataPlotter(parent, SWT.None, this, rootNode);
+		scanDataPlotter = new ScanDataPlotterComposite(parent, SWT.None, this, rootNode);
 
 		final IWorkbenchPage page = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getActivePage();
+		if (page == null) {
+			return;
+		}
 		page.addPartListener(new IPartListener2() {
 			@Override
 			public void partVisible(IWorkbenchPartReference partRef) {

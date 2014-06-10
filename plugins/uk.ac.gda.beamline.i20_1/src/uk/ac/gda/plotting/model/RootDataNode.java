@@ -44,8 +44,8 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(RootDataNode.class);
 
-	public static final long DELAY_TO_PLOT_SCAN_DATA_POINTS_IN_MILLI = 300L;
-	public static final int MAX_SCAN_HISTORY = 100;
+	public static final long DELAY_TO_PLOT_SCAN_DATA_POINTS_IN_MILLI = 400L;
+	public static final int MAX_SCANS_HISTORY = 100;
 	public static final int MAX_SCANS_WITH_CACHED_DATA = 10;
 
 	public static final String DATA_STORE_NAME = "plotting_data";
@@ -90,7 +90,7 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 		List<ScanDataNode> scansToLoad = PlottingDataStore.INSTANCE.getPreferenceDataStore().loadArrayConfiguration(DATA_STORE_NAME, ScanDataNode.class);
 		if (scansToLoad != null) {
 			for (ScanDataNode loadedScan : scansToLoad) {
-				ScanDataNode scanDataNode = new ScanDataNode(loadedScan.getIdentifier(), loadedScan.getFileName(), loadedScan.getDetectorScanItemNames(), loadedScan.getPositionScanItemNames(), this);
+				ScanDataNode scanDataNode = new ScanDataNode(loadedScan.getIdentifier(), loadedScan.getFileName(), loadedScan.getPositionScanItemNames(), loadedScan.getDetectorScanItemNames(), this);
 				children.add(scanDataNode);
 			}
 		}
@@ -152,19 +152,16 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 			if (!scanDataPoint.getDetectorHeader().isEmpty() && scanDataPoint.getDetectorDataAsDoubles().length > 0) {
 				detectorScanItemNames = scanDataPoint.getDetectorHeader();
 			}
-			List<String> positionScanItemNames = null;
-			if (!scanDataPoint.getPositionHeader().isEmpty() && scanDataPoint.getPositionsAsDoubles().length > 0) {
-				positionScanItemNames = scanDataPoint.getPositionHeader();
-			}
 			scanDataNode = new ScanDataNode(
 					Integer.toString(scanDataPoint.getScanIdentifier()),
 					scanDataPoint.getCurrentFilename(),
+					scanDataPoint.getPositionHeader(),
 					detectorScanItemNames,
-					positionScanItemNames,
 					this);
 			children.addAndUpdate(scanDataNode);
 		}
 		scanDataNode.update(scanDataPoint);
+		// FIXME Review how the data events are fired
 		for (Object object : scanDataNode.getChildren()) {
 			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, object);
 		}
@@ -198,7 +195,7 @@ public class RootDataNode extends DataNode implements IScanDataPointObserver {
 				node.clearCache();
 			}
 			super.add(0, element);
-			while (size() > MAX_SCAN_HISTORY) {
+			while (size() > MAX_SCANS_HISTORY) {
 				super.remove(size() - 1);
 			}
 		}

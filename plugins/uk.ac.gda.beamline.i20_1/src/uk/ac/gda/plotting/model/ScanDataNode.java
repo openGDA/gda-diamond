@@ -55,13 +55,15 @@ public class ScanDataNode extends DataNode {
 	private final List<String> detectorScanItemNames;
 	@Expose
 	private final List<String> positionScanItemNames;
+	private final String xAxisName;
 
-	public ScanDataNode(String identifier, String fileName, List<String> detectorScanItemNames, List<String> positionScanItemNames, DataNode parent) {
+	public ScanDataNode(String identifier, String fileName, List<String> positionScanItemNames, List<String> detectorScanItemNames, DataNode parent) {
 		super(parent);
 		this.identifier = identifier;
 		this.fileName = fileName;
 		this.detectorScanItemNames = detectorScanItemNames;
 		this.positionScanItemNames = positionScanItemNames;
+		xAxisName = this.positionScanItemNames.get(0);
 		createScanDataItems();
 	}
 
@@ -75,13 +77,13 @@ public class ScanDataNode extends DataNode {
 
 	private void createScanDataItems() {
 		// TODO Currently detectorScanItemNames are added then positionScanItemNames, needs reviewing on how they are shown
-		if (detectorScanItemNames != null) {
-			for (String scanItemName : detectorScanItemNames) {
-				createScanDataItem(scanItemName);
+		if (positionScanItemNames != null) {
+			for (int i = 1; i < positionScanItemNames.size(); i++) { // 0 is reserved for x-axis
+				createScanDataItem(positionScanItemNames.get(i));
 			}
 		}
-		if (positionScanItemNames != null) {
-			for (String scanItemName : positionScanItemNames) {
+		if (detectorScanItemNames != null) {
+			for (String scanItemName : detectorScanItemNames) {
 				createScanDataItem(scanItemName);
 			}
 		}
@@ -142,7 +144,9 @@ public class ScanDataNode extends DataNode {
 			if (cachedData.isEmpty()) {
 				loadCachedDataFromFile();
 			}
-			return (DoubleDataset) AbstractDataset.createFromList(cachedData);
+			DoubleDataset dataset = (DoubleDataset) AbstractDataset.createFromList(cachedData);
+			dataset.setName(xAxisName);
+			return dataset;
 		}
 	}
 
@@ -198,15 +202,14 @@ public class ScanDataNode extends DataNode {
 		}
 		Display.getDefault().asyncExec(saveData);
 		// TODO Currently detectorScanItemNames are added then positionScanItemNames, needs reviewing on how they are shown
-		if (detectorScanItemNames != null) {
-			for (int i = 0; i < scanDataPoint.getDetectorDataAsDoubles().length; i ++) {
-				((ScanDataItemNode) children.get(i)).update(scanDataPoint.getDetectorDataAsDoubles()[i]);
-			}
+		for (int i = 0; i < scanDataPoint.getPositionsAsDoubles().length - 1; i ++) {
+			((ScanDataItemNode) children.get(i)).update(scanDataPoint.getPositionsAsDoubles()[i + 1]);
 		}
-		if (positionScanItemNames != null) {
-			int offset = detectorScanItemNames == null ? 0 : detectorScanItemNames.size();
-			for (int i = 0; i < scanDataPoint.getPositionsAsDoubles().length; i ++) {
-				((ScanDataItemNode) children.get(i + offset)).update(scanDataPoint.getPositionsAsDoubles()[i]);
+
+		int offset = scanDataPoint.getPositionsAsDoubles().length - 1;
+		if (detectorScanItemNames != null) {
+			for (int i = 0; i < scanDataPoint.getDetectorDataAsDoubles().length; i++) {
+				((ScanDataItemNode) children.get(i + offset)).update(scanDataPoint.getDetectorDataAsDoubles()[i]);
 			}
 		}
 	}

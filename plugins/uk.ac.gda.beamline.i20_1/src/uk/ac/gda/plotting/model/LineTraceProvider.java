@@ -28,6 +28,7 @@ import com.google.gson.annotations.Expose;
 
 public abstract class LineTraceProvider extends DataNode {
 	private TraceStyleDetails traceStyle;
+	private boolean isHighlighted;
 
 	public LineTraceProvider(DataNode parent, TraceStyleDetails traceStyle) {
 		super(parent);
@@ -44,12 +45,17 @@ public abstract class LineTraceProvider extends DataNode {
 		this.traceStyle = traceStyle;
 	}
 
-
 	public abstract DoubleDataset getYAxisDataset();
 	public abstract DoubleDataset getXAxisDataset();
-
-
 	public abstract boolean isPlotByDefault();
+
+	public boolean isHighlighted() {
+		return isHighlighted;
+	}
+
+	public void setHighlighted(boolean isHighlighted) {
+		this.isHighlighted = isHighlighted;
+	}
 
 	public static class TraceStyleDetails extends ObservableModel {
 		public static final String COLOR_HAX_VALUE_PROP_NAME = "colorHexValue";

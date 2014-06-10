@@ -47,7 +47,9 @@ public class ScanDataItemNode extends LineTraceProvider {
 			if (cachedData.isEmpty()) {
 				fileCachedDataFromFile();
 			}
-			return (DoubleDataset) AbstractDataset.createFromList(cachedData);
+			DoubleDataset dataset = (DoubleDataset) AbstractDataset.createFromList(cachedData);
+			dataset.setName(identifier);
+			return dataset;
 		}
 	}
 
