@@ -97,7 +97,8 @@ public class SingleSpectrumScan extends EdeExperiment {
 	}
 
 	@Override
-	protected double getPredictedExperimentTime() {
+	protected double getTimeRequiredBeforeTopup() {
+		// for this type, the time required before to-up is the total predicted duration of the entire experiment.
 		return new SingleExperimentTimeEstimator(itScanParameters, i0Position, itPosition).getTotalDuration();
 	}
 
@@ -113,7 +114,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 	}
 
 	@Override
-	protected void addScans() {
+	protected void addFinalScans() {
 		// Nothing to add
 	}
 }
