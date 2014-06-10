@@ -48,9 +48,8 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 	private static final String STATUS_FOLDER = "statusFolder";
 	private static final String Scan_PLOT_FOLDER = "scanPlotFolder";
 	private static final String DETECTOR_PLOT_FOLDER = "detectorPlotFolder";
-	//the following two ID recorded here as they use generic PartView Classes
-	private static final String MYTHEN_PLOT_VIEW_ID = "uk.ac.gda.epics.client.mythen.views.mythenView";
-	private static final String MAC_PLOT_VIEW_ID = "uk.ac.gda.client.hrpd.views.MACPlotView";
+	private static final String MYTHEN_PLOT_VIEW_ID = "uk.ac.gda.epics.client.mythen.views.liveplotview";
+	private static final String MAC_PLOT_VIEW_ID = "uk.ac.gda.client.hrpd.views.liveplotview";
 	private static final String DATA_PLOT_VIEW_ID = "uk.ac.gda.beamline.i11.dataPlot";
 	private static final String DETECTOR_PLOT_VIEW_ID=DetectorFilePlotView.ID;
 	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.client.navigator";
