@@ -47,11 +47,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.ui.EDECalibrationSection;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class AlignmentSingleSpectrumView extends ViewPart {

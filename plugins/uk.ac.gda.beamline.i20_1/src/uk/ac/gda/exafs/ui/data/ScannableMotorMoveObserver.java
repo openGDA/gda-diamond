@@ -37,6 +37,8 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.UIHelper;
+
 public class ScannableMotorMoveObserver implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(ScannableMotorMoveObserver.class);

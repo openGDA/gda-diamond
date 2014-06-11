@@ -113,7 +113,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.io.IMetaData;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
-import uk.ac.gda.common.rcp.UIHelper;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
 import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationWizard;

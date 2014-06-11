@@ -28,11 +28,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.client.plotting.ScanDataPlotterComposite;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
 import uk.ac.gda.exafs.plotting.model.ExperimentDataNode;
-import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.plotting.ScanDataPlotterComposite;
 
 public class ExperimentDataPlotView extends ViewPart {
 	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";

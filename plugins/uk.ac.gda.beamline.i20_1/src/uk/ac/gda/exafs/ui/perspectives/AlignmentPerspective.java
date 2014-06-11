@@ -25,6 +25,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
+import uk.ac.gda.client.plotting.ScanDataPlotView;
 import uk.ac.gda.exafs.alignment.ui.AlignmentSingleSpectrumView;
 import uk.ac.gda.exafs.alignment.ui.AlignmentStageCalibrationView;
 import uk.ac.gda.exafs.alignment.ui.BeamlineAlignmentView;
@@ -32,7 +33,6 @@ import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
 import uk.ac.gda.exafs.alignment.ui.FocusingView;
 import uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView;
-import uk.ac.gda.plotting.ScanDataPlotView;
 
 /**
  * Shows recent data from the XH detector for I20-1 EDE branchline.

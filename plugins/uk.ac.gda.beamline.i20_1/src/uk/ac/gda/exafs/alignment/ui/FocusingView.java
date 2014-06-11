@@ -40,10 +40,10 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class FocusingView extends ViewPart {
 

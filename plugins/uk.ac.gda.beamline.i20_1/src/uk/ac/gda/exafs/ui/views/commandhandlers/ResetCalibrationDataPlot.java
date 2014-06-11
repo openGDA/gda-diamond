@@ -26,8 +26,8 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.ui.CalibrationPlotViewer;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class ResetCalibrationDataPlot extends AbstractHandler {
 

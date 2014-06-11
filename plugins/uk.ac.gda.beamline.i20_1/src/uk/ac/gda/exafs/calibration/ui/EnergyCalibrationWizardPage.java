@@ -74,7 +74,7 @@ import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
-import uk.ac.gda.common.rcp.UIHelper;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.calibration.data.CalibrationEnergyData;
 import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
