@@ -31,7 +31,7 @@ rm -f $SERVER_STARTUP_FILE
 
 echo "Starting GDA. Output is being logged to $LOGFILE"
 
-export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC -Dgda.config=$GDA_CONFIGDIR -Dgda.dls-config=${GDA_DLS_CONFIGDIR}"
+export JAVA_OPTS="-Xms128m -Xmx1024m -XX:MaxPermSize=128m -XX:+DisableExplicitGC -Dgda.dls-config=${GDA_DLS_CONFIGDIR}"
 
 nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --smart --trace --config=$GDA_CONFIGDIR --restart -v --mode=$GDAMODE --properties=${GDA_DLS_CONFIGDIR}/properties/common.properties  nameserver > $LOGFILE 2>&1 &
 sleep 2
@@ -43,7 +43,7 @@ sleep 2
 nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDA_CONFIGDIR --debug -p 8002 --restart -v --mode=$GDAMODE --properties=${GDA_DLS_CONFIGDIR}/properties/common.properties eventserver > $LOGFILE 2>&1 &
 sleep 2
 
-export JAVA_OPTS="-Xms128m -Xmx4096m -XX:MaxPermSize=128m -XX:+DisableExplicitGC -Dgda.config=$GDA_CONFIGDIR -Dgda.dls-config=${GDA_DLS_CONFIGDIR}"
+export JAVA_OPTS="-Xms128m -Xmx4096m -XX:MaxPermSize=128m -XX:+DisableExplicitGC -Dgda.dls-config=${GDA_DLS_CONFIGDIR}"
 #export JAVA_OPTS="$JAVA_OPTS -javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties"
 #export JAVA_OPTS="$JAVA_OPTS -agentpath:/home/tjs15132/jprofiler8_agent/bin/linux-x64/libjprofilerti.so=port=8849,nowait"
 nohup python ${GDAFOLDER}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --smart --trace --config=$GDA_CONFIGDIR --debug -p 8001  --restart -v --mode=$GDAMODE --properties=${GDA_DLS_CONFIGDIR}/properties/common.properties objectserver > $LOGFILE 2>&1 &
