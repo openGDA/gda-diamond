@@ -18,6 +18,8 @@
 		<property name="name" value="metashop"/>
 	</bean>
 	
+	<import resource="../../common_beans/common.xml"/>
+
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
