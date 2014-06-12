@@ -48,6 +48,7 @@
     <import resource="pilatus2_824.xml" />
     <import resource="pilatus3_824.xml" />
     
+    <import resource="mpxAreaDetector.xml" />
 
     <!-- <import resource="devices_KB2.xml" /> -->
 
