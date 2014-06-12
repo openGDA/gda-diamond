@@ -10,8 +10,6 @@
 
 
 
-
-
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	<import resource="GDAMetadata.xml" />
 	

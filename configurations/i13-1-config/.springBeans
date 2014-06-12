@@ -9,7 +9,6 @@
 	<configs>
 		<config>servers/main/dummy/server.xml</config>
 		<config>servers/main/common.xml</config>
-		<config>servers/main/epics_sim/server.xml</config>
 		<config>devices/d1.xml</config>
 		<config>devices/d2.xml</config>
 		<config>devices/d3.xml</config>
@@ -147,17 +146,10 @@
 		<config>devices/dummy/float1_cam_ad.xml</config>
 		<config>devices/dummy/float2_cam_ad.xml</config>
 		<config>devices/dummy/float3_cam_ad.xml</config>
-		<config>clients/main/live/d1.xml</config>
-		<config>clients/main/live/d2.xml</config>
-		<config>clients/main/live/d3.xml</config>
-		<config>clients/main/live/d4.xml</config>
 		<config>devices/epics/excalibur_shared.xml</config>
 		<config>devices/epics/float1_cam_ad.xml</config>
 		<config>devices/float1_cam.xml</config>
-		<config>clients/main/live/float1.xml</config>
 		<config>devices/float2_cam.xml</config>
-		<config>clients/main/live/float2.xml</config>
-		<config>clients/main/live/float3.xml</config>
 		<config>devices/live/tfg2.xml</config>
 		<config>clients/main/live/pco.xml</config>
 		<config>devices/epics/merlin.xml</config>
