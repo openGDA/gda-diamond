@@ -11,15 +11,6 @@
 	<bean class="gda.configuration.epics.EpicsConfiguration">
 		<constructor-arg value="${gda.epics.interface.xml}" />
 	</bean>
-	<import resource="../../../devices/epics/d1.xml"/>
-	<import resource="../../../devices/epics/d2.xml"/>
-	<import resource="../../../devices/epics/d3.xml"/>
-	<import resource="../../../devices/epics/d4.xml"/>
-	<import resource="../../../devices/epics/d5.xml"/>
-	<import resource="../../../devices/epics/float1.xml"/>
-	<import resource="../../../devices/epics/float2.xml"/>
-	<import resource="../../../devices/epics/float3.xml"/>
-
 	<import resource="../common.xml" />
 	
 	<import resource="cameraview.xml" />

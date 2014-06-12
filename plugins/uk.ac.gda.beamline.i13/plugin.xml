@@ -169,7 +169,7 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="d1">
+                  value="pv//d1//BL13I-DI-PHDGN-01@">
             </parameter>
          </command>
          <command
@@ -182,7 +182,7 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="d2">
+                  value="pv//d3//BL13I-DI-PHDGN-02@">
             </parameter>
          </command>
          <command
@@ -195,7 +195,7 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="d3">
+                  value="pv//d3//BL13I-DI-PHDGN-03@">
             </parameter>
          </command>
          <command
@@ -208,7 +208,7 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="d4">
+                  value="pv//d4//BL13I-DI-PHDGN-04@">
             </parameter>
          </command>
          <command
@@ -221,7 +221,7 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="d5">
+                  value="pv//d5//BL13I-DI-PHDGN-05@">
             </parameter>
          </command>
          <command
@@ -234,7 +234,7 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="float1">
+                  value="pv//Float 1//BL13I-OP-FLOAT-01@">
             </parameter>
          </command>
          <command
@@ -247,12 +247,12 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="float2">
+                  value="pv//Float 2//BL13I-OP-FLOAT-02@">
             </parameter>
          </command>
          <command
                commandId="org.eclipse.ui.views.showView"
-               label="epg"
+               label="float 3"
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
@@ -260,7 +260,7 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//epg//EPG-EA-DET-02@">
+                  value="pv//Float 3//BL13I-OP-FLOAT-03@">
             </parameter>
          </command>
       </menu>

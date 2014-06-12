@@ -100,9 +100,7 @@
 		<config>devices/optics_hutch4_shutter.xml</config>
 		<config>devices/dummy/pco1_ndplugins.xml</config>
 		<config>devices/epics/pco1_ndplugins.xml</config>
-		<config>devices/zebra/pco1_ndplugins.xml</config>
 		<config>devices/pco1.xml</config>
-		<config>devices/zebra/pco1.xml</config>
 		<config>devices/dummy/robot_motors.xml</config>
 		<config>devices/robots.xml</config>
 		<config>devices/dummy/sample_stage_camera.xml</config>
@@ -124,14 +122,7 @@
 		<config>devices/dummy/zebra.xml</config>
 		<config>devices/epics/zebra.xml</config>
 		<config>devices/zebra.xml</config>
-		<config>devices/zebra/zebra.xml</config>
-		<config>devices/zebra/sample_stage_motors.xml</config>
 		<config>devices/live/p2r.xml</config>
-		<config>clients/main/d1.xml</config>
-		<config>clients/main/d2.xml</config>
-		<config>clients/main/d3.xml</config>
-		<config>clients/main/d4.xml</config>
-		<config>clients/main/d5.xml</config>
 		<config>devices/zebra_test.xml</config>
 		<config>devices/dummy/central_stop_motors.xml</config>
 		<config>devices/dummy/condenser_motors.xml</config>

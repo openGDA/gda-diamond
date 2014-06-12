@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gdalog
+gdalogpanel
 
 . gda_console_log gda_client_output
 
