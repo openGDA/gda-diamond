@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<define scope="context" name="JVMNAME"
+		class="gda.util.logging.JvmNamePropertyDefiner" />
+
+	<!-- the include statement in the following java.properties file is not 
+		read so you need to reference both -->
+	<property file="${gda.dls-config}/properties/common.properties" />
+	<property file="${gda.dls-config}/properties/${gda.mode}.properties" />
+	<property file="${gda.config}/properties/common.properties" />
+	<property file="${gda.config}/properties/${gda.mode}.properties" />
+	<appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
+		<RemoteHost>${gda.server.host}</RemoteHost>
+		<Port>${gda.server.logging.port}</Port>
+		<ReconnectionDelay>10000</ReconnectionDelay>
+		<IncludeCallerData>true</IncludeCallerData>
+	</appender>
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%date %-5level %logger - %m%n%ex</Pattern>
+		</layout>
+	</appender>
+	<logger name="gda">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="uk.ac.gda">
+		<level value="INFO" />
+	</logger>
+
+
+	<logger name="gdascripts.messages.handle_messages">
+		<level value="INFO" />
+	</logger>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="SOCKET" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</configuration>

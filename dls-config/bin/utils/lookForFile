@@ -1,0 +1,12 @@
+LIMIT=60
+for ((a=1; a <= LIMIT ; a++))
+do
+  if [ -r $1 ]; then
+        echo .
+        rm -f $1
+        exit 0
+  fi
+
+  sleep 1
+  echo -n .
+done
