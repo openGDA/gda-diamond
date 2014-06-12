@@ -172,7 +172,8 @@ class SinoListener():
 	def getArch( self ):
 		if  self.testing or ( platform.architecture()[0] == "64bit" )  :
 			return "amd64"
-		return "x86"
+#		return "x86"
+		return "amd64"
 
 	def PopenWait( self, args, env ):
 		for e in args:
@@ -475,13 +476,13 @@ fi
 		qenviron["SGE_CELL"]="DLS_SCIENCE"
    		qenviron["SGE_EXECD_PORT"]="60021"
    		qenviron["SGE_QMASTER_PORT"]="60020"
-   		qenviron["SGE_ROOT"]="/dls_sw/apps/sge/SGE8.1.3"
+   		qenviron["SGE_ROOT"]="/dls_sw/apps/sge/UGE8.1.7"
 		oldpath = ""
 		try :
 			oldpath = qenviron["PATH"]
 		except :
 			oldpath = ""
-		qenviron["PATH"] = "/dls_sw/apps/sge/SGE8.1.3/bin/lx-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
+		qenviron["PATH"] = "/dls_sw/apps/sge/UGE8.1.7/bin/lx-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
 		print "qenviron[PATH] = " + qenviron["PATH"]
 		self.out.write ( "Spawning the sinogram job ...\n" )
 		args = ["qsub"]
@@ -563,13 +564,13 @@ fi
 		qenviron["SGE_CELL"] = "DLS_SCIENCE"
 		qenviron["SGE_EXECD_PORT"] = "60021"
 		qenviron["SGE_QMASTER_PORT"] = "60020"
-		qenviron["SGE_ROOT"] = "/dls_sw/apps/sge/SGE8.1.3"
+		qenviron["SGE_ROOT"] = "/dls_sw/apps/sge/UGE8.1.7"
 		oldpath = ""
 		try :
 			oldpath = qenviron["PATH"]
 		except :
 			oldpath = ""
-		qenviron["PATH"] = "/dls_sw/apps/sge/SGE8.1.3/bin/lx-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
+		qenviron["PATH"] = "/dls_sw/apps/sge/UGE8.1.7/bin/lx-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
 
 		self.out.write ( "Spawning the sinogram finishing job ... " )
 		finishname = "f_%s" % self.jobname
@@ -689,6 +690,13 @@ mv *.trace %s
 		if not( os.access ( self.settingsfolder, os.F_OK ) ):
 			self.out.write ( "creating %s\n" % self.settingsfolder )
 			os.mkdir( self.settingsfolder )
+
+		witness=open("%s/command.txt"%self.settingsfolder,"w")
+		witness.write("cwd: " + os.getcwd())
+		witness.write("\n")
+		witness.write("cmd: " + ' '.join(self.argv))
+		witness.write("\n")
+		witness.close()
 
 		#create the queue bash script for the queue task array
 

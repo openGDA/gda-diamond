@@ -63,7 +63,7 @@ class ReconArrayXML():
 		self.jobname="chunk_sino"      #default
 		self.existflag=" "             #default
 		self.jobsuffix=""              #default
-		self.myqueue="medium.q"          #default
+		self.myqueue="medium.q"        #default
 		self.uniqueid=time.strftime("%Y_%m%d_%H%M%S")           #default
 		self.xmlinfile="/dls_sw/i12/software/tomography_scripts/settings.xml"  #default
 		self.vflag=False
@@ -238,7 +238,8 @@ class ReconArrayXML():
 	def getArch(self):
 		if  self.testing or (platform.architecture()[0]=="64bit")  :
 			return "amd64"
-		return "x86"
+#		return "x86"
+		return "amd64"
 	
 	def PopenWait(self, args, env):
 		for e in args:
@@ -367,13 +368,13 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 		qenviron["SGE_CELL"]="DLS_SCIENCE"
 		qenviron["SGE_EXECD_PORT"]="60021"
 		qenviron["SGE_QMASTER_PORT"]="60020"
-		qenviron["SGE_ROOT"]="/dls_sw/apps/sge/SGE8.1.3"
+		qenviron["SGE_ROOT"]="/dls_sw/apps/sge/UGE8.1.7"
 		oldpath=""
 		try :
 			oldpath=qenviron["PATH"]
 		except :
 			oldpath=""
-		qenviron["PATH"]="/dls_sw/apps/sge/SGE8.1.3/bin/lx-"+self.getArch()+":/bin:/usr/bin:"+oldpath
+		qenviron["PATH"]="/dls_sw/apps/sge/UGE8.1.7/bin/lx-"+self.getArch()+":/bin:/usr/bin:"+oldpath
 
 		self.out.write ("\nSpawning the reconstruction job ...\n")
 		
@@ -383,9 +384,11 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 			args+=[ "-P", self.qsub_project]
 		if self.mypath!=None:
 			#add error stream
-			args+=["-e", self.mypath+os.sep+'sge_err.txt']
+#			args+=["-e", self.mypath+os.sep+'sge_err.txt']
+			args+=["-e", self.mypath]
 			#add output stream
-			args+=["-o", self.mypath+os.sep+'sge_out.txt']
+#			args+=["-o", self.mypath+os.sep+'sge_out.txt']
+			args+=["-o", self.mypath]
 		if self.myqueue!=None:
 			#add queue
 			args+=["-q", self.myqueue]
@@ -484,6 +487,13 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 		
 		self.out.write("Output parameter and log files will be created in: %s\n"%self.mypath)
 		self.out.write("Output images will be created in: %s\n"%self.impath)
+		
+		witness=open("%s/command.txt"%self.mypath,"w")
+		witness.write("cwd: " + os.getcwd())
+		witness.write("\n")
+		witness.write("cmd: " + ' '.join(self.argv))
+		witness.write("\n")
+		witness.close()
 		
 		nslices=self.lastslice-self.firstslice
 		chunksize=nslices/self.nchunks
