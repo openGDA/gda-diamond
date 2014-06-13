@@ -66,6 +66,7 @@
 	<import resource="epics/detector/scaler_vortex.xml" />
 	<import resource="epics/detector/mca_vortex.xml" />
 	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
+	<import resource="epics/detector/medipix_base.xml" />
 	<import resource="epics/detector/medipix.xml" />
 	<import resource="epics/detector/pcoedge.xml" />
 	<import resource="epics/detector/pco4000.xml" />

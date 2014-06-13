@@ -5,10 +5,6 @@
 
 	<!-- AD hardware -->
 
-	<bean id="medipix_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL16B-EA-DET-06:MPX:" />
-	</bean>
-
 	<bean id="medipix_sweep_driver"
 		class="gda.device.detector.areadetector.v17.impl.ADDriverMerlinThresholdSweepImpl">
 		<property name="basePVName" value="BL16B-EA-DET-06:MPX:" />
