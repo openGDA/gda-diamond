@@ -326,7 +326,7 @@ public abstract class EdeExperiment implements IObserver {
 			writer = createFileWritter();
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
 			writer.writeDataFile();
-			log("EDE single spectrum experiment complete.");
+			log("Scan data written to file.");
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {
 			logger.error("Error creating data files", ex);

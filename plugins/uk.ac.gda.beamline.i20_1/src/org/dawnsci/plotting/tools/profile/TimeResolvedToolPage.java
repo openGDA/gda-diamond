@@ -198,10 +198,12 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			populateSpectraRegion();
 			spectraDataLoaded = true;
 			CalibrationDetails calibrationDetails = timeResolvedNexusFileHelper.getItMetadata().getCalibrationDetails();
-			if (calibrationDetails != null) {
-				statusLabel.setText("Calibrated with " + calibrationDetails.getReferenceDataFileName());
-			} else {
-				statusLabel.setText("");
+			if (statusLabel !=null) {
+				if (calibrationDetails != null) {
+					statusLabel.setText("Calibrated with " + calibrationDetails.getReferenceDataFileName());
+				} else {
+					statusLabel.setText("");
+				}
 			}
 		} catch (Exception e) {
 			logger.error("Unable to find group data, not a valid dataset", e);

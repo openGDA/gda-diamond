@@ -136,11 +136,11 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import CyclicExperiment;");
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
 			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f, %d",
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
+					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
 					this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		} else {
 			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f",
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
+					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
 		}
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", %d);",
 				TIMING_GROUPS_OBJ_NAME,
