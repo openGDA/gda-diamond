@@ -13,6 +13,7 @@
 	<import resource="I15-BS.xml"/>
 	<import resource="../../dummy/device/I15-BS2.xml"/>
 	<import resource="../../dummy/device/I15-D6.xml"/>
+	<import resource="I15-CAM-PSL-AD.xml"/>
 	<import resource="I15-D7.xml"/>
 	<import resource="I15-DCM.xml"/>
 	<import resource="I15-DET-MAR-AD.xml" />
