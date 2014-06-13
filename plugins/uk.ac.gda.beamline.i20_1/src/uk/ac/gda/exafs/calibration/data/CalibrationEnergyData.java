@@ -19,7 +19,7 @@
 package uk.ac.gda.exafs.calibration.data;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
-import uk.ac.diamond.scisoft.analysis.io.DataHolder;
+import uk.ac.diamond.scisoft.analysis.io.IDataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
 
@@ -33,7 +33,7 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 	protected String fileName;
 	private boolean manualCalibration;
 
-	protected DataHolder dataHolder;
+	protected IDataHolder dataHolder;
 	protected AbstractDataset energyNode;
 
 	private AbstractDataset dataNode;
@@ -77,7 +77,7 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 		return energyNode;
 	}
 
-	public DataHolder getRefFile() {
+	public IDataHolder getRefFile() {
 		return dataHolder;
 	}
 
@@ -97,7 +97,7 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 
 	protected void setData(String fileName, String energyNodePath, String dataNodePath) throws Exception {
 		try {
-			DataHolder dataHolder = LoaderFactory.getData(fileName);
+			IDataHolder dataHolder = LoaderFactory.getData(fileName);
 			if (dataHolder == null) {
 				firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = null);
 				this.setManualCalibration(false);

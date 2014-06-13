@@ -28,6 +28,7 @@ import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
+import gda.device.scannable.TopupChecker;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
@@ -48,14 +49,16 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 /**
  * Runs a single set of timing groups for EDE through the XSTRIP DAServer interface.
  * <p>
- * So this: moves sample to correct position, opens/closes shutter, runs the timing groups through the TFG unit and
+ * So this: moves sample to correct position, waits for top-up to pass (if required), opens/closes shutter, runs the timing groups through the TFG unit and
  * writes data to given Nexus file.
  * <p>
  * Also holds data in memory for quick retrieval for online data.
+ * <p>
+ * This starts immediately and does not take sample environment triggering
  */
-public class EdeScan extends ConcurrentScanChild {
+public class EdeWithoutTriggerScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeWithoutTriggerScan.class);
 
 	private final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
@@ -66,7 +69,8 @@ public class EdeScan extends ConcurrentScanChild {
 	private EdeScanType scanType;
 	private FrameIndexer indexer = null;
 	private IObserver progressUpdater;
-	private final Scannable shutter2;
+	private final Scannable shutter;
+	private final TopupChecker topup;
 
 	private boolean isSimulated = false;
 
@@ -80,15 +84,18 @@ public class EdeScan extends ConcurrentScanChild {
 	 * @param repetitionNumber
 	 *            - if this is a negative number then frame index columns will not be added to the output. Useful for
 	 *            single spectrum scans where such indexing is meaningless.
+	 * @param shutter
+	 * @param topup - this is configured outside of this scan to enable control of how long to wait
 	 */
-	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter2) {
+	public EdeWithoutTriggerScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topup) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
 		this.scanType = scanType;
 		this.theDetector = theDetector;
-		this.shutter2 = shutter2;
+		this.shutter = shutter;
+		this.topup = topup;
 		allDetectors.add(theDetector);
 		if (repetitionNumber >= 0) {
 			// then use indexer to report progress of scan in data
@@ -111,6 +118,7 @@ public class EdeScan extends ConcurrentScanChild {
 		return "EDE scan - type:" + scanType.toString() + " " + motorPositions.getType().toString();
 	}
 
+	@Override
 	public String getHeaderDescription() {
 		String desc = scanType.toString() + " " + motorPositions.getType().toString() + " scan with " + scanParameters.getGroups().size() + " timing groups";
 		for (int index = 0; index < scanParameters.getGroups().size(); index++){
@@ -129,6 +137,7 @@ public class EdeScan extends ConcurrentScanChild {
 		return rawData.size();
 	}
 
+	@Override
 	public void setProgressUpdater(IObserver progressUpdater) {
 		this.progressUpdater = progressUpdater;
 	}
@@ -154,7 +163,7 @@ public class EdeScan extends ConcurrentScanChild {
 		theDetector.loadParameters(scanParameters);
 		if (scanType == EdeScanType.DARK){
 			// close the shutter
-			shutter2.moveTo("Close");
+			shutter.moveTo("Close");
 			checkForInterrupts();
 		} else {
 			// open the shutter
@@ -162,11 +171,17 @@ public class EdeScan extends ConcurrentScanChild {
 			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 			motorPositions.moveIntoPosition();
 			checkForInterrupts();
-			shutter2.moveTo("Open");
+			if (topup != null){
+				// the TopupChecker object will run its test for an imminent top-up in atScanStart()
+				topup.atScanStart();
+			}
+			shutter.moveTo("Open");
 		}
 		if (!isChild()) {
 			currentPointCount = -1;
 		}
+
+		// TODO 264 wait here to test if we should wait for top-up?
 
 		logger.debug(toString() + " starting detector running...");
 		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
@@ -315,7 +330,6 @@ public class EdeScan extends ConcurrentScanChild {
 	}
 
 	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
-
 		rawData.add(thisPoint);
 		if (progressUpdater != null) {
 			int groupNumOfThisSDP = ExperimentLocationUtils.getGroupNum(scanParameters, absoulteFrameNumber);
@@ -330,22 +344,27 @@ public class EdeScan extends ConcurrentScanChild {
 		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), rawData.get(rawData.size() - 1));
 	}
 
+	@Override
 	public DoubleDataset extractEnergyDetectorDataSet() {
 		return ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), rawData.get(0));
 	}
 
+	@Override
 	public DoubleDataset extractDetectorDataSet(int spectrumIndex) {
 		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), rawData.get(spectrumIndex));
 	}
 
+	@Override
 	public List<ScanDataPoint> getData() {
 		return getDataPoints(0, getNumberOfAvailablePoints() - 1);
 	}
 
+	@Override
 	public EdeScanParameters getScanParameters() {
 		return scanParameters;
 	}
 
+	@Override
 	public void setScanParameters(EdeScanParameters scanParameters) {
 		this.scanParameters = scanParameters;
 	}
@@ -358,10 +377,12 @@ public class EdeScan extends ConcurrentScanChild {
 		this.motorPositions = motorPositions;
 	}
 
+	@Override
 	public EdeScanType getScanType() {
 		return scanType;
 	}
 
+	@Override
 	public void setScanType(EdeScanType scanType) {
 		this.scanType = scanType;
 	}

@@ -10,6 +10,7 @@
 
 
 	<bean id="wiggler_gap_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="frontend_aperture_motor" class="gda.device.motor.DummyMotor"/>
 
 	<import resource="file:${gda.config}/servers/main/server-common.xml" />
 

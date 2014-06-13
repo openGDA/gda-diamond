@@ -22,15 +22,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import uk.ac.gda.exafs.plotting.model.SlitsScanRootDataNode;
+import uk.ac.gda.client.plotting.ScanDataPlotter;
+import uk.ac.gda.client.plotting.model.RootDataNode;
 
 public class SlitsScanPlotView extends ViewPart {
 	public static String ID = "uk.ac.gda.exafs.ui.views.slitsscanplotview";
 	ScanDataPlotter scanDataPlotter;
+	private RootDataNode rootNode;
 
 	@Override
 	public void createPartControl(Composite parent) {
-		SlitsScanRootDataNode rootNode = new SlitsScanRootDataNode();
+		rootNode = new RootDataNode();
 		scanDataPlotter = new ScanDataPlotter(parent, SWT.None, this, rootNode);
 	}
 
@@ -38,6 +40,13 @@ public class SlitsScanPlotView extends ViewPart {
 	public void setFocus() {
 		if (!scanDataPlotter.isDisposed()) {
 			scanDataPlotter.setFocus();
+		}
+	}
+
+	@Override
+	public void dispose() {
+		if (rootNode != null) {
+			rootNode.disposeResources();
 		}
 	}
 }

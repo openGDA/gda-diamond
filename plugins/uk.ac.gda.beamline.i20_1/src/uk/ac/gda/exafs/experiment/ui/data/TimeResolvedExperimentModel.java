@@ -68,7 +68,7 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 
 public class TimeResolvedExperimentModel extends ObservableModel {
 
-	private static final double INITIAL_INTEGRATION_TIME = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(1.0d);
+	private static final double INITIAL_INTEGRATION_TIME = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(0.001d);
 
 	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
 

@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.plotting.ui;
+package uk.ac.gda.client.plotting;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -41,17 +41,26 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.CoolItem;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.plotting.model.DataNode;
-import uk.ac.gda.exafs.plotting.model.LineTraceProvider;
-import uk.ac.gda.exafs.plotting.model.LineTraceProvider.TraceStyleDetails;
+import uk.ac.gda.client.plotting.model.DataNode;
+import uk.ac.gda.client.plotting.model.LineTraceProvider;
+import uk.ac.gda.client.plotting.model.LineTraceProvider.TraceStyleDetails;
 import uk.ac.gda.exafs.ui.ResourceComposite;
 import uk.ac.gda.exafs.ui.data.UIHelper;
 
@@ -186,6 +195,44 @@ public class ScanDataPlotter extends ResourceComposite {
 	private void createDataTree(final SashForm parent) {
 		Composite dataTreeParent = new Composite(parent, SWT.None);
 		dataTreeParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		CoolBar composite = new CoolBar(dataTreeParent, SWT.NONE);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		CoolItem toolbarCoolItem = new CoolItem(composite, SWT.NONE);
+		// TODO Do search text box
+		//CoolItem filterCoolItem = new CoolItem(composite, SWT.NONE);
+		ToolBar tb = new ToolBar(composite, SWT.FLAT);
+		ToolItem backToolItem = new ToolItem(tb, SWT.NONE);
+		backToolItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_BACK));
+		ToolItem forwardToolItem = new ToolItem(tb, SWT.NONE);
+		forwardToolItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_FORWARD));
+		//		Text filterText = new Text(composite, SWT.BORDER);
+		//		filterText.setText("");
+		Point p = tb.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		tb.setSize(p);
+		Point p2 = toolbarCoolItem.computeSize(p.x, p.y);
+		toolbarCoolItem.setControl(tb);
+		toolbarCoolItem.setSize(p2);
+		//		p = filterText.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		//		filterText.setSize(p);
+		//		p2 = filterCoolItem.computeSize(p.x, p.y);
+		//		filterCoolItem.setControl(tb);
+		//		filterCoolItem.setSize(p2);
+		//		filterCoolItem.setControl(filterText);
+
+		backToolItem.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				dataTreeViewer.collapseAll();
+			}
+		});
+
+		forwardToolItem.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				dataTreeViewer.expandAll();
+			}
+		});
+
 		dataTreeViewer = new DataPlotterCheckedTreeViewer(dataTreeParent);
 		dataTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		dataTreeViewer.setLabelProvider(new ColumnLabelProvider() {
