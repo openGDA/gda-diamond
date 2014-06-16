@@ -155,18 +155,13 @@
 		
 	<import resource="../../devices/s1.xml" />
 	<import resource="../../devices/filters.xml" />
-
 	<import resource="../../devices/m1.xml" />
-	<import resource="../../devices/d1.xml" />
-	<import resource="../../devices/d2.xml" />
-	<import resource="../../devices/s2.xml" />
-	<import resource="../../devices/d4.xml" />
+
 	
 	<!-- End of internal Building/ Start of external Building -->
 	<import resource="../../devices/optics_hutch4_shutter.xml" />
 	<import resource="../../devices/s3.xml" />
 	<import resource="../../devices/dcm.xml" />
-	<import resource="../../devices/d5.xml" />
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/kb.xml" />
 	<import resource="../../devices/sample_stage.xml" />

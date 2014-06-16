@@ -318,7 +318,7 @@
 								<constructor-arg value="d5" />
 								<constructor-arg value="d5" />
 								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-DI-PHDGN-05:"/>
+								<constructor-arg value="BL13I-DI-PHDGN-06:"/>
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">

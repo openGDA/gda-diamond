@@ -80,7 +80,14 @@
 		<property name="prefix" value="BL13I-DI-PHDGN-04:FFMPEG:" />
 	</bean>
 
+	<bean id="d4_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-04:HDF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
 
+	<bean id="d4_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d4_ndfilehdf5_base" />
+	</bean>
 
 </beans>
 	

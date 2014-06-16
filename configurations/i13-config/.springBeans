@@ -59,15 +59,10 @@
 		<config>clients/main/commandQueueProcessor.xml</config>
 		<config>servers/main/commandQueueProcessor.xml</config>
 		<config>clients/main/common.xml</config>
-		<config>devices/dummy/d1.xml</config>
 		<config>devices/epics/d1.xml</config>
-		<config>devices/dummy/d2.xml</config>
 		<config>devices/epics/d2.xml</config>
-		<config>devices/dummy/d3.xml</config>
 		<config>devices/epics/d3.xml</config>
-		<config>devices/dummy/d4.xml</config>
 		<config>devices/epics/d4.xml</config>
-		<config>devices/dummy/d5.xml</config>
 		<config>devices/epics/d5.xml</config>
 		<config>devices/dummy/dcm_motors.xml</config>
 		<config>devices/epics/dcm_motors.xml</config>

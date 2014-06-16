@@ -16,7 +16,7 @@
 		<constructor-arg ref="d4_cam_base" />
 		<constructor-arg value="0." />
 	</bean>
-	<bean id="d4_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+<!-- 	<bean id="d4_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="d4_ndhdf5file" />
 		<property name="fileNameTemplate" value="d4"/>
 		<property name="filePathTemplate" value="$datadir$"/>
@@ -28,17 +28,22 @@
 		<property name="framesChunks" value="0"/>
 		<property name="framesFlush" value="0"/>
 		<property name="lazyOpen" value="true"/>
-		<!-- property name="boundaryAlign" value="1048576"/ -->
-		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+		property name="boundaryAlign" value="1048576"/
+		<property name="blocking" value="false"/> must be false otherwise PCO Event Driver driver crashes if framesChunks is 64
 		<property name="pathErrorSuppressed" value="true"></property>
-	</bean>
+	</bean> -->
 
+	<bean id="d4_hdf5_filewriter_nochunking" parent="abstract_hdf5_filewriter_nochunking">
+		<property name="ndFileHDF5" ref="d4_ndhdf5file" />
+		<property name="fileNameTemplate" value="d4"/>
+	</bean>
+	
 	<bean id="_d4_cam_nx" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_hw_hdf" />
 		<property name="collectionStrategy" ref="d4_cam_collection_strategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="float1_hdf5_filewriter_nochunking" />
+				<ref bean="d4_hdf5_filewriter_nochunking" />
 			</list>
 		</property>
 	</bean>
