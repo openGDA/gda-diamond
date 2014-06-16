@@ -19,6 +19,24 @@
 		<property name="service" ref="plot_server" />
 	</bean>
 
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
+		<property name="service">
+			<bean class="uk.ac.gda.epics.adviewer.SimpleADPVSuffixes">
+				<property name="mpgSuffix" value="FFMPEG:" />
+			</bean>
+		</property>
+		<property name="properties">
+			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+				<property name="map">
+					<map>
+						<entry key="SERVICE_NAME" value="diagnosticCameraType" />
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 	<import resource="commandQueueProcessor.xml" />
 
 	<bean id="helpHandler" class="uk.ac.gda.client.HelpHandlerImpl">
@@ -273,48 +291,56 @@
 								<constructor-arg value="d1" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13I-DI-PHDGN-01:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d2" />
 								<constructor-arg value="d2" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13I-DI-PHDGN-02:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d3" />
 								<constructor-arg value="d3" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13I-DI-PHDGN-03:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d4" />
 								<constructor-arg value="d4" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13I-DI-PHDGN-04:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d5" />
 								<constructor-arg value="d5" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13I-DI-PHDGN-05:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="Float 1" />
 								<constructor-arg value="Float 1" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13I-OP-FLOAT-01:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="Float 2" />
 								<constructor-arg value="Float 2" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13I-OP-FLOAT-02:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Float 2" />
-								<constructor-arg value="Float 2" />
+								<constructor-arg value="Float 3" />
+								<constructor-arg value="Float 3" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13I-OP-FLOAT-03:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="WebCams" />
