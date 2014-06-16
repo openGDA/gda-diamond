@@ -21,9 +21,9 @@ To start ixx-config from an installation in /scratch/gda_master in dummy mode:
 
 To use within an Eclipse External Run Configuration:
 
-Location - ${workspace_loc:/dls-config/bin/gda_servers_local}
+Location - ${project_loc:/dls-config/bin/gda_servers_local}
 Arguments (example for ixx-config to restart servers in dummy mode)
- - ${workspace_loc:/uk.ac.gda.core} ${workspace_loc:/ixx-config} dummy --restart --debug
+ - ${project_loc:/uk.ac.gda.core} ${workspace_loc:/ixx-config} dummy --restart --debug
 
 EOF
 }
