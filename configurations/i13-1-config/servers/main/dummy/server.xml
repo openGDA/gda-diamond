@@ -45,18 +45,12 @@
 	
 	<import resource="../../../devices/dummy/m1.xml"/>
 
-	<import resource="../../../devices/dummy/d1.xml"/>
-	
 	<import resource="../../../devices/dummy/absorbers1.xml"/>
-
-	<import resource="../../../devices/dummy/d2.xml"/>
 
 	<import resource="../../../devices/dummy/s2_motors.xml"/>
 
 	<import resource="../../../devices/dummy/absorbers2.xml"/>
 
-	<import resource="../../../devices/dummy/d3.xml"/>
-	
 	<import resource="../../../devices/dummy/absorbers3.xml"/>	
 
 <!-- End of internal Building/ Start of external Building -->
@@ -70,8 +64,6 @@
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/dummy/s4_motors.xml"/>
-	
-	<import resource="../../../devices/dummy/d4.xml"/>	
 
 	<import resource="../../../devices/dummy/s5_motors.xml"/>
 	<import resource="../../../devices/dummy/m2_motors.xml"/>
@@ -88,9 +80,6 @@
 	<import resource="../../../devices/dummy/g1_motors.xml"/>
 	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
-	<import resource="../../../devices/dummy/float1_cam_ad.xml"/>
-	<import resource="../../../devices/dummy/float2_cam_ad.xml"/>
-	<import resource="../../../devices/dummy/float3_cam_ad.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 

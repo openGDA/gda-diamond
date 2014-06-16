@@ -46,16 +46,20 @@
 	<import resource="../../../devices/epics/m1.xml"/>
 
 	<import resource="../../../devices/epics/d1.xml"/>
+	<import resource="../../../devices/d1.xml" />
+
 	
 	<import resource="../../../devices/epics/absorbers1.xml"/>
 
 	<import resource="../../../devices/epics/d2.xml"/>
+	<import resource="../../../devices/d2.xml" />
 
 	<import resource="../../../devices/epics/absorbers2.xml"/>
 	
 	<import resource="../../../devices/epics/s2_motors.xml"/>
 
 	<import resource="../../../devices/epics/d3.xml"/>
+	<import resource="../../../devices/d3.xml" />
 
 	<import resource="../../../devices/epics/absorbers3.xml"/>
 
@@ -70,6 +74,7 @@
 	<import resource="../../../devices/epics/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/epics/d4.xml"/>
+	<import resource="../../../devices/d4.xml" />
 
 	<import resource="../../../devices/epics/s4_motors.xml"/>
 
@@ -88,14 +93,17 @@
 	<import resource="../../../devices/epics/g1_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
-	<import resource="../../../devices/epics/float1_cam_ad.xml"/>
-	<import resource="../../../devices/epics/float2_cam_ad.xml"/>
-	<import resource="../../../devices/epics/float3_cam_ad.xml"/>
+	<import resource="../../../devices/epics/float1.xml"/>
+	<import resource="../../../devices/epics/float2.xml"/>
+	<import resource="../../../devices/epics/float3.xml"/>
+	<import resource="../../../devices/float1.xml" />
+	<import resource="../../../devices/float2.xml" />
+	<import resource="../../../devices/float3.xml" />
 	
 	<import resource="../../../devices/epics/s7_motors.xml"/>
 
-	<import resource="../../../devices/epics/scope1_motors.xml"/>
-
+<!-- 	<import resource="../../../devices/epics/scope1_motors.xml"/>
+ -->
 	<import resource="../../../devices/epics/pco1.xml"/>
 	<import resource="../../../devices/epics/merlin.xml"/>
 	<!-- This is no longer present - T2 now contains beamstop abut not the detector xyz motors
@@ -110,9 +118,8 @@
 <!-- 	<import resource="../../../devices/diamond_crl.xml"/>
  -->
 
-	<!-- piezo raster scan device -->
-<!-- 	<import resource="../../../devices/pie725_raster.xml"/>
- -->	
+	<!-- piezo raster scan device  - must be included for maxipix -->
+	<import resource="../../../devices/pie725_raster.xml"/>
 	<import resource="../common.xml"/>	
 
 <!--Not present 

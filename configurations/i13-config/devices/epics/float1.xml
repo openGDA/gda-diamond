@@ -8,8 +8,6 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-
-
 	<bean id="float1_cam_base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL13I-OP-FLOAT-01:CAM:" />
 	</bean>
@@ -25,7 +23,6 @@
 	<bean id="float1_proc" class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL13I-OP-FLOAT-01:PROC:" />
 	</bean>
-
 
 	<bean id="float1_roi" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL13I-OP-FLOAT-01:ROI:" />

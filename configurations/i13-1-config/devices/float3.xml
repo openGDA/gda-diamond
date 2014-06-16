@@ -7,10 +7,26 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	<bean id="float2_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="_float2_cam_nx" />
-		<property name="processor" ref="cam_ad_processors" />
-		<property name="mergeWithDetectorData" value="true"/>
-	</bean>	
+	<bean id="float3_cam_collection_strategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="float3_cam_base" />
+		<constructor-arg value="0." />
+	</bean>
+
+	<bean id="float3_hdf5_filewriter_nochunking" parent="abstract_hdf5_filewriter_nochunking">
+		<property name="ndFileHDF5" ref="float3_ndhdf5file" />
+		<property name="fileNameTemplate" value="float3"/>
+	</bean>
+
+
+	<bean id="float3_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="float3_cam" />
+		<property name="collectionStrategy" ref="float3_cam_collection_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="float3_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
 </beans>
 

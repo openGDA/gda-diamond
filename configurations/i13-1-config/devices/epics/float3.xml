@@ -20,6 +20,10 @@
 		<property name="prefix" value="BL13J-OP-FLOAT-03:STAT:" />
 	</bean>
 
+	<bean id="float3_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-03:PROC:" />
+	</bean>
+
 	<bean id="float3_roi" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL13J-OP-FLOAT-03:ROI:" />
 	</bean>
@@ -29,47 +33,13 @@
 	</bean>
 
 
-	<bean id="float3_proc" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-03:PROC:" />
+	<bean id="float3_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="float3_ndfilehdf5_base" />
 	</bean>
 
-
-<!-- 	<bean id="_float3_cam_ad" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="float3_cam_base" />
-		<property name="ndStats" ref="float3_stat" />
-		<property name="ndArray" ref="float3_arr" />
-		<property name="collectionStrategy">
-			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="float3_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="computeStats" value="false" />
-		<property name="computeCentroid" value="false" />
-		<property name="readArray" value="true" />
-		
-	</bean> -->
-
-	<bean id="float3_cam_nx_array"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
-		<constructor-arg ref="float3_arr" />
+	<bean id="float3_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-03:HDF:" />
+		<property name="resetToInitialValues" value="false" />
 	</bean>
-
-	<bean id="_float3_cam_nx" class="gda.device.detector.NXDetector">
-		<property name="name" value="float3_cam_nx"/>
-		<property name="collectionStrategy">
-			<bean
-				class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="float3_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="float3_cam_nx_array" />
-			</list>
-		</property>
-	</bean>
-
 </beans>
 	

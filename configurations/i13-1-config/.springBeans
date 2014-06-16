@@ -140,22 +140,22 @@
 		<config>devices/epics/excalibur_readout6.xml</config>
 		<config>devices/epics/excalibur_summary.xml</config>
 		<config>devices/excalibur_common.xml</config>
-		<config>devices/epics/float2_cam_ad.xml</config>
-		<config>devices/epics/float3_cam_ad.xml</config>
-		<config>devices/float3_cam.xml</config>
 		<config>devices/dummy/float1_cam_ad.xml</config>
 		<config>devices/dummy/float2_cam_ad.xml</config>
 		<config>devices/dummy/float3_cam_ad.xml</config>
 		<config>devices/epics/excalibur_shared.xml</config>
-		<config>devices/epics/float1_cam_ad.xml</config>
-		<config>devices/float1_cam.xml</config>
-		<config>devices/float2_cam.xml</config>
 		<config>devices/live/tfg2.xml</config>
 		<config>clients/main/live/pco.xml</config>
 		<config>devices/epics/merlin.xml</config>
 		<config>devices/epics/merlin_ndplugins.xml</config>
 		<config>devices/epics/pco1_ndplugins.xml</config>
 		<config>devices/pie725_raster.xml</config>
+		<config>devices/float1.xml</config>
+		<config>devices/float2.xml</config>
+		<config>devices/float3.xml</config>
+		<config>devices/epics/float1.xml</config>
+		<config>devices/epics/float2.xml</config>
+		<config>devices/epics/float3.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

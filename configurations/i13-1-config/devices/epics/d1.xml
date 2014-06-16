@@ -78,6 +78,10 @@
 		<property name="prefix" value="BL13J-DI-PHDGN-01:STAT:" />
 	</bean>
 
+	<bean id="d1_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-01:PROC:" />
+	</bean>
+
 	<bean id="d1_roi" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL13J-DI-PHDGN-01:ROI:" />
 	</bean>
@@ -86,7 +90,6 @@
 		<property name="prefix" value="BL13J-DI-PHDGN-01:FFMPEG:" />
 	</bean>
 
-
 	<bean id="d1_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL13J-DI-PHDGN-01:HDF:" />
 		<property name="resetToInitialValues" value="false" />
@@ -94,88 +97,6 @@
 
 	<bean id="d1_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="d1_ndfilehdf5_base" />
-	</bean>
-
-
-	<bean id="d1_proc" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-DI-PHDGN-01:PROC:" />
-	</bean>
-
-	<bean id="_d1_cam_ad_plugins" class="gda.device.FindableObjectHolder">
-		<property name="map">
-			<util:map>
-				<entry key="d1_cam_base" value-ref="d1_cam_base" />
-				<entry key="d1_arr" value-ref="d1_arr" />
-				<entry key="d1_ffmpeg" value-ref="d1_ffmpeg" />
-				<entry key="d1_roi" value-ref="d1_roi" />
-			</util:map>
-		</property>
-	</bean>
-
-<!-- 	<bean id="_d1_cam_ad" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="d1_cam_base" />
-		<property name="ndStats" ref="d1_stat" />
-		<property name="ndArray" ref="d1_arr" />
-		<property name="collectionStrategy">
-			<bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="d1_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="computeStats" value="false"/>
-		<property name="computeCentroid" value="false"/>
-		<property name="readArray" value="true"/>
-	</bean>
- -->
-	<bean id="d1_cam_nx_array"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
-		<constructor-arg ref="d1_arr" />
-	</bean>
-
-	<bean id="_d1_cam_nx" class="gda.device.detector.NXDetector">
-		<property name="name" value="d1_cam_nx"/>
-		<property name="collectionStrategy">
-			<bean
-				class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-				<constructor-arg ref="d1_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="d1_cam_nx_array" />
-			</list>
-		</property>
-	</bean>
-	
-	
-	<bean id="d1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="d1_ndhdf5file" />
-		<property name="fileNameTemplate" value="d1"/>
-		<property name="filePathTemplate" value="$datadir$"/>
-		<property name="fileTemplate" value="%s%s-%d.hdf"/>
-		<property name="fileNumberAtScanStart" value="-1"/>
-		<property name="setFileNameAndNumber" value="true"/>
-		<property name="lazyOpen" value="false"/>
-		<property name="boundaryAlign" value="1048576"/>
-		<property name="blocking" value="false"/>
-	</bean>
-		
-	<!--  I need to handle ndProcess == null in MultipleExposureSoftwareTriggerAutoMode and set mode to CAPTURE -->
-	<bean id="d1_fast" class="gda.device.detector.NXDetector">
-		<property name="name" value="d1_fast"/>
-		<property name="collectionStrategy">
-			<bean
-				class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
-				<constructor-arg ref="d1_cam_base" />
-				<constructor-arg value=".0" />
-			</bean>
-		</property>
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="d1_hdf5_filewriter" />
-			</list>
-		</property>
 	</bean>
 
 </beans>	

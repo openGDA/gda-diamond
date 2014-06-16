@@ -163,13 +163,8 @@
 
 	<import resource="../../devices/m1.xml" />
 
-	<import resource="../../devices/d1.xml" />
-
-	<import resource="../../devices/d2.xml" />
 
 	<import resource="../../devices/s2.xml" />
-
-	<import resource="../../devices/d3.xml" />
 
 
 <!-- 	<import resource="../../devices/diffractometer.xml" />
@@ -180,7 +175,6 @@
 	<!-- end of internal building/ start of external building -->
 	<import resource="../../devices/qcm.xml" />
 	
-	<import resource="../../devices/d4.xml" />
 	<import resource="../../devices/s4.xml" />
 	<import resource="../../devices/s5.xml" />
 
@@ -192,13 +186,10 @@
 	<import resource="../../devices/sample_stage_t1.xml" />
 	<import resource="../../devices/g1.xml" />
 	<import resource="../../devices/sample_stage_camera.xml" />
-	<import resource="../../devices/float1_cam.xml" />
-	<import resource="../../devices/float2_cam.xml" />
-	<import resource="../../devices/float3_cam.xml" />
 	<import resource="../../devices/s7.xml" />
 
-	<import resource="../../devices/scope1.xml" />
-
+<!-- 	<import resource="../../devices/scope1.xml" />
+ -->
 
 	<!--  dummy motors for testing tomoscan  -->
 	<bean id="ss1_rot_dummy_motor" class="gda.device.motor.DummyMotor">
