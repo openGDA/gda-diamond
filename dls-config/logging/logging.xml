@@ -10,8 +10,8 @@
 	<property file="${gda.dls-config}/properties/logging.properties" />
 	<property file="${gda.dls-config}/properties/${gda.mode}.properties" />
 	<property file="${gda.config}/properties/common.properties" />
-	<property file="${gda.config}/properties/${gda.mode}.properties" />
-	<appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
+	<property file="${gda.config}/properties/${gda.mode}/java.properties" />
+	<appender name="LOGSERVER" class="ch.qos.logback.classic.net.SocketAppender">
 		<RemoteHost>${gda.server.host}</RemoteHost>
 		<Port>${gda.server.logging.port}</Port>
 		<ReconnectionDelay>10000</ReconnectionDelay>
@@ -26,7 +26,7 @@
 	<root>
 		<level value="INFO" />
 		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="RemoteLoggerListener" />
+		<appender-ref ref="LOGSERVER" />
 	</root>
 
 

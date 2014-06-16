@@ -10,7 +10,7 @@
 	<property file="${gda.dls-config}/properties/logging.properties" />
 	<property file="${gda.dls-config}/properties/${gda.mode}.properties" />
 	<property file="${gda.config}/properties/common.properties" />
-	<property file="${gda.config}/properties/${gda.mode}.properties" />
+	<property file="${gda.config}/properties/${gda.mode}/java.properties" />
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<File>${gda.logs.dir}/gda_server.log</File>
