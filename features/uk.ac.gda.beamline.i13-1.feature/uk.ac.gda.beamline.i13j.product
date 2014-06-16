@@ -22,6 +22,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.install.workspace.loc=/dls_sw/i13/software/gda/workspace
 -Dgda.root=/dls_sw/i13-1/software/gda/plugins
 -Dgda.config=/dls_sw/i13-1/software/gda/config
+-Dgda.dls-config=/dls_sw/i13/software/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.propertiesFile=/dls_sw/i13-1/software/gda/config/properties/live/java.properties
 -Dgda.data=/dls/i13-1/data
 -Dgda.mode=live

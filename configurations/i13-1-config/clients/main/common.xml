@@ -9,7 +9,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<import resource="commandQueueProcessor.xml" />
-
+	<import resource="../../common_beans/common.xml"/>
 	<corba:import namespace="i13-1" names="plot_server" />
 
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
@@ -22,6 +22,25 @@
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
 	</bean>
+	
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
+		<property name="service">
+			<bean class="uk.ac.gda.epics.adviewer.SimpleADPVSuffixes">
+				<property name="mpgSuffix" value="FFMPEG:" />
+			</bean>
+		</property>
+		<property name="properties">
+			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+				<property name="map">
+					<map>
+						<entry key="SERVICE_NAME" value="diagnosticCameraType" />
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />
@@ -69,9 +88,6 @@
 		<property name="viewTitle" value="Status" />
 		<property name="compositeFactories">
 			<list>
-				<bean class="uk.ac.gda.dls.client.views.BatonStatusCompositeFactory">
-					<property name="label" value="Baton" />
-				</bean>
 				<!-- <bean class="uk.ac.gda.dls.client.views.HealthCheckCompositeFactory"> 
 					<property name="healthScannable" ref="beamline_health"></property> <property 
 					name="label" value="Health"/> </bean> -->
@@ -152,40 +168,61 @@
 								<constructor-arg value="" />
 								<constructor-arg value="" />
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOptionImpl">
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d1" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
-								<constructor-arg value="d1"/>
+								<constructor-arg value="d1" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-DI-PHDGN-01:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOptionImpl">
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d2" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
-								<constructor-arg value="d2"/>
+								<constructor-arg value="d2" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-DI-PHDGN-02:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOptionImpl">
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d3" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
-								<constructor-arg value="d3"/>
+								<constructor-arg value="d3" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-DI-PHDGN-03:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOptionImpl">
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d4" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
-								<constructor-arg value="d4"/>
+								<constructor-arg value="d4" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-DI-PHDGN-04:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOptionImpl">
-								<constructor-arg value="float1" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
-								<constructor-arg value="float1"/>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="d5" />
+								<constructor-arg value="d5" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-DI-PHDGN-05:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOptionImpl">
-								<constructor-arg value="float2" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
-								<constructor-arg value="float2"/>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Float 1" />
+								<constructor-arg value="Float 1" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-OP-FLOAT-01:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOptionImpl">
-								<constructor-arg value="float3" />
-								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
-								<constructor-arg value="float3"/>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Float 2" />
+								<constructor-arg value="Float 2" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-OP-FLOAT-02:"/>
+								<constructor-arg value="diagnosticCameraType"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Float 2" />
+								<constructor-arg value="Float 2" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="diagnosticCameraType"/>
+								<constructor-arg value="BL13J-OP-FLOAT-03:"/>
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="excalibur" />
@@ -211,7 +248,6 @@
 								<constructor-arg value="Merlin" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13J-EA-DET-04:"/>
-								<constructor-arg value=""/>
 							</bean>
 							
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
@@ -222,7 +258,6 @@
 						</list>
 					</property>
 				</bean>				
-				<bean class="uk.ac.gda.dls.client.feedback.FeedbackCompositeFactory"/>
 			</list>
 		</property>
 	</bean>

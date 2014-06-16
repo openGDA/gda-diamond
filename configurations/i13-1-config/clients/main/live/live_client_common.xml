@@ -45,7 +45,7 @@
 		<property name="ffmpegImageOutWidthMax" value="1600" />
 		<property name="imageNDROI" ref="excalibur_summary_roi"/>
 		<property name="setExposureTimeCmd" value="excalibur_config.runContinuous(exposureTime=%f)"/>
-		<property name="imageNDarrayPortInput" value="master.slaves"/>
+		<property name="imageNDArrayPortInput" value="master.slaves"/>
 	</bean>
 
 	<bean id="excalibur_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">

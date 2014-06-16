@@ -107,12 +107,12 @@
 	<import resource="../../../devices/epics/excalibur.xml"/>
 
 	<import resource="../../../devices/vortex.xml"/>
-	<import resource="../../../devices/diamond_crl.xml"/>
-
+<!-- 	<import resource="../../../devices/diamond_crl.xml"/>
+ -->
 
 	<!-- piezo raster scan device -->
-	<import resource="../../../devices/pie725_raster.xml"/>
-	
+<!-- 	<import resource="../../../devices/pie725_raster.xml"/>
+ -->	
 	<import resource="../common.xml"/>	
 
 <!--Not present 

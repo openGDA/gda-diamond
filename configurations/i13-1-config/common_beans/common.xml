@@ -19,7 +19,7 @@
                     <value>file:${gda.dls-config}/properties/common.properties</value>
                     <value>file:${gda.dls-config}/properties/${gda.mode}.properties</value>
                     <value>file:${gda.config}/properties/common.properties</value>
-                    <value>file:${gda.config}/properties/${gda.mode}.properties</value>
+                    <value>file:${gda.config}/properties/${gda.mode}/java.properties</value>
                 </list>
             </property>
             <property name="ignoreResourceNotFound" value="false"/>
