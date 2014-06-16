@@ -10,6 +10,7 @@ module unload buckminster
 
 # Load the standard modules for this version of GDA
 
+module load global/http_proxy
 . $DLS_CONFIG_BIN/loadjava.sh
 
 module load eclipse/432
