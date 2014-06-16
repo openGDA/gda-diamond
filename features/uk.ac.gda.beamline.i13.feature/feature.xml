@@ -22,10 +22,6 @@
          version="0.0.0"/>
 
    <includes
-         id="uk.ac.gda.dal.feature"
-         version="0.0.0"/>
-
-   <includes
          id="uk.ac.gda.client.tomo.feature"
          version="0.0.0"/>
 
