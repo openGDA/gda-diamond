@@ -139,6 +139,9 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 			if (result != null && (result instanceof AlignmentParametersBean)) {
 				configBuilder.append("# " + result.toString() + "\n");
 			}
+			if (itScans.length > 1) {
+				configBuilder.append("# Number of cycles: " + itScans.length + "\n");
+			}
 		} catch (Exception e) {
 			logger.error("Unable to get scannable configuration information", e);
 		}
