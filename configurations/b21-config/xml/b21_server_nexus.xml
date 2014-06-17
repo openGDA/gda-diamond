@@ -147,6 +147,17 @@
 						</property>
 					</bean>
 				</entry>
+				<entry key="sample_concentration">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="sample:NXsample/concentration	" />
+						<property name="prerequisiteScannableNames">
+							<list>
+								<!-- <value>cff</value> -->
+							</list>
+						</property>
+					</bean>
+				</entry>
 				<entry key="sax">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -198,6 +209,7 @@
 				<value>energy</value>
 				<value>sample_name</value>
 				<value>sample_thickness</value>
+				<value>sample_concentration</value>
 			</set>
 		</property>
 	</bean>
@@ -325,5 +337,13 @@
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="1" />
 		<property name="userUnits" value="mm" />
+	</bean>
+	<bean
+		class="gda.device.scannable.DummyUnitsScannable" id="sample_concentration">
+		<property name="name" value="sample_concentration" />
+		<property name="inputNames"><list><value>"sample_concentration"</value></list></property>
+		<property name="outputFormat"><list><value>%5.5g</value></list></property>
+		<property name="protectionLevel" value="1" />
+		<property name="userUnits" value="mg/ml" />
 	</bean>
 </beans>
