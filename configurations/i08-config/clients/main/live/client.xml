@@ -9,4 +9,53 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<import resource="../common.xml" />
+		<bean id="andor_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+                <property name="prefix" value="BL08I-EA-DET-01:CAM:" />
+        </bean>
+
+        <bean id="andor_arr" class="gda.spring.V17NDArrayFactoryBean">
+                <property name="prefix" value="BL08I-EA-DET-01:ARR:" />
+        </bean>
+
+        <bean id="andor_stat" class="gda.spring.V17NDStatsFactoryBean">
+                <property name="prefix" value="BL08I-EA-DET-01:STAT:" />
+        </bean>
+
+        <bean id="andor_proc" class="gda.spring.V17NDProcessFactoryBean">
+                <property name="prefix" value="BL08I-EA-DET-01:PROC:" />
+        </bean>
+
+        <bean id="andor_roi" class="gda.spring.V17NDROIFactoryBean">
+                <property name="prefix" value="BL08I-EA-DET-01:ROI:" />
+        </bean>
+
+        <bean id="andor_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+                <property name="prefix" value="BL08I-EA-DET-01:MJPG:" />
+        </bean>
+		
+        <bean id="andorADController"
+                class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+                <property name="serviceName" value="andor"/>
+                <property name="imageNDStats" ref="andor_stat" />
+                <property name="liveViewNDProc" ref="andor_proc" />
+                <property name="imageNDArray" ref="andor_arr" />
+                <property name="detectorName" value="_andor" />
+                <property name="adBase" ref="andor_cam_base" />
+                <property name="ffmpegStream" ref="andor_ffmpeg" />
+                <property name="imageNDROI" ref="andor_roi"/>
+        </bean>
+
+        <bean id="andordictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+                <property name="map">
+                        <map>
+                                <entry key="SERVICE_NAME" value="andor" />
+                        </map>
+                </property>
+        </bean>
+        <bean class="gda.rcp.util.OSGIServiceRegister">
+                <property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+                <property name="service" ref="andorADController" />
+                <property name="properties" ref="andordictionary" />
+        </bean>
+	
 </beans>

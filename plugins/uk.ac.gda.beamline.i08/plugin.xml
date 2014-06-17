@@ -76,7 +76,14 @@
                relationship="left"
                relative="uk.ac.gda.client.liveplotview">
          </view>
-            
+         <view
+               id="uk.ac.gda.epics.adviewer.mpegview"
+               minimized="false"
+               ratio="0.2"
+               relationship="right"
+               relative="uk.ac.gda.client.liveplotview"
+               visible="true">
+         </view>
       </perspectiveExtension>
    </extension>
    <extension
@@ -111,22 +118,37 @@
    </extension>
   
    <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui">
+         <menu
+               label="Area Detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="epg"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//epg//BL08I-EA-DET-01@">
+               </parameter>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
          point="org.eclipse.ui.views">
-      <!--stickyView
-            closeable="true"
-            id="uk.ac.gda.beamline.i08.cameraView"
-            moveable="true">
-      </stickyView>
-      <stickyView
-            closeable="true"
-            id="uk.ac.gda.client.microfocus.views.SamplePositionView"
-            moveable="true">
-      </stickyView>
-      <stickyView
-            closeable="true"
-            id="uk.ac.gda.exafs.ui.views.scalersmonitor"
-            moveable="true">
-      </stickyView-->
+      <view
+            category="uk.ac.gda.epics.adviewer.view.category"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview"
+            name="MJPeg View"
+            restorable="true">
+      </view>
    </extension>
   
   

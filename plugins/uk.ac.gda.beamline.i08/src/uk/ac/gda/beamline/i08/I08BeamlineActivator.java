@@ -50,9 +50,9 @@ public class I08BeamlineActivator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 
-		IContextService contextService = (IContextService) PlatformUI.getWorkbench().getService(IContextService.class);
+		//IContextService contextService = (IContextService) PlatformUI.getWorkbench().getService(IContextService.class);
 
-		contextService.activateContext("I08 product");
+		//contextService.activateContext("I08 product");
 	}
 
 	/*
