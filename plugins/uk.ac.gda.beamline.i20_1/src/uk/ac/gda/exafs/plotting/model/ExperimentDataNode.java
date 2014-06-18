@@ -37,7 +37,7 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.plotting.model.DataNode;
+import uk.ac.gda.client.plotting.model.DataNode;
 
 public class ExperimentDataNode extends DataNode implements IScanDataPointObserver {
 

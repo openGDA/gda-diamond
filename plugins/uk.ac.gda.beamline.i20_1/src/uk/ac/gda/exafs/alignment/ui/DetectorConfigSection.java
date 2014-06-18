@@ -52,10 +52,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.client.ResourceComposite;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.ui.ResourceComposite;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorConfigSection extends ResourceComposite {
 	private static Logger logger = LoggerFactory.getLogger(DetectorConfigSection.class);

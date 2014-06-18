@@ -31,6 +31,14 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class CyclicExperiment extends TimeResolvedExperiment {
 
+	@Override
+	protected String getHeaderText() {
+		StringBuilder metadataText = new StringBuilder();
+		metadataText.append(super.getHeaderText());
+		metadataText.append(String.format("\nCycles: %d\n", numberOfRepetitions));
+		return metadataText.toString();
+	}
+
 	public CyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)

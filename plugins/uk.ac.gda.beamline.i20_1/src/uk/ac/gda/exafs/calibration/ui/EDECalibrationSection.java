@@ -44,13 +44,13 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.ResourceComposite;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
-import uk.ac.gda.exafs.ui.ResourceComposite;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class EDECalibrationSection extends ResourceComposite {
 

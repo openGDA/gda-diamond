@@ -39,14 +39,14 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.ResourceComposite;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
 import uk.ac.gda.exafs.data.SlitsScanModel;
-import uk.ac.gda.exafs.ui.ResourceComposite;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class SlitsScanSection extends ResourceComposite {

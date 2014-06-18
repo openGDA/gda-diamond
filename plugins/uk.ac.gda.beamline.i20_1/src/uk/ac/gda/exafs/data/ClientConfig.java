@@ -25,9 +25,6 @@ import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.common.rcp.PreferenceDataStore;
 
@@ -38,9 +35,6 @@ public class ClientConfig {
 	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#########");
 	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 	public static final String EDE_GUI_DATA = "ede_gui.properties";
-
-	private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
-
 	private ClientConfig() {}
 
 	public enum UnitSetup {

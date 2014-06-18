@@ -156,8 +156,8 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.plotting.ScanDataPlotView"
-            id="uk.ac.gda.exafs.ui.views.scandataplotview"
+            class="uk.ac.gda.client.plotting.ScanDataPlotView"
+            id="uk.ac.gda.client.plotting.scandataplotview"
             name="Scan plot"
             restorable="true">
       </view>

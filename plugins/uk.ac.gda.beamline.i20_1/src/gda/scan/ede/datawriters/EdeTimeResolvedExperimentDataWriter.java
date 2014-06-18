@@ -24,6 +24,7 @@ import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
 import gda.device.detector.StripDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
 import gda.scan.EdeScan;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
@@ -36,6 +37,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.exafs.data.AlignmentParametersBean;
+import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -68,7 +71,6 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	private String itFinalFilename;
 
 	private final String nexusfileName;
-	//private final TimeResolvedNexusFileHelper timeResolvedNexusFileHelper;
 
 	public EdeTimeResolvedExperimentDataWriter(EdeScan i0DarkScan, EdeScan i0LightScan, EdeScan iRefScan,
 			EdeScan iRefDarkScan, EdeScan itDarkScan, EdeScan[] itScans, EdeScan i0FinalScan, EdeScan iRefFinalScan,
@@ -125,10 +127,20 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		StringBuilder configBuilder = new StringBuilder();
 		try {
 			if (!configs.isEmpty()) {
+				// Adding scannables
 				AsciiDataWriterConfiguration config = (AsciiDataWriterConfiguration) configs.get(0);
 				for (AsciiMetadataConfig line : config.getHeader()) {
 					configBuilder.append(config.getCommentMarker() + " " + line.toString() + "\n");
 				}
+			}
+			// Adding alignment parameters
+			Object result = InterfaceProvider.getJythonNamespace()
+					.getFromJythonNamespace(AlignmentParametersModel.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
+			if (result != null && (result instanceof AlignmentParametersBean)) {
+				configBuilder.append("# " + result.toString() + "\n");
+			}
+			if (itScans.length > 1) {
+				configBuilder.append("# Number of cycles: " + itScans.length + "\n");
 			}
 		} catch (Exception e) {
 			logger.error("Unable to get scannable configuration information", e);
