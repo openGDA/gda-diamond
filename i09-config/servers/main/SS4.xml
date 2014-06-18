@@ -9,12 +9,6 @@
 	<bean id="ss4ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ss4ygap_motor" />
 	</bean>
-	<bean id="ss4x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ss4x_motor" />
-	</bean>
-	<bean id="ss4y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ss4y_motor" />
-	</bean>
 	<bean id="ss4z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ss4z_motor" />
 	</bean>
@@ -24,11 +18,7 @@
 			<list>
 				<ref bean="ss4xgap" />
 				<ref bean="ss4ygap" />
-				<ref bean="ss4x" />
-				<ref bean="ss4y" />
 				<ref bean="ss4z" />
-<!-- 				<ref bean="ss4iamp33" /> -->
-<!-- 				<ref bean="ss4iamp34" /> -->
 			</list>
 		</property>
 	</bean>

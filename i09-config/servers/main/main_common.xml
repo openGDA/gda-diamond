@@ -49,7 +49,7 @@
 	<import resource="SS3.xml" />
 	<import resource="SS4.xml" />
 	<import resource="ChannelCutCrystal.xml" />
-	<!-- <import resource="BeamMonitor.xml"/> -->
+	<import resource="BeamMonitor.xml"/>
 	<import resource="SMPM.xml" />
 	<import resource="analyser.xml"/>
 	<import resource="RegionScannable.xml"/>
