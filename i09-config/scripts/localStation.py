@@ -221,6 +221,10 @@ alias("multiregionscan")
 print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
 #from pseudodevices.shutter import EpicsShutterClass, psi2,psj2  # @UnusedImport
 nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-HD-01:STAT:Total_RBV","","%d")
+lakeshoreC0=DisplayEpicsPVClass("lakeshoreC0", "BL09L-VA-LAKE-01:KRDG0","K","%f")
+lakeshoreC1=DisplayEpicsPVClass("lakeshoreC1", "BL09L-VA-LAKE-01:KRDG1","K","%f")
+lakeshoreC2=DisplayEpicsPVClass("lakeshoreC2", "BL09L-VA-LAKE-01:KRDG2","K","%f")
+lakeshoreC3=DisplayEpicsPVClass("lakeshoreC3", "BL09L-VA-LAKE-01:KRDG3","K","%f")
 
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
