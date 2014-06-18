@@ -36,7 +36,7 @@ class BeamEnergy(ScannableMotionBase):
         self.setOutputFormat(["%10.6f"])
         self.inputNames=[name]
         if self.dcm == "dcmenergy":
-            self.order=1
+            self.order=3
         else:
             self.order=1
         self.energy=self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
