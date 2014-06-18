@@ -3,15 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-<!-- 	<bean id="es2iamp10" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
-<!-- 		<property name="deviceName" value="ES2.IAMP10" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2iamp19" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
-<!-- 		<property name="deviceName" value="ES2.IAMP19" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2iamp21" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
-<!-- 		<property name="deviceName" value="ES2.IAMP21" /> -->
-<!-- 	</bean> -->
 	<bean id="es2x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="ES2.X" />
 	</bean>

@@ -11,6 +11,7 @@
 <!-- 	</bean> -->
 	<bean id="smpmiamp39" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="deviceName" value="SMPM.IAMP39"/>
+		<property name="poll" value="true"/>
 	</bean>
 
 	<bean id="smpmx_motor" class="gda.device.motor.EpicsMotor">

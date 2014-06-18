@@ -5,6 +5,7 @@
 
 	<bean id="hd4iamp6" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="deviceName" value="HD4.IAMP6" />
+		<property name="poll" value="true"/>
 	</bean>
 	<bean id="hd4x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="HD4.X" />
