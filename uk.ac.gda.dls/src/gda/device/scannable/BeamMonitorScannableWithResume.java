@@ -22,7 +22,6 @@ import gda.device.DeviceException;
 import gda.epics.connection.EpicsChannelManager;
 import gda.epics.connection.EpicsController;
 import gda.epics.connection.InitializationListener;
-import gda.scan.ScanBase;
 import gov.aps.jca.Channel;
 import gov.aps.jca.Channel.ConnectionState;
 
@@ -35,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * <p>
  * Will not do this if the machine is not running.
  */
+@Deprecated
 public class BeamMonitorScannableWithResume extends TopupScannable implements InitializationListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(BeamMonitorScannableWithResume.class);

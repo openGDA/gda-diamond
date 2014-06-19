@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -21,8 +21,6 @@ package gda.device.scannable;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.jython.InterfaceProvider;
-import gda.jython.ScriptBase;
-import gda.scan.ScanBase;
 
 import java.util.Date;
 
@@ -30,24 +28,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A scannable which will pause during a scan if top-up is imminent.
+ * A scannable which will pause during a scan some value goes below a threshold (e.g. an absorber closes or machine
+ * current goes below 1mA).
  * <p>
- * To use, simply include in a scan.
- * <p>
- * Deprecated, see TopupChecker.
- * <p>
- * This should be deleted for the GDA release after 8.36
+ * To use, simply include in a scan, or add to the list of default scannables.
  */
-public class CheckingScannable extends ScannableBase implements Scannable {
+public class CheckingScannable extends BeamlineConditionMonitorBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(CheckingScannable.class);
 
 	private double timeout = 0;
 	private Object value;
 	private Scannable scannable;
-
-	private boolean pauseBeforeLine = false;
-	private boolean pauseBeforePoint = true;
 
 	public CheckingScannable() {
 		this.inputNames = new String[0];
@@ -57,20 +49,11 @@ public class CheckingScannable extends ScannableBase implements Scannable {
 	}
 
 	@Override
-	public void atPointStart() throws DeviceException {
-		if (pauseBeforePoint) {
-			pauseUntilValue();
+	protected void testShouldPause() throws DeviceException {
+		
+		if (!machineIsRunning()) {
+			return;
 		}
-	}
-
-	@Override
-	public void atScanLineStart() throws DeviceException {
-		if (pauseBeforeLine) {
-			pauseUntilValue();
-		}
-	}
-
-	private void pauseUntilValue() throws DeviceException {
 
 		Object curVal = getCurrentValue();
 
@@ -146,22 +129,6 @@ public class CheckingScannable extends ScannableBase implements Scannable {
 	 */
 	public void setTimeout(double timeout) {
 		this.timeout = timeout;
-	}
-
-	public boolean isPauseBeforeLine() {
-		return pauseBeforeLine;
-	}
-
-	public void setPauseBeforeLine(boolean pauseBeforeLine) {
-		this.pauseBeforeLine = pauseBeforeLine;
-	}
-
-	public boolean isPauseBeforePoint() {
-		return pauseBeforePoint;
-	}
-
-	public void setPauseBeforePoint(boolean pauseBeforePoint) {
-		this.pauseBeforePoint = pauseBeforePoint;
 	}
 
 	/**

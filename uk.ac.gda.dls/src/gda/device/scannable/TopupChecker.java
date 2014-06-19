@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -21,7 +21,6 @@ package gda.device.scannable;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
 
 import java.util.Date;
 
@@ -35,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * <p>
  * This replaces earlier classes which were not unit-testable.
  */
-public class TopupChecker extends ScannableBase {
+public class TopupChecker extends BeamlineConditionMonitorBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(TopupChecker.class);
 
@@ -43,10 +42,6 @@ public class TopupChecker extends ScannableBase {
 	private double tolerance = 0;
 	private double waittime = 0;
 	private double collectionTime = 0.0;// in seconds
-
-	private boolean pauseBeforeScan = false;
-	private boolean pauseBeforeLine = false;
-	private boolean pauseBeforePoint = true;
 
 	private Monitor scannableToBeMonitored;
 
@@ -57,39 +52,23 @@ public class TopupChecker extends ScannableBase {
 		this.level = 1;
 	}
 
-	@Override
-	public void atScanStart() throws DeviceException {
-		if (pauseBeforeScan) {
-			testShouldPause();
-		}
-	}
-
-	@Override
-	public void atPointStart() throws DeviceException {
-		if (pauseBeforePoint) {
-			testShouldPause();
-		}
-	}
-
-	@Override
-	public void atScanLineStart() throws DeviceException {
-		if (pauseBeforeLine) {
-			testShouldPause();
-		}
-	}
-
-	public Boolean topupImminent() throws DeviceException{
+	public Boolean topupImminent() throws DeviceException {
 		double topupTime = getTopupTime();
 		return topupTime >= 0 && topupTime < (collectionTime + tolerance);
 	}
-	
+
 	/**
 	 * protected so this method may be overridden
 	 * 
 	 * @throws DeviceException
 	 */
+	@Override
 	protected void testShouldPause() throws DeviceException {
-		
+
+		if (!machineIsRunning()) {
+			return;
+		}
+
 		if (!topupImminent())
 			return;
 
@@ -105,7 +84,7 @@ public class TopupChecker extends ScannableBase {
 			sendAndPrintMessage(message);
 			while (topupImminent()) {
 
-				if (InterfaceProvider.getCurrentScanController().isFinishEarlyRequested()){
+				if (InterfaceProvider.getCurrentScanController().isFinishEarlyRequested()) {
 					return;
 				}
 
@@ -129,77 +108,6 @@ public class TopupChecker extends ScannableBase {
 			logger.debug("InterruptedException received during testShouldPause, so rethrowing as DeviceException");
 			throw new DeviceException(e.getMessage(), e);
 		}
-	}
-
-	protected void sendAndPrintMessage(String message) {
-		logger.info(message);
-		JythonServerFacade.getInstance().print(message);
-	}
-
-	@Override
-	public void asynchronousMoveTo(Object position) throws DeviceException {
-		//
-	}
-
-	@Override
-	public Object getPosition() throws DeviceException {
-		return null;
-	}
-
-	@Override
-	public boolean isBusy() throws DeviceException {
-		return false;
-	}
-
-	@Override
-	public String checkPositionValid(Object position) {
-		return "";
-	}
-
-	/**
-	 * @return the timeout in seconds to wait for the topup to finish
-	 */
-	public double getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(double timeout) {
-		this.timeout = timeout;
-	}
-
-	/**
-	 * @return the waittime after data collection can resume to allow beam to stabilise.
-	 */
-	public double getWaittime() {
-		return waittime;
-	}
-
-	public void setWaittime(double waittime) {
-		this.waittime = waittime;
-	}
-
-	public boolean isPauseBeforeLine() {
-		return pauseBeforeLine;
-	}
-
-	public boolean isPauseBeforeScan() {
-		return pauseBeforeScan;
-	}
-
-	public void setPauseBeforeScan(boolean pauseBeforeScan) {
-		this.pauseBeforeScan = pauseBeforeScan;
-	}
-
-	public void setPauseBeforeLine(boolean pauseBeforeLine) {
-		this.pauseBeforeLine = pauseBeforeLine;
-	}
-
-	public boolean isPauseBeforePoint() {
-		return pauseBeforePoint;
-	}
-
-	public void setPauseBeforePoint(boolean pauseBeforePoint) {
-		this.pauseBeforePoint = pauseBeforePoint;
 	}
 
 	/**
@@ -269,6 +177,28 @@ public class TopupChecker extends ScannableBase {
 
 	public double getCollectionTime() {
 		return collectionTime;
+	}
+
+	/**
+	 * @return the timeout in seconds to wait for the topup to finish
+	 */
+	public double getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(double timeout) {
+		this.timeout = timeout;
+	}
+
+	/**
+	 * @return the waittime after data collection can resume to allow beam to stabilise.
+	 */
+	public double getWaittime() {
+		return waittime;
+	}
+
+	public void setWaittime(double waittime) {
+		this.waittime = waittime;
 	}
 
 }
