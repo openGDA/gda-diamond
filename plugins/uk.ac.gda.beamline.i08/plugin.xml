@@ -121,12 +121,12 @@
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:org.eclipse.ui">
+            locationURI="menu:window?after=showView">
          <menu
                label="Area Detectors">
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="epg"
+                  label="Andor"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
@@ -134,21 +134,11 @@
                </parameter>
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//epg//BL08I-EA-DET-01@">
+                     value="pv//Andor//BL08I-EA-DET-01@">
                </parameter>
             </command>
          </menu>
       </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <view
-            category="uk.ac.gda.epics.adviewer.view.category"
-            class="uk.ac.gda.epics.adviewer.views.MJPegView"
-            id="uk.ac.gda.epics.adviewer.mpegview"
-            name="MJPeg View"
-            restorable="true">
-      </view>
    </extension>
   
   
