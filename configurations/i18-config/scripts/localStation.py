@@ -5,9 +5,9 @@ from gda.data.fileregistrar import IcatXMLCreator
 from gda.device.monitor import DummyMonitor
 from gda.device.scannable import DummyScannable
 from gda.device.scannable import TopupScannable
-from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
+from gda.device.scannable import I18BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
-from gda.device.scannable import BeamMonitorScannableForLineRepeat
+from gda.device.scannable import LineRepeatingBeamMonitor
 from gda.factory import Finder
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
 from microfocus.map_select import MapSelect
@@ -34,23 +34,24 @@ print "Initialization Started";
 finder = Finder.getInstance()
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    print "Create topup , beam, detector-filling, beam monitors to pause and resume scans"
-    topupMonitor = TopupScannable()
+    print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
+    topupMonitor = TopupChecker()
     topupMonitor.setName("topupMonitor")
     topupMonitor.setTolerance(1.0)
     topupMonitor.setWaittime(1)
     topupMonitor.setTimeout(600)
-    #topupMonitor.setTopupPV("SR-CS-FILL-01:COUNTDOWN")
-    topupMonitor.setScannableToBeMonitored(epicsTopupMonitor)
+    topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
+    topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
     topupMonitor.configure()
 
-    #beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['BL18I-OP-DCM-01:FPMTR:FFB.FBON'],['BL18I-OP-DCM-01:FRMTR:FFB.FBON'])
-    beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA', [''])
-    beam.setName("beam")
-    beam.setTimeout(7200)
-    beam.setWaittime(60)
-    beam.configure()
-
+    beamMonitor = I18BeamMonitor()
+    beamMonitor.setName("beamMonitor")
+    beamMonitor.setTimeout(7200)
+    beamMonitor.setWaittime(60)
+    beamMonitor.configure()
+    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
+    traj3ContiniousX.setBeamMonitor(beamMonitor)
+    
     detectorFillingMonitor = DetectorFillingMonitorScannable()
     detectorFillingMonitor.setName("detectorFillingMonitor")
     detectorFillingMonitor.setTimeout(7200)
@@ -58,7 +59,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     detectorFillingMonitor.setDuration(25.0)
     detectorFillingMonitor.configure()
 
-    trajBeamMonitor = BeamMonitorScannableForLineRepeat(beam)
+    trajBeamMonitor = LineRepeatingBeamMonitor(beam)
     trajBeamMonitor.setName("trajBeamMonitor")
     trajBeamMonitor.setTolerance(5)
     trajBeamMonitor.setWaittime(1)
@@ -67,9 +68,9 @@ if (LocalProperties.get("gda.mode") == 'live'):
     trajBeamMonitor.setLevel(1)
 
     add_default topupMonitor
-    add_default beam
-#     add_default detectorFillingMonitor
+    add_default beamMonitor
     add_default trajBeamMonitor
+    # don't add detectorFillingMonitor as a default
 
     archiver = IcatXMLCreator()
     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
@@ -107,7 +108,7 @@ raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A,
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    xas.addMonitors(topupMonitor, beam, detectorFillingMonitor, trajBeamMonitor)
+    xas.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor, trajBeamMonitor)
 else:
     xas.addMonitors(None, None, None, None)
 
