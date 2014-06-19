@@ -22,30 +22,6 @@
 	<bean id="andor_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="pvProvider" ref="andor_adbase_pvProvider" />
 	</bean>
-	
-	<!-- <bean id="d1_cam_base" class="gda.spring.V17ADBaseFactoryBean">
-                <property name="prefix" value="BL08I-EA-DET-01:CAM:" />
-        </bean>
-
-        <bean id="d1_arr" class="gda.spring.V17NDArrayFactoryBean">
-                <property name="prefix" value="BL08I-EA-DET-01:ARR:" />
-        </bean>
-
-        <bean id="d1_stat" class="gda.spring.V17NDStatsFactoryBean">
-                <property name="prefix" value="BL08I-EA-DET-01:STAT:" />
-        </bean>
-
-        <bean id="d1_proc" class="gda.spring.V17NDProcessFactoryBean">
-                <property name="prefix" value="BL08I-EA-DET-01:PROC:" />
-        </bean>
-
-        <bean id="d1_roi" class="gda.spring.V17NDROIFactoryBean">
-                <property name="prefix" value="BL08I-EA-DET-01:ROI:" />
-        </bean>
-
-        <bean id="d1_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
-                <property name="prefix" value="BL08I-EA-DET-01:MJPG:" />
-        </bean> -->
 
 	
 <!-- HDF5 file writers -->
@@ -58,13 +34,6 @@
 		<property name="ndFileImpl" ref="andor_ndfilehdf5_base" />
 	</bean>
 
-	<!-- NXDetector collection strategies -->
-
-	<!-- <bean id="andor_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="andor_adbase" />
-		<constructor-arg value="0" />
-	</bean> -->
-	
 <!-- XIA Fluorescence Detector -->
 	
 	<bean id="xmap_hdf5filewriter"
