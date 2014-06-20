@@ -31,7 +31,7 @@ print "-------------------------------------------------------------------------
 print "Set if scan returns to the original positions on completion."
 print "    scansReturnToOriginalPositions=0, not return to its start position (the default);"
 print "    scansReturnToOriginalPositions=1, return to its start position;"
-scansReturnToOriginalPositions=1;
+scansReturnToOriginalPositions=0;
 print
 finder=Finder.getInstance()
 
