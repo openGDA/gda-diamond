@@ -23,7 +23,6 @@ import gda.device.Scannable;
 import gda.epics.connection.EpicsChannelManager;
 import gda.epics.connection.EpicsController;
 import gda.epics.connection.InitializationListener;
-import gda.jython.commands.ScannableCommands;
 import gov.aps.jca.Channel;
 import gov.aps.jca.Channel.ConnectionState;
 
@@ -35,18 +34,18 @@ import org.slf4j.LoggerFactory;
  * <p>
  * This will pause scans if the ring current goes below 1mA or if the front-end shutter is closed.
  * <p>
- * When the beam comes back it moves the energy scannable to its current position so that the ID gap is definitely at the right place.
+ * When the beam comes back it moves the energy scannable to its current position so that the ID gap is definitely at
+ * the right place.
  */
 public class I18BeamMonitor extends BeamlineConditionMonitorBase implements InitializationListener {
 	private static final Logger logger = LoggerFactory.getLogger(I18BeamMonitor.class);
 
 	private String ringCurrentPV = "SR21C-DI-DCCT-01:SIGNAL";
-	private String shutterPV = "FE18I-RS-ABSB-02:STA";
+	private String shutterPV = "FE18I-RS-ABSB-01:STA";
 	private String[] modesToIgnore = new String[] { "Mach. Dev.", "Shutdown" };
 
 	private EpicsController controller;
 	private EpicsChannelManager channelManager;
-	private Channel machineMode;
 	private Channel portShutter;
 	private Channel ringCurrent;
 
@@ -54,14 +53,17 @@ public class I18BeamMonitor extends BeamlineConditionMonitorBase implements Init
 
 	public I18BeamMonitor(Scannable beamlineEnergyWithGapScannable) {
 		super();
+		this.inputNames = new String[0];
+		this.extraNames = new String[0];
+		this.outputFormat = new String[0];
+		this.level = 1;
 		this.beamlineEnergyWithGapScannable = beamlineEnergyWithGapScannable;
 	}
 
 	@Override
 	public void configure() {
 		this.level = 1;
-		if (shutterPV == null || shutterPV.isEmpty()
-				|| ringCurrentPV == null || ringCurrentPV.isEmpty()) {
+		if (shutterPV == null || shutterPV.isEmpty() || ringCurrentPV == null || ringCurrentPV.isEmpty()) {
 			logger.error(getName() + " cannot configure as the PVs are not defined.");
 		}
 
@@ -83,19 +85,8 @@ public class I18BeamMonitor extends BeamlineConditionMonitorBase implements Init
 		}
 	}
 
-	@Override
-	public void atScanEnd() throws DeviceException {
-		ScannableCommands.remove_default(this);
-	}
-
-	@Override
-	public void atCommandFailure() {
-		ScannableCommands.remove_default(this);
-	}
-
 	protected boolean isConnected() {
-		return machineMode.getConnectionState().isEqualTo(ConnectionState.CONNECTED)
-				&& portShutter.getConnectionState().isEqualTo(ConnectionState.CONNECTED)
+		return portShutter.getConnectionState().isEqualTo(ConnectionState.CONNECTED)
 				&& ringCurrent.getConnectionState().isEqualTo(ConnectionState.CONNECTED);
 	}
 

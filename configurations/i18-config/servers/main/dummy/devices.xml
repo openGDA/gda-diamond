@@ -157,4 +157,7 @@
 		<property name="speed" value="200" />
 	</bean>
 	
+	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Shutdown" />
+	</bean>
 </beans>

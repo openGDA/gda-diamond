@@ -27,7 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Similar to I18BeamMonitor except that it throws a RedoScanLineThrowable to repeat the line instead of pausing the scan.
+ * Similar to I18BeamMonitor except that it throws a RedoScanLineThrowable to repeat the line instead of pausing the
+ * scan.
  */
 public class LineRepeatingBeamMonitor extends I18BeamMonitor {
 
@@ -35,6 +36,10 @@ public class LineRepeatingBeamMonitor extends I18BeamMonitor {
 
 	public LineRepeatingBeamMonitor(Scannable beamlineEnergyWithGapScannable) {
 		super(beamlineEnergyWithGapScannable);
+		this.inputNames = new String[0];
+		this.extraNames = new String[0];
+		this.outputFormat = new String[0];
+		this.level = 1;
 	}
 
 	/**
@@ -55,8 +60,8 @@ public class LineRepeatingBeamMonitor extends I18BeamMonitor {
 		}
 
 		if (!machineHasCurrent()) {
-				sendAndPrintMessage("Ring has no current : redo this line");
-				throwRedoScanLineThrowable();
+			sendAndPrintMessage("Ring has no current : redo this line");
+			throwRedoScanLineThrowable();
 		}
 
 		while (!portShutterOpen()) {

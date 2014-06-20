@@ -32,7 +32,7 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 	public void prepareForContinuousMove() throws DeviceException {
 		super.prepareForContinuousMove();
 		
-		// after we have moved the motors into place before the data collection begins, test the beam and topup. 
+		// just before the data collection begins, test the beam and topup. 
 		if (beamMonitor != null){
 			beamMonitor.setPauseBeforePoint(true);
 			beamMonitor.atPointStart();

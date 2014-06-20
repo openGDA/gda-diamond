@@ -29,6 +29,14 @@ public class DetectorFillingMonitorScannable extends BeamlineConditionMonitorBas
 	private int startTime = 9;
 	private boolean fillingOverride = false;
 
+	public DetectorFillingMonitorScannable() {
+		super();
+		this.inputNames = new String[0];
+		this.extraNames = new String[0];
+		this.outputFormat = new String[0];
+		this.level = 1;
+	}
+
 	@Override
 	public void configure() {
 		// nothing to configure

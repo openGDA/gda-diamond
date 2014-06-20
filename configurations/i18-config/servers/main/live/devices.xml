@@ -443,4 +443,8 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="machineModeMonitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+		<property name="local" value="false" />
+	</bean>
 </beans>

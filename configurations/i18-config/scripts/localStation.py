@@ -4,7 +4,7 @@ from gda.data import PathConstructor
 from gda.data.fileregistrar import IcatXMLCreator
 from gda.device.monitor import DummyMonitor
 from gda.device.scannable import DummyScannable
-from gda.device.scannable import TopupScannable
+from gda.device.scannable import TopupChecker
 from gda.device.scannable import I18BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.device.scannable import LineRepeatingBeamMonitor
@@ -40,31 +40,29 @@ if (LocalProperties.get("gda.mode") == 'live'):
     topupMonitor.setTolerance(1.0)
     topupMonitor.setWaittime(1)
     topupMonitor.setTimeout(600)
+    topupMonitor.setMachineModeMonitor(machineModeMonitor)
     topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
     topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
     topupMonitor.configure()
 
-    beamMonitor = I18BeamMonitor()
+    beamMonitor = I18BeamMonitor(energy)
     beamMonitor.setName("beamMonitor")
-    beamMonitor.setTimeout(7200)
-    beamMonitor.setWaittime(60)
+    beamMonitor.setMachineModeMonitor(machineModeMonitor)
     beamMonitor.configure()
     traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
-    traj3ContiniousX.setBeamMonitor(beamMonitor)
+    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
+#     traj3ContiniousX.setBeamMonitor(beamMonitor)
     
     detectorFillingMonitor = DetectorFillingMonitorScannable()
     detectorFillingMonitor.setName("detectorFillingMonitor")
-    detectorFillingMonitor.setTimeout(7200)
     detectorFillingMonitor.setStartTime(9)
     detectorFillingMonitor.setDuration(25.0)
     detectorFillingMonitor.configure()
 
-    trajBeamMonitor = LineRepeatingBeamMonitor(beam)
+    trajBeamMonitor = LineRepeatingBeamMonitor(beamMonitor)
     trajBeamMonitor.setName("trajBeamMonitor")
-    trajBeamMonitor.setTolerance(5)
-    trajBeamMonitor.setWaittime(1)
-    trajBeamMonitor.setTimeout(7200)
     trajBeamMonitor.configure()
+    trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
     trajBeamMonitor.setLevel(1)
 
     add_default topupMonitor
@@ -95,8 +93,13 @@ detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig)
 samplePreparer =   I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer =   I18OutputPreparer(datawriterconfig)
 
-#xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
-xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+
+# user mode on the live beamline, use energy
+if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
+    xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+# else use energy_nogap
+else :
+    xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
 non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
 # while traj stage 3 hardware is switched off
