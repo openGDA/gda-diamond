@@ -54,6 +54,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import uk.ac.gda.exafs.data.AlignmentParametersBean;
+import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -326,7 +328,7 @@ public abstract class EdeExperiment implements IObserver {
 			writer = createFileWritter();
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
 			writer.writeDataFile();
-			log("EDE single spectrum experiment complete.");
+			log("Scan data written to file.");
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {
 			logger.error("Error creating data files", ex);
@@ -345,8 +347,15 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	private void addMetaData() {
-		String headerText = getHeaderText();
-		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", headerText,
+		StringBuilder metadataText = new StringBuilder();
+		// Alignment parameters
+		Object result = InterfaceProvider.getJythonNamespace()
+				.getFromJythonNamespace(AlignmentParametersModel.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
+		if (result != null && (result instanceof AlignmentParametersBean)) {
+			metadataText.append(result.toString());
+		}
+		metadataText.append(getHeaderText());
+		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", metadataText.toString(),
 				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
 		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
 	}

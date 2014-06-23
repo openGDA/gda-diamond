@@ -55,7 +55,7 @@
 	</bean>
 
 	<!-- Used in raster_map.py only -->
-	<bean id="traj3ContiniousX" class="gda.device.scannable.EpicsSingleTrajectoryScannable">
+	<bean id="traj3ContiniousX" class="gda.device.scannable.I18SingleTrajectoryScannable">
 		<property name="protectionLevel" value="0" />
 		<property name="trajectoryIndex" value="1" />
 		<property name="mode" value="2" />

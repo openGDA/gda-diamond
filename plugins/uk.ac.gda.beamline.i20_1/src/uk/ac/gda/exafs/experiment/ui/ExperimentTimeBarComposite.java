@@ -32,6 +32,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
+import uk.ac.gda.client.ResourceComposite;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.experiment.ui.data.CollectionModelRenderer;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMarkerRenderer;
 import uk.ac.gda.exafs.experiment.ui.data.SpectrumModel;
@@ -39,8 +41,6 @@ import uk.ac.gda.exafs.experiment.ui.data.TimeIntervalDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupsScaleRenderer;
-import uk.ac.gda.exafs.ui.ResourceComposite;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarker;

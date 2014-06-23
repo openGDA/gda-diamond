@@ -49,11 +49,11 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class SampleStageMotorsComposite extends Composite {

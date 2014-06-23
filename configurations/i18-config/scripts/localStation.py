@@ -4,10 +4,10 @@ from gda.data import PathConstructor
 from gda.data.fileregistrar import IcatXMLCreator
 from gda.device.monitor import DummyMonitor
 from gda.device.scannable import DummyScannable
-from gda.device.scannable import TopupScannable
-from gda.device.scannable import BeamMonitorWithFeedbackSwitchScannable
+from gda.device.scannable import TopupChecker
+from gda.device.scannable import I18BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
-from gda.device.scannable import BeamMonitorScannableForLineRepeat
+from gda.device.scannable import LineRepeatingBeamMonitor
 from gda.factory import Finder
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
 from microfocus.map_select import MapSelect
@@ -34,42 +34,41 @@ print "Initialization Started";
 finder = Finder.getInstance()
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    print "Create topup , beam, detector-filling, beam monitors to pause and resume scans"
-    topupMonitor = TopupScannable()
+    print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
+    topupMonitor = TopupChecker()
     topupMonitor.setName("topupMonitor")
     topupMonitor.setTolerance(1.0)
     topupMonitor.setWaittime(1)
     topupMonitor.setTimeout(600)
-    #topupMonitor.setTopupPV("SR-CS-FILL-01:COUNTDOWN")
-    topupMonitor.setScannableToBeMonitored(epicsTopupMonitor)
+    topupMonitor.setMachineModeMonitor(machineModeMonitor)
+    topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
+    topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
     topupMonitor.configure()
 
-    #beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA',['BL18I-OP-DCM-01:FPMTR:FFB.FBON'],['BL18I-OP-DCM-01:FRMTR:FFB.FBON'])
-    beam = BeamMonitorWithFeedbackSwitchScannable('FE18I-RS-ABSB-02:STA', [''])
-    beam.setName("beam")
-    beam.setTimeout(7200)
-    beam.setWaittime(60)
-    beam.configure()
-
+    beamMonitor = I18BeamMonitor(energy)
+    beamMonitor.setName("beamMonitor")
+    beamMonitor.setMachineModeMonitor(machineModeMonitor)
+    beamMonitor.configure()
+    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
+    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
+#     traj3ContiniousX.setBeamMonitor(beamMonitor)
+    
     detectorFillingMonitor = DetectorFillingMonitorScannable()
     detectorFillingMonitor.setName("detectorFillingMonitor")
-    detectorFillingMonitor.setTimeout(7200)
     detectorFillingMonitor.setStartTime(9)
     detectorFillingMonitor.setDuration(25.0)
     detectorFillingMonitor.configure()
 
-    trajBeamMonitor = BeamMonitorScannableForLineRepeat(beam)
+    trajBeamMonitor = LineRepeatingBeamMonitor(beamMonitor)
     trajBeamMonitor.setName("trajBeamMonitor")
-    trajBeamMonitor.setTolerance(5)
-    trajBeamMonitor.setWaittime(1)
-    trajBeamMonitor.setTimeout(7200)
     trajBeamMonitor.configure()
+    trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
     trajBeamMonitor.setLevel(1)
 
     add_default topupMonitor
-    add_default beam
-#     add_default detectorFillingMonitor
+    add_default beamMonitor
     add_default trajBeamMonitor
+    # don't add detectorFillingMonitor as a default
 
     archiver = IcatXMLCreator()
     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
@@ -78,34 +77,41 @@ else:
     traj1xmap = finder.find("traj1xmap")
     traj3xmap = finder.find("traj3xmap")
 
-XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
-commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
-ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
+rcpController =                finder.find("RCPController")
+XASLoggingScriptController =   finder.find("XASLoggingScriptController")
+commandQueueProcessor =        finder.find("commandQueueProcessor")
+ExafsScriptObserver =          finder.find("ExafsScriptObserver")
 auto_mDeg_idGap_mm_converter = finder.find("auto_mDeg_idGap_mm_converter")
+loggingcontroller =            finder.find("XASLoggingScriptController")
+datawriterconfig =             finder.find("datawriterconfig")
+original_header =              finder.find("datawriterconfig").getHeader()[:]
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
-vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
-
-loggingcontroller = Finder.getInstance().find("XASLoggingScriptController")
-datawriterconfig = Finder.getInstance().find("datawriterconfig")
-original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
+vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
 
 detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig)
-samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
-#samplePreparer = I18SamplePreparer(rcpController, table_x, table_y, table_z, D7A, D7B, kb_vfm_x)
-outputPreparer = I18OutputPreparer(datawriterconfig)
+samplePreparer =   I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
+outputPreparer =   I18OutputPreparer(datawriterconfig)
 
-xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
-#xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+
+# user mode on the live beamline, use energy
+if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
+    xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+# else use energy_nogap
+else :
+    xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
 non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
-raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid)
-raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader)
+# while traj stage 3 hardware is switched off
+#raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid)
+#raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader)
+raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, None, raster_counterTimer01, raster_xmap, traj1PositionReader, None, raster_xspress, buffered_cid)
+raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,None, None, traj1SampleX, None, raster_xspress, traj1PositionReader, None)
 
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    xas.addMonitors(topupMonitor, beam, detectorFillingMonitor, trajBeamMonitor)
+    xas.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor, trajBeamMonitor)
 else:
     xas.addMonitors(None, None, None, None)
 

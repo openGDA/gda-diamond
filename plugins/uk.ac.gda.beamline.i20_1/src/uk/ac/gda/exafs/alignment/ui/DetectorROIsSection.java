@@ -46,9 +46,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
+import uk.ac.gda.client.ResourceComposite;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.ui.ResourceComposite;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 
 public class DetectorROIsSection extends ResourceComposite {
 

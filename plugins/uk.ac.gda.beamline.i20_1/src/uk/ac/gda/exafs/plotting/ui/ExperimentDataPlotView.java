@@ -28,15 +28,15 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
+import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.client.plotting.ScanDataPlotterComposite;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
 import uk.ac.gda.exafs.plotting.model.ExperimentDataNode;
-import uk.ac.gda.exafs.ui.data.UIHelper;
-import uk.ac.gda.plotting.ScanDataPlotter;
 
 public class ExperimentDataPlotView extends ViewPart {
 	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";
-	ScanDataPlotter scanDataPlotter;
+	ScanDataPlotterComposite scanDataPlotter;
 
 	protected DataBindingContext ctx;
 
@@ -52,7 +52,7 @@ public class ExperimentDataPlotView extends ViewPart {
 		Composite composite = new Composite(parent, SWT.None);
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		ExperimentDataNode rootNode = new ExperimentDataNode();
-		scanDataPlotter = new ScanDataPlotter(composite, SWT.None, this, rootNode);
+		scanDataPlotter = new ScanDataPlotterComposite(composite, SWT.None, this, rootNode);
 		scanDataPlotter.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Composite xAxisDataSwitchComposite = new Composite(composite, SWT.None);
 		xAxisDataSwitchComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
