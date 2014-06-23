@@ -5,32 +5,7 @@
 
 <!-- position compare -->
 
-	<bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable">
-		<property name="motor" ref="energy_motor" />
-		<property name="lowerGdaLimits" value="2000" />
-		<property name="upperGdaLimits" value="40000" />
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-			</list>
-		</property>
-		<property name="outputModePV" value="BL18B-OP-DCM-01:PC:CTRL" />
-		<property name="startPV" value="BL18B-OP-DCM-01:PC:START" />
-		<property name="stopPV" value="BL18B-OP-DCM-01:PC:STOP" />
-		<property name="stepPV" value="BL18B-OP-DCM-01:PC:STEP" />
-		<property name="accelPV" value="BL18B-OP-DCM-01:BRAGG:MPACCEL:RBV" />
-		<property name="xtalSwitchPV" value="BL18B-OP-DCM-01:XTAL_SWITCH" />
-		<property name="braggCurrentSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED" />
-		<property name="braggMaxSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" />
-		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" />
-		<property name="stepIncDegPV" value="BL18B-OP-DCM-01:PC:STEP" />
-		<property name="stepIncDemandPV" value="BL18B-OP-DCM-01:PC:CONVSTEP" />
-		<property name="numPulsesPV" value="BL18B-OP-DCM-01:PC:NPULSES" />
-	</bean>
-
-<!-- zebra -->
-
-<!-- 	<bean id="qexafs_energy" class="gda.device.scannable.zebra.ZebraQexafsScannable"> -->
+<!-- 	<bean id="qexafs_energy" class="gda.device.scannable.QexafsScannable"> -->
 <!-- 		<property name="motor" ref="energy_motor" /> -->
 <!-- 		<property name="lowerGdaLimits" value="2000" /> -->
 <!-- 		<property name="upperGdaLimits" value="40000" /> -->
@@ -39,12 +14,37 @@
 <!-- 				<value>%.2f</value> -->
 <!-- 			</list> -->
 <!-- 		</property> -->
+<!-- 		<property name="outputModePV" value="BL18B-OP-DCM-01:PC:CTRL" /> -->
+<!-- 		<property name="startPV" value="BL18B-OP-DCM-01:PC:START" /> -->
+<!-- 		<property name="stopPV" value="BL18B-OP-DCM-01:PC:STOP" /> -->
+<!-- 		<property name="stepPV" value="BL18B-OP-DCM-01:PC:STEP" /> -->
 <!-- 		<property name="accelPV" value="BL18B-OP-DCM-01:BRAGG:MPACCEL:RBV" /> -->
 <!-- 		<property name="xtalSwitchPV" value="BL18B-OP-DCM-01:XTAL_SWITCH" /> -->
 <!-- 		<property name="braggCurrentSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED" /> -->
 <!-- 		<property name="braggMaxSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" /> -->
 <!-- 		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" /> -->
+<!-- 		<property name="stepIncDegPV" value="BL18B-OP-DCM-01:PC:STEP" /> -->
+<!-- 		<property name="stepIncDemandPV" value="BL18B-OP-DCM-01:PC:CONVSTEP" /> -->
+<!-- 		<property name="numPulsesPV" value="BL18B-OP-DCM-01:PC:NPULSES" /> -->
 <!-- 	</bean> -->
+
+<!-- zebra -->
+
+	<bean id="qexafs_energy" class="gda.device.scannable.zebra.ZebraQexafsScannable">
+		<property name="motor" ref="energy_motor" />
+		<property name="lowerGdaLimits" value="2000" />
+		<property name="upperGdaLimits" value="40000" />
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+		<property name="accelPV" value="BL18B-OP-DCM-01:BRAGG:MPACCEL:RBV" />
+		<property name="xtalSwitchPV" value="BL18B-OP-DCM-01:XTAL_SWITCH" />
+		<property name="braggCurrentSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED" />
+		<property name="braggMaxSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" />
+		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" />
+	</bean>
 
 	<bean id="qexafs_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
 		<property name="xmap" ref="xmapMca" />
