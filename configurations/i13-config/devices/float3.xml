@@ -19,7 +19,7 @@
 
 
 	<bean id="float3_cam" class="gda.device.detector.NXDetector">
-		<property name="name" value="pco1_hw_hdf" />
+		<property name="name" value="float3_cam" />
 		<property name="collectionStrategy" ref="float3_cam_collection_strategy" />
 		<property name="additionalPluginList">
 			<list>
