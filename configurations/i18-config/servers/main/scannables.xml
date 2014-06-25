@@ -661,5 +661,4 @@
 	<bean id="thor_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="thor_y_motor" />
 	</bean>
-
 </beans>

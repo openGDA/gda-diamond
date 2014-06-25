@@ -72,8 +72,8 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	public static final String ELEMENT_ENERGY_PROP_NAME = "energy";
 
-	public static final String OUTPUT_BEAN_NAME = "beamlinealignmentresults";
-	public static final String INPUT_BEAN_NAME = "beamlinealignmentparameters";
+	public static final String ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME = "beamlinealignmentresults";
+	public static final String ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME = "beamlinealignmentparameters";
 
 	private static final String POWER_PROP_NAME = "power";
 	private Double power = null; // W
@@ -257,17 +257,17 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		}
 		try {
 			AlignmentParametersBean bean = new AlignmentParametersBean(crystalType.name(), crystalCut.name(), q.getQValue(), DetectorModel.INSTANCE.getCurrentDetector().getName(), edge);
-			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(INPUT_BEAN_NAME, bean);
+			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME, bean);
 			InterfaceProvider.getCommandRunner().runCommand(
-					OUTPUT_BEAN_NAME + "=None;from alignment import alignment_parameters; " + OUTPUT_BEAN_NAME
-					+ " = alignment_parameters.calc_parameters(" + INPUT_BEAN_NAME + ")");
+					ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + "=None;from alignment import alignment_parameters; " + ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME
+					+ " = alignment_parameters.calc_parameters(" + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + ")");
 			// give the command a chance to run.
 			boolean waitForResult = true;
 			Object result = null;
 			while (waitForResult) {
 				Thread.sleep(COMMAND_WAIT_TIME_IN_MILLI_SEC);
 				result = InterfaceProvider.getJythonNamespace()
-						.getFromJythonNamespace(OUTPUT_BEAN_NAME);
+						.getFromJythonNamespace(ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
 				if (result != null && (result instanceof AlignmentParametersBean)) {
 					waitForResult = false;
 				}
