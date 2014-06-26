@@ -16,6 +16,12 @@
 		<property name="numberOfChannelsToRead" value="4" />
 	</bean>
 	
+    <bean id="qexafs_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
+        <property name="controller" ref="x3c" />
+        <property name="numberOfChannelsToRead" value="4" />
+    </bean>
+	
+	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
         <property name="serviceName" value="gda/xspress3" />
         <property name="service" ref="xspress3" />
