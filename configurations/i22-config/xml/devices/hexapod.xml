@@ -267,12 +267,12 @@
 			<property name="local" value="true" />
             <property name="groupMembers">
                 <list>
-                	<ref bean="hexapod_x_objectoffset"/>"
-                	<ref bean="hexapod_y_objectoffset"/>"
-                	<ref bean="hexapod_z_objectoffset"/>"
-                	<ref bean="hexapod_pitch_objectoffset"/>"
-                	<ref bean="hexapod_roll_objectoffset"/>"
-                	<ref bean="hexapod_yaw_objectoffset"/>"
+                	<ref bean="hexapod_x_objectoffset"/>
+                	<ref bean="hexapod_y_objectoffset"/>
+                	<ref bean="hexapod_z_objectoffset"/>
+                	<ref bean="hexapod_pitch_objectoffset"/>
+                	<ref bean="hexapod_roll_objectoffset"/>
+                	<ref bean="hexapod_yaw_objectoffset"/>
                 </list>
             </property>
         </bean>
