@@ -15,6 +15,7 @@ import sys
 #from rasor.init_scan_commands_and_processing import * 
 from gda.configuration.properties import LocalProperties
 from gdascripts.messages import handle_messages
+from gdascripts.pd import epics_pds
 
 # setup standard scans with processing
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
@@ -115,11 +116,11 @@ try:
     ips_field.setLevel(6)
     ips_sweeprate.setLevel(6)
     itc2.setLevel(6)
+    magj1yrot_off = epics_pds.EpicsReadWritePVClass('magj1yrot_off', 'BL10J-EA-MAG-01:INSERT:ROTY.OFF', 'deg', '%.6f')
 except:
     localStation_exception(sys.exc_info(), "initialising high field magnet")
 
 ## temporary fix for inability to perform caput with callback on SR10I-MO-SERVC-01:BLGAPMTR.VAL
-from gdascripts.pd import epics_pds
 idd_gap_temp = epics_pds.SingleEpicsPositionerClass("idd_gap_temp",
                     "SR10I-MO-SERVC-01:BLGAPMTR.VAL", 
                     "SR10I-MO-SERVC-01:BLGAPMTR.RBV", 
