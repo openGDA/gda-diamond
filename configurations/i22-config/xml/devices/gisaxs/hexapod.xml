@@ -54,8 +54,22 @@
         </bean>
         <bean id="hexapod_yaw" class="gda.device.scannable.ScannableMotor">
                 <property name="motor" ref="hexapod_yaw_motor" />
-		<property name="local" value="true" />
+				<property name="local" value="true" />
         </bean>
+
+		<bean id="hexapod_pos" class="gda.scannable.scannablegroup.ScannableGroup">
+			<property name="local" value="true"/>
+			<property name="groupMembers">
+				<list>
+					<ref bean="hexapod_x"/>
+					<ref bean="hexapod_y"/>
+					<ref bean="hexapod_z"/>
+					<ref bean="hexapod_roll"/>
+					<ref bean="hexapod_pitch"/>
+					<ref bean="hexapod_yaw"/>
+				</list>
+			</property>
+		</bean>
 
         <bean id="hexapod_defer" class="gda.device.controlpoint.EpicsControlPoint">
                 <property name="pvNameSetPoint" value="BL22I-MO-HEX-01:DEFER" />
@@ -70,32 +84,33 @@
         </bean>
         
         <bean id="hexapod_l1temp" class="gda.device.monitor.EpicsMonitor">
-        	<property name="unit" value="U+B0C"/>
+        	<property name="deviceName" value="Leg 1 temp"/>
+        	<property name="unit" value="celsius"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:L1TEMP"/>
         </bean>
 
         <bean id="hexapod_l2temp" class="gda.device.monitor.EpicsMonitor">
-        	<property name="unit" value="U+B0C"/>
+        	<property name="unit" value="celsius"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:L2TEMP"/>
         </bean>
 
         <bean id="hexapod_l3temp" class="gda.device.monitor.EpicsMonitor">
-        	<property name="unit" value="U+B0C"/>
+        	<property name="unit" value="celsius"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:L3TEMP"/>
         </bean>
 
         <bean id="hexapod_l4temp" class="gda.device.monitor.EpicsMonitor">
-        	<property name="unit" value="U+B0C"/>
+        	<property name="unit" value="celsius"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:L4TEMP"/>
         </bean>
 
         <bean id="hexapod_l5temp" class="gda.device.monitor.EpicsMonitor">
-        	<property name="unit" value="U+B0C"/>
+        	<property name="unit" value="celsius"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:L5TEMP"/>
         </bean>
 
         <bean id="hexapod_l6temp" class="gda.device.monitor.EpicsMonitor">
-        	<property name="unit" value="U+B0C"/>
+        	<property name="unit" value="celsius"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:L6TEMP"/>
         </bean>
         
@@ -281,12 +296,13 @@
 		<property name="local" value="true" />
                 <property name="groupMembers">
                         <list>
-                                <ref bean="hexapod_x" />
+                                <!--<ref bean="hexapod_x" />
                                 <ref bean="hexapod_y" />
                                 <ref bean="hexapod_z" />
                                 <ref bean="hexapod_pitch" />
                                 <ref bean="hexapod_roll" />
-                                <ref bean="hexapod_yaw" />
+                                <ref bean="hexapod_yaw" />-->
+                                <ref bean="hexapod_pos" />
                                 <ref bean="hexapod_rawpos"/>
                                 <ref bean="hexapod_temps"/>
                                 <ref bean="hexapod_useroffset"/>

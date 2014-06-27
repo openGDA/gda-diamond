@@ -36,6 +36,12 @@
 <import resource="bsaxs-axes.xml" />
 <import resource="hexapod.xml" />
 -->
+
+<!-- comment out for non-gisaxs beamline use -->
+<!-- gisaxs must also be removed from i22_server_nexus.xml -->
+<import resource="gisaxs/gisaxs.xml" />
+
+
 <import resource="microfocus/microfocus.xml" />
 	<bean id="ringcurrent" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
