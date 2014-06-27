@@ -18,6 +18,7 @@
 
 package gda.scan.ede.datawriters;
 
+import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
@@ -145,25 +146,25 @@ public class EdeDataConstants {
 			return metaDataset;
 		}
 
-		public static String toMetadataString(DoubleDataset data) {
+		public static String toMetadataString(AbstractDataset data) {
 			StringBuilder metadataStr = new StringBuilder();
 			int noOfGroups = data.getShape()[0];
 			for (int i = 0; i < noOfGroups; i++) {
-				metadataStr.append(String.format("Group: %d\t", (int) data.get(i, 0)));
-				metadataStr.append(String.format("Number of spectra: %d\t", (int) data.get(i, 1)));
-				metadataStr.append(String.format("Accumulation time: %.4fs\t", data.get(i, 2)));
-				metadataStr.append(String.format("Time per spectrum: %.4fs\t", data.get(i, 3)));
-				metadataStr.append(String.format("Preceding delay: %.4f\t", data.get(i, 4)));
-				metadataStr.append(String.format("Number of accumulations: %d", (int) data.get(i, 5)));
+				metadataStr.append(String.format("Group: %d\t",                 data.getInt(i, 0)));
+				metadataStr.append(String.format("Number of spectra: %d\t",     data.getInt(i, 1)));
+				metadataStr.append(String.format("Accumulation time: %.4fs\t",  data.getDouble(i, 2)));
+				metadataStr.append(String.format("Time per spectrum: %.4fs\t",  data.getDouble(i, 3)));
+				metadataStr.append(String.format("Preceding delay: %.4f\t",     data.getDouble(i, 4)));
+				metadataStr.append(String.format("Number of accumulations: %d", data.getInt(i, 5)));
 				metadataStr.append("\n");
 			}
 			return DataHelper.removeLastChar(metadataStr).toString();
 		}
 
-		public static TimingGroupMetadata[] toTimingGroupMetaData(DoubleDataset data) {
+		public static TimingGroupMetadata[] toTimingGroupMetaData(AbstractDataset data) {
 			TimingGroupMetadata[] groups =  new TimingGroupMetadata[data.getShape()[0]];
 			for (int i = 0; i < groups.length; i++) {
-				groups[i] = new TimingGroupMetadata((int) data.get(i, 0), (int) data.get(i, 1), data.get(i, 2), data.get(i, 3), data.get(i, 4), (int) data.get(i, 5));
+				groups[i] = new TimingGroupMetadata( data.getInt(i, 0), data.getInt(i, 1), data.getDouble(i, 2), data.getDouble(i, 3), data.getDouble(i, 4), data.getInt(i, 5));
 			}
 			return groups;
 		}

@@ -31,17 +31,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+// TODO FIXME Ideally do not make concrete reference
+// to HDF implementation.
 import ncsa.hdf.object.Dataset;
-import ncsa.hdf.object.Datatype;
-import ncsa.hdf.object.Group;
 import ncsa.hdf.object.HObject;
 
+import org.dawb.hdf5.H5Utils;
 import org.dawb.hdf5.HierarchicalDataFactory;
 import org.dawb.hdf5.HierarchicalDataFileUtils;
 import org.dawb.hdf5.IHierarchicalDataFile;
 import org.dawb.hdf5.Nexus;
 import org.dawb.hdf5.nexus.NexusUtils;
-import org.dawnsci.io.h5.H5Utils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.nexusformat.NexusException;
 import org.nexusformat.NexusFile;
@@ -51,7 +51,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
@@ -71,42 +70,42 @@ public class TimeResolvedDataFileHelper {
 
 	private final String nexusfileName;
 
-	private DoubleDataset itNormalisedWithI0iData = null;
-	private DoubleDataset itNormalisedWithI0fData = null;
-	private DoubleDataset itNormalisedWithAvgI0iAndI0fData = null;
+	private AbstractDataset itNormalisedWithI0iData = null;
+	private AbstractDataset itNormalisedWithI0fData = null;
+	private AbstractDataset itNormalisedWithAvgI0iAndI0fData = null;
 
 
-	private DoubleDataset timeAxisData;
-	private DoubleDataset groupAxisData;
+	private AbstractDataset timeAxisData;
+	private AbstractDataset groupAxisData;
 
-	private DoubleDataset i0darkDataSet = null;
+	private AbstractDataset i0darkDataSet = null;
 
-	private DoubleDataset i0iDataSet = null;
-	private DoubleDataset i0iCorrectedDataSet = null;
+	private AbstractDataset i0iDataSet = null;
+	private AbstractDataset i0iCorrectedDataSet = null;
 
-	private DoubleDataset itDarkData = null;
+	private AbstractDataset itDarkData = null;
 
-	private DoubleDataset itCorrectedDataSet = null;
-	private DoubleDataset itData = null;
-
-
-	private DoubleDataset i0fData = null;
-	private DoubleDataset i0fCorrectedDataSet = null;
-
-	private DoubleDataset i0iAndI0fCorrectedAvgData = null;
-
-	private DoubleDataset iRefDarkData = null;
+	private AbstractDataset itCorrectedDataSet = null;
+	private AbstractDataset itData = null;
 
 
-	private DoubleDataset i0ForIRefData = null;
-	private  DoubleDataset i0ForIRefCorrectedData = null;
+	private AbstractDataset i0fData = null;
+	private AbstractDataset i0fCorrectedDataSet = null;
 
-	private DoubleDataset iRefidata = null;
-	private DoubleDataset iRefiCorrecteddata = null;
-	private DoubleDataset iReffdata = null;
-	private DoubleDataset iReffCorrecteddata = null;
-	private DoubleDataset iReffNormalisedData = null;
-	private DoubleDataset iRefiNormalisedData = null;
+	private AbstractDataset i0iAndI0fCorrectedAvgData = null;
+
+	private AbstractDataset iRefDarkData = null;
+
+
+	private AbstractDataset i0ForIRefData = null;
+	private  AbstractDataset i0ForIRefCorrectedData = null;
+
+	private AbstractDataset iRefidata = null;
+	private AbstractDataset iRefiCorrecteddata = null;
+	private AbstractDataset iReffdata = null;
+	private AbstractDataset iReffCorrecteddata = null;
+	private AbstractDataset iReffNormalisedData = null;
+	private AbstractDataset iRefiNormalisedData = null;
 
 	public TimeResolvedDataFileHelper(String nexusfileName) {
 		this.nexusfileName = nexusfileName;
@@ -116,8 +115,7 @@ public class TimeResolvedDataFileHelper {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
 
-			HObject itDataNode = file.getData(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
-			file.setAttribute(itDataNode, AVG_ATTRIBUTE_NAME, DataHelper.toString(spectrumToAvg));
+			file.setAttribute(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME, AVG_ATTRIBUTE_NAME, DataHelper.toString(spectrumToAvg));
 		} finally {
 			file.close();
 		}
@@ -127,8 +125,7 @@ public class TimeResolvedDataFileHelper {
 	public void excludeCyclesInData(int[] cyclesToExclude) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
-			HObject itDataNode = file.getData(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
-			file.setAttribute(itDataNode, EXCLUDED_CYCLE_ATTRIBUTE_NAME, DataHelper.toString(cyclesToExclude));
+			file.setAttribute(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME, EXCLUDED_CYCLE_ATTRIBUTE_NAME, DataHelper.toString(cyclesToExclude));
 		} finally {
 			file.close();
 		}
@@ -139,7 +136,7 @@ public class TimeResolvedDataFileHelper {
 			TimingGroupMetadata[] i0ForRefTimingGroupMetaData, TimingGroupMetadata[] iRefTimingGroupMetaData, String scannablesConfiguration, String energyCalibrationDetails) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
-			Group parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
+			String parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
 			// It
 			DoubleDataset metadata = TimingGroupMetadata.toDataset(itTimingGroupMetaData);
 			addDatasetToNexus(file, EdeDataConstants.IT_COLUMN_NAME, parent, metadata, null);
@@ -207,12 +204,12 @@ public class TimeResolvedDataFileHelper {
 		return avgSpectraList;
 	}
 
-	private DoubleDataset getAverageDataset(DoubleDataset cyclicDataset, int[] excludedCycles) {
+	private AbstractDataset getAverageDataset(AbstractDataset cyclicDataset, int[] excludedCycles) {
 		int[] shape = cyclicDataset.getShape();
 		int noOfCycles = shape[0];
 		int numberOfSpectrum = shape[1];
 		int numberOfChannels = shape[2];
-		DoubleDataset avgDataset = null;
+		AbstractDataset avgDataset = null;
 		if (noOfCycles > 1) {
 			avgDataset = new DoubleDataset(new int[]{0, numberOfChannels});
 			for (int i = 0; i < numberOfSpectrum; i++) {
@@ -225,10 +222,10 @@ public class TimeResolvedDataFileHelper {
 					tempDataset = tempDataset.mean(0);
 				}
 				tempDataset.setShape(new int[]{1, numberOfChannels});
-				avgDataset = (DoubleDataset) DatasetUtils.append(avgDataset, tempDataset, 0);
+				avgDataset = DatasetUtils.append(avgDataset, tempDataset, 0);
 			}
 		} else {
-			avgDataset = (DoubleDataset) cyclicDataset.clone();
+			avgDataset = cyclicDataset.clone();
 			avgDataset.setShape(new int[]{numberOfSpectrum, numberOfChannels});
 		}
 		return avgDataset;
@@ -238,7 +235,7 @@ public class TimeResolvedDataFileHelper {
 		File nexusFile = new File(nexusfileName);
 		String assciiFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusfileName);
 
-		DoubleDataset energyData = getDataFromFile(file, this.getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME);
+		AbstractDataset energyData = H5Utils.getSet(file, this.getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME);
 
 		String scannablesDescription = file.getAttributeValue(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "@" + NexusUtils.LABEL);
 
@@ -249,7 +246,7 @@ public class TimeResolvedDataFileHelper {
 		}
 
 		// Create I0_raw
-		DoubleDataset metaData = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.I0_COLUMN_NAME);
+		AbstractDataset metaData = H5Utils.getSet(file, META_DATA_PATH + EdeDataConstants.I0_COLUMN_NAME);
 		String filePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.I0_RAW_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
 		FileWriter writer = new FileWriter(filePathName);
 		try {
@@ -261,7 +258,7 @@ public class TimeResolvedDataFileHelper {
 			int numberOfChannels = i0iDataSet.getShape()[1];
 			for (int g = 0; g < numberOfSpectra; g++) {
 				for (int j = 0; j < numberOfChannels; j++) {
-					writer.write(String.format("0%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.get(j), i0iCorrectedDataSet.get(g, j), i0iDataSet.get(g, j), i0darkDataSet.get(g, j)));
+					writer.write(String.format("0%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.getDouble(j), i0iCorrectedDataSet.getDouble(g, j), i0iDataSet.getDouble(g, j), i0darkDataSet.getDouble(g, j)));
 				}
 			}
 			if (i0fCorrectedDataSet != null) {
@@ -269,7 +266,7 @@ public class TimeResolvedDataFileHelper {
 				numberOfChannels = i0fData.getShape()[1];
 				for (int g = 0; g < numberOfSpectra; g++) {
 					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("1%d\t%d\t%.2f\t%.2f\t%.2f\t%f\n", g, j, energyData.get(j), i0fCorrectedDataSet.get(g, j), i0fCorrectedDataSet.get(g, j), i0darkDataSet.get(g, j)));
+						writer.write(String.format("1%d\t%d\t%.2f\t%.2f\t%.2f\t%f\n", g, j, energyData.getDouble(j), i0fCorrectedDataSet.getDouble(g, j), i0fCorrectedDataSet.getDouble(g, j), i0darkDataSet.getDouble(g, j)));
 					}
 				}
 			}
@@ -279,11 +276,11 @@ public class TimeResolvedDataFileHelper {
 			writer.close();
 		}
 		itNormalisedWithI0iData.getShape();
-		DoubleDataset avgLogI0It = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
+		AbstractDataset avgLogI0It = H5Utils.getSet(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
 		int numberOfSpectra = avgLogI0It.getShape()[0];
 		int numberOfChannels = avgLogI0It.getShape()[1];
 		// Create It_raw
-		metaData = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
+		metaData = H5Utils.getSet(file, META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
 		filePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.IT_RAW_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
 		writer = new FileWriter(filePathName);
 		try {
@@ -291,12 +288,12 @@ public class TimeResolvedDataFileHelper {
 			writer.write("# index\t" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 					+ EdeDataConstants.IT_CORR_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\t" + EdeDataConstants.IT_RAW_COLUMN_NAME + "\t"
 					+ EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
-			DoubleDataset itiAvgData = getAverageDataset(itData, null);
-			DoubleDataset itiCorrectedAvgData = getAverageDataset(itCorrectedDataSet, null);
+			AbstractDataset itiAvgData = getAverageDataset(itData, null);
+			AbstractDataset itiCorrectedAvgData = getAverageDataset(itCorrectedDataSet, null);
 
 			for (int g = 0; g < numberOfSpectra; g++) {
 				for (int j = 0; j < numberOfChannels; j++) {
-					writer.write(String.format("%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.get(j), itiCorrectedAvgData.get(g,j) , avgLogI0It.get(g, j), itiAvgData.get(g,j) , itDarkData.get(0, j)));
+					writer.write(String.format("%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.getDouble(j), itiCorrectedAvgData.getDouble(g,j) , avgLogI0It.getDouble(g, j), itiAvgData.getDouble(g,j) , itDarkData.getDouble(0, j)));
 				}
 			}
 		} catch (Exception e) {
@@ -320,13 +317,13 @@ public class TimeResolvedDataFileHelper {
 			itiWriter.write(header);
 			itffWriter.write(header);
 			itavgWriter.write(header);
-			DoubleDataset i0f = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
-			DoubleDataset i0avg = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
+			AbstractDataset i0f = H5Utils.getSet(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
+			AbstractDataset i0avg = H5Utils.getSet(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
 			for (int g = 0; g < numberOfSpectra; g++) {
 				for (int j = 0; j < numberOfChannels; j++) {
-					itiWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.get(j), avgLogI0It.get(g, j)));
-					itffWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.get(j), i0f.get(g, j)));
-					itavgWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.get(j), i0avg.get(g, j)));
+					itiWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.getDouble(j), avgLogI0It.getDouble(g, j)));
+					itffWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.getDouble(j), i0f.getDouble(g, j)));
+					itavgWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.getDouble(j), i0avg.getDouble(g, j)));
 				}
 			}
 		} catch (Exception e) {
@@ -341,7 +338,7 @@ public class TimeResolvedDataFileHelper {
 			// Create IRef_raw
 			numberOfSpectra = iRefiNormalisedData.getShape()[0];
 			numberOfChannels = iRefiNormalisedData.getShape()[1];
-			metaData = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.IREF_DATA_NAME);
+			metaData = H5Utils.getSet(file, META_DATA_PATH + EdeDataConstants.IREF_DATA_NAME);
 			filePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.IREF_RAW_DATA_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
 			writer = new FileWriter(filePathName);
 			try {
@@ -351,7 +348,7 @@ public class TimeResolvedDataFileHelper {
 						+ EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
 				for (int g = 0; g < numberOfSpectra; g++) {
 					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.get(j), iRefiCorrecteddata.get(g,j) , iRefiNormalisedData.get(g, j), iRefidata.get(g,j) , iRefDarkData.get(g, j)));
+						writer.write(String.format("%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.getDouble(j), iRefiCorrecteddata.getDouble(g,j) , iRefiNormalisedData.getDouble(g, j), iRefidata.getDouble(g,j) , iRefDarkData.getDouble(g, j)));
 					}
 				}
 			} catch (Exception e) {
@@ -368,7 +365,7 @@ public class TimeResolvedDataFileHelper {
 						+ EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\n");
 				for (int g = 0; g < numberOfSpectra; g++) {
 					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("0%d\t%.2f\t%.2f\n", g,energyData.get(j), iRefiNormalisedData.get(g, j)));
+						writer.write(String.format("0%d\t%.2f\t%.2f\n", g,energyData.getDouble(j), iRefiNormalisedData.getDouble(g, j)));
 					}
 				}
 			} catch (Exception e) {
@@ -385,7 +382,7 @@ public class TimeResolvedDataFileHelper {
 							+ EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\n");
 					for (int g = 0; g < numberOfSpectra; g++) {
 						for (int j = 0; j < numberOfChannels; j++) {
-							writer.write(String.format("1%d\t%.2f\t%.2f\n", g,energyData.get(j), iReffNormalisedData.get(g, j)));
+							writer.write(String.format("1%d\t%.2f\t%.2f\n", g,energyData.getDouble(j), iReffNormalisedData.getDouble(g, j)));
 						}
 					}
 				} catch (Exception e) {
@@ -397,7 +394,7 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
-	private void writeMetaData(String scannablesDescription, DoubleDataset metaData, FileWriter writer)
+	private void writeMetaData(String scannablesDescription, AbstractDataset metaData, FileWriter writer)
 			throws IOException {
 		writer.write("# " + scannablesDescription + "\n");
 		writer.write("# \n");
@@ -409,7 +406,7 @@ public class TimeResolvedDataFileHelper {
 
 		// Adding Axis
 		attributes.put(NexusUtils.AXIS, "1");
-		Group parent = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME, Nexus.DATA);
+		String parent = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME, Nexus.DATA);
 		addDatasetToNexus(file, EdeDataConstants.TIMINGGROUP_COLUMN_NAME, parent, groupAxisData, attributes);
 
 		attributes.clear();
@@ -420,7 +417,7 @@ public class TimeResolvedDataFileHelper {
 		attributes.clear();
 		attributes.put(NexusUtils.SIGNAL, "1");
 
-		Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/", Nexus.DATA);
+		String targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/", Nexus.DATA);
 		checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithI0iData, attributes);
 		addLinks(file, targetPath);
 
@@ -438,8 +435,8 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
-	private void checkCyclicDataAndAddData(IHierarchicalDataFile file, Group fullPath, RangeData[] avgSpectraList, int[] excludedCycles, DoubleDataset data, Map<String, String> attributes) throws Exception {
-		DoubleDataset dataToAdd = null;
+	private void checkCyclicDataAndAddData(IHierarchicalDataFile file, String fullPath, RangeData[] avgSpectraList, int[] excludedCycles, AbstractDataset data, Map<String, String> attributes) throws Exception {
+		AbstractDataset dataToAdd = null;
 		if (data.getShape()[0] == 1) {
 			data.setShape(new int[]{data.getShape()[1], data.getShape()[2]});
 			dataToAdd = data;
@@ -478,17 +475,16 @@ public class TimeResolvedDataFileHelper {
 		addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, fullPath, dataToAdd, attributes);
 	}
 
-	private void addLinks(IHierarchicalDataFile file, Group targetPath)
+	private void addLinks(IHierarchicalDataFile file, String targetPath)
 			throws Exception {
 		file.createLink(targetPath, EdeDataConstants.TIME_COLUMN_NAME, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIME_COLUMN_NAME);
 		file.createLink(targetPath, EdeDataConstants.TIMINGGROUP_COLUMN_NAME, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
 		file.createLink(targetPath, EdeDataConstants.ENERGY_COLUMN_NAME, this.getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME);
 	}
 
-	private void addDatasetToNexus(IHierarchicalDataFile file, String dataName, Group fullPath, DoubleDataset data, Map<String, String> attributes) throws Exception {
-		Datatype datatype = H5Utils.getDatatype(data);
-		long[] shape = H5Utils.getLong(data.getShape());
-		Dataset insertedData = file.replaceDataset(dataName, datatype, shape, data.getBuffer(), fullPath);
+	private void addDatasetToNexus(IHierarchicalDataFile file, String dataName, String fullPath, AbstractDataset data, Map<String, String> attributes) throws Exception {
+
+		String insertedData = file.replaceDataset(dataName, data, fullPath);
 		if (attributes == null) {
 			return;
 		}
@@ -497,21 +493,9 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
-	private DoubleDataset getDetectorDataFromFile(IHierarchicalDataFile file, String path) throws Exception {
+	private AbstractDataset getDetectorDataFromFile(IHierarchicalDataFile file, String path) throws Exception {
 		String detectorPath = getDetectorDataPath();
-		return getDataFromFile(file, detectorPath + path);
-	}
-
-	private DoubleDataset getDataFromFile(IHierarchicalDataFile file, String path)
-			throws Exception {
-		Dataset dataset = (Dataset) file.getData(path);
-		int[] dimension = new int[dataset.getDims().length];
-		long[] oriDimension = dataset.getDims();
-		for (int i = 0; i < dimension.length; i++) {
-			dimension[i] = (int) oriDimension[i];
-		}
-		double[] data = (double[]) dataset.getData();
-		return new DoubleDataset(data, dimension);
+		return H5Utils.getSet(file, detectorPath + path);
 	}
 
 	private String getDetectorDataPath() {
@@ -531,12 +515,12 @@ public class TimeResolvedDataFileHelper {
 	}
 
 	private void deriveTimingGroupsAndGenerateNormalisedData(IHierarchicalDataFile file) throws Exception {
-		DoubleDataset rawDataset = getDetectorDataFromFile(file, EdeDataConstants.DATA_COLUMN_NAME);
-		DoubleDataset frameDataset = getDetectorDataFromFile(file, EdeDataConstants.FRAME_COLUMN_NAME);
-		DoubleDataset timmingDataset = getDetectorDataFromFile(file, EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
-		DoubleDataset cycleDataset = getDetectorDataFromFile(file, EdeDataConstants.CYCLE_COLUMN_NAME);
-		DoubleDataset beamInOutDataset = getDetectorDataFromFile(file, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
-		DoubleDataset itDataset = getDetectorDataFromFile(file, EdeDataConstants.IT_COLUMN_NAME);
+		AbstractDataset rawDataset       = H5Utils.getSet(file, EdeDataConstants.DATA_COLUMN_NAME);
+		AbstractDataset frameDataset     = H5Utils.getSet(file, EdeDataConstants.FRAME_COLUMN_NAME);
+		AbstractDataset timmingDataset   = H5Utils.getSet(file, EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
+		AbstractDataset cycleDataset     = H5Utils.getSet(file, EdeDataConstants.CYCLE_COLUMN_NAME);
+		AbstractDataset beamInOutDataset = H5Utils.getSet(file, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
+		AbstractDataset itDataset        = H5Utils.getSet(file, EdeDataConstants.IT_COLUMN_NAME);
 		if (rawDataset.getShape()[0] != frameDataset.getShape()[0] ||
 				rawDataset.getShape()[0] != timmingDataset.getShape()[0] ||
 				rawDataset.getShape()[0] != cycleDataset.getShape()[0] ||
@@ -569,14 +553,14 @@ public class TimeResolvedDataFileHelper {
 		int frameIndex = -1;
 
 		for (int i = 0; i < rawDataset.getShape()[0]; i++) {
-			if (beamInOutDataset.get(i) == EdeScanType.DARK.getValue()) {
-				if (itDataset.get(i) == EdePositionType.OUTBEAM.getValue()) { // I0
+			if (beamInOutDataset.getDouble(i) == EdeScanType.DARK.getValue()) {
+				if (itDataset.getDouble(i) == EdePositionType.OUTBEAM.getValue()) { // I0
 					if (i0darkDataSetIndex == null) {
 						i0darkDataSetIndex = new Index(i);
 					} else {
 						i0darkDataSetIndex.end = i;
 					}
-				} else if (itDataset.get(i) == EdePositionType.INBEAM.getValue()) { // It
+				} else if (itDataset.getDouble(i) == EdePositionType.INBEAM.getValue()) { // It
 					if (itDarkDataSetIndex == null) {
 						itDarkDataSetIndex = new Index(i);
 					} else {
@@ -590,7 +574,7 @@ public class TimeResolvedDataFileHelper {
 					}
 				}
 			} else { // For EdeScanType.LIGHT
-				if (itDataset.get(i) == EdePositionType.OUTBEAM.getValue()) {
+				if (itDataset.getDouble(i) == EdePositionType.OUTBEAM.getValue()) {
 					if (itRawDataSetIndex == null) {
 						if (i0iDataSetIndex == null) { // Must be before i, so it is I0Initial
 							i0iDataSetIndex = new Index(i);
@@ -604,14 +588,14 @@ public class TimeResolvedDataFileHelper {
 							i0fDataSetIndex.end = i;
 						}
 					}
-				} else if (itDataset.get(i) == EdePositionType.INBEAM.getValue()) {
+				} else if (itDataset.getDouble(i) == EdePositionType.INBEAM.getValue()) {
 					if (itRawDataSetIndex == null) {
 						itRawDataSetIndex = new Index(i);
 					} else {
 						itRawDataSetIndex.end = i;
 					}
-					if (cycleDataset.get(i) > cycleIndexValue) {
-						cycleIndexValue = cycleDataset.get(i);
+					if (cycleDataset.getDouble(i) > cycleIndexValue) {
+						cycleIndexValue = cycleDataset.getDouble(i);
 						cycleCount++;
 					}
 					// TODO Refactor to make it clear
@@ -624,13 +608,13 @@ public class TimeResolvedDataFileHelper {
 							timingGroups = new int[derivedNumOfGroups];
 						}
 						if (timingGroups != null) {
-							if (frameDataset.get(i) == 0.0) {
+							if (frameDataset.getDouble(i) == 0.0) {
 								frameIndex++;
 							}
-							timingGroups[frameIndex] = (int) frameDataset.get(i) + 1;
+							timingGroups[frameIndex] = (int) frameDataset.getDouble(i) + 1;
 						}
 					}
-				} else if (itDataset.get(i) == EdePositionType.REFERENCE.getValue()) {
+				} else if (itDataset.getDouble(i) == EdePositionType.REFERENCE.getValue()) {
 					if (itRawDataSetIndex == null) {
 						if (iRefidataSetIndex == null) {
 							iRefidataSetIndex = new Index(i);
@@ -645,7 +629,7 @@ public class TimeResolvedDataFileHelper {
 						}
 
 					}
-				} else if (itDataset.get(i) == EdePositionType.OUTBEAM_REFERENCE.getValue()) {
+				} else if (itDataset.getDouble(i) == EdePositionType.OUTBEAM_REFERENCE.getValue()) {
 					if (i0ForIRefDataSetIndex == null) {
 						i0ForIRefDataSetIndex = new Index(i);
 					} else {
@@ -659,7 +643,7 @@ public class TimeResolvedDataFileHelper {
 			i0darkDataSet = getSlice(rawDataset, i0darkDataSetIndex);
 		}
 		i0iDataSet = getSlice(rawDataset, i0iDataSetIndex);
-		i0iCorrectedDataSet = (DoubleDataset) i0iDataSet.clone().isubtract(i0darkDataSet);
+		i0iCorrectedDataSet = i0iDataSet.clone().isubtract(i0darkDataSet);
 
 		if (itDarkDataSetIndex !=null) {
 			itDarkData = getSlice(rawDataset, itDarkDataSetIndex);
@@ -669,34 +653,34 @@ public class TimeResolvedDataFileHelper {
 		if (iRefdarkDataSetIndex != null && i0ForIRefDataSetIndex != null && iRefidataSetIndex != null) {
 			iRefDarkData = getSlice(rawDataset, iRefdarkDataSetIndex);
 			i0ForIRefData = getSlice(rawDataset, i0ForIRefDataSetIndex);
-			i0ForIRefCorrectedData = (DoubleDataset) i0ForIRefData.clone().isubtract(iRefDarkData);
+			i0ForIRefCorrectedData = i0ForIRefData.clone().isubtract(iRefDarkData);
 			iRefidata = getSlice(rawDataset, iRefidataSetIndex);
-			iRefiCorrecteddata = (DoubleDataset) iRefidata.clone().isubtract(iRefDarkData);
+			iRefiCorrecteddata = iRefidata.clone().isubtract(iRefDarkData);
 			iRefiNormalisedData = createNormalisedIRefData(i0ForIRefCorrectedData, iRefiCorrecteddata);
 			if (iReffdataSetIndex != null) {
 				iReffdata = getSlice(rawDataset, iRefidataSetIndex);
-				iReffCorrecteddata = (DoubleDataset) iReffdata.clone().isubtract(iRefDarkData);
+				iReffCorrecteddata = iReffdata.clone().isubtract(iRefDarkData);
 				iReffNormalisedData = createNormalisedIRefData(i0ForIRefCorrectedData, iReffCorrecteddata);
 			}
 		}
 
 		itData = getSlice(rawDataset, itRawDataSetIndex);
 		convertToCycledData(itData, cycleCount);
-		itCorrectedDataSet = (DoubleDataset) itData.clone();
+		itCorrectedDataSet = itData.clone();
 		correctItData(itDarkData, itCorrectedDataSet, timingGroups);
 		itNormalisedWithI0iData = createNormalisedItData(i0iCorrectedDataSet, itCorrectedDataSet, timingGroups);
 		if(i0fDataSetIndex != null) {
 			i0fData = getSlice(rawDataset, i0fDataSetIndex);
-			i0fCorrectedDataSet = (DoubleDataset) i0fData.clone().isubtract(i0darkDataSet);
+			i0fCorrectedDataSet = i0fData.clone().isubtract(i0darkDataSet);
 			itNormalisedWithI0fData = createNormalisedItData(i0fCorrectedDataSet, itCorrectedDataSet, timingGroups);
-			i0iAndI0fCorrectedAvgData = (DoubleDataset) i0iCorrectedDataSet.clone().iadd(i0fCorrectedDataSet).idivide(2);
+			i0iAndI0fCorrectedAvgData = i0iCorrectedDataSet.clone().iadd(i0fCorrectedDataSet).idivide(2);
 			itNormalisedWithAvgI0iAndI0fData = createNormalisedItData(i0iAndI0fCorrectedAvgData, itCorrectedDataSet, timingGroups);
 		}
 
 	}
 
 	private void createAxisForNormalisedItData(IHierarchicalDataFile file, RangeData[] avgSpectraList) throws Exception {
-		DoubleDataset metaDataset = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
+		AbstractDataset metaDataset = H5Utils.getSet(file, META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
 		TimingGroupMetadata[] timingGroupMetaData = TimingGroupMetadata.toTimingGroupMetaData(metaDataset);
 		int totalSpectra = 0;
 		int noOfGroups = timingGroupMetaData.length;
@@ -743,7 +727,7 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
-	private void correctItData(DoubleDataset itDarkData, DoubleDataset itData, int[] timingGroups) {
+	private void correctItData(AbstractDataset itDarkData, AbstractDataset itData, int[] timingGroups) {
 		int[] shape = itData.getShape();
 		int noOfCycles = shape[0];
 		int numberOfChannels = shape[2];
@@ -764,7 +748,7 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
-	private DoubleDataset createNormalisedItData(DoubleDataset i0CorrectedDataSet, DoubleDataset itCorrectedCycledData, int[] timingGroups) {
+	private DoubleDataset createNormalisedItData(AbstractDataset i0CorrectedDataSet, AbstractDataset itCorrectedCycledData, int[] timingGroups) {
 		int[] shape = itCorrectedCycledData.getShape();
 		int noOfCycles = shape[0];
 		int numberOfChannels = shape[2];
@@ -790,12 +774,12 @@ public class TimeResolvedDataFileHelper {
 		return normalisedData;
 	}
 
-	private DoubleDataset createNormalisedIRefData(DoubleDataset i0ForRefCorrectedDataSet, DoubleDataset iRefCorrectedData) {
+	private AbstractDataset createNormalisedIRefData(AbstractDataset i0ForRefCorrectedDataSet, AbstractDataset iRefCorrectedData) {
 		int[] shape = iRefCorrectedData.getShape();
 		int numberOfChannels = shape[1];
-		DoubleDataset normalisedData = new DoubleDataset(new int[]{1,numberOfChannels});
+		AbstractDataset normalisedData = new DoubleDataset(new int[]{1,numberOfChannels});
 		for (int channel = 0; channel < numberOfChannels; channel++) {
-			double value = calcLnI0It(i0ForRefCorrectedDataSet.get(0, channel), iRefCorrectedData.get(0, channel));
+			double value = calcLnI0It(i0ForRefCorrectedDataSet.getDouble(0, channel), iRefCorrectedData.getDouble(0, channel));
 			normalisedData.set(value, 0, channel);
 		}
 		return normalisedData;
@@ -809,14 +793,14 @@ public class TimeResolvedDataFileHelper {
 		return lni0it.doubleValue();
 	}
 
-	private void convertToCycledData(DoubleDataset itRawDataSet, int cycleCount) {
+	private void convertToCycledData(AbstractDataset itRawDataSet, int cycleCount) {
 		int framesPerCycle = itRawDataSet.getShape()[0] / cycleCount;
 		int noOfChannels = itRawDataSet.getShape()[1];
 		itRawDataSet.setShape(new int[]{cycleCount, framesPerCycle, noOfChannels});
 	}
 
-	private DoubleDataset getSlice(DoubleDataset rawDataset, Index index) {
-		return (DoubleDataset) rawDataset.getSlice(new int[]{index.start, 0}, new int[]{index.end + 1, rawDataset.getShape()[1]}, null);
+	private AbstractDataset getSlice(AbstractDataset rawDataset, Index index) {
+		return rawDataset.getSlice(new int[]{index.start, 0}, new int[]{index.end + 1, rawDataset.getShape()[1]}, null);
 	}
 
 	public boolean isTimeResolvedDataFile() throws NexusException {
@@ -831,30 +815,30 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
-	public DoubleDataset getGroupData() throws Exception {
+	public AbstractDataset getGroupData() throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
 		try {
-			return getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
+			return H5Utils.getSet(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
 		}
 		finally {
 			file.close();
 		}
 	}
 
-	public DoubleDataset getTimeData() throws Exception {
+	public AbstractDataset getTimeData() throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
 		try {
-			return getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIME_COLUMN_NAME);
+			return H5Utils.getSet(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIME_COLUMN_NAME);
 		}
 		finally {
 			file.close();
 		}
 	}
 
-	public IDataset getEnergy() throws Exception {
+	public AbstractDataset getEnergy() throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
 		try {
-			return getDataFromFile(file, this.getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME);
+			return H5Utils.getSet(file, this.getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME);
 		}
 		finally {
 			file.close();
@@ -866,7 +850,7 @@ public class TimeResolvedDataFileHelper {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
 		try {
 			String fullDataPath = NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_RAW_COLUMN_NAME;
-			HObject data = file.getData(fullDataPath);
+			HObject data = (HObject)file.getData(fullDataPath);
 			if (data != null) {
 				int[] excludedCycles = null;
 				Object excludedCyclesInfo = file.getAttributeValues(META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME).get(EXCLUDED_CYCLE_ATTRIBUTE_NAME);
@@ -897,9 +881,9 @@ public class TimeResolvedDataFileHelper {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
 		try {
 			DoubleDataset data = new DoubleDataset(value, new int[]{value.length});
-			Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME, Nexus.DATA);
+			String targetPath = HierarchicalDataFileUtils.createParentEntry(file, getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME, Nexus.DATA);
 			addDatasetToNexus(file, EdeDataConstants.ENERGY_COLUMN_NAME, targetPath, data, null);
-			Group parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
+			String parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
 			file.setAttribute(parent, ENERGY_POLYNOMIAL, energyCalibration);
 		}
 		finally {
@@ -910,7 +894,7 @@ public class TimeResolvedDataFileHelper {
 	public ItMetadata getItMetadata() throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
 		try {
-			DoubleDataset data = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "/" + EdeDataConstants.IT_COLUMN_NAME);
+			AbstractDataset data = H5Utils.getSet(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "/" + EdeDataConstants.IT_COLUMN_NAME);
 			TimingGroupMetadata[] timingGroupMetadata = TimingGroupMetadata.toTimingGroupMetaData(data);
 			RangeData[] avgSpectraList = getAvgSpectra(file);
 			int[] excludedCycles = getExcludedCycles(file);
