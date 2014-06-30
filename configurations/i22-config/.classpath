@@ -25,7 +25,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.deprecated"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.deprecated.rcp"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd.rcp"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.python"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.system.info"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.sda.meta"/>
@@ -55,5 +54,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.video.mjpeg"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.video.rtp"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.video.views"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd.calibration.rcp"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd.core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd.core.rcp"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
