@@ -64,14 +64,6 @@
 		<property name="remotePort" value="9999" />
 	</bean>
 
-	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
-	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/rcpController" />
-		<property name="service" ref="RCPController" />
-		<property name="serviceInterface" value="gda.gui.RCPController" />
-	</bean>
-
 	<bean id="plot_server"
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 
