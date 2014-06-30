@@ -36,6 +36,8 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static gda.configuration.properties.LocalProperties.isDummyModeEnabled;
+
 /**
  * Reads and saves the data which describes the various zoom levels of a gda.images.camera object.
  */
@@ -43,8 +45,6 @@ public class BeamDataComponent implements IObservable {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BeamDataComponent.class);
 	
-	private static final boolean dummyMode = LocalProperties.check("gda.dummy.mode");
-
 	private static BeamDataComponent theInstance;
 
 	// read in from the beamData file
@@ -155,7 +155,7 @@ public class BeamDataComponent implements IObservable {
 				fileExists = (file.exists());
 				if (!fileExists) {
 					
-					if (dummyMode) {
+					if (isDummyModeEnabled()) {
 						logger.warn(filename + " does not exist; will create dummy beam data for all zoom levels");
 					}
 					
@@ -289,7 +289,7 @@ public class BeamDataComponent implements IObservable {
 			}
 		}
 
-		if ((out == null) && dummyMode && !fileExists) {
+		if ((out == null) && isDummyModeEnabled() && !fileExists) {
 			logger.info(String.format("Creating dummy beam data for zoom level %.1f", zoom));
 			out = createDummyBeamData(zoom);
 			beamDataArray.add(out);
