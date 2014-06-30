@@ -1,0 +1,62 @@
+/*-
+ * Copyright © 2014 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package gda.device.scannable;
+
+import gda.device.DeviceException;
+
+/**
+ * I18 specific EpicsSingleTrajectoryScannable which checks the beam after moving to the start of a line, but before starting the acquisition.
+ */
+public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable {
+	
+	I18BeamMonitor beamMonitor;
+	TopupChecker topupMonitor;
+	
+	@Override
+	public void prepareForContinuousMove() throws DeviceException {
+		super.prepareForContinuousMove();
+		
+		// just before the data collection begins, test the beam and topup. 
+		if (beamMonitor != null){
+			beamMonitor.setPauseBeforePoint(true);
+			beamMonitor.atPointStart();
+		}
+		
+		if (topupMonitor != null){
+			topupMonitor.setPauseBeforePoint(true);
+			topupMonitor.atPointStart();
+		}
+	}
+
+	public I18BeamMonitor getBeamMonitor() {
+		return beamMonitor;
+	}
+
+	public void setBeamMonitor(I18BeamMonitor beamMonitor) {
+		this.beamMonitor = beamMonitor;
+	}
+
+	public TopupChecker getTopupMonitor() {
+		return topupMonitor;
+	}
+
+	public void setTopupMonitor(TopupChecker topupMonitor) {
+		this.topupMonitor = topupMonitor;
+	}
+}
