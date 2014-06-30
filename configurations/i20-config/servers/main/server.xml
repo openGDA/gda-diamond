@@ -21,7 +21,12 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/mono.xml" />
+	
+	
+	<!-- Moved to dummy while mono is not live -->
+	<import resource="file:${gda.config}/servers/main/dummy/mono.xml" />
+	
+	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/tables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes.xml" />
