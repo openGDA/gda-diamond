@@ -5,4 +5,6 @@
 
 	<import resource="hexapod.xml" />
 	<import resource="linear_drive.xml" />
+	<import resource="stats.xml" />
+	<import resource="rois.xml" />
 </beans>

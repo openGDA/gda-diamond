@@ -26,6 +26,22 @@
 				<ref bean="roi1_sizey" />
 			</list>
 		</property>
+		<property name="extraNames">
+			<list>
+				<value>minx</value>
+				<value>sizex</value>
+				<value>miny</value>
+				<value>sizey</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="roi2_minx" class="gda.device.epicsdevice.EpicsDouble">

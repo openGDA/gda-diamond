@@ -57,7 +57,7 @@
 				<property name="local" value="true" />
         </bean>
 
-		<bean id="hexapod_pos" class="gda.scannable.scannablegroup.ScannableGroup">
+		<bean id="hexapod_pos" class="gda.device.scannable.scannablegroup.ScannableGroup">
 			<property name="local" value="true"/>
 			<property name="groupMembers">
 				<list>

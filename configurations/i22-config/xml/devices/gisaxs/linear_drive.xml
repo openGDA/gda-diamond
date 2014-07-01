@@ -12,17 +12,17 @@
 		<property name="local" value="true" />
 	</bean>
 	
-	<bean id="linearDrive_temp" class="gda.device.monitor.EpicsMonitor">
+	<bean id="linearDrive_motorTemp" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="celsius"/>
 		<property name="pvName" value="BL22I-MO-HEX-01:LINEARTEMP"/>
 	</bean>
 	
-	<bean id="linearDrive_basetemp" class="gda.device.monitor.EpicsMonitor">
+	<bean id="linearDrive_baseTemp" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="celsius"/>
 		<property name="pvName" value="BL22I-MO-HEX-01:LDBASETEMP"/>
 	</bean>
 	
-	<bean id="linearDrive_toptemp" class="gda.device.monitor.EpicsMonitor">
+	<bean id="linearDrive_topTemp" class="gda.device.monitor.EpicsMonitor">
 		<property name="unit" value="celsius"/>
 		<property name="pvName" value="BL22I-MO-HEX-01:LDTOPTEMP"/>
 	</bean>
@@ -37,7 +37,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="linearDrive_pos" />
-				<ref bean="linearDrive_temp" />
+				<ref bean="linearDrive_motorTemp" />
 				<ref bean="linearDrive_baseTemp" />
 				<ref bean="linearDrive_topTemp" />
 				<ref bean="linearDrive_pillarTemp" />
