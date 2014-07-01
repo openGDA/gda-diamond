@@ -403,6 +403,7 @@ try:
 		alias("d1in")
 		alias("d2in")
 		alias("d3in")
+		alias("d4in")
 		alias("d1out")
 		alias("d2out")
 		alias("d3out")
