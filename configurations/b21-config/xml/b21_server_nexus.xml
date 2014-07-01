@@ -151,6 +151,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="sample:NXsample/concentration	" />
+						<property name="unit" value="mg/ml"/>
 						<property name="prerequisiteScannableNames">
 							<list>
 								<!-- <value>cff</value> -->
@@ -340,6 +341,6 @@
 		<property name="inputNames"><list><value>"sample_concentration"</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="1" />
-		<property name="userUnits" value="mg/ml" />
+		<property name="userUnits" value="" />
 	</bean>
 </beans>
