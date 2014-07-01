@@ -108,6 +108,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 	private final CalibrationEnergyData refCalibrationDataModel;
 
 	private Text polynomialValueText;
+	private Text goodnessOfFitValueText;
 
 	protected EnergyCalibrationWizardPage(EnergyCalibration calibrationDataModel) {
 		super("Energy calibration");
@@ -274,7 +275,6 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		public void roiSelected(ROIEvent evt) {}
 	};
 
-
 	private IRegion makeVertLine(String name, IRegionSystem plottingSystem, double pos, Color color) throws Exception {
 		IRegion ref = plottingSystem.createRegion(name, RegionType.XAXIS_LINE);
 		ref.setRegionColor(color);
@@ -433,9 +433,14 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 		polynomialValueText = new Text(calibrationDetailsComposite, SWT.BORDER);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 4;
+		gridData.horizontalSpan = 3;
 		polynomialValueText.setEditable(false);
 		polynomialValueText.setLayoutData(gridData);
+
+		goodnessOfFitValueText = new Text(calibrationDetailsComposite, SWT.BORDER);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		goodnessOfFitValueText.setEditable(false);
+		goodnessOfFitValueText.setLayoutData(gridData);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(polynomialValueText),
@@ -447,6 +452,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 						if (!((String) value).isEmpty()) {
 							referenceRegion.setROI(new RectangularROI(calibrationDataModel.getCalibrationDetails().getRefRangeStart(), 10, calibrationDataModel.getCalibrationDetails().getRefRangeEnd(), 1, 0));
 							edeRegion.setROI(new RectangularROI(calibrationDataModel.getCalibrationDetails().getSampleRangeStart(), 10, calibrationDataModel.getCalibrationDetails().getSampleRangeEnd(), 1, 0));
+							goodnessOfFitValueText.setText(DataHelper.roundDoubletoString(calibrationDataModel.getCalibrationDetails().getGoodnessOfFit(), 3));
 						}
 						return super.doSet(observableValue, value);
 					}
@@ -489,6 +495,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(polynomialFittingOrderSpinner),
 				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(goodnessOfFitValueText),
+				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 	}
 
 	private final UpdateValueStrategy refUpdateValueStrategy = new UpdateValueStrategy() {
@@ -529,6 +539,8 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 	private void runEdeCalibration() {
 		try {
+			refPlottingSystem.clear();
+			loadPlot(refCalibrationDataModel, refPlottingSystem);
 			final EdeCalibration edeCalibration = new EdeCalibration();
 			AbstractDataset[] refDatasets = selectDataRange(refPlottingSystem, referenceRegion);
 			final AbstractDataset refEnergySlice = refDatasets[0];
@@ -610,6 +622,8 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 							calibrationDataModel.getCalibrationDetails().setSampleRangeStart(((RectangularROI) edeRegion.getROI()).getPoint()[0]);
 							calibrationDataModel.getCalibrationDetails().setSampleRanceEnd(((RectangularROI) edeRegion.getROI()).getLength(0));
 							calibrationDataModel.getCalibrationDetails().setCalibrationResult(edeCalibration.getEdeCalibrationPolynomial());
+							calibrationDataModel.getCalibrationDetails().setGoodnessOfFit(edeCalibration.getGoodnessOfFit());
+
 							runCalibrationButton.setEnabled(true);
 						}
 					});
