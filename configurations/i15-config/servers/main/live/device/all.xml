@@ -23,7 +23,7 @@
 	<import resource="I15-DET-PE-AD.xml" />
 	<import resource="I15-DET1.xml"/>
 	<import resource="I15-DET2.xml"/>
-	<import resource="I15-EYE1.xml"/>
+	<import resource="../../dummy/device/I15-EYE1.xml"/>
 	<import resource="../../dummy/device/I15-EYE2.xml"/>
 	<import resource="I15-FE.xml"/>
 	<import resource="I15-FM.xml"/>
