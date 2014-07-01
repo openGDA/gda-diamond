@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.diamond.scisoft.ncd.rcp"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.analysis"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.api"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.beamline.b21"/>
