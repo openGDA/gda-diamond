@@ -57,7 +57,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 			String detectorName,
 			String topupMonitorName,
 			String beamShutterScannableName) throws DeviceException {
-		super(EdeScanParameters.createSingleFrameScan(iTaccumulationTime, iTnoOfAccumulcation),
+		super(EdeScanParameters.createSingleFrameScan(iTaccumulationTime, iTnoOfAccumulcation), null,
 				i0ScanableMotorPositions,
 				iTScanableMotorPositions,
 				detectorName,

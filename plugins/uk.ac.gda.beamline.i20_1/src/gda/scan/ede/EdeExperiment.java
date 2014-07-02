@@ -57,6 +57,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -113,22 +114,26 @@ public abstract class EdeExperiment implements IObserver {
 
 	private Monitor topup;
 
+	private final TFGTrigger itTriggerOptions;
 
-	public EdeExperiment(List<TimingGroup> itTimingGroups,
+
+	public EdeExperiment(List<TimingGroup> itTimingGroups, TFGTrigger itTriggerOptions,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+		this.itTriggerOptions = itTriggerOptions;
 		itScanParameters = new EdeScanParameters();
 		itScanParameters.setGroups(itTimingGroups);
 		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
 	}
 
-	public EdeExperiment(EdeScanParameters itScanParameters,
+	public EdeExperiment(EdeScanParameters itScanParameters, TFGTrigger itTriggerOptions,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
 		this.itScanParameters = itScanParameters;
+		this.itTriggerOptions = itTriggerOptions;
 		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
 	}
@@ -267,7 +272,7 @@ public abstract class EdeExperiment implements IObserver {
 
 		itScans = new EdeWithTFGScan[repetitions];
 		for(int repIndex = 0; repIndex < repetitions; repIndex++){
-			itScans[repIndex] = new EdeWithTFGScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
+			itScans[repIndex] = new EdeWithTFGScan(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
 			itScans[repIndex].setProgressUpdater(this);
 			scansForExperiment.add(itScans[repIndex]);
 		}

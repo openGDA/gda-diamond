@@ -29,9 +29,13 @@ import gda.jython.InterfaceProvider;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdeScanPosition;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -61,10 +65,13 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 	private static final Logger logger = LoggerFactory.getLogger(EdeWithTFGScan.class);
 	private final DAServer daserver;
 	private final TfgScaler injectionCounter;
+	private final TFGTrigger triggeringParameters;
 
-	public EdeWithTFGScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+	public EdeWithTFGScan(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			StripDetector theDetector, Integer repetitionNumber, Scannable shutter) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter, null);
+
+		this.triggeringParameters = triggeringParameters;
 
 		daserver = Finder.getInstance().find("daserver");
 		injectionCounter = Finder.getInstance().find("injectionCounter");
@@ -102,9 +109,9 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 	private void prepareTFG() throws DeviceException {
 
 		int numberOfRepetitions = scanParameters.getNumberOfRepetitions();
-		int[] samEnvPulseWidths = deriveSamEnvPulseWidths();
-		int[] samEnvDelays = deriveSamEnvDelays();
-		int itDelay = deriveItDelay();
+		double[] samEnvPulseWidths = deriveSamEnvPulseWidths();
+		double[] samEnvDelays = deriveSamEnvDelays();
+		double itDelay = deriveItDelay();
 		int xchipStartPulseWidth = 50000; // 1ms pulse to start XCHIP
 		int totalNumberItFramesPerRepetition = scanParameters.getTotalNumberOfFrames();
 
@@ -148,27 +155,65 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 	}
 
 	/*
-	 * @return the delay, in TFG clock cycles,  between the last pulse to a sample environment and starting the It sequence
+	 * @return the delay, in seconds,  between the last pulse to a sample environment and starting the It sequence
 	 */
-	private int deriveItDelay() {
-		// TODO Auto-generated method stub
-		return 0;
+	private double deriveItDelay() {
+
+		if (triggeringParameters == null){
+			return 0.0;
+		}
+
+
+		double sumOfSamEnvDelays = 0.0;
+
+		List<TriggerableObject> samEnvParameters = triggeringParameters.getSampleEnvironment();
+		for (TriggerableObject samEnv : samEnvParameters) {
+			sumOfSamEnvDelays += samEnv.getTriggerDelay();
+		}
+
+		double delayToDetectorTrigger = triggeringParameters.getDetector().getTriggerDelay() - sumOfSamEnvDelays;
+		return delayToDetectorTrigger;
 	}
 
 	/*
-	 * @return the delays, in TFG clock cycles, before each trigger signal out to the sample environments
+	 * @return the delays, in seconds, before each trigger signal out to the sample environments
 	 */
-	private int[] deriveSamEnvDelays() {
-		// TODO Auto-generated method stub
-		return null;
+	private double[] deriveSamEnvDelays() {
+
+		if (triggeringParameters == null){
+			return new double[]{};
+		}
+
+		List<TriggerableObject> samEnvParameters = triggeringParameters.getSampleEnvironment();
+
+		double[] samEnvDelays = new double[samEnvParameters.size()];
+		double sumOfSamEnvDelays = 0.0;
+
+		for (int i = 0; i < samEnvParameters.size(); i++) {
+			double thisDelay = samEnvParameters.get(i).getTriggerDelay();
+			samEnvDelays[i] =  thisDelay - sumOfSamEnvDelays;
+			sumOfSamEnvDelays += thisDelay;
+		}
+		return samEnvDelays;
 	}
 
 	/*
-	 * @return the duration, in TFG clock cycles, of each trigger signal to the sample environments
+	 * @return the duration, in seconds, of each trigger signal to the sample environments
 	 */
-	private int[] deriveSamEnvPulseWidths() {
-		// TODO Auto-generated method stub
-		return null;
+	private double[] deriveSamEnvPulseWidths() {
+
+		if (triggeringParameters == null){
+			return new double[]{};
+		}
+
+		List<TriggerableObject> samEnvParameters = triggeringParameters.getSampleEnvironment();
+
+		double[] samEnvWidths = new double[samEnvParameters.size()];
+		for (int i = 0; i < samEnvParameters.size(); i++) {
+			samEnvWidths[i] = samEnvParameters.get(i).getTriggerPauseLength();
+		}
+
+		return samEnvWidths;
 	}
 
 	private void startTFG() throws DeviceException {
