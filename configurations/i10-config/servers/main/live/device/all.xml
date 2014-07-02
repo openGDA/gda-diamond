@@ -21,7 +21,9 @@
 	<import resource="I10-CA3.xml"/>
 	<import resource="I10-CA4.xml"/>
 	<import resource="I10-RASOR.xml"/>
+	<!-- 
 	<import resource="I10-RASOR-ANDOR1.xml" />
+	 -->
 	<import resource="I10-RASOR-SCALER1.xml"/>
 	
 	<!-- J Absorption -->
