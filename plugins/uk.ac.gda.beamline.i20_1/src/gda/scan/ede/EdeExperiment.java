@@ -459,6 +459,7 @@ public abstract class EdeExperiment implements IObserver {
 						normalisedIRef, lastEnergyData));
 			} else if (ArrayUtils.contains(itScans, source)) {
 				if (shouldPublishItScanData(progress)) {
+					// TODO this will be affected by changes to EdeScan
 					lastItData = ((EdeWithoutTriggerScan)source).extractLastDetectorDataSet();
 					if (this.shouldRunItDark() & lastItDarkData != null) {
 						int itDarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
