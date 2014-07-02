@@ -54,6 +54,10 @@ public class CalibrationDetails extends ObservableModel {
 	@Expose
 	private double sampleRangeEnd;
 
+	private static final String GOODNESS_OF_FIT_PROP_NAME = "goodnessOfFit";
+	@Expose
+	private double goodnessOfFit;
+
 	public String getReferenceDataFileName() {
 		return referenceDataFileName;
 	}
@@ -77,13 +81,13 @@ public class CalibrationDetails extends ObservableModel {
 		return refRangeStart;
 	}
 	public void setRefRangeStart(double refRanceStart) {
-		this.firePropertyChange(REFERENCE_RANGE_START_PROP_NAME, this.refRangeStart, this.refRangeStart = refRanceStart);
+		this.firePropertyChange(REFERENCE_RANGE_START_PROP_NAME, refRangeStart, refRangeStart = refRanceStart);
 	}
 	public double getRefRangeEnd() {
 		return refRangeEnd;
 	}
 	public void setRefRangeEnd(double refRanceEnd) {
-		this.firePropertyChange(REFERENCE_RANGE_END_PROP_NAME, this.refRangeEnd, this.refRangeEnd = refRanceEnd);
+		this.firePropertyChange(REFERENCE_RANGE_END_PROP_NAME, refRangeEnd, refRangeEnd = refRanceEnd);
 	}
 	public double getSampleRangeStart() {
 		return sampleRangeStart;
@@ -97,6 +101,15 @@ public class CalibrationDetails extends ObservableModel {
 	public void setSampleRanceEnd(double sampleRanceEnd) {
 		this.firePropertyChange(SAMPLE_RANGE_END_PROP_NAME, sampleRangeEnd, sampleRangeEnd = sampleRanceEnd);
 	}
+
+	public void setGoodnessOfFit(double goodnessOfFit) {
+		this.firePropertyChange(GOODNESS_OF_FIT_PROP_NAME, this.goodnessOfFit, this.goodnessOfFit = goodnessOfFit);
+	}
+
+	public double getGoodnessOfFit() {
+		return goodnessOfFit;
+	}
+
 	@Override
 	public String toString() {
 		return gson.toJson(this);
