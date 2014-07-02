@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -28,6 +28,7 @@ import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
+import gda.device.scannable.TopupChecker;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
@@ -48,27 +49,30 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 /**
  * Runs a single set of timing groups for EDE through the XSTRIP DAServer interface.
  * <p>
- * So this: moves sample to correct position, opens/closes shutter, runs the timing groups through the TFG unit and
+ * So this: moves sample to correct position, waits for top-up to pass (if required), opens/closes shutter, runs the timing groups through the TFG unit and
  * writes data to given Nexus file.
  * <p>
  * Also holds data in memory for quick retrieval for online data.
+ * <p>
+ * This starts immediately and does not take sample environment triggering
  */
-public class EdeScan extends ConcurrentScanChild {
+public class EdeWithoutTriggerScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeWithoutTriggerScan.class);
 
-	private final StripDetector theDetector;
+	protected final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
-	private final Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
+	protected final Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
 
-	private EdeScanParameters scanParameters;
-	private EdeScanPosition motorPositions;
-	private EdeScanType scanType;
+	protected EdeScanParameters scanParameters;
+	protected EdeScanPosition motorPositions;
+	protected EdeScanType scanType;
 	private FrameIndexer indexer = null;
 	private IObserver progressUpdater;
-	private final Scannable shutter2;
+	private final Scannable shutter;
+	private final TopupChecker topup;
 
-	private boolean isSimulated = false;
+	protected boolean isSimulated = false;
 
 	/**
 	 * @param scanParameters
@@ -80,15 +84,18 @@ public class EdeScan extends ConcurrentScanChild {
 	 * @param repetitionNumber
 	 *            - if this is a negative number then frame index columns will not be added to the output. Useful for
 	 *            single spectrum scans where such indexing is meaningless.
+	 * @param shutter
+	 * @param topup - this is configured outside of this scan to enable control of how long to wait
 	 */
-	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter2) {
+	public EdeWithoutTriggerScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topup) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
 		this.scanType = scanType;
 		this.theDetector = theDetector;
-		this.shutter2 = shutter2;
+		this.shutter = shutter;
+		this.topup = topup;
 		allDetectors.add(theDetector);
 		if (repetitionNumber >= 0) {
 			// then use indexer to report progress of scan in data
@@ -111,6 +118,7 @@ public class EdeScan extends ConcurrentScanChild {
 		return "EDE scan - type:" + scanType.toString() + " " + motorPositions.getType().toString();
 	}
 
+	@Override
 	public String getHeaderDescription() {
 		String desc = scanType.toString() + " " + motorPositions.getType().toString() + " scan with " + scanParameters.getGroups().size() + " timing groups";
 		for (int index = 0; index < scanParameters.getGroups().size(); index++){
@@ -129,6 +137,7 @@ public class EdeScan extends ConcurrentScanChild {
 		return rawData.size();
 	}
 
+	@Override
 	public void setProgressUpdater(IObserver progressUpdater) {
 		this.progressUpdater = progressUpdater;
 	}
@@ -154,23 +163,15 @@ public class EdeScan extends ConcurrentScanChild {
 		theDetector.loadParameters(scanParameters);
 		if (scanType == EdeScanType.DARK){
 			// close the shutter
-			shutter2.moveTo("Close");
+			shutter.moveTo("Close");
 			checkThreadInterrupted();
 			waitIfPaused();
-			if (isFinishEarlyRequested()) {
+			if (isFinishEarlyRequested()){
 				return;
 			}
 		} else {
 			// open the shutter
-			logger.debug(toString() + " moving motors into position...");
-			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
-			motorPositions.moveIntoPosition();
-			checkThreadInterrupted();
-			waitIfPaused();
-			if (isFinishEarlyRequested()) {
-				return;
-			}
-			shutter2.moveTo("Open");
+			moveSampleIntoPosition();
 		}
 		if (!isChild()) {
 			currentPointCount = -1;
@@ -182,6 +183,12 @@ public class EdeScan extends ConcurrentScanChild {
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
 
+		// poll tfg and fetch data
+		pollDetectorAndFetchData();
+		logger.debug(toString() + " doCollection finished.");
+	}
+
+	protected void pollDetectorAndFetchData() throws DeviceException, Exception {
 		Integer nextFrameToRead = 0;
 		try {
 			ExperimentStatus progressData = fetchStatusAndWait();
@@ -194,7 +201,7 @@ public class EdeScan extends ConcurrentScanChild {
 				}
 				Thread.sleep(100);
 				waitIfPaused();
-				if (isFinishEarlyRequested()) {
+				if (isFinishEarlyRequested()){
 					return;
 				}
 				progressData = fetchStatusAndWait();
@@ -209,7 +216,22 @@ public class EdeScan extends ConcurrentScanChild {
 			// have we read all the frames?
 			readoutRestOfFrames(nextFrameToRead);
 		}
-		logger.debug(toString() + " doCollection finished.");
+	}
+
+	protected void moveSampleIntoPosition() throws DeviceException, InterruptedException {
+		logger.debug(toString() + " moving motors into position...");
+		InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+		motorPositions.moveIntoPosition();
+		checkThreadInterrupted();
+		waitIfPaused();
+		if (isFinishEarlyRequested()){
+			return;
+		}
+		if (topup != null){
+			// the TopupChecker object will run its test for an imminent top-up in atScanStart()
+			topup.atScanStart();
+		}
+		shutter.moveTo("Open");
 	}
 
 	/*
@@ -221,6 +243,7 @@ public class EdeScan extends ConcurrentScanChild {
 		boolean sendMessage = true;
 		while (progressData.detectorStatus == Detector.PAUSED) {
 			Thread.sleep(1000);
+			waitIfPaused();
 			if (sendMessage) {
 				logger.info("Detector paused and waiting for a trigger. Abort the scan if this takes too long.");
 				sendMessage = false;
@@ -247,7 +270,7 @@ public class EdeScan extends ConcurrentScanChild {
 		return getParent().getTotalNumberOfPoints();
 	}
 
-	private void validate() throws IllegalArgumentException {
+	protected void validate() throws IllegalArgumentException {
 		if (motorPositions == null) {
 			throw new IllegalArgumentException("Cannot run EdeScan as sample motor positions have not been supplied");
 		}
@@ -275,41 +298,18 @@ public class EdeScan extends ConcurrentScanChild {
 	 */
 	private void createDataPoints(int lowFrame, int highFrame) throws Exception {
 		// readout the correct frame from the detectors
-		NexusTreeProvider[] detData;
-		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
-		if (isSimulated) {
-			detData = SimulatedData.readSimulatedDataFromFile(lowFrame, highFrame, theDetector, this.getMotorPositions().getType(), this.getScanType());
-		} else {
-			detData = theDetector.readFrames(lowFrame, highFrame);
-		}
-		logger.info("data read successfully");
+		Object[][] detData = readDetectors(lowFrame, highFrame);
 
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
 			checkThreadInterrupted();
 			waitIfPaused();
-
+			if (isFinishEarlyRequested()){
+				return;
+			}
 			currentPointCount++;
 			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
 
-			ScanDataPoint thisPoint = new ScanDataPoint();
-			thisPoint.setUniqueName(name);
-			thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
-			thisPoint.setStepIds(getStepIds());
-			thisPoint.setScanPlotSettings(getScanPlotSettings());
-			thisPoint.setScanDimensions(getDimensions());
-			if (indexer != null) {
-				indexer.setGroup(ExperimentLocationUtils.getGroupNum(scanParameters, thisFrame));
-				indexer.setFrame(ExperimentLocationUtils.getFrameNum(scanParameters, thisFrame));
-				thisPoint.addScannable(indexer);
-				thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
-			}
-			thisPoint.addDetector(theDetector);
-			thisPoint.addDetectorData(detData[thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
-			thisPoint.setCurrentPointNumber(currentPointCount);
-			thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
-			thisPoint.setInstrument(instrument);
-			thisPoint.setCommand(getCommand());
-			thisPoint.setScanIdentifier(getScanNumber());
+			ScanDataPoint thisPoint = createScanDataPoint(lowFrame, detData, thisFrame);
 
 			// then write data to data handler
 			storeAndBroadcastSDP(thisFrame, thisPoint);
@@ -317,6 +317,9 @@ public class EdeScan extends ConcurrentScanChild {
 
 			checkThreadInterrupted();
 			waitIfPaused();
+			if (isFinishEarlyRequested()){
+				return;
+			}
 
 			// update the filename (if this was the first data point and so filename would never be defined until first
 			// data added
@@ -327,8 +330,49 @@ public class EdeScan extends ConcurrentScanChild {
 		}
 	}
 
-	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
+	private ScanDataPoint createScanDataPoint(int lowFrame, Object[][] detData, int thisFrame)
+			throws DeviceException {
+		ScanDataPoint thisPoint = new ScanDataPoint();
+		thisPoint.setUniqueName(name);
+		thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
+		thisPoint.setStepIds(getStepIds());
+		thisPoint.setScanPlotSettings(getScanPlotSettings());
+		thisPoint.setScanDimensions(getDimensions());
+		if (indexer != null) {
+			indexer.setGroup(ExperimentLocationUtils.getGroupNum(scanParameters, thisFrame));
+			indexer.setFrame(ExperimentLocationUtils.getFrameNum(scanParameters, thisFrame));
+			thisPoint.addScannable(indexer);
+			thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
+		}
+		addDetectorsToScanDataPoint(lowFrame, detData, thisFrame, thisPoint);
+		thisPoint.setCurrentPointNumber(currentPointCount);
+		thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
+		thisPoint.setInstrument(instrument);
+		thisPoint.setCommand(getCommand());
+		thisPoint.setScanIdentifier(getScanNumber());
+		return thisPoint;
+	}
 
+	@SuppressWarnings("unused")
+	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
+			ScanDataPoint thisPoint) throws DeviceException {
+		thisPoint.addDetector(theDetector);
+		thisPoint.addDetectorData(detData[0][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
+	}
+
+	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
+		NexusTreeProvider[][] detData = new NexusTreeProvider[1][];
+		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
+		if (isSimulated) {
+			detData[0] = SimulatedData.readSimulatedDataFromFile(lowFrame, highFrame, theDetector, this.getMotorPositions().getType(), this.getScanType());
+		} else {
+			detData[0] = theDetector.readFrames(lowFrame, highFrame);
+		}
+		logger.info("data read successfully");
+		return detData;
+	}
+
+	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
 		rawData.add(thisPoint);
 		if (progressUpdater != null) {
 			int groupNumOfThisSDP = ExperimentLocationUtils.getGroupNum(scanParameters, absoulteFrameNumber);
@@ -343,22 +387,27 @@ public class EdeScan extends ConcurrentScanChild {
 		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), rawData.get(rawData.size() - 1));
 	}
 
+	@Override
 	public DoubleDataset extractEnergyDetectorDataSet() {
 		return ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), rawData.get(0));
 	}
 
+	@Override
 	public DoubleDataset extractDetectorDataSet(int spectrumIndex) {
 		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), rawData.get(spectrumIndex));
 	}
 
+	@Override
 	public List<ScanDataPoint> getData() {
 		return getDataPoints(0, getNumberOfAvailablePoints() - 1);
 	}
 
+	@Override
 	public EdeScanParameters getScanParameters() {
 		return scanParameters;
 	}
 
+	@Override
 	public void setScanParameters(EdeScanParameters scanParameters) {
 		this.scanParameters = scanParameters;
 	}
@@ -371,10 +420,12 @@ public class EdeScan extends ConcurrentScanChild {
 		this.motorPositions = motorPositions;
 	}
 
+	@Override
 	public EdeScanType getScanType() {
 		return scanType;
 	}
 
+	@Override
 	public void setScanType(EdeScanType scanType) {
 		this.scanType = scanType;
 	}
