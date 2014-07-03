@@ -106,11 +106,13 @@ try:
         IntelligentPowerSupplySweepRateScannable
     from high_field_magnet.scannable.intelligentTemperatureController import \
         IntelligentTemperatureControllerScannable
+    #from scannable.CryojetScannable import CryojetScannable
     
     ips_field = IntelligentPowerSupplyFieldScannable('ips_field',
         'BL10J-EA-SMC-01:', field_tolerance=0.01)
     ips_sweeprate = IntelligentPowerSupplySweepRateScannable('ips_sweeprate',
         'BL10J-EA-SMC-01:', sweeprate_tolerance=0.01)
+    #itc2 = CryojetScannable('itc2',
     itc2 = IntelligentTemperatureControllerScannable('itc2',
         'BL10J-EA-TCTRL-02:', temp_tolerance=1, stable_time_sec=60)
     ips_field.setLevel(6)
