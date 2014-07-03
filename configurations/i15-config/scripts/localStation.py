@@ -236,7 +236,14 @@ try:
 		localStation_exception(sys.exc_info(), "creating devices")
 
 	dummyDetector = SimpleDummyDetector()
-	
+
+	try:
+		from scannable.CryojetScannable import CryojetScannable
+		cryojet = CryojetScannable('cryojet', 'BL15I-CG-CJET-01:', 
+									temp_tolerance=1, stable_time_sec=60)
+	except:
+		localStation_exception(sys.exc_info(), "creating cryojet scannable")
+
 	try:
 		import pd_pilatus
 		pilatus = pd_pilatus.Pilatus("pilatus", "BL15I-EA-PILAT-02:", "/dls/i15/data/currentdir/", "pil")
