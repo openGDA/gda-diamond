@@ -5,6 +5,7 @@
 
 	<bean id="sm4iamp16" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="deviceName" value="SM4.IAMP16" />
+		<property name="poll" value="true"/>
 	</bean>
 
 	<bean id="sm4x_motor" class="gda.device.motor.EpicsMotor">

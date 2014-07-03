@@ -14,5 +14,6 @@
 	</bean>
 	<bean id="bfmiamp19" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="deviceName" value="BFM.IAMP19" />
+		<property name="poll" value="true"/>
 	</bean>
 </beans>

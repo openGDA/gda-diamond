@@ -66,6 +66,7 @@
 	<import resource="FastShutter.xml" />
 	<import resource="topup.xml" />
 	<import resource="RFDMotors.xml" />
+	<import resource="Scaler2.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>
