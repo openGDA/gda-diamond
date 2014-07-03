@@ -19,7 +19,8 @@
 package gda.scan.ede;
 
 import gda.device.DeviceException;
-import gda.scan.EdeScan;
+import gda.device.scannable.TopupChecker;
+import gda.scan.EdeWithoutTriggerScan;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
@@ -28,6 +29,7 @@ import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 import java.util.List;
 import java.util.Map;
 
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -50,33 +52,28 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	private double totalTime;
 
 	public TimeResolvedExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
-			Map<String, Double> i0ScanableMotorPositions,
-			Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
-		super(itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
+			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName, TFGTrigger itTriggerOptions) throws DeviceException {
+		super(itTimingGroups, itTriggerOptions, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+				beamShutterScannableName);
 		setDefaultI0Parameters(i0accumulationTime);
 		setupTimingGroups();
 	}
 
 	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
-			Map<String, Double> i0ScanableMotorPositions,
-			Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
-		this(i0accumulationTime,
-				i0NoOfAccumulcation,
-				EdeScanParameters.createEdeScanParameters(itTimingGroups),
-				i0ScanableMotorPositions,
-				iTScanableMotorPositions,
-				detectorName,
-				topupMonitorName,
-				beamShutterScannableName);
+			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
+			String detectorName, String topupMonitorName, String beamShutterScannableName, TFGTrigger itTriggerOptions) throws DeviceException {
+		this(i0accumulationTime, i0NoOfAccumulcation, EdeScanParameters.createEdeScanParameters(itTimingGroups),
+				i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+				beamShutterScannableName,itTriggerOptions);
 	}
 
-	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
-			Map<String, Double> i0ScanableMotorPositions,
-			Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
-		super(iTScanParameters, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
+	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation,
+			EdeScanParameters iTScanParameters, Map<String, Double> i0ScanableMotorPositions,
+			Map<String, Double> iTScanableMotorPositions, String detectorName, String topupMonitorName,
+			String beamShutterScannableName, TFGTrigger itTriggerOptions) throws DeviceException {
+		super(iTScanParameters, itTriggerOptions, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+				beamShutterScannableName);
 		setCommonI0Parameters(i0accumulationTime, i0NoOfAccumulcation);
 		setupTimingGroups();
 	}
@@ -155,30 +152,33 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiItAveragedFilename();
 	}
 
-
-
 	public int getNoOfSecPerSpectrumToPublish() {
 		return noOfSecPerSpectrumToPublish;
 	}
-
 
 	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) {
 		this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish;
 	}
 
-	@Override
-	protected void addScans() {
+	private TopupChecker createTopupCheckerForAfterItScans() {
+		double predictedExperimentTime = getTimeRequiredForFinalScans();
+		return createTopupChecker(predictedExperimentTime);
+	}
 
-		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+	@Override
+	protected void addFinalScans() {
+
+		i0FinalScan = new EdeWithoutTriggerScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector,
+				firstRepetitionIndex, beamLightShutter, createTopupCheckerForAfterItScans());
 		i0FinalScan.setProgressUpdater(this);
 		scansForExperiment.add(i0FinalScan);
 
 		if (runIRef) {
-			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter);
+			iRefFinalScan = new EdeWithoutTriggerScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector,
+					firstRepetitionIndex, beamLightShutter, null);
 			iRefFinalScan.setProgressUpdater(this);
 			scansForExperiment.add(iRefFinalScan);
 		}
-
 	}
 
 	@Override
@@ -197,16 +197,32 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		header.append("itScan: " + itScans[0].getHeaderDescription() + "\n");
 
 		header.append("i0FinalScan: " + i0FinalScan.getHeaderDescription() + "\n");
-		if (runIRef){
+		if (runIRef) {
 			header.append("iRefFinalScan: " + iRefFinalScan.getHeaderDescription() + "\n");
 		}
 		return header.toString();
 	}
 
 	@Override
-	protected double getPredictedExperimentTime() {
-		return new LinearExperimentTimeEstimator(itScanParameters,  i0Position,
-				itPosition, iRefPosition).getTotalDuration();
+	protected double getTimeRequiredBeforeTopup() {
+		// For this experiment type, this is either: the total predicted duration of the entire experiment if it is
+		// less than nine minutes, else it is the duration of all the pre-It scans. In experiments longer than ten
+		// minutes, the It scan sequence will started by hardware triggering from the machine top-up signal.
+
+		LinearExperimentTimeEstimator estimator = new LinearExperimentTimeEstimator(itScanParameters, i0Position, itPosition, iRefPosition);
+
+		Double timeBeforeIts = estimator.getBeforeItDuration();
+		Double entireExperimentTime = estimator.getTotalDuration();
+
+		if (entireExperimentTime < 570) {  // 91/2 minutes, as top-up is every ten minutes
+			return entireExperimentTime;
+		}
+		return timeBeforeIts;
+	}
+
+	private Double getTimeRequiredForFinalScans() {
+		LinearExperimentTimeEstimator estimator = new LinearExperimentTimeEstimator(itScanParameters, i0Position, itPosition, iRefPosition);
+		return estimator.getBeforeItDuration();
 	}
 
 	@Override
@@ -221,11 +237,12 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeExperimentDataWriter createFileWritter() {
-		return new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan, itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
+		return new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
+				itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
 	}
 
 	@Override
 	protected boolean shouldRunItDark() {
-		return true;  //TODO always true, so remove from the interface??
+		return true; // TODO always true, so remove from the interface??
 	}
 }

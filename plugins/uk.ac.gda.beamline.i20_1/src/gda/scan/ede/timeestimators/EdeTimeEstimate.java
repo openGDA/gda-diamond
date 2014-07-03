@@ -40,18 +40,18 @@ public interface EdeTimeEstimate {
 	 */
 	Double getItDuration();
 
+
 	/**
-	 * An estimate of the time to perform the data collection before, or after, the main It data collection in the EDE
-	 * scans.
-	 * <p>
-	 * So this includes dark, It and Iref data collection plus overheads of moving motors etc. It does not take into
-	 * account any external sample environment overhead.
-	 * <p>
-	 * This will be an overestimation of the final data collection after the It's as darks are only collected at the
-	 * start of an experiment.
+	 * An estimate of the time to perform darks and initial I0 and Iref scans.
 	 * 
 	 * @return - time, in seconds
 	 */
-	Double getBookendsDuration();
+	Double getBeforeItDuration();
 
+	/**
+	 * An estimate of the time to perform the I0 and Iref scans at the end of the experiment
+	 * 
+	 * @return - time, in seconds
+	 */
+	Double getAfterItDuration();
 }
