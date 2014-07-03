@@ -30,8 +30,13 @@
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
 		<property name="local" value="true" />
 	</bean>
+	<bean id="machineModeMonitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+		<property name="local" value="false" />
+	</bean>
 
-	<!--	pressure sensors near FE (for commissioning)-->
+
+	<!-- pressure sensors near FE (for commissioning) -->
 	<bean id="space01" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL18B-VA-SPACE-01:P" />
 		<property name="local" value="true" />
@@ -50,7 +55,6 @@
 		<property name="local" value="true" />
 		<property name="InputNames" value="fevalve2" />
 	</bean>
-
 
 	<bean id="S1X1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S1.XP" />
@@ -234,7 +238,7 @@
 		<property name="deviceName" value="S4.YM" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="s4_drain" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -376,36 +380,36 @@
 		<property name="deviceName" value="SAM3.Y" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="USER2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS2" />
 		<property name="local" value="true" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="false" />
 	</bean>
 	<bean id="USER4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS4" />
 		<property name="local" value="true" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="false" />
 	</bean>
 	<bean id="USER5_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS5" />
 		<property name="local" value="true" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="false" />
 	</bean>
 	<bean id="USER6_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS6" />
 		<property name="local" value="true" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="false" />
 	</bean>
 	<bean id="USER7_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS7" />
 		<property name="local" value="true" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="false" />
 	</bean>
 	<bean id="USER8_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS8" />
 		<property name="local" value="true" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="false" />
 	</bean>
 
 	<bean id="BRAGG_motor" class="gda.device.motor.EpicsMotor">
@@ -660,7 +664,7 @@
 		<property name="base_pressure" ref="ionc_base_pressure" />
 		<property name="hvStatusScannable" ref="ionc3hvstat" />
 	</bean>
-	
+
 	<bean id="ionc1_pressure" class="gda.device.scannable.SimplePVScannable">
 		<property name="pvName" value="BL18B-EA-GIR-01:P2" />
 	</bean>
@@ -694,26 +698,26 @@
 		<property name="base_pv" value="BL18B-DI-STANF-06:" />
 	</bean>
 
-<!-- 	<bean id="izero_monitor" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL18B-DI-IZERO-01:I" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="sam1_monitor" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL18B-EA-SAMPL-01:I" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="ionc1_monitor" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL18B-EA-IONC-01:I" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="ionc2_monitor" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL18B-EA-IONC-02:I" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="ionc3_monitor" class="gda.device.monitor.EpicsMonitor"> -->
-<!-- 		<property name="pvName" value="BL18B-EA-IONC-03:I" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
+	<!-- <bean id="izero_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+	<!-- <property name="pvName" value="BL18B-DI-IZERO-01:I" /> -->
+	<!-- <property name="local" value="true" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="sam1_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+	<!-- <property name="pvName" value="BL18B-EA-SAMPL-01:I" /> -->
+	<!-- <property name="local" value="true" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="ionc1_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+	<!-- <property name="pvName" value="BL18B-EA-IONC-01:I" /> -->
+	<!-- <property name="local" value="true" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="ionc2_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+	<!-- <property name="pvName" value="BL18B-EA-IONC-02:I" /> -->
+	<!-- <property name="local" value="true" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="ionc3_monitor" class="gda.device.monitor.EpicsMonitor"> -->
+	<!-- <property name="pvName" value="BL18B-EA-IONC-03:I" /> -->
+	<!-- <property name="local" value="true" /> -->
+	<!-- </bean> -->
 
 
 

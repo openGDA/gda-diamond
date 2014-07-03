@@ -18,7 +18,11 @@
 	<bean id="topup" class="gda.device.monitor.DummyMonitor">
 		<property name="local" value="true" />
 	</bean>
-	
+	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Shutdown" />
+	</bean>
+
+
 	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor">
 		<property name="local" value="true" />
 	</bean>
@@ -33,7 +37,7 @@
 	<bean id="M1Y2_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="M1pitch_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="M1Y_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="S2X1_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="S2X2_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="S2Y1_motor" class="gda.device.motor.DummyMotor" />
@@ -73,7 +77,7 @@
 	<bean id="HRY2_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="HRY_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="HRPITCH_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="i0_position_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="S4X1_motor" class="gda.device.motor.DummyMotor" />
@@ -146,7 +150,7 @@
 	<bean id="energy_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="200" />
 	</bean>
-	
+
 	<bean id="dcm_crystal" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
@@ -155,7 +159,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="dcm_branch" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
@@ -164,7 +168,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 
 
 </beans>
