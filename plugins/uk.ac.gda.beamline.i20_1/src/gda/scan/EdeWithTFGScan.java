@@ -91,13 +91,13 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 		moveSampleIntoPosition();
 
 		// start the detector running (it waits for a pulse from the eTFG)
-		startTFG();
-
-		// start the eTFG running
 		logger.debug(toString() + " starting detector running...");
 		InterfaceProvider.getTerminalPrinter().print(
 				"Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		theDetector.collectData();
+
+		// start the eTFG running
+		startTFG();
 
 		// poll to get progress
 		Thread.sleep(500);
