@@ -65,6 +65,17 @@ public abstract class BeamlineConditionMonitorBase extends ScannableBase {
 			testShouldPause();
 		}
 	}
+	
+	@Override
+	public Object rawGetPosition() throws DeviceException {
+		return null;
+	}
+	
+	@Override
+	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
+	}
+
+	
 	/**
 	 * The test is performed inside this method. An inheriting class could either wait inside this method until the
 	 * condition has passed, or throw an Exception to end the scan, or throw a RedoScanLineThrowable to repeat the

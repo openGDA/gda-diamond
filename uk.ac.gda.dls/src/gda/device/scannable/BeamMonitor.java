@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -29,48 +29,47 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Looks at a shutter (such as the beamline's port shutter) during scans to see if its open. Will pause the scan until
- * the shutter reopens.
+ * This will pause scans if the ring current goes below 1mA or if the front-end shutter is closed.
  * <p>
- * Will not do this if the machine is not running.
+ * When the beam comes back it moves the energy scannable to its current position so that the ID gap is definitely at
+ * the right place.
+ * <p>
+ * To use, make sure that the shutterPV is correct for your beamline before configuring or using.
  */
-@Deprecated
-public class BeamMonitorScannableWithResume extends TopupScannable implements InitializationListener {
+public class BeamMonitor extends BeamlineConditionMonitorBase implements InitializationListener {
+	private static final Logger logger = LoggerFactory.getLogger(BeamMonitor.class);
 
-	private static final Logger logger = LoggerFactory.getLogger(BeamMonitorScannableWithResume.class);
-
-	private String machineModePV = "CS-CS-MSTAT-01:MODE";
-	private String shutterPV = "FE18B-RS-ABSB-02:STA";
+	private String ringCurrentPV = "SR21C-DI-DCCT-01:SIGNAL";
+	private String shutterPV = "FE18I-RS-ABSB-01:STA";
 	private String[] modesToIgnore = new String[] { "Mach. Dev.", "Shutdown" };
 
-	private double waittime = 15;
-	
 	private EpicsController controller;
-
 	private EpicsChannelManager channelManager;
-
-	private Channel machineMode;
 	private Channel portShutter;
+	private Channel ringCurrent;
 
-	public BeamMonitorScannableWithResume() {
+	public BeamMonitor() {
 		super();
+		this.inputNames = new String[0];
+		this.extraNames = new String[0];
+		this.outputFormat = new String[0];
+		this.level = 1;
 	}
 
 	@Override
 	public void configure() {
 		this.level = 1;
-		if (machineModePV == null || machineModePV.isEmpty() || shutterPV == null || shutterPV.isEmpty()) {
+		if (shutterPV == null || shutterPV.isEmpty() || ringCurrentPV == null || ringCurrentPV.isEmpty()) {
 			logger.error(getName() + " cannot configure as the PVs are not defined.");
 		}
 
 		controller = EpicsController.getInstance();
 		channelManager = new EpicsChannelManager(this);
 		try {
-			machineMode = channelManager.createChannel(machineModePV, false);
 			portShutter = channelManager.createChannel(shutterPV, false);
+			ringCurrent = channelManager.createChannel(ringCurrentPV, false);
 		} catch (Exception e) {
-			logger.error(getName() + " had Exception during configure. Scans will not be protected by this Scannable.",
-					e);
+			logger.error(getName() + " Beam monitor failed to configure.", e);
 		}
 	}
 
@@ -80,14 +79,15 @@ public class BeamMonitorScannableWithResume extends TopupScannable implements In
 		if (!isConnected()) {
 			configure();
 		}
+		super.atScanStart();
 	}
 
-	private boolean isConnected() {
-		return machineMode.getConnectionState().isEqualTo(ConnectionState.CONNECTED)
-				&& portShutter.getConnectionState().isEqualTo(ConnectionState.CONNECTED);
+	protected boolean isConnected() {
+		return portShutter.getConnectionState().isEqualTo(ConnectionState.CONNECTED)
+				&& ringCurrent.getConnectionState().isEqualTo(ConnectionState.CONNECTED);
 	}
 
-	private String getNotConnectedMessage() {
+	protected String getNotConnectedMessage() {
 		return getName()
 				+ " could not run its test as its channels to Epics are not connected. The scan is not protected by this scannable";
 	}
@@ -103,21 +103,20 @@ public class BeamMonitorScannableWithResume extends TopupScannable implements In
 			return;
 		}
 
-		if (!beamAvailable()) {
+		while (!machineHasCurrent()) {
 			try {
-				String message = "Pausing scan and waiting for " + getName() + ". Press stop button to cancel.";
-				sendAndPrintMessage(message);
-				while (!beamAvailable()) {
-					Thread.sleep(1000);
-				}
+				sendAndPrintMessage("Ring has no current : pausing until it has returned");
+				Thread.sleep(60000);
+			} catch (InterruptedException e) {
+				// someone trying to kill the thread so re-throw to kill any scan
+				throw new DeviceException(e.getMessage(), e);
+			}
+		}
 
-				if (waittime > 0){
-					message = getName() + ": pausing for " + waittime + "s to allow beam to stabilise...";
-					sendAndPrintMessage(message);
-					Thread.sleep(new Double(waittime).longValue() * 1000);
-				}
-				message = getName() + " now resuming scan.";
-				sendAndPrintMessage(message);
+		while (!portShutterOpen()) {
+			try {
+				sendAndPrintMessage("Port shutter closed : pausing until it is opened");
+				Thread.sleep(60000);
 			} catch (InterruptedException e) {
 				// someone trying to kill the thread so re-throw to kill any scan
 				throw new DeviceException(e.getMessage(), e);
@@ -125,52 +124,29 @@ public class BeamMonitorScannableWithResume extends TopupScannable implements In
 		}
 	}
 
-	private boolean beamAvailable() {
-		String value;
+	protected boolean portShutterOpen() {
 		try {
-			value = controller.cagetString(portShutter);
-			return value.equalsIgnoreCase("Open");
+			String value = controller.cagetString(portShutter);
+			return value.equals("Open");
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return true;
 		}
 	}
 
-	/**
-	 * Returns false if not in a real running mode.
-	 * 
-	 * @return true if user mode, so this object should operate.
-	 */
-	private boolean machineIsRunning() {
-
-		if (machineModePV == null || machineModePV.isEmpty()) {
-			return true;
-		}
-
-		String value;
+	protected boolean machineHasCurrent() {
 		try {
-			value = controller.cagetString(machineMode);
+			Double current = controller.cagetDouble(ringCurrent);
+//			return false;
+			return current > 1.0;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return true;
 		}
-
-		for (String modeToIgnore : modesToIgnore) {
-			if (modeToIgnore.equals(value)) {
-				return false;
-			}
-		}
-
-		// current mode not listed in modes to ignore
-		return true;
 	}
 
-	public String getMachineModePV() {
-		return machineModePV;
-	}
-
-	public void setMachineModePV(String machineModePV) {
-		this.machineModePV = machineModePV;
+	@Override
+	public void initializationCompleted() {
 	}
 
 	public String getShutterPV() {
@@ -189,8 +165,11 @@ public class BeamMonitorScannableWithResume extends TopupScannable implements In
 		this.modesToIgnore = modesToIgnore;
 	}
 
-	@Override
-	public void initializationCompleted() {
+	public void setRingCurrentPV(String ringCurrentPV) {
+		this.ringCurrentPV = ringCurrentPV;
 	}
 
+	public String getRingCurrentPV() {
+		return ringCurrentPV;
+	}
 }
