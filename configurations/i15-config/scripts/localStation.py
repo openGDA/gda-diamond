@@ -94,7 +94,7 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	spivotx, spivoty, spivotz, sphi,\
 	d7x, d7y,\
 	xreye2x, xreye2y,\
-	bs2x, bs2y,\
+	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9\
 #	,cryox, cryoy, cryoz, cryorot\
@@ -680,7 +680,7 @@ try:
 				spivotx, spivoty, spivotz, sphi,
 				d7x, d7y,
 				xreye2x, xreye2y,
-				bs2x, bs2y,
+				bs2x, bs2y, bs3x, bs3y, bs3z,
 				#det2z,
 				d1, d2, d3, d4, d5, d6, d7, d8, d9,
 				d1sum, d2sum, d3sum, d4sum, d5sum
