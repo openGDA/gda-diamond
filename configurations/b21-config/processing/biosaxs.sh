@@ -36,17 +36,20 @@ if test -d $VISIT ; then
 		REDUCTIONOUTPUTFILE=${VISIT}/processed/${RESTOFPATH}.reduced.nxs
 		mkdir -p $(dirname $REDUCTIONOUTPUTFILE)
 		ANALYSISOUTPUT=${VISIT}/processed/${RESTOFPATH}.analysis
+		UNSUBOUTPUT=${VISIT}/processed/${RESTOFPATH}.unsub
 	else 
 		REDUCTIONOUTPUTFILE=${VISIT}/processing/${RESTOFPATH}.reduced.nxs
 		mkdir -p $(dirname $REDUCTIONOUTPUTFILE)
 		REDUCTIONOUTPUTFILE=
 		ANALYSISOUTPUT=${VISIT}/processing/${RESTOFPATH}.analysis
+		UNSUBOUTPUT=${VISIT}/processing/${RESTOFPATH}.unsub
 	fi
 	TMPDIR=${VISIT}/tmp/${RESTOFPATH}.$$
 else
 	echo running reduction outside of a visit
 	TMPDIR=${DATAFILE}.$$.reduction
 	ANALYSISOUTPUT=${DATAFILE}.$$.analysis
+	UNSUBOUTPUT=${DATAFILE}.$$.unsub
 fi
 
 mkdir -p $TMPDIR
@@ -111,6 +114,19 @@ fi
 if test -n "$REDUCTIONOUTPUTFILE" ; then 
 	ln \$GENERATEDFILE $REDUCTIONOUTPUTFILE
 	REDUCEDFILE="$REDUCTIONOUTPUTFILE"
+	# check for unsub output
+	if ls -l ${OUTPUTDIR}/results_*_BackgroundSubtraction_background_0_*.dat ${OUTPUTDIR}/results_*_Normalisation_data_0_*.dat ; then 
+		echo making directory for unsubtracted dat files
+		mkdir -p $UNSUBOUTPUT
+		echo linking background
+		for i in ${OUTPUTDIR}/results_*_BackgroundSubtraction_background_0_*.dat ; do 
+			ln \$i ${UNSUBOUTPUT}/\$(basename \$i | sed -e s,results_,, -e 's,_.*_,_background_,')
+		done
+		echo linking sample
+		for i in ${OUTPUTDIR}/results_*_Normalisation_data_0_*.dat ; do 
+			ln \$i ${UNSUBOUTPUT}/\$(basename \$i | sed -e s,results_,, -e 's,_.*_,_sample_,')
+		done
+	fi
 else
 	REDUCEDFILE=\$GENERATEDFILE
 fi
