@@ -67,6 +67,7 @@
 	<import resource="epics/detector/cam2.xml" />
 	<import resource="epics/detector/cam5.xml" />
 	<import resource="epics/detector/medipix.xml" />
+	<import resource="epics/detector/c10.xml" />
 
 
 	<import resource="epics/trajectory_scan_controller_xps2.xml" />
