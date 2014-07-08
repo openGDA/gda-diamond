@@ -134,6 +134,8 @@ fi
 # tell ispyb reduction worked and result is in \$REDUCEDFILE
 $ISPYBUPDATE reduction $DATACOLLID COMPLETE \$REDUCEDFILE
 
+echo restricting file sizes via ulimit
+ulimit -f 500000
 mkdir $ANALYSISOUTPUT
 $ISPYBUPDATE analysis $DATACOLLID STARTED \"\"
 python $EDNAPYSCRIPT --filename \$REDUCEDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 4 
