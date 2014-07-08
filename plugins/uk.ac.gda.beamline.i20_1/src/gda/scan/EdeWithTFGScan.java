@@ -22,7 +22,6 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
 import gda.device.detector.StripDetector;
-import gda.device.detector.countertimer.TfgScaler;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -63,8 +62,9 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispersiveExafsScan {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeWithTFGScan.class);
+	private static final double XCHIP_START_PULSE_WIDTH_IN_SEC = 0.001;
+	private static final double DEAD_TIME_IN_SEC = 0.00001; // 10µs
 	private final DAServer daserver;
-	private final TfgScaler injectionCounter;
 	private final TFGTrigger triggeringParameters;
 
 	public EdeWithTFGScan(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
@@ -74,7 +74,6 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 		this.triggeringParameters = triggeringParameters;
 
 		daserver = Finder.getInstance().find("daserver");
-		injectionCounter = Finder.getInstance().find("injectionCounter");
 	}
 
 	@Override
@@ -112,10 +111,21 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 		double[] samEnvPulseWidths = deriveSamEnvPulseWidths();
 		double[] samEnvDelays = deriveSamEnvDelays();
 		double itDelay = deriveItDelay();
-		int xchipStartPulseWidth = 50000; // 1ms pulse to start XCHIP
 		int totalNumberItFramesPerRepetition = scanParameters.getTotalNumberOfFrames();
 
 		StringBuffer sb = new StringBuffer();
+
+		//		Format of 'tfg setup-groups' as follows, 7 or 9 space-separated numbers:
+		//			num_frames dead_time live_time dead_port live_port dead_pause live_pause [dead_tfinc live_tfinc]
+		//			Followed by last line:
+		//			-1 0 0 0 0 0 0
+		//			Where num_frames       	= Number of frames in this group
+		//			Dead_time, Live_time   	= time as floating point seconds
+		//			Dead_port, Live_port    	= port data as integer (0<=port<=128k-1)
+		//			Dead_pause, Live_pause 	= pause bit (0<=pause<=1)
+		//			And For TFG2 only
+		//			num_repeats sequence_name
+		//			This repeats the pre-recorded sequence num_repeats times.
 
 		// first line, initial command and number of cycles
 		sb.append("tfg setup-groups");
@@ -127,7 +137,7 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 
 		// second line, wait for top-up
 		// TODO what if we are not waiting for top-up? e.g. the whole thing is << 10 mins
-		sb.append("1 0.0000001 0 0 0 8 0\n"); // wait for a TTL signal on TRIG 0 (machine top-up pulse)
+		sb.append("1 " + DEAD_TIME_IN_SEC + " 0 0 0 8 0\n"); // wait for a TTL signal on TRIG 0 (machine top-up pulse)
 
 		// series of delays plus output to drive sample environments
 		for (int samEnvIndex = 0; samEnvIndex < samEnvPulseWidths.length; samEnvIndex++) {
@@ -142,10 +152,10 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 		sb.append("1 " + itDelay + " 0 0 0 0 0\n");// # some user defined delay
 
 		// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-		sb.append("1 " + xchipStartPulseWidth + " 0 3 1 0 0\n");
+		sb.append("1 " + XCHIP_START_PULSE_WIDTH_IN_SEC + " 0 3 1 0 0\n");
 
 		// time frames to count machine injection signals, keeping photon shutter open, increment from XH
-		sb.append(totalNumberItFramesPerRepetition+ " 0 0.0000001 1 1 0 9\n");
+		sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 1 1 0 9\n");
 
 		sb.append("-1 0 0 0 0 0 0");
 
@@ -210,7 +220,7 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 
 		double[] samEnvWidths = new double[samEnvParameters.size()];
 		for (int i = 0; i < samEnvParameters.size(); i++) {
-			samEnvWidths[i] = samEnvParameters.get(i).getTriggerPauseLength();
+			samEnvWidths[i] = samEnvParameters.get(i).getTriggerPulseLength();
 		}
 
 		return samEnvWidths;

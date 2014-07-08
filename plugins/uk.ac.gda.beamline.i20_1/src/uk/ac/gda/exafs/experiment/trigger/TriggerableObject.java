@@ -20,6 +20,8 @@ package uk.ac.gda.exafs.experiment.trigger;
 
 import uk.ac.gda.beans.ObservableModel;
 
+import com.google.gson.annotations.Expose;
+
 public class TriggerableObject extends ObservableModel {
 
 	public enum TriggerOutputPort {
@@ -48,13 +50,19 @@ public class TriggerableObject extends ObservableModel {
 		}
 	}
 
+	public static final String TRIGGER_PULSE_RISING_PROP_NAME = "pulseRising";
+	private boolean pulseRising = true;
+
 	public static final String TRIGGER_DELAY_PROP_NAME = "triggerDelay";
+	@Expose
 	private double triggerDelay;
 
-	public static final String TRIGGER_PAUSE_LENGTH_PROP_NAME = "triggerPauseLength";
-	private double triggerPauseLength;
+	public static final String TRIGGER_PULSE_LENGTH_PROP_NAME = "triggerPulseLength";
+	@Expose
+	private double triggerPulseLength;
 
 	public static final String TRIGGER_OUTPUT_PORT_PROP_NAME = "triggerOutputPort";
+	@Expose
 	private TriggerOutputPort triggerOutputPort;
 
 	public static final String NAME_PROP_NAME = "name";
@@ -65,15 +73,15 @@ public class TriggerableObject extends ObservableModel {
 	}
 
 	public void setTriggerDelay(double triggerDelay) {
-		this.triggerDelay = triggerDelay;
+		firePropertyChange(TRIGGER_DELAY_PROP_NAME, this.triggerDelay, this.triggerDelay = triggerDelay);
 	}
 
-	public double getTriggerPauseLength() {
-		return triggerPauseLength;
+	public double getTriggerPulseLength() {
+		return triggerPulseLength;
 	}
 
-	public void setTriggerPauseLength(double triggerPauseLength) {
-		this.triggerPauseLength = triggerPauseLength;
+	public void setTriggerPulseLength(double triggerPulseLength) {
+		firePropertyChange(TRIGGER_PULSE_LENGTH_PROP_NAME, this.triggerPulseLength, this.triggerPulseLength = triggerPulseLength);
 	}
 
 	public TriggerOutputPort getTriggerOutputPort() {
@@ -81,7 +89,7 @@ public class TriggerableObject extends ObservableModel {
 	}
 
 	public void setTriggerOutputPort(TriggerOutputPort triggerOutputPort) {
-		this.triggerOutputPort = triggerOutputPort;
+		firePropertyChange(TRIGGER_OUTPUT_PORT_PROP_NAME, this.triggerOutputPort, this.triggerOutputPort = triggerOutputPort);
 	}
 
 	public String getName() {
@@ -89,7 +97,15 @@ public class TriggerableObject extends ObservableModel {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		firePropertyChange(NAME_PROP_NAME, this.name, this.name = name);
+	}
+
+	public boolean isPulseRising() {
+		return pulseRising;
+	}
+
+	public void setPulseRising(boolean pulseRising) {
+		firePropertyChange(TRIGGER_PULSE_RISING_PROP_NAME, this.pulseRising, this.pulseRising = pulseRising);
 	}
 
 	public String getDAServerCommand() {

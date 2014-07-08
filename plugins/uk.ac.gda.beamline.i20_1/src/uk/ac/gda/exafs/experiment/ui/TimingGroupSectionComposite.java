@@ -485,6 +485,17 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				}
 			}
 		});
+		final Button butExternalTrigger = new Button(buttonComposit, SWT.FLAT);
+		butExternalTrigger.setText("TFG");
+		butExternalTrigger.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		butExternalTrigger.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				WizardDialog wizardDialog = new WizardDialog(TimingGroupSectionComposite.this.getShell(),
+						new ExternalTriggerDetailsWizard(model.getExternalTriggerSetting()));
+				wizardDialog.open();
+			}
+		});
 	}
 
 	private void createI0IRefComposites() throws Exception {

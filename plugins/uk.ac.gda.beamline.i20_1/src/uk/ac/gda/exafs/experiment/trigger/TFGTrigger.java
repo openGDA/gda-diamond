@@ -18,15 +18,23 @@
 
 package uk.ac.gda.exafs.experiment.trigger;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.gda.beans.ObservableModel;
 
-public class TFGTrigger extends ObservableModel {
-	private static final int MAX_PORTS_FOR_SAMPLE_ENV = 6;
+import com.google.gson.annotations.Expose;
+
+public class TFGTrigger extends ObservableModel implements Serializable {
+	// The first 2 is reserved for photonShutter and detector
+	private static final int MAX_PORTS_FOR_SAMPLE_ENV = TriggerableObject.TriggerOutputPort.values().length - 2;
+
+	@Expose
 	private final List<TriggerableObject> sampleEnvironment = new ArrayList<TriggerableObject>(MAX_PORTS_FOR_SAMPLE_ENV);
+	@Expose
 	private final PhotonShutter photonShutter = new PhotonShutter();
+	@Expose
 	private final XhDetector detector = new XhDetector();
 
 	public TriggerableObject getPhotonShutter() {
@@ -35,22 +43,18 @@ public class TFGTrigger extends ObservableModel {
 	public TriggerableObject getDetector() {
 		return detector;
 	}
-
 	public List<TriggerableObject> getSampleEnvironment() {
 		return sampleEnvironment;
 	}
-
-	private static class PhotonShutter extends TriggerableObject {
-		public PhotonShutter() {
-			this.setName("PhotoShutter");
-			this.setTriggerOutputPort(TriggerableObject.TriggerOutputPort.USR_OUT_0);
+	public TriggerableObject createNewSampleEnvEntry() throws Exception {
+		if (sampleEnvironment.size() == MAX_PORTS_FOR_SAMPLE_ENV) {
+			throw new Exception("Maxium ports reached: " + MAX_PORTS_FOR_SAMPLE_ENV);
 		}
-	}
-
-	private static class XhDetector extends TriggerableObject {
-		public XhDetector() {
-			this.setName("Xh Detector");
-			this.setTriggerOutputPort(TriggerableObject.TriggerOutputPort.USR_OUT_1);
-		}
+		TriggerableObject obj = new TriggerableObject();
+		obj.setName("Default");
+		obj.setTriggerPulseLength(0.001);
+		obj.setTriggerDelay(0.1);
+		obj.setTriggerOutputPort(TriggerableObject.TriggerOutputPort.values()[sampleEnvironment.size() + 2]);
+		return obj;
 	}
 }

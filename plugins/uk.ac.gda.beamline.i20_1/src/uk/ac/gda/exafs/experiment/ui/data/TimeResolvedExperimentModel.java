@@ -54,6 +54,7 @@ import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -75,6 +76,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentModel.class);
 
 	protected static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
+
+	private static final String TRIGGER_DETAILS_OBJ_NAME = "triggerDetails";
+	private static final String EXTERNAL_TRIGGER_DETAILS = "tfg_external_trigger_details";
+	protected ExternalTriggerSetting externalTriggerSetting;
 
 	private static final double EXPERIMENT_START_TIME = 0.0;
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
@@ -129,6 +134,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public static final String UNIT_IN_STRING_PROP_NAME = "unitInStr";
 
 	protected static final String IO_IREF_DATA_SUFFIX_KEY = "_IO_IREF_DATA";
+
 
 	@Expose
 	private String unitInStr = unit.getUnitText();
@@ -207,6 +213,22 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			return;
 		}
 
+		TFGTrigger savedExternalTriggerSetting = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
+		if (savedExternalTriggerSetting == null) {
+			savedExternalTriggerSetting = new TFGTrigger();
+			try {
+				savedExternalTriggerSetting.getSampleEnvironment().add(savedExternalTriggerSetting.createNewSampleEnvEntry());
+			} catch (Exception e) {
+				logger.error("Unable to create sample environment entry", e);
+			}
+		}
+		externalTriggerSetting = new ExternalTriggerSetting(savedExternalTriggerSetting);
+		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
+			}
+		});
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
 			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());
@@ -331,13 +353,14 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f",
 					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
 		}
-		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", %s);",
 				TIMING_GROUPS_OBJ_NAME,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
-				DetectorModel.SHUTTER_NAME));
+				DetectorModel.SHUTTER_NAME,
+				TRIGGER_DETAILS_OBJ_NAME));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
@@ -466,6 +489,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							timingGroups.add(timingGroup);
 						}
 						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
+						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TRIGGER_DETAILS_OBJ_NAME, externalTriggerSetting.getTfgTrigger());
 						String scanCommand = buildScanCommand();
 						logger.info("Sending command: " + scanCommand);
 						InterfaceProvider.getCommandRunner().runCommand(scanCommand);
@@ -635,5 +659,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	public double getDuration() {
 		return timeIntervalData.getDuration();
+	}
+
+
+
+	public ExternalTriggerSetting getExternalTriggerSetting() {
+		return externalTriggerSetting;
 	}
 }

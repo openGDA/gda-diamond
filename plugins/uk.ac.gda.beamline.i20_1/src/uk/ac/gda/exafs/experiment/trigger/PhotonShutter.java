@@ -16,21 +16,13 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.experiment.ui;
+package uk.ac.gda.exafs.experiment.trigger;
 
-import org.eclipse.jface.wizard.Wizard;
+import java.io.Serializable;
 
-public class TimingGroupsSetupWizard extends Wizard {
-	private final TimingGroupsSetupPage timingGroupsSetupPage = new TimingGroupsSetupPage();
-
-	@Override
-	public void addPages() {
-		addPage(timingGroupsSetupPage);
+class PhotonShutter extends TriggerableObject implements Serializable {
+	public PhotonShutter() {
+		this.setName("PhotoShutter");
+		this.setTriggerOutputPort(TriggerableObject.TriggerOutputPort.USR_OUT_0);
 	}
-
-	@Override
-	public boolean performFinish() {
-		return true;
-	}
-
 }
