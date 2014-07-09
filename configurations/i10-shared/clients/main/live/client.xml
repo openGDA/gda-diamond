@@ -13,15 +13,7 @@
 		http://www.diamond.ac.uk/schema/gda/corba
 		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/dummy/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-			</list>
-		</property>
-	</bean>
-
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/clients/main/dummy/client.xml"/>
-	<import resource="../common/client.xml"/>
+	<import resource="I10-D1-DCAM.xml" />
+	<import resource="I10-D2-DCAM.xml" />
+	<import resource="I10-D3-DCAM.xml" />
 </beans>

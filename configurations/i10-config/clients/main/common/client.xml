@@ -15,7 +15,16 @@
 
 	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
 	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" />
-	
+
+	<!-- i10-config
+	 -->
+	<import resource="I10-D4-DCAM.xml" />
+	<import resource="I10-D6-DCAM.xml" />
+	 <!-- i01-1-config
+	 -->
+	<import resource="I10-DJ1-DCAM.xml" />
+	<import resource="I10-DJ3-DCAM.xml" />
+
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
