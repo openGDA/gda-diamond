@@ -24,12 +24,15 @@ import java.util.List;
 
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 
 import com.google.gson.annotations.Expose;
 
 public class TFGTrigger extends ObservableModel implements Serializable {
 	// The first 2 is reserved for photonShutter and detector
 	private static final int MAX_PORTS_FOR_SAMPLE_ENV = TriggerableObject.TriggerOutputPort.values().length - 2;
+
+	public static final ExperimentUnit DEFAULT_UNIT = ExperimentUnit.SEC;
 
 	@Expose
 	private final List<TriggerableObject> sampleEnvironment = new ArrayList<TriggerableObject>(MAX_PORTS_FOR_SAMPLE_ENV);

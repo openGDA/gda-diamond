@@ -55,6 +55,7 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -83,14 +84,16 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private static final String EXTERNAL_TRIGGER_DETAILS = "tfg_external_trigger_details";
 	protected ExternalTriggerSetting externalTriggerSetting;
 
-	private static final double EXPERIMENT_START_TIME = 0.0;
+	private static final double IT_COLLECTION_START_TIME = 0.0;
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
 	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
 
 	private static final String LINEAR_EXPERIMENT_OBJ = "linearExperiment";
 
-	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
+	public static final String IT_COLLECTION_DURATION_PROP_NAME = "itCollectionDuration";
+
+	public static final String EXP_IT_DURATION_PROP_NAME = "expItDuration";
 
 	private DefaultTimeBarModel timebarModel;
 	private TimingGroupTimeBarRowModel timingGroupRowModel;
@@ -136,7 +139,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public static final String UNIT_IN_STRING_PROP_NAME = "unitInStr";
 
 	protected static final String IO_IREF_DATA_SUFFIX_KEY = "_IO_IREF_DATA";
-
 
 	@Expose
 	private String unitInStr = unit.getUnitText();
@@ -213,6 +215,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
 			}
 		});
+		externalTriggerSetting.getTfgTrigger().getDetector().addPropertyChangeListener(TriggerableObject.TRIGGER_DELAY_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				TimeResolvedExperimentModel.this.firePropertyChange(EXP_IT_DURATION_PROP_NAME, null, getExpItDuration());
+			}
+		});
 
 		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
@@ -228,7 +236,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 		});
 		if (savedGroups == null) {
-			timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToDefaultUnit(DEFAULT_INITIAL_EXPERIMENT_TIME));
+			timeIntervalData.setTimes(IT_COLLECTION_START_TIME, unit.convertToDefaultUnit(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			addItGroup();
 			return;
 		}
@@ -581,8 +589,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		for (Object loadedGroup : groupList) {
 			experimentDuration += ((TimingGroupUIModel)loadedGroup).getDuration();
 		}
-		timeIntervalData.setTimes(EXPERIMENT_START_TIME, experimentDuration);
-		this.firePropertyChange(EXPERIMENT_DURATION_PROP_NAME, null, getExperimentDuration());
+		timeIntervalData.setTimes(IT_COLLECTION_START_TIME, experimentDuration);
+		this.firePropertyChange(IT_COLLECTION_DURATION_PROP_NAME, null, getItCollectionDuration());
 	}
 
 	private void resetInitialGroupTimes(double groupDuration) {
@@ -607,7 +615,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public void setupExperiment(ExperimentUnit unit, double duration, int noOfGroups) {
-		timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToDefaultUnit(duration));
+		timeIntervalData.setTimes(IT_COLLECTION_START_TIME, unit.convertToDefaultUnit(duration));
 		this.setUnit(unit);
 		groupList.clear();
 		for(int i = 0; i < noOfGroups; i++) {
@@ -620,8 +628,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 	}
 
-	public double getExperimentDuration() {
+	public double getItCollectionDuration() {
 		return unit.convertFromDefaultUnit(timeIntervalData.getDuration());
+	}
+
+	public double getExpItDuration() {
+		return TFGTrigger.DEFAULT_UNIT.convertTo(externalTriggerSetting.getTfgTrigger().getDetector().getTriggerDelay(), unit) + getItCollectionDuration();
 	}
 
 	public double getDurationInSec() {

@@ -50,7 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.experiment.ui.data.ExternalTriggerSetting;
@@ -218,7 +218,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			xhDelayLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 			xhDelayLabel.setText("Delay: ");
 			xhDelayText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetector(), TriggerableObject.TRIGGER_DELAY_PROP_NAME, false);
-			xhDelayText.setUnit(ClientConfig.UnitSetup.SEC.getText());
+			xhDelayText.setUnit(TFGTrigger.DEFAULT_UNIT.getUnitText());
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			gridData.widthHint = 100;
 			xhDelayText.setLayoutData(gridData);
@@ -228,7 +228,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			xhPulseWidthLabel.setText("Pulse width: ");
 			xhPulseWidthText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetector(), TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME, false);
 			xhPulseWidthText.setEditable(false);
-			xhPulseWidthText.setUnit(ClientConfig.UnitSetup.SEC.getText());
+			xhPulseWidthText.setUnit(TFGTrigger.DEFAULT_UNIT.getUnitText());
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			gridData.widthHint = 100;
 			xhPulseWidthText.setLayoutData(gridData);
@@ -272,8 +272,8 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 				TriggerableObject obj = (TriggerableObject) element;
 				switch (columnIndex) {
 				case 0: return obj.getName();
-				case 1: return Double.toString(obj.getTriggerDelay()) + " s";
-				case 2: return Double.toString(obj.getTriggerPulseLength())  + " s";
+				case 1: return Double.toString(obj.getTriggerDelay()) + " " + TFGTrigger.DEFAULT_UNIT.getUnitText();
+				case 2: return Double.toString(obj.getTriggerPulseLength())  + " " + TFGTrigger.DEFAULT_UNIT.getUnitText();
 				case 3: return obj.getTriggerOutputPort().getPortName();
 				default : return "Unknown";
 				}
