@@ -281,7 +281,7 @@ if andor_installed:
         localStation_exception(sys.exc_info(), "creating andor & andorGV12 objects")
 
 ######## Setting up the I06 Pixis camera ###############
-pixis_installed = True
+pixis_installed = False
 
 if pixis_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
