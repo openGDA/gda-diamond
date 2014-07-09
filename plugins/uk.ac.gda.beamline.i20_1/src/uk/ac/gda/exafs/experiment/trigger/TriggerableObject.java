@@ -18,11 +18,13 @@
 
 package uk.ac.gda.exafs.experiment.trigger;
 
+import java.io.Serializable;
+
 import uk.ac.gda.beans.ObservableModel;
 
 import com.google.gson.annotations.Expose;
 
-public class TriggerableObject extends ObservableModel {
+public class TriggerableObject extends ObservableModel implements Serializable{
 
 	public enum TriggerOutputPort {
 		USR_OUT_0(0, "USR OUT 0"),
@@ -46,12 +48,9 @@ public class TriggerableObject extends ObservableModel {
 			return portName;
 		}
 		public int getUsrPort() {
-			return usrPort;
+			return (int) Math.pow(2, usrPort);
 		}
 	}
-
-	public static final String TRIGGER_PULSE_RISING_PROP_NAME = "pulseRising";
-	private boolean pulseRising = true;
 
 	public static final String TRIGGER_DELAY_PROP_NAME = "triggerDelay";
 	@Expose
@@ -98,14 +97,6 @@ public class TriggerableObject extends ObservableModel {
 
 	public void setName(String name) {
 		firePropertyChange(NAME_PROP_NAME, this.name, this.name = name);
-	}
-
-	public boolean isPulseRising() {
-		return pulseRising;
-	}
-
-	public void setPulseRising(boolean pulseRising) {
-		firePropertyChange(TRIGGER_PULSE_RISING_PROP_NAME, this.pulseRising, this.pulseRising = pulseRising);
 	}
 
 	public String getDAServerCommand() {

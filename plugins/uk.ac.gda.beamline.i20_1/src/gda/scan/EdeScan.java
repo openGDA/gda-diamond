@@ -58,9 +58,9 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * <p>
  * This starts immediately and does not take sample environment triggering
  */
-public class EdeWithoutTriggerScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
+public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeWithoutTriggerScan.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
 
 	protected final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
@@ -91,7 +91,7 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 	 * @param shutter
 	 * @param topup - this is configured outside of this scan to enable control of how long to wait
 	 */
-	public EdeWithoutTriggerScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topup) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;

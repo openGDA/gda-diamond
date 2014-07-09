@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 
 import com.google.gson.annotations.Expose;
 
@@ -54,7 +55,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		obj.setName("Default");
 		obj.setTriggerPulseLength(0.001);
 		obj.setTriggerDelay(0.1);
-		obj.setTriggerOutputPort(TriggerableObject.TriggerOutputPort.values()[sampleEnvironment.size() + 2]);
+		obj.setTriggerOutputPort(TriggerOutputPort.values()[sampleEnvironment.size() + 2]);
 		return obj;
 	}
 }

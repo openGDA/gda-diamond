@@ -46,23 +46,29 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.experiment.ui.data.ExternalTriggerSetting;
+import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class ExternalTriggerDetailsWizardPage extends WizardPage {
+
+	private static Logger logger = LoggerFactory.getLogger(ExternalTriggerDetailsWizardPage.class);
+
+
 	private final ExternalTriggerSetting externalTriggerSetting;
 	private TableViewer sampleEnvironmentTableViewer;
 
 	private Label xhUsrPortText;
-	private Text xhPulseWidthText;
-	private Text xhDelayText;
+	private NumberEditorControl xhPulseWidthText;
+	private NumberEditorControl xhDelayText;
 
 	private Label photonShutterUsrPortText;
-	private Text photonShutterPulseWidthText;
-	private Text photonShutterDelayText;
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
@@ -165,10 +171,6 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Output port");
 
-		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE);
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
-		viewerNumberColumn.getColumn().setText("Edge");
-
 		Composite tableContainerAddRemove = new Composite(container, SWT.NULL);
 		gridData = new GridData(SWT.END, SWT.FILL, false, true);
 		tableContainerAddRemove.setLayoutData(gridData);
@@ -203,56 +205,50 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			}
 		});
 
-		Group photonShutterParent = new Group(container, SWT.None);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		photonShutterParent.setLayoutData(gridData);
-		photonShutterParent.setLayout(new GridLayout(6, false));
-		photonShutterParent.setText("Photon Shutter");
-		Label photonShutterDelayLabel = new Label(photonShutterParent, SWT.None);
-		photonShutterDelayLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		photonShutterDelayLabel.setText("Delay: ");
-		photonShutterDelayText = new Text(photonShutterParent, SWT.BORDER);
-		photonShutterDelayText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		try {
 
-		Label photonShutterPulseWidthLabel = new Label(photonShutterParent, SWT.None);
-		photonShutterPulseWidthLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		photonShutterPulseWidthLabel.setText("Pulse width: ");
-		photonShutterPulseWidthText = new Text(photonShutterParent, SWT.BORDER);
-		photonShutterPulseWidthText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			Group xhParent = new Group(container, SWT.None);
+			xhParent.setText("IT Collection");
+			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+			gridData.horizontalSpan = 2;
+			xhParent.setLayoutData(gridData);
+			xhParent.setLayout(new GridLayout(4, false));
 
-		Label photonShutterUsrPortLabel = new Label(photonShutterParent, SWT.None);
-		photonShutterUsrPortLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		photonShutterUsrPortLabel.setText("Output port: ");
-		photonShutterUsrPortText = new Label(photonShutterParent, SWT.None);
-		photonShutterUsrPortText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			Label xhDelayLabel = new Label(xhParent, SWT.None);
+			xhDelayLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			xhDelayLabel.setText("Delay: ");
+			xhDelayText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetector(), TriggerableObject.TRIGGER_DELAY_PROP_NAME, false);
+			xhDelayText.setUnit(ClientConfig.UnitSetup.SEC.getText());
+			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+			gridData.widthHint = 100;
+			xhDelayText.setLayoutData(gridData);
 
-		Group xhParent = new Group(container, SWT.None);
-		xhParent.setText("IT Collection");
-		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		xhParent.setLayoutData(gridData);
-		xhParent.setLayout(new GridLayout(6, false));
+			Label xhPulseWidthLabel = new Label(xhParent, SWT.None);
+			xhPulseWidthLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			xhPulseWidthLabel.setText("Pulse width: ");
+			xhPulseWidthText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetector(), TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME, false);
+			xhPulseWidthText.setEditable(false);
+			xhPulseWidthText.setUnit(ClientConfig.UnitSetup.SEC.getText());
+			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+			gridData.widthHint = 100;
+			xhPulseWidthText.setLayoutData(gridData);
 
-		Label xhDelayLabel = new Label(xhParent, SWT.None);
-		xhDelayLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		xhDelayLabel.setText("Delay: ");
-		xhDelayText = new Text(xhParent, SWT.BORDER);
-		xhDelayText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			Label xhUsrPortLabel = new Label(xhParent, SWT.None);
+			xhUsrPortLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			xhUsrPortLabel.setText("Xh port: ");
+			xhUsrPortText = new Label(xhParent, SWT.None);
+			xhUsrPortText.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, true, false));
 
-		Label xhPulseWidthLabel = new Label(xhParent, SWT.None);
-		xhPulseWidthLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		xhPulseWidthLabel.setText("Pulse width: ");
-		xhPulseWidthText = new Text(xhParent, SWT.BORDER);
-		xhPulseWidthText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			Label photonShutterUsrPortLabel = new Label(xhParent, SWT.None);
+			photonShutterUsrPortLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+			photonShutterUsrPortLabel.setText("Photon shutter port: ");
+			photonShutterUsrPortText = new Label(xhParent, SWT.None);
+			photonShutterUsrPortText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		Label xhUsrPortLabel = new Label(xhParent, SWT.None);
-		xhUsrPortLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		xhUsrPortLabel.setText("Output port: ");
-		xhUsrPortText = new Label(xhParent, SWT.None);
-		xhUsrPortText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		doBinding();
+			doBinding();
+		} catch (Exception ex) {
+			logger.error("Unable to bind data", ex);
+		}
 	}
 
 
@@ -268,9 +264,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 				TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME).observeDetail(knownElements);
 		final IObservableMap portName = BeanProperties.value(TriggerableObject.class,
 				TriggerableObject.TRIGGER_OUTPUT_PORT_PROP_NAME).observeDetail(knownElements);
-		final IObservableMap isRisingEdge = BeanProperties.value(TriggerableObject.class,
-				TriggerableObject.TRIGGER_PULSE_RISING_PROP_NAME).observeDetail(knownElements);
-		IObservableMap[] labelMaps = {names, delay, pulseTimes, portName, isRisingEdge};
+		IObservableMap[] labelMaps = {names, delay, pulseTimes, portName};
 
 		sampleEnvironmentTableViewer.setLabelProvider(new ObservableMapLabelProvider(labelMaps) {
 			@Override
@@ -281,21 +275,12 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 				case 1: return Double.toString(obj.getTriggerDelay()) + " s";
 				case 2: return Double.toString(obj.getTriggerPulseLength())  + " s";
 				case 3: return obj.getTriggerOutputPort().getPortName();
-				case 4: return obj.isPulseRising() ? "Rising" : "Falling";
 				default : return "Unknown";
 				}
 			}
 		});
 		sampleEnvironmentTableViewer.setContentProvider(sampleEnvContent);
 		sampleEnvironmentTableViewer.setInput(externalTriggerSetting.getSampleEnvironment());
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.text().observe(photonShutterDelayText),
-				BeanProperties.value(TriggerableObject.TRIGGER_DELAY_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getPhotonShutter()));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.text().observe(photonShutterPulseWidthText),
-				BeanProperties.value(TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getPhotonShutter()));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(photonShutterUsrPortText),
@@ -314,14 +299,6 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 				});
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.text().observe(xhDelayText),
-				BeanProperties.value(TriggerableObject.TRIGGER_DELAY_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getDetector()));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.text().observe(xhPulseWidthText),
-				BeanProperties.value(TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getDetector()));
-
-		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(xhUsrPortText),
 				BeanProperties.value(TriggerableObject.TRIGGER_OUTPUT_PORT_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getDetector()),
 				new UpdateValueStrategy() {
@@ -333,7 +310,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 				new UpdateValueStrategy() {
 					@Override
 					public Object convert(Object value) {
-						return ((TriggerableObject.TriggerOutputPort) value).getPortName();
+						return ((TriggerOutputPort) value).getPortName();
 					}
 				});
 	}

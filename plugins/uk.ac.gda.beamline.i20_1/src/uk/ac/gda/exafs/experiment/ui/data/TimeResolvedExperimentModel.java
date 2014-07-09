@@ -59,6 +59,7 @@ import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPosti
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.IntervalImpl;
@@ -77,7 +78,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	protected static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
-	private static final String TRIGGER_DETAILS_OBJ_NAME = "triggerDetails";
+	protected static Gson gson = new Gson();
+
 	private static final String EXTERNAL_TRIGGER_DETAILS = "tfg_external_trigger_details";
 	protected ExternalTriggerSetting externalTriggerSetting;
 
@@ -194,6 +196,24 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	private void loadSavedGroups() {
+
+		TFGTrigger savedExternalTriggerSetting = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
+		if (savedExternalTriggerSetting == null) {
+			savedExternalTriggerSetting = new TFGTrigger();
+			try {
+				savedExternalTriggerSetting.getSampleEnvironment().add(savedExternalTriggerSetting.createNewSampleEnvEntry());
+			} catch (Exception e) {
+				logger.error("Unable to create sample environment entry", e);
+			}
+		}
+		externalTriggerSetting = new ExternalTriggerSetting(savedExternalTriggerSetting);
+		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
+			}
+		});
+
 		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
 		if (savedExperimentDataModel == null) {
@@ -213,22 +233,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			return;
 		}
 
-		TFGTrigger savedExternalTriggerSetting = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
-		if (savedExternalTriggerSetting == null) {
-			savedExternalTriggerSetting = new TFGTrigger();
-			try {
-				savedExternalTriggerSetting.getSampleEnvironment().add(savedExternalTriggerSetting.createNewSampleEnvEntry());
-			} catch (Exception e) {
-				logger.error("Unable to create sample environment entry", e);
-			}
-		}
-		externalTriggerSetting = new ExternalTriggerSetting(savedExternalTriggerSetting);
-		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
-			}
-		});
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
 			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());
@@ -353,14 +357,14 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f",
 					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
 		}
-		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", %s);",
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", \'%s\');",
 				TIMING_GROUPS_OBJ_NAME,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				DetectorModel.SHUTTER_NAME,
-				TRIGGER_DETAILS_OBJ_NAME));
+				gson.toJson(externalTriggerSetting.getTfgTrigger())));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
@@ -489,7 +493,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							timingGroups.add(timingGroup);
 						}
 						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
-						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TRIGGER_DETAILS_OBJ_NAME, externalTriggerSetting.getTfgTrigger());
 						String scanCommand = buildScanCommand();
 						logger.info("Sending command: " + scanCommand);
 						InterfaceProvider.getCommandRunner().runCommand(scanCommand);

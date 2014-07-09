@@ -23,6 +23,6 @@ import java.io.Serializable;
 class PhotonShutter extends TriggerableObject implements Serializable {
 	public PhotonShutter() {
 		this.setName("PhotoShutter");
-		this.setTriggerOutputPort(TriggerableObject.TriggerOutputPort.USR_OUT_0);
+		this.setTriggerOutputPort(TriggerOutputPort.USR_OUT_0);
 	}
 }

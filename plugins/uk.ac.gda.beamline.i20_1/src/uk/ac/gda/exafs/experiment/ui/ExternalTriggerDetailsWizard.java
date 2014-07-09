@@ -38,7 +38,7 @@ public class ExternalTriggerDetailsWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		return false;
+		return true;
 	}
 
 }

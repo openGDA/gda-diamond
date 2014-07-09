@@ -59,15 +59,14 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * <p>
  * SCA 0 cable from machine insertion signal
  */
-public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispersiveExafsScan {
+public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveExafsScan {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeWithTFGScan.class);
-	private static final double XCHIP_START_PULSE_WIDTH_IN_SEC = 0.001;
+	private static final Logger logger = LoggerFactory.getLogger(EdeScanWithTFGTrigger.class);
 	private static final double DEAD_TIME_IN_SEC = 0.00001; // 10µs
 	private final DAServer daserver;
 	private final TFGTrigger triggeringParameters;
 
-	public EdeWithTFGScan(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+	public EdeScanWithTFGTrigger(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			StripDetector theDetector, Integer repetitionNumber, Scannable shutter) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter, null);
 
@@ -142,8 +141,7 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 		// series of delays plus output to drive sample environments
 		for (int samEnvIndex = 0; samEnvIndex < samEnvPulseWidths.length; samEnvIndex++) {
 			sb.append("1 " + samEnvDelays[samEnvIndex] + " 0 0 0 0 0\n");// # some user defined delay
-			int deadPort = 2 + samEnvIndex; // the first sample environment will be plugged into USR2
-			deadPort = (int) Math.pow(2, deadPort);
+			int deadPort = triggeringParameters.getSampleEnvironment().get(samEnvIndex).getTriggerOutputPort().getUsrPort();
 			sb.append("1 " + samEnvPulseWidths[samEnvIndex] + " 0 " + deadPort + " 0 0 0\n");
 			// # send pulse to USR2 (repeat this and line above up to 6 times)
 		}
@@ -152,10 +150,13 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 		sb.append("1 " + itDelay + " 0 0 0 0 0\n");// # some user defined delay
 
 		// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-		sb.append("1 " + XCHIP_START_PULSE_WIDTH_IN_SEC + " 0 3 1 0 0\n");
+		sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 3 1 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
 
 		// time frames to count machine injection signals, keeping photon shutter open, increment from XH
 		sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 1 1 0 9\n");
+
+		// To stop the last frame of integration
+		sb.append("1 " + DEAD_TIME_IN_SEC + " 0 0 0 0 9\n");
 
 		sb.append("-1 0 0 0 0 0 0");
 

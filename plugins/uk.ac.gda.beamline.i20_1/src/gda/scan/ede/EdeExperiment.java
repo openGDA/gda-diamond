@@ -33,8 +33,8 @@ import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.observable.IObserver;
-import gda.scan.EdeWithTFGScan;
-import gda.scan.EdeWithoutTriggerScan;
+import gda.scan.EdeScan;
+import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
 import gda.scan.ScanPlotSettings;
@@ -61,6 +61,8 @@ import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
+import com.google.gson.Gson;
+
 /**
  * Base class for all EDE experiment classes.
  * <p>
@@ -85,20 +87,20 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScanPosition iRefPosition;
 	protected EdeScanParameters i0ForiRefScanParameters;
 
-	protected EdeWithoutTriggerScan iRefFinalScan;
-	protected EdeWithoutTriggerScan i0ForiRefScan;
-	protected EdeWithoutTriggerScan iRefScan;
-	protected EdeWithoutTriggerScan iRefDarkScan;
+	protected EdeScan iRefFinalScan;
+	protected EdeScan i0ForiRefScan;
+	protected EdeScan iRefScan;
+	protected EdeScan iRefDarkScan;
 	protected boolean runIRef;
 
 	protected Scannable beamLightShutter;
 	protected StripDetector theDetector;
-	protected EdeWithoutTriggerScan i0DarkScan;
-	protected EdeWithoutTriggerScan itDarkScan;
-	protected EdeWithoutTriggerScan i0LightScan;
-	protected EdeWithoutTriggerScan itLightScan;
-	protected EdeWithoutTriggerScan i0FinalScan;
-	protected EdeWithTFGScan[] itScans;
+	protected EdeScan i0DarkScan;
+	protected EdeScan itDarkScan;
+	protected EdeScan i0LightScan;
+	protected EdeScan itLightScan;
+	protected EdeScan i0FinalScan;
+	protected EdeScanWithTFGTrigger[] itScans;
 	protected final EdeScanParameters itScanParameters;
 	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
 
@@ -116,24 +118,25 @@ public abstract class EdeExperiment implements IObserver {
 
 	private final TFGTrigger itTriggerOptions;
 
+	private static Gson gson = new Gson();
 
-	public EdeExperiment(List<TimingGroup> itTimingGroups, TFGTrigger itTriggerOptions,
+	public EdeExperiment(List<TimingGroup> itTimingGroups, String itTriggerOptions,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
-		this.itTriggerOptions = itTriggerOptions;
+		this.itTriggerOptions = gson.fromJson(itTriggerOptions, TFGTrigger.class);
 		itScanParameters = new EdeScanParameters();
 		itScanParameters.setGroups(itTimingGroups);
 		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
 	}
 
-	public EdeExperiment(EdeScanParameters itScanParameters, TFGTrigger itTriggerOptions,
+	public EdeExperiment(EdeScanParameters itScanParameters, String itTriggerOptions,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
 		this.itScanParameters = itScanParameters;
-		this.itTriggerOptions = itTriggerOptions;
+		this.itTriggerOptions = gson.fromJson(itTriggerOptions, TFGTrigger.class);
 		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
 	}
@@ -237,42 +240,42 @@ public abstract class EdeExperiment implements IObserver {
 	private void addScansForExperiment() {
 		int repetitions = getRepetitions();
 
-		i0DarkScan = new EdeWithoutTriggerScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter,createTopupCheckerForBeforeItScans());
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter,createTopupCheckerForBeforeItScans());
 		i0DarkScan.setProgressUpdater(this);
 		scansForExperiment.add(i0DarkScan);
 
 		if (runIRef) {
-			iRefDarkScan = new EdeWithoutTriggerScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			iRefDarkScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
 			scansForExperiment.add(iRefDarkScan);
 			iRefDarkScan.setProgressUpdater(this);
 		}
 
 		if (shouldRunItDark()) {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
-			itDarkScan = new EdeWithoutTriggerScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
 			itDarkScan.setProgressUpdater(this);
 			scansForExperiment.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
-		i0LightScan = new EdeWithoutTriggerScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
 		i0LightScan.setProgressUpdater(this);
 		scansForExperiment.add(i0LightScan);
 
 		if (runIRef) {
-			i0ForiRefScan = new EdeWithoutTriggerScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			i0ForiRefScan = new EdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
 			scansForExperiment.add(i0ForiRefScan);
 			i0ForiRefScan.setProgressUpdater(this);
 
-			iRefScan = new EdeWithoutTriggerScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
 			scansForExperiment.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
 		}
 
-		itScans = new EdeWithTFGScan[repetitions];
+		itScans = new EdeScanWithTFGTrigger[repetitions];
 		for(int repIndex = 0; repIndex < repetitions; repIndex++){
-			itScans[repIndex] = new EdeWithTFGScan(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
+			itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
 			itScans[repIndex].setProgressUpdater(this);
 			scansForExperiment.add(itScans[repIndex]);
 		}
@@ -465,7 +468,7 @@ public abstract class EdeExperiment implements IObserver {
 			} else if (ArrayUtils.contains(itScans, source)) {
 				if (shouldPublishItScanData(progress)) {
 					// TODO this will be affected by changes to EdeScan
-					lastItData = ((EdeWithoutTriggerScan)source).extractLastDetectorDataSet();
+					lastItData = ((EdeScan)source).extractLastDetectorDataSet();
 					if (this.shouldRunItDark() & lastItDarkData != null) {
 						int itDarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
 						DoubleDataset itDarkForItLightData = itDarkScan.extractDetectorDataSet(itDarkSpectrumForCurrentGroup);

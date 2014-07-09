@@ -38,7 +38,7 @@
 	<bean id="injectionCounter" class="gda.device.detector.countertimer.TfgScaler">
 		<property name="extraNames">
 			<list>
-				<value>I0</value>
+				<value>It</value>
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
