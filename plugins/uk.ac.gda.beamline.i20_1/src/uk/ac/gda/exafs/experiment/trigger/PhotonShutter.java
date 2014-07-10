@@ -23,6 +23,8 @@ import java.io.Serializable;
 class PhotonShutter extends TriggerableObject implements Serializable {
 	public PhotonShutter() {
 		this.setName("PhotoShutter");
+		this.setTriggerPulseLength(TFGTrigger.DEFAULT_PULSE_WIDTH_IN_SEC);
+		this.setTriggerDelay(0.1);
 		this.setTriggerOutputPort(TriggerOutputPort.USR_OUT_0);
 	}
 }
