@@ -232,14 +232,16 @@ try:
 except:
     localStation_exception(sys.exc_info(), "initialising front end xbpm's")
 
+######## Import classes required for cameras ###############
+from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
+      SwitchableHardwareTriggerableProcessingDetectorWrapper
+from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
+
 ######## Setting up the Andor Rasor camera ###############
-andor_installed = True
+andor_installed = False
 
 if andor_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
-        from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
-              SwitchableHardwareTriggerableProcessingDetectorWrapper
-        from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
         global andor1det, andor1det_for_snaps, andor1GV12det, andor1GV12det_for_snaps
 
         # the andor has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
@@ -280,73 +282,49 @@ if andor_installed:
     except:
         localStation_exception(sys.exc_info(), "creating andor & andorGV12 objects")
 
-######## Setting up the I06 Pixis camera ###############
-pixis_installed = False
+######## Setting up the I10 Pimte camera ###############
+pimte_installed = True
 
-if pixis_installed:
+if pimte_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
-        from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
-              SwitchableHardwareTriggerableProcessingDetectorWrapper
-        from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
-        global pixis1det, pixis1det_for_snaps, pixis1GV12det, pixis1GV12det_for_snaps
+        global pimte1det, pimte1det_for_snaps
 
-        # the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
-        pixis = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pixis', pixis1det, None, pixis1det_for_snaps, [],
+        # the pimte has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
+        pimte = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pimte', pimte1det, None, pimte1det_for_snaps, [],
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
     
-        pixisGV12 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pixisGV12', pixis1GV12det, None, pixis1GV12det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-
         from gdascripts.scannable.detector.DetectorDataProcessor \
             import DetectorDataProcessor #, DetectorDataProcessorWithRoi
 
         from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue \
             import SumMaxPositionAndValue
 
-        pixisSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pixisSMPV', pixis1det, None, pixis1det_for_snaps,
+        pimteSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pimteSMPV', pimte1det, None, pimte1det_for_snaps,
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-        pixisSMPV.display_image = True
-        #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [SumMaxPositionAndValue()], False)]
-        pixisSMPV.processors=[DetectorDataProcessor        ('max', pixis1det, [SumMaxPositionAndValue()], False)]
+        pimteSMPV.display_image = True
+        #pimteSMPV.processors=[DetectorDataProcessorWithRoi('max', pimte1det, [SumMaxPositionAndValue()], False)]
+        pimteSMPV.processors=[DetectorDataProcessor        ('max', pimte1det, [SumMaxPositionAndValue()], False)]
 
         from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
             import TwodGaussianPeak
         
-        pixis2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pixis2d', pixis1det, None, pixis1det_for_snaps,
+        pimte2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pimte2d', pimte1det, None, pimte1det_for_snaps,
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-        pixis2d.display_image = True
-        #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [TwodGaussianPeak()], False)]
-        pixis2d.processors=[DetectorDataProcessor        ('max', pixis1det, [TwodGaussianPeak()], False)]
+        pimte2d.display_image = True
+        #pimteSMPV.processors=[DetectorDataProcessorWithRoi('max', pimte1det, [TwodGaussianPeak()], False)]
+        pimte2d.processors=[DetectorDataProcessor        ('max', pimte1det, [TwodGaussianPeak()], False)]
 
-        def pixisGV12openDelay(t_seconds = None):
-            """Get or set the shutter close delay (in seconds) for the pixis"""
-            if t_seconds == None:
-                return pixis1GV12det.getCollectionStrategy().getShutterOpenDelay()
-            pixis1GV12det.getCollectionStrategy().setShutterOpenDelay(t_seconds)
-        
-        def pixisGV12closeDelay(t_seconds = None):
-            """Get or set the shutter close delay (in seconds) for the pixis"""
-            if t_seconds == None:
-                return pixis1GV12det.getCollectionStrategy().getShutterCloseDelay()
-            pixis1GV12det.getCollectionStrategy().setShutterCloseDelay(t_seconds)
-        
-        alias('pixisGV12openDelay')
-        alias('pixisGV12closeDelay')
-        
     except:
-        localStation_exception(sys.exc_info(), "creating pixis & pixisGV12 objects")
+        localStation_exception(sys.exc_info(), "creating pimte objects")
 
 polarimeter_installed = False
 if polarimeter_installed:

@@ -18,7 +18,7 @@ Epics gda-interface locations
 Epics gui by using configure-ioc:
 
 $ configure-ioc show BL10I-gui ME01D-gui ME02P-gui
-BL10I-gui /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-8/bin/linux-x86_64/stBL10I-gui
+BL10I-gui /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-9/bin/linux-x86_64/stBL10I-gui
 ME01D-gui /dls_sw/prod/R3.14.12.3/ioc/ME01D/BL/4-0/bin/linux-x86_64/stME01D-gui
 ME02P-gui /dls_sw/work/R3.14.11/ioc/ME02P/MO/bin/linux-x86/stME02P-gui
 
@@ -26,10 +26,11 @@ ME02P-gui /dls_sw/work/R3.14.11/ioc/ME02P/MO/bin/linux-x86/stME02P-gui
 data directories too: 
 
 $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL10I/BL/*/data/BL10I-gda-interface.xml /dls_sw/work/*/ioc/BL10I/BL/data/BL10I-gda-interface.xml /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/*/xml/epics/BL10I-gda-interface.xml /dls_sw/i10/software/gda_versions/*/workspace_git/gda-mt.git/configurations/*/xml/epics/BL10I-gda-interface.xml
+-r-xr-xr-x. 1 rqs43846 dcs      1006210 2014-07-09 19:08 /dls_sw/work/R3.14.12.3/ioc/BL10I/BL/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1006210 2014-07-09 19:02 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-9/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1006210 2014-07-01 16:39 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-8/data/BL10I-gda-interface.xml
 -rwxrwxr-x. 1 voo82358 dls_dasc 1006210 2014-07-01 16:39 /dls_sw/i10/software/gda_versions/gda_8.40b/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
 -rwxrwxr-x. 1 voo82358 dls_dasc 1006210 2014-07-01 16:39 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
--r-xr-xr-x. 1 rqs43846 dcs      1006210 2014-07-01 16:25 /dls_sw/work/R3.14.12.3/ioc/BL10I/BL/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1001320 2014-06-26 17:05 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-7/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1001320 2014-06-20 17:57 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-6/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1001320 2014-06-05 18:10 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-5/data/BL10I-gda-interface.xml
