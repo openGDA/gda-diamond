@@ -50,6 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.exafs.experiment.trigger.PhotonShutter;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
@@ -69,10 +70,13 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 	private NumberEditorControl xhDelayText;
 
 	private Label photonShutterUsrPortText;
-	private NumberEditorControl photonShutterPulseWidthText;
+	private NumberEditorControl photonShutterDelayAfterCollectionText;
 	private NumberEditorControl photonShutterDelayText;
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
+
+
+	private Button photonShutterInUseButton;
 
 	public ExternalTriggerDetailsWizardPage(ExternalTriggerSetting externalTriggerSetting) {
 		super("wizardPage");
@@ -213,8 +217,13 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			gridData.horizontalSpan = 2;
 			photonShutterParent.setLayoutData(gridData);
-			photonShutterParent.setLayout(new GridLayout(4, false));
+			photonShutterParent.setLayout(new GridLayout(5, false));
 			photonShutterParent.setText("Photon Shutter");
+
+			photonShutterInUseButton = new Button(photonShutterParent, SWT.CHECK);
+			photonShutterInUseButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			photonShutterInUseButton.setText("In use");
+
 			Label photonShutterDelayLabel = new Label(photonShutterParent, SWT.None);
 			photonShutterDelayLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 			photonShutterDelayLabel.setText("Delay after Topup: ");
@@ -329,6 +338,13 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 						return ((TriggerOutputPort) value).getPortName();
 					}
 				});
+		dataBindingCtx.bindValue(
+				WidgetProperties.selection().observe(photonShutterInUseButton),
+				BeanProperties.value(PhotonShutter.IN_USE_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getPhotonShutter()));
+		dataBindingCtx.bindValue(
+				WidgetProperties.selection().observe(photonShutterInUseButton),
+				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(photonShutterDelayText), new UpdateValueStrategy(),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
 	}
 
 }
