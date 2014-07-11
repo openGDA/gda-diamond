@@ -9071,6 +9071,35 @@
 		<TimeStamp_RBV desc="Readback for TimeStamp" pv="BL10I-EA-PIXIS-01:ROI1:TimeStamp_RBV" ro="true" type="pv"/>
 		<NDAttributesFile desc="Set NDAttributesFile" pv="BL10I-EA-PIXIS-01:ROI1:NDAttributesFile" ro="false" type="array"/>
 	</NDPluginBase>
+	<NDPluginBase desc="MJPG1 NDPluginBase class instance" name="MJPG1_NDPluginBase">
+		<PortName_RBV desc="Readback for PortName" pv="BL10I-EA-PIXIS-01:MJPG1:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV desc="Readback for PluginType" pv="BL10I-EA-PIXIS-01:MJPG1:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort desc="Set NDArrayPort" pv="BL10I-EA-PIXIS-01:MJPG1:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV desc="Readback for NDArrayPort" pv="BL10I-EA-PIXIS-01:MJPG1:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress desc="Set NDArrayAddress" pv="BL10I-EA-PIXIS-01:MJPG1:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV desc="Readback for NDArrayAddress" pv="BL10I-EA-PIXIS-01:MJPG1:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks desc="Set EnableCallbacks" pv="BL10I-EA-PIXIS-01:MJPG1:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV desc="Readback for EnableCallbacks" pv="BL10I-EA-PIXIS-01:MJPG1:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime desc="Set MinCallbackTime" pv="BL10I-EA-PIXIS-01:MJPG1:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV desc="Readback for MinCallbackTime" pv="BL10I-EA-PIXIS-01:MJPG1:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks desc="Set BlockingCallbacks" pv="BL10I-EA-PIXIS-01:MJPG1:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV desc="Readback for BlockingCallbacks" pv="BL10I-EA-PIXIS-01:MJPG1:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter desc="Set ArrayCounter" pv="BL10I-EA-PIXIS-01:MJPG1:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV desc="Readback for ArrayCounter" pv="BL10I-EA-PIXIS-01:MJPG1:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV desc="Readback for ArrayRate" pv="BL10I-EA-PIXIS-01:MJPG1:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays desc="Set DroppedArrays" pv="BL10I-EA-PIXIS-01:MJPG1:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV desc="Readback for DroppedArrays" pv="BL10I-EA-PIXIS-01:MJPG1:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV desc="Readback for NDimensions" pv="BL10I-EA-PIXIS-01:MJPG1:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV desc="Readback for ArraySize0" pv="BL10I-EA-PIXIS-01:MJPG1:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV desc="Readback for ArraySize1" pv="BL10I-EA-PIXIS-01:MJPG1:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV desc="Readback for ArraySize2" pv="BL10I-EA-PIXIS-01:MJPG1:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV desc="Readback for DataType" pv="BL10I-EA-PIXIS-01:MJPG1:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV desc="Readback for ColorMode" pv="BL10I-EA-PIXIS-01:MJPG1:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV desc="Readback for BayerPattern" pv="BL10I-EA-PIXIS-01:MJPG1:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV desc="Readback for UniqueId" pv="BL10I-EA-PIXIS-01:MJPG1:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV desc="Readback for TimeStamp" pv="BL10I-EA-PIXIS-01:MJPG1:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile desc="Set NDAttributesFile" pv="BL10I-EA-PIXIS-01:MJPG1:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
 	<NDStdArrays desc="Image1 NDStdArrays class instance" name="Image1_NDStdArrays">
 		<ArrayData desc="Set ArrayData" pv="BL10I-EA-PIXIS-01:IMAGE1:ArrayData" ro="false" type="array"/>
 	</NDStdArrays>
@@ -9232,55 +9261,71 @@
 		<DataTypeOut desc="Set DataTypeOut" pv="BL10I-EA-PIXIS-01:ROI1:DataTypeOut" ro="false" type="mbbinary"/>
 		<DataTypeOut_RBV desc="Readback for DataTypeOut" pv="BL10I-EA-PIXIS-01:ROI1:DataTypeOut_RBV" ro="true" type="mbbinary"/>
 	</NDROI>
+	<ffmpegStream desc="MJPG1 ffmpegStream class instance" name="MJPG1_ffmpegStream">
+		<QUALITY desc="Set QUALITY" pv="BL10I-EA-PIXIS-01:MJPG1:QUALITY" ro="false" type="pv"/>
+		<QUALITY_RBV desc="Readback for QUALITY" pv="BL10I-EA-PIXIS-01:MJPG1:QUALITY_RBV" ro="true" type="pv"/>
+		<MAXW desc="Set MAXW" pv="BL10I-EA-PIXIS-01:MJPG1:MAXW" ro="false" type="pv"/>
+		<MAXW_RBV desc="Readback for MAXW" pv="BL10I-EA-PIXIS-01:MJPG1:MAXW_RBV" ro="true" type="pv"/>
+		<MAXH desc="Set MAXH" pv="BL10I-EA-PIXIS-01:MJPG1:MAXH" ro="false" type="pv"/>
+		<MAXH_RBV desc="Readback for MAXH" pv="BL10I-EA-PIXIS-01:MJPG1:MAXH_RBV" ro="true" type="pv"/>
+		<FALSE_COL desc="Set FALSE_COL" pv="BL10I-EA-PIXIS-01:MJPG1:FALSE_COL" ro="false" type="binary"/>
+		<FALSE_COL_RBV desc="Readback for FALSE_COL" pv="BL10I-EA-PIXIS-01:MJPG1:FALSE_COL_RBV" ro="true" type="binary"/>
+		<ALWAYS_ON desc="Set ALWAYS_ON" pv="BL10I-EA-PIXIS-01:MJPG1:ALWAYS_ON" ro="false" type="binary"/>
+		<ALWAYS_ON_RBV desc="Readback for ALWAYS_ON" pv="BL10I-EA-PIXIS-01:MJPG1:ALWAYS_ON_RBV" ro="true" type="binary"/>
+		<HTTP_PORT_RBV desc="Readback for HTTP_PORT" pv="BL10I-EA-PIXIS-01:MJPG1:HTTP_PORT_RBV" ro="true" type="pv"/>
+		<HOST_RBV desc="Readback for HOST" pv="BL10I-EA-PIXIS-01:MJPG1:HOST_RBV" ro="true" type="pv"/>
+		<CLIENTS_RBV desc="Readback for CLIENTS" pv="BL10I-EA-PIXIS-01:MJPG1:CLIENTS_RBV" ro="true" type="pv"/>
+		<JPG_URL_RBV desc="Readback for JPG URL" pv="BL10I-EA-PIXIS-01:MJPG1:JPG_URL_RBV" ro="true" type="pv"/>
+		<MJPG_URL_RBV desc="Readback for MJPG URL" pv="BL10I-EA-PIXIS-01:MJPG1:MJPG_URL_RBV" ro="true" type="pv"/>
+	</ffmpegStream>
 	<simpleScaler desc="Scaler Card J2 (Magnet End Station)" name="SCALERJ2">
-		<RECORD desc="Scaler" pv="BL10J-EA-SCLR-01:SCALER1" ro="false" type="scaler"/>
+		<RECORD desc="Scaler" pv="BL10J-EA-SCLR-01:SCALERJ2" ro="false" type="scaler"/>
 	</simpleScaler>
 	<mcaGroup desc="SIS3820 multichannel scaler J2" name="MCSJ2">
-		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL10J-EA-SCLR-01:MCA01:EraseStart" ro="false" type="binary"/>
-		<ERASE desc="Clear all spectrums" pv="BL10J-EA-SCLR-01:MCA01:EraseAll" ro="false" type="binary"/>
-		<START desc="Start acquiring" pv="BL10J-EA-SCLR-01:MCA01:StartAll" ro="false" type="binary"/>
-		<STOP desc="Stop acquiring" pv="BL10J-EA-SCLR-01:MCA01:StopAll" ro="false" type="binary"/>
-		<NBINS desc="Number of bins to use in spectrum" pv="BL10J-EA-SCLR-01:MCA01:NuseAll" ro="false" type="pv"/>
-		<STATRATE desc="Status update rate" pv="BL10J-EA-SCLR-01:MCA01:StatusAll.SCAN" ro="false" type="pv"/>
-		<READRATE desc="Data update rate" pv="BL10J-EA-SCLR-01:MCA01:ReadAll.SCAN" ro="false" type="pv"/>
-		<TREAL desc="Real time since start of acquisition" pv="BL10J-EA-SCLR-01:MCA01:ElapsedReal" ro="true" type="pv"/>
-		<ACQ desc="Acquiring status" pv="BL10J-EA-SCLR-01:MCA01:Acquiring" ro="true" type="binary"/>
-		<TACQ desc="Set total acquisition time" pv="BL10J-EA-SCLR-01:MCA01:PresetReal" ro="false" type="pv"/>
-		<TDWELL desc="Set integration time [s] for incrementing bin number" pv="BL10J-EA-SCLR-01:MCA01:Dwell" ro="false" type="pv"/>
-		<BINADV desc="Set internal or external bin advance signal" pv="BL10J-EA-SCLR-01:MCA01:ChannelAdvance" ro="false" type="binary"/>
-		<EXTPRE desc="External bin advance prescaler" pv="BL10J-EA-SCLR-01:MCA01:Prescale" ro="false" type="pv"/>
-		<SIG1 desc="SIS3820 input signal number 1" pv="BL10J-EA-SCLR-01COUNTER01:mca1" ro="false" type="mca"/>
-		<SIG2 desc="SIS3820 input signal number 2" pv="BL10J-EA-SCLR-01COUNTER02:mca2" ro="false" type="mca"/>
-		<SIG3 desc="SIS3820 input signal number 3" pv="BL10J-EA-SCLR-01COUNTER03:mca3" ro="false" type="mca"/>
-		<SIG4 desc="SIS3820 input signal number 4" pv="BL10J-EA-SCLR-01COUNTER04:mca4" ro="false" type="mca"/>
-		<SIG5 desc="SIS3820 input signal number 5" pv="BL10J-EA-SCLR-01COUNTER05:mca5" ro="false" type="mca"/>
-		<SIG6 desc="SIS3820 input signal number 6" pv="BL10J-EA-SCLR-01COUNTER06:mca6" ro="false" type="mca"/>
-		<SIG7 desc="SIS3820 input signal number 7" pv="BL10J-EA-SCLR-01COUNTER07:mca7" ro="false" type="mca"/>
-		<SIG8 desc="SIS3820 input signal number 8" pv="BL10J-EA-SCLR-01COUNTER08:mca8" ro="false" type="mca"/>
-		<SIG9 desc="SIS3820 input signal number 9" pv="BL10J-EA-SCLR-01COUNTER09:mca9" ro="false" type="mca"/>
-		<SIG10 desc="SIS3820 input signal number 10" pv="BL10J-EA-SCLR-01COUNTER10:mca10" ro="false" type="mca"/>
-		<SIG11 desc="SIS3820 input signal number 11" pv="BL10J-EA-SCLR-01COUNTER11:mca11" ro="false" type="mca"/>
-		<SIG12 desc="SIS3820 input signal number 12" pv="BL10J-EA-SCLR-01COUNTER12:mca12" ro="false" type="mca"/>
-		<SIG13 desc="SIS3820 input signal number 13" pv="BL10J-EA-SCLR-01COUNTER13:mca13" ro="false" type="mca"/>
-		<SIG14 desc="SIS3820 input signal number 14" pv="BL10J-EA-SCLR-01COUNTER14:mca14" ro="false" type="mca"/>
-		<SIG15 desc="SIS3820 input signal number 15" pv="BL10J-EA-SCLR-01COUNTER15:mca15" ro="false" type="mca"/>
-		<SIG16 desc="SIS3820 input signal number 16" pv="BL10J-EA-SCLR-01COUNTER16:mca16" ro="false" type="mca"/>
-		<SIG17 desc="SIS3820 input signal number 17" pv="BL10J-EA-SCLR-01COUNTER17:mca17" ro="false" type="mca"/>
-		<SIG18 desc="SIS3820 input signal number 18" pv="BL10J-EA-SCLR-01COUNTER18:mca18" ro="false" type="mca"/>
-		<SIG19 desc="SIS3820 input signal number 19" pv="BL10J-EA-SCLR-01COUNTER19:mca19" ro="false" type="mca"/>
-		<SIG20 desc="SIS3820 input signal number 20" pv="BL10J-EA-SCLR-01COUNTER20:mca20" ro="false" type="mca"/>
-		<SIG21 desc="SIS3820 input signal number 21" pv="BL10J-EA-SCLR-01COUNTER21:mca21" ro="false" type="mca"/>
-		<SIG22 desc="SIS3820 input signal number 22" pv="BL10J-EA-SCLR-01COUNTER22:mca22" ro="false" type="mca"/>
-		<SIG23 desc="SIS3820 input signal number 23" pv="BL10J-EA-SCLR-01COUNTER23:mca23" ro="false" type="mca"/>
-		<SIG24 desc="SIS3820 input signal number 24" pv="BL10J-EA-SCLR-01COUNTER24:mca24" ro="false" type="mca"/>
-		<SIG25 desc="SIS3820 input signal number 25" pv="BL10J-EA-SCLR-01COUNTER25:mca25" ro="false" type="mca"/>
-		<SIG26 desc="SIS3820 input signal number 26" pv="BL10J-EA-SCLR-01COUNTER26:mca26" ro="false" type="mca"/>
-		<SIG27 desc="SIS3820 input signal number 27" pv="BL10J-EA-SCLR-01COUNTER27:mca27" ro="false" type="mca"/>
-		<SIG28 desc="SIS3820 input signal number 28" pv="BL10J-EA-SCLR-01COUNTER28:mca28" ro="false" type="mca"/>
-		<SIG29 desc="SIS3820 input signal number 29" pv="BL10J-EA-SCLR-01COUNTER29:mca29" ro="false" type="mca"/>
-		<SIG30 desc="SIS3820 input signal number 30" pv="BL10J-EA-SCLR-01COUNTER30:mca30" ro="false" type="mca"/>
-		<SIG31 desc="SIS3820 input signal number 31" pv="BL10J-EA-SCLR-01COUNTER31:mca31" ro="false" type="mca"/>
-		<SIG32 desc="SIS3820 input signal number 32" pv="BL10J-EA-SCLR-01COUNTER32:mca32" ro="false" type="mca"/>
+		<ERASE desc="Clear all spectrums" pv="BL10J-EA-SCLR-01:MCAJ02:EraseAll" ro="false" type="binary"/>
+		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL10J-EA-SCLR-01:MCAJ02:EraseStart" ro="false" type="binary"/>
+		<START desc="Start acquiring" pv="BL10J-EA-SCLR-01:MCAJ02:StartAll" ro="false" type="binary"/>
+		<ACQ desc="Acquiring status" pv="BL10J-EA-SCLR-01:MCAJ02:Acquiring" ro="true" type="binary"/>
+		<STOP desc="Stop acquiring" pv="BL10J-EA-SCLR-01:MCAJ02:StopAll" ro="false" type="binary"/>
+		<TACQ desc="Set total acquisition time" pv="BL10J-EA-SCLR-01:MCAJ02:PresetReal" ro="false" type="pv"/>
+		<TREAL desc="Real time since start of acquisition" pv="BL10J-EA-SCLR-01:MCAJ02:ElapsedReal" ro="true" type="pv"/>
+		<READRATE desc="Data update rate" pv="BL10J-EA-SCLR-01:MCAJ02:ReadAll.SCAN" ro="false" type="pv"/>
+		<NBINS desc="Number of bins to use in spectrum" pv="BL10J-EA-SCLR-01:MCAJ02:NuseAll" ro="false" type="pv"/>
+		<TDWELL desc="Set integration time [s] for incrementing bin number" pv="BL10J-EA-SCLR-01:MCAJ02:Dwell" ro="false" type="pv"/>
+		<BINADV desc="Set internal or external bin advance signal" pv="BL10J-EA-SCLR-01:MCAJ02:ChannelAdvance" ro="false" type="binary"/>
+		<EXTPRE desc="External bin advance prescaler" pv="BL10J-EA-SCLR-01:MCAJ02:Prescale" ro="false" type="pv"/>
+		<SIG1 desc="SIS3820 input signal number 1" pv="BL10J-EA-SCLR-01:MCAJ02:mca1" ro="false" type="mca"/>
+		<SIG2 desc="SIS3820 input signal number 2" pv="BL10J-EA-SCLR-01:MCAJ02:mca2" ro="false" type="mca"/>
+		<SIG3 desc="SIS3820 input signal number 3" pv="BL10J-EA-SCLR-01:MCAJ02:mca3" ro="false" type="mca"/>
+		<SIG4 desc="SIS3820 input signal number 4" pv="BL10J-EA-SCLR-01:MCAJ02:mca4" ro="false" type="mca"/>
+		<SIG5 desc="SIS3820 input signal number 5" pv="BL10J-EA-SCLR-01:MCAJ02:mca5" ro="false" type="mca"/>
+		<SIG6 desc="SIS3820 input signal number 6" pv="BL10J-EA-SCLR-01:MCAJ02:mca6" ro="false" type="mca"/>
+		<SIG7 desc="SIS3820 input signal number 7" pv="BL10J-EA-SCLR-01:MCAJ02:mca7" ro="false" type="mca"/>
+		<SIG8 desc="SIS3820 input signal number 8" pv="BL10J-EA-SCLR-01:MCAJ02:mca8" ro="false" type="mca"/>
+		<SIG9 desc="SIS3820 input signal number 9" pv="BL10J-EA-SCLR-01:MCAJ02:mca9" ro="false" type="mca"/>
+		<SIG10 desc="SIS3820 input signal number 10" pv="BL10J-EA-SCLR-01:MCAJ02:mca10" ro="false" type="mca"/>
+		<SIG11 desc="SIS3820 input signal number 11" pv="BL10J-EA-SCLR-01:MCAJ02:mca11" ro="false" type="mca"/>
+		<SIG12 desc="SIS3820 input signal number 12" pv="BL10J-EA-SCLR-01:MCAJ02:mca12" ro="false" type="mca"/>
+		<SIG13 desc="SIS3820 input signal number 13" pv="BL10J-EA-SCLR-01:MCAJ02:mca13" ro="false" type="mca"/>
+		<SIG14 desc="SIS3820 input signal number 14" pv="BL10J-EA-SCLR-01:MCAJ02:mca14" ro="false" type="mca"/>
+		<SIG15 desc="SIS3820 input signal number 15" pv="BL10J-EA-SCLR-01:MCAJ02:mca15" ro="false" type="mca"/>
+		<SIG16 desc="SIS3820 input signal number 16" pv="BL10J-EA-SCLR-01:MCAJ02:mca16" ro="false" type="mca"/>
+		<SIG17 desc="SIS3820 input signal number 17" pv="BL10J-EA-SCLR-01:MCAJ02:mca17" ro="false" type="mca"/>
+		<SIG18 desc="SIS3820 input signal number 18" pv="BL10J-EA-SCLR-01:MCAJ02:mca18" ro="false" type="mca"/>
+		<SIG19 desc="SIS3820 input signal number 19" pv="BL10J-EA-SCLR-01:MCAJ02:mca19" ro="false" type="mca"/>
+		<SIG20 desc="SIS3820 input signal number 20" pv="BL10J-EA-SCLR-01:MCAJ02:mca20" ro="false" type="mca"/>
+		<SIG21 desc="SIS3820 input signal number 21" pv="BL10J-EA-SCLR-01:MCAJ02:mca21" ro="false" type="mca"/>
+		<SIG22 desc="SIS3820 input signal number 22" pv="BL10J-EA-SCLR-01:MCAJ02:mca22" ro="false" type="mca"/>
+		<SIG23 desc="SIS3820 input signal number 23" pv="BL10J-EA-SCLR-01:MCAJ02:mca23" ro="false" type="mca"/>
+		<SIG24 desc="SIS3820 input signal number 24" pv="BL10J-EA-SCLR-01:MCAJ02:mca24" ro="false" type="mca"/>
+		<SIG25 desc="SIS3820 input signal number 25" pv="BL10J-EA-SCLR-01:MCAJ02:mca25" ro="false" type="mca"/>
+		<SIG26 desc="SIS3820 input signal number 26" pv="BL10J-EA-SCLR-01:MCAJ02:mca26" ro="false" type="mca"/>
+		<SIG27 desc="SIS3820 input signal number 27" pv="BL10J-EA-SCLR-01:MCAJ02:mca27" ro="false" type="mca"/>
+		<SIG28 desc="SIS3820 input signal number 28" pv="BL10J-EA-SCLR-01:MCAJ02:mca28" ro="false" type="mca"/>
+		<SIG29 desc="SIS3820 input signal number 29" pv="BL10J-EA-SCLR-01:MCAJ02:mca29" ro="false" type="mca"/>
+		<SIG30 desc="SIS3820 input signal number 30" pv="BL10J-EA-SCLR-01:MCAJ02:mca30" ro="false" type="mca"/>
+		<SIG31 desc="SIS3820 input signal number 31" pv="BL10J-EA-SCLR-01:MCAJ02:mca31" ro="false" type="mca"/>
+		<SIG32 desc="SIS3820 input signal number 32" pv="BL10J-EA-SCLR-01:MCAJ02:mca32" ro="false" type="mca"/>
 	</mcaGroup>
 	<OxInstIPS desc="Magnet Intelligent Power Supply J1" name="MAGJ1.IPS">
 		<DISABLE desc="disable comms" pv="BL10J-EA-SMC-01:DISABLE" ro="false" type="binary"/>

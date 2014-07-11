@@ -16,17 +16,24 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
-   
-    <includes
+
+   <includes
          id="uk.ac.gda.dal.feature"
          version="0.0.0"/>
 
    <includes
          id="uk.ac.gda.diamond.feature"
-         version="0.0.0"/>  
+         version="0.0.0"/>
 
    <plugin
          id="uk.ac.gda.beamline.i10"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.epics.adviewer"
          download-size="0"
          install-size="0"
          version="0.0.0"

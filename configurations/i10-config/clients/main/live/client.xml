@@ -22,5 +22,6 @@
 		</property>
 	</bean>
 
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/clients/main/live/client.xml"/>
 	<import resource="../common/client.xml"/>
 </beans>
