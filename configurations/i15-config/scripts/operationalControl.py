@@ -10,7 +10,7 @@ global configured, isccd, beamline, dkappa, dktheta, cryobsx
 configured = False
 
 def configure(jythonNameMap, beamlineParameters):
-	global configured, isccd, beamline, dkappa, dktheta, cryobsx
+	global configured, isccd, beamline, dkappa, dktheta, cryobsx, d3x, d3y, d4x, d4y
 	"""
 	sets module variables from jython namespace, finder and beamline parameters
 	"""
@@ -19,6 +19,10 @@ def configure(jythonNameMap, beamlineParameters):
 	dkappa = jythonNameMap.dkappa
 	dktheta = jythonNameMap.dktheta
 	cryobsx = jythonNameMap.cryobsx
+	d3x = jythonNameMap.d3x
+	d3y = jythonNameMap.d3y
+	d4x = jythonNameMap.d4x
+	d4y = jythonNameMap.d4y
 	configured = True
 	
 def checkConfigured():
@@ -46,7 +50,6 @@ def shclose():
 	sh('c')  - Close EH & Atlas Shutter
 	"""
 	shutterCommands.sh('c')
-
 
 def cehs():
 	"""
@@ -108,32 +111,42 @@ def d3in():
 	"""
 	move diode 3 in
 	"""
-	setState("D3", "-DI-PHDGN-04:CON", 1)
+	d3x.moveTo(0)
+	d3y.moveTo(0)
+
+def d4in():
+	"""
+	move diode 4 in
+	"""
+	d4x.moveTo(0)
+	d4y.moveTo(0)
 
 def d1out():
 	"""
 	move diode 1 out
 	"""
 	setState("D1", "-DI-PHDGN-01:CON", 0)
-		
+
 def d2out():
 	"""
 	move diode 2 out
 	"""
 	setState("D2", "-DI-PHDGN-02:CON", 0)
-		
+
 def d3out():
 	"""
 	move diode 3 out and reset the brightness of the questar to zero
 	"""
-	setState("D3", "-DI-PHDGN-04:CON", 0)
-		
+	d3x.moveTo(19)
+	d3y.moveTo(25)
+
 def d4out():
 	"""
 	move diode 4 out
 	"""
-	setState("D4", "-DI-PHDGN-04:CON", 0)
-		
+	d4x.moveTo(115)
+	d4y.moveTo(0)
+
 #def d4cryoIn(moveBeamStopOut=False):
 #	print """=============================================
 #PLEASE ENSURE THE DETECTOR SHIELD IS IN PLACE
@@ -186,7 +199,7 @@ def setState(name, pv, newState):
 	else:
 		beamline.setValue("Top",pv, newState)
 		print name + " position changed to: "  + text
-		
+
 def align():           # open EH and fast shutter
 	"""
 	close mar, move d2 and d3 in and reset and open EH & Atlas shutter.
@@ -195,7 +208,7 @@ def align():           # open EH and fast shutter
 	d2in()
 	d3in()
 	shutterCommands.sh('o')
-	
+
 def ready():
 	"""
 	close EH & Atlas shutter, move d2 and d3 out and open the mar
@@ -205,7 +218,6 @@ def ready():
 	d2out()
 	d3out()
 	#marAuxiliary.openMarShield()		# N.b. if mar disconnected, will just do nothing
-	
 
 def cscanChecks(motor, start, step, param1, param2=-1, param3=-1):
 	"""

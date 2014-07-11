@@ -74,7 +74,7 @@
             </command>
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="Perkin Elmer (pe) Live (MPeg) View"
+                  label="Perkin Elmer (pe) Live (MJPeg) View"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
@@ -85,6 +85,34 @@
                      value="pe">
                </parameter>
             </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Photonic Science (psl) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//psl//BL15I-EA-PSL-01@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Photonic Science (psl) Live (MJPeg) View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//psl//BL15I-EA-PSL-01@">
+               </parameter>
+            </command>
+
          </menu>
       </menuContribution>
    </extension>

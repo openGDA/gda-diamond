@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="bs3x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="bs3x_motor" />
+	</bean>
+
+	<bean id="bs3y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="bs3y_motor" />
+	</bean>
+
+	<bean id="bs3z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="bs3z_motor" />
+	</bean>
+</beans>

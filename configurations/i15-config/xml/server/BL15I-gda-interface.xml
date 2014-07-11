@@ -289,26 +289,29 @@
 	<simpleMotor desc="Table 2 Detector Z" name="EHT2.DETECTZ">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-TABLE-03:DETECTOR2:Z" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="" name="D4.X">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-04:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D4.Y">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-04:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D3.X">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-03:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D3.Y">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-03:Y" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="Movable Beamstop X" name="BS.X">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-RS-ABSB-04:X" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Movable Beamstop Y" name="BS.Y">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-RS-ABSB-04:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="X-Ray Eye X Translation" name="XEYE.X">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-04:X" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="X-Ray Eye Y Translation" name="XEYE.Y">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-04:Y" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="Superhead laser X" name="SHEAD.X">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-SHEAD-01:X" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Superhead laser Y" name="SHEAD.Y">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-SHEAD-01:Y" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Superhead laser Z" name="SHEAD.Z">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-SHEAD-01:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="S7 Y Centre" name="S7.YCENTRE">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-AL-SLITS-07:Y:CENTER" ro="false" type="motor"/>
@@ -371,10 +374,10 @@
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Position compare stretcher" pv="BL15I-EA-PCMP-01:STRETCH" ro="false" type="binary"/>
 	</simpleBinary>
 	<simplePv desc="Digital output" name="PATCH12.X7">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="digital output bit" pv="BL15I-EA-PATCH-12:X7" ro="false" type="pv"/>
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Digital output" pv="BL15I-EA-PATCH-12:X7" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="Digital output" name="PATCH14.X7">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="digital output bit" pv="BL15I-EA-PATCH-14:X7" ro="false" type="pv"/>
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Digital output" pv="BL15I-EA-PATCH-14:X7" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="" name="d1.sum">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="" pv="BL15I-DI-PHDGN-01:DIODESUM" ro="true" type="pv"/>
@@ -482,9 +485,6 @@
 	<simpleMotor desc="Fast Shutter Y" name="FS.Y">
 		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-EA-SHTR-01:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Microscope X Translation" name="SCOPE.X">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-DI-PHDGN-03:X" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="S5 Y Centre" name="S5.YCENTRE">
 		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-AL-SLITS-05:Y:CENTER" ro="false" type="motor"/>
 	</simpleMotor>
@@ -497,39 +497,27 @@
 	<simpleMotor desc="S5 X Gap" name="S5.XGAP">
 		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-AL-SLITS-05:X:SIZE" ro="false" type="motor"/>
 	</simpleMotor>
-	<simplePv desc="Spacefab Pivot Point X Coord" name="SFAB.PIVOTX">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:X" ro="false" type="pv"/>
-	</simplePv>
-	<simplePv desc="Spacefab Pivot Point Y Coord" name="SFAB.PIVOTY">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:Y" ro="false" type="pv"/>
-	</simplePv>
-	<simplePv desc="Spacefab Pivot Point Z Coord" name="SFAB.PIVOTZ">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Pivot Point Coord" pv="BL15I-MO-SFAB-01:PIVOT:Z" ro="false" type="pv"/>
-	</simplePv>
 	<simplePv desc="Spacefab Demand Sync" name="SFAB.SYNC">
 		<RECORD IOC="BL15I-MO-IOC-04" desc="Sync demands with readbacks" pv="BL15I-MO-SFAB-01:SYNCDEMANDS" ro="false" type="pv"/>
 	</simplePv>
-	<simplePv desc="Spacefab Reset" name="SFAB.RESET">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Reset system error" pv="BL15I-MO-SFAB-01:RESETERR" ro="false" type="pv"/>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:X_RBV">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:X_RBV" ro="true" type="pv"/>
 	</simplePv>
-	<simpleMotor desc="" name="SFAB.X">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:X" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.Y">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:Y" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.Z">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:Z" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.PITCH">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:PITCH" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.YAW">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:YAW" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.ROLL">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:ROLL" ro="false" type="motor"/>
-	</simpleMotor>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:X">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:X" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:Y_RBV">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Y_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:Y">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Y" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:Z_RBV">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Z_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Spacefab" name="SFAB.PIVOT:Z">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Z" ro="false" type="pv"/>
+	</simplePv>
 	<simpleMotor desc="" name="SFAB.SAMPLE.X">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SFAB-01:SAMPLE:X" ro="false" type="motor"/>
 	</simpleMotor>
@@ -551,14 +539,14 @@
 	<simpleMotor desc="Cross hair Y" name="XHAIR1.Y">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-XHAIR-01:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Smaract X" name="smar.x">
-		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:X" ro="false" type="motor"/>
+	<simpleMotor desc="" name="bs3.x">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-RS-ABSB-09:X" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Smaract Y" name="smar.y">
-		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:Y" ro="false" type="motor"/>
+	<simpleMotor desc="" name="bs3.y">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-RS-ABSB-09:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Smaract Z" name="smar.z">
-		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:Z" ro="false" type="motor"/>
+	<simpleMotor desc="" name="bs3.z">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-RS-ABSB-09:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="S4 Pitch" name="S4.PITCH">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-AL-SLITS-04:PITCH" ro="false" type="motor"/>
@@ -607,6 +595,9 @@
 	</simpleMotor>
 	<simpleMotor desc="Diffractometer Base Rotation" name="DIFF.BASEROT">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-MO-DIFF-01:BASE:Ry" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Superhead laser Z" name="SHEAD.Z">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-MO-SHEAD-01:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Base Jack 1" name="EHT2.Y1">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-MO-TABLE-03:BASE:Y1" ro="false" type="motor"/>
@@ -1953,9 +1944,7 @@
 		<WriteStatus IOC="BL15I-EA-IOC-11" desc="Status of file open and write operations" pv="BL15I-EA-PSL-01:HDF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-EA-IOC-11" desc="Error message regarding any file operation failure" pv="BL15I-EA-PSL-01:HDF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="psl.tif NDFileTIFF class instance" name="psl.tif_NDFileTIFF"/>
-	 -->
 	<NDFileHDF5 desc="psl.hdf NDFileHDF5 class instance" name="psl.hdf_NDFileHDF5">
 		<NumRowChunks IOC="BL15I-EA-IOC-11" desc="Number of rows to use per chunk" pv="BL15I-EA-PSL-01:HDF:NumRowChunks" ro="false" type="pv"/>
 		<NumRowChunks_RBV IOC="BL15I-EA-IOC-11" desc="Readback of number of rows to use per chunk" pv="BL15I-EA-PSL-01:HDF:NumRowChunks_RBV" ro="true" type="pv"/>
@@ -2806,9 +2795,7 @@
 		<WriteStatus IOC="BL15I-DI-IOC-01" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-01:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-01" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-01:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="gige1.tiff NDFileTIFF class instance" name="gige1.tiff_NDFileTIFF"/>
-	 -->
 	<NDOverlay desc="gige1.draw NDOverlay class instance" name="gige1.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-01" desc="Set Name0" pv="BL15I-DI-GIGE-01:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-01" desc="Readback for Name0" pv="BL15I-DI-GIGE-01:DRAW:1:Name_RBV" ro="true" type="pv"/>
@@ -3560,9 +3547,7 @@
 		<WriteStatus IOC="BL15I-DI-IOC-02" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-02:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-02" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-02:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="gige2.tiff NDFileTIFF class instance" name="gige2.tiff_NDFileTIFF"/>
-	 -->
 	<NDOverlay desc="gige2.draw NDOverlay class instance" name="gige2.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-02" desc="Set Name0" pv="BL15I-DI-GIGE-02:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-02" desc="Readback for Name0" pv="BL15I-DI-GIGE-02:DRAW:1:Name_RBV" ro="true" type="pv"/>
@@ -4314,9 +4299,7 @@
 		<WriteStatus IOC="BL15I-DI-IOC-03" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-03:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-03" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-03:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="gige3.tiff NDFileTIFF class instance" name="gige3.tiff_NDFileTIFF"/>
-	 -->
 	<NDOverlay desc="gige3.draw NDOverlay class instance" name="gige3.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-03" desc="Set Name0" pv="BL15I-DI-GIGE-03:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-03" desc="Readback for Name0" pv="BL15I-DI-GIGE-03:DRAW:1:Name_RBV" ro="true" type="pv"/>
@@ -5068,9 +5051,7 @@
 		<WriteStatus IOC="BL15I-DI-IOC-04" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-04:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-04" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-04:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
-	<!-- 
 	<NDFileTIFF desc="gige4.tiff NDFileTIFF class instance" name="gige4.tiff_NDFileTIFF"/>
-	 -->
 	<NDOverlay desc="gige4.draw NDOverlay class instance" name="gige4.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-04" desc="Set Name0" pv="BL15I-DI-GIGE-04:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-04" desc="Readback for Name0" pv="BL15I-DI-GIGE-04:DRAW:1:Name_RBV" ro="true" type="pv"/>

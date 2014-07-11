@@ -3,10 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- 
-	<import resource="I15-.xml"/>
-	 -->
+	<bean id="d4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d4x_motor" />
+	</bean>
 
-	<import resource="I15-geo2.xml"/>
-	<import resource="I15-VCOLD.xml"/>
+	<bean id="d4y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d4y_motor" />
+	</bean>
 </beans>
