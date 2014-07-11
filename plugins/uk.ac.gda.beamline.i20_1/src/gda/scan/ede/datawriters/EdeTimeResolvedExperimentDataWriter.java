@@ -25,7 +25,6 @@ import gda.device.detector.StripDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
@@ -62,7 +61,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	protected final EnergyDispersiveExafsScan iRefDarkScan;
 	protected final EnergyDispersiveExafsScan iRefScan;
 	protected final EnergyDispersiveExafsScan itDarkScan;
-	protected final EdeScanWithTFGTrigger[] itScans; // one of these for each cycle (repetition)
+	protected final EnergyDispersiveExafsScan[] itScans; // one of these for each cycle (repetition)
 	protected final EnergyDispersiveExafsScan i0FinalLightScan;
 	protected final EnergyDispersiveExafsScan iRefFinalScan;
 
@@ -74,8 +73,8 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	private final String nexusfileName;
 
-	public EdeTimeResolvedExperimentDataWriter(EdeScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
-			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EdeScanWithTFGTrigger[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
+	public EdeTimeResolvedExperimentDataWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
+			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
 			StripDetector theDetector, String nexusfileName) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0DarkScan = i0DarkScan;

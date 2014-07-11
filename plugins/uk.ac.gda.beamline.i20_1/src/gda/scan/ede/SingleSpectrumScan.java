@@ -66,6 +66,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 		if (i0AccumulationTime != iTaccumulationTime | i0NoOfAccumulcation != iTnoOfAccumulcation) {
 			runItDark = true;
 		}
+		runItWithTriggerOptions = false;
 		setCommonI0Parameters(i0AccumulationTime, i0NoOfAccumulcation);
 	}
 
