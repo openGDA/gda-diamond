@@ -35,12 +35,13 @@ if [ "$GDA_MODE" = "i06" -o "$GDA_MODE" = "i06-1" ]; then
 	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 
 	KNOWN_HOST="i06-1-control.diamond.ac.uk,172.23.106.49 ssh-rsa"
+	KNOWN_HOST_KEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAunGsbCTU1W1CKv9moqX5BXv+QycUw6kaCrd4dMHiylA9CBSC2SSoNQTillnVC+u1kXDmQoLDmUHFWYq7bz37JZtLMVtD9L8VZxkFAqR/tlewHBgFHlWcGKM7vnLTm3kkxCtWNZr1MJFEBWg+G5fXZjUIIeIL2Q0ywZtct5VNiCRYXc8f+AFCyOPYOvio3/MmGa7ZkzM45fLoH7q5yCjx1KOBT+Tq3wwWZRUpmXpidlAbfs06mY/as/E5lUXiBMqqqU/iyps8lZWKoCMsPNx/q5PX9zRVy4/bOBDr6TBurXZ261+j97Mjk/s2Z5CpytiB9L/qecnVyA/iEj1KPl57Rw=="
 
 	ssh-keygen -R i06-1-control.diamond.ac.uk &> /dev/null
 	ssh-keygen -R 172.23.106.49 &> /dev/null
 	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
 
-	ssh  -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/i06ssh.key gda2@i06-control.diamond.ac.uk $BEAMLINE
+	ssh  -i /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/i06-config/i06ssh.key gda2@$BEAMLINE-control.diamond.ac.uk $BEAMLINE
 	OK=$?
 	
 	# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
@@ -48,7 +49,7 @@ if [ "$GDA_MODE" = "i06" -o "$GDA_MODE" = "i06-1" ]; then
 	if [ $OK != 0 ]; then
 	  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
 	  exit
-	fi
+	fi 
 
 else
 
