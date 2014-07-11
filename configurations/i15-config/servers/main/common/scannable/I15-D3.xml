@@ -3,5 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- No scannables associated with ETL! -->
+	<bean id="d3x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d3x_motor" />
+	</bean>
+
+	<bean id="d3y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d3y_motor" />
+	</bean>
 </beans>

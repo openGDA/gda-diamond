@@ -3,10 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- 
-	<import resource="I15-.xml"/>
-	 -->
-
-	<import resource="I15-geo2.xml"/>
-	<import resource="I15-VCOLD.xml"/>
+	<bean id="bs3x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="bs3y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="bs3z_motor" class="gda.device.motor.DummyMotor"/>
 </beans>

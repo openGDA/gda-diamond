@@ -289,26 +289,29 @@
 	<simpleMotor desc="Table 2 Detector Z" name="EHT2.DETECTZ">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-TABLE-03:DETECTOR2:Z" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="" name="D4.X">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-04:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D4.Y">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-04:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D3.X">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-03:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D3.Y">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-03:Y" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="Movable Beamstop X" name="BS.X">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-RS-ABSB-04:X" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Movable Beamstop Y" name="BS.Y">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-RS-ABSB-04:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="X-Ray Eye X Translation" name="XEYE.X">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-04:X" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="X-Ray Eye Y Translation" name="XEYE.Y">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-04:Y" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="Superhead laser X" name="SHEAD.X">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-SHEAD-01:X" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Superhead laser Y" name="SHEAD.Y">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-SHEAD-01:Y" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Superhead laser Z" name="SHEAD.Z">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-SHEAD-01:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="S7 Y Centre" name="S7.YCENTRE">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-AL-SLITS-07:Y:CENTER" ro="false" type="motor"/>
@@ -371,10 +374,10 @@
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Position compare stretcher" pv="BL15I-EA-PCMP-01:STRETCH" ro="false" type="binary"/>
 	</simpleBinary>
 	<simplePv desc="Digital output" name="PATCH12.X7">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="digital output bit" pv="BL15I-EA-PATCH-12:X7" ro="false" type="pv"/>
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Digital output" pv="BL15I-EA-PATCH-12:X7" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="Digital output" name="PATCH14.X7">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="digital output bit" pv="BL15I-EA-PATCH-14:X7" ro="false" type="pv"/>
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Digital output" pv="BL15I-EA-PATCH-14:X7" ro="false" type="pv"/>
 	</simplePv>
 	<simplePv desc="" name="d1.sum">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="" pv="BL15I-DI-PHDGN-01:DIODESUM" ro="true" type="pv"/>
@@ -482,9 +485,6 @@
 	<simpleMotor desc="Fast Shutter Y" name="FS.Y">
 		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-EA-SHTR-01:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Microscope X Translation" name="SCOPE.X">
-		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-DI-PHDGN-03:X" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="S5 Y Centre" name="S5.YCENTRE">
 		<RECORD IOC="BL15I-MO-IOC-03" desc="Motor" pv="BL15I-AL-SLITS-05:Y:CENTER" ro="false" type="motor"/>
 	</simpleMotor>
@@ -518,24 +518,6 @@
 	<simplePv desc="Spacefab" name="SFAB.PIVOT:Z">
 		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Z" ro="false" type="pv"/>
 	</simplePv>
-	<simpleMotor desc="" name="SFAB.X">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:X" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.Y">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:Y" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.Z">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:Z" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.PITCH">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:PITCH" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.YAW">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:YAW" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.ROLL">
-		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:ROLL" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="" name="SFAB.SAMPLE.X">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SFAB-01:SAMPLE:X" ro="false" type="motor"/>
 	</simpleMotor>
@@ -557,14 +539,14 @@
 	<simpleMotor desc="Cross hair Y" name="XHAIR1.Y">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-XHAIR-01:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Smaract X" name="smar.x">
-		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:X" ro="false" type="motor"/>
+	<simpleMotor desc="" name="bs3.x">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-RS-ABSB-09:X" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Smaract Y" name="smar.y">
-		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:Y" ro="false" type="motor"/>
+	<simpleMotor desc="" name="bs3.y">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-RS-ABSB-09:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Smaract Z" name="smar.z">
-		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SMAR-01:Z" ro="false" type="motor"/>
+	<simpleMotor desc="" name="bs3.z">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-RS-ABSB-09:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="S4 Pitch" name="S4.PITCH">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-AL-SLITS-04:PITCH" ro="false" type="motor"/>
@@ -613,6 +595,9 @@
 	</simpleMotor>
 	<simpleMotor desc="Diffractometer Base Rotation" name="DIFF.BASEROT">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-MO-DIFF-01:BASE:Ry" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Superhead laser Z" name="SHEAD.Z">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-MO-SHEAD-01:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Base Jack 1" name="EHT2.Y1">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-MO-TABLE-03:BASE:Y1" ro="false" type="motor"/>
