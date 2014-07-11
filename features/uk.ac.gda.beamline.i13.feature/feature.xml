@@ -119,49 +119,49 @@
          id="org.eclipse.emf.common"
          download-size="0"
          install-size="0"
-         version="2.8.0.v20130125-0546"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.transaction"
          download-size="0"
          install-size="0"
-         version="1.4.0.v20100331-1738"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.workspace"
          download-size="0"
          install-size="0"
-         version="1.5.1.v20120328-0001"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.ecore.change"
          download-size="0"
          install-size="0"
-         version="2.8.0.v20130125-0546"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.edit"
          download-size="0"
          install-size="0"
-         version="2.8.0.v20130125-0826"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.validation"
          download-size="0"
          install-size="0"
-         version="1.4.0.v20100428-2315"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.ecore"
          download-size="0"
          install-size="0"
-         version="2.8.3.v20130125-0546"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
