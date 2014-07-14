@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Photodiode Detector -->
+
+	<bean id="photoDiode1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL08I-EA-PATCH-01:AI1" />
+		<property name="local" value="true" />
+		<property name="poll" value="true" />
+	</bean>
+</beans> 

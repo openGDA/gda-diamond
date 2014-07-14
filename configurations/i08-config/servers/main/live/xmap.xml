@@ -7,7 +7,7 @@
 		<ERASESTART desc="Erase and start the system" pv="BL08I-EA-DET-02:EraseStart" ro="false" type="binary"/>
 		<ERASEALL desc="Clear memory" pv="BL08I-EA-DET-02:EraseAll" ro="false" type="binary"/>
 		<SETRESUME desc="Set resume mode. Clear on start or resume acquiring into same spectrum." pv="BL08I-EA-DET-02:Resume" ro="false" type="binary"/>
-		<SETPRESETVALUE desc="set the preset acquisition value for all channels" pv="BL08I-EA-DET-02:PresetReal" ro="false" type="pv"/>
+		<SETPRESETVALUE desc="set the preset acquisition value for all channels" pv="BL08I-EA-DET-02:PresetValue" ro="false" type="pv"/>
 		<SETPRESETTYPE desc="set the preset acquisition type for all channels" pv="BL08I-EA-DET-02:PresetMode" ro="false" type="mbbinary"/>
 		<COLLECTMODE desc="set the collection mode" pv="BL08I-EA-DET-02:CollectMode" ro="false" type="mbbinary"/>
 		<PIXELADVANCEMODE desc="set thepixel advance mode" pv="BL08I-EA-DET-02:PixelAdvanceMode" ro="false" type="mbbinary"/>

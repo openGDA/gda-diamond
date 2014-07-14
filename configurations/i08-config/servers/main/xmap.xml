@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- XIA Fluorescence detector --> 
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmapcontroller" />
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Xia_parameters.xml" />
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</property>
+	</bean>  
+</beans> 
