@@ -19,7 +19,11 @@ class AndorMap(RasterScan):
         # if one arg, then use that as the map size, else ignore any and all args
         if len(args) == 1:
             self.map_size = int(args[0])
-        self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor]
+        else :
+            from gda.epics import CAClient
+            self.map_size = CAClient().get("BL08I-EA-DET-01:HDF5:ExtraDimSizeX_RBV")
+            print "Map size will be",str(self.map_size)
+        self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor, 0.1]
         RasterScan.__call__(self,self.scanargs)
      
     def _createScan(self, args):
