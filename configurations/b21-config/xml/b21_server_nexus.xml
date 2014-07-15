@@ -250,6 +250,7 @@
 				<ref bean="scan2elog" />
 				<ref bean="scan2terminal" />
 				<ref bean="twodscan" />
+				<ref bean="ncddetectorsProcessingListener" />
 			</list>
 		</property>
 	</bean>
@@ -270,10 +271,6 @@
 				<ref bean="subdirectory" />
 				<ref bean="samplename" />
 				<ref bean="title" />
-<!-- 				<bean class="gda.data.metadata.StoredScanMetadataEntry"> -->
-<!-- 					<property name="name" value="title" /> -->
-<!-- 					<property name="value" value="undefined" /> -->
-<!-- 				</bean> -->
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="note" />
 					<property name="value" value="undefined" />
@@ -313,6 +310,15 @@
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableScanTitle">
 		<property name="storedMetadataEntry" ref="title" />
 	</bean>
+	
+	<bean id="backgroundDataFile" class="gda.data.metadata.StoredScanMetadataEntry">
+		<property name="value" value="" />
+	</bean>
+	
+	<bean id="dataCollectionId" class="gda.data.metadata.StoredScanMetadataEntry">
+		<property name="value" value="" />
+	</bean>
+	
 
 	<bean class="gda.data.metadata.IntransparentLogFilePathProvider"
 		id="logfilenameprovider">
