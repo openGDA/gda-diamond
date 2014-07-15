@@ -131,6 +131,8 @@
 	<bean id="ncddetectorsProcessingListener" class="uk.ac.gda.server.ncd.data.scan.DataProcessingScanListener" >
 		<property name="detector" ref="ncddetectors"/>
 		<property name="runner" ref="biosaxsprocessingrunner" />
+		<property name="background" ref="backgroundDataFile" />
+		<property name="collectionId" ref="dataCollectionId" />
 	</bean>
 
 	<corba:export namespace="b21" />

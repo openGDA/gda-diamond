@@ -61,8 +61,22 @@ mkdir $WORKSPACE
 OUTPUTDIR=$TMPDIR/output
 mkdir $OUTPUTDIR
 
+${RUNANALYSIS:=/bin/true} # run by default if not enabled
+if test -n "${BACKGROUNDFILE}" ; then
 sed "s,bgFile>.*</bgFile,bgFile>${BACKGROUNDFILE}</bgFile," < $NCDREDXML > ncd_reduction.xml
+else 
+sed "s,enableBackground>.*</enableBackground,enableBackground>false</enableBackground," < $NCDREDXML > ncd_reduction.xml
+RUNANALYSIS=/bin/false
+fi
 NCDREDXML=${TMPDIR}/ncd_reduction.xml
+
+# do not run ispybupdate or analysis if datacollectionid is not set
+if test -n "$DATACOLLID" ; then
+	: 
+else 
+ISPYBUPDATE=":"
+RUNANALYSIS=/bin/false
+fi
 
 mkdir ${WORKSPACE}/workflows/
 WORKSPACEMOML=${WORKSPACE}/workflows/reduction.moml
@@ -115,13 +129,16 @@ if test -n "$REDUCTIONOUTPUTFILE" ; then
 	ln \$GENERATEDFILE $REDUCTIONOUTPUTFILE
 	REDUCEDFILE="$REDUCTIONOUTPUTFILE"
 	# check for unsub output
-	if ls -l ${OUTPUTDIR}/results_*_BackgroundSubtraction_background_0_*.dat ${OUTPUTDIR}/results_*_Normalisation_data_0_*.dat ; then 
+	if ls -l ${OUTPUTDIR}/results_*_BackgroundSubtraction_background_0_*.dat ; then 
 		echo making directory for unsubtracted dat files
-		mkdir -p $UNSUBOUTPUT
+		mkdir -p $UNSUBOUTPUT || true
 		echo linking background
 		for i in ${OUTPUTDIR}/results_*_BackgroundSubtraction_background_0_*.dat ; do 
 			ln \$i ${UNSUBOUTPUT}/\$(basename \$i | sed -e s,results_,, -e 's,_.*_,_background_,')
 		done
+	fi
+	if ls -l ${OUTPUTDIR}/results_*_Normalisation_data_0_*.dat ; then 
+		mkdir -p $UNSUBOUTPUT || true
 		echo linking sample
 		for i in ${OUTPUTDIR}/results_*_Normalisation_data_0_*.dat ; do 
 			ln \$i ${UNSUBOUTPUT}/\$(basename \$i | sed -e s,results_,, -e 's,_.*_,_sample_,')
@@ -134,12 +151,14 @@ fi
 # tell ispyb reduction worked and result is in \$REDUCEDFILE
 $ISPYBUPDATE reduction $DATACOLLID COMPLETE \$REDUCEDFILE
 
+if $RUNANALYSIS ; then
 echo restricting file sizes via ulimit
 ulimit -f 500000
 mkdir $ANALYSISOUTPUT
 $ISPYBUPDATE analysis $DATACOLLID STARTED \"\"
 python $EDNAPYSCRIPT --filename \$REDUCEDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 4 
 $ISPYBUPDATE analysis $DATACOLLID COMPLETE $ANALYSISOUTPUT
+fi
 EOF
 
 #bash $SCRIPT > ${SCRIPT}.stdout 2> ${SCRIPT}.errout
