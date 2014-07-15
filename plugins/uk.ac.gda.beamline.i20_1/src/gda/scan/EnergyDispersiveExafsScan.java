@@ -18,7 +18,6 @@
 
 package gda.scan;
 
-import gda.device.detector.StripDetector;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanType;
 
@@ -46,6 +45,4 @@ public interface EnergyDispersiveExafsScan extends Scan {
 	public DoubleDataset extractDetectorDataSet(int i);
 
 	public String getHeaderDescription();
-
-	public StripDetector getDetector();
 }

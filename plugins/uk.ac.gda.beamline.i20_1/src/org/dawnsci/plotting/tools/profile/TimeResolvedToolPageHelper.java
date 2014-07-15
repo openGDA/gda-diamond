@@ -40,6 +40,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +89,7 @@ public class TimeResolvedToolPageHelper {
 		excludedCyclesSelectionDialog.setInitialElementSelections(excludedList);
 
 		if (excludedCyclesSelectionDialog.open() == Window.OK) {
-			String dir = showSaveDirectory(nexusFile, display);
+			String dir = showSaveDirectory(nexusFile, display.getActiveShell());
 			if (dir == null) {
 				return;
 			}
@@ -113,11 +114,12 @@ public class TimeResolvedToolPageHelper {
 	}
 
 	public void applyEnergyCalibrationToNexusFiles(File nexusFile, Display display, String energyCalibration, double[] value) throws Exception {
-		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(display.getActiveShell(), nexusFile.getParent());
+		Shell shell = display.getActiveShell();
+		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(shell, nexusFile.getParent());
 		if (selectedFiles == null || selectedFiles.length < 1) {
 			return;
 		}
-		String dirToStoreCalibratedFiles = showSaveDirectory(nexusFile, display);
+		String dirToStoreCalibratedFiles = showSaveDirectory(nexusFile, shell);
 		if (dirToStoreCalibratedFiles == null) {
 			return;
 		}
@@ -131,7 +133,7 @@ public class TimeResolvedToolPageHelper {
 	}
 
 	public void averageSpectrumAndExport(File nexusFile, Display display, SpectraRegionDataNode[] spectraRegionDataNode) {
-		String dirToStoreReducedFiles = showSaveDirectory(nexusFile, display);
+		String dirToStoreReducedFiles = showSaveDirectory(nexusFile, display.getActiveShell());
 		if (dirToStoreReducedFiles == null) {
 			return;
 		}
@@ -156,8 +158,8 @@ public class TimeResolvedToolPageHelper {
 		return new File(path);
 	}
 
-	private String showSaveDirectory(File nexusFile, Display display) {
-		DirectoryDialog dlg = new DirectoryDialog(display.getActiveShell());
+	private String showSaveDirectory(File nexusFile, Shell shell) {
+		DirectoryDialog dlg = new DirectoryDialog(shell);
 		dlg.setFilterPath(nexusFile.getParent());
 		dlg.setText("Select a directory to store new data files");
 		return dlg.open();

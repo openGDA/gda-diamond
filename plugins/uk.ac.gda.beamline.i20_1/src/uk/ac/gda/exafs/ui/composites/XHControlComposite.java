@@ -59,12 +59,12 @@ import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 import com.swtdesigner.ResourceManager;

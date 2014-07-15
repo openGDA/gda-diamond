@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -60,19 +60,19 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeWithoutTriggerScan.class);
 
-	private final StripDetector theDetector;
+	protected final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
-	private final Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
+	protected final Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
 
-	private EdeScanParameters scanParameters;
-	private EdeScanPosition motorPositions;
-	private EdeScanType scanType;
+	protected EdeScanParameters scanParameters;
+	protected EdeScanPosition motorPositions;
+	protected EdeScanType scanType;
 	private FrameIndexer indexer = null;
 	private IObserver progressUpdater;
 	private final Scannable shutter;
 	private final TopupChecker topup;
 
-	private boolean isSimulated = false;
+	protected boolean isSimulated = false;
 
 	/**
 	 * @param scanParameters
@@ -171,25 +171,11 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 			}
 		} else {
 			// open the shutter
-			logger.debug(toString() + " moving motors into position...");
-			InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
-			motorPositions.moveIntoPosition();
-			checkThreadInterrupted();
-			waitIfPaused();
-			if (isFinishEarlyRequested()){
-				return;
-			}
-			if (topup != null){
-				// the TopupChecker object will run its test for an imminent top-up in atScanStart()
-				topup.atScanStart();
-			}
-			shutter.moveTo("Open");
+			moveSampleIntoPosition();
 		}
 		if (!isChild()) {
 			currentPointCount = -1;
 		}
-
-		// TODO 264 wait here to test if we should wait for top-up?
 
 		logger.debug(toString() + " starting detector running...");
 		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
@@ -197,6 +183,12 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
 
+		// poll tfg and fetch data
+		pollDetectorAndFetchData();
+		logger.debug(toString() + " doCollection finished.");
+	}
+
+	protected void pollDetectorAndFetchData() throws DeviceException, Exception {
 		Integer nextFrameToRead = 0;
 		try {
 			ExperimentStatus progressData = fetchStatusAndWait();
@@ -224,7 +216,22 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 			// have we read all the frames?
 			readoutRestOfFrames(nextFrameToRead);
 		}
-		logger.debug(toString() + " doCollection finished.");
+	}
+
+	protected void moveSampleIntoPosition() throws DeviceException, InterruptedException {
+		logger.debug(toString() + " moving motors into position...");
+		InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+		motorPositions.moveIntoPosition();
+		checkThreadInterrupted();
+		waitIfPaused();
+		if (isFinishEarlyRequested()){
+			return;
+		}
+		if (topup != null){
+			// the TopupChecker object will run its test for an imminent top-up in atScanStart()
+			topup.atScanStart();
+		}
+		shutter.moveTo("Open");
 	}
 
 	/*
@@ -263,7 +270,7 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		return getParent().getTotalNumberOfPoints();
 	}
 
-	private void validate() throws IllegalArgumentException {
+	protected void validate() throws IllegalArgumentException {
 		if (motorPositions == null) {
 			throw new IllegalArgumentException("Cannot run EdeScan as sample motor positions have not been supplied");
 		}
@@ -291,14 +298,7 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 	 */
 	private void createDataPoints(int lowFrame, int highFrame) throws Exception {
 		// readout the correct frame from the detectors
-		NexusTreeProvider[] detData;
-		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
-		if (isSimulated) {
-			detData = SimulatedData.readSimulatedDataFromFile(lowFrame, highFrame, theDetector, this.getMotorPositions().getType(), this.getScanType());
-		} else {
-			detData = theDetector.readFrames(lowFrame, highFrame);
-		}
-		logger.info("data read successfully");
+		Object[][] detData = readDetectors(lowFrame, highFrame);
 
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
 			checkThreadInterrupted();
@@ -309,25 +309,7 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 			currentPointCount++;
 			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
 
-			ScanDataPoint thisPoint = new ScanDataPoint();
-			thisPoint.setUniqueName(name);
-			thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
-			thisPoint.setStepIds(getStepIds());
-			thisPoint.setScanPlotSettings(getScanPlotSettings());
-			thisPoint.setScanDimensions(getDimensions());
-			if (indexer != null) {
-				indexer.setGroup(ExperimentLocationUtils.getGroupNum(scanParameters, thisFrame));
-				indexer.setFrame(ExperimentLocationUtils.getFrameNum(scanParameters, thisFrame));
-				thisPoint.addScannable(indexer);
-				thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
-			}
-			thisPoint.addDetector(theDetector);
-			thisPoint.addDetectorData(detData[thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
-			thisPoint.setCurrentPointNumber(currentPointCount);
-			thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
-			thisPoint.setInstrument(instrument);
-			thisPoint.setCommand(getCommand());
-			thisPoint.setScanIdentifier(getScanNumber());
+			ScanDataPoint thisPoint = createScanDataPoint(lowFrame, detData, thisFrame);
 
 			// then write data to data handler
 			storeAndBroadcastSDP(thisFrame, thisPoint);
@@ -346,6 +328,48 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 			// then notify IObservers of this scan (e.g. GUI panels)
 			getJythonServerNotifer().notifyServer(this, thisPoint);
 		}
+	}
+
+	private ScanDataPoint createScanDataPoint(int lowFrame, Object[][] detData, int thisFrame)
+			throws DeviceException {
+		ScanDataPoint thisPoint = new ScanDataPoint();
+		thisPoint.setUniqueName(name);
+		thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
+		thisPoint.setStepIds(getStepIds());
+		thisPoint.setScanPlotSettings(getScanPlotSettings());
+		thisPoint.setScanDimensions(getDimensions());
+		if (indexer != null) {
+			indexer.setGroup(ExperimentLocationUtils.getGroupNum(scanParameters, thisFrame));
+			indexer.setFrame(ExperimentLocationUtils.getFrameNum(scanParameters, thisFrame));
+			thisPoint.addScannable(indexer);
+			thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
+		}
+		addDetectorsToScanDataPoint(lowFrame, detData, thisFrame, thisPoint);
+		thisPoint.setCurrentPointNumber(currentPointCount);
+		thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
+		thisPoint.setInstrument(instrument);
+		thisPoint.setCommand(getCommand());
+		thisPoint.setScanIdentifier(getScanNumber());
+		return thisPoint;
+	}
+
+	@SuppressWarnings("unused")
+	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
+			ScanDataPoint thisPoint) throws DeviceException {
+		thisPoint.addDetector(theDetector);
+		thisPoint.addDetectorData(detData[0][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
+	}
+
+	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
+		NexusTreeProvider[][] detData = new NexusTreeProvider[1][];
+		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
+		if (isSimulated) {
+			detData[0] = SimulatedData.readSimulatedDataFromFile(lowFrame, highFrame, theDetector, this.getMotorPositions().getType(), this.getScanType());
+		} else {
+			detData[0] = theDetector.readFrames(lowFrame, highFrame);
+		}
+		logger.info("data read successfully");
+		return detData;
 	}
 
 	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
@@ -406,7 +430,6 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		this.scanType = scanType;
 	}
 
-	@Override
 	public StripDetector getDetector() {
 		return theDetector;
 	}

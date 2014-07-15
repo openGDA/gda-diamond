@@ -172,7 +172,7 @@
 		<property name="slave" value="true" />
 		<property name="collectionModePV" value="BL18I-EA-DET-04:CollectMode" />
 	</bean>
-	<bean id="raster_xspress" class="gda.device.detector.Xspress2BufferedDetector">
+	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
 	</bean>
 	<bean id="raster_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
@@ -274,7 +274,7 @@
 		<property name="i0_channel" value="1" />
 	</bean>
 
-	<bean id="FFI0_vortex" class="gda.device.detector.TfgXMapFFoverI0">
+	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<property name="counterTimer" ref="counterTimer01" />
 		<property name="i0_channel" value="1" />

@@ -78,7 +78,7 @@ public class SlitsScanModel extends ObservableModel implements IObserver {
 	public static SlitsScanModel getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new SlitsScanModel();
-			SlitsScanModel slitScannerModel = EdeDataStore.INSTANCE.loadConfiguration(SLITS_SCAN_MODEL_DATA_STORE_KEY, SlitsScanModel.class);
+			SlitsScanModel slitScannerModel = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SLITS_SCAN_MODEL_DATA_STORE_KEY, SlitsScanModel.class);
 			if (slitScannerModel != null) {
 				INSTANCE.setGap(slitScannerModel.getGap());
 				INSTANCE.setFromOffset(slitScannerModel.getFromOffset());
@@ -89,7 +89,7 @@ public class SlitsScanModel extends ObservableModel implements IObserver {
 			INSTANCE.addPropertyChangeListener(new PropertyChangeListener() {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
-					EdeDataStore.INSTANCE.saveConfiguration(SLITS_SCAN_MODEL_DATA_STORE_KEY, SlitsScanModel.INSTANCE);
+					EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SLITS_SCAN_MODEL_DATA_STORE_KEY, SlitsScanModel.INSTANCE);
 				}
 			});
 		}

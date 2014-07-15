@@ -6,7 +6,7 @@ from exafsscripts.exafs.b18OutputPreparer import B18OutputPreparer
 from exafsscripts.exafs.xas_scan import XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.device.scannable import TopupScannable
-from gda.device.scannable import BeamMonitorScannableWithResume
+from gda.device.scannable import BeamMonitor
 from gda.device.scannable import MonoCoolScannable
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
@@ -69,10 +69,11 @@ topupMonitor.setWaittime(1)
 topupMonitor.setTimeout(60)
 topupMonitor.setScannableToBeMonitored(topup)
 
-beamMonitor = BeamMonitorScannableWithResume()
+beamMonitor = BeamMonitor()
 beamMonitor.setName("beamMonitor")
-beamMonitor.setTimeout(7200)
-beamMonitor.setWaittime(60)
+beamMonitor.setMachineModeMonitor(machineModeMonitor)
+beamMonitor.setShutterPV("FE18B-PS-SHTR-02:STA")
+beamMonitor.setPauseBeforeScan(True)     # for qexafs, test FE and machine current at the start of each scan
 beamMonitor.configure()
 
 monoCooler = MonoCoolScannable()
@@ -103,6 +104,6 @@ if (LocalProperties.get("gda.mode") == 'live'):
     
     run "userStartupScript"
 else :
-    energy(7000) # start the sim with an energy in a useful range
+    energy(7000) # start the simulation with an energy in a useful range
 
 print "Initialization Complete";

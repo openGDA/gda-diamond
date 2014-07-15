@@ -79,6 +79,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
@@ -91,7 +92,6 @@ import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.PowerCalulator;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 import uk.ac.gda.ui.viewer.EnumPositionViewer;
 
 /**

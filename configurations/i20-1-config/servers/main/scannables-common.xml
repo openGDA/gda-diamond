@@ -35,4 +35,5 @@
 		<property name="serviceInterface" value="gda.device.scannable.AlignmentStage" />
 	</bean>  
 
+	<import resource="simpleScannables.xml"/>
 </beans>

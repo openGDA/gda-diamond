@@ -23,6 +23,7 @@ import gda.device.DeviceException;
 import java.util.List;
 import java.util.Map;
 
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -31,30 +32,38 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class CyclicExperiment extends TimeResolvedExperiment {
 
+	@Override
+	protected String getHeaderText() {
+		StringBuilder metadataText = new StringBuilder();
+		metadataText.append(super.getHeaderText());
+		metadataText.append(String.format("\nCycles: %d\n", numberOfRepetitions));
+		return metadataText.toString();
+	}
+
 	public CyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions, TFGTrigger itTriggerOptions)
 					throws DeviceException {
 		super(i0accumulationTime, itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName,
-				topupMonitorName, beamShutterScannableName);
+				topupMonitorName, beamShutterScannableName, itTriggerOptions);
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
 
 	public CyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetition)
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetition, TFGTrigger itTriggerOptions)
 					throws DeviceException {
 		this(i0accumulationTime, i0NoOfAccumulcation, EdeScanParameters.createEdeScanParameters(itTimingGroups),
 				i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
-				beamShutterScannableName, numberOfRepetition);
+				beamShutterScannableName, numberOfRepetition, itTriggerOptions);
 	}
 
 	public CyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions, TFGTrigger itTriggerOptions)
 					throws DeviceException {
 		super(i0accumulationTime, i0NoOfAccumulcation, iTScanParameters, i0ScanableMotorPositions,
-				iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
+				iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName, itTriggerOptions);
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
 }

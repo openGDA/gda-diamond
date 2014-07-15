@@ -29,6 +29,7 @@ import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 import java.util.List;
 import java.util.Map;
 
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -52,8 +53,8 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	public TimeResolvedExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
-		super(itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+			String detectorName, String topupMonitorName, String beamShutterScannableName, TFGTrigger itTriggerOptions) throws DeviceException {
+		super(itTimingGroups, itTriggerOptions, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
 		setDefaultI0Parameters(i0accumulationTime);
 		setupTimingGroups();
@@ -61,17 +62,17 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+			String detectorName, String topupMonitorName, String beamShutterScannableName, TFGTrigger itTriggerOptions) throws DeviceException {
 		this(i0accumulationTime, i0NoOfAccumulcation, EdeScanParameters.createEdeScanParameters(itTimingGroups),
 				i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
-				beamShutterScannableName);
+				beamShutterScannableName,itTriggerOptions);
 	}
 
 	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation,
 			EdeScanParameters iTScanParameters, Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions, String detectorName, String topupMonitorName,
-			String beamShutterScannableName) throws DeviceException {
-		super(iTScanParameters, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+			String beamShutterScannableName, TFGTrigger itTriggerOptions) throws DeviceException {
+		super(iTScanParameters, itTriggerOptions, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
 		setCommonI0Parameters(i0accumulationTime, i0NoOfAccumulcation);
 		setupTimingGroups();

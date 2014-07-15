@@ -25,7 +25,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import uk.ac.gda.common.rcp.UIHelper;
+import uk.ac.gda.client.UIHelper;
 
 public class RemoveTimeGroupCommandHandler extends AbstractHandler {
 	@Override

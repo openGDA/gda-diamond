@@ -21,12 +21,10 @@ package uk.ac.gda.exafs.experiment.ui;
 import org.eclipse.jface.wizard.Wizard;
 
 public class TimingGroupsSetupWizard extends Wizard {
-
-	private TimingGroupsSetupPage timingGroupsSetupPage;
+	private final TimingGroupsSetupPage timingGroupsSetupPage = new TimingGroupsSetupPage();
 
 	@Override
 	public void addPages() {
-		timingGroupsSetupPage = new TimingGroupsSetupPage();
 		addPage(timingGroupsSetupPage);
 	}
 

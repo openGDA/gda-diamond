@@ -35,11 +35,10 @@
 			<list>
 				<value>Rhodium</value>
 				<value>Silicon</value>
-				<value>Out of beam</value>
 			</list>
 		</property>
 	</bean>
-	<bean id="me2_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="me2_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>In</value>

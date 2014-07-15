@@ -42,12 +42,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 
 import com.google.gson.annotations.Expose;
 
@@ -129,7 +129,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	}
 
 	private void loadSingleSpectrumData() {
-		SingleSpectrumCollectionModel singleSpectrumData = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumCollectionModel.class);
+		SingleSpectrumCollectionModel singleSpectrumData = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumCollectionModel.class);
 		if (singleSpectrumData == null) {
 			experimentDataModel = new ExperimentDataModel();
 			return;
@@ -143,7 +143,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	}
 
 	private void saveSingleSpectrumData() {
-		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, this);
+		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, this);
 	}
 
 	private String buildScanCommand() {

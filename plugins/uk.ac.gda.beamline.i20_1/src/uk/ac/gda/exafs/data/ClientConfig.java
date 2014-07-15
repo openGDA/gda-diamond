@@ -21,21 +21,12 @@ package uk.ac.gda.exafs.data;
 import gda.device.Scannable;
 import gda.factory.Finder;
 
-import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.osgi.service.prefs.BackingStoreException;
-import org.osgi.service.prefs.Preferences;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import uk.ac.gda.common.rcp.PreferenceDataStore;
 
 public class ClientConfig {
 
@@ -44,9 +35,6 @@ public class ClientConfig {
 	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#########");
 	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 	public static final String EDE_GUI_DATA = "ede_gui.properties";
-
-	private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
-
 	private ClientConfig() {}
 
 	public enum UnitSetup {
@@ -223,38 +211,15 @@ public class ClientConfig {
 		INSTANCE;
 
 		private static final String EDE_DATA_PERFERENCES = "uk.ac.gda.beamline.i20_1";
-		final GsonBuilder gsonBuilder;
-		private final Gson gson;
-		private final Preferences prefs = InstanceScope.INSTANCE.getNode(EDE_DATA_PERFERENCES);
+		private final PreferenceDataStore preferenceDataStore;
 
 		private EdeDataStore() {
-			gsonBuilder = new GsonBuilder();
-			gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
+			preferenceDataStore = new PreferenceDataStore(EDE_DATA_PERFERENCES);
+
 		}
 
-		public <T> T loadConfiguration(String key, Class<T> classType) {
-			String gsonText = prefs.get(key, null);
-			if (gsonText != null) {
-				return gson.fromJson(gsonText, classType);
-			}
-			return null;
-		}
-
-		public <T> T loadConfiguration(String key, Type type) {
-			String gsonText = prefs.get(key, null);
-			if (gsonText != null) {
-				return gson.fromJson(gsonText, type);
-			}
-			return null;
-		}
-
-		public <T> void saveConfiguration(String key, T data) {
-			prefs.put(key, gson.toJson(data));
-			try {
-				prefs.flush();
-			} catch (BackingStoreException e) {
-				logger.error("Unable to store preference", e);
-			}
+		public PreferenceDataStore getPreferenceDataStore() {
+			return preferenceDataStore;
 		}
 	}
 }

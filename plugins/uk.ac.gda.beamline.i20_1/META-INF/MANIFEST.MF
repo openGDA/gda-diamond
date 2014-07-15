@@ -45,8 +45,8 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.devices.xmap;bundle-version="1.0.0",
  uk.ac.gda.beans.vortex;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.deprecated,
- org.dawnsci.slicing.tools;bundle-version="1.0.0"
- 
+ org.dawnsci.slicing.tools;bundle-version="1.0.0",
+ org.dawnsci.plotting.tools;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,

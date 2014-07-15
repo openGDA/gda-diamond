@@ -28,14 +28,14 @@ import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.plotting.model.DataNode;
 import uk.ac.gda.client.plotting.model.LineTraceProvider;
 
-public class ScanDataItemNode extends DataNode implements LineTraceProvider {
+public class ScanDataItemNode extends LineTraceProvider {
 	private final String identifier;
 	private final DoubleDataset data;
 	private final String label;
 	private String yaxisColorInHex;
 
 	public ScanDataItemNode(String identifier, String label, DoubleDataset data, DataNode parent) {
-		super(parent);
+		super(parent, null);
 		this.identifier = identifier;
 		this.data = data;
 		this.label = label;
@@ -75,7 +75,7 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 	}
 
 	@Override
-	public TraceStyleDetails getTraceStyleDetails() {
+	public TraceStyleDetails getTraceStyle() {
 		TraceStyleDetails traceStyle = new TraceStyleDetails();
 		ScanDataNode scanDataNode = (ScanDataNode) this.getParent().getParent();
 		ExperimentDataNode experimentDataNode = (ExperimentDataNode) scanDataNode.getParent();
@@ -104,5 +104,10 @@ public class ScanDataItemNode extends DataNode implements LineTraceProvider {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void removeChild(DataNode dataNode) {
+		// NOt supported
 	}
 }

@@ -128,4 +128,9 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 	public String getIdentifier() {
 		return null;
 	}
+
+	@Override
+	public void removeChild(DataNode dataNode) {
+		// NOt supported
+	}
 }

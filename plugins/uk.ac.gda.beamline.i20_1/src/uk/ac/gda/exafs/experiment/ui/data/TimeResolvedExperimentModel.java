@@ -51,12 +51,12 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
-import uk.ac.gda.exafs.ui.data.UIHelper;
 
 import com.google.gson.annotations.Expose;
 
@@ -188,8 +188,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	private void loadSavedGroups() {
-		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
-		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
+		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
+		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
 		if (savedExperimentDataModel == null) {
 			experimentDataModel = new ExperimentDataModel();
 		} else {
@@ -198,7 +198,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(getI0IRefDataKey(), experimentDataModel);
+				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getI0IRefDataKey(), experimentDataModel);
 			}
 		});
 		if (savedGroups == null) {
@@ -271,7 +271,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
 		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
-		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
+		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
 
@@ -286,7 +286,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				}
 				updateExperimentDuration();
 			}
-			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(TimeResolvedExperimentModel.this.getDataStoreKey(), groupList);
+			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.this.getDataStoreKey(), groupList);
 		}
 	};
 
@@ -310,7 +310,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			TimingGroupUIModel groupToExpend = (TimingGroupUIModel) groupList.get(groupList.indexOf(group) - 1);
 			removeFromInternalGroupList(group);
 			groupToExpend.setEndTime(group.getEndTime());
-			ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(getDataStoreKey(), groupList);
+			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getDataStoreKey(), groupList);
 		}
 	}
 
@@ -590,7 +590,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			addToInternalGroupList(newGroup);
 		}
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
-		ClientConfig.EdeDataStore.INSTANCE.saveConfiguration(this.getDataStoreKey(), groupList);
+		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 	}
 
 	public double getExperimentDuration() {

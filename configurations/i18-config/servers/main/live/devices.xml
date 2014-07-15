@@ -327,18 +327,18 @@
 		<property name="local" value="true" />
 	</bean>
 	<!--HR Mirror -->
-	<bean id="hrm_combined_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HRM:PITCH"></property>
-		<property name="local" value="true" />
-	</bean>
-	<bean id="hrm_combined_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HRM:X"></property>
-		<property name="local" value="true" />
-	</bean>
-	<bean id="hrm_shr_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SHR:X"></property>
-		<property name="local" value="true" />
-	</bean>
+<!-- 	<bean id="hrm_combined_pitch_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="deviceName" value="HRM:PITCH"></property> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="hrm_combined_x_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="deviceName" value="HRM:X"></property> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="hrm_shr_x_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="deviceName" value="SHR:X"></property> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 	<!-- KB Mirrors Motors -->
 	<bean id="kb_vfm_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="KB.VFM.X.Y"></property>
@@ -438,9 +438,13 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="epicsTopupMonitor" class="gda.device.monitor.EpicsMonitor">
+	<bean id="machineTopupMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="machineModeMonitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+		<property name="local" value="false" />
+	</bean>
 </beans>
