@@ -23,11 +23,13 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	
+	
 <!-- 	live only files -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />	
+	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/test.xml" />	 -->
 		
 <!-- 	shared files -->
 	<import resource="file:${gda.config}/servers/main/detectors.xml" />
@@ -37,7 +39,8 @@
 <!-- 	Command Server at the end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-
+	
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 	<corba:export namespace="I08" />
-
+	
 </beans>

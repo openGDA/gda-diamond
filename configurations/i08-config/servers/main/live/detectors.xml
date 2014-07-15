@@ -25,7 +25,7 @@
 
 	
 <!-- HDF5 file writers -->
-	<bean id="andor_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+	 <bean id="andor_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL08I-EA-DET-01:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
@@ -34,14 +34,6 @@
 		<property name="ndFileImpl" ref="andor_ndfilehdf5_base" />
 	</bean>
 
-
-	<!-- NXDetector collection strategies -->
-
-	<bean id="andor_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="andor_adbase" />
-		<constructor-arg value="0" />
-	</bean>
-	
 <!-- XIA Fluorescence Detector -->
 	
 	<bean id="xmap_hdf5filewriter"

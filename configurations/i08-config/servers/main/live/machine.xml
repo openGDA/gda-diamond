@@ -11,9 +11,11 @@
 	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE08I-RS-ABSB-01:STA" />
 		<property name="local" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
 		<property name="local" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 </beans>

@@ -5,6 +5,7 @@
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i08" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i08.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls.client" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>

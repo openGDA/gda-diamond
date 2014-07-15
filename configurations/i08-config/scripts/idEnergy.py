@@ -9,8 +9,8 @@ class my_energy_class1(PseudoDevice):
         self.setInputNames([name])
         self.setExtraNames([])
         self.setOutputFormat(["%5.5g"])
-        #my_pgm_energy = Finder.getInstance().find("pgm_energy")
-        #self.currentposition = (float)(my_pgm_energy.getPosition()) # this template scannable represents a single number
+        my_pgm_energy = Finder.getInstance().find("pgm_energy")
+        self.currentposition = (float)(my_pgm_energy.getPosition()) # this template scannable represents a single number
         self.iambusy = 0 # flag to hold the status of the scannable
         
     def getPosition(self):

@@ -9,4 +9,6 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<import resource="../common.xml" />
+
+	
 </beans>
