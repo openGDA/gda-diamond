@@ -4,9 +4,9 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="daserver" class="gda.device.detector.DummyDAServer">
+	<bean id="daserverForTfg" class="gda.device.detector.DummyDAServer">
 		<property name="local" value="True" />
-		<property name="host" value="b18-xspress0" />
+		<property name="host" value="localhost" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
@@ -15,22 +15,14 @@
 		</property>
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
-		<property name="xspressMode">
-			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
-				factory-method="valueOf">
-				<constructor-arg>
-					<value>XSPRESS2_FULL_MCA</value>
-				</constructor-arg>
-			</bean>
-		</property>
 	</bean>
-
+<!-- 
 	<bean id="tfg" class="gda.device.timer.Etfg">
-		<property name="daServer" ref="daserver" />
+		<property name="daServer" ref="daserverForTfg" />
 	</bean>
 
 	<bean id="CalMemory" class="gda.device.memory.Scaler">
-		<property name="daServer" ref="daserver" />
+		<property name="daServer" ref="daserverForTfg" />
 		<property name="width" value="4" />
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
@@ -39,7 +31,7 @@
 	<bean id="injectionCounter" class="gda.device.detector.countertimer.TfgScaler">
 		<property name="extraNames">
 			<list>
-				<value>I0</value>
+				<value>It</value>
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
@@ -54,5 +46,5 @@
 			</list>
 		</property>
 	</bean>
-
+ -->
 </beans>

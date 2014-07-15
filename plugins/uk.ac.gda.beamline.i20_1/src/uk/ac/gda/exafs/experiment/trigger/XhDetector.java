@@ -16,21 +16,18 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.experiment.ui;
+package uk.ac.gda.exafs.experiment.trigger;
 
-import org.eclipse.jface.wizard.Wizard;
+import java.io.Serializable;
 
-public class TimingGroupsSetupWizard extends Wizard {
-	private final TimingGroupsSetupPage timingGroupsSetupPage = new TimingGroupsSetupPage();
+public class XhDetector extends TriggerableObject implements Serializable {
 
-	@Override
-	public void addPages() {
-		addPage(timingGroupsSetupPage);
+	private static final double XCHIP_START_PULSE_WIDTH_IN_SEC = 0.001;
+
+	public XhDetector() {
+		this.setName("Xh Detector");
+		this.setTriggerOutputPort(TriggerOutputPort.USR_OUT_1);
+		this.setTriggerDelay(0.1);
+		this.setTriggerPulseLength(XCHIP_START_PULSE_WIDTH_IN_SEC);
 	}
-
-	@Override
-	public boolean performFinish() {
-		return true;
-	}
-
 }

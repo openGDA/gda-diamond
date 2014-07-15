@@ -161,7 +161,7 @@ public class EdeScanTest extends EdeTestBase {
 		ExplicitScanPositions inBeam = new ExplicitScanPositions(EdePositionType.INBEAM, 1d, 1d, xScannable, yScannable);
 		// EdeScanPosition outBeam = new EdeScanPosition(EdePositionType.OUTBEAM,0d,0d,"xScannable","yScannable");
 
-		EdeWithoutTriggerScan theScan = new EdeWithoutTriggerScan(scanParams, inBeam, EdeScanType.LIGHT, xh, repetitionNumber, createShutter2(),null);
+		EdeScan theScan = new EdeScan(scanParams, inBeam, EdeScanType.LIGHT, xh, repetitionNumber, createShutter2(),null);
 		theScan.runScan();
 
 		List<ScanDataPoint> data = theScan.getData();
@@ -230,50 +230,50 @@ public class EdeScanTest extends EdeTestBase {
 	@Test
 	@Ignore
 	public void testSimpleLinearExperiment() throws Exception {
-		setup("testSimpleLinearExperiment");
-
-		List<TimingGroup> groups = new ArrayList<TimingGroup>();
-
-		TimingGroup group1 = new TimingGroup();
-		group1.setLabel("group1");
-		group1.setNumberOfFrames(10);
-		group1.setTimePerScan(0.005);
-		group1.setNumberOfScansPerFrame(5);
-		groups.add(group1);
-
-		TimingGroup group2 = new TimingGroup();
-		group2.setLabel("group2");
-		group2.setNumberOfFrames(10);
-		group2.setTimePerScan(0.05);
-		group2.setNumberOfScansPerFrame(5);
-		groups.add(group2);
-
-		TimingGroup group3 = new TimingGroup();
-		group3.setLabel("group3");
-		group3.setNumberOfFrames(5);
-		group3.setTimePerScan(0.01);
-		group3.setNumberOfScansPerFrame(5);
-		groups.add(group3);
-
-		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
-				"xh", "topup", shutter.getName());
-		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
-		String filename = theExperiment.runExperiment();
-
-		int numberExpectedSpectra = 25;
-		
-		testNumberColumnsInEDEFile(filename, 9);
-		testNumberLinesInEDEFile(filename, MCA_WIDTH * numberExpectedSpectra);
-		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
-		testNumberLinesInEDEFile(theExperiment.getI0Filename(), MCA_WIDTH * 3 * 2);
-		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), MCA_WIDTH * 2);
-		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 9);
-		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), MCA_WIDTH * numberExpectedSpectra);
-		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 9);
-		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), MCA_WIDTH * numberExpectedSpectra);
-
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+//		setup("testSimpleLinearExperiment");
+//
+//		List<TimingGroup> groups = new ArrayList<TimingGroup>();
+//
+//		TimingGroup group1 = new TimingGroup();
+//		group1.setLabel("group1");
+//		group1.setNumberOfFrames(10);
+//		group1.setTimePerScan(0.005);
+//		group1.setNumberOfScansPerFrame(5);
+//		groups.add(group1);
+//
+//		TimingGroup group2 = new TimingGroup();
+//		group2.setLabel("group2");
+//		group2.setNumberOfFrames(10);
+//		group2.setTimePerScan(0.05);
+//		group2.setNumberOfScansPerFrame(5);
+//		groups.add(group2);
+//
+//		TimingGroup group3 = new TimingGroup();
+//		group3.setLabel("group3");
+//		group3.setNumberOfFrames(5);
+//		group3.setTimePerScan(0.01);
+//		group3.setNumberOfScansPerFrame(5);
+//		groups.add(group3);
+//
+//		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
+//				"xh", "topup", shutter.getName());
+//		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
+//		String filename = theExperiment.runExperiment();
+//
+//		int numberExpectedSpectra = 25;
+//		
+//		testNumberColumnsInEDEFile(filename, 9);
+//		testNumberLinesInEDEFile(filename, MCA_WIDTH * numberExpectedSpectra);
+//		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
+//		testNumberLinesInEDEFile(theExperiment.getI0Filename(), MCA_WIDTH * 3 * 2);
+//		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
+//		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), MCA_WIDTH * 2);
+//		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 9);
+//		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), MCA_WIDTH * numberExpectedSpectra);
+//		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 9);
+//		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), MCA_WIDTH * numberExpectedSpectra);
+//
+//		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 	}
 
 	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws NexusException {
@@ -325,53 +325,53 @@ public class EdeScanTest extends EdeTestBase {
 	@Test
 	@Ignore
 	public void testSimpleCyclicExperiment() throws Exception {
-		setup("testSimpleCyclicExperiment");
-
-		List<TimingGroup> groups = new ArrayList<TimingGroup>();
-
-		TimingGroup group1 = new TimingGroup();
-		group1.setLabel("group1");
-		group1.setNumberOfFrames(10);
-		group1.setTimePerScan(0.005);
-		group1.setNumberOfScansPerFrame(5);
-		groups.add(group1);
-
-		TimingGroup group2 = new TimingGroup();
-		group2.setLabel("group2");
-		group2.setNumberOfFrames(10);
-		group2.setTimePerScan(0.05);
-		group2.setNumberOfScansPerFrame(5);
-		groups.add(group2);
-
-		TimingGroup group3 = new TimingGroup();
-		group3.setLabel("group3");
-		group3.setNumberOfFrames(5);
-		group3.setTimePerScan(0.01);
-		group3.setNumberOfScansPerFrame(5);
-		groups.add(group3);
-
-		CyclicExperiment theExperiment = new CyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
-				"xh", "topup", shutter.getName(), 3);
-		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
-		String filename = theExperiment.runExperiment();
-
-		testNumberColumnsInEDEFile(filename, 10);
-		testNumberLinesInEDEFile(filename, (1024 * 25 * 3));
-
-		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
-		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
-
-		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 2);
-
-		testNumberColumnsInEDEFile(theExperiment.getItFilename(), 10);
-		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25 * 3));
-
-		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 10);
-		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), (1024 * 25 * 3));
-
-		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 10);
-		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), (1024 * 25 * 3));
+//		setup("testSimpleCyclicExperiment");
+//
+//		List<TimingGroup> groups = new ArrayList<TimingGroup>();
+//
+//		TimingGroup group1 = new TimingGroup();
+//		group1.setLabel("group1");
+//		group1.setNumberOfFrames(10);
+//		group1.setTimePerScan(0.005);
+//		group1.setNumberOfScansPerFrame(5);
+//		groups.add(group1);
+//
+//		TimingGroup group2 = new TimingGroup();
+//		group2.setLabel("group2");
+//		group2.setNumberOfFrames(10);
+//		group2.setTimePerScan(0.05);
+//		group2.setNumberOfScansPerFrame(5);
+//		groups.add(group2);
+//
+//		TimingGroup group3 = new TimingGroup();
+//		group3.setLabel("group3");
+//		group3.setNumberOfFrames(5);
+//		group3.setTimePerScan(0.01);
+//		group3.setNumberOfScansPerFrame(5);
+//		groups.add(group3);
+//
+//		CyclicExperiment theExperiment = new CyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
+//				"xh", "topup", shutter.getName(), 3);
+//		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
+//		String filename = theExperiment.runExperiment();
+//
+//		testNumberColumnsInEDEFile(filename, 10);
+//		testNumberLinesInEDEFile(filename, (1024 * 25 * 3));
+//
+//		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
+//		testNumberLinesInEDEFile(theExperiment.getI0Filename(), 1024 * 3 * 2);
+//
+//		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
+//		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), 1024 * 2);
+//
+//		testNumberColumnsInEDEFile(theExperiment.getItFilename(), 10);
+//		testNumberLinesInEDEFile(theExperiment.getItFilename(), (1024 * 25 * 3));
+//
+//		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 10);
+//		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), (1024 * 25 * 3));
+//
+//		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 10);
+//		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), (1024 * 25 * 3));
 
 //		testNexusStructure(theExperiment.getNexusFilename(), 25, 3);
 	}

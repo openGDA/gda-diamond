@@ -103,10 +103,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	private NumberEditorControl noOfSpectrumValueText;
 	private NumberEditorControl startTimeValueText;
 	private NumberEditorControl endTimeValueText;
-	private NumberEditorControl experimentTimeControl;
+	private NumberEditorControl itTimeControl;
 	private NumberEditorControl numberOfSpectraPerSecToPlotText;
 	protected Button useExternalTriggerCheckbox;
-	private ComboViewer expUnitSelectionCombo;
+	private ComboViewer itUnitSelectionCombo;
 	private ComboViewer groupUnitSelectionCombo;
 	private ComboViewer inputLemoSelector;
 
@@ -136,6 +136,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private final Image pin = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_DEC_FIELD_WARNING);
 
+	private NumberEditorControl itExpDurationControl;
+
 	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit, TimeResolvedExperimentModel model) {
 		super(parent, style);
 		this.toolkit = toolkit;
@@ -150,10 +152,10 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private void bind() {
 		dataBindingCtx.bindValue(
-				ViewersObservables.observeSingleSelection(expUnitSelectionCombo),
+				ViewersObservables.observeSingleSelection(itUnitSelectionCombo),
 				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(model));
 		dataBindingCtx.bindValue(
-				BeanProperties.value(NumberEditorControl.UNIT_PROP_NAME).observe(experimentTimeControl),
+				BeanProperties.value(NumberEditorControl.UNIT_PROP_NAME).observe(itTimeControl),
 				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(model),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {
@@ -162,6 +164,18 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 						return ((ExperimentUnit) value).getUnitText();
 					}
 				});
+
+		dataBindingCtx.bindValue(
+				BeanProperties.value(NumberEditorControl.UNIT_PROP_NAME).observe(itExpDurationControl),
+				BeanProperties.value(TimeResolvedExperimentModel.UNIT_PROP_NAME).observe(model),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return ((ExperimentUnit) value).getUnitText();
+					}
+				});
+
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(model.getExperimentDataModel()));
@@ -233,31 +247,39 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	private void createExperimentDetails(Composite sectionComposite) throws Exception {
 		Composite expTimeComposite = new Composite(sectionComposite, SWT.NONE);
 		expTimeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(5, false));
+		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(7, false));
 
 		Label lbl = toolkit.createLabel(expTimeComposite, "Experiment time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		if (model instanceof CyclicExperimentModel) {
 			lbl.setText("Cycle time");
 		}
+		itExpDurationControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXP_IT_DURATION_PROP_NAME, false);
+		itExpDurationControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		itExpDurationControl.setEditable(false);
+		itExpDurationControl.setLayoutData(gridData);
 
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		experimentTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXPERIMENT_DURATION_PROP_NAME, false);
-		experimentTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-		experimentTimeControl.setEditable(false);
-		experimentTimeControl.setLayoutData(gridData);
+		lbl = toolkit.createLabel(expTimeComposite, "It collection time", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		itTimeControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.IT_COLLECTION_DURATION_PROP_NAME, false);
+		itTimeControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		itTimeControl.setEditable(false);
+		itTimeControl.setLayoutData(gridData);
 
 		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		expUnitSelectionCombo = new ComboViewer(expTimeComposite);
-		expUnitSelectionCombo.getControl().setLayoutData(gridData);
-		expUnitSelectionCombo.setContentProvider(new ArrayContentProvider());
-		expUnitSelectionCombo.setLabelProvider(new LabelProvider() {
+		itUnitSelectionCombo = new ComboViewer(expTimeComposite);
+		itUnitSelectionCombo.getControl().setLayoutData(gridData);
+		itUnitSelectionCombo.setContentProvider(new ArrayContentProvider());
+		itUnitSelectionCombo.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
 				return ((ExperimentUnit) element).getUnitText();
 			}
 		});
-		expUnitSelectionCombo.setInput(ExperimentUnit.values());
+		itUnitSelectionCombo.setInput(ExperimentUnit.values());
 
 		lbl = toolkit.createLabel(expTimeComposite, "Plot every", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
@@ -483,6 +505,17 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 						model.setupExperiment(groupModel.getUnit(), groupModel.getItTime(), groupModel.getNoOfGroups());
 					}
 				}
+			}
+		});
+		final Button butExternalTrigger = new Button(buttonComposit, SWT.FLAT);
+		butExternalTrigger.setText("TFG");
+		butExternalTrigger.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		butExternalTrigger.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				WizardDialog wizardDialog = new WizardDialog(TimingGroupSectionComposite.this.getShell(),
+						new ExternalTriggerDetailsWizard(model.getExternalTriggerSetting()));
+				wizardDialog.open();
 			}
 		});
 	}

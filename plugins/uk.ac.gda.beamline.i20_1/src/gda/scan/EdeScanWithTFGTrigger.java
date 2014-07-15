@@ -22,7 +22,6 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
 import gda.device.detector.StripDetector;
-import gda.device.detector.countertimer.TfgScaler;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -60,21 +59,20 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * <p>
  * SCA 0 cable from machine insertion signal
  */
-public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispersiveExafsScan {
+public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveExafsScan {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeWithTFGScan.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeScanWithTFGTrigger.class);
+	private static final double DEAD_TIME_IN_SEC = 0.00001; // 10µs
 	private final DAServer daserver;
-	private final TfgScaler injectionCounter;
 	private final TFGTrigger triggeringParameters;
 
-	public EdeWithTFGScan(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+	public EdeScanWithTFGTrigger(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			StripDetector theDetector, Integer repetitionNumber, Scannable shutter) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter, null);
 
 		this.triggeringParameters = triggeringParameters;
 
-		daserver = Finder.getInstance().find("daserver");
-		injectionCounter = Finder.getInstance().find("injectionCounter");
+		daserver = Finder.getInstance().find("daserverForTfg");
 	}
 
 	@Override
@@ -91,13 +89,13 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 		moveSampleIntoPosition();
 
 		// start the detector running (it waits for a pulse from the eTFG)
-		startTFG();
-
-		// start the eTFG running
 		logger.debug(toString() + " starting detector running...");
 		InterfaceProvider.getTerminalPrinter().print(
 				"Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		theDetector.collectData();
+
+		// start the eTFG running
+		startTFG();
 
 		// poll to get progress
 		Thread.sleep(500);
@@ -112,10 +110,22 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 		double[] samEnvPulseWidths = deriveSamEnvPulseWidths();
 		double[] samEnvDelays = deriveSamEnvDelays();
 		double itDelay = deriveItDelay();
-		int xchipStartPulseWidth = 50000; // 1ms pulse to start XCHIP
+
 		int totalNumberItFramesPerRepetition = scanParameters.getTotalNumberOfFrames();
 
 		StringBuffer sb = new StringBuffer();
+
+		//		Format of 'tfg setup-groups' as follows, 7 or 9 space-separated numbers:
+		//			num_frames dead_time live_time dead_port live_port dead_pause live_pause [dead_tfinc live_tfinc]
+		//			Followed by last line:
+		//			-1 0 0 0 0 0 0
+		//			Where num_frames       	= Number of frames in this group
+		//			Dead_time, Live_time   	= time as floating point seconds
+		//			Dead_port, Live_port    	= port data as integer (0<=port<=128k-1)
+		//			Dead_pause, Live_pause 	= pause bit (0<=pause<=1)
+		//			And For TFG2 only
+		//			num_repeats sequence_name
+		//			This repeats the pre-recorded sequence num_repeats times.
 
 		// first line, initial command and number of cycles
 		sb.append("tfg setup-groups");
@@ -127,38 +137,55 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 
 		// second line, wait for top-up
 		// TODO what if we are not waiting for top-up? e.g. the whole thing is << 10 mins
-		sb.append("1 0.0000001 0 0 0 8 0\n"); // wait for a TTL signal on TRIG 0 (machine top-up pulse)
+		sb.append("1 " + DEAD_TIME_IN_SEC + " 0 0 0 8 0\n"); // wait for a TTL signal on TRIG 0 (machine top-up pulse)
 
 		// series of delays plus output to drive sample environments
 		for (int samEnvIndex = 0; samEnvIndex < samEnvPulseWidths.length; samEnvIndex++) {
 			sb.append("1 " + samEnvDelays[samEnvIndex] + " 0 0 0 0 0\n");// # some user defined delay
-			int deadPort = 2 + samEnvIndex; // the first sample environment will be plugged into USR2
-			deadPort = (int) Math.pow(2, deadPort);
+			int deadPort = triggeringParameters.getSampleEnvironment().get(samEnvIndex).getTriggerOutputPort().getUsrPort();
 			sb.append("1 " + samEnvPulseWidths[samEnvIndex] + " 0 " + deadPort + " 0 0 0\n");
 			// # send pulse to USR2 (repeat this and line above up to 6 times)
 		}
 
-		// then a final delay before starting It sequence
-		sb.append("1 " + itDelay + " 0 0 0 0 0\n");// # some user defined delay
+		if (triggeringParameters.getPhotonShutter().isInUse()) {
+			double photonShutterDelay = derivePSDelay();
+			// then a final delay before starting It sequence
+			sb.append("1 " + photonShutterDelay + " 0 0 0 0 0\n");// # some user defined delay
 
-		// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-		sb.append("1 " + xchipStartPulseWidth + " 0 3 1 0 0\n");
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getPhotonShutter().getTriggerPulseLength() + " 0 1 1 0 0\n");
 
-		// time frames to count machine injection signals, keeping photon shutter open, increment from XH
-		sb.append(totalNumberItFramesPerRepetition+ " 0 0.0000001 1 1 0 9\n");
+			// then a final delay before starting It sequence
+			sb.append("1 " + itDelay + " 0 1 1 0 0\n");// # some user defined delay
+
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 3 1 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
+
+			// time frames to count machine injection signals, keeping photon shutter open, increment from XH
+			sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 1 1 0 9\n");
+		} else {
+			// then a final delay before starting It sequence
+			sb.append("1 " + itDelay + " 0 0 0 0 0\n");// # some user defined delay
+
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 2 0 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
+
+			// time frames to count machine injection signals, keeping photon shutter open, increment from XH
+			sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 0 0 0 9\n");
+		}
+
+		// To stop the last frame of integration
+		sb.append("1 " + DEAD_TIME_IN_SEC + " 0 0 0 0 9\n");
 
 		sb.append("-1 0 0 0 0 0 0");
 
 		// send buffer to daserver.sendCommand();
 		daserver.sendCommand(sb.toString());
 
+
 	}
 
-	/*
-	 * @return the delay, in seconds,  between the last pulse to a sample environment and starting the It sequence
-	 */
-	private double deriveItDelay() {
-
+	private double derivePSDelay() {
 		if (triggeringParameters == null){
 			return 0.0;
 		}
@@ -171,7 +198,20 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 			sumOfSamEnvDelays += samEnv.getTriggerDelay();
 		}
 
-		double delayToDetectorTrigger = triggeringParameters.getDetector().getTriggerDelay() - sumOfSamEnvDelays;
+		double psdelay = triggeringParameters.getPhotonShutter().getTriggerDelay() - sumOfSamEnvDelays;
+		return psdelay;
+	}
+
+	/*
+	 * @return the delay, in seconds,  between the last pulse to a sample environment and starting the It sequence
+	 */
+	private double deriveItDelay() {
+
+		if (triggeringParameters == null){
+			return 0.0;
+		}
+
+		double delayToDetectorTrigger = triggeringParameters.getDetector().getTriggerDelay() - derivePSDelay();
 		return delayToDetectorTrigger;
 	}
 
@@ -210,7 +250,7 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 
 		double[] samEnvWidths = new double[samEnvParameters.size()];
 		for (int i = 0; i < samEnvParameters.size(); i++) {
-			samEnvWidths[i] = samEnvParameters.get(i).getTriggerPauseLength();
+			samEnvWidths[i] = samEnvParameters.get(i).getTriggerPulseLength();
 		}
 
 		return samEnvWidths;
@@ -224,16 +264,16 @@ public class EdeWithTFGScan extends EdeWithoutTriggerScan implements EnergyDispe
 	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
 			ScanDataPoint thisPoint) throws DeviceException {
 		thisPoint.addDetector(theDetector);
-		thisPoint.addDetector(injectionCounter);
+		//thisPoint.addDetector(injectionCounter);
 		thisPoint.addDetectorData(detData[0][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
-		thisPoint.addDetectorData(detData[1][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(injectionCounter));
+		//thisPoint.addDetectorData(detData[1][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(injectionCounter));
 	}
 
 	@Override
 	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
-		Object[][] detData = new Object[2][];
+		Object[][] detData = new Object[1][];
 		detData[0] = super.readDetectors(lowFrame, highFrame)[0];
-		detData[1] = injectionCounter.readoutFrames(lowFrame, highFrame);
+		//detData[1] = injectionCounter.readoutFrames(lowFrame, highFrame);
 		return detData;
 	}
 

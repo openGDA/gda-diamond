@@ -894,7 +894,7 @@ public class TimeResolvedDataFileHelper {
 	}
 
 	public void replaceEnergy(String energyCalibration, double[] value) throws Exception {
-		IHierarchicalDataFile file = HierarchicalDataFactory.getReader(nexusfileName);
+		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
 			DoubleDataset data = new DoubleDataset(value, new int[]{value.length});
 			Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME, Nexus.DATA);

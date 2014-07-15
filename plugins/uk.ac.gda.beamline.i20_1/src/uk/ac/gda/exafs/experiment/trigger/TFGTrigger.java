@@ -18,39 +18,48 @@
 
 package uk.ac.gda.exafs.experiment.trigger;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.gda.beans.ObservableModel;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 
-public class TFGTrigger extends ObservableModel {
-	private static final int MAX_PORTS_FOR_SAMPLE_ENV = 6;
+import com.google.gson.annotations.Expose;
+
+public class TFGTrigger extends ObservableModel implements Serializable {
+	// The first 2 is reserved for photonShutter and detector
+	private static final int MAX_PORTS_FOR_SAMPLE_ENV = TriggerableObject.TriggerOutputPort.values().length - 2;
+
+	public static final ExperimentUnit DEFAULT_DELAY_UNIT = ExperimentUnit.SEC;
+	public static final double DEFAULT_PULSE_WIDTH_IN_SEC = 0.001d;
+
+	@Expose
 	private final List<TriggerableObject> sampleEnvironment = new ArrayList<TriggerableObject>(MAX_PORTS_FOR_SAMPLE_ENV);
+	@Expose
 	private final PhotonShutter photonShutter = new PhotonShutter();
+	@Expose
 	private final XhDetector detector = new XhDetector();
 
-	public TriggerableObject getPhotonShutter() {
+	public PhotonShutter getPhotonShutter() {
 		return photonShutter;
 	}
 	public TriggerableObject getDetector() {
 		return detector;
 	}
-
 	public List<TriggerableObject> getSampleEnvironment() {
 		return sampleEnvironment;
 	}
-
-	private static class PhotonShutter extends TriggerableObject {
-		public PhotonShutter() {
-			this.setName("PhotoShutter");
-			this.setTriggerOutputPort(TriggerableObject.TriggerOutputPort.USR_OUT_0);
+	public TriggerableObject createNewSampleEnvEntry() throws Exception {
+		if (sampleEnvironment.size() == MAX_PORTS_FOR_SAMPLE_ENV) {
+			throw new Exception("Maxium ports reached: " + MAX_PORTS_FOR_SAMPLE_ENV);
 		}
-	}
-
-	private static class XhDetector extends TriggerableObject {
-		public XhDetector() {
-			this.setName("Xh Detector");
-			this.setTriggerOutputPort(TriggerableObject.TriggerOutputPort.USR_OUT_1);
-		}
+		TriggerableObject obj = new TriggerableObject();
+		obj.setName("Default");
+		obj.setTriggerPulseLength(DEFAULT_PULSE_WIDTH_IN_SEC);
+		obj.setTriggerDelay(0.1);
+		obj.setTriggerOutputPort(TriggerOutputPort.values()[sampleEnvironment.size() + 2]);
+		return obj;
 	}
 }
