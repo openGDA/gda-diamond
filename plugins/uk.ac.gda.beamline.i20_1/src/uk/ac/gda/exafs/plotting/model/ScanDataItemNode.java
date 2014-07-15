@@ -20,8 +20,8 @@ package uk.ac.gda.exafs.plotting.model;
 
 import gda.scan.ede.datawriters.EdeDataConstants;
 
-import org.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
-import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
+import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
+import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;

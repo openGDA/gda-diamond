@@ -31,9 +31,9 @@ import java.beans.PropertyChangeListener;
 import java.util.Date;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.plotting.api.IPlottingSystem;
-import org.dawnsci.plotting.api.trace.ILineTrace;
-import org.dawnsci.plotting.api.trace.ILineTrace.TraceType;
+import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
+import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;

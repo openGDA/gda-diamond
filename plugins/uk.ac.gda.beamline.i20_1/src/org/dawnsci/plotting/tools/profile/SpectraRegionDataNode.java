@@ -21,10 +21,10 @@ package org.dawnsci.plotting.tools.profile;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dawnsci.plotting.api.region.IROIListener;
-import org.dawnsci.plotting.api.region.IRegion;
-import org.dawnsci.plotting.api.region.ROIEvent;
-import org.dawnsci.plotting.api.trace.ITrace;
+import org.eclipse.dawnsci.plotting.api.region.IROIListener;
+import org.eclipse.dawnsci.plotting.api.region.IRegion;
+import org.eclipse.dawnsci.plotting.api.region.ROIEvent;
+import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;

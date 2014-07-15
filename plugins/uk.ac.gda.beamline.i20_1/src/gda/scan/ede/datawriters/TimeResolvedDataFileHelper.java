@@ -36,12 +36,12 @@ import java.util.Map.Entry;
 import ncsa.hdf.object.Dataset;
 import ncsa.hdf.object.HObject;
 
-import org.dawb.hdf5.H5Utils;
-import org.dawb.hdf5.HierarchicalDataFactory;
-import org.dawb.hdf5.HierarchicalDataFileUtils;
-import org.dawb.hdf5.IHierarchicalDataFile;
-import org.dawb.hdf5.Nexus;
-import org.dawb.hdf5.nexus.NexusUtils;
+import org.eclipse.dawnsci.hdf5.H5Utils;
+import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf5.HierarchicalDataFileUtils;
+import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.Nexus;
+import org.eclipse.dawnsci.hdf5.nexus.NexusUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.nexusformat.NexusException;
 import org.nexusformat.NexusFile;

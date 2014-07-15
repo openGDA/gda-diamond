@@ -439,7 +439,7 @@
       </command>
    </extension>
    <extension
-         point="org.dawnsci.plotting.api.toolPage">
+         point="org.eclipse.dawnsci.plotting.api.toolPage">
       <plotting_tool_page
             category="org.dawnsci.plotting.tools.category.Science"
             class="org.dawnsci.plotting.tools.profile.TimeResolvedToolPage"

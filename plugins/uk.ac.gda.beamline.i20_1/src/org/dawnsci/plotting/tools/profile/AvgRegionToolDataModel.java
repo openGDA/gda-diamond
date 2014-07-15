@@ -18,7 +18,7 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import org.dawnsci.plotting.api.region.IRegion;
+import org.eclipse.dawnsci.plotting.api.region.IRegion;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;

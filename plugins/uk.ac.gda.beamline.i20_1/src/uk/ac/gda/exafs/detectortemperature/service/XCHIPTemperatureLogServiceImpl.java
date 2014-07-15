@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;

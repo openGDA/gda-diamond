@@ -18,7 +18,7 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import org.dawnsci.plotting.api.trace.ITrace;
+import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 
 
 public class SpectrumDataNode {
