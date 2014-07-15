@@ -30,7 +30,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
-import org.dawnsci.plotting.api.PlotType;
+import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
