@@ -98,7 +98,6 @@ while true; do
     --reset)
         shift;
         GDA_RESET=1
-        break;
       ;;
     --data)
         shift;
