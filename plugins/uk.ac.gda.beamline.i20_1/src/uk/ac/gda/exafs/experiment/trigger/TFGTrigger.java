@@ -32,7 +32,8 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	// The first 2 is reserved for photonShutter and detector
 	private static final int MAX_PORTS_FOR_SAMPLE_ENV = TriggerableObject.TriggerOutputPort.values().length - 2;
 
-	public static final ExperimentUnit DEFAULT_UNIT = ExperimentUnit.SEC;
+	public static final ExperimentUnit DEFAULT_DELAY_UNIT = ExperimentUnit.SEC;
+	public static final double DEFAULT_PULSE_WIDTH_IN_SEC = 0.001d;
 
 	@Expose
 	private final List<TriggerableObject> sampleEnvironment = new ArrayList<TriggerableObject>(MAX_PORTS_FOR_SAMPLE_ENV);
@@ -41,7 +42,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	@Expose
 	private final XhDetector detector = new XhDetector();
 
-	public TriggerableObject getPhotonShutter() {
+	public PhotonShutter getPhotonShutter() {
 		return photonShutter;
 	}
 	public TriggerableObject getDetector() {
@@ -56,7 +57,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		}
 		TriggerableObject obj = new TriggerableObject();
 		obj.setName("Default");
-		obj.setTriggerPulseLength(0.001);
+		obj.setTriggerPulseLength(DEFAULT_PULSE_WIDTH_IN_SEC);
 		obj.setTriggerDelay(0.1);
 		obj.setTriggerOutputPort(TriggerOutputPort.values()[sampleEnvironment.size() + 2]);
 		return obj;

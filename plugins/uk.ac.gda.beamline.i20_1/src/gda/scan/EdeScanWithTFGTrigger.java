@@ -72,7 +72,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 		this.triggeringParameters = triggeringParameters;
 
-		daserver = Finder.getInstance().find("daserver");
+		daserver = Finder.getInstance().find("daserverForTfg");
 	}
 
 	@Override
@@ -110,6 +110,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		double[] samEnvPulseWidths = deriveSamEnvPulseWidths();
 		double[] samEnvDelays = deriveSamEnvDelays();
 		double itDelay = deriveItDelay();
+
 		int totalNumberItFramesPerRepetition = scanParameters.getTotalNumberOfFrames();
 
 		StringBuffer sb = new StringBuffer();
@@ -146,14 +147,32 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			// # send pulse to USR2 (repeat this and line above up to 6 times)
 		}
 
-		// then a final delay before starting It sequence
-		sb.append("1 " + itDelay + " 0 0 0 0 0\n");// # some user defined delay
+		if (triggeringParameters.getPhotonShutter().isInUse()) {
+			double photonShutterDelay = derivePSDelay();
+			// then a final delay before starting It sequence
+			sb.append("1 " + photonShutterDelay + " 0 0 0 0 0\n");// # some user defined delay
 
-		// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-		sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 3 1 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getPhotonShutter().getTriggerPulseLength() + " 0 1 1 0 0\n");
 
-		// time frames to count machine injection signals, keeping photon shutter open, increment from XH
-		sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 1 1 0 9\n");
+			// then a final delay before starting It sequence
+			sb.append("1 " + itDelay + " 0 1 1 0 0\n");// # some user defined delay
+
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 3 1 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
+
+			// time frames to count machine injection signals, keeping photon shutter open, increment from XH
+			sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 1 1 0 9\n");
+		} else {
+			// then a final delay before starting It sequence
+			sb.append("1 " + itDelay + " 0 0 0 0 0\n");// # some user defined delay
+
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 2 0 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
+
+			// time frames to count machine injection signals, keeping photon shutter open, increment from XH
+			sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 0 0 0 9\n");
+		}
 
 		// To stop the last frame of integration
 		sb.append("1 " + DEAD_TIME_IN_SEC + " 0 0 0 0 9\n");
@@ -163,13 +182,10 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		// send buffer to daserver.sendCommand();
 		daserver.sendCommand(sb.toString());
 
+
 	}
 
-	/*
-	 * @return the delay, in seconds,  between the last pulse to a sample environment and starting the It sequence
-	 */
-	private double deriveItDelay() {
-
+	private double derivePSDelay() {
 		if (triggeringParameters == null){
 			return 0.0;
 		}
@@ -182,7 +198,20 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			sumOfSamEnvDelays += samEnv.getTriggerDelay();
 		}
 
-		double delayToDetectorTrigger = triggeringParameters.getDetector().getTriggerDelay() - sumOfSamEnvDelays;
+		double psdelay = triggeringParameters.getPhotonShutter().getTriggerDelay() - sumOfSamEnvDelays;
+		return psdelay;
+	}
+
+	/*
+	 * @return the delay, in seconds,  between the last pulse to a sample environment and starting the It sequence
+	 */
+	private double deriveItDelay() {
+
+		if (triggeringParameters == null){
+			return 0.0;
+		}
+
+		double delayToDetectorTrigger = triggeringParameters.getDetector().getTriggerDelay() - derivePSDelay();
 		return delayToDetectorTrigger;
 	}
 
@@ -235,16 +264,16 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
 			ScanDataPoint thisPoint) throws DeviceException {
 		thisPoint.addDetector(theDetector);
-		thisPoint.addDetector(injectionCounter);
+		//thisPoint.addDetector(injectionCounter);
 		thisPoint.addDetectorData(detData[0][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
-		thisPoint.addDetectorData(detData[1][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(injectionCounter));
+		//thisPoint.addDetectorData(detData[1][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(injectionCounter));
 	}
 
 	@Override
 	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
-		Object[][] detData = new Object[2][];
+		Object[][] detData = new Object[1][];
 		detData[0] = super.readDetectors(lowFrame, highFrame)[0];
-		detData[1] = injectionCounter.readoutFrames(lowFrame, highFrame);
+		//detData[1] = injectionCounter.readoutFrames(lowFrame, highFrame);
 		return detData;
 	}
 

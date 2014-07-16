@@ -633,7 +633,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public double getExpItDuration() {
-		return TFGTrigger.DEFAULT_UNIT.convertTo(externalTriggerSetting.getTfgTrigger().getDetector().getTriggerDelay(), unit) + getItCollectionDuration();
+		return TFGTrigger.DEFAULT_DELAY_UNIT.convertTo(externalTriggerSetting.getTfgTrigger().getDetector().getTriggerDelay(), unit) + getItCollectionDuration();
 	}
 
 	public double getDurationInSec() {

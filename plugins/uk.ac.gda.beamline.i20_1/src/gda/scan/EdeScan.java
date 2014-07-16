@@ -26,11 +26,9 @@ import gda.device.Scannable;
 import gda.device.detector.ExperimentLocationUtils;
 import gda.device.detector.ExperimentStatus;
 import gda.device.detector.StripDetector;
-import gda.device.detector.countertimer.TfgScaler;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TopupChecker;
-import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
@@ -74,7 +72,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private final Scannable shutter;
 	private final TopupChecker topup;
 
-	protected final TfgScaler injectionCounter;
+	//protected final TfgScaler injectionCounter;
 
 	protected boolean isSimulated = false;
 
@@ -110,7 +108,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		super.setUp();
 		updateSimulated();
 
-		injectionCounter = Finder.getInstance().find("injectionCounter");
+		//injectionCounter = Finder.getInstance().find("injectionCounter");
 	}
 
 	private void updateSimulated() {
@@ -359,15 +357,15 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		return thisPoint;
 	}
 
-	private static final Double placeHolderValue = new Double(0);
+	//private static final Double placeHolderValue = new Double(0);
 
 	@SuppressWarnings("unused")
 	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
 			ScanDataPoint thisPoint) throws DeviceException {
 		thisPoint.addDetector(theDetector);
-		thisPoint.addDetector(injectionCounter);
+		//thisPoint.addDetector(injectionCounter);
 		thisPoint.addDetectorData(detData[0][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
-		thisPoint.addDetectorData(placeHolderValue, ScannableUtils.getExtraNamesFormats(injectionCounter));
+		//thisPoint.addDetectorData(placeHolderValue, ScannableUtils.getExtraNamesFormats(injectionCounter));
 	}
 
 	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
