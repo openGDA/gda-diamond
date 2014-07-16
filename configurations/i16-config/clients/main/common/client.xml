@@ -105,10 +105,6 @@
 		</property>
 	</bean>
 	
-<!-- 	GDA-5573 remove use of AdapterObjectCreators -->
-<!-- 	<bean class="gda.factory.AdapterObjectCreator"> -->
-<!-- 		<property name="name" value="${gda.factory.factoryName}"/> -->
-<!-- 	</bean> -->
 	<corba:adapterfactory namespace="${gda.factory.factoryName}" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
