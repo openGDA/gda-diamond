@@ -11,7 +11,6 @@ Bundle-NativeCode: lib/linux-x86/libJavaToUnix.so;
  osname=linux; processor=x86_64,
  *
 Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
- uk.ac.gda.oe;bundle-version="1.0.0",
  uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.epics;bundle-version="1.0.0",
  uk.ac.gda.nexus;bundle-version="1.0.0",
@@ -30,7 +29,6 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)"
 Export-Package: gda.analysis.io,
  gda.data.scan,
- gda.data.scan.datawriter,
  gda.device.detectorfilemonitor.impl,
  gda.device.scannable,
  gda.device.scannable.keyence,
