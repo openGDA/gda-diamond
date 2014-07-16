@@ -67,7 +67,6 @@
 		<property name="dummyMode" value="false"/>
 	</bean>
 
-	<!-- Beamline is one of the things added by gda.factory.EpicsDeviceObjectCreator -->
 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
@@ -77,15 +76,9 @@
 		<property name="dummyMode" value="false"></property>
 	</bean>
 
-	<!-- TODO: This needs to be removed along with everything which depends on it:
-	<bean class="gda.factory.EpicsDeviceObjectCreator">
-		<property name="name" value="${gda.factory.factoryName}"></property>
-	</bean>
-	 -->
 	<!--
 		 The PHDGN devices are the next items in localstation that rely on finder. e.g.
 			d1 = finder.find("PHDGN1").createEpicsChannel("d1", ReturnType.DBR_NATIVE, "", "")
-		 Re-enabling EpicsDeviceObjectCreator for now.
 	 -->
 	<bean id="PHDGN1" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN1" />
