@@ -123,10 +123,3 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
 </beans>
-
-<!--  <bean class="gda.factory.ClientXmlObjectCreator">
-	<property name="xmlFile" value="${gda.config}/xml/castor_i18_Client_dls.xml" />
-	<property name="doPropertySubstitution" value="True" />
-	<property name="useDefaultSchema" value="False" />
-	<property name="mappingFile" value="classpath:gda/factory/mapping_dls.xml" />
-</bean>-->
