@@ -5,7 +5,6 @@
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i15.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
         <cs:dependency name="diffcalc" componentType="buckminster"/>
     </cs:dependencies>
 </cs:cspec>
