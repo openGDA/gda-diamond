@@ -66,10 +66,6 @@
 		<property name="dummyMode" value="false"/>
 	</bean>
 
-	<bean class="gda.factory.EpicsDeviceObjectCreator">
-		<property name="name" value="${gda.factory.factoryName}"></property>
-	</bean>
-
 	<!-- Proportional Counter -->	
 	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="PRCNT1.I" />
