@@ -73,7 +73,6 @@ CONFIG_PARENT=/scratch/gda_configs
 [ -d $CONFIG_PARENT ] || mkdir -m 777 $CONFIG_PARENT
 
 WORKSPACE=$WORKSPACE_PARENT/$(whoami)
-CONFIG=$CONFIG_PARENT/$(whoami)
 
 ARGS=$(getopt -a -o \? -l help,data:,reset,log,keep,nohup:,client: -n "gdaclient" -- "$@")
 
@@ -142,6 +141,25 @@ module load global/http_proxy
 
 . $DLS_CONFIG_BIN/loadjava.sh
 
+# GDA_CLIENT not set, and --client not used? - use default location
+if [ -z "$GDA_CLIENT" ]; then
+	GDA_CLIENT=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}
+fi
+
+# canonicalize client executable path
+GDA_CLIENT_ORIG=$GDA_CLIENT
+GDA_CLIENT=`readlink -f $GDA_CLIENT_ORIG`
+if [ $? -gt 0 ]; then
+	echo "gdaclient: $GDA_CLIENT_ORIG not found" 1>&2
+	exit 1
+fi
+
+# get name of directory in which client is installed
+CLIENT_DIR=$(basename $(dirname $GDA_CLIENT))
+
+CONFIG_DIRNAME=$(whoami)-$CLIENT_DIR
+CONFIG=$CONFIG_PARENT/$CONFIG_DIRNAME
+
 if [ ! -z $GDA_RESET ] ; then
   if [ ! -z $GDA_KEEP ] ; then
     DATETIME=`date +%F-%T`
@@ -176,15 +194,6 @@ ulimit -c 10000000
 
 if [ -z $GDA_CLIENT_LOG_DIR ] ; then
   GDA_CLIENT_LOG_DIR=/dls_sw/$BEAMLINE/logs
-fi
-
-if [ -z $GDA_CLIENT ] ; then
-  GDA_CLIENT_ORIG=/dls_sw/$BEAMLINE/software/gda/client/gda-${BEAMLINE}
-  GDA_CLIENT=`readlink -f $GDA_CLIENT_ORIG`
-  if [ $? -gt 0 ]; then
-    echo "gdaclient: $GDA_CLIENT_ORIG not found"
-    exit 1
-  fi
 fi
 
 notify-send -t 10000 "GDA client is starting... $GDA_CLIENT_RESET_MESSAGE"
