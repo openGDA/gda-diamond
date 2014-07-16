@@ -87,13 +87,7 @@
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<corba:export namespace="b16server" />
-	
-	<!-- bean class="gda.factory.ServerXmlObjectCreator">
-		<property name="xmlFile"
-			value="${gda.config}/xml_sim/castor_serversim_i18xmap.xml" />
-		<property name="buildProxies" value="${gda.accesscontrol.useAccessControl}" />
-	</bean-->
-	
+
 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
 		<property name="path" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
 		<property name="local" value="true" />
