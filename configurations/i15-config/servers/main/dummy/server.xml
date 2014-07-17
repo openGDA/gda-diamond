@@ -56,7 +56,7 @@
 	<!-- id="ODCCD" not available in dummy -->	
 	<!-- id="Mar345Detector" not available in dummy -->	
 
-	<!-- corba:export not needed in dummy -->
+	<corba:export namespace="${gda.factory.factoryName}" />
 
 	<!-- SingletonRegistrationPostProcessor not needed in dummy-->
 </beans>
