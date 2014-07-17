@@ -75,7 +75,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		form = scrolledform.getForm();
 		form.getBody().setLayout(new GridLayout());
 		toolkit.decorateFormHeading(form);
-		form.setText("Single spectrum and Energy calibration");
+		form.setText("Single spectrum");
 		Composite formParent = form.getBody();
 		try {
 			createRunCollectionButtons(formParent);
