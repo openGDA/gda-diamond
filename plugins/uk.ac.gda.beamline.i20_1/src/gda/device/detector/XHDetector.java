@@ -560,7 +560,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		} else if (((Integer) obj).intValue() == -1) {
 			logger.error(getName() + ": " + command + " failed");
 			close();
-			throw new DeviceException("Xspress2System " + getName() + " " + command + " failed");
+			throw new DeviceException("Detector " + getName() + " " + command + " failed");
 		}
 	}
 

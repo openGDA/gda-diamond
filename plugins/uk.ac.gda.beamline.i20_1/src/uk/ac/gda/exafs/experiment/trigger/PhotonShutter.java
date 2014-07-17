@@ -20,11 +20,26 @@ package uk.ac.gda.exafs.experiment.trigger;
 
 import java.io.Serializable;
 
-class PhotonShutter extends TriggerableObject implements Serializable {
+import com.google.gson.annotations.Expose;
+
+public class PhotonShutter extends TriggerableObject implements Serializable {
+
+	public static final String IN_USE_PROP_NAME = "inUse";
+	@Expose
+	private boolean inUse = true;
+
 	public PhotonShutter() {
 		this.setName("PhotoShutter");
 		this.setTriggerPulseLength(TFGTrigger.DEFAULT_PULSE_WIDTH_IN_SEC);
 		this.setTriggerDelay(0.1);
 		this.setTriggerOutputPort(TriggerOutputPort.USR_OUT_0);
+	}
+
+	public boolean isInUse() {
+		return inUse;
+	}
+
+	public void setInUse(boolean inUse) {
+		firePropertyChange(IN_USE_PROP_NAME, this.inUse, this.inUse = inUse);
 	}
 }

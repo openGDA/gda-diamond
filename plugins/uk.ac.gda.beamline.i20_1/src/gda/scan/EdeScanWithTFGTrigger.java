@@ -109,7 +109,6 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		int numberOfRepetitions = scanParameters.getNumberOfRepetitions();
 		double[] samEnvPulseWidths = deriveSamEnvPulseWidths();
 		double[] samEnvDelays = deriveSamEnvDelays();
-		double photonShutterDelay = derivePSDelay();
 		double itDelay = deriveItDelay();
 
 		int totalNumberItFramesPerRepetition = scanParameters.getTotalNumberOfFrames();
@@ -148,21 +147,32 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			// # send pulse to USR2 (repeat this and line above up to 6 times)
 		}
 
-		// then a final delay before starting It sequence
-		sb.append("1 " + photonShutterDelay + " 0 0 0 0 0\n");// # some user defined delay
+		if (triggeringParameters.getPhotonShutter().isInUse()) {
+			double photonShutterDelay = derivePSDelay();
+			// then a final delay before starting It sequence
+			sb.append("1 " + photonShutterDelay + " 0 0 0 0 0\n");// # some user defined delay
 
-		// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-		sb.append("1 " + triggeringParameters.getPhotonShutter().getTriggerPulseLength() + " 0 1 1 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getPhotonShutter().getTriggerPulseLength() + " 0 1 1 0 0\n");
 
+			// then a final delay before starting It sequence
+			sb.append("1 " + itDelay + " 0 1 1 0 0\n");// # some user defined delay
 
-		// then a final delay before starting It sequence
-		sb.append("1 " + itDelay + " 0 1 1 0 0\n");// # some user defined delay
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 3 1 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
 
-		// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-		sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 3 1 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
+			// time frames to count machine injection signals, keeping photon shutter open, increment from XH
+			sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 1 1 0 9\n");
+		} else {
+			// then a final delay before starting It sequence
+			sb.append("1 " + itDelay + " 0 0 0 0 0\n");// # some user defined delay
 
-		// time frames to count machine injection signals, keeping photon shutter open, increment from XH
-		sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 1 1 0 9\n");
+			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
+			sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 2 0 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
+
+			// time frames to count machine injection signals, keeping photon shutter open, increment from XH
+			sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 0 0 0 9\n");
+		}
 
 		// To stop the last frame of integration
 		sb.append("1 " + DEAD_TIME_IN_SEC + " 0 0 0 0 9\n");

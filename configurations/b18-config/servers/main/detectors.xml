@@ -311,5 +311,45 @@
 <!-- 		<property name="firstChannelToRead" value="0" /> -->
 <!-- 		<property name="writeHDF5Files" value="true" /> -->
 <!-- 	</bean> -->
+
+
+<!-- this class will return the in-window sca counts -->
+	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
+		<property name="controller" ref="xspress3Controller" />
+		<property name="numberOfChannelsToRead" value="4" />
+	</bean>
+	
+    <bean id="qexafs_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
+        <property name="controller" ref="xspress3Controller" />
+        <property name="numberOfChannelsToRead" value="4" />
+    </bean>
+	
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+        <property name="serviceName" value="gda/xspress3" />
+        <property name="service" ref="xspress3" />
+        <property name="serviceInterface" value="uk.ac.gda.devices.detector.xspress3.FluorescenceAcquire" />
+    </bean>
+
+	<bean id="xspress3_collectionstrategy"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3CollectionStrategy">
+		<constructor-arg ref="xspress3Controller" />
+	</bean>
+	
+	<bean id="xspress3_ff_calculator" class = "uk.ac.gda.devices.detector.xspress3.Xspress3FFCalculatorNXPlugin">
+		<constructor-arg ref="xspress3Controller" />
+	</bean>
+
+<!-- use this object in scans to return a reference to the MCA data in the HDF5 files -->
+	<bean id="xspress3Mca" class="gda.device.detector.NXDetector">
+		<property name="name" value="xspress3Mca" />
+		<property name="collectionStrategy" ref="xspress3_collectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xspress3_ff_calculator" />
+			</list>
+		</property>
+	</bean>
+
 	
 </beans>

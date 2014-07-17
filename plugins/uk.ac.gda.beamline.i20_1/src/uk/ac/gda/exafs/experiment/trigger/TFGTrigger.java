@@ -42,7 +42,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	@Expose
 	private final XhDetector detector = new XhDetector();
 
-	public TriggerableObject getPhotonShutter() {
+	public PhotonShutter getPhotonShutter() {
 		return photonShutter;
 	}
 	public TriggerableObject getDetector() {
