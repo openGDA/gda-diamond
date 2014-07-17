@@ -2,7 +2,7 @@ from gda.jython.commands import InputCommands
 from math import pi, tan
 from GeneralScan import GeneralScan
 from operationalControl import genericScanChecks
-from scanPeak import fitStepFunction
+#from scanPeak import fitStepFunction
 
 class CentreDAC(GeneralScan):
 	"""
