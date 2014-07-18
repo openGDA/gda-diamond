@@ -6,9 +6,9 @@
 
 	<!-- the include statement in the following java.properties file is not 
 		read so you need to reference both -->
-	<property file="${gda.dls-config}/properties/common.properties" />
-	<property file="${gda.dls-config}/properties/logging.properties" />
-	<property file="${gda.dls-config}/properties/${gda.mode}.properties" />
+	<property file="${gda.install.git.loc}/gda-diamond.git/dls-config/properties/common.properties" />
+	<property file="${gda.install.git.loc}/gda-diamond.git/dls-config/properties/logging.properties" />
+	<property file="${gda.install.git.loc}/gda-diamond.git/dls-config/properties/${gda.mode}.properties" />
 	<property file="${gda.config}/properties/common.properties" />
 	<property file="${gda.config}/properties/${gda.mode}/java.properties" />
 	<appender name="LOGSERVER" class="ch.qos.logback.classic.net.SocketAppender">
