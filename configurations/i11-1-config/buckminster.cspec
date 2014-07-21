@@ -3,8 +3,8 @@
         <cs:dependency name="dls-config" componentType="buckminster"/>
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
         <cs:dependency name="org.opengda.lde" componentType="osgi.bundle"/>
-        <cs:dependency name="org.opengda.lde.edit" componentType="osgi.bundle"/>
         <cs:dependency name="org.opengda.lde.model" componentType="osgi.bundle"/>
+        <cs:dependency name="org.opengda.lde.model.edit" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
