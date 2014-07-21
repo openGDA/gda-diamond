@@ -15,5 +15,9 @@
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls.client" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.epics.client.pixium" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.common" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.ecore" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.ecore.xmi" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.edit" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>

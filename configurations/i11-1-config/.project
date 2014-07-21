@@ -12,9 +12,7 @@
 		<project>org.opengda.lde.ui</project>
 		<project>uk.ac.diamond.scisoft.python</project>
 		<project>uk.ac.gda.api</project>
-		<project>uk.ac.gda.beamline.i11</project>
-		<project>uk.ac.gda.beamline.i11.feature</project>
-		<project>uk.ac.gda.beamline.i11.site</project>
+		<project>uk.ac.gda.beamline.i11-1</project>
 		<project>uk.ac.gda.client</project>
 		<project>uk.ac.gda.client.hrpd</project>
 		<project>uk.ac.gda.common</project>
