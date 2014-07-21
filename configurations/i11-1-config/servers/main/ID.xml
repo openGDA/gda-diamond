@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idgap_motor"/>
+		<property name="initialUserUnits" value="mm"/>
+		<property name="upperGdaLimits" value="30.5"/>
+		<property name="lowerGdaLimits" value="5.0"/>
+	</bean>
+	<bean id="ID" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="gap"/>
+			</list>
+		</property>
+	</bean>
+</beans>

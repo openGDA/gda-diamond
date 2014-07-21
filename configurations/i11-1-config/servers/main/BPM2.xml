@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="bpm2" class="gda.device.qbpm.EpicsQbpm">
+		<property name="currAmpController" ref="bpm2_amp"/>
+		<property name="bpmController" ref="bpm2_bpm"/>
+	</bean>
+</beans>

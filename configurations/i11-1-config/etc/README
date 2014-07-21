@@ -1,0 +1,4 @@
+These files set the beamline workstation environment.
+To be installed into /dls_sw/i11-1/etc/ manually.
+
+Important: /etc/profile.d/gda_environment.sh depends on the presence of /dls_sw/i11-1/etc/i11-1_profile.sh.

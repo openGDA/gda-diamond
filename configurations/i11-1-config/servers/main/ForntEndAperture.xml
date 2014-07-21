@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="feax" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cax_motor" />
+	</bean>
+	<bean id="feay" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cay_motor" />
+	</bean>
+	
+	<bean id="fea" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="feax"/>
+				<ref bean="feay"/>
+			</list>
+		</property>
+	</bean>
+</beans>

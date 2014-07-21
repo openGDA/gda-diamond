@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!--  QBPM -->
+	<bean id="s4bpm" class="gda.device.qbpm.EpicsQbpm">
+		<property name="currAmpController" ref="s4_amp"/>
+		<property name="bpmController" ref="s4_bpm"/>
+	</bean>
+	<!--  Motors -->
+	<bean id="s4xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4xplus_motor"/>
+	</bean>
+	<bean id="s4xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4xminus_motor"/>
+	</bean>
+	<bean id="s4yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4yplus_motor"/>
+	</bean>
+	<bean id="s4yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4yminus_motor"/>
+	</bean>
+	<bean id="s4xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4xpos_motor"/>
+	</bean>
+	<bean id="s4xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4xgap_motor"/>
+	</bean>
+	<bean id="s4ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4ypos_motor"/>
+	</bean>
+	<bean id="s4ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4ygap_motor"/>
+	</bean>
+	
+	<bean id="S4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s4xplus"/>
+				<ref bean="s4xminus"/>
+				<ref bean="s4yplus"/>
+				<ref bean="s4yminus"/>
+				<ref bean="s4xcentre"/>
+				<ref bean="s4xgap"/>
+				<ref bean="s4ycentre"/>
+				<ref bean="s4ygap"/>
+			</list>
+		</property>
+	</bean>
+</beans>

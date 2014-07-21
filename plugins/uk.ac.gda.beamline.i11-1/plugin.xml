@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="gda.rcp.views.JythonTerminalView"
+            id="uk.ac.gda.beamline.i11.terminalView"
+            name="Terminal"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
+            class="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
+            icon="icons/chart_curve.png"
+            id="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
+            name="DetectorPlot"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/chart_curve.png"
+            id="uk.ac.gda.beamline.i11.dataPlot"
+            name="DataPlot"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
+            class="gda.rcp.views.ViewFactory:statusView"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
+            id="uk.ac.gda.beamline.i11.views.statusView"
+            name="Status"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            description="GDA for I11 - the High Resolution Powder Diffraction Beamline"
+            name="I11 GDA">
+         <property
+               name="appName"
+               value="I11 GDA">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/i11GDA.png">
+         </property>
+         <property
+               name="aboutText"
+               value="GDA for High Resolution Powder Diffraction Beamline&#x0A;&#x0A;Version: 8.36&#x0A;Build id: Monday, 18 November 2013 15:05&#x0A;&#x0A;Copyright © 2009 Diamond Light Source Ltd. All rights reserved.&#x0A;Visit http://www.opengda.org&#x0A;&#x0A;This product includes software developed by the&#x0A;Eclipse http://www.eclipse.org/&#x0A;Apache Software Foundation http://apache.org/&#x0A;Spring http://projects.spring.io/spring-framework/&#x0A;Quality Open Software http://logback.qos.ch/; http://www.slf4j.org/&#x0A;PyDev http://pydev.org/">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,215,598,15">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="4,195,598,20">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i11.persepctives.DataCollectionPerspective"
+            id="uk.ac.gda.beamline.i11.dataCollectionPerspective"
+            name="Data Collection">
+      </perspective>
+   </extension>
+
+</plugin>

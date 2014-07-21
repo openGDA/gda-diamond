@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=gda-beamline-manual
+Type=Application
+Exec=firefox http://confluence.diamond.ac.uk/display/I11Doc/Beamline+I11+User+Manual
+Icon=/usr/share/pixmaps/gnome-html.png
+Icon[en_GB]=/usr/share/pixmaps/gnome-html.png
+Terminal=false
+Name[en_GB]=I11 Beamline Manual
+GenericName[en_GB]=I11 Beamline User Manual
+Comment[en_GB]=I11 Beamline User Manual
+Categories=X-opengda;

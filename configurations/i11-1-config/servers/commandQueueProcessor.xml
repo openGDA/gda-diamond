@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="commandQueue" class="gda.commandqueue.CommandQueue" />
+
+	<bean id="commandQueueProcessor" class="gda.commandqueue.FindableProcessorQueue">
+		<property name="queue" ref="commandQueue" />
+		<property name="logFilePath" value="${gda.logs.dir}/ProcessQueue.log"/> 		
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/commandQueueProcessor" />
+		<property name="service" ref="commandQueueProcessor" />
+		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
+	</bean>
+
+</beans>

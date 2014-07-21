@@ -1,0 +1,81 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+                           http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<context:property-placeholder
+		location="file:${gda.config}/properties/beamline.properties,
+		file:${gda.config}/logging/dummy/log.properties,
+		file:${gda.config}/epics/dummy/epics.properties,
+		file:${gda.config}/properties/dummy/java.properties,
+		file:${gda.config}/properties/gda.properties" />
+
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.config}/epics/dummy/BL11I-gda-interface.xml" />
+	</bean>
+
+	<import resource="BPM1.xml"/>
+	<import resource="BPM2.xml"/>
+	<import resource="BPM3.xml"/>
+	<import resource="CVScanController.xml"/>
+	<import resource="CyberStarBlower.xml"/>
+	<import resource="D1.xml"/>
+	<import resource="D2.xml"/>
+	<import resource="D3.xml"/>
+	<import resource="D4.xml" />
+	<import resource="D5.xml"/>
+	<import resource="DCM.xml"/>
+	<import resource="DCMxtal.xml"/>
+	<import resource="Diffractometer.xml"/>
+	<import resource="ETL.xml"/>
+	<import resource="ExperimentHutchShutter.xml"/>
+	<import resource="FastShutter.xml"/>
+	<import resource="FrontEndAperture.xml"/>
+	<import resource="FrontEndShutter.xml"/>
+	<import resource="GBC.xml"/>
+	<import resource="GV1.xml"/>
+	<import resource="GV2.xml"/>
+	<import resource="GV3.xml"/>
+	<import resource="GV4.xml"/>
+	<import resource="GV5.xml"/>
+	<import resource="GV6.xml"/>
+	<import resource="Ic1.xml"/>
+	<import resource="Ic2.xml"/>
+	<import resource="Ic3.xml"/>
+	<import resource="Ic4.xml"/>
+	<import resource="ID.xml"/>
+	<import resource="Ie.xml"/>
+	<import resource="Io.xml"/>
+	<import resource="LakeShore.xml"/>
+	<import resource="LargeSampleTable.xml"/>
+	<import resource="M1.xml"/>
+	<import resource="MachineStatus.xml"/>
+	<import resource="MACMotors.xml"/>
+	<import resource="Mar345.xml"/>
+	<import resource="MCSSis3820.xml"/>
+	<import resource="MRIFurnace.xml"/>
+	<import resource="OpticalTable.xml"/>
+	<import resource="OxfordCryoStream.xml"/>
+	<import resource="OxfordCryoStream2.xml"/>
+	<import resource="PhenixCryostat.xml"/>
+	<import resource="RobotNX100.xml"/>
+	<import resource="S1.xml"/>
+	<import resource="S2.xml"/>
+	<import resource="S3.xml"/>
+	<import resource="S4.xml"/>
+	<import resource="S5.xml"/>
+	<import resource="Scaler1.xml"/>
+	<import resource="Scaler2.xml"/>
+	<import resource="SmallSampleTable.xml"/>
+	<import resource="Spinner.xml"/>
+	<import resource="StoeFurnace.xml"/>
+	<import resource="TrajectoryScan.xml"/>
+	
+	<import resource="../main_common.xml"/>
+</beans>

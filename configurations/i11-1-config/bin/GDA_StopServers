@@ -1,0 +1,17 @@
+#!/bin/bash
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	exit 1
+fi
+
+GDA=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
+
+echo "Stopping main object server..."
+$GDA --stop objectserver --profile main
+$GDA --stop eventserver --verbose
+$GDA --stop nameserver --verbose
+$GDA --stop logserver --verbose
+echo "Done"

@@ -1,0 +1,2 @@
+#!/bin/bash
+/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda $@

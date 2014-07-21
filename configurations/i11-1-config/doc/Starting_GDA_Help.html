@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE>Help on Starting GDA</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Linux)">
+	<META NAME="CREATED" CONTENT="20081110;9584000">
+	<META NAME="CHANGED" CONTENT="16010101;0">
+	<STYLE>
+	<!--
+		@page { size: 21cm 29.7cm; margin: 2cm }
+		P { margin-bottom: 0.21cm }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-GB" DIR="LTR">
+<PRE>
+<b>Change Logs:</b>
+2. Updated 10 Nov 2008 by Fajin Yuan
+1. Update 8 Oct 2008 by Fajin Yuan at request of PBS Chiu Tang
+</PRE>
+<h1>Starting GDA</h1>
+GDA could be started from
+<ul> 
+<li>Application menu under Data Acquisition sub-menu,<br> 
+<img src="images/gdamenulaunchers.png" alt="GDA Meun"/>
+</li>
+<li>Desktop GDA_Launchers folder,<br>
+<img src="images/gdadesktoplaunchers.png" alt="GDA Desktop Launchers"/>
+</li>
+<li>command line in a terminal</li>
+<ol>
+<li>GDA_StartlogPanel</li>
+<li>GDA_RemoteStart_Lin</li>
+<li>GDA_StartClient</li>
+</ol>
+</ul>
+Whichever way you start GDA you must follow the following order:
+<ol>
+<li>Starting GDA log display - to be informed of GDA servers progress;</li>
+<li>Starting or restarting GDA servers (<font color="red">only for the first time you start GDA</font>) - wait until the &quot;Server initialisation complete&quot;</li> 
+<li>Starting GDA client - login as yourself if you want to be able to access data you collected into your permitted directory.</li>
+</ol>
+<b>Important Notes</b>
+<ul>
+<li>Normally you do NOT need to restart GDA servers every time you start GDA Client.</li>
+<li>If you stop the GUI then you do NOT have to restart the Server.  Stopping the GUI does not stop the GDA server.</li>
+<li>The servers support multiple Clients from the same or different PCs.</li>
+</ul>
+<h1>Explaination of Icons and commands</h1>
+<ul>
+<li>&quot;Start GDA Log Display&quot; ( or command &quot;GDA_StartlogPanel&quot;   ) - Opens the LogPanel that displays the messages from the different GDA processes.</li>
+<li>&quot;View GDA Log File&quot; on a console    ( or &quot;command GDA_ShowLogFile&quot;     ) - displays the console log file from the backend processes, may give you more debug information.</li>
+<li>&quot;Restart GDA Server&quot;    ( or command &quot;GDA_RemoteStart_Lin&quot; ) - restarts the remote backend processes. This will trigger start servers processes on remote server machine.<br>
+		The expected output of this command is:<br>
+		nohup: appending output to `nohup.out'<br>
+		Connection to i11-control.diamond.ac.uk closed.<br>
+		</li>
+<li>&quot;Start GDA Client&quot;      ( or command &quot;GDA_StartClient&quot;     ) - start the GDA client. This can only be done once the background servers have started fully.<br>
+		A restart of the GDA servers will take about 3 minutes. The end is signalled by the message:<br>
+			INFO  gda.util.ObjectServer - Server initialisation complete. xmlFile = /dls/i11/software/gda/config/xml/i11_server.xml<br>
+		in either the LogPanel or console log file.<br>
+</li>
+</ul>
+<h1>Additional Help available</h1>
+<ul>
+<li>There is an online GDA user guide available through GDA Menu or from 'help' menu within GDA client.</li> 
+<li>You will also be given an I11 specific manual for commands available to carry out your experiments.</li>
+</ul>
+<h1>Known Possible Issues</h1>
+<ol>	
+<li>If you restart GDA servers accidentally before closing a GDA client, this client may become un-responsive to control commands although you can still see up-to-date logs from servers.
+		In this situation you need to close this client by using &quot;killall java&quot; on the client-running PC, and restart GDA client again after that.</li>
+<li>The Robot arm and &quot;robotscan&quot; will not run when and if any of the Experiment Hutch doors is open, or not latched properly.  This is an safety requirement, cannot be altered.</li>
+<li>If connection problem occurs between Servers and Clients during operation, or some hardware devices changed, you may need to restart GDA servers before restart GDA client again.</li>
+<li>It is noticed that DCM &quot;energy&quot; parameter sometime becomes sticky (Lookup its EDM screen), please report this to beamline staffs who will help you to recover its control.</li>
+</ol>
+</BODY>
+</HTML>
