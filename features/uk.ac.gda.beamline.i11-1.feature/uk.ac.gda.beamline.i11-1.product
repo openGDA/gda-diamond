@@ -27,19 +27,19 @@ PyDev http://pydev.org/
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i11/software/gda/config/plugin_customization.ini
--Dgda.install.workspace.loc=/dls_sw/i11/software/gda/workspace
--Dgda.install.git.loc=/dls_sw/i11/software/gda/workspace_git
--Dgda.propertiesFile=/dls_sw/i11/software/gda/config/properties/live/java.properties
--Dgda.config=/dls_sw/i11/software/gda/config
--Djacorb.config.dir=/dls_sw/i11/software/gda/config/jacorb/live
+      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i11-1/software/gda/config/plugin_customization.ini
+-Dgda.install.workspace.loc=/dls_sw/i11-1/software/gda/workspace
+-Dgda.install.git.loc=/dls_sw/i11-1/software/gda/workspace_git
+-Dgda.propertiesFile=/dls_sw/i11-1/software/gda/config/properties/live/java.properties
+-Dgda.config=/dls_sw/i11-1/software/gda/config
+-Djacorb.config.dir=/dls_sw/i11-1/software/gda/config/jacorb/live
 -Djava.library.path=${workspace_loc:uk.ac.gda.core}/lib/linux-x86_64
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i11/software/gda/config/jca/live/JCALibrary.properties
--Dgda.data=/dls/i11/data
--Dgda.gui.beans.xml=/dls_sw/i11/software/gda/config/clients/rcp/live/client.xml
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i11-1/software/gda/config/jca/live/JCALibrary.properties
+-Dgda.data=/dls/i11-1/data
+-Dgda.gui.beans.xml=/dls_sw/i11-1/software/gda/config/clients/rcp/live/client.xml
 -Dgda.mode=live
--Dgda.var=/dls_sw/i11/software/gda_versions/var
--Dgda.logs.dir=/dls_sw/i11/logs
+-Dgda.var=/dls_sw/i11-1/software/gda_versions/var
+-Dgda.logs.dir=/dls_sw/i11-1/logs
 -Dpython.cachedir=~/python.cachedir
 -Djava.net.preferIPv4Stack=true
 -Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/${target.arch}/usr/lib64/xulrunner-1.9.2/
@@ -49,14 +49,16 @@ PyDev http://pydev.org/
 -XX:MaxPermSize=512m
 -XX:+UseG1GC
 -XX:+UnlockCommercialFeatures
--XX:+FlightRecorder</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:+FlightRecorder
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.beamline.i11"
+      location="uk.ac.gda.beamline.i11-1"
       startupProgressRect="2,215,598,15"
       startupMessageRect="4,195,598,20"
       startupForegroundColor="000000" />

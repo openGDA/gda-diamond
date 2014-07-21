@@ -8,7 +8,6 @@
 		<project>org.opengda.lde.model.edit</project>
 		<project>org.opengda.lde.model.editor</project>
 		<project>org.opengda.lde.model.tests</project>
-		<project>org.opengda.lde.model.viewmodel</project>
 		<project>org.opengda.lde.ui</project>
 		<project>uk.ac.diamond.scisoft.python</project>
 		<project>uk.ac.gda.api</project>
@@ -19,18 +18,13 @@
 		<project>uk.ac.gda.common.client</project>
 		<project>uk.ac.gda.common.rcp</project>
 		<project>uk.ac.gda.core</project>
-		<project>uk.ac.gda.devices.mythen</project>
-		<project>uk.ac.gda.devices.mythen.visualisation</project>
 		<project>uk.ac.gda.dls</project>
 		<project>uk.ac.gda.dls.client</project>
 		<project>uk.ac.gda.epics</project>
 		<project>uk.ac.gda.epics.client</project>
 		<project>uk.ac.gda.epics.client.pixium</project>
-		<project>uk.ac.gda.hrpd</project>
 		<project>uk.ac.gda.libs</project>
 		<project>uk.ac.gda.nexus</project>
-		<project>uk.ac.gda.pydev.extension</project>
-		<project>uk.ac.gda.swingclient</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
