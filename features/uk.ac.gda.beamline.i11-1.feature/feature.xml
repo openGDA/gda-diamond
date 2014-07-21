@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i11-1.feature"
       label="I11-1 Feature"
-      version="8.36.0.qualifier"
+      version="8.38.0"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -29,13 +29,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.client.hrpd"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.diamond.org.apache.poi"
          download-size="0"
          install-size="0"
@@ -43,42 +36,7 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.devices.mythen"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.mythen.visualisation"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.hrpd"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.swingclient"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.common.client"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.client.experimentdefinition"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -99,12 +57,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.epics.client.mythen"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="uk.ac.gda.devices.pixium"
          download-size="0"
          install-size="0"
@@ -120,6 +72,76 @@
 
    <plugin
          id="uk.ac.gda.epics.client"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.ecore"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.ecore.xmi"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.emf.edit.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengda.lde"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengda.lde.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengda.lde.model.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengda.lde.model.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengda.lde.model.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.opengda.lde.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

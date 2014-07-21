@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Diamond Light Source Beamline I11-1 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i11-1;singleton:=true
-Bundle-Version: 8.36.0
+Bundle-Version: 8.38.0
 Bundle-Activator: uk.ac.gda.beamline.i11.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
