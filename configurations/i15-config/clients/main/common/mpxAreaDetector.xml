@@ -3,32 +3,22 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="mpxADController" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
-		<property name="imageNDStats" ref="mpxAD_summary_stat" />
-		<property name="liveViewNDProc" ref="mpxAD_summary_proc" />
-		<property name="imageNDArray" ref="mpxAD_summary_arr" />
-		<property name="imageHistSize" value="256" />
-		<property name="imageMin" value="0" />
-		<property name="detectorName" value="mpx" />
-		<property name="adBase" ref="mpxAD_config_base" />
-		<property name="ffmpegStream" ref="mpxAD_summary_mjpg" />
-		<property name="ffmpegImageOutHeightMax" value="256" />
-		<property name="ffmpegImageOutWidthMax" value="256" />
-		<property name="serviceName" value="mpx"/>
-	</bean>
-
-	<bean id="mpxAD_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-		<property name="map">
-			<map>
-				<entry key="SERVICE_NAME" value="mpx" />
-			</map>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="properties">
+			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+				<property name="map">
+					<map>
+						<entry key="SERVICE_NAME" value="mpx" />
+					</map>
+				</property>
+			</bean>
+		</property>
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
+		<!-- Note concrete class in service property vvv, but Interface ^^^ in class property -->
+		<property name="service">
+			<bean class="uk.ac.gda.epics.adviewer.SimpleADPVSuffixes">
+				<property name="adBaseSuffix" value="Merlin1:" />
+			</bean>
 		</property>
 	</bean>
-
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
-		<property name="service" ref="mpxADController" />
-		<property name="properties" ref="mpxAD_dictionary" />
-	</bean>
-
 </beans>
