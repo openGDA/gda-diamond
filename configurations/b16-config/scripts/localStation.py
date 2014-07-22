@@ -589,16 +589,31 @@ if installation.isLive():
 		
 		#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
 
-		psl = SwitchableHardwareTriggerableProcessingDetectorWrapper('psl',
-																		_psl,
-																		None,
-																		_psl_for_snaps,
-																		[],
-																		panel_name='Data Vector',
-																		panel_name_rcp='Plot 1',
-																		fileLoadTimout=60,
-																		printNfsTimes=False,
-																		returnPathAsImageNumberOnly=False)
+		PSL_AUTO_RECONNECT = True
+		if not PSL_AUTO_RECONNECT:
+			psl = SwitchableHardwareTriggerableProcessingDetectorWrapper('psl',
+			                                                             _psl,
+			                                                             None,
+			                                                             _psl_for_snaps,
+			                                                             [],
+			                                                             panel_name='Data Vector',
+			                                                             panel_name_rcp='Plot 1',
+			                                                             fileLoadTimout=60,
+			                                                             printNfsTimes=False,
+			                                                             returnPathAsImageNumberOnly=False)
+		else:
+			from scannable.SwitchableProcessingDetectorWrapperWithReconnect import SwitchableProcessingDetectorWrapperWithReconnect
+			psl = SwitchableProcessingDetectorWrapperWithReconnect('psl',
+			                                                       _psl,
+			                                                       None,
+			                                                       _psl_for_snaps,
+			                                                       "BL16B-EA-DET-07:CAM:RESET.PROC",
+			                                                       [],
+			                                                       panel_name='Data Vector',
+			                                                       panel_name_rcp='Plot 1',
+			                                                       fileLoadTimout=60,
+			                                                       printNfsTimes=False,
+			                                                       returnPathAsImageNumberOnly=False)
 		psl.disable_operation_outside_scans = True
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
