@@ -498,8 +498,8 @@ if installation.isLive() and ENABLE_PILATUS:
 									None,
 									_pilatus_for_snaps,
 									[],
-									panel_name='Pilatus Plot',
-									panel_name_rcp='Plot 1', 
+									panel_name='Detector Plot',
+									panel_name_rcp='Plot 1',
 									iFileLoader=PilatusTiffLoader,
 									fileLoadTimout=60,
 									printNfsTimes=False,
@@ -669,7 +669,7 @@ hkl.setLevel(5) #@UndefinedVariable
 ###                          IPP image processor                            ###
 ###############################################################################
 if not installation.isLive():
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='ImageProPlus Plot')
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Detector Plot', panel_name_rcp="Plot 1")
 	#setIPPWrapperDir( '/scratch/ws/trunk/plugins/uk.ac.gda.core/scripts/gdascripts/scannable/detector/dummy/focused_beam_dataset//') #@UndefinedVariable
 	ipp.returnPathAsImageNumberOnly = True
 	def emulateSlowFileSystem(makeSlow = True):
@@ -684,7 +684,7 @@ if not installation.isLive():
 			print "*Not* emulating file system for ipp"
 
 else:
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='ImageProPlus Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Detector Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 
@@ -743,7 +743,7 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		None,
 		_pcoedge_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name='ImageProPlus Plot',
+		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
 		fileLoadTimout=60)
 
@@ -760,7 +760,7 @@ if installation.isLive() and ENABLE_PCO4000:
 		None,
 		_pco4000_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name='ImageProPlus Plot',
+		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
 		fileLoadTimout=60)
 
@@ -906,7 +906,7 @@ dummy_x = DummyPD("x")
 dummy_x.asynchronousMoveTo(430)
 
 dummy_rawDet = CreateImageReadingDummyDetector.create(dummy_x)
-dummy_det = ProcessingDetectorWrapper('dummy_det', dummy_rawDet, [], panel_name='ImageProPlus Plot')
+dummy_det = ProcessingDetectorWrapper('dummy_det', dummy_rawDet, [], panel_name='Detector Plot')
 dummy_det.display_image=False
 dummy_peak2d = DetectorDataProcessor('dummy_peak2d', dummy_det, [TwodGaussianPeak()])
 
