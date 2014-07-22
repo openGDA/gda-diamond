@@ -138,11 +138,14 @@ def _configureConstantVelocityMove(axis):
 	
 	return continuouslyScannableViaController, continuousMoveController
 
-def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
+def rockScan(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
 		sampleSuffix="rockScan_test", d1out=True, d2out=True):
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
 	
-	hardwareTriggeredNXDetector = _configureDetector(detector, exposureTime, noOfRocks, sampleSuffix, dark=False)
+	if noOfRocksPerExposure <> 1:
+		raise Exception('Only noOfRocksPerExposure of 1 is currently supported, if you want multiple rocks with each in a different exposure, set noOfExposures now')
+	
+	hardwareTriggeredNXDetector = _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis)
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
@@ -154,7 +157,7 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 								  hardwareTriggeredNXDetector, exposureTime,
 								])
 	
-	scan = ConcurrentScan([numExposuresPD, 1, noOfRocks, 1,
+	scan = ConcurrentScan([numExposuresPD, 1, noOfExposures, 1,
 						   detectorShield,
 						   DiodeController(d1out, d2out),
 						   sc1
