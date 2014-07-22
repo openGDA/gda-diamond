@@ -11,6 +11,7 @@
    </configIni>
 
    <launcherArgs>
+      <programArgs>-consoleLog</programArgs>
       <vmArgs>-Declipse.pluginCustomization=/dls_sw/b16/software/gda/workspace_git/gda-mt.git/configurations/b16-config/pluginCustomization.ini
 -Dgda.config=/dls_sw/b16/software/gda/workspace_git/gda-mt.git/configurations/b16-config
 -Dgda.install.git.loc=/dls_sw/b16/software/gda/workspace_git
