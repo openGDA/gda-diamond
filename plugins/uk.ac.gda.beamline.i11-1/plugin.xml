@@ -43,10 +43,10 @@
       <product
             application="uk.ac.gda.client.application"
             description="GDA for I11 - the High Resolution Powder Diffraction Beamline"
-            name="I11 GDA">
+            name="I11-1 GDA">
          <property
                name="appName"
-               value="I11 GDA">
+               value="I11-1 GDA">
          </property>
          <property
                name="windowImages"
