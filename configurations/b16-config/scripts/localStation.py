@@ -848,6 +848,48 @@ if installation.isLive():
 
 	topup_time.setOutputFormat(['%6.5f'])#@UndefinedVariable
 
+##################################################################################
+# C Bloomer PVs
+cb1=pd_readPvAfterWaiting.ReadPvAfterWaiting("cb1","BL16B-EA-RIM-05:A:WAVE1")
+cb2=pd_readPvAfterWaiting.ReadPvAfterWaiting("cb2","BL16B-EA-RIM-05:A:WAVE2")
+
+
+from scannable.epicsArray import EpicsArrayAverageScannable
+waveA1 = EpicsArrayAverageScannable("waveA1", "BL16B-EA-RIM-05:A:WAVE1")
+waveA2 = EpicsArrayAverageScannable("waveA2", "BL16B-EA-RIM-05:A:WAVE2")
+waveA3 = EpicsArrayAverageScannable("waveA3", "BL16B-EA-RIM-05:A:WAVE3")
+waveA4 = EpicsArrayAverageScannable("waveA4", "BL16B-EA-RIM-05:A:WAVE4")
+waveA5 = EpicsArrayAverageScannable("waveA5", "BL16B-EA-RIM-05:A:WAVE5")
+waveA6 = EpicsArrayAverageScannable("waveA6", "BL16B-EA-RIM-05:A:WAVE6")
+waveA7 = EpicsArrayAverageScannable("waveA7", "BL16B-EA-RIM-05:A:WAVE7")
+waveA8 = EpicsArrayAverageScannable("waveA8", "BL16B-EA-RIM-05:A:WAVE8")
+waveB1 = EpicsArrayAverageScannable("waveB1", "BL16B-EA-RIM-05:B:WAVE1")
+waveB2 = EpicsArrayAverageScannable("waveB2", "BL16B-EA-RIM-05:B:WAVE2")
+waveB3 = EpicsArrayAverageScannable("waveB3", "BL16B-EA-RIM-05:B:WAVE3")
+waveB4 = EpicsArrayAverageScannable("waveB4", "BL16B-EA-RIM-05:B:WAVE4")
+waveB5 = EpicsArrayAverageScannable("waveB5", "BL16B-EA-RIM-05:B:WAVE5")
+waveB6 = EpicsArrayAverageScannable("waveB6", "BL16B-EA-RIM-05:B:WAVE6")
+waveB7 = EpicsArrayAverageScannable("waveB7", "BL16B-EA-RIM-05:B:WAVE7")
+waveB8 = EpicsArrayAverageScannable("waveB8", "BL16B-EA-RIM-05:B:WAVE8")
+waveC1 = EpicsArrayAverageScannable("waveC1", "BL16B-EA-RIM-06:C:WAVE1")
+waveC2 = EpicsArrayAverageScannable("waveC2", "BL16B-EA-RIM-06:C:WAVE2")
+waveC3 = EpicsArrayAverageScannable("waveC3", "BL16B-EA-RIM-06:C:WAVE3")
+waveC4 = EpicsArrayAverageScannable("waveC4", "BL16B-EA-RIM-06:C:WAVE4")
+waveC5 = EpicsArrayAverageScannable("waveC5", "BL16B-EA-RIM-06:C:WAVE5")
+waveC6 = EpicsArrayAverageScannable("waveC6", "BL16B-EA-RIM-06:C:WAVE6")
+waveC7 = EpicsArrayAverageScannable("waveC7", "BL16B-EA-RIM-06:C:WAVE7")
+waveC8 = EpicsArrayAverageScannable("waveC8", "BL16B-EA-RIM-06:C:WAVE8")
+
+waves = ScannableGroup("waves",
+		[waveA1, waveA2, waveA3, waveA4, waveA5, waveA6, waveA7, waveA8,
+		waveB1, waveB2, waveB3, waveB4, waveB5, waveB6, waveB7, waveB8,
+		waveC1, waveC2, waveC3, waveC4, waveC5, waveC6, waveC7, waveC8])
+
+##################################################################################
+
+
+
+
 ###################################################################################
 ######         Setup for I18 experiment                                     #######
 ###################################################################################
