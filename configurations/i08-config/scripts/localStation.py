@@ -64,15 +64,16 @@ from idEnergy import my_energy_class1
 #checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1])
 #checkbeam.configure()
 
-if (LocalProperties.get("gda.mode") == 'live'): 
-    beamMonitor.configure()
-    add_default beamMonitor
-    add_default topupMonitor 
+#if (LocalProperties.get("gda.mode") == 'live'): 
+#    beamMonitor.configure()
+#    add_default beamMonitor
+#    add_default topupMonitor 
    
 
 # set up the Andor Area Detector ROIs etc for hardware-driven mapping
 #run "AndorConfiguration"
 # create the command to run STXM mpas which involve andor
+
 run "andormap"
 #run('startup_raster')
 #run "gda_startup.py"
