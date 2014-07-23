@@ -1,4 +1,4 @@
-package org.opengda.lde.ui;
+package uk.ac.gda.beamline.i11.lde.persepctives;
 
 import gda.rcp.views.JythonTerminalView;
 
@@ -16,14 +16,14 @@ import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
-import uk.ac.gda.beamline.i11.views.DetectorFilePlotView;
+import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 import uk.ac.gda.epics.client.views.StatusView;
 
 public class LDEPerspective implements IPerspectiveFactory {
 
-	public static final String ID="org.opengda.lde.ui.perspective";
+	public static final String ID="uk.ac.gda.beamline.i11.lde.perspective";
 	
 	private static final String TERMINAL_FOLDER = "terminalFolder";
 	private static final String PROJ_FOLDER = "projectFolder";

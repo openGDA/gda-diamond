@@ -23,7 +23,6 @@
 	<import resource="BPM1.xml"/>
 	<import resource="BPM2.xml"/>
 	<import resource="BPM3.xml"/>
-	<import resource="CVScanController.xml"/>
 	<import resource="CyberStarBlower.xml"/>
 	<import resource="D1.xml"/>
 	<import resource="D2.xml"/>

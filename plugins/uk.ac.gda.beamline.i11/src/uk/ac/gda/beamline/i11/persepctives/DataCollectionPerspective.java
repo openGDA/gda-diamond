@@ -20,7 +20,6 @@ package uk.ac.gda.beamline.i11.persepctives;
 
 import gda.rcp.views.JythonTerminalView;
 
-import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -32,7 +31,7 @@ import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
-import uk.ac.gda.beamline.i11.views.DetectorFilePlotView;
+import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
 import uk.ac.gda.client.XYPlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;

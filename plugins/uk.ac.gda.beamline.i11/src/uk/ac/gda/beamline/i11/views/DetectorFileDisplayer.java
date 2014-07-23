@@ -47,7 +47,8 @@ import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.HDF5Loader;
 import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
 import uk.ac.diamond.scisoft.analysis.io.TIFFImageLoader;
-import uk.ac.gda.beamline.i11.api.PlotConfigurable;
+import uk.ac.gda.beamline.synoptics.api.PlotConfigurable;
+import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
 
 /**
  * A configurable detector file processor to display detector file content as plot, using generic plot view such as
