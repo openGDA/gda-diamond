@@ -29,10 +29,11 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" /> 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/photodiode.xml" />	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/andor.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xmap_detector.xml" />	 -->
 		
 <!-- 	shared files -->
-	<import resource="file:${gda.config}/servers/main/andor.xml" />
+	<import resource="file:${gda.config}/servers/main/andor.xml" /> 
 	<import resource="file:${gda.config}/servers/main/metadata.xml" /> 
  	<import resource="file:${gda.config}/servers/main/opticsScannables.xml" /> 
 	<import resource="file:${gda.config}/servers/main/stxmScannables.xml" /> 

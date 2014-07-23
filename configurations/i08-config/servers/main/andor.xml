@@ -11,7 +11,7 @@
 		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
 		<constructor-arg ref="andor_adbase" />
 		<constructor-arg value="0" />
-	</bean>
+	</bean> 
 
 	<bean
 		id="andorrastor_nxcollectionstrategy_for_hardware_triggering_from_stxm"
@@ -33,71 +33,32 @@
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks 
 			is 64 -->
+		<property name="FramesChunks" value="32" />	
 	</bean>
 
 	<!-- NXDetectors -->
 
-	<bean id="andor" class="gda.device.detector.NXDetector">
+	 <bean id="andor" class="gda.device.detector.NXDetector">
 		<property name="name" value="andor" />
 		<property name="collectionStrategy" ref="andor_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="andor_hdf5filewriter_for_scans" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats1" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI1:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT1:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats2" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI2:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT2:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats3" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI3:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT3:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats4" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI4:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT4:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats5" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI5:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT5:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
+				<ref bean="roistats1" />
+				<ref bean="roistats2" />
+				<ref bean="roistats3" />
+				<ref bean="roistats4" />
+				<ref bean="roistats5" />
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.phasecontrast.PhaseContrastCalculationPlugin">
 					<property name="roi1Name" value="quadrant1" />
 					<property name="roi2Name" value="quadrant2" />
 					<property name="roi3Name" value="quadrant3" />
 					<property name="roi4Name" value="quadrant4" />
-				</bean>
+				</bean>  
 			</list>
 		</property>
-	</bean>
+	</bean> 
 
 	<!-- underscore as it should be wrapped in the scanwrapper -->
 	<bean id="_andorrastor" class="gda.device.detector.HardwareTriggeredNXDetector">
@@ -108,58 +69,18 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="andor_hdf5filewriter_for_scans" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats1" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI1:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT1:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats2" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI2:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT2:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats3" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI3:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT3:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats4" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI4:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT4:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats5" />
-					<property name="baseRoiPVName" value="BL08I-EA-DET-01:ROI5:" />
-					<property name="baseStatsPVName" value="BL08I-EA-DET-01:STAT5:" />
-					<property name="roiInputNdArrayPort" value="DET1.CAM" />
-					<property name="enabledBasicStats" value="Total" />
-					<property name="oneTimeSeriesCollectionPerLine" value="false" />
-				</bean>
+			 	<ref bean="roistats1" />
+				<ref bean="roistats2" />
+				<ref bean="roistats3" />
+				<ref bean="roistats4" />
+				<ref bean="roistats5" />
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.phasecontrast.PhaseContrastCalculationPlugin">
 					<property name="roi1Name" value="quadrant1" />
 					<property name="roi2Name" value="quadrant2" />
 					<property name="roi3Name" value="quadrant3" />
 					<property name="roi4Name" value="quadrant4" />
-				</bean>
+				</bean>   
 			</list>
 		</property>
 	</bean>
