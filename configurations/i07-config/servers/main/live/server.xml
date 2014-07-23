@@ -1,8 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     http://www.springframework.org/schema/util
     http://www.springframework.org/schema/util/spring-util-2.5.xsd
@@ -14,74 +13,77 @@
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="file:${gda.config}/properties/live/java.properties" />
-    </bean>
-    <bean class="gda.spring.FindableNameSetterPostProcessor" />
-    <bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="file:${gda.config}/properties/live/java.properties" />
+	</bean>
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-    <import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-    <bean class="gda.factory.corba.util.AdapterFactory">
-        <constructor-arg index="0" value="${gda.factory.factoryName}" />
-        <constructor-arg index="1">
-            <bean class="gda.spring.NetServiceFactoryBean" />
-        </constructor-arg>
-    </bean>
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
 
-    <import resource="server_dummies.xml" />
+	<import resource="server_dummies.xml" />
 
-    <import resource="server_epics.xml" />
-    <import resource="eh2_epics.xml" />
+	<import resource="server_epics.xml" />
+	<import resource="eh2_epics.xml" />
 
-    <import resource="server_scannables.xml" />
-    <import resource="eh2_scannables.xml" />
+	<import resource="server_scannables.xml" />
+	<import resource="eh2_scannables.xml" />
 
-    <import resource="flight_tube.xml" />
+	<import resource="flight_tube.xml" />
 
 	<!-- Pilatus using the AreaDetector Interface -->
 
-    <import resource="fastpil1.xml" />
-    <import resource="fastpil3.xml" />
+	<import resource="fastpil1.xml" />
+	<import resource="fastpil3.xml" />
 
-    <import resource="pilatus1_824.xml" />
-    <import resource="pilatus2_824.xml" />
-    <import resource="pilatus3_824.xml" />
+	<import resource="pilatus1_824.xml" />
+	<import resource="pilatus2_824.xml" />
+	<import resource="pilatus3_824.xml" />
 
-    <import resource="mpxAreaDetector.xml" />
+	<import resource="mpxAreaDetector.xml" />
 
-    <!-- <import resource="devices_KB2.xml" /> -->
+	<!-- <import resource="devices_KB2.xml" /> -->
 
-    <import resource="fleacamera3_08.xml" />
-    <import resource="fleacamera5_09.xml" />
-    <import resource="fleacamera4_06.xml" />
+	<import resource="fleacamera3_08.xml" />
+	<import resource="fleacamera5_09.xml" />
+	<import resource="fleacamera4_06.xml" />
 
-    <import resource="server_core.xml" />
+	<import resource="server_core.xml" />
 
-    <import resource="lakeshore.xml" />
+	<import resource="lakeshore.xml" />
 
-    <import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+	<import
+		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
 
-    <bean id="script_paths" parent="common_script_paths">
+	<bean id="script_paths" parent="common_script_paths">
 		<property name="projects">
 			<list merge="true">
-				<ref bean="gda_epics_script_project"/>
+				<ref bean="gda_epics_script_project" />
 			</list>
 		</property>
 	</bean>
 
 
 	<bean id="command_server" parent="abstract_command_server">
-		<property name="jythonScriptPaths" ref="script_paths"/>
-<!-- 		<property name="stopJythonScannablesOnStopAll" value="false" /> -->
+		<property name="jythonScriptPaths" ref="script_paths" />
+		<!-- <property name="stopJythonScannablesOnStopAll" value="false" /> -->
 		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
 	</bean>
 
 
-    <import resource="commandQueueProcessor.xml" />
-    <import resource="terminal_logger.xml" />
+	<import resource="commandQueueProcessor.xml" />
+	<import resource="terminal_logger.xml" />
 
 
-    <corba:export namespace="I07" />
+	<corba:export namespace="I07" />
 
 </beans>
