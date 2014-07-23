@@ -88,9 +88,9 @@ echo "Please make sure /$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/bin/remote
 echo
 #### set up remote start GDA key ###
 if [ ! -r "/$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key" ]; then
-	cp -f /$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/${BEAMLINE}ssh.key /$SOFTWAREFOLDER/$BEAMLINE/
+	cp -f /$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/keys/${BEAMLINE}ssh.key /$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/
 fi
-ls -l /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key
+ls -l /$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/${BEAMLINE}ssh.key
 echo "Please make sure /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key file is owned by 'gda:gda'."
 echo 
 echo "Importent: You need to login to the server to change ownership and mode of files"
