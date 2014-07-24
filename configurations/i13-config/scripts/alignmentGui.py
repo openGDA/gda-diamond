@@ -15,7 +15,7 @@ class TomoDet():
         return controller
     def __init__(self):
         self.pco1_ffmpeg1 = self.__getController("pco1_ffmpeg1")
-        self.pco1_ffmpeg2 = self.__getController("pco1_ffmpeg2")
+#        self.pco1_ffmpeg2 = self.__getController("pco1_ffmpeg2")
         self.pco1_proc1 = self.__getController("pco1_proc1")
         self.pco1_roi1 = self.__getController("pco1_roi1")        
         self.pco1_cam_base = self.__getController("pco1_cam_base")        
@@ -96,8 +96,8 @@ class TomoDet():
         self.pco1_ffmpeg1.getPluginBase().setNDArrayPort(self.pco1_proc1.getPluginBase().getPortName_RBV())
         self.pco1_ffmpeg1.getPluginBase().enableCallbacks()
         
-        if self.model != "GC1020C":
-            self.pco1_ffmpeg2.getPluginBase().disableCallbacks()
+#        if self.model != "GC1020C":
+#            self.pco1_ffmpeg2.getPluginBase().disableCallbacks()
 
         if self.pco1_cam_base.model_RBV == "PCO.Camera Dimax":
 #            self.pco1_cam_base.startAcquiring() 

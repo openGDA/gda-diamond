@@ -10,6 +10,6 @@ gda_start_logpanel
 #${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20140113-1140_linux64/gda-i13i --keep --nohup $LOGFILE $*
 #${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20140204-1748_linux64/gda-i13i --keep --nohup $LOGFILE $*
 #${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20140218-1810_linux64/gda-i13i --keep --nohup $LOGFILE $*
-${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20140616-1750_linux64/gda-i13i --keep --nohup $LOGFILE $*
+${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20140704-1657_linux64/gda-i13i --keep --nohup $LOGFILE $*
 
 

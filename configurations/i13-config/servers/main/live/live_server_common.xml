@@ -76,6 +76,8 @@
 
 
 	<import resource="../../../devices/epics/sample_stage_motors.xml" />
+	<import resource="../../../devices/epics/translation_stage_motors.xml" />
+	<import resource="../../../devices/translation_stage.xml" />
 	<import resource="../../../devices/epics/table_motors.xml" />
 	<import resource="../../../devices/epics/camera_stage_motors.xml" />
 
@@ -102,9 +104,9 @@
 	</bean>
 
 	<import resource="../../../devices/live/p2r.xml"/>	
-<!-- 	<import resource="../../../devices/epics/sample_stage_hexapod_motors.xml"/>	
- -->	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
-
+	<import resource="../../../devices/epics/sample_stage_hexapod_motors.xml"/>	
+<!-- 	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
+ -->
 	<import resource="../common.xml" />
 
 </beans>

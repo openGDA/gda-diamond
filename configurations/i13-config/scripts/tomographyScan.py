@@ -154,7 +154,7 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
     nxLinkCreator.setInstrument_detector_image_key_target("entry1:NXentry/instrument:NXinstrument/image_key:NXpositioner/image_key:NXdata")
     nxLinkCreator.setInstrument_source_target("entry1:NXentry/instrument:NXinstrument/source:NXsource")
    
-    sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/zebraSM1:NXpositioner/"
+    sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/" + tomography_theta_name + ":NXpositioner/"
     sample_rotation_angle_target += tomography_theta_name + ":NXdata"
     nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
     nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplex:NXdata")
@@ -187,18 +187,45 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
 
 def reportJythonNamespaceMapping():
     jns=beamline_parameters.JythonNameSpaceMapping()
-    objectOfInterest = {}
-    objectOfInterest['tomography_theta'] = jns.tomography_theta
-    objectOfInterest['tomography_shutter'] = jns.tomography_shutter
-    objectOfInterest['tomography_translation'] = jns.tomography_translation
-    objectOfInterest['tomography_detector'] = jns.tomography_detector
-    objectOfInterest['tomography_beammonitor'] = jns.tomography_beammonitor
-  
-    for key, val in objectOfInterest.iteritems():
-        print key + ' = ' + str(val)
+    objectOfInterestSTEP = {}
+    objectOfInterestSTEP['tomography_theta'] = jns.tomography_theta
+    objectOfInterestSTEP['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterestSTEP['tomography_translation'] = jns.tomography_translation
+    objectOfInterestSTEP['tomography_detector'] = jns.tomography_detector
+    objectOfInterestSTEP['tomography_beammonitor'] = jns.tomography_beammonitor
+
+    objectOfInterestFLY = {}
+    objectOfInterestFLY['tomography_flyscan_theta'] = jns.tomography_flyscan_theta
+    objectOfInterestFLY['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterestFLY['tomography_translation'] = jns.tomography_translation
+    objectOfInterestFLY['tomography_flyscan_det'] = jns.tomography_flyscan_det
+    objectOfInterestFLY['tomography_flyscan_flat_dark_det'] = jns.tomography_flyscan_flat_dark_det
+
     msg = "\n These mappings can be changed by editing a file named live_jythonNamespaceMapping, "
-    msg += "\n located in i13i-config/scripts (this can be done by beamline staff)."
+    msg += "\n located in i13i-config/scripts (this can be done by beamline staff).\n"
+
+    print "****** STEP-SCAN PRIMARY SETTINGS ******"
+    idx=1
+    for key, val in objectOfInterestSTEP.iteritems():
+        name = "object undefined!"
+        if val is not None:
+            name = str(val.getName())
+        print `idx` + "."+ key + ' = ' + name
+        idx += 1
     print msg
+
+    print "****** FLY-SCAN PRIMARY SETTINGS ******"
+    idx=1
+    for key, val in objectOfInterestFLY.iteritems():
+        name = "object undefined!"
+        if val is not None:
+            name = str(val.getName())
+        print `idx` + "."+ key + ' = ' + name
+        idx += 1
+    print msg
+
+def reportTomo():
+    return reportJythonNamespaceMapping()
 
 from gda.device.scannable import SimpleScannable
 image_key_dark=2
@@ -452,6 +479,10 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         tomography_shutter.moveTo("Close")
             
 #        time.sleep(2)
+        #turn camera back on
+        tomography_flyscan_flat_dark_det.name = savename
+        if setupForAlignment:
+            tomodet.setupForAlignment()
         updateProgress(100, "Scan complete")
         return multiScanObj;
     except :

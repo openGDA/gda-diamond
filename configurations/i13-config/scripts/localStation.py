@@ -42,11 +42,12 @@ def fs_control():
 	else:
 		pos fs "Open"
 
-def setupPCOCopy():
-	caput( "BL13I-EA-DET-01:COPY:Run", 0)
-	caputStringAsWaveform( "BL13I-EA-DET-01:COPY:SourceFilePath", "d:\\i13\\data\\2014")
-	caputStringAsWaveform( "BL13I-EA-DET-01:COPY:DestFilePath", "t:\\i13\\data\\2014")
-	caput ("BL13I-EA-DET-01:COPY:Run", 1)		
+#no longer used
+#def setupPCOCopy():
+#	caput( "BL13I-EA-DET-01:COPY:Run", 0)
+#	caputStringAsWaveform( "BL13I-EA-DET-01:COPY:SourceFilePath", "d:\\i13\\data\\2014")
+#	caputStringAsWaveform( "BL13I-EA-DET-01:COPY:DestFilePath", "t:\\i13\\data\\2014")
+#	caput ("BL13I-EA-DET-01:COPY:Run", 1)		
 
 def isLive():
 	mode = LocalProperties.get("gda.mode")
@@ -113,8 +114,8 @@ try:
 			
 			#if you change these you need to change the values in cameraScaleProviders
 			#edited by J. Vila-Comamala to match new objective lens configuration 25.04.2014
-			position1="X4 Pink"
-			position2="X10 Pink"
+			position1="X10 Pink"
+			position2="X4 Pink"
 			position3="X2 Pink"
 			position4="X10 Mono"
 			position5="X4 Mono"
@@ -197,9 +198,10 @@ try:
 		pco1_hw_hdf.collectionStrategy.shutterDarkScannable = eh_shtr_dummy
 	
 	import tomographyScan
-	from tomographyScan import reportJythonNamespaceMapping
+	from tomographyScan import reportJythonNamespaceMapping, reportTomo
 	alias("reportJythonNamespaceMapping")
-	tomography_additional_scannables=[] # [p2r_force, p2r_y]
+	alias("reportTomo")
+	tomography_additional_scannables=[p2r_force, p2r_y] # []
 	#for fast flyscans
 	if isLive():
 		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="d:\\i13\\data"
@@ -235,6 +237,12 @@ try:
 		
 	pco1_hw_tif.pluginList[1].waitForFileArrival=False
 	pco1_tif.pluginList[1].waitForFileArrival=False
+	
+	#reverse the camera image so that the image is as looking upstream
+	caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
+	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
+		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
+	
 	if isLive():
 		run("localStationUser.py")
 
