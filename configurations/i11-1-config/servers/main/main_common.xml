@@ -8,37 +8,37 @@
 
 <!-- Optic Hutch, EH1 -->
 	<import resource="EnergyLUT.xml"/>	
-<!-- 	<import resource="ID.xml"/> -->
-<!-- 	<import resource="ForntEndAperture.xml"/> -->
-<!-- 	<import resource="S1.xml" /> -->
-<!-- 	<import resource="DCM.xml" /> -->
-<!-- 	<import resource="S2.xml" /> -->
-<!--	<import resource="BPM1.xml" />-->
-<!-- 	<import resource="M1.xml"/> -->
-<!-- 	<import resource="S3.xml" /> -->
-<!-- 	<import resource="Io.xml" /> -->
-<!-- 	<import resource="S4.xml" /> -->
+	<import resource="ID.xml"/>
+	<import resource="ForntEndAperture.xml"/>
+	<import resource="S1.xml" />
+	<import resource="DCM.xml" />
+	<import resource="S2.xml" />
+	<import resource="BPM1.xml" />
+	<import resource="M1.xml"/>
+	<import resource="S3.xml" />
+	<import resource="Io.xml" />
+	<import resource="S4.xml" />
 <!-- 	<import resource="BPM3.xml" /> -->
-<!-- 	<import resource="OpticalTable.xml" /> -->
-<!-- 	<import resource="Ie.xml" /> -->
-<!-- 	<import resource="S5.xml" /> -->
-<!-- 	<import resource="SmallSampleTable.xml"/> -->
+	<import resource="OpticalTable.xml" />
+	<import resource="Ie.xml" />
+	<import resource="S5.xml" />
+	<import resource="SmallSampleTable.xml"/>
 <!-- 	<import resource="LargeSampleTable.xml"/> -->
-<!-- 	<import resource="MCS.xml"/> -->
-<!-- 	<import resource="OxfordCryoStream.xml"/> -->
-<!-- 	<import resource="OxfordCryoStream2.xml"/> -->
-<!-- 	<import resource="PhenixCryostat.xml"/> -->
-<!-- 	<import resource="CyberStarBlower.xml"/> -->
-<!-- 	<import resource="MRIFurnace.xml"/> -->
-<!-- 	<import resource="StoeFurnace.xml"/> -->
-<!-- 	<import resource="LakeShore.xml"/> -->
+	<import resource="MCS.xml"/>
+	<import resource="OxfordCryoStream.xml"/>
+	<import resource="OxfordCryoStream2.xml"/>
+	<import resource="PhenixCryostat.xml"/>
+	<import resource="CyberStarBlower.xml"/>
+	<import resource="MRIFurnace.xml"/>
+	<import resource="StoeFurnace.xml"/>
+	<import resource="LakeShore.xml"/>
 <!-- 	<import resource="DetectorsSafePositions.xml"/> -->
 <!-- 	<import resource="SampleInfo.xml"/> -->
-<!-- 	<import resource="etl1.xml" /> -->
-<!-- 	<import resource="etl2.xml" /> -->
-<!-- 	<import resource="tfg2.xml"/> -->
+	<import resource="etl1.xml" />
+	<import resource="etl2.xml" />
+	<import resource="tfg2.xml"/>
 
-	<corba:import namespace="i11" names="energy" />
+<!-- 	<corba:import namespace="i11" names="energy" /> -->
 	
 	<import resource="GDAMetadata.xml"/>
 	<import resource="BeamlineInfo.xml"/>

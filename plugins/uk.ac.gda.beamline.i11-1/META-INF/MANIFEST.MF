@@ -31,7 +31,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.commons.io;bundle-version="2.4.0",
  org.opengda.lde.ui,
  uk.ac.gda.epics.client,
- uk.ac.gda.beamline.synoptics
+ uk.ac.gda.beamline.synoptics;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Diamond Light Source
