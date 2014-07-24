@@ -152,6 +152,21 @@ class ConstantScannable(gda.device.scannable.ScannableBase):
     def isBusy(self):
         return False
     
+class CalibrantScannable(gda.device.scannable.ScannableBase):
+    def __init__(self, name, value, unit=None):
+        self.setName(name)
+        self.value = value
+        self.unit=unit
+    
+    def getPosition(self):
+        return self.value
+    
+    def asynchronousMoveTo(self, posi):
+        self.value=posi
+
+    def isBusy(self):
+        return False
+    
 def ls_scannables():
     ls_names(Scannable)
     
