@@ -38,8 +38,6 @@
 	<import resource="etl2.xml" />
 	<import resource="tfg2.xml"/>
 
-<!-- 	<corba:import namespace="i11" names="energy" /> -->
-	
 	<import resource="GDAMetadata.xml"/>
 	<import resource="BeamlineInfo.xml"/>
 	<import resource="BeamInfo.xml"/>
