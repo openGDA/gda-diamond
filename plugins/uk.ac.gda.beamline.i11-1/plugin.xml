@@ -13,7 +13,7 @@
             allowMultiple="false"
             class="uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView"
             icon="icons/chart_curve.png"
-            id="uk.ac.gda.beamline.i11.lde.views.DetectorFilePlotView"
+            id="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
             name="DetectorPlot"
             restorable="true">
       </view>

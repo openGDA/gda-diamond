@@ -261,7 +261,7 @@
 		</property>
 	</bean>
 	
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/pixium" />
 		<property name="service" ref="pixium" />
 		<property name="serviceInterface" value="gda.device.detector.pixium.IPixiumNXDetector" />

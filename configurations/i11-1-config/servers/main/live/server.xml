@@ -17,7 +17,8 @@
 		file:${gda.config}/properties/gda.properties" />
 
 	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="/dls_sw/work/R3.14.12.3/ioc/BL11J/BL/data/${gda.epics.beamline.name}-gda-interface.xml" />
+		<constructor-arg value="${gda.config}/epics/live/BL11I-gda-interface.xml" />
+<!-- 		<constructor-arg value="/dls_sw/work/R3.14.12.3/ioc/BL11J/BL/data/${gda.epics.beamline.name}-gda-interface.xml" /> -->
 	</bean>
 
 <!--  Optic Hutch, EH1  -->	
@@ -96,7 +97,7 @@
 <!-- 	<import resource="Spinner2.xml"/> -->
 <!-- 	<import resource="RobotNX100.xml"/> -->
 	<import resource="DummyMotors.xml"/>
-	<import resource="usermotors.xml"/>
+<!-- 	<import resource="usermotors.xml"/> -->
 <!-- 	<import resource="Mar345.xml"/> -->
 	
 	<import resource="../main_common.xml"/>

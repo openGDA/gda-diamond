@@ -138,14 +138,14 @@ print "Create method for load sample information spreadsheet to GDA system."
 from loadfile import * #@UnusedWildImport
 print
 
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Enable automatic beamline energy setting for all devices by e.g. 'pos setenergy 15.0'."
-ALL, BEAM_ENERGY, STAGE_ANGLE, DETECTOR=range(4)
-from Automation_class import Automation
-print "To set/get Mono and ID energy only, use 'energy_gap' object"
-energy_gap=Automation('energy_gap','energytable', BEAM_ENERGY, rootNameSpace=globals())
-pds.append(energy_gap) 
-print
+# print "-----------------------------------------------------------------------------------------------------------------"
+# print "Enable automatic beamline energy setting for all devices by e.g. 'pos setenergy 15.0'."
+# ALL, BEAM_ENERGY, STAGE_ANGLE, DETECTOR=range(4)
+# from Automation_class import Automation
+# print "To set/get Mono and ID energy only, use 'energy_gap' object"
+# energy_gap=Automation('energy_gap','energytable', BEAM_ENERGY, rootNameSpace=globals())
+# pds.append(energy_gap) 
+# print
 
 ### set output format for scannables
 globals()['energy'].setOutputFormat(["%10.7f"])
@@ -282,8 +282,8 @@ print "=========================================================================
 print "Initialisation script complete." 
 print
 ###Must leave what after this line last.
-bm2=finder.find("bm2")
-if bm2.isBeamOn():
+bm1=finder.find("bm")
+if bm1.isBeamOn():
     print "PHOTON BEAM IS ON SAMPLE NOW."
 else:
     print "NO PHOTON BEAM ON SAMPLE."

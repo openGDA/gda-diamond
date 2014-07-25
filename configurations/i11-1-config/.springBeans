@@ -9,7 +9,6 @@
 	<configs>
 		<config>servers/main/BeamInfo.xml</config>
 		<config>servers/main/BeamlineInfo.xml</config>
-		<config>servers/main/BeamMonitor.xml</config>
 		<config>servers/main/BPM1.xml</config>
 		<config>servers/main/dummy/BPM1.xml</config>
 		<config>servers/main/live/BPM1.xml</config>
@@ -237,6 +236,7 @@
 		<config>servers/main/live/S4.xml</config>
 		<config>servers/main/live/S5.xml</config>
 		<config>servers/main/live/Spinner2.xml</config>
+		<config>servers/main/BeamMonitor2.xml</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -266,7 +266,6 @@
 				<config>servers/CommandServer.xml</config>
 				<config>servers/main/BeamInfo.xml</config>
 				<config>servers/main/BeamlineInfo.xml</config>
-				<config>servers/main/BeamMonitor.xml</config>
 				<config>servers/main/BPM1.xml</config>
 				<config>servers/main/BPM2.xml</config>
 				<config>servers/main/BPM3.xml</config>
@@ -351,6 +350,7 @@
 				<config>clients/rcp/live/spinner2.xml</config>
 				<config>servers/main/live/S6.xml</config>
 				<config>servers/main/live/Spinner2.xml</config>
+				<config>servers/main/BeamMonitor2.xml</config>
 			</configs>
 			<profiles>
 				<profile><![CDATA[server]]></profile>
