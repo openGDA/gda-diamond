@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="base" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tmar_base_mtr"/>
+	</bean>
+	<bean id="rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tmar_rot_mtr"/>
+	</bean>
+	<bean id="stx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tmar_x_mtr"/>
+	</bean>
+	<bean id="sty" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tmar_y_mtr"/>
+	</bean>
+	<bean id="stz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tmar_z_mtr"/>
+	</bean>
+	<bean id="s6xm" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6xm_mtr"/>
+	</bean>
+	<bean id="s6xp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6xp_mtr"/>
+	</bean>
+	<bean id="s6yp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6yp_mtr"/>
+	</bean>
+	<bean id="s6ym" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s6ym_mtr"/>
+	</bean>
+	<bean id="colx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="colx_mtr"/>
+	</bean>
+	<bean id="coly" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="coly_mtr"/>
+	</bean>
+	<bean id="bsy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="bsy_mtr"/>
+	</bean>
+	<bean id="bsx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="bsx_mtr"/>
+	</bean>
+	<bean id="phdx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d6x_mtr"/>
+	</bean>
+	<bean id="oavx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="oavx_mtr"/>
+	</bean>
+	<bean id="oavy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="oavy_mtr"/>
+	</bean>
+	<bean id="mar" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="base"/>
+				<ref bean="rot"/>
+				<ref bean="stx"/>
+				<ref bean="sty"/>
+				<ref bean="stz"/>
+				<ref bean="s6xm"/>
+				<ref bean="s6xp"/>
+				<ref bean="s6ym"/>
+				<ref bean="s6yp"/>
+				<ref bean="colx"/>
+				<ref bean="coly"/>
+				<ref bean="bsx"/>
+				<ref bean="bsy"/>
+				<ref bean="phdx"/>
+				<ref bean="oavx"/>
+				<ref bean="oavy"/>
+			</list>
+		</property>
+	</bean>
+</beans>

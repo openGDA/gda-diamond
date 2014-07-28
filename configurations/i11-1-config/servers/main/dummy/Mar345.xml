@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Mar motors	-->	
+	<bean id="tmar_base_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.BASE"/>
+	</bean>
+	<bean id="tmar_rot_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.ROT"/>
+	</bean>
+	<bean id="tmar_x_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.X"/>
+	</bean>
+	<bean id="tmar_y_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.Y"/>
+	</bean>
+	<bean id="tmar_z_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.Z"/>
+	</bean>
+	<bean id="bmar_slitx_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BMAR.SLITX"/>
+	</bean>
+	<bean id="bmar_slity_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BMAR.SLITY"/>
+	</bean>
+	<bean id="bmar_colx_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BMAR.COLX"/>
+	</bean>
+	<bean id="bmar_coly_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BMAR.COLY"/>
+	</bean>
+	<bean id="bmar_phdx_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BMAR.PHDX"/>
+	</bean>
+</beans>

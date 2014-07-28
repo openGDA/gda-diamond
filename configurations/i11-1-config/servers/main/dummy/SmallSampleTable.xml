@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- small sample table TS Motors (individual Motions) -->
+	<bean id="tsx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TS.X"/>
+	</bean>
+	<bean id="tsy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TS.Y"/>
+	</bean>
+	<bean id="tsyt_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TS.YT"/>
+	</bean>
+	<bean id="tsz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TS.Z"/>
+	</bean>
+	<bean id="tsrollt_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TS.ROLLT"/>
+	</bean>
+</beans>

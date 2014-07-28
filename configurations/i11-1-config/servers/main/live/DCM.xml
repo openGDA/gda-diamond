@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="dcmtemp1" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP1"/>
+	</bean>
+	<bean id="dcmtemp2" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP2"/>
+	</bean>
+	<bean id="dcmtemp3" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP3"/>
+	</bean>
+	<bean id="dcmtemp4" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP4"/>
+	</bean>
+	<bean id="dcmtemp5" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP5"/>
+	</bean>
+	<bean id="dcmtemp6" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP6"/>
+	</bean>
+	<bean id="dcmtemp7" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP7"/>
+	</bean>
+	<bean id="dcmtemp8" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP8"/>
+	</bean>
+	<bean id="dcmtemp9" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP9"/>
+	</bean>
+	<bean id="dcmtemp10" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP10"/>
+	</bean>
+	<bean id="dcmtemp11" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP11"/>
+	</bean>
+	<bean id="dcmtemp12" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP12"/>
+	</bean>
+	<bean id="dcmtemp13" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP13"/>
+	</bean>
+	<bean id="dcmtemp14" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP14"/>
+	</bean>
+	<bean id="dcmtemp15" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP15"/>
+	</bean>
+	<bean id="dcmtemp16" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.TEMP16"/>
+	</bean>
+	<bean id="dcmpitch2temp" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.PITCH2TEMP"/>
+	</bean>
+	<bean id="dcmrool1temp" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.ROLL1TEMP"/>
+	</bean>
+	<bean id="dcmrool2temp" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.ROLL2TEMP"/>
+	</bean>
+	<bean id="dcmpitch2lvdt" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.PITCH2LVDT"/>
+	</bean>
+	<bean id="dcmrool1lvdt" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.ROLL1LVDT"/>
+	</bean>
+	<bean id="dcmrool2lvdt" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="DCM.ROLL2LVDT"/>
+	</bean>
+
+	<!-- DCM Crystal selection -->
+	<bean id="dcmxtal" class="gda.spring.EpicsPositionerFactoryBean">
+		<property name="deviceName" value="DCM.XTAL"/>
+	</bean>
+
+	<!-- DCM Motors (individual Motions) -->
+	<bean id="dcmbragg" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.BRAGG"/>
+	</bean>
+	<bean id="dcmpitch2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.PITCH2"/>
+	</bean>
+	<bean id="dcmroll1" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.ROLL1"/>
+	</bean>
+	<bean id="dcmroll2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.ROLL2"/>
+	</bean>
+	<bean id="dcmt2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.T2"/>
+	</bean>
+	<bean id="dcmfinepitch2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.FPITCH2"/>
+	</bean>
+	
+	<!-- DCM virtual Motors (Compound Motions) -->
+	<bean id="dcmenergy" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.ENERGY"/>
+	</bean>
+	<bean id="dcmlambda" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.LAMBDA"/>
+	</bean>
+	<bean id="dcmoffset" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.OFFSET"/>
+	</bean>
+	
+</beans>

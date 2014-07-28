@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="robot_controller" class="gda.device.robot.RobotNX100Controller">
+		<property name="deviceName" value="ROBOT.ROBOT"/>
+		<property name="local" value="true"/>
+		<!-- TODO use explicit path to file -->
+		<property name="errorCodeFilename" value="motoman_error_code.txt"/>
+	</bean>
+	<bean id="samplechange_controller" class="gda.device.robot.RobotSampleState">
+		<property name="deviceName" value="ROBOT.SSTATE"/>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="nextsampleposition_controller" class="gda.device.robot.NextSamplePosition">
+		<property name="deviceName" value="ROBOT.SNUM"/>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="currentsampleposition_controller" class="gda.device.robot.CurrentSamplePosition">
+		<property name="deviceName" value="ROBOT.SNUMRBV"/>
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

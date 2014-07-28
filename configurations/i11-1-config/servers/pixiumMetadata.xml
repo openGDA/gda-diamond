@@ -1,0 +1,246 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="pixium_TriggerMode">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_TriggerMode" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="pixium_PUMode">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_PUMode" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="pixium_BaseExposure">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_BaseExposure" />
+						<property name="units" value="s" />
+					</bean>
+				</entry>
+				<entry key="pixium_BaseAcquirePeriod">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_BaseAcquirePeriod" />
+						<property name="units" value="s" />
+					</bean>
+				</entry>
+				<entry key="pixium_ExcludeEarlyFrames">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_ExcludeEarlyFrames" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="pixium_TotalCount">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/pixium10_TotalCount" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="eh1therm1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh1therm1" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh1therm2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh1therm2" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh1therm3">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh1therm3" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh1therm4">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh1therm4" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh1therm5">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh1therm5" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh1therm6">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh1therm6" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh2therm1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh2therm1" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh2therm2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh2therm2" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh2therm3">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh2therm3" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh2therm4">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh2therm4" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh2therm5">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh2therm5" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="eh2therm6">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/eh2therm6" />
+						<property name="units" value="deg C" />
+					</bean>
+				</entry>
+				<entry key="f1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/f1" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="f2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="before_scan:NXcollection/f2" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="x_pixel_size">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="pixium:NXDetector/x_pixel_size" />
+						<property name="units" value="um" />
+					</bean>
+				</entry>
+				<entry key="y_pixel_size">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="pixium:NXDetector/y_pixel_size" />
+						<property name="units" value="um" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!--Metas to be recorded for any detector  -->
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>x_pixel_size</value>
+				<value>y_pixel_size</value>
+				<value>pixium_TriggerMode</value>
+				<value>pixium_PUMode</value>
+				<value>pixium_BaseExposure</value>
+				<value>pixium_ExcludeEarlyFrames</value>
+				<value>pixium_TotalCount</value>
+			</set>
+		</property>
+	</bean>
+	
+	<!--Metas to be recorded for specific detector  -->
+<!-- 	<bean -->
+<!-- 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> -->
+<!-- 		<property name="staticMethod" -->
+<!-- 			value="gda.data.scan.datawriter.NexusDataWriter.setMetadataScannablesPerDetector" /> -->
+<!-- 		<property name="arguments"> -->
+<!-- 			<map> -->
+<!-- 				<entry key="pixium10_tif"> -->
+<!-- 					<set> -->
+<!-- 						<value>pixium10_TriggerMode</value> -->
+<!-- 						<value>pixium10_PUMode</value> -->
+<!-- 						<value>pixium10_BaseExposure</value> -->
+<!-- 						<value>pixium10_ExcludeEarlyFrames</value> -->
+<!-- 						<value>pixium10_TotalCount</value> -->
+<!-- 					</set> -->
+<!-- 				</entry> -->
+<!-- 				<entry key="pixium10_hdf"> -->
+<!-- 					<set> -->
+<!-- 						<value>pixium10_TriggerMode</value> -->
+<!-- 						<value>pixium10_PUMode</value> -->
+<!-- 						<value>pixium10_BaseExposure</value> -->
+<!-- 						<value>pixium10_ExcludeEarlyFrames</value> -->
+<!-- 						<value>pixium10_TotalCount</value> -->
+<!-- 					</set> -->
+<!-- 				</entry> -->
+<!-- 				<entry key="pixium_flyScanDetector"> -->
+<!-- 					<set> -->
+<!-- 						<value>pixium10_TriggerMode</value> -->
+<!-- 						<value>pixium10_PUMode</value> -->
+<!-- 						<value>pixium10_BaseExposure</value> -->
+<!-- 						<value>pixium10_ExcludeEarlyFrames</value> -->
+<!-- 						<value>pixium10_TotalCount</value> -->
+<!-- 					</set> -->
+<!-- 				</entry> -->
+<!-- 			</map> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	
+</beans>

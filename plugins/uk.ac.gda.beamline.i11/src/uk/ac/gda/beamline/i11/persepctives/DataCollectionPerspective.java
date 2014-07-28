@@ -36,9 +36,6 @@ import uk.ac.gda.beamline.i11.views.DetectorFilePlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 
-
-
-
 public class DataCollectionPerspective implements IPerspectiveFactory {
 
 	public static final String ID="uk.ac.gda.beamline.i11.dataCollectionPerspective";
@@ -48,6 +45,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 	private static final String STATUS_FOLDER = "statusFolder";
 	private static final String Scan_PLOT_FOLDER = "scanPlotFolder";
 	private static final String DETECTOR_PLOT_FOLDER = "detectorPlotFolder";
+	
 	private static final String MYTHEN_PLOT_VIEW_ID = "uk.ac.gda.epics.client.mythen.views.liveplotview";
 	private static final String MAC_PLOT_VIEW_ID = "uk.ac.gda.client.hrpd.views.liveplotview";
 	private static final String DATA_PLOT_VIEW_ID = "uk.ac.gda.beamline.i11.dataPlot";
@@ -121,7 +119,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
         layout.addShowViewShortcut("org.python.pydev.views.PyCodeCoverageView");
         layout.addShowViewShortcut("org.eclipse.ui.navigator.ProjectExplorer");
         
-        layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
+//        layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
         layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);	
     }
 

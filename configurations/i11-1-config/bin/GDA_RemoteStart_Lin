@@ -1,0 +1,39 @@
+#!/bin/bash
+##This is an example script file to restart GDA server from a remote workstation
+##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
+##Please refer to the document howtoSSH.txt for key generation.
+##To use this script change the key file path, user name and the server machine name
+
+
+if [ ! -n "$BEAMLINE" ];
+then
+  echo "Please set BEAMLINE environment variable."
+  exit 1
+fi
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot source /etc/profile.d/modules.sh"	
+	exit 1
+fi
+
+notify-send -t 10000 "GDA Remote Servers are starting..."
+
+echo "Kill all GDA Clients running locally"
+gda --stop client
+sleep 2;
+
+SSHOPTS="-o StrictHostKeyChecking=no -o BatchMode=yes"
+
+echo "Starting GDA Servers remotely..."
+echo ssh -i /$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
+ssh $SSHOPTS -i /$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
+
+# Start log panel if not already started
+LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
+if [ "X$LOGPANEL" == "X" ] ; then
+nohup gdalog >/dev/null 2>&1 &
+else
+wmctrl -R "GDA Log Panel"
+fi

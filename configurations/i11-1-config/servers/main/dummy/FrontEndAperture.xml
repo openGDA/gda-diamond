@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="cax_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="CA.X"></property>
+	</bean>
+	<bean id="cay_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="CA.Y"></property>
+	</bean>
+</beans>

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=gda-servers
+Type=Application
+Exec=GDA_RemoteStart_Lin
+Terminal=false
+Name[en_GB]=2. Restart GDA Servers
+GenericName[en_GB]=Restart GDA Servers
+Comment[en_GB]=Restart GDA Servers
+Icon=/dls_sw/i11/software/gda/config/bin/icons/sgda.png
+Icon[en_GB]=/dls_sw/i11/software/gda/config/bin/icons/sgda.png
+Categories=X-opengda;
