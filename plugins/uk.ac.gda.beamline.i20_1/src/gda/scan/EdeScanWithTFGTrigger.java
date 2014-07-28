@@ -28,13 +28,10 @@ import gda.jython.InterfaceProvider;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdeScanPosition;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
-import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -62,7 +59,6 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveExafsScan {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeScanWithTFGTrigger.class);
-	private static final double DEAD_TIME_IN_SEC = 0.00001; // 10µs
 	private final DAServer daserver;
 	private final TFGTrigger triggeringParameters;
 
@@ -105,156 +101,14 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	}
 
 	private void prepareTFG() throws DeviceException {
-
 		int numberOfRepetitions = scanParameters.getNumberOfRepetitions();
-		double[] samEnvPulseWidths = deriveSamEnvPulseWidths();
-		double[] samEnvDelays = deriveSamEnvDelays();
-		double itDelay = deriveItDelay();
+		String command = triggeringParameters.getTfgSetupGrupsCommandParameters(numberOfRepetitions);
 
-		int totalNumberItFramesPerRepetition = scanParameters.getTotalNumberOfFrames();
-
-		StringBuffer sb = new StringBuffer();
-
-		//		Format of 'tfg setup-groups' as follows, 7 or 9 space-separated numbers:
-		//			num_frames dead_time live_time dead_port live_port dead_pause live_pause [dead_tfinc live_tfinc]
-		//			Followed by last line:
-		//			-1 0 0 0 0 0 0
-		//			Where num_frames       	= Number of frames in this group
-		//			Dead_time, Live_time   	= time as floating point seconds
-		//			Dead_port, Live_port    	= port data as integer (0<=port<=128k-1)
-		//			Dead_pause, Live_pause 	= pause bit (0<=pause<=1)
-		//			And For TFG2 only
-		//			num_repeats sequence_name
-		//			This repeats the pre-recorded sequence num_repeats times.
-
-		// first line, initial command and number of cycles
-		sb.append("tfg setup-groups");
-		if (numberOfRepetitions > 1) {
-			sb.append(" cycles ");
-			sb.append(numberOfRepetitions);
-		}
-		sb.append("\n");
-
-		// second line, wait for top-up
-		// TODO what if we are not waiting for top-up? e.g. the whole thing is << 10 mins
-		sb.append("1 " + DEAD_TIME_IN_SEC + " 0 0 0 8 0\n"); // wait for a TTL signal on TRIG 0 (machine top-up pulse)
-
-		// series of delays plus output to drive sample environments
-		for (int samEnvIndex = 0; samEnvIndex < samEnvPulseWidths.length; samEnvIndex++) {
-			sb.append("1 " + samEnvDelays[samEnvIndex] + " 0 0 0 0 0\n");// # some user defined delay
-			int deadPort = triggeringParameters.getSampleEnvironment().get(samEnvIndex).getTriggerOutputPort().getUsrPort();
-			sb.append("1 " + samEnvPulseWidths[samEnvIndex] + " 0 " + deadPort + " 0 0 0\n");
-			// # send pulse to USR2 (repeat this and line above up to 6 times)
-		}
-
-		if (triggeringParameters.getPhotonShutter().isInUse()) {
-			double photonShutterDelay = derivePSDelay();
-			// then a final delay before starting It sequence
-			sb.append("1 " + photonShutterDelay + " 0 0 0 0 0\n");// # some user defined delay
-
-			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-			sb.append("1 " + triggeringParameters.getPhotonShutter().getTriggerPulseLength() + " 0 1 1 0 0\n");
-
-			// then a final delay before starting It sequence
-			sb.append("1 " + itDelay + " 0 1 1 0 0\n");// # some user defined delay
-
-			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-			sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 3 1 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
-
-			// time frames to count machine injection signals, keeping photon shutter open, increment from XH
-			sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 1 1 0 9\n");
-		} else {
-			// then a final delay before starting It sequence
-			sb.append("1 " + itDelay + " 0 0 0 0 0\n");// # some user defined delay
-
-			// pulse on USR1 to start the XH and on USR0 to open the photon shutter
-			sb.append("1 " + triggeringParameters.getDetector().getTriggerPulseLength() + " 0 2 0 0 0\n"); 	// 3 to send on both USR 0 and USR 1 as "00000011"
-
-			// time frames to count machine injection signals, keeping photon shutter open, increment from XH
-			sb.append(totalNumberItFramesPerRepetition+ " 0 " + DEAD_TIME_IN_SEC + " 0 0 0 9\n");
-		}
-
-		// To stop the last frame of integration
-		sb.append("1 " + DEAD_TIME_IN_SEC + " 0 0 0 0 9\n");
-
-		sb.append("-1 0 0 0 0 0 0");
-
-		// send buffer to daserver.sendCommand();
-		daserver.sendCommand(sb.toString());
-
+		// send buffer to daserver
+		daserver.sendCommand(command);
 
 	}
 
-	private double derivePSDelay() {
-		if (triggeringParameters == null){
-			return 0.0;
-		}
-
-
-		double sumOfSamEnvDelays = 0.0;
-
-		List<TriggerableObject> samEnvParameters = triggeringParameters.getSampleEnvironment();
-		for (TriggerableObject samEnv : samEnvParameters) {
-			sumOfSamEnvDelays += samEnv.getTriggerDelay();
-		}
-
-		double psdelay = triggeringParameters.getPhotonShutter().getTriggerDelay() - sumOfSamEnvDelays;
-		return psdelay;
-	}
-
-	/*
-	 * @return the delay, in seconds,  between the last pulse to a sample environment and starting the It sequence
-	 */
-	private double deriveItDelay() {
-
-		if (triggeringParameters == null){
-			return 0.0;
-		}
-
-		double delayToDetectorTrigger = triggeringParameters.getDetector().getTriggerDelay() - derivePSDelay();
-		return delayToDetectorTrigger;
-	}
-
-	/*
-	 * @return the delays, in seconds, before each trigger signal out to the sample environments
-	 */
-	private double[] deriveSamEnvDelays() {
-
-		if (triggeringParameters == null){
-			return new double[]{};
-		}
-
-		List<TriggerableObject> samEnvParameters = triggeringParameters.getSampleEnvironment();
-
-		double[] samEnvDelays = new double[samEnvParameters.size()];
-		double sumOfSamEnvDelays = 0.0;
-
-		for (int i = 0; i < samEnvParameters.size(); i++) {
-			double thisDelay = samEnvParameters.get(i).getTriggerDelay();
-			samEnvDelays[i] =  thisDelay - sumOfSamEnvDelays;
-			sumOfSamEnvDelays += thisDelay;
-		}
-		return samEnvDelays;
-	}
-
-	/*
-	 * @return the duration, in seconds, of each trigger signal to the sample environments
-	 */
-	private double[] deriveSamEnvPulseWidths() {
-
-		if (triggeringParameters == null){
-			return new double[]{};
-		}
-
-		List<TriggerableObject> samEnvParameters = triggeringParameters.getSampleEnvironment();
-
-		double[] samEnvWidths = new double[samEnvParameters.size()];
-		for (int i = 0; i < samEnvParameters.size(); i++) {
-			samEnvWidths[i] = samEnvParameters.get(i).getTriggerPulseLength();
-		}
-
-		return samEnvWidths;
-	}
 
 	private void startTFG() throws DeviceException {
 		daserver.sendCommand("tfg arm");

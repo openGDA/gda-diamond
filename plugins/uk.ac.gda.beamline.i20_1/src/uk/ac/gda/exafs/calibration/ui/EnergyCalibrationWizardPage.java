@@ -69,6 +69,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
@@ -604,6 +605,16 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 							refPlottingSystem.clear();
 
 							ILineTrace refTrace = refPlottingSystem.createLineTrace("Ref");
+
+							DoubleDataset refData = (DoubleDataset) edeCalibration.getReferenceSpectrum();
+
+							double firstEdeSpectrumPoint = edeSpectrumSlice.getDouble(0);
+							double firstReferenceSpectrumPoint = refData.getDouble(0);
+							if (firstEdeSpectrumPoint <= firstReferenceSpectrumPoint) {
+								refData = refData.isubtract(firstEdeSpectrumPoint - firstReferenceSpectrumPoint);
+							} else {
+								refData = refData.iadd(firstEdeSpectrumPoint - firstReferenceSpectrumPoint);
+							}
 
 							refTrace.setData(refEnergySlice, edeCalibration.getReferenceSpectrum());
 

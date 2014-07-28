@@ -53,4 +53,8 @@ public class AvgRegionToolDataModel extends SpectraRegionDataNode {
 	public String toString() {
 		return super.toString() + " avg(" + noOfSpectraToAvg + ")";
 	}
+
+	public int getNoOfSpectraToAvg() {
+		return noOfSpectraToAvg;
+	}
 }

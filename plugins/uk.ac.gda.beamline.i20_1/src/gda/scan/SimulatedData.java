@@ -55,7 +55,7 @@ public class SimulatedData {
 			String separator = File.separator;
 			String filePath = LocalProperties.getConfigDir() + "servers" + separator + "main" + separator + "dummy" + separator + SIMULATED_DATA_FILE_PATH;
 			final DataHolder simulatedSpectrumData = new SRSLoader(filePath).loadFile();
-			simulatedEnergies = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.STRIP_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
+			//simulatedEnergies = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.STRIP_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
 			simulatedI0_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.I0_DARK_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
 			simulatedIt_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.IT_DARK_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
 			simulatedI0_raw = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.I0_RAW_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
@@ -66,9 +66,10 @@ public class SimulatedData {
 	}
 
 	public static NexusTreeProvider[] readSimulatedDataFromFile(int lowFrame, int highFrame, StripDetector theDetector, EdePositionType positionType, EdeScanType scanType)  throws Exception {
-		if (simulatedEnergies == null) {
+		if (simulatedIt_raw == null) {
 			throw new Exception("Simulated data not loaded");
 		}
+		simulatedEnergies = ((XHDetector) theDetector).getEnergyForChannels();
 		int numberOfFrames = (highFrame + 1) - lowFrame;
 		NexusTreeProvider[] nexusTreeProvider = new NexusTreeProvider[numberOfFrames];
 
@@ -130,7 +131,7 @@ public class SimulatedData {
 	}
 
 	public static boolean isLoaded() {
-		return false;
+		return true;
 		//return simulatedEnergies != null;
 	}
 

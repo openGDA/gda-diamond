@@ -35,7 +35,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.databinding.viewers.ViewerProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -58,8 +57,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -79,8 +76,10 @@ import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
 import uk.ac.gda.exafs.experiment.ui.data.TimeIntervalDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
-import uk.ac.gda.exafs.ui.data.TimingGroup;
+import uk.ac.gda.exafs.ui.composites.XHControlComposite;
 import uk.ac.gda.ui.components.NumberEditorControl;
+
+import com.swtdesigner.ResourceManager;
 
 public class TimingGroupSectionComposite extends ResourceComposite {
 
@@ -108,7 +107,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	protected Button useExternalTriggerCheckbox;
 	private ComboViewer itUnitSelectionCombo;
 	private ComboViewer groupUnitSelectionCombo;
-	private ComboViewer inputLemoSelector;
+
 
 	private final TimeResolvedExperimentModel model;
 
@@ -134,7 +133,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private Button endTimeValueFixedFlag;
 
-	private final Image pin = PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_DEC_FIELD_WARNING);
+	private final Image pin;
 
 	private NumberEditorControl itExpDurationControl;
 
@@ -142,6 +141,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		super(parent, style);
 		this.toolkit = toolkit;
 		this.model = model;
+		pin = ResourceManager.getImageDescriptor(XHControlComposite.class,
+				"/icons/lock.png").createImage();
 		try {
 			setupUI();
 			bind();
@@ -351,6 +352,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 		endTimeValueFixedFlag = toolkit.createButton(changableGroupDetailsSectionComposite, "", SWT.CHECK);
 		endTimeValueFixedFlag.setImage(pin);
+		endTimeValueFixedFlag.setToolTipText("Fix end time value");
 		endTimeValueFixedFlag.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
 
 		label = toolkit.createLabel(groupDetailsSectionComposite, "Time per spectrum", SWT.None);
@@ -393,20 +395,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 		useExternalTriggerCheckbox = toolkit.createButton(externalTriggerComposite, "Use exernal trigger", SWT.CHECK);
 		useExternalTriggerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		label = toolkit.createLabel(externalTriggerComposite, "Trigger input Lemo number");
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		inputLemoSelector = new ComboViewer(externalTriggerComposite);
-		inputLemoSelector.getCombo().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		inputLemoSelector.setLabelProvider(new LabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return ((TimingGroup.InputTriggerLemoNumbers) element).getLabel();
-			}
-		});
-		inputLemoSelector.setContentProvider(new ArrayContentProvider());
-		inputLemoSelector.setInput(TimingGroup.InputTriggerLemoNumbers.values());
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(groupSection);
 		toolkit.paintBordersFor(sectionSeparator);
@@ -601,6 +589,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	}
 
 
+	// This is for label
 	private static class ModelToTargetConverter implements IConverter {
 		private final TimingGroupUIModel group;
 		public ModelToTargetConverter(TimingGroupUIModel group) {
@@ -616,10 +605,11 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		}
 		@Override
 		public Object getToType() {
-			return String.class;
+			return double.class;
 		}
 	}
 
+	// This is for editor
 	private static class TargetToModelConverter implements IConverter {
 		private final TimingGroupUIModel group;
 		public TargetToModelConverter(TimingGroupUIModel group) {
@@ -627,7 +617,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		}
 		@Override
 		public Object convert(Object fromObject) {
-			return group.getUnit().convertToDefaultUnit(Double.parseDouble((String) fromObject));
+			return Double.toString(group.getUnit().convertToDefaultUnit(Double.parseDouble((String) fromObject)));
 		}
 		@Override
 		public Object getFromType() {
@@ -635,7 +625,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		}
 		@Override
 		public Object getToType() {
-			return double.class;
+			return String.class;
 		}
 	}
 
@@ -713,6 +703,27 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			noOfAccumulationValueText.setModel(group, TimingGroupUIModel.NO_OF_ACCUMULATION_PROP_NAME);
 			noOfAccumulationValueText.setEditable(false);
+			noOfAccumulationValueText.setConverters(new IConverter() {
+
+				@Override
+				public Object getToType() {
+					return int.class;
+				}
+
+				@Override
+				public Object getFromType() {
+					return int.class;
+				}
+
+				@Override
+				public Object convert(Object fromObject) {
+					int noOfAccu = ((Integer) fromObject).intValue();
+					if (noOfAccu == TimingGroupUIModel.INVALID_NO_OF_ACCUMULATION) {
+						UIHelper.showWarning("Detector error", "Unable to get number of accumulations with current parameters");
+					}
+					return fromObject;
+				}
+			}, null);
 
 			delayBeforeFristSpectrumValueText.setModel(group, TimeIntervalDataModel.DELAY_PROP_NAME);
 			delayBeforeFristSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
@@ -730,11 +741,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.selection().observe(useExternalTriggerCheckbox),
 					BeanProperties.value(TimingGroupUIModel.USE_EXTERNAL_TRIGGER_PROP_NAME).observe(group)));
 
-			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.enabled().observe(inputLemoSelector.getCombo()),
-					BeanProperties.value(TimingGroupUIModel.USE_EXTERNAL_TRIGGER_PROP_NAME).observe(group)));
-
-			groupBindings.add(dataBindingCtx.bindValue(ViewerProperties.singleSelection().observe(inputLemoSelector),
-					BeanProperties.value(TimingGroupUIModel.EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME).observe(group)));
 		} catch (Exception e) {
 			logger.error("Unable to setup group detail controls", e);
 		}
@@ -743,6 +749,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	@Override
 	protected void disposeResource() {
 		model.removePropertyChangeListener(unitChangeListener);
+		pin.dispose();
 	}
 
 }
