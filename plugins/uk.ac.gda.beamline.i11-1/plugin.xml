@@ -30,7 +30,7 @@
             class="gda.rcp.views.ViewFactory:statusView"
             icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
             id="uk.ac.gda.beamline.i11.lde.views.statusView"
-            name="Status"
+            name="Beamline Status"
             restorable="true">
       </view>
    </extension>
