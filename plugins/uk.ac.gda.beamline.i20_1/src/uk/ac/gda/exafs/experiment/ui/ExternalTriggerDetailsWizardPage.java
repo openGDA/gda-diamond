@@ -50,7 +50,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.exafs.experiment.trigger.PhotonShutter;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
@@ -213,31 +212,31 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 
 		try {
 
-			Group photonShutterParent = new Group(container, SWT.None);
-			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-			gridData.horizontalSpan = 2;
-			photonShutterParent.setLayoutData(gridData);
-			photonShutterParent.setLayout(new GridLayout(5, false));
-			photonShutterParent.setText("Photon Shutter");
-
-			photonShutterInUseButton = new Button(photonShutterParent, SWT.CHECK);
-			photonShutterInUseButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-			photonShutterInUseButton.setText("In use");
-
-			Label photonShutterDelayLabel = new Label(photonShutterParent, SWT.None);
-			photonShutterDelayLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-			photonShutterDelayLabel.setText("Delay after Topup: ");
-			photonShutterDelayText = new NumberEditorControl(photonShutterParent, SWT.None, externalTriggerSetting.getTfgTrigger().getPhotonShutter(), TriggerableObject.TRIGGER_DELAY_PROP_NAME, false);
-			photonShutterDelayText.setUnit(TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText());
-			gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-			gridData.widthHint = 140;
-			photonShutterDelayText.setLayoutData(gridData);
-
-			Label photonShutterUsrPortLabel = new Label(photonShutterParent, SWT.None);
-			photonShutterUsrPortLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-			photonShutterUsrPortLabel.setText("Output port: ");
-			photonShutterUsrPortText = new Label(photonShutterParent, SWT.None);
-			photonShutterUsrPortText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+			//			Group photonShutterParent = new Group(container, SWT.None);
+			//			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+			//			gridData.horizontalSpan = 2;
+			//			photonShutterParent.setLayoutData(gridData);
+			//			photonShutterParent.setLayout(new GridLayout(7, false));
+			//			photonShutterParent.setText("Photon Shutter");
+			//
+			//			photonShutterInUseButton = new Button(photonShutterParent, SWT.CHECK);
+			//			photonShutterInUseButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			//			photonShutterInUseButton.setText("In use");
+			//
+			//			Label photonShutterDelayLabel = new Label(photonShutterParent, SWT.None);
+			//			photonShutterDelayLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			//			photonShutterDelayLabel.setText("Delay after Topup: ");
+			//			photonShutterDelayText = new NumberEditorControl(photonShutterParent, SWT.None, externalTriggerSetting.getTfgTrigger().getPhotonShutter(), TriggerableObject.TRIGGER_DELAY_PROP_NAME, false);
+			//			photonShutterDelayText.setUnit(TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText());
+			//			gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+			//			gridData.widthHint = 140;
+			//			photonShutterDelayText.setLayoutData(gridData);
+			//
+			//			Label photonShutterUsrPortLabel = new Label(photonShutterParent, SWT.None);
+			//			photonShutterUsrPortLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			//			photonShutterUsrPortLabel.setText("Output port: ");
+			//			photonShutterUsrPortText = new Label(photonShutterParent, SWT.None);
+			//			photonShutterUsrPortText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 
 			Group xhParent = new Group(container, SWT.None);
 			xhParent.setText("IT Collection");
@@ -249,7 +248,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			Label xhDelayLabel = new Label(xhParent, SWT.None);
 			xhDelayLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 			xhDelayLabel.setText("Delay after Topup: ");
-			xhDelayText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetector(), TriggerableObject.TRIGGER_DELAY_PROP_NAME, false);
+			xhDelayText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetectorDataCollection(), TriggerableObject.TRIGGER_DELAY_PROP_NAME, false);
 			xhDelayText.setUnit(TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText());
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			gridData.widthHint = 140;
@@ -258,7 +257,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			Label xhPulseWidthLabel = new Label(xhParent, SWT.None);
 			xhPulseWidthLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 			xhPulseWidthLabel.setText("Pulse width: ");
-			xhPulseWidthText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetector(), TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME, false);
+			xhPulseWidthText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetectorDataCollection(), TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME, false);
 			xhPulseWidthText.setUnit(TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText());
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			gridData.widthHint = 140;
@@ -307,25 +306,32 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 		sampleEnvironmentTableViewer.setContentProvider(sampleEnvContent);
 		sampleEnvironmentTableViewer.setInput(externalTriggerSetting.getSampleEnvironment());
 
-		dataBindingCtx.bindValue(
-				WidgetProperties.text().observe(photonShutterUsrPortText),
-				BeanProperties.value(TriggerableObject.TRIGGER_OUTPUT_PORT_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getPhotonShutter()),
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return TriggerableObject.TriggerOutputPort.valueOf(((String) value));
-					}
-				},
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return ((TriggerableObject.TriggerOutputPort) value).getPortName();
-					}
-				});
+		//		dataBindingCtx.bindValue(
+		//				WidgetProperties.text().observe(photonShutterUsrPortText),
+		//				BeanProperties.value(TriggerableObject.TRIGGER_OUTPUT_PORT_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getPhotonShutter()),
+		//				new UpdateValueStrategy() {
+		//					@Override
+		//					public Object convert(Object value) {
+		//						return TriggerableObject.TriggerOutputPort.valueOf(((String) value));
+		//					}
+		//				},
+		//				new UpdateValueStrategy() {
+		//					@Override
+		//					public Object convert(Object value) {
+		//						return ((TriggerableObject.TriggerOutputPort) value).getPortName();
+		//					}
+		//				});
+		//		dataBindingCtx.bindValue(
+		//				WidgetProperties.selection().observe(photonShutterInUseButton),
+		//				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(photonShutterDelayText), new UpdateValueStrategy(),
+		//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+		//		dataBindingCtx.bindValue(
+		//				WidgetProperties.selection().observe(photonShutterInUseButton),
+		//				BeanProperties.value(PhotonShutter.IN_USE_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getPhotonShutter()));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(xhUsrPortText),
-				BeanProperties.value(TriggerableObject.TRIGGER_OUTPUT_PORT_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getDetector()),
+				BeanProperties.value(TriggerableObject.TRIGGER_OUTPUT_PORT_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getDetectorDataCollection()),
 				new UpdateValueStrategy() {
 					@Override
 					public Object convert(Object value) {
@@ -338,13 +344,8 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 						return ((TriggerOutputPort) value).getPortName();
 					}
 				});
-		dataBindingCtx.bindValue(
-				WidgetProperties.selection().observe(photonShutterInUseButton),
-				BeanProperties.value(PhotonShutter.IN_USE_PROP_NAME).observe(externalTriggerSetting.getTfgTrigger().getPhotonShutter()));
-		dataBindingCtx.bindValue(
-				WidgetProperties.selection().observe(photonShutterInUseButton),
-				BeanProperties.value(NumberEditorControl.EDITABLE_PROP_NAME).observe(photonShutterDelayText), new UpdateValueStrategy(),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER));
+
+
 	}
 
 }

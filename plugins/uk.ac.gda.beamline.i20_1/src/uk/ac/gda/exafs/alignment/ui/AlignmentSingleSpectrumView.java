@@ -111,21 +111,21 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 
 	private void createSampleDetailsSection(Composite formParent) {
 		final Section sampleDetailsSection = toolkit.createSection(formParent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		sampleDetailsSection.setText("Sample details");
+		sampleDetailsSection.setText("File");
 		sampleDetailsSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		Composite sectionComposite = toolkit.createComposite(sampleDetailsSection, SWT.NONE);
 		sectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		toolkit.paintBordersFor(sectionComposite);
 		sampleDetailsSection.setClient(sectionComposite);
 
-		Label fileNameLabel = toolkit.createLabel(sectionComposite, "File name");
+		Label fileNameLabel = toolkit.createLabel(sectionComposite, "File name: ");
 		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		Text fileNameText = toolkit.createText(sectionComposite, "", SWT.BORDER);
+		Text fileNameText = toolkit.createText(sectionComposite, "", SWT.None);
 		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		fileNameText.setEditable(false);
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.text(SWT.Modify).observe(fileNameText),
+				WidgetProperties.text().observe(fileNameText),
 				BeanProperties.value(SingleSpectrumCollectionModel.FILE_NAME_PROP_NAME).observe(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel()),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 				new UpdateValueStrategy() {

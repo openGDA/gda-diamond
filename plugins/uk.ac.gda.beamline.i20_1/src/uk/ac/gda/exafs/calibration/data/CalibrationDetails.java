@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
+import java.io.Serializable;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 
 import uk.ac.gda.beans.ObservableModel;
@@ -25,7 +27,7 @@ import uk.ac.gda.beans.ObservableModel;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
-public class CalibrationDetails extends ObservableModel {
+public class CalibrationDetails extends ObservableModel implements Serializable {
 
 	private static final Gson gson = new Gson();
 

@@ -1327,7 +1327,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		this.notifyIObservers(this, CALIBRATION_PROP_KEY);
 	}
 
-	private double[] getEnergyForChannels() {
+	public double[] getEnergyForChannels() {
 		double[] energy = new double[STRIPS.length];
 		for (int i = 0; i < STRIPS.length; i++) {
 			double result = getEnergyForChannel(STRIPS[i]);
