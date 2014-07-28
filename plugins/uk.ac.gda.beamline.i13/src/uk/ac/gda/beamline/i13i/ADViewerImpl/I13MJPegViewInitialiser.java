@@ -28,6 +28,8 @@ import java.util.Vector;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
+import org.eclipse.dawnsci.plotting.api.jreality.tool.IImagePositionEvent;
+import org.eclipse.dawnsci.plotting.api.jreality.tool.ImagePositionListener;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -48,8 +50,6 @@ import org.eclipse.ui.PlatformUI;
 
 import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.epics.adviewer.composites.MJPeg;
-import uk.ac.gda.epics.adviewer.composites.imageviewer.IImagePositionEvent;
-import uk.ac.gda.epics.adviewer.composites.imageviewer.ImagePositionListener;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.NewImageListener;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
 
