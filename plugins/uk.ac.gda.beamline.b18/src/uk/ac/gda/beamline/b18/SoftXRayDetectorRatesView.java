@@ -25,7 +25,7 @@ import gda.factory.Finder;
 
 import java.util.Vector;
 
-import org.dawnsci.plotting.jreality.impl.PlotException;
+import org.eclipse.dawnsci.plotting.api.jreality.impl.PlotException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
