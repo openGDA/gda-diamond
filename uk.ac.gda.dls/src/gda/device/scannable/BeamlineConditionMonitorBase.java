@@ -95,7 +95,7 @@ public abstract class BeamlineConditionMonitorBase extends ScannableBase {
 	protected boolean machineIsRunning() throws DeviceException {
 
 		if (machineModeMonitor == null) {
-			return true;
+			return false;
 		}
 
 		try {
