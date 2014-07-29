@@ -171,13 +171,15 @@
 	<!-- using multiple exposures per image in HDF, not process plugin, using EPICS write HDF files -->
 	<bean id="pixium.hdffileWriter"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pixium.hdf"/>
-		<property name="fileNameTemplate" value="$scan$-pixium"/>
+		<property name="fileNameTemplate" value="pixium"/>
 		<property name="filePathTemplate" value="$datadir$"/>
 		<property name="fileTemplate" value="%s%s_%05d.hdf"/>
 		<property name="fileNumberAtScanStart" value="1"/>
 		<property name="setFileNameAndNumber" value="true"/>
 		<property name="blocking" value="False"/>
 		<property name="rowChunks" value="2881"/>
+		<property name="xPixelSize" value="148.0"/>
+		<property name="yPixelSize" value="148.0"/>
 	</bean>
 	<bean id= "pixium.simpleAcquire" class="gda.device.detector.addetector.triggering.PixiumSimpleAcquire">
 		<constructor-arg ref="pixium.cam" />
@@ -199,7 +201,7 @@
 		</property>
 	</bean>
 	
-	<!-- using multiple exposures per image in TIFF, not process plugin, using EPICS write tiff files -->
+<!-- 	using multiple exposures per image in TIFF, not process plugin, using EPICS write tiff files -->
 	<bean id="pixium.multipleExposure"	class="gda.device.detector.addetector.triggering.PixiumMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pixium.cam" />
 		<constructor-arg value="10.0" />
