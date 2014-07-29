@@ -140,6 +140,7 @@ class DocumentationScannable(gda.device.scannable.DummyScannable):
 class ConstantScannable(gda.device.scannable.ScannableBase):
     def __init__(self, name, value, unit=None):
         self.setName(name)
+        self.setInputNames([name])
         self.value = value
         self.unit=unit
     
@@ -155,6 +156,7 @@ class ConstantScannable(gda.device.scannable.ScannableBase):
 class CalibrantScannable(gda.device.scannable.ScannableBase):
     def __init__(self, name, value, unit=None):
         self.setName(name)
+        self.setInputNames([name])
         self.value = value
         self.unit=unit
     
