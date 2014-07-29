@@ -169,20 +169,6 @@
 						<property name="units" value="none" />
 					</bean>
 				</entry>
-				<entry key="x_pixel_size">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="pixium:NXDetector/x_pixel_size" />
-						<property name="units" value="um" />
-					</bean>
-				</entry>
-				<entry key="y_pixel_size">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="pixium:NXDetector/y_pixel_size" />
-						<property name="units" value="um" />
-					</bean>
-				</entry>
 				<entry key="calibrant_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -208,8 +194,6 @@
 			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
 		<property name="arguments">
 			<set>
-				<value>x_pixel_size</value>
-				<value>y_pixel_size</value>
 				<value>calibrant_name</value>
 				<value>wavelength</value>
 				<value>pixium_TriggerMode</value>
