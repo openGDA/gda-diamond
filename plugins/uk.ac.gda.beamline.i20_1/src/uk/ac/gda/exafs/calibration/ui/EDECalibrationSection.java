@@ -143,7 +143,6 @@ public class EDECalibrationSection extends ResourceComposite {
 				} catch (Exception e) {
 					logger.error("Unable to perform energy calibration", e);
 				}
-
 			}
 
 			@Override
