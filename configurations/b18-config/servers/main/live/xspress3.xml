@@ -14,6 +14,7 @@
 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
 		<property name="controller" ref="x3c" />
 		<property name="numberOfChannelsToRead" value="4" />
+		<property name="writeHDF5Files" value="true" />
 	</bean>
 
 	<bean id="qexafs_xspress3"
