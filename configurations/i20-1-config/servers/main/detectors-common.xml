@@ -35,5 +35,8 @@
 		<property name="service" ref="xstrip" />
 		<property name="serviceInterface" value="gda.device.detector.XCHIPDetector" />
 	</bean>
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/external_tfg.xml" />
+	
 
 </beans>

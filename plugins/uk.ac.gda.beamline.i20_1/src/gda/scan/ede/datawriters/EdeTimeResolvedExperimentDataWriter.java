@@ -26,6 +26,7 @@ import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.EdeScan;
+import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 
@@ -55,14 +56,14 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	public static final String IT_RAW_FINALI0_SUFFIX = "_It_raw_finali0";
 	public static final String IT_RAW_SUFFIX = "_It_raw";
 
-	protected final EdeScan i0DarkScan;
-	protected final EdeScan i0InitialLightScan;
-	protected final EdeScan iRefDarkScan;
-	protected final EdeScan iRefScan;
-	protected final EdeScan itDarkScan;
-	protected final EdeScan[] itScans; // one of these for each cycle (repetition)
-	protected final EdeScan i0FinalLightScan;
-	protected final EdeScan iRefFinalScan;
+	protected final EnergyDispersiveExafsScan i0DarkScan;
+	protected final EnergyDispersiveExafsScan i0InitialLightScan;
+	protected final EnergyDispersiveExafsScan iRefDarkScan;
+	protected final EnergyDispersiveExafsScan iRefScan;
+	protected final EnergyDispersiveExafsScan itDarkScan;
+	protected final EnergyDispersiveExafsScan[] itScans; // one of these for each cycle (repetition)
+	protected final EnergyDispersiveExafsScan i0FinalLightScan;
+	protected final EnergyDispersiveExafsScan iRefFinalScan;
 
 	private String i0Filename;
 	private String iRefFilename;
@@ -72,8 +73,8 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	private final String nexusfileName;
 
-	public EdeTimeResolvedExperimentDataWriter(EdeScan i0DarkScan, EdeScan i0LightScan, EdeScan iRefScan,
-			EdeScan iRefDarkScan, EdeScan itDarkScan, EdeScan[] itScans, EdeScan i0FinalScan, EdeScan iRefFinalScan,
+	public EdeTimeResolvedExperimentDataWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
+			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
 			StripDetector theDetector, String nexusfileName) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0DarkScan = i0DarkScan;

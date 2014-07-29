@@ -20,12 +20,20 @@ package uk.ac.gda.exafs.experiment.ui;
 
 import org.eclipse.jface.wizard.Wizard;
 
-public class TimingGroupsSetupWizard extends Wizard {
-	private final TimingGroupsSetupPage timingGroupsSetupPage = new TimingGroupsSetupPage();
+import uk.ac.gda.exafs.experiment.ui.data.ExternalTriggerSetting;
+
+public class ExternalTriggerDetailsWizard extends Wizard {
+	private ExternalTriggerDetailsWizardPage externalTriggerDetailsWizardPage;
+	private final ExternalTriggerSetting externalTriggerSetting;
+
+	public ExternalTriggerDetailsWizard(ExternalTriggerSetting externalTriggerSetting) {
+		this.externalTriggerSetting = externalTriggerSetting;
+	}
 
 	@Override
 	public void addPages() {
-		addPage(timingGroupsSetupPage);
+		externalTriggerDetailsWizardPage = new ExternalTriggerDetailsWizardPage(externalTriggerSetting);
+		addPage(externalTriggerDetailsWizardPage);
 	}
 
 	@Override

@@ -116,19 +116,17 @@ public class EdeManualCalibrationPlotView  extends ViewPart implements Calibrati
 		return endZoom;
 	}
 
-	private void showReferencePoints() throws Exception {
-
+	private void showReferencePoints() {
 		updateVisiability();
 	}
 
 	private void updateVisiability() {
-
 		plottingSystemRef.repaint();
 	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
+		//
 	}
 
 	@Override

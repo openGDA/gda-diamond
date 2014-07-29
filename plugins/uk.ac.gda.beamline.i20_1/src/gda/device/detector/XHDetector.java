@@ -20,6 +20,7 @@ package gda.device.detector;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.NumTracker;
+import gda.data.PathConstructor;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.Detector;
@@ -237,23 +238,29 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		// derive the filename
 		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 		Date date = new Date();
-		tempLogFilename = LocalProperties.getVarDir() + getName() + "_temperatures_" + dateFormat.format(date) + ".log";
+		tempLogFilename = PathConstructor.createFromDefaultProperty() + "spool/" + getName() + "_temperatures_"
+				+ dateFormat.format(date) + ".log";
 
 		// tell the detector to start temp logging to the filename
-		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt " + tempLogFilename);
+		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" autoinc -1 logt '" + tempLogFilename +"'");
 		if (result == -1) {
 			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
 		}
+
+		logger.info(getName() + " temperatures now being logged to " + tempLogFilename);
+
 	}
 
 	@Override
 	public void stopTemperatureLogging() throws DeviceException {
-		// TODO get the command from JH
 		// tell the detector to start temp logging to the filename
-		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" logt -1");
+		int result = (int) daServer.sendCommand("xstrip tc set \"xh0\" autoinc 0");
 		if (result == -1) {
 			throw new DeviceException("Failed to start logging " + getName() + " tempratures to " + tempLogFilename);
 		}
+
+		logger.info(getName() + " temperature logging stopped.");
+
 	}
 
 
@@ -553,7 +560,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		} else if (((Integer) obj).intValue() == -1) {
 			logger.error(getName() + ": " + command + " failed");
 			close();
-			throw new DeviceException("Xspress2System " + getName() + " " + command + " failed");
+			throw new DeviceException("Detector " + getName() + " " + command + " failed");
 		}
 	}
 
@@ -1320,7 +1327,7 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 		this.notifyIObservers(this, CALIBRATION_PROP_KEY);
 	}
 
-	private double[] getEnergyForChannels() {
+	public double[] getEnergyForChannels() {
 		double[] energy = new double[STRIPS.length];
 		for (int i = 0; i < STRIPS.length; i++) {
 			double result = getEnergyForChannel(STRIPS[i]);

@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
+import java.io.Serializable;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 
 import uk.ac.gda.beans.ObservableModel;
@@ -25,7 +27,7 @@ import uk.ac.gda.beans.ObservableModel;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
-public class CalibrationDetails extends ObservableModel {
+public class CalibrationDetails extends ObservableModel implements Serializable {
 
 	private static final Gson gson = new Gson();
 
@@ -37,6 +39,26 @@ public class CalibrationDetails extends ObservableModel {
 	public static final String CALIBRATION_RESULT_PROP_NAME = "calibrationResult";
 	@Expose
 	private PolynomialFunction calibrationResult;
+
+	public static final String REFERENCE_RANGE_START_PROP_NAME = "refRanceStart";
+	@Expose
+	private double refRangeStart;
+
+	public static final String REFERENCE_RANGE_END_PROP_NAME = "refRanceEnd";
+	@Expose
+	private double refRangeEnd;
+
+	public static final String SAMPLE_RANGE_START_PROP_NAME = "sampleRangeStart";
+	@Expose
+	private double sampleRangeStart;
+
+	public static final String SAMPLE_RANGE_END_PROP_NAME = "sampleRangeEnd";
+	@Expose
+	private double sampleRangeEnd;
+
+	private static final String GOODNESS_OF_FIT_PROP_NAME = "goodnessOfFit";
+	@Expose
+	private double goodnessOfFit;
 
 	public String getReferenceDataFileName() {
 		return referenceDataFileName;
@@ -55,6 +77,39 @@ public class CalibrationDetails extends ObservableModel {
 	}
 	public void setCalibrationResult(PolynomialFunction calibrationResult) {
 		this.firePropertyChange(CALIBRATION_RESULT_PROP_NAME, this.calibrationResult, this.calibrationResult = calibrationResult);
+	}
+
+	public double getRefRangeStart() {
+		return refRangeStart;
+	}
+	public void setRefRangeStart(double refRanceStart) {
+		this.firePropertyChange(REFERENCE_RANGE_START_PROP_NAME, refRangeStart, refRangeStart = refRanceStart);
+	}
+	public double getRefRangeEnd() {
+		return refRangeEnd;
+	}
+	public void setRefRangeEnd(double refRanceEnd) {
+		this.firePropertyChange(REFERENCE_RANGE_END_PROP_NAME, refRangeEnd, refRangeEnd = refRanceEnd);
+	}
+	public double getSampleRangeStart() {
+		return sampleRangeStart;
+	}
+	public void setSampleRangeStart(double sampleRanceStart) {
+		this.firePropertyChange(SAMPLE_RANGE_START_PROP_NAME, sampleRangeStart, sampleRangeStart = sampleRanceStart);
+	}
+	public double getSampleRangeEnd() {
+		return sampleRangeEnd;
+	}
+	public void setSampleRanceEnd(double sampleRanceEnd) {
+		this.firePropertyChange(SAMPLE_RANGE_END_PROP_NAME, sampleRangeEnd, sampleRangeEnd = sampleRanceEnd);
+	}
+
+	public void setGoodnessOfFit(double goodnessOfFit) {
+		this.firePropertyChange(GOODNESS_OF_FIT_PROP_NAME, this.goodnessOfFit, this.goodnessOfFit = goodnessOfFit);
+	}
+
+	public double getGoodnessOfFit() {
+		return goodnessOfFit;
 	}
 
 	@Override

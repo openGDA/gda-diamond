@@ -29,6 +29,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -40,6 +41,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +90,7 @@ public class TimeResolvedToolPageHelper {
 		excludedCyclesSelectionDialog.setInitialElementSelections(excludedList);
 
 		if (excludedCyclesSelectionDialog.open() == Window.OK) {
-			String dir = showSaveDirectory(nexusFile, display);
+			String dir = showSaveDirectory(nexusFile, display.getActiveShell());
 			if (dir == null) {
 				return;
 			}
@@ -113,11 +115,12 @@ public class TimeResolvedToolPageHelper {
 	}
 
 	public void applyEnergyCalibrationToNexusFiles(File nexusFile, Display display, String energyCalibration, double[] value) throws Exception {
-		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(display.getActiveShell(), nexusFile.getParent());
+		Shell shell = display.getActiveShell();
+		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(shell, nexusFile.getParent());
 		if (selectedFiles == null || selectedFiles.length < 1) {
 			return;
 		}
-		String dirToStoreCalibratedFiles = showSaveDirectory(nexusFile, display);
+		String dirToStoreCalibratedFiles = showSaveDirectory(nexusFile, shell);
 		if (dirToStoreCalibratedFiles == null) {
 			return;
 		}
@@ -126,24 +129,33 @@ public class TimeResolvedToolPageHelper {
 			String path = DataFileHelper.copyToTempFolder(file, "calibrated");
 			timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(path);
 			timeResolvedNexusFileHelper.replaceEnergy(energyCalibration, value);
-			Files.copy(Paths.get(path), Paths.get(dirToStoreCalibratedFiles), StandardCopyOption.REPLACE_EXISTING);
+			FileUtils.copyFileToDirectory(new File(path), new File(dirToStoreCalibratedFiles));
 		}
 	}
 
 	public void averageSpectrumAndExport(File nexusFile, Display display, SpectraRegionDataNode[] spectraRegionDataNode) {
-		String dirToStoreReducedFiles = showSaveDirectory(nexusFile, display);
+		String dirToStoreReducedFiles = showSaveDirectory(nexusFile, display.getActiveShell());
 		if (dirToStoreReducedFiles == null) {
 			return;
 		}
-		RangeData[] rangeData = new RangeData[spectraRegionDataNode.length];
-		for (int i = 0; i < spectraRegionDataNode.length; i++) {
-			rangeData[i] = new RangeData(spectraRegionDataNode[i].getStart().getIndex(), spectraRegionDataNode[i].getEnd().getIndex());
+		List<RangeData> rangeDataList = new ArrayList<RangeData>();
+		for (SpectraRegionDataNode node : spectraRegionDataNode) {
+			if (node instanceof AvgRegionToolDataModel) {
+				AvgRegionToolDataModel avgNode = (AvgRegionToolDataModel) node;
+				int avg = avgNode.getNoOfSpectraToAvg();
+				for (int i = avgNode.getStart().getIndex(); i  < avgNode.getEnd().getIndex() + 1; i = i + avg) {
+					rangeDataList.add(new RangeData(i, i + avg -1));
+				}
+			} else {
+				rangeDataList.add(new RangeData(node.getStart().getIndex(), node.getEnd().getIndex()));
+			}
 		}
+
 		File tempFile;
 		try {
 			tempFile = copyAsTempFile(nexusFile);
 			TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(tempFile.getAbsolutePath());
-			timeResolvedNexusFileHelper.averageSpectrumAndReplace(rangeData);
+			timeResolvedNexusFileHelper.averageSpectrumAndReplace(rangeDataList.toArray(new RangeData[]{}));
 			String newFilePath = dirToStoreReducedFiles + File.separator + FilenameUtils.getName(tempFile.getAbsolutePath());
 			Files.copy(tempFile.toPath(), Paths.get(newFilePath), StandardCopyOption.REPLACE_EXISTING);
 		} catch (Exception e) {
@@ -156,8 +168,8 @@ public class TimeResolvedToolPageHelper {
 		return new File(path);
 	}
 
-	private String showSaveDirectory(File nexusFile, Display display) {
-		DirectoryDialog dlg = new DirectoryDialog(display.getActiveShell());
+	private String showSaveDirectory(File nexusFile, Shell shell) {
+		DirectoryDialog dlg = new DirectoryDialog(shell);
 		dlg.setFilterPath(nexusFile.getParent());
 		dlg.setText("Select a directory to store new data files");
 		return dlg.open();

@@ -31,7 +31,7 @@ import uk.ac.gda.common.rcp.PreferenceDataStore;
 public class ClientConfig {
 
 	public static final int KILO_UNIT = 1000;
-	public static final int DEFAULT_DECIMAL_PLACE = 6;
+	public static final int DEFAULT_DECIMAL_PLACE = 5;
 	public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.#########");
 	public static final String DEFAULT_DATA_PATH = "/dls/i20-1/data";
 	public static final String EDE_GUI_DATA = "ede_gui.properties";

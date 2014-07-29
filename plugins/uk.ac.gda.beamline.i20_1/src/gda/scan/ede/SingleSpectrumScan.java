@@ -57,7 +57,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 			String detectorName,
 			String topupMonitorName,
 			String beamShutterScannableName) throws DeviceException {
-		super(EdeScanParameters.createSingleFrameScan(iTaccumulationTime, iTnoOfAccumulcation),
+		super(EdeScanParameters.createSingleFrameScan(iTaccumulationTime, iTnoOfAccumulcation), null,
 				i0ScanableMotorPositions,
 				iTScanableMotorPositions,
 				detectorName,
@@ -66,6 +66,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 		if (i0AccumulationTime != iTaccumulationTime | i0NoOfAccumulcation != iTnoOfAccumulcation) {
 			runItDark = true;
 		}
+		runItWithTriggerOptions = false;
 		setCommonI0Parameters(i0AccumulationTime, i0NoOfAccumulcation);
 	}
 
@@ -97,7 +98,8 @@ public class SingleSpectrumScan extends EdeExperiment {
 	}
 
 	@Override
-	protected double getPredictedExperimentTime() {
+	protected double getTimeRequiredBeforeTopup() {
+		// for this type, the time required before to-up is the total predicted duration of the entire experiment.
 		return new SingleExperimentTimeEstimator(itScanParameters, i0Position, itPosition).getTotalDuration();
 	}
 
@@ -113,7 +115,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 	}
 
 	@Override
-	protected void addScans() {
+	protected void addFinalScans() {
 		// Nothing to add
 	}
 }

@@ -210,7 +210,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		section.setClient(snapshotSectionComposite);
 
 		// Integration time
-		Label lbl  = toolkit.createLabel(snapshotSectionComposite, "Integration time", SWT.NONE);
+		Label lbl  = toolkit.createLabel(snapshotSectionComposite, "Accumulation time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		Double storedSnapShotTime = Activator.getDefault().getPreferenceStore()
@@ -297,7 +297,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		bendSelectionComposite.setLayout(new GridLayout(2, false));
 		section.setClient(bendSelectionComposite);
 
-		Label lbl = toolkit.createLabel(bendSelectionComposite, "Integration time", SWT.NONE);
+		Label lbl = toolkit.createLabel(bendSelectionComposite, "Accumulation time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		Double storedLiveTime = Activator.getDefault().getPreferenceStore()

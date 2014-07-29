@@ -27,6 +27,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.plotting.ScanDataPlotterComposite;
@@ -37,6 +39,8 @@ import uk.ac.gda.exafs.plotting.model.ExperimentDataNode;
 public class ExperimentDataPlotView extends ViewPart {
 	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";
 	ScanDataPlotterComposite scanDataPlotter;
+
+	private static final Logger logger = LoggerFactory.getLogger(ExperimentDataPlotView.class);
 
 	protected DataBindingContext ctx;
 
@@ -77,7 +81,8 @@ public class ExperimentDataPlotView extends ViewPart {
 								text.append(" (calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getSampleDataFileName() + ")");
 							}
 						} catch (Exception e) {
-							//
+							logger.error("Unable to get calibration data", e);
+							UIHelper.showError("Unable to get calibration data", e.getMessage());
 						}
 						return text.toString();
 					}

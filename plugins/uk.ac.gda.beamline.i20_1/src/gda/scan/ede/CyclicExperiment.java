@@ -41,28 +41,28 @@ public class CyclicExperiment extends TimeResolvedExperiment {
 
 	public CyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions, String itTriggerOptions)
 					throws DeviceException {
 		super(i0accumulationTime, itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName,
-				topupMonitorName, beamShutterScannableName);
+				topupMonitorName, beamShutterScannableName, itTriggerOptions);
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
 
 	public CyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetition)
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetition, String itTriggerOptions)
 					throws DeviceException {
 		this(i0accumulationTime, i0NoOfAccumulcation, EdeScanParameters.createEdeScanParameters(itTimingGroups),
 				i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
-				beamShutterScannableName, numberOfRepetition);
+				beamShutterScannableName, numberOfRepetition, itTriggerOptions);
 	}
 
 	public CyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions, String itTriggerOptions)
 					throws DeviceException {
 		super(i0accumulationTime, i0NoOfAccumulcation, iTScanParameters, i0ScanableMotorPositions,
-				iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
+				iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName, itTriggerOptions);
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
 }

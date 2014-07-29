@@ -30,7 +30,6 @@ import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawnsci.plotting.api.IPlottingSystem;
 import org.dawnsci.plotting.api.PlotType;
 import org.dawnsci.plotting.api.PlottingFactory;
-import org.dawnsci.plotting.api.axis.IAxis;
 import org.dawnsci.plotting.api.region.IROIListener;
 import org.dawnsci.plotting.api.region.IRegion;
 import org.dawnsci.plotting.api.region.IRegion.RegionType;
@@ -70,10 +69,13 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
+import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
+import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.calibration.data.CalibrationEnergyData;
@@ -90,7 +92,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private IRegion[] referenceDataPlottingRegions;
+	private IRegion referenceRegion;
+
 	private IRegion[] edeDataPlottingRegions;
+	private IRegion edeRegion;
 
 	private Button runCalibrationButton;
 	private Button manualCalibrationCheckButton;
@@ -104,6 +109,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 	private final CalibrationEnergyData refCalibrationDataModel;
 
 	private Text polynomialValueText;
+	private Text goodnessOfFitValueText;
 
 	protected EnergyCalibrationWizardPage(EnergyCalibration calibrationDataModel) {
 		super("Energy calibration");
@@ -120,14 +126,20 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		container.setLayout(new GridLayout(2, true));
 		try {
 			refPlottingSystem = PlottingFactory.createPlottingSystem();
-			createDataPlotting(container, "Reference data", refCalibrationDataModel, refPlottingSystem);
-			referenceDataPlottingRegions = createRegions(refPlottingSystem, refCalibrationDataModel);
-			registerRegionShowHide(refCalibrationDataModel, referenceDataPlottingRegions, refPlottingSystem);
+			Composite groupParent = createDataPlotting(container, "Reference data", refCalibrationDataModel, refPlottingSystem);
+			referenceDataPlottingRegions = createManualCalibrationMarkersAsRegions(refPlottingSystem, refCalibrationDataModel);
+			referenceRegion = createSelectedDataRegion("data_region", refPlottingSystem);
+			setupRegions(refCalibrationDataModel, referenceDataPlottingRegions, referenceRegion, refPlottingSystem);
+
+			registerRegionChanges(groupParent, referenceRegion);
 
 			edePlottingSystem = PlottingFactory.createPlottingSystem();
-			createDataPlotting(container, "EDE scan data", edeCalibrationDataModel, edePlottingSystem);
-			edeDataPlottingRegions = createRegions(edePlottingSystem, edeCalibrationDataModel);
-			registerRegionShowHide(edeCalibrationDataModel, edeDataPlottingRegions, edePlottingSystem);
+			groupParent = createDataPlotting(container, "EDE scan data", edeCalibrationDataModel, edePlottingSystem);
+			edeDataPlottingRegions = createManualCalibrationMarkersAsRegions(edePlottingSystem, edeCalibrationDataModel);
+			edeRegion = createSelectedDataRegion("data_region", edePlottingSystem);
+			setupRegions(edeCalibrationDataModel, edeDataPlottingRegions, edeRegion, edePlottingSystem);
+
+			registerRegionChanges(groupParent, edeRegion);
 
 		} catch (Exception e) {
 			logger.error("Unable to create controls", e);
@@ -137,6 +149,42 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		setPageComplete(true);
 	}
 
+	private void registerRegionChanges(Composite groupParent, IRegion referenceRegion) {
+		Composite parent = new Composite(groupParent, SWT.None);
+		parent.setLayoutData(new GridData(SWT.FILL, SWT.END, true, false));
+		parent.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+		final Label startValueLabel = new Label(parent, SWT.None);
+		startValueLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		final Label endValueLabel = new Label(parent, SWT.None);
+		endValueLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		referenceRegion.addROIListener(new IROIListener() {
+			@Override
+			public void roiDragged(ROIEvent evt) {
+				updateValues(evt);
+			}
+			@Override
+			public void roiChanged(ROIEvent evt) {
+				updateValues(evt);
+			}
+			private void updateValues(ROIEvent evt) {
+				double start = ((RectangularROI) evt.getROI()).getPoint()[0];
+				double end = start + ((RectangularROI) evt.getROI()).getLength(0);
+				startValueLabel.setText(DataHelper.roundDoubletoString(start, 3));
+				endValueLabel.setText(DataHelper.roundDoubletoString(end, 3));
+			}
+			@Override
+			public void roiSelected(ROIEvent evt) {}
+		});
+	}
+
+	private IRegion createSelectedDataRegion(String name, IPlottingSystem plottingSystem) throws Exception {
+		IRegion ref = plottingSystem.createRegion(name, IRegion.RegionType.XAXIS);
+		ref.setRegionColor(ColorConstants.lightGray);
+		ref.setPlotType(plottingSystem.getPlotType());
+		ref.setShowPosition(true);
+		plottingSystem.addRegion(ref);
+		return ref;
+	}
 
 	@Override
 	public void dispose() {
@@ -152,23 +200,34 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		super.dispose();
 	}
 
-	private void registerRegionShowHide(final CalibrationEnergyData calibrationDataModel,
-			final IRegion[] dataPlottingRegions, final IPlottingSystem plottingSystem) {
+	private void setupRegions(final CalibrationEnergyData calibrationDataModel,
+			final IRegion[] dataPlottingRegions, final IRegion selectionRegion, final IPlottingSystem plottingSystem) {
 		calibrationDataModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(CalibrationEnergyData.FILE_NAME_PROP_NAME)) {
-					for (int i = 0; i < dataPlottingRegions.length; i++) {
-						double index = calibrationDataModel.getReferencePoints()[i];
-						dataPlottingRegions[i].setROI(new LinearROI(new double[] { index, 0 }, new double[] { index, 1 }));
-					}
+					updateRegions(calibrationDataModel, dataPlottingRegions, selectionRegion);
 				}
 				plottingSystem.repaint(false);
 			}
 		});
+		updateRegions(calibrationDataModel, dataPlottingRegions, selectionRegion);
+		plottingSystem.repaint(false);
 	}
 
-	private IRegion[] createRegions(IPlottingSystem plottingSystem, CalibrationEnergyData calibrationDataModel) throws Exception {
+	private void updateRegions(final CalibrationEnergyData calibrationDataModel, final IRegion[] dataPlottingRegions,
+			final IRegion selectionRegion) {
+		if (calibrationDataModel.getFileName() != null) {
+			for (int i = 0; i < dataPlottingRegions.length; i++) {
+				double index = calibrationDataModel.getReferencePoints()[i];
+				dataPlottingRegions[i].setROI(new LinearROI(new double[] { index, 0 }, new double[] { index, 1 }));
+			}
+			selectionRegion.setROI(new RectangularROI(calibrationDataModel.getReferencePoints()[0], 10, calibrationDataModel.getReferencePoints()[2] - calibrationDataModel.getReferencePoints()[0], 1, 0));
+			selectionRegion.setVisible(true);
+		}
+	}
+
+	private IRegion[] createManualCalibrationMarkersAsRegions(IPlottingSystem plottingSystem, CalibrationEnergyData calibrationDataModel) throws Exception {
 		IRegion[] dataPlottingRegions = new IRegion[3];
 
 		dataPlottingRegions[0] = makeVertLine("0", plottingSystem, calibrationDataModel.getReferencePoints()[0], ColorConstants.red);
@@ -184,6 +243,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		dataPlottingRegions[2].setUserObject(calibrationDataModel);
 		return dataPlottingRegions;
 	}
+
 
 	private final IROIListener referencePointListener = new IROIListener() {
 		boolean dragged = false;
@@ -216,7 +276,6 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		public void roiSelected(ROIEvent evt) {}
 	};
 
-
 	private IRegion makeVertLine(String name, IRegionSystem plottingSystem, double pos, Color color) throws Exception {
 		IRegion ref = plottingSystem.createRegion(name, RegionType.XAXIS_LINE);
 		ref.setRegionColor(color);
@@ -229,7 +288,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		return ref;
 	}
 
-	private void createDataPlotting(Composite container, String title, CalibrationEnergyData calibrationDataModel, IPlottingSystem plottingSystem) {
+	private Composite createDataPlotting(Composite container, String title, CalibrationEnergyData calibrationDataModel, IPlottingSystem plottingSystem) {
 		Group group = new Group(container, SWT.None);
 		group.setText(title);
 		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -237,6 +296,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 		createFileBrowsingComposite(group, calibrationDataModel);
 		createPlottingComposite(group, calibrationDataModel, plottingSystem);
+		return group;
 	}
 
 	private void createPlottingComposite(Group group, final CalibrationEnergyData calibrationDataModel, final IPlottingSystem plottingSystem) {
@@ -254,6 +314,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		} catch (Exception e) {
 			logger.error("Unable to create plotting system", e);
 		}
+
 		calibrationDataModel.addPropertyChangeListener(CalibrationEnergyData.FILE_NAME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -373,13 +434,30 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 		polynomialValueText = new Text(calibrationDetailsComposite, SWT.BORDER);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 4;
+		gridData.horizontalSpan = 3;
 		polynomialValueText.setEditable(false);
 		polynomialValueText.setLayoutData(gridData);
 
+		goodnessOfFitValueText = new Text(calibrationDetailsComposite, SWT.BORDER);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		goodnessOfFitValueText.setEditable(false);
+		goodnessOfFitValueText.setLayoutData(gridData);
+
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(polynomialValueText),
-				BeanProperties.value(CalibrationDetails.CALIBRATION_RESULT_PROP_NAME).observe(calibrationDataModel.getCalibrationDetails()));
+				BeanProperties.value(CalibrationDetails.CALIBRATION_RESULT_PROP_NAME).observe(calibrationDataModel.getCalibrationDetails()),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					protected IStatus doSet(IObservableValue observableValue, Object value) {
+						if (!((String) value).isEmpty()) {
+							referenceRegion.setROI(new RectangularROI(calibrationDataModel.getCalibrationDetails().getRefRangeStart(), 10, calibrationDataModel.getCalibrationDetails().getRefRangeEnd(), 1, 0));
+							edeRegion.setROI(new RectangularROI(calibrationDataModel.getCalibrationDetails().getSampleRangeStart(), 10, calibrationDataModel.getCalibrationDetails().getSampleRangeEnd(), 1, 0));
+							goodnessOfFitValueText.setText(DataHelper.roundDoubletoString(calibrationDataModel.getCalibrationDetails().getGoodnessOfFit(), 3));
+						}
+						return super.doSet(observableValue, value);
+					}
+				});
 
 		clearCalibrationButton.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -418,15 +496,26 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(polynomialFittingOrderSpinner),
 				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(goodnessOfFitValueText),
+				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 	}
 
 	private final UpdateValueStrategy refUpdateValueStrategy = new UpdateValueStrategy() {
 		@Override
 		protected IStatus doSet(IObservableValue observableValue, Object value) {
 			IStatus result = super.doSet(observableValue, value);
+			boolean manualChecked = (boolean) value;
 			for (int i = 0; i < referenceDataPlottingRegions.length; i++) {
-				referenceDataPlottingRegions[i].setVisible((boolean) value);
+				referenceDataPlottingRegions[i].setVisible(manualChecked);
 			}
+			if (manualChecked) {
+				referenceRegion.toBack();
+			} else {
+				referenceRegion.toFront();
+			}
+			referenceRegion.setMobile(!manualChecked);
 			return result;
 		}
 	};
@@ -435,20 +524,29 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		@Override
 		protected IStatus doSet(IObservableValue observableValue, Object value) {
 			IStatus result = super.doSet(observableValue, value);
+			boolean manualChecked = (boolean) value;
 			for (int i = 0; i < edeDataPlottingRegions.length; i++) {
-				edeDataPlottingRegions[i].setVisible((boolean) value);
+				edeDataPlottingRegions[i].setVisible(manualChecked);
 			}
+			if (manualChecked) {
+				edeRegion.toBack();
+			} else {
+				edeRegion.toFront();
+			}
+			edeRegion.setMobile(!manualChecked);
 			return result;
 		}
 	};
 
 	private void runEdeCalibration() {
 		try {
+			refPlottingSystem.clear();
+			loadPlot(refCalibrationDataModel, refPlottingSystem);
 			final EdeCalibration edeCalibration = new EdeCalibration();
-			AbstractDataset[] refDatasets = selectDataRange(refPlottingSystem);
+			AbstractDataset[] refDatasets = selectDataRange(refPlottingSystem, referenceRegion);
 			final AbstractDataset refEnergySlice = refDatasets[0];
 			final AbstractDataset refSpectrumSlice = refDatasets[1];
-			AbstractDataset[] edeDatasets = selectDataRange(edePlottingSystem);
+			AbstractDataset[] edeDatasets = selectDataRange(edePlottingSystem, edeRegion);
 			final AbstractDataset edeIdxSlice = edeDatasets[0];
 			final AbstractDataset edeSpectrumSlice = edeDatasets[1];
 			edeCalibration.setMaxEdeChannel(edeCalibrationDataModel.getEdeDataset().getSize() - 1);
@@ -507,7 +605,18 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 							refPlottingSystem.clear();
 
 							ILineTrace refTrace = refPlottingSystem.createLineTrace("Ref");
-							refTrace.setData(refEnergySlice, refSpectrumSlice);
+
+							DoubleDataset refData = (DoubleDataset) edeCalibration.getReferenceSpectrum();
+
+							double firstEdeSpectrumPoint = edeSpectrumSlice.getDouble(0);
+							double firstReferenceSpectrumPoint = refData.getDouble(0);
+							if (firstEdeSpectrumPoint <= firstReferenceSpectrumPoint) {
+								refData = refData.isubtract(firstEdeSpectrumPoint - firstReferenceSpectrumPoint);
+							} else {
+								refData = refData.iadd(firstEdeSpectrumPoint - firstReferenceSpectrumPoint);
+							}
+
+							refTrace.setData(refEnergySlice, edeCalibration.getReferenceSpectrum());
 
 							refTrace.setTraceColor(ColorConstants.blue);
 							refPlottingSystem.addTrace(refTrace);
@@ -519,7 +628,12 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 							refPlottingSystem.repaint();
 
+							calibrationDataModel.getCalibrationDetails().setRefRangeStart(((RectangularROI) referenceRegion.getROI()).getPoint()[0]);
+							calibrationDataModel.getCalibrationDetails().setRefRangeEnd(((RectangularROI) referenceRegion.getROI()).getLength(0));
+							calibrationDataModel.getCalibrationDetails().setSampleRangeStart(((RectangularROI) edeRegion.getROI()).getPoint()[0]);
+							calibrationDataModel.getCalibrationDetails().setSampleRanceEnd(((RectangularROI) edeRegion.getROI()).getLength(0));
 							calibrationDataModel.getCalibrationDetails().setCalibrationResult(edeCalibration.getEdeCalibrationPolynomial());
+							calibrationDataModel.getCalibrationDetails().setGoodnessOfFit(edeCalibration.getGoodnessOfFit());
 
 							runCalibrationButton.setEnabled(true);
 						}
@@ -533,11 +647,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		}
 	}
 
-	private AbstractDataset[] selectDataRange(IPlottingSystem plottingSystemRef) {
+	private AbstractDataset[] selectDataRange(IPlottingSystem plottingSystemRef, IRegion selectedRegion) {
 		final AbstractDataset dataE, dataI;
-		IAxis selAxis = plottingSystemRef.getSelectedXAxis();
-		double lowerAxis = selAxis.getLower();
-		double upperAxis = selAxis.getUpper();
+		double lowerAxis = ((RectangularROI) selectedRegion.getROI()).getPoint()[0];
+		double upperAxis = lowerAxis + ((RectangularROI) selectedRegion.getROI()).getLength(0);
 		Collection<ITrace> traces = plottingSystemRef.getTraces();
 		ITrace tmpTrace = null;
 		if (traces != null && !(traces.isEmpty())) {
