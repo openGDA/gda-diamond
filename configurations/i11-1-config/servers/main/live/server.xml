@@ -84,7 +84,7 @@
 	<import resource="S7.xml"/>
 <!-- 	<import resource="LS1.xml"/> -->
 <!-- 	<import resource="LS2.xml"/> -->
-<!-- 	<import resource="MS1.xml"/> -->
+	<import resource="MS1.xml"/>
 <!-- 	<import resource="MS2.xml"/> -->
 <!-- 	<import resource="MS3.xml"/> -->
 <!-- 	<import resource="MS4.xml"/> -->

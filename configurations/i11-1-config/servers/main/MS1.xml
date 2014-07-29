@@ -13,7 +13,7 @@
 		<property name="motor" ref="ms1rot_motor"/>
 	</bean>
 	
-	<bean id="MS1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="ms1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="ms1x"/>

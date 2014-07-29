@@ -10,6 +10,6 @@
 		<property name="pvName" value="BL11J-MO-TABLE-01:MCL:01:Y"/>
 	</bean>
 	<bean id="ms1rot_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BL11J-MO-TABLE-01:MCL:01:ROT"/>
+		<property name="pvName" value="BL11J-MO-TABLE-01:MCL:01:ROT"/>
 	</bean>
 </beans>

@@ -28,7 +28,7 @@
 		<property name="motor" ref="s7ygap_motor"/>
 	</bean>
 	
-	<bean id="S7" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="s7" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="s7xplus"/>
