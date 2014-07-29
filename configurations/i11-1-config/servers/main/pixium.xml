@@ -107,8 +107,8 @@
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i11/data" />
-				<property name="windowsSubString" value="Y:\\data" />
+				<property name="unixSubString" value="/dls/i11-1/data" />
+				<property name="windowsSubString" value="X:\\data" />
 			</bean>
 		</property>
 <!-- 		<property name="copyPluginPrefix" value="BL12I-EA-DET-10:FILECOPY"/> -->
@@ -132,8 +132,8 @@
 		<property name="initialFileTemplate" value="%s_%d.h5" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i11/data" />
-				<property name="windowsSubString" value="Y:\\data" />
+				<property name="unixSubString" value="/dls/i11-1/data" />
+				<property name="windowsSubString" value="X:\\data" />
 			</bean>
 		</property>
 	</bean>

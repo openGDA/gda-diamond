@@ -10,98 +10,98 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 	
 	 
-<!-- import server objects required in GUI -->
-    <corba:import namespace="i11-1" names="Plot_Manager, Ic6, beam, es2shutter, spin2"/>
+<!-- import server objects required in GUI --> 
+<!--     <corba:import namespace="i11-1" names="Plot_Manager, Ic6, beam, es2shutter, spin2"/> -->
 	
-<!--  Experiment Shutter control panel -->
-    <bean id="es2ShutterPanel" class="gda.gui.util.ShutterPanel">
-    	<property name="shutter" ref="es2shutter"/>
-    </bean>
+<!--  Experiment Shutter control panel --> 
+<!--     <bean id="es2ShutterPanel" class="gda.gui.util.ShutterPanel"> -->
+<!--     	<property name="shutter" ref="es2shutter"/> -->
+<!--     </bean> -->
  
-<!-- photon beam state monitor using Ion Chamber -->
-    <bean id="Ic6Panel" class="gda.gui.util.CurrentAmplifierPanel">
-    	<property name="curramp" ref="Ic6"/>
-    	<property name="threshold" value="0.05"/>
-    </bean>
+<!-- photon beam state monitor using Ion Chamber --> 
+<!--     <bean id="Ic6Panel" class="gda.gui.util.CurrentAmplifierPanel"> -->
+<!--     	<property name="curramp" ref="Ic6"/> -->
+<!--     	<property name="threshold" value="0.05"/> -->
+<!--     </bean> -->
     
 <!-- display photon beam wave length -->
-    <bean id="wavelength" class="gda.gui.util.ValueDisplayPanel">
-    	<property name="beam" ref="beam"/>
-    	<property name="valueTitle" value="lambda"/>
-    </bean>
+<!--     <bean id="wavelength" class="gda.gui.util.ValueDisplayPanel"> -->
+<!--     	<property name="beam" ref="beam"/> -->
+<!--     	<property name="valueTitle" value="lambda"/> -->
+<!--     </bean> -->
 
 <!-- sample SPIN state indicator -->
-    <bean id="spinner2" class="gda.gui.util.StateDisplayPanel">
-    	<property name="scannable" ref="spin2"/>
-    	<property name="valueTitle" value="Spin"/>
-    	<property name="states">
-    		<map>
-    			<entry>
-    				<key><value>Disabled</value></key>
-    				<util:constant static-field="java.awt.Color.red"/>
-    			</entry>
-    			<entry>
-    				<key><value>Enabled</value></key>
-    				<util:constant static-field="java.awt.Color.blue"/>
-    			</entry>
-    		</map>
-    	</property>
-    </bean>
+<!--     <bean id="spinner2" class="gda.gui.util.StateDisplayPanel"> -->
+<!--     	<property name="scannable" ref="spin2"/> -->
+<!--     	<property name="valueTitle" value="Spin"/> -->
+<!--     	<property name="states"> -->
+<!--     		<map> -->
+<!--     			<entry> -->
+<!--     				<key><value>Disabled</value></key> -->
+<!--     				<util:constant static-field="java.awt.Color.red"/> -->
+<!--     			</entry> -->
+<!--     			<entry> -->
+<!--     				<key><value>Enabled</value></key> -->
+<!--     				<util:constant static-field="java.awt.Color.blue"/> -->
+<!--     			</entry> -->
+<!--     		</map> -->
+<!--     	</property> -->
+<!--     </bean> -->
 <!-- Jython terminal configuration with controls -->
-    <bean id="Terminal" class="gda.jython.gui.JythonTerminalAcqPanel">
-    	<property name="numberInitialGraphs" value="1" />
-    	<property name="extraGraphs" value="true" />
-		<property name="shutterPanels">
-			<list>
-				<ref bean="es2ShutterPanel"/>
-			</list>
-		</property>
-		<property name="amplifierPanels">
-			<list>
-				<ref bean="Ic6Panel"/>
-    		</list>
-    	</property>
-    	<property name="valueDisplayPanel">
-    		<list>
-    			<ref bean="wavelength"/>
-    		</list>
-    	</property>
-    	<property name="stateDisplayPanels">
-    		<list>
-    			<ref bean="spinner2"/>
-    		</list>
-    	</property>
-    </bean>
+<!--     <bean id="Terminal" class="gda.jython.gui.JythonTerminalAcqPanel"> -->
+<!--     	<property name="numberInitialGraphs" value="1" /> -->
+<!--     	<property name="extraGraphs" value="true" /> -->
+<!-- 		<property name="shutterPanels"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="es2ShutterPanel"/> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="amplifierPanels"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="Ic6Panel"/> -->
+<!--     		</list> -->
+<!--     	</property> -->
+<!--     	<property name="valueDisplayPanel"> -->
+<!--     		<list> -->
+<!--     			<ref bean="wavelength"/> -->
+<!--     		</list> -->
+<!--     	</property> -->
+<!--     	<property name="stateDisplayPanels"> -->
+<!--     		<list> -->
+<!--     			<ref bean="spinner2"/> -->
+<!--     		</list> -->
+<!--     	</property> -->
+<!--     </bean> -->
 <!--  add a log panel to GDA client GUI -->
 	<!--    <bean id="Message" class="gda.util.LogPanel" />-->
    
-	<bean id="JythonEditor" class="gda.jython.gui.JythonEditor" />
+<!-- 	<bean id="JythonEditor" class="gda.jython.gui.JythonEditor" /> -->
 
-	<bean id="BatonPanel" class="gda.gui.BatonPanel">
-		<property name="label" value="Baton Panel"/>
-		<property name="initMode" value="STATE_HIDDEN"/>
-		<property name="closeDownOnBatonRenewTimeout" value="True"/>
-		<property name="closeDownOnBatonRenewTimeoutTimeMinutes" value="2.0"/>
-		<property name="closeDownOnBatonRenewUserPromptTimeMinutes"	value="0.1"/>
-	</bean>
-<!-- I11 data visualisation panels -->   
-    <bean id="DataPlot" class="gda.gui.dv.DataVectorPlot">
-    	<property name="label" value="DataPlot"/> 
-    </bean>
+<!-- 	<bean id="BatonPanel" class="gda.gui.BatonPanel"> -->
+<!-- 		<property name="label" value="Baton Panel"/> -->
+<!-- 		<property name="initMode" value="STATE_HIDDEN"/> -->
+<!-- 		<property name="closeDownOnBatonRenewTimeout" value="True"/> -->
+<!-- 		<property name="closeDownOnBatonRenewTimeoutTimeMinutes" value="2.0"/> -->
+<!-- 		<property name="closeDownOnBatonRenewUserPromptTimeMinutes"	value="0.1"/> -->
+<!-- 	</bean> -->
+<!-- I11 data visualisation panels -->
+<!--     <bean id="DataPlot" class="gda.gui.dv.DataVectorPlot"> -->
+<!--     	<property name="label" value="DataPlot"/>  -->
+<!--     </bean> -->
 
 <!-- 2D plot with side panels -->
-   	<bean class="gda.gui.dv.DataVectorPlot">
-		<property name="label" value="2D-Plot"></property>
-		<property name="mainPlotPosition" value="West"></property>
-		<property name="panelList">
-			<list>
-				<value>gda.gui.dv.panels.vispanels.ColourSelector</value>
-				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value>
-				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value>
-				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value>
-			</list>
-		</property>
-	</bean>
+<!--    	<bean class="gda.gui.dv.DataVectorPlot"> -->
+<!-- 		<property name="label" value="2D-Plot"></property> -->
+<!-- 		<property name="mainPlotPosition" value="West"></property> -->
+<!-- 		<property name="panelList"> -->
+<!-- 			<list> -->
+<!-- 				<value>gda.gui.dv.panels.vispanels.ColourSelector</value> -->
+<!-- 				<value>gda.gui.dv.panels.vispanels.LineProfilePanel</value> -->
+<!-- 				<value>gda.gui.dv.panels.vispanels.BasicIntegratorPanel</value> -->
+<!-- 				<value>gda.gui.dv.panels.vispanels.SectorIntegratorPanel</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
 	<import resource="../clients-common.xml" />
 </beans>
