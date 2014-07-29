@@ -86,6 +86,28 @@
                contentTypeId="uk.ac.diamond.gda.client.exafs.getOutputContent">
          </contentTypeBinding>
       </editor>
+            <editor
+            class="uk.ac.gda.exafs.ui.detector.vortex.VortexParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="true"
+            icon="icons/ParametersEditorIcon.png"
+            id="uk.ac.gda.exafs.ui.VortexParametersEditor"
+            name="Vortex Parameters">
+         <contentTypeBinding
+               contentTypeId="uk.ac.diamond.gda.client.exafs.getVortexContent">
+         </contentTypeBinding>
+      </editor>
+      <editor
+            class="uk.ac.gda.exafs.ui.detector.xspress.XspressParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            default="true"
+            icon="icons/ParametersEditorIcon.png"
+            id="uk.ac.gda.exafs.ui.XspressParametersEditor"
+            name="Xspress Parameters">
+         <contentTypeBinding
+               contentTypeId="uk.ac.diamond.gda.client.exafs.getXspressContent">
+         </contentTypeBinding>
+      </editor>
       <editor
             class="uk.ac.gda.exafs.ui.QEXAFSParametersEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"

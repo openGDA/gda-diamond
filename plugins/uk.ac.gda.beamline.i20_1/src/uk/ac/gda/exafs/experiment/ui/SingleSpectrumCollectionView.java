@@ -75,7 +75,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		form = scrolledform.getForm();
 		form.getBody().setLayout(new GridLayout());
 		toolkit.decorateFormHeading(form);
-		form.setText("Single spectrum and Energy calibration");
+		form.setText("Single spectrum");
 		Composite formParent = form.getBody();
 		try {
 			createRunCollectionButtons(formParent);
@@ -83,7 +83,6 @@ public class SingleSpectrumCollectionView extends ViewPart {
 			setupScannables();
 			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-			//createSampleDetailsSection(formParent);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);

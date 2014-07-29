@@ -92,6 +92,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan iRefScan;
 	protected EdeScan iRefDarkScan;
 	protected boolean runIRef;
+	protected boolean runItWithTriggerOptions = true; // default for linear/cyclic experiments
 
 	protected Scannable beamLightShutter;
 	protected StripDetector theDetector;
@@ -100,7 +101,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan i0LightScan;
 	protected EdeScan itLightScan;
 	protected EdeScan i0FinalScan;
-	protected EdeScanWithTFGTrigger[] itScans;
+	protected EdeScan[] itScans;
 	protected final EdeScanParameters itScanParameters;
 	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
 
@@ -273,11 +274,20 @@ public abstract class EdeExperiment implements IObserver {
 			iRefScan.setProgressUpdater(this);
 		}
 
-		itScans = new EdeScanWithTFGTrigger[repetitions];
-		for(int repIndex = 0; repIndex < repetitions; repIndex++){
-			itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
-			itScans[repIndex].setProgressUpdater(this);
-			scansForExperiment.add(itScans[repIndex]);
+		if (runItWithTriggerOptions){
+			itScans = new EdeScanWithTFGTrigger[repetitions];
+			for(int repIndex = 0; repIndex < repetitions; repIndex++){
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
+				itScans[repIndex].setProgressUpdater(this);
+				scansForExperiment.add(itScans[repIndex]);
+			}
+		} else {
+			itScans = new EdeScan[repetitions];
+			for(int repIndex = 0; repIndex < repetitions; repIndex++){
+				itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter,createTopupCheckerForBeforeItScans());
+				itScans[repIndex].setProgressUpdater(this);
+				scansForExperiment.add(itScans[repIndex]);
+			}
 		}
 
 		addFinalScans();

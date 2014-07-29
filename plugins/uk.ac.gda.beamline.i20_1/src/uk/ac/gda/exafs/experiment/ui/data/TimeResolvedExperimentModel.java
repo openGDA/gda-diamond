@@ -59,6 +59,7 @@ import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
+import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
@@ -215,7 +216,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
 			}
 		});
-		externalTriggerSetting.getTfgTrigger().getDetector().addPropertyChangeListener(TriggerableObject.TRIGGER_DELAY_PROP_NAME, new PropertyChangeListener() {
+		externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().addPropertyChangeListener(TriggerableObject.TRIGGER_DELAY_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				TimeResolvedExperimentModel.this.firePropertyChange(EXP_IT_DURATION_PROP_NAME, null, getExpItDuration());
@@ -237,7 +238,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		});
 		if (savedGroups == null) {
 			timeIntervalData.setTimes(IT_COLLECTION_START_TIME, unit.convertToDefaultUnit(DEFAULT_INITIAL_EXPERIMENT_TIME));
-			addItGroup();
+			createNewItGroup();
 			return;
 		}
 
@@ -299,12 +300,14 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 	}
 
-	public TimingGroupUIModel addItGroup() {
+	public TimingGroupUIModel createNewItGroup() {
 		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + groupList.size());
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
 		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
+		newGroup.setExernalTriggerAvailable(true);
+		newGroup.setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers.ZERO);
 		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
@@ -633,7 +636,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public double getExpItDuration() {
-		return TFGTrigger.DEFAULT_DELAY_UNIT.convertTo(externalTriggerSetting.getTfgTrigger().getDetector().getTriggerDelay(), unit) + getItCollectionDuration();
+		return TFGTrigger.DEFAULT_DELAY_UNIT.convertTo(externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().getTriggerDelay(), unit) + getItCollectionDuration();
 	}
 
 	public double getDurationInSec() {

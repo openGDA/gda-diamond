@@ -48,6 +48,11 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 		return beamMonitor;
 	}
 
+	/**
+	 * Set to null to turn off this check
+	 * 
+	 * @param beamMonitor
+	 */
 	public void setBeamMonitor(I18BeamMonitor beamMonitor) {
 		this.beamMonitor = beamMonitor;
 	}
@@ -56,6 +61,11 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 		return topupMonitor;
 	}
 
+	/**
+	 * Set to null to turn off this check
+	 * 
+	 * @param topupMonitor
+	 */
 	public void setTopupMonitor(TopupChecker topupMonitor) {
 		this.topupMonitor = topupMonitor;
 	}

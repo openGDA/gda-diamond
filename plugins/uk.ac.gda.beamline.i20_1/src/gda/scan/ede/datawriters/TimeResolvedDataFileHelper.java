@@ -55,8 +55,6 @@ import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
-import com.google.gson.Gson;
-
 public class TimeResolvedDataFileHelper {
 
 	private static final String EXCLUDED_CYCLE_ATTRIBUTE_NAME = "excluded";
@@ -414,6 +412,7 @@ public class TimeResolvedDataFileHelper {
 
 		attributes.clear();
 		attributes.put(NexusUtils.AXIS, "1");
+		attributes.put(NexusUtils.PRIM, "1");
 		attributes.put(NexusUtils.UNIT, "s");
 		addDatasetToNexus(file, EdeDataConstants.TIME_COLUMN_NAME, parent, timeAxisData, attributes);
 
@@ -468,13 +467,14 @@ public class TimeResolvedDataFileHelper {
 				dataToAvgAndAdd = (DoubleDataset) DatasetUtils.append(dataToAvgAndAdd, sliceToAppend, 0);
 			}
 			dataToAdd = dataToAvgAndAdd;
+			if (avgSpectraList.length > 0) {
+				attributes.put(AVG_ATTRIBUTE_NAME, DataHelper.toString(avgSpectraList));
+			}
 		}
 		if (excludedCycles != null && excludedCycles.length > 0) {
 			attributes.put(EXCLUDED_CYCLE_ATTRIBUTE_NAME, DataHelper.toString(excludedCycles));
 		}
-		if (avgSpectraList != null && avgSpectraList.length > 0) {
-			attributes.put(AVG_ATTRIBUTE_NAME, DataHelper.toString(avgSpectraList));
-		}
+
 		addDatasetToNexus(file, EdeDataConstants.DATA_COLUMN_NAME, fullPath, dataToAdd, attributes);
 	}
 
@@ -518,6 +518,7 @@ public class TimeResolvedDataFileHelper {
 		return NEXUS_ROOT_ENTRY_NAME + getDetectorNodeName() + "/";
 	}
 
+	// FIXME
 	private String getDetectorNodeName() {
 		return "xstrip";
 	}
@@ -897,10 +898,10 @@ public class TimeResolvedDataFileHelper {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
 			DoubleDataset data = new DoubleDataset(value, new int[]{value.length});
-			Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME, Nexus.DATA);
+			Group targetPath = HierarchicalDataFileUtils.createParentEntry(file, getDetectorDataPath(), Nexus.DATA);
 			addDatasetToNexus(file, EdeDataConstants.ENERGY_COLUMN_NAME, targetPath, data, null);
 			Group parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
-			file.setAttribute(parent, ENERGY_POLYNOMIAL, energyCalibration);
+			file.setAttribute(parent, ENERGY_POLYNOMIAL, energyCalibration, true);
 		}
 		finally {
 			file.close();
@@ -916,9 +917,9 @@ public class TimeResolvedDataFileHelper {
 			int[] excludedCycles = getExcludedCycles(file);
 			ItMetadata metadata = new ItMetadata(timingGroupMetadata, avgSpectraList, excludedCycles);
 			String energyCalibrationDetails = file.getAttributeValue(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "@" + ENERGY_POLYNOMIAL);
-			if (energyCalibrationDetails != null) {
-				Gson gson = new Gson();
-				metadata.setCalibrationDetails(gson.fromJson(energyCalibrationDetails, CalibrationDetails.class));
+			if (energyCalibrationDetails != null && !energyCalibrationDetails.isEmpty()) {
+				energyCalibrationDetails = energyCalibrationDetails.replaceAll("^\\[|\\]$", ""); // This is a hack to remove "[" and "]" because it is loaded as array
+				metadata.setCalibrationDetails(CalibrationDetails.toObject(energyCalibrationDetails));
 			}
 			return metadata;
 		}

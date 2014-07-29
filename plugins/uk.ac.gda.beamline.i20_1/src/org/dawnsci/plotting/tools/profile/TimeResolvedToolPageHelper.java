@@ -29,6 +29,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -128,7 +129,7 @@ public class TimeResolvedToolPageHelper {
 			String path = DataFileHelper.copyToTempFolder(file, "calibrated");
 			timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(path);
 			timeResolvedNexusFileHelper.replaceEnergy(energyCalibration, value);
-			Files.copy(Paths.get(path), Paths.get(dirToStoreCalibratedFiles), StandardCopyOption.REPLACE_EXISTING);
+			FileUtils.copyFileToDirectory(new File(path), new File(dirToStoreCalibratedFiles));
 		}
 	}
 
@@ -137,15 +138,24 @@ public class TimeResolvedToolPageHelper {
 		if (dirToStoreReducedFiles == null) {
 			return;
 		}
-		RangeData[] rangeData = new RangeData[spectraRegionDataNode.length];
-		for (int i = 0; i < spectraRegionDataNode.length; i++) {
-			rangeData[i] = new RangeData(spectraRegionDataNode[i].getStart().getIndex(), spectraRegionDataNode[i].getEnd().getIndex());
+		List<RangeData> rangeDataList = new ArrayList<RangeData>();
+		for (SpectraRegionDataNode node : spectraRegionDataNode) {
+			if (node instanceof AvgRegionToolDataModel) {
+				AvgRegionToolDataModel avgNode = (AvgRegionToolDataModel) node;
+				int avg = avgNode.getNoOfSpectraToAvg();
+				for (int i = avgNode.getStart().getIndex(); i  < avgNode.getEnd().getIndex() + 1; i = i + avg) {
+					rangeDataList.add(new RangeData(i, i + avg -1));
+				}
+			} else {
+				rangeDataList.add(new RangeData(node.getStart().getIndex(), node.getEnd().getIndex()));
+			}
 		}
+
 		File tempFile;
 		try {
 			tempFile = copyAsTempFile(nexusFile);
 			TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(tempFile.getAbsolutePath());
-			timeResolvedNexusFileHelper.averageSpectrumAndReplace(rangeData);
+			timeResolvedNexusFileHelper.averageSpectrumAndReplace(rangeDataList.toArray(new RangeData[]{}));
 			String newFilePath = dirToStoreReducedFiles + File.separator + FilenameUtils.getName(tempFile.getAbsolutePath());
 			Files.copy(tempFile.toPath(), Paths.get(newFilePath), StandardCopyOption.REPLACE_EXISTING);
 		} catch (Exception e) {

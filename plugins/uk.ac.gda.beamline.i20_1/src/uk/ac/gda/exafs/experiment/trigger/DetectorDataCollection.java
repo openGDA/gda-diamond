@@ -20,14 +20,33 @@ package uk.ac.gda.exafs.experiment.trigger;
 
 import java.io.Serializable;
 
-public class XhDetector extends TriggerableObject implements Serializable {
+public class DetectorDataCollection extends TriggerableObject implements Serializable {
 
 	private static final double XCHIP_START_PULSE_WIDTH_IN_SEC = 0.001;
 
-	public XhDetector() {
+	private int numberOfFrames;
+	private double collectionDuration;
+
+	public DetectorDataCollection() {
 		this.setName("Xh Detector");
 		this.setTriggerOutputPort(TriggerOutputPort.USR_OUT_1);
 		this.setTriggerDelay(0.1);
 		this.setTriggerPulseLength(XCHIP_START_PULSE_WIDTH_IN_SEC);
+	}
+
+	public int getNumberOfFrames() {
+		return numberOfFrames;
+	}
+
+	public void setNumberOfFrames(int numberOfFrames) {
+		this.numberOfFrames = numberOfFrames;
+	}
+
+	public double getCollectionDuration() {
+		return collectionDuration;
+	}
+
+	public void setCollectionDuration(double collectionDuration) {
+		this.collectionDuration = collectionDuration;
 	}
 }

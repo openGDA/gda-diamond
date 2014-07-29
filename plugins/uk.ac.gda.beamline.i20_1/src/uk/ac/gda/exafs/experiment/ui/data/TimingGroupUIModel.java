@@ -88,6 +88,8 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	public static final String NO_OF_SPECTRUM_PROP_NAME = "numberOfSpectrum";
 
+	public static final int INVALID_NO_OF_ACCUMULATION = 0;
+
 	public List<?> getSpectrumList() {
 		return spectrumList;
 	}
@@ -346,6 +348,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			}
 		} catch (DeviceException e) {
 			logger.warn("Unable to update max accumulations");
+			setNoOfAccumulations(INVALID_NO_OF_ACCUMULATION);
 		}
 	}
 
@@ -379,7 +382,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			@Override
 			public IStatus validate(Object value) {
 				if (endTimeIsLocked && getAvailableDurationAfterDelay() % ((double) value) != 0) {
-					ValidationStatus.error("Unable to fit with fixed endtime");
+					return ValidationStatus.error("Unable to fit with fixed endtime");
 				}
 				if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame((double) value)) {
 					return ValidationStatus.error("Unable to convert into frame");
@@ -397,7 +400,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			@Override
 			public IStatus validate(Object value) {
 				if (endTimeIsLocked && getAvailableDurationAfterDelay() % ((int) value) != 0) {
-					ValidationStatus.error("The number of spectrum does not fit with the locked endtime.");
+					return ValidationStatus.error("The number of spectrum does not fit with the locked endtime.");
 				}
 				if (!ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.canConvertToFrame(getAvailableDurationAfterDelay() / ((int) value))) {
 					return ValidationStatus.info("The time per spectrum will be rounded to nearest " + ExperimentUnit.MAX_RESOLUTION_IN_NANO_SEC + " " + ExperimentUnit.NANO_SEC.getUnitText());

@@ -158,7 +158,7 @@
 			</list>
 		</property>
 
-		<property name="slave" value="true" />
+		<property name="slave" value="false" />
 		<property name="configFileName"
 			value="${gda.config}/templates/Vortex_Parameters.xml" />
 		<property name="tfg" ref="tfg" />

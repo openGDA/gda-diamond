@@ -923,6 +923,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 		ToolItem unSelectAllToolItem = new ToolItem(toolBar, SWT.PUSH);
 		unSelectAllToolItem.setText("");
+		unSelectAllToolItem.setToolTipText("Clear region selection");
 		unSelectAllToolItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_CLEAR));
 		unSelectAllToolItem.addListener(SWT.Selection, new Listener() {
 			@Override
@@ -938,6 +939,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 		final ToolItem saveNexusToolItem = new ToolItem(toolBar, SWT.PUSH);
 		saveNexusToolItem.setText("");
+		saveNexusToolItem.setToolTipText("Export selected regions");
 		saveNexusToolItem.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVEAS_EDIT));
 		saveNexusToolItem.addListener(SWT.Selection, new Listener() {
 			@Override
