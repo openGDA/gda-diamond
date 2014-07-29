@@ -19,6 +19,7 @@
 	<import resource="dataFileMonitor.xml"/>
 	<import resource="dataArchieval.xml"/>
 	<import resource="dataWriter.xml"/>
+	<import resource="pixiumMetadata.xml"/>
 	
 	<import resource="imageProcessors.xml"/>
 
