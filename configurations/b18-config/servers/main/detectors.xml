@@ -279,77 +279,41 @@
 <!-- 	</bean> -->
 	
 	<!-- 36 element end -->
-	
-	
-<!-- rois = [1]; -->
-<!-- rois[0] = ROI(); -->
-<!-- rois[0].setStart(100); -->
-<!-- rois[0].setEnd(200); -->
-<!-- xspress3Detector.setRegionsOfInterest(rois); -->
-<!-- xspress3Detector.setFilePath("/dls/b18/data/2014/cm4972-1") -->
-
-<!-- xspress3BufferedDetector = Xspress3BufferedDetector(x3c) -->
-<!-- xspress3BufferedDetector.setName("xspress3BufferedDetector"); -->
-<!-- xspress3BufferedDetector.setNumberOfChannelsToRead(4); -->
-<!-- xspress3BufferedDetector.setFirstChannelToRead(0); -->
-<!-- xspress3BufferedDetector.configure(); -->
-<!-- xspress3BufferedDetector.setWriteHDF5Files(True); -->
-
-<!-- 	<bean id="xspress3Detector" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector"> -->
-<!-- 		<property name="name" value="xspress3Detector" /> -->
-<!-- 		<property name="controller" ref="xspress3Controller" /> -->
-<!-- 		<property name="numberOfChannelsToRead" value="4" /> -->
-<!-- 		<property name="firstChannelToRead" value="0" /> -->
-<!-- 		<property name="writeHDF5Files" value="true" /> -->
-<!-- 		<property name="numberOfFramesToCollect" value="6" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="xspress3BufferedDetector" class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector"> -->
-<!-- 		<property name="name" value="xspress3BufferedDetector" /> -->
-<!-- 		<property name="controller" ref="xspress3Controller" /> -->
-<!-- 		<property name="numberOfChannelsToRead" value="4" /> -->
-<!-- 		<property name="firstChannelToRead" value="0" /> -->
-<!-- 		<property name="writeHDF5Files" value="true" /> -->
-<!-- 	</bean> -->
 
 
-<!-- this class will return the in-window sca counts -->
+	<!-- this class will return the in-window sca counts and a link to the HDF5 
+		file containing the MCAs -->
 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
 		<property name="controller" ref="xspress3Controller" />
 		<property name="numberOfChannelsToRead" value="4" />
+		<property name="writeHDF5Files" value="true" />
 	</bean>
-	
-    <bean id="qexafs_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
-        <property name="controller" ref="xspress3Controller" />
-        <property name="numberOfChannelsToRead" value="4" />
-    </bean>
-	
-	
+
+	<bean id="qexafs_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
+		<property name="controller" ref="xspress3Controller" />
+		<property name="numberOfChannelsToRead" value="4" />
+	</bean>
+
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-        <property name="serviceName" value="gda/xspress3" />
-        <property name="service" ref="xspress3" />
-        <property name="serviceInterface" value="uk.ac.gda.devices.detector.xspress3.FluorescenceAcquire" />
-    </bean>
-
-	<bean id="xspress3_collectionstrategy"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3CollectionStrategy">
-		<constructor-arg ref="xspress3Controller" />
-	</bean>
-	
-	<bean id="xspress3_ff_calculator" class = "uk.ac.gda.devices.detector.xspress3.Xspress3FFCalculatorNXPlugin">
-		<constructor-arg ref="xspress3Controller" />
+		<property name="serviceName" value="gda/xspress3" />
+		<property name="service" ref="xspress3" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.detector.xspress3.FluorescenceAcquire" />
 	</bean>
 
-<!-- use this object in scans to return a reference to the MCA data in the HDF5 files -->
-	<bean id="xspress3Mca" class="gda.device.detector.NXDetector">
-		<property name="name" value="xspress3Mca" />
-		<property name="collectionStrategy" ref="xspress3_collectionstrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="xspress3_ff_calculator" />
-			</list>
-		</property>
+	<bean id="FFI0_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0Detector">
+		<property name="xspress3" ref="xspress3" />
+		<property name="counterTimer" ref="counterTimer01" />
+		<property name="i0_channel" value="1" />
 	</bean>
 
-	
+	<bean id="qexafs_FFI0_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
+		<property name="qexafsXspress" ref="qexafs_xspress3" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+		<property name="i0_channel" value="1" />
+	</bean>
+
 </beans>
