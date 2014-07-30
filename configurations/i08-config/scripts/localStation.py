@@ -78,7 +78,6 @@ run "andormap"
 #run('startup_raster')
 #run "gda_startup.py"
 
-
 # create plotters for raster maps
 test2 = gda.device.scannable.DummyScannable()
 test2.setName("test2")

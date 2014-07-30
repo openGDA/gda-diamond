@@ -2,7 +2,7 @@ from gda.scan import ConstantVelocityRasterScan
 from gdascripts.scan import rasterscans
 from gdascripts.scan.rasterscans import RasterScan
 from gdascripts.scan.trajscans import setDefaultScannables
-
+import time
 
 class AndorMap(RasterScan):
      
@@ -12,18 +12,23 @@ class AndorMap(RasterScan):
         self.rowScannable = rowScannable
         self.columnScannable = columnScannable
         self.andor = andor
+        # setup the Andor trigger to internal for snapshots by default
+        andor.getCollectionStrategy().getAdBase().setTriggerMode(0)
          
          
     def __call__(self, *args):
 
         # if one arg, then use that as the map size, else ignore any and all args
+        from gda.epics import CAClient
         if len(args) == 1:
             self.map_size = int(args[0])
         else :
-            from gda.epics import CAClient
             self.map_size = CAClient().get("BL08I-EA-DET-01:HDF5:ExtraDimSizeX_RBV")
             print "Map size will be",str(self.map_size)
-        self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor, 0.1]
+        self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor, 0.1]       
+        andor.getCollectionStrategy().getAdBase().stopAcquiring()
+        time.sleep(1)
+        CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
         self.ROISetup()
         RasterScan.__call__(self,self.scanargs)
      
@@ -49,8 +54,8 @@ class AndorMap(RasterScan):
     
 #configure the ROIs for both the step and raster andor objects
     def ROISetup(self):
-        Xsize = _andorrastor.getCollectionStrategy().getAdBase().getArraySizeX_RBV()
-        Ysize = _andorrastor.getCollectionStrategy().getAdBase().getArraySizeY_RBV()        
+        Xsize = andor.getCollectionStrategy().getAdBase().getArraySizeX_RBV()
+        Ysize = andor.getCollectionStrategy().getAdBase().getArraySizeY_RBV()        
         XmidSize = Xsize/2
         YmidSize = Ysize/2
         
@@ -60,26 +65,7 @@ class AndorMap(RasterScan):
         andor.roistats3.setRoi(XmidSize,0,XmidSize,YmidSize,"quadrant3")
         andor.roistats4.setRoi(XmidSize,YmidSize,XmidSize,YmidSize,"quadrant4")
         andor.roistats5.setRoi(0,0,Xsize,Ysize,"transmission")
-        _andorrastor.roistats1.setRoi(0,0,XmidSize,YmidSize,"quadrant1")
-        _andorrastor.roistats2.setRoi(0,YmidSize,XmidSize,YmidSize,"quadrant2")
-        _andorrastor.roistats3.setRoi(XmidSize,0,XmidSize,YmidSize,"quadrant3")
-        _andorrastor.roistats4.setRoi(XmidSize,YmidSize,XmidSize,YmidSize,"quadrant4")
-        _andorrastor.roistats5.setRoi(0,0,Xsize,Ysize,"transmission")
-    
-        
-# first, configure the ROIs for both the step and raster andor objects
-#print "Setting up Regions of Interest for andor and _andorrastor objects..."
-#andor.roistats1.setRoi(0,0,256,256,"quadrant1")
-#andor.roistats2.setRoi(0,256,256,256,"quadrant2")
-#andor.roistats3.setRoi(256,0,256,256,"quadrant3")
-#andor.roistats4.setRoi(256,256,256,256,"quadrant4")
-#andor.roistats5.setRoi(0,0,512,512,"transmission")
-#_andorrastor.roistats1.setRoi(0,0,256,256,"quadrant1")
-#_andorrastor.roistats2.setRoi(0,256,256,256,"quadrant2")
-#_andorrastor.roistats3.setRoi(256,0,256,256,"quadrant3")
-#_andorrastor.roistats4.setRoi(256,256,256,256,"quadrant4")
-#_andorrastor.roistats5.setRoi(0,0,512,512,"transmission")
-
+      
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
 # row = stxmDummy.stxmDummyY

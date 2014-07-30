@@ -11,6 +11,8 @@
 	
 	<bean id="andor_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="pvProvider" ref="andor_adbase_pvProvider" />
+		<property name="BinX" value="4" />
+		<property name="BinY" value="4" />
 	</bean>
 
 	
