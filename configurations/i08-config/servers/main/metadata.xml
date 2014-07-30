@@ -161,6 +161,11 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
+				<entry key="pgm_energy">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/PlaneGratingMonochromator:NXmonochromator/pgm_energy" />
+					</bean>
+				</entry>
 				
 				<entry key="m2_x">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -342,6 +347,7 @@
 				<value>pgm_cff</value>
 				<value>grating_pitch</value>
 				<value>grating_x</value>
+				<value>pgm_energy</value>
 				<value>m2_x</value>
 				<value>m2_pitch</value>
 				<value>m3_x</value>
