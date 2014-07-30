@@ -230,7 +230,7 @@ try:
     pixium_DetectorTemperature = DisplayEpicsPVClass('pixium_DetectorTemperature', 'BL11J-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
     x_pixel_size=ConstantScannable("x_pixel_size", 148.0, unit="um")
     y_pixel_size=ConstantScannable("y_pixel_size", 148.0, unit="um")
-    calibrant_name=CalibrantScannable("calibrant_name", "Si")
+    calibrant_name=CalibrantScannable("calibrant_name", "CeO2")
 except:
     print "cannot create extra pixium scannables"
 
