@@ -8,6 +8,7 @@
    </aboutInfo>
 
    <configIni use="default">
+      <linux>/uk.ac.gda.beamline.b21.feature/gda-b21.ini</linux>
    </configIni>
 
    <launcherArgs>
