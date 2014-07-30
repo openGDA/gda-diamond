@@ -69,12 +69,12 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
+import uk.ac.diamond.scisoft.spectroscopy.fitting.XafsFittingUtils;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
@@ -107,6 +107,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 	private final EnergyCalibration calibrationDataModel;
 	private final CalibrationEnergyData edeCalibrationDataModel;
 	private final CalibrationEnergyData refCalibrationDataModel;
+	private final XafsFittingUtils xafsFittingUtils = new XafsFittingUtils();
 
 	private Text polynomialValueText;
 	private Text goodnessOfFitValueText;
@@ -606,25 +607,35 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 							ILineTrace refTrace = refPlottingSystem.createLineTrace("Ref");
 
-							DoubleDataset refData = (DoubleDataset) edeCalibration.getReferenceSpectrum();
-
-							double firstEdeSpectrumPoint = edeSpectrumSlice.getDouble(0);
-							double firstReferenceSpectrumPoint = refData.getDouble(0);
-							if (firstEdeSpectrumPoint <= firstReferenceSpectrumPoint) {
-								refData = refData.isubtract(firstEdeSpectrumPoint - firstReferenceSpectrumPoint);
-							} else {
-								refData = refData.iadd(firstEdeSpectrumPoint - firstReferenceSpectrumPoint);
-							}
-
-							refTrace.setData(refEnergySlice, edeCalibration.getReferenceSpectrum());
-
+							AbstractDataset[] exafs = xafsFittingUtils.getNormalisedIntensityAndSpline(refEnergySlice, refSpectrumSlice);
+							exafs[0].setName("ref-energy");
+							exafs[1].setName("ref-spectrum");
+							exafs[2].setName("ref-spectrum-spline");
+							refTrace.setData(exafs[0], exafs[1]);
 							refTrace.setTraceColor(ColorConstants.blue);
 							refPlottingSystem.addTrace(refTrace);
 
+							// TODO Show spline on/off
+							//ILineTrace refTraceSpline = refPlottingSystem.createLineTrace("RefSpline");
+							//refTraceSpline.setData(exafs[0], exafs[2]);
+							//refTraceSpline.setTraceColor(ColorConstants.blue);
+							//refPlottingSystem.addTrace(refTraceSpline);
+
 							ILineTrace edeTrace = refPlottingSystem.createLineTrace(EDE_OVERLAY_TRACE_NAME);
-							edeTrace.setData(resEnergyDataset, edeSpectrumSlice);
+
+							AbstractDataset[] exafsede = xafsFittingUtils.getNormalisedIntensityAndSpline(resEnergyDataset, edeSpectrumSlice);
+							exafsede[0].setName("sample-energy");
+							exafsede[1].setName("sample-spectrum");
+							exafsede[2].setName("sample-spectrum-spline");
+							edeTrace.setData(exafsede[0], exafsede[1]);
 							edeTrace.setTraceColor(ColorConstants.red);
 							refPlottingSystem.addTrace(edeTrace);
+
+							// TODO Show spline on/off
+							//ILineTrace edeTraceSpline = refPlottingSystem.createLineTrace("EdeSpline");
+							//edeTraceSpline.setData(exafsede[0], exafsede[2]);
+							//edeTraceSpline.setTraceColor(ColorConstants.red);
+							//refPlottingSystem.addTrace(edeTraceSpline);
 
 							refPlottingSystem.repaint();
 

@@ -73,7 +73,6 @@ public class TimeResolvedDataFileHelper {
 	private DoubleDataset itNormalisedWithI0fData = null;
 	private DoubleDataset itNormalisedWithAvgI0iAndI0fData = null;
 
-
 	private DoubleDataset timeAxisData;
 	private DoubleDataset groupAxisData;
 
