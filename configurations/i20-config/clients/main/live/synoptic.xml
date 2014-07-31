@@ -2,121 +2,41 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
-
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
 	<context:property-placeholder
 		location="file:${gda.config}/properties/${gda.mode}/synoptic.properties" />
 
+	<gda:rbac />
 
-	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>>
+	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>
 
-	<bean id="d3cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="d3cam" />
-		<property name="exposurePV" value="BL20I-DI-PHDGN-03:CAM:AcquireTime" />
-		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-03:CAM:AcquirePeriod" />
-		<property name="gainPV" value="BL20I-DI-PHDGN-03:CAM:GAIN" />
-		<property name="acquirePV" value="BL20I-DI-PHDGN-03:CAM:Acquire" />
-		<property name="urlPV" value="BL20I-DI-PHDGN-03:MJPG:MJPG_URL_RBV" />
-	</bean>
+<!-- 	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="topup" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 
-	<bean id="d1cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="d1cam" />
-		<property name="urlPV" value="BL20I-DI-PHDGN-01:MJPG:MJPG_URL_RBV" />
-		<property name="exposurePV" value="BL20I-DI-PHDGN-01:CAM:AcquireTime" />
-		<property name="gainPV" value="BL20I-DI-PHDGN-01:CAM:Gain" />
-		<property name="acquirePV" value="BL20I-DI-PHDGN-01:CAM:Acquire" />
-		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-01:CAM:AcquirePeriod" />
-	</bean>
+<!-- 	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/filterwheel" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
 
-	<bean id="d5cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="d5cam" />
-		<property name="urlPV" value="BL20I-DI-PHDGN-05:MJPG:MJPG_URL_RBV" />
-		<property name="exposurePV" value="BL20I-DI-PHDGN-05:CAM:AcquireTime" />
-		<property name="gainPV" value="BL20I-DI-PHDGN-05:CAM:Gain" />
-		<property name="acquirePV" value="BL20I-DI-PHDGN-05:CAM:Acquire" />
-		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-05:CAM:AcquirePeriod" />
-	</bean>
-
-	<bean id="d6cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="d6cam" />
-		<property name="urlPV" value="BL20I-DI-PHDGN-06:MJPG:MJPG_URL_RBV" />
-		<property name="exposurePV" value="BL20I-DI-PHDGN-06:CAM:AcquireTime" />
-		<property name="gainPV" value="BL20I-DI-PHDGN-06:CAM:Gain" />
-		<property name="acquirePV" value="BL20I-DI-PHDGN-06:CAM:Acquire" />
-		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-06:CAM:AcquirePeriod" />
-	</bean>
-
-	<bean id="d7cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="d7cam" />
-		<property name="urlPV" value="BL20I-DI-PHDGN-07:MJPG:MJPG_URL_RBV" />
-		<property name="exposurePV" value="BL20I-DI-PHDGN-07:CAM:AcquireTime" />
-		<property name="gainPV" value="BL20I-DI-PHDGN-07:CAM:Gain" />
-		<property name="acquirePV" value="BL20I-DI-PHDGN-07:CAM:Acquire" />
-		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-07:CAM:AcquirePeriod" />
-	</bean>
-
-	<bean id="d8cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="d8cam" />
-		<property name="urlPV" value="BL20I-DI-PHDGN-08:MJPG:MJPG_URL_RBV" />
-		<property name="exposurePV" value="BL20I-DI-PHDGN-08:CAM:AcquireTime" />
-		<property name="gainPV" value="BL20I-DI-PHDGN-08:CAM:Gain" />
-		<property name="acquirePV" value="BL20I-DI-PHDGN-08:CAM:Acquire" />
-		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-08:CAM:AcquirePeriod" />
-	</bean>
-
-	<bean id="d10cam" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="d10cam" />
-		<property name="urlPV" value="BL20I-DI-PHDGN-10:MJPG:MJPG_URL_RBV" />
-		<property name="exposurePV" value="BL20I-DI-PHDGN-10:CAM:AcquireTime" />
-		<property name="gainPV" value="BL20I-DI-PHDGN-10:CAM:Gain" />
-		<property name="acquirePV" value="BL20I-DI-PHDGN-10:CAM:Acquire" />
-		<property name="acqPeriodPV" value="BL20I-DI-PHDGN-10:CAM:AcquirePeriod" />
-	</bean>
-
-	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
-		<property name="cameras">
-			<list>
-				<ref bean="d1cam" />
-				<ref bean="d3cam" />
-				<ref bean="d5cam" />
-				<ref bean="d6cam" />
-				<ref bean="d7cam" />
-				<ref bean="d8cam" />
-				<ref bean="d10cam" />
-			</list>
-		</property>
-		<property name="plotViewID" value="uk.ac.diamond.scisoft.analysis.rcp.plotView" />
-	</bean>
-
-
-	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/filterwheel" />
-		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
-		<property name="service" ref="camera_config" />
-	</bean>
+	<import resource="cameras.xml" />
 
 </beans>

@@ -25,6 +25,14 @@
 	<bean id="medipix_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
 		<constructor-arg ref="medipix_adbase" />
 		<constructor-arg value="0" />
+		<!--     Enums:
+                      [ 0] Internal
+                      [ 1] Trigger Enable
+                      [ 2] Trigger start rising
+                      [ 3] Trigger start falling
+                      [ 4] Trigger both rising
+                      [ 5] Software  -->
+		<constructor-arg value="2" /> 
 	</bean>
 
 
