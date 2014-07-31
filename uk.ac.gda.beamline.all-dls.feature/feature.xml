@@ -94,6 +94,10 @@
          version="0.0.0"/>
 
    <includes
+         id="uk.ac.gda.beamline.i11-1.site"
+         version="0.0.0"/>
+
+   <includes
          id="uk.ac.gda.beamline.i12.site"
          version="0.0.0"/>
 
@@ -176,13 +180,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.devices.xspress3"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.px.adsc"
          download-size="0"
          install-size="0"
@@ -240,13 +237,6 @@
 
    <plugin
          id="uk.ac.gda.integrationtest"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.client.commandinfo"
          download-size="0"
          install-size="0"
          version="0.0.0"
