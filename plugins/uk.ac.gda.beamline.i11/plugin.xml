@@ -12,7 +12,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.client.hrpd.views.hrpdCategory"
-            class="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
+            class="uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
             name="DetectorPlot"
