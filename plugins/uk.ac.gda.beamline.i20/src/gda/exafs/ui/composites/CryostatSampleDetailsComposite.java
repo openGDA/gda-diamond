@@ -107,10 +107,12 @@ public class CryostatSampleDetailsComposite extends I20SampleParametersComposite
 		Label lblSamx = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamx.setText("cryostick");
 		cryostick = new ScaleBox(motorPositionsGroup, SWT.NONE);
+		cryostick.setToolTipText("");
 		cryostick.setUnit("mm");
 		cryostick.setDecimalPlaces(2);
 		cryostick.setLayoutData(new RowData(100, 25));
-
+		cryostick.setFieldOveride("cryostick");
+		
 		Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamy.setText("cryostick_pos");
 		cryostick_pos = new ScaleBox(motorPositionsGroup, SWT.NONE);
@@ -149,6 +151,7 @@ public class CryostatSampleDetailsComposite extends I20SampleParametersComposite
 		BigDecimal bdUpperLimit = new BigDecimal(upperLimit).setScale(6, RoundingMode.HALF_EVEN);
 		box.setMinimum(bdLowerLimit.doubleValue());
 		box.setMaximum(bdUpperLimit.doubleValue());
+		box.setFieldOveride(motorName);
 	}
 	
 	public ScaleBox getPosition() {
