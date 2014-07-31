@@ -5,14 +5,13 @@
          point="org.eclipse.ui.views">
       <view
             class="gda.rcp.views.JythonTerminalView"
-            id="uk.ac.gda.beamline.i11.terminalView"
+            id="uk.ac.gda.beamline.i11.lde.terminalView"
             name="Terminal"
             restorable="true">
       </view>
       <view
             allowMultiple="false"
-            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
-            class="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
+            class="uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView"
             icon="icons/chart_curve.png"
             id="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"
             name="DetectorPlot"
@@ -20,20 +19,18 @@
       </view>
       <view
             allowMultiple="false"
-            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
             class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
             icon="icons/chart_curve.png"
-            id="uk.ac.gda.beamline.i11.dataPlot"
+            id="uk.ac.gda.beamline.i11.lde.dataPlot"
             name="DataPlot"
             restorable="true">
       </view>
       <view
             allowMultiple="false"
-            category="uk.ac.gda.client.hrpd.views.hrpdCategory"
             class="gda.rcp.views.ViewFactory:statusView"
             icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
-            id="uk.ac.gda.beamline.i11.views.statusView"
-            name="Status"
+            id="uk.ac.gda.beamline.i11.lde.views.statusView"
+            name="Beamline Status"
             restorable="true">
       </view>
    </extension>
@@ -42,7 +39,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            description="GDA for I11 - the High Resolution Powder Diffraction Beamline"
+            description="GDA for I11 Long Duration Experiments"
             name="I11-1 GDA">
          <property
                name="appName"
@@ -81,9 +78,9 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="uk.ac.gda.beamline.i11.persepctives.DataCollectionPerspective"
-            id="uk.ac.gda.beamline.i11.dataCollectionPerspective"
-            name="Data Collection">
+            class="uk.ac.gda.beamline.i11.lde.persepctives.LDEPerspective"
+            id="uk.ac.gda.beamline.i11.lde.perspective"
+            name="LDE">
       </perspective>
    </extension>
 

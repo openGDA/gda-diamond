@@ -138,14 +138,14 @@ print "Create method for load sample information spreadsheet to GDA system."
 from loadfile import * #@UnusedWildImport
 print
 
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Enable automatic beamline energy setting for all devices by e.g. 'pos setenergy 15.0'."
-ALL, BEAM_ENERGY, STAGE_ANGLE, DETECTOR=range(4)
-from Automation_class import Automation
-print "To set/get Mono and ID energy only, use 'energy_gap' object"
-energy_gap=Automation('energy_gap','energytable', BEAM_ENERGY, rootNameSpace=globals())
-pds.append(energy_gap) 
-print
+# print "-----------------------------------------------------------------------------------------------------------------"
+# print "Enable automatic beamline energy setting for all devices by e.g. 'pos setenergy 15.0'."
+# ALL, BEAM_ENERGY, STAGE_ANGLE, DETECTOR=range(4)
+# from Automation_class import Automation
+# print "To set/get Mono and ID energy only, use 'energy_gap' object"
+# energy_gap=Automation('energy_gap','energytable', BEAM_ENERGY, rootNameSpace=globals())
+# pds.append(energy_gap) 
+# print
 
 ### set output format for scannables
 globals()['energy'].setOutputFormat(["%10.7f"])
@@ -211,30 +211,32 @@ deriv = DeviceDerivativeClass("deriv", "energy", "Ie2", "derivative");
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create extra pixium scannables: pixium_PUMode, pixium_BaseExposure, pixium_BaseAcquirePeriod, pixium_EarlyFrames, pixium_TotalCount,pixium_FanSpeed1,pixium_FanSpeed2,pixium_DetectorTemperature"
-from i11utilities import createScannableFromPV, ConstantScannable
+from i11utilities import createScannableFromPV, ConstantScannable, CalibrantScannable
 try:
-    pixium_TriggerMode=createScannableFromPV("pixium_TriggerMode", "BL11I-EA-DET-10:CAM:TriggerMode", addToNameSpace=True, getAsString=True, hasUnits=False)
-    pixium_PUMode = DisplayEpicsPVClass('pixium_PUMode', 'BL11I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
-    pixium_BaseExposure = DisplayEpicsPVClass('pixium_BaseExposure', 'BL11I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
-    pixium_BaseAcquirePeriod = DisplayEpicsPVClass('pixium_BaseAcquirePeriod', 'BL11I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
-    pixium_ExcludeEarlyFrames = createScannableFromPV("pixium_ExcludeEarlyFrames", "BL11I-EA-DET-10:CAM:MotionBlur", addToNameSpace=True, getAsString=True, hasUnits=False)
+    pixium_TriggerMode=createScannableFromPV("pixium_TriggerMode", "BL11J-EA-DET-10:CAM:TriggerMode", addToNameSpace=True, getAsString=True, hasUnits=False)
+    pixium_PUMode = DisplayEpicsPVClass('pixium_PUMode', 'BL11J-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
+    pixium_BaseExposure = DisplayEpicsPVClass('pixium_BaseExposure', 'BL11J-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
+    pixium_BaseAcquirePeriod = DisplayEpicsPVClass('pixium_BaseAcquirePeriod', 'BL11J-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
+    pixium_ExcludeEarlyFrames = createScannableFromPV("pixium_ExcludeEarlyFrames", "BL11J-EA-DET-10:CAM:MotionBlur", addToNameSpace=True, getAsString=True, hasUnits=False)
 
-    pixium_TotalCount = DisplayEpicsPVClass('pixium_TotalCount', 'BL11I-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
-    pixium_TimeStamp = DisplayEpicsPVClass('pixium_TimeStamp', 'BL11I-EA-DET-10:STAT:TimeStamp_RBV', 'time', '%.3f')
+    pixium_TotalCount = DisplayEpicsPVClass('pixium_TotalCount', 'BL11J-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
+    pixium_TimeStamp = DisplayEpicsPVClass('pixium_TimeStamp', 'BL11J-EA-DET-10:STAT:TimeStamp_RBV', 'time', '%.3f')
     
-    pixium_DataType=createScannableFromPV("pixium_DataType", "BL11I-EA-DET-10:CAM:DataType", addToNameSpace=True, getAsString=True, hasUnits=False)
-    pixium_ID = DisplayEpicsPVClass('pixium_ID', 'BL11I-EA-DET-10:STAT:UniqueId_RBV', 'no', '%.0f')
-    pixium_Counter = DisplayEpicsPVClass('pixium_Counter', 'BL11I-EA-DET-10:CAM:ArrayCounter_RBV', 'no', '%.0f')
-    pixium_FanSpeed1 = DisplayEpicsPVClass('pixium_FanSpeed1', 'BL11I-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
-    pixium_FanSpeed2 = DisplayEpicsPVClass('pixium_FanSpeed2', 'BL11I-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
-    pixium_DetectorTemperature = DisplayEpicsPVClass('pixium_DetectorTemperature', 'BL11I-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
-    x_pixel_size=ConstantScannable("x_pixel_size", 142, unit="um")
-    y_pixel_size=ConstantScannable("y_pixel_size", 142, unit="um")
+    pixium_DataType=createScannableFromPV("pixium_DataType", "BL11J-EA-DET-10:CAM:DataType", addToNameSpace=True, getAsString=True, hasUnits=False)
+    pixium_ID = DisplayEpicsPVClass('pixium_ID', 'BL11J-EA-DET-10:STAT:UniqueId_RBV', 'no', '%.0f')
+    pixium_Counter = DisplayEpicsPVClass('pixium_Counter', 'BL11J-EA-DET-10:CAM:ArrayCounter_RBV', 'no', '%.0f')
+    pixium_FanSpeed1 = DisplayEpicsPVClass('pixium_FanSpeed1', 'BL11J-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
+    pixium_FanSpeed2 = DisplayEpicsPVClass('pixium_FanSpeed2', 'BL11J-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
+    pixium_DetectorTemperature = DisplayEpicsPVClass('pixium_DetectorTemperature', 'BL11J-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
+    x_pixel_size=ConstantScannable("x_pixel_size", 148.0, unit="um")
+    y_pixel_size=ConstantScannable("y_pixel_size", 148.0, unit="um")
+    calibrant_name=CalibrantScannable("calibrant_name", "CeO2")
 except:
     print "cannot create extra pixium scannables"
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "setup meta-data provider commands:meta_add, meta_ll, meta_ls, meta_rm "
+from metashop import *  # @UnusedWildImport
 import metashop
 
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -281,8 +283,8 @@ print "=========================================================================
 print "Initialisation script complete." 
 print
 ###Must leave what after this line last.
-bm2=finder.find("bm2")
-if bm2.isBeamOn():
+bm1=finder.find("bm")
+if bm1.isBeamOn():
     print "PHOTON BEAM IS ON SAMPLE NOW."
 else:
     print "NO PHOTON BEAM ON SAMPLE."

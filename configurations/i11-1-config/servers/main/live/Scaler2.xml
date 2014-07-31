@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="scaler2" class="gda.device.detector.EpicsScaler">
-		<property name="deviceName" value="SCAL2" />
+		<property name="pvName" value="BL11I-EA-COUNT-02" />
 		<property name="frequency" value="50000000"/>
 	</bean>
 

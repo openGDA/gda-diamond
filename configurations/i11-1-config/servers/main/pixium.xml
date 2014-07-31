@@ -107,8 +107,8 @@
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i11/data" />
-				<property name="windowsSubString" value="Y:\\data" />
+				<property name="unixSubString" value="/dls/i11-1/data" />
+				<property name="windowsSubString" value="X:\\data" />
 			</bean>
 		</property>
 <!-- 		<property name="copyPluginPrefix" value="BL12I-EA-DET-10:FILECOPY"/> -->
@@ -132,8 +132,8 @@
 		<property name="initialFileTemplate" value="%s_%d.h5" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i11/data" />
-				<property name="windowsSubString" value="Y:\\data" />
+				<property name="unixSubString" value="/dls/i11-1/data" />
+				<property name="windowsSubString" value="X:\\data" />
 			</bean>
 		</property>
 	</bean>
@@ -171,13 +171,15 @@
 	<!-- using multiple exposures per image in HDF, not process plugin, using EPICS write HDF files -->
 	<bean id="pixium.hdffileWriter"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pixium.hdf"/>
-		<property name="fileNameTemplate" value="$scan$-pixium"/>
+		<property name="fileNameTemplate" value="pixium"/>
 		<property name="filePathTemplate" value="$datadir$"/>
 		<property name="fileTemplate" value="%s%s_%05d.hdf"/>
 		<property name="fileNumberAtScanStart" value="1"/>
 		<property name="setFileNameAndNumber" value="true"/>
 		<property name="blocking" value="False"/>
 		<property name="rowChunks" value="2881"/>
+		<property name="xPixelSize" value="148.0"/>
+		<property name="yPixelSize" value="148.0"/>
 	</bean>
 	<bean id= "pixium.simpleAcquire" class="gda.device.detector.addetector.triggering.PixiumSimpleAcquire">
 		<constructor-arg ref="pixium.cam" />
@@ -199,7 +201,7 @@
 		</property>
 	</bean>
 	
-	<!-- using multiple exposures per image in TIFF, not process plugin, using EPICS write tiff files -->
+<!-- 	using multiple exposures per image in TIFF, not process plugin, using EPICS write tiff files -->
 	<bean id="pixium.multipleExposure"	class="gda.device.detector.addetector.triggering.PixiumMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pixium.cam" />
 		<constructor-arg value="10.0" />
@@ -261,7 +263,7 @@
 		</property>
 	</bean>
 	
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/pixium" />
 		<property name="service" ref="pixium" />
 		<property name="serviceInterface" value="gda.device.detector.pixium.IPixiumNXDetector" />

@@ -16,22 +16,18 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i11.views;
+package uk.ac.gda.beamline.i11.lde.views;
 
-import gda.analysis.io.MACLoader;
-import gda.device.detector.mythen.data.MythenMergedDataset;
-import gda.device.detector.mythen.data.MythenProcessedDataset;
 import gda.device.detectorfilemonitor.FileProcessor;
 import gda.factory.Configurable;
 import gda.factory.FactoryException;
 import gda.factory.Findable;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
-import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -54,7 +50,7 @@ import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
  * A configurable detector file processor to display detector file content as plot, using generic plot view such as
  * {@link DetectorFilePlotView}
  * <ul>
- * <li>support Mythen, MAC, Pixium detector data file format,</li>
+ * <li>support Pixium detector data file format,</li>
  * <li>permit configurable plot type (see {@link PlotType} for type available) for the same data sets,</li>
  * <li>allow both new plot of each data file or plot over of multiple data files.</li>
  * </ul>
@@ -118,30 +114,7 @@ public class DetectorFileDisplayer implements FileProcessor, PlotConfigurable, I
 		if (StringUtils.hasLength(filename) && !isAlreadPlotted(filename)) {
 			IDataset xds = null, yds = null;
 			String name = FilenameUtils.getName(filename);
-			if (name.contains("mythen")) {
-				if (FilenameUtils.getName(filename).contains("summed")) {
-					MythenMergedDataset mergedDataset = new MythenMergedDataset(new File(filename));
-					xds = mergedDataset.getAngleDataSet();
-					yds = mergedDataset.getCountDataSet();
-				} else {
-					MythenProcessedDataset mythenProcessedDataset = new MythenProcessedDataset(new File(filename));
-					xds = mythenProcessedDataset.getAngleDataset();
-					yds = mythenProcessedDataset.getCountDataset();
-				}
-				xds.setName("delta");
-				yds.setName(name);
-			} else if (name.contains("mac")) {
-				try {
-					DataHolder loadFile = new MACLoader(filename).loadFile();
-					xds = loadFile.getDataset(0);
-					xds.setName("tth");
-					yds = loadFile.getDataset(1);
-					yds.setName(name);
-				} catch (ScanFileHolderException e) {
-					logger.error("Error load MAC data file" + filename, e);
-				}
-
-			} else if (name.contains("pixium")) {
+			if (name.contains("pixium")) {
 				if (FilenameUtils.isExtension(filename, "dat")) {
 					// get integrated data from .dat file
 					try {

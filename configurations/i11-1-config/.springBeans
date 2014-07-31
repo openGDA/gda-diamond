@@ -9,7 +9,6 @@
 	<configs>
 		<config>servers/main/BeamInfo.xml</config>
 		<config>servers/main/BeamlineInfo.xml</config>
-		<config>servers/main/BeamMonitor.xml</config>
 		<config>servers/main/BPM1.xml</config>
 		<config>servers/main/dummy/BPM1.xml</config>
 		<config>servers/main/live/BPM1.xml</config>
@@ -29,8 +28,6 @@
 		<config>clients/clients-common.xml</config>
 		<config>servers/commandQueueProcessor.xml</config>
 		<config>servers/CommandServer.xml</config>
-		<config>servers/main/dummy/CVScanController.xml</config>
-		<config>servers/main/simulation/CVScanController.xml</config>
 		<config>servers/main/CyberStarBlower.xml</config>
 		<config>servers/main/dummy/CyberStarBlower.xml</config>
 		<config>servers/main/live/CyberStarBlower.xml</config>
@@ -52,7 +49,6 @@
 		<config>servers/main/dummy/DCMxtal.xml</config>
 		<config>servers/main/live/DCMxtal.xml</config>
 		<config>servers/main/simulation/DCMxtal.xml</config>
-		<config>servers/main/DetectorsSafePositions.xml</config>
 		<config>servers/main/dummy/Diffractometer.xml</config>
 		<config>servers/main/simulation/Diffractometer.xml</config>
 		<config>servers/main/dummy/DummyMotors.xml</config>
@@ -192,7 +188,6 @@
 		<config>servers/main/S5.xml</config>
 		<config>servers/main/dummy/S5.xml</config>
 		<config>servers/main/simulation/S5.xml</config>
-		<config>servers/main/SampleInfo.xml</config>
 		<config>servers/main/dummy/Scaler1.xml</config>
 		<config>servers/main/live/Scaler1.xml</config>
 		<config>servers/main/simulation/Scaler1.xml</config>
@@ -241,6 +236,7 @@
 		<config>servers/main/live/S4.xml</config>
 		<config>servers/main/live/S5.xml</config>
 		<config>servers/main/live/Spinner2.xml</config>
+		<config>servers/main/BeamMonitor2.xml</config>
 	</configs>
 	<configSets>
 		<configSet>
@@ -270,13 +266,11 @@
 				<config>servers/CommandServer.xml</config>
 				<config>servers/main/BeamInfo.xml</config>
 				<config>servers/main/BeamlineInfo.xml</config>
-				<config>servers/main/BeamMonitor.xml</config>
 				<config>servers/main/BPM1.xml</config>
 				<config>servers/main/BPM2.xml</config>
 				<config>servers/main/BPM3.xml</config>
 				<config>servers/main/CyberStarBlower.xml</config>
 				<config>servers/main/DCM.xml</config>
-				<config>servers/main/DetectorsSafePositions.xml</config>
 				<config>servers/main/EnergyLUT.xml</config>
 				<config>servers/main/etl1.xml</config>
 				<config>servers/main/etl2.xml</config>
@@ -347,7 +341,6 @@
 				<config>servers/main/S3.xml</config>
 				<config>servers/main/S4.xml</config>
 				<config>servers/main/S5.xml</config>
-				<config>servers/main/SampleInfo.xml</config>
 				<config>servers/main/SmallSampleTable.xml</config>
 				<config>servers/main/StoeFurnace.xml</config>
 				<config>servers/main/TestMotors.xml</config>
@@ -357,6 +350,7 @@
 				<config>clients/rcp/live/spinner2.xml</config>
 				<config>servers/main/live/S6.xml</config>
 				<config>servers/main/live/Spinner2.xml</config>
+				<config>servers/main/BeamMonitor2.xml</config>
 			</configs>
 			<profiles>
 				<profile><![CDATA[server]]></profile>
@@ -371,7 +365,6 @@
 				<config>servers/main/dummy/BPM1.xml</config>
 				<config>servers/main/dummy/BPM2.xml</config>
 				<config>servers/main/dummy/BPM3.xml</config>
-				<config>servers/main/dummy/CVScanController.xml</config>
 				<config>servers/main/dummy/CyberStarBlower.xml</config>
 				<config>servers/main/dummy/D1.xml</config>
 				<config>servers/main/dummy/D2.xml</config>
@@ -439,7 +432,6 @@
 				<config>servers/main/simulation/BPM1.xml</config>
 				<config>servers/main/simulation/BPM2.xml</config>
 				<config>servers/main/simulation/BPM3.xml</config>
-				<config>servers/main/simulation/CVScanController.xml</config>
 				<config>servers/main/simulation/CyberStarBlower.xml</config>
 				<config>servers/main/simulation/D1.xml</config>
 				<config>servers/main/simulation/D2.xml</config>

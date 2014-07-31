@@ -27,4 +27,17 @@ def reloadLookupTables():
         update(controller, prefix, "..." + converter.getName() )      
         converter.reloadConverter()
     update(controller, prefix, " - completed")
-    
+
+def readLookupTable(filename): 
+    '''
+    read in the lookup table from a tab-delimited data file. 
+    :param filename:
+    '''
+    f = open(filename, "r")
+    lines = f.readlines()
+    f.close()
+    lines = map(string.split, map(string.strip, lines))
+    lookuptable={}
+    for x in lines[2:]:
+        lookuptable[x[0]]=[float(item) for item in x[1:]]
+    return lookuptable    
