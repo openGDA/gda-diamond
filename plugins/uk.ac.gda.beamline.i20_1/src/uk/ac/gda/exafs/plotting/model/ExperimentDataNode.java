@@ -43,6 +43,10 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 
 	public final static DoubleDataset stripsData = new DoubleDataset(XHDetector.getStripsInDouble());
 
+	static {
+		stripsData.setName("Strip");
+	}
+
 	private final Map<Integer, ScanDataNode> scans = new HashMap<Integer, ScanDataNode>();
 	private final IObservableList dataset = new WritableList(new ArrayList<ScanDataNode>(), ScanDataNode.class);
 

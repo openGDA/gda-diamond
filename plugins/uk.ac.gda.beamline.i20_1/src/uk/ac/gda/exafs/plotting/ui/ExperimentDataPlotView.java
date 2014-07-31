@@ -69,7 +69,7 @@ public class ExperimentDataPlotView extends ViewPart {
 				BeanProperties.value(ExperimentDataNode.USE_STRIPS_AS_X_AXIS_PROP_NAME).observe(rootNode));
 		ctx.bindValue(
 				WidgetProperties.text().observe(useStripsIndex),
-				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),
+				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),
 				null,
 				new UpdateValueStrategy() {
 					@Override
@@ -77,7 +77,7 @@ public class ExperimentDataPlotView extends ViewPart {
 						StringBuilder text = new StringBuilder();
 						try {
 							text.append("Use strips number for X axis");
-							if (((boolean) value) && DetectorModel.INSTANCE.getCurrentDetector() != null) {
+							if (!((String) value).isEmpty() && DetectorModel.INSTANCE.getCurrentDetector() != null) {
 								text.append(" (calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getSampleDataFileName() + ")");
 							}
 						} catch (Exception e) {
@@ -85,6 +85,19 @@ public class ExperimentDataPlotView extends ViewPart {
 							UIHelper.showError("Unable to get calibration data", e.getMessage());
 						}
 						return text.toString();
+					}
+				});
+		ctx.bindValue(
+				WidgetProperties.visible().observe(useStripsIndex),
+				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),
+				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						if (!((String) value).isEmpty()) {
+							return true;
+						}
+						return false;
 					}
 				});
 	}

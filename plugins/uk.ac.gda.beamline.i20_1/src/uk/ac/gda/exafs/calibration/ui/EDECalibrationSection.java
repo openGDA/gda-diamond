@@ -25,9 +25,9 @@ import gda.util.exafs.Element;
 import java.io.File;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -76,18 +76,7 @@ public class EDECalibrationSection extends ResourceComposite {
 	private void doBinding() {
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(polynomialValueLbl),
-				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_SET_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),
-				null,
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						try {
-							return ((boolean) value) ? DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getCalibrationResult().toString() : "";
-						} catch (Exception e) {
-							return "";
-						}
-					}
-				});
+				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()));
 	}
 
 	public String loadReferenceData(Element element, String edgeName) {
@@ -128,7 +117,15 @@ public class EDECalibrationSection extends ResourceComposite {
 				try {
 					calibrationModel.setRefData(referenceDataFileName);
 					calibrationModel.setEdeData(lastEdeScanFileName);
-					WizardDialog wizardDialog = new WizardDialog(runCalibrationButton.getShell(), new EnergyCalibrationWizard(calibrationModel));
+					WizardDialog wizardDialog = new WizardDialog(runCalibrationButton.getShell(), new EnergyCalibrationWizard(calibrationModel)) {
+						@Override
+						protected void createButtonsForButtonBar(Composite parent) {
+							super.createButtonsForButtonBar(parent);
+							this.getButton(IDialogConstants.FINISH_ID).setText("Apply Calibration");
+							((GridData) this.getButton(IDialogConstants.FINISH_ID).getLayoutData()).widthHint = 200;
+							this.getButton(IDialogConstants.FINISH_ID).getParent().layout();
+						}
+					};
 					wizardDialog.setPageSize(1024, 768);
 					if (wizardDialog.open() == Window.OK) {
 						if (calibrationModel.getCalibrationDetails().getCalibrationResult() != null) {
