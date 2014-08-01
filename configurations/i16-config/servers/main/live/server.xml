@@ -75,7 +75,22 @@
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
 
-	<bean id="script_paths" parent="common_script_paths_with_diffcalc"/>
+	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>
+
+	<!-- We don't like duplicating stuff in common_script_paths_with_diffcalc but need a way to extend the list inside the gda.jython.ScriptPaths class -->
+	<bean id="common_script_paths_with_diffcalc_and_epics" class="gda.jython.ScriptPaths">
+		<property name="projects">
+			<list>
+				<ref bean="user_script_project" />
+				<ref bean="diffcalc_script_project" />
+				<ref bean="beamline_config_script_project" />
+				<ref bean="mt_config_script_project" />
+				<ref bean="gda_core_script_project" />
+				<ref bean="gda_epics_script_project" />
+			</list>
+		</property>
+		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
+	</bean>
 
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="script_paths"/>
