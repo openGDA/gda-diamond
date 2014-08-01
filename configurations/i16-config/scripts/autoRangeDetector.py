@@ -1,4 +1,4 @@
-from time import sleep
+from time import sleep, time
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import SwitchableHardwareTriggerableProcessingDetectorWrapper
 from gda.scan import ScanBase
 from misc_functions import list_scannables, listprint, frange, attributes, caput, caget, cagetArray, add, mult
@@ -52,6 +52,7 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 		caput(self.rootPv + "CAM:Gain", 0)
 		caput(self.rootPv + "TIFF:EnableCallbacks", 0)
 		caput(self.rootPv + "CAM:ImageMode","Continuous")
+		caput(self.rootPv + "CAM:Acquire","0")
 		caput(self.rootPv + "CAM:Acquire","1")
 		# let the camera do an auto gain for entire range (should just saturate)
 		caput(self.rootPv + "CAM:ExposureAutoMin","21")
@@ -59,10 +60,13 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 		caput(self.rootPv + "CAM:ExposureAutoAlg", "FitRange")
 		caput(self.rootPv + "CAM:ExposureAuto", "Once")
 		sleep(0.1)
+		startWait = time()
 		while caget(self.rootPv + "CAM:ExposureAuto_RBV") != "0":
 			ScanBase.checkForInterrupts()
 			sleep(0.1)
-		
+			if time() - startWait > 5: #sometimes the auto gain fails and wait forever
+				print "Timeout waiting for auto exposure"
+				break
 		caput(self.rootPv + "CAM:Acquire","0")
 		caput(self.rootPv + "CAM:ImageMode","Single")
 		caput(self.rootPv + "TIFF:EnableCallbacks", 1)
@@ -71,4 +75,5 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 	def atScanEnd(self):
 		SwitchableHardwareTriggerableProcessingDetectorWrapper.atScanEnd(self)
 		caput(self.rootPv + "CAM:ImageMode","Continuous")
+		caput(self.rootPv + "CAM:Acquire","0")
 		caput(self.rootPv + "CAM:Acquire","1")
