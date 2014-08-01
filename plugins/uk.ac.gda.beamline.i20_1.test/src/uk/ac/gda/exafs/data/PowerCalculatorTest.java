@@ -53,7 +53,7 @@ public class PowerCalculatorTest {
 		file = PowerCalulator.getEnergyFieldFile(45.0, 1.09, FOLDER_PATH);
 		assertEquals("0p33T-300mA-0p12x1p1mrad.dat", file.getName());
 		try {
-			file = PowerCalulator.getEnergyFieldFile(51.0, 1.09, FOLDER_PATH);
+			file = PowerCalulator.getEnergyFieldFile(251.0, 1.09, FOLDER_PATH);
 			assertTrue(false);
 		} catch(Exception e) {
 			// Pass through
