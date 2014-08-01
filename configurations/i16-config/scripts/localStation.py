@@ -824,6 +824,21 @@ cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPo
 createPVScannable( "cor2ExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
 cor2ExpTime.level=10
 
+xeye = SwitchableHardwareTriggerableProcessingDetectorWrapper('xeye',
+                                                              _xeye,
+                                                              None,
+                                                              _xeye_for_snaps,
+                                                              [],
+                                                              panel_name='Firecam',
+                                                              panel_name_rcp='Plot 2',
+                                                              fileLoadTimout=60,
+                                                              printNfsTimes=False,
+                                                              returnPathAsImageNumberOnly=True)
+
+xeye.display_image = True
+xeyemax2d = DetectorDataProcessorWithRoi('xeyemax2d', xeye, [SumMaxPositionAndValue()])
+xeyepeak2d = DetectorDataProcessorWithRoi('xeyepeak2d', xeye, [TwodGaussianPeak()])
+
 #scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 
 
