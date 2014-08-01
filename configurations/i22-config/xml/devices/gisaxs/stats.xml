@@ -1,0 +1,210 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="stat1_min" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT1:MinValue_RBV" />
+	</bean>
+	<bean id="stat1_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT1:MinX_RBV" />
+	</bean>
+	<bean id="stat1_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT1:MinY_RBV" />
+	</bean>
+	<bean id="stat1_max" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT1:MaxValue_RBV" />
+	</bean>
+	<bean id="stat1_maxx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT1:MaxX_RBV" />
+	</bean>
+	<bean id="stat1_maxy" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT1:MaxY_RBV" />
+	</bean>
+
+	
+	<bean id="stat1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat1_min" />
+				<ref bean="stat1_minx" />
+				<ref bean="stat1_miny" />
+				<ref bean="stat1_max" />
+				<ref bean="stat1_maxx" />
+				<ref bean="stat1_maxy" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat2_min" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT2:MinValue_RBV" />
+	</bean>
+	<bean id="stat2_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT2:MinX_RBV" />
+	</bean>
+	<bean id="stat2_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT2:MinY_RBV" />
+	</bean>
+	<bean id="stat2_max" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT2:MaxValue_RBV" />
+	</bean>
+	<bean id="stat2_maxx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT2:MaxX_RBV" />
+	</bean>
+	<bean id="stat2_maxy" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT2:MaxY_RBV" />
+	</bean>
+
+	
+	<bean id="stat2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat2_min" />
+				<ref bean="stat2_minx" />
+				<ref bean="stat2_miny" />
+				<ref bean="stat2_max" />
+				<ref bean="stat2_maxx" />
+				<ref bean="stat2_maxy" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat3_min" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT3:MinValue_RBV" />
+	</bean>
+	<bean id="stat3_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT3:MinX_RBV" />
+	</bean>
+	<bean id="stat3_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT3:MinY_RBV" />
+	</bean>
+	<bean id="stat3_max" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT3:MaxValue_RBV" />
+	</bean>
+	<bean id="stat3_maxx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT3:MaxX_RBV" />
+	</bean>
+	<bean id="stat3_maxy" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT3:MaxY_RBV" />
+	</bean>
+
+	
+	<bean id="stat3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat3_min" />
+				<ref bean="stat3_minx" />
+				<ref bean="stat3_miny" />
+				<ref bean="stat3_max" />
+				<ref bean="stat3_maxx" />
+				<ref bean="stat3_maxy" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat4_min" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT4:MinValue_RBV" />
+	</bean>
+	<bean id="stat4_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT4:MinX_RBV" />
+	</bean>
+	<bean id="stat4_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT4:MinY_RBV" />
+	</bean>
+	<bean id="stat4_max" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT4:MaxValue_RBV" />
+	</bean>
+	<bean id="stat4_maxx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT4:MaxX_RBV" />
+	</bean>
+	<bean id="stat4_maxy" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT4:MaxY_RBV" />
+	</bean>
+
+	
+	<bean id="stat4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat4_min" />
+				<ref bean="stat4_minx" />
+				<ref bean="stat4_miny" />
+				<ref bean="stat4_max" />
+				<ref bean="stat4_maxx" />
+				<ref bean="stat4_maxy" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat5_min" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT5:MinValue_RBV" />
+	</bean>
+	<bean id="stat5_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT5:MinX_RBV" />
+	</bean>
+	<bean id="stat5_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT5:MinY_RBV" />
+	</bean>
+	<bean id="stat5_max" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT5:MaxValue_RBV" />
+	</bean>
+	<bean id="stat5_maxx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT5:MaxX_RBV" />
+	</bean>
+	<bean id="stat5_maxy" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT5:MaxY_RBV" />
+	</bean>
+
+	
+	<bean id="stat5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat5_min" />
+				<ref bean="stat5_minx" />
+				<ref bean="stat5_miny" />
+				<ref bean="stat5_max" />
+				<ref bean="stat5_maxx" />
+				<ref bean="stat5_maxy" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat6_min" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT6:MinValue_RBV" />
+	</bean>
+	<bean id="stat6_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT6:MinX_RBV" />
+	</bean>
+	<bean id="stat6_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT6:MinY_RBV" />
+	</bean>
+	<bean id="stat6_max" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT6:MaxValue_RBV" />
+	</bean>
+	<bean id="stat6_maxx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT6:MaxX_RBV" />
+	</bean>
+	<bean id="stat6_maxy" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:STAT6:MaxY_RBV" />
+	</bean>
+
+	
+	<bean id="stat6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat6_min" />
+				<ref bean="stat6_minx" />
+				<ref bean="stat6_miny" />
+				<ref bean="stat6_max" />
+				<ref bean="stat6_maxx" />
+				<ref bean="stat6_maxy" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

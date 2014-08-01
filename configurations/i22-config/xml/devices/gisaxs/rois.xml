@@ -1,0 +1,174 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="roi1_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI1:MinX" />
+	</bean>
+	<bean id="roi1_sizex" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI1:SizeX" />
+	</bean>
+	<bean id="roi1_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI1:MinY" />
+	</bean>
+	<bean id="roi1_sizey" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI1:SizeY" />
+	</bean>
+	
+	<bean id="roi1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi1_minx" />
+				<ref bean="roi1_sizex" />
+				<ref bean="roi1_miny" />
+				<ref bean="roi1_sizey" />
+			</list>
+		</property>
+		<property name="extraNames">
+			<list>
+				<value>minx</value>
+				<value>sizex</value>
+				<value>miny</value>
+				<value>sizey</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="roi2_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI2:MinX" />
+	</bean>
+	<bean id="roi2_sizex" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI2:SizeX" />
+	</bean>
+	<bean id="roi2_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI2:MinY" />
+	</bean>
+	<bean id="roi2_sizey" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI2:SizeY" />
+	</bean>
+	
+	<bean id="roi2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi2_minx" />
+				<ref bean="roi2_sizex" />
+				<ref bean="roi2_miny" />
+				<ref bean="roi2_sizey" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="roi3_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI3:MinX" />
+	</bean>
+	<bean id="roi3_sizex" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI3:SizeX" />
+	</bean>
+	<bean id="roi3_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI3:MinY" />
+	</bean>
+	<bean id="roi3_sizey" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI3:SizeY" />
+	</bean>
+	
+	<bean id="roi3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi3_minx" />
+				<ref bean="roi3_sizex" />
+				<ref bean="roi3_miny" />
+				<ref bean="roi3_sizey" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="roi4_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI4:MinX" />
+	</bean>
+	<bean id="roi4_sizex" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI4:SizeX" />
+	</bean>
+	<bean id="roi4_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI4:MinY" />
+	</bean>
+	<bean id="roi4_sizey" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI4:SizeY" />
+	</bean>
+	
+	<bean id="roi4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi4_minx" />
+				<ref bean="roi4_sizex" />
+				<ref bean="roi4_miny" />
+				<ref bean="roi4_sizey" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="roi5_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI5:MinX" />
+	</bean>
+	<bean id="roi5_sizex" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI5:SizeX" />
+	</bean>
+	<bean id="roi5_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI5:MinY" />
+	</bean>
+	<bean id="roi5_sizey" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI5:SizeY" />
+	</bean>
+	
+	<bean id="roi5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi5_minx" />
+				<ref bean="roi5_sizex" />
+				<ref bean="roi5_miny" />
+				<ref bean="roi5_sizey" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="roi6_minx" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI6:MinX" />
+	</bean>
+	<bean id="roi6_sizex" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI6:SizeX" />
+	</bean>
+	<bean id="roi6_miny" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI6:MinY" />
+	</bean>
+	<bean id="roi6_sizey" class="gda.device.epicsdevice.EpicsDouble">
+		<property name="pvName" value="BL22I-EA-PILAT-01:ROI6:SizeY" />
+	</bean>
+	
+	<bean id="roi6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi6_minx" />
+				<ref bean="roi6_sizex" />
+				<ref bean="roi6_miny" />
+				<ref bean="roi6_sizey" />
+			</list>
+		</property>
+	</bean>
+	
+	
+</beans>
+
