@@ -73,8 +73,8 @@ public abstract class BeamlineConditionMonitorBase extends ScannableBase {
 	
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
+//		super.rawAsynchronousMoveTo(position);
 	}
-
 	
 	/**
 	 * The test is performed inside this method. An inheriting class could either wait inside this method until the
@@ -95,7 +95,7 @@ public abstract class BeamlineConditionMonitorBase extends ScannableBase {
 	protected boolean machineIsRunning() throws DeviceException {
 
 		if (machineModeMonitor == null) {
-			return true;
+			return false;
 		}
 
 		try {
