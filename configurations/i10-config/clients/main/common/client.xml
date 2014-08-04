@@ -17,13 +17,13 @@
 	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" />
 
 	<!-- i10-config
-	 -->
 	<import resource="I10-D4-DCAM.xml" />
 	<import resource="I10-D6-DCAM.xml" />
-	 <!-- i01-1-config
 	 -->
+	 <!-- i01-1-config
 	<import resource="I10-DJ1-DCAM.xml" />
 	<import resource="I10-DJ3-DCAM.xml" />
+	 -->
 
 	<import resource="I10-PIMTE.xml" />
 
