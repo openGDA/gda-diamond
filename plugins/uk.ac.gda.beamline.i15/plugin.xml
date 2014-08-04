@@ -56,7 +56,7 @@
                </parameter>
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
-                     value="mpx">
+                     value="pv//mpx//BL15I-EA-DET-18@">
                </parameter>
             </command>
             <command
