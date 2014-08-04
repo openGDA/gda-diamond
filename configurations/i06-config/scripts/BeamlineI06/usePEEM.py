@@ -123,6 +123,10 @@ else:
 
 def uvpreview():
 	uv.detector.setCameraInProgress(False)
+	try:
+		uv.setToAuto()
+	except AttributeError:
+		pass
 	uv.setPixelClock(40)
 	uv.setCollectionTime(0.1)
 	uv.setImageAverage(1)
@@ -130,6 +134,10 @@ def uvpreview():
 
 def uvimaging():
 	uv.detector.setCameraInProgress(False)
+	try:
+		uv.setToSoft()
+	except AttributeError:
+		pass
 	uv.setPixelClock(10)
 	uv.setImageAverage(0)
 	uv.detector.setCameraSequentialMode(True)
