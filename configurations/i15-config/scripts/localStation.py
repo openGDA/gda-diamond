@@ -426,6 +426,7 @@ try:
 		alias("expose")
 		alias("darkExpose")
 		alias("rockScan")
+		alias("rockScanUnsync")
 		#alias("resetCCDScanNumber")
 		#alias("incrementMarScanNumber")
 		#alias("resetMarScanNumber")
