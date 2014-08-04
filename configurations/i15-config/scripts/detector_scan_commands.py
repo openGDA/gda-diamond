@@ -203,7 +203,7 @@ def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, 
 						, 'mpxHWT': detector
 						, 'mpxc':   jythonNameMap.mpxcHWT
 						, 'mpxcHWT':detector
-						, 'mpxthr':   jythonNameMap.mpxcHWT
+						, 'mpxthr':   jythonNameMap.mpxthrHWT
 						, 'mpxthrHWT':detector
 						}
 	
