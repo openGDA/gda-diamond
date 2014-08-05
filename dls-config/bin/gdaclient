@@ -3,6 +3,7 @@
 # Command to start the GDA client
 
 DLS_CONFIG_BIN=$(readlink -f $(dirname $0))
+GDA_INSTALL_GIT_LOC=$(readlink -f $DLS_CONFIG_BIN/../../../)
 
 function gdaclienthelp {
 	cat 1>&2 <<EOF
@@ -206,7 +207,7 @@ PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG
 VMARGS="-XX:ErrorFile=$GDA_CLIENT_LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
 
 # see http://wiki.eclipse.org/Eclipse.ini
-COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs -Dgda.dls-config=$DLS_CONFIG_BIN/../ -Dgda.install.git.loc=$DLS_CONFIG_BIN/../../../ $VMARGS"
+COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs -Dgda.install.git.loc=$GDA_INSTALL_GIT_LOC/ $VMARGS"
 
 echo Starting GDA Client...
 if [ -z $NOHUP_LOGFILE ] ; then

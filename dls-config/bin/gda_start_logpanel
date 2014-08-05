@@ -8,7 +8,7 @@ PRODUCT=/dls_sw/apps/gdalogpanel/gdalogpanel/gdalogpanel
 export GDA_CONFIGDIR=/dls_sw/$BEAMLINE/software/gda/config
 export GDA_DLS_CONFIGDIR=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config
 
-$PRODUCT -vmargs -Dgda.dls-config=$GDA_DLS_CONFIGDIR -Dgda.propertiesFile=$GDA_CONFIGDIR/properties/live/java.properties -Dgda.config=$GDA_CONFIGDIR -Dgda.mode=live -Dgda.install.git.loc=/dls_sw/$BEAMLINE/software/gda/workspace_git &
+$PRODUCT -vmargs -Dgda.propertiesFile=$GDA_CONFIGDIR/properties/live/java.properties -Dgda.config=$GDA_CONFIGDIR -Dgda.mode=live -Dgda.install.git.loc=/dls_sw/$BEAMLINE/software/gda/workspace_git &
 else
 wmctrl -R "GDA Log Panel"
 fi
