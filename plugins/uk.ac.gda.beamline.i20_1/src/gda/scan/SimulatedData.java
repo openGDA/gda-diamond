@@ -44,9 +44,9 @@ public class SimulatedData {
 
 	//	private static final String SIMULATED_DATA_FILE_PATH = "simulated_data.dat";
 
-	private static final String SIMULATED_DATA_I0_DARK_FILE_PATH = "I0dark1.dat";
-	private static final String SIMULATED_DATA_IT_DARK_FILE_PATH = "Itdark1.dat";
-	private static final String SIMULATED_DATA_I0_RAW_FILE_PATH = "I01.dat";
+	private static final String SIMULATED_DATA_I0_DARK_FILE_PATH = "I0dark1b.dat";
+	private static final String SIMULATED_DATA_IT_DARK_FILE_PATH = "Itdark1b.dat";
+	private static final String SIMULATED_DATA_I0_RAW_FILE_PATH = "I01b.dat";
 	private static final String SIMULATED_DATA_IT_RAW_FILE_PATH = "It181.dat";
 
 	private static final int MAX = 181;
@@ -78,6 +78,12 @@ public class SimulatedData {
 		}
 	}
 
+	private static int loopFrame = 0;
+
+	public static void reset() {
+		loopFrame = 0;
+	}
+
 	public static NexusTreeProvider[] readSimulatedDataFromFile(int lowFrame, int highFrame, StripDetector theDetector, EdePositionType positionType, EdeScanType scanType)  throws Exception {
 		if (simulatedIt_raw == null) {
 			throw new Exception("Simulated data not loaded");
@@ -85,7 +91,7 @@ public class SimulatedData {
 		simulatedEnergies = ((XHDetector) theDetector).getEnergyForChannels();
 		int numberOfFrames = (highFrame + 1) - lowFrame;
 		NexusTreeProvider[] nexusTreeProvider = new NexusTreeProvider[numberOfFrames];
-		int startFrame = lowFrame % MAX;
+		int startFrame = loopFrame++ % MAX;
 
 		for(int i = 0; i < numberOfFrames; i++) {
 			NXDetectorData thisFrame = new NXDetectorData(theDetector);

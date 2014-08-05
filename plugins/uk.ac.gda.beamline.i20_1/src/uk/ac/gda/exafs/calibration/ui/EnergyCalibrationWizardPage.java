@@ -333,8 +333,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		trace.setData(calibrationDataModel.getRefEnergyDataset(), calibrationDataModel.getEdeDataset());
 		if (calibrationDataModel instanceof SampleData) {
 			trace.setTraceColor(ColorConstants.red);
+			plottingSystem.getSelectedXAxis().setTitle("Strip");
 		} else {
 			trace.setTraceColor(ColorConstants.blue);
+			plottingSystem.getSelectedXAxis().setTitle("Energy");
 		}
 		plottingSystem.addTrace(trace);
 		plottingSystem.repaint();
@@ -615,8 +617,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 							try {
 								refPlottingSystem.clear();
 
-								ILineTrace refTrace = refPlottingSystem.createLineTrace("Ref");
+								xafsFittingUtils.setPostEdgeOrder(1);
+								xafsFittingUtils.setPreEdgeGap(15);
 
+								ILineTrace refTrace = refPlottingSystem.createLineTrace("Ref");
 								AbstractDataset[] exafs = xafsFittingUtils.getNormalisedIntensityAndSpline(refEnergySlice, refSpectrumSlice);
 								exafs[0].setName("ref-energy");
 								exafs[1].setName("ref-spectrum");
@@ -626,10 +630,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 								refPlottingSystem.addTrace(refTrace);
 
 								// TODO Show spline on/off
-								ILineTrace refTraceSpline = refPlottingSystem.createLineTrace("RefSpline");
-								refTraceSpline.setData(exafs[0], exafs[2]);
-								refTraceSpline.setTraceColor(ColorConstants.blue);
-								refPlottingSystem.addTrace(refTraceSpline);
+								//								ILineTrace refTraceSpline = refPlottingSystem.createLineTrace("RefSpline");
+								//								refTraceSpline.setData(exafs[0], exafs[2]);
+								//								refTraceSpline.setTraceColor(ColorConstants.blue);
+								//								refPlottingSystem.addTrace(refTraceSpline);
 
 								ILineTrace edeTrace = refPlottingSystem.createLineTrace(EDE_OVERLAY_TRACE_NAME);
 
@@ -642,10 +646,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 								refPlottingSystem.addTrace(edeTrace);
 
 								// TODO Show spline on/off
-								ILineTrace edeTraceSpline = refPlottingSystem.createLineTrace("EdeSpline");
-								edeTraceSpline.setData(exafsede[0], exafsede[2]);
-								edeTraceSpline.setTraceColor(ColorConstants.red);
-								refPlottingSystem.addTrace(edeTraceSpline);
+								//								ILineTrace edeTraceSpline = refPlottingSystem.createLineTrace("EdeSpline");
+								//								edeTraceSpline.setData(exafsede[0], exafsede[2]);
+								//								edeTraceSpline.setTraceColor(ColorConstants.red);
+								//								refPlottingSystem.addTrace(edeTraceSpline);
 
 								refPlottingSystem.repaint();
 

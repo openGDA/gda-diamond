@@ -200,7 +200,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 			CalibrationDetails calibrationDetails = timeResolvedNexusFileHelper.getItMetadata().getCalibrationDetails();
 			if (statusLabel !=null) {
 				if (calibrationDetails != null) {
-					statusLabel.setText("Calibrated with " + calibrationDetails.getReferenceDataFileName());
+					statusLabel.setText("Energy calibrated with " + calibrationDetails.getReferenceDataFileName());
 				} else {
 					statusLabel.setText("");
 				}
@@ -213,13 +213,12 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 
 	private void checkAndFillCyclicInfo(TimeResolvedDataFileHelper timeResolvedNexusFileHelper) throws Exception {
 		cyclesInfo = timeResolvedNexusFileHelper.getCyclesInfo();
+		cycleIndex = "";
 		if (cyclesInfo.length > 0) {
 			Matcher matcher = Pattern.compile("Slice of.*=\\s*(\\d+)\\)").matcher(this.getPlottingSystem().getTitle());
 			if (matcher.find()) {
 				cycleIndex = matcher.group(1);
 			}
-		} else {
-			cycleIndex = "";
 		}
 	}
 
