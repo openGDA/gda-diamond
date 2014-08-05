@@ -78,7 +78,7 @@ public class ExperimentDataPlotView extends ViewPart {
 						try {
 							text.append("Use strips number for X axis");
 							if (!((String) value).isEmpty() && DetectorModel.INSTANCE.getCurrentDetector() != null) {
-								text.append(" (calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getSampleDataFileName() + ")");
+								text.append(" (Energy calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getSampleDataFileName() + ")");
 							}
 						} catch (Exception e) {
 							logger.error("Unable to get calibration data", e);

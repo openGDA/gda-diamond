@@ -162,6 +162,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	@Override
 	public void doCollection() throws Exception {
+		SimulatedData.reset();
 		validate();
 		logger.debug(toString() + " loading detector parameters...");
 		theDetector.loadParameters(scanParameters);
@@ -231,10 +232,12 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		if (isFinishEarlyRequested()){
 			return;
 		}
-		if (topup != null){
-			// the TopupChecker object will run its test for an imminent top-up in atScanStart()
-			topup.atScanStart();
-		}
+
+		// FIXME Commented out for now, needs reviewing as part of doing scans using TFG2 and TFG scaler to collect topup
+		//		if (topup != null){
+		//			// the TopupChecker object will run its test for an imminent top-up in atScanStart()
+		//			topup.atScanStart();
+		//		}
 		shutter.moveTo("Open");
 	}
 
