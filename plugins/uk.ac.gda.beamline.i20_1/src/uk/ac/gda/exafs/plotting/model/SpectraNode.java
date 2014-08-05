@@ -63,6 +63,7 @@ public class SpectraNode extends DataNode {
 
 	public void setXAxisData(DoubleDataset xDoubleDataset) {
 		this.xDoubleDataset = xDoubleDataset;
+		this.xDoubleDataset.setName("energy");
 	}
 
 	public DoubleDataset getXAxisData() {

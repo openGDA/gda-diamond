@@ -25,8 +25,7 @@ import gda.device.detector.StripDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.scan.EdeWithTFGScan;
-import gda.scan.EdeWithoutTriggerScan;
+import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
@@ -62,7 +61,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	protected final EnergyDispersiveExafsScan iRefDarkScan;
 	protected final EnergyDispersiveExafsScan iRefScan;
 	protected final EnergyDispersiveExafsScan itDarkScan;
-	protected final EdeWithTFGScan[] itScans; // one of these for each cycle (repetition)
+	protected final EnergyDispersiveExafsScan[] itScans; // one of these for each cycle (repetition)
 	protected final EnergyDispersiveExafsScan i0FinalLightScan;
 	protected final EnergyDispersiveExafsScan iRefFinalScan;
 
@@ -74,8 +73,8 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	private final String nexusfileName;
 
-	public EdeTimeResolvedExperimentDataWriter(EdeWithoutTriggerScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
-			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EdeWithTFGScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
+	public EdeTimeResolvedExperimentDataWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
+			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
 			StripDetector theDetector, String nexusfileName) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0DarkScan = i0DarkScan;
@@ -185,8 +184,8 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		return itScans[0].getScanParameters().getGroups().size();
 	}
 
-	public DoubleDataset deriveAndWriteItSpectrum(int spectrumIndex, EdeWithoutTriggerScan i0DarkScan,
-			EdeWithoutTriggerScan itDarkScan, EdeWithoutTriggerScan transmissionScan, EdeWithoutTriggerScan firstI0Scan, EdeWithoutTriggerScan secondI0Scan) {
+	public DoubleDataset deriveAndWriteItSpectrum(int spectrumIndex, EdeScan i0DarkScan,
+			EdeScan itDarkScan, EdeScan transmissionScan, EdeScan firstI0Scan, EdeScan secondI0Scan) {
 		int timingGroupNumber = deriveTimingGroupFromSpectrumIndex(spectrumIndex);
 		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(timingGroupNumber);
 		DoubleDataset i0FirstDataSet = firstI0Scan.extractDetectorDataSet(timingGroupNumber);

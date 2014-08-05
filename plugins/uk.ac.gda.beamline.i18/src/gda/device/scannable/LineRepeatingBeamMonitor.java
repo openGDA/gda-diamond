@@ -60,19 +60,39 @@ public class LineRepeatingBeamMonitor extends I18BeamMonitor {
 		}
 
 		if (!machineHasCurrent()) {
+			try {
+				while (!machineHasCurrent()) {
+					sendAndPrintMessage("Ring has no current : waiting...");
+					Thread.sleep(60000);
+				}
+			} catch (InterruptedException e) {
+				// someone trying to kill the thread so re-throw to kill any scan
+				throw new DeviceException(e.getMessage(), e);
+			}
+			// throw a RedoScanLineThrowable once current has returned
 			sendAndPrintMessage("Ring has no current : redo this line");
 			throwRedoScanLineThrowable();
 		}
 
-		while (!portShutterOpen()) {
+		if (!portShutterOpen()) {
+			try {
+				while (!portShutterOpen()) {
+					sendAndPrintMessage("Port shutter not open : waiting...");
+					Thread.sleep(30000);
+				}
+			} catch (InterruptedException e) {
+				// someone trying to kill the thread so re-throw to kill any scan
+				throw new DeviceException(e.getMessage(), e);
+			}
+			// throw a RedoScanLineThrowable once current has returned
 			sendAndPrintMessage("Port shutter not open : redo this line");
 			throwRedoScanLineThrowable();
 		}
 	}
 
 	private void throwRedoScanLineThrowable() throws RedoScanLineThrowable {
-		InterfaceProvider.getTerminalPrinter().print("***Beam down! Redoing scan/line***");
-		throw new RedoScanLineThrowable("Beam drop detected ");
+		InterfaceProvider.getTerminalPrinter().print("***Restarting line***");
+		throw new RedoScanLineThrowable("No beam on sample");
 	}
 
 }

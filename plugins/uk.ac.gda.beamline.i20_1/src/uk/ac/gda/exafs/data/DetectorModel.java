@@ -266,22 +266,36 @@ public class DetectorModel extends ObservableModel {
 	}
 
 	public static class EnergyCalibrationSetObserver extends ObservableModel implements IObserver {
-		public static final String ENERGY_CALIBRATION_SET_PROP_NAME = "energyCalibrationSet";
+		public static final String ENERGY_CALIBRATION_PROP_NAME = "energyCalibration";
 		@Override
 		public void update(final Object source, Object arg) {
 			if (arg.equals(StripDetector.CALIBRATION_PROP_KEY)) {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_SET_PROP_NAME, null, ((StripDetector) source).isEnergyCalibrationSet());
+						String value = "";
+						if (((StripDetector) source).isEnergyCalibrationSet()) {
+							try {
+								value = ((StripDetector) source).getEnergyCalibration().getFormattedPolinormal();
+							} catch (DeviceException e) {
+								logger.error("Error getting calibration information", e);
+							}
+						}
+						EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
 					}
 				});
-
 			}
 		}
 
-		public boolean isEnergyCalibrationSet() {
-			return DetectorModel.INSTANCE.getCurrentDetector() == null ? false : DetectorModel.INSTANCE.getCurrentDetector().isEnergyCalibrationSet();
+		public String getEnergyCalibration() {
+			if (DetectorModel.INSTANCE.getCurrentDetector() != null &&  DetectorModel.INSTANCE.getCurrentDetector().isEnergyCalibrationSet()) {
+				try {
+					return DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getFormattedPolinormal();
+				} catch (DeviceException e) {
+					logger.error("Error getting calibration information", e);
+				}
+			}
+			return "";
 		}
 	}
 }

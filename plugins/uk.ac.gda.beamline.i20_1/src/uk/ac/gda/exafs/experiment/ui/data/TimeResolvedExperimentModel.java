@@ -54,10 +54,14 @@ import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
+import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.IntervalImpl;
@@ -76,14 +80,21 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	protected static final String TIMING_GROUPS_OBJ_NAME = "timingGroups";
 
-	private static final double EXPERIMENT_START_TIME = 0.0;
+	protected static Gson gson = new Gson();
+
+	private static final String EXTERNAL_TRIGGER_DETAILS = "tfg_external_trigger_details";
+	protected ExternalTriggerSetting externalTriggerSetting;
+
+	private static final double IT_COLLECTION_START_TIME = 0.0;
 	private static final double DEFAULT_INITIAL_EXPERIMENT_TIME = 20; // Should be > 0
 
 	private static final String LINEAR_EXPERIMENT_MODEL_DATA_STORE_KEY = "LINEAR_TIME_RESOLVED_EXPERIMENT_DATA";
 
 	private static final String LINEAR_EXPERIMENT_OBJ = "linearExperiment";
 
-	public static final String EXPERIMENT_DURATION_PROP_NAME = "experimentDuration";
+	public static final String IT_COLLECTION_DURATION_PROP_NAME = "itCollectionDuration";
+
+	public static final String EXP_IT_DURATION_PROP_NAME = "expItDuration";
 
 	private DefaultTimeBarModel timebarModel;
 	private TimingGroupTimeBarRowModel timingGroupRowModel;
@@ -188,6 +199,30 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	private void loadSavedGroups() {
+
+		TFGTrigger savedExternalTriggerSetting = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
+		if (savedExternalTriggerSetting == null) {
+			savedExternalTriggerSetting = new TFGTrigger();
+			try {
+				savedExternalTriggerSetting.getSampleEnvironment().add(savedExternalTriggerSetting.createNewSampleEnvEntry());
+			} catch (Exception e) {
+				logger.error("Unable to create sample environment entry", e);
+			}
+		}
+		externalTriggerSetting = new ExternalTriggerSetting(savedExternalTriggerSetting);
+		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
+			}
+		});
+		externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().addPropertyChangeListener(TriggerableObject.TRIGGER_DELAY_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				TimeResolvedExperimentModel.this.firePropertyChange(EXP_IT_DURATION_PROP_NAME, null, getExpItDuration());
+			}
+		});
+
 		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
 		if (savedExperimentDataModel == null) {
@@ -202,8 +237,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 		});
 		if (savedGroups == null) {
-			timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToDefaultUnit(DEFAULT_INITIAL_EXPERIMENT_TIME));
-			addItGroup();
+			timeIntervalData.setTimes(IT_COLLECTION_START_TIME, unit.convertToDefaultUnit(DEFAULT_INITIAL_EXPERIMENT_TIME));
+			createNewItGroup();
 			return;
 		}
 
@@ -265,12 +300,14 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 	}
 
-	public TimingGroupUIModel addItGroup() {
+	public TimingGroupUIModel createNewItGroup() {
 		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + groupList.size());
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
 		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
+		newGroup.setExernalTriggerAvailable(true);
+		newGroup.setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers.ZERO);
 		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
@@ -331,13 +368,14 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f",
 					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
 		}
-		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");",
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", \'%s\');",
 				TIMING_GROUPS_OBJ_NAME,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
-				DetectorModel.SHUTTER_NAME));
+				DetectorModel.SHUTTER_NAME,
+				gson.toJson(externalTriggerSetting.getTfgTrigger())));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
@@ -554,8 +592,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		for (Object loadedGroup : groupList) {
 			experimentDuration += ((TimingGroupUIModel)loadedGroup).getDuration();
 		}
-		timeIntervalData.setTimes(EXPERIMENT_START_TIME, experimentDuration);
-		this.firePropertyChange(EXPERIMENT_DURATION_PROP_NAME, null, getExperimentDuration());
+		timeIntervalData.setTimes(IT_COLLECTION_START_TIME, experimentDuration);
+		this.firePropertyChange(IT_COLLECTION_DURATION_PROP_NAME, null, getItCollectionDuration());
 	}
 
 	private void resetInitialGroupTimes(double groupDuration) {
@@ -580,7 +618,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public void setupExperiment(ExperimentUnit unit, double duration, int noOfGroups) {
-		timeIntervalData.setTimes(EXPERIMENT_START_TIME, unit.convertToDefaultUnit(duration));
+		timeIntervalData.setTimes(IT_COLLECTION_START_TIME, unit.convertToDefaultUnit(duration));
 		this.setUnit(unit);
 		groupList.clear();
 		for(int i = 0; i < noOfGroups; i++) {
@@ -593,8 +631,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 	}
 
-	public double getExperimentDuration() {
+	public double getItCollectionDuration() {
 		return unit.convertFromDefaultUnit(timeIntervalData.getDuration());
+	}
+
+	public double getExpItDuration() {
+		return TFGTrigger.DEFAULT_DELAY_UNIT.convertTo(externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().getTriggerDelay(), unit) + getItCollectionDuration();
 	}
 
 	public double getDurationInSec() {
@@ -635,5 +677,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	public double getDuration() {
 		return timeIntervalData.getDuration();
+	}
+
+
+
+	public ExternalTriggerSetting getExternalTriggerSetting() {
+		return externalTriggerSetting;
 	}
 }

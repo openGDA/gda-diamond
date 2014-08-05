@@ -18,7 +18,7 @@ from cid_photodiode import CidPhotoDiode
 from exafsscripts.exafs.i18DetectorPreparer import I18DetectorPreparer
 from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
 from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
-from exafsscripts.exafs.i18ScanScripts import I18XasScan
+from exafsscripts.exafs.xas_scan import XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
@@ -49,9 +49,10 @@ if (LocalProperties.get("gda.mode") == 'live'):
     beamMonitor.setName("beamMonitor")
     beamMonitor.setMachineModeMonitor(machineModeMonitor)
     beamMonitor.configure()
-    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
-    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
-#     traj3ContiniousX.setBeamMonitor(beamMonitor)
+#    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
+#    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
+#    traj3ContiniousX.setBeamMonitor(beamMonitor)
+#    traj3ContiniousX.setTopupMonitor(topupMonitor)
     
     detectorFillingMonitor = DetectorFillingMonitorScannable()
     detectorFillingMonitor.setName("detectorFillingMonitor")
@@ -67,7 +68,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
 
     add_default topupMonitor
     add_default beamMonitor
-    add_default trajBeamMonitor
+    #add_default trajBeamMonitor
     # don't add detectorFillingMonitor as a default
 
     archiver = IcatXMLCreator()
@@ -96,24 +97,24 @@ outputPreparer =   I18OutputPreparer(datawriterconfig)
 
 # user mode on the live beamline, use energy
 if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
-    xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+    xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 # else use energy_nogap
 else :
-    xas = I18XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+    xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
 non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
 # while traj stage 3 hardware is switched off
-#raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid)
-#raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader)
-raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, None, raster_counterTimer01, raster_xmap, traj1PositionReader, None, raster_xspress, buffered_cid)
-raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,None, None, traj1SampleX, None, raster_xspress, traj1PositionReader, None)
+raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid, trajBeamMonitor)
+raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
+# raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, None, raster_counterTimer01, raster_xmap, traj1PositionReader, None, raster_xspress, buffered_cid)
+# raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,None, None, traj1SampleX, None, raster_xspress, traj1PositionReader, None)
 
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    xas.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor, trajBeamMonitor)
+    detectorPreparer.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor)
 else:
-    xas.addMonitors(None, None, None, None)
+    detectorPreparer.addMonitors(None, None, None)
 
 qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
 xanes = xas

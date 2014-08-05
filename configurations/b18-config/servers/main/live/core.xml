@@ -86,6 +86,7 @@
 				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
 				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
 				<value>uk.ac.gda.beans.xspress.XspressParameters</value>
+				<value>uk.ac.gda.beans.vortex.Xspress3Parameters</value>
 			</util:list>
 		</property>
 	</bean>

@@ -42,35 +42,50 @@ public class SimulatedData {
 
 	private static final Logger logger = LoggerFactory.getLogger(SimulatedData.class);
 
-	private static final String SIMULATED_DATA_FILE_PATH = "simulated_data.dat";
+	//	private static final String SIMULATED_DATA_FILE_PATH = "simulated_data.dat";
+
+	private static final String SIMULATED_DATA_I0_DARK_FILE_PATH = "I0dark1.dat";
+	private static final String SIMULATED_DATA_IT_DARK_FILE_PATH = "Itdark1.dat";
+	private static final String SIMULATED_DATA_I0_RAW_FILE_PATH = "I01.dat";
+	private static final String SIMULATED_DATA_IT_RAW_FILE_PATH = "It181.dat";
+
+	private static final int MAX = 181;
 
 	private static double[] simulatedEnergies;
 	private static double[] simulatedI0_dark;
 	private static double[] simulatedIt_dark;
 	private static double[] simulatedI0_raw;
-	private static double[] simulatedIt_raw;
+	private static double[][] simulatedIt_raw = new double[MAX][];
 
 	static {
 		try {
 			String separator = File.separator;
-			String filePath = LocalProperties.getConfigDir() + "servers" + separator + "main" + separator + "dummy" + separator + SIMULATED_DATA_FILE_PATH;
-			final DataHolder simulatedSpectrumData = new SRSLoader(filePath).loadFile();
-			simulatedEnergies = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.STRIP_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
-			simulatedI0_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.I0_DARK_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
-			simulatedIt_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.IT_DARK_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
-			simulatedI0_raw = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.I0_RAW_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
-			simulatedIt_raw = ((DoubleDataset) simulatedSpectrumData.getDataset(EdeDataConstants.IT_RAW_COLUMN_NAME).cast(Dataset.FLOAT64)).getData();
+			String filePath = LocalProperties.getConfigDir() + "servers" + separator + "main" + separator + "dummy" + separator;
+
+			DataHolder simulatedSpectrumData = new SRSLoader(filePath + SIMULATED_DATA_I0_DARK_FILE_PATH).loadFile();
+			simulatedI0_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(1).cast(Dataset.FLOAT64)).getData();
+			simulatedSpectrumData = new SRSLoader(filePath + SIMULATED_DATA_IT_DARK_FILE_PATH).loadFile();
+			simulatedIt_dark = ((DoubleDataset) simulatedSpectrumData.getDataset(1).cast(Dataset.FLOAT64)).getData();
+			simulatedSpectrumData = new SRSLoader(filePath + SIMULATED_DATA_I0_RAW_FILE_PATH).loadFile();
+			simulatedI0_raw = ((DoubleDataset) simulatedSpectrumData.getDataset(1).cast(Dataset.FLOAT64)).getData();
+
+			simulatedSpectrumData = new SRSLoader(filePath + SIMULATED_DATA_IT_RAW_FILE_PATH).loadFile();
+			for (int i = 0; i < MAX; i++) {
+				simulatedIt_raw[i] = ((DoubleDataset) simulatedSpectrumData.getDataset(i + 1).cast(Dataset.FLOAT64)).getData();
+			}
 		} catch (Exception e) {
 			logger.error("Unable to load simulated Data", e);
 		}
 	}
 
 	public static NexusTreeProvider[] readSimulatedDataFromFile(int lowFrame, int highFrame, StripDetector theDetector, EdePositionType positionType, EdeScanType scanType)  throws Exception {
-		if (simulatedEnergies == null) {
+		if (simulatedIt_raw == null) {
 			throw new Exception("Simulated data not loaded");
 		}
+		simulatedEnergies = ((XHDetector) theDetector).getEnergyForChannels();
 		int numberOfFrames = (highFrame + 1) - lowFrame;
 		NexusTreeProvider[] nexusTreeProvider = new NexusTreeProvider[numberOfFrames];
+		int startFrame = lowFrame % MAX;
 
 		for(int i = 0; i < numberOfFrames; i++) {
 			NXDetectorData thisFrame = new NXDetectorData(theDetector);
@@ -84,18 +99,18 @@ public class SimulatedData {
 				}
 			} else if(positionType == EdePositionType.INBEAM) {
 				if (scanType == EdeScanType.LIGHT) {
-					simulatedData = createCorrectedSimulatedData(simulatedIt_raw, theDetector);
+					simulatedData = createCorrectedSimulatedData(simulatedIt_raw[startFrame + i], theDetector);
 				} else {
 					simulatedData = createCorrectedSimulatedData(simulatedIt_dark, theDetector);
 				}
 			} else {
 				if (scanType == EdeScanType.LIGHT) {
-					simulatedData = createCorrectedSimulatedData(simulatedIt_raw, theDetector);
+					simulatedData = createCorrectedSimulatedData(simulatedIt_raw[startFrame + i], theDetector);
 				} else {
 					simulatedData = createCorrectedSimulatedData(simulatedIt_dark, theDetector);
 				}
 			}
-			//	addNoise(simulatedData);
+
 			thisFrame.addData(theDetector.getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedData, "eV", 1);
 			for (String name : thisFrame.getExtraNames()) {
 				thisFrame.setPlottableValue(name, 0.0);
@@ -117,21 +132,13 @@ public class SimulatedData {
 		return correctedSimulatedData;
 	}
 
-	// FIXME to be refactored to use more realistic data
-	private static void addNoise(double[] simulatedData) {
-		for (int i=0; i < simulatedData.length; i++) {
-			simulatedData[i] = simulatedData[i] + generatRandomPositiveNegitiveValue(100000);
-		}
-	}
-
 	public static int generatRandomPositiveNegitiveValue(int range) {
 		int ii = (int) (Math.random() * (range * 2)) - range;
 		return ii;
 	}
 
 	public static boolean isLoaded() {
-		return false;
-		//return simulatedEnergies != null;
+		return simulatedIt_raw != null;
 	}
 
 

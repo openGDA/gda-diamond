@@ -56,9 +56,9 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * <p>
  * This starts immediately and does not take sample environment triggering
  */
-public class EdeWithoutTriggerScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
+public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeWithoutTriggerScan.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
 
 	protected final StripDetector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
@@ -71,6 +71,8 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 	private IObserver progressUpdater;
 	private final Scannable shutter;
 	private final TopupChecker topup;
+
+	//protected final TfgScaler injectionCounter;
 
 	protected boolean isSimulated = false;
 
@@ -87,7 +89,7 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 	 * @param shutter
 	 * @param topup - this is configured outside of this scan to enable control of how long to wait
 	 */
-	public EdeWithoutTriggerScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
+	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topup) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
@@ -105,6 +107,8 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		}
 		super.setUp();
 		updateSimulated();
+
+		//injectionCounter = Finder.getInstance().find("injectionCounter");
 	}
 
 	private void updateSimulated() {
@@ -353,11 +357,15 @@ public class EdeWithoutTriggerScan extends ConcurrentScanChild implements Energy
 		return thisPoint;
 	}
 
+	//private static final Double placeHolderValue = new Double(0);
+
 	@SuppressWarnings("unused")
 	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
 			ScanDataPoint thisPoint) throws DeviceException {
 		thisPoint.addDetector(theDetector);
+		//thisPoint.addDetector(injectionCounter);
 		thisPoint.addDetectorData(detData[0][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
+		//thisPoint.addDetectorData(placeHolderValue, ScannableUtils.getExtraNamesFormats(injectionCounter));
 	}
 
 	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {

@@ -18,14 +18,17 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
+import java.io.Serializable;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.util.Precision;
 
 import uk.ac.gda.beans.ObservableModel;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
-public class CalibrationDetails extends ObservableModel {
+public class CalibrationDetails extends ObservableModel implements Serializable {
 
 	private static final Gson gson = new Gson();
 
@@ -117,5 +120,13 @@ public class CalibrationDetails extends ObservableModel {
 
 	public static CalibrationDetails toObject(String str) {
 		return gson.fromJson(str, CalibrationDetails.class);
+	}
+
+	public String getFormattedPolinormal() {
+		double[] polynom = calibrationResult.getCoefficients();
+		for (int i = 0; i < polynom.length; i++) {
+			polynom[i] = Precision.round(polynom[i], 3);
+		}
+		return new PolynomialFunction(polynom).toString();
 	}
 }

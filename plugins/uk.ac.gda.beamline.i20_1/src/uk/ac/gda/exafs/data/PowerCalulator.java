@@ -50,7 +50,8 @@ public class PowerCalulator {
 		{26.0,0.9},
 		{30.0,0.74},
 		{40.0,0.48},
-		{50.0,0.33}
+		{50.0,0.33},
+		{250.0,0.33} // This is to avoid numbers over 50
 	};
 
 	public static final String BE_FILTER_FILE_NAME = "Be-0p3mm.dat";
@@ -132,7 +133,7 @@ public class PowerCalulator {
 			if (dataFileName != null) {
 				File file = new File(parentFolder, dataFileName);
 				if (!file.exists()) {
-					throw new FileNotFoundException();
+					throw new FileNotFoundException(file.getAbsolutePath());
 				}
 				loadAndCalculateFlux(file, values);
 				if (ScannableSetup.ME2_STRIPE.getScannableName().equals(scannable.getName())) {

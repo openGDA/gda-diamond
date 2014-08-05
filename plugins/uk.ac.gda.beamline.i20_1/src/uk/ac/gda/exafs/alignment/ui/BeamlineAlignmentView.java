@@ -306,6 +306,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 				} catch (Exception e) {
 					labelPowerEstimateValue.setText(
 							getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
+					logger.warn("Unable to calculate with current parameters", e);
 				}
 			}
 		});
