@@ -1023,7 +1023,7 @@ caen1 = CaenHvSupply('caen1', 'BL16B-EA-CAEN-01:', 1)
 print "Done!"
 from epics_scripts.device.scannable.pvscannables_with_logic import PVWithSeparateReadbackAndToleranceScannable
 furnace = PVWithSeparateReadbackAndToleranceScannable('furnace', pv_set='BL16B-EA-TEMPC-01:RAMP:LIMIT:SET', pv_read='BL16B-EA-TEMPC-01:TEMP', timeout=36000, tolerance = .1)
-#run('startup_pie725')
+run('startup_pie725')
 
 
 #print "!!!! Renaming pcoedgepeak2d --> peak2d for bimorph scripts !!!!"
