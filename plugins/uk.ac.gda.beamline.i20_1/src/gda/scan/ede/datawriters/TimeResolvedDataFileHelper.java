@@ -209,7 +209,7 @@ public class TimeResolvedDataFileHelper {
 			for (int i = 0; i < numberOfSpectrum; i++) {
 				AbstractDataset tempDataset = cyclicDataset.getSlice(new int[]{0,i,0}, new int[]{noOfCycles, numberOfSpectrum, numberOfChannels}, new int[]{1, numberOfSpectrum, 1});
 				if (excludedCycles != null && excludedCycles.length > 0) {
-					tempDataset = tempDataset.take(excludedCycles, 0);
+					tempDataset = DatasetUtils.take(tempDataset, excludedCycles, 0);
 				}
 				tempDataset.squeeze(true);
 				if (tempDataset.getShape().length > 1) {
