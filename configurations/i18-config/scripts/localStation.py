@@ -65,7 +65,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     trajBeamMonitor.configure()
     trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
     trajBeamMonitor.setLevel(1)
-
+    
     add_default topupMonitor
     add_default beamMonitor
     #add_default trajBeamMonitor
