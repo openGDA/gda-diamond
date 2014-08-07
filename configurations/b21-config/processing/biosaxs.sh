@@ -151,6 +151,21 @@ fi
 # tell ispyb reduction worked and result is in \$REDUCEDFILE
 $ISPYBUPDATE reduction $DATACOLLID COMPLETE \$REDUCEDFILE
 
+# store information in ISPyB for background and sample data collections
+#get reduced background file name
+read VISITBACKGROUND RESTOFPATHBACKGROUND <<<$( echo $BACKGROUNDFILE | sed 's,\(/dls/.../data/20../[-a-z0-9]*\)/\(.*\),\1 \2,')
+RESTOFPATHBACKGROUND=${RESTOFPATHBACKGROUND%.*}
+if test -d $VISITBACKGROUND ; then
+	BACKGROUNDREDUCTIONOUTPUTFILE=${VISITBACKGROUND}/processed/${RESTOFPATHBACKGROUND}.reduced.nxs
+else
+	echo cannot write in $VISITBACKGROUND
+fi
+
+STOREISPYBDATACOLLECTION="/dls_sw/b21/software/gda/workspace_git/gda-scm.git/plugins/uk.ac.gda.devices.bssc/scripts/b21IspybDataCollection.py"
+BACKGROUNDCOLLID=$(($DATACOLLID - 1 ))
+python $STOREISPYBDATACOLLECTION --rawfile $DATAFILE --reducedfile $REDUCTIONOUTPUTFILE --summaryimage $VISIT/$DATACOLLID/ispybimage.png
+python $STOREISPYBDATACOLLECTION --rawfile $BACKGROUNDFILE --reducedfile $BACKGROUNDREDUCTIONOUTPUTFILE --summaryimage $VISIT/$BACKGROUNDDATACOLLID/ispybimage.png
+
 if $RUNANALYSIS ; then
 echo restricting file sizes via ulimit
 ulimit -f 500000
