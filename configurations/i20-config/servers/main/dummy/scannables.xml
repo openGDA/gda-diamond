@@ -13,7 +13,7 @@
 		<property name="motor" ref="topup_motor" />
 		<property name="hardwareUnitString" value="s" />
 	</bean>
-	<bean id="topupChecker" class="gda.device.scannable.TopupScannable">
+	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
 		<property name="scannableToBeMonitored" ref="topup" />
 		<property name="tolerance" value="10" />
 		<property name="timeout" value="60" />

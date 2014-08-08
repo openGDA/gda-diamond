@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="topupChecker" class="gda.device.scannable.TopupScannable">
+	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
 		<property name="scannableToBeMonitored" ref="topup" />
 		<property name="tolerance" value="10" />
 		<property name="timeout" value="300" />
