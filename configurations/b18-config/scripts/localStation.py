@@ -5,7 +5,7 @@ from exafsscripts.exafs.b18SamplePreparer import B18SamplePreparer
 from exafsscripts.exafs.b18OutputPreparer import B18OutputPreparer
 from exafsscripts.exafs.xas_scan import XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
-from gda.device.scannable import TopupScannable
+from gda.device.scannable import TopupChecker
 from gda.device.scannable import BeamMonitor
 from gda.device.scannable import MonoCoolScannable
 from gda.factory import Finder
@@ -66,7 +66,7 @@ vararg_alias("cvscan")
 vararg_alias("cv")
 
 print "Create topup, beam and mono motor temperature monitors to pause and resume scans"
-topupMonitor = TopupScannable()
+topupMonitor = TopupChecker()
 topupMonitor.setName("topupMonitor")
 topupMonitor.setTolerance(5)
 topupMonitor.setWaittime(1)
