@@ -26,13 +26,10 @@ import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
-* <p>
-* Deprecated, see TopupChecker.
-* <p>
-* This should be deleted for the GDA release after 8.36
-*/
-@Deprecated
+ * Provides a simulation for the time until topup PV from the machine.
+ */
 public class DummyTopupScannable extends ScannableBase implements Scannable {
 	private static final Logger logger = LoggerFactory.getLogger(DummyTopupScannable.class);
 	private double topupInterval = 600.0;

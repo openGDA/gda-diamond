@@ -19,7 +19,7 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Monitor;
+import gda.device.Scannable;
 import gda.jython.InterfaceProvider;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -38,7 +38,7 @@ public abstract class BeamlineConditionMonitorBase extends ScannableBase {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BeamlineConditionMonitorBase.class);
 
-	private Monitor machineModeMonitor;
+	private Scannable machineModeMonitor;
 	private String[] modesToIgnore = new String[] { "Mach. Dev.", "Shutdown" };
 	
 	private boolean pauseBeforeScan = false;
@@ -112,11 +112,11 @@ public abstract class BeamlineConditionMonitorBase extends ScannableBase {
 		InterfaceProvider.getTerminalPrinter().print(message);
 	}
 
-	public Monitor getMachineModeMonitor() {
+	public Scannable getMachineModeMonitor() {
 		return machineModeMonitor;
 	}
 
-	public void setMachineModeMonitor(Monitor machineModeMonitor) {
+	public void setMachineModeMonitor(Scannable machineModeMonitor) {
 		this.machineModeMonitor = machineModeMonitor;
 	}
 
