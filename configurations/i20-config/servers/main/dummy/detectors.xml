@@ -40,25 +40,27 @@
 	<bean id="Stanford02" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford03" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
 	<bean id="Stanford04" class="gda.device.currentamplifier.DummyCurrentAmplifier" />
-
-	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
-		<property name="daServerName" value="DAServer" />
-		<property name="tfgName" value="tfg" />
+	
+	<bean id="xspress2controller"
+		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
+		<property name="daServer" ref="DAServer" />
+		<property name="tfg" ref="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
-		<property name="alwaysRecordRawMCAs" value="true"/>
+
 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
-		<property name="configFileName" value="${gda.config}/var/templates/Xspress_Parameters.xml" />
-		<property name="dtcConfigFileName" value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="fullMCABits" value="12" />
+	</bean>
+
+	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2Detector">
+		<property name="controller" ref="xspress2controller" />
+		<property name="configFileName"
+			value="${gda.config}/var/templates/Xspress_Parameters.xml" />
+		<property name="dtcConfigFileName"
+			value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />
+		<property name="alwaysRecordRawMCAs" value="true"/>
 		<property name="onlyDisplayFF" value="true" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.2f</value>
-			</list>
-		</property>
-		<property name="ionChambersCounterTimer" ref="ionchambers" />
 	</bean>
 
 	<bean id="tfg" class="gda.device.timer.Etfg">
