@@ -5,40 +5,39 @@
 
 
 	<!-- XIA Fluorescence Detector -->
-
-	<bean id="xmap_hdf5filewriter"
-		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL18B-EA-DET-02:HDF:" />
-		<property name="file">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
-				<property name="initialAutoIncrement" value="0" />
-				<property name="initialAutoSave" value="0" />
-				<property name="initialWriteMode" value="0" />
-				<property name="initialNumCapture" value="1" />
-				<property name="initialFileName" value="helloworld" />
-				<property name="initialFileTemplate" value="%s%s-%d.hdf" />
-				<property name="pluginBase">
-					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
-					</bean>
-				</property>
-			</bean>
-		</property>
+	
+	<!-- HDF5 file writers -->
+	 <bean id="xmap_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL08I-EA-DET-02:HDF:" />
+		<property name="resetToInitialValues" value="false" />
 	</bean>
+
+	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" />
+	</bean>
+
+	
+	<bean id="xbuf"
+		class="gda.device.detector.xmap.XBufferEPICsPlugin">
+		<property name="basePVName" value="BL08I-EA-DET-02:XBUF:" />
+		<property name="EnableCallbacks_RBV" value="1" />
+	</bean>
+	
 
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="epicsDeviceName" value="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="local" value="true" />
 		<property name="numberOfElements" value="1" />
-		<property name="hdf5" ref="xmap_hdf5filewriter" />
+		<!-- <property name="hdf5" ref="xmap_hdf5filewriter" /> -->
 		<!-- <property name="aquisitionTimeOn" value="true" /> -->
 	</bean>
+	
+	
 
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
+	<!-- <bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdControllerName" value="edxdcontroller" />
 		<property name="local" value="true" />
-	</bean>
+	</bean> -->
 
 </beans> 

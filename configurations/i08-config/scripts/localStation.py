@@ -3,7 +3,7 @@ from gda.device.scannable import DummyScannable
 from gda.factory import Finder
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
-from gda.device.scannable import ScannableBase, TopupScannable,BeamMonitorScannableWithResume, CoupledScannable
+from gda.device.scannable import ScannableBase, TopupScannable, CoupledScannable
 from gda.device.monitor import EpicsMonitor
 from gdascripts.parameters.beamline_parameters import JythonNameSpaceMapping
 #from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState

@@ -14,12 +14,12 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="beamMonitor" class="gda.device.scannable.BeamMonitorScannableWithResume">
+	<!-- <bean id="beamMonitor" class="gda.device.scannable.BeamMonitorScannableWithResume">
 		<property name="shutterPV" value="FE08I-RS-ABSB-01:STA" />
 		<property name="timeout" value="7200" />
 		<property name="waittime" value="60" />
 		<property name="local" value="true" />
 		<property name="pauseBeforePoint" value="false" />
 		<property name="pauseBeforeLine" value="true" />
-	</bean>
+	</bean> -->
 </beans>
