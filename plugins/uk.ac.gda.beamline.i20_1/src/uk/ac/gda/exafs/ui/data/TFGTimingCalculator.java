@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.ui.data;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
 
@@ -31,41 +31,41 @@ public final class TFGTimingCalculator {
 	/**
 	 * @param scanBean
 	 * @param frameToReturn
-	 * @return AbstractDataset[4] - xDataSet, yDataSet, inputsDataSet, outputsDataset
+	 * @return Dataset[4] - xDataSet, yDataSet, inputsDataSet, outputsDataset
 	 */
-	public static  AbstractDataset[] calculateTimePoints(TFGParameters scanBean, int frameToReturn) {
+	public static  Dataset[] calculateTimePoints(TFGParameters scanBean, int frameToReturn) {
 		TimeFrame frame = scanBean.getTimeFrames().get(frameToReturn);
-		
+
 		Double deadTime = frame.getDeadTime();
 		Double liveTime = frame.getLiveTime();
 		int lemoIn = frame.getLemoIn();
 		int lemoOut = frame.getLemoOut();
-		
+
 		double[] xValues = new double[5];
 		double[] yValues = new double[5];
-		
+
 		xValues[0] = 0.;
 		yValues[0] = 0.;
-		
+
 		xValues[1] = deadTime;
 		yValues[1] = 0.;
-		
+
 		xValues[2] = deadTime;
 		yValues[2] = 1.0;
-		
+
 		xValues[3] = deadTime + liveTime;
 		yValues[3] = 1.0;
-		
+
 		xValues[4] = deadTime + liveTime;
 		yValues[4] = 0.;
-		
-		
+
+
 		DoubleDataset xDataSet = new DoubleDataset(xValues, xValues.length);
 		DoubleDataset yDataSet = new DoubleDataset(yValues, yValues.length);
 		IntegerDataset inputsDataSet = new IntegerDataset(1);
 		inputsDataSet.set(lemoIn, 0);
 		IntegerDataset outputsDataset = new IntegerDataset(1);
 		outputsDataset.set(lemoOut, 0);
-		return new AbstractDataset[] { xDataSet, yDataSet, inputsDataSet, outputsDataset };
+		return new Dataset[] { xDataSet, yDataSet, inputsDataSet, outputsDataset };
 	}
 }
