@@ -117,6 +117,10 @@ try_execfile("BeamlineI07/useEuroThermo.py")
 
 try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
 
+pieX = pie.pieX
+pieY = pie.pieY
+pieZ = pie.pieZ
+
 # TODO: Restore scan wrappers!
 	##to setup the scan processing wrappers
 	#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
