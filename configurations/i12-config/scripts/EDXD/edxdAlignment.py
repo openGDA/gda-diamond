@@ -13,7 +13,7 @@ def findPeakPosition(approxVal, integerDataSet, leftShift=6, rightShift=6):
     start = approxVal - leftShift
     end = approxVal + rightShift
     slice1 = integerDataSet.getSlice([start], [end], [1])
-    fittedG = fitter1.fitPeakFunctions(IntegerDataset.arange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0000001), 5, 1)
+    fittedG = fitter1.fitPeakFunctions(IntegerDataset.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0000001), 5, 1)
     if fittedG != None and not fittedG.isEmpty():
         c = fittedG.get(0)
         if c != None:
@@ -57,13 +57,13 @@ def testPeakFitFunction():
     slice1 = id1.getSlice([950], [1050], [1])
     dnp.plot.plot(slice1, name="Plot 1")
     '''
-    singlePeakProc = e.singlePeakProcess(IntegerDataset.arange(slice1.shape[0]), slice1)
+    singlePeakProc = e.singlePeakProcess(IntegerDataset.createRange(slice1.shape[0]), slice1)
     
     print 'Single Peak Process returns ' + `singlePeakProc`
     '''
     print '_________________'
     print 'Method 2'
-    fittedG = fitter1.fitPeakFunctions(IntegerDataset.arange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0001), 5, 1)
+    fittedG = fitter1.fitPeakFunctions(IntegerDataset.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0001), 5, 1)
     print 'Using fitting Algorithm ' + `fittedG`
     print '_________________'
     
@@ -73,13 +73,13 @@ def testPeakFitFunction():
     id1 = IntegerDataset(data1[0])
     slice1 = id1.getSlice([900], [1300], [1])
     dnp.plot.plot(slice1, name="Plot 3")
-    singlePeakProc = e.singlePeakProcess(IntegerDataset.arange(slice1.shape[0]), slice1)
+    singlePeakProc = e.singlePeakProcess(IntegerDataset.createRange(slice1.shape[0]), slice1)
     
     print 'Single Peak Process returns ' + `singlePeakProc`
     '''
     print '_________________'
     print 'Method 2'
-    fittedG = fitter1.fitPeakFunctions(IntegerDataset.arange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0001), 5, 1)
+    fittedG = fitter1.fitPeakFunctions(IntegerDataset.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0001), 5, 1)
     print 'Using fitting Algorithm ' + `fittedG`
     print '_________________'
 
