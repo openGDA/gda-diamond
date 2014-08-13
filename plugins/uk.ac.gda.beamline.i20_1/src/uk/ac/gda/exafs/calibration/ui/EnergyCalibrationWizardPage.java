@@ -64,7 +64,7 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.Slice;
 import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
@@ -555,12 +555,12 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			refPlottingSystem.clear();
 			loadPlot(refCalibrationDataModel, refPlottingSystem);
 			final EdeCalibration edeCalibration = new EdeCalibration();
-			AbstractDataset[] refDatasets = selectDataRange(refPlottingSystem, referenceRegion);
-			final AbstractDataset refEnergySlice = refDatasets[0];
-			final AbstractDataset refSpectrumSlice = refDatasets[1];
-			AbstractDataset[] edeDatasets = selectDataRange(edePlottingSystem, edeRegion);
-			final AbstractDataset edeIdxSlice = edeDatasets[0];
-			final AbstractDataset edeSpectrumSlice = edeDatasets[1];
+			Dataset[] refDatasets = selectDataRange(refPlottingSystem, referenceRegion);
+			final Dataset refEnergySlice = refDatasets[0];
+			final Dataset refSpectrumSlice = refDatasets[1];
+			Dataset[] edeDatasets = selectDataRange(edePlottingSystem, edeRegion);
+			final Dataset edeIdxSlice = edeDatasets[0];
+			final Dataset edeSpectrumSlice = edeDatasets[1];
 			edeCalibration.setMaxEdeChannel(edeCalibrationDataModel.getEdeDataset().getSize() - 1);
 			edeCalibration.setFitOrder(polynomialFittingOrderSpinner.getSelection());
 			edeCalibration.setReferenceData(refEnergySlice, refSpectrumSlice);
@@ -609,7 +609,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 					});
 
 					edeCalibration.calibrate(true);
-					final AbstractDataset resEnergyDataset = edeCalibration.calibrateEdeChannels(edeIdxSlice);
+					final Dataset resEnergyDataset = edeCalibration.calibrateEdeChannels(edeIdxSlice);
 					Display.getDefault().syncExec(new Runnable() {
 
 						@Override
@@ -621,7 +621,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 								xafsFittingUtils.setPreEdgeGap(15);
 
 								ILineTrace refTrace = refPlottingSystem.createLineTrace("Ref");
-								AbstractDataset[] exafs = xafsFittingUtils.getNormalisedIntensityAndSpline(refEnergySlice, refSpectrumSlice);
+								Dataset[] exafs = xafsFittingUtils.getNormalisedIntensityAndSpline(refEnergySlice, refSpectrumSlice);
 								exafs[0].setName("ref-energy");
 								exafs[1].setName("ref-spectrum");
 								exafs[2].setName("ref-spectrum-spline");
@@ -637,7 +637,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 								ILineTrace edeTrace = refPlottingSystem.createLineTrace(EDE_OVERLAY_TRACE_NAME);
 
-								AbstractDataset[] exafsede = xafsFittingUtils.getNormalisedIntensityAndSpline(resEnergyDataset, edeSpectrumSlice);
+								Dataset[] exafsede = xafsFittingUtils.getNormalisedIntensityAndSpline(resEnergyDataset, edeSpectrumSlice);
 								exafsede[0].setName("sample-energy");
 								exafsede[1].setName("sample-spectrum");
 								exafsede[2].setName("sample-spectrum-spline");
@@ -678,8 +678,8 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		}
 	}
 
-	private AbstractDataset[] selectDataRange(IPlottingSystem plottingSystemRef, IRegion selectedRegion) {
-		final AbstractDataset dataE, dataI;
+	private Dataset[] selectDataRange(IPlottingSystem plottingSystemRef, IRegion selectedRegion) {
+		final Dataset dataE, dataI;
 		double lowerAxis = ((RectangularROI) selectedRegion.getROI()).getPoint()[0];
 		double upperAxis = lowerAxis + ((RectangularROI) selectedRegion.getROI()).getLength(0);
 		Collection<ITrace> traces = plottingSystemRef.getTraces();
@@ -693,7 +693,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			return null;
 		}
 		ILineTrace dataTrace = (ILineTrace) tmpTrace;
-		AbstractDataset dataXDataset = (AbstractDataset)dataTrace.getXData();
+		Dataset dataXDataset = (Dataset)dataTrace.getXData();
 		int idxLower = Math.min(dataXDataset.getSize() - 1, DatasetUtils.findIndexGreaterThanOrEqualTo(dataXDataset, lowerAxis));
 		int idxUpper = Math.min(dataXDataset.getSize() - 1, DatasetUtils.findIndexGreaterThanOrEqualTo(dataXDataset, upperAxis));
 		if (idxLower == idxUpper) {
@@ -701,8 +701,8 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			return null;
 		}
 		dataE = dataXDataset.getSlice(new Slice(idxLower, idxUpper));
-		dataI = ((AbstractDataset)dataTrace.getYData()).getSlice(new Slice(idxLower, idxUpper));
-		return new AbstractDataset[] {dataE, dataI};
+		dataI = ((Dataset)dataTrace.getYData()).getSlice(new Slice(idxLower, idxUpper));
+		return new Dataset[] {dataE, dataI};
 	}
 
 }
