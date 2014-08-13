@@ -25,7 +25,8 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
+import uk.ac.diamond.scisoft.analysis.dataset.DatasetFactory;
 import uk.ac.diamond.scisoft.analysis.dataset.Maths;
 import uk.ac.diamond.scisoft.analysis.optimize.GeneticAlg;
 import uk.ac.diamond.scisoft.analysis.optimize.IOptimizer;
@@ -118,10 +119,10 @@ public class ExafsPlotPluginTest {
 		parser.setCommentChar("#");
 		parser.parse();
 		
-		final AbstractDataset energy = AbstractDataset.createFromList(parser.getColumnAsDoubleList(0));
-		final AbstractDataset lnI0It = AbstractDataset.createFromList(parser.getColumnAsDoubleList(4));
+		final Dataset energy = DatasetFactory.createFromList(parser.getColumnAsDoubleList(0));
+		final Dataset lnI0It = DatasetFactory.createFromList(parser.getColumnAsDoubleList(4));
 		
-		final AbstractDataset norm = xafsFittingUtils.getNormalisedIntensity(energy, lnI0It, a, 0.0);
+		final Dataset norm = xafsFittingUtils.getNormalisedIntensity(energy, lnI0It, a, 0.0);
 		
 		plot(energy, norm, lnI0It);
 		
@@ -151,11 +152,11 @@ public class ExafsPlotPluginTest {
 		parser.setCommentChar("#");
 		parser.parse();
 		
-		final AbstractDataset energy = AbstractDataset.createFromList(parser.getColumnAsDoubleList(0));
-		final AbstractDataset lnI0It = AbstractDataset.createFromList(parser.getColumnAsDoubleList(4));
+		final Dataset energy = DatasetFactory.createFromList(parser.getColumnAsDoubleList(0));
+		final Dataset lnI0It = DatasetFactory.createFromList(parser.getColumnAsDoubleList(4));
 		
-		final AbstractDataset norm = xafsFittingUtils.getNormalisedIntensity(energy, lnI0It, a, 0.0);
-		final AbstractDataset derv = Maths.derivative(energy, norm, 1);
+		final Dataset norm = xafsFittingUtils.getNormalisedIntensity(energy, lnI0It, a, 0.0);
+		final Dataset derv = Maths.derivative(energy, norm, 1);
 		
 		plot(energy, derv);
 		       
@@ -179,10 +180,10 @@ public class ExafsPlotPluginTest {
 		parser.setCommentChar("#");
 		parser.parse();
 		
-		final AbstractDataset energy = AbstractDataset.createFromList(parser.getColumnAsDoubleList(0));
-		final AbstractDataset lnI0It = AbstractDataset.createFromList(parser.getColumnAsDoubleList(4));
+		final Dataset energy = DatasetFactory.createFromList(parser.getColumnAsDoubleList(0));
+		final Dataset lnI0It = DatasetFactory.createFromList(parser.getColumnAsDoubleList(4));
 
-		final AbstractDataset[] exafs = xafsFittingUtils.getNormalisedIntensityAndSpline(energy, lnI0It, a, 0.0);
+		final Dataset[] exafs = xafsFittingUtils.getNormalisedIntensityAndSpline(energy, lnI0It, a, 0.0);
 		
 		plot(exafs[0], exafs[1], exafs[2]);
 		      
@@ -217,10 +218,10 @@ public class ExafsPlotPluginTest {
 		parser.setCommentChar("#");
 		parser.parse();
 		
-		final AbstractDataset energy = AbstractDataset.createFromList(parser.getColumnAsDoubleList(0));
-		final AbstractDataset lnI0It = AbstractDataset.createFromList(parser.getColumnAsDoubleList(4));
+		final Dataset energy = DatasetFactory.createFromList(parser.getColumnAsDoubleList(0));
+		final Dataset lnI0It = DatasetFactory.createFromList(parser.getColumnAsDoubleList(4));
 		
-		final AbstractDataset[] ks = xafsFittingUtils.getSubtractedBackgroundInK(energy, lnI0It, a, 0.0);
+		final Dataset[] ks = xafsFittingUtils.getSubtractedBackgroundInK(energy, lnI0It, a, 0.0);
 		
 		plot(ks[0], ks[1]);
 		      
@@ -244,16 +245,16 @@ public class ExafsPlotPluginTest {
 		parser.setCommentChar("#");
 		parser.parse();
 		
-		final AbstractDataset energy = AbstractDataset.createFromList(parser.getColumnAsDoubleList(0));
-		final AbstractDataset lnI0It = AbstractDataset.createFromList(parser.getColumnAsDoubleList(4));
+		final Dataset energy = DatasetFactory.createFromList(parser.getColumnAsDoubleList(0));
+		final Dataset lnI0It = DatasetFactory.createFromList(parser.getColumnAsDoubleList(4));
 		
-		final AbstractDataset[] fft = xafsFittingUtils.getFFT(energy, lnI0It, a, a+300);
+		final Dataset[] fft = xafsFittingUtils.getFFT(energy, lnI0It, a, a+300);
 		
 		plot(fft[0], fft[1]);
 		      
 	}
 	
-	private void plot(final AbstractDataset x, final AbstractDataset... yAxes) throws Exception {
+	private void plot(final Dataset x, final Dataset... yAxes) throws Exception {
 		
 		
 		DataBean dataBean = new DataBean();
