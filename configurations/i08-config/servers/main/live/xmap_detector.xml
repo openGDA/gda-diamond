@@ -1,0 +1,78 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- XIA Fluorescence Detector -->
+	
+	<!-- HDF5 file writers -->
+	 <bean id="xmap_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL08I-EA-DET-02:HDF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" />
+	</bean>
+
+	
+	<bean id="xbuf"
+		class="gda.device.detector.xmap.XBufferEPICsPlugin">
+		<property name="basePVName" value="BL08I-EA-DET-02:XBUF:" />
+		<property name="EnableCallbacks_RBV" value="1" />
+	</bean>
+	
+
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+		<property name="epicsDeviceName" value="xmap_dxp" />
+		<property name="elementOffset" value="1" />
+		<property name="local" value="true" />
+		<property name="numberOfElements" value="1" />
+		<!-- <property name="hdf5" ref="xmap_hdf5filewriter" /> -->
+		<!-- <property name="aquisitionTimeOn" value="true" /> -->
+	</bean>
+	
+	
+
+	<!-- <bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
+		<property name="edxdControllerName" value="edxdcontroller" />
+		<property name="local" value="true" />
+	</bean> -->
+	
+<!-- 	instead of using the AreaDetector framework, use the existing classes used on I18 which are used for ConstantVelocityScanLine scans -->	
+	
+<!-- 	TODO try this on Friday, if it does not work then need to get the HardwareTriggeredWithOnlineDataReductionXmap class working -->
+	
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
+		<property name="edxdController" ref="edxdcontroller" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmapcontroller" />
+
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
+			one value for each element -->
+		<property name="eventProcessingTimes">
+			<list>	
+				<value>1.7867731067630825e-08</value>
+			</list>
+		</property>
+
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Vortex_Parameters.xml" />
+		<property name="tfg" ref="tfg" />
+		<property name="sumAllElementData" value="true" />
+	</bean>
+	
+	
+	<bean id="traj1xmap" class="gda.device.detector.xmap.HardwareTriggeredNexusXmapImpl">
+<!-- 		<property name="hardwareTriggerProvider" ref="traj1ScanControllerAdapter" /> -->
+		<property name="xmap" ref="xmapMca" />
+		<property name="controller" ref="edxdcontroller" />
+<!-- 		<property name="daServer" ref="daserver" /> -->
+	</bean>
+
+</beans> 

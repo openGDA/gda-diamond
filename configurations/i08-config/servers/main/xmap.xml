@@ -1,0 +1,76 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- XIA Fluorescence detector --> 
+	<!-- <bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmapcontroller" />
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Xia_parameters.xml" />
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</property>
+	</bean>   -->
+	<bean
+		id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm"
+		class="gda.device.detector.xmap.HardwareTriggerXmap">
+		<constructor-arg ref="edxdcontroller" />
+		<constructor-arg ref="xbuf" />
+		<constructor-arg value="0" />
+		<!-- <property name="triggerMode" value="EXTERNAL_EXPOSURE" /> -->
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<!-- <bean id="andor_hdf5filewriter_for_scans"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="andor_ndfilehdf5" />
+		<property name="fileNameTemplate" value="andor" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> must be false otherwise PCO Event Driver driver crashes if framesChunks 
+			is 64
+		<property name="FramesChunks" value="32" />	
+	</bean> -->
+
+	<!-- NXDetectors -->
+
+<bean id="xmap_hdf5filewriter"
+		class="gda.device.detector.xmap.XmapMultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="xmap_ndfilehdf5" />
+		<property name="fileNameTemplate" value="xmap" />
+		<property name="filePathTemplate" value="X:/data/2014/cm4958-3" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="setChunking" value="false" />
+		<property name="writeErrorStatusSupported" value="false" />
+		<!-- <property name="lazyOpen" value="true" /> -->
+		<!-- <property name="blocking" value="false" /> --> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks 
+			is 64 -->
+		<!-- <property name="FramesChunks" value="32" />	 -->
+	</bean>
+	
+	
+	<!-- underscore as it should be wrapped in the scanwrapper -->
+	<bean id="_xmap" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="xmap" />
+		<property name="hardwareTriggerProvider" value="#{stxmDummy.continuousMoveController}" />
+		<property name="collectionStrategy"
+			ref="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm" />
+		<property name="additionalPluginList">
+			<list>
+				 <ref bean="xmap_hdf5filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+	
+</beans> 
