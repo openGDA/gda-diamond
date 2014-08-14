@@ -39,5 +39,40 @@
 		<property name="edxdControllerName" value="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean> -->
+	
+<!-- 	instead of using the AreaDetector framework, use the existing classes used on I18 which are used for ConstantVelocityScanLine scans -->	
+	
+<!-- 	TODO try this on Friday, if it does not work then need to get the HardwareTriggeredWithOnlineDataReductionXmap class working -->
+	
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
+		<property name="edxdController" ref="edxdcontroller" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmapcontroller" />
+
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
+			one value for each element -->
+		<property name="eventProcessingTimes">
+			<list>	
+				<value>1.7867731067630825e-08</value>
+			</list>
+		</property>
+
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Vortex_Parameters.xml" />
+		<property name="tfg" ref="tfg" />
+		<property name="sumAllElementData" value="true" />
+	</bean>
+	
+	
+	<bean id="traj1xmap" class="gda.device.detector.xmap.HardwareTriggeredNexusXmapImpl">
+<!-- 		<property name="hardwareTriggerProvider" ref="traj1ScanControllerAdapter" /> -->
+		<property name="xmap" ref="xmapMca" />
+		<property name="controller" ref="edxdcontroller" />
+<!-- 		<property name="daServer" ref="daserver" /> -->
+	</bean>
 
 </beans> 
