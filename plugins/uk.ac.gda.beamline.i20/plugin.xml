@@ -130,7 +130,7 @@
             name="GDA I20 Offline">
          <property
                name="appName"
-               value="GDA I20 Offline">
+               value="GDA I20 Beamline">
          </property>
          <property
                name="preferenceCustomization"
@@ -142,7 +142,7 @@
          </property>
          <property
                name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo1628png">
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>         
       </product>
    </extension>
@@ -641,57 +641,28 @@
             name="Reference Sample Wheel">
       </page>
    </extension>
-   
-
-
-
-
-
-
-
-
-<extension
-      name="tst"
-      point="org.eclipse.ui.menus">
-   <menuContribution
-         allPopups="false"
-         locationURI="menu:window?after=showView">
-      <menu
-            label="Area Detectors">
-         <command
-               commandId="org.eclipse.ui.views.showView"
-               label="medipix"
-               style="push">
-            <parameter
-                  name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//medipix//BL20I-EA-DET-05@">
-            </parameter>
-         </command>
-      </menu>
-   </menuContribution>
-</extension>   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
+	<extension
+	      name="tst"
+	      point="org.eclipse.ui.menus">
+	   <menuContribution
+	         allPopups="false"
+	         locationURI="menu:window?after=showView">
+	      <menu
+	            label="Area Detectors">
+	         <command
+	               commandId="org.eclipse.ui.views.showView"
+	               label="medipix"
+	               style="push">
+	            <parameter
+	                  name="org.eclipse.ui.views.showView.viewId"
+	                  value="uk.ac.gda.epics.adviewer.mpegview">
+	            </parameter>
+ <parameter
+               name="org.eclipse.ui.views.showView.secondaryId"
+               value="medipix">
+         </parameter>
+	         </command>
+	      </menu>
+	   </menuContribution>
+	</extension>
 </plugin>
