@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
 import uk.ac.diamond.scisoft.analysis.io.IDataHolder;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
@@ -34,9 +34,9 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 	private boolean manualCalibration;
 
 	protected IDataHolder dataHolder;
-	protected AbstractDataset energyNode;
+	protected Dataset energyNode;
 
-	private AbstractDataset dataNode;
+	private Dataset dataNode;
 	private double startEnergy;
 	private double endEnergy;
 
@@ -69,11 +69,11 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 		refReferencePoints[2] = end;
 	}
 
-	public AbstractDataset getEdeDataset() {
+	public Dataset getEdeDataset() {
 		return dataNode;
 	}
 
-	public AbstractDataset getRefEnergyDataset() {
+	public Dataset getRefEnergyDataset() {
 		return energyNode;
 	}
 
@@ -83,7 +83,7 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 
 	protected abstract void setDataFile(String fileName) throws Exception;
 
-	public AbstractDataset getEnergyNode() {
+	public Dataset getEnergyNode() {
 		return energyNode;
 	}
 
@@ -104,8 +104,8 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 				return;
 			}
 			this.dataHolder = dataHolder;
-			energyNode = (AbstractDataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
-			dataNode = (AbstractDataset) dataHolder.getLazyDataset(dataNodePath).getSlice();
+			energyNode = (Dataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
+			dataNode = (Dataset) dataHolder.getLazyDataset(dataNodePath).getSlice();
 
 			setInitialEnergyRange(energyNode.min().doubleValue(), energyNode.max().doubleValue());
 			double mid = (double) energyNode.mean();

@@ -31,8 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import ncsa.hdf.object.Dataset;
-
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.eclipse.dawnsci.hdf5.H5Utils;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
@@ -45,7 +43,7 @@ import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
@@ -207,7 +205,7 @@ public class TimeResolvedDataFileHelper {
 		if (noOfCycles > 1) {
 			avgDataset = new DoubleDataset(new int[]{0, numberOfChannels});
 			for (int i = 0; i < numberOfSpectrum; i++) {
-				AbstractDataset tempDataset = cyclicDataset.getSlice(new int[]{0,i,0}, new int[]{noOfCycles, numberOfSpectrum, numberOfChannels}, new int[]{1, numberOfSpectrum, 1});
+				Dataset tempDataset = cyclicDataset.getSlice(new int[]{0,i,0}, new int[]{noOfCycles, numberOfSpectrum, numberOfChannels}, new int[]{1, numberOfSpectrum, 1});
 				if (excludedCycles != null && excludedCycles.length > 0) {
 					tempDataset = DatasetUtils.take(tempDataset, excludedCycles, 0);
 				}
@@ -449,7 +447,7 @@ public class TimeResolvedDataFileHelper {
 				DoubleDataset avgDataItem = (DoubleDataset) dataToAdd.getSlice(new int[]{avgInfo.getStartIndex(), 0}, new int[]{avgInfo.getEndIndex() + 1, noOfChannels}, null).mean(0);
 				avgDataItem.setShape(new int[]{1, noOfChannels});
 				if (avgInfo.getStartIndex() - j > 0) {
-					AbstractDataset sliceToAppend = dataToAdd.getSlice(new int[]{j, 0}, new int[]{avgInfo.getStartIndex(), noOfChannels}, null);
+					Dataset sliceToAppend = dataToAdd.getSlice(new int[]{j, 0}, new int[]{avgInfo.getStartIndex(), noOfChannels}, null);
 					dataToAvgAndAdd = (DoubleDataset) DatasetUtils.append(dataToAvgAndAdd, sliceToAppend, 0);
 				}
 				dataToAvgAndAdd = (DoubleDataset) DatasetUtils.append(dataToAvgAndAdd, avgDataItem, 0);
@@ -480,7 +478,7 @@ public class TimeResolvedDataFileHelper {
 
 	private void addDatasetToNexus(IHierarchicalDataFile file, String dataName, String fullPath, DoubleDataset data, Map<String, String> attributes) throws Exception {
 		long[] shape = H5Utils.getLong(data.getShape());
-		String insertedData = file.replaceDataset(dataName, AbstractDataset.FLOAT64, shape, data.getBuffer(), fullPath);
+		String insertedData = file.replaceDataset(dataName, Dataset.FLOAT64, shape, data.getBuffer(), fullPath);
 		if (attributes == null) {
 			return;
 		}
@@ -496,7 +494,7 @@ public class TimeResolvedDataFileHelper {
 
 	private DoubleDataset getDataFromFile(IHierarchicalDataFile file, String path)
 			throws Exception {
-		Dataset dataset = (Dataset) file.getData(path);
+		ncsa.hdf.object.Dataset dataset = (ncsa.hdf.object.Dataset) file.getData(path);
 		int[] dimension = new int[dataset.getDims().length];
 		long[] oriDimension = dataset.getDims();
 		for (int i = 0; i < dimension.length; i++) {
@@ -866,7 +864,7 @@ public class TimeResolvedDataFileHelper {
 				if (excludedCyclesInfo != null) {
 					excludedCycles = DataHelper.toArray(((String[]) excludedCyclesInfo)[0]);
 				}
-				int[] dimension = file.getDatasetShapes(AbstractDataset.FLOAT64).get(fullDataPath);
+				int[] dimension = file.getDatasetShapes(Dataset.FLOAT64).get(fullDataPath);
 				int[] cyclesInfo = new int[dimension[0]];
 				int j = 0;
 				for (int i = 0; i < dimension[0]; i++) {
