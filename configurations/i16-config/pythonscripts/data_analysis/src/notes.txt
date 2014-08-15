@@ -183,4 +183,4 @@ Your job 1457823 ("submit_scan_450754_part_8.sh") has been submitted
 Your job 1457824 ("submit_scan_450754_part_9.sh") has been submitted
 
 
-
+next: calc_coinc - check each sum to see if processing had finished.
