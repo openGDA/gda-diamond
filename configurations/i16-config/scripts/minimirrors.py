@@ -9,7 +9,7 @@ def minimirrors(*pitchdeg):
 		pos m3x 0
 		put diode in beam
 		scancn ytable .05 81 w .5 diode
-		move ytable to edge
+		move ytable to edge (intensity goes from high to low in scan)
 		(see comments in minimirrors.py for more detailed instructions)
 	'''
 	'''
