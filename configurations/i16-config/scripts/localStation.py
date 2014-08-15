@@ -112,9 +112,6 @@ from spechelp import * # aliases man objects
 alias("jobs")
 
 USE_NEXUS_METADATA_COMMANDS = True
-WRITE_NEXUS_FILES = True
-
-LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter" if WRITE_NEXUS_FILES else "SrsDataFile")
 
 if USE_NEXUS_METADATA_COMMANDS:
 	
