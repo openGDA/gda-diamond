@@ -16,16 +16,21 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.exafs.detectortemperature.service;
+package uk.ac.gda.exafs.detectortemperature.plot.handlers;
 
-public interface XCHIPTemperatureLogService {
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 
-	public void startObservingLogFile();
+import uk.ac.gda.exafs.detectortemperature.service.XCHIPTemperatureLogServiceImpl;
 
-	public void stopObservingLogFile();
+public class ExtendPlotHandler  extends AbstractHandler {
 
-	/**
-	 * Where data exists, extend the plot backwards in time by two hours.
-	 */
-	public void extendPlottingHistory();
+
+	@Override
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		XCHIPTemperatureLogServiceImpl.getInstance().extendPlottingHistory();
+		return null;
+	}
+
 }

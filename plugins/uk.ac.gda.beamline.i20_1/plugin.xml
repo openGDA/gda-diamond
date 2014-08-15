@@ -406,6 +406,12 @@
             label="Stop"
             style="push">
       </command>
+      <command
+            commandId="uk.ac.gda.beamline.i20_1.ExtendTemperaturePlotting"
+            label="Extend"
+            style="push"
+            tooltip="Extend the range of the plot back in time by 2 hours, if possible">
+      </command>
    </menuContribution>
 </extension>
    <extension
@@ -436,6 +442,12 @@
             description="Stop live plotting of detector temperature"
             id="uk.ac.gda.beamline.i20_1.StopTemperaturePlotting"
             name="Stop">
+      </command>
+      <command
+            defaultHandler="uk.ac.gda.exafs.detectortemperature.plot.handlers.ExtendPlotHandler"
+            description="Extend the history temperature plot by 2 hours"
+            id="uk.ac.gda.beamline.i20_1.ExtendTemperaturePlotting"
+            name="Extend Plot">
       </command>
    </extension>
    <extension
