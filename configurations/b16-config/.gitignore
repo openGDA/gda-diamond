@@ -4,3 +4,5 @@ jythonCache/
 *~
 var/
 users_dummy/
+
+*.out
