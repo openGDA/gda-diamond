@@ -4,18 +4,15 @@
     <!-- The logClient.xml files define which messages are sent to the logging system appenders. -->
     <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
 
-    <!-- Client include files are relative to the application directory -->
+    <!-- ClientDebugFILE                                                       clients/main/common/logClient.xml -->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/clients/main/common/logClient.xml"/>
 
-    <!-- ClientDebugFILE                                                 clients/main/common/logClient.xml -->
-    <include file="../workspace_git/gda-mt.git/configurations/i15-config/clients/main/common/logClient.xml"/>
-
-    <!-- Console                                                         servers/log/common/logSharedWithClients.xml -->
-    <include file="../workspace_git/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
+    <!-- Console                                                               servers/log/common/logSharedWithClients.xml -->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
 
     <root>
         <level value="INFO"/>
         <appender-ref ref="Console"/>
-        <appender-ref ref="LogPanel"/>
         <appender-ref ref="ClientDebugFILE"/>
     </root>
 </configuration>

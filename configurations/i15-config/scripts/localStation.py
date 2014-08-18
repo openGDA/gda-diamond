@@ -39,8 +39,9 @@ from gdascripts.scan.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+#global zebraContinuousMoveController
 import scannables.detectors.fastShutterZebraDetector
-zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter', 'BL15I-EA-ZEBRA-01:', zebraContinuousMoveController)
+zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController)
 
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
@@ -94,7 +95,7 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	spivotx, spivoty, spivotz, sphi,\
 	d7x, d7y,\
 	xreye2x, xreye2y,\
-	bs2x, bs2y,\
+	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9\
 #	,cryox, cryoy, cryoz, cryorot\
@@ -236,7 +237,14 @@ try:
 		localStation_exception(sys.exc_info(), "creating devices")
 
 	dummyDetector = SimpleDummyDetector()
-	
+
+	try:
+		from scannable.CryojetScannable import CryojetScannable
+		cryojet = CryojetScannable('cryojet', 'BL15I-CG-CJET-01:', 
+									temp_tolerance=1, stable_time_sec=60)
+	except:
+		localStation_exception(sys.exc_info(), "creating cryojet scannable")
+
 	try:
 		import pd_pilatus
 		pilatus = pd_pilatus.Pilatus("pilatus", "BL15I-EA-PILAT-02:", "/dls/i15/data/currentdir/", "pil")
@@ -403,6 +411,7 @@ try:
 		alias("d1in")
 		alias("d2in")
 		alias("d3in")
+		alias("d4in")
 		alias("d1out")
 		alias("d2out")
 		alias("d3out")
@@ -418,6 +427,7 @@ try:
 		alias("expose")
 		alias("darkExpose")
 		alias("rockScan")
+		alias("rockScanUnsync")
 		#alias("resetCCDScanNumber")
 		#alias("incrementMarScanNumber")
 		#alias("resetMarScanNumber")
@@ -672,7 +682,7 @@ try:
 				spivotx, spivoty, spivotz, sphi,
 				d7x, d7y,
 				xreye2x, xreye2y,
-				bs2x, bs2y,
+				bs2x, bs2y, bs3x, bs3y, bs3z,
 				#det2z,
 				d1, d2, d3, d4, d5, d6, d7, d8, d9,
 				d1sum, d2sum, d3sum, d4sum, d5sum
