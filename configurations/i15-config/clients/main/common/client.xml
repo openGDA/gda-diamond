@@ -22,17 +22,20 @@
 
 	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
 
+	<!-- If we leave these in the common client config, then GDA fails to start if the Test Zebra box is turned off
 	<import resource="../../../servers/main/common/device/zebraTestAreaDetector.xml"/>
 	<import resource="zebraTestAreaDetector.xml" />
+	 -->
 
 	<import resource="../../../servers/main/common/device/marAreaDetector.xml"/>
 	<import resource="marAreaDetector.xml" />
 
-	<import resource="../../../servers/main/common/device/mpxAreaDetector.xml"/>
 	<import resource="mpxAreaDetector.xml" />
 
 	<import resource="../../../servers/main/common/device/peAreaDetector.xml"/>
 	<import resource="peAreaDetector.xml" />
+
+	<import resource="pslAreaDetector.xml" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />

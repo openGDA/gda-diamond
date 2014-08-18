@@ -25,6 +25,7 @@ class RockerThread(threading.Thread):
             simpleLog(self.name + ": Running...")
         while (self.running):
             self.moveTo(self.centre-self.delta)
+            self.rockCount+=1
             if not self.running or self.delta == 0:
                 break
             self.moveTo(self.centre+self.delta)
