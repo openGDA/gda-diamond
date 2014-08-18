@@ -77,6 +77,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 	<bean id="_RuB4C_Xtal2Bragg_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="_RuB4C_Xtal2Bragg_converter" />
@@ -84,6 +85,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="2" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 	<bean id="_RuB4C_Xtal2Z_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="_RuB4C_Xtal2Z_converter" />
@@ -91,6 +93,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="3" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 	<bean id="_RuB4C_Xtal2Roll_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="_RuB4C_Xtal2Roll_converter" />
@@ -98,6 +101,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="4" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 	<bean id="_RuB4C_XtalXTrans_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="_RuB4C_XtalXTrans_converter" />
@@ -105,6 +109,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="5" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 
 	<bean id="_NiB4C_Xtal1Bragg_converter" class="gda.util.converters.LookupTableConverterHolder">
@@ -113,6 +118,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="1" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 	<bean id="_NiB4C_Xtal2Bragg_converter" class="gda.util.converters.LookupTableConverterHolder" >
 		<constructor-arg value="_NiB4C_Xtal2Bragg_converter" />
@@ -120,6 +126,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="2" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 	<bean id="_NiB4C_Xtal2Z_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="_NiB4C_Xtal2Z_converter" />
@@ -127,6 +134,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="3" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 	<bean id="_NiB4C_Xtal2Roll_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="_NiB4C_Xtal2Roll_converter" />
@@ -134,6 +142,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="4" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 	<bean id="_NiB4C_XtalXTrans_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="_NiB4C_XtalXTrans_converter" />
@@ -141,6 +150,7 @@
 		<constructor-arg value="0" />
 		<constructor-arg value="5" />
 		<constructor-arg value="StoT" />
+		<property name="interpolateNotExtrapolate" value="True" />
 	</bean>
 
 
