@@ -107,6 +107,8 @@ try_execfile("BeamlineI07/useAreaDetectorPilatus2.py")
 
 try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
 
+try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
+
 try_execfile("BeamlineI07/useFleaCameras.py", full_log=True)
 
 try_execfile("BeamlineI07/useDummyCam.py")
@@ -114,6 +116,10 @@ try_execfile("BeamlineI07/useDummyCam.py")
 try_execfile("BeamlineI07/useEuroThermo.py")
 
 try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
+
+pieX = pie.pieX
+pieY = pie.pieY
+pieZ = pie.pieZ
 
 # TODO: Restore scan wrappers!
 	##to setup the scan processing wrappers
@@ -126,12 +132,23 @@ from scannable.pv_with_separate_readback_and_tolerance import PVWithSeparateRead
 chiller1=PVWithSeparateReadbackAndToleranceScannable('chiller1', pv_set='BL07I-EA-CHIL-01:SET_TEMP', pv_read='BL07I-EA-CHIL-01:TEMP', timeout=30*60, tolerance=0.2)
 chiller2=PVWithSeparateReadbackAndToleranceScannable('chiller2', pv_set='BL07I-EA-CHIL-02:SET_SETPOINT', pv_read='BL07I-EA-CHIL-02:TEMPERATURE', timeout=30*60, tolerance=0.2)
 
-from BeamlineI07.gaspanel import GasPanel, GasPanelScannable
-gp = GasPanel("gp", "BL07I-EA-GAS-01:")
-gpscan = GasPanelScannable("gpscan", "BL07I-EA-GAS-01:")
+from BeamlineI07.gaspanel import (
+		GasPanel,
+		GasPanelScannable,
+		DummyGasPanel,
+		gasScanStop
+)
 
-from BeamlineI07.lakeshore import LakeshoreDoubleReadout
-lakeshore = LakeshoreDoubleReadout("lakeshore", lakeshore_base)
+_dummygp = DummyGasPanel("_dummygp")
+dummygp = GasPanelScannable("dummygp", _dummygp)
+
+#_gp = GasPanel("_gp", "BL07I-EA-GAS-01:")
+#gp = GasPanelScannable("gp", _gp)
+
+from BeamlineI07.lakeshore import LakeshoreDoubleReadout, LakeshoreDoubleReadoutDummy
+#lakeshore = LakeshoreDoubleReadout("lakeshore", lakeshore_base)
+dummyLakeshore = LakeshoreDoubleReadoutDummy("dummyLakeshore")
+
 
 print "==================================================================="
 print
