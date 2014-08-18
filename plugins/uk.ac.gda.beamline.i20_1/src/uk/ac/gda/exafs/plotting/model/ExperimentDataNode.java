@@ -115,6 +115,7 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;
+				this.firePropertyChange(SCAN_ADDED_PROP_NAME, null, datasetNode);
 			} else {
 				datasetNode = scans.get(scanIdentifier);
 			}
