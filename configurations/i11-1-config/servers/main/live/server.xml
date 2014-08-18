@@ -32,7 +32,7 @@
 	<import resource="D4.xml" />
 	<import resource="D5.xml"/>
 	<import resource="DCM.xml"/>
-	<import resource="DCMxtal.xml"/>
+<!-- 	<import resource="DCMxtal.xml"/> -->
 <!-- 	<import resource="ETL.xml"/> -->
 	<import resource="ExperimentHutchShutter.xml"/>
 	<import resource="FastShutter.xml"/>

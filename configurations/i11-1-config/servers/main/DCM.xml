@@ -27,7 +27,8 @@
 	<bean id="offset" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcmoffset" />
 	</bean>
-	<bean id="wavelength" class="gda.device.scannable.ScannableMotor">
+	<!-- lambda is reserved name now so use dcm_lambda -->
+	<bean id="dcm_lambda" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcmlambda" />
 	</bean>
 	
@@ -42,7 +43,7 @@
 				<ref bean="translation"/>
 				<ref bean="energy"/>
 				<ref bean="offset"/>
-				<ref bean="wavelength"/>
+				<ref bean="dcm_lambda"/>
 			</list>
 		</property>
 	</bean>

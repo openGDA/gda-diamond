@@ -25,7 +25,7 @@
 		<property name="motor" ref="m2y_motor"/>
 	</bean>
 	
-	<bean id="S2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="M1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="m1bend"/>
