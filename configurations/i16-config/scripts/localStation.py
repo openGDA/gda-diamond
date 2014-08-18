@@ -111,9 +111,6 @@ from spechelp import * # aliases man objects
 alias("jobs")
 
 USE_NEXUS_METADATA_COMMANDS = True
-WRITE_NEXUS_FILES = True
-
-LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter" if WRITE_NEXUS_FILES else "SrsDataFile")
 
 if USE_NEXUS_METADATA_COMMANDS:
 	
@@ -773,6 +770,7 @@ corAuto = AutoRangeDetector('corAuto',
 							cam2,
 							None,
 							cam2_for_snaps,
+							"BL16I-DI-COR-01:",
 							[],
 							panel_name='Firecam',
 							panel_name_rcp='Plot 1', 
@@ -789,6 +787,53 @@ corAutomax2d = DetectorDataProcessorWithRoi('corAutomax2d', corAuto, [SumMaxPosi
 from pv_scannable_utils import createPVScannable
 createPVScannable( "corExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
 corExpTime.level=10
+
+cor2 = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor2',
+							c10,
+							None,
+							c10_for_snaps,
+							[],
+							panel_name='Firecam',
+							panel_name_rcp='Plot 2', 
+							fileLoadTimout=60,
+							printNfsTimes=False,
+							returnPathAsImageNumberOnly=True)
+
+cor2peak2d = DetectorDataProcessorWithRoi('cor2peak2d', cor, [TwodGaussianPeak()])
+cor2max2d = DetectorDataProcessorWithRoi('cor2max2d', cor, [SumMaxPositionAndValue()])
+
+cor2Auto = AutoRangeDetector('cor2Auto',
+							c10,
+							None,
+							c10_for_snaps,
+							"BL16I-DI-DCAM-10:",
+							[],
+							panel_name='Firecam',
+							panel_name_rcp='Plot 2', 
+							fileLoadTimout=60,
+							printNfsTimes=False,
+							returnPathAsImageNumberOnly=True)
+cor2Auto.display_image = True
+cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', corAuto, [TwodGaussianPeak()])
+cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPositionAndValue()])
+
+createPVScannable( "cor2ExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
+cor2ExpTime.level=10
+
+xeye = SwitchableHardwareTriggerableProcessingDetectorWrapper('xeye',
+                                                              _xeye,
+                                                              None,
+                                                              _xeye_for_snaps,
+                                                              [],
+                                                              panel_name='Firecam',
+                                                              panel_name_rcp='Plot 2',
+                                                              fileLoadTimout=60,
+                                                              printNfsTimes=False,
+                                                              returnPathAsImageNumberOnly=True)
+
+xeye.display_image = True
+xeyemax2d = DetectorDataProcessorWithRoi('xeyemax2d', xeye, [SumMaxPositionAndValue()])
+xeyepeak2d = DetectorDataProcessorWithRoi('xeyepeak2d', xeye, [TwodGaussianPeak()])
 
 #scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 
@@ -911,13 +956,13 @@ run('Sample_perpMotion')
 
 if installation.isLive():
 	if not USE_DIFFCALC:
-		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, psi, en, kphi, azihkl, hkl, beta, delta_axis_offset])
+		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, psi, en, kphi, azihkl, beta, delta_axis_offset])
 		xtal_info=ReadPDGroupClass('xtal_info',[xtalinfo])
 	else:
-		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, en, kphi, hkl, delta_axis_offset])
+		d=diffractometer_sample=ReadPDGroupClass('diffractometer_sample',[delta, eta, chi, phi, gam, mu, hkl, en, kphi, delta_axis_offset])
 	source=ReadPDGroupClass('source',[rc, idgap, uharmonic])
 	beamline_slits=ReadPDGroupClass('beamline_slits',[s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y])
-	jjslits=ReadPDGroupClass('beamline_slits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])
+	jjslits=ReadPDGroupClass('jjslits',[s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans])
 	mirror1=ReadPDGroupClass('mirror1',[m1pitch, m1x, m1y, m1roll, m1yaw, m1piezo])
 	mirror2=ReadPDGroupClass('mirror2',[m2pitch, m2x, m2y, m2roll, m2yaw,m2bender])
 	mirror3=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch])
@@ -1065,8 +1110,8 @@ def open_valves():
 #ci=241.0; cj=107.0	#14/01/14
 #ci=236.0; cj=107.0	#11/03/14
 #ci=240.0; cj=108.0	#11/03/14
-ci=243.0; cj=106.0	#09/04/14
-
+#ci=243.0; cj=106.0	#09/04/14
+ci=257.0; cj=109.0	#24/06/14
 maxi=486; maxj=194
 
 #small centred

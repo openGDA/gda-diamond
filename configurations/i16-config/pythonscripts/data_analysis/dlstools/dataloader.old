@@ -4,12 +4,17 @@
 
 ### use listdict (dnp)?
 
-import specfilewrapper
+
+
 import scisoftpy
 import os.path
 import numpy as np
+try:
+    import dlstools.specfilewrapper as specfilewrapper
+except:
+    print '=== Need to obtain specfilewrapper.py and compatible specfile.so from ERSF PyMCA package in order to load spec files'
 
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.collections import PolyCollection
 import matplotlib.cm as cm
@@ -21,16 +26,16 @@ class quickplot():
     #quick test of quickplot- eventually have all automatic params
     def plot(self,*args):
         xstr, ystr=args[0], args[1]
-        figure()
-        plot(self.dict[xstr], self.dict[ystr])
-        xlabel(xstr)
-        ylabel(ystr)
-        grid(True)
-        title('#'+str(self.datanumber)+' '+self.date)
-        axis('tight')
+        plt.figure()
+        plt.plot(self.dict[xstr], self.dict[ystr])
+        plt.xlabel(xstr)
+        plt.ylabel(ystr)
+        plt.grid(True)
+        plt.title('#'+str(self.datanumber)+' '+self.date)
+        plt.axis('tight')
     def cards(self, xstr, ystr, zstr, cmap=cm.jet):
         #experimental!
-        fig = figure()
+        fig = plt.figure()
         ax = fig.gca(projection='3d')
         verts = []
         zs = self.s.dict[xstr][:,0]
@@ -46,7 +51,7 @@ class quickplot():
         ax.set_ylim3d(self.s.dict[xstr].min(),self.s.dict[xstr].max())
 #        ax.set_zlim3d(self.s.dict[zstr].min(),self.s.dict[zstr].max())
         ax.set_zlim3d(0,self.s.dict[zstr].max())
-        show()
+        plt.show()
 
 class dataloader():
     '''
@@ -288,7 +293,7 @@ class dlsloader(dataloader,ScanSequence, quickplot):
         self.file=self.pathfmt % datanumber
         #print self.file
         self.dirname=os.path.dirname(self.file)+os.sep #directory name with trailing separator - used for reading secondary data files etc
-        self.dataobject=scisoftpy.io.load(self.file, formats=['srs','tiff'],warn=self.warn)
+        self.dataobject=scisoftpy.io.load(self.file, formats=['srs','tiff'],warn=not self.warn)
         labels=self.dataobject.keys()
         try:        
             scan=self.dataobject['scancommand']
@@ -309,7 +314,7 @@ class piloader(dlsloader):
         #self.file=self.first+str(datanumber)+'.'+self.ext  
         self.file=self.pathfmt % datanumber
         #print self.file
-        self.dataobject=scisoftpy.io.load(self.file, formats=['tiff'])
+        self.dataobject=scisoftpy.io.load(self.file, formats=['tiff'],warn=self.warn)
         labels=self.dataobject.keys()
         try:        
             scan=self.dataobject['scancommand']
