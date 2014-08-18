@@ -855,6 +855,9 @@ if installation.isLive():
 
 	test2mot5.outputFormat = ['%.4f'] #@UndefinedVariable
 	test2mot6.outputFormat = ['%.4f']#@UndefinedVariable
+	fcX.outputFormat = ['%.4f']#@UndefinedVariable
+	fcY.outputFormat = ['%.4f']#@UndefinedVariable
+	fcZ.outputFormat = ['%.4f']#@UndefinedVariable
 
 	FBDAC2level=pd_readPvAfterWaiting.ReadPvAfterWaiting("FBDAC2level","BL16B-OP-DCM-01:FB:DAC:02")
 
