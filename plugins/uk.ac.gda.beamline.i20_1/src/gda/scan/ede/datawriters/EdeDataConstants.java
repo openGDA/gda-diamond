@@ -18,7 +18,7 @@
 
 package gda.scan.ede.datawriters;
 
-import uk.ac.diamond.scisoft.analysis.dataset.AbstractDataset;
+import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
@@ -146,7 +146,7 @@ public class EdeDataConstants {
 			return metaDataset;
 		}
 
-		public static String toMetadataString(AbstractDataset data) {
+		public static String toMetadataString(Dataset data) {
 			StringBuilder metadataStr = new StringBuilder();
 			int noOfGroups = data.getShape()[0];
 			for (int i = 0; i < noOfGroups; i++) {
@@ -161,7 +161,7 @@ public class EdeDataConstants {
 			return DataHelper.removeLastChar(metadataStr).toString();
 		}
 
-		public static TimingGroupMetadata[] toTimingGroupMetaData(AbstractDataset data) {
+		public static TimingGroupMetadata[] toTimingGroupMetaData(Dataset data) {
 			TimingGroupMetadata[] groups =  new TimingGroupMetadata[data.getShape()[0]];
 			for (int i = 0; i < groups.length; i++) {
 				groups[i] = new TimingGroupMetadata( data.getInt(i, 0), data.getInt(i, 1), data.getDouble(i, 2), data.getDouble(i, 3), data.getDouble(i, 4), data.getInt(i, 5));
