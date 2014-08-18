@@ -38,8 +38,9 @@
     </bean>
 
    
-    <import resource="fastpil1_clientside.xml"/>
-    <import resource="fastpil3_clientside.xml"/>
+   <!--  Removed thes two as a temprary measure during callout on June 24th at 11:55 pm - Rob W -->
+<!--     <import resource="fastpil1_clientside.xml"/> -->
+<!--     <import resource="fastpil3_clientside.xml"/> -->
 
 <!--    <import resource="mjpegViewer.xml"/> -->
 
