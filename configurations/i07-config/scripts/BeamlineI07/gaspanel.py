@@ -4,6 +4,12 @@ from gda.scan import ScanPositionProvider
 from time import sleep
 import scisoftpy as dnp
 
+class GasPanelIncrementValue():
+    def __init__( self, initVal ):
+        self.value = initVal
+
+GASPANEL_INCREMENT = GasPanelIncrementValue(10)
+
 class GasPanel():
     def __init__(self, name, pvRoot):
         self.name = name
@@ -63,18 +69,65 @@ class GasPanel():
             sleep(0.1)
             if not self.isBusy(): break
 
+class DummyGasPanel():
+    def __init__(self, name):
+        self.name = name
+        self.valves = dict.fromkeys(range(1,9), 'Closed')
+        self.threshold = 5
+        self.chamberPressure = 50
+        self.samplePressure = 10
+        self.chamberVolume = 8
+        self.sampleVolume = 2
 
-class GasPanelIncrementValue():
-    def __init__( self, initVal ):
-        self.value = initVal
+    def openValve(self, valve):
+        self.valves[valve] = 'Open'
 
-def gasScan(panel, initialPressure, increment, maxCount):
+    def closeValve(self, valve):
+        self.valves[valve] = 'Closed'
+
+    def posValve(self, valve):
+        return self.valves[valve]
+
+    def setThreshold(self, delta):
+        self.threshold = delta
+
+    def getThreshold(self):
+        return threshold
+
+    def fill(self, pressure):
+        self.chamberPressure = pressure
+
+    def readChamberPressure(self):
+        return float( self.chamberPressure )
+
+    def equilibrate(self):
+        pressure = ( (self.chamberPressure * self.chamberVolume +
+         self.samplePressure * self.sampleVolume) /
+         (self.chamberVolume + self.sampleVolume) )
+
+        self.samplePressure = pressure
+        self.chamberPressure = pressure
+
+    def getMode(self):
+        return 'Idle'
+
+    def abort(self):
+        pass
+
+    def isBusy(self):
+        return False
+
+    def waitWhileBusy(self):
+        while True:
+            sleep(0.1)
+            if not self.isBusy(): break
+
+def gasScan(panel, initialPressure, maxCount = -1):
     deltaSum = 0;
     deltaSumDataSet = []
     pressureDataSet = []
     i = 0
-    #dnp.plot.line( pressureDataSet, deltaSumDataSet, "deltaSum vs Pressure" )
-    while i < maxCount:
+    while (i < maxCount) or (maxCount < 0):
         i+=1
         panel.abort()
         panel.fill(initialPressure)
@@ -92,12 +145,15 @@ def gasScan(panel, initialPressure, increment, maxCount):
         deltaSum += delta
         deltaSumDataSet.append( deltaSum )
         print "Pi: %f\nPf: %f\ndelta: %f\ndeltaSum: %f\n" % (initialPressure, finalPressure, delta, deltaSum)
-        initialPressure = finalPressure + increment.value
-        dnp.plot.line( dnp.array( pressureDataSet ), dnp.array( deltaSumDataSet ), "deltaSum v Pressure" )
+        initialPressure = finalPressure + GASPANEL_INCREMENT.value
+        dnp.plot.line(
+            dnp.array( pressureDataSet ),
+            [(dnp.array( deltaSumDataSet ), "deltaSum")],
+            title="deltaSum v Pressure",
+            name="GasPanel" )
 
     panel.abort()
     #dnp.plot.line( dnp.array( pressureDataSet ), dnp.array( deltaSumDataSet ), "deltaSum v Pressure" )
-
 
 class GasPanelScannable( ScannableBase ):
     def __init__( self, name, pvRoot, threshold = 5 ):

@@ -132,7 +132,8 @@ from scannable.pv_with_separate_readback_and_tolerance import PVWithSeparateRead
 chiller1=PVWithSeparateReadbackAndToleranceScannable('chiller1', pv_set='BL07I-EA-CHIL-01:SET_TEMP', pv_read='BL07I-EA-CHIL-01:TEMP', timeout=30*60, tolerance=0.2)
 chiller2=PVWithSeparateReadbackAndToleranceScannable('chiller2', pv_set='BL07I-EA-CHIL-02:SET_SETPOINT', pv_read='BL07I-EA-CHIL-02:TEMPERATURE', timeout=30*60, tolerance=0.2)
 
-from BeamlineI07.gaspanel import GasPanel, GasPanelScannable
+from BeamlineI07.gaspanel import GasPanel, GasPanelScannable, DummyGasPanel, gasScan, GasPanelIncrementValue, GASPANEL_INCREMENT
+dummygp = DummyGasPanel("dummygp")
 gp = GasPanel("gp", "BL07I-EA-GAS-01:")
 gpscan = GasPanelScannable("gpscan", "BL07I-EA-GAS-01:")
 
