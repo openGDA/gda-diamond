@@ -40,10 +40,10 @@ def multiregionscan(*args):
                 sleep(1.0) # wait for user saving dirty file
             arg.setSequenceFilename(filename)
             sequence=arg.loadSequenceData(filename)
-            if sequence.getRegion().size()==1:
-                arg.createSingleFile(True)
-            else:
-                arg.createSingleFile(False)
+            #if sequence.getRegion().size()==1:
+                #arg.createSingleFile(True)
+            #else:
+                #arg.createSingleFile(False)
             if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
                 arg.getCollectionStrategy().setSequence(sequence)
             i=i+1
