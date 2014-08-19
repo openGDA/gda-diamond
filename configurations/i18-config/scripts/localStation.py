@@ -137,3 +137,19 @@ if (LocalProperties.get("gda.mode") == 'live'):
     photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/")
 
 print "Initialization Complete";
+
+print "****************************************"
+print ""
+print "Useful commands:"
+print ""
+print "To switch to faster raster (two-way rastering):"
+print " map.enableFasterRaster()"
+print "and to switch back:"
+print " map.disableFasterRaster()"
+print ""
+print "To switch to use table 3 (large stage) for rastering:"
+print " map.setStage(3)"
+print "To switch back to table 1 (small stage) for rastering:"
+print " map.setStage(1)"
+print ""
+print "****************************************"

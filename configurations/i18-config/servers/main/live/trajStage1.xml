@@ -103,7 +103,6 @@
 		<property name="hardwareTriggerProvider" ref="traj1ScanControllerAdapter" />
 		<property name="xmap" ref="xmapMca" />
 		<property name="controller" ref="edxdcontroller" />
-		<property name="daServer" ref="daserver" />
 	</bean>
 
 </beans>
