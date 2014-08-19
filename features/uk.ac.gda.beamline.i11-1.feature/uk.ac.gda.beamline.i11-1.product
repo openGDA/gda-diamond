@@ -43,6 +43,7 @@ PyDev http://pydev.org/
 -Dpython.cachedir=~/python.cachedir
 -Djava.net.preferIPv4Stack=true
 -Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/${target.arch}/usr/lib64/xulrunner-1.9.2/
+-Dorg.eclipse.swt.browser.XULRunnerPath=/usr/lib64/xulrunner/
 -Xms256m 
 -Xmx2048m
 -XX:PermSize=128m 
