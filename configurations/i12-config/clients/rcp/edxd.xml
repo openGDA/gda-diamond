@@ -38,7 +38,7 @@
 
 	<!-- For EDXD Alignment -->
 	<bean id="edxdAlignment" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/gda/edxdAlignment" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}edxdAlignment" />
 		<property name="serviceInterface" value="uk.ac.gda.edxd.common.IEdxdAlignment" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>

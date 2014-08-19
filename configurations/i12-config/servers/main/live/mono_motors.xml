@@ -30,4 +30,16 @@
 	<!-- <bean id="mc2_x_motor" class="gda.spring.EpicsMotorFactoryBean">
 		<property name="deviceName" value="mc2.x" />
 	</bean> -->
+	<bean id="dcm1_bender_inboard_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="dcmxtal1b1" />
+	</bean>
+	<bean id="dcm1_bender_outboard_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="dcmxtal1b2" />
+	</bean>
+	<bean id="dcm2_bender_inboard_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="dcmxtal2b1" />
+	</bean>
+	<bean id="dcm2_bender_outboard_motor" class="gda.spring.EpicsMotorFactoryBean">
+		<property name="deviceName" value="dcmxtal2b2" />
+	</bean>
 </beans>

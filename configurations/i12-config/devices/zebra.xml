@@ -97,5 +97,66 @@
 	</bean>	
 
 
+	<bean id="pixium_flyScanCollectionStrategy" 
+		class="gda.device.detector.addetector.triggering.HardwareTriggeredPixium">
+		<constructor-arg ref="pixium10_cam_base" />
+		<constructor-arg value="0.2" />
+	</bean>
+		
+	<bean id="pixium_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="pixium_flyScanDetector"/>
+		<property name="readOutTime" value=".2"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="pixium_flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pixium_flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="pixium_flyScanDetectorTIF"/>
+		<property name="readOutTime" value=".2"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="pixium_flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+
+	
+	<bean id="pixium_flyScanFlatDarkCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pixium10_cam_base" />
+		<constructor-arg value="0." />
+	</bean>
+	
+	
+	<bean id="pixium_flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixium_flyScanFlatDarkDetector"/>
+		<property name="collectionStrategy" ref="pixium_flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pixium_flyScanFlatDarkDetectorTIF" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixium_flyScanFlatDarkDetectorTIF"/>
+		<property name="collectionStrategy" ref="pixium_flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+
+
+
+
+
 </beans>
 

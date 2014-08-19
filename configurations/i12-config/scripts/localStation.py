@@ -57,24 +57,25 @@ print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdire
 print "-------------------------------------------------"
 # function to find the last file path
 
-from i12utilities import wd, pwd, nwd, nfn, cfn, setSubdirectory, setDataWriterToNexus, setDataWriterToSrs, getDataWriter, ls_scannables
+from i12utilities import wd, pwd, nwd, nfn, cfn, setSubdirectory, getSubdirectory, setDataWriterToNexus, setDataWriterToSrs, getDataWriter, ls_scannables
 alias("wd")
 alias("pwd")
 alias("nwd")
 alias("nfn")
 alias("cfn")
 alias("setSubdirectory")
+alias("getSubdirectory")
 from i12utilities import getVisit, getVisitRootPath
 alias("getVisit")
 alias("getVisitRootPath")
 from i12utilities import createScannableFromPV
 
-print "create commands for Data Writer operations: setDataWriterToNexus, setDataWriterToSrs, getDataWriter"
-print "-------------------------------------------------"
+#print "create commands for Data Writer operations: setDataWriterToNexus, setDataWriterToSrs, getDataWriter"
+#print "-------------------------------------------------"
 
-alias("setDataWriterToNexus")
-alias("setDataWriterToSrs")
-alias("getDataWriter")
+#alias("setDataWriterToNexus")
+#alias("setDataWriterToSrs")
+#alias("getDataWriter")
 
 print "Command to find list all the scannables: ls_scannables"
 print "-------------------------------------------------"
@@ -391,13 +392,15 @@ from rockingMotion_class import RockingMotion #@UnresolvedImport
 #print rocktheta.getName()
 
 from positionCompareMotorClass import PositionCompareMotorClass
+print "setting up additional EH2 motors (for ss2)"
 ss2x = PositionCompareMotorClass("ss2x", "BL12I-MO-TAB-06:X.VAL", "BL12I-MO-TAB-06:X.RBV", "BL12I-MO-TAB-06:X.STOP", 0.002, "mm", "%.3f")
 ss2y = PositionCompareMotorClass("ss2y", "BL12I-MO-TAB-06:Y.VAL", "BL12I-MO-TAB-06:Y.RBV", "BL12I-MO-TAB-06:Y.STOP", 0.002, "mm", "%.3f")
 ss2z = PositionCompareMotorClass("ss2z", "BL12I-MO-TAB-06:Z.VAL", "BL12I-MO-TAB-06:Z.RBV", "BL12I-MO-TAB-06:Z.STOP", 0.002, "mm", "%.3f")
 ss2rx = PositionCompareMotorClass("ss2rx", "BL12I-MO-TAB-06:PITCH.VAL", "BL12I-MO-TAB-06:PITCH.RBV", "BL12I-MO-TAB-06:PITCH.STOP", 0.002, "deg", "%.3f")
 ss2ry = PositionCompareMotorClass("ss2ry", "BL12I-MO-TAB-06:THETA.VAL", "BL12I-MO-TAB-06:THETA.RBV", "BL12I-MO-TAB-06:THETA.STOP", 0.002, "deg", "%.3f")
 
-
+print "setting up additional EH1 motors (patch)"
+t1rot = PositionCompareMotorClass("t1rot", "BL12I-MO-USER-01:AXIS1.VAL", "BL12I-MO-USER-01:AXIS1.RBV", "BL12I-MO-USER-01:AXIS1.STOP", 0.001, "deg", "%.3f")
 
 
 pco.setHdfFormat(False) #@UndefinedVariable
@@ -458,6 +461,7 @@ except:
 
 print "create pixium10 scannables"
 try:
+    pixium10_TriggerMode=createScannableFromPV("pixium10_TriggerMode", "BL12I-EA-DET-10:CAM:TriggerMode", addToNameSpace=True, getAsString=True, hasUnits=False)
     pixium10_PUMode = DisplayEpicsPVClass('pixium10_PUMode', 'BL12I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
     pixium10_BaseExposure = DisplayEpicsPVClass('pixium10_BaseExposure', 'BL12I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
     pixium10_BaseAcquirePeriod = DisplayEpicsPVClass('pixium10_BaseAcquirePeriod', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
@@ -534,12 +538,13 @@ try:
     meta_scannables.append(cam1)
     #meta_scannables.append(cam3)
     
-#    meta_scannables.append(f1)
-#    meta_scannables.append(f2)
+    meta_scannables.append(f1)
+    meta_scannables.append(f2)
     
-    #meta_scannables.append(mc1_bragg)
-    #meta_scannables.append(mc2)
-#    meta_scannables.append(ss1)
+    meta_scannables.append(mc1_bragg)
+    meta_scannables.append(mc2_bragg)
+    meta_scannables.append(mc2)
+    meta_scannables.append(ss1)
     meta_scannables.append(s1)
     meta_scannables.append(s2)
     #meta_scannables.append(s3)

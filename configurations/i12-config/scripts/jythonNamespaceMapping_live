@@ -31,12 +31,14 @@ tomography_beammonitor=actualTime
 tomography_camera_stage=cam1
 tomography_sample_stage=ss1_x
 
-#normal flyscan - uncomment the following 3 lines
+#normal flyscan - uncomment to select the required detector
 tomography_flyscan_theta=zebraSM1
-tomography_flyscan_det=flyScanDetector
-tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
+#tomography_flyscan_det=pixium_flyScanDetector
+#tomography_flyscan_flat_dark_det=pixium_flyScanFlatDarkDetector
 #tomography_flyscan_det=flyScanDetectorTIF
 #tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorTIF
+tomography_flyscan_det=flyScanDetector
+tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
 
 #connect p2r trigger to exposure out of PCO and connect that to Zebra TTL1. The busy is used by the tfg
 #tomography_flyscan_det=p2r_flyScanDetector

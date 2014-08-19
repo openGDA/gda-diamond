@@ -35,7 +35,7 @@
 	<import resource="mono.xml" />
 
 	<!-- GigE cameras -->	
-	<import resource="camMono1.xml" />
+ 	<import resource="camMono1.xml" />
 	<import resource="camMono2.xml" />
 
 	<import resource="camEH1.xml" />
@@ -43,7 +43,9 @@
 	<import resource="camOH1.xml" />
 	
 	<import resource="camEH1end.xml" />
-	<import resource="camFloat.xml" />
+	<import resource="camFloat1.xml" />
+	<import resource="camFloat2.xml" />
+	
 	<!--  -->
 	
 	<import resource="I0eh1.xml" />

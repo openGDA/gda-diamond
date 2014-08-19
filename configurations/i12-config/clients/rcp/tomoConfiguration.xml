@@ -5,8 +5,8 @@
            http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 	<description>Tomography configuration view configuration data
 	</description>
-	<corba:import namespace="i12"
-		names="tomoAlignmentConfigurationScriptController" />
+	<!-- <corba:import namespace="i12"
+		names="tomoAlignmentConfigurationScriptController" /> -->
 
 	<!-- -->
 	<bean id="tomoConfigurationViewHolder"

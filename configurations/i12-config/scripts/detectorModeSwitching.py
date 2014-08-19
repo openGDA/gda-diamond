@@ -19,13 +19,13 @@ eh1shtr=finder.find("eh1shtr")
 def masterPositions():
     print "in masterPositions"
     detector_table = t3.t3_m2z
-    detector_diffzposition=1200
+    detector_diffzposition=1157.38
     return detector_table, detector_diffzposition
     
 def monodiffractionPositions():
      # detector positions
-    detector_diffxposition=757
-    detector_diffyposition=23.
+    detector_diffxposition=760
+    detector_diffyposition=24.0
     #slitpositions
     s2_diffxcentre=0
     s2_diffycentre=50
@@ -34,12 +34,12 @@ def monodiffractionPositions():
     
     s3_diffxcentre=0
     s3_diffycentre=0
-    s3_diffxsize=1.1
-    s3_diffysize=1.1
+    s3_diffxsize=0.4
+    s3_diffysize=0.4
     
     #beamstop positions for diffraction
-    beamstopInBeam_x = 106.8
-    beamstopInBeam_y = 16.417
+    beamstopInBeam_x = 97.62
+    beamstopInBeam_y = 13.08
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-15
@@ -49,23 +49,23 @@ def monodiffractionPositions():
     
 def monoimagingPositions():
     # detector positions
-    detector_imagingxposition=1352.42
+    detector_imagingxposition=1354.20
     
     #slitpositions
     s2_imagingxcentre=0
     s2_imagingycentre=50
-    s2_imagingxsize=3
-    s2_imagingysize=3
+    s2_imagingxsize=5.5
+    s2_imagingysize=5.5
     
     s3_yheight=50
     s3_imagingxcentre=0
     s3_imagingycentre=0
-    s3_imagingxsize=3
-    s3_imagingysize=3
+    s3_imagingxsize=5
+    s3_imagingysize=5
     
     #beamstop positions during imaging
     beamstopOutofBeam_x = 149
-    beamstopOutofBeam_y = 16.417
+    beamstopOutofBeam_y = 13.08
     
     #calculated values
     detector_imagingxposition_lowLimit = detector_imagingxposition-15   ## to restrict movement of pixium into beam when imaging
@@ -95,6 +95,9 @@ def monodiffractionMode():
     print "***** Closing EH1 shutter."
     pos(eh1shtr, "Close")
     print "******* Shutter now closed. "
+    print "Closing External shutter"
+    caput("BL12I-PS-SHTR-03:CON", 1) # 1 is closed. 0 is open
+    print "******* External Shutter Closed"
     
     print "***** Moving slits. "
     pos(s2.xc, s2_diffxcentre, s2.xs, s2_diffxsize)
@@ -106,7 +109,7 @@ def monodiffractionMode():
     
     print "******* Moving beamstop into beam"
     pos(t3.m4x, beamstopInBeam_x)
-    pos(t3.m4y, beamstopInBeam_y)
+    #pos(t3.m4y, beamstopInBeam_y)
 
     print "***** Moving large detector table. "     
     pos(detector_table, detector_diffzposition)     
@@ -135,6 +138,9 @@ def monoimagingMode():
     print "***** Closing EH1 shutter."    # 1 is closed. 0 is open\par
     pos(eh1shtr, "Close")
     print "******* Shutter now closed. "
+    print "Closing External shutter"
+    caput("BL12I-PS-SHTR-03:CON", 1) # 1 is closed. 0 is open
+    print "******* External Shutter Closed"
     
     print "***** Moving slits."
     pos(s2.xc, s2_imagingxcentre, s2.xs, s2_imagingxsize)

@@ -293,6 +293,7 @@ class PreScanRunnable(Runnable):
         if self.zebraTriggerMode is not None:
             import zebra_utilities
             zebra_utilities.setZebra2Mode(self.zebraTriggerMode)
+            #zebra_utilities.setZebra3AfterPixiumFlyScan()
 
 
 
@@ -422,6 +423,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
             else:
                 darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, zebraTriggerMode=1)))
+        else:
+            print "No darkScan at start requested."
 
 #flats before
 
@@ -431,6 +434,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
             else:
                 flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, zebraTriggerMode=1)))
+        else:
+            print "No flatScan at start requested."
         
 #flyscan
         if beamline == "I13":
@@ -447,6 +452,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
                 else:
                     flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
                 multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, zebraTriggerMode=1)))
+        else:
+            print "No flatScan at end requested."
         
         if not description == None: 
             setTitle(description)

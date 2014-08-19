@@ -56,8 +56,18 @@ def setSubdirectory(dirname):
         finder.find("GDAMetadata").setMetadataValue("subdirectory", dirname)
     except:
         exceptionType, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "problem setting metadata value -'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
-        print "Failed to set metadata (subdirectory) value to:", dirname, exception
+        handle_messages.log(None, "problem setting metadata value for 'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
+        print "Failed to set metadata value for 'subdirectory' to:", dirname, exception
+        
+
+def getSubdirectory():
+    try:
+        return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
+        print "Failed to get metadata value for 'subdirectory':", exception
+        return None
         
 
 from gda.data.metadata import GDAMetadataProvider
