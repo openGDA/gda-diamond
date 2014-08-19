@@ -49,10 +49,10 @@ if (LocalProperties.get("gda.mode") == 'live'):
     beamMonitor.setName("beamMonitor")
     beamMonitor.setMachineModeMonitor(machineModeMonitor)
     beamMonitor.configure()
-#    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
-#    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
-#    traj3ContiniousX.setBeamMonitor(beamMonitor)
-#    traj3ContiniousX.setTopupMonitor(topupMonitor)
+    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
+    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
+    traj3ContiniousX.setBeamMonitor(beamMonitor)
+    traj3ContiniousX.setTopupMonitor(topupMonitor)
     
     detectorFillingMonitor = DetectorFillingMonitorScannable()
     detectorFillingMonitor.setName("detectorFillingMonitor")
@@ -65,7 +65,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     trajBeamMonitor.configure()
     trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
     trajBeamMonitor.setLevel(1)
-
+    
     add_default topupMonitor
     add_default beamMonitor
     #add_default trajBeamMonitor
