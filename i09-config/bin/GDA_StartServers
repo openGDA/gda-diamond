@@ -19,5 +19,5 @@ export JAVA_OPTS="-Dlogback.application=EventServer"
 `dirname $0`/gda_command eventserver $@
 #JAVA_OPTS="-Xms128m -Xmx2048m -XX:-HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/gdaobjectserver.hprof" `dirname $0`/gda_command objectserver  $@ --profile=main --mode=live --headless #--debug --debugport=8002
 export JAVA_OPTS="-Xms128m -Xmx2056m -XX:MaxPermSize=256m -XX:+DisableExplicitGC -XX:-HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/gdaobjectserver.hprof -Dlogback.application=ObjectServer"
-`dirname $0`/gda_command objectserver --smart --trace  --debug -p 8001 --restart -v --mode=live $@
+`dirname $0`/gda_command objectserver --smart --trace  --debug --restart -v --mode=live $@
 
