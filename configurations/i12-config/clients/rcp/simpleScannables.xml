@@ -9,7 +9,7 @@
 
 	
 	<bean id="idummyscannablemotor_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/gda/idummyscannablemotor_x" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}idummyscannablemotor_x" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>

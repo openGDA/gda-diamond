@@ -6,6 +6,7 @@ finder = Finder.getInstance()
 
 zebra=finder.find("zebra")      # zebra1 BL12I-EA-ZEBRA-01:
 zebra2=finder.find("zebra2")    # zebra2 BL12I-EA-ZEBRA-02:
+zebra3=finder.find("zebra3")    # zebra3 BL12I-EA-ZEBRA-03:
 
 zebra2Root ="BL12I-EA-ZEBRA-02"
 
@@ -443,4 +444,27 @@ def setZebra2Mode(mode):
     #CAClient.put(zebra2Root+":SCAN_TYPE", mode)
     zebra2.setValue("SCAN",-1,"TYPE",-1, mode)
     print "Finished setting Zebra2 to mode = %s" %mode
+    
+    
+def setZebra3BeforePixiumFlyScan():
+    # set IN1 (BL12I-EA-ZEBRA-03:SOFT_IN:B0) to OFF 
+    zebra3.setValue("SOFT",-1,"IN:B",0, 0)
+    # set IN2 (BL12I-EA-ZEBRA-03:SOFT_IN:B1) to ON
+    zebra3.setValue("SOFT",-1,"IN:B",1, 1)
+
+# def setZebra3BeforePixiumFlyScan(divVal):
+#     # BL12I-EA-ZEBRA-03:DIV1_DIV to div
+#     zebra3.setValue("DIV",1,"DIV",-1, divVal)
+#     # set IN1 (BL12I-EA-ZEBRA-03:SOFT_IN:B0) to OFF 
+#     zebra3.setValue("SOFT",-1,"IN:B",0, 0)
+#     # set IN2 (BL12I-EA-ZEBRA-03:SOFT_IN:B1) to ON
+#     zebra3.setValue("SOFT",-1,"IN:B",1, 1)
+    
+def setZebra3AfterPixiumFlyScan():
+    # set IN1 (BL12I-EA-ZEBRA-03:SOFT_IN:B0) to ON 
+    zebra3.setValue("SOFT",-1,"IN:B",0, 1)
+    # set IN2 (BL12I-EA-ZEBRA-03:SOFT_IN:B1) to OFF
+    zebra3.setValue("SOFT",-1,"IN:B",1, 0)
+
+
 

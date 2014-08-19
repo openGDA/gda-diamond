@@ -117,5 +117,63 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="dcm1_bender_inboard" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm1_bender_inboard" />
+		<property name="motor" ref="dcm1_bender_inboard_motor" />
+		<property name="tolerance" value="0.1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm1_bender_outboard" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm1_bender_outboard" />
+		<property name="motor" ref="dcm1_bender_outboard_motor" />
+		<property name="tolerance" value="0.1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm2_bender_inboard" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm2_bender_inboard" />
+		<property name="motor" ref="dcm2_bender_inboard_motor" />
+		<property name="tolerance" value="0.1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm2_bender_outboard" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm2_bender_outboard" />
+		<property name="motor" ref="dcm2_bender_outboard_motor" />
+		<property name="tolerance" value="0.1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm1_bender" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group -->
+				<ref bean="dcm1_bender_inboard" />
+				<ref bean="dcm1_bender_outboard" />
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm2_bender" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group -->
+				<ref bean="dcm2_bender_inboard" />
+				<ref bean="dcm2_bender_outboard" />
+			</list>
+		</property>
+	</bean>
 </beans>
 

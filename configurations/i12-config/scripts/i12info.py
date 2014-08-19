@@ -6,7 +6,7 @@ This is the brief help for i12:
 Please see the appropriate web pages on Confluence for more details:
 http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help
 
-1. To start GDA client if it fails to launch on the first attempt, please try the following Linux terminal command:
+1. To start GDA client if it fails to launch on the first attempt, please try the following Linux-terminal command:
     gdaclient --reset
 
 2. To identify the path to your scan directory, please use the following Jython console commands:
@@ -28,8 +28,8 @@ http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help
 
 5. To save data to a non-archived (and periodically cleared) directory, please use your visit's tmp sub-directory, i.e. 
     /dls/i12/data/<year>/<science_code><proposal_number>-<visit_number>/tmp/. 
-    For example, /dls/i12/data/2013/cm5936-1/tmp/.
-    IMPORTANT: Please remember to set it back to the original location when appropriate.
+    For example, /dls/i12/data/2013/cm5936-1/tmp/. The command to use is: setSubdirectory("tmp").
+    IMPORTANT: Please remember to set it back to the original location when appropriate, eg setSubdirectory("rawdata").
 
 6. To view or change the type of data writer which is used when scanning, please use an appropriate Jython command from the following list:
     getDataWriter
@@ -63,5 +63,10 @@ http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help
     i13tomographyScan.tomoFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPosition=1., exposureTime=.05, start=0., stop=180., step=.1, imagesPerDark=0, imagesPerFlat=0, extraFlatsAtEnd=False, closeShutterAfterScan=False, beamline="I12")
 
     (If the time/angle curve is not a straight line then adjust zebraSM1.scurveTimeToVelocity)
+
+12. To start GDA log panel, execute the following Jython console command: 
+    gda_start_logpanel
+
+
 
 """
