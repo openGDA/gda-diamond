@@ -54,18 +54,18 @@ public class LDEPerspective implements IPerspectiveFactory {
 		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.85, editorArea);
 		statusFolder.addView(STATUS_VIEW_ID);
 
-		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.17, editorArea); //$NON-NLS-1$
+		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.13, editorArea); //$NON-NLS-1$
         topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
         topLeft.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
         
-        IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.LEFT, (float)0.7, editorArea); //$NON-NLS-1$
+        IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.LEFT, (float)0.9, editorArea); //$NON-NLS-1$
         sampleTableFolder.addView(SAMPLE_GROUP_VIEW_ID);
 
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.BOTTOM, (float)0.5, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
         detectorPlotFolder.addView(PIXIUM_IMAGE_VIEW_ID);
         detectorPlotFolder.addView(DETECTOR_PLOT_VIEW_ID);
 
-        IFolderLayout statusPlotFolder=layout.createFolder(DETECTOR_STATUS_FOLDER, IPageLayout.RIGHT, (float)0.85, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
+        IFolderLayout statusPlotFolder=layout.createFolder(DETECTOR_STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.58, PROJ_FOLDER); //$NON-NLS-1$
         statusPlotFolder.addView(DETECTOR_STATUS_VIEW_ID);
         
         IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.RIGHT, (float)0.5, DETECTOR_PLOT_FOLDER); //$NON-NLS-1$
