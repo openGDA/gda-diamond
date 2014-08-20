@@ -172,6 +172,7 @@
 	</bean>
 	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="raster_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
 		<property name="xmap" ref="xmapMca" />
@@ -276,6 +277,7 @@
 		<property name="xmap" ref="xmapMca" />
 		<property name="counterTimer" ref="counterTimer01" />
 		<property name="i0_channel" value="1" />
+		<property name="local" value="true" />
 	</bean>
 
 	
