@@ -34,7 +34,7 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.plotting.ScanDataPlotterComposite;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
-import uk.ac.gda.exafs.plotting.model.ExperimentDataNode;
+import uk.ac.gda.exafs.plotting.model.ExperimentRootNode;
 
 public class ExperimentDataPlotView extends ViewPart {
 	public static String ID = "uk.ac.gda.exafs.ui.views.dataplotview";
@@ -55,7 +55,7 @@ public class ExperimentDataPlotView extends ViewPart {
 		ctx = new DataBindingContext();
 		Composite composite = new Composite(parent, SWT.None);
 		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		ExperimentDataNode rootNode = new ExperimentDataNode();
+		ExperimentRootNode rootNode = new ExperimentRootNode();
 		scanDataPlotter = new ScanDataPlotterComposite(composite, SWT.None, this, rootNode);
 		scanDataPlotter.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		Composite xAxisDataSwitchComposite = new Composite(composite, SWT.None);
@@ -66,7 +66,7 @@ public class ExperimentDataPlotView extends ViewPart {
 		useStripsIndex.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		ctx.bindValue(
 				WidgetProperties.selection().observe(useStripsIndex),
-				BeanProperties.value(ExperimentDataNode.USE_STRIPS_AS_X_AXIS_PROP_NAME).observe(rootNode));
+				BeanProperties.value(ExperimentRootNode.USE_STRIPS_AS_X_AXIS_PROP_NAME).observe(rootNode));
 		ctx.bindValue(
 				WidgetProperties.text().observe(useStripsIndex),
 				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),

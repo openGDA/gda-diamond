@@ -29,9 +29,10 @@ import org.osgi.framework.ServiceReference;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
-import uk.ac.gda.client.plotting.model.DataNode;
+import uk.ac.gda.client.plotting.model.Node;
+import uk.ac.gda.client.plotting.model.ScanNode;
 
-public class SpectraNode extends DataNode {
+public class SpectraNode extends Node {
 
 	private DoubleDataset xDoubleDataset;
 
@@ -44,7 +45,7 @@ public class SpectraNode extends DataNode {
 	public static final String DATA_Y_AXIS_PROP_NAME = "lastYaxisData";
 	private ScanDataItemNode lastYaxisData;
 
-	public SpectraNode(String identifier, String label, DataNode parent) {
+	public SpectraNode(String identifier, String label, ScanNode parent) {
 		super(parent);
 		this.label = label;
 		this.identifier = identifier;
@@ -80,7 +81,7 @@ public class SpectraNode extends DataNode {
 
 	public ScanDataItemNode updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset, String identifier, String label) {
 		this.xDoubleDataset = xDoubleDataset;
-		lastYaxisData = new ScanDataItemNode(identifier, label, yDoubleDataset, this);
+		lastYaxisData = new ScanDataItemNode(identifier, label, yDoubleDataset, (ScanNode) this.getParent(), this);
 		lastYaxisData.setYaxisColorInHex(colorHexValue);
 		this.yDoubleDataset.add(lastYaxisData);
 		this.firePropertyChange(DATA_Y_AXIS_PROP_NAME, null, lastYaxisData);
@@ -105,7 +106,7 @@ public class SpectraNode extends DataNode {
 	}
 
 	@Override
-	public void removeChild(DataNode dataNode) {
+	public void removeChild(Node dataNode) {
 		// NOt supported
 	}
 }

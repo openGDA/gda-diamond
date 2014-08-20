@@ -37,9 +37,9 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.client.plotting.model.DataNode;
+import uk.ac.gda.client.plotting.model.Node;
 
-public class ExperimentDataNode extends DataNode implements IScanDataPointObserver {
+public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 
 	public final static DoubleDataset stripsData = new DoubleDataset(XHDetector.getStripsInDouble());
 
@@ -47,17 +47,17 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 		stripsData.setName("Strip");
 	}
 
-	private final Map<Integer, ScanDataNode> scans = new HashMap<Integer, ScanDataNode>();
-	private final IObservableList dataset = new WritableList(new ArrayList<ScanDataNode>(), ScanDataNode.class);
+	private final Map<Integer, EdeScanNode> scans = new HashMap<Integer, EdeScanNode>();
+	private final IObservableList dataset = new WritableList(new ArrayList<EdeScanNode>(), EdeScanNode.class);
 
-	private DataNode changedData;
+	private Node changedData;
 
 	public static final String USE_STRIPS_AS_X_AXIS_PROP_NAME = "useStripsAsXaxis";
 	private boolean useStripsAsXaxis;
 
-	private DataNode addedData;
+	private Node addedData;
 
-	public ExperimentDataNode() {
+	public ExperimentRootNode() {
 		super(null);
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
 		InterfaceProvider.getScanDataPointProvider().addIScanDataPointObserver(this);
@@ -74,7 +74,7 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 
 	private void updateScansData() {
 		for (Object scanObj: dataset) {
-			for (Object spectraObj: ((ScanDataNode) scanObj).getChildren()) {
+			for (Object spectraObj: ((EdeScanNode) scanObj).getChildren()) {
 				SpectraNode spectraNode = (SpectraNode) spectraObj;
 				for (Object scanDataObj: spectraNode.getChildren()) {
 					this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, scanDataObj);
@@ -93,11 +93,11 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 		});
 	}
 
-	public DataNode getChangedData() {
+	public Node getChangedData() {
 		return changedData;
 	}
 
-	public DataNode getAddedData() {
+	public Node getAddedData() {
 		return addedData;
 	}
 
@@ -108,10 +108,10 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
 			final int scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
-			ScanDataNode datasetNode;
+			EdeScanNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
 				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
-				final ScanDataNode newNode = new ScanDataNode(Integer.toString(scanIdentifier), isMulti, this);
+				final EdeScanNode newNode = new EdeScanNode(Integer.toString(scanIdentifier), edeScanProgress.getThisPoint().getCurrentFilename(), isMulti, this);
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;
@@ -135,7 +135,7 @@ public class ExperimentDataNode extends DataNode implements IScanDataPointObserv
 	}
 
 	@Override
-	public void removeChild(DataNode dataNode) {
+	public void removeChild(Node dataNode) {
 		// NOt supported
 	}
 }

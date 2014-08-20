@@ -20,22 +20,23 @@ package uk.ac.gda.exafs.plotting.model;
 
 import gda.scan.ede.datawriters.EdeDataConstants;
 
+import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
-import org.eclipse.core.databinding.observable.list.IObservableList;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.gda.client.plotting.model.DataNode;
-import uk.ac.gda.client.plotting.model.LineTraceProvider;
+import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
+import uk.ac.gda.client.plotting.model.Node;
+import uk.ac.gda.client.plotting.model.ScanNode;
 
-public class ScanDataItemNode extends LineTraceProvider {
+public class ScanDataItemNode extends LineTraceProviderNode {
 	private final String identifier;
 	private final DoubleDataset data;
 	private final String label;
 	private String yaxisColorInHex;
 
-	public ScanDataItemNode(String identifier, String label, DoubleDataset data, DataNode parent) {
-		super(parent, null);
+	public ScanDataItemNode(String identifier, String label, DoubleDataset data, ScanNode scanNode, Node parent) {
+		super(scanNode, false, parent, null);
 		this.identifier = identifier;
 		this.data = data;
 		this.label = label;
@@ -63,9 +64,9 @@ public class ScanDataItemNode extends LineTraceProvider {
 
 	@Override
 	public DoubleDataset getXAxisDataset() {
-		ExperimentDataNode experimentDataNode = (ExperimentDataNode) parent.getParent().getParent();
+		ExperimentRootNode experimentDataNode = (ExperimentRootNode) parent.getParent().getParent();
 		if (experimentDataNode.isUseStripsAsXaxis()) {
-			return ExperimentDataNode.stripsData;
+			return ExperimentRootNode.stripsData;
 		}
 		return ((SpectraNode) parent).getXAxisData();
 	}
@@ -74,11 +75,20 @@ public class ScanDataItemNode extends LineTraceProvider {
 		this.yaxisColorInHex = yaxisColorInHex;
 	}
 
+	//	@Override
+	//	public void setTraceStyle(TraceStyleDetails traceStyle) {
+	//		super.setTraceStyle(traceStyle);
+	//		this.setYaxisColorInHex(traceStyle.getColorHexValue());
+	//	}
+
 	@Override
 	public TraceStyleDetails getTraceStyle() {
+		if (super.getTraceStyle() != null) {
+			return super.getTraceStyle();
+		}
 		TraceStyleDetails traceStyle = new TraceStyleDetails();
-		ScanDataNode scanDataNode = (ScanDataNode) this.getParent().getParent();
-		ExperimentDataNode experimentDataNode = (ExperimentDataNode) scanDataNode.getParent();
+		EdeScanNode scanDataNode = (EdeScanNode) this.getParent().getParent();
+		ExperimentRootNode experimentDataNode = (ExperimentRootNode) scanDataNode.getParent();
 		if (!scanDataNode.isMultiCollection()) {
 			if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(scanDataNode)) % 2 == 0) {
 				traceStyle.setTraceType(TraceType.DASH_LINE);
@@ -107,7 +117,7 @@ public class ScanDataItemNode extends LineTraceProvider {
 	}
 
 	@Override
-	public void removeChild(DataNode dataNode) {
+	public void removeChild(Node dataNode) {
 		// NOt supported
 	}
 }

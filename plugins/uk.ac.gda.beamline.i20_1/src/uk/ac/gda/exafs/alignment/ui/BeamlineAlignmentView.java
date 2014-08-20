@@ -28,6 +28,7 @@ import gda.util.exafs.Element;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -303,10 +304,14 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 						scrolledPolyForm.getForm().setMessage("");
 					}
 					labelPowerEstimateValue.setText(getHighlightedFormatedString(powerWatt), true, false);
+				} catch (FileNotFoundException e) {
+					labelPowerEstimateValue.setText(
+							getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
+					logger.warn("Power calculation file not found");
 				} catch (Exception e) {
 					labelPowerEstimateValue.setText(
 							getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
-					logger.warn("Unable to calculate with current parameters", e);
+					logger.error("Unable to calculate with current parameters", e);
 				}
 			}
 		});

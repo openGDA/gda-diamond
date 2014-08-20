@@ -27,17 +27,18 @@ import java.util.Map;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
-import uk.ac.gda.client.plotting.model.DataNode;
+import uk.ac.gda.client.plotting.model.Node;
+import uk.ac.gda.client.plotting.model.ScanNode;
 
-public class ScanDataNode extends DataNode {
+public class EdeScanNode extends ScanNode {
 	private final Map<String, SpectraNode> scans = new HashMap<String, SpectraNode>();
 	private final  IObservableList dataNodeList = new WritableList(new ArrayList<SpectraNode>(), SpectraNode.class);
 	private final String scanIdentifier;
 
 	private final boolean multiCollection;
 
-	public ScanDataNode(String scanIdentifier, boolean multiCollection, DataNode parent) {
-		super(parent);
+	public EdeScanNode(String scanIdentifier, String fileName, boolean multiCollection, Node parent) {
+		super(scanIdentifier, fileName, parent);
 		this.scanIdentifier = scanIdentifier;
 		this.multiCollection = multiCollection;
 	}
@@ -46,7 +47,7 @@ public class ScanDataNode extends DataNode {
 		return dataNodeList;
 	}
 
-	public DataNode updateData(final EdeExperimentProgressBean arg) {
+	public Node updateData(final EdeExperimentProgressBean arg) {
 		SpectraNode dataNode;
 		String label = arg.getDataLabel();
 		String identifier = this.toString() + "@" + label;
@@ -84,7 +85,7 @@ public class ScanDataNode extends DataNode {
 	}
 
 	@Override
-	public void removeChild(DataNode dataNode) {
+	public void removeChild(Node dataNode) {
 		// NOt supported
 	}
 }
