@@ -77,11 +77,11 @@
 	</bean>
 
 	<bean id="d4_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13I-DI-PHDGN-04:FFMPEG:" />
+		<property name="prefix" value="BL13I-DI-PHDGN-04:MJPG:" />
 	</bean>
 
 	<bean id="d4_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL13I-DI-PHDGN-04:HDF:" />
+		<property name="prefix" value="BL13I-DI-PHDGN-04:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 

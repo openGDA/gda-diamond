@@ -199,10 +199,10 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 						final RealVector clickPointInImageCorrected = imageSize.subtract(clickPointInImage);
 						double beamCenterX = ScannableUtils.getCurrentPositionArray(adControllerImpl
 								.getRotationAxisXScannable())[0];
-						double beamCenterY = ScannableUtils.getCurrentPositionArray(adControllerImpl
+/*						double beamCenterY = ScannableUtils.getCurrentPositionArray(adControllerImpl
 								.getCameraXYScannable())[1];
 						beamCenterX = adControllerImpl.getFfmpegImageInWidth()/2;
-						final RealVector beamCenterV = createVectorOf(beamCenterX, beamCenterY);
+*/						final RealVector beamCenterV = createVectorOf(beamCenterX, imageSize.getEntry(1)/2);
 						final RealVector pixelOffset = beamCenterV.subtract(clickPointInImageCorrected);
 
 						DisplayScaleProvider scale = adControllerImpl.getCameraScaleProvider();
@@ -216,7 +216,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 							
 						}
 						if( horzMoveOnClickEnabled){
-							double moveInX = pixelOffset.getEntry(0) / (scale.getPixelsPerMMInX()/1000.);
+							double moveInX = -pixelOffset.getEntry(0) / (scale.getPixelsPerMMInX()/1000.);
 	
 							ScannableMotionUnits sampleCentringXMotor = adControllerImpl.getSampleCentringXMotor(); 
 							sampleCentringXMotor.asynchronousMoveTo(ScannableUtils

@@ -7,25 +7,15 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	
-	<bean id="oh4_shtr_cam_collection_strategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
-		<constructor-arg ref="oh4_shtr_cam_base" />
-		<constructor-arg value="0." />
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="translate_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="translate_x_motor" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/translate_x" />
+		<property name="service" ref="translate_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 
-	<bean id="oh4_shtr_hdf5_filewriter_nochunking" parent="abstract_hdf5_filewriter_nochunking">
-		<property name="ndFileHDF5" ref="oh4_shtr_ndhdf5file" />
-		<property name="fileNameTemplate" value="d5"/>
-	</bean>
-	<bean id="oh4_shtr_cam" class="gda.device.detector.NXDetector">
-		<property name="name" value="oh4_shtr_cam" />
-		<property name="collectionStrategy" ref="oh4_shtr_cam_collection_strategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="oh4_shtr_hdf5_filewriter_nochunking" />
-			</list>
-		</property>
-	</bean>
-		
 </beans>
-	
+

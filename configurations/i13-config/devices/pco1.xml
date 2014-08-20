@@ -20,12 +20,12 @@
 				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
 				<entry key="pco1_arr" value-ref="pco1_arr" />
 				<entry key="pco1_ffmpeg1" value-ref="pco1_ffmpeg1" />
-				<entry key="pco1_ffmpeg2" value-ref="pco1_ffmpeg2" />
-				<entry key="pco1_roi1" value-ref="pco1_roi1" />
-				<entry key="pco1_roi2" value-ref="pco1_roi2" />
-				<entry key="pco1_proc1" value-ref="pco1_proc1" />
-				<entry key="pco1_proc2" value-ref="pco1_proc2" />
-				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
+<!-- 				<entry key="pco1_ffmpeg2" value-ref="pco1_ffmpeg2" />
+ -->				<entry key="pco1_roi1" value-ref="pco1_roi1" />
+<!-- 				<entry key="pco1_roi2" value-ref="pco1_roi2" />
+ -->				<entry key="pco1_proc1" value-ref="pco1_proc1" />
+<!-- 				<entry key="pco1_proc2" value-ref="pco1_proc2" />
+ -->				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
 				<entry key="pco1_stat" value-ref="pco1_stat"/>
 				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
@@ -67,16 +67,15 @@
 	b.Trigger In ( from TFg to Camera Trigger In
 	c.Busy Out ( from camera to tfg)
 	-->
- 	<bean id="pco1_multipleExposureHardwarePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureHardwareTrigger">
+<!--  	<bean id="pco1_multipleExposureHardwarePco" class="gda.device.detector.addetector.triggering.PCOMultipleExposureHardwareTrigger">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg value=".04" />
 		<constructor-arg ref="adDriverPco1" />
 		<property name="ndProcess" ref="pco1_proc2" />
 		<property name="etfg" ref="tfg"/>
 		<property name="exposureTime" value=".001"/>
-<!-- 		<property name="ndFile" ref="pco1_ndfiletif" />		
- -->	</bean>
-
+	</bean>
+ -->
 	<bean id="pco1_tfg" class="gda.device.detector.addetector.triggering.PCOTFGTrigger">
 		<constructor-arg ref="pco1_cam_base" />
 		<constructor-arg ref="adDriverPco1" />
@@ -231,7 +230,7 @@
 		</property>
 	</bean>	
 
-	<bean id="pco1_multi_hdf" class="gda.device.detector.NXDetector">
+<!-- 	<bean id="pco1_multi_hdf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_multi_hdf"/>
 		<property name="addCollectTimeMs" value="true"/>
 		<property name="collectionStrategy" ref="pco1_multipleExposureHardwarePco"/>
@@ -250,14 +249,14 @@
 		<property name="framesFlush" value="64"/>
 		<property name="lazyOpen" value="true"/>
 		<property name="boundaryAlign" value="1048576"/>
-		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
-				<property name="ndArrayPortVal" value="pco1.prc2"/> <!-- use same proc as in collectionStrategy  -->
+		<property name="blocking" value="false"/> must be false otherwise PCO Event Driver driver crashes if framesChunks is 64
+				<property name="ndArrayPortVal" value="pco1.prc2"/> use same proc as in collectionStrategy 
 	</bean>
 				<ref bean="pco1_cameraroi"/>
 			</list>
 		</property>
 	</bean>	
-
+ -->
 	<!-- Not required <bean id="pco1_tif_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
 		<property name="processors">
 			<list>
