@@ -2,22 +2,21 @@
 
 if [ -f "/etc/profile.d/modules.sh" ]; then
 	. /etc/profile.d/modules.sh	
+	module load java/7u51
 else
 	echo "cannot source /etc/profile.d/modules.sh"	
 	exit 1
 fi
 
-. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
-
+`dirname $0`/gda_command objectserver --stop $@
+`dirname $0`/gda_command eventserver --stop $@
 `dirname $0`/gda_command nameserver --stop $@
 `dirname $0`/gda_command logserver --stop $@
-`dirname $0`/gda_command eventserver --stop $@
-`dirname $0`/gda_command objectserver --stop $@
 
-`dirname $0`/gda_command nameserver $@
 `dirname $0`/gda_command logserver $@
+`dirname $0`/gda_command nameserver $@
+export JAVA_OPTS="-Dlogback.application=EventServer"
 `dirname $0`/gda_command eventserver $@
-#JAVA_OPTS="-Xms128m -Xmx2048m -XX:-HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/gdaobjectserver.hprof" `dirname $0`/gda_command objectserver  $@ --profile=main --mode=live --headless #--debug --debugport=8002
-export JAVA_OPTS="-Xms128m -Xmx2056m -XX:MaxPermSize=256m -XX:+DisableExplicitGC -XX:-HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/gdaobjectserver.hprof"
-`dirname $0`/gda_command objectserver --smart --trace  --debug -p 8001 --restart -v --mode=live $@
+export JAVA_OPTS="-Xms128m -Xmx2048m -XX:MaxPermSize=256m -XX:+DisableExplicitGC -XX:-HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/gdaobjectserver.hprof -Dlogback.application=ObjectServer"
+`dirname $0`/gda_command objectserver --smart --trace  --debug -p 8000 --restart -v --mode=live $@
 
