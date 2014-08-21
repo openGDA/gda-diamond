@@ -3,24 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-	<!-- AD hardware (these are duplicated in pil1tus100k)-->
-
-	<bean id="pilatus1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
-	</bean>
-	
-	<bean id="pilatus1_driver"
-		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
-		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
-	</bean>
-
-	<bean id="pilatus1_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
-		<property name="resetToInitialValues" value="false" />
-	</bean>
-
-
 	<!-- NXDetector collection strategies -->
 
 	<bean id="rasterpil1_nxcollectionstrategy_for_hardware_triggering_from_pie"
