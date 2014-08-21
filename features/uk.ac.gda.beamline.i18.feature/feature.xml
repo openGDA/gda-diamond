@@ -25,6 +25,10 @@
          id="uk.ac.gda.dal.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.dawnsci.plotting.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i18"
          download-size="0"
@@ -150,6 +154,13 @@
 
    <plugin
          id="uk.ac.gda.devices.xmap.epics"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.dawnsci.plotting.system"
          download-size="0"
          install-size="0"
          version="0.0.0"

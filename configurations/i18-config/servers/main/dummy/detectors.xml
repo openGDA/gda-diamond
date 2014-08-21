@@ -33,7 +33,7 @@
 	
 	<bean id="xspress2controller"
 		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
-		<property name="daServer" ref="DAServer" />
+		<property name="daServer" ref="daserver" />
 		<property name="tfg" ref="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
 
