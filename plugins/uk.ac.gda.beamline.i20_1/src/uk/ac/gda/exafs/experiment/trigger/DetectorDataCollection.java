@@ -28,7 +28,7 @@ public class DetectorDataCollection extends TriggerableObject implements Seriali
 	private double collectionDuration;
 
 	public DetectorDataCollection() {
-		this.setName("Xh Detector");
+		this.setName("Data collection");
 		this.setTriggerOutputPort(TriggerOutputPort.USR_OUT_1);
 		this.setTriggerDelay(0.1);
 		this.setTriggerPulseLength(XCHIP_START_PULSE_WIDTH_IN_SEC);
@@ -48,5 +48,10 @@ public class DetectorDataCollection extends TriggerableObject implements Seriali
 
 	public void setCollectionDuration(double collectionDuration) {
 		this.collectionDuration = collectionDuration;
+	}
+
+	@Override
+	public double totalDelay() {
+		return collectionDuration >= this.getTriggerPulseLength() ? this.getTriggerDelay() + collectionDuration : this.getTriggerDelay() + this.getTriggerPulseLength();
 	}
 }

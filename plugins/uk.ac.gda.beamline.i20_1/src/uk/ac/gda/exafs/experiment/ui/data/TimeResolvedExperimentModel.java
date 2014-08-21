@@ -175,14 +175,13 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 		});
 
-		experimentDataCollectionJob = new ScanJob("Linear Experiment Scan");
+		experimentDataCollectionJob = new ScanJob("Linear experiment scan");
 		InterfaceProvider.getJSFObserver().addIObserver(experimentDataCollectionJob);
 		Findable controller = Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME);
 		if (controller != null) {
 			((Scriptcontroller) controller).addIObserver(experimentDataCollectionJob);
 		}
 		experimentDataCollectionJob.setUser(true);
-
 		loadSavedGroups();
 	}
 

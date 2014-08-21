@@ -23,7 +23,6 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public class LinearExperimentTimeEstimator extends TimeEstimatorBase {
 
-
 	private final EdeScanParameters itScanParameters;
 	private final EdeScanPosition i0Position;
 	private final EdeScanPosition itPosition;

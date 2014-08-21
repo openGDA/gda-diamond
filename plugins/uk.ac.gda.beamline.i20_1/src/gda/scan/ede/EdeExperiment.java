@@ -347,7 +347,7 @@ public abstract class EdeExperiment implements IObserver {
 			writer = createFileWritter();
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
 			writer.writeDataFile();
-			log("Scan data written to file.");
+			logToJythonTerminal("Scan data written to file.");
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {
 			logger.error("Error creating data files", ex);
@@ -385,7 +385,7 @@ public abstract class EdeExperiment implements IObserver {
 		return nexusFilename;
 	}
 
-	protected void log(String message) {
+	protected void logToJythonTerminal(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
 	}

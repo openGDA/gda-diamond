@@ -103,4 +103,8 @@ public class TriggerableObject extends ObservableModel implements Serializable{
 		// TODO
 		return "";
 	}
+
+	public double totalDelay() {
+		return triggerDelay + triggerPulseLength;
+	}
 }

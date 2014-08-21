@@ -77,6 +77,9 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 
 	private Button photonShutterInUseButton;
 
+
+	private ExternalTriggerDetailsTimebarComposite timebar;
+
 	public ExternalTriggerDetailsWizardPage(ExternalTriggerSetting externalTriggerSetting) {
 		super("wizardPage");
 		setTitle("TFG Trigger Details");
@@ -239,7 +242,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			//			photonShutterUsrPortText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 
 			Group xhParent = new Group(container, SWT.None);
-			xhParent.setText("IT Collection");
+			xhParent.setText(externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().getName());
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			gridData.horizontalSpan = 2;
 			xhParent.setLayoutData(gridData);
@@ -269,7 +272,13 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			xhUsrPortText = new Label(xhParent, SWT.None);
 			xhUsrPortText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 
+			timebar = new ExternalTriggerDetailsTimebarComposite(externalTriggerSetting, container, SWT.None);
+			gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
+			gridData.horizontalSpan = 2;
+			gridData.heightHint = 200;
+			timebar.setLayoutData(gridData);
 			doBinding();
+
 		} catch (Exception ex) {
 			logger.error("Unable to bind data", ex);
 		}

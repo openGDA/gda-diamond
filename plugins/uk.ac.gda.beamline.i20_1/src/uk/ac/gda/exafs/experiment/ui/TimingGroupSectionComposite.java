@@ -503,6 +503,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			public void handleEvent(Event event) {
 				WizardDialog wizardDialog = new WizardDialog(TimingGroupSectionComposite.this.getShell(),
 						new ExternalTriggerDetailsWizard(model.getExternalTriggerSetting()));
+				wizardDialog.setPageSize(1024, 768);
 				wizardDialog.open();
 			}
 		});

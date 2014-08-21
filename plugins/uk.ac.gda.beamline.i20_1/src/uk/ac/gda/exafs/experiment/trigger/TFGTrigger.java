@@ -116,6 +116,19 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return tfgCommand.toString();
 	}
 
+	public double getTotalTime() {
+		double total = 0.0;
+		for (TriggerableObject obj : sampleEnvironment) {
+			if (obj.getTriggerDelay() + obj.getTriggerPulseLength() > total) {
+				total = obj.getTriggerDelay() + obj.getTriggerPulseLength();
+			}
+		}
+		if (detectorDataCollection.getTriggerDelay() + detectorDataCollection.getCollectionDuration() > total) {
+			total = detectorDataCollection.getTriggerDelay() + detectorDataCollection.getCollectionDuration();
+		}
+		return total;
+	}
+
 	private List<TriggerPair> processTimes() {
 		TreeMap<Double, List<TriggerableObject>> triggerTimesAndSamEnv = new TreeMap<Double, List<TriggerableObject>>();
 		List<TriggerPair> triggerPoints = new ArrayList<TriggerPair>();
