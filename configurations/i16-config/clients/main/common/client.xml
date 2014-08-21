@@ -4,13 +4,13 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.diamond.ac.uk/schema/gda/corba
 	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
-<!--
 
+<!--
 	<bean id="Message" class="gda.util.LogPanel">
 		<property name="name" value="Message"/>
 	</bean>
-	
-	--><bean id="JythonEditor" class="gda.jython.gui.JythonEditor">
+-->
+	<bean id="JythonEditor" class="gda.jython.gui.JythonEditor">
 		<property name="name" value="JythonEditor"/>
 	</bean>
 	
