@@ -2,7 +2,7 @@
 #unset BEAMLINE
 
 
-. gda_setup_env_test gda_swingclient_output
+. gda_setup_env_test gda_client_output
 
 echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
 
