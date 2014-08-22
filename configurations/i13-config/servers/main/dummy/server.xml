@@ -62,7 +62,9 @@
 <!-- 	<import resource="../../../devices/zebra/sample_stage_motors.xml" />
  -->	<import resource="../../../devices/dummy/table_motors.xml" />
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
-	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
+	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>
+	<import resource="../../../devices/dummy/translation_stage_motors.xml" />
+		
 
 	<import resource="../../../devices/dummy/condenser_motors.xml" />
 	<import resource="../../../devices/dummy/central_stop_motors.xml" />

@@ -79,7 +79,6 @@
 
 	<import resource="../../../devices/epics/sample_stage_motors.xml" />
 	<import resource="../../../devices/epics/translation_stage_motors.xml" />
-	<import resource="../../../devices/translation_stage.xml" />
 	<import resource="../../../devices/epics/table_motors.xml" />
 	<import resource="../../../devices/epics/camera_stage_motors.xml" />
 

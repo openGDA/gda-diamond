@@ -170,6 +170,7 @@
 	<import resource="../../devices/pinhole.xml" />
 	<import resource="../../devices/zone_plate.xml" />
 	<import resource="../../devices/phase_ring.xml" />
+	<import resource="../../devices/translation_stage.xml" />	
 
 
 
