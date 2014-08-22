@@ -9,7 +9,6 @@
 	<configs>
 		<config>servers/main/dummy/server.xml</config>
 		<config>servers/main/common.xml</config>
-		<config>devices/d1.xml</config>
 		<config>devices/d2.xml</config>
 		<config>devices/d3.xml</config>
 		<config>devices/d4.xml</config>
@@ -114,7 +113,6 @@
 		<config>devices/dummy/undulator.xml</config>
 		<config>devices/epics/undulator.xml</config>
 		<config>devices/undulator.xml</config>
-		<config>devices/dummy/zebra.xml</config>
 		<config>devices/epics/zebra.xml</config>
 		<config>devices/zebra.xml</config>
 		<config>devices/live/p2r.xml</config>

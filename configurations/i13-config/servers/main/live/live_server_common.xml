@@ -104,9 +104,13 @@
 	</bean>
 
 	<import resource="../../../devices/live/p2r.xml"/>	
-	<import resource="../../../devices/epics/sample_stage_hexapod_motors.xml"/>	
-<!-- 	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
- -->
+<!-- 	<import resource="../../../devices/epics/sample_stage_hexapod_motors.xml"/>	
+ -->	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
+
+	<import resource="../../devices/zebra.xml" />
+	<import resource="../../devices/p2r.xml" />
+
+
 	<import resource="../common.xml" />
 
 </beans>

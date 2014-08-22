@@ -7,15 +7,6 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
-	<bean id="d1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d1_x_motor" />
-		<property name="userUnits" value="mm"/>
-	</bean>
-	
-	<bean id="d1_cam_collection_strategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
-		<constructor-arg ref="d1_cam_base" />
-		<constructor-arg value="0." />
-	</bean>
 
 	<bean id="abstract_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
 		<property name="filePathTemplate" value="$datadir$"/>
@@ -32,20 +23,6 @@
 		<property name="pathErrorSuppressed" value="true"></property>
 	</bean>
 
-	<bean id="d1_hdf5_filewriter_nochunking" parent="abstract_hdf5_filewriter_nochunking">
-		<property name="ndFileHDF5" ref="d1_ndhdf5file" />
-		<property name="fileNameTemplate" value="d1"/>
-	</bean>
-
-	<bean id="d1_cam" class="gda.device.detector.NXDetector">
-		<property name="name" value="d1_cam" />
-		<property name="collectionStrategy" ref="d1_cam_collection_strategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="d1_hdf5_filewriter_nochunking" />
-			</list>
-		</property>
-	</bean>
 
 </beans>
 

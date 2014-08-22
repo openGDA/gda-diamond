@@ -8,17 +8,12 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<corba:import namespace="i13"
-		names="plot_server, dcm_energy, dcm_bragg, eh_shtr, fs" />
 
+ 	<corba:import namespace="i13"
+		names="dcm_energy, dcm_bragg, eh_shtr, fs" />
 
 	<import resource="../../common_beans/common.xml"/>
 	
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
-		<property name="service" ref="plot_server" />
-	</bean>
-
 <!-- 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
 		<property name="service">
@@ -353,6 +348,13 @@
 								<constructor-arg value="WebCams" />
 								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
 								<constructor-arg value="" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Simulation" />
+								<constructor-arg value="Simulation" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL99I-EA-DET-01:"/>
+								<constructor-arg value=""/>
 							</bean>
 						</list>
 					</property>

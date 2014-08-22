@@ -43,23 +43,16 @@
 
 	<import resource="../../../devices/dummy/m1.xml" />
 
-	<import resource="../../../devices/dummy/d1.xml" />
-
-	<import resource="../../../devices/dummy/d2.xml" />
 	<import resource="../../../devices/dummy/absorbers1.xml" />
 	<import resource="../../../devices/dummy/absorbers2.xml" />
 	<import resource="../../../devices/dummy/s2_motors.xml" />
-	<!-- <import resource="../../../devices/dummy/d3.xml"/> -->
-	<import resource="../../../devices/dummy/d4.xml" />
 
 	<!-- End of internal Building/ Start of external Building -->
 	<import resource="../../../devices/dummy/optics_hutch4_shutter.xml" />
 	<import resource="../../../devices/dummy/s3_motors.xml" />
 	<import resource="../../../devices/dummy/absorbers3.xml" />
-	<import resource="../../../devices/dummy/dcm_motors.xml" />
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml" />
 
-	<import resource="../../../devices/dummy/d5.xml" />
 	<import resource="../../../devices/dummy/s4_motors.xml" />
 	<import resource="../../../devices/dummy/absorbers4.xml" />
 	<import resource="../../../devices/dummy/ion_chamber.xml" />	
@@ -82,9 +75,8 @@
 <!-- 	<import resource="../../../devices/zebra/pco1.xml" />
  -->	<import resource="../../../devices/dummy/lens.xml" />
 
-	<import resource="../../../devices/dummy/zebra.xml" />
-<!-- 	<import resource="../../../devices/zebra/zebra.xml" />
- -->
+	<import resource="../../../devices/simulationAD.xml" />
+
 	<import resource="../../../devices/dummy/tfg2.xml" />
 	<import resource="../../../devices/live/p2r.xml" />
 

@@ -11,13 +11,6 @@
 	<context:property-placeholder properties-ref="propertyConfigurer" />
 
 
-	<import resource="../../../devices/dummy/d1.xml"/>
-	<import resource="../../../devices/dummy/d2.xml"/>
-	<import resource="../../../devices/dummy/d3.xml"/>
-	<import resource="../../../devices/dummy/d4.xml"/>
-	<import resource="../../../devices/dummy/d5.xml"/>
-	<import resource="../../../devices/dummy/float1.xml"/>
-	<import resource="../../../devices/dummy/float2.xml"/>	
 
 	<import resource="../common.xml" />
 	

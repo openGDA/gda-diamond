@@ -19,7 +19,6 @@
 	</bean>
 	
 	<import resource="../../common_beans/common.xml"/>
-
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
@@ -142,7 +141,7 @@
 			</list>
 		</property>
 	</bean>
-
+	<import resource="../../devices/abstract_nxplugins.xml"/>
 	<import resource="../../devices/simpleScannables.xml" />
 	<import resource="../../devices/cameraViewPartScannables.xml" />
 
@@ -173,8 +172,6 @@
 	<import resource="../../devices/zone_plate.xml" />
 	<import resource="../../devices/phase_ring.xml" />
 
-	<import resource="../../devices/zebra.xml" />
-	<import resource="../../devices/p2r.xml" />
 
 
 	<!--  dummy motors for testing tomoscan  -->
