@@ -64,6 +64,8 @@
 
 	<!-- End of internal Building/ Start of external Building -->
 	<import resource="../../../devices/epics/optics_hutch4_shutter.xml" />
+	<import resource="../../../devices/optics_hutch4_shutter.xml" />
+	
 	<import resource="../../../devices/epics/s3_motors.xml" />
 	<import resource="../../../devices/epics/absorbers3.xml" />
 	<import resource="../../../devices/epics/dcm_motors.xml" />

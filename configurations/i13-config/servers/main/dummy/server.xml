@@ -48,7 +48,6 @@
 	<import resource="../../../devices/dummy/s2_motors.xml" />
 
 	<!-- End of internal Building/ Start of external Building -->
-	<import resource="../../../devices/dummy/optics_hutch4_shutter.xml" />
 	<import resource="../../../devices/dummy/s3_motors.xml" />
 	<import resource="../../../devices/dummy/absorbers3.xml" />
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml" />
