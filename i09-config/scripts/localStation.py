@@ -215,9 +215,9 @@ print "-------------------------------------------------------------------------
 #from epics.motor.positionCompareMotorClass import PositionCompareMotorClass
 #pgmenergy=PositionCompareMotorClass("pgmenergy", "BL09I-ENERGY-MOTOR-01.VAL", "BL09I-ENERGY-MOTOR-01.RBV", "BL09I-ENERGY-MOTOR-01.STOP", 0.015, "mm", "%.4f")
 print "Create an 'analyserscan' command for scanning the electron analyser."
-from command.analyser_scan import analyserscan, multiregionscan  # @UnusedImport
+from command.analyser_scan import analyserscan, analyserscan_v1  # @UnusedImport
 alias("analyserscan")
-alias("multiregionscan")
+alias("analyserscan_v1")
 print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
 #from pseudodevices.shutter import EpicsShutterClass, psi2,psj2  # @UnusedImport
 nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-HD-01:STAT:Total_RBV","","%d")

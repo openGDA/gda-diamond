@@ -18,7 +18,7 @@ import time
 #from localStation import setSubdirectory
 PRINTTIME=False
 
-def multiregionscan(*args):
+def analyserscan(*args):
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
     newargs=[]
@@ -40,10 +40,6 @@ def multiregionscan(*args):
                 sleep(1.0) # wait for user saving dirty file
             arg.setSequenceFilename(filename)
             sequence=arg.loadSequenceData(filename)
-            #if sequence.getRegion().size()==1:
-                #arg.createSingleFile(True)
-            #else:
-                #arg.createSingleFile(False)
             if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
                 arg.getCollectionStrategy().setSequence(sequence)
             i=i+1
@@ -52,7 +48,7 @@ def multiregionscan(*args):
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
 
-def analyserscan(*args):
+def analyserscan_v1(*args):
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
     newargs=[]
