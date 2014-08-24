@@ -1,20 +1,19 @@
 '''
 Usage:
-    1. run this script from PyDev editor in Scripts perspective to create function called 'pathscan',
-    'multiregionanalyserpathscan', and 'analyserpathscan'
+    1. run this script in GDA to create functions called 'pathscan','analyserpathscan', and 'analyserpathscan_v1'
     2. start your scan using one of the following methods from jython terminal:
     
     >>>pathscan((x,y,z), ([1,2,3],[4,5,6],[7,8,9]), [hm3iamp20,])
     for scannables, but you cannot use ew4000 as pathscan does not take filename 'user.seq';
     
-    >>>multiregionanalyserpathscan((x,y,z), ([1,2,3],[4,5,6],[7,8,9]), ew4000, "user.seq", hm3iamp20)
+    >>>analyserpathscan((x,y,z), ([1,2,3],[4,5,6],[7,8,9]), ew4000, "user.seq", hm3iamp20)
     for energy scan with multiple regions collected at any scan data point from the analyser. 
     
-    >>>analyserpathscan((x,y,z), ([1,2,3],[4,5,6],[7,8,9]), ew4000, "user.seq", hm3iamp20)
-    for energy scan with single region collected from the analyser.
+    >>>analyserpathscan_v1((x,y,z), ([1,2,3],[4,5,6],[7,8,9]), ew4000, "user.seq", hm3iamp20)
+    for energy scan with a single region collected from the analyser.
     
 Created on 16 Oct 2013
-
+updated on 24 Aug 2014
 @author: fy65
 '''
 from gda.device.scannable.scannablegroup import ScannableGroup
@@ -31,6 +30,7 @@ from gda.jython import InterfaceProvider, Jython
 from org.opengda.detector.electronanalyser.scan import RegionScannable,\
     RegionPositionProvider
 import os
+import time
 
 
 def pathscan(scannables, path, *args): #@UndefinedVariable
@@ -44,17 +44,20 @@ def pathscan(scannables, path, *args): #@UndefinedVariable
     sg.setName("pathgroup")
     scan([sg, path]+list(args))
 
-def multiregionanalyserpathscan(scannables, path, *args):
+PRINTTIME=False
+
+def analyserpathscan(scannables, path, *args):
     '''
-    perform a single or multiple regions analyser data collection at each point on the specified path,
-    and produce multiple data files - a single scan file recording scannables' poistions and metadata, 
-    plus one analyser data file for each region defined in your sequence definition file. Data links 
-    are created in the scan file to link to the data items in the analyser data file.
+    perform single/multiple regions analyser data collection at each point on the specified path,
+    and produce a single scan file recording all scannables' poistions and metadata, along with
+    analyser scann data under region's name as NXdetector node.
     
     implementation details:
     This function pre-process sequence file to set up analyser 'ew4000' ready for data collection, 
     then delegate the scan process to 'pathscan'.    
     '''
+    starttime=time.ctime()
+    if PRINTTIME: print "=== Scan started: "+starttime
     newargs=[]
     i=0;
     while i< len(args):
@@ -70,20 +73,20 @@ def multiregionanalyserpathscan(scannables, path, *args):
                 filename=FilenameUtil.convertSeparator(filename)
             controller.update(controller,SequenceFileChangeEvent(filename))
             sleep(1.0)
-            while (InterfaceProvider.getScanStatusHolder().getScanStatus()==Jython.PAUSED):
+            while (InterfaceProvider.getJythonServerStatusProvider().isScriptOrScanPaused()):
                 sleep(1.0)
             arg.setSequenceFilename(filename)
             if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
                 arg.getCollectionStrategy().setSequence(arg.loadSequenceData(filename))
             i=i+1
     pathscan(scannables, path, newargs)
+    if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
-
-def analyserpathscan(scannables, path, *args):
+def analyserpathscan_v1(scannables, path, *args):
     '''
-    perform ascannables, path,  single region analyser data collection at each point on the specified path,
+    perform a single region analyser data collection at each point on the specified path,
     and produce a single scan data files recording scannables' poistions and metadata, and 
-    analyser data for the active region defined in your sequence definition file.
+    analyser data for the active region defined in your sequence definition file under ew4001 node.
     
     implementation details:
     This function pre-process sequence file to set up Region Position Provider for scannable 
@@ -112,6 +115,6 @@ def analyserpathscan(scannables, path, *args):
             i=i+1
     pathscan(scannables, path, newargs)
 
-alias("multiregionanalyserpathscan")
 alias("analyserpathscan")
+alias("analyserpathscan_v1")
 alias("pathscan")
