@@ -9,7 +9,7 @@ Usage:
     >>>analyserpathscan((x,y,z), ([1,2,3],[4,5,6],[7,8,9]), ew4000, "user.seq", hm3iamp20)
     for energy scan with multiple regions collected at any scan data point from the analyser. 
     
-    >>>analyserpathscan_v1((x,y,z), ([1,2,3],[4,5,6],[7,8,9]), ew4000, "user.seq", hm3iamp20)
+    >>>analyserpathscan_v1((x,y,z), ([1,2,3],[4,5,6],[7,8,9]), regions "user.seq", ew4001 hm3iamp20)
     for energy scan with a single region collected from the analyser.
     
 Created on 16 Oct 2013
