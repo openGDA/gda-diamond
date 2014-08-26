@@ -2,7 +2,7 @@
 Usage:
     1. run this script from jython editor, you will have an object called 'pathscan'
     2. start your scan using
-    >>>pathscan (x,y,z) ([1,1,1],[2,2,2],[3,4,5]) edxd 5.0
+    >>>pathscan (x,y,z) ([1,1,1],[2,2,2],[3,4,5]) detector 5.0
     
 Created on 24 July 2012
 

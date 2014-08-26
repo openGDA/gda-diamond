@@ -215,9 +215,9 @@ print "-------------------------------------------------------------------------
 #from epics.motor.positionCompareMotorClass import PositionCompareMotorClass
 #pgmenergy=PositionCompareMotorClass("pgmenergy", "BL09I-ENERGY-MOTOR-01.VAL", "BL09I-ENERGY-MOTOR-01.RBV", "BL09I-ENERGY-MOTOR-01.STOP", 0.015, "mm", "%.4f")
 print "Create an 'analyserscan' command for scanning the electron analyser."
-from command.analyser_scan import analyserscan, multiregionscan  # @UnusedImport
+from command.analyser_scan import analyserscan, analyserscan_v1  # @UnusedImport
 alias("analyserscan")
-alias("multiregionscan")
+alias("analyserscan_v1")
 print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
 #from pseudodevices.shutter import EpicsShutterClass, psi2,psj2  # @UnusedImport
 nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-HD-01:STAT:Total_RBV","","%d")
@@ -228,14 +228,30 @@ lakeshoreC3=DisplayEpicsPVClass("lakeshoreC3", "BL09L-VA-LAKE-01:KRDG3","K","%f"
 
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
-#from functions.functionClassFor2Scannables import FucntionClassFor2Scannables
-print "Create a 'ratioi20toi19' scannable for the ratio of hm3iamp20 to es2iamp19."
+print "Create a 'ratioi20toi19' scannable for the ratio of hm3iamp20 to bfmiamp19."
 from functions.ratioscannable import ratioi20toi19  # @UnusedImport
-#ratioi20toi19 = FucntionClassFor2Scannables("ratioi20toi19", "hm3iamp20", "es2iamp19", "ratioFun");
-print "Create a 'dri20toi19' scannable for the derivative of hm3iamp20 to es2iamp19."
-#dri20toi19 = FucntionClassFor2Scannables("dri20toi19", "hm3iamp20", "es2iamp19", "derivative");
+print "Create a 'dri20toi19' scannable for the derivative of hm3iamp20 to bfmiamp19."
 from functions.derivativescannable import dri20toi19  # @UnusedImport
 ##### new objects must be added above this line ###############
+def enablefeedbackdcmfroll():
+    caput("BL09I-EA-FDBK-01:ENABLE",0)
+def disablefeedbackdcmfroll():
+    caput("BL09I-EA-FDBK-01:ENABLE",1)
+def enablefeedbackdcmfpitch():
+    caput("BL09I-EA-FDBK-02:ENABLE",0)
+def disablefeedbackdcmfpitch():
+    caput("BL09I-EA-FDBK-02:ENABLE",1)
+def enablefeedbacksm1fpitch():
+    caput("BL09J-EA-FDBK-01:ENABLE",0)
+def disablefeedbacksm1fpitch():
+    caput("BL09J-EA-FDBK-01:ENABLE",1)
+    
+alias("enablefeedbackdcmfroll")
+alias("disablefeedbackdcmfroll")
+alias("enablefeedbackdcmfpitch")
+alias("disablefeedbackdcmfpitch")
+alias("enablefeedbacksm1fpitch")
+alias("disablefeedbacksm1fpitch")
 print
 print "=================================================================================================================";
 print "Initialisation script complete." 

@@ -6,10 +6,14 @@
 	<bean id="cccy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="cccy_motor" />
 	</bean>
+	<bean id="cccx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cccx_motor" />
+	</bean>
 	<bean id="ccc" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="cccy" />
+				<ref bean="cccx" />
 			</list>
 		</property>
 	</bean>

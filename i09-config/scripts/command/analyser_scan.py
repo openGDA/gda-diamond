@@ -15,16 +15,22 @@ from org.opengda.detector.electronanalyser.nxdetector import EW4000,\
 from time import sleep
 from gda.jython import InterfaceProvider, Jython
 import time
+from gda.device.scannable import DummyScannable
 #from localStation import setSubdirectory
 PRINTTIME=False
-
-def multiregionscan(*args):
+zeroScannable=DummyScannable("zeroScannable")
+def analyserscan(*args):
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
     newargs=[]
     i=0;
     while i< len(args):
         arg = args[i]
+        if i==0 and isinstance(arg, EW4000):
+            newargs.append(zeroScannable)
+            newargs.append(0)
+            newargs.append(0)
+            newargs.append(1)
         newargs.append(arg)
         i=i+1
         if isinstance( arg,  EW4000 ):
@@ -36,14 +42,10 @@ def multiregionscan(*args):
                 filename=FilenameUtil.convertSeparator(filename)
             controller.update(controller,SequenceFileChangeEvent(filename)) #update client sequence view
             sleep(1.0)
-            while (InterfaceProvider.getScanStatusHolder().getScanStatus()==Jython.PAUSED):
+            while (InterfaceProvider.getJythonServerStatusProvider().isScriptOrScanPaused()):
                 sleep(1.0) # wait for user saving dirty file
             arg.setSequenceFilename(filename)
             sequence=arg.loadSequenceData(filename)
-            if sequence.getRegion().size()==1:
-                arg.createSingleFile(True)
-            else:
-                arg.createSingleFile(False)
             if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
                 arg.getCollectionStrategy().setSequence(sequence)
             i=i+1
@@ -52,7 +54,7 @@ def multiregionscan(*args):
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
 
-def analyserscan(*args):
+def analyserscan_v1(*args):
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
     newargs=[]
