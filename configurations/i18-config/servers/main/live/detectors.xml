@@ -282,5 +282,12 @@
 		<property name="local" value="true" />
 	</bean>
 
-	
+	<bean id="I0" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL18I-EA-IAMP-02:Gain" />
+	</bean>
+
+	<bean id="It" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL18I-EA-IAMP-03:Gain" />
+	</bean>
+		
 </beans>
