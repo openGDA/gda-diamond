@@ -16,4 +16,4 @@ unset JAVA_HOME
 unset JYTHON_HOME
 unset SVN_HOME
 
-export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/gda_git/gda-diamond.git/dls-config/bin:${PATH}
+export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin:${PATH}

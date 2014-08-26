@@ -7,5 +7,5 @@
     <time>224.36</time>
     <element>Fe</element>
     <edge>K</edge>
-    <bothWays>false</bothWays>
+    <bothWays>true</bothWays>
 </QEXAFSParameters>

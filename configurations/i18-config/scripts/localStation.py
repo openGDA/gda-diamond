@@ -49,10 +49,10 @@ if (LocalProperties.get("gda.mode") == 'live'):
     beamMonitor.setName("beamMonitor")
     beamMonitor.setMachineModeMonitor(machineModeMonitor)
     beamMonitor.configure()
-#    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
-#    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
-#    traj3ContiniousX.setBeamMonitor(beamMonitor)
-#    traj3ContiniousX.setTopupMonitor(topupMonitor)
+    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
+    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
+    traj3ContiniousX.setBeamMonitor(beamMonitor)
+    traj3ContiniousX.setTopupMonitor(topupMonitor)
     
     detectorFillingMonitor = DetectorFillingMonitorScannable()
     detectorFillingMonitor.setName("detectorFillingMonitor")
@@ -65,7 +65,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     trajBeamMonitor.configure()
     trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
     trajBeamMonitor.setLevel(1)
-
+    
     add_default topupMonitor
     add_default beamMonitor
     #add_default trajBeamMonitor
@@ -137,3 +137,19 @@ if (LocalProperties.get("gda.mode") == 'live'):
     photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/")
 
 print "Initialization Complete";
+
+print "****************************************"
+print ""
+print "Useful commands:"
+print ""
+print "To switch to faster raster (two-way rastering):"
+print " map.enableFasterRaster()"
+print "and to switch back:"
+print " map.disableFasterRaster()"
+print ""
+print "To switch to use table 3 (large stage) for rastering:"
+print " map.setStage(3)"
+print "To switch back to table 1 (small stage) for rastering:"
+print " map.setStage(1)"
+print ""
+print "****************************************"

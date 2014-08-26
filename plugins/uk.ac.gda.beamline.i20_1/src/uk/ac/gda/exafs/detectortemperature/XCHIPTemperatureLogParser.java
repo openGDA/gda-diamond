@@ -75,8 +75,11 @@ public class XCHIPTemperatureLogParser {
 		DoubleDataset[] temperatureDatasets = new DoubleDataset[4];
 
 		for (int i = 0; i < 4; i++) {
-			timeDatasets[i] = new LongDataset(times[i]);
-			temperatureDatasets[i] = new DoubleDataset(temps[i]);
+			// we might not have found anything
+			if (times[i] != null){
+				timeDatasets[i] = new LongDataset(times[i]);
+				temperatureDatasets[i] = new DoubleDataset(temps[i]);
+			}
 		}
 
 		return new IDataset[][] { timeDatasets, temperatureDatasets };

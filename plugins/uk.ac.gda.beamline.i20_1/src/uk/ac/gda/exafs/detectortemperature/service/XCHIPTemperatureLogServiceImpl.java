@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.detectortemperature.service;
 
-import gda.configuration.properties.LocalProperties;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -60,7 +58,7 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 	private String currentDetectorName;
 	private WatchService watcher;
 	// private Path logfile;
-	private long timeWatchingStarted;
+	private long plottingStartTime;
 
 	private Path logfile;
 
@@ -118,7 +116,7 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 		if (watcher == null) {
 			try {
 				watcher = FileSystems.getDefault().newWatchService();
-				timeWatchingStarted = (new Date()).getTime();
+				plottingStartTime = (new Date()).getTime();
 				Path logDir = getLogDirectory().toPath();
 				final WatchKey key = logDir.register(watcher, java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY);
 				ThreadManager.getThread(new Runnable() {
@@ -135,7 +133,7 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 	}
 
 	private File getLogDirectory() {
-		return new File(LocalProperties.getVarDir());
+		return new File("/dls/i20-1/data/2014/cm4975-3/tmp");
 	}
 
 	private void processEvents(WatchKey key) {
@@ -177,7 +175,7 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 		}
 	}
 
-	private void readAndBroadcastTemperatures() {
+	private synchronized void readAndBroadcastTemperatures() {
 		final IDataset[][] temps = readTemperatures();
 
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
@@ -193,21 +191,25 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 				// plot
 				List<IDataset> temperatures = new Vector<IDataset>();
 				for (IDataset ds : temps[1]) {
-					temperatures.add(ds);
+					if (ds != null) {
+						temperatures.add(ds);
+					}
 				}
 
-				plottingSystem.getSelectedXAxis().setDateFormatEnabled(true);
-				plottingSystem.getSelectedXAxis().setFormatPattern("HH:mm:ss.SSS E");
-				plottingSystem.getSelectedXAxis().setAutoFormat(false);
+				if (temperatures.size() > 0) {
+					plottingSystem.getSelectedXAxis().setDateFormatEnabled(true);
+					plottingSystem.getSelectedXAxis().setFormatPattern("HH:mm:ss.SSS E");
+					plottingSystem.getSelectedXAxis().setAutoFormat(false);
 
-				plottingSystem.createPlot1D(temps[0][0], temperatures, null);
+					plottingSystem.createPlot1D(temps[0][0], temperatures, null);
+				}
 			}
 		});
 	}
 
 	private IDataset[][] readTemperatures() {
 		XCHIPTemperatureLogParser parser = new XCHIPTemperatureLogParser(logfile.toString());
-		return parser.getTemperaturesSince(0/*timeWatchingStarted*/);
+		return parser.getTemperaturesSince(plottingStartTime);
 	}
 
 	@Override
@@ -221,10 +223,6 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 		watcher = null;
 	}
 
-	public IDataset[][] getHistoricalData(long startTime, long endTime) {
-		return null;
-	}
-
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (!DetectorModel.INSTANCE.getCurrentDetector().getName().equals(currentDetectorName)) {
@@ -232,4 +230,14 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 		}
 	}
 
+	@Override
+	public void extendPlottingHistory() {
+		long twoHoursInImilliSeconds = 2*60*60*1000;
+		plottingStartTime = plottingStartTime - (twoHoursInImilliSeconds);
+		Date startTime = new Date(plottingStartTime);
+		System.out.println(startTime.toString());
+		if (watcher != null) {
+			readAndBroadcastTemperatures();
+		}
+	}
 }
