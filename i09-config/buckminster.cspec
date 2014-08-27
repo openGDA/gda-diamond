@@ -18,5 +18,6 @@
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls.client" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.osgi" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
