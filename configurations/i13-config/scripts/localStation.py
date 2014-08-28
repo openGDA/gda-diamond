@@ -57,12 +57,8 @@ try:
 	from gda.device import Scannable
 	from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
 	
-	def ls_scannables():
-		ls_names(Scannable)
-
-
-	from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform
-	
+	from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform, ls_pv_scannables
+	alias("ls_pv_scannables")
 
 
 	from gda.factory import Finder
