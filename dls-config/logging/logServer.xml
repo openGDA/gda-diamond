@@ -30,6 +30,23 @@
 		<port>${gda.logserver.out.port}</port>
 	</appender>
 
+    <logger name="gda">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.jython.GDAInteractiveConsole">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.factory.corba.util.CorbaEventDispatcher">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="gda.factory.corba.util.MyEventChannelImpl">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="org.apache.commons"><level value="INFO"/></logger>
+    <logger name="gda.px.sampleChanger.irelec">
+    	<level value="INFO"/>
+    </logger>
+
 	<root>
 		<level value="ALL" />
 		<appender-ref ref="FILE" />

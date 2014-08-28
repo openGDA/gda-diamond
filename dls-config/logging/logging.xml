@@ -23,8 +23,24 @@
 		</layout>
 	</appender>
 
+	<logger name="ch.qos.logback.classic.net">
+		<level value="WARN"/>
+	</logger>
+	
+    <logger name="gda">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="uk.ac.gda">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="gdascripts.messages.handle_messages">
+        <level value="INFO" />
+    </logger>
+    	
 	<root>
-		<level value="INFO" />
+		<level value="ALL" />
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="LOGSERVER" />
 	</root>
