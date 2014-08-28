@@ -69,7 +69,7 @@ public class ContinuousModeControllerComposite{
 		
 		Composite composite = new Composite(comp, SWT.NONE);
 		composite.setLayout(new GridLayout(3, false));
-		composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 2));
+		composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
 		
 		Label label = new Label(composite, SWT.NONE);
 		label.setText("lensMode");
@@ -125,7 +125,7 @@ public class ContinuousModeControllerComposite{
 
 		Composite control = new Composite(comp, SWT.NONE);
 		control.setLayout(new GridLayout(2, false));
-		control.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
+		control.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 2));
 		
 		startButton = new Button(control, SWT.NONE);
 		startButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
@@ -240,16 +240,26 @@ public class ContinuousModeControllerComposite{
 		
 		Composite viewerComposite = new Composite(comp, SWT.NONE);
 		viewerComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-		GridLayout glViewerComposite = new GridLayout(3, false);
+		GridLayout glViewerComposite = new GridLayout(2, false);
 		glViewerComposite.horizontalSpacing = 25;
 		viewerComposite.setLayout(glViewerComposite);
 		
-		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, null, true, false);
-		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, wrappedEnergyScannable, true, null, true, false);
-		new Label(viewerComposite, SWT.NONE);
-		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", true, false);
-		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")), true, null, true, false);
-		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")), true, null, true, false);
+		Composite comp1 = new Composite(viewerComposite, SWT.NONE);
+		viewerComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+		GridLayout glcomp1 = new GridLayout(3, false);
+		glcomp1.horizontalSpacing = 25;
+		comp1.setLayout(glcomp1);
+		
+		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("acquire_time")), true, null, true, true);
+		new NudgePositionerComposite(comp1, SWT.RIGHT, wrappedEnergyScannable, true, null, true, true);
+		new Label(comp1, SWT.NONE);
+		
+		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", true, true);
+		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")), true, null, true, true);
+		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")), true, null, true, true);
+		
+		
+		new NudgePositionerComposite(viewerComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("raw_centre_energy")), true, "centre_energy", false, true);
 		
 		Composite nudgeComposite = new Composite(viewerComposite, SWT.NONE);
 		nudgeComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
@@ -257,7 +267,6 @@ public class ContinuousModeControllerComposite{
 		glNudgeComposite.horizontalSpacing = 25;
 		nudgeComposite.setLayout(glNudgeComposite);
 		
-		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable) (Finder.getInstance().find("raw_centre_energy")), true, "centerEnergy", false, true);
 		
 		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sax")));
 		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("say")));
