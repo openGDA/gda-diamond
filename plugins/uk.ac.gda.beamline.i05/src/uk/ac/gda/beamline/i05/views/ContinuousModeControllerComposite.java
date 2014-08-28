@@ -24,6 +24,7 @@ import gda.device.Scannable;
 import gda.device.scannable.ScannableBase;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObserver;
 import gda.rcp.views.NudgePositionerComposite;
@@ -192,6 +193,7 @@ public class ContinuousModeControllerComposite{
 				//Shutter 1 (HR line)
 				//BL05I-PS-SHTR-01
 				//JythonServerFacade.getInstance().runCommand("");
+				InterfaceProvider.getCommandRunner().runCommand("hr_shutter(1)");
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
