@@ -114,11 +114,11 @@ try:
 			
 			#if you change these you need to change the values in cameraScaleProviders
 			#edited by J. Vila-Comamala to match new objective lens configuration 25.04.2014
-			position1="X10 Pink"
-			position2="X4 Pink"
-			position3="X2 Pink"
-			position4="X10 Mono"
-			position5="X4 Mono"
+			position1="10X Pink"
+			position2="4X Pink"
+			position3="2X Pink"
+			position4="1X25 Pink"
+			position5="5"
 			position6="6"
 			position7="7"
 
@@ -201,7 +201,7 @@ try:
 	from tomographyScan import reportJythonNamespaceMapping, reportTomo
 	alias("reportJythonNamespaceMapping")
 	alias("reportTomo")
-	tomography_additional_scannables=[p2r_force, p2r_y] # []
+	tomography_additional_scannables=[] #[p2r_force, p2r_y]
 	#for fast flyscans
 	if isLive():
 		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="d:\\i13\\data"
@@ -242,6 +242,8 @@ try:
 	caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
 	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
 		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
+	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 	
 	if isLive():
 		run("localStationUser.py")

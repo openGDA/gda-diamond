@@ -120,7 +120,7 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
    
     # detector dependent items
-    if tomography_detector_name == "pco1_hw_hdf":
+    if tomography_detector_name == "pco1_hw_hdf" or tomography_detector_name == "pco1_hw_hdf_nochunking":
         # external file
         instrument_detector_data_target = "!entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
@@ -348,7 +348,7 @@ class PreScanRunnable(Runnable):
 perform a continuous tomogrpahy scan
 """
 def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=True):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False):
     """
     Function to collect a tomogram
      Arguments:
