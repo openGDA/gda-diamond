@@ -451,7 +451,7 @@
 	</bean>
 
 
-	<bean id="hex_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+<!-- 	<bean id="hex_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}hex_x" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -481,7 +481,7 @@
 		<property name="serviceUrl" value="${gda.rmi.prefix}hex_rz" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	</bean> -->
 
 	<bean id="translate_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}translate_x" />
@@ -644,7 +644,7 @@
 					/> <property name="imageFilePath" value="icons/samplebasestage.gif" /> <property 
 					name="label" value="P2R" /> </bean> -->
 
- 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+<!-- 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory">
 						<bean class="gda.rcp.views.StageCompositeFactory">
 							<property name="stageCompositeDefinitions">
@@ -687,7 +687,7 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Hexapod" />
-				</bean>
+				</bean> -->
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory">
 						<bean class="gda.rcp.views.StageCompositeFactory">
