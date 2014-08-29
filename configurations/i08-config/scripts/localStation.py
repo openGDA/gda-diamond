@@ -97,6 +97,12 @@ transmission_plotter.setName("transmission_plotter")
 transmission_plotter.setZ_colName('transmission_total')
 transmission_plotter.setPlotViewname("Transmission")
 
+xrf_plotter = TwoDScanPlotter()
+xrf_plotter.setName("xrf_plotter")
+xrf_plotter.setZ_colName('FF')
+xrf_plotter.setPlotViewname("XRF")
+
+
 add_default horizontal_plotter vertical_plotter transmission_plotter
 
 

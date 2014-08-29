@@ -5,74 +5,67 @@
 
 
 	<!-- XIA Fluorescence Detector -->
-	
-	<!-- HDF5 file writers -->
-	 <bean id="xmap_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL08I-EA-DET-02:HDF:" />
-		<property name="resetToInitialValues" value="false" />
-	</bean>
 
-	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" />
+	<bean id="raw_xmap_hdf5filewriter"
+		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
+				<property name="initialAutoIncrement" value="0" />
+				<property name="initialAutoSave" value="0" />
+				<property name="initialWriteMode" value="0" />
+				<property name="initialNumCapture" value="1" />
+				<property name="initialFileName" value="helloworld" />
+				<property name="initialFileTemplate" value="%s%s-%d.h5" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
-
-	
-	<bean id="xbuf"
-		class="gda.device.detector.xmap.XBufferEPICsPlugin">
-		<property name="basePVName" value="BL08I-EA-DET-02:XBUF:" />
-		<property name="EnableCallbacks_RBV" value="1" />
-	</bean>
-	
 
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="epicsDeviceName" value="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="local" value="true" />
 		<property name="numberOfElements" value="1" />
-		<!-- <property name="hdf5" ref="xmap_hdf5filewriter" /> -->
-		<!-- <property name="aquisitionTimeOn" value="true" /> -->
+		<property name="hdf5" ref="raw_xmap_hdf5filewriter" />
 	</bean>
-	
-	
 
-	<!-- <bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
-		<property name="edxdControllerName" value="edxdcontroller" />
-		<property name="local" value="true" />
-	</bean> -->
-	
-<!-- 	instead of using the AreaDetector framework, use the existing classes used on I18 which are used for ConstantVelocityScanLine scans -->	
-	
-<!-- 	TODO try this on Friday, if it does not work then need to get the HardwareTriggeredWithOnlineDataReductionXmap class working -->
-	
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
-		<property name="edxdController" ref="edxdcontroller" />
-		<property name="local" value="true" />
+	<bean id="nDHDF5PVProvider" class="gda.device.detector.xmap.edxd.NDHDF5PVProvider">
+		<constructor-arg value="BL08I-EA-DET-02" />
 	</bean>
-	
-	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
-		<property name="controller" ref="xmapcontroller" />
 
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
-			one value for each element -->
-		<property name="eventProcessingTimes">
-			<list>	
-				<value>1.7867731067630825e-08</value>
+	<bean id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm"
+		class="gda.device.detector.xmap.XmapHardwareTriggeredCollectionStrategy">
+		<constructor-arg ref="edxdcontroller" />
+		<constructor-arg ref="nDHDF5PVProvider" />
+	</bean>
+
+	<bean id="xmap_hdf5_filereader" class="gda.device.detector.xmap.XmapReadbackHdf5NXPlugin">
+		<constructor-arg ref="edxdcontroller" />
+		<constructor-arg ref="nDHDF5PVProvider" />
+		<constructor-arg>
+			<list>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- underscore as it should be wrapped in the scanwrapper -->
+	<bean id="_xmap" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="xmap" />
+		<property name="hardwareTriggerProvider" value="#{stxmDummy.continuousMoveController}" />
+		<property name="collectionStrategy"
+			ref="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xmap_hdf5_filereader" />
 			</list>
 		</property>
-
-		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/templates/Vortex_Parameters.xml" />
-		<property name="tfg" ref="tfg" />
-		<property name="sumAllElementData" value="true" />
-	</bean>
-	
-	
-	<bean id="traj1xmap" class="gda.device.detector.xmap.HardwareTriggeredNexusXmapImpl">
-<!-- 		<property name="hardwareTriggerProvider" ref="traj1ScanControllerAdapter" /> -->
-		<property name="xmap" ref="xmapMca" />
-		<property name="controller" ref="edxdcontroller" />
-<!-- 		<property name="daServer" ref="daserver" /> -->
 	</bean>
 
 </beans> 
