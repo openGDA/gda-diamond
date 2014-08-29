@@ -76,6 +76,8 @@
 	<import resource="../../../devices/epics/d4.xml"/>
 	<import resource="../../../devices/d4.xml" />
 
+	<import resource="../../../devices/epics/dcm_motors.xml"/>
+
 	<import resource="../../../devices/epics/s4_motors.xml"/>
 
 	<import resource="../../../devices/epics/s5_motors.xml"/>
@@ -91,7 +93,7 @@
 
 	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
 	<import resource="../../../devices/epics/g1_motors.xml"/>
-
+	<import resource="../../../devices/epics/ion_chamber.xml" />
 	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
 	<import resource="../../../devices/epics/float1.xml"/>
 	<import resource="../../../devices/epics/float2.xml"/>
@@ -102,6 +104,10 @@
 	
 	<import resource="../../../devices/epics/s7_motors.xml"/>
 
+	<bean id="fs" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL13J-EA-FSHTR-01:CONTROL" />
+		<property name="readOnly" value="False"/>
+	</bean>
 <!-- 	<import resource="../../../devices/epics/scope1_motors.xml"/>
  -->
 	<import resource="../../../devices/epics/pco1.xml"/>

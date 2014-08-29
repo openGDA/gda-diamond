@@ -60,5 +60,5 @@
 		<property name="service" ref="excaliburADController" />
 		<property name="properties" ref="excalibur_dictionary" />
 	</bean>
-	
+	<import resource="../../../devices/epics/ion_chamber.xml" />	
 </beans>
