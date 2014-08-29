@@ -70,6 +70,10 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
+from i13j_utilities import csn, nsn
+alias("csn")
+alias("nsn")
+
 from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm
 alias("setTitle")
 alias("meta_add")
@@ -325,6 +329,17 @@ import excalibur_config
 #slitscanner.setScanAborter(scanAborter)
 #bm_topup = TopupCountdown("bm_topup")
 
+#	caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
+if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
+	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
+if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
+
+
+createPVScannable( "afg_chan1_ampl", "BL13J-EA-FNGEN-01:CHAN1:AMPLITUDE", hasUnits=False)
+# pos afg_chan1_ampl 2.
+createPVScannable( "afg_chan1_state", "BL13J-EA-FNGEN-01:CHAN1:OUTPUT:STATE", hasUnits=False, getAsString=True)
+# pos afg_chan1_state "On"
 
 run("localStationUser.py")
 

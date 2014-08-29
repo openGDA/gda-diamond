@@ -60,7 +60,6 @@ try:
 	def ls_scannables():
 		ls_names(Scannable)
 
-
 	from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform, ls_pv_scannables
 	alias("ls_pv_scannables")
 
