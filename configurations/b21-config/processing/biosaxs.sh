@@ -73,6 +73,7 @@ cat >> $SCRIPT <<EOF
 
 module load java/7-64
 module load python/ana
+module load cothread
 
 ## set data reduction to started
 $ISPYBUPDATE reduction $DATACOLLID STARTED \"\"
