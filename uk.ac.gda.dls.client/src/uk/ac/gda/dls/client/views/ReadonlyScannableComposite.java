@@ -26,6 +26,7 @@ import gda.device.scannable.ScannableStatus;
 import gda.observable.IObserver;
 
 import java.text.NumberFormat;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -54,6 +55,21 @@ public class ReadonlyScannableComposite extends Composite {
 	Integer decimalPlaces;
 	private Integer minPeriodMS=null;
 	private Boolean textUpdateScheduled=false;
+	private Map<String, Integer> colourMap;
+
+
+	public Map<String, Integer> getColourMap() {
+		return colourMap;
+	}
+
+	/**
+	 * 
+	 * @param colourMap map of ids to pass to Display.getSystemColor to allow setting of foreground based on value
+	 * Useful for enums
+	 */	
+	public void setColourMap(Map<String, Integer> colourMap) {
+		this.colourMap = colourMap;
+	}
 
 	public Integer getMinPeriodMS() {
 		return minPeriodMS;
@@ -85,6 +101,7 @@ public class ReadonlyScannableComposite extends Composite {
 		text = new Text(this,textStyle);
 		text.setEditable(false);
 		setTextRunnable = new Runnable() {
+
 			@Override
 			public void run() {
 				int currentLength = text.getText().length();
@@ -93,6 +110,12 @@ public class ReadonlyScannableComposite extends Composite {
 				int diff = valPlusUnits.length()-currentLength;
 				if ( diff > 0 || diff < -3)
 					EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
+				if( colourMap != null){
+					Integer colorId = colourMap.get(val);
+					if( colorId != null){
+						text.setForeground(Display.getCurrent().getSystemColor(colorId));
+					}
+				}
 				textUpdateScheduled=false;
 			}
 		};		
