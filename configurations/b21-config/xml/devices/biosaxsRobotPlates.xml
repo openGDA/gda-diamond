@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="bsscPlates" class="uk.ac.gda.devices.bssc.beans.PlateConfig">
+		<property name="plates">
+			<list>
+				<ref bean="plate1"/>
+				<ref bean="plate2"/>
+				<ref bean="plate3"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="plate1" class="uk.ac.gda.devices.bssc.beans.Plate">
+		<constructor-arg index="0" value="I"/>
+		<constructor-arg index="1" value="8"/>
+		<constructor-arg index="2" value="12"/>
+	</bean>
+	<bean id="plate2" class="uk.ac.gda.devices.bssc.beans.Plate">
+		<constructor-arg index="0" value="II"/>
+		<constructor-arg index="1" value="8"/>
+		<constructor-arg index="2" value="12"/>
+	</bean>
+	<bean id="plate3" class="uk.ac.gda.devices.bssc.beans.Plate">
+		<constructor-arg index="0" value="III"/>
+		<constructor-arg index="1" value="8"/>
+		<constructor-arg index="2" value="12"/>
+	</bean>
+</beans>
