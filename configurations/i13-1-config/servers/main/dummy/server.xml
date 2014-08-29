@@ -64,7 +64,7 @@
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/dummy/s4_motors.xml"/>
-
+	<import resource="../../../devices/dummy/dcm_motors.xml"/>
 	<import resource="../../../devices/dummy/s5_motors.xml"/>
 	<import resource="../../../devices/dummy/m2_motors.xml"/>
 	<import resource="../../../devices/dummy/pin_motors.xml"/>
@@ -78,10 +78,14 @@
 
 	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>
 	<import resource="../../../devices/dummy/g1_motors.xml"/>
-	
+	<import resource="../../../devices/dummy/ion_chamber.xml" />	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
+
+	<bean id="fs" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="Open, Closed"/>
+	</bean>
 
 	<import resource="../../../devices/dummy/scope1_motors.xml"/>
 

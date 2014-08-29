@@ -1,0 +1,8 @@
+<JEPQuantityConverter>
+<ExpressionStoT>-180*asin(X/6.2695)/3.14159265-6.92</ExpressionStoT>
+<!-- old value up to 18 Nov 2009 was 6.2712 -->
+<ExpressionTtoS>6.2695*sin(-3.14159265*(6.92+X)/180.)</ExpressionTtoS>
+<AcceptableSourceUnits>Angstrom</AcceptableSourceUnits>
+<AcceptableTargetUnits>Deg</AcceptableTargetUnits>
+</JEPQuantityConverter>
+

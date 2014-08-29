@@ -27,7 +27,7 @@
 	</bean>
 
 	<import resource="commandQueueProcessor.xml" />
-
+	<import resource="beamlineEnergyController.xml" />
 	<bean id="plot_server"
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 	<!-- Replaces ScanDataStore -->
@@ -182,6 +182,7 @@
 	<import resource="../../devices/pin.xml"/>
  	<import resource="../../devices/diff.xml"/>
 	<import resource="../../devices/s6.xml" />
+	<import resource="../../devices/dcm.xml" />
 
 	<import resource="../../devices/sample_stage_t1.xml" />
 	<import resource="../../devices/g1.xml" />

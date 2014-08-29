@@ -10,7 +10,7 @@
 
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="../../common_beans/common.xml"/>
-	<corba:import namespace="i13-1" names="plot_server" />
+	<corba:import namespace="i13-1" names="plot_server, dcm_energy, dcm_bragg" />
 
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
@@ -61,6 +61,17 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13J-PS-SHTR-02:STA" />
+	</bean>
+	<bean id="fast_shtr_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13J-EA-FSHTR-01:CONTROL" />
+	</bean>
+	
 	<bean id="commandRunner" class="gda.jython.CommandRunnerBean" />
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="gda.jython.ICommandRunner" />
@@ -79,28 +90,14 @@
 		<property name="class" value="uk.ac.gda.client.HelpHandler" />
 		<property name="service" ref="helpHandler" />
 	</bean>
-	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
-		<property name="hasUnits" value="False" />
-		<property name="getAsString" value="True" />
-		<property name="pvName" value="BL13J-PS-SHTR-02:STA" />
-	</bean>	
+
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Status" />
 		<property name="compositeFactories">
 			<list>
-				<!-- <bean class="uk.ac.gda.dls.client.views.HealthCheckCompositeFactory"> 
-					<property name="healthScannable" ref="beamline_health"></property> <property 
-					name="label" value="Health"/> </bean> -->
-				<bean class="gda.rcp.views.ActionBtnCompositeFactory">
-					<property name="tooltipText" value="Stop all motors" />
-					<property name="buttonText" value="Panic Stop" />
-					<property name="buttonImagePath" value="icons/stop.png" />
-					<property name="foregroundColorId" value="3" />
-					<property name="actionId" value="uk.ac.gda.client.StopAll" />
-				</bean>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Machine" />
-					<property name="columns" value="2" />
+					<property name="columns" value="1" />
 					<property name="compositeFactories">
 						<list>
 							<bean
@@ -108,6 +105,7 @@
 								<property name="scannable" ref="ringCurrent" />
 								<property name="label" value="Ring Current" />
 								<property name="units" value="mA" />
+								<property name="minPeriodMS" value="1000" />
 								<property name="decimalPlaces" value="2" />
 							</bean>
 							<bean
@@ -115,19 +113,48 @@
 								<property name="scannable" ref="timeToRefill" />
 								<property name="label" value="Time to refill" />
 								<property name="units" value="s" />
+								<property name="minPeriodMS" value="1000" />
 								<property name="decimalPlaces" value="0" />
 							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Beamline" />
+					<property name="columns" value="2" />
+					<property name="compositeFactories">
+						<list>
 
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="idGap" />
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
-								<property name="decimalPlaces" value="3" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="2" />
 							</bean>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="dcm_bragg" />
+								<property name="label" value="Bragg" />
+								<property name="units" value="degrees" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="4" />
+							</bean>
+
+							<bean class="gda.rcp.views.MotorPositionViewerCompositeFactory">
+								<property name="scannable" ref="dcm_energy" />
+								<property name="label" value="Energy" />
+								<property name="restoreValueWhenFocusLost" value="true" />
+								<property name="commandFormat" value="bl.setFromScript(%5.5g)" />
+								<property name="hideLabel" value="false" />
+							</bean>
+
+
 						</list>
 					</property>
 				</bean>
+				
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Hutch Shutter" />
 					<property name="columns" value="1" />
@@ -137,6 +164,12 @@
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="expt_sht_stat" />
 								<property name="label" value="State" />
+								<property name="colourMap">
+									<map>
+										<entry key="Open" value="5" />
+										<entry key="Closed" value="3" />
+									</map>
+								</property>
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
 								<property name="command" value="eh_shtr_control()" />
@@ -149,6 +182,50 @@
 						</list>
 					</property>
 				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Ion Chamber." />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="ionc_i" />
+								<property name="label" value="i" />
+								<property name="units" value="V" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="3" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Fast Shutter" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="fast_shtr_stat" />
+								<property name="label" value="State" />
+								<property name="colourMap">
+									<map>
+										<entry key="Open" value="5" />
+										<entry key="Closed" value="3" />
+									</map>
+								</property>
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
+								<property name="commandRunner" ref="commandRunner" />
+								<property name="command" value="fs_control()" />
+								<property name="label" value="Open/Close" />
+								<property name="tooltip"
+									value="Opens or closes the experiment fast shutter" />
+								<property name="jobTitle" value="Fast Shutter Open/Close" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				
 				<bean class="uk.ac.gda.dls.client.views.LatestFileNameCompositeFactory">
 					<property name="label" value="Latest Detector File" />
 					<property name="fileProcessor" ref="imageFileDisplayer" />

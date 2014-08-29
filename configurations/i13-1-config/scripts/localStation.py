@@ -37,8 +37,8 @@ def ls_scannables():
 
 scansReturnToOriginalPositions=1
 
-from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
-alias("createPVScannable")
+from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform, ls_pv_scannables
+alias("ls_pv_scannables")
 alias("caput")
 alias("caget")
 
@@ -126,8 +126,6 @@ if not LocalProperties.check("gda.dummy.mode"):
 from gda.device.scannable import TwoDScanPlotter
 t1_sxy_plotter = TwoDScanPlotter()
 t1_sxy_plotter.setName("t1_sxy_plotter")
-t1_sxy_plotter.setY_colName("t1_sy")
-t1_sxy_plotter.setX_colName("t1_sx")
 t1_sxy_plotter.setZ_colName("total")
 #we should the ability to not count hot pixels however they are specified.
 
@@ -255,6 +253,13 @@ def eh_shtr_control():
 		pos eh_shtr "Reset"
 		time.sleep(3)
 		pos eh_shtr "Open"
+
+
+def fs_control():
+	if fs()=="Open":
+		pos fs "Closed"
+	else:
+		pos fs "Open"
 
 #mtscripts have been commented out of JythonServerFacade as this is used temprarily for moveable equipment
 #import mtscripts.moveable.me07m
