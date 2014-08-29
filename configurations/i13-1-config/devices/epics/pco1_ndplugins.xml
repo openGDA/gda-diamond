@@ -23,19 +23,13 @@
 	<bean id="pco1_stat" class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-01:STAT:" />
 	</bean>
-	<bean id="pco1_roi1" class="gda.spring.V17NDROIFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:ROI1:" />
-	</bean>
-	<bean id="pco1_roi2" class="gda.spring.V17NDROIFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:ROI2:" />
+	<bean id="pco1_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-01:ROI:" />
 	</bean>
 
-	<bean id="pco1_ffmpeg1" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:MPG1:" />
-	</bean>
 
-	<bean id="pco1_ffmpeg2" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:MPG2:" />
+	<bean id="pco1_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-01:MJPG:" />
 	</bean>
 
 
@@ -45,7 +39,7 @@
 
 
 	<bean id="pco1_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:HDF:" />
+		<property name="prefix" value="BL13J-EA-DET-01:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
@@ -56,7 +50,7 @@
 	</bean>
 
 	<bean id="pco1_ndfiletif" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:TIF:" />
+		<property name="prefix" value="BL13J-EA-DET-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
@@ -66,12 +60,9 @@
 		</property>
 	</bean>
 
-	<bean id="pco1_proc1" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:PRO1:" />
+	<bean id="pco1_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-01:PROC:" />
 	</bean>
 
-	<bean id="pco1_proc2" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="BL13J-EA-DET-01:PRO2:" />
-	</bean>
 
 </beans>	

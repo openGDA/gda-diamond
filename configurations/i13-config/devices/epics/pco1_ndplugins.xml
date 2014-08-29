@@ -55,7 +55,7 @@
 	</bean>
 
 	<bean id="pco1_ndfiletif" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL13I-EA-DET-01:TIF:" />
+		<property name="prefix" value="BL13I-EA-DET-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">

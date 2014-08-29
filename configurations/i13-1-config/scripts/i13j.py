@@ -246,6 +246,21 @@ To take an image from the maxipix detector:
     Then use in an scan e.g. >repscan 10 xmapMca 2   ( to take 10 measurements of 2 seconds exposure each)
     
 
+18 How to generate a train of triggers from the tfg
+    >import tfg_commands
+    >tfg_commands.sendSimplyTrigger()
+    
+    Type help tfg_commands.sendSimplyTrigger for full details of the command
+    
+19. To use PCO Egde for effective exposure times greater than 2s
+    Turn on accumulation mode:
+    >pco1_sw_hdf_nochunking.collectionStrategy.accumlationMode=True
+    Set  exposure for the individual images that are to be accumulated together at each point
+    >pco1_sw_hdf_nochunking.collectionStrategy.accumlationMode.acc_expo_time=.1
+    
+    To get 1 accummulated image with effective exposure time of 4 s:
+    >repscan 1 pco1_sw_hdf_nochunking 4
+
 """
 
 

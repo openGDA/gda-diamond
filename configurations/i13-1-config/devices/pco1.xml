@@ -21,7 +21,7 @@
 		</property>
 	</bean>
 
-	<bean id="pco1" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
+<!-- 	<bean id="pco1" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
 		<property name="detector" ref="_pco1_tif" />
 		<property name="processor" ref="pco1_tif_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
@@ -31,7 +31,7 @@
 		<property name="detector" ref="_pcoEdge_tif" />
 		<property name="processor" ref="pco1_tif_processors" />
 		<property name="mergeWithDetectorData" value="true"/>
-	</bean>	
+	</bean>	 -->
 	
 	
 

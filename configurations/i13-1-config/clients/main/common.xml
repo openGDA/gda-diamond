@@ -234,7 +234,6 @@
 								<constructor-arg value="PCO" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13J-EA-DET-01:"/>
-								<constructor-arg value="pcoType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="PCO - ME07" />

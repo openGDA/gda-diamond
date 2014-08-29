@@ -39,12 +39,12 @@ def setupAlternateTrigger( adc=0, alternate=0  ):
     tfg.getDaServer().sendCommand("tfg setup-trig start adc" + `adc` + " alternate " + `alternate`)
     
     
-def sendSimplyTrigger(cycles=10000, deadtime=1, liveTime=1, deadTimePort=0, livePort=65535, deadPausePort=0, livePausePort=0):
+def sendSimplyTrigger(cycles=10000, deadTime=1, liveTime=1, deadTimePort=0, livePort=65535, deadPausePort=0, livePausePort=0):
     """
     makes the tfg run a single frame multiple times
     
     Usage :
-    sendSimplyTrigger(cycles, deadtime=1, liveTime=1, deadTimePort=0, livePort=65535, deadPausePort=0, livePausePort=0)
+    sendSimplyTrigger(cycles, deadTime=1, liveTime=1, deadTimePort=0, livePort=65535, deadPausePort=0, livePausePort=0)
     
     Port Val Bits:
     7..0     - User Port 7..0
@@ -71,7 +71,7 @@ def sendSimplyTrigger(cycles=10000, deadtime=1, liveTime=1, deadTimePort=0, live
     tfg.setAttribute(Tfg.AUTO_REARM_ATTR_NAME, False)
     tfg.clearFrameSets()
     tfg.setCycles(cycles)
-    tfg.addFrameSet(1, deadtime*1000., liveTime * 1000., deadTimePort, livePort, deadPausePort, livePausePort)
+    tfg.addFrameSet(1, deadTime*1000., liveTime * 1000., deadTimePort, livePort, deadPausePort, livePausePort)
     tfg.loadFrameSets()
     start()
 
