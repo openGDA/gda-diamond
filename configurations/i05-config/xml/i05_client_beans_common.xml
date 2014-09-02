@@ -16,7 +16,6 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<corba:import namespace="i05" />
 	<corba:import namespace="i05" names="plot_server" />
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
