@@ -44,22 +44,6 @@
 		<constructor-arg value="-1" />
 	</bean>
 
-	<!-- SingleExposureEpicsShutter(ADBase adBase, double readoutTime,
-			String shutterPV, String shutterOpenValue, double shutterOpenDelay,
-			String shutterCloseValue, double shutterCloseDelay)
-				Negative readoutTime disables AcquirePeriod
-	 -->
-	<bean id="pixis1_GV12collectionStrategy"
-		class="gda.device.detector.addetector.triggering.SingleExposureEpicsShutter">
-		<constructor-arg ref="pixis1_adbase" />
-		<constructor-arg value="-1" />
-		<constructor-arg value="BL10I-VA-VALVE-12:CON" />
-		<constructor-arg value="Open" />
-		<constructor-arg value="1.0" />
-		<constructor-arg value="Close" />
-		<constructor-arg value="1.0" />
-	</bean>
-
 	<!-- NXDetector file writers -->
 
 	<!-- SingleImagePerFileWriter(String detectorName)
@@ -102,25 +86,4 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="pixis1GV12det" class="gda.device.detector.NXDetector">
-		<property name="name" value="pixis1GV12det" />
-		<property name="collectionStrategy" ref="pixis1_GV12collectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="pixis1_nxfilewriter_for_scans" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="pixis1GV12det_for_snaps" class="gda.device.detector.NXDetector">
-		<property name="name" value="pixis1gv12det_for_snaps" />
-		<property name="collectionStrategy" ref="pixis1_GV12collectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="pixis1_nxfilewriter_for_snaps" />
-			</list>
-		</property>
-	</bean>
-
 </beans>

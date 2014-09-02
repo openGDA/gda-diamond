@@ -284,7 +284,7 @@ if andor_installed:
         localStation_exception(sys.exc_info(), "creating andor & andorGV12 objects")
 
 ######## Setting up the I10 Pimte camera ###############
-pimte_installed = True
+pimte_installed = False
 
 if pimte_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
@@ -326,6 +326,50 @@ if pimte_installed:
 
     except:
         localStation_exception(sys.exc_info(), "creating pimte objects")
+
+######## Setting up the I06 Pixis camera ###############
+pixis_installed = True
+
+if pixis_installed:
+    try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
+        global pixis1det, pixis1det_for_snaps
+
+        # the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
+        pixis = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pixis', pixis1det, None, pixis1det_for_snaps, [],
+            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+    
+        from gdascripts.scannable.detector.DetectorDataProcessor \
+            import DetectorDataProcessor #, DetectorDataProcessorWithRoi
+
+        from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue \
+            import SumMaxPositionAndValue
+
+        pixisSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pixisSMPV', pixis1det, None, pixis1det_for_snaps,
+            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+        pixisSMPV.display_image = True
+        #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [SumMaxPositionAndValue()], False)]
+        pixisSMPV.processors=[DetectorDataProcessor        ('max', pixis1det, [SumMaxPositionAndValue()], False)]
+
+        from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
+            import TwodGaussianPeak
+        
+        pixis2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+            'pixis2d', pixis1det, None, pixis1det_for_snaps,
+            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
+            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+        pixis2d.display_image = True
+        #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [TwodGaussianPeak()], False)]
+        pixis2d.processors=[DetectorDataProcessor        ('max', pixis1det, [TwodGaussianPeak()], False)]
+
+    except:
+        localStation_exception(sys.exc_info(), "creating pixis objects")
 
 ######## Setting up the semi-automatic Zebra triggered camera ###############
 zebra_detector_installed = False
