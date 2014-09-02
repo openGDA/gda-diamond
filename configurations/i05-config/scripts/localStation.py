@@ -9,8 +9,9 @@ print "Importing generic features...";
 import java
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable.scannablegroup import ScannableGroup
-from time import sleep
+from time import sleep, localtime
 from gda.jython.commands.GeneralCommands import alias
+from gdascripts.pd.time_pds import actualTimeClass
 
 # Get the location of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.config")+"/scripts/"
@@ -19,8 +20,18 @@ gdascripts = LocalProperties.get("gda.install.git.loc")+"/gda-core.git/uk.ac.gda
 execfile(gdaScriptDir + "/installStandardScansWithProcessing.py");
 
 execfile(gdascripts + "/pd/epics_pds.py");
+
 execfile(gdascripts + "/pd/time_pds.py");
+class actTimeInInt(actualTimeClass):  # specialise to make displayed time semi-human-readable
+   def rawGetPosition(self):
+      pad = 10000
+      t = localtime(time.time())      # t = localtime(super(actualTimeClass, self).rawGetPosition())
+      tInInt = ((((((t[0]*100+t[1])*100+t[2])*pad+t[3])*100+t[4])*pad)+t[5])
+      return tInInt                   # actual wall clock date & time
+actTime = actTimeInInt("actTime")       
+
 execfile(gdascripts + "/pd/dummy_pds.py");
+
 execfile(gdascripts + "/utils.py");
 
 print "Creating beamline specific devices...";
@@ -76,6 +87,7 @@ centre_energy.setInputNames(["centre_energy"])
 caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
 
 print "==================================================================="
-print "Running i05 scripts."
-run "beamline/master.py"
+if LocalProperties.get("gda.config")=="live":  # don't execute in squish tests
+   print "Running i05 scripts."
+   run "beamline/master.py"
 print "==================================================================="
