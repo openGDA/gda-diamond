@@ -45,21 +45,21 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.common.rcp.util.GridUtils;
 
-public class LensScannableComposite extends Composite {
-	static final Logger logger = LoggerFactory.getLogger(LensScannableComposite.class);
-	private EnumPositioner lensScannable;
-	private IObserver lensObserver;
+public class EnumPositionerComposite extends Composite {
+	static final Logger logger = LoggerFactory.getLogger(EnumPositionerComposite.class);
+	private EnumPositioner positioner;
+	private IObserver observer;
 	private Group group;
 	private Combo pcom;
 
-	public LensScannableComposite(Composite parent, int style) {
+	public EnumPositionerComposite(Composite parent, int style, String title, final String confirmSelectionMsgTemplate, 
+			final String jobTitle, final String setCmd) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 
 		group = new Group(this, SWT.NONE);
 		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-//		GridDataFactory.fillDefaults().applyTo(group);
-		group.setText("Lens");
+		group.setText(title);
 		GridLayout gl_group = new GridLayout(1, false);
 		gl_group.marginBottom = 1;
 		gl_group.marginWidth = 1;
@@ -70,19 +70,33 @@ public class LensScannableComposite extends Composite {
 		pcom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String newVal = pcom.getText();
+				final String newVal = pcom.getText();
 				if( newVal.equals(currentPos))
 					return;
 				pcom.setText(currentPos);
-				MessageBox box = new MessageBox(LensScannableComposite.this.getShell(),SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				box.setMessage("Are you sure you want to change the camera lens to '" + newVal +"'");
-				int open = box.open();
+				int open = SWT.YES;
+				if( confirmSelectionMsgTemplate != null){
+					String msg = String.format(confirmSelectionMsgTemplate, newVal);
+					MessageBox box = new MessageBox(EnumPositionerComposite.this.getShell(),SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+//					box.setMessage("Are you sure you want to change the binning to '" + newVal +"'. The detector will respond when acquisition is restarted.");
+					box.setMessage(msg);
+					open = box.open();
+				}
 				if(open == SWT.YES){
-					Job job = new Job("tomodet.setCameraLens('" + newVal + "')"){
+					Job job = new Job(jobTitle){
 
 						@Override
 						protected IStatus run(IProgressMonitor monitor) {
-							InterfaceProvider.getCommandRunner().evaluateCommand(getName());
+							try {
+								if(setCmd != null ){
+									InterfaceProvider.getCommandRunner().evaluateCommand(String.format(setCmd, newVal));
+								} else if( positioner != null){
+									positioner.moveTo(newVal);
+								}
+								return Status.OK_STATUS;
+							} catch (DeviceException e) {
+								logger.error("Error changing value", e);
+							}
 							return Status.OK_STATUS;
 						}};
 					job.schedule();
@@ -97,28 +111,29 @@ public class LensScannableComposite extends Composite {
 			
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				if( lensScannable != null && lensObserver!=null)
-					lensScannable.deleteIObserver(lensObserver);
+				if( positioner != null && observer!=null)
+					positioner.deleteIObserver(observer);
 			}
 		});
 
 	}
-	private void updateLensDisplay(){
-		lensObserver.update(lensScannable, null);
+
+
+	private void updateDisplay(){
+		observer.update(positioner, null);
 	}
-	public void setLensScannable(EnumPositioner s){
-		lensScannable =s;
+	public void setEnumPositioner(EnumPositioner s){
+		positioner =s;
 		try {
 			pcom.removeAll();
-			for(String pos : lensScannable.getPositions()){
-				if( pos.length() > 1)
-					pcom.add(pos);
+			for(String pos : positioner.getPositions()){
+				pcom.add(pos);
 			}
 		} catch (DeviceException e1) {
 			logger.error("Error getting positions from the lens", e1);
 		}
 
-		lensObserver = new IObserver() {
+		observer = new IObserver() {
 
 			@Override
 			public void update(Object source, final Object arg) {
@@ -127,7 +142,7 @@ public class LensScannableComposite extends Composite {
 						@Override
 						public void run() {
 							try {
-								currentPos = (String) lensScannable.getPosition();
+								currentPos = (String) positioner.getPosition();
 								pcom.setText(currentPos);
 								GridUtils.layout(group);
 							} catch (DeviceException e) {
@@ -137,8 +152,8 @@ public class LensScannableComposite extends Composite {
 					});
 			}
 		};
-		lensScannable.addIObserver(lensObserver);
-		updateLensDisplay();
+		positioner.addIObserver(observer);
+		updateDisplay();
 
 	}
 	private String currentPos;

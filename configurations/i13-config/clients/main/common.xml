@@ -74,7 +74,7 @@
 	</bean>
 
 	<corba:import namespace="i13"
-		names="rotationAxisXScannable, cameraXYScannable, lens" />
+		names="rotationAxisXScannable, cameraXYScannable, lens, binning_x, binning_y, region_size_x, region_size_y" />
 
 	<import resource="../../devices/cameraScaleProviders.xml" />
 
@@ -92,7 +92,11 @@
 		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
-		<property name="lensScannable" ref="lens" />
+		<property name="lensEnum" ref="lens" />
+		<property name="binningXEnum" ref="binning_x" />
+		<property name="binningYEnum" ref="binning_y" />
+		<property name="regionSizeXEnum" ref="region_size_x"/>
+		<property name="regionSizeYEnum" ref="region_size_y"/>
 		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />

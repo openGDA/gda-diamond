@@ -13,13 +13,13 @@
 		<property name="keyScannable" ref="lens" />
 		<property name="providers">
 			<map>
-				<entry key="X2 Pink">
+				<entry key="2X Pink">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="534" />
 					<property name="pixelsPerMMInY" value="534" />
 				</bean>
 				</entry>
-				<entry key="X4 Pink">
+				<entry key="4X Pink">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="1088" />
 					<property name="pixelsPerMMInY" value="1088" />
@@ -31,7 +31,7 @@
 					<property name="pixelsPerMMInY" value="1088" />
 				</bean>
 				</entry>
-				<entry key="X10 Pink">
+				<entry key="10X Pink">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
 					<property name="pixelsPerMMInX" value="2740" />
 					<property name="pixelsPerMMInY" value="2740" />

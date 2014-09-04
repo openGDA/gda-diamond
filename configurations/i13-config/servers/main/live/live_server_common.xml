@@ -83,6 +83,7 @@
 
 	<import resource="../../../devices/epics/pco1_ndplugins.xml" />
 	<import resource="../../../devices/epics/lens.xml" />
+	<import resource="../../../devices/epics/pco_binning.xml" />
 	<import resource="../../../devices/epics/zebra.xml" />
 	
 	<import resource="../../../devices/epics/float1.xml" />

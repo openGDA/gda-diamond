@@ -35,6 +35,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 @CorbaImplClass(EnumpositionerImpl.class)
 @CorbaAdapterClass(EnumpositionerAdapter.class)
@@ -57,11 +58,19 @@ public class EnumPositionerDelegator extends DeviceBase implements EnumPositione
 
 	public EnumPositioner getDelegate()  {
 		if( delegate == null){
-			delegate =scannableMap.values().toArray(new EnumPositioner[0])[0];
+			String cameraModel="";
 			try {
-				delegate = scannableMap.get(adBase.getModel_RBV());
+				cameraModel = adBase.getModel_RBV();
+				delegate = scannableMap.get(cameraModel);
+				if( delegate == null){
+					logger.warn("Unable to find EnumPositioner for camera model " + StringUtils.quote(cameraModel) );
+				}
 			} catch (Exception e) {
-				logger.error("Error setting delegate for '" + getName() + ".", e);
+				logger.error("Error reading camera model '" + getName() + ".", e);
+			}
+			if( delegate == null){
+				logger.warn("Using default EnumPositioner for " + getName() );
+				delegate =scannableMap.values().toArray(new EnumPositioner[0])[0];
 			}
 		}
 		return delegate;

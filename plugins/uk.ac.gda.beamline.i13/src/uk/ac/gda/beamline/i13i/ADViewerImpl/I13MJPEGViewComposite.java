@@ -20,7 +20,6 @@ package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.commandqueue.JythonCommandCommandProvider;
 import gda.commandqueue.Queue;
-import gda.device.EnumPositioner;
 import gda.device.scannable.DummyUnitsScannable;
 import gda.rcp.views.CompositeFactory;
 import gda.rcp.views.StageCompositeDefinition;
@@ -53,9 +52,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
-import uk.ac.gda.beamline.i13i.I13IBeamlineActivator;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.client.tomo.TomoClientActivator;
 import uk.ac.gda.epics.adviewer.ADController;
@@ -67,10 +64,12 @@ public class I13MJPEGViewComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(I13MJPEGViewComposite.class);
 
 	private I13ADControllerImpl adControllerImpl;
-	private LensScannableComposite lensScannableComposite;
+	private EnumPositionerComposite lensComposite;
+	private EnumPositionerComposite binningXComposite;
+	private EnumPositionerComposite binningYComposite;
+	private EnumPositionerComposite regionSizeXComposite;
+	private EnumPositionerComposite regionSizeYComposite;
 	private I13MJPegViewInitialiser i13MJPegViewInitialiser;
-
-	private Label lensImageLabel;
 
 	private Button btnVertMoveOnClick;
 
@@ -81,8 +80,6 @@ public class I13MJPEGViewComposite extends Composite {
 	private MJPeg mJPeg;
 
 	private Button btnHorzMoveOnClick;
-
-	private GridData lensImageLabelGridData;
 
 	private Button btnShowRotAxis;
 
@@ -118,14 +115,30 @@ public class I13MJPEGViewComposite extends Composite {
 		Composite composite = new Composite(top, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
 		Composite btnLens = new Composite(composite, SWT.NONE);
-		btnLens.setLayout(new GridLayout(2,false));
+		btnLens.setLayout(new GridLayout(5,false));
 
-		lensScannableComposite = new LensScannableComposite(btnLens, SWT.NONE);
-		GridDataFactory.swtDefaults().applyTo(lensScannableComposite);
-		lensImageLabel = new Label(btnLens, SWT.NONE);
-		lensImageLabelGridData = new GridData();
-		lensImageLabel.setLayoutData(lensImageLabelGridData);
+		lensComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "Lens",
+				"Are you sure you want to change the camera lens to '%s'", 
+				"Changing lens", "tomodet.setCameraLens('%s')");
+		GridDataFactory.swtDefaults().applyTo(lensComposite);
+		binningXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Bin", 
+				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.",
+				"Changing bin x", null);
+		GridDataFactory.swtDefaults().applyTo(binningXComposite);
+		binningYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Bin", 
+				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.",
+				"Changing bin y", null);
+		GridDataFactory.swtDefaults().applyTo(binningYComposite);
+		regionSizeXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Size", 
+				"Are you sure you want to change the region to '%s'. The detector will respond when acquisition is restarted.",
+				"Changing region x", null);
+		GridDataFactory.swtDefaults().applyTo(regionSizeXComposite);
+		regionSizeYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Size", 
+				"Are you sure you want to change the region to '%s'. The detector will respond when acquisition is restarted.",
+				"Changing region y", null);
+		GridDataFactory.swtDefaults().applyTo(regionSizeYComposite);
 
+		
 		Composite composite_1 = new Composite(composite, SWT.NONE);
 		composite_1.setLayout(new RowLayout(SWT.HORIZONTAL));
 
@@ -317,27 +330,12 @@ public class I13MJPEGViewComposite extends Composite {
 		}
 		adControllerImpl = (I13ADControllerImpl) adController;
 		i13MJPegViewInitialiser = new I13MJPegViewInitialiser(adControllerImpl, mJPeg, mjPegView);
+		lensComposite.setEnumPositioner(adControllerImpl.getLensEnum());
+		binningXComposite.setEnumPositioner(adControllerImpl.getBinningXEnum());
+		binningYComposite.setEnumPositioner(adControllerImpl.getBinningYEnum());
+		regionSizeXComposite.setEnumPositioner(adControllerImpl.getRegionSizeXEnum());
+		regionSizeYComposite.setEnumPositioner(adControllerImpl.getRegionSizeYEnum());
 
-		lensScannableComposite.setLensScannable((EnumPositioner) adControllerImpl.getLensScannable());
-
-		try {
-			String model_RBV = adController.getAdBase().getModel_RBV();
-			if (!StringUtils.isEmpty( model_RBV)) {
-				model_RBV = model_RBV.replace(" ", "_");
-				model_RBV = model_RBV.replace(".", "_");
-				ImageDescriptor imageDescriptor = I13IBeamlineActivator.getImageDescriptor("icons/" + model_RBV
-						+ "_axes.png");
-				if (imageDescriptor != null) {
-					lensImageLabel.setImage(imageDescriptor.createImage());
-				} else{
-					lensImageLabelGridData.exclude=true;
-					lensImageLabel.setVisible(false);
-					layout(false);
-				}
-			}
-		} catch (Exception e) {
-			logger.error("Error setting up axes image for camera", e);
-		}
 		mJPeg.setADController(adController);
 
 	}
