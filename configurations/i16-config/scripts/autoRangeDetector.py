@@ -45,12 +45,21 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 																	array_monitor_for_hardware_triggering)
 
 
+	def atScanStart(self):
+		#we often get an extra image at the start if CAM:ImageMode is Continuous before we run the scan for some reason
+		caput(self.rootPv + "CAM:ImageMode", "Single")
+		caput(self.rootPv + "CAM:Acquire", "0")
+		sleep(1)
+		SwitchableHardwareTriggerableProcessingDetectorWrapper.atScanStart(self)
+
+
 	def collectData(self):
 		caput(self.rootPv + "CAM:TriggerSource", "FixedRate")
 		caput(self.rootPv + "CAM:AcquirePeriod", "0.1")
 		caput(self.rootPv + "CAM:GainAuto", "Off")
 		caput(self.rootPv + "CAM:Gain", 0)
 		caput(self.rootPv + "TIFF:EnableCallbacks", 0)
+		sleep(0.2)
 		caput(self.rootPv + "CAM:ImageMode","Continuous")
 		caput(self.rootPv + "CAM:Acquire","0")
 		caput(self.rootPv + "CAM:Acquire","1")
@@ -68,6 +77,7 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 				break
 		caput(self.rootPv + "CAM:Acquire","0")
 		caput(self.rootPv + "CAM:ImageMode","Single")
+		sleep(0.2)
 		caput(self.rootPv + "TIFF:EnableCallbacks", 1)
 		SwitchableHardwareTriggerableProcessingDetectorWrapper.collectData(self)
 
