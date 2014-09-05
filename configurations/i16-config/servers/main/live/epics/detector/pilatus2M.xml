@@ -17,6 +17,13 @@
 	<bean id="pilatus2_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-02:CAM:" />
 		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.SimpleFilePathConverter">
+				<property name="userSubString" value="/dls/i16/data" />
+				<property name="internalSubString" value="/ramdisk" />
+			</bean>
+		</property>
+
 	</bean>
 
 	<bean id="pilatus2_counter_monitor" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
@@ -47,6 +54,7 @@
 		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
 		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 	<bean id="pilatus2_hardware_triggered" class="gda.device.detector.HardwareTriggeredNXDetector">
@@ -66,6 +74,7 @@
 		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus2Msnaps" />
 		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 	<bean id="pilatus2_nxfilewriter_for_hardware_triggering"
@@ -77,6 +86,7 @@
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 	<!-- NXDetectors -->
