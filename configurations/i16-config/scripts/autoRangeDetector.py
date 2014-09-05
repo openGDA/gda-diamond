@@ -62,7 +62,6 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 		sleep(0.1)
 		startWait = time()
 		while caget(self.rootPv + "CAM:ExposureAuto_RBV") != "0":
-			ScanBase.checkForInterrupts()
 			sleep(0.1)
 			if time() - startWait > 5: #sometimes the auto gain fails and wait forever
 				print "Timeout waiting for auto exposure"
