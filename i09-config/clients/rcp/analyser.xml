@@ -87,7 +87,8 @@
 <!-- 		<property name="user" value="si8449-1"/> -->
 <!-- 		<property name="user" value="${gda.defVisit}"/> -->
 		<property name="analyser" ref="analyser"/>
-		<property name="detectorStatePV" value="ELECTRON-ANALYSER-01:TEST:DetectorState_RBV"/>
+		<property name="analyserStatePV" value="ELECTRON-ANALYSER-01:TEST:DetectorState_RBV"/>
+		<property name="analyserTotalTimeRemainingPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_TIME_LEFT_RBV"/>
 	</bean>
 
 	<bean id="regionviewfactory"
@@ -96,6 +97,21 @@
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="analyser" ref="analyser"/>
+		<property name="currentIterationRemainingTimePV" value="ELECTRON-ANALYSER-01:TEST:REGION_TIME_LEFT_RBV"/>
+		<property name="iterationLeadPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_LEAD_POINTS_RBV" />
+		<property name="iterationProgressPV" value="ELECTRON-ANALYSER-01:TEST:REGION_PROGRESS_RBV"/>
+		<property name="totalDataPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_DATA_POINTS_RBV" />
+		<property name="iterationCurrentPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_POINT_RBV" />
+		<property name="totalRemianingTimePV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_TIME_LEFT_RBV"/>
+		<property name="totalProgressPV" value="ELECTRON-ANALYSER-01:TEST:PROGRESS_RBV"></property>
+		<property name="totalPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_POINTS_RBV" />
+		<property name="currentPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_CHANNEL_RBV" />
+		<property name="currentIterationPV" value="ELECTRON-ANALYSER-01:TEST:NumExposuresCounter_RBV"/>
+		<property name="totalIterationsPV" value="ELECTRON-ANALYSER-01:TEST:NumExposures"/>
+		<property name="statePV" value="ELECTRON-ANALYSER-01:TEST:DetectorState_RBV" />
+		<property name="acquirePV" value="ELECTRON-ANALYSER-01:TEST:Acquire" />
+		<property name="messagePV" value="ELECTRON-ANALYSER-01:TEST:StatusMessage_RBV"/>
+		<property name="zeroSuppliesPV" value="ELECTRON-ANALYSER-01:TEST:ZERO_SUPPLIES"/>
 	</bean>
 
 	<bean id="spectrumviewfactory"
@@ -126,18 +142,24 @@
 	<bean id="progressviewfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.ProgressViewFactory">
 		<property name="viewPartName" value="Progress" />
-		<property name="leadPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_LEAD_POINTS_RBV" />
-		<property name="endPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_DATA_POINTS_RBV" />
-		<property name="currentLeadPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_LEAD_POINT_RBV" />
-		<property name="currentDataPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_DATA_POINT_RBV"/>
-		<property name="regionProgressPV" value="ELECTRON-ANALYSER-01:TEST:REGION_PROGRESS_RBV"/>
-		<property name="inLeadPV" value="ELECTRON-ANALYSER-01:TEST:LEADING_IN_RBV"/>
+		
+		<property name="currentIterationRemainingTimePV" value="ELECTRON-ANALYSER-01:TEST:REGION_TIME_LEFT_RBV"/>
+		<property name="iterationLeadPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_LEAD_POINTS_RBV" />
+		<property name="iterationProgressPV" value="ELECTRON-ANALYSER-01:TEST:REGION_PROGRESS_RBV"/>
+		<property name="totalDataPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_DATA_POINTS_RBV" />
+		<property name="iterationCurrentPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_POINT_RBV" />
+		
+		<property name="totalRemianingTimePV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_TIME_LEFT_RBV"/>
+		<property name="totalProgressPV" value="ELECTRON-ANALYSER-01:TEST:PROGRESS_RBV"></property>
+		<property name="totalPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_POINTS_RBV" />
+		<property name="currentPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_CHANNEL_RBV" />
+
 		<property name="currentIterationPV" value="ELECTRON-ANALYSER-01:TEST:NumExposuresCounter_RBV"/>
 		<property name="totalIterationsPV" value="ELECTRON-ANALYSER-01:TEST:NumExposures"/>
-		<property name="currentPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_POINT_RBV" />
-		<property name="totalPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_POINTS_ITERATION_RBV" />
 		
-<!-- 		<property name="currentPointPVInAllIterations" value="ELECTRON-ANALYSER-01:TEST:CURRENT_CHANNEL_RBV" /> -->
-<!-- 		<property name="totalPointsPVInAllIterations" value="ELECTRON-ANALYSER-01:TEST:TOTAL_POINTS_RBV" /> -->
+<!-- 		<property name="iterationTotalPointsPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_POINTS_ITERATION_RBV" /> -->
+<!-- 		<property name="currentDataPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_DATA_POINT_RBV"/> -->
+<!-- 		<property name="inLeadPV" value="ELECTRON-ANALYSER-01:TEST:LEADING_IN_RBV"/> -->
+<!-- 		<property name="currentLeadPointPV" value="ELECTRON-ANALYSER-01:TEST:CURRENT_LEAD_POINT_RBV" /> -->
 	</bean>
 </beans>

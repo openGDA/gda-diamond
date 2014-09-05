@@ -252,6 +252,7 @@
 			</list>
 		</property>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil"/>
+		<property name="scriptcontroller" ref="SequenceFileObserver"/>
 	</bean>
 
 </beans>
