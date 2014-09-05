@@ -394,6 +394,10 @@
 		</property>
 	</bean>
 
+	<bean class="gda.device.scannable.SimplePVScannable" id="hr_shutter">
+		<property name="pvName" value="BL05I-PS-SHTR-01:CON"></property>
+	</bean>
+
 	<bean class="gda.data.metadata.PersistantMetadataEntry" id="samplename">
 		<property name="name" value="samplename" />
 		<property name="defaultValue" value="" />
