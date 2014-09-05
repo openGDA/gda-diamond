@@ -119,8 +119,12 @@ class BeamEnergy(ScannableMotionBase):
         At the background this moves both ID gap and Mono Bragg to the values corresponding to this energy.
         If a child scannable can not be reached for whatever reason, it just prints out a message, then continue to next.'''
         self.energy = float(new_position)
+        gap = 7
         try:
-            gap=self.idgap(self.energy, self.order)
+            if self.getName() == "dummyenergy":
+                gap=self.energy
+            else:
+                gap=self.idgap(self.energy, self.order)
         except:
             raise
         if self.getName() == "ienergy":
@@ -135,11 +139,11 @@ class BeamEnergy(ScannableMotionBase):
                     raise
             else:
                 try:
-                    if s.getName() == "dcmenergy":
-                        s.asynchronousMoveTo(self.energy)
+                    if s.getName() == "pgmenergy":
+                        s.asynchronousMoveTo(self.energy*1000)
                         # caput("ELECTRON-ANALYSER-01:TEST:EXCITATION_ENERGY", self.energy*1000)
                     else:
-                        s.asynchronousMoveTo(self.energy*1000)
+                        s.asynchronousMoveTo(self.energy)
                         # caput("ELECTRON-ANALYSER-01:TEST:EXCITATION_ENERGY", self.energy*1000)
                 except:
                     print "cannot set " + s.getName() + " to " + str(self.energy)
