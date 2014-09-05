@@ -81,7 +81,7 @@ public class TimeEstimatorsTest {
 		ExplicitScanPositions outBeam = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, outBeam, inBeam, null);
+		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, itParams, itParams, outBeam, inBeam, null);
 		
 		Double tot = est.getTotalDuration();
 		Double before = est.getBeforeItDuration();
@@ -96,6 +96,7 @@ public class TimeEstimatorsTest {
 
 	@Test
 	public void testLinearExperimentEstimator_withIref() throws MotorException, FactoryException {
+		// FIXME Rewrite the test
 		
 		EdeScanParameters itParams = new EdeScanParameters();
 		TimingGroup group2 = new TimingGroup();
@@ -114,7 +115,7 @@ public class TimeEstimatorsTest {
 		ExplicitScanPositions irefPosition = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, outBeam, inBeam, irefPosition);
+		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, itParams, itParams, outBeam, inBeam, irefPosition);
 		
 		Double tot = est.getTotalDuration();
 		Double end = est.getAfterItDuration();
@@ -154,7 +155,7 @@ public class TimeEstimatorsTest {
 		ExplicitScanPositions irefPosition = new ExplicitScanPositions(EdePositionType.OUTBEAM, 0d, 0d, xScannable,
 				yScannable);
 
-		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, outBeam, inBeam, irefPosition);
+		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, itParams, itParams, outBeam, inBeam, irefPosition);
 		
 		Double tot = est.getTotalDuration();
 		Double end = est.getAfterItDuration();

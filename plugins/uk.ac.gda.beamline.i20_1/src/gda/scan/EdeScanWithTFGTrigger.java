@@ -61,13 +61,14 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	private static final Logger logger = LoggerFactory.getLogger(EdeScanWithTFGTrigger.class);
 	private final DAServer daserver;
 	private final TFGTrigger triggeringParameters;
+	private final boolean shouldWaitForTopup;
 
 	public EdeScanWithTFGTrigger(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter) {
+			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, boolean shouldWaitForTopup) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter, null);
 
 		this.triggeringParameters = triggeringParameters;
-
+		this.shouldWaitForTopup = shouldWaitForTopup;
 		daserver = Finder.getInstance().find("daserverForTfg");
 	}
 
@@ -77,10 +78,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		validate();
 		logger.debug(toString() + " loading detector parameters...");
 		theDetector.loadParameters(scanParameters);
-
 		// derive the eTFG parameters and load them
-		prepareTFG();
-
+		prepareTFG(shouldWaitForTopup);
 		// move into the it position
 		moveSampleIntoPosition();
 
@@ -100,9 +99,9 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		logger.debug(toString() + " doCollection finished.");
 	}
 
-	private void prepareTFG() throws DeviceException {
+	private void prepareTFG(boolean shouldStartOnTopupSignal) throws DeviceException {
 		int numberOfRepetitions = scanParameters.getNumberOfRepetitions();
-		String command = triggeringParameters.getTfgSetupGrupsCommandParameters(numberOfRepetitions);
+		String command = triggeringParameters.getTfgSetupGrupsCommandParameters(numberOfRepetitions, shouldStartOnTopupSignal);
 
 		// send buffer to daserver
 		daserver.sendCommand(command);

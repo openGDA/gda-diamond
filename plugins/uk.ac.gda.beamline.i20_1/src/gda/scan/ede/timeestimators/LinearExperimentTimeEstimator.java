@@ -27,10 +27,19 @@ public class LinearExperimentTimeEstimator extends TimeEstimatorBase {
 	private final EdeScanPosition i0Position;
 	private final EdeScanPosition itPosition;
 	private final EdeScanPosition iRefPosition;
+	private final EdeScanParameters i0ScanParameters;
+	private final EdeScanParameters iRefScanParameters;
 
-	public LinearExperimentTimeEstimator(EdeScanParameters itScanParameters, EdeScanPosition i0Position,
-			EdeScanPosition itPosition, EdeScanPosition iRefPosition) {
+	public LinearExperimentTimeEstimator(
+			EdeScanParameters i0ScanParameters,
+			EdeScanParameters itScanParameters,
+			EdeScanParameters iRefScanParameters,
+			EdeScanPosition i0Position,
+			EdeScanPosition itPosition,
+			EdeScanPosition iRefPosition) {
+		this.i0ScanParameters = i0ScanParameters;
 		this.itScanParameters = itScanParameters;
+		this.iRefScanParameters = iRefScanParameters;
 		this.i0Position = i0Position;
 		this.itPosition = itPosition;
 		this.iRefPosition = iRefPosition;

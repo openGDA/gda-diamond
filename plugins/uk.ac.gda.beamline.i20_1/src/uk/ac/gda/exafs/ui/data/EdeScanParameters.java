@@ -138,13 +138,19 @@ public class EdeScanParameters implements Serializable {
 	 * @return  the total number of frames in each cycle
 	 */
 	public int getTotalNumberOfFrames() {
-		int sum = 0;
-
+		int totalNoOfFrames = 0;
 		for (TimingGroup group : getGroups()) {
-			sum += group.getNumberOfFrames();
+			totalNoOfFrames += group.getNumberOfFrames();
 		}
+		return totalNoOfFrames;
+	}
 
-		return sum;
+	public double getTotalTime() {
+		double totalTime = 0.0d;
+		for (TimingGroup group : getTimingGroups()) {
+			totalTime += (group.getTimePerFrame() * group.getNumberOfFrames()) + group.getPreceedingTimeDelay();
+		}
+		return totalTime;
 	}
 
 	public List<TimingGroup> getGroups() {
@@ -330,154 +336,4 @@ public class EdeScanParameters implements Serializable {
 		return null;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((includeCountsOutsideROIs == null) ? 0 : includeCountsOutsideROIs.hashCode());
-		result = prime * result + ((numberOfRepetitions == null) ? 0 : numberOfRepetitions.hashCode());
-		result = prime * result + ((outputsChoice0 == null) ? 0 : outputsChoice0.hashCode());
-		result = prime * result + ((outputsChoice1 == null) ? 0 : outputsChoice1.hashCode());
-		result = prime * result + ((outputsChoice2 == null) ? 0 : outputsChoice2.hashCode());
-		result = prime * result + ((outputsChoice3 == null) ? 0 : outputsChoice3.hashCode());
-		result = prime * result + ((outputsChoice4 == null) ? 0 : outputsChoice4.hashCode());
-		result = prime * result + ((outputsChoice5 == null) ? 0 : outputsChoice5.hashCode());
-		result = prime * result + ((outputsChoice6 == null) ? 0 : outputsChoice6.hashCode());
-		result = prime * result + ((outputsChoice7 == null) ? 0 : outputsChoice7.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(outputsWidth0);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(outputsWidth1);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(outputsWidth2);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(outputsWidth3);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(outputsWidth4);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(outputsWidth5);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(outputsWidth6);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(outputsWidth7);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((timingGroups == null) ? 0 : timingGroups.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		EdeScanParameters other = (EdeScanParameters) obj;
-		if (includeCountsOutsideROIs == null) {
-			if (other.includeCountsOutsideROIs != null) {
-				return false;
-			}
-		} else if (!includeCountsOutsideROIs.equals(other.includeCountsOutsideROIs)) {
-			return false;
-		}
-		if (numberOfRepetitions == null) {
-			if (other.numberOfRepetitions != null) {
-				return false;
-			}
-		} else if (!numberOfRepetitions.equals(other.numberOfRepetitions)) {
-			return false;
-		}
-		if (outputsChoice0 == null) {
-			if (other.outputsChoice0 != null) {
-				return false;
-			}
-		} else if (!outputsChoice0.equals(other.outputsChoice0)) {
-			return false;
-		}
-		if (outputsChoice1 == null) {
-			if (other.outputsChoice1 != null) {
-				return false;
-			}
-		} else if (!outputsChoice1.equals(other.outputsChoice1)) {
-			return false;
-		}
-		if (outputsChoice2 == null) {
-			if (other.outputsChoice2 != null) {
-				return false;
-			}
-		} else if (!outputsChoice2.equals(other.outputsChoice2)) {
-			return false;
-		}
-		if (outputsChoice3 == null) {
-			if (other.outputsChoice3 != null) {
-				return false;
-			}
-		} else if (!outputsChoice3.equals(other.outputsChoice3)) {
-			return false;
-		}
-		if (outputsChoice4 == null) {
-			if (other.outputsChoice4 != null) {
-				return false;
-			}
-		} else if (!outputsChoice4.equals(other.outputsChoice4)) {
-			return false;
-		}
-		if (outputsChoice5 == null) {
-			if (other.outputsChoice5 != null) {
-				return false;
-			}
-		} else if (!outputsChoice5.equals(other.outputsChoice5)) {
-			return false;
-		}
-		if (outputsChoice6 == null) {
-			if (other.outputsChoice6 != null) {
-				return false;
-			}
-		} else if (!outputsChoice6.equals(other.outputsChoice6)) {
-			return false;
-		}
-		if (outputsChoice7 == null) {
-			if (other.outputsChoice7 != null) {
-				return false;
-			}
-		} else if (!outputsChoice7.equals(other.outputsChoice7)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(outputsWidth0) != Double.doubleToLongBits(other.outputsWidth0)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(outputsWidth1) != Double.doubleToLongBits(other.outputsWidth1)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(outputsWidth2) != Double.doubleToLongBits(other.outputsWidth2)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(outputsWidth3) != Double.doubleToLongBits(other.outputsWidth3)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(outputsWidth4) != Double.doubleToLongBits(other.outputsWidth4)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(outputsWidth5) != Double.doubleToLongBits(other.outputsWidth5)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(outputsWidth6) != Double.doubleToLongBits(other.outputsWidth6)) {
-			return false;
-		}
-		if (Double.doubleToLongBits(outputsWidth7) != Double.doubleToLongBits(other.outputsWidth7)) {
-			return false;
-		}
-		if (timingGroups == null) {
-			if (other.timingGroups != null) {
-				return false;
-			}
-		} else if (!timingGroups.equals(other.timingGroups)) {
-			return false;
-		}
-		return true;
-	}
 }

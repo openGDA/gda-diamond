@@ -70,7 +70,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private FrameIndexer indexer = null;
 	private IObserver progressUpdater;
 	private final Scannable shutter;
-	private final TopupChecker topup;
+	protected final TopupChecker topupChecker;
 
 	//protected final TfgScaler injectionCounter;
 
@@ -87,17 +87,16 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	 *            - if this is a negative number then frame index columns will not be added to the output. Useful for
 	 *            single spectrum scans where such indexing is meaningless.
 	 * @param shutter
-	 * @param topup - this is configured outside of this scan to enable control of how long to wait
 	 */
 	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topup) {
+			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topupChecker) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
 		this.scanType = scanType;
 		this.theDetector = theDetector;
 		this.shutter = shutter;
-		this.topup = topup;
+		this.topupChecker = topupChecker;
 		allDetectors.add(theDetector);
 		if (repetitionNumber >= 0) {
 			// then use indexer to report progress of scan in data
@@ -162,11 +161,15 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	@Override
 	public void doCollection() throws Exception {
+		// FIXME This is temporary solution as real data in unavailable
 		SimulatedData.reset();
 		validate();
+		if (topupChecker != null) {
+			topupChecker.atScanStart();
+		}
 		logger.debug(toString() + " loading detector parameters...");
 		theDetector.loadParameters(scanParameters);
-		if (scanType == EdeScanType.DARK){
+		if (scanType == EdeScanType.DARK) {
 			// close the shutter
 			shutter.moveTo("Close");
 			checkThreadInterrupted();
@@ -175,8 +178,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				return;
 			}
 		} else {
-			// open the shutter
 			moveSampleIntoPosition();
+			shutter.moveTo("Open");
 		}
 		if (!isChild()) {
 			currentPointCount = -1;
@@ -232,13 +235,6 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		if (isFinishEarlyRequested()){
 			return;
 		}
-
-		// FIXME Commented out for now, needs reviewing as part of doing scans using TFG2 and TFG scaler to collect topup
-		//		if (topup != null){
-		//			// the TopupChecker object will run its test for an imminent top-up in atScanStart()
-		//			topup.atScanStart();
-		//		}
-		shutter.moveTo("Open");
 	}
 
 	/*

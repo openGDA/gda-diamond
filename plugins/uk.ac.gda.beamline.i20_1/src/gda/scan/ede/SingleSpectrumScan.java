@@ -22,7 +22,6 @@ import gda.device.DeviceException;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
-import gda.scan.ede.timeestimators.SingleExperimentTimeEstimator;
 
 import java.util.Map;
 
@@ -98,12 +97,6 @@ public class SingleSpectrumScan extends EdeExperiment {
 	}
 
 	@Override
-	protected double getTimeRequiredBeforeTopup() {
-		// for this type, the time required before to-up is the total predicted duration of the entire experiment.
-		return new SingleExperimentTimeEstimator(itScanParameters, i0Position, itPosition).getTotalDuration();
-	}
-
-	@Override
 	protected EdeExperimentDataWriter createFileWritter() {
 		return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
 				i0DarkScan, itDarkScan, theDetector);
@@ -117,5 +110,29 @@ public class SingleSpectrumScan extends EdeExperiment {
 	@Override
 	protected void addFinalScans() {
 		// Nothing to add
+	}
+
+	@Override
+	protected boolean shouldWaitForTopup(int repIndex, double timeToTopupInSec) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected double getTimeRequiredBeforeItCollection() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected double getTimeRequiredForItCollection() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected double getTimeRequiredAfterItCollection() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

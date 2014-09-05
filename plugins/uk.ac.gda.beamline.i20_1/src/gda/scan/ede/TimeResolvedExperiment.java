@@ -78,12 +78,8 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	}
 
 	private void setupTimingGroups() {
-		totalNumberOfspectra = 0;
-		totalTime = 0.0;
-		for (TimingGroup group : itScanParameters.getTimingGroups()) {
-			totalNumberOfspectra += group.getNumberOfFrames();
-			totalTime += (group.getTimePerFrame() * group.getNumberOfFrames()) + group.getPreceedingTimeDelay();
-		}
+		totalNumberOfspectra = itScanParameters.getTotalNumberOfFrames();
+		totalTime = itScanParameters.getTotalTime();
 	}
 
 	@Override
@@ -166,17 +162,16 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	@Override
 	protected void addFinalScans() {
-
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector,
 				firstRepetitionIndex, beamLightShutter, createTopupCheckerForAfterItScans());
 		i0FinalScan.setProgressUpdater(this);
-		scansForExperiment.add(i0FinalScan);
+		scansAfterIt.add(i0FinalScan);
 
 		if (runIRef) {
 			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector,
 					firstRepetitionIndex, beamLightShutter, null);
 			iRefFinalScan.setProgressUpdater(this);
-			scansForExperiment.add(iRefFinalScan);
+			scansAfterIt.add(iRefFinalScan);
 		}
 	}
 
@@ -202,25 +197,8 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		return header.toString();
 	}
 
-	@Override
-	protected double getTimeRequiredBeforeTopup() {
-		// For this experiment type, this is either: the total predicted duration of the entire experiment if it is
-		// less than nine minutes, else it is the duration of all the pre-It scans. In experiments longer than ten
-		// minutes, the It scan sequence will started by hardware triggering from the machine top-up signal.
-
-		LinearExperimentTimeEstimator estimator = new LinearExperimentTimeEstimator(itScanParameters, i0Position, itPosition, iRefPosition);
-
-		Double timeBeforeIts = estimator.getBeforeItDuration();
-		Double entireExperimentTime = estimator.getTotalDuration();
-
-		if (entireExperimentTime < 570) {  // 91/2 minutes, as top-up is every ten minutes
-			return entireExperimentTime;
-		}
-		return timeBeforeIts;
-	}
-
 	private Double getTimeRequiredForFinalScans() {
-		LinearExperimentTimeEstimator estimator = new LinearExperimentTimeEstimator(itScanParameters, i0Position, itPosition, iRefPosition);
+		LinearExperimentTimeEstimator estimator = new LinearExperimentTimeEstimator(i0ScanParameters, itScanParameters, iRefScanParameters, i0Position, itPosition, iRefPosition);
 		return estimator.getBeforeItDuration();
 	}
 
@@ -243,5 +221,40 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	@Override
 	protected boolean shouldRunItDark() {
 		return true; // TODO always true, so remove from the interface??
+	}
+
+	@Override
+	protected double getTimeRequiredBeforeItCollection() {
+		return 0;
+	}
+
+	@Override
+	protected double getTimeRequiredForItCollection() {
+		return itTriggerOptions.getTotalTime() * numberOfRepetitions;
+	}
+
+	@Override
+	protected double getTimeRequiredAfterItCollection() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	private int getCyclesForTopup() {
+		if (getTimeRequiredForItCollection() <= TOP_UP_TIME) {
+			return numberOfRepetitions;
+		}
+		return (int) (TOP_UP_TIME / itTriggerOptions.getTotalTime());
+	}
+
+	@Override
+	protected boolean shouldWaitForTopup(int repIndex, double timeToTopupInSec) {
+		double timeRequiredForFullExperiment = getTimeRequiredForFullExperiment();
+		if (timeRequiredForFullExperiment < timeToTopupInSec || timeRequiredForFullExperiment < TOP_UP_TIME) {
+			return false;
+		}
+		if (numberOfRepetitions == 1 || repIndex == 0 || (repIndex + 1) % getCyclesForTopup() == 0) {
+			return true;
+		}
+		return false;
 	}
 }

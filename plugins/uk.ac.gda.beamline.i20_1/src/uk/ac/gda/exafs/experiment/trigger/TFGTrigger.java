@@ -82,7 +82,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	//			And For TFG2 only
 	//			num_repeats sequence_name
 	//			This repeats the pre-recorded sequence num_repeats times.
-	public String getTfgSetupGrupsCommandParameters(int numberOfCycles) {
+	public String getTfgSetupGrupsCommandParameters(int numberOfCycles, boolean shouldStartOnTopupSignal) {
 		StringBuilder tfgCommand = new StringBuilder();
 		List<TriggerPair> triggerPoints = processTimes();
 		tfgCommand.append("tfg setup-groups");
@@ -91,6 +91,9 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 			tfgCommand.append(numberOfCycles);
 		}
 		tfgCommand.append("\n");
+		if (shouldStartOnTopupSignal) {
+			tfgCommand.append(String.format("1 %f 0 0 0 8 0\n", MIN_DEAD_TIME));
+		}
 		for (int i = 0; i < triggerPoints.size(); i++) {
 			if (i + 1 < triggerPoints.size()) {
 				double collectionStopTime = detectorDataCollection.getTriggerDelay() + detectorDataCollection.getCollectionDuration();

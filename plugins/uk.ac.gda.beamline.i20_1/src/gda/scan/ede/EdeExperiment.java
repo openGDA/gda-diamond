@@ -46,6 +46,7 @@ import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +81,8 @@ public abstract class EdeExperiment implements IObserver {
 	 */
 	public static final String PROGRESS_UPDATER_NAME = "EDEProgressUpdater";
 
+	public static final double TOP_UP_TIME = 10 * 60;
+
 	protected final int firstRepetitionIndex = 0; // in case we switch to 1-based indexing
 
 	protected EdeScanParameters iRefScanParameters;
@@ -103,7 +106,10 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan i0FinalScan;
 	protected EdeScan[] itScans;
 	protected final EdeScanParameters itScanParameters;
-	protected final LinkedList<ScanBase> scansForExperiment = new LinkedList<ScanBase>();
+	protected final LinkedList<ScanBase> scansBeforeIt = new LinkedList<ScanBase>();
+	protected final LinkedList<ScanBase> scansForIt = new LinkedList<ScanBase>();
+	protected final LinkedList<ScanBase> scansAfterIt = new LinkedList<ScanBase>();
+	protected ScanBase itScan;
 
 	protected EdeScanParameters i0ScanParameters;
 	protected EdeScanPosition i0Position;
@@ -117,7 +123,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	private Monitor topup;
 
-	private final TFGTrigger itTriggerOptions;
+	protected final TFGTrigger itTriggerOptions;
 
 	private static Gson gson = new Gson();
 
@@ -128,7 +134,7 @@ public abstract class EdeExperiment implements IObserver {
 		this.itTriggerOptions = gson.fromJson(itTriggerOptions, TFGTrigger.class);
 		itScanParameters = new EdeScanParameters();
 		itScanParameters.setGroups(itTimingGroups);
-		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+		setupExperiment(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
 	}
 
@@ -138,7 +144,7 @@ public abstract class EdeExperiment implements IObserver {
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
 		this.itScanParameters = itScanParameters;
 		this.itTriggerOptions = gson.fromJson(itTriggerOptions, TFGTrigger.class);
-		setupScannables(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+		setupExperiment(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
 	}
 
@@ -168,7 +174,7 @@ public abstract class EdeExperiment implements IObserver {
 		runIRef = true;
 	}
 
-	private void setupScannables(Map<String, Double> i0ScanableMotorPositions,
+	private void setupExperiment(Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions, String detectorName, String topupMonitorName,
 			String beamShutterScannableName) throws DeviceException {
 		i0Position = this.setPosition(EdePositionType.OUTBEAM, i0ScanableMotorPositions);
@@ -177,6 +183,8 @@ public abstract class EdeExperiment implements IObserver {
 		topup = (Monitor) getFindable(topupMonitorName);
 		beamLightShutter = (Scannable) getFindable(beamShutterScannableName);
 		controller = (ScriptControllerBase) getFindable(PROGRESS_UPDATER_NAME);
+
+		itTriggerOptions.getDetectorDataCollection().setCollectionDuration(itScanParameters.getTotalTime());
 	}
 
 	protected void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {
@@ -238,16 +246,16 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract boolean shouldRunItDark();
 
-	private void addScansForExperiment() {
+	private void addScansForExperiment() throws Exception {
 		int repetitions = getRepetitions();
-
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter,createTopupCheckerForBeforeItScans());
+		double timeToTopup = getNextTopupTime();
+		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, createTopupCheckerForStartOfExperiment(timeToTopup));
 		i0DarkScan.setProgressUpdater(this);
-		scansForExperiment.add(i0DarkScan);
+		scansBeforeIt.add(i0DarkScan);
 
 		if (runIRef) {
 			iRefDarkScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
-			scansForExperiment.add(iRefDarkScan);
+			scansBeforeIt.add(iRefDarkScan);
 			iRefDarkScan.setProgressUpdater(this);
 		}
 
@@ -255,49 +263,52 @@ public abstract class EdeExperiment implements IObserver {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
 			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
 			itDarkScan.setProgressUpdater(this);
-			scansForExperiment.add(itDarkScan);
+			scansBeforeIt.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
 		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
 		i0LightScan.setProgressUpdater(this);
-		scansForExperiment.add(i0LightScan);
+		scansBeforeIt.add(i0LightScan);
 
 		if (runIRef) {
 			i0ForiRefScan = new EdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
-			scansForExperiment.add(i0ForiRefScan);
+			scansBeforeIt.add(i0ForiRefScan);
 			i0ForiRefScan.setProgressUpdater(this);
 
 			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
-			scansForExperiment.add(iRefScan);
+			scansBeforeIt.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
 		}
 
-		if (runItWithTriggerOptions){
+		if (runItWithTriggerOptions) {
 			itScans = new EdeScanWithTFGTrigger[repetitions];
+
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter);
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
 				itScans[repIndex].setProgressUpdater(this);
-				scansForExperiment.add(itScans[repIndex]);
+				scansForIt.add(itScans[repIndex]);
 			}
 		} else {
 			itScans = new EdeScan[repetitions];
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter,createTopupCheckerForBeforeItScans());
+				itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter,createTopupCheckerForStartOfExperiment(timeToTopup));
 				itScans[repIndex].setProgressUpdater(this);
-				scansForExperiment.add(itScans[repIndex]);
+				scansForIt.add(itScans[repIndex]);
 			}
 		}
 
 		addFinalScans();
 	}
 
+	protected abstract boolean shouldWaitForTopup(int repIndex, double timeToTopupInSec);
+
 	protected abstract void addFinalScans();
 
 	public String runExperiment() throws Exception {
 		try {
-			scansForExperiment.clear();
+			clearScans();
 			addScansForExperiment();
 			nexusFilename = addToMultiScanAndRun();
 			String asciiDataFile = writeToFiles();
@@ -329,17 +340,32 @@ public abstract class EdeExperiment implements IObserver {
 
 			template = fileNamePrefix.isEmpty() ? "nexus/" + "%d.nxs" : "nexus/" + fileNamePrefix + "_%d.nxs";
 			dataWriter.setNexusFileNameTemplate(template);
-			MultiScan theScan = new MultiScan(scansForExperiment);
+
+			List<ScanBase> allScans = addAllScans();
+			MultiScan theScan = new MultiScan(allScans);
 			theScan.setDataWriter(dataWriter);
 			theScan.setScanPlotSettings(plotNothing);
 
-			//			pauseForTopupBeforeStartingScans();
 			logger.debug("Starting multiscan...");
 			theScan.runScan();
 			return theScan.getDataWriter().getCurrentFileName();
 		} finally {
 			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
 		}
+	}
+
+	private List<ScanBase> addAllScans() {
+		List<ScanBase> scans = new ArrayList<ScanBase>();
+		scans.addAll(scansBeforeIt);
+		scans.addAll(scansForIt);
+		scans.addAll(scansAfterIt);
+		return scans;
+	}
+
+	private void clearScans() {
+		scansBeforeIt.clear();
+		scansForIt.clear();
+		scansAfterIt.clear();
 	}
 
 	private String writeToFiles() throws Exception {
@@ -357,7 +383,13 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract EdeExperimentDataWriter createFileWritter();
 
-	protected abstract double getTimeRequiredBeforeTopup();
+	protected abstract double getTimeRequiredBeforeItCollection();
+	protected abstract double getTimeRequiredForItCollection();
+	protected abstract double getTimeRequiredAfterItCollection();
+
+	protected double getTimeRequiredForFullExperiment() {
+		return getTimeRequiredBeforeItCollection() + getTimeRequiredForItCollection() + getTimeRequiredAfterItCollection();
+	}
 
 	private void addMetaData() {
 		StringBuilder metadataText = new StringBuilder();
@@ -403,9 +435,27 @@ public abstract class EdeExperiment implements IObserver {
 		return topupchecker;
 	}
 
-	private TopupChecker createTopupCheckerForBeforeItScans() {
-		double predictedExperimentTime = getTimeRequiredBeforeTopup();
-		return createTopupChecker(predictedExperimentTime);
+	private TopupChecker createTopupCheckerForStartOfExperiment(double nextTopupTime) throws Exception {
+		double predictedExperimentTime = getTimeRequiredForFullExperiment();
+		if (predictedExperimentTime < nextTopupTime) {
+			// Don't wait for topup
+			return null;
+		}
+
+		if (predictedExperimentTime < TOP_UP_TIME) {
+			// Wait for toptup
+			return createTopupChecker(predictedExperimentTime);
+		}
+
+		if (getTimeRequiredBeforeItCollection() >= TOP_UP_TIME) {
+			throw new Exception("Time required for before It collection is too large to fit within a topup");
+		}
+
+		return createTopupChecker(getTimeRequiredBeforeItCollection());
+	}
+
+	private double getNextTopupTime() throws DeviceException {
+		return (double) topup.getPosition();
 	}
 
 	protected EdeScanPosition setPosition(EdePositionType type, Map<String, Double> scanableMotorPositions) throws DeviceException {
