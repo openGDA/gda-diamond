@@ -42,7 +42,8 @@ def analyserscan(*args):
                 filename=FilenameUtil.convertSeparator(filename)
             controller.update(controller,SequenceFileChangeEvent(filename)) #update client sequence view
             sleep(1.0)
-            while (InterfaceProvider.getJythonServerStatusProvider().isScriptOrScanPaused()):
+            jythonServerStatus=InterfaceProvider.getJythonServerStatusProvider().getJythonServerStatus()
+            while (jythonServerStatus.isScriptOrScanPaused()):
                 sleep(1.0) # wait for user saving dirty file
             arg.setSequenceFilename(filename)
             sequence=arg.loadSequenceData(filename)
