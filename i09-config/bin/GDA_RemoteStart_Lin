@@ -10,8 +10,13 @@ then
   echo "Please set BEAMLINE environment variable."
   exit 1
 fi
-
-. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot source /etc/profile.d/modules.sh"	
+	exit 1
+fi
 
 notify-send -t 10000 "GDA Remote Servers are starting..."
 
@@ -19,14 +24,15 @@ echo "Kill all GDA Clients running locally"
 gda --stop client
 sleep 2;
 
-echo "Restarting GDA Log Panel locally"
-echo gda logpanel --restart $@ &
-gda logpanel --restart $@ &
-sleep 2
-
 SSHOPTS="-o StrictHostKeyChecking=no -o BatchMode=yes"
 
 echo "Starting GDA Servers remotely..."
 ssh $SSHOPTS -i /$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
 
-cd 
+# Start log panel if not already started
+LOGPANEL=$(ps -ef | grep gdalogpanel | grep -v grep)
+if [ "X$LOGPANEL" == "X" ] ; then
+nohup gdalog >/dev/null 2>&1 &
+else
+wmctrl -R "GDA Log Panel"
+fi

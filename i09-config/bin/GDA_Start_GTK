@@ -3,9 +3,13 @@
 ##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
 ##Please refer to the document howtoSSH.txt for key generation.
 ##To use this script change the key file path, user name and the server machine name
-
-. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
-
+if [ -f "/etc/profile.d/modules.sh" ]; then
+	. /etc/profile.d/modules.sh	
+	module load java/gda
+else
+	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
+	exit 1
+fi
 zenity --title "Are you sure?" --question --text "Are you sure you want to restart the GDA servers?" --window-icon=question
 SURE=$?
 if [ $SURE == 1 ]; then

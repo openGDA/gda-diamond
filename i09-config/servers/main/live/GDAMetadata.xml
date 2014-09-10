@@ -75,6 +75,8 @@
 				<ref bean="hardBeamEnergy" />
 
 				<ref bean="subdirectory" />
+				<ref bean="filenameprefix" />
+				<ref bean="filenamesuffix" />
 
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="title" />
@@ -89,6 +91,14 @@
 	</bean>
 	<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
 		<property name="name" value="subdirectory" />
+		<property name="value" value="" />
+	</bean>
+	<bean id="filenameprefix" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="fielnameprefix" />
+		<property name="value" value="" />
+	</bean>
+	<bean id="filenamesuffix" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="filenamesuffix" />
 		<property name="value" value="" />
 	</bean>
 
