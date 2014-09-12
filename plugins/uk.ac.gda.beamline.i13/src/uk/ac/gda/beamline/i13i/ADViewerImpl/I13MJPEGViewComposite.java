@@ -70,7 +70,7 @@ public class I13MJPEGViewComposite extends Composite {
 /*	private EnumPositionerComposite regionSizeXComposite;
 	private EnumPositionerComposite regionSizeYComposite;
 */	private I13MJPegViewInitialiser i13MJPegViewInitialiser;
-	private Button btnDragX, btnDragY;
+	private Button btnDragX, btnDragY, btnDragROI;
 
 //	private Button btnVertMoveOnClick;
 
@@ -298,6 +298,19 @@ public class I13MJPEGViewComposite extends Composite {
 			
 		});
 
+		btnDragROI = new Button(grpDrag, SWT.NORMAL);
+		btnDragROI.setText("ROI");
+		btnDragROI.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateStatus("Drag the ROI to the desired position/size - ESC to cancel or RET to complete");
+				i13MJPegViewInitialiser.handleDragROIBtn();
+			}
+			
+		});
+		
+		
 		statusField = new Label(this, SWT.NONE);
 		GridDataFactory.fillDefaults().applyTo(statusField);
 		statusField.setForeground(getDisplay().getSystemColor(SWT.COLOR_RED));

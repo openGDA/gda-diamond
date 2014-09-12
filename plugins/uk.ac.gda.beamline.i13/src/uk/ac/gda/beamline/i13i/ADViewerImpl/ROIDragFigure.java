@@ -18,11 +18,11 @@
 
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
-import org.eclipse.draw2d.ImageFigure;
 import org.eclipse.draw2d.LayoutManager;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.MouseMotionListener;
+import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.UpdateManager;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -32,34 +32,33 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.widgets.Canvas;
 
-public class AxisDragFigure extends ImageFigure implements MouseListener, MouseMotionListener, KeyListener {
+public class ROIDragFigure extends RectangleFigure implements KeyListener, MouseListener, MouseMotionListener{
 
-	protected Point location;
 	private I13MJPegViewInitialiser i13mjPegViewInitialiser;
 	private Canvas canvas;
-	private boolean x_axis;
-
-	public AxisDragFigure(boolean x_axis, final I13MJPegViewInitialiser i13mjPegViewInitialiser, Canvas canvas) {
+	private RectangleFigure topLeft;//, topRight, bottomLeft, bottomRight;
+	
+	protected Point location;	
+	
+	public ROIDragFigure(final I13MJPegViewInitialiser i13mjPegViewInitialiser, Canvas canvas) {
 		super();
-		this.x_axis = x_axis;
 		this.i13mjPegViewInitialiser = i13mjPegViewInitialiser;
 		this.canvas = canvas;
-		setVisible(true);
-		setOpaque(false);		
 		addMouseListener(this);
-		addMouseMotionListener(this);
+		addMouseMotionListener(this);		
 		canvas.addKeyListener(this);
-	}
+		topLeft = new VertexFigure(4);
+		add(topLeft, new Rectangle(-2,-2,4,4));
+/*		topRight = new RectangleFigure();
+		add(topRight);
+		bottomLeft = new RectangleFigure();
+		add(bottomLeft);
+		bottomRight = new RectangleFigure();
+		add(bottomRight);
+*/	}
 
-	public void stop() {
-		removeMouseListener(this);
-		removeMouseMotionListener(this);
-		canvas.removeKeyListener(this);
-		if (getImage() != null) {
-			getImage().dispose();
-		}		
-	}
-	
+
+
 	@Override
 	public void keyReleased(KeyEvent ke) {
 	}
@@ -67,51 +66,40 @@ public class AxisDragFigure extends ImageFigure implements MouseListener, MouseM
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		if (ke.keyCode == SWT.ESC) {
-			i13mjPegViewInitialiser.handleAxisDragCancel(x_axis);
+			i13mjPegViewInitialiser.handleROIDragCancel();
+		} 
+		if (ke.keyCode == 1) {
+			i13mjPegViewInitialiser.handleROIDrag();
 		}
 	}
 
-	
-	@Override
-	public void mouseReleased(MouseEvent me) {
-		if (location == null)
-			return;
-		LayoutManager layoutMgr = getParent().getLayoutManager();					
-		Rectangle constraint = (Rectangle) layoutMgr.getConstraint(AxisDragFigure.this);
-		i13mjPegViewInitialiser.handleAxisDrag(x_axis, x_axis? constraint.x:constraint.y);
-		me.consume();				
+	public void stop() {
+		removeMouseListener(this);
+		removeMouseMotionListener(this);
+		canvas.removeKeyListener(this);
+		
 	}
-	
+
 	@Override
 	public void mousePressed(MouseEvent me) {
 		location = me.getLocation();
 		me.consume();
 		
 	}
-	
+
+	@Override
+	public void mouseReleased(MouseEvent me) {
+		if (location == null)
+			return;
+		
+	}
+
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
-		me.consume();					
+		// TODO Auto-generated method stub
+		
 	}
-	@Override
-	public void mouseMoved(MouseEvent me) {
-	}
-	
-	@Override
-	public void mouseHover(MouseEvent me) {
-		me.consume();
-	}
-	
-	@Override
-	public void mouseExited(MouseEvent me) {
 
-	}
-	
-	@Override
-	public void mouseEntered(MouseEvent me) {
-
-	}
-	
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		if (location == null)
@@ -128,12 +116,40 @@ public class AxisDragFigure extends ImageFigure implements MouseListener, MouseM
 		Rectangle bounds = getBounds();
 		updateMgr.addDirtyRegion(getParent(), bounds);
 		Rectangle constraint = (Rectangle) layoutMgr.getConstraint(this);
-		bounds = constraint.getCopy().translate(x_axis ? offset.width:0, x_axis ? 0: offset.height);
+		bounds = constraint.getCopy().translate(offset.width, offset.height);
+//		System.out.println("MouseDrag offset :" + offset.width + "," + offset.height);
 		layoutMgr.setConstraint(this, bounds);
-		AxisDragFigure.this.translate(x_axis ? offset.width:0, x_axis ? 0: offset.height);
+		ROIDragFigure.this.translate(offset.width, offset.height);
 		updateMgr.addDirtyRegion(getParent(), bounds);
-		me.consume();					
+		me.consume();	
 		
 	}
+
+	@Override
+	public void mouseEntered(MouseEvent me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseHover(MouseEvent me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 
 }

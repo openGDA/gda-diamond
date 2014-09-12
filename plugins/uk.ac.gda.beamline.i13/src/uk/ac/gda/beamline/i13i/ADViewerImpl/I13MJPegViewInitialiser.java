@@ -25,7 +25,9 @@ import gda.observable.IObserver;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.ImageFigure;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
@@ -510,7 +512,10 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 	private int lastImageHeight;
 	private int lastImageWidth;
 	private AxisDragFigure axisDragFigure;
+	private ROIDragFigure roiDragFigure;
 	protected Point location;
+	private Dimension roiSize=new Dimension(50,50);
+	private Point roiStart=new Point(10,10);
 	
 	
 	ImageFigure getAxisDragFigure(boolean x_axis){
@@ -521,6 +526,17 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		return axisDragFigure;
 	}
 
+	Figure getAxisROIFigure(){
+		if (roiDragFigure == null){
+			roiDragFigure = new ROIDragFigure(this, mJPeg.getCanvas() );
+			roiDragFigure.setSize(roiSize);
+			mJPeg.getTopFigure().add(roiDragFigure, new Rectangle(roiStart.x, roiStart.y, roiSize.width, roiSize.height));
+		}
+		return roiDragFigure;
+	}
+	
+	
+	
 /*	void showImageMarker(boolean show) throws Exception {
 		RectangleFigure imageMarkerFigureX = getImageMarkerFigureX();
 		if (imageMarkerFigureX.getParent() == mJPeg.getTopFigure())
@@ -693,5 +709,31 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		axisDragFigure = null;
 		i13mjpegViewComposite.updateStatus("");
 		Display.getDefault().getActiveShell().setCursor(null);		
+	}
+
+	public void handleDragROIBtn() {
+		getAxisROIFigure(); 
+		final Cursor cursorWait = new Cursor(Display.getDefault(), SWT.CURSOR_HAND);
+		Display.getDefault().getActiveShell().setCursor(cursorWait);
+	}
+
+	public void handleROIDragCancel() {
+		mJPeg.getTopFigure().remove(roiDragFigure);
+		roiDragFigure.stop();
+		roiDragFigure = null;
+		i13mjpegViewComposite.updateStatus("");
+		Display.getDefault().getActiveShell().setCursor(null);		
+		
+	}
+
+	public void handleROIDrag() {
+		Display.getDefault().getActiveShell().setCursor(null);
+		mJPeg.getTopFigure().remove(roiDragFigure);
+		roiDragFigure.stop();
+
+		roiDragFigure = null;
+		i13mjpegViewComposite.updateStatus("");
+		Display.getDefault().getActiveShell().setCursor(null);		
+
 	}
 }
