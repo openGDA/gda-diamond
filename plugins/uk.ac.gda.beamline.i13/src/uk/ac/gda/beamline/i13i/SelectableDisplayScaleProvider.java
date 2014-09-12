@@ -20,6 +20,7 @@ package uk.ac.gda.beamline.i13i;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.scannable.ScannableUtils;
 import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
 
@@ -34,7 +35,7 @@ public class SelectableDisplayScaleProvider implements DisplayScaleProvider, Ini
 	
 	String currentKey="Unknown";
 	
-	Scannable keyScannable;
+	Scannable keyScannable, binXScannable, binYScannable;
 	Map<String, DisplayScaleProvider> providers;
 	
 	@Override
@@ -53,13 +54,26 @@ public class SelectableDisplayScaleProvider implements DisplayScaleProvider, Ini
 	
 	@Override
 	public double getPixelsPerMMInX() throws DeviceException {
-		return getProvider().getPixelsPerMMInX();
+		return getProvider().getPixelsPerMMInX()/ getBinningX();
+	}
+	private double getBinningX() throws DeviceException {
+		if( binXScannable == null){
+			return 1;
+		}
+		return ScannableUtils.objectToArray(binXScannable.getPosition())[0];
 	}
 	@Override
 	public double getPixelsPerMMInY() throws DeviceException {
-		return getProvider().getPixelsPerMMInY();
+		return getProvider().getPixelsPerMMInY()/ getBinningY();
 	}
 	
+	
+	private double getBinningY() throws DeviceException {
+		if( binYScannable == null){
+			return 1;
+		}
+		return ScannableUtils.objectToArray(binYScannable.getPosition())[0];
+	}
 	
 	DisplayScaleProvider getProvider() throws DeviceException{
 		currentKey = (String) keyScannable.getPosition();
@@ -99,6 +113,18 @@ public class SelectableDisplayScaleProvider implements DisplayScaleProvider, Ini
 	}
 	public void setProviders(Map<String, DisplayScaleProvider> providers) {
 		this.providers = providers;
+	}
+	public Scannable getBinXScannable() {
+		return binXScannable;
+	}
+	public void setBinXScannable(Scannable binXScannable) {
+		this.binXScannable = binXScannable;
+	}
+	public Scannable getBinYScannable() {
+		return binYScannable;
+	}
+	public void setBinYScannable(Scannable binYScannable) {
+		this.binYScannable = binYScannable;
 	}
 
 	

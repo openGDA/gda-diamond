@@ -84,7 +84,7 @@
 		<property name="setCmdTemplate" value="tomodet.setBinningY('%s',%s)"></property>
 	</bean>
 
-	<bean id="region_size_mapper_x"
+<!-- 	<bean id="region_size_mapper_x"
 		class="gda.device.enumpositioner.SelectorControlledEnumValueMapper">
 		<property name="selector" ref="pco_model_rbv" />
 		<property name="mappers">
@@ -136,7 +136,7 @@
 			</map>
 		</property>
 	</bean>
-	<!--  we need a monitor that returns region_size * binning -->
+	 we need a monitor that returns region_size * binning
 	<bean id="region_size_y_rbv" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL13I-EA-DET-01:CAM:SizeY_RBV" />
 		<property name="useNameAsExtraName" value="true" />
@@ -150,4 +150,4 @@
 	</bean>
 
 
-</beans>
+ --></beans>

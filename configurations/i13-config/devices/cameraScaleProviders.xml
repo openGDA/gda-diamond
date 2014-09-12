@@ -11,6 +11,8 @@
 
 	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
 		<property name="keyScannable" ref="lens" />
+		<property name="binXScannable" ref="pco_binx_rbv"/>
+		<property name="binYScannable" ref="pco_biny_rbv"/>
 		<property name="providers">
 			<map>
 				<entry key="2X Pink">

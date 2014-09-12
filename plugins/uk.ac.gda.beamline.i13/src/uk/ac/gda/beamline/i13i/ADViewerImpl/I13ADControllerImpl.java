@@ -90,7 +90,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		this.binningYEnum = binningYEnum;
 	}
 
-	public EnumPositioner getRegionSizeXEnum() {
+/*	public EnumPositioner getRegionSizeXEnum() {
 		return regionSizeXEnum;
 	}
 
@@ -105,7 +105,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	public void setRegionSizeYEnum(EnumPositioner regionSizeYEnum) {
 		this.regionSizeYEnum = regionSizeYEnum;
 	}
-
+*/
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		super.afterPropertiesSet();

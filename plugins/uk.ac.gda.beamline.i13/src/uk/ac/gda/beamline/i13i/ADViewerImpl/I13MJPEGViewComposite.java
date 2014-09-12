@@ -31,6 +31,7 @@ import gda.rcp.views.TabFolderCompositeFactory;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -41,7 +42,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -67,11 +67,12 @@ public class I13MJPEGViewComposite extends Composite {
 	private EnumPositionerComposite lensComposite;
 	private EnumPositionerComposite binningXComposite;
 	private EnumPositionerComposite binningYComposite;
-	private EnumPositionerComposite regionSizeXComposite;
+/*	private EnumPositionerComposite regionSizeXComposite;
 	private EnumPositionerComposite regionSizeYComposite;
-	private I13MJPegViewInitialiser i13MJPegViewInitialiser;
+*/	private I13MJPegViewInitialiser i13MJPegViewInitialiser;
+	private Button btnDragX, btnDragY;
 
-	private Button btnVertMoveOnClick;
+//	private Button btnVertMoveOnClick;
 
 	private Image sinogram_image;
 
@@ -79,18 +80,25 @@ public class I13MJPEGViewComposite extends Composite {
 
 	private MJPeg mJPeg;
 
-	private Button btnHorzMoveOnClick;
+/*	private Button btnHorzMoveOnClick;
 
 	private Button btnShowRotAxis;
+*/
+	private Label statusField;
 
 	public I13MJPEGViewComposite(Composite parent, CompositeFactory cf) throws Exception {
 		super(parent, SWT.NONE);
-		setLayout(new GridLayout(1, false));
+		GridLayoutFactory fillDefaults = GridLayoutFactory.fillDefaults().spacing(1, 1);
+		fillDefaults.applyTo(this);
 		Composite top = new Composite(this, SWT.NONE);
 		top.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		top.setLayout(new GridLayout(2, false));
+		
+		GridLayout topLayout = fillDefaults.create();
+		topLayout.numColumns=2;
+		top.setLayout(topLayout);
 		Composite c = new Composite(top, SWT.NONE);
-		c.setLayout(new GridLayout(1, false));
+//		c.setLayout(new GridLayout(1, false));
+		fillDefaults.applyTo(c);
 
 		if (cf == null) {
 			StageCompositeFactory scf = new StageCompositeFactory();
@@ -112,40 +120,19 @@ public class I13MJPEGViewComposite extends Composite {
 		}
 		cf.createComposite(c, SWT.NONE);
 
-		Composite composite = new Composite(top, SWT.NONE);
-		composite.setLayout(new GridLayout(1, false));
-		Composite btnLens = new Composite(composite, SWT.NONE);
-		btnLens.setLayout(new GridLayout(5,false));
-
-		lensComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "Lens",
-				"Are you sure you want to change the camera lens to '%s'", 
-				"Changing lens", "tomodet.setCameraLens('%s')");
-		GridDataFactory.swtDefaults().applyTo(lensComposite);
-		binningXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Bin", 
-				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.",
-				"Changing bin x", null);
-		GridDataFactory.swtDefaults().applyTo(binningXComposite);
-		binningYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Bin", 
-				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.",
-				"Changing bin y", null);
-		GridDataFactory.swtDefaults().applyTo(binningYComposite);
-		regionSizeXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Size", 
-				"Are you sure you want to change the region to '%s'. The detector will respond when acquisition is restarted.",
-				"Changing region x", null);
-		GridDataFactory.swtDefaults().applyTo(regionSizeXComposite);
-		regionSizeYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Size", 
-				"Are you sure you want to change the region to '%s'. The detector will respond when acquisition is restarted.",
-				"Changing region y", null);
-		GridDataFactory.swtDefaults().applyTo(regionSizeYComposite);
-
 		
-		Composite composite_1 = new Composite(composite, SWT.NONE);
-		composite_1.setLayout(new RowLayout(SWT.HORIZONTAL));
+		Composite rhs = new Composite(top, SWT.NONE);
+		fillDefaults.applyTo(rhs);
 
-		Button showNormalisedImage = new Button(composite_1, SWT.PUSH);
+		Composite scans = new Composite(rhs, SWT.NONE);
+		GridLayout scansLayout = fillDefaults.create();
+		scansLayout.numColumns=2;
+		scans.setLayout(scansLayout);		
+
+		Button showNormalisedImage = new Button(scans, SWT.PUSH);
 		showNormalisedImage.setToolTipText("Get Normalised Image");
 
-		Button openScanDlg = new Button(composite_1, SWT.PUSH);
+		Button openScanDlg = new Button(scans, SWT.PUSH);
 		openScanDlg.setToolTipText("Start a tomography data scan");
 		openScanDlg.addSelectionListener(new SelectionAdapter() {
 
@@ -244,7 +231,37 @@ public class I13MJPEGViewComposite extends Composite {
 			}
 			openScanDlg.setText("Tomography\nScan...");
 		}
-		btnShowRotAxis = new Button(composite, SWT.CHECK);
+		
+		
+		
+		Composite btnLens = new Composite(rhs, SWT.NONE);
+		GridLayout btnLensLayout = fillDefaults.create();
+		btnLensLayout.numColumns=5;
+		btnLens.setLayout(btnLensLayout);
+
+		lensComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "Lens",
+				"Are you sure you want to change the camera lens to '%s'", 
+				"Changing lens", "tomodet.setCameraLens('%s')");
+		GridDataFactory.swtDefaults().applyTo(lensComposite);
+		binningXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Bin", 
+				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.",
+				"Changing bin x", null);
+		GridDataFactory.swtDefaults().applyTo(binningXComposite);
+		binningYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Bin", 
+				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.",
+				"Changing bin y", null);
+		GridDataFactory.swtDefaults().applyTo(binningYComposite);
+/*		regionSizeXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Size", 
+				"Are you sure you want to change the region to '%s'. The detector will respond when acquisition is restarted.",
+				"Changing region x", null);
+		GridDataFactory.swtDefaults().applyTo(regionSizeXComposite);
+		regionSizeYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Size", 
+				"Are you sure you want to change the region to '%s'. The detector will respond when acquisition is restarted.",
+				"Changing region y", null);
+		GridDataFactory.swtDefaults().applyTo(regionSizeYComposite);
+*/
+		
+/*		btnShowRotAxis = new Button(composite, SWT.CHECK);
 		btnShowRotAxis.setText("Show Image Center and Rotation Axis");
 		btnShowRotAxis.addSelectionListener(new SelectionAdapter() {
 
@@ -254,14 +271,44 @@ public class I13MJPEGViewComposite extends Composite {
 			}
 		});
 		btnShowRotAxis.setSelection(true);
+*/
+		Group grpDrag = new Group(rhs, SWT.NONE);
+		grpDrag.setText("Drag Axis");
+		grpDrag.setLayout(new FillLayout(SWT.HORIZONTAL));		
+		btnDragX = new Button(grpDrag, SWT.NORMAL);
+		btnDragX.setText("Sample x");
+		btnDragX.addSelectionListener(new SelectionAdapter() {
 
-		Composite composite_2 = new Composite(this, SWT.NONE);
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateStatus("Drag the image to the desired position - ESC to cancel.");
+				i13MJPegViewInitialiser.handleDragAxisBtn(true);
+			}
+			
+		});
+		btnDragY = new Button(grpDrag, SWT.NORMAL);
+		btnDragY.setText("Sample y");
+		btnDragY.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateStatus("Drag the image to the desired position - ESC to cancel.");
+				i13MJPegViewInitialiser.handleDragAxisBtn(false);
+			}
+			
+		});
+
+		statusField = new Label(this, SWT.NONE);
+		GridDataFactory.fillDefaults().applyTo(statusField);
+		statusField.setForeground(getDisplay().getSystemColor(SWT.COLOR_RED));
+		
+		Composite composite_2 = new Composite(this, SWT.NONE );
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		mJPeg = new MJPeg(composite_2, SWT.NONE);
+		mJPeg = new MJPeg(composite_2, SWT.BORDER);
 		mJPeg.showLeft(true);
 
-		Group grpSampleMoveOn = new Group(composite, SWT.NONE);
+/*		Group grpSampleMoveOn = new Group(composite, SWT.NONE);
 		grpSampleMoveOn.setText("Sample Move On Click");
 		grpSampleMoveOn.setLayout(new FillLayout(SWT.HORIZONTAL));
 		btnVertMoveOnClick = new Button(grpSampleMoveOn, SWT.CHECK);
@@ -292,7 +339,7 @@ public class I13MJPEGViewComposite extends Composite {
 				setHorzMoveOnClick();
 			}
 		});
-
+*/
 		// i13MJPegViewInitialiser = new I13MJPegViewInitialiser(adControllerImpl, mJPeg, mjPegView);
 		addDisposeListener(new DisposeListener() {
 
@@ -313,7 +360,9 @@ public class I13MJPEGViewComposite extends Composite {
 
 	}
 
-	protected void setVertMoveOnClick() {
+
+
+/*	protected void setVertMoveOnClick() {
 		if (i13MJPegViewInitialiser != null)
 			i13MJPegViewInitialiser.setVertMoveOnClick(btnVertMoveOnClick.getSelection());
 	}
@@ -321,7 +370,7 @@ public class I13MJPEGViewComposite extends Composite {
 		if (i13MJPegViewInitialiser != null)
 			i13MJPegViewInitialiser.setHorzMoveOnClick(btnHorzMoveOnClick.getSelection());
 	}
-
+*/
 
 
 	public void setADController(ADController adController, MJPegView mjPegView) {
@@ -329,13 +378,13 @@ public class I13MJPEGViewComposite extends Composite {
 			throw new IllegalArgumentException("ADController must be of type I13ADControllerImpl");
 		}
 		adControllerImpl = (I13ADControllerImpl) adController;
-		i13MJPegViewInitialiser = new I13MJPegViewInitialiser(adControllerImpl, mJPeg, mjPegView);
+		i13MJPegViewInitialiser = new I13MJPegViewInitialiser(adControllerImpl, mJPeg, mjPegView, this);
 		lensComposite.setEnumPositioner(adControllerImpl.getLensEnum());
 		binningXComposite.setEnumPositioner(adControllerImpl.getBinningXEnum());
 		binningYComposite.setEnumPositioner(adControllerImpl.getBinningYEnum());
-		regionSizeXComposite.setEnumPositioner(adControllerImpl.getRegionSizeXEnum());
+/*		regionSizeXComposite.setEnumPositioner(adControllerImpl.getRegionSizeXEnum());
 		regionSizeYComposite.setEnumPositioner(adControllerImpl.getRegionSizeYEnum());
-
+*/
 		mJPeg.setADController(adController);
 
 	}
@@ -344,7 +393,7 @@ public class I13MJPEGViewComposite extends Composite {
 		return mJPeg;
 	}
 
-	private void actOnShowRotAxisSelection() {
+/*	private void actOnShowRotAxisSelection() {
 		try {
 			if (i13MJPegViewInitialiser != null) {
 				i13MJPegViewInitialiser.setRotationAxisAction(btnShowRotAxis.getSelection());
@@ -353,5 +402,12 @@ public class I13MJPEGViewComposite extends Composite {
 		} catch (Exception e1) {
 			logger.error("Error showing rot axis or beam center", e1);
 		}
+	}
+*/
+
+
+	public void updateStatus(String status) {
+		statusField.setText(status);
+		statusField.getParent().layout();		
 	}
 }

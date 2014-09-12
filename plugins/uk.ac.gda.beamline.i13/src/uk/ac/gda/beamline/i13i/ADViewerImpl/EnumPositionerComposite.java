@@ -28,13 +28,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -55,15 +55,13 @@ public class EnumPositionerComposite extends Composite {
 	public EnumPositionerComposite(Composite parent, int style, String title, final String confirmSelectionMsgTemplate, 
 			final String jobTitle, final String setCmd) {
 		super(parent, style);
-		setLayout(new GridLayout(1, false));
+		GridLayoutFactory fillDefaults = GridLayoutFactory.fillDefaults();
+		fillDefaults.applyTo(this);
 
 		group = new Group(this, SWT.NONE);
 		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		group.setText(title);
-		GridLayout gl_group = new GridLayout(1, false);
-		gl_group.marginBottom = 1;
-		gl_group.marginWidth = 1;
-		group.setLayout(gl_group);
+		fillDefaults.applyTo(group);
 		
 		
 		pcom = new Combo(group, SWT.SINGLE | SWT.BORDER | SWT.CENTER | SWT.READ_ONLY);

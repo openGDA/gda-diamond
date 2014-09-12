@@ -74,8 +74,18 @@
 	</bean>
 
 	<corba:import namespace="i13"
-		names="rotationAxisXScannable, cameraXYScannable, lens, binning_x, binning_y, region_size_x, region_size_y" />
+		names="rotationAxisXScannable, cameraXYScannable, lens, binning_x, binning_y" />
 
+	<bean id="pco_binx_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-EA-DET-01:CAM:BinX_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
+	<bean id="pco_biny_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-EA-DET-01:CAM:BinY_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>	
 	<import resource="../../devices/cameraScaleProviders.xml" />
 
 	<bean id="i13ADController"
@@ -95,9 +105,9 @@
 		<property name="lensEnum" ref="lens" />
 		<property name="binningXEnum" ref="binning_x" />
 		<property name="binningYEnum" ref="binning_y" />
-		<property name="regionSizeXEnum" ref="region_size_x"/>
+<!-- 		<property name="regionSizeXEnum" ref="region_size_x"/>
 		<property name="regionSizeYEnum" ref="region_size_y"/>
-		<property name="stagesCompositeFactory" ref="stages" />
+ -->		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />
 		<property name="displayScaleProvider" ref="displayScaleProvider" />
