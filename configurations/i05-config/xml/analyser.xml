@@ -179,4 +179,9 @@
 		<property name="maxSweepPV" value="BL05I-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV"/>
 		<property name="local" value="false" />
 	</bean>
+	
+	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL05I-EA-DET-01:CAM:ELEMENT_SET"></property>
+	</bean>
+	
 </beans>
