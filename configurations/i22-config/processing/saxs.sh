@@ -19,6 +19,7 @@ module load global/cluster
 
 DATAFILE="$1"
 BACKGROUNDFILE="$2"
+DATACOLLID="$3"
 
 # avoid messages popping up in testing
 export DISPLAY=
@@ -35,17 +36,38 @@ if test -d $VISIT ; then
 		REDUCTIONOUTPUTFILE=${VISIT}/processed/${RESTOFPATH}.reduced.nxs
 		mkdir -p $(dirname $REDUCTIONOUTPUTFILE)
 		ANALYSISOUTPUT=${VISIT}/processed/${RESTOFPATH}.analysis
+		UNSUBOUTPUT=${VISIT}/processed/${RESTOFPATH}.unsub
 	else 
 		REDUCTIONOUTPUTFILE=${VISIT}/processing/${RESTOFPATH}.reduced.nxs
 		mkdir -p $(dirname $REDUCTIONOUTPUTFILE)
 		REDUCTIONOUTPUTFILE=
 		ANALYSISOUTPUT=${VISIT}/processing/${RESTOFPATH}.analysis
+		UNSUBOUTPUT=${VISIT}/processing/${RESTOFPATH}.unsub
 	fi
 	TMPDIR=${VISIT}/tmp/${RESTOFPATH}.$$
 else
 	echo running reduction outside of a visit
 	TMPDIR=${DATAFILE}.$$.reduction
 	ANALYSISOUTPUT=${DATAFILE}.$$.analysis
+	UNSUBOUTPUT=${DATAFILE}.$$.unsub
+fi
+
+# store information in ISPyB for background and sample data collections
+#get reduced background file name
+read VISITBACKGROUND RESTOFPATHBACKGROUND <<<$( echo $BACKGROUNDFILE | sed 's,\(/dls/.../data/20../[-a-z0-9]*\)/\(.*\),\1 \2,')
+RESTOFPATHBACKGROUND=${RESTOFPATHBACKGROUND%.*}
+if test -d $VISITBACKGROUND ; then
+	BACKGROUNDREDUCTIONOUTPUTFILE=${VISITBACKGROUND}/processed/${RESTOFPATHBACKGROUND}.reduced.nxs
+else
+	echo cannot write in $VISITBACKGROUND
+fi
+
+if test $DATACOLLID -gt 0; then
+	echo storing data collection info in database
+	STOREISPYBDATACOLLECTION="/dls_sw/b21/software/gda/workspace_git/gda-scm.git/plugins/uk.ac.gda.devices.bssc/scripts/b21IspybDataCollection.py"
+	BACKGROUNDCOLLID=$(($DATACOLLID - 1 ))
+	read SCANNUMBER <<<$( echo $RESTOFPATH | sed 's,\([a-z][0-9]*-\)\([0-9]*\), \2,')
+	read SCANNUMBERBACKGROUND <<<$( echo $RESTOFPATHBACKGROUND | sed 's,\([a-z][0-9]*-\)\([0-9]*\), \2,')
 fi
 
 mkdir -p $TMPDIR
@@ -57,26 +79,41 @@ mkdir $WORKSPACE
 OUTPUTDIR=$TMPDIR/output
 mkdir $OUTPUTDIR
 
+${RUNANALYSIS:=/bin/true} # run by default if not enabled
+if test -n "${BACKGROUNDFILE}" ; then
 sed "s,bgFile>.*</bgFile,bgFile>${BACKGROUNDFILE}</bgFile," < $NCDREDXML > ncd_reduction.xml
+else 
+sed "s,enableBackground>.*</enableBackground,enableBackground>false</enableBackground," < $NCDREDXML > ncd_reduction.xml
+RUNANALYSIS=/bin/false
+fi
 NCDREDXML=${TMPDIR}/ncd_reduction.xml
+
+# do not run ispybupdate or analysis if datacollectionid is not set
+if test -n "$DATACOLLID" ; then
+	: 
+else 
+ISPYBUPDATE=":"
+RUNANALYSIS=/bin/false
+fi
 
 mkdir ${WORKSPACE}/workflows/
 WORKSPACEMOML=${WORKSPACE}/workflows/reduction.moml
 ln -s $MOML $WORKSPACEMOML
 
-SCRIPT=$TMPDIR/saxsqsub.script
+SCRIPT=$TMPDIR/biosaxsqsub.script
 cat >> $SCRIPT <<EOF
 #! /bin/sh
 
 . /usr/share/Modules/init/sh
 
 module load java/7-64
-#module load python/ana
+module load python/ana
+#module load cothread
+
+## set data reduction to started
+$ISPYBUPDATE reduction $DATACOLLID STARTED \"\"
 
 export MALLOC_ARENA_MAX=4
-
-date 
-echo before starting $DAWN
 
 $DAWN -noSplash -application com.isencia.passerelle.workbench.model.launch \
 -data $WORKSPACE \
@@ -91,9 +128,6 @@ $DAWN -noSplash -application com.isencia.passerelle.workbench.model.launch \
 -Dpersistence.path=$PERSISTENCEFILE \
 -Doutput.path=$OUTPUTDIR
 
-date
-echo after running $DAWN
-
 for i in $OUTPUTDIR/results*.nxs ; do
 	GENERATEDFILE=\$i
 	break;
@@ -103,25 +137,55 @@ if test -n "\$GENERATEDFILE" && test -r \$GENERATEDFILE ; then
  : # all fine, but tell ISPyB later
 else 
 	# raise ISPyB error and exit
-	MESSAGE="ERROR cannot find generated reduction file in $OUTPUTDIR"
+	MESSAGE="ERROR cannot find generated reduction file for collection $DATACOLLID in $OUTPUTDIR"
+	$ISPYBUPDATE reduction $DATACOLLID FAILED \$MESSAGE 
 	echo \$MESSAGE  >&2
 	echo ABORTING. >&2
 	exit 1
 fi
 
 if test -n "$REDUCTIONOUTPUTFILE" ; then 
-	echo linking output file across to $REDUCTIONOUTPUTFILE
 	ln \$GENERATEDFILE $REDUCTIONOUTPUTFILE
 	REDUCEDFILE="$REDUCTIONOUTPUTFILE"
+	# check for unsub output
+	if ls -l ${OUTPUTDIR}/results_*_BackgroundSubtraction_background_0_*.dat ; then 
+		echo making directory for unsubtracted dat files
+		mkdir -p $UNSUBOUTPUT || true
+		echo linking background
+		for i in ${OUTPUTDIR}/results_*_BackgroundSubtraction_background_0_*.dat ; do 
+			ln \$i ${UNSUBOUTPUT}/\$(basename \$i | sed -e s,results_,, -e 's,_.*_,_background_,')
+		done
+	fi
+	if ls -l ${OUTPUTDIR}/results_*_Normalisation_data_0_*.dat ; then 
+		mkdir -p $UNSUBOUTPUT || true
+		echo linking sample
+		for i in ${OUTPUTDIR}/results_*_Normalisation_data_0_*.dat ; do 
+			ln \$i ${UNSUBOUTPUT}/\$(basename \$i | sed -e s,results_,, -e 's,_.*_,_sample_,')
+		done
+	fi
 else
 	REDUCEDFILE=\$GENERATEDFILE
 fi
 
+# tell ispyb reduction worked and result is in \$REDUCEDFILE
+$ISPYBUPDATE reduction $DATACOLLID COMPLETE \$REDUCEDFILE
 
+if test -n "$DATACOLLID" ; then
+	python $STOREISPYBDATACOLLECTION --rawfile $DATAFILE --reducedfile $REDUCTIONOUTPUTFILE --summaryimage $VISIT/.ispyb/$SCANNUMBER/ispybimage.png
+	python $STOREISPYBDATACOLLECTION --rawfile $BACKGROUNDFILE --reducedfile $BACKGROUNDREDUCTIONOUTPUTFILE --summaryimage $VISIT/.ispyb/$SCANNUMBERBACKGROUND/ispybimage.png
+else
+	echo collectionid not set, not populating ISPyB
+fi;
 
-echo normal end of script at 
-date
+if $RUNANALYSIS ; then
+echo restricting file sizes via ulimit
+ulimit -f 500000
+mkdir $ANALYSISOUTPUT
+$ISPYBUPDATE analysis $DATACOLLID STARTED \"\"
+python $EDNAPYSCRIPT --filename \$REDUCEDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 4 
+$ISPYBUPDATE analysis $DATACOLLID COMPLETE $ANALYSISOUTPUT
+fi
 EOF
 
 #bash $SCRIPT > ${SCRIPT}.stdout 2> ${SCRIPT}.errout
-qsub -pe smp 8-16 -q medium.q -l h_rt=01:00:00 -N ${BEAMLINE}SAXS $SCRIPT
+qsub -pe smp 8-16 -q medium.q -l h_rt=01:30:00 -N ${BEAMLINE}BIOSAXS $SCRIPT

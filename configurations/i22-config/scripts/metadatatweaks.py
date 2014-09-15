@@ -27,6 +27,11 @@ def setSubdirectory(title):
 def getSubdirectory():
     return GDAMetadataProvider.getInstance().getMetadataValue("subdirectory")
 
+def setBackgroundFile(title):
+    GDAMetadataProvider.getInstance().setMetadataValue("backgroundDataFile", title)
+
+def getBackgroundFile():
+    return GDAMetadataProvider.getInstance().getMetadataValue("backgroundDataFile")
 
 class SampleNameScannable(gda.device.scannable.ScannableBase):
   
