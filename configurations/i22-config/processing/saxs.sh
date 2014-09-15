@@ -163,6 +163,13 @@ if test -n "$REDUCTIONOUTPUTFILE" ; then
 			ln \$i ${UNSUBOUTPUT}/\$(basename \$i | sed -e s,results_,, -e 's,_.*_,_sample_,')
 		done
 	fi
+	if ls -l ${OUTPUTDIR}/results_*_Average_data_0_*.dat ; then 
+		mkdir -p $UNSUBOUTPUT || true
+		echo linking averaged data
+		for i in ${OUTPUTDIR}/results_*_Average_data_0_*.dat ; do 
+			ln \$i ${UNSUBOUTPUT}/\$(basename \$i | sed -e s,results_,, -e 's,_.*_,_aver_,')
+		done
+	fi
 else
 	REDUCEDFILE=\$GENERATEDFILE
 fi
