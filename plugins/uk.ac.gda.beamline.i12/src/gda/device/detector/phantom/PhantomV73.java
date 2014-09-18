@@ -30,8 +30,8 @@ import java.net.UnknownHostException;
 
 import javax.naming.TimeLimitExceededException;
 
-import uk.ac.diamond.scisoft.analysis.io.IFileSaver;
-import uk.ac.diamond.scisoft.analysis.io.ScanFileHolderException;
+import org.eclipse.dawnsci.analysis.api.io.IFileSaver;
+import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 
 /**
  * The main interface for the Phantom Camera, this is set on top of a set of hardware simulations and real classes.
