@@ -30,6 +30,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IViewPart;
@@ -41,11 +43,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.HDF5Loader;
 import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
-import uk.ac.diamond.scisoft.analysis.io.ScanFileHolderException;
 import uk.ac.diamond.scisoft.analysis.io.TIFFImageLoader;
 import uk.ac.gda.beamline.synoptics.api.PlotConfigurable;
 import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
