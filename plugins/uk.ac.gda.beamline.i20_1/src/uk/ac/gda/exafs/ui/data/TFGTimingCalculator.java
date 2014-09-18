@@ -18,9 +18,9 @@
 
 package uk.ac.gda.exafs.ui.data;
 
-import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 
 /**
  * Used to create data to plot in graph of when acquiring and not acquiring data for a given time frame in a
