@@ -110,7 +110,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
-import uk.ac.diamond.scisoft.analysis.io.IMetaData;
+import uk.ac.diamond.scisoft.analysis.io.IMetadata;
 import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.UIHelper;
@@ -223,7 +223,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private String getDataFilePath(IImageTrace image) throws Exception {
-		IMetaData metaData = image.getData().getMetadata();
+		IMetadata metaData = image.getData().getMetadata();
 		if (metaData != null) {
 			return metaData.getFilePath();
 		}
