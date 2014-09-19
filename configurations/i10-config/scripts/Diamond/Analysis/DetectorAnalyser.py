@@ -2,7 +2,6 @@
 from gda.device.scannable import PseudoDevice;
 from gda.device import Detector;
 
-#from gda.analysis.io import ScanFileHolderException
 from gda.analysis.io import JPEGLoader, TIFFImageLoader, ConvertedTIFFImageLoader
 from gda.analysis import ScanFileHolder
 from gda.analysis import DataSet;

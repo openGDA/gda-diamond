@@ -8,7 +8,9 @@ from uk.ac.diamond.scisoft.analysis.plotserver import *
 from uk.ac.diamond.scisoft.analysis.plotserver import GuiPlotMode;
 
 
-from gda.analysis.io import JPEGLoader, TIFFImageLoader, ScanFileHolderException, ConvertedTIFFImageLoader
+from gda.analysis.io import JPEGLoader, TIFFImageLoader, ConvertedTIFFImageLoader
+from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
+
 from gda.analysis import ScanFileHolder
 from gda.analysis.functions.dataset import MakeMask;
 from gda.analysis import DataSet;
