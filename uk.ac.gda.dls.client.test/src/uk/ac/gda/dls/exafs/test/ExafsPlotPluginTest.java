@@ -34,7 +34,7 @@ import uk.ac.diamond.scisoft.analysis.optimize.LeastSquares;
 import uk.ac.diamond.scisoft.analysis.optimize.NelderMead;
 import uk.ac.diamond.scisoft.analysis.plotserver.AxisMapBean;
 import uk.ac.diamond.scisoft.analysis.plotserver.DataBean;
-import uk.ac.diamond.scisoft.analysis.plotserver.DataSetWithAxisInformation;
+import uk.ac.diamond.scisoft.analysis.plotserver.DatasetWithAxisInformation;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiBean;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiParameters;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiPlotMode;
@@ -261,7 +261,7 @@ public class ExafsPlotPluginTest {
 		dataBean.addAxis(AxisMapBean.XAXIS, x);
 
 		for (int i = 0; i < yAxes.length; i++) {
-			dataBean.addData(DataSetWithAxisInformation.createAxisDataSet(yAxes[i]));
+			dataBean.addData(DatasetWithAxisInformation.createAxisDataSet(yAxes[i]));
 		}
 		
 		view.processPlotUpdate(dataBean);
