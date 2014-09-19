@@ -1,10 +1,10 @@
 import scisoftpy as dnp
-import uk.ac.diamond.scisoft.analysis.dataset.IntegerDataset as IntegerDataset
+import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset as IntegerDataset
 
 import uk.ac.diamond.scisoft.analysis.fitting.Generic1DFitter as fitter1
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian as Gaussian
 import uk.ac.diamond.scisoft.analysis.optimize.GeneticAlg as GeneticAlg
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset as DoubleDataset
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset as DoubleDataset
 from uk.ac.diamond.scisoft.analysis.fitting import CalibrationUtils
 import gdascripts.analysis.datasetprocessor.oned.extractPeakParameters as epp
 

@@ -25,7 +25,7 @@ import scisoftpy as dnp
 from gda.data import NumTracker
 from gda.data import PathConstructor
 from gda.util import PropertyUtils
-import uk.ac.diamond.scisoft.analysis.dataset.Image as Image
+import org.eclipse.dawnsci.analysis.dataset.impl.Image as Image
 import uk.ac.gda.tomography.TomographyResourceUtil
 import uk.ac.gda.tomography.parameters.TomoParametersFactory as TomoParametersFactory
 from gdascripts.utils import * #@UnusedWildImport
