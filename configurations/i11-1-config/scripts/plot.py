@@ -20,7 +20,7 @@ import re
 from gda.configuration.properties import LocalProperties
 import os
 from uk.ac.diamond.scisoft.analysis import SDAPlotter
-from uk.ac.diamond.scisoft.analysis.dataset import DoubleDataset
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 
 INT_RE = re.compile(r"^[-]?\d+$")
 def representsInt(s):
