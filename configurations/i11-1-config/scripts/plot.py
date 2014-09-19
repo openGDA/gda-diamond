@@ -11,7 +11,8 @@ updateed to add "DataPlot" panel, 06 Dec 2010
 @author: fy65
 '''
 from gda.analysis import ScanFileHolder, Plotter
-from gda.analysis.io import MACLoader, SRSLoader, ScanFileHolderException
+from gda.analysis.io import MACLoader, SRSLoader
+from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
 from gda.data import NumTracker, PathConstructor
 from gda.jython.commands.GeneralCommands import alias
 from java.io import IOException, File #@UnresolvedImport
