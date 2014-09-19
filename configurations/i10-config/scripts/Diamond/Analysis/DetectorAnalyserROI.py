@@ -4,7 +4,7 @@ from uk.ac.diamond.scisoft.analysis.plotserver import GuiBean;
 from uk.ac.diamond.scisoft.analysis.plotserver import GuiParameters;
 from uk.ac.diamond.scisoft.analysis.plotserver import GuiPlotMode;
 
-from uk.ac.diamond.scisoft.analysis.roi import RectangularROI, RectangularROIList;
+from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI, RectangularROIList;
 
 from Diamond.Analysis.DetectorAnalyser import DetectorAnalyserClass;
 
