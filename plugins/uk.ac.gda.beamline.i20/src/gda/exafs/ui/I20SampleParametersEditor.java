@@ -26,7 +26,7 @@ import uk.ac.gda.exafs.ui.ExafsBeanFileSelectionEditor;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
 
 /**
- * @author fcp94556
+ * @author Matthew Gerring
  *
  */
 public class I20SampleParametersEditor extends ExafsBeanFileSelectionEditor {
