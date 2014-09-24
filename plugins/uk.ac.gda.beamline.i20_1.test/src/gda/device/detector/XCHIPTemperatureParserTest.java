@@ -20,9 +20,9 @@ package gda.device.detector;
 
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.junit.Test;
 
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 
 public class XCHIPTemperatureParserTest {

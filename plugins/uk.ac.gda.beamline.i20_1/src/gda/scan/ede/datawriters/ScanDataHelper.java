@@ -26,7 +26,7 @@ import gda.scan.ScanDataPoint;
 import java.util.Arrays;
 import java.util.Vector;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 public class ScanDataHelper {
 	public static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp) {
