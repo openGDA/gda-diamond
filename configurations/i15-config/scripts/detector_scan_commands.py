@@ -145,7 +145,7 @@ def rockScan(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTim
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
 	
 	if noOfRocksPerExposure <> 1:
-		raise Exception('Only noOfRocksPerExposure of 1 is currently supported, if you want multiple rocks with each in a different exposure, set noOfExposures now')
+		raise Exception("noOfRocksPerExposure=%r is not supported. Only noOfRocksPerExposure=1 is currently supported, if you want multiple rocks with each in a different exposure, set noOfExposures. If you want multiple rocks in the same image, use rockScanUnsync" % noOfRocksPerExposure)
 	
 	hardwareTriggeredNXDetector = _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis)
@@ -187,7 +187,7 @@ def rockScanUnsync(axis, centre, rockSize, noOfRocksPerExposure, detector, expos
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
 	
 	if noOfExposures <> 1:
-		raise Exception('Only noOfExposures of 1 is currently supported, if you want multiple rocks with each in a different exposure, use rockScan')
+		raise Exception("noOfExposures=%r is not supported. Only noOfExposures=1 is currently supported, if you want multiple rocks with each in a different exposure, use rockScan" % noOfExposures)
 	
 	if axis.name != "dkphi_rocker":
 		raise Exception('Unsupported motor %r, only dkphi_rocker supported.' % (axis.name))
@@ -254,7 +254,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	scan.runScan()
 """
 
-def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, dark):
+def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	
 	supportedDetectors = {'mar':    jythonNameMap.marHWT
@@ -267,6 +267,10 @@ def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, 
 						, 'mpxthr':   jythonNameMap.mpxthrHWT
 						, 'mpxthrHWT':detector
 						}
+	
+	# Since the interface changed, check that noOfExposures is numeric
+	if not isinstance(noOfExposures, (int, long, float)):
+		raise TypeError("noOfExposures=%r (%s), but expected it to be numeric!" % (noOfExposures, type(noOfExposures),))
 	
 	if supportedDetectors.has_key(detector.name):
 		hardwareTriggeredNXDetector = supportedDetectors[detector.name]
@@ -282,7 +286,7 @@ def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, 
 	detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
 	
 	
-	if numberOfExposures != 1 or detector.getCollectionStrategy().getNumberImagesPerCollection(exposureTime) > 1:
+	if noOfExposures != 1 or detector.getCollectionStrategy().getNumberImagesPerCollection(exposureTime) > 1:
 		filePathTemplate="$datadir$/$scan$-%s-files-%s-" % (detector.name, sampleSuffix)
 		fileNameTemplate=""
 		fileTemplate="%s%s%05d"	# One image per file
