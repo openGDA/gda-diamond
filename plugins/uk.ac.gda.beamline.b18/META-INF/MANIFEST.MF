@@ -16,7 +16,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench.texteditor;bundle-version="3.6.1",
  org.eclipse.ui.intro;bundle-version="3.4.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
- uk.ac.gda.server.exafs;bundle-version="1.0.0",
  uk.ac.gda.devices.xmap;bundle-version="1.0.0",
  uk.ac.gda.devices.xspress2;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
@@ -34,16 +33,18 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.client.xspress2;bundle-version="1.0.0",
  uk.ac.gda.devices.xspress3;bundle-version="1.0.0",
  org.eclipse.dawnsci.plotting.api;bundle-version="1.2.0",
- uk.ac.diamond.scisoft.analysis.plotclient;bundle-version="1.0.0"
+ uk.ac.diamond.scisoft.analysis.plotclient;bundle-version="1.0.0",
+ uk.ac.gda.server.exafs;bundle-version="1.0.0",
+ org.eclipse.dawnsci.analysis.dataset
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: gda.device.scannable,
- uk.ac.gda.beamline.b18
+Export-Package: gda.device.detector,
+ gda.device.scannable,
+ gda.exafs.validation,
+ uk.ac.gda.beamline.b18,
+ uk.ac.gda.server.exafs.scan.preparers
 Bundle-Vendor: Diamond Light Source
 Import-Package: org.apache.commons.lang;version="2.6.0",
  org.dawnsci.plotting.jreality.impl,
- org.slf4j;version="[1.7.6,1.7.7)",
- org.springframework.beans.factory;version="3.0.4",
- uk.ac.gda.beans.validation,
- uk.ac.gda.client.experimentdefinition
+ org.slf4j;version="[1.7.6,1.7.7)"
 Eclipse-RegisterBuddy: uk.ac.gda.core
