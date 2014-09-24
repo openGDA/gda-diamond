@@ -43,10 +43,10 @@ module load python
 if [[ $? -ne 0 ]]; then
    echo module failed - assuming python is already on the path
 fi
-JAVA_OPTS="-Xms128m -Xmx2024m -XX:MaxPermSize=128m -Dgda.dls-config=${DLS_CONFIG_BIN}/../"; export JAVA_OPTS
-#if [ -f "/dls_sw/dasc/jrebel/5.2/jrebel.jar" ]; then
-#	JAVA_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties $JAVA_OPTS"; export JAVA_OPTS
-#fi
+JAVA_OPTS="-Xms128m -Xmx2024m -XX:MaxPermSize=128m"; export JAVA_OPTS
+if [ -f "/dls_sw/dasc/jrebel/5.2/jrebel.jar" ]; then
+	JAVA_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties $JAVA_OPTS"; export JAVA_OPTS
+fi
 
 GDA_CORE=$1
 GDA_CONFIG=$2
@@ -58,12 +58,5 @@ echo Config folder: $GDA_CONFIG
 echo GDA mode: $GDA_MODE
 echo Other args: $*
 
-export GDALOGS=/dls_sw/$BEAMLINE/software/logs
-export LOGFILE=$GDALOGS/gda_output_`date +%F-%T`.txt
-touch $LOGFILE
-rm $GDALOGS/gda_output.txt
-ln -s $LOGFILE $GDALOGS/gda_output.txt
-
-
 echo python2.6  $GDA_CORE/bin/gda  --config=$GDA_CONFIG --smart --trace servers -v --mode=$GDA_MODE $*
-     python2.6  $GDA_CORE/bin/gda  --config=$GDA_CONFIG --smart --trace servers -v --mode=$GDA_MODE $* >> $LOGFILE 2>&1 &
+     python2.6  $GDA_CORE/bin/gda  --config=$GDA_CONFIG --smart --trace servers -v --mode=$GDA_MODE $*
