@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
      
-     <bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+     <bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
 		<property name="motor" ref="energy_motor" />
 		<property name="lowerGdaLimits" value="2000" />
 		<property name="upperGdaLimits" value="35000" />
