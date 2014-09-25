@@ -45,12 +45,21 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 																	array_monitor_for_hardware_triggering)
 
 
+	def atScanStart(self):
+		#we often get an extra image at the start if CAM:ImageMode is Continuous before we run the scan for some reason
+		caput(self.rootPv + "CAM:ImageMode", "Single")
+		caput(self.rootPv + "CAM:Acquire", "0")
+		sleep(1)
+		SwitchableHardwareTriggerableProcessingDetectorWrapper.atScanStart(self)
+
+
 	def collectData(self):
 		caput(self.rootPv + "CAM:TriggerSource", "FixedRate")
 		caput(self.rootPv + "CAM:AcquirePeriod", "0.1")
 		caput(self.rootPv + "CAM:GainAuto", "Off")
 		caput(self.rootPv + "CAM:Gain", 0)
 		caput(self.rootPv + "TIFF:EnableCallbacks", 0)
+		sleep(0.2)
 		caput(self.rootPv + "CAM:ImageMode","Continuous")
 		caput(self.rootPv + "CAM:Acquire","0")
 		caput(self.rootPv + "CAM:Acquire","1")
@@ -62,13 +71,13 @@ class AutoRangeDetector(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 		sleep(0.1)
 		startWait = time()
 		while caget(self.rootPv + "CAM:ExposureAuto_RBV") != "0":
-			ScanBase.checkForInterrupts()
 			sleep(0.1)
 			if time() - startWait > 5: #sometimes the auto gain fails and wait forever
 				print "Timeout waiting for auto exposure"
 				break
 		caput(self.rootPv + "CAM:Acquire","0")
 		caput(self.rootPv + "CAM:ImageMode","Single")
+		sleep(0.2)
 		caput(self.rootPv + "TIFF:EnableCallbacks", 1)
 		SwitchableHardwareTriggerableProcessingDetectorWrapper.collectData(self)
 

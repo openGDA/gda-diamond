@@ -559,7 +559,7 @@ if installation.isLive():
 	timetoinjection=TimeToMachineInjectionClass('TimeToInjection','SR-CS-FILL-01:COUNTDOWN', 'sec', '%.1f')
 	waitforinjection=WaitForInjectionPDClass('WaitForInjection',timetoinjection, 5, 5)
 
-	### x1trig and x2trig """
+	### x1trig and x2trig ###
 	print "Creating x1trig and x2trig"
 	x1trig = ToggleBinaryPvAndWait('x1trig', 'BL16I-EA-USER-01:BO1')
 	x1trig.triggerLength=0.1
@@ -646,7 +646,7 @@ if installation.isLive():
 
 
 ###############################################################################
-###                        	        Energy                                  ###
+###                                 Energy                                  ###
 ###############################################################################
 import beamline_info as BLi #contains energy and wavelength
 run("startup_energy_related")
