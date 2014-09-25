@@ -40,12 +40,12 @@ offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_
 
 
 #if (LocalProperties.get("gda.mode") == 'live'):
-detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspress2system, xmapMca, xspress3)
+detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
 #else:
 #    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01,Finder.getInstance().find("metashop"), True,False,False,True)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy,Finder.getInstance().find("metashop"), True,False,True)
 # qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
 
@@ -108,6 +108,8 @@ if (LocalProperties.get("gda.mode") == 'live'):
     
     run "userStartupScript"
 else :
+    print "Moving dummy DCM's to useful positions..."
     energy(7000) # start the simulation with an energy in a useful range
     qexafs_energy(7000)
+    print "...moves done";
 print "Initialization Complete";
