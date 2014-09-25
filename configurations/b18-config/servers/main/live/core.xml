@@ -70,7 +70,7 @@
 		<property name="remotePort" value="9999" />
 	</bean>
 
-	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+<!-- 	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" /> -->
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
@@ -85,7 +85,7 @@
 				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
 				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
 				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
-				<value>uk.ac.gda.beans.xspress.XspressParameters</value>
+				<value>uk.ac.gda.beans.XspressParameters</value>
 				<value>uk.ac.gda.beans.vortex.Xspress3Parameters</value>
 			</util:list>
 		</property>

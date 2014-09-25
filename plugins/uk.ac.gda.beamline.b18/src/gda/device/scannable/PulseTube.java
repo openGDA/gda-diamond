@@ -18,8 +18,6 @@
 
 package gda.device.scannable;
 
-import org.apache.commons.lang.ArrayUtils;
-
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DetectorBase;
@@ -28,12 +26,10 @@ import gda.factory.FactoryException;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
-import org.apache.commons.lang.ArrayUtils;
+public class PulseTube extends DetectorBase implements Scannable {
 
-public class PulseTube extends DetectorBase implements Scannable{
-	
 	private CAClient ca_client = new CAClient();
-	
+
 	private String t1_pv;
 	private String t2_pv;
 	private String t3_pv;
@@ -47,79 +43,86 @@ public class PulseTube extends DetectorBase implements Scannable{
 	private String heater_output_pv;
 	private String heater_mode_pv;
 	private double[] data;
-	
+
 	@Override
 	public void configure() throws FactoryException {
 		super.configure();
-		this.inputNames = new String[] {"time"};
-		this.outputFormat = new String[] { "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d" };
-		this.extraNames = new String[] { "t1", "t2", "t3", "target", "error", "prop_gain", "int_gain", "der_gain", "gas_flow", "heater_voltage", "heater_output", "heater_mode" };
+		this.inputNames = new String[] {};
+		this.outputFormat = new String[] { "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d",
+				"%.3d", "%.3d", "%.3d", "%.3d" };
+		this.extraNames = new String[] { "t1", "t2", "t3", "target", "error", "prop_gain", "int_gain", "der_gain",
+				"gas_flow", "heater_voltage", "heater_output", "heater_mode" };
 	}
-	
-	public void setTarget(double val){
-		try {
-			ca_client.caput(target_pv+":SET", val);
-		} catch (CAException e) {
-		} catch (InterruptedException e) {
-		}
-	}
-	
-	public void setPropGain(double val){
-		try {
-			ca_client.caput(prop_gain_pv+":SET", val);
-		} catch (CAException e) {
-		} catch (InterruptedException e) {
-		}
-	}
-	
-	public void setIntGain(double val){
-		try {
-			ca_client.caput(int_gain_pv+":SET", val);
-		} catch (CAException e) {
-		} catch (InterruptedException e) {
-		}
-	}
-	
-	public void setDerGain(double val){
-		try {
-			ca_client.caput(der_gain_pv+":SET", val);
-		} catch (CAException e) {
-		} catch (InterruptedException e) {
-		}
-	}
-	
-	public void setGasFlow(double val){
-		try {
-			ca_client.caput(gas_flow_pv+":SET", val);
-		} catch (CAException e) {
-		} catch (InterruptedException e) {
-		}
-	}
-	
+
 	@Override
-	public void collectData() throws DeviceException{
+	public void asynchronousMoveTo(Object collectionTime) throws DeviceException {
+		setTarget(Double.parseDouble(collectionTime.toString()));
+	}
+	
+	public void setTarget(double val) {
+		try {
+			ca_client.caput(target_pv + ":SET", val);
+		} catch (CAException e) {
+		} catch (InterruptedException e) {
+		}
+	}
+
+	public void setPropGain(double val) {
+		try {
+			ca_client.caput(prop_gain_pv + ":SET", val);
+		} catch (CAException e) {
+		} catch (InterruptedException e) {
+		}
+	}
+
+	public void setIntGain(double val) {
+		try {
+			ca_client.caput(int_gain_pv + ":SET", val);
+		} catch (CAException e) {
+		} catch (InterruptedException e) {
+		}
+	}
+
+	public void setDerGain(double val) {
+		try {
+			ca_client.caput(der_gain_pv + ":SET", val);
+		} catch (CAException e) {
+		} catch (InterruptedException e) {
+		}
+	}
+
+	public void setGasFlow(double val) {
+		try {
+			ca_client.caput(gas_flow_pv + ":SET", val);
+		} catch (CAException e) {
+		} catch (InterruptedException e) {
+		}
+	}
+
+	@Override
+	public void collectData() throws DeviceException {
 		data = new double[12];
 		try {
-		data[0]=Double.parseDouble(ca_client.caget(t1_pv).toString());
-		data[1]=Double.parseDouble(ca_client.caget(t2_pv).toString());
-		data[2]=Double.parseDouble(ca_client.caget(t3_pv).toString());
-		data[3]=Double.parseDouble(ca_client.caget(target_pv).toString());
-		data[4]=Double.parseDouble(ca_client.caget(error_pv).toString());
-		data[5]=Double.parseDouble(ca_client.caget(prop_gain_pv).toString());
-		data[6]=Double.parseDouble(ca_client.caget(int_gain_pv).toString());
-		data[7]=Double.parseDouble(ca_client.caget(der_gain_pv).toString());
-		data[8]=Double.parseDouble(ca_client.caget(gas_flow_pv).toString());
-		data[9]=Double.parseDouble(ca_client.caget(heater_voltage_pv).toString());
-		data[10]=Double.parseDouble(ca_client.caget(heater_output_pv).toString());
-		data[11]=Double.parseDouble(ca_client.caget(heater_mode_pv).toString());
+			data[0] = Double.parseDouble(ca_client.caget(t1_pv).toString());
+			data[1] = Double.parseDouble(ca_client.caget(t2_pv).toString());
+			data[2] = Double.parseDouble(ca_client.caget(t3_pv).toString());
+			data[3] = Double.parseDouble(ca_client.caget(target_pv).toString());
+			data[4] = Double.parseDouble(ca_client.caget(error_pv).toString());
+			data[5] = Double.parseDouble(ca_client.caget(prop_gain_pv).toString());
+			data[6] = Double.parseDouble(ca_client.caget(int_gain_pv).toString());
+			data[7] = Double.parseDouble(ca_client.caget(der_gain_pv).toString());
+			data[8] = Double.parseDouble(ca_client.caget(gas_flow_pv).toString());
+			data[9] = Double.parseDouble(ca_client.caget(heater_voltage_pv).toString());
+			data[10] = Double.parseDouble(ca_client.caget(heater_output_pv).toString());
+			data[11] = Double.parseDouble(ca_client.caget(heater_mode_pv).toString());
 		} catch (NumberFormatException e) {
 		} catch (CAException e) {
 		} catch (TimeoutException e) {
 		} catch (InterruptedException e) {
 		}
-		
+
 		try {
-			Thread.sleep((long)collectionTime*1000);
+			Thread.sleep((long) collectionTime * 1000);
 		} catch (InterruptedException e) {
 		}
 	}
@@ -131,11 +134,10 @@ public class PulseTube extends DetectorBase implements Scannable{
 
 	@Override
 	public Object getPosition() throws DeviceException {
-		double[] position = new double[]{};
-		position = ArrayUtils.add(position, 0);
-		position = ArrayUtils.addAll(position, data);
-		return position;
+		collectData();
+		return readout();
 	}
+
 	@Override
 	public Object readout() throws DeviceException {
 		return data;
@@ -160,7 +162,7 @@ public class PulseTube extends DetectorBase implements Scannable{
 	public String getDetectorType() throws DeviceException {
 		return "unknown";
 	}
-	
+
 	public String getT1_pv() {
 		return t1_pv;
 	}

@@ -2,7 +2,11 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.device.scannable.PulseTube;
+import gda.jython.InterfaceProvider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
@@ -18,18 +22,20 @@ import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 
 public class B18SamplePreparer implements SampleEnvironmentPreparer {
 
+	private static Logger logger = LoggerFactory.getLogger(B18SamplePreparer.class);
+	
 	private Scannable sxcryo_scannable;
 	private Scannable xytheta_scannable;
 	private Scannable ln2cryo_scannable;
 	private Scannable lakeshore_scannable;
 	private Scannable furnace_scannable;
-	private PulseTube pulsetube_scannable;
+	private Scannable pulsetube_scannable;
 	private Scannable samplewheel_scannable;
 	private Scannable user_scannable;
 	private boolean logging_enabled;
 
 	public B18SamplePreparer(Scannable sxcryo_scannable, Scannable xytheta_scannable, Scannable ln2cryo_scannable,
-			Scannable lakeshore_scannable, Scannable furnace_scannable, PulseTube pulsetube_scannable,
+			Scannable lakeshore_scannable, Scannable furnace_scannable, Scannable pulsetube_scannable,
 			Scannable samplewheel_scannable, Scannable user_scannable) {
 
 		this.sxcryo_scannable = sxcryo_scannable;
@@ -45,9 +51,10 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 
 	private void log(String msg) {
 		if (logging_enabled) {
-			// simpleLog(msg);
+			logger.info(msg);
+			InterfaceProvider.getTerminalPrinter().print(msg);
 		} else {
-			// print msg
+			InterfaceProvider.getTerminalPrinter().print(msg);
 		}
 	}
 
@@ -61,22 +68,22 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 			_control_sample_wheel(parameters.getSampleWheelParameters());
 		}
 
-		if (parameters.getStage() == "xythetastage") {
+		if (parameters.getStage().equals("xythetastage")) {
 			_control_xytheta_stage(parameters.getXYThetaStageParameters());
-		} else if (parameters.getStage() == "ln2cryostage") {
+		} else if (parameters.getStage().equals("ln2cryostage")) {
 			_control_ln2cryo_stage(parameters.getLN2CryoStageParameters());
-		} else if (parameters.getStage() == "sxcryostage") {
+		} else if (parameters.getStage().equals("sxcryostage")) {
 			_control_sxcryo_stage(parameters.getSXCryoStageParameters());
-		} else if (parameters.getStage() == "userstage") {
+		} else if (parameters.getStage().equals("userstage")) {
 			_control_user_stage(parameters.getUserStageParameters());
 		}
 
 		if (parameters.getTemperatureControl() != "None") {
-			if (parameters.getTemperatureControl() == "furnace") {
+			if (parameters.getTemperatureControl().equals("furnace")) {
 				/* return */_control_furnace(parameters.getFurnaceParameters());
-			} else if (parameters.getTemperatureControl() == "lakeshore") {
+			} else if (parameters.getTemperatureControl().equals("lakeshore")) {
 				/* return */_control_lakeshore(parameters.getLakeshoreParameters());
-			} else if (parameters.getTemperatureControl() == "pulsetubecryostat") {
+			} else if (parameters.getTemperatureControl().equals("pulsetubecryostat")) {
 				/* return */_control_pulsetube(parameters.getPulseTubeCryostatParameters());
 			}
 		}
@@ -185,27 +192,25 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 
 		if (!bean.isControlFlag()) {
 			double temp = bean.getSetPoint();
-			pulsetube_scannable.setTarget(temp);
+			pulsetube_scannable.asynchronousMoveTo(temp);
 			double tolerance = bean.getTolerance();
 			double wait_time = bean.getTime();
 
-			waitForValueToStabilise(temp, tolerance, wait_time, lakeshore_scannable);
+			waitForValueToStabilise(temp, tolerance, wait_time, pulsetube_scannable);
 
 			double min = temp - tolerance;
 			double max = temp + tolerance;
 			boolean temp_final = false;
 			log("starting temperature control loop");
 			while (!temp_final) {
-				pulsetube_scannable.collectData();
-				double temp_readback = ((double[]) pulsetube_scannable.readout())[0];
+				double temp_readback = ((double[]) pulsetube_scannable.getPosition())[0];
 				if (temp_readback >= min && temp_readback <= max) {
 					log("Temperature reached, checking if it has stabilised");
 					boolean finalised = true;
 					int time = 0;
 					while (finalised && time < wait_time) {
 						log("Temperature stable");
-						pulsetube_scannable.collectData();
-						temp_readback = ((double[]) pulsetube_scannable.readout())[0];
+						temp_readback = ((double[]) pulsetube_scannable.getPosition())[0];
 						if (temp_readback < min || temp_readback > max) {
 							log("Temperature unstable");
 							finalised = false;
@@ -217,8 +222,7 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 						temp_final = true;
 					}
 				} else {
-					pulsetube_scannable.collectData();
-					log("Temperature = " + ((double[]) pulsetube_scannable.readout())[0]);
+					log("Temperature = " + ((double[]) pulsetube_scannable.getPosition())[0]);
 					Thread.sleep(1000);
 				}
 			}
@@ -301,7 +305,6 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 
 	@Override
 	public SampleEnvironmentIterator createIterator(String experimentType) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
