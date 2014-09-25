@@ -48,9 +48,9 @@
 	<bean id="i0_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>pA/V</value>
-				<value>nA/V</value>
-				<value>uA/V</value>
+				<value>pA</value>
+				<value>nA</value>
+				<value>uA</value>
 			</util:list>
 		</property>
 	</bean>
@@ -98,9 +98,9 @@
 	<bean id="it_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>pA/V</value>
-				<value>nA/V</value>
-				<value>uA/V</value>
+				<value>pA</value>
+				<value>nA</value>
+				<value>uA</value>
 			</util:list>
 		</property>
 	</bean>
@@ -149,9 +149,9 @@
 	<bean id="iref_stanford_offset_units" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>pA/V</value>
-				<value>nA/V</value>
-				<value>uA/V</value>
+				<value>pA</value>
+				<value>nA</value>
+				<value>uA</value>
 			</util:list>
 		</property>
 	</bean>
