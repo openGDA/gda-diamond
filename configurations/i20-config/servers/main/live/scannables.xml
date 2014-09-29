@@ -51,7 +51,25 @@
 		<property name="local" value="false"/>
 	</bean>
 
+	<bean id="sr_x_offset" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="SR-DI-I20-01:X:OFFSET" />
+		<property name="pvNameSetPoint" value="SR-DI-I20-01:X:OFFSET_S" />
+	</bean>
 
+	<bean id="sr_x_angle" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="SR-DI-I20-01:X:ANGLE" />
+		<property name="pvNameSetPoint" value="SR-DI-I20-01:X:ANGLE_S" />
+	</bean>
+
+	<bean id="sr_y_offset" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="SR-DI-I20-01:Y:OFFSET" />
+		<property name="pvNameSetPoint" value="SR-DI-I20-01:Y:OFFSET_S" />
+	</bean>
+
+	<bean id="sr_y_angle" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="SR-DI-I20-01:Y:ANGLE" />
+		<property name="pvNameSetPoint" value="SR-DI-I20-01:Y:ANGLE_S" />
+	</bean>
 
 <!-- more needs adding to this list -->
 	<bean id="sample_alignment" class="gda.device.scannable.scannablegroup.ScannableGroup">
