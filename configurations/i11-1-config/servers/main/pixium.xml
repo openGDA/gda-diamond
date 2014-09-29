@@ -180,6 +180,8 @@
 		<property name="rowChunks" value="2881"/>
 		<property name="xPixelSize" value="148.0"/>
 		<property name="yPixelSize" value="148.0"/>
+		<property name="xPixelSizeUnit" value="µm"/>
+		<property name="yPixelSizeUnit" value="µm"/>
 	</bean>
 	<bean id= "pixium.simpleAcquire" class="gda.device.detector.addetector.triggering.PixiumSimpleAcquire">
 		<constructor-arg ref="pixium.cam" />
