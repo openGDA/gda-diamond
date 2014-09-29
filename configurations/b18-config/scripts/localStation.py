@@ -1,5 +1,6 @@
 print "Initialization Started";
 
+from uk.ac.gda.server.exafs.scan.preparers import B18BeamlinePreparer
 from uk.ac.gda.server.exafs.scan.preparers import B18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import B18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import B18OutputPreparer
@@ -45,9 +46,9 @@ detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sen
 #    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy,Finder.getInstance().find("metashop"), True,False,True)
+xas = XasScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy,Finder.getInstance().find("metashop"), True)
 xanes = xas
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, True, Finder.getInstance().find("metashop"))
+qexafs = QexafsScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, True, Finder.getInstance().find("metashop"))
 
 vararg_alias("xas")
 vararg_alias("xanes")
