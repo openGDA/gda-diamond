@@ -240,14 +240,22 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 			double height = offset + ((sample - 1) * -15.5);
 			targetPosition = new double[] { height, bean.getRot() };
 		}
-		log("moving sxcryostage (" + sxcryo_scannable.getName() + ") to " + targetPosition);
+		log("moving sxcryostage (" + sxcryo_scannable.getName() + ") to " + doubleArrayToString(targetPosition));
 		sxcryo_scannable.moveTo(targetPosition);
 		log("sxcryostage move complete.");
 	}
 
+	private String doubleArrayToString(double[] array){
+		StringBuffer buf = new StringBuffer();
+		for(double element: array){
+			buf.append(String.format("%.2f", element) + "\t");
+		}
+		return buf.toString();
+	}
+	
 	private void _control_xytheta_stage(XYThetaStageParameters bean) throws DeviceException {
 		double[] targetPosition = new double[] { bean.getX(), bean.getY(), bean.getTheta() };
-		log("moving xythetastage (" + xytheta_scannable.getName() + ") to " + targetPosition);
+		log("moving xythetastage (" + xytheta_scannable.getName() + ") to " + doubleArrayToString(targetPosition));
 		xytheta_scannable.moveTo(targetPosition);
 		log("xythetastage move complete.");
 	}
@@ -255,7 +263,7 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 	private void _control_user_stage(UserStageParameters bean) throws DeviceException {
 		double[] targetPosition = new double[] { bean.getAxis2(), bean.getAxis4(), bean.getAxis5(), bean.getAxis6(),
 				bean.getAxis7(), bean.getAxis8() };
-		log("moving userstage (" + user_scannable.getName() + ") to " + targetPosition);
+		log("moving userstage (" + user_scannable.getName() + ") to " + doubleArrayToString(targetPosition));
 		user_scannable.moveTo(targetPosition);
 		log("userstage move complete.");
 	}
@@ -263,7 +271,7 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 	private void _control_ln2cryo_stage(LN2CryoStageParameters bean) throws DeviceException {
 		if (bean.isManual()) {
 			double[] targetPosition = new double[] { bean.getHeight(), bean.getAngle() };
-			log("moving ln2cryostage (" + ln2cryo_scannable.getName() + ") to " + targetPosition);
+			log("moving ln2cryostage (" + ln2cryo_scannable.getName() + ") to " + doubleArrayToString(targetPosition));
 			ln2cryo_scannable.moveTo(targetPosition);
 			log("ln2cryostage move complete.");
 		} else {
@@ -283,8 +291,8 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 				} else {
 					angle = angleOffset + 180.0 + ((sampleNumberB - 5) * 22.5);
 				}
-				Double[] targetPosition = new Double[] { height, angle };
-				log("Target positions = " + targetPosition);
+				double[] targetPosition = new double[] { height, angle };
+				log("Target positions = " + doubleArrayToString(targetPosition));
 				ln2cryo_scannable.moveTo(targetPosition);
 			}
 		}

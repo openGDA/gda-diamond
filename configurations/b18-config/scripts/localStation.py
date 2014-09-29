@@ -3,7 +3,7 @@ print "Initialization Started";
 from uk.ac.gda.server.exafs.scan.preparers import B18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import B18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import B18OutputPreparer
-from uk.ac.gda.server.exafs.scan import XasScan
+from uk.ac.gda.server.exafs.scan import XasScan, QexafsScan
 # from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import BeamMonitor
@@ -46,8 +46,8 @@ detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sen
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy,Finder.getInstance().find("metashop"), True,False,True)
-# qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
+qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, True, Finder.getInstance().find("metashop"))
 
 vararg_alias("xas")
 vararg_alias("xanes")
