@@ -73,6 +73,7 @@
 	
 	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
+		<property name="daserver" ref="DAServer" />
 		<property name="inputNames">
 			<list>
 			</list>
