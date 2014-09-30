@@ -33,6 +33,7 @@
             locationURI="menu:window?after=showView">
          <menu
                label="Area Detectors">
+
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Mar345 (mar) Array View"
@@ -46,6 +47,7 @@
                      value="mar">
                </parameter>
             </command>
+
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Merlin (mpx) Array View"
@@ -59,6 +61,7 @@
                      value="pv//mpx//BL15I-EA-DET-18@">
                </parameter>
             </command>
+
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Perkin Elmer (pe) Array View"
