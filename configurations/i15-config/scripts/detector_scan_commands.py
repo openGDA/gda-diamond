@@ -266,6 +266,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 						, 'mpxcHWT':detector
 						, 'mpxthr':   jythonNameMap.mpxthrHWT
 						, 'mpxthrHWT':detector
+						, 'pil3':    jythonNameMap.pil3HWT
+						, 'pil3HWT': detector
 						}
 	
 	# Since the interface changed, check that noOfExposures is numeric

@@ -113,6 +113,33 @@
                </parameter>
             </command>
 
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Pilatus 3 300k (pil3) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//pil3//BL15I-EA-PILAT-03@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Pilatus 3 300k (pil3) Live (MJPeg) View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//pil3//BL15I-EA-PILAT-03@">
+               </parameter>
+            </command>
+
          </menu>
       </menuContribution>
    </extension>

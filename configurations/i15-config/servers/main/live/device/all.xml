@@ -22,6 +22,7 @@
 	<import resource="I15-DET-MAR-AD.xml" />
 	<import resource="I15-DET-MPX-AD.xml" />
 	<import resource="I15-DET-PE-AD.xml" />
+	<import resource="I15-DET-PIL3-AD.xml" />
 	<import resource="I15-DET1.xml"/>
 	<import resource="I15-DET2.xml"/>
 	<import resource="../../dummy/device/I15-EYE1.xml"/>
