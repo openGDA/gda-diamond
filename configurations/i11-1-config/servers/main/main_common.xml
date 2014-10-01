@@ -54,8 +54,8 @@
 <!-- 	<import resource="LS1.xml"/> -->
 <!-- 	<import resource="LS2.xml"/> -->
 	<import resource="MS1.xml"/>
-<!-- 	<import resource="MS2.xml"/> -->
-<!-- 	<import resource="MS3.xml"/> -->
+	<import resource="MS2.xml"/>
+	<import resource="MS3.xml"/>
 <!-- 	<import resource="MS4.xml"/> -->
 <!-- 	<import resource="LS1.xml"/> -->
 <!-- 	<import resource="LS2.xml"/> -->
@@ -63,6 +63,7 @@
 <!-- 	<import resource="LS4.xml"/> -->
 <!-- 	<import resource="LS5.xml"/> -->
 <!-- 	<import resource="LS6.xml"/> -->
+	<import resource="BSTP1.xml"/>
 <!-- 	<import resource="Spinner2.xml"/> -->
 <!-- 	<import resource="Robot.xml"/> -->
 	<import resource="pixium.xml"/>
