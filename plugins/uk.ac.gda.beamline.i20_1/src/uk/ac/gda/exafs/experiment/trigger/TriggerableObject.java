@@ -65,6 +65,7 @@ public class TriggerableObject extends ObservableModel implements Serializable{
 	private TriggerOutputPort triggerOutputPort;
 
 	public static final String NAME_PROP_NAME = "name";
+	@Expose
 	private String name;
 
 	public static final String TOTAL_DURATION_PROP_NAME = "totalDuration";

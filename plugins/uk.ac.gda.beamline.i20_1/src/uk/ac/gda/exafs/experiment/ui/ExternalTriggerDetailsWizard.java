@@ -20,7 +20,9 @@ package uk.ac.gda.exafs.experiment.ui;
 
 import org.eclipse.jface.wizard.Wizard;
 
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.experiment.ui.data.ExternalTriggerSetting;
+import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 
 public class ExternalTriggerDetailsWizard extends Wizard {
 	private ExternalTriggerDetailsWizardPage externalTriggerDetailsWizardPage;
@@ -38,7 +40,7 @@ public class ExternalTriggerDetailsWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
+		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
 		return true;
 	}
-
 }
