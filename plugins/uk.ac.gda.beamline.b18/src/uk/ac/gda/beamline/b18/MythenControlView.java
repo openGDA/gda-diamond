@@ -188,7 +188,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		Composite composite = new Composite(parent, SWT.NONE);
 
 		final GuiBean bean = getGUIInfo();
-		plotWindow = new PlotWindow(composite, this, getViewSite().getActionBars(), getSite().getPage(), plotViewName);
+		plotWindow = new PlotWindow(composite, this, getViewSite().getActionBars(), this, plotViewName);
 		plotWindow.setNotifyListener(this);
 		plotWindow.updatePlotMode(bean, false);
 
