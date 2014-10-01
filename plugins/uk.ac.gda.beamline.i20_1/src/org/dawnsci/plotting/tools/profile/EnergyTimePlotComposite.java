@@ -24,6 +24,7 @@ import java.beans.PropertyChangeListener;
 import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.dawnsci.plotting.tools.profile.model.TimeEnergyShiftingModel;
 import org.dawnsci.plotting.tools.profile.model.ToolPageModel;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.PlottingFactory;
@@ -33,8 +34,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 
 public class EnergyTimePlotComposite extends Composite {
 	private final TimeEnergyShiftingModel timeEnergyShiftingModel;

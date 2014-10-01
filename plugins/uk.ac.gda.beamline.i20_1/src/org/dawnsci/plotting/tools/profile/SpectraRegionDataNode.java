@@ -16,11 +16,14 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.dawnsci.plotting.tools.profile.model;
+package org.dawnsci.plotting.tools.profile;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dawnsci.plotting.tools.profile.model.SpectrumDataNode;
+import org.dawnsci.plotting.tools.profile.model.TimeResolvedDataNode;
+import org.dawnsci.plotting.tools.profile.model.TimingGroupDataNode;
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
@@ -60,7 +63,7 @@ public class SpectraRegionDataNode extends ObservableModel implements IROIListen
 		if (roi instanceof RectangularROI) {
 			RectangularROI boxRoi = (RectangularROI) roi;
 			int firstIndex = (int) Math.round(boxRoi.getPointY());
-			int lastIndex = firstIndex + (int) Math.round(boxRoi.getLength(1));
+			int lastIndex = (int) Math.round((boxRoi.getPointY() + boxRoi.getLength(1)));
 			if (lastIndex > firstIndex) {
 				lastIndex--;
 			}

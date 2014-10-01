@@ -16,8 +16,9 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.dawnsci.plotting.tools.profile.model;
+package org.dawnsci.plotting.tools.profile;
 
+import org.dawnsci.plotting.tools.profile.model.TimeResolvedDataNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.region.IRegion;

@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -43,7 +44,6 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 import uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView;

@@ -21,6 +21,10 @@
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.diamond.scisoft.core.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i20_1"
          download-size="0"
@@ -34,18 +38,6 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="uk.ac.diamond.scisoft.analysis.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="uk.ac.diamond.scisoft.analysis"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="uk.ac.diamond.scisoft.spectroscopy.rcp"

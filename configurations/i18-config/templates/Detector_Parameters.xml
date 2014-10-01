@@ -27,7 +27,7 @@
             <name>I0</name>
             <deviceName>counterTimer01</deviceName>
             <channel>1</channel>
-            <currentAmplifierName>Stanford01</currentAmplifierName>
+            <currentAmplifierName>I0_keithley</currentAmplifierName>
             <gain>10^3 V/A</gain>
             <offset>1 pA</offset>
             <useGasProperties>false</useGasProperties>
@@ -36,7 +36,7 @@
             <name>It</name>
             <deviceName>counterTimer01</deviceName>
             <channel>2</channel>
-            <currentAmplifierName>Stanford02</currentAmplifierName>
+            <currentAmplifierName>It_keithley</currentAmplifierName>
             <gain>10^3 V/A</gain>
             <offset>1 pA</offset>
             <useGasProperties>false</useGasProperties>            
@@ -49,7 +49,7 @@
             <name>I0</name>
             <deviceName>counterTimer01</deviceName>
             <channel>1</channel>
-            <currentAmplifierName>Stanford01</currentAmplifierName>
+            <currentAmplifierName>I0_keithley</currentAmplifierName>
             <gain>10^3 V/A</gain>
             <offset>1 pA</offset>
             <useGasProperties>false</useGasProperties>           
@@ -58,7 +58,7 @@
             <name>It</name>
             <deviceName>counterTimer01</deviceName>
             <channel>2</channel>
-            <currentAmplifierName>Stanford02</currentAmplifierName>
+            <currentAmplifierName>It_keithley</currentAmplifierName>
             <gain>10^3 V/A</gain>
             <offset>1 pA</offset>
             <useGasProperties>false</useGasProperties>

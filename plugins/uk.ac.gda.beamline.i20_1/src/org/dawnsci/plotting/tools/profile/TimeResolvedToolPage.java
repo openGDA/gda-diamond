@@ -30,7 +30,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.dawb.common.ui.widgets.ActionBarWrapper;
-import org.dawnsci.plotting.tools.profile.model.SpectraRegionDataNode;
 import org.dawnsci.plotting.tools.profile.model.SpectrumDataNode;
 import org.dawnsci.plotting.tools.profile.model.TimeEnergyShiftingModel;
 import org.dawnsci.plotting.tools.profile.model.TimeResolvedDataNode;
@@ -38,6 +37,10 @@ import org.dawnsci.plotting.tools.profile.model.ToolPageModel;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.metadata.IMetadata;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.PlottingFactory;
@@ -67,10 +70,6 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
-import uk.ac.diamond.scisoft.analysis.io.IMetaData;
-import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
@@ -163,7 +162,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private String getDataFilePath(IImageTrace image) throws Exception {
-		IMetaData metaData = image.getData().getMetadata();
+		IMetadata metaData = image.getData().getMetadata();
 		if (metaData != null) {
 			return metaData.getFilePath();
 		}
