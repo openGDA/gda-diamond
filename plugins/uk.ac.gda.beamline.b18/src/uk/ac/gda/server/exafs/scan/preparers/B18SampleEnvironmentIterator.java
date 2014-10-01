@@ -22,6 +22,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.jython.InterfaceProvider;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -149,29 +150,37 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 		log("starting control loop");
 		while (!temp_final) {
 			double temp_readback = (Double) tempController.getPosition();
-			if (temp_readback > min && temp_readback < max) {
-				log("Temperature reached, checking if it has stablised");
+			if (temperatureInRequiredRange(min,max,temp_readback)) {
+				log("Temperature reached, waiting for it to be stable...");
 				boolean finalised = true;
-				int time = 0;
-				while (finalised && time < wait_time) {
+				long startTime = new Date().getTime();
+				while (finalised && stillWaiting(wait_time , startTime)) {
 					log("Temperature stable");
 					temp_readback = (Double) tempController.getPosition();
-					if (temp_readback < min || temp_readback > max) {
+					if (!temperatureInRequiredRange(min,max,temp_readback)) {
 						log("Temperature unstable");
 						finalised = false;
 					}
-					time += 1;
-					Thread.sleep(1);
+					Thread.sleep(1000);
 				}
 				if (finalised) {
 					temp_final = true;
 				}
 			} else {
 				log("Temperature = " + temp_readback);
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			}
 		}
 		// }
+	}
+	
+	private boolean temperatureInRequiredRange(double min, double max, double temp_readback) {
+		return temp_readback > min && temp_readback < max;
+	}
+	
+	private boolean stillWaiting(double wait_time_in_s, long start_of_wait) {
+		long now = new Date().getTime();
+		return (start_of_wait + (wait_time_in_s*1000)) > now;
 	}
 
 	private Scannable[] control_lakeshore(LakeshoreParameters lakeshore_bean) throws InterruptedException,
