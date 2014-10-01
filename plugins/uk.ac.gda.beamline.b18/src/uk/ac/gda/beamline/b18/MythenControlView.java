@@ -58,7 +58,7 @@ import uk.ac.diamond.scisoft.analysis.plotserver.GuiBean;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiParameters;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiPlotMode;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiUpdate;
-import uk.ac.diamond.scisoft.analysis.plotserver.IGuiInfoManager;
+import uk.ac.diamond.scisoft.analysis.plotserver.IBeanScriptingManager;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.IPlotUI;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.IUpdateNotificationListener;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotConsumer;
@@ -72,7 +72,7 @@ import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
  * Plot View is the main Analysis panel that can display any n-D scalar data it is the replacement of the Data Vector
  * panel inside the new RCP framework
  */
-public class MythenControlView extends ViewPart implements IObserver, IObservable, IGuiInfoManager,
+public class MythenControlView extends ViewPart implements IObserver, IObservable, IBeanScriptingManager,
 		IUpdateNotificationListener {
 
 	// Adding in some logging to help with getting this running
