@@ -187,6 +187,8 @@
 		<constructor-arg ref="pixium.cam" />
 		<constructor-arg value="0.143" />
 		<property name="prefix" value="BL11J-EA-DET-10:CAM:"/>
+		<property name="acquisitionTimeUnit" value="s"/>
+		<property name="acquisitionPeriodUnit" value="s"/>
 	</bean>
 	<bean id="pixium_hdf" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium_hdf"/>
