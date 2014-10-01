@@ -183,8 +183,6 @@ public abstract class EdeExperiment implements IObserver {
 		topup = (Monitor) getFindable(topupMonitorName);
 		beamLightShutter = (Scannable) getFindable(beamShutterScannableName);
 		controller = (ScriptControllerBase) getFindable(PROGRESS_UPDATER_NAME);
-
-		itTriggerOptions.getDetectorDataCollection().setCollectionDuration(itScanParameters.getTotalTime());
 	}
 
 	protected void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {

@@ -31,6 +31,8 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.dawnsci.plotting.tools.profile.model.AvgRegionToolDataModel;
+import org.dawnsci.plotting.tools.profile.model.SpectraRegionDataNode;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;

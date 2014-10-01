@@ -222,6 +222,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 		});
 
+
+
 		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
 		if (savedExperimentDataModel == null) {
@@ -588,6 +590,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 		timeIntervalData.setTimes(IT_COLLECTION_START_TIME, experimentDuration);
 		this.firePropertyChange(IT_COLLECTION_DURATION_PROP_NAME, null, getItCollectionDuration());
+		externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().setCollectionDuration(unit.convertTo(getItCollectionDuration(), ExperimentUnit.SEC));
 	}
 
 	private void resetInitialGroupTimes(double groupDuration) {

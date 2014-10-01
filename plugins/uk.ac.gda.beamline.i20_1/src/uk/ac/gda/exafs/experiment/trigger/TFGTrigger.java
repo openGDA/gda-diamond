@@ -42,14 +42,9 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	@Expose
 	private final List<TriggerableObject> sampleEnvironment = new ArrayList<TriggerableObject>(MAX_PORTS_FOR_SAMPLE_ENV);
-	//	@Expose
-	//	private final PhotonShutter photonShutter = new PhotonShutter();
+
 	@Expose
 	private final DetectorDataCollection detectorDataCollection = new DetectorDataCollection();
-	//
-	//	public PhotonShutter getPhotonShutter() {
-	//		return photonShutter;
-	//	}
 
 	public DetectorDataCollection getDetectorDataCollection() {
 		return detectorDataCollection;
@@ -57,6 +52,19 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	public List<TriggerableObject> getSampleEnvironment() {
 		return sampleEnvironment;
+	}
+
+	public double getTotalTime() {
+		double total = 0.0;
+		for (TriggerableObject obj : sampleEnvironment) {
+			if (obj.getTriggerDelay() + obj.getTriggerPulseLength() > total) {
+				total = obj.getTriggerDelay() + obj.getTriggerPulseLength();
+			}
+		}
+		if (detectorDataCollection.getTriggerDelay() + detectorDataCollection.getCollectionDuration() > total) {
+			total = detectorDataCollection.getTriggerDelay() + detectorDataCollection.getCollectionDuration();
+		}
+		return total;
 	}
 
 	public TriggerableObject createNewSampleEnvEntry() throws Exception {
@@ -94,42 +102,34 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		if (shouldStartOnTopupSignal) {
 			tfgCommand.append(String.format("1 %f 0 0 0 8 0\n", MIN_DEAD_TIME));
 		}
+		double iTcollectionEndTime = detectorDataCollection.getTotalDelay();
+		double iTcollectionStartTime = detectorDataCollection.getTriggerDelay();
+		boolean itCollectionAdded = false;
 		for (int i = 0; i < triggerPoints.size(); i++) {
 			if (i + 1 < triggerPoints.size()) {
-				double collectionStopTime = detectorDataCollection.getTriggerDelay() + detectorDataCollection.getCollectionDuration();
-				if (triggerPoints.get(i + 1).time > detectorDataCollection.getTriggerDelay() && triggerPoints.get(i + 1).time < collectionStopTime) {
-					// FIXME
-				} else if (triggerPoints.get(i + 1).time >= collectionStopTime) {
-					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", (detectorDataCollection.getTriggerDelay() - triggerPoints.get(i).time), triggerPoints.get(i).port));
-					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", detectorDataCollection.getTriggerPulseLength(), detectorDataCollection.getTriggerOutputPort().getUsrPort() + triggerPoints.get(i).port));
-					tfgCommand.append(String.format("%d 0 %f 0 %d 0 9\n", detectorDataCollection.getNumberOfFrames(), MIN_LIVE_TIME, detectorDataCollection.getTriggerOutputPort().getUsrPort() + triggerPoints.get(i).port)); // Review if this is dead or live port
-					if (triggerPoints.get(i + 1).time == collectionStopTime) {
+				TriggerPair thisPoint = triggerPoints.get(i);
+				TriggerPair nextPoint = triggerPoints.get(i + 1);
+				if (nextPoint.time > iTcollectionStartTime && nextPoint.time < iTcollectionEndTime) {
+					// FIXME This is to trigger during IT collection
+				} else if (nextPoint.time >= iTcollectionStartTime && !itCollectionAdded) {
+					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", (iTcollectionStartTime - thisPoint.time), thisPoint.port));
+					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", detectorDataCollection.getTriggerPulseLength(), detectorDataCollection.getTriggerOutputPort().getUsrPort() + thisPoint.port));
+					tfgCommand.append(String.format("%d 0 %f 0 %d 0 9\n", detectorDataCollection.getNumberOfFrames(), MIN_LIVE_TIME, detectorDataCollection.getTriggerOutputPort().getUsrPort() + thisPoint.port)); // Review if this is dead or live port
+					if (nextPoint.time == iTcollectionEndTime) {
 						tfgCommand.append(String.format("1 %f 0.0 0 0 9 0\n", MIN_DEAD_TIME));
 					} else {
-						tfgCommand.append(String.format("1 %f 0.0 %d 0 9 0\n", triggerPoints.get(i + 1).time - collectionStopTime, triggerPoints.get(i).port)); // Review if this is dead or live port
+						tfgCommand.append(String.format("1 %f 0.0 %d 0 9 0\n", nextPoint.time - iTcollectionEndTime, thisPoint.port)); // Review if this is dead or live port
 					}
-				} else if (triggerPoints.get(i + 1).time == detectorDataCollection.getTriggerDelay()) {
-					// FIXME
+					itCollectionAdded = true;
 				} else {
-					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", triggerPoints.get(i + 1).time - triggerPoints.get(i).time, triggerPoints.get(i).port));
+					if (thisPoint.time != iTcollectionStartTime && thisPoint.time != iTcollectionEndTime) {
+						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", nextPoint.time - thisPoint.time, thisPoint.port));
+					}
 				}
 			}
 		}
 		tfgCommand.append("-1 0 0 0 0 0 0");
 		return tfgCommand.toString();
-	}
-
-	public double getTotalTime() {
-		double total = 0.0;
-		for (TriggerableObject obj : sampleEnvironment) {
-			if (obj.getTriggerDelay() + obj.getTriggerPulseLength() > total) {
-				total = obj.getTriggerDelay() + obj.getTriggerPulseLength();
-			}
-		}
-		if (detectorDataCollection.getTriggerDelay() + detectorDataCollection.getCollectionDuration() > total) {
-			total = detectorDataCollection.getTriggerDelay() + detectorDataCollection.getCollectionDuration();
-		}
-		return total;
 	}
 
 	private List<TriggerPair> processTimes() {
@@ -181,4 +181,5 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 			port = aValue;
 		}
 	}
+
 }

@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.dawnsci.plotting.tools.profile;
+package org.dawnsci.plotting.tools.profile.model;
 
 import java.util.ArrayList;
 import java.util.List;

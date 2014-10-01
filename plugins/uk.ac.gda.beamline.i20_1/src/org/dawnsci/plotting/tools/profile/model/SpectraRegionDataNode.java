@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.dawnsci.plotting.tools.profile;
+package org.dawnsci.plotting.tools.profile.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ public class SpectraRegionDataNode extends ObservableModel implements IROIListen
 		if (roi instanceof RectangularROI) {
 			RectangularROI boxRoi = (RectangularROI) roi;
 			int firstIndex = (int) Math.round(boxRoi.getPointY());
-			int lastIndex = (int) Math.round((boxRoi.getPointY() + boxRoi.getLength(1)));
+			int lastIndex = firstIndex + (int) Math.round(boxRoi.getLength(1));
 			if (lastIndex > firstIndex) {
 				lastIndex--;
 			}
