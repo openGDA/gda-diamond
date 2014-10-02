@@ -91,7 +91,7 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	shfmcurve, shfmellip, shfmx, shfmpitch, \
 	pin3x, pin3y,\
 	sx, sy, sz, spitch, syaw, sroll,\
-	spivotx, spivoty, spivotz, sphi,\
+	spivotx, spivoty, spivotz, sphi, ssx, ssz,\
 	d7x, d7y,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
@@ -197,9 +197,6 @@ try:
 		spivotx = pd_epicsdevice.Simple_PD_EpicsDevice("spivotx", beamline, "-MO-SFAB-01:PIVOT:X")
 		spivoty = pd_epicsdevice.Simple_PD_EpicsDevice("spivoty", beamline, "-MO-SFAB-01:PIVOT:Y")
 		spivotz = pd_epicsdevice.Simple_PD_EpicsDevice("spivotz", beamline, "-MO-SFAB-01:PIVOT:Z")
-		sphi    = pd_epicsdevice.Simple_PD_EpicsDevice("sphi",    beamline, "-MO-SFAB-01:ROTARY")
-		ssx     = pd_epicsdevice.Simple_PD_EpicsDevice("ssx",     beamline, "-MO-SFAB-01:SAMPLE:X")
-		ssy     = pd_epicsdevice.Simple_PD_EpicsDevice("ssy",     beamline, "-MO-SFAB-01:SAMPLE:Y")
 
 		patch12x7 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x7", beamline, "-EA-PATCH-12:X7")
 		patch12x8 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x8", beamline, "-EA-PATCH-12:X8")
@@ -676,7 +673,7 @@ try:
 				shfmcurve, shfmellip, shfmx, shfmpitch,
 				pin3x, pin3y,
 				sx, sy, sz, spitch, syaw, sroll,
-				spivotx, spivoty, spivotz, sphi,
+				spivotx, spivoty, spivotz, sphi, ssx, ssz,
 				d7x, d7y,
 				bs2x, bs2y, bs3x, bs3y, bs3z,
 				#det2z,
