@@ -39,9 +39,6 @@
 		<config>servers/main/common/scannable/I15-D6.xml</config>
 		<config>servers/main/dummy/device/I15-D6.xml</config>
 		<config>servers/main/live/device/I15-D6.xml</config>
-		<config>servers/main/common/scannable/I15-D7.xml</config>
-		<config>servers/main/dummy/device/I15-D7.xml</config>
-		<config>servers/main/live/device/I15-D7.xml</config>
 		<config>servers/main/common/scannable/I15-DCM.xml</config>
 		<config>servers/main/dummy/device/I15-DCM.xml</config>
 		<config>servers/main/live/device/I15-DCM.xml</config>
