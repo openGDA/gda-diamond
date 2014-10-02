@@ -82,7 +82,6 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	djack1, djack2, djack3, dtransx, drotation, detz, ddelta,\
 	shdx, shdy, shdz,\
 	bsx, bsy,\
-	xreye_x, xreye_y,\
 	tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,\
 	s7xpos, s7ypos, s7xgap, s7xgap,\
 	d6x,\
@@ -94,7 +93,6 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	sx, sy, sz, spitch, syaw, sroll,\
 	spivotx, spivoty, spivotz, sphi,\
 	d7x, d7y,\
-	xreye2x, xreye2y,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9\
@@ -669,7 +667,6 @@ try:
 				djack1, djack2, djack3, dtransx, drotation, detz, ddelta,
 				shdx, shdy, shdz,
 				bsx, bsy,
-				xreye_x, xreye_y,
 				tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,
 				s7xpos, s7ypos, s7xgap, s7xgap,
 				d6x,
@@ -681,7 +678,6 @@ try:
 				sx, sy, sz, spitch, syaw, sroll,
 				spivotx, spivoty, spivotz, sphi,
 				d7x, d7y,
-				xreye2x, xreye2y,
 				bs2x, bs2y, bs3x, bs3y, bs3z,
 				#det2z,
 				d1, d2, d3, d4, d5, d6, d7, d8, d9,

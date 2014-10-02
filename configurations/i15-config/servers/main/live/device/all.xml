@@ -17,6 +17,7 @@
 	<import resource="I15-D3.xml"/>
 	<import resource="I15-D4.xml"/>
 	<import resource="../../dummy/device/I15-D6.xml"/>
+	<import resource="I15-D7.xml"/>
 	<import resource="I15-DCM.xml"/>
 	<import resource="I15-DET-MAR-AD.xml" />
 	<import resource="I15-DET-MPX-AD.xml" />
@@ -24,8 +25,6 @@
 	<import resource="I15-DET-PIL3-AD.xml" />
 	<import resource="I15-DET1.xml"/>
 	<import resource="I15-DET2.xml"/>
-	<import resource="../../dummy/device/I15-EYE1.xml"/>
-	<import resource="../../dummy/device/I15-EYE2.xml"/>
 	<import resource="I15-FE.xml"/>
 	<import resource="I15-FM.xml"/>
 	<import resource="I15-FS.xml"/>
