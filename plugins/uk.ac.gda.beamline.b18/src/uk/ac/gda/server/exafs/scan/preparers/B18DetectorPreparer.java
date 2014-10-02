@@ -1,5 +1,9 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import gda.configuration.properties.LocalProperties;
+import gda.data.scan.datawriter.DataWriter;
+import gda.data.scan.datawriter.DataWriterFactory;
+import gda.data.scan.datawriter.DefaultDataWriterFactory;
 import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
 import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
@@ -111,9 +115,9 @@ public class B18DetectorPreparer implements DetectorPreparer {
 	}
 
 	protected void control_all_ionc(List<IonChamberParameters> ion_chambers_bean) throws Exception {
-		control_ionc(ion_chambers_bean, 0);
-		control_ionc(ion_chambers_bean, 1);
-		control_ionc(ion_chambers_bean, 2);
+		for (int index = 0; index < ion_chambers_bean.size(); index++){
+			control_ionc(ion_chambers_bean,index);
+		}
 	}
 
 	protected void control_ionc(List<IonChamberParameters> ion_chambers_bean, int ion_chamber_num) throws Exception {
@@ -174,15 +178,22 @@ public class B18DetectorPreparer implements DetectorPreparer {
 		energy_scannable.moveTo(fluoresenceParameters.getMythenEnergy());
 
 		mythen_scannable.setCollectionTime(fluoresenceParameters.getMythenTime());
-
 		mythen_scannable.setSubDirectory(experimentFolderName);
-		XasAsciiNexusDataWriter dataWriter = new XasAsciiNexusDataWriter();
-		dataWriter.setRunFromExperimentDefinition(false);
-		dataWriter.setNexusFileNameTemplate(nexusSubFolder + "/%d-mythen.nxs");
-		dataWriter.setAsciiFileNameTemplate(asciiSubFolder + "/%d-mythen.dat");
 
 		StaticScan staticscan = new StaticScan(new Scannable[] { mythen_scannable });
-		staticscan.setDataWriter(dataWriter);
+
+		// use the Factory to enable unit testing - which would use a DummyDataWriter
+		DataWriterFactory datawriterFactory = new DefaultDataWriterFactory();
+		DataWriter datawriter = datawriterFactory.createDataWriter();
+		if (datawriter instanceof XasAsciiNexusDataWriter ){
+			((XasAsciiNexusDataWriter) datawriter).setRunFromExperimentDefinition(false);
+			((XasAsciiNexusDataWriter) datawriter).setNexusFileNameTemplate(nexusSubFolder + "/%d-mythen.nxs");
+			((XasAsciiNexusDataWriter) datawriter).setAsciiFileNameTemplate(asciiSubFolder + "/%d-mythen.dat");
+			staticscan.setDataWriter(datawriter);
+		}
+
+		LocalProperties.setScanSetsScanNumber(true);
+		staticscan.setScanNumber(1); // need to do this here to prevent the scan trying to use a numtracker to derive the scan number
 		InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image...");
 		staticscan.run();
 		InterfaceProvider.getTerminalPrinter().print("Diffraction scan complete.");
