@@ -20,6 +20,8 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import gda.device.Scannable;
+import gda.device.scannable.DummyScannable;
 import gda.device.scannable.ScannableMotor;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
@@ -54,26 +56,26 @@ public class B18SamplePreparerTest {
 		JythonServerFacade jythonserverfacade = Mockito.mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
 
-		mocked_sxcryo_scannable = PowerMockito.mock(ScannableMotor.class);
-		Mockito.when(mocked_sxcryo_scannable.getName()).thenReturn("mocked_sxcryo_scannable");
-		mocked_xytheta_scannable = Mockito.mock(ScannableMotor.class);
-		Mockito.when(mocked_xytheta_scannable.getName()).thenReturn("mocked_xytheta_scannable");
-		mocked_ln2cryo_scannable = PowerMockito.mock(ScannableMotor.class);
-		Mockito.when(mocked_ln2cryo_scannable.getName()).thenReturn("mocked_ln2cryo_scannable");
-		mocked_lakeshore_scannable = PowerMockito.mock(ScannableMotor.class);
-		Mockito.when(mocked_lakeshore_scannable.getName()).thenReturn("mocked_lakeshore_scannable");
-		mocked_furnace_scannable = PowerMockito.mock(ScannableMotor.class);
-		Mockito.when(mocked_furnace_scannable.getName()).thenReturn("mocked_furnace_scannable");
-		mocked_pulsetube_scannable = PowerMockito.mock(ScannableMotor.class);
-		Mockito.when(mocked_pulsetube_scannable.getName()).thenReturn("mocked_pulsetube_scannable");
-		mocked_samplewheel_scannable = PowerMockito.mock(ScannableMotor.class);
-		Mockito.when(mocked_samplewheel_scannable.getName()).thenReturn("mocked_samplewheel_scannable");
-		mocked_user_scannable = PowerMockito.mock(ScannableMotor.class);
-		Mockito.when(mocked_user_scannable.getName()).thenReturn("mocked_user_scannable");
+		
+		
+		mocked_sxcryo_scannable = createMockScannableMotor("mocked_sxcryo_scannable");
+		mocked_xytheta_scannable = createMockScannableMotor("mocked_xytheta_scannable");
+		mocked_ln2cryo_scannable = createMockScannableMotor("mocked_ln2cryo_scannable");
+		mocked_lakeshore_scannable = createMockScannableMotor("mocked_lakeshore_scannable");
+		mocked_furnace_scannable = createMockScannableMotor("mocked_furnace_scannable");
+		mocked_pulsetube_scannable = createMockScannableMotor("mocked_pulsetube_scannable");
+		mocked_samplewheel_scannable = createMockScannableMotor("mocked_samplewheel_scannable");
+		mocked_user_scannable = createMockScannableMotor("mocked_user_scannable");
 
 		preparer = new B18SamplePreparer(mocked_sxcryo_scannable, mocked_xytheta_scannable, mocked_ln2cryo_scannable,
 				mocked_lakeshore_scannable, mocked_furnace_scannable, mocked_pulsetube_scannable,
 				mocked_samplewheel_scannable, mocked_user_scannable);
+	}
+	
+	private ScannableMotor createMockScannableMotor(String string) {
+		ScannableMotor newMock = PowerMockito.mock(ScannableMotor.class);
+		Mockito.when(newMock.getName()).thenReturn(string);
+		return newMock;
 	}
 
 	@Test
