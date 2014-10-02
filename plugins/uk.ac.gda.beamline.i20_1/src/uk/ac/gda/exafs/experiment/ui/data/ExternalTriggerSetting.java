@@ -18,6 +18,9 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import org.eclipse.core.databinding.observable.list.IListChangeListener;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.ObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
@@ -29,9 +32,35 @@ public class ExternalTriggerSetting extends ObservableModel {
 	private final TFGTrigger tfgTrigger;
 	private final ObservableList sampleEnvironment;
 
-	public ExternalTriggerSetting(TFGTrigger tfgTrigger) {
+	public ExternalTriggerSetting(final TFGTrigger tfgTrigger) {
 		this.tfgTrigger = tfgTrigger;
 		sampleEnvironment = new WritableList(tfgTrigger.getSampleEnvironment(), TriggerableObject.class);
+		// TODO Refactor this
+		updateListeners(tfgTrigger);
+	}
+
+	private void updateListeners(final TFGTrigger tfgTrigger) {
+		for (TriggerableObject obj : tfgTrigger.getSampleEnvironment()) {
+			obj.addPropertyChangeListener(tfgTrigger.totalTimeChangeListener);
+		}
+		sampleEnvironment.addListChangeListener(new IListChangeListener() {
+			@Override
+			public void handleListChange(ListChangeEvent event) {
+				event.diff.accept(new ListDiffVisitor() {
+					@Override
+					public void handleRemove(int index, Object element) {
+						((TriggerableObject) element).addPropertyChangeListener(tfgTrigger.totalTimeChangeListener);
+						tfgTrigger.updateTotalTime();
+					}
+
+					@Override
+					public void handleAdd(int index, Object element) {
+						((TriggerableObject) element).removePropertyChangeListener(tfgTrigger.totalTimeChangeListener);
+						tfgTrigger.updateTotalTime();
+					}
+				});
+			}
+		});
 	}
 
 	public TFGTrigger getTfgTrigger() {

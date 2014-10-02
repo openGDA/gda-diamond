@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.experiment.trigger;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +45,19 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	@Expose
 	private final List<TriggerableObject> sampleEnvironment = new ArrayList<TriggerableObject>(MAX_PORTS_FOR_SAMPLE_ENV);
 
+	public final PropertyChangeListener totalTimeChangeListener = new PropertyChangeListener() {
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			TFGTrigger.this.firePropertyChange(TOTAL_TIME_PROP_NAME, null, getTotalTime());
+		}
+	};
+
 	@Expose
 	private final DetectorDataCollection detectorDataCollection = new DetectorDataCollection();
+
+	public TFGTrigger() {
+		detectorDataCollection.addPropertyChangeListener(totalTimeChangeListener);
+	}
 
 	public DetectorDataCollection getDetectorDataCollection() {
 		return detectorDataCollection;
@@ -54,6 +67,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return sampleEnvironment;
 	}
 
+	public static final String TOTAL_TIME_PROP_NAME = "totalTime";
 	public double getTotalTime() {
 		double total = 0.0;
 		for (TriggerableObject obj : sampleEnvironment) {
@@ -180,6 +194,10 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 			time   = aKey;
 			port = aValue;
 		}
+	}
+
+	public void updateTotalTime() {
+		firePropertyChange(TOTAL_TIME_PROP_NAME, null, getTotalTime());
 	}
 
 }

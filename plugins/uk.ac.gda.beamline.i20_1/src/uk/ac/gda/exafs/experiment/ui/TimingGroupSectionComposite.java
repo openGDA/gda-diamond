@@ -250,18 +250,16 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		expTimeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(7, false));
 
-		Label lbl = toolkit.createLabel(expTimeComposite, "Experiment time", SWT.NONE);
+		Label lbl = toolkit.createLabel(expTimeComposite, "It total time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		if (model instanceof CyclicExperimentModel) {
-			lbl.setText("Cycle time");
-		}
+
 		itExpDurationControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXP_IT_DURATION_PROP_NAME, false);
 		itExpDurationControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		itExpDurationControl.setEditable(false);
 		itExpDurationControl.setLayoutData(gridData);
 
-		lbl = toolkit.createLabel(expTimeComposite, "It collection time", SWT.NONE);
+		lbl = toolkit.createLabel(expTimeComposite, "Collection time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
