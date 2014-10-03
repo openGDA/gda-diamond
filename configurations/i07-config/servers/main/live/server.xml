@@ -61,8 +61,10 @@
 
 	<import resource="lakeshore.xml" />
 
+	<!--
 	<import resource="pie.xml" />
 	<import resource="zone_plates.xml" />
+	-->
 
 	<import
 		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
