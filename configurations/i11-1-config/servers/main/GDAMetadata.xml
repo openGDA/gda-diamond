@@ -58,10 +58,6 @@
 					<property name="name" value="instrument.monochromator.name" />
 					<property name="value" value="DCM" />
 				</bean>				
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="instrument.monochromator.wavelength" />
-					<property name="value" value="undefined" />
-				</bean>
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
 					<property name="name" value="instrument.monochromator.energy" />
 					<property name="pvName" value="BL11I-OP-DCM-01:ENERGY.VAL" />

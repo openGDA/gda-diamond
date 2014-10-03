@@ -179,7 +179,7 @@
 				<entry key="wavelength">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="monochromator:NXmonochromator/wavelength" />
+						<property name="paths" value="instrument:NXinstrument/monochromator:NXmonochromator/wavelength" />
 						<property name="units" value="Angstrom" />
 					</bean>
 				</entry>

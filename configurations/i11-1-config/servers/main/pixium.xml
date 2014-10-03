@@ -49,10 +49,10 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL11J-EA-DET-10:ARR:" />
-				<property name="initialArrayPort" value="Pixium.cam" />
+				<property name="initialArrayPort" value="Pixium.Cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
-				<property name="initialEnableCallbacks" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
 			</bean>
 		</property>
 	</bean>
@@ -150,6 +150,7 @@
 		<property name="initialNumBitPrecision" value="8" />
 		<property name="initialSzipNumPixels" value="16" />
 		<property name="initialZCompressLevel" value="6" />
+		<property name="lazyOpen" value="true"/>
 	</bean>
 	<bean id="pixium.mpeg"	class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
 		<property name="basePVName" value="BL11J-EA-DET-10:MJPG:" />
@@ -169,7 +170,7 @@
 
 <!-- Pixium uses NXDetector -->
 	<!-- using multiple exposures per image in HDF, not process plugin, using EPICS write HDF files -->
-	<bean id="pixium.hdffileWriter"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+	<bean id="pixium_hdf.fileWriter"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pixium.hdf"/>
 		<property name="fileNameTemplate" value="pixium"/>
 		<property name="filePathTemplate" value="$datadir$"/>
@@ -190,23 +191,31 @@
 		<property name="acquisitionTimeUnit" value="s"/>
 		<property name="acquisitionPeriodUnit" value="s"/>
 	</bean>
+	<bean id="pixium_hdf.adarrayplugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="pixium.arr" />
+		<property name="enabled" value="true"/>
+		<property name="blocking" value="true"/>
+		<property name="writeDataToFile" value="false"/>
+		<property name="ndArrayPortVal" value="Pixium.Cam"/>
+	</bean>	
 	<bean id="pixium_hdf" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium_hdf"/>
 		<property name="prefix" value="BL11J-EA-DET-10:CAM:"/>
 		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
-		<property name="fastshutter" ref="fastshutter"/>
+<!-- 		<property name="fastshutter" ref="fastshutter"/> -->
 		<property name="collectionStrategy" ref="pixium.simpleAcquire"/>
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="pixium.hdffileWriter"/>
+				<ref bean="pixium_hdf.fileWriter"/>
+				<ref bean="pixium_hdf.adarrayplugin"/>
 			</list>
 		</property>
 	</bean>
 	
 <!-- 	using multiple exposures per image in TIFF, not process plugin, using EPICS write tiff files -->
-	<bean id="pixium.multipleExposure"	class="gda.device.detector.addetector.triggering.PixiumMultipleExposureSoftwareTriggerAutoMode">
+	<bean id="pixium_tif.multipleExposure"	class="gda.device.detector.addetector.triggering.PixiumMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pixium.cam" />
 		<constructor-arg value="10.0" />
 		<property name="exposureTime" value="0.5" />
@@ -215,8 +224,10 @@
 		<!-- comment out 'ndFile' comment in 'ndProcess to use process plugin to do the sum -->
 		<!-- <property name="ndProcess" ref="pixium.proc" /> -->
 		<property name="prefix" value="BL11J-EA-DET-10:CAM:"/>
+		<property name="acquisitionTimeUnit" value="s"/>
+		<property name="acquisitionPeriodUnit" value="s"/>
 	</bean>
-	<bean id="pixium.singleImageFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+	<bean id="pixium_tif.singleImageFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pixium"/>
 		<property name="fileTemplate" value="%s%s_%05d.tif" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -227,6 +238,10 @@
 		<!-- change the value below from 'Pixium.cam' to Pixium.proc' to use process plugin to sum images.  -->
 		<property name="ndArrayPortVal" value="Pixium.Cam" />
 		<property name="fileWriteMode" value="STREAM" />
+		<property name="xPixelSize" value="148.0"/>
+		<property name="yPixelSize" value="148.0"/>
+		<property name="xPixelSizeUnit" value="µm"/>
+		<property name="yPixelSizeUnit" value="µm"/>
 	</bean>
 	<bean id="pixium_tif" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium_tif"/>
@@ -234,11 +249,12 @@
 		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
-		<property name="fastshutter" ref="fastshutter"/>
-		<property name="collectionStrategy" ref="pixium.multipleExposure"/>
+<!-- 		<property name="fastshutter" ref="fastshutter"/> -->
+		<property name="collectionStrategy" ref="pixium_tif.multipleExposure"/>
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="pixium.singleImageFileWriter"/>
+				<ref bean="pixium_tif.singleImageFileWriter"/>
+				<ref bean="pixium_hdf.adarrayplugin"/>
 			</list>
 		</property>
 	</bean>
@@ -251,6 +267,9 @@
 	<bean id="pixium.adarrayplugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
 		<constructor-arg ref="pixium.arr" />
 		<property name="enabled" value="true"/>
+		<property name="blocking" value="true"/>
+		<property name="writeDataToFile" value="true"/>
+		<property name="ndArrayPortVal" value="Pixium.Cam"/>
 	</bean>	
 	<bean id="pixium" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium"/>
@@ -258,7 +277,7 @@
 		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
-		<property name="fastshutter" ref="fastshutter"/>
+<!-- 		<property name="fastshutter" ref="fastshutter"/> -->
 		<property name="collectionStrategy" ref="pixium.simpleAcquire"/>
 		<property name="additionalPluginList">
 			<list>
