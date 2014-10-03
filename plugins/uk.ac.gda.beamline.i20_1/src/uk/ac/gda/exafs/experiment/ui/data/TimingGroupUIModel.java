@@ -317,7 +317,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	public void setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers exernalTriggerInputLemoNumber) {
 		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.exernalTriggerInputLemoNumber, this.exernalTriggerInputLemoNumber = exernalTriggerInputLemoNumber);
-
 	}
 
 	public TimeResolvedExperimentModel getParent() {

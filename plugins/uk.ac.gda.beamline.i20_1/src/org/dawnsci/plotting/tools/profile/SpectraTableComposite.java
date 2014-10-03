@@ -366,8 +366,6 @@ public class SpectraTableComposite extends ObservableResourceComposite {
 				timeEnergyShiftingModel.setEnergyShifted(shiftDataToggle.getSelection());
 			}
 		});
-		// TODO
-		shiftDataToggle.setEnabled(false);
 	}
 
 	private final EnergyCalibration calibrationModel = new EnergyCalibration();

@@ -20,8 +20,10 @@ package org.dawnsci.plotting.tools.profile.model;
 
 import java.util.Arrays;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
 import org.eclipse.dawnsci.plotting.api.region.IROIListener;
 import org.eclipse.dawnsci.plotting.api.region.IRegion;
 import org.eclipse.dawnsci.plotting.api.region.ROIEvent;
@@ -84,6 +86,27 @@ public class TimeEnergyShiftingModel extends ObservableModel implements IROIList
 
 	public void setEnergyShifted(boolean energyShifted) {
 		this.energyShifted = energyShifted;
+		updateShiftedIndex();
+	}
+
+	private int[] dervIndex;
+
+	private void updateShiftedIndex() {
+		int[] shape = toolPageModel.getImageTrace().getData().getShape();
+		int numberOfSpectrum = shape[0];
+		int numberOfChannels = shape[1];
+		DoubleDataset imageData = (DoubleDataset) toolPageModel.getImageTrace().getData();
+		dervIndex = new int[numberOfSpectrum];
+		DoubleDataset energyXData = (DoubleDataset) toolPageModel.getImageTrace().getAxes().get(0);
+		for (int i = 0; i < numberOfSpectrum; i++) {
+			DoubleDataset slicedYData = (DoubleDataset) imageData.getSlice(new int[]{i, 0}, new int[]{i+1, numberOfChannels}, new int[]{1, 1}).squeeze();
+			final Dataset derv = Maths.derivative(energyXData, slicedYData, 5);
+			dervIndex[i] = derv.maxPos()[0];
+		}
+	}
+
+	public int[] getdervIndex() {
+		return dervIndex;
 	}
 
 	private void updateTimeEnergyValue() {
@@ -94,33 +117,47 @@ public class TimeEnergyShiftingModel extends ObservableModel implements IROIList
 		int numberOfChannels = shape[1];
 		int index = DatasetUtils.findIndexGreaterThanOrEqualTo((DoubleDataset) toolPageModel.getImageTrace().getAxes().get(0), energy);
 		DoubleDataset imageData = (DoubleDataset) toolPageModel.getImageTrace().getData();
-		if (useSpectra && !toolPageModel.getSpectraPlotting().getTraces().isEmpty()) {
-			if (toolPageModel.getSpectraPlotting().getTraces().size() == 1) {
+		if (useSpectra) {
+			int[] selectedIndex = getSelectedIndex();
+			if (selectedIndex.length == 0 || selectedIndex.length == 1) {
 				return;
 			}
-			int[] selectedIndex = new int[toolPageModel.getSpectraPlotting().getTraces().size()];
-
-			int i = 0;
-			for (ITrace trace : toolPageModel.getSpectraPlotting().getTraces()) {
-				selectedIndex[i++] = ((SpectrumDataNode) trace.getUserObject()).getIndex();
-			}
-			Arrays.sort(selectedIndex);
 			DoubleDataset data = null;
+			data = (DoubleDataset) imageData.getSlice(new int[]{selectedIndex[0], 0}, new int[]{selectedIndex[selectedIndex.length - 1] + 1, numberOfChannels}, new int[]{1, 1});
 			if (energyShifted) {
-				for (i = 0; i < selectedIndex.length; i++) {
-					DoubleDataset tempData = (DoubleDataset) imageData.getSlice(new int[]{selectedIndex[i], 0}, new int[]{selectedIndex[i] + 1, numberOfChannels}, new int[]{1, 1}).squeeze();
-					// TODO
-					//Generic1DFitter.findPeaks(xdata, tempData, 2);
+				int start = selectedIndex[0];
+				double[] value = new double[data.getShape()[0]];
+				for (int i = 0; i < data.getShape()[0]; i++) {
+					int diff = dervIndex[start] - dervIndex[start + i];
+					value[i] = data.get(i + diff, index);
 				}
+				newdata = new DoubleDataset(value, new int[]{value.length});
 			} else {
-				data = (DoubleDataset) imageData.getSlice(new int[]{selectedIndex[0], 0}, new int[]{selectedIndex[selectedIndex.length - 1] + 1, numberOfChannels}, new int[]{1, 1});
+				newdata = (DoubleDataset) data.getSlice(new int[]{0, index},new int[]{data.getShape()[0], index + 1}, new int[]{1,1}).squeeze();
 			}
-			newdata = (DoubleDataset) data.getSlice(new int[]{0, index},new int[]{data.getShape()[0], index + 1}, new int[]{1,1}).squeeze();
 		} else {
-
-			newdata = (DoubleDataset) imageData.getSlice(new int[]{0, index},new int[]{numberOfSpectrum, index + 1}, new int[]{1,1}).squeeze();
+			if (energyShifted) {
+				double[] value = new double[numberOfSpectrum];
+				for (int i = 0; i < numberOfSpectrum; i++) {
+					int diff = dervIndex[0] - dervIndex[i];
+					value[i] = imageData.get(i + diff, index);
+				}
+				newdata = new DoubleDataset(value, new int[]{value.length});
+			} else {
+				newdata = (DoubleDataset) imageData.getSlice(new int[]{0, index},new int[]{numberOfSpectrum, index + 1}, new int[]{1,1}).squeeze();
+			}
 		}
 		this.firePropertyChange(DATA_UPDATED_PROP_NAME, dataUpdated, dataUpdated = newdata);
+	}
+
+	public int[] getSelectedIndex() {
+		int[] selectedIndex = new int[toolPageModel.getSpectraPlotting().getTraces().size()];
+		int selectedIndexCounter = 0;
+		for (ITrace trace : toolPageModel.getSpectraPlotting().getTraces()) {
+			selectedIndex[selectedIndexCounter++] = ((SpectrumDataNode) trace.getUserObject()).getIndex();
+		}
+		Arrays.sort(selectedIndex);
+		return selectedIndex;
 	}
 
 	public DoubleDataset getDataUpdated() {

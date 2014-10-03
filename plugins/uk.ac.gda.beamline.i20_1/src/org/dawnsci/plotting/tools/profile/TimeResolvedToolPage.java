@@ -440,6 +440,15 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	private final List<ILineTrace> stackList = new LinkedList<ILineTrace>();
 	private void addToPlottingSystem(ILineTrace trace) {
 		((DoubleDataset) trace.getYData()).iadd(stackList.size() * toolPageModel.getTraceStack());
+		if (timeEnergyShifting.isEnergyShifted()) {
+			int[] selectedIndex = timeEnergyShifting.getSelectedIndex();
+			if (selectedIndex.length > 1) {
+				int[] dervIndex = timeEnergyShifting.getdervIndex();
+				int index = ((SpectrumDataNode) trace.getUserObject()).getIndex();
+				double diff = ((DoubleDataset) energy).get(dervIndex[selectedIndex[0]]) - ((DoubleDataset) energy).get(dervIndex[index]);
+				((DoubleDataset) trace.getXData()).iadd(diff);
+			}
+		}
 		plottingSystem.addTrace(trace);
 		stackList.add(trace);
 		if (plottingSystem.getTraces().size() == 1) {
