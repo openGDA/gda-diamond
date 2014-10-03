@@ -56,8 +56,6 @@ public class B18SamplePreparerTest {
 		JythonServerFacade jythonserverfacade = Mockito.mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
 
-		
-		
 		mocked_sxcryo_scannable = createMockScannableMotor("mocked_sxcryo_scannable");
 		mocked_xytheta_scannable = createMockScannableMotor("mocked_xytheta_scannable");
 		mocked_ln2cryo_scannable = createMockScannableMotor("mocked_ln2cryo_scannable");
