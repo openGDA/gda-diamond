@@ -18,6 +18,7 @@
 	<import resource="I15-D4.xml"/>
 	<import resource="I15-D6.xml"/>
 	<import resource="I15-D7.xml"/>
+	<import resource="I15-D8.xml"/>
 	<import resource="I15-DCM.xml"/>
 	<import resource="I15-DET-MAR-AD.xml" />
 	<import resource="I15-DET-MPX-AD.xml" />

@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="d8x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d8x_motor" />
+	</bean>
+
+	<bean id="d8y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d8y_motor" />
+	</bean>
+</beans>
