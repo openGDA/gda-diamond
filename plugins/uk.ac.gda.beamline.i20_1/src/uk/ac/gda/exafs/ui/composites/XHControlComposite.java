@@ -63,6 +63,7 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.ui.components.NumberEditorControl;
@@ -247,6 +248,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		});
 		detectorControlModel.setNumberOfAccumulations(numberOfAccumulations);
 		txtNumScansPerFrame = new NumberEditorControl(snapshotSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		txtNumScansPerFrame.setRange(1, SingleSpectrumCollectionModel.MAX_NO_OF_ACCUMULATIONS);
 		txtNumScansPerFrame.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);

@@ -170,6 +170,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		lnoOfAcculabel = toolkit.createLabel(i0Composite, "Number of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		i0NoOfAccumulationValueText = new NumberEditorControl(i0Composite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		i0NoOfAccumulationValueText.setRange(1, SingleSpectrumCollectionModel.MAX_NO_OF_ACCUMULATIONS);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
 		gridData.widthHint = BOX_WIDTH;
 		i0NoOfAccumulationValueText.setLayoutData(gridData);
