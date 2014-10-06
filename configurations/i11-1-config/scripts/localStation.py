@@ -275,6 +275,13 @@ def meta_rm_allPIXIUM():
             msg = "\t Unable to find a meta scannable named: " + sname
             print msg
 alias("meta_rm_allPIXIUM")
+
+def pad_hdf(t,n=1.0):
+    scan(ds, 1.0, n, 1.0, pixium_hdf, t, Io, t, Ie2)  # @UndefinedVariable
+    scaler2(1)  # @UndefinedVariable
+    
+
+alias("pad_hdf")
 ##### new objects must be added above this line ###############
 print
 print "=================================================================================================================";
