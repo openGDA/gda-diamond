@@ -121,6 +121,8 @@ public abstract class EdeExperiment implements IObserver {
 
 	private String fileNamePrefix = "";
 
+	private String sampleDetails = "";
+
 	private Monitor topup;
 
 	protected final TFGTrigger itTriggerOptions;
@@ -398,6 +400,9 @@ public abstract class EdeExperiment implements IObserver {
 			metadataText.append(result.toString());
 		}
 		metadataText.append(getHeaderText());
+		if (!sampleDetails.isEmpty()) {
+			metadataText.append("\nSample details: " + sampleDetails + "\n");
+		}
 		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", metadataText.toString(),
 				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
 		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
@@ -409,6 +414,14 @@ public abstract class EdeExperiment implements IObserver {
 
 	public void setFileNamePrefix(String fileNamePrefix) {
 		this.fileNamePrefix = fileNamePrefix;
+	}
+
+	public String getSampleDetails() {
+		return sampleDetails;
+	}
+
+	public void setSampleDetails(String sampleDetails) {
+		this.sampleDetails = sampleDetails;
 	}
 
 	public String getNexusFilename() {

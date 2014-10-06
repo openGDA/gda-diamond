@@ -154,7 +154,7 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					singleSpectrumDataModel.doCollection(false, null);
+					singleSpectrumDataModel.doCollection(false, null, "");
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 					logger.error("Unable to scan", e);

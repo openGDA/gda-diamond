@@ -344,8 +344,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 	}
 
-	public void doCollection(String fileNamePrefix) {
+	public void doCollection(String fileNamePrefix, String sampleDetails) {
 		experimentDataModel.setFileNamePrefix(fileNamePrefix);
+		experimentDataModel.setSampleDetails(sampleDetails);
 		experimentDataCollectionJob.schedule();
 	}
 
@@ -371,6 +372,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				gson.toJson(externalTriggerSetting.getTfgTrigger())));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");", this.getExperimentDataModel().getSampleDetails()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
 		}
@@ -485,7 +487,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							timingGroup.setLabel(uiTimingGroup.getName());
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
 							timingGroup.setTimePerFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getTimePerSpectrum(), ExperimentUnit.SEC)); // convert to S
-							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
+							// integration time is always in milli sec
+							timingGroup.setTimePerScan(ExperimentUnit.MILLI_SEC.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setGroupTrig(uiTimingGroup.isUseExernalTrigger());
 							// Set up lemo outs

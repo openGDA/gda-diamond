@@ -60,6 +60,8 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 	private static final String SINGLE_JYTHON_DRIVER_OBJ = "singletimeresolveddriver";
 
+	public static final int MAX_NO_OF_ACCUMULATIONS = 65536;
+
 	public static final String IT_INTEGRATION_TIME_PROP_NAME = "itIntegrationTime";
 	@Expose
 	private double itIntegrationTime = 1.0;
@@ -268,11 +270,12 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		return experimentDataModel;
 	}
 
-	public void doCollection(boolean forExperiment, String fileNamePrefix) throws Exception {
+	public void doCollection(boolean forExperiment, String fileNamePrefix, String sampleDetails) throws Exception {
 		if (!forExperiment) {
 			experimentDataModel.setFileNamePrefix(elementSymbol + "_cal");
 		} else {
 			experimentDataModel.setFileNamePrefix(fileNamePrefix);
+			experimentDataModel.setSampleDetails(sampleDetails);
 		}
 
 		if (DetectorModel.INSTANCE.getCurrentDetector() == null) {
