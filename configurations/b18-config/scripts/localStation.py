@@ -48,7 +48,7 @@ samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulse
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 xas = XasScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy,Finder.getInstance().find("metashop"), True)
 xanes = xas
-qexafs = QexafsScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, True, Finder.getInstance().find("metashop"))
+qexafs = QexafsScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
 
 vararg_alias("xas")
 vararg_alias("xanes")
