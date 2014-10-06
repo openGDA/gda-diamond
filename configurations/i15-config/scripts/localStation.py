@@ -518,6 +518,13 @@ try:
 		localStation_exception(sys.exc_info(), "creating dkphi_rocker object")
 
 	try:
+		from scannables.EpicsRockingScannable import EpicsRockingScannable
+		dkphi_rockscan = EpicsRockingScannable('dkphi_rockscan', scannable=dkphi)
+		alias('dkphi_rockscan')
+	except:
+		localStation_exception(sys.exc_info(), "creating dkphi_rockscan object")
+
+	try:
 		dx.setOutputFormat(["%.6g"])
 		dy.setOutputFormat(["%.6g"])
 		dz.setOutputFormat(["%.6g"])

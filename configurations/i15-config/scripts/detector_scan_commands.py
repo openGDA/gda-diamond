@@ -189,8 +189,15 @@ def rockScanUnsync(axis, centre, rockSize, noOfRocksPerExposure, detector, expos
 	if noOfExposures <> 1:
 		raise Exception("noOfExposures=%r is not supported. Only noOfExposures=1 is currently supported, if you want multiple rocks with each in a different exposure, use rockScan" % noOfExposures)
 	
-	if axis.name != "dkphi_rocker":
-		raise Exception('Unsupported motor %r, only dkphi_rocker supported.' % (axis.name))
+	if   axis.name == "dkphi_rocker":
+		rockScanUnsyncJythonRocker(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures, sampleSuffix, d1out, d2out)
+	elif axis.name == "dkphi_rockscan":
+		rockScanUnsyncEpicsRocker( axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures, sampleSuffix, d1out, d2out)
+	else:
+		raise Exception('Unsupported motor %r, only dkphi_rocker or dkphi_rockscan supported.' % (axis.name))
+	
+def rockScanUnsyncJythonRocker(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
+		sampleSuffix="rockScanUnsync_test", d1out=True, d2out=True):
 	
 	orig_speed = axis.scannable.speed
 	
@@ -238,6 +245,32 @@ def rockScanUnsync(axis, centre, rockSize, noOfRocksPerExposure, detector, expos
 	axis.scannable.speed = orig_speed
 	print "Moving %s back to %r" % (axis.name, centre)
 	axis.moveTo( [centre, 0] )
+
+def rockScanUnsyncEpicsRocker(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
+		sampleSuffix="rockScanUnsync_test", d1out=True, d2out=True):
+
+	print "Moving %s to start position %r" % (axis.name, centre-rockSize)
+	axis.scannable.moveTo(centre-rockSize) # Go to start position
+
+	axis.setupScan(centre, rockSize, noOfRocksPerExposure)
+
+	_configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark=False)
+
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	detectorShield = jythonNameMap.ds
+	numExposuresPD = DummyPD("exposure")
+	zebraFastShutter = jythonNameMap.zebraFastShutter
+	
+	scan = ConcurrentScan([numExposuresPD, 1, noOfExposures, 1,
+						   detectorShield,
+						   DiodeController(d1out, d2out),
+						   detector, exposureTime,
+						   zebraFastShutter, exposureTime,
+						   axis, exposureTime ])
+	scan.runScan()
+	
+	print "Moving %s back to %r" % (axis.name, centre)
+	axis.scannable.moveTo(centre) # Go back to centre
 
 """
 def expose(detector, exposureTime=1, noOfExposures=1,
