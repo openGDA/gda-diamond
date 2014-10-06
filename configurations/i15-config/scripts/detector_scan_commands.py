@@ -207,7 +207,7 @@ def rockScanUnsync(axis, centre, rockSize, noOfRocksPerExposure, detector, expos
 	#    |    timePerRock     |
 	#    cruiseTime = timePerRock - 2.*ACCL
 	#    speed = rockSize / (cruiseTime + ACCL)
-	speed = float(rockSize) / (timePerRock - ACCL)
+	speed = float(rockSize*2) / (timePerRock - ACCL)
 	
 	# Old calc							New calc
 	# rockSize = 5						
@@ -227,7 +227,7 @@ def rockScanUnsync(axis, centre, rockSize, noOfRocksPerExposure, detector, expos
 	print "Moving %s at speed %r" % (axis.name, speed)
 	
 	axis.scannable.speed = speed
-	axis.moveTo( [centre, rockSize/2.] )
+	axis.moveTo( [centre, rockSize] )
 	
 	expose(detector, exposureTime=exposureTime, noOfExposures=noOfExposures,
 		sampleSuffix=sampleSuffix, d1out=d1out, d2out=d2out)
