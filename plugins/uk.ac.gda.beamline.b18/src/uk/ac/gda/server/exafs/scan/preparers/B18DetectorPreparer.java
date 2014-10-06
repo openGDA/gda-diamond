@@ -6,6 +6,7 @@ import gda.data.scan.datawriter.DataWriterFactory;
 import gda.data.scan.datawriter.DefaultDataWriterFactory;
 import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
 import gda.device.Scannable;
+import gda.device.detector.BufferedDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.mythen.MythenDetectorImpl;
 import gda.device.detector.xmap.Xmap;
@@ -17,6 +18,8 @@ import gda.scan.StaticScan;
 
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IExperimentDetectorParameters;
@@ -27,9 +30,9 @@ import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
-import uk.ac.gda.server.exafs.scan.DetectorPreparer;
+import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
-public class B18DetectorPreparer implements DetectorPreparer {
+public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	private Scannable energy_scannable;
 	private MythenDetectorImpl mythen_scannable;
@@ -43,6 +46,11 @@ public class B18DetectorPreparer implements DetectorPreparer {
 	private Xspress3Detector xspress3Config;
 	private IScanParameters scanBean;
 	private TfgScalerWithFrames ionchambers;
+	private IDetectorParameters detectorBean;
+
+	// QEXAFS options
+	private boolean gmsd_enabled;
+	private boolean additional_channels_enabled;
 
 	public B18DetectorPreparer(Scannable energy_scannable, MythenDetectorImpl mythen_scannable,
 			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
@@ -64,8 +72,9 @@ public class B18DetectorPreparer implements DetectorPreparer {
 	@Override
 	public void configure(IScanParameters scanBean, IDetectorParameters detectorBean, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
-		
+
 		this.scanBean = scanBean;
+		this.detectorBean = detectorBean;
 
 		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
@@ -115,8 +124,8 @@ public class B18DetectorPreparer implements DetectorPreparer {
 	}
 
 	protected void control_all_ionc(List<IonChamberParameters> ion_chambers_bean) throws Exception {
-		for (int index = 0; index < ion_chambers_bean.size(); index++){
-			control_ionc(ion_chambers_bean,index);
+		for (int index = 0; index < ion_chambers_bean.size(); index++) {
+			control_ionc(ion_chambers_bean, index);
 		}
 	}
 
@@ -185,7 +194,7 @@ public class B18DetectorPreparer implements DetectorPreparer {
 		// use the Factory to enable unit testing - which would use a DummyDataWriter
 		DataWriterFactory datawriterFactory = new DefaultDataWriterFactory();
 		DataWriter datawriter = datawriterFactory.createDataWriter();
-		if (datawriter instanceof XasAsciiNexusDataWriter ){
+		if (datawriter instanceof XasAsciiNexusDataWriter) {
 			((XasAsciiNexusDataWriter) datawriter).setRunFromExperimentDefinition(false);
 			((XasAsciiNexusDataWriter) datawriter).setNexusFileNameTemplate(nexusSubFolder + "/%d-mythen.nxs");
 			((XasAsciiNexusDataWriter) datawriter).setAsciiFileNameTemplate(asciiSubFolder + "/%d-mythen.dat");
@@ -193,9 +202,64 @@ public class B18DetectorPreparer implements DetectorPreparer {
 		}
 
 		LocalProperties.setScanSetsScanNumber(true);
-		staticscan.setScanNumber(1); // need to do this here to prevent the scan trying to use a numtracker to derive the scan number
+		staticscan.setScanNumber(1); // need to do this here to prevent the scan trying to use a numtracker to derive
+										// the scan number
 		InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image...");
 		staticscan.run();
 		InterfaceProvider.getTerminalPrinter().print("Diffraction scan complete.");
 	}
+
+	@Override
+	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
+		String expt_type = detectorBean.getExperimentType();
+		if (expt_type.equals("Transmission")) {
+
+			if (gmsd_enabled) {
+				return createBufferedDetArray(new String[] { "qexafs_counterTimer01_gmsd" });
+			} else if (additional_channels_enabled) {
+				return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_counterTimer01_gmsd" });
+			} else {
+				return createBufferedDetArray(new String[] { "qexafs_counterTimer01" });
+			}
+		}
+
+		if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Silicon")) {
+			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xmap", "VortexQexafsFFI0" });
+		} else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) {
+			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3",
+					"qexafs_FFI0_xspress3" });
+		} else {
+			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress", "QexafsFFI0" });
+		}
+
+	}
+
+	protected BufferedDetector[] createBufferedDetArray(String[] names) throws Exception {
+		BufferedDetector[] dets = new BufferedDetector[] {};
+		for (String name : names) {
+			Object detector = InterfaceProvider.getJythonNamespace().getFromJythonNamespace(name);
+			if (detector == null) {
+				throw new Exception("detector named " + name + " not found!");
+			}
+			dets = (BufferedDetector[]) ArrayUtils.add(dets, detector);
+		}
+		return dets;
+	}
+
+	public boolean isGmsd_enabled() {
+		return gmsd_enabled;
+	}
+
+	public void setGmsd_enabled(boolean gmsd_enabled) {
+		this.gmsd_enabled = gmsd_enabled;
+	}
+
+	public boolean isAdditional_channels_enabled() {
+		return additional_channels_enabled;
+	}
+
+	public void setAdditional_channels_enabled(boolean additional_channels_enabled) {
+		this.additional_channels_enabled = additional_channels_enabled;
+	}
+
 }
