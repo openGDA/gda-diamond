@@ -254,7 +254,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 
-		itExpDurationControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXP_IT_DURATION_PROP_NAME, false);
+		itExpDurationControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.TOTAL_IT_COLLECTION_DURATION_PROP_NAME, false);
 		itExpDurationControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		itExpDurationControl.setEditable(false);
 		itExpDurationControl.setLayoutData(gridData);

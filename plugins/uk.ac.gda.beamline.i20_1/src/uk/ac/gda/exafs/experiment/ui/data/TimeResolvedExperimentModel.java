@@ -93,7 +93,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	public static final String IT_COLLECTION_DURATION_PROP_NAME = "itCollectionDuration";
 
-	public static final String EXP_IT_DURATION_PROP_NAME = "expItDuration";
+	public static final String TOTAL_IT_COLLECTION_DURATION_PROP_NAME = "totalItCollectionDuration";
 
 	private DefaultTimeBarModel timebarModel;
 	private TimingGroupTimeBarRowModel timingGroupRowModel;
@@ -212,7 +212,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(TFGTrigger.TOTAL_TIME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				TimeResolvedExperimentModel.this.firePropertyChange(EXP_IT_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
+				TimeResolvedExperimentModel.this.firePropertyChange(TOTAL_IT_COLLECTION_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
 			}
 		});
 
@@ -586,7 +586,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 		timeIntervalData.setTimes(IT_COLLECTION_START_TIME, experimentDuration);
 		this.firePropertyChange(IT_COLLECTION_DURATION_PROP_NAME, null, getItCollectionDuration());
-		this.firePropertyChange(EXP_IT_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
+		this.firePropertyChange(TOTAL_IT_COLLECTION_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
 		externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().setCollectionDuration(unit.convertTo(getItCollectionDuration(), ExperimentUnit.SEC));
 		externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().setNumberOfFrames(totalSpectra);
 	}
