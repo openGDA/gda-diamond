@@ -67,6 +67,11 @@
 		<property name="motor" ref="detector_z_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
+	
+	<bean id="det_distance" class="gda.device.scannable.DetectorDistance">
+		<property name="detectorZ" ref="det_z" />
+		<property name="sampleZ" ref="sample_z" />
+	</bean>
 
 <!-- 	two theta arm -->
 	<bean id="twotheta" class="gda.device.scannable.ScannableMotor">

@@ -122,7 +122,8 @@ public class ClientConfig {
 		ARM_2_THETA_ANGLE ("Arm 2theta", "twotheta", UnitSetup.DEGREE),
 
 		DETECTOR_HEIGHT ("Detector height", "det_y", UnitSetup.MILLI_METER),
-		DETECTOR_DISTANCE ("Detector distance", "det_z", UnitSetup.MILLI_METER),
+		DETECTOR_Z_POSITION ("Detector z", "det_z", UnitSetup.MILLI_METER),
+		DETECTOR_DISTANCE ("Detector distance", "det_distance", UnitSetup.MILLI_METER),
 
 		POLY_CURVATURE("Curvature", "poly_curve", UnitSetup.MILLI_METER),
 		POLY_Y_ELLIPTICITY("Ellipticity","poly_ellip", UnitSetup.MILLI_METER),
