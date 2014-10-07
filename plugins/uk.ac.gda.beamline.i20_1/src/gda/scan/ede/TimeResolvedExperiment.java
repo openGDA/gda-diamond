@@ -225,6 +225,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	@Override
 	protected double getTimeRequiredBeforeItCollection() {
+		// FIXME
 		return 0;
 	}
 
@@ -235,7 +236,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	@Override
 	protected double getTimeRequiredAfterItCollection() {
-		// TODO Auto-generated method stub
+		// FIXME
 		return 0;
 	}
 

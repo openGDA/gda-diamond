@@ -130,6 +130,7 @@ public class ExternalTriggerDetailsTimebarComposite extends ResourceComposite {
 		final TFGTriggerEvent triggerEvent = new TFGTriggerEvent(object);
 		timeBarRowModel.addInterval(triggerEvent);
 		objectRowMap.put(object, timeBarRowModel);
+
 		PropertyChangeListener listener = new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -143,8 +144,8 @@ public class ExternalTriggerDetailsTimebarComposite extends ResourceComposite {
 					removeRow((TriggerableObject) evt.getSource());
 					addRow((TriggerableObject) evt.getSource());
 					break;
-				case TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME:
-					triggerEvent.setEnd(ExperimentTimeHelper.getTime().advanceSeconds(object.getTriggerDelay() + object.getTriggerPulseLength()));
+				case TriggerableObject.TOTAL_DELAY_PROP_NAME:
+					triggerEvent.setEnd(ExperimentTimeHelper.getTime().advanceSeconds(object.getTotalDelay()));
 					break;
 				}
 				updateZoom();
@@ -169,7 +170,7 @@ public class ExternalTriggerDetailsTimebarComposite extends ResourceComposite {
 		private final TriggerableObject triggerableObject;
 
 		public TFGTriggerEvent(TriggerableObject triggerableObject) {
-			super(ExperimentTimeHelper.getTime().advanceSeconds(triggerableObject.getTriggerDelay()), ExperimentTimeHelper.getTime().advanceSeconds(triggerableObject.getTriggerDelay() + triggerableObject.getTriggerPulseLength()));
+			super(ExperimentTimeHelper.getTime().advanceSeconds(triggerableObject.getTriggerDelay()), ExperimentTimeHelper.getTime().advanceSeconds(triggerableObject.getTotalDelay()));
 			this.triggerableObject = triggerableObject;
 		}
 

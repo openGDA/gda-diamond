@@ -32,21 +32,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.hdf5.H5Utils;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFileUtils;
 import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.Nexus;
 import org.eclipse.dawnsci.hdf5.nexus.NexusUtils;
-import org.nexusformat.NexusException;
-import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
-import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.dataset.IDataset;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
@@ -494,14 +492,15 @@ public class TimeResolvedDataFileHelper {
 
 	private DoubleDataset getDataFromFile(IHierarchicalDataFile file, String path)
 			throws Exception {
-		ncsa.hdf.object.Dataset dataset = (ncsa.hdf.object.Dataset) file.getData(path);
-		int[] dimension = new int[dataset.getDims().length];
-		long[] oriDimension = dataset.getDims();
-		for (int i = 0; i < dimension.length; i++) {
-			dimension[i] = (int) oriDimension[i];
-		}
-		double[] data = (double[]) dataset.getData();
-		return new DoubleDataset(data, dimension);
+		return (DoubleDataset) H5Utils.getSet(file, path);
+		//		ncsa.hdf.object.Dataset dataset = (ncsa.hdf.object.Dataset) file.getData(path);
+		//		int[] dimension = new int[dataset.getDims().length];
+		//		long[] oriDimension = dataset.getDims();
+		//		for (int i = 0; i < dimension.length; i++) {
+		//			dimension[i] = (int) oriDimension[i];
+		//		}
+		//		double[] data = (double[]) dataset.getData();
+		//		return new DoubleDataset(data, dimension);
 	}
 
 	private String getDetectorDataPath() {
@@ -810,16 +809,26 @@ public class TimeResolvedDataFileHelper {
 		return (DoubleDataset) rawDataset.getSlice(new int[]{index.start, 0}, new int[]{index.end + 1, rawDataset.getShape()[1]}, null);
 	}
 
-	public boolean isTimeResolvedDataFile() throws NexusException {
-		NexusFile nexusfile = new NexusFile(nexusfileName,  NexusFile.NXACC_READ);
+	public boolean isTimeResolvedDataFile() throws Exception {
+		IHierarchicalDataFile file = null;
 		try {
-			nexusfile.openpath(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIME_COLUMN_NAME);
-			return true;
-		} catch (NexusException e) {
-			return false;
+			file = HierarchicalDataFactory.getReader(nexusfileName);
+			return file.isDataset(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIME_COLUMN_NAME);
 		} finally {
-			nexusfile.close();
+			if (file != null) {
+				file.close();
+			}
 		}
+
+		//		NexusFile nexusfile = new NexusFile(nexusfileName, NexusFile.NXACC_READ);
+		//		try {
+		//			nexusfile.openpath(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIME_COLUMN_NAME);
+		//			return true;
+		//		} catch (NexusException e) {
+		//			return false;
+		//		} finally {
+		//			nexusfile.close();
+		//		}
 	}
 
 	public DoubleDataset getGroupData() throws Exception {

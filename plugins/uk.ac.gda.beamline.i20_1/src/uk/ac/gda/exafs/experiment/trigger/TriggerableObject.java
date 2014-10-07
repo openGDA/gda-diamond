@@ -65,7 +65,11 @@ public class TriggerableObject extends ObservableModel implements Serializable{
 	private TriggerOutputPort triggerOutputPort;
 
 	public static final String NAME_PROP_NAME = "name";
+	@Expose
 	private String name;
+
+	public static final String TOTAL_DURATION_PROP_NAME = "totalDuration";
+	public static final String TOTAL_DELAY_PROP_NAME = "totalDelay";
 
 	public double getTriggerDelay() {
 		return triggerDelay;
@@ -73,6 +77,7 @@ public class TriggerableObject extends ObservableModel implements Serializable{
 
 	public void setTriggerDelay(double triggerDelay) {
 		firePropertyChange(TRIGGER_DELAY_PROP_NAME, this.triggerDelay, this.triggerDelay = triggerDelay);
+		firePropertyChange(TOTAL_DELAY_PROP_NAME, null, getTotalDelay());
 	}
 
 	public double getTriggerPulseLength() {
@@ -81,6 +86,8 @@ public class TriggerableObject extends ObservableModel implements Serializable{
 
 	public void setTriggerPulseLength(double triggerPulseLength) {
 		firePropertyChange(TRIGGER_PULSE_LENGTH_PROP_NAME, this.triggerPulseLength, this.triggerPulseLength = triggerPulseLength);
+		firePropertyChange(TOTAL_DURATION_PROP_NAME, null, getTotalDuration());
+		firePropertyChange(TOTAL_DELAY_PROP_NAME, null, getTotalDelay());
 	}
 
 	public TriggerOutputPort getTriggerOutputPort() {
@@ -104,7 +111,11 @@ public class TriggerableObject extends ObservableModel implements Serializable{
 		return "";
 	}
 
-	public double totalDelay() {
-		return triggerDelay + triggerPulseLength;
+	public double getTotalDuration() {
+		return getTriggerPulseLength();
+	}
+
+	public double getTotalDelay() {
+		return this.getTriggerDelay() + getTotalDuration();
 	}
 }

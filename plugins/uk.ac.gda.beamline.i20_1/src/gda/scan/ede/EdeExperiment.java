@@ -52,10 +52,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
@@ -121,6 +121,8 @@ public abstract class EdeExperiment implements IObserver {
 
 	private String fileNamePrefix = "";
 
+	private String sampleDetails = "";
+
 	private Monitor topup;
 
 	protected final TFGTrigger itTriggerOptions;
@@ -183,8 +185,6 @@ public abstract class EdeExperiment implements IObserver {
 		topup = (Monitor) getFindable(topupMonitorName);
 		beamLightShutter = (Scannable) getFindable(beamShutterScannableName);
 		controller = (ScriptControllerBase) getFindable(PROGRESS_UPDATER_NAME);
-
-		itTriggerOptions.getDetectorDataCollection().setCollectionDuration(itScanParameters.getTotalTime());
 	}
 
 	protected void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {
@@ -400,6 +400,9 @@ public abstract class EdeExperiment implements IObserver {
 			metadataText.append(result.toString());
 		}
 		metadataText.append(getHeaderText());
+		if (!sampleDetails.isEmpty()) {
+			metadataText.append("\nSample details: " + sampleDetails + "\n");
+		}
 		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", metadataText.toString(),
 				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
 		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
@@ -411,6 +414,14 @@ public abstract class EdeExperiment implements IObserver {
 
 	public void setFileNamePrefix(String fileNamePrefix) {
 		this.fileNamePrefix = fileNamePrefix;
+	}
+
+	public String getSampleDetails() {
+		return sampleDetails;
+	}
+
+	public void setSampleDetails(String sampleDetails) {
+		this.sampleDetails = sampleDetails;
 	}
 
 	public String getNexusFilename() {

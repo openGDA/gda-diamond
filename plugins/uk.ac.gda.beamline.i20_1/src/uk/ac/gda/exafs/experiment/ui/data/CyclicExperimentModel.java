@@ -153,6 +153,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 				gson.toJson(externalTriggerSetting.getTfgTrigger())));
 		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
+		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");", this.getExperimentDataModel().getSampleDetails()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			addIRefMethodCallStrToCommand(CYCLIC_EXPERIMENT_OBJ, builder);
 		}

@@ -25,6 +25,8 @@ public class DetectorDataCollection extends TriggerableObject implements Seriali
 	private static final double XCHIP_START_PULSE_WIDTH_IN_SEC = 0.001;
 
 	private int numberOfFrames;
+
+	public static final String COLLECTION_DURATION_PROP_NAME = "collectionDuration";
 	private double collectionDuration;
 
 	public DetectorDataCollection() {
@@ -47,11 +49,13 @@ public class DetectorDataCollection extends TriggerableObject implements Seriali
 	}
 
 	public void setCollectionDuration(double collectionDuration) {
-		this.collectionDuration = collectionDuration;
+		firePropertyChange(COLLECTION_DURATION_PROP_NAME, this.collectionDuration, this.collectionDuration = collectionDuration);
+		firePropertyChange(TOTAL_DURATION_PROP_NAME, null, getTotalDuration());
+		firePropertyChange(TOTAL_DELAY_PROP_NAME, null, getTotalDelay());
 	}
 
 	@Override
-	public double totalDelay() {
-		return collectionDuration >= this.getTriggerPulseLength() ? this.getTriggerDelay() + collectionDuration : this.getTriggerDelay() + this.getTriggerPulseLength();
+	public double getTotalDuration() {
+		return collectionDuration >= this.getTriggerPulseLength() ? collectionDuration : this.getTriggerPulseLength();
 	}
 }

@@ -19,8 +19,7 @@
 package uk.ac.gda.exafs.ui.data;
 
 import org.apache.commons.lang.ArrayUtils;
-
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 /**
  * Used to create data to plot in graph of when acquiring and not acquiring data

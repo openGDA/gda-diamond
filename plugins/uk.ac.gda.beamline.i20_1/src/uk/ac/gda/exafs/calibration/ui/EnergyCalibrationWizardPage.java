@@ -34,6 +34,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.dawnsci.analysis.api.dataset.Slice;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.analysis.dataset.roi.LinearROI;
+import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.dawnsci.plotting.api.PlottingFactory;
@@ -64,11 +69,6 @@ import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
-import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
-import uk.ac.diamond.scisoft.analysis.dataset.Slice;
-import uk.ac.diamond.scisoft.analysis.roi.LinearROI;
-import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.XafsFittingUtils;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -657,8 +657,9 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 								calibrationDataModel.getCalibrationDetails().setRefRangeEnd(((RectangularROI) referenceRegion.getROI()).getLength(0));
 								calibrationDataModel.getCalibrationDetails().setSampleRangeStart(((RectangularROI) edeRegion.getROI()).getPoint()[0]);
 								calibrationDataModel.getCalibrationDetails().setSampleRanceEnd(((RectangularROI) edeRegion.getROI()).getLength(0));
-								calibrationDataModel.getCalibrationDetails().setCalibrationResult(edeCalibration.getEdeCalibrationPolynomial());
 								calibrationDataModel.getCalibrationDetails().setGoodnessOfFit(edeCalibration.getGoodnessOfFit());
+								calibrationDataModel.getCalibrationDetails().setCalibrationResult(edeCalibration.getEdeCalibrationPolynomial());
+
 
 							} catch(Exception e) {
 								UIHelper.showError("Unable to run calibration", e.getMessage());

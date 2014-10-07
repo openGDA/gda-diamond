@@ -24,6 +24,8 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.printing.Printer;
 
+import uk.ac.gda.exafs.experiment.trigger.DetectorDataCollection;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.ui.ExternalTriggerDetailsTimebarComposite.TFGTriggerEvent;
 import de.jaret.util.date.Interval;
 import de.jaret.util.swt.SwtGraphicsHelper;
@@ -152,7 +154,7 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 			boolean selected, boolean printing, boolean overlap) {
 
 		TFGTriggerEvent event = (TFGTriggerEvent) interval;
-
+		TriggerableObject triggerable = event.getTriggerableObject();
 
 		boolean horizontal = delegate.getOrientation() == TimeBarViewerInterface.Orientation.HORIZONTAL;
 		Rectangle da = getDrawingRect(drawingArea, horizontal);
@@ -164,11 +166,13 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 
 		// draw the duration if the event has one
 
-		if (event.getSeconds()>0) {
+		if (triggerable instanceof DetectorDataCollection) {
 			gc.setBackground(gc.getDevice().getSystemColor(SWT.COLOR_CYAN));
-			gc.fillRectangle(drawingArea);
+			event.getSeconds();
+		} else {
+			gc.setBackground(gc.getDevice().getSystemColor(SWT.COLOR_DARK_YELLOW));
 		}
-
+		gc.fillRectangle(drawingArea);
 
 		// draw the diamond
 		gc.setBackground(gc.getDevice().getSystemColor(SWT.COLOR_GRAY));
@@ -192,6 +196,9 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 		gc.setBackground(bg);
 
 		String label = event.getTriggerableObject().getTriggerDelay() + " s, pulse width " + event.getTriggerableObject().getTriggerPulseLength() + " s";
+		if (triggerable instanceof DetectorDataCollection) {
+			label = label + ", collection time " + ((DetectorDataCollection) triggerable).getCollectionDuration() + " s";
+		}
 		// draw the label
 		if (horizontal) {
 			SwtGraphicsHelper.drawStringVCentered(gc, label, da.x + da.width + scaleX(LABELOFFSET), da.y + 12, da.y + 12

@@ -18,10 +18,10 @@
 
 package org.dawnsci.plotting.tools.profile;
 
+import org.dawnsci.plotting.tools.profile.model.TimeResolvedDataNode;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.region.IRegion;
-
-import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 
 public class AvgRegionToolDataModel extends SpectraRegionDataNode {
 	private int noOfSpectraToAvg;

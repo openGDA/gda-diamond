@@ -44,18 +44,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
-import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -82,7 +81,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	protected static Gson gson = new Gson();
 
-	private static final String EXTERNAL_TRIGGER_DETAILS = "tfg_external_trigger_details";
+	public static final String EXTERNAL_TRIGGER_DETAILS = "tfg_external_trigger_details";
 	protected ExternalTriggerSetting externalTriggerSetting;
 
 	private static final double IT_COLLECTION_START_TIME = 0.0;
@@ -94,7 +93,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	public static final String IT_COLLECTION_DURATION_PROP_NAME = "itCollectionDuration";
 
-	public static final String EXP_IT_DURATION_PROP_NAME = "expItDuration";
+	public static final String TOTAL_IT_COLLECTION_DURATION_PROP_NAME = "totalItCollectionDuration";
 
 	private DefaultTimeBarModel timebarModel;
 	private TimingGroupTimeBarRowModel timingGroupRowModel;
@@ -209,16 +208,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 		}
 		externalTriggerSetting = new ExternalTriggerSetting(savedExternalTriggerSetting);
-		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(new PropertyChangeListener() {
+
+		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(TFGTrigger.TOTAL_TIME_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
-			}
-		});
-		externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().addPropertyChangeListener(TriggerableObject.TRIGGER_DELAY_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				TimeResolvedExperimentModel.this.firePropertyChange(EXP_IT_DURATION_PROP_NAME, null, getExpItDuration());
+				TimeResolvedExperimentModel.this.firePropertyChange(TOTAL_IT_COLLECTION_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
 			}
 		});
 
@@ -259,7 +253,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 			addToInternalGroupList(timingGroup);
 		}
-		updateExperimentDuration();
+		updateCollectionDuration();
 	}
 
 	protected String getDataStoreKey() {
@@ -320,7 +314,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 					TimingGroupUIModel nextGroup = (TimingGroupUIModel) groupList.get(groupList.indexOf(evt.getSource()) + 1);
 					nextGroup.moveTo(group.getEndTime());
 				}
-				updateExperimentDuration();
+				updateCollectionDuration();
 			}
 			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.this.getDataStoreKey(), groupList);
 		}
@@ -350,8 +344,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 	}
 
-	public void doCollection(String fileNamePrefix) {
+	public void doCollection(String fileNamePrefix, String sampleDetails) {
 		experimentDataModel.setFileNamePrefix(fileNamePrefix);
+		experimentDataModel.setSampleDetails(sampleDetails);
 		experimentDataCollectionJob.schedule();
 	}
 
@@ -377,6 +372,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				gson.toJson(externalTriggerSetting.getTfgTrigger())));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");", this.getExperimentDataModel().getSampleDetails()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
 		}
@@ -491,8 +487,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							timingGroup.setLabel(uiTimingGroup.getName());
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
 							timingGroup.setTimePerFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getTimePerSpectrum(), ExperimentUnit.SEC)); // convert to S
-							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
+							// integration time is always in milli sec
+							timingGroup.setTimePerScan(ExperimentUnit.MILLI_SEC.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
+							timingGroup.setGroupTrig(uiTimingGroup.isUseExernalTrigger());
 							// Set up lemo outs
 							setupLemoOuts(timingGroup);
 							timingGroups.add(timingGroup);
@@ -581,13 +579,19 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		this.firePropertyChange(CURRENT_SCANNING_SPECTRUM_PROP_NAME, currentScanningSpectrum, currentScanningSpectrum = value);
 	}
 
-	private void updateExperimentDuration() {
+	private void updateCollectionDuration() {
 		double experimentDuration = 0.0;
+		int totalSpectra = 0;
 		for (Object loadedGroup : groupList) {
-			experimentDuration += ((TimingGroupUIModel)loadedGroup).getDuration();
+			TimingGroupUIModel group = ((TimingGroupUIModel)loadedGroup);
+			experimentDuration += group.getDuration();
+			totalSpectra += group.getNumberOfSpectrum();
 		}
 		timeIntervalData.setTimes(IT_COLLECTION_START_TIME, experimentDuration);
 		this.firePropertyChange(IT_COLLECTION_DURATION_PROP_NAME, null, getItCollectionDuration());
+		this.firePropertyChange(TOTAL_IT_COLLECTION_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
+		externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().setCollectionDuration(unit.convertTo(getItCollectionDuration(), ExperimentUnit.SEC));
+		externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().setNumberOfFrames(totalSpectra);
 	}
 
 	private void resetInitialGroupTimes(double groupDuration) {
@@ -629,8 +633,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return unit.convertFromDefaultUnit(timeIntervalData.getDuration());
 	}
 
-	public double getExpItDuration() {
-		return TFGTrigger.DEFAULT_DELAY_UNIT.convertTo(externalTriggerSetting.getTfgTrigger().getDetectorDataCollection().getTriggerDelay(), unit) + getItCollectionDuration();
+	public double getTotalItCollectionDuration() {
+		return TFGTrigger.DEFAULT_DELAY_UNIT.convertTo(externalTriggerSetting.getTfgTrigger().getTotalTime(), unit);
 	}
 
 	public double getDurationInSec() {
@@ -672,8 +676,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public double getDuration() {
 		return timeIntervalData.getDuration();
 	}
-
-
 
 	public ExternalTriggerSetting getExternalTriggerSetting() {
 		return externalTriggerSetting;

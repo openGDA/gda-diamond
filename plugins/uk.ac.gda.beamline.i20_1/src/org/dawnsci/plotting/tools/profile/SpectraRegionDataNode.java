@@ -21,15 +21,18 @@ package org.dawnsci.plotting.tools.profile;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dawnsci.plotting.tools.profile.model.SpectrumDataNode;
+import org.dawnsci.plotting.tools.profile.model.TimeResolvedDataNode;
+import org.dawnsci.plotting.tools.profile.model.TimingGroupDataNode;
+import org.eclipse.dawnsci.analysis.api.roi.IROI;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.plotting.api.region.IROIListener;
 import org.eclipse.dawnsci.plotting.api.region.IRegion;
 import org.eclipse.dawnsci.plotting.api.region.ROIEvent;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DatasetUtils;
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
-import uk.ac.diamond.scisoft.analysis.roi.IROI;
-import uk.ac.diamond.scisoft.analysis.roi.RectangularROI;
 import uk.ac.gda.beans.ObservableModel;
 
 public class SpectraRegionDataNode extends ObservableModel implements IROIListener {

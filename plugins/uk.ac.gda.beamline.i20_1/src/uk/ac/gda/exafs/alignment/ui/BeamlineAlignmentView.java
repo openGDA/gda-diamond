@@ -731,7 +731,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		try {
 			final Scannable detectorHeight = ScannableSetup.DETECTOR_HEIGHT.getScannable();
-			final Scannable detectorDistance = ScannableSetup.DETECTOR_DISTANCE.getScannable();
+			final Scannable detectorDistance = ScannableSetup.DETECTOR_Z_POSITION.getScannable();
+			// FIXME This doesn't do anything
 			movingScannables.addListChangeListener(new IListChangeListener() {
 				@Override
 				public void handleListChange(ListChangeEvent event) {
@@ -752,15 +753,15 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			logger.error("Unable to find detector details", e);
 		}
 
-		lblDetectorDistanceSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_DISTANCE);
+		lblDetectorDistanceSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_Z_POSITION);
 		applyButton = createMotorControl(motorSectionComposite);
 		suggestionControls.put(applyButton, lblDetectorDistanceSuggestion);
 
-		scannable = ScannableSetup.DETECTOR_DISTANCE.getScannable();
+		scannable = ScannableSetup.DETECTOR_Z_POSITION.getScannable();
 		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.DETECTOR_DISTANCE.getScannableWrapper(), true);
+		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.DETECTOR_Z_POSITION.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_DISTANCE, lblDetectorDistanceSuggestion, motorPositionEditorControl));
+		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_Z_POSITION, lblDetectorDistanceSuggestion, motorPositionEditorControl));
 
 		Label lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for\n calculated detector distance:", SWT.WRAP);
 		gridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
@@ -900,7 +901,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 				// TODO Check if this value is correct
 				// FIXME Conversion shouldn't not be done in this UI section
-				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_DISTANCE.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
+				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_Z_POSITION.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
 				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorHeight())));
 
 				lblAtn1Suggestion.setText(results.getAtn1().toString());

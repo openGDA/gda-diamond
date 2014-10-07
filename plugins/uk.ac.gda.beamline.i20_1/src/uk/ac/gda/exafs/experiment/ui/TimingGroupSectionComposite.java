@@ -68,6 +68,7 @@ import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
+import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.experiment.ui.TimingGroupsSetupPage.TimingGroupWizardModel;
 import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
@@ -250,18 +251,16 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		expTimeComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		expTimeComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(7, false));
 
-		Label lbl = toolkit.createLabel(expTimeComposite, "Experiment time", SWT.NONE);
+		Label lbl = toolkit.createLabel(expTimeComposite, "It total time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		if (model instanceof CyclicExperimentModel) {
-			lbl.setText("Cycle time");
-		}
-		itExpDurationControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.EXP_IT_DURATION_PROP_NAME, false);
+
+		itExpDurationControl = new NumberEditorControl(expTimeComposite, SWT.None, model, TimeResolvedExperimentModel.TOTAL_IT_COLLECTION_DURATION_PROP_NAME, false);
 		itExpDurationControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		itExpDurationControl.setEditable(false);
 		itExpDurationControl.setLayoutData(gridData);
 
-		lbl = toolkit.createLabel(expTimeComposite, "It collection time", SWT.NONE);
+		lbl = toolkit.createLabel(expTimeComposite, "Collection time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -543,6 +542,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		label = toolkit.createLabel(i0NoOfaccumulationsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		i0NoOfAccumulationValueText = new NumberEditorControl(i0NoOfaccumulationsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, false);
+		i0NoOfAccumulationValueText.setRange(1, SingleSpectrumCollectionModel.MAX_NO_OF_ACCUMULATIONS);
 		i0NoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(i0AcquisitionSection);
@@ -566,6 +566,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		label = toolkit.createLabel(iRefDetailsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		iRefNoOfAccumulationValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.IREF_NO_OF_ACCUMULATION_PROP_NAME, false);
+		iRefNoOfAccumulationValueText.setRange(1, SingleSpectrumCollectionModel.MAX_NO_OF_ACCUMULATIONS);
 		iRefNoOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		sectionSeparator = toolkit.createCompositeSeparator(sectionIRefaccumulationSection);
@@ -694,13 +695,34 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			noOfSpectrumValueText.setValidators(null, group.getNoOfSpectrumValidator());
 
 			integrationTimeValueText.setModel(group, TimingGroupUIModel.INTEGRATION_TIME_PROP_NAME);
-			integrationTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
-			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(integrationTimeValueText),
-					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
-					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-					unitConverter));
+			integrationTimeValueText.setConverters(new IConverter() {
+				@Override
+				public Object getFromType() {
+					return double.class;
+				}
+				@Override
+				public Object getToType() {
+					return double.class;
+				}
+				@Override
+				public Object convert(Object fromObject) {
+					return ExperimentUnit.MILLI_SEC.convertFromDefaultUnit((double) fromObject);
+				}
+			}, new IConverter() {
+				@Override
+				public Object getFromType() {
+					return String.class;
+				}
+				@Override
+				public Object getToType() {
+					return String.class;
+				}
+				@Override
+				public Object convert(Object fromObject) {
+					return Double.toString(ExperimentUnit.MILLI_SEC.convertToDefaultUnit(Double.parseDouble((String) fromObject)));
+				}
+			});
+			integrationTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
 
 			noOfAccumulationValueText.setModel(group, TimingGroupUIModel.NO_OF_ACCUMULATION_PROP_NAME);
 			noOfAccumulationValueText.setEditable(false);

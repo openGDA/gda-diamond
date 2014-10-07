@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Beamline I20-1 Test
-Bundle-SymbolicName: uk.ac.gda.beamline.i20_1.test
+Bundle-SymbolicName: uk.ac.gda.beamline.i20_1.test;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Fragment-Host: uk.ac.gda.beamline.i20_1;bundle-version="1.0.0"

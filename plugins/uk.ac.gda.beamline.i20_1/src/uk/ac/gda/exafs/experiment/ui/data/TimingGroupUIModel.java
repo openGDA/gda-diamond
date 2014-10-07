@@ -24,7 +24,7 @@ import gda.device.detector.XCHIPDetector;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.databinding.validation.IValidator;
@@ -46,7 +46,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(TimingGroupUIModel.class);
 
-	private final List<SpectrumModel> spectrumList = new ArrayList<SpectrumModel>();
+	private final List<SpectrumModel> spectrumList = new LinkedList<SpectrumModel>();
 	private final DefaultTimeBarRowModel spectraTimeBarRowModel;
 
 	public static final String UNIT_PROP_NAME = "unit";
@@ -89,6 +89,8 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	public static final String NO_OF_SPECTRUM_PROP_NAME = "numberOfSpectrum";
 
 	public static final int INVALID_NO_OF_ACCUMULATION = 0;
+
+	private int maxVisibleIntervals = 1000;
 
 	public List<?> getSpectrumList() {
 		return spectrumList;
@@ -169,30 +171,46 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	private void adjustSpectra(int numberOfSpectrum) {
-		int current = spectrumList.size();
-		for (int i = current; i > numberOfSpectrum; i--) {
-			SpectrumModel itemToRemove = spectrumList.get(i - 1);
-			spectraTimeBarRowModel.remInterval(itemToRemove);
-			spectrumList.remove(itemToRemove);
-		}
+		int current = getNumberOfSpectrum();
 		double startTimeForSpectrum = this.getStartTimeForSpectra();
-		for (int i = 0; i < numberOfSpectrum; i++) {
-			SpectrumModel spectrum = null;
-			if (i < current) {
-				spectrum = spectrumList.get(i);
-			} else {
-				spectrum = new SpectrumModel(this);
-			}
-
-			spectrum.setTimes(startTimeForSpectrum, timePerSpectrum);
-			startTimeForSpectrum += timePerSpectrum;
-			spectrum.setName("Spectrum " + i);
-			if (i >= current) {
-				spectrumList.add(spectrum);
-				spectraTimeBarRowModel.addInterval(spectrum);
-			}
+		int spectraPerInterval = 1;
+		if (numberOfSpectrum % maxVisibleIntervals != 0 && numberOfSpectrum > maxVisibleIntervals) {
+			spectraPerInterval = (int) Math.floor((double) numberOfSpectrum / (double) maxVisibleIntervals) + 1;
+		} else {
+			spectraPerInterval = numberOfSpectrum / maxVisibleIntervals;
 		}
-		firePropertyChange(NO_OF_SPECTRUM_PROP_NAME, current, spectrumList.size());
+		int maxIntervals = numberOfSpectrum / spectraPerInterval;
+		int last = numberOfSpectrum % spectraPerInterval;
+
+		for (SpectrumModel itemToRemove : spectrumList) {
+			spectraTimeBarRowModel.remInterval(itemToRemove);
+		}
+		spectrumList.clear();
+
+		for (int i = 0; i < maxIntervals; i++) {
+			int start = i * spectraPerInterval;
+			int end = start + spectraPerInterval;
+			SpectrumModel spectrum = new SpectrumModel(this, start, end);
+			spectrum.setTimes(startTimeForSpectrum, timePerSpectrum * spectraPerInterval);
+			startTimeForSpectrum += timePerSpectrum * spectraPerInterval;
+			String name = ((end - start) > 1) ? start + " - " + end : Integer.toString(start);
+			spectrum.setName("Spectrum " + name);
+			spectrumList.add(spectrum);
+			spectraTimeBarRowModel.addInterval(spectrum);
+		}
+		if (last > 0) {
+			int start = spectrumList.size() + last;
+			int end = start + last;
+			SpectrumModel spectrum = new SpectrumModel(this, start, end);
+			spectrum.setTimes(startTimeForSpectrum, timePerSpectrum * last);
+			startTimeForSpectrum += timePerSpectrum * last;
+			String name = ((end - start) > 1) ? start + " - " + end : Integer.toString(start);
+			spectrum.setName("Spectrum " + name);
+			spectrumList.add(spectrum);
+			spectraTimeBarRowModel.addInterval(spectrum);
+		}
+
+		firePropertyChange(NO_OF_SPECTRUM_PROP_NAME, current, getNumberOfSpectrum());
 	}
 
 	public void removeSpectrum(SpectrumModel spectrum) {
@@ -219,7 +237,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public int getNumberOfSpectrum() {
-		return spectrumList.size();
+		return spectrumList.isEmpty() ? 0 : spectrumList.get(spectrumList.size() - 1).getToSpectrum();
 	}
 
 	public void setNumberOfSpectrum(int numberOfSpectrum) {
@@ -317,7 +335,6 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	public void setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers exernalTriggerInputLemoNumber) {
 		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.exernalTriggerInputLemoNumber, this.exernalTriggerInputLemoNumber = exernalTriggerInputLemoNumber);
-
 	}
 
 	public TimeResolvedExperimentModel getParent() {
@@ -411,5 +428,13 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 				return ValidationStatus.ok();
 			}
 		};
+	}
+
+	public int getMaxVisibleIntervals() {
+		return maxVisibleIntervals;
+	}
+
+	public void setMaxVisibleIntervals(int maxVisibleIntervals) {
+		this.maxVisibleIntervals = maxVisibleIntervals;
 	}
 }

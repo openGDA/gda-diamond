@@ -184,7 +184,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		sampleDescComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		Label sampleDescLabel = toolkit.createLabel(sampleDescComposite, "Sample details", SWT.None);
 		sampleDescLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		Text sampleDescText = toolkit.createText(sampleDescComposite, "", SWT.BORDER);
+		final Text sampleDescText = toolkit.createText(sampleDescComposite, "", SWT.BORDER);
 		sampleDescText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		Button startAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Start", SWT.PUSH);
@@ -194,7 +194,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					getModel().doCollection(prefixText.getText());
+					getModel().doCollection(prefixText.getText(), sampleDescText.getText());
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}

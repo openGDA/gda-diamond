@@ -27,8 +27,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
-
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 

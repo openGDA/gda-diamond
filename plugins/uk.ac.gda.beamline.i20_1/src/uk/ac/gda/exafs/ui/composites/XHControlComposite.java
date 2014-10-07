@@ -31,6 +31,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Date;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
@@ -54,7 +55,6 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -63,6 +63,7 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.ui.components.NumberEditorControl;
@@ -247,6 +248,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		});
 		detectorControlModel.setNumberOfAccumulations(numberOfAccumulations);
 		txtNumScansPerFrame = new NumberEditorControl(snapshotSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		txtNumScansPerFrame.setRange(1, SingleSpectrumCollectionModel.MAX_NO_OF_ACCUMULATIONS);
 		txtNumScansPerFrame.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);

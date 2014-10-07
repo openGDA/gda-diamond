@@ -46,6 +46,9 @@ public class ExperimentDataModel extends UIObservableModel {
 	public static final String FILE_NAME_PREFIX_PROP_NAME = "fileNamePrefix";
 	private String fileNamePrefix;
 
+	private static final String SAMPLE_DETAILS_PROP_NAME = "sampleDetails";
+	private String sampleDetails = "";
+
 	public double getI0IntegrationTime() {
 		return i0IntegrationTime;
 	}
@@ -96,5 +99,14 @@ public class ExperimentDataModel extends UIObservableModel {
 
 	public void setFileNamePrefix(String fileNamePrefix) {
 		this.firePropertyChange(FILE_NAME_PREFIX_PROP_NAME, this.fileNamePrefix, this.fileNamePrefix = fileNamePrefix);
+	}
+
+	public Object getSampleDetails() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setSampleDetails(String sampleDetails) {
+		this.firePropertyChange(SAMPLE_DETAILS_PROP_NAME, this.sampleDetails, this.sampleDetails = sampleDetails);
 	}
 }

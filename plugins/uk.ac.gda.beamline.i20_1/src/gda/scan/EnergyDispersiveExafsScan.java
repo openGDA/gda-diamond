@@ -24,7 +24,8 @@ import gda.scan.ede.EdeScanType;
 
 import java.util.List;
 
-import uk.ac.diamond.scisoft.analysis.dataset.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public interface EnergyDispersiveExafsScan extends Scan {
