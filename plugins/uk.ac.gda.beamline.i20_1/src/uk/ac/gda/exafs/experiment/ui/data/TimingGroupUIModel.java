@@ -174,10 +174,12 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		int current = getNumberOfSpectrum();
 		double startTimeForSpectrum = this.getStartTimeForSpectra();
 		int spectraPerInterval = 1;
-		if (numberOfSpectrum % maxVisibleIntervals != 0 && numberOfSpectrum > maxVisibleIntervals) {
-			spectraPerInterval = (int) Math.floor((double) numberOfSpectrum / (double) maxVisibleIntervals) + 1;
-		} else {
-			spectraPerInterval = numberOfSpectrum / maxVisibleIntervals;
+		if (numberOfSpectrum > maxVisibleIntervals) {
+			if (numberOfSpectrum % maxVisibleIntervals != 0) {
+				spectraPerInterval = (int) Math.floor((double) numberOfSpectrum / (double) maxVisibleIntervals) + 1;
+			} else {
+				spectraPerInterval = numberOfSpectrum / maxVisibleIntervals;
+			}
 		}
 		int maxIntervals = numberOfSpectrum / spectraPerInterval;
 		int last = numberOfSpectrum % spectraPerInterval;
