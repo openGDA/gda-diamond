@@ -47,7 +47,7 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 		addMouseListener(this);
 		addMouseMotionListener(this);		
 		canvas.addKeyListener(this);
-		topLeft = new VertexFigure(4);
+		topLeft = new VertexFigure(4, this);
 		add(topLeft, new Rectangle(-2,-2,4,4));
 /*		topRight = new RectangleFigure();
 		add(topRight);
@@ -68,7 +68,7 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 		if (ke.keyCode == SWT.ESC) {
 			i13mjPegViewInitialiser.handleROIDragCancel();
 		} 
-		if (ke.keyCode == 1) {
+		if (ke.keyCode == 13) {
 			i13mjPegViewInitialiser.handleROIDrag();
 		}
 	}
@@ -89,9 +89,6 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 
 	@Override
 	public void mouseReleased(MouseEvent me) {
-		if (location == null)
-			return;
-		
 	}
 
 	@Override
@@ -147,6 +144,25 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 	public void mouseMoved(MouseEvent me) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+
+	public void vertexDragged(VertexFigure vertexFigure, Dimension offset) {
+		//for now topLeft dragged
+		if (offset.width == 0 && offset.height == 0)
+			return;
+		UpdateManager updateMgr = getUpdateManager();
+		LayoutManager layoutMgr = getParent().getLayoutManager();
+		Rectangle bounds = getBounds();
+		updateMgr.addDirtyRegion(getParent(), bounds);
+		Rectangle constraint = (Rectangle) layoutMgr.getConstraint(this);
+		bounds = new Rectangle(constraint.getTopLeft().translate(offset), constraint.getBottomRight().translate(-offset.width, -offset.height));
+//		System.out.println("MouseDrag offset :" + offset.width + "," + offset.height);
+		layoutMgr.setConstraint(this, bounds);
+		this.translate(offset.width, offset.height);
+		this.setSize(bounds.getSize());
+		updateMgr.addDirtyRegion(getParent(), bounds);		
 	}
 
 

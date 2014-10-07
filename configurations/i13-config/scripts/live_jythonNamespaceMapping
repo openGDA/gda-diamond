@@ -5,8 +5,9 @@
 #ss1_X  - normal sample table
 #hex_x  - hexapod sample table
 #ss1_X_dummy - a dummy motor used for testing
+#ss1_samplex - a virtual motor that takes account of rotation
 #ss1_samplez - only use if going from -90 to 90. otherwise use ss1_x which is a virtual motor that takes account of rotation
-##ss1_sampley - to move the sample vertically
+#ss1_sampley - to move the sample vertically
 #translate_x - translation table on which the sample stages are mounted, useful if using the hexapod
 #tomography_translation=hex_x
 tomography_translation=ss1_X
@@ -66,9 +67,9 @@ tomography_beammonitor=ionc_i
 
 
 #Collecting HDF data with flyscans writing to hdf with chunking set for maximum write speed
-tomography_flyscan_theta=zebraSM1
-tomography_flyscan_det=flyScanDetectorNoChunking
-tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorNoChunking
+#tomography_flyscan_theta=zebraSM1
+#tomography_flyscan_det=flyScanDetectorNoChunking
+#tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorNoChunking
 
 
 #Collecting TIFF data with flyscans
@@ -77,6 +78,6 @@ tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorNoChunking
 #tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorTIF
 
 #connect p2r trigger to exposure out of PCO and connect that to Zebra TTL1. The busy is used by the tfg
-#tomography_flyscan_det=p2r_flyScanDetector
-#tomography_flyscan_flat_dark_det=p2r_flyScanFlatDarkDetector
-#tomography_flyscan_theta=p2rSM1
+tomography_flyscan_theta=zebraSM1
+tomography_flyscan_det=flyScanDetector
+tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector

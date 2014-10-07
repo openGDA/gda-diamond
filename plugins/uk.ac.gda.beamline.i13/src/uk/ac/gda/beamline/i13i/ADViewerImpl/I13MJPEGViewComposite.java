@@ -86,6 +86,8 @@ public class I13MJPEGViewComposite extends Composite {
 */
 	private Label statusField;
 
+	private Group grpDrag;
+
 	public I13MJPEGViewComposite(Composite parent, CompositeFactory cf) throws Exception {
 		super(parent, SWT.NONE);
 		GridLayoutFactory fillDefaults = GridLayoutFactory.fillDefaults().spacing(1, 1);
@@ -261,18 +263,7 @@ public class I13MJPEGViewComposite extends Composite {
 		GridDataFactory.swtDefaults().applyTo(regionSizeYComposite);
 */
 		
-/*		btnShowRotAxis = new Button(composite, SWT.CHECK);
-		btnShowRotAxis.setText("Show Image Center and Rotation Axis");
-		btnShowRotAxis.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				actOnShowRotAxisSelection();
-			}
-		});
-		btnShowRotAxis.setSelection(true);
-*/
-		Group grpDrag = new Group(rhs, SWT.NONE);
+		grpDrag = new Group(rhs, SWT.NONE);
 		grpDrag.setText("Drag Axis");
 		grpDrag.setLayout(new FillLayout(SWT.HORIZONTAL));		
 		btnDragX = new Button(grpDrag, SWT.NORMAL);
@@ -298,7 +289,7 @@ public class I13MJPEGViewComposite extends Composite {
 			
 		});
 
-		btnDragROI = new Button(grpDrag, SWT.NORMAL);
+/*		btnDragROI = new Button(grpDrag, SWT.NORMAL);
 		btnDragROI.setText("ROI");
 		btnDragROI.addSelectionListener(new SelectionAdapter() {
 
@@ -309,7 +300,7 @@ public class I13MJPEGViewComposite extends Composite {
 			}
 			
 		});
-		
+*/		
 		
 		statusField = new Label(this, SWT.NONE);
 		GridDataFactory.fillDefaults().applyTo(statusField);
@@ -395,6 +386,11 @@ public class I13MJPEGViewComposite extends Composite {
 		lensComposite.setEnumPositioner(adControllerImpl.getLensEnum());
 		binningXComposite.setEnumPositioner(adControllerImpl.getBinningXEnum());
 		binningYComposite.setEnumPositioner(adControllerImpl.getBinningYEnum());
+		
+		
+		if( adControllerImpl.getSampleCentringXMotor()==null){
+			grpDrag.setVisible(false);
+		}
 /*		regionSizeXComposite.setEnumPositioner(adControllerImpl.getRegionSizeXEnum());
 		regionSizeYComposite.setEnumPositioner(adControllerImpl.getRegionSizeYEnum());
 */

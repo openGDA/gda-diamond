@@ -130,7 +130,7 @@ public class AxisDragFigure extends ImageFigure implements MouseListener, MouseM
 		Rectangle constraint = (Rectangle) layoutMgr.getConstraint(this);
 		bounds = constraint.getCopy().translate(x_axis ? offset.width:0, x_axis ? 0: offset.height);
 		layoutMgr.setConstraint(this, bounds);
-		AxisDragFigure.this.translate(x_axis ? offset.width:0, x_axis ? 0: offset.height);
+		this.translate(x_axis ? offset.width:0, x_axis ? 0: offset.height);
 		updateMgr.addDirtyRegion(getParent(), bounds);
 		me.consume();					
 		

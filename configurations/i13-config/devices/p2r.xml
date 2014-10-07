@@ -17,7 +17,7 @@
 	
 	<bean id="p2r_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="p2r_flyScanDetector"/>
-		<property name="readOutTime" value=".5"/><!--  500ms for pco 4000 10 ms for pco Edge-->
+		<property name="readOutTime" value=".01"/><!--  500ms for pco 4000 10 ms for pco Edge-->
 		<property name="hardwareTriggerProvider" ref="p2rcvmc"/>
 		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -29,7 +29,7 @@
 	
 	<bean id="p2r_flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="p2r_flyScanDetectorTIF"/>
-		<property name="readOutTime" value=".5"/><!-- 500ms for pco 4000 10 ms for pco Edge-->
+		<property name="readOutTime" value=".01"/><!-- 500ms for pco 4000 10 ms for pco Edge-->
 		<property name="hardwareTriggerProvider" ref="p2rcvmc"/>
 		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">

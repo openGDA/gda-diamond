@@ -692,7 +692,8 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 		double move;
 		try {
-			move = x / ((x_axis ? scale.getPixelsPerMMInX() : scale.getPixelsPerMMInY())/1000.);
+			//in y move by -1 * move
+			move = x / ((x_axis ? scale.getPixelsPerMMInX() : -scale.getPixelsPerMMInY())/1000.);
 			ScannableMotionUnits sampleCentringMotor = x_axis ? adControllerImpl.getSampleCentringXMotor() : adControllerImpl.getSampleCentringYMotor();
 			sampleCentringMotor.asynchronousMoveTo(ScannableUtils
 					.getCurrentPositionArray(sampleCentringMotor)[0] + move); 

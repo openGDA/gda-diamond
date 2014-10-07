@@ -168,7 +168,7 @@
 	<import resource="../../devices/table.xml" />
 	<import resource="../../devices/camera_stage.xml" />
 	<import resource="../../devices/pco1.xml" />
-<!-- 	<import resource="../../devices/sample_stage_hexapod.xml"/>	 -->
+	<import resource="../../devices/sample_stage_hexapod.xml"/>
 	<import resource="../../devices/pinhole.xml" />
 	<import resource="../../devices/zone_plate.xml" />
 	<import resource="../../devices/phase_ring.xml" />
