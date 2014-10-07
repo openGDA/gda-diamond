@@ -183,6 +183,28 @@
 						<property name="units" value="Angstrom" />
 					</bean>
 				</entry>
+				<!-- Sample information here -->
+				<entry key="sample_name">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="sample:NXsample/name" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="s6xgap">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="sample:NXsample/beam_size_x" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
+				<entry key="s6ygap">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="sample:NXsample/beam_size_y" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -201,6 +223,9 @@
 				<value>pixium_BaseExposure</value>
 				<value>pixium_ExcludeEarlyFrames</value>
 				<value>pixium_TotalCount</value>
+				<value>s6xgap</value>
+				<value>s6ygap</value>
+				<value>sample_name</value>
 			</set>
 		</property>
 	</bean>

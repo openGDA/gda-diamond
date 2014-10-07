@@ -8,28 +8,46 @@
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
+				<bean class="gda.data.metadata.IcatMetadataEntry">
+					<property name="name" value="proposal.title" />
+					<property name="query" value="title" />
+				</bean>
+				<bean class="gda.data.metadata.IcatMetadataEntry">
+					<property name="name" value="investigation" />
+					<property name="query" value="investigation" />
+				</bean>
+				<bean class="gda.data.metadata.IcatMetadataEntry">
+					<property name="name" value="proposal" />
+					<property name="query" value="proposal" />
+				</bean>
+				<bean class="gda.data.metadata.IcatMetadataEntry">
+					<property name="name" value="visit" />
+					<property name="query" value="visit" />
+				</bean>
+				
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="instrument" />
 					<property name="propertyName" value="gda.instrument" />
 				</bean>
 
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="facility" />
+					<property name="name" value="facility.name" />
 					<property name="propertyName" value="gda.facility" />
 				</bean>
-
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="facilityType" />
+					<property name="name" value="facility.type" />
 					<property name="propertyName" value="gda.facility.type" />
 				</bean>
-
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="probe" />
+					<property name="name" value="facility.probe" />
 					<property name="propertyName" value="gda.facility.probe" />
 				</bean>
-
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="beamCurrent" />
+					<property name="name" value="instrument.source.energy" />
+					<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+				</bean>
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="instrument.source.current" />
 					<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
 				</bean>
 
@@ -37,15 +55,9 @@
 					<property name="name" value="facilityMode" />
 					<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
 				</bean>
-
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
 					<property name="name" value="fillMode" />
 					<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
-				</bean>
-
-				<bean class="gda.data.metadata.EpicsMetadataEntry">
-					<property name="name" value="beamEnergy" />
-					<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
 				</bean>
 
 				<bean class="gda.data.metadata.StoredMetadataEntry">
