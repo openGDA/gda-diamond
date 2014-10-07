@@ -40,12 +40,12 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 	private static final Logger logger = LoggerFactory.getLogger(BeamMonitor.class);
 
 	private String ringCurrentPV = "SR21C-DI-DCCT-01:SIGNAL";
-	private String shutterPV = "FE18I-RS-ABSB-01:STA";
+	private String[] shutterPVs = new String[]{"FE18I-RS-ABSB-01:STA","FE18B-PS-SHTR-02:STA"};
 	private String[] modesToIgnore = new String[] { "Mach. Dev.", "Shutdown" };
 
 	private EpicsController controller;
 	private EpicsChannelManager channelManager;
-	private Channel portShutter;
+	private Channel[] portShutters;
 	private Channel ringCurrent;
 
 	public BeamMonitor() {
@@ -59,14 +59,17 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 	@Override
 	public void configure() {
 		this.level = 1;
-		if (shutterPV == null || shutterPV.isEmpty() || ringCurrentPV == null || ringCurrentPV.isEmpty()) {
+		if (shutterPVs == null || shutterPVs.length == 0 || ringCurrentPV == null || ringCurrentPV.isEmpty()) {
 			logger.error(getName() + " cannot configure as the PVs are not defined.");
 		}
 
 		controller = EpicsController.getInstance();
 		channelManager = new EpicsChannelManager(this);
 		try {
-			portShutter = channelManager.createChannel(shutterPV, false);
+			portShutters = new Channel[shutterPVs.length];
+			for (int index = 0; index < shutterPVs.length; index++){
+				portShutters[index] = channelManager.createChannel(shutterPVs[index], false);
+			}
 			ringCurrent = channelManager.createChannel(ringCurrentPV, false);
 		} catch (Exception e) {
 			logger.error(getName() + " Beam monitor failed to configure.", e);
@@ -83,8 +86,7 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 	}
 
 	protected boolean isConnected() {
-		return portShutter.getConnectionState().isEqualTo(ConnectionState.CONNECTED)
-				&& ringCurrent.getConnectionState().isEqualTo(ConnectionState.CONNECTED);
+		return ringCurrent.getConnectionState().isEqualTo(ConnectionState.CONNECTED);
 	}
 
 	protected String getNotConnectedMessage() {
@@ -113,7 +115,7 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 			}
 		}
 
-		while (!portShutterOpen()) {
+		while (!portShuttersAllOpen()) {
 			try {
 				sendAndPrintMessage("Port shutter closed : pausing until it is opened");
 				Thread.sleep(60000);
@@ -124,20 +126,29 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 		}
 	}
 
-	protected boolean portShutterOpen() {
+	protected boolean portShuttersAllOpen() {
+		for (Channel shutterChannel : portShutters){
+			if (!channelSaysOpen(shutterChannel)){
+				return false;
+			}
+		}
+		return true; // only true if all open
+	}
+	
+	private boolean channelSaysOpen(Channel channelToTest){
 		try {
-			String value = controller.cagetString(portShutter);
+			String value = controller.cagetString(channelToTest);
 			return value.equals("Open");
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return true;
 		}
+		
 	}
 
 	protected boolean machineHasCurrent() {
 		try {
 			Double current = controller.cagetDouble(ringCurrent);
-//			return false;
 			return current > 1.0;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -149,12 +160,12 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 	public void initializationCompleted() {
 	}
 
-	public String getShutterPV() {
-		return shutterPV;
+	public String[] getShutterPVs() {
+		return shutterPVs;
 	}
 
-	public void setShutterPV(String shutterPV) {
-		this.shutterPV = shutterPV;
+	public void setShutterPVs(String[] shutterPVs) {
+		this.shutterPVs = shutterPVs;
 	}
 
 	public String[] getModesToIgnore() {
