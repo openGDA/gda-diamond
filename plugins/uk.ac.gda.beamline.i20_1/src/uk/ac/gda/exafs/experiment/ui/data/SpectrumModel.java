@@ -18,22 +18,17 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.core.databinding.observable.list.WritableList;
 
 public class SpectrumModel extends TimeIntervalDataModel {
 
 	private final TimingGroupUIModel parent;
+	private final int fromSpectrum;
+	private final int toSpectrum;
 
-	WritableList accumulationList = new WritableList(new ArrayList<Accumulation>(), Accumulation.class);
-	public List<?> getAccumulationList() {
-		return accumulationList;
-	}
-
-	public SpectrumModel(TimingGroupUIModel parent) {
+	public SpectrumModel(TimingGroupUIModel parent, int fromSpectrum, int toSpectrum) {
 		this.parent = parent;
+		this.fromSpectrum = fromSpectrum;
+		this.toSpectrum = toSpectrum;
 	}
 
 	public TimingGroupUIModel getParent() {
@@ -44,4 +39,13 @@ public class SpectrumModel extends TimeIntervalDataModel {
 	public void dispose() {
 		//
 	}
+
+	public int getFromSpectrum() {
+		return fromSpectrum;
+	}
+
+	public int getToSpectrum() {
+		return toSpectrum;
+	}
+
 }
