@@ -18,6 +18,9 @@
 
 package uk.ac.gda.dls.exafs.test;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -25,16 +28,13 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.ac.diamond.scisoft.analysis.dataset.Dataset;
-import uk.ac.diamond.scisoft.analysis.dataset.DatasetFactory;
-import uk.ac.diamond.scisoft.analysis.dataset.Maths;
 import uk.ac.diamond.scisoft.analysis.optimize.GeneticAlg;
 import uk.ac.diamond.scisoft.analysis.optimize.IOptimizer;
 import uk.ac.diamond.scisoft.analysis.optimize.LeastSquares;
 import uk.ac.diamond.scisoft.analysis.optimize.NelderMead;
 import uk.ac.diamond.scisoft.analysis.plotserver.AxisMapBean;
 import uk.ac.diamond.scisoft.analysis.plotserver.DataBean;
-import uk.ac.diamond.scisoft.analysis.plotserver.DataSetWithAxisInformation;
+import uk.ac.diamond.scisoft.analysis.plotserver.DatasetWithAxisInformation;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiBean;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiParameters;
 import uk.ac.diamond.scisoft.analysis.plotserver.GuiPlotMode;
@@ -261,7 +261,7 @@ public class ExafsPlotPluginTest {
 		dataBean.addAxis(AxisMapBean.XAXIS, x);
 
 		for (int i = 0; i < yAxes.length; i++) {
-			dataBean.addData(DataSetWithAxisInformation.createAxisDataSet(yAxes[i]));
+			dataBean.addData(DatasetWithAxisInformation.createAxisDataSet(yAxes[i]));
 		}
 		
 		view.processPlotUpdate(dataBean);
