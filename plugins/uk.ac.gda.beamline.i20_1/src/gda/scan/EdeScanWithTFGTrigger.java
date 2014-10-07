@@ -110,7 +110,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 
 	private void startTFG() throws DeviceException {
-		daserver.sendCommand("tfg arm");
+		daserver.sendCommand("tfg start");
 	}
 
 	@Override
