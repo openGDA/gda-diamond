@@ -101,6 +101,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 	private void prepareTFG(boolean shouldStartOnTopupSignal) throws DeviceException {
 		int numberOfRepetitions = scanParameters.getNumberOfRepetitions();
+		triggeringParameters.getDetectorDataCollection().setNumberOfFrames(scanParameters.getTotalNumberOfFrames());
 		String command = triggeringParameters.getTfgSetupGrupsCommandParameters(numberOfRepetitions, shouldStartOnTopupSignal);
 
 		// send buffer to daserver

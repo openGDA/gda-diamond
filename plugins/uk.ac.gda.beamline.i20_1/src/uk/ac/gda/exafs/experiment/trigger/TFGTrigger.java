@@ -128,7 +128,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 				} else if (nextPoint.time >= iTcollectionStartTime && !itCollectionAdded) {
 					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", (iTcollectionStartTime - thisPoint.time), thisPoint.port));
 					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", detectorDataCollection.getTriggerPulseLength(), detectorDataCollection.getTriggerOutputPort().getUsrPort() + thisPoint.port));
-					tfgCommand.append(String.format("%d 0 %f 0 %d 0 9\n", detectorDataCollection.getNumberOfFrames(), MIN_LIVE_TIME, detectorDataCollection.getTriggerOutputPort().getUsrPort() + thisPoint.port)); // Review if this is dead or live port
+					tfgCommand.append(String.format("%d 0 %f 0 %d 0 9\n", detectorDataCollection.getNumberOfFrames(), MIN_LIVE_TIME, thisPoint.port)); // Review if this is dead or live port
 					if (nextPoint.time == iTcollectionEndTime) {
 						tfgCommand.append(String.format("1 %f 0.0 0 0 9 0\n", MIN_DEAD_TIME));
 					} else {
@@ -142,6 +142,13 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 				}
 			}
 		}
+		if (!itCollectionAdded) {
+			if (!triggerPoints.isEmpty()) {
+				tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", (iTcollectionStartTime - triggerPoints.get(triggerPoints.size() -1).time), 0));
+			}
+			tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", detectorDataCollection.getTriggerPulseLength(), detectorDataCollection.getTriggerOutputPort().getUsrPort()));
+			tfgCommand.append(String.format("%d 0 %f 0 0 0 9\n", detectorDataCollection.getNumberOfFrames(), MIN_LIVE_TIME, detectorDataCollection.getTriggerOutputPort().getUsrPort())); // Review if this is dead or live port
+		}
 		tfgCommand.append("-1 0 0 0 0 0 0");
 		return tfgCommand.toString();
 	}
@@ -149,6 +156,9 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	private List<TriggerPair> processTimes() {
 		TreeMap<Double, List<TriggerableObject>> triggerTimesAndSamEnv = new TreeMap<Double, List<TriggerableObject>>();
 		List<TriggerPair> triggerPoints = new ArrayList<TriggerPair>();
+		if (sampleEnvironment.isEmpty()) {
+			return triggerPoints;
+		}
 		for (TriggerableObject entry : sampleEnvironment) {
 			double startPulse = entry.getTriggerDelay();
 			double endPulse = entry.getTriggerDelay() + entry.getTriggerPulseLength();
