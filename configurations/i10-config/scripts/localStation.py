@@ -405,6 +405,15 @@ if zebra_detector_installed:
         setCollectionTimeInstructions=setCollectionTimeInstructions,
         prepareForCollectionInstructions=prepareForCollectionInstructions)
 
+######## Setting up the Zebra as a fast dicriosm counter ###############
+zebra_fastdicr_installed = True
+
+if zebra_fastdicr_installed:
+    from scannable.detectors.fastDicroismZebraDetector import FastDichroismZebraDetector
+    global zebraContinuousMoveController
+    #fastDichroism=FastDichroismZebraDetector('fastDichroism', 'BL10I-EA-ZEBRA-01:', zebraContinuousMoveController)
+    fastDichroism=FastDichroismZebraDetector('fastDichroism', 'BL10I-EA-ZEBRA-01:', None)
+
 polarimeter_installed = False
 if polarimeter_installed:
     try:
