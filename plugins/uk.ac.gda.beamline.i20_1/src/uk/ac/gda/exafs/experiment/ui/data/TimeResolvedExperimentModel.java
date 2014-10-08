@@ -488,7 +488,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
 							timingGroup.setTimePerFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getTimePerSpectrum(), ExperimentUnit.SEC)); // convert to S
 							// integration time is always in milli sec
-							timingGroup.setTimePerScan(ExperimentUnit.MILLI_SEC.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
+							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setGroupTrig(uiTimingGroup.isUseExernalTrigger());
 							// Set up lemo outs
