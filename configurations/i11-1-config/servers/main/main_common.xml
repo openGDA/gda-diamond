@@ -43,7 +43,7 @@
 	<import resource="BeamInfo.xml"/>
 	<import resource="TestMotors.xml"/>
 <!-- 	<import resource="usermotors.xml"/> -->
-	<import resource="wavelength.xml"/>
+<!-- 	<import resource="wavelength.xml"/> -->
 	
 <!-- LDE Hutch -->
 	<import resource="S6.xml" />
