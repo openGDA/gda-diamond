@@ -188,14 +188,14 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="sample:NXsample/beam_size_x" />
-						<property name="units" value="none" />
+						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s6ygap">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="sample:NXsample/beam_size_y" />
-						<property name="units" value="none" />
+						<property name="units" value="mm" />
 					</bean>
 				</entry>
 			</map>
