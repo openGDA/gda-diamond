@@ -8,22 +8,22 @@
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
-				<bean class="gda.data.metadata.IcatMetadataEntry">
-					<property name="name" value="proposal.title" />
-					<property name="query" value="title" />
-				</bean>
-				<bean class="gda.data.metadata.IcatMetadataEntry">
-					<property name="name" value="investigation" />
-					<property name="query" value="investigation" />
-				</bean>
-				<bean class="gda.data.metadata.IcatMetadataEntry">
-					<property name="name" value="proposal" />
-					<property name="query" value="proposal" />
-				</bean>
-				<bean class="gda.data.metadata.IcatMetadataEntry">
-					<property name="name" value="visit" />
-					<property name="query" value="visit" />
-				</bean>
+<!-- 				<bean class="gda.data.metadata.IcatMetadataEntry"> -->
+<!-- 					<property name="name" value="proposal.title" /> -->
+<!-- 					<property name="query" value="title" /> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.data.metadata.IcatMetadataEntry"> -->
+<!-- 					<property name="name" value="investigation" /> -->
+<!-- 					<property name="query" value="investigation" /> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.data.metadata.IcatMetadataEntry"> -->
+<!-- 					<property name="name" value="proposal" /> -->
+<!-- 					<property name="query" value="proposal" /> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.data.metadata.IcatMetadataEntry"> -->
+<!-- 					<property name="name" value="visit" /> -->
+<!-- 					<property name="query" value="visit" /> -->
+<!-- 				</bean> -->
 				
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="instrument" />
