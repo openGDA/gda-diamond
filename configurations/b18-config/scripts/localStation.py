@@ -14,9 +14,7 @@ from gda.configuration.properties import LocalProperties
 from gda.jython.scriptcontroller.logging import LoggingScriptController
 from gda.scan import ScanBase#this is required for skip current repetition to work BLXVIIIB-99
 from gda.device.monitor import EpicsMonitor
-#from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
 from gda.data.scan.datawriter import NexusDataWriter
-# from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig, Xspress3Config
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
@@ -27,11 +25,6 @@ commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
-
-
-# xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
-# vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
-# xspress3Config = Xspress3Config(xspress3, ExafsScriptObserver)
 
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity]

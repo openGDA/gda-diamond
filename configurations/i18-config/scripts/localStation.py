@@ -1,4 +1,11 @@
 #@PydevCodeAnalysisIgnore
+
+from uk.ac.gda.server.exafs.scan.preparers import I18BeamlinePreparer
+from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
+from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
+from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
+from uk.ac.gda.server.exafs.scan import XasScan, QexafsScan
+
 from gda.configuration.properties import LocalProperties
 from gda.data import PathConstructor
 from gda.data.fileregistrar import IcatXMLCreator
@@ -15,11 +22,6 @@ from microfocus.map import Map
 from microfocus.raster_map import RasterMap
 from microfocus.raster_map_return_write import RasterMapReturnWrite
 from cid_photodiode import CidPhotoDiode
-from exafsscripts.exafs.i18DetectorPreparer import I18DetectorPreparer
-from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
-from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
-from exafsscripts.exafs.xas_scan import XasScan
-from exafsscripts.exafs.qexafs_scan import QexafsScan
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
 from gda.data.scan.datawriter import NexusDataWriter
@@ -87,20 +89,23 @@ loggingcontroller =            finder.find("XASLoggingScriptController")
 datawriterconfig =             finder.find("datawriterconfig")
 original_header =              finder.find("datawriterconfig").getHeader()[:]
 
-xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
-vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
+# xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+# vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
 
-detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig)
-samplePreparer =   I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
-outputPreparer =   I18OutputPreparer(datawriterconfig)
+# detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig)
+# samplePreparer =   I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
+# outputPreparer =   I18OutputPreparer(datawriterconfig)
 
-
-# user mode on the live beamline, use energy
+detectorPreparer = I18DetectorPreparer(qexafs_energy, sensitivities, sensitivity_units ,offsets, offset_units, counterTimer01, xspress2system, xmapMca)
+samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
+outputPreparer = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
-    xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
-# else use energy_nogap
-else :
-    xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+    xas = XasScan(I18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy, Finder.getInstance().find("metashop"), True)
+else:
+    xas = XasScan(I18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, Finder.getInstance().find("metashop"), True)
+xanes = xas
+qexafs = QexafsScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
+
 
 non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
 # while traj stage 3 hardware is switched off
@@ -116,13 +121,9 @@ if (LocalProperties.get("gda.mode") == 'live'):
 else:
     detectorPreparer.addMonitors(None, None, None)
 
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
-xanes = xas
-
-
-alias("xas")
-alias("xanes")
-alias("qexafs")
+vararg_alias("xas")
+vararg_alias("xanes")
+vararg_alias("qexafs")
 alias("map")
 alias("raster_map")
 alias("raster_map_return_write")
