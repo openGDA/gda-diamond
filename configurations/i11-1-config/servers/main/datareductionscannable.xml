@@ -6,6 +6,7 @@
 	<bean name="eventadmin" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
 
 	<bean id="datareduction" class="org.opengda.lde.scannables.DataReductionScannable">
+		<property name="name" value="datareduction"/>
 		<property name="eventAdmin" ref="eventadmin"/>
 	</bean>
 </beans>
