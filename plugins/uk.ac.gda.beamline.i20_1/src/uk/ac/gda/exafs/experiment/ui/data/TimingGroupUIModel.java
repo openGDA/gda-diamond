@@ -201,7 +201,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			spectraTimeBarRowModel.addInterval(spectrum);
 		}
 		if (last > 0) {
-			int start = spectrumList.size() + last;
+			int start = spectrumList.get(spectrumList.size() - 1).getToSpectrum();
 			int end = start + last;
 			SpectrumModel spectrum = new SpectrumModel(this, start, end);
 			spectrum.setTimes(startTimeForSpectrum, timePerSpectrum * last);
