@@ -26,7 +26,7 @@ import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
-import gda.device.detector.StripDetector;
+import gda.device.detector.XCHIPDetector;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -98,7 +98,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected boolean runItWithTriggerOptions = true; // default for linear/cyclic experiments
 
 	protected Scannable beamLightShutter;
-	protected StripDetector theDetector;
+	protected XCHIPDetector theDetector;
 	protected EdeScan i0DarkScan;
 	protected EdeScan itDarkScan;
 	protected EdeScan i0LightScan;
@@ -187,15 +187,15 @@ public abstract class EdeExperiment implements IObserver {
 		controller = (ScriptControllerBase) getFindable(PROGRESS_UPDATER_NAME);
 	}
 
-	protected void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) {
+	protected void setCommonI0Parameters(double accumulationTime, int numberOfAccumulcations) throws DeviceException {
 		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, numberOfAccumulcations);
 	}
 
-	protected void setDefaultI0Parameters(double accumulationTime) {
+	protected void setDefaultI0Parameters(double accumulationTime) throws DeviceException {
 		i0ScanParameters = this.deriveScanParametersFromIt(accumulationTime, null);
 	}
 
-	protected EdeScanParameters deriveScanParametersFromIt(Double commonAccumulationTime, Integer commonNumberOfAccumulcations) {
+	protected EdeScanParameters deriveScanParametersFromIt(double accumulationTime, Integer commonNumberOfAccumulcations) throws DeviceException {
 		// need an I0 spectrum for each timing group in itScanParameters
 		List<TimingGroup> itgroups = itScanParameters.getGroups();
 
@@ -204,13 +204,9 @@ public abstract class EdeExperiment implements IObserver {
 			TimingGroup newGroup = new TimingGroup();
 			newGroup.setLabel(itGroup.getLabel());
 			newGroup.setNumberOfFrames(1);
-			if(commonAccumulationTime == null) {
-				newGroup.setTimePerScan(itGroup.getTimePerScan());
-			} else {
-				newGroup.setTimePerScan(commonAccumulationTime);
-			}
+			newGroup.setTimePerScan(accumulationTime);
 			if(commonNumberOfAccumulcations == null) {
-				newGroup.setNumberOfScansPerFrame(itGroup.getNumberOfScansPerFrame());
+				newGroup.setNumberOfScansPerFrame(theDetector.getNumberScansInFrame(itGroup.getTimePerFrame(), accumulationTime, newGroup.getNumberOfFrames()));
 			} else {
 				newGroup.setNumberOfScansPerFrame(commonNumberOfAccumulcations);
 			}
