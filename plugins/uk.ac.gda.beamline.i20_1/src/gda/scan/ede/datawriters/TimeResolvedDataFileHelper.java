@@ -246,17 +246,17 @@ public class TimeResolvedDataFileHelper {
 					+ EdeDataConstants.I0_DARK_COLUMN_NAME + "\n");
 			int numberOfSpectra = i0iDataSet.getShape()[0];
 			int numberOfChannels = i0iDataSet.getShape()[1];
-			for (int g = 0; g < numberOfSpectra; g++) {
+			for (int i = 0; i < numberOfSpectra; i++) {
 				for (int j = 0; j < numberOfChannels; j++) {
-					writer.write(String.format("0%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.get(j), i0iCorrectedDataSet.get(g, j), i0iDataSet.get(g, j), i0darkDataSet.get(g, j)));
+					writer.write(String.format("0%d\t%d\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), i0iCorrectedDataSet.get(i, j), i0iDataSet.get(i, j), i0darkDataSet.get(i, j)));
 				}
 			}
 			if (i0fCorrectedDataSet != null) {
 				numberOfSpectra = i0fData.getShape()[0];
 				numberOfChannels = i0fData.getShape()[1];
-				for (int g = 0; g < numberOfSpectra; g++) {
+				for (int i = 0; i < numberOfSpectra; i++) {
 					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("1%d\t%d\t%.2f\t%.2f\t%.2f\t%f\n", g, j, energyData.get(j), i0fCorrectedDataSet.get(g, j), i0fCorrectedDataSet.get(g, j), i0darkDataSet.get(g, j)));
+						writer.write(String.format("1%d\t%d\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), i0fCorrectedDataSet.get(i, j), i0fCorrectedDataSet.get(i, j), i0darkDataSet.get(i, j)));
 					}
 				}
 			}
@@ -281,9 +281,9 @@ public class TimeResolvedDataFileHelper {
 			DoubleDataset itiAvgData = getAverageDataset(itData, null);
 			DoubleDataset itiCorrectedAvgData = getAverageDataset(itCorrectedDataSet, null);
 
-			for (int g = 0; g < numberOfSpectra; g++) {
+			for (int i = 0; i < numberOfSpectra; i++) {
 				for (int j = 0; j < numberOfChannels; j++) {
-					writer.write(String.format("%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.get(j), itiCorrectedAvgData.get(g,j) , avgLogI0It.get(g, j), itiAvgData.get(g,j) , itDarkData.get(0, j)));
+					writer.write(String.format("%d\t%d\t%f\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), itiCorrectedAvgData.get(i,j) , avgLogI0It.get(i, j), itiAvgData.get(i,j) , itDarkData.get(0, j)));
 				}
 			}
 		} catch (Exception e) {
@@ -309,11 +309,11 @@ public class TimeResolvedDataFileHelper {
 			itavgWriter.write(header);
 			DoubleDataset i0f = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
 			DoubleDataset i0avg = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
-			for (int g = 0; g < numberOfSpectra; g++) {
+			for (int i = 0; i < numberOfSpectra; i++) {
 				for (int j = 0; j < numberOfChannels; j++) {
-					itiWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.get(j), avgLogI0It.get(g, j)));
-					itffWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.get(j), i0f.get(g, j)));
-					itavgWriter.write(String.format("%d\t%.2f\t%.2f\n", g, energyData.get(j), i0avg.get(g, j)));
+					itiWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), avgLogI0It.get(i, j)));
+					itffWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), i0f.get(i, j)));
+					itavgWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), i0avg.get(i, j)));
 				}
 			}
 		} catch (Exception e) {
@@ -336,9 +336,9 @@ public class TimeResolvedDataFileHelper {
 				writer.write("# index\t" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 						+ EdeDataConstants.IREF_DATA_NAME + "\t" + EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\t" + EdeDataConstants.IREF_RAW_DATA_NAME + "\t"
 						+ EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
-				for (int g = 0; g < numberOfSpectra; g++) {
+				for (int i = 0; i < numberOfSpectra; i++) {
 					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("%d\t%d\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", g, j, energyData.get(j), iRefiCorrecteddata.get(g,j) , iRefiNormalisedData.get(g, j), iRefidata.get(g,j) , iRefDarkData.get(g, j)));
+						writer.write(String.format("%d\t%d\t%f\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), iRefiCorrecteddata.get(i,j) , iRefiNormalisedData.get(i, j), iRefidata.get(i,j) , iRefDarkData.get(i, j)));
 					}
 				}
 			} catch (Exception e) {
@@ -353,9 +353,9 @@ public class TimeResolvedDataFileHelper {
 				writeMetaData(scannablesDescription, metaData, writer);
 				writer.write("# index\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 						+ EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\n");
-				for (int g = 0; g < numberOfSpectra; g++) {
+				for (int i = 0; i < numberOfSpectra; i++) {
 					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("0%d\t%.2f\t%.2f\n", g,energyData.get(j), iRefiNormalisedData.get(g, j)));
+						writer.write(String.format("0%d\t%f\t%f\n", i, energyData.get(j), iRefiNormalisedData.get(i, j)));
 					}
 				}
 			} catch (Exception e) {
@@ -370,9 +370,9 @@ public class TimeResolvedDataFileHelper {
 					writeMetaData(scannablesDescription, metaData, writer);
 					writer.write("# index\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 							+ EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\n");
-					for (int g = 0; g < numberOfSpectra; g++) {
+					for (int i = 0; i < numberOfSpectra; i++) {
 						for (int j = 0; j < numberOfChannels; j++) {
-							writer.write(String.format("1%d\t%.2f\t%.2f\n", g,energyData.get(j), iReffNormalisedData.get(g, j)));
+							writer.write(String.format("1%d\t%f\t%f\n", i, energyData.get(j), iReffNormalisedData.get(i, j)));
 						}
 					}
 				} catch (Exception e) {
