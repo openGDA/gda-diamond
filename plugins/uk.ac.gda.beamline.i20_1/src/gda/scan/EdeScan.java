@@ -171,6 +171,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		theDetector.loadParameters(scanParameters);
 		if (scanType == EdeScanType.DARK) {
 			// close the shutter
+			shutter.moveTo("Reset");
 			shutter.moveTo("Close");
 			checkThreadInterrupted();
 			waitIfPaused();
