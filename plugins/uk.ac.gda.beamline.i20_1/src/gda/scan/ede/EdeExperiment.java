@@ -515,7 +515,7 @@ public abstract class EdeExperiment implements IObserver {
 				lastI0FinalData = i0FinalScan.extractLastDetectorDataSet();
 				// Get the first spectrum for each group is current group number because I0 has only one spectrum for each group
 				int i0DarkSpectrumForCurrentGroup = progress.getGroupNumOfThisSDP();
-				DoubleDataset i0DarkForI0LightData = i0FinalScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
+				DoubleDataset i0DarkForI0LightData = i0DarkScan.extractDetectorDataSet(i0DarkSpectrumForCurrentGroup);
 				lastI0FinalData = lastI0FinalData.isubtract(i0DarkForI0LightData);
 				controller.update(i0LightScan, new EdeExperimentProgressBean(getCollectionType(), progress,
 						EdeDataConstants.I0_FINAL_CORR_COLUMN_NAME, lastI0FinalData, lastEnergyData));
