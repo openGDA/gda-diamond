@@ -1,6 +1,7 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import gda.device.Scannable;
+import gda.device.detector.BufferedDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
@@ -24,14 +25,11 @@ import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
-import uk.ac.gda.server.exafs.scan.DetectorPreparer;
+import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
-public class I18DetectorPreparer implements DetectorPreparer {
+public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
-	private final Scannable[] sensitivities;
-	private final Scannable[] sensitivity_units;
-	private final Scannable[] offsets;
-	private final Scannable[] offset_units;
+	private final Scannable[] gains;
 	private final TfgScalerWithFrames counterTimer01;
 	private final Xspress2Detector xspress2system;
 	private final Xmap xmpaMca;
@@ -41,17 +39,21 @@ public class I18DetectorPreparer implements DetectorPreparer {
 	private TopupChecker topupMonitor;
 	private BeamMonitor beam;
 	private DetectorFillingMonitorScannable detectorFillingMonitor;
+	private BufferedDetector qexafs_counterTimer01;
+	private BufferedDetector qexafs_xmap;
+	private BufferedDetector qexafs_xspress;
+	private BufferedDetector qexafsFFI0;
 
-	public I18DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivity_units,
-			Scannable[] offsets, Scannable[] offset_units,
-			TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem, Xmap vortexConfig) {
-		this.sensitivities = sensitivities;
-		this.sensitivity_units = sensitivity_units;
-		this.offsets = offsets;
-		this.offset_units = offset_units;
+	public I18DetectorPreparer(Scannable[] gains,
+			TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem, Xmap vortexConfig , BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress, BufferedDetector QexafsFFI0, BufferedDetector qexafs_xmap ) {
+		this.gains = gains;
 		this.counterTimer01 = ionchambers;
 		this.xspress2system = xspressSystem;
 		this.xmpaMca = vortexConfig;
+		this.qexafsFFI0 = QexafsFFI0;
+		this.qexafs_xmap = qexafs_xmap;
+		this.qexafs_counterTimer01 = qexafs_counterTimer01;
+		this.qexafs_xspress = qexafs_xspress;
 	}
 
 	@Override
@@ -97,6 +99,25 @@ public class I18DetectorPreparer implements DetectorPreparer {
 	@Override
 	public void completeCollection() {
 		// nothing here
+	}
+	
+	@Override
+	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
+		
+		// TODO this was written before xspress3 added and implemented on the beamline (this was done for 8.4 in November 2014)
+		String expt_type = detectorBean.getExperimentType();
+		if (expt_type.equals("Transmission")) {
+			return new BufferedDetector[] { qexafs_counterTimer01 };
+		}
+
+		if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Silicon")) {
+			return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xmap, qexafsFFI0 };
+		} /*else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) {
+			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3",
+					"qexafs_FFI0_xspress3" });
+		} */
+		
+		return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress, qexafsFFI0 };
 	}
 
 	public void addMonitors(TopupChecker topupMonitor, BeamMonitor beam,
@@ -164,16 +185,12 @@ public class I18DetectorPreparer implements DetectorPreparer {
 			if (ionChamberParams.getGain() == null || ionChamberParams.getGain() == "") {
 				return;
 			}
-			String[] gainStringParts = ionChamberParams.getGain().split(" ");
-			String[] ampStringParts = ionChamberParams.getOffset().split(" ");
+//			String[] gainStringParts = ionChamberParams.getGain().split(" ");
 			try {
 				InterfaceProvider.getTerminalPrinter().print(
 						"Changing sensitivity of " + ionChamberParams.getName() + " to " + ionChamberParams.getGain());
 
-				sensitivities[index].moveTo(gainStringParts[0]);
-				sensitivity_units[index].moveTo(gainStringParts[1]);
-				offsets[index].moveTo(ampStringParts[0]);
-				offset_units[index].moveTo(ampStringParts[1]);
+				gains[index].moveTo(ionChamberParams.getGain());
 			} catch (Exception e) {
 				InterfaceProvider.getTerminalPrinter().print(
 						"Exception while trying to change the sensitivity of ion chamber" + ionChamberParams.getName());
@@ -185,5 +202,4 @@ public class I18DetectorPreparer implements DetectorPreparer {
 			}
 		}
 	}
-
 }

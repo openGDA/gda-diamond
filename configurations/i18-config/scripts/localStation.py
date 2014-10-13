@@ -17,12 +17,12 @@ from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.device.scannable import LineRepeatingBeamMonitor
 from gda.factory import Finder
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
-from microfocus.map_select import MapSelect
-from microfocus.map import Map
-from microfocus.raster_map import RasterMap
-from microfocus.raster_map_return_write import RasterMapReturnWrite
+# from microfocus.map_select import MapSelect
+# from microfocus.map import Map
+# from microfocus.raster_map import RasterMap
+# from microfocus.raster_map_return_write import RasterMapReturnWrite
 from cid_photodiode import CidPhotoDiode
-from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
+# from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
 from gda.data.scan.datawriter import NexusDataWriter
 
@@ -89,6 +89,8 @@ loggingcontroller =            finder.find("XASLoggingScriptController")
 datawriterconfig =             finder.find("datawriterconfig")
 original_header =              finder.find("datawriterconfig").getHeader()[:]
 
+gains = [i0_keithley_gain, it_keithley_gain]
+
 # xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 # vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
 
@@ -96,7 +98,7 @@ original_header =              finder.find("datawriterconfig").getHeader()[:]
 # samplePreparer =   I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 # outputPreparer =   I18OutputPreparer(datawriterconfig)
 
-detectorPreparer = I18DetectorPreparer(qexafs_energy, sensitivities, sensitivity_units ,offsets, offset_units, counterTimer01, xspress2system, xmapMca)
+detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xmapMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap)
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
@@ -104,17 +106,17 @@ if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'Us
 else:
     xas = XasScan(I18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, Finder.getInstance().find("metashop"), True)
 xanes = xas
-qexafs = QexafsScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
+qexafs = QexafsScan(I18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
 
 
-non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
-# while traj stage 3 hardware is switched off
-raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid, trajBeamMonitor)
-raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
+# non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
+# # while traj stage 3 hardware is switched off
+# raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid, trajBeamMonitor)
+# raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
 # raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, None, raster_counterTimer01, raster_xmap, traj1PositionReader, None, raster_xspress, buffered_cid)
 # raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,None, None, traj1SampleX, None, raster_xspress, traj1PositionReader, None)
 
-map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
+# map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     detectorPreparer.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor)
@@ -124,9 +126,9 @@ else:
 vararg_alias("xas")
 vararg_alias("xanes")
 vararg_alias("qexafs")
-alias("map")
-alias("raster_map")
-alias("raster_map_return_write")
+# alias("map")
+# alias("raster_map")
+# alias("raster_map_return_write")
 alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")

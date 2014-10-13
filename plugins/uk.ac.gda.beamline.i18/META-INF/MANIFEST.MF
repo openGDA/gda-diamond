@@ -6,34 +6,32 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.gda.beamline.i18.I18BeamlineActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
  uk.ac.gda.libs;bundle-version="1.0.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
- uk.ac.gda.client.exafs;bundle-version="1.0.0",
  uk.ac.gda.common;bundle-version="1.0.0",
- uk.ac.gda.client.microfocus;bundle-version="1.0.0",
  uk.ac.gda.dls;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis;bundle-version="1.0.0",
- uk.ac.gda.client.experimentdefinition;bundle-version="1.0.0",
  org.eclipse.core.resources;bundle-version="3.6.0",
  uk.ac.gda.server.exafs;bundle-version="1.0.0",
  uk.ac.gda.epics;bundle-version="1.0.0",
  uk.ac.diamond.org.jscience;bundle-version="[2.0.2,3.0.0)",
  org.eclipse.ui.workbench.texteditor;bundle-version="3.7.0",
  org.eclipse.draw2d;bundle-version="3.7.1",
- org.dawnsci.plotting.jreality;bundle-version="1.0.0",
  uk.ac.gda.video;bundle-version="1.0.0",
  uk.ac.gda.video.mjpeg;bundle-version="1.0.0",
  org.eclipse.swt,
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)",
- uk.ac.gda.client.xspress2;bundle-version="1.0.0",
  uk.ac.gda.devices.xmap;bundle-version="1.0.0",
  uk.ac.gda.devices.xspress2;bundle-version="1.0.0",
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
  uk.ac.gda.beans.vortex;bundle-version="1.0.0",
- uk.ac.gda.client.vortex;bundle-version="1.0.0"
+ uk.ac.gda.server.exafs.epics;bundle-version="1.0.0",
+ uk.ac.gda.client;bundle-version="8.43.0",
+ uk.ac.gda.client.experimentdefinition,
+ uk.ac.gda.client.exafs;bundle-version="1.0.0",
+ uk.ac.gda.client.microfocus;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
@@ -58,5 +56,6 @@ Export-Package: gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
    org.eclipse.core.commands"
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition,  uk.ac.gda.client.exafs
-Import-Package: org.slf4j;version="[1.7.6,1.7.7)",
+Import-Package: org.dawnsci.plotting.jreality.impl,
+ org.slf4j;version="[1.7.6,1.7.7)",
  org.springframework.util;version="3.2.2.RELEASE"

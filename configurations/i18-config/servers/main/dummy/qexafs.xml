@@ -2,8 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-     
-     <bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+
+	<bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
 		<property name="motor" ref="energy_motor" />
 		<property name="lowerGdaLimits" value="2000" />
 		<property name="upperGdaLimits" value="35000" />
@@ -13,7 +13,7 @@
 			</list>
 		</property>
 	</bean>
-     
+
 	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
 		<property name="inputNames">
@@ -21,6 +21,16 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="qexafs_xmap" class="gda.device.detector.xmap.DummyXmapBufferedDetector">
+		<property name="xmap" ref="xmapMca" />
+		<property name="local" value="true" />
+		<property name="inputNames">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
 
 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
@@ -57,5 +67,5 @@
 		<property name="qexafsXspress" ref="qexafs_xspress" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
-	
+
 </beans>

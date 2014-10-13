@@ -20,6 +20,7 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.fail;
 import gda.device.Scannable;
+import gda.device.detector.BufferedDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
@@ -47,13 +48,14 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 public class I18DetectorPreparerTest {
 
 	private Scannable[] sensitivities;
-	private Scannable[] sensitivity_units;
-	private Scannable[] offsets;
-	private Scannable[] offsets_units;
 	private Xspress2Detector xspressSystem;
 	private Xmap xmpaMca;
 	private TfgScalerWithFrames ionchambers;
 	private I18DetectorPreparer thePreparer;
+	private BufferedDetector qexafs_counterTimer01;
+	private BufferedDetector qexafs_xspress;
+	private BufferedDetector QexafsFFI0;
+	private BufferedDetector qexafs_xmap;
 
 	@Before
 	public void setup() {
@@ -71,29 +73,20 @@ public class I18DetectorPreparerTest {
 		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		xmpaMca = (Xmap) createMock(Xmap.class, "xmpaMca");
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
+		qexafs_counterTimer01 = (BufferedDetector) createMock(BufferedDetector.class, "qexafs_counterTimer01");
+		qexafs_xspress = (BufferedDetector) createMock(BufferedDetector.class, "qexafs_xspress");
+		QexafsFFI0 = (BufferedDetector) createMock(BufferedDetector.class, "QexafsFFI0");
+		qexafs_xmap = (BufferedDetector) createMock(BufferedDetector.class, "qexafs_xmap");
 
 		sensitivities = new Scannable[3];
-		sensitivities[0] = createMockScannable("I0_sensitivity");
-		sensitivities[1] = createMockScannable("It_sensitivity");
-		sensitivities[2] = createMockScannable("Iref_sensitivity");
+		sensitivities[0] = createMockScannable("i0_keithley_gain");
+		sensitivities[1] = createMockScannable("it_keithley_gain");
 
-		sensitivity_units = new Scannable[3];
-		sensitivity_units[0] = createMockScannable("I0_sensitivity_units");
-		sensitivity_units[1] = createMockScannable("It_sensitivity_units");
-		sensitivity_units[2] = createMockScannable("Iref_sensitivity_units");
+//		public I18DetectorPreparer(Scannable[] gains,
+//				TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem, Xmap vortexConfig , BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress, BufferedDetector QexafsFFI0, BufferedDetector qexafs_xmap ) {
 
-		offsets = new Scannable[3];
-		offsets[0] = createMockScannable("I0_offsets");
-		offsets[1] = createMockScannable("It_offsets");
-		offsets[2] = createMockScannable("Iref_offsets");
-
-		offsets_units = new Scannable[3];
-		offsets_units[0] = createMockScannable("I0_offsets_units");
-		offsets_units[1] = createMockScannable("It_offsets_units");
-		offsets_units[2] = createMockScannable("Iref_offsets_units");
-
-		thePreparer = new I18DetectorPreparer(sensitivities, sensitivity_units, offsets, offsets_units, ionchambers,
-				xspressSystem, xmpaMca);
+		thePreparer = new I18DetectorPreparer(sensitivities, ionchambers,
+				xspressSystem, xmpaMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap);
 	}
 
 	private Scannable createMockScannable(String string) {
@@ -223,18 +216,7 @@ public class I18DetectorPreparerTest {
 
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path");
 
-			Mockito.verify(sensitivities[0]).moveTo("1");
-			Mockito.verify(sensitivity_units[0]).moveTo("nA/V");
-			Mockito.verify(offsets[0]).moveTo("1");
-			Mockito.verify(offsets_units[0]).moveTo("pA");
-			Mockito.verifyZeroInteractions(sensitivities[1]);
-			Mockito.verifyZeroInteractions(sensitivity_units[1]);
-			Mockito.verifyZeroInteractions(offsets[1]);
-			Mockito.verifyZeroInteractions(offsets_units[1]);
-			Mockito.verifyZeroInteractions(sensitivities[2]);
-			Mockito.verifyZeroInteractions(sensitivity_units[2]);
-			Mockito.verifyZeroInteractions(offsets[2]);
-			Mockito.verifyZeroInteractions(offsets_units[2]);
+			Mockito.verify(sensitivities[0]).moveTo("1 nA/V");
 
 		} catch (Exception e) {
 			fail(e.getMessage());
