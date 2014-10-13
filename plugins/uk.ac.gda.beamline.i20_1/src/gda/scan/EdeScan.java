@@ -29,6 +29,7 @@ import gda.device.detector.StripDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TopupChecker;
+import gda.jython.ITerminalPrinter;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
@@ -76,6 +77,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	protected boolean isSimulated = false;
 
+	private final ITerminalPrinter terminalPrinter;
+
 	/**
 	 * @param scanParameters
 	 *            - timing parameters of the data collection
@@ -108,6 +111,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		updateSimulated();
 
 		//injectionCounter = Finder.getInstance().find("injectionCounter");
+
+		terminalPrinter = InterfaceProvider.getTerminalPrinter();
 	}
 
 	private void updateSimulated() {
@@ -169,9 +174,10 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 		logger.debug(toString() + " loading detector parameters...");
 		theDetector.loadParameters(scanParameters);
+		shutter.moveTo("Reset");
 		if (scanType == EdeScanType.DARK) {
 			// close the shutter
-			shutter.moveTo("Reset");
+			terminalPrinter.print("Closing shutter");
 			shutter.moveTo("Close");
 			checkThreadInterrupted();
 			waitIfPaused();
@@ -180,6 +186,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			}
 		} else {
 			moveSampleIntoPosition();
+			terminalPrinter.print("Opening shutter");
 			shutter.moveTo("Open");
 		}
 		if (!isChild()) {
@@ -187,7 +194,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 
 		logger.debug(toString() + " starting detector running...");
-		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+		terminalPrinter.print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		theDetector.collectData();
 		// sleep for a moment to allow collection to start
 		Thread.sleep(250);
@@ -229,7 +236,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	protected void moveSampleIntoPosition() throws DeviceException, InterruptedException {
 		logger.debug(toString() + " moving motors into position...");
-		InterfaceProvider.getTerminalPrinter().print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+		terminalPrinter.print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		motorPositions.moveIntoPosition();
 		checkThreadInterrupted();
 		waitIfPaused();
