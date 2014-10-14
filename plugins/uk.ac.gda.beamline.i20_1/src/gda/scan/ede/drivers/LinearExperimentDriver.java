@@ -30,14 +30,14 @@ import java.util.Vector;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-// FIXME Refactor this!!!!
 public class LinearExperimentDriver extends ScanDriver {
 
 	private final StripDetector detector;
 	private final EdeScanParameters iTScanParameters;
 	private final Monitor topupMonitor;
 	private final Scannable shutter2;
-	private int noOfSecPerSpectrumToPublish = TimeResolvedExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
+	private double noOfSecPerSpectrumToPublish = TimeResolvedExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
+	@Deprecated
 	public LinearExperimentDriver(String detectorName, String topupMonitorName, Vector<TimingGroup> timingGroups, Scannable shutter2) {
 		super();
 		detector = Finder.getInstance().find(detectorName);
@@ -67,13 +67,6 @@ public class LinearExperimentDriver extends ScanDriver {
 
 	@Override
 	public String doCollection() throws Exception {
-		//		EdeLinearExperiment theExperiment = new EdeLinearExperiment(iTScanParameters, outbeamPosition, inbeamPosition,
-		//				referencePosition, detector, topupMonitor, shutter2);
-		//		theExperiment.setNoOfSecPerSpectrumToPublish(noOfSecPerSpectrumToPublish);
-		//		if (fileTemplate != null) {
-		//			theExperiment.setFilenameTemplate(fileTemplate);
-		//		}
-		//		return theExperiment.runExperiment();
 		return null;
 	}
 }

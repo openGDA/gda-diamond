@@ -42,11 +42,11 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class TimeResolvedExperiment extends EdeExperiment {
 
-	public static final int DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2;
+	public static final double DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH = 2.0d;
 
 	protected int numberOfRepetitions = 1;
 
-	private int noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
+	private double noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	private int totalNumberOfspectra;
 	private double totalTime;
 
@@ -147,7 +147,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		return ((EdeTimeResolvedExperimentDataWriter) writer).getAsciiItAveragedFilename();
 	}
 
-	public int getNoOfSecPerSpectrumToPublish() {
+	public double getNoOfSecPerSpectrumToPublish() {
 		return noOfSecPerSpectrumToPublish;
 	}
 

@@ -100,7 +100,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private TimingGroupTimeBarRowModel spectraRowModel;
 
 	public static final String NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH_PROP_NAME = "noOfSecPerSpectrumToPublish";
-	private int noOfSecPerSpectrumToPublish = TimeResolvedExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
+	private double noOfSecPerSpectrumToPublish = TimeResolvedExperiment.DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 
 	public static final String CURRENT_SCANNING_SPECTRUM_PROP_NAME = "currentScanningSpectrum";
 	private SpectrumModel currentScanningSpectrum;
@@ -370,7 +370,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				DetectorModel.TOPUP_CHECKER,
 				DetectorModel.SHUTTER_NAME,
 				gson.toJson(externalTriggerSetting.getTfgTrigger())));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");", this.getExperimentDataModel().getSampleDetails()));
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
@@ -657,11 +657,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 	}
 
-	public int getNoOfSecPerSpectrumToPublish() {
+	public double getNoOfSecPerSpectrumToPublish() {
 		return noOfSecPerSpectrumToPublish;
 	}
 
-	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) throws IllegalArgumentException {
+	public void setNoOfSecPerSpectrumToPublish(double noOfSecPerSpectrumToPublish) throws IllegalArgumentException {
 		if (noOfSecPerSpectrumToPublish >= this.getDurationInSec()) {
 			throw new IllegalArgumentException("Cannot be longer than experiment duration");
 		}
