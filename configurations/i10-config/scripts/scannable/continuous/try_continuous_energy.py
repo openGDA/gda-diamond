@@ -3,6 +3,7 @@
 
 from datetime import datetime
 from future.scannable.scaler import McsController, McsChannelScannable
+from future.scannable.binpoint import BinpointController, BinpointChannelScannable
 from gda.device.detector.hardwaretriggerable import \
                     DummyHardwareTriggerableDetector
 #from gda.scan import ConstantVelocityScanLine
@@ -28,7 +29,7 @@ counterRBasePv =    'ME01D-EA-SCLR-01:MCA01:'
 # J branch counter:  BL10J-DI-SCLR-01:MCAJ01:        BL10J-DI-SCLR-01:MCAJ01:StartAll
 counterJBasePv =    'BL10J-DI-SCLR-01:MCAJ01:'
 
-mcsic = McsController('mcsic', counterJBasePv)
+mcsic  = McsController(               'mcsic',counterJBasePv)
 mcsi16 = McsChannelScannable('mcsi16', mcsic, counterIBasePv, 17)
 mcsi16.setHardwareTriggerProvider(cemc)
 mcsi17 = McsChannelScannable('mcsi17', mcsic, counterIBasePv, 18)
@@ -38,7 +39,7 @@ mcsi18.setHardwareTriggerProvider(cemc)
 mcsi19 = McsChannelScannable('mcsi19', mcsic, counterIBasePv, 20)
 mcsi19.setHardwareTriggerProvider(cemc)
 
-mcsrc = McsController('mcsrc', counterRBasePv)
+mcsrc  = McsController(               'mcsrc',counterRBasePv)
 mcsr16 = McsChannelScannable('mcsr16', mcsrc, counterRBasePv, 17)
 mcsr16.setHardwareTriggerProvider(cemc)
 mcsr17 = McsChannelScannable('mcsr17', mcsrc, counterRBasePv, 18)
@@ -49,7 +50,7 @@ mcsr19 = McsChannelScannable('mcsr19', mcsrc, counterRBasePv, 20)
 mcsr19.setHardwareTriggerProvider(cemc)
 
 # This doesn't appear to support MCA mode yet...
-mcsjc = McsController('mcsjc', counterJBasePv)
+mcsjc  = McsController(               'mcsjc',counterJBasePv)
 mcsj16 = McsChannelScannable('mcsj16', mcsjc, counterJBasePv, 17)
 mcsj16.setHardwareTriggerProvider(cemc)
 mcsj17 = McsChannelScannable('mcsj17', mcsjc, counterJBasePv, 18)
@@ -58,6 +59,27 @@ mcsj18 = McsChannelScannable('mcsj18', mcsjc, counterJBasePv, 19)
 mcsj18.setHardwareTriggerProvider(cemc)
 mcsj19 = McsChannelScannable('mcsj19', mcsjc, counterJBasePv, 20)
 mcsj19.setHardwareTriggerProvider(cemc)
+
+binpointBasePV = 'BL10I-CS-CSCAN-01:'
+binpointc           = BinpointController(                            'binpointc',binpointBasePV, 'IDPGM:BINPOINTALL:')
+binpointGrtPitch    = BinpointChannelScannable('binpointGrtPitch',    binpointc, binpointBasePV, 'GRT:PITCH:')
+binpointGrtPitch.setHardwareTriggerProvider(cemc)
+binpointMirPitch    = BinpointChannelScannable('binpointMirPitch',    binpointc, binpointBasePV, 'MIR:PITCH:')
+binpointMirPitch.setHardwareTriggerProvider(cemc)
+binpointPgmEnergy   = BinpointChannelScannable('binpointPgmEnergy',   binpointc, binpointBasePV, 'PGM:ENERGY:')
+binpointPgmEnergy.setHardwareTriggerProvider(cemc)
+binpointId1JawPhase = BinpointChannelScannable('binpointId1JawPhase', binpointc, binpointBasePV, 'ID1:JAWPHASE:')
+binpointId1JawPhase.setHardwareTriggerProvider(cemc)
+binpointId2JawPhase = BinpointChannelScannable('binpointId2JawPhase', binpointc, binpointBasePV, 'ID2:JAWPHASE:')
+binpointId2JawPhase.setHardwareTriggerProvider(cemc)
+binpointMcaTime     = BinpointChannelScannable('binpointMcaTime',     binpointc, binpointBasePV, 'MCA:ELAPSEDTIME:')
+binpointMcaTime.setHardwareTriggerProvider(cemc)
+binpointCustom1     = BinpointChannelScannable('binpointCustom1',     binpointc, binpointBasePV, 'CUSTOM1:')
+binpointCustom1.setHardwareTriggerProvider(cemc)
+binpointCustom2     = BinpointChannelScannable('binpointCustom2',     binpointc, binpointBasePV, 'CUSTOM2:')
+binpointCustom2.setHardwareTriggerProvider(cemc)
+
+# cvscan egy 695 705 1 mcs1 mcs17 mcs16 2 binpointGrtPitch binpointMirPitch binpointPgmEnergy binpointId1JawPhase binpointId2JawPhase binpointMcaTime 
 
 class TrajectoryControllerHelper(ScanListener):
     
