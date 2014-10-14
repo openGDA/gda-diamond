@@ -2,12 +2,12 @@
 # When reloading, you may need to run this twice
 
 from datetime import datetime
-from future.scannable.BinpointWaveformChannelController import \
-                      BinpointWaveformChannelController
-from future.scannable.McsWaveformChannelController import \
-                      McsWaveformChannelController
-from future.scannable.WaveformChannelScannable import \
-                      WaveformChannelScannable
+from mtscripts.scannable.waveform_channel.BinpointWaveformChannelController import \
+                                          BinpointWaveformChannelController
+from mtscripts.scannable.waveform_channel.McsWaveformChannelController import \
+                                          McsWaveformChannelController
+from mtscripts.scannable.waveform_channel.WaveformChannelScannable import \
+                                          WaveformChannelScannable
 from gda.device.detector.hardwaretriggerable import \
                     DummyHardwareTriggerableDetector
 from gdascripts.scan import trajscans
