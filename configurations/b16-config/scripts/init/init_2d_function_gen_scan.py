@@ -1,6 +1,7 @@
 #init_2d_function_gen_scan.py
 import pd_toggleBinaryPvDuringScan
 import mtscripts.scannable.scaler
+# TODO: Move to using mtscripts.scannable.waveform_channel once it supports raster scanning.
 
 reload(pd_toggleBinaryPvDuringScan)
 reload(mtscripts.scannable.scaler)
