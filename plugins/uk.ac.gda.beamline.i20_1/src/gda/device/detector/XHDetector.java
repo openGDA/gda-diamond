@@ -331,8 +331,8 @@ public class XHDetector extends DetectorBase implements XCHIPDetector {
 					// simply set excluded strips to be zero
 					if (ArrayUtils.contains(excludedStrips, STRIPS[stripIndex])) {
 						out[frame][stripIndex] = 0.0;
-					} else if (!nextScan.getIncludeCountsOutsideROIs() && STRIPS[stripIndex] < lowerChannel
-							|| STRIPS[stripIndex] > upperChannel) {
+					} else if (!nextScan.getIncludeCountsOutsideROIs() && (STRIPS[stripIndex] < lowerChannel
+							|| STRIPS[stripIndex] > upperChannel)) {
 						out[frame][stripIndex] = 0.0;
 					} else {
 						out[frame][stripIndex] = rawData[(frame * NUMBER_ELEMENTS) + stripIndex];
