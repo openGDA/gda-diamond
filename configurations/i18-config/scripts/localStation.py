@@ -90,7 +90,7 @@ original_header =              finder.find("datawriterconfig").getHeader()[:]
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
 
-detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig, I0_keithley, It_keithley)
+detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig, I0_keithley, It_keithley, cmos_for_maps)
 samplePreparer =   I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x)
 outputPreparer =   I18OutputPreparer(datawriterconfig)
 
@@ -115,13 +115,16 @@ else:
 # give object references to energy and table motors, now do not need the finder or to edit XML
 non_raster_map.setEnergyScannables(energy,energy_nogap)
 non_raster_map.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
+non_raster_map.setCmos(cmos_for_maps)
 raster_map.setEnergyScannables(energy,energy_nogap)
 raster_map.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
+raster_map.setCmos(cmos_for_maps)
 raster_map_return_write.setEnergyScannables(energy,energy_nogap)
 raster_map_return_write.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 samplePreparer.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write, samplePreparer)
+
 
 if (LocalProperties.get("gda.mode") == 'live'):
     detectorPreparer.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor)
