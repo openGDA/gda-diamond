@@ -65,7 +65,6 @@ sudo ln -sf /var/Desktop/gda-beamline-manual.desktop /usr/share/applications/gda
 sudo ln -sf /var/Desktop/gda-logfile.desktop /usr/share/applications/gda-logfile.desktop
 sudo ln -sf /var/Desktop/gda-data-backup-2-usb.desktop /usr/share/applications/gda-data-backup-2-usb.desktop
 sudo ln -sf /var/Desktop/vgspc.desktop /usr/share/applications/vgspc.desktop
-sudo ln -sf /var/Desktop/vgspc64bit.desktop /usr/share/applications/vgspc64bit.desktop
 #create menu links to display in Applications Menu
 sudo ln -sf /var/Desktop/gda.directory /usr/share/desktop-directories/gda.directory
 sudo ln -sf /var/Desktop/gda.menu /etc/xdg/menus/applications-merged/gda.menu
