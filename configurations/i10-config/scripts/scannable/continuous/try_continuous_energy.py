@@ -2,11 +2,14 @@
 # When reloading, you may need to run this twice
 
 from datetime import datetime
-from future.scannable.scaler import McsController, McsChannelScannable
-from future.scannable.binpoint import BinpointController, BinpointChannelScannable
+from future.scannable.BinpointWaveformChannelController import \
+                      BinpointWaveformChannelController
+from future.scannable.McsWaveformChannelController import \
+                      McsWaveformChannelController
+from future.scannable.WaveformChannelScannable import \
+                      WaveformChannelScannable
 from gda.device.detector.hardwaretriggerable import \
                     DummyHardwareTriggerableDetector
-#from gda.scan import ConstantVelocityScanLine
 from gdascripts.scan import trajscans
 from gdascripts.scan.scanListener import ScanListener
 from scannable.continuous.ContinuousPgmEnergyMoveController import \
@@ -22,61 +25,57 @@ egy = ContinuousPgmEnergyScannable('egy', cemc)
 st = DummyHardwareTriggerableDetector('st')
 st.setHardwareTriggerProvider(cemc)
 
-# I branch counter:  BL10I-DI-SCLR-01:MCA01:
-counterIBasePv =    'BL10I-DI-SCLR-01:MCA01:'
-# RASOR counter:     ME01D-EA-SCLR-01:MCA01:         ME01D-EA-SCLR-01:MCA01:StartAll
-counterRBasePv =    'ME01D-EA-SCLR-01:MCA01:'
-# J branch counter:  BL10J-DI-SCLR-01:MCAJ01:        BL10J-DI-SCLR-01:MCAJ01:StartAll
-counterJBasePv =    'BL10J-DI-SCLR-01:MCAJ01:'
-
-mcsic  = McsController(               'mcsic',counterJBasePv, channelAdvanceInternalNotExternal=True)
-mcsi16 = McsChannelScannable('mcsi16', mcsic, 17)
+# I branch counter:                                  BL10I-DI-SCLR-01:MCA01:
+mcsic  = McsWaveformChannelController(     'mcsic', 'BL10I-DI-SCLR-01:MCA01:', channelAdvanceInternalNotExternal=True)
+mcsi16 = WaveformChannelScannable('mcsi16', mcsic, 17)
 mcsi16.setHardwareTriggerProvider(cemc)
-mcsi17 = McsChannelScannable('mcsi17', mcsic, 18)
+mcsi17 = WaveformChannelScannable('mcsi17', mcsic, 18)
 mcsi17.setHardwareTriggerProvider(cemc)
-mcsi18 = McsChannelScannable('mcsi18', mcsic, 19)
+mcsi18 = WaveformChannelScannable('mcsi18', mcsic, 19)
 mcsi18.setHardwareTriggerProvider(cemc)
-mcsi19 = McsChannelScannable('mcsi19', mcsic, 20)
+mcsi19 = WaveformChannelScannable('mcsi19', mcsic, 20)
 mcsi19.setHardwareTriggerProvider(cemc)
 
-mcsrc  = McsController(               'mcsrc',counterRBasePv, channelAdvanceInternalNotExternal=True)
-mcsr16 = McsChannelScannable('mcsr16', mcsrc, 17)
+# RASOR counter:                                     ME01D-EA-SCLR-01:MCA01:
+mcsrc  = McsWaveformChannelController(     'mcsrc', 'ME01D-EA-SCLR-01:MCA01:', channelAdvanceInternalNotExternal=True)
+mcsr16 = WaveformChannelScannable('mcsr16', mcsrc, 17)
 mcsr16.setHardwareTriggerProvider(cemc)
-mcsr17 = McsChannelScannable('mcsr17', mcsrc, 18)
+mcsr17 = WaveformChannelScannable('mcsr17', mcsrc, 18)
 mcsr17.setHardwareTriggerProvider(cemc)
-mcsr18 = McsChannelScannable('mcsr18', mcsrc, 19)
+mcsr18 = WaveformChannelScannable('mcsr18', mcsrc, 19)
 mcsr18.setHardwareTriggerProvider(cemc)
-mcsr19 = McsChannelScannable('mcsr19', mcsrc, 20)
+mcsr19 = WaveformChannelScannable('mcsr19', mcsrc, 20)
 mcsr19.setHardwareTriggerProvider(cemc)
 
 # This doesn't appear to support MCA mode yet...
-mcsjc  = McsController(               'mcsjc',counterJBasePv, channelAdvanceInternalNotExternal=True)
-mcsj16 = McsChannelScannable('mcsj16', mcsjc, 17)
+# J branch counter:                                  BL10J-DI-SCLR-01:MCAJ01:
+mcsjc  = McsWaveformChannelController(     'mcsjc', 'BL10J-DI-SCLR-01:MCAJ01:', channelAdvanceInternalNotExternal=True)
+mcsj16 = WaveformChannelScannable('mcsj16', mcsjc, 17)
 mcsj16.setHardwareTriggerProvider(cemc)
-mcsj17 = McsChannelScannable('mcsj17', mcsjc, 18)
+mcsj17 = WaveformChannelScannable('mcsj17', mcsjc, 18)
 mcsj17.setHardwareTriggerProvider(cemc)
-mcsj18 = McsChannelScannable('mcsj18', mcsjc, 19)
+mcsj18 = WaveformChannelScannable('mcsj18', mcsjc, 19)
 mcsj18.setHardwareTriggerProvider(cemc)
-mcsj19 = McsChannelScannable('mcsj19', mcsjc, 20)
+mcsj19 = WaveformChannelScannable('mcsj19', mcsjc, 20)
 mcsj19.setHardwareTriggerProvider(cemc)
 
-binpointBasePV = 'BL10I-CS-CSCAN-01:'
-binpointc           = BinpointController(                            'binpointc',binpointBasePV, 'IDPGM:BINPOINTALL:')
-binpointGrtPitch    = BinpointChannelScannable('binpointGrtPitch',    binpointc, 'GRT:PITCH:')
+# Binpoint slaved from (triggered by) RASOR scaler (mcsrc)                        'BL10I-CS-CSCAN-01:'
+binpointc           = BinpointWaveformChannelController(             'binpointc', 'BL10I-CS-CSCAN-01:', 'IDPGM:BINPOINTALL:')
+binpointGrtPitch    = WaveformChannelScannable('binpointGrtPitch',    binpointc, 'GRT:PITCH:')
 binpointGrtPitch.setHardwareTriggerProvider(cemc)
-binpointMirPitch    = BinpointChannelScannable('binpointMirPitch',    binpointc, 'MIR:PITCH:')
+binpointMirPitch    = WaveformChannelScannable('binpointMirPitch',    binpointc, 'MIR:PITCH:')
 binpointMirPitch.setHardwareTriggerProvider(cemc)
-binpointPgmEnergy   = BinpointChannelScannable('binpointPgmEnergy',   binpointc, 'PGM:ENERGY:')
+binpointPgmEnergy   = WaveformChannelScannable('binpointPgmEnergy',   binpointc, 'PGM:ENERGY:')
 binpointPgmEnergy.setHardwareTriggerProvider(cemc)
-binpointId1JawPhase = BinpointChannelScannable('binpointId1JawPhase', binpointc, 'ID1:JAWPHASE:')
+binpointId1JawPhase = WaveformChannelScannable('binpointId1JawPhase', binpointc, 'ID1:JAWPHASE:')
 binpointId1JawPhase.setHardwareTriggerProvider(cemc)
-binpointId2JawPhase = BinpointChannelScannable('binpointId2JawPhase', binpointc, 'ID2:JAWPHASE:')
+binpointId2JawPhase = WaveformChannelScannable('binpointId2JawPhase', binpointc, 'ID2:JAWPHASE:')
 binpointId2JawPhase.setHardwareTriggerProvider(cemc)
-binpointMcaTime     = BinpointChannelScannable('binpointMcaTime',     binpointc, 'MCA:ELAPSEDTIME:')
+binpointMcaTime     = WaveformChannelScannable('binpointMcaTime',     binpointc, 'MCA:ELAPSEDTIME:')
 binpointMcaTime.setHardwareTriggerProvider(cemc)
-binpointCustom1     = BinpointChannelScannable('binpointCustom1',     binpointc, 'CUSTOM1:')
+binpointCustom1     = WaveformChannelScannable('binpointCustom1',     binpointc, 'CUSTOM1:')
 binpointCustom1.setHardwareTriggerProvider(cemc)
-binpointCustom2     = BinpointChannelScannable('binpointCustom2',     binpointc, 'CUSTOM2:')
+binpointCustom2     = WaveformChannelScannable('binpointCustom2',     binpointc, 'CUSTOM2:')
 binpointCustom2.setHardwareTriggerProvider(cemc)
 
 # cvscan egy 695 705 1 mcs1 mcs17 mcs16 2 binpointGrtPitch binpointMirPitch binpointPgmEnergy binpointId1JawPhase binpointId2JawPhase binpointMcaTime 
