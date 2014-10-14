@@ -47,6 +47,8 @@
 		class="gda.device.detector.addetector.triggering.PSLSingleExposure">
 		<constructor-arg ref="xrayeye_base" />
 		<constructor-arg value="-1" />
+		<constructor-arg value="BL18I-EA-DET-07:CAM:RESET.PROC" />
+		<constructor-arg value="BL18I-EA-DET-07:CAM:AcquireTime" />
 	</bean>
 
 	<bean id="xrayeye" class="gda.device.detector.NXDetector">
