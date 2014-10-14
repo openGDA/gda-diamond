@@ -13,23 +13,20 @@ import time
 # and i10 should be combined.
 
 class PollingMcaChannelInputStream(PositionInputStream):
-    # the NORD Epics pv cannot be listened to, hence the polling
 
-    def __init__(self, mca_root_pv, channel):
-        # e.g. mca_root_pv = BL16I-EA-DET-01:MCA-01:
-        self.pv_waveform = CAClient(mca_root_pv + 'mca' + `channel`)
-        self.pv_nord = CAClient(mca_root_pv  + 'mca' + `channel` + '.NORD') 
+    def __init__(self, controller, channel):
+        self.pv_waveform, self.pv_count = controller.getChannelInputStreamCAClients(channel)
         self.elements_read = 0 # none available
-
+        self.type = controller.getChannelInputStreamType()
         self.configure()
         self.reset()
 
     def configure(self):
         self.pv_waveform.configure()
-        self.pv_nord.configure()
+        self.pv_count.configure()
 
     def reset(self):
-        # nord should read 0 after an erase, but will not actually be reset
+        # count should read 0 after an erase, but will not actually be reset
         # until an erase & start.        
         self.elements_read = -1
 
@@ -41,13 +38,13 @@ class PollingMcaChannelInputStream(PositionInputStream):
         all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
         new_data = all_data[self.elements_read:self.elements_read + new_available]
         self.elements_read += new_available
-        return java.util.Vector([int(el) for el in new_data])
+        return java.util.Vector([self.type(el) for el in new_data])
 
     def _waitForNewElements(self):
         """return the number of new elements available, polling until some are"""
         
         while True:
-            elements_available = int(self.pv_nord.caget())
+            elements_available = int(float(self.pv_count.caget()))
             if elements_available > self.elements_read:
                 return elements_available - self.elements_read
             time.sleep(.2)
@@ -57,9 +54,10 @@ TIMEOUT = 5
 
 class McsController(object):
     # e.g. mca_root_pv = BL16I-EA-DET-01:MCA-01
-    
+
     def __init__(self, name, mca_root_pv, channelAdvanceInternalNotExternal=False):
         self.name = name
+        self.mca_root_pv = mca_root_pv
         self.pv_stop= CAClient(mca_root_pv + 'StopAll')
         self.pv_dwell= CAClient(mca_root_pv + 'Dwell')
         self.pv_channeladvance= CAClient(mca_root_pv + 'ChannelAdvance')
@@ -72,6 +70,7 @@ class McsController(object):
         self.configure()
         self.exposure_time = 1
         self.number_of_positions = 0
+        self.verbose = True
 
     def configure(self):
         self.pv_stop.configure()
@@ -81,8 +80,9 @@ class McsController(object):
         self.pv_erasestart.configure()
 
     def erase_and_start(self):
-        print str(datetime.now()), self.name, 'erase_and_start...'
-        self.pv_stop.caput(1)  # scaler wonn't start if already running
+        if self.verbose:
+            print str(datetime.now()), self.name, 'erase_and_start...'
+        self.pv_stop.caput(1)  # scaler won't start if already running
         if self.channelAdvanceInternalNotExternal:
             self.pv_dwell.caput(TIMEOUT, self.exposure_time) # Set the exposure time per nominal position
             self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceInternal)
@@ -90,40 +90,62 @@ class McsController(object):
         else:
             self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceExternal)
         self.pv_erasestart.caput(1)
-        print str(datetime.now()), self.name, '...erase_and_start'
+        if self.verbose:
+            print str(datetime.now()), self.name, '...erase_and_start'
 
     def stop(self):
-        print str(datetime.now()), self.name, 'stop...'
+        if self.verbose:
+            print str(datetime.now()), self.name, 'stop...'
         self.pv_stop.caput(1)
-        print str(datetime.now()), self.name, '...stop'
+        if self.verbose:
+            print str(datetime.now()), self.name, '...stop'
 
+    def getChannelInputStream(self, channel):
+        # The NORD Epics pv cannot be listened to, hence the polling
+        # Channels numbered from 1
+        return PollingMcaChannelInputStream(self, channel)
+
+    def getChannelInputStreamFormat(self):
+        return '%i'
+
+    def getChannelInputStreamType(self):
+        return int
+
+    def getChannelInputStreamCAClients(self, channel):
+        pv_waveform = CAClient(self.mca_root_pv + 'mca' + `channel`)
+        pv_count =    CAClient(self.mca_root_pv + 'mca' + `channel` + '.NORD') 
+        return pv_waveform, pv_count
 
 class McsChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 
-    def __init__(self, name, controller, mca_root_pv, channel):
-        # channel from 1
+    def __init__(self, name, controller, channel):
         self.name = name
         self.inputNames = [name]
         self.extraNames = []
-        self.outputFormat = ['%i']
+        self.outputFormat = [controller.getChannelInputStreamFormat()]
         
         self.controller = controller
-        self.mca_input_stream = PollingMcaChannelInputStream(mca_root_pv, channel)
+        self.channel_input_stream = controller.getChannelInputStream(channel)
         self.stream_indexer = None
         self.number_of_positions = 0
+        self.verbose = True
 
     def integratesBetweenPoints(self):
         return True
 
     def collectData(self):
-        print str(datetime.now()), self.name, 'collectData()'
-        self.controller.erase_and_start() # nord will read 0
+        if self.verbose:
+            print str(datetime.now()), self.name, 'collectData()...'
+        self.controller.erase_and_start()
+        if self.verbose:
+            print str(datetime.now()), self.name, '...collectData()'
 
     def getStatus(self):
         return Detector.IDLE
 
     def setCollectionTime(self, t):
-        print str(datetime.now()), self.name, 'setCollectionTime(%r)' % t
+        if self.verbose:
+            print str(datetime.now()), self.name, 'setCollectionTime(%r)' % t
         # does not effect Epics controller
         self.controller.exposure_time = t
 
@@ -135,20 +157,24 @@ class McsChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvi
         raise Exception(self.name + "for use only in Continuous scans")
 
     def atScanLineStart(self):
-        print str(datetime.now()), self.name, 'atScanLineStart...'
-        self.mca_input_stream.reset()
-        self.stream_indexer = PositionStreamIndexer(self.mca_input_stream);
+        if self.verbose:
+            print str(datetime.now()), self.name, 'atScanLineStart...'
+        self.channel_input_stream.reset()
+        self.stream_indexer = PositionStreamIndexer(self.channel_input_stream);
         self.number_of_positions = 0
-        print str(datetime.now()), self.name, '...atScanLineStart'
+        if self.verbose:
+            print str(datetime.now()), self.name, '...atScanLineStart'
 
     def atScanLineEnd(self):
-        print str(datetime.now()), self.name, 'atScanLineEnd'
+        if self.verbose:
+            print str(datetime.now()), self.name, 'atScanLineEnd'
         pass
-        # TODO: Must wait for all callables to have been called
-        #self.controller.stop() # nord will read 0
+        # TODO: Must wait for all callables to have been called before doing this
+        #self.controller.stop()
 
     def getPositionCallable(self):
-        print str(datetime.now()), self.name, 'getPositionCallable(%i)' % self.number_of_positions
+        if self.verbose:
+            print str(datetime.now()), self.name, 'getPositionCallable(%i)' % self.number_of_positions
         self.number_of_positions += 1
         self.controller.number_of_positions = self.number_of_positions
         return self.stream_indexer.getPositionCallable()

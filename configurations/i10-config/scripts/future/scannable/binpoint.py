@@ -13,25 +13,20 @@ import time
 # and i10 should be combined.
 
 class PollingBinpointChannelInputStream(PositionInputStream):
-    # the NORD Epics pv cannot be listened to, hence the polling
-    """ TODO: Investigate if the NLAST.B can be listened to, if so we can get rid of this polling class
-    """
 
-    def __init__(self, binpoint_root_pv, channel_pv_suffix):
-        # e.g. binpoint_root_pv = BL16I-EA-DET-01:MCA-01:
-        self.pv_waveform = CAClient(binpoint_root_pv + channel_pv_suffix + 'BINPOINT')
-        self.pv_nlast =    CAClient(binpoint_root_pv + channel_pv_suffix + 'BINPOINT:NLAST.B') 
+    def __init__(self, controller, channel):
+        self.pv_waveform, self.pv_count = controller.getChannelInputStreamCAClients(channel)
         self.elements_read = 0 # none available
-
+        self.type = controller.getChannelInputStreamType()
         self.configure()
         self.reset()
 
     def configure(self):
         self.pv_waveform.configure()
-        self.pv_nlast.configure()
+        self.pv_count.configure()
 
     def reset(self):
-        # nord should read 0 after an erase, but will not actually be reset
+        # count should read 0 after an erase, but will not actually be reset
         # until an erase & start.        
         self.elements_read = -1
 
@@ -43,13 +38,13 @@ class PollingBinpointChannelInputStream(PositionInputStream):
         all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
         new_data = all_data[self.elements_read:self.elements_read + new_available]
         self.elements_read += new_available
-        return java.util.Vector([float(el) for el in new_data])
+        return java.util.Vector([self.type(el) for el in new_data])
 
     def _waitForNewElements(self):
         """return the number of new elements available, polling until some are"""
         
         while True:
-            elements_available = int(float(self.pv_nlast.caget()))
+            elements_available = int(float(self.pv_count.caget()))
             if elements_available > self.elements_read:
                 return elements_available - self.elements_read
             time.sleep(.2)
@@ -57,13 +52,24 @@ class PollingBinpointChannelInputStream(PositionInputStream):
 
 TIMEOUT = 5
 
+""" Note that the Bionpoint device is slaved from the MCA, therefore changing the collection time will have no effect other than
+    changing the value returned by getCollectionTime().
+
+    Also, its operation is triggered by the MCA and synchronised to it. If getPositionCallable() is called on this scannable more
+    times than getPositionCallable() is called on the MCA, this will sit waiting forever for the points it has been asked to
+    acquire.
+"""
+
 class BinpointController(object):
-    
+
     def __init__(self, name, binpoint_root_pv, all_pv_suffix):
         self.name = name
         self.pv_erasestart = CAClient(binpoint_root_pv + all_pv_suffix + 'RESET.PROC')
+        self.binpoint_root_pv = binpoint_root_pv
+
         self.configure()
         self.exposure_time = 1
+        self.number_of_positions = 0
         self.verbose = True
 
     def configure(self):
@@ -78,37 +84,47 @@ class BinpointController(object):
 
     def stop(self):
         if self.verbose:
-            print str(datetime.now()), self.name, 'stop...'
+            print str(datetime.now()), self.name, '...stop'
 
-""" Note that this device is slaved from the MCA, therefore changing the collection time will have no effect other than changing
-    the value returned by getCollectionTime().
+    def getChannelInputStream(self, channel_pv_suffix):
+        # Channel suffix assumes trailing :
+        # TODO: Investigate if the NLAST.B can be listened to, if so we can avoid using this polling class
+        return PollingBinpointChannelInputStream(self, channel_pv_suffix)
 
-    Also, its operation is triggered by the MCA and sychronised to it. If getPositionCallable() is called on this scannable more
-    times than getPositionCallable() is called on the MCA, this will sit waiting forever for the points it has been asked to
-    acquire.
-"""
+    def getChannelInputStreamFormat(self):
+        return '%f'
+
+    def getChannelInputStreamType(self):
+        return float
+
+    def getChannelInputStreamCAClients(self, channel_pv_suffix):
+        pv_waveform = CAClient(self.binpoint_root_pv + channel_pv_suffix + 'BINPOINT')
+        pv_count =    CAClient(self.binpoint_root_pv + channel_pv_suffix + 'BINPOINT:NLAST.B')
+        return pv_waveform, pv_count
 
 class BinpointChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
-    # TODO: Assumes always hardware triggering
 
-    def __init__(self, name, controller, binpoint_root_pv, channel_pv_suffix):
-        # channel from 1
+    def __init__(self, name, controller, channel):
         self.name = name
         self.inputNames = [name]
         self.extraNames = []
-        self.outputFormat = ['%f']
+        self.outputFormat = [controller.getChannelInputStreamFormat()]
         
         self.controller = controller
-        self.binpoint_input_stream = PollingBinpointChannelInputStream(binpoint_root_pv, channel_pv_suffix)
+        self.channel_input_stream = controller.getChannelInputStream(channel)
         self.stream_indexer = None
-        self.verbose=True
+        self.number_of_positions = 0
+        self.verbose = True
 
     def integratesBetweenPoints(self):
         return True
 
     def collectData(self):
         if self.verbose:
-            print str(datetime.now()), self.name, 'collectData()'
+            print str(datetime.now()), self.name, 'collectData()...'
+        self.controller.erase_and_start()
+        if self.verbose:
+            print str(datetime.now()), self.name, '...collectData()'
 
     def getStatus(self):
         return Detector.IDLE
@@ -129,9 +145,9 @@ class BinpointChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
     def atScanLineStart(self):
         if self.verbose:
             print str(datetime.now()), self.name, 'atScanLineStart...'
-        self.controller.erase_and_start() # nord will read 0
-        self.binpoint_input_stream.reset()
-        self.stream_indexer = PositionStreamIndexer(self.binpoint_input_stream);
+        self.channel_input_stream.reset()
+        self.stream_indexer = PositionStreamIndexer(self.channel_input_stream);
+        self.number_of_positions = 0
         if self.verbose:
             print str(datetime.now()), self.name, '...atScanLineStart'
 
@@ -139,12 +155,14 @@ class BinpointChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         if self.verbose:
             print str(datetime.now()), self.name, 'atScanLineEnd'
         pass
-        # TODO: Must wait for all callables to have been called
-        #self.controller.stop() # nord will read 0
+        # TODO: Must wait for all callables to have been called before doing this
+        #self.controller.stop()
 
     def getPositionCallable(self):
         if self.verbose:
-            print str(datetime.now()), self.name, 'getPositionCallable'
+            print str(datetime.now()), self.name, 'getPositionCallable(%i)' % self.number_of_positions
+        self.number_of_positions += 1
+        self.controller.number_of_positions = self.number_of_positions
         return self.stream_indexer.getPositionCallable()
 
     def createsOwnFiles(self):
