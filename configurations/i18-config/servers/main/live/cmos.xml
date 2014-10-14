@@ -38,55 +38,55 @@
 
 
 	<!-- Define ROIs -->
-	<bean id="roistats1"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats1" />
-		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI1:" />
-		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT1:" />
-		<property name="roiInputNdArrayPort" value="DET1.CAM" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
+<!-- 	<bean id="roistats1" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats1" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI1:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT1:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
 
-	<bean id="roistats2"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats2" />
-		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI2:" />
-		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT2:" />
-		<property name="roiInputNdArrayPort" value="DET1.CAM" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
+<!-- 	<bean id="roistats2" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats2" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI2:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT2:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
 
-	<bean id="roistats3"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats3" />
-		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI3:" />
-		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT3:" />
-		<property name="roiInputNdArrayPort" value="DET1.CAM" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
+<!-- 	<bean id="roistats3" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats3" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI3:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT3:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
 
-	<bean id="roistats4"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats4" />
-		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI4:" />
-		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT4:" />
-		<property name="roiInputNdArrayPort" value="DET1.CAM" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
+<!-- 	<bean id="roistats4" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats4" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI4:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT4:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
 
-	<bean id="roistats5"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats5" />
-		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI5:" />
-		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT5:" />
-		<property name="roiInputNdArrayPort" value="DET1.CAM" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
+<!-- 	<bean id="roistats5" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats5" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI5:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT5:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
 
 
 	<!-- main objects -->
@@ -117,8 +117,8 @@
 		<property name="generateCallbacks" value="true" />
 	</bean>
 
-<!-- NXDetector cannot be used on ContinuousScans -->
-	<bean id="cmos_for_maps" class="gda.device.detector.SimpleHardwareTriggeredNXDetector">
+<!-- NXDetector cannot be used on ContinuousScans, but that's OK as the readout time is so large there would be no gain for use in raster scans -->
+	<bean id="cmos_for_maps" class="gda.device.detector.NXDetector">
 		<property name="name" value="cmos" />
 		<property name="collectionStrategy" ref="cmos_hardwaretriggered_strategy" />
 		<property name="additionalPluginList">
@@ -128,7 +128,9 @@
 		</property>
 	</bean>
 
-<!-- 	<bean id="cmos_for_maps_with_phasecontrast" class="gda.device.detector.SimpleHardwareTriggeredNXDetector"> -->
+<!-- I am leaving this here as this could be used for phase contrast in the future. Never tested though. -->
+
+<!-- 	<bean id="cmos_for_phasecontrast" class="gda.device.detector.NXDetector"> -->
 <!-- 		<property name="name" value="cmos" /> -->
 <!-- 		<property name="collectionStrategy" ref="cmos_hardwaretriggered_strategy" /> -->
 <!-- 		<property name="additionalPluginList"> -->
