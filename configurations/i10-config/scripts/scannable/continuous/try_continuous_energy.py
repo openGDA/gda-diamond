@@ -29,7 +29,7 @@ counterRBasePv =    'ME01D-EA-SCLR-01:MCA01:'
 # J branch counter:  BL10J-DI-SCLR-01:MCAJ01:        BL10J-DI-SCLR-01:MCAJ01:StartAll
 counterJBasePv =    'BL10J-DI-SCLR-01:MCAJ01:'
 
-mcsic  = McsController(               'mcsic',counterJBasePv)
+mcsic  = McsController(               'mcsic',counterJBasePv, channelAdvanceInternalNotExternal=True)
 mcsi16 = McsChannelScannable('mcsi16', mcsic, counterIBasePv, 17)
 mcsi16.setHardwareTriggerProvider(cemc)
 mcsi17 = McsChannelScannable('mcsi17', mcsic, counterIBasePv, 18)
@@ -39,7 +39,7 @@ mcsi18.setHardwareTriggerProvider(cemc)
 mcsi19 = McsChannelScannable('mcsi19', mcsic, counterIBasePv, 20)
 mcsi19.setHardwareTriggerProvider(cemc)
 
-mcsrc  = McsController(               'mcsrc',counterRBasePv)
+mcsrc  = McsController(               'mcsrc',counterRBasePv, channelAdvanceInternalNotExternal=True)
 mcsr16 = McsChannelScannable('mcsr16', mcsrc, counterRBasePv, 17)
 mcsr16.setHardwareTriggerProvider(cemc)
 mcsr17 = McsChannelScannable('mcsr17', mcsrc, counterRBasePv, 18)
@@ -50,7 +50,7 @@ mcsr19 = McsChannelScannable('mcsr19', mcsrc, counterRBasePv, 20)
 mcsr19.setHardwareTriggerProvider(cemc)
 
 # This doesn't appear to support MCA mode yet...
-mcsjc  = McsController(               'mcsjc',counterJBasePv)
+mcsjc  = McsController(               'mcsjc',counterJBasePv, channelAdvanceInternalNotExternal=True)
 mcsj16 = McsChannelScannable('mcsj16', mcsjc, counterJBasePv, 17)
 mcsj16.setHardwareTriggerProvider(cemc)
 mcsj17 = McsChannelScannable('mcsj17', mcsjc, counterJBasePv, 18)
