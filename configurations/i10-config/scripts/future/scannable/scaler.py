@@ -63,22 +63,26 @@ class McsController(object):
         self.pv_stop= CAClient(mca_root_pv + 'StopAll')
         self.pv_dwell= CAClient(mca_root_pv + 'Dwell')
         self.pv_channeladvance= CAClient(mca_root_pv + 'ChannelAdvance')
+        self.pv_presetReal = CAClient(mca_root_pv + 'PresetReal')
         self.pv_erasestart = CAClient(mca_root_pv + 'EraseStart')
 
         self.configure()
         self.exposure_time = 1
+        self.number_of_positions = 0
 
     def configure(self):
         self.pv_stop.configure()
         self.pv_dwell.configure()
         self.pv_channeladvance.configure()
+        self.pv_presetReal.configure()
         self.pv_erasestart.configure()
 
     def erase_and_start(self):
         print str(datetime.now()), self.name, 'erase_and_start...'
         self.pv_stop.caput(1)  # scaler wonn't start if already running
-        self.pv_dwell.caput(TIMEOUT, self.exposure_time)
+        self.pv_dwell.caput(TIMEOUT, self.exposure_time) # Set the exposure time per nominal position
         self.pv_channeladvance.caput(TIMEOUT, 0)  # internal
+        self.pv_presetReal.caput(self.number_of_positions * self.exposure_time) # Set the total capture time
         self.pv_erasestart.caput(1)
         print str(datetime.now()), self.name, '...erase_and_start'
 
@@ -101,13 +105,15 @@ class McsChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvi
         self.controller = controller
         self.mca_input_stream = PollingMcaChannelInputStream(mca_root_pv, channel)
         self.stream_indexer = None
+        self.number_of_positions = 0
 
     def integratesBetweenPoints(self):
         return True
 
     def collectData(self):
         print str(datetime.now()), self.name, 'collectData()'
-        pass
+        # At this point we know how many points to collect, so at the given exposure time, we know what the total collection time is
+        self.controller.erase_and_start() # nord will read 0
 
     def getStatus(self):
         return Detector.IDLE
@@ -126,9 +132,12 @@ class McsChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvi
 
     def atScanLineStart(self):
         print str(datetime.now()), self.name, 'atScanLineStart...'
-        self.controller.erase_and_start() # nord will read 0
+        # If we erase and start here, we start collecting data before we have got to the start position!
+        # Move this to collectData instead.
+        #self.controller.erase_and_start() # nord will read 0
         self.mca_input_stream.reset()
         self.stream_indexer = PositionStreamIndexer(self.mca_input_stream);
+        self.number_of_positions = 0
         print str(datetime.now()), self.name, '...atScanLineStart'
 
     def atScanLineEnd(self):
@@ -138,7 +147,9 @@ class McsChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvi
         #self.controller.stop() # nord will read 0
 
     def getPositionCallable(self):
-        print str(datetime.now()), self.name, 'getPositionCallable'
+        print str(datetime.now()), self.name, 'getPositionCallable(%i)' % self.number_of_positions
+        self.number_of_positions += 1
+        self.controller.number_of_positions = self.number_of_positions
         return self.stream_indexer.getPositionCallable()
 
     def createsOwnFiles(self):
