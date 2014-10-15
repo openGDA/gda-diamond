@@ -3,6 +3,7 @@
 from gda.device.detector.hardwaretriggerable import DummyHardwareTriggerableDetector
 from gda.scan import ConcurrentScan
 from scannable.scaler import McsController, McsChannelScannable
+# TODO: Move to using mtscripts.scannable.waveform_channel
 from misc_functions import caput
 from gdascripts.scan.scanListener import ScanListener
 from gdascripts.scannable.preloadedArray import PreloadedArray

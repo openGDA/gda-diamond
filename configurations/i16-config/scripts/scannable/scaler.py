@@ -13,7 +13,11 @@ import time
 
 # TODO: A copy has been made in mt-config
 
+""" Note, a new implementation of this has been created in the the
+    waveform_channel package, combining the requirements of i16 and i10.
 
+TODO: Move to using mtscripts.scannable.waveform_channel
+"""
 
 class PollingMcaChannelInputStream(PositionInputStream):
     # the NORD Epics pv cannot be listed to, hence the polling
