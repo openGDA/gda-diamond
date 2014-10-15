@@ -286,15 +286,16 @@ alias("pad_hdf")
 from lde.ldescan import *  # @UnusedWildImport
 alias("ldescan")
 
-NDD=0
+NDR=0
 CAL=1
+SAM=2
 
-def lde(collectionType, t, n=1.0):  # @UndefinedVariable
-    if (CollectionType==NDD):
+def lde(t, collectionType=SAM, n=1.0):  # @UndefinedVariable
+    if (collectionType==NDR):
         #just collect raw image, no data reduction
         scan(ds, 1.0,n,1.0, pixium_hdf, t, Io, t, Ie2)  # @UndefinedVariable
     else:
-        if (CollectionType==CAL):
+        if (collectionType==CAL):
             datareduction.setCalibrant(True)  # @UndefinedVariable
         else:
             datareduction.setCalibrant(False)  # @UndefinedVariable
