@@ -6,7 +6,7 @@
 	<bean id="Ie2" class="gda.device.detector.etldetector.ETLDetector">
 		<property name="scaler" ref="scaler2"/>
 		<property name="detector" ref="ie2"/>
-		<property name="scalerChannelIndex" value="21"/>
+		<property name="scalerChannelIndex" value="20"/>
 	</bean>
 
 </beans>
