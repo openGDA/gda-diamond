@@ -198,6 +198,13 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
+				<entry key="calibrationScannable">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="sample:NXsample/calibration_filename" />
+						<property name="units" value="none" />
+					</bean>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -218,6 +225,7 @@
 				<value>s6xgap</value>
 				<value>s6ygap</value>
 				<value>sample_name</value>
+				<value>calibrationScannable</value>
 			</set>
 		</property>
 	</bean>
