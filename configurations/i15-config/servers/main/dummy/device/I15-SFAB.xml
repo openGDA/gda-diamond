@@ -9,4 +9,7 @@
 	<bean id="spitchMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="syawMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="srollMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="sphiMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ssxMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="sszMotor" class="gda.device.motor.DummyMotor"/>
 </beans>
