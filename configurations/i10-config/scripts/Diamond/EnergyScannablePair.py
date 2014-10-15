@@ -56,3 +56,4 @@ class EnergyScannablePair(ScannableMotionBase):
         
         self.idu_scannable.idMotorsAsynchronousMoveTo(iduPosition, energy_eV)
         self.idd_scannable.idMotorsAsynchronousMoveTo(iddPosition, energy_eV, set_pgm_energy=False)
+        self.last_energy_eV = energy_eV
