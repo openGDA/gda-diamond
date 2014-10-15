@@ -151,7 +151,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		return noOfSecPerSpectrumToPublish;
 	}
 
-	public void setNoOfSecPerSpectrumToPublish(int noOfSecPerSpectrumToPublish) {
+	public void setNoOfSecPerSpectrumToPublish(double noOfSecPerSpectrumToPublish) {
 		this.noOfSecPerSpectrumToPublish = noOfSecPerSpectrumToPublish;
 	}
 
