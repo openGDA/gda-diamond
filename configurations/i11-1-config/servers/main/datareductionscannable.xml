@@ -4,9 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean name="eventadmin" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
-
+	
+	<bean id="calibrationScannable" class="org.opengda.lde.scannables.FileReferenceScannable">
+		<property name="name" value="calibrationScannable"/>
+	</bean>
+	
 	<bean id="datareduction" class="org.opengda.lde.scannables.DataReductionScannable">
 		<property name="name" value="datareduction"/>
 		<property name="eventAdmin" ref="eventadmin"/>
+		<property name="currentCalibrationScannable" ref="calibrationScannable"/>
 	</bean>
 </beans>
