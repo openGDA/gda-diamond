@@ -80,7 +80,7 @@
 				</bean>
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="title" />
-					<property name="value" value="undefined" />
+					<property name="value" value="i11-LDE" />
 				</bean>
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="note" />
