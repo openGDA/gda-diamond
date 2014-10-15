@@ -25,7 +25,7 @@
 <!--	<import resource="BPM1.xml"/>-->
 <!--	<import resource="BPM2.xml"/>-->
 <!-- 	<import resource="BPM3.xml"/> -->
-	<import resource="CyberStarBlower.xml"/>
+<!-- 	<import resource="CyberStarBlower.xml"/> -->
 	<import resource="D1.xml"/>
 	<import resource="D2.xml"/>
 	<import resource="D3.xml"/>
@@ -53,16 +53,16 @@
 	<import resource="Io.xml"/>
 	<import resource="etl1.xml"/>
 	<import resource="etl2.xml"/>
-	<import resource="LakeShore.xml"/>
+<!-- 	<import resource="LakeShore.xml"/> -->
 <!-- 	<import resource="LargeSampleTable.xml"/> -->
 	<import resource="M1.xml"/>
 	<import resource="MachineStatus.xml"/>
-	<import resource="MCSSis3820.xml"/>
-	<import resource="MRIFurnace.xml"/>
+<!-- 	<import resource="MCSSis3820.xml"/> -->
+<!-- 	<import resource="MRIFurnace.xml"/> -->
 	<import resource="OpticalTable.xml"/>
-	<import resource="OxfordCryoStream.xml"/>
-	<import resource="OxfordCryoStream2.xml"/>
-	<import resource="PhenixCryostat.xml"/>
+<!-- 	<import resource="OxfordCryoStream.xml"/> -->
+<!-- 	<import resource="OxfordCryoStream2.xml"/> -->
+<!-- 	<import resource="PhenixCryostat.xml"/> -->
 	<import resource="S1.xml"/>
 	<import resource="S2.xml"/>
 	<import resource="S3.xml"/>
@@ -70,8 +70,8 @@
 	<import resource="S5.xml"/>
 	<import resource="Scaler1.xml"/>
 	<import resource="Scaler2.xml"/>
-	<import resource="SmallSampleTable.xml"/>
-	<import resource="StoeFurnace.xml"/>
+<!-- 	<import resource="SmallSampleTable.xml"/> -->
+<!-- 	<import resource="StoeFurnace.xml"/> -->
 
 <!-- LDE Hutch -->
 	<import resource="ES2Shutter.xml"/>
