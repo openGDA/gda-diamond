@@ -33,11 +33,13 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
             simpleLog("%s:%s() Forcing shutter open..." % (self.name, self.pfuncname()))
         #self.zebra.?.set?
         self.pvs['SOFT_IN'].caput(TIMEOUT, 4)
-    
+        #self.pvs['SOFT_IN:B2'].caput(TIMEOUT, 1) # SOFT_IN:B2 is SOFT_IN3
+
     def forceOpenRelease(self):
         """TODO: This clears all bits, we should really only clear bit 3 leaving other bits as is."""
         #self.zebra.?.set?
         self.pvs['SOFT_IN'].caput(TIMEOUT, 0)
+        #self.pvs['SOFT_IN:B2'].caput(TIMEOUT, 0) # SOFT_IN:B2 is SOFT_IN3
         if self.verbose:
             simpleLog("%s:%s() Released Force shutter open" % (self.name, self.pfuncname()))
 
@@ -81,7 +83,10 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         """ Returns the current collecting state of the device. BUSY if the
             detector has not finished the requested operation(s), IDLE if in
             an completely idle state and STANDBY if temporarily suspended. """
-        return self.IDLE
+        return self.IDLE # On I15 the fast shutter detector will always
+        # be run alongside another detector so we can get away with
+        # fastShutterDetector always returning IDLE, as other detectors
+        # or motors will control whether we move to the next point.
 
     def readout(self):
         """ Returns the latest data collected. The size of the Object returned
@@ -113,7 +118,8 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         if self.verbose:
             simpleLog("%s:%s() started... collectionTime=%r" % (self.name, self.pfuncname(), self.collectionTime))
 
-        if self.collectionTime > 20: # TODO: This should be 200 seconds to give the max resolution for the longest collection time
+        # Note that max gate width is 214881.9984, so max collection time is 214s at ms resolution, or 59d at s resolution.
+        if self.collectionTime > 20: # Using 20 rather 214 makes it easier to test the switchover. 
             self.timeunit='s'
             self.timeconvert=1
         else:
