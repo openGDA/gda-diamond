@@ -284,7 +284,7 @@ if andor_installed:
         localStation_exception(sys.exc_info(), "creating andor & andorGV12 objects")
 
 ######## Setting up the I10 Pimte camera ###############
-pimte_installed = False
+pimte_installed = True
 
 if pimte_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
@@ -328,7 +328,7 @@ if pimte_installed:
         localStation_exception(sys.exc_info(), "creating pimte objects")
 
 ######## Setting up the I06 Pixis camera ###############
-pixis_installed = True
+pixis_installed = False
 
 if pixis_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
@@ -404,6 +404,15 @@ if zebra_detector_installed:
         notScanInput=in4ttl, notReadyInput=in3ttl, triggerOutSoftInput=4,
         setCollectionTimeInstructions=setCollectionTimeInstructions,
         prepareForCollectionInstructions=prepareForCollectionInstructions)
+
+######## Setting up the Zebra as a fast dicriosm counter ###############
+zebra_fastdicr_installed = True
+
+if zebra_fastdicr_installed:
+    from scannable.detectors.fastDicroismZebraDetector import FastDichroismZebraDetector
+    global zebraContinuousMoveController
+    #fastDichroism=FastDichroismZebraDetector('fastDichroism', 'BL10I-EA-ZEBRA-01:', zebraContinuousMoveController)
+    fastDichroism=FastDichroismZebraDetector('fastDichroism', 'BL10I-EA-ZEBRA-01:', None)
 
 polarimeter_installed = False
 if polarimeter_installed:
