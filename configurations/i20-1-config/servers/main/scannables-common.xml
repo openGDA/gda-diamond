@@ -26,6 +26,8 @@
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
 		<property name="local" value="true" />
+		<property name="machineModeMonitor" ref="machineModeMonitor" />
+		
 	</bean>
 	
 	
