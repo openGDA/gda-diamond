@@ -18,10 +18,10 @@ class ZebraTriggeredDetector(DetectorBase):
         self.outputFormat = ['%i']
         
         self.zebra = ZebraImpl()
-        #self.zebra = zebra
+        self.zebra = zebra
         self.notScanInput = notScanInput
         self.notReadyInput = notReadyInput
-        self.triggerOutSoftInput - triggerOutSoftInput
+        self.triggerOutSoftInput = triggerOutSoftInput
         self.setCollectionTimeInstructions = setCollectionTimeInstructions
         self.prepareForCollectionInstructions = prepareForCollectionInstructions
         
