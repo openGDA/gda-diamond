@@ -19,6 +19,12 @@
 	<bean id="pilatus_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL16B-EA-DET-04:CAM:" />
 		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.SimpleFilePathConverter">
+				<property name="userSubString" value="/dls/b16/data" />
+				<property name="internalSubString" value="/ramdisk" />
+			</bean>
+		</property>
 	</bean>
 
 
@@ -37,6 +43,7 @@
 		<property name="ndFile" ref="pilatus_camserver_ndfile" />
 		<property name="returnPathRelativeToDatadir" value="false" />
 		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 	<bean id="pilatus_nxfilewriter_for_snaps"
@@ -46,6 +53,7 @@
 		<property name="numTrackerExtension" value="pilatus300k_snaps_numtracker" />
 		<property name="returnPathRelativeToDatadir" value="false" />
 		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 
