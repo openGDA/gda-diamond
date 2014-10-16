@@ -27,6 +27,18 @@
 		<property name="motor" ref="srollMotor" />
 	</bean>
 
+	<bean id="sphi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sphiMotor" />
+	</bean>
+
+	<bean id="ssx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ssxMotor" />
+	</bean>
+
+	<bean id="ssz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sszMotor" />
+	</bean>
+
 	<bean id="sfab" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -36,6 +48,9 @@
 				<ref bean="spitch" />
 				<ref bean="syaw" />
 				<ref bean="sroll" />
+				<ref bean="sphi" />
+				<ref bean="ssx" />
+				<ref bean="ssz" />
 			</list>
 		</property>
 	</bean>

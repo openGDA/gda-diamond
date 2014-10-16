@@ -139,9 +139,6 @@
 		<SIG31 IOC="BL15I-MO-IOC-01" desc="SIS3820 input signal number 31" pv="BL15I-EA-DET-01:MCA-01:31" ro="false" type="mca"/>
 		<SIG32 IOC="BL15I-MO-IOC-01" desc="SIS3820 input signal number 32" pv="BL15I-EA-DET-01:MCA-01:32" ro="false" type="mca"/>
 	</mcaGroup>
-	<simplePv desc="Power Meter Power" name="PWRM.P">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Power" pv="BL15I-DI-PWRM-01:P" ro="false" type="pv"/>
-	</simplePv>
 	<simplePv desc="" name="QBPM1.A">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-QBPM-01:A" ro="true" type="pv"/>
 	</simplePv>
@@ -283,6 +280,34 @@
 	<simpleMotor desc="DCM Piezo" name="DCM.PIEZO">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-OP-DCM-01:PIEZO" ro="false" type="motor"/>
 	</simpleMotor>
+	<positioner desc="" name="shd.mp">
+		<SELECT IOC="BL15I-MO-IOC-01" desc="Position Selection" pv="BL15I-MO-SHEAD-01:X:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV IOC="BL15I-MO-IOC-01" desc="Done Moving Indicator" pv="BL15I-MO-SHEAD-01:X:MP:DMOV" ro="true" type="pv"/>
+		<ERROR IOC="BL15I-MO-IOC-01" desc="Error Indicator" pv="BL15I-MO-SHEAD-01:X:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS IOC="BL15I-MO-IOC-01" desc="In Position Indicator" pv="BL15I-MO-SHEAD-01:X:MP:INPOS" ro="true" type="pv"/>
+		<STOP IOC="BL15I-MO-IOC-01" desc="Stop Button" pv="BL15I-MO-SHEAD-01:X:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="" name="d3.mp">
+		<SELECT IOC="BL15I-MO-IOC-01" desc="Position Selection" pv="BL15I-DI-PHDGN-03:X:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV IOC="BL15I-MO-IOC-01" desc="Done Moving Indicator" pv="BL15I-DI-PHDGN-03:X:MP:DMOV" ro="true" type="pv"/>
+		<ERROR IOC="BL15I-MO-IOC-01" desc="Error Indicator" pv="BL15I-DI-PHDGN-03:X:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS IOC="BL15I-MO-IOC-01" desc="In Position Indicator" pv="BL15I-DI-PHDGN-03:X:MP:INPOS" ro="true" type="pv"/>
+		<STOP IOC="BL15I-MO-IOC-01" desc="Stop Button" pv="BL15I-DI-PHDGN-03:X:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="" name="BS.mp">
+		<SELECT IOC="BL15I-MO-IOC-01" desc="Position Selection" pv="BL15I-RS-ABSB-04:X:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV IOC="BL15I-MO-IOC-01" desc="Done Moving Indicator" pv="BL15I-RS-ABSB-04:X:MP:DMOV" ro="true" type="pv"/>
+		<ERROR IOC="BL15I-MO-IOC-01" desc="Error Indicator" pv="BL15I-RS-ABSB-04:X:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS IOC="BL15I-MO-IOC-01" desc="In Position Indicator" pv="BL15I-RS-ABSB-04:X:MP:INPOS" ro="true" type="pv"/>
+		<STOP IOC="BL15I-MO-IOC-01" desc="Stop Button" pv="BL15I-RS-ABSB-04:X:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="" name="d4.mp">
+		<SELECT IOC="BL15I-MO-IOC-01" desc="Position Selection" pv="BL15I-DI-PHDGN-04:X:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV IOC="BL15I-MO-IOC-01" desc="Done Moving Indicator" pv="BL15I-DI-PHDGN-04:X:MP:DMOV" ro="true" type="pv"/>
+		<ERROR IOC="BL15I-MO-IOC-01" desc="Error Indicator" pv="BL15I-DI-PHDGN-04:X:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS IOC="BL15I-MO-IOC-01" desc="In Position Indicator" pv="BL15I-DI-PHDGN-04:X:MP:INPOS" ro="true" type="pv"/>
+		<STOP IOC="BL15I-MO-IOC-01" desc="Stop Button" pv="BL15I-DI-PHDGN-04:X:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
 	<simpleMotor desc="Diffractometer Detector Z" name="DIFF.DETECTZ">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-DIFF-01:ARM:DETECTOR:Z" ro="false" type="motor"/>
 	</simpleMotor>
@@ -346,11 +371,17 @@
 	<simpleMotor desc="" name="PIN3.Y">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-AL-APTR-03:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="X-Ray Eye X Translation" name="XEYE2.X">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-XEYE-02:X" ro="false" type="motor"/>
+	<simpleMotor desc="" name="SHEAD2.X">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-SHEAD-02:X" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="X-Ray Eye Y Translation" name="XEYE2.Y">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-XEYE-02:Y" ro="false" type="motor"/>
+	<simpleMotor desc="" name="SHEAD2.Y">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-MO-SHEAD-02:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D8.X">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-08:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="D8.Y">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-DI-PHDGN-08:Y" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Small KB Y" name="SKB.Y">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Motor" pv="BL15I-OP-MIRR-03:BASE:Y" ro="false" type="motor"/>
@@ -518,20 +549,38 @@
 	<simplePv desc="Spacefab" name="SFAB.PIVOT:Z">
 		<RECORD IOC="BL15I-MO-IOC-04" desc="Spacefab" pv="BL15I-MO-SFAB-01:PIVOT:Z" ro="false" type="pv"/>
 	</simplePv>
+	<simpleMotor desc="" name="SFAB.X">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="SFAB.Y">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="SFAB.Z">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="SFAB.PITCH">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="SFAB.YAW">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="SFAB.ROLL">
+		<RECORD IOC="BL15I-MO-IOC-04" desc="Motor" pv="BL15I-MO-SFAB-01:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="" name="SFAB.SAMPLE.X">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SFAB-01:SAMPLE:X" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.SAMPLE.Y">
-		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SFAB-01:SAMPLE:Y" ro="false" type="motor"/>
+	<simpleMotor desc="" name="SFAB.SAMPLE.Z">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SFAB-01:SAMPLE:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="SFAB.SAMPLEPHI">
+		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SFAB-01:SAMPLE:PHI" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Pinhole 2 X" name="PIN2.X">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-AL-APTR-02:X" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Pinhole 2 Y" name="PIN2.Y">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-AL-APTR-02:Y" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="SFAB.SAMPLE.ROTARY">
-		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-SFAB-01:ROTARY" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="Cross hair X" name="XHAIR1.X">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-MO-XHAIR-01:X" ro="false" type="motor"/>
@@ -548,6 +597,108 @@
 	<simpleMotor desc="" name="bs3.z">
 		<RECORD IOC="BL15I-MO-IOC-05" desc="Motor" pv="BL15I-RS-ABSB-09:Z" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="VFM Bend 1" name="SKB.VBEND1">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:VFM:BEND1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="VFM Bend 2" name="SKB.VBEND2">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:VFM:BEND2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="VFM Jack 1" name="SKB.VY1">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:VFM:Y1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="VFM Jack 2" name="SKB.VY2">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:VFM:Y2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="HFM Bend 1" name="SKB.HBEND1">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:HFM:BEND1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="HFM Bend 2" name="SKB.HBEND2">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:HFM:BEND2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="HFM Jack 1" name="SKB.HX1">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:HFM:X1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="HFM Jack 2" name="SKB.HX2">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-OP-MIRR-03:HFM:X2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PITCH Motor" name="SVFM.PITCH">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Y Motor" name="SVFM.Y">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="PITCH Motor" name="SHFM.PITCH">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="X Motor" name="SHFM.X">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Curve Motor" name="SVFM.CURVE">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Ellipticity Motor" name="SVFM.ELLIP">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Curve Motor" name="SHFM.CURVE">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Ellipticity Motor" name="SHFM.ELLIP">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simplePv desc="" name="kphi.rock.STARTPOSITION_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:STARTPOSITION_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.STARTPOSITION">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:STARTPOSITION" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.ENDPOSITION_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:ENDPOSITION_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.ENDPOSITION">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:ENDPOSITION" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.OFFSET_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:OFFSET_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.OFFSET">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:OFFSET" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.NUMROCKS_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:NUMROCKS_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.NUMROCKS">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:NUMROCKS" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.TIME_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:TIME_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.TIME">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:TIME" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.ACCELERATION_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:ACCELERATION_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.ACCELERATION">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:ACCELERATION" ro="false" type="pv"/>
+	</simplePv>
+	<simpleMbbinary desc="" name="kphi.rock.START">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:START" ro="false" type="mbbinary"/>
+	</simpleMbbinary>
+	<simpleMbbinary desc="" name="kphi.rock.STOP">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:STOP" ro="false" type="mbbinary"/>
+	</simpleMbbinary>
+	<simpleMbbinary desc="" name="kphi.rock.MODE_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:MODE_RBV" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<simplePv desc="" name="kphi.rock.CURRENTROCK_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:CURRENTROCK_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.ACCELERATIONTIME_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:ACCELERATIONTIME_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="kphi.rock.VELOCITY_RBV">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="" pv="BL15I-MO-DIFF-01:SAMPLE:KPHI:ROCK:VELOCITY_RBV" ro="true" type="pv"/>
+	</simplePv>
 	<simpleMotor desc="S4 Pitch" name="S4.PITCH">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-AL-SLITS-04:PITCH" ro="false" type="motor"/>
 	</simpleMotor>
@@ -628,6 +779,9 @@
 	</simpleMotor>
 	<simpleMotor desc="" name="BS2.Y">
 		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-RS-ABSB-08:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="" name="SHEAD2.Z">
+		<RECORD IOC="BL15I-MO-IOC-07" desc="Motor" pv="BL15I-MO-SHEAD-02:Z" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="" name="VCOLD.X">
 		<RECORD IOC="BL15I-MO-IOC-08" desc="Motor" pv="BL15I-MO-VCOLD-01:X" ro="false" type="motor"/>
@@ -1392,816 +1546,6 @@
 	<simpleMbbinary desc="" name="laser1.TargetingLaser">
 		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-01:TARGETINGLASER" ro="false" type="mbbinary"/>
 	</simpleMbbinary>
-	<ADBase desc="psl.cam ADBase class instance" name="psl.cam_ADBase">
-		<PortName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PortName" pv="BL15I-EA-PSL-01:CAM:PortName_RBV" ro="true" type="pv"/>
-		<Manufacturer_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Manufacturer" pv="BL15I-EA-PSL-01:CAM:Manufacturer_RBV" ro="true" type="pv"/>
-		<Model_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Model" pv="BL15I-EA-PSL-01:CAM:Model_RBV" ro="true" type="pv"/>
-		<MaxSizeX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MaxSizeX" pv="BL15I-EA-PSL-01:CAM:MaxSizeX_RBV" ro="true" type="pv"/>
-		<MaxSizeY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MaxSizeY" pv="BL15I-EA-PSL-01:CAM:MaxSizeY_RBV" ro="true" type="pv"/>
-		<DataType IOC="BL15I-EA-IOC-11" desc="Set DataType" pv="BL15I-EA-PSL-01:CAM:DataType" ro="false" type="mbbinary"/>
-		<DataType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataType" pv="BL15I-EA-PSL-01:CAM:DataType_RBV" ro="true" type="mbbinary"/>
-		<ColorMode IOC="BL15I-EA-IOC-11" desc="Set ColorMode" pv="BL15I-EA-PSL-01:CAM:ColorMode" ro="false" type="mbbinary"/>
-		<ColorMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ColorMode" pv="BL15I-EA-PSL-01:CAM:ColorMode_RBV" ro="true" type="mbbinary"/>
-		<BinX IOC="BL15I-EA-IOC-11" desc="Set BinX" pv="BL15I-EA-PSL-01:CAM:BinX" ro="false" type="pv"/>
-		<BinX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BinX" pv="BL15I-EA-PSL-01:CAM:BinX_RBV" ro="true" type="pv"/>
-		<BinY IOC="BL15I-EA-IOC-11" desc="Set BinY" pv="BL15I-EA-PSL-01:CAM:BinY" ro="false" type="pv"/>
-		<BinY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BinY" pv="BL15I-EA-PSL-01:CAM:BinY_RBV" ro="true" type="pv"/>
-		<MinX IOC="BL15I-EA-IOC-11" desc="Set MinX" pv="BL15I-EA-PSL-01:CAM:MinX" ro="false" type="pv"/>
-		<MinX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinX" pv="BL15I-EA-PSL-01:CAM:MinX_RBV" ro="true" type="pv"/>
-		<MinY IOC="BL15I-EA-IOC-11" desc="Set MinY" pv="BL15I-EA-PSL-01:CAM:MinY" ro="false" type="pv"/>
-		<MinY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinY" pv="BL15I-EA-PSL-01:CAM:MinY_RBV" ro="true" type="pv"/>
-		<SizeX IOC="BL15I-EA-IOC-11" desc="Set SizeX" pv="BL15I-EA-PSL-01:CAM:SizeX" ro="false" type="pv"/>
-		<SizeX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX" pv="BL15I-EA-PSL-01:CAM:SizeX_RBV" ro="true" type="pv"/>
-		<SizeY IOC="BL15I-EA-IOC-11" desc="Set SizeY" pv="BL15I-EA-PSL-01:CAM:SizeY" ro="false" type="pv"/>
-		<SizeY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY" pv="BL15I-EA-PSL-01:CAM:SizeY_RBV" ro="true" type="pv"/>
-		<ReverseX IOC="BL15I-EA-IOC-11" desc="Set ReverseX" pv="BL15I-EA-PSL-01:CAM:ReverseX" ro="false" type="binary"/>
-		<ReverseX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ReverseX" pv="BL15I-EA-PSL-01:CAM:ReverseX_RBV" ro="true" type="binary"/>
-		<ReverseY IOC="BL15I-EA-IOC-11" desc="Set ReverseY" pv="BL15I-EA-PSL-01:CAM:ReverseY" ro="false" type="binary"/>
-		<ReverseY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ReverseY" pv="BL15I-EA-PSL-01:CAM:ReverseY_RBV" ro="true" type="binary"/>
-		<ArraySizeX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySizeX" pv="BL15I-EA-PSL-01:CAM:ArraySizeX_RBV" ro="true" type="pv"/>
-		<ArraySizeY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySizeY" pv="BL15I-EA-PSL-01:CAM:ArraySizeY_RBV" ro="true" type="pv"/>
-		<ArraySizeZ_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySizeZ" pv="BL15I-EA-PSL-01:CAM:ArraySizeZ_RBV" ro="true" type="pv"/>
-		<ArraySize_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize" pv="BL15I-EA-PSL-01:CAM:ArraySize_RBV" ro="true" type="pv"/>
-		<AcquireTime IOC="BL15I-EA-IOC-11" desc="Set AcquireTime" pv="BL15I-EA-PSL-01:CAM:AcquireTime" ro="false" type="pv"/>
-		<AcquireTime_RBV IOC="BL15I-EA-IOC-11" desc="Readback for AcquireTime" pv="BL15I-EA-PSL-01:CAM:AcquireTime_RBV" ro="true" type="pv"/>
-		<AcquirePeriod IOC="BL15I-EA-IOC-11" desc="Set AcquirePeriod" pv="BL15I-EA-PSL-01:CAM:AcquirePeriod" ro="false" type="pv"/>
-		<AcquirePeriod_RBV IOC="BL15I-EA-IOC-11" desc="Readback for AcquirePeriod" pv="BL15I-EA-PSL-01:CAM:AcquirePeriod_RBV" ro="true" type="pv"/>
-		<TimeRemaining_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TimeRemaining" pv="BL15I-EA-PSL-01:CAM:TimeRemaining_RBV" ro="true" type="pv"/>
-		<Gain IOC="BL15I-EA-IOC-11" desc="Set Gain" pv="BL15I-EA-PSL-01:CAM:Gain" ro="false" type="pv"/>
-		<Gain_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Gain" pv="BL15I-EA-PSL-01:CAM:Gain_RBV" ro="true" type="pv"/>
-		<FrameType IOC="BL15I-EA-IOC-11" desc="Set FrameType" pv="BL15I-EA-PSL-01:CAM:FrameType" ro="false" type="mbbinary"/>
-		<FrameType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FrameType" pv="BL15I-EA-PSL-01:CAM:FrameType_RBV" ro="true" type="mbbinary"/>
-		<ImageMode IOC="BL15I-EA-IOC-11" desc="Set ImageMode" pv="BL15I-EA-PSL-01:CAM:ImageMode" ro="false" type="mbbinary"/>
-		<ImageMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ImageMode" pv="BL15I-EA-PSL-01:CAM:ImageMode_RBV" ro="true" type="mbbinary"/>
-		<TriggerMode IOC="BL15I-EA-IOC-11" desc="Set TriggerMode" pv="BL15I-EA-PSL-01:CAM:TriggerMode" ro="false" type="mbbinary"/>
-		<TriggerMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TriggerMode" pv="BL15I-EA-PSL-01:CAM:TriggerMode_RBV" ro="true" type="mbbinary"/>
-		<NumExposures IOC="BL15I-EA-IOC-11" desc="Set NumExposures" pv="BL15I-EA-PSL-01:CAM:NumExposures" ro="false" type="pv"/>
-		<NumExposures_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumExposures" pv="BL15I-EA-PSL-01:CAM:NumExposures_RBV" ro="true" type="pv"/>
-		<NumExposuresCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumExposuresCounter" pv="BL15I-EA-PSL-01:CAM:NumExposuresCounter_RBV" ro="true" type="pv"/>
-		<NumImages IOC="BL15I-EA-IOC-11" desc="Set NumImages" pv="BL15I-EA-PSL-01:CAM:NumImages" ro="false" type="pv"/>
-		<NumImages_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumImages" pv="BL15I-EA-PSL-01:CAM:NumImages_RBV" ro="true" type="pv"/>
-		<NumImagesCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumImagesCounter" pv="BL15I-EA-PSL-01:CAM:NumImagesCounter_RBV" ro="true" type="pv"/>
-		<Acquire IOC="BL15I-EA-IOC-11" desc="Set Acquire" pv="BL15I-EA-PSL-01:CAM:Acquire" ro="false" type="pv"/>
-		<Acquire_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Acquire" pv="BL15I-EA-PSL-01:CAM:Acquire_RBV" ro="true" type="binary"/>
-		<ArrayCounter IOC="BL15I-EA-IOC-11" desc="Set ArrayCounter" pv="BL15I-EA-PSL-01:CAM:ArrayCounter" ro="false" type="pv"/>
-		<ArrayCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCounter" pv="BL15I-EA-PSL-01:CAM:ArrayCounter_RBV" ro="true" type="pv"/>
-		<ArrayRate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayRate" pv="BL15I-EA-PSL-01:CAM:ArrayRate_RBV" ro="true" type="pv"/>
-		<DetectorState_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DetectorState" pv="BL15I-EA-PSL-01:CAM:DetectorState_RBV" ro="true" type="mbbinary"/>
-		<ArrayCallbacks IOC="BL15I-EA-IOC-11" desc="Set ArrayCallbacks" pv="BL15I-EA-PSL-01:CAM:ArrayCallbacks" ro="false" type="binary"/>
-		<ArrayCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCallbacks" pv="BL15I-EA-PSL-01:CAM:ArrayCallbacks_RBV" ro="true" type="binary"/>
-		<NDAttributesFile IOC="BL15I-EA-IOC-11" desc="Set NDAttributesFile" pv="BL15I-EA-PSL-01:CAM:NDAttributesFile" ro="false" type="array"/>
-		<StatusMessage_RBV IOC="BL15I-EA-IOC-11" desc="Readback for StatusMessage" pv="BL15I-EA-PSL-01:CAM:StatusMessage_RBV" ro="true" type="array"/>
-		<StringToServer_RBV IOC="BL15I-EA-IOC-11" desc="Readback for StringToServer" pv="BL15I-EA-PSL-01:CAM:StringToServer_RBV" ro="true" type="array"/>
-		<StringFromServer_RBV IOC="BL15I-EA-IOC-11" desc="Readback for StringFromServer" pv="BL15I-EA-PSL-01:CAM:StringFromServer_RBV" ro="true" type="array"/>
-		<ReadStatus IOC="BL15I-EA-IOC-11" desc="Force read of Status" pv="BL15I-EA-PSL-01:CAM:ReadStatus" ro="false" type="binary"/>
-		<ShutterMode IOC="BL15I-EA-IOC-11" desc="Set ShutterMode" pv="BL15I-EA-PSL-01:CAM:ShutterMode" ro="false" type="mbbinary"/>
-		<ShutterMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ShutterMode" pv="BL15I-EA-PSL-01:CAM:ShutterMode_RBV" ro="true" type="mbbinary"/>
-		<ShutterControl IOC="BL15I-EA-IOC-11" desc="Set ShutterControl" pv="BL15I-EA-PSL-01:CAM:ShutterControl" ro="false" type="binary"/>
-		<ShutterControl_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ShutterControl" pv="BL15I-EA-PSL-01:CAM:ShutterControl_RBV" ro="true" type="binary"/>
-		<ShutterStatus_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ShutterStatus" pv="BL15I-EA-PSL-01:CAM:ShutterStatus_RBV" ro="true" type="binary"/>
-		<ShutterOpenDelay IOC="BL15I-EA-IOC-11" desc="Set ShutterOpenDelay" pv="BL15I-EA-PSL-01:CAM:ShutterOpenDelay" ro="false" type="pv"/>
-		<ShutterOpenDelay_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ShutterOpenDelay" pv="BL15I-EA-PSL-01:CAM:ShutterOpenDelay_RBV" ro="true" type="pv"/>
-		<ShutterCloseDelay IOC="BL15I-EA-IOC-11" desc="Set ShutterCloseDelay" pv="BL15I-EA-PSL-01:CAM:ShutterCloseDelay" ro="false" type="pv"/>
-		<ShutterCloseDelay_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ShutterCloseDelay" pv="BL15I-EA-PSL-01:CAM:ShutterCloseDelay_RBV" ro="true" type="pv"/>
-		<ShutterOpenEPICSPV IOC="BL15I-EA-IOC-11" desc="PV to write ShutterOpenEPICSCmd to" pv="BL15I-EA-PSL-01:CAM:ShutterOpenEPICS.OUT" ro="false" type="pv"/>
-		<ShutterOpenEPICSCmd IOC="BL15I-EA-IOC-11" desc="Open command to be sent to ShutterOpenEPICS" pv="BL15I-EA-PSL-01:CAM:ShutterOpenEPICS" ro="false" type="pv"/>
-		<ShutterCloseEPICSPV IOC="BL15I-EA-IOC-11" desc="PV to write ShutterCloseEPICSCmd to" pv="BL15I-EA-PSL-01:CAM:ShutterCloseEPICS.OUT" ro="false" type="pv"/>
-		<ShutterCloseEPICSCmd IOC="BL15I-EA-IOC-11" desc="Close command to be sent to ShutterCloseEPICSPV" pv="BL15I-EA-PSL-01:CAM:ShutterCloseEPICS.OCAL" ro="false" type="pv"/>
-		<ShutterStatusEPICS_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ShutterStatusEPICS" pv="BL15I-EA-PSL-01:CAM:ShutterStatusEPICS_RBV" ro="true" type="mbbinary"/>
-		<ShutterStatusEPICSPV IOC="BL15I-EA-IOC-11" desc="PV to read ShutterStatusEPICS_RBV from. Must be a &quot;CP&quot; link" pv="BL15I-EA-PSL-01:CAM:ShutterStatusEPICS_RBV.INP" ro="false" type="pv"/>
-		<ShutterStatusEPICSCloseVal IOC="BL15I-EA-IOC-11" desc="Value of ShutterStatusEPICSPV when shutter is closed" pv="BL15I-EA-PSL-01:CAM:ShutterStatusEPICS_RBV.ZRVL" ro="false" type="pv"/>
-		<ShutterStatusEPICSOpenVal IOC="BL15I-EA-IOC-11" desc="Value of ShutterStatusEPICSPV when shutter is open" pv="BL15I-EA-PSL-01:CAM:ShutterStatusEPICS_RBV.ONVL" ro="false" type="pv"/>
-		<Temperature IOC="BL15I-EA-IOC-11" desc="Set Temperature" pv="BL15I-EA-PSL-01:CAM:Temperature" ro="false" type="pv"/>
-		<Temperature_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Temperature" pv="BL15I-EA-PSL-01:CAM:Temperature_RBV" ro="true" type="pv"/>
-	</ADBase>
-	<aravisCamera desc="psl.cam aravisCamera class instance" name="psl.cam_aravisCamera">
-		<COMPLETED_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Frames Completed" pv="BL15I-EA-PSL-01:CAM:COMPLETED_RBV" ro="true" type="pv"/>
-		<FAILURES_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Frame Failures" pv="BL15I-EA-PSL-01:CAM:FAILURES_RBV" ro="true" type="pv"/>
-		<UNDERRUNS_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Frame Underruns" pv="BL15I-EA-PSL-01:CAM:UNDERRUNS_RBV" ro="true" type="pv"/>
-	</aravisCamera>
-	<NDPluginBase desc="psl.roi NDPluginBase class instance" name="psl.roi_NDPluginBase">
-		<PortName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PortName" pv="BL15I-EA-PSL-01:ROI:PortName_RBV" ro="true" type="pv"/>
-		<PluginType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PluginType" pv="BL15I-EA-PSL-01:ROI:PluginType_RBV" ro="true" type="pv"/>
-		<NDArrayPort IOC="BL15I-EA-IOC-11" desc="Set NDArrayPort" pv="BL15I-EA-PSL-01:ROI:NDArrayPort" ro="false" type="pv"/>
-		<NDArrayPort_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayPort" pv="BL15I-EA-PSL-01:ROI:NDArrayPort_RBV" ro="true" type="pv"/>
-		<NDArrayAddress IOC="BL15I-EA-IOC-11" desc="Set NDArrayAddress" pv="BL15I-EA-PSL-01:ROI:NDArrayAddress" ro="false" type="pv"/>
-		<NDArrayAddress_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayAddress" pv="BL15I-EA-PSL-01:ROI:NDArrayAddress_RBV" ro="true" type="pv"/>
-		<EnableCallbacks IOC="BL15I-EA-IOC-11" desc="Set EnableCallbacks" pv="BL15I-EA-PSL-01:ROI:EnableCallbacks" ro="false" type="binary"/>
-		<EnableCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableCallbacks" pv="BL15I-EA-PSL-01:ROI:EnableCallbacks_RBV" ro="true" type="binary"/>
-		<MinCallbackTime IOC="BL15I-EA-IOC-11" desc="Set MinCallbackTime" pv="BL15I-EA-PSL-01:ROI:MinCallbackTime" ro="false" type="pv"/>
-		<MinCallbackTime_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinCallbackTime" pv="BL15I-EA-PSL-01:ROI:MinCallbackTime_RBV" ro="true" type="pv"/>
-		<BlockingCallbacks IOC="BL15I-EA-IOC-11" desc="Set BlockingCallbacks" pv="BL15I-EA-PSL-01:ROI:BlockingCallbacks" ro="false" type="binary"/>
-		<BlockingCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BlockingCallbacks" pv="BL15I-EA-PSL-01:ROI:BlockingCallbacks_RBV" ro="true" type="binary"/>
-		<ArrayCounter IOC="BL15I-EA-IOC-11" desc="Set ArrayCounter" pv="BL15I-EA-PSL-01:ROI:ArrayCounter" ro="false" type="pv"/>
-		<ArrayCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCounter" pv="BL15I-EA-PSL-01:ROI:ArrayCounter_RBV" ro="true" type="pv"/>
-		<ArrayRate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayRate" pv="BL15I-EA-PSL-01:ROI:ArrayRate_RBV" ro="true" type="pv"/>
-		<DroppedArrays IOC="BL15I-EA-IOC-11" desc="Set DroppedArrays" pv="BL15I-EA-PSL-01:ROI:DroppedArrays" ro="false" type="pv"/>
-		<DroppedArrays_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DroppedArrays" pv="BL15I-EA-PSL-01:ROI:DroppedArrays_RBV" ro="true" type="pv"/>
-		<NDimensions_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDimensions" pv="BL15I-EA-PSL-01:ROI:NDimensions_RBV" ro="true" type="pv"/>
-		<ArraySize0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize0" pv="BL15I-EA-PSL-01:ROI:ArraySize0_RBV" ro="true" type="pv"/>
-		<ArraySize1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize1" pv="BL15I-EA-PSL-01:ROI:ArraySize1_RBV" ro="true" type="pv"/>
-		<ArraySize2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize2" pv="BL15I-EA-PSL-01:ROI:ArraySize2_RBV" ro="true" type="pv"/>
-		<DataType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataType" pv="BL15I-EA-PSL-01:ROI:DataType_RBV" ro="true" type="mbbinary"/>
-		<ColorMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ColorMode" pv="BL15I-EA-PSL-01:ROI:ColorMode_RBV" ro="true" type="mbbinary"/>
-		<BayerPattern_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BayerPattern" pv="BL15I-EA-PSL-01:ROI:BayerPattern_RBV" ro="true" type="mbbinary"/>
-		<UniqueId_RBV IOC="BL15I-EA-IOC-11" desc="Readback for UniqueId" pv="BL15I-EA-PSL-01:ROI:UniqueId_RBV" ro="true" type="pv"/>
-		<TimeStamp_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TimeStamp" pv="BL15I-EA-PSL-01:ROI:TimeStamp_RBV" ro="true" type="pv"/>
-		<NDAttributesFile IOC="BL15I-EA-IOC-11" desc="Set NDAttributesFile" pv="BL15I-EA-PSL-01:ROI:NDAttributesFile" ro="false" type="array"/>
-	</NDPluginBase>
-	<NDPluginBase desc="psl.proc NDPluginBase class instance" name="psl.proc_NDPluginBase">
-		<PortName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PortName" pv="BL15I-EA-PSL-01:PROC:PortName_RBV" ro="true" type="pv"/>
-		<PluginType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PluginType" pv="BL15I-EA-PSL-01:PROC:PluginType_RBV" ro="true" type="pv"/>
-		<NDArrayPort IOC="BL15I-EA-IOC-11" desc="Set NDArrayPort" pv="BL15I-EA-PSL-01:PROC:NDArrayPort" ro="false" type="pv"/>
-		<NDArrayPort_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayPort" pv="BL15I-EA-PSL-01:PROC:NDArrayPort_RBV" ro="true" type="pv"/>
-		<NDArrayAddress IOC="BL15I-EA-IOC-11" desc="Set NDArrayAddress" pv="BL15I-EA-PSL-01:PROC:NDArrayAddress" ro="false" type="pv"/>
-		<NDArrayAddress_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayAddress" pv="BL15I-EA-PSL-01:PROC:NDArrayAddress_RBV" ro="true" type="pv"/>
-		<EnableCallbacks IOC="BL15I-EA-IOC-11" desc="Set EnableCallbacks" pv="BL15I-EA-PSL-01:PROC:EnableCallbacks" ro="false" type="binary"/>
-		<EnableCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableCallbacks" pv="BL15I-EA-PSL-01:PROC:EnableCallbacks_RBV" ro="true" type="binary"/>
-		<MinCallbackTime IOC="BL15I-EA-IOC-11" desc="Set MinCallbackTime" pv="BL15I-EA-PSL-01:PROC:MinCallbackTime" ro="false" type="pv"/>
-		<MinCallbackTime_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinCallbackTime" pv="BL15I-EA-PSL-01:PROC:MinCallbackTime_RBV" ro="true" type="pv"/>
-		<BlockingCallbacks IOC="BL15I-EA-IOC-11" desc="Set BlockingCallbacks" pv="BL15I-EA-PSL-01:PROC:BlockingCallbacks" ro="false" type="binary"/>
-		<BlockingCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BlockingCallbacks" pv="BL15I-EA-PSL-01:PROC:BlockingCallbacks_RBV" ro="true" type="binary"/>
-		<ArrayCounter IOC="BL15I-EA-IOC-11" desc="Set ArrayCounter" pv="BL15I-EA-PSL-01:PROC:ArrayCounter" ro="false" type="pv"/>
-		<ArrayCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCounter" pv="BL15I-EA-PSL-01:PROC:ArrayCounter_RBV" ro="true" type="pv"/>
-		<ArrayRate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayRate" pv="BL15I-EA-PSL-01:PROC:ArrayRate_RBV" ro="true" type="pv"/>
-		<DroppedArrays IOC="BL15I-EA-IOC-11" desc="Set DroppedArrays" pv="BL15I-EA-PSL-01:PROC:DroppedArrays" ro="false" type="pv"/>
-		<DroppedArrays_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DroppedArrays" pv="BL15I-EA-PSL-01:PROC:DroppedArrays_RBV" ro="true" type="pv"/>
-		<NDimensions_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDimensions" pv="BL15I-EA-PSL-01:PROC:NDimensions_RBV" ro="true" type="pv"/>
-		<ArraySize0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize0" pv="BL15I-EA-PSL-01:PROC:ArraySize0_RBV" ro="true" type="pv"/>
-		<ArraySize1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize1" pv="BL15I-EA-PSL-01:PROC:ArraySize1_RBV" ro="true" type="pv"/>
-		<ArraySize2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize2" pv="BL15I-EA-PSL-01:PROC:ArraySize2_RBV" ro="true" type="pv"/>
-		<DataType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataType" pv="BL15I-EA-PSL-01:PROC:DataType_RBV" ro="true" type="mbbinary"/>
-		<ColorMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ColorMode" pv="BL15I-EA-PSL-01:PROC:ColorMode_RBV" ro="true" type="mbbinary"/>
-		<BayerPattern_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BayerPattern" pv="BL15I-EA-PSL-01:PROC:BayerPattern_RBV" ro="true" type="mbbinary"/>
-		<UniqueId_RBV IOC="BL15I-EA-IOC-11" desc="Readback for UniqueId" pv="BL15I-EA-PSL-01:PROC:UniqueId_RBV" ro="true" type="pv"/>
-		<TimeStamp_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TimeStamp" pv="BL15I-EA-PSL-01:PROC:TimeStamp_RBV" ro="true" type="pv"/>
-		<NDAttributesFile IOC="BL15I-EA-IOC-11" desc="Set NDAttributesFile" pv="BL15I-EA-PSL-01:PROC:NDAttributesFile" ro="false" type="array"/>
-	</NDPluginBase>
-	<NDPluginBase desc="psl.stat NDPluginBase class instance" name="psl.stat_NDPluginBase">
-		<PortName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PortName" pv="BL15I-EA-PSL-01:STAT:PortName_RBV" ro="true" type="pv"/>
-		<PluginType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PluginType" pv="BL15I-EA-PSL-01:STAT:PluginType_RBV" ro="true" type="pv"/>
-		<NDArrayPort IOC="BL15I-EA-IOC-11" desc="Set NDArrayPort" pv="BL15I-EA-PSL-01:STAT:NDArrayPort" ro="false" type="pv"/>
-		<NDArrayPort_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayPort" pv="BL15I-EA-PSL-01:STAT:NDArrayPort_RBV" ro="true" type="pv"/>
-		<NDArrayAddress IOC="BL15I-EA-IOC-11" desc="Set NDArrayAddress" pv="BL15I-EA-PSL-01:STAT:NDArrayAddress" ro="false" type="pv"/>
-		<NDArrayAddress_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayAddress" pv="BL15I-EA-PSL-01:STAT:NDArrayAddress_RBV" ro="true" type="pv"/>
-		<EnableCallbacks IOC="BL15I-EA-IOC-11" desc="Set EnableCallbacks" pv="BL15I-EA-PSL-01:STAT:EnableCallbacks" ro="false" type="binary"/>
-		<EnableCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableCallbacks" pv="BL15I-EA-PSL-01:STAT:EnableCallbacks_RBV" ro="true" type="binary"/>
-		<MinCallbackTime IOC="BL15I-EA-IOC-11" desc="Set MinCallbackTime" pv="BL15I-EA-PSL-01:STAT:MinCallbackTime" ro="false" type="pv"/>
-		<MinCallbackTime_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinCallbackTime" pv="BL15I-EA-PSL-01:STAT:MinCallbackTime_RBV" ro="true" type="pv"/>
-		<BlockingCallbacks IOC="BL15I-EA-IOC-11" desc="Set BlockingCallbacks" pv="BL15I-EA-PSL-01:STAT:BlockingCallbacks" ro="false" type="binary"/>
-		<BlockingCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BlockingCallbacks" pv="BL15I-EA-PSL-01:STAT:BlockingCallbacks_RBV" ro="true" type="binary"/>
-		<ArrayCounter IOC="BL15I-EA-IOC-11" desc="Set ArrayCounter" pv="BL15I-EA-PSL-01:STAT:ArrayCounter" ro="false" type="pv"/>
-		<ArrayCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCounter" pv="BL15I-EA-PSL-01:STAT:ArrayCounter_RBV" ro="true" type="pv"/>
-		<ArrayRate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayRate" pv="BL15I-EA-PSL-01:STAT:ArrayRate_RBV" ro="true" type="pv"/>
-		<DroppedArrays IOC="BL15I-EA-IOC-11" desc="Set DroppedArrays" pv="BL15I-EA-PSL-01:STAT:DroppedArrays" ro="false" type="pv"/>
-		<DroppedArrays_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DroppedArrays" pv="BL15I-EA-PSL-01:STAT:DroppedArrays_RBV" ro="true" type="pv"/>
-		<NDimensions_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDimensions" pv="BL15I-EA-PSL-01:STAT:NDimensions_RBV" ro="true" type="pv"/>
-		<ArraySize0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize0" pv="BL15I-EA-PSL-01:STAT:ArraySize0_RBV" ro="true" type="pv"/>
-		<ArraySize1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize1" pv="BL15I-EA-PSL-01:STAT:ArraySize1_RBV" ro="true" type="pv"/>
-		<ArraySize2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize2" pv="BL15I-EA-PSL-01:STAT:ArraySize2_RBV" ro="true" type="pv"/>
-		<DataType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataType" pv="BL15I-EA-PSL-01:STAT:DataType_RBV" ro="true" type="mbbinary"/>
-		<ColorMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ColorMode" pv="BL15I-EA-PSL-01:STAT:ColorMode_RBV" ro="true" type="mbbinary"/>
-		<BayerPattern_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BayerPattern" pv="BL15I-EA-PSL-01:STAT:BayerPattern_RBV" ro="true" type="mbbinary"/>
-		<UniqueId_RBV IOC="BL15I-EA-IOC-11" desc="Readback for UniqueId" pv="BL15I-EA-PSL-01:STAT:UniqueId_RBV" ro="true" type="pv"/>
-		<TimeStamp_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TimeStamp" pv="BL15I-EA-PSL-01:STAT:TimeStamp_RBV" ro="true" type="pv"/>
-		<NDAttributesFile IOC="BL15I-EA-IOC-11" desc="Set NDAttributesFile" pv="BL15I-EA-PSL-01:STAT:NDAttributesFile" ro="false" type="array"/>
-	</NDPluginBase>
-	<NDPluginBase desc="psl.tif NDPluginBase class instance" name="psl.tif_NDPluginBase">
-		<PortName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PortName" pv="BL15I-EA-PSL-01:TIF:PortName_RBV" ro="true" type="pv"/>
-		<PluginType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PluginType" pv="BL15I-EA-PSL-01:TIF:PluginType_RBV" ro="true" type="pv"/>
-		<NDArrayPort IOC="BL15I-EA-IOC-11" desc="Set NDArrayPort" pv="BL15I-EA-PSL-01:TIF:NDArrayPort" ro="false" type="pv"/>
-		<NDArrayPort_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayPort" pv="BL15I-EA-PSL-01:TIF:NDArrayPort_RBV" ro="true" type="pv"/>
-		<NDArrayAddress IOC="BL15I-EA-IOC-11" desc="Set NDArrayAddress" pv="BL15I-EA-PSL-01:TIF:NDArrayAddress" ro="false" type="pv"/>
-		<NDArrayAddress_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayAddress" pv="BL15I-EA-PSL-01:TIF:NDArrayAddress_RBV" ro="true" type="pv"/>
-		<EnableCallbacks IOC="BL15I-EA-IOC-11" desc="Set EnableCallbacks" pv="BL15I-EA-PSL-01:TIF:EnableCallbacks" ro="false" type="binary"/>
-		<EnableCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableCallbacks" pv="BL15I-EA-PSL-01:TIF:EnableCallbacks_RBV" ro="true" type="binary"/>
-		<MinCallbackTime IOC="BL15I-EA-IOC-11" desc="Set MinCallbackTime" pv="BL15I-EA-PSL-01:TIF:MinCallbackTime" ro="false" type="pv"/>
-		<MinCallbackTime_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinCallbackTime" pv="BL15I-EA-PSL-01:TIF:MinCallbackTime_RBV" ro="true" type="pv"/>
-		<BlockingCallbacks IOC="BL15I-EA-IOC-11" desc="Set BlockingCallbacks" pv="BL15I-EA-PSL-01:TIF:BlockingCallbacks" ro="false" type="binary"/>
-		<BlockingCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BlockingCallbacks" pv="BL15I-EA-PSL-01:TIF:BlockingCallbacks_RBV" ro="true" type="binary"/>
-		<ArrayCounter IOC="BL15I-EA-IOC-11" desc="Set ArrayCounter" pv="BL15I-EA-PSL-01:TIF:ArrayCounter" ro="false" type="pv"/>
-		<ArrayCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCounter" pv="BL15I-EA-PSL-01:TIF:ArrayCounter_RBV" ro="true" type="pv"/>
-		<ArrayRate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayRate" pv="BL15I-EA-PSL-01:TIF:ArrayRate_RBV" ro="true" type="pv"/>
-		<DroppedArrays IOC="BL15I-EA-IOC-11" desc="Set DroppedArrays" pv="BL15I-EA-PSL-01:TIF:DroppedArrays" ro="false" type="pv"/>
-		<DroppedArrays_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DroppedArrays" pv="BL15I-EA-PSL-01:TIF:DroppedArrays_RBV" ro="true" type="pv"/>
-		<NDimensions_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDimensions" pv="BL15I-EA-PSL-01:TIF:NDimensions_RBV" ro="true" type="pv"/>
-		<ArraySize0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize0" pv="BL15I-EA-PSL-01:TIF:ArraySize0_RBV" ro="true" type="pv"/>
-		<ArraySize1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize1" pv="BL15I-EA-PSL-01:TIF:ArraySize1_RBV" ro="true" type="pv"/>
-		<ArraySize2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize2" pv="BL15I-EA-PSL-01:TIF:ArraySize2_RBV" ro="true" type="pv"/>
-		<DataType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataType" pv="BL15I-EA-PSL-01:TIF:DataType_RBV" ro="true" type="mbbinary"/>
-		<ColorMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ColorMode" pv="BL15I-EA-PSL-01:TIF:ColorMode_RBV" ro="true" type="mbbinary"/>
-		<BayerPattern_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BayerPattern" pv="BL15I-EA-PSL-01:TIF:BayerPattern_RBV" ro="true" type="mbbinary"/>
-		<UniqueId_RBV IOC="BL15I-EA-IOC-11" desc="Readback for UniqueId" pv="BL15I-EA-PSL-01:TIF:UniqueId_RBV" ro="true" type="pv"/>
-		<TimeStamp_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TimeStamp" pv="BL15I-EA-PSL-01:TIF:TimeStamp_RBV" ro="true" type="pv"/>
-		<NDAttributesFile IOC="BL15I-EA-IOC-11" desc="Set NDAttributesFile" pv="BL15I-EA-PSL-01:TIF:NDAttributesFile" ro="false" type="array"/>
-	</NDPluginBase>
-	<NDPluginBase desc="psl.hdf NDPluginBase class instance" name="psl.hdf_NDPluginBase">
-		<PortName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PortName" pv="BL15I-EA-PSL-01:HDF:PortName_RBV" ro="true" type="pv"/>
-		<PluginType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PluginType" pv="BL15I-EA-PSL-01:HDF:PluginType_RBV" ro="true" type="pv"/>
-		<NDArrayPort IOC="BL15I-EA-IOC-11" desc="Set NDArrayPort" pv="BL15I-EA-PSL-01:HDF:NDArrayPort" ro="false" type="pv"/>
-		<NDArrayPort_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayPort" pv="BL15I-EA-PSL-01:HDF:NDArrayPort_RBV" ro="true" type="pv"/>
-		<NDArrayAddress IOC="BL15I-EA-IOC-11" desc="Set NDArrayAddress" pv="BL15I-EA-PSL-01:HDF:NDArrayAddress" ro="false" type="pv"/>
-		<NDArrayAddress_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayAddress" pv="BL15I-EA-PSL-01:HDF:NDArrayAddress_RBV" ro="true" type="pv"/>
-		<EnableCallbacks IOC="BL15I-EA-IOC-11" desc="Set EnableCallbacks" pv="BL15I-EA-PSL-01:HDF:EnableCallbacks" ro="false" type="binary"/>
-		<EnableCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableCallbacks" pv="BL15I-EA-PSL-01:HDF:EnableCallbacks_RBV" ro="true" type="binary"/>
-		<MinCallbackTime IOC="BL15I-EA-IOC-11" desc="Set MinCallbackTime" pv="BL15I-EA-PSL-01:HDF:MinCallbackTime" ro="false" type="pv"/>
-		<MinCallbackTime_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinCallbackTime" pv="BL15I-EA-PSL-01:HDF:MinCallbackTime_RBV" ro="true" type="pv"/>
-		<BlockingCallbacks IOC="BL15I-EA-IOC-11" desc="Set BlockingCallbacks" pv="BL15I-EA-PSL-01:HDF:BlockingCallbacks" ro="false" type="binary"/>
-		<BlockingCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BlockingCallbacks" pv="BL15I-EA-PSL-01:HDF:BlockingCallbacks_RBV" ro="true" type="binary"/>
-		<ArrayCounter IOC="BL15I-EA-IOC-11" desc="Set ArrayCounter" pv="BL15I-EA-PSL-01:HDF:ArrayCounter" ro="false" type="pv"/>
-		<ArrayCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCounter" pv="BL15I-EA-PSL-01:HDF:ArrayCounter_RBV" ro="true" type="pv"/>
-		<ArrayRate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayRate" pv="BL15I-EA-PSL-01:HDF:ArrayRate_RBV" ro="true" type="pv"/>
-		<DroppedArrays IOC="BL15I-EA-IOC-11" desc="Set DroppedArrays" pv="BL15I-EA-PSL-01:HDF:DroppedArrays" ro="false" type="pv"/>
-		<DroppedArrays_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DroppedArrays" pv="BL15I-EA-PSL-01:HDF:DroppedArrays_RBV" ro="true" type="pv"/>
-		<NDimensions_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDimensions" pv="BL15I-EA-PSL-01:HDF:NDimensions_RBV" ro="true" type="pv"/>
-		<ArraySize0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize0" pv="BL15I-EA-PSL-01:HDF:ArraySize0_RBV" ro="true" type="pv"/>
-		<ArraySize1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize1" pv="BL15I-EA-PSL-01:HDF:ArraySize1_RBV" ro="true" type="pv"/>
-		<ArraySize2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize2" pv="BL15I-EA-PSL-01:HDF:ArraySize2_RBV" ro="true" type="pv"/>
-		<DataType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataType" pv="BL15I-EA-PSL-01:HDF:DataType_RBV" ro="true" type="mbbinary"/>
-		<ColorMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ColorMode" pv="BL15I-EA-PSL-01:HDF:ColorMode_RBV" ro="true" type="mbbinary"/>
-		<BayerPattern_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BayerPattern" pv="BL15I-EA-PSL-01:HDF:BayerPattern_RBV" ro="true" type="mbbinary"/>
-		<UniqueId_RBV IOC="BL15I-EA-IOC-11" desc="Readback for UniqueId" pv="BL15I-EA-PSL-01:HDF:UniqueId_RBV" ro="true" type="pv"/>
-		<TimeStamp_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TimeStamp" pv="BL15I-EA-PSL-01:HDF:TimeStamp_RBV" ro="true" type="pv"/>
-		<NDAttributesFile IOC="BL15I-EA-IOC-11" desc="Set NDAttributesFile" pv="BL15I-EA-PSL-01:HDF:NDAttributesFile" ro="false" type="array"/>
-	</NDPluginBase>
-	<NDPluginBase desc="psl.ovl NDPluginBase class instance" name="psl.ovl_NDPluginBase">
-		<PortName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PortName" pv="BL15I-EA-PSL-01:OVL:PortName_RBV" ro="true" type="pv"/>
-		<PluginType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PluginType" pv="BL15I-EA-PSL-01:OVL:PluginType_RBV" ro="true" type="pv"/>
-		<NDArrayPort IOC="BL15I-EA-IOC-11" desc="Set NDArrayPort" pv="BL15I-EA-PSL-01:OVL:NDArrayPort" ro="false" type="pv"/>
-		<NDArrayPort_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayPort" pv="BL15I-EA-PSL-01:OVL:NDArrayPort_RBV" ro="true" type="pv"/>
-		<NDArrayAddress IOC="BL15I-EA-IOC-11" desc="Set NDArrayAddress" pv="BL15I-EA-PSL-01:OVL:NDArrayAddress" ro="false" type="pv"/>
-		<NDArrayAddress_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayAddress" pv="BL15I-EA-PSL-01:OVL:NDArrayAddress_RBV" ro="true" type="pv"/>
-		<EnableCallbacks IOC="BL15I-EA-IOC-11" desc="Set EnableCallbacks" pv="BL15I-EA-PSL-01:OVL:EnableCallbacks" ro="false" type="binary"/>
-		<EnableCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableCallbacks" pv="BL15I-EA-PSL-01:OVL:EnableCallbacks_RBV" ro="true" type="binary"/>
-		<MinCallbackTime IOC="BL15I-EA-IOC-11" desc="Set MinCallbackTime" pv="BL15I-EA-PSL-01:OVL:MinCallbackTime" ro="false" type="pv"/>
-		<MinCallbackTime_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinCallbackTime" pv="BL15I-EA-PSL-01:OVL:MinCallbackTime_RBV" ro="true" type="pv"/>
-		<BlockingCallbacks IOC="BL15I-EA-IOC-11" desc="Set BlockingCallbacks" pv="BL15I-EA-PSL-01:OVL:BlockingCallbacks" ro="false" type="binary"/>
-		<BlockingCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BlockingCallbacks" pv="BL15I-EA-PSL-01:OVL:BlockingCallbacks_RBV" ro="true" type="binary"/>
-		<ArrayCounter IOC="BL15I-EA-IOC-11" desc="Set ArrayCounter" pv="BL15I-EA-PSL-01:OVL:ArrayCounter" ro="false" type="pv"/>
-		<ArrayCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCounter" pv="BL15I-EA-PSL-01:OVL:ArrayCounter_RBV" ro="true" type="pv"/>
-		<ArrayRate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayRate" pv="BL15I-EA-PSL-01:OVL:ArrayRate_RBV" ro="true" type="pv"/>
-		<DroppedArrays IOC="BL15I-EA-IOC-11" desc="Set DroppedArrays" pv="BL15I-EA-PSL-01:OVL:DroppedArrays" ro="false" type="pv"/>
-		<DroppedArrays_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DroppedArrays" pv="BL15I-EA-PSL-01:OVL:DroppedArrays_RBV" ro="true" type="pv"/>
-		<NDimensions_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDimensions" pv="BL15I-EA-PSL-01:OVL:NDimensions_RBV" ro="true" type="pv"/>
-		<ArraySize0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize0" pv="BL15I-EA-PSL-01:OVL:ArraySize0_RBV" ro="true" type="pv"/>
-		<ArraySize1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize1" pv="BL15I-EA-PSL-01:OVL:ArraySize1_RBV" ro="true" type="pv"/>
-		<ArraySize2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize2" pv="BL15I-EA-PSL-01:OVL:ArraySize2_RBV" ro="true" type="pv"/>
-		<DataType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataType" pv="BL15I-EA-PSL-01:OVL:DataType_RBV" ro="true" type="mbbinary"/>
-		<ColorMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ColorMode" pv="BL15I-EA-PSL-01:OVL:ColorMode_RBV" ro="true" type="mbbinary"/>
-		<BayerPattern_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BayerPattern" pv="BL15I-EA-PSL-01:OVL:BayerPattern_RBV" ro="true" type="mbbinary"/>
-		<UniqueId_RBV IOC="BL15I-EA-IOC-11" desc="Readback for UniqueId" pv="BL15I-EA-PSL-01:OVL:UniqueId_RBV" ro="true" type="pv"/>
-		<TimeStamp_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TimeStamp" pv="BL15I-EA-PSL-01:OVL:TimeStamp_RBV" ro="true" type="pv"/>
-		<NDAttributesFile IOC="BL15I-EA-IOC-11" desc="Set NDAttributesFile" pv="BL15I-EA-PSL-01:OVL:NDAttributesFile" ro="false" type="array"/>
-	</NDPluginBase>
-	<NDPluginBase desc="psl.mpg NDPluginBase class instance" name="psl.mpg_NDPluginBase">
-		<PortName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PortName" pv="BL15I-EA-PSL-01:MPG:PortName_RBV" ro="true" type="pv"/>
-		<PluginType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PluginType" pv="BL15I-EA-PSL-01:MPG:PluginType_RBV" ro="true" type="pv"/>
-		<NDArrayPort IOC="BL15I-EA-IOC-11" desc="Set NDArrayPort" pv="BL15I-EA-PSL-01:MPG:NDArrayPort" ro="false" type="pv"/>
-		<NDArrayPort_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayPort" pv="BL15I-EA-PSL-01:MPG:NDArrayPort_RBV" ro="true" type="pv"/>
-		<NDArrayAddress IOC="BL15I-EA-IOC-11" desc="Set NDArrayAddress" pv="BL15I-EA-PSL-01:MPG:NDArrayAddress" ro="false" type="pv"/>
-		<NDArrayAddress_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDArrayAddress" pv="BL15I-EA-PSL-01:MPG:NDArrayAddress_RBV" ro="true" type="pv"/>
-		<EnableCallbacks IOC="BL15I-EA-IOC-11" desc="Set EnableCallbacks" pv="BL15I-EA-PSL-01:MPG:EnableCallbacks" ro="false" type="binary"/>
-		<EnableCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableCallbacks" pv="BL15I-EA-PSL-01:MPG:EnableCallbacks_RBV" ro="true" type="binary"/>
-		<MinCallbackTime IOC="BL15I-EA-IOC-11" desc="Set MinCallbackTime" pv="BL15I-EA-PSL-01:MPG:MinCallbackTime" ro="false" type="pv"/>
-		<MinCallbackTime_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinCallbackTime" pv="BL15I-EA-PSL-01:MPG:MinCallbackTime_RBV" ro="true" type="pv"/>
-		<BlockingCallbacks IOC="BL15I-EA-IOC-11" desc="Set BlockingCallbacks" pv="BL15I-EA-PSL-01:MPG:BlockingCallbacks" ro="false" type="binary"/>
-		<BlockingCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BlockingCallbacks" pv="BL15I-EA-PSL-01:MPG:BlockingCallbacks_RBV" ro="true" type="binary"/>
-		<ArrayCounter IOC="BL15I-EA-IOC-11" desc="Set ArrayCounter" pv="BL15I-EA-PSL-01:MPG:ArrayCounter" ro="false" type="pv"/>
-		<ArrayCounter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayCounter" pv="BL15I-EA-PSL-01:MPG:ArrayCounter_RBV" ro="true" type="pv"/>
-		<ArrayRate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArrayRate" pv="BL15I-EA-PSL-01:MPG:ArrayRate_RBV" ro="true" type="pv"/>
-		<DroppedArrays IOC="BL15I-EA-IOC-11" desc="Set DroppedArrays" pv="BL15I-EA-PSL-01:MPG:DroppedArrays" ro="false" type="pv"/>
-		<DroppedArrays_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DroppedArrays" pv="BL15I-EA-PSL-01:MPG:DroppedArrays_RBV" ro="true" type="pv"/>
-		<NDimensions_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NDimensions" pv="BL15I-EA-PSL-01:MPG:NDimensions_RBV" ro="true" type="pv"/>
-		<ArraySize0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize0" pv="BL15I-EA-PSL-01:MPG:ArraySize0_RBV" ro="true" type="pv"/>
-		<ArraySize1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize1" pv="BL15I-EA-PSL-01:MPG:ArraySize1_RBV" ro="true" type="pv"/>
-		<ArraySize2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySize2" pv="BL15I-EA-PSL-01:MPG:ArraySize2_RBV" ro="true" type="pv"/>
-		<DataType_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataType" pv="BL15I-EA-PSL-01:MPG:DataType_RBV" ro="true" type="mbbinary"/>
-		<ColorMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ColorMode" pv="BL15I-EA-PSL-01:MPG:ColorMode_RBV" ro="true" type="mbbinary"/>
-		<BayerPattern_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BayerPattern" pv="BL15I-EA-PSL-01:MPG:BayerPattern_RBV" ro="true" type="mbbinary"/>
-		<UniqueId_RBV IOC="BL15I-EA-IOC-11" desc="Readback for UniqueId" pv="BL15I-EA-PSL-01:MPG:UniqueId_RBV" ro="true" type="pv"/>
-		<TimeStamp_RBV IOC="BL15I-EA-IOC-11" desc="Readback for TimeStamp" pv="BL15I-EA-PSL-01:MPG:TimeStamp_RBV" ro="true" type="pv"/>
-		<NDAttributesFile IOC="BL15I-EA-IOC-11" desc="Set NDAttributesFile" pv="BL15I-EA-PSL-01:MPG:NDAttributesFile" ro="false" type="array"/>
-	</NDPluginBase>
-	<NDProcess desc="psl.proc NDProcess class instance" name="psl.proc_NDProcess">
-		<DataTypeOut IOC="BL15I-EA-IOC-11" desc="Set DataTypeOut" pv="BL15I-EA-PSL-01:PROC:DataTypeOut" ro="false" type="mbbinary"/>
-		<DataTypeOut_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataTypeOut" pv="BL15I-EA-PSL-01:PROC:DataTypeOut_RBV" ro="true" type="mbbinary"/>
-		<SaveBackground IOC="BL15I-EA-IOC-11" desc="Set SaveBackground" pv="BL15I-EA-PSL-01:PROC:SaveBackground" ro="false" type="binary"/>
-		<SaveBackground_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SaveBackground" pv="BL15I-EA-PSL-01:PROC:SaveBackground_RBV" ro="true" type="binary"/>
-		<EnableBackground IOC="BL15I-EA-IOC-11" desc="Set EnableBackground" pv="BL15I-EA-PSL-01:PROC:EnableBackground" ro="false" type="binary"/>
-		<EnableBackground_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableBackground" pv="BL15I-EA-PSL-01:PROC:EnableBackground_RBV" ro="true" type="binary"/>
-		<ValidBackground_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ValidBackground" pv="BL15I-EA-PSL-01:PROC:ValidBackground_RBV" ro="true" type="binary"/>
-		<SaveFlatField IOC="BL15I-EA-IOC-11" desc="Set SaveFlatField" pv="BL15I-EA-PSL-01:PROC:SaveFlatField" ro="false" type="binary"/>
-		<SaveFlatField_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SaveFlatField" pv="BL15I-EA-PSL-01:PROC:SaveFlatField_RBV" ro="true" type="binary"/>
-		<EnableFlatField IOC="BL15I-EA-IOC-11" desc="Set EnableFlatField" pv="BL15I-EA-PSL-01:PROC:EnableFlatField" ro="false" type="binary"/>
-		<EnableFlatField_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableFlatField" pv="BL15I-EA-PSL-01:PROC:EnableFlatField_RBV" ro="true" type="binary"/>
-		<ValidFlatField_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ValidFlatField" pv="BL15I-EA-PSL-01:PROC:ValidFlatField_RBV" ro="true" type="binary"/>
-		<ScaleFlatField IOC="BL15I-EA-IOC-11" desc="Set ScaleFlatField" pv="BL15I-EA-PSL-01:PROC:ScaleFlatField" ro="false" type="pv"/>
-		<ScaleFlatField_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ScaleFlatField" pv="BL15I-EA-PSL-01:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
-		<EnableOffsetScale IOC="BL15I-EA-IOC-11" desc="Set EnableOffsetScale" pv="BL15I-EA-PSL-01:PROC:EnableOffsetScale" ro="false" type="binary"/>
-		<AutoOffsetScale IOC="BL15I-EA-IOC-11" desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL15I-EA-PSL-01:PROC:AutoOffsetScale" ro="false" type="pv"/>
-		<EnableOffsetScale_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableOffsetScale" pv="BL15I-EA-PSL-01:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
-		<Offset IOC="BL15I-EA-IOC-11" desc="Set Offset" pv="BL15I-EA-PSL-01:PROC:Offset" ro="false" type="pv"/>
-		<Offset_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Offset" pv="BL15I-EA-PSL-01:PROC:Offset_RBV" ro="true" type="pv"/>
-		<Scale IOC="BL15I-EA-IOC-11" desc="Set Scale" pv="BL15I-EA-PSL-01:PROC:Scale" ro="false" type="pv"/>
-		<Scale_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Scale" pv="BL15I-EA-PSL-01:PROC:Scale_RBV" ro="true" type="pv"/>
-		<EnableLowClip IOC="BL15I-EA-IOC-11" desc="Set EnableLowClip" pv="BL15I-EA-PSL-01:PROC:EnableLowClip" ro="false" type="binary"/>
-		<EnableLowClip_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableLowClip" pv="BL15I-EA-PSL-01:PROC:EnableLowClip_RBV" ro="true" type="binary"/>
-		<LowClip IOC="BL15I-EA-IOC-11" desc="Set LowClip" pv="BL15I-EA-PSL-01:PROC:LowClip" ro="false" type="pv"/>
-		<LowClip_RBV IOC="BL15I-EA-IOC-11" desc="Readback for LowClip" pv="BL15I-EA-PSL-01:PROC:LowClip_RBV" ro="true" type="pv"/>
-		<EnableHighClip IOC="BL15I-EA-IOC-11" desc="Set EnableHighClip" pv="BL15I-EA-PSL-01:PROC:EnableHighClip" ro="false" type="binary"/>
-		<EnableHighClip_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableHighClip" pv="BL15I-EA-PSL-01:PROC:EnableHighClip_RBV" ro="true" type="binary"/>
-		<HighClip IOC="BL15I-EA-IOC-11" desc="Set HighClip" pv="BL15I-EA-PSL-01:PROC:HighClip" ro="false" type="pv"/>
-		<HighClip_RBV IOC="BL15I-EA-IOC-11" desc="Readback for HighClip" pv="BL15I-EA-PSL-01:PROC:HighClip_RBV" ro="true" type="pv"/>
-		<EnableFilter IOC="BL15I-EA-IOC-11" desc="Set EnableFilter" pv="BL15I-EA-PSL-01:PROC:EnableFilter" ro="false" type="binary"/>
-		<EnableFilter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableFilter" pv="BL15I-EA-PSL-01:PROC:EnableFilter_RBV" ro="true" type="binary"/>
-		<ResetFilter IOC="BL15I-EA-IOC-11" desc="Set ResetFilter" pv="BL15I-EA-PSL-01:PROC:ResetFilter" ro="false" type="binary"/>
-		<ResetFilter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ResetFilter" pv="BL15I-EA-PSL-01:PROC:ResetFilter_RBV" ro="true" type="binary"/>
-		<AutoResetFilter IOC="BL15I-EA-IOC-11" desc="Enable filter auto reset on every Nth frame" pv="BL15I-EA-PSL-01:PROC:AutoResetFilter" ro="false" type="binary"/>
-		<AutoResetFilter_RBV IOC="BL15I-EA-IOC-11" desc="Readback auto reset filter feature" pv="BL15I-EA-PSL-01:PROC:AutoResetFilter_RBV" ro="true" type="binary"/>
-		<FilterCallbacks IOC="BL15I-EA-IOC-11" desc="Select when to output filter result" pv="BL15I-EA-PSL-01:PROC:FilterCallbacks" ro="false" type="binary"/>
-		<FilterCallbacks_RBV IOC="BL15I-EA-IOC-11" desc="Readback status of output filter result feature" pv="BL15I-EA-PSL-01:PROC:FilterCallbacks_RBV" ro="true" type="binary"/>
-		<NumFilter IOC="BL15I-EA-IOC-11" desc="Set number of arrays to process in filter" pv="BL15I-EA-PSL-01:PROC:NumFilter" ro="false" type="pv"/>
-		<NumFilter_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumFilter" pv="BL15I-EA-PSL-01:PROC:NumFilter_RBV" ro="true" type="pv"/>
-		<NumFilterRecip IOC="BL15I-EA-IOC-11" desc="Set NumFilterRecip" pv="BL15I-EA-PSL-01:PROC:NumFilterRecip" ro="false" type="pv"/>
-		<NumFiltered_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumFiltered" pv="BL15I-EA-PSL-01:PROC:NumFiltered_RBV" ro="true" type="pv"/>
-		<OOffset IOC="BL15I-EA-IOC-11" desc="Set OOffset" pv="BL15I-EA-PSL-01:PROC:OOffset" ro="false" type="pv"/>
-		<OOffset_RBV IOC="BL15I-EA-IOC-11" desc="Readback for OOffset" pv="BL15I-EA-PSL-01:PROC:OOffset_RBV" ro="true" type="pv"/>
-		<OScale IOC="BL15I-EA-IOC-11" desc="Set OScale" pv="BL15I-EA-PSL-01:PROC:OScale" ro="false" type="pv"/>
-		<OScale_RBV IOC="BL15I-EA-IOC-11" desc="Readback for OScale" pv="BL15I-EA-PSL-01:PROC:OScale_RBV" ro="true" type="pv"/>
-		<OC1 IOC="BL15I-EA-IOC-11" desc="Set OC1" pv="BL15I-EA-PSL-01:PROC:OC1" ro="false" type="pv"/>
-		<OC1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for OC1" pv="BL15I-EA-PSL-01:PROC:OC1_RBV" ro="true" type="pv"/>
-		<OC2 IOC="BL15I-EA-IOC-11" desc="Set OC2" pv="BL15I-EA-PSL-01:PROC:OC2" ro="false" type="pv"/>
-		<OC2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for OC2" pv="BL15I-EA-PSL-01:PROC:OC2_RBV" ro="true" type="pv"/>
-		<OC3 IOC="BL15I-EA-IOC-11" desc="Set OC3" pv="BL15I-EA-PSL-01:PROC:OC3" ro="false" type="pv"/>
-		<OC3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for OC3" pv="BL15I-EA-PSL-01:PROC:OC3_RBV" ro="true" type="pv"/>
-		<OC4 IOC="BL15I-EA-IOC-11" desc="Set OC4" pv="BL15I-EA-PSL-01:PROC:OC4" ro="false" type="pv"/>
-		<OC4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for OC4" pv="BL15I-EA-PSL-01:PROC:OC4_RBV" ro="true" type="pv"/>
-		<FOffset IOC="BL15I-EA-IOC-11" desc="Set FOffset" pv="BL15I-EA-PSL-01:PROC:FOffset" ro="false" type="pv"/>
-		<FOffset_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FOffset" pv="BL15I-EA-PSL-01:PROC:FOffset_RBV" ro="true" type="pv"/>
-		<FScale IOC="BL15I-EA-IOC-11" desc="Set FScale" pv="BL15I-EA-PSL-01:PROC:FScale" ro="false" type="pv"/>
-		<FScale_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FScale" pv="BL15I-EA-PSL-01:PROC:FScale_RBV" ro="true" type="pv"/>
-		<FC1 IOC="BL15I-EA-IOC-11" desc="Set FC1" pv="BL15I-EA-PSL-01:PROC:FC1" ro="false" type="pv"/>
-		<FC1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FC1" pv="BL15I-EA-PSL-01:PROC:FC1_RBV" ro="true" type="pv"/>
-		<FC2 IOC="BL15I-EA-IOC-11" desc="Set FC2" pv="BL15I-EA-PSL-01:PROC:FC2" ro="false" type="pv"/>
-		<FC2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FC2" pv="BL15I-EA-PSL-01:PROC:FC2_RBV" ro="true" type="pv"/>
-		<FC3 IOC="BL15I-EA-IOC-11" desc="Set FC3" pv="BL15I-EA-PSL-01:PROC:FC3" ro="false" type="pv"/>
-		<FC3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FC3" pv="BL15I-EA-PSL-01:PROC:FC3_RBV" ro="true" type="pv"/>
-		<FC4 IOC="BL15I-EA-IOC-11" desc="Set FC4" pv="BL15I-EA-PSL-01:PROC:FC4" ro="false" type="pv"/>
-		<FC4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FC4" pv="BL15I-EA-PSL-01:PROC:FC4_RBV" ro="true" type="pv"/>
-		<ROffset IOC="BL15I-EA-IOC-11" desc="Set ROffset" pv="BL15I-EA-PSL-01:PROC:ROffset" ro="false" type="pv"/>
-		<ROffset_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ROffset" pv="BL15I-EA-PSL-01:PROC:ROffset_RBV" ro="true" type="pv"/>
-		<RC1 IOC="BL15I-EA-IOC-11" desc="Set RC1" pv="BL15I-EA-PSL-01:PROC:RC1" ro="false" type="pv"/>
-		<RC1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for RC1" pv="BL15I-EA-PSL-01:PROC:RC1_RBV" ro="true" type="pv"/>
-		<RC2 IOC="BL15I-EA-IOC-11" desc="Set RC2" pv="BL15I-EA-PSL-01:PROC:RC2" ro="false" type="pv"/>
-		<RC2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for RC2" pv="BL15I-EA-PSL-01:PROC:RC2_RBV" ro="true" type="pv"/>
-		<FilterType IOC="BL15I-EA-IOC-11" desc="Set FilterType" pv="BL15I-EA-PSL-01:PROC:FilterType" ro="false" type="mbbinary"/>
-		<FilterTypeSeq IOC="BL15I-EA-IOC-11" desc="Set FilterTypeSeq" pv="BL15I-EA-PSL-01:PROC:FilterTypeSeq" ro="false" type="pv"/>
-		<RecursiveAveSeq IOC="BL15I-EA-IOC-11" desc="Set RecursiveAveSeq" pv="BL15I-EA-PSL-01:PROC:RecursiveAveSeq" ro="false" type="pv"/>
-		<RecursiveSumSeq IOC="BL15I-EA-IOC-11" desc="Set RecursiveSumSeq" pv="BL15I-EA-PSL-01:PROC:AverageSeq" ro="false" type="pv"/>
-		<DifferenceSeq IOC="BL15I-EA-IOC-11" desc="Set DifferenceSeq" pv="BL15I-EA-PSL-01:PROC:DifferenceSeq" ro="false" type="pv"/>
-		<RecursiveAveDiffSeq IOC="BL15I-EA-IOC-11" desc="Set RecursiveAveDiffSeq" pv="BL15I-EA-PSL-01:PROC:RecursiveAveDiffSeq" ro="false" type="pv"/>
-		<CopyToFilterSeq IOC="BL15I-EA-IOC-11" desc="Set CopyToFilterSeq" pv="BL15I-EA-PSL-01:PROC:CopyToFilterSeq" ro="false" type="pv"/>
-	</NDProcess>
-	<NDStats desc="psl.stat NDStats class instance" name="psl.stat_NDStats">
-		<ComputeStatistics IOC="BL15I-EA-IOC-11" desc="Set ComputeStatistics" pv="BL15I-EA-PSL-01:STAT:ComputeStatistics" ro="false" type="binary"/>
-		<ComputeStatistics_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ComputeStatistics" pv="BL15I-EA-PSL-01:STAT:ComputeStatistics_RBV" ro="true" type="binary"/>
-		<BgdWidth IOC="BL15I-EA-IOC-11" desc="Set BgdWidth" pv="BL15I-EA-PSL-01:STAT:BgdWidth" ro="false" type="pv"/>
-		<BgdWidth_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BgdWidth" pv="BL15I-EA-PSL-01:STAT:BgdWidth_RBV" ro="true" type="pv"/>
-		<MinValue_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinValue" pv="BL15I-EA-PSL-01:STAT:MinValue_RBV" ro="true" type="pv"/>
-		<MaxValue_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MaxValue" pv="BL15I-EA-PSL-01:STAT:MaxValue_RBV" ro="true" type="pv"/>
-		<MeanValue_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MeanValue" pv="BL15I-EA-PSL-01:STAT:MeanValue_RBV" ro="true" type="pv"/>
-		<Sigma_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Sigma" pv="BL15I-EA-PSL-01:STAT:Sigma_RBV" ro="true" type="pv"/>
-		<Total_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Total" pv="BL15I-EA-PSL-01:STAT:Total_RBV" ro="true" type="pv"/>
-		<Net_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Net" pv="BL15I-EA-PSL-01:STAT:Net_RBV" ro="true" type="pv"/>
-		<MinX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinX" pv="BL15I-EA-PSL-01:STAT:MinX_RBV" ro="true" type="pv"/>
-		<MinY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinY" pv="BL15I-EA-PSL-01:STAT:MinY_RBV" ro="true" type="pv"/>
-		<MaxX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MaxX" pv="BL15I-EA-PSL-01:STAT:MaxX_RBV" ro="true" type="pv"/>
-		<MaxY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MaxY" pv="BL15I-EA-PSL-01:STAT:MaxY_RBV" ro="true" type="pv"/>
-		<ComputeCentroid IOC="BL15I-EA-IOC-11" desc="Set ComputeCentroid" pv="BL15I-EA-PSL-01:STAT:ComputeCentroid" ro="false" type="binary"/>
-		<ComputeCentroid_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ComputeCentroid" pv="BL15I-EA-PSL-01:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
-		<CentroidThreshold IOC="BL15I-EA-IOC-11" desc="Set CentroidThreshold" pv="BL15I-EA-PSL-01:STAT:CentroidThreshold" ro="false" type="pv"/>
-		<CentroidThreshold_RBV IOC="BL15I-EA-IOC-11" desc="Readback for CentroidThreshold" pv="BL15I-EA-PSL-01:STAT:CentroidThreshold_RBV" ro="true" type="pv"/>
-		<CentroidX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for CentroidX" pv="BL15I-EA-PSL-01:STAT:CentroidX_RBV" ro="true" type="pv"/>
-		<CentroidY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for CentroidY" pv="BL15I-EA-PSL-01:STAT:CentroidY_RBV" ro="true" type="pv"/>
-		<SigmaX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SigmaX" pv="BL15I-EA-PSL-01:STAT:SigmaX_RBV" ro="true" type="pv"/>
-		<SigmaY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SigmaY" pv="BL15I-EA-PSL-01:STAT:SigmaY_RBV" ro="true" type="pv"/>
-		<SigmaXY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SigmaXY" pv="BL15I-EA-PSL-01:STAT:SigmaXY_RBV" ro="true" type="pv"/>
-		<TSControl IOC="BL15I-EA-IOC-11" desc="Control time series capture of statistics" pv="BL15I-EA-PSL-01:STAT:TSControl" ro="false" type="mbbinary"/>
-		<TSNumPoints IOC="BL15I-EA-IOC-11" desc="Set the number of points to capture in time series arrays" pv="BL15I-EA-PSL-01:STAT:TSNumPoints" ro="false" type="pv"/>
-		<TSCurrentPoint IOC="BL15I-EA-IOC-11" desc="Number of points currently captured in time series arrays" pv="BL15I-EA-PSL-01:STAT:TSCurrentPoint" ro="true" type="pv"/>
-		<TSAcquiring IOC="BL15I-EA-IOC-11" desc="Time series acquire status" pv="BL15I-EA-PSL-01:STAT:TSAcquiring" ro="true" type="binary"/>
-		<TSMinValue IOC="BL15I-EA-IOC-11" desc="Time series minimum value" pv="BL15I-EA-PSL-01:STAT:TSMinValue" ro="true" type="array"/>
-		<TSMinX IOC="BL15I-EA-IOC-11" desc="Time series X position of minimum value" pv="BL15I-EA-PSL-01:STAT:TSMinX" ro="true" type="array"/>
-		<TSMinY IOC="BL15I-EA-IOC-11" desc="Time series Y position of minimum value" pv="BL15I-EA-PSL-01:STAT:TSMinY" ro="true" type="array"/>
-		<TSMaxValue IOC="BL15I-EA-IOC-11" desc="Time series maximum value" pv="BL15I-EA-PSL-01:STAT:TSMaxValue" ro="true" type="array"/>
-		<TSMaxX IOC="BL15I-EA-IOC-11" desc="Time series X position of maximum value" pv="BL15I-EA-PSL-01:STAT:TSMaxX" ro="true" type="array"/>
-		<TSMaxY IOC="BL15I-EA-IOC-11" desc="Time series Y position of maximum value" pv="BL15I-EA-PSL-01:STAT:TSMaxY" ro="true" type="array"/>
-		<TSMeanValue IOC="BL15I-EA-IOC-11" desc="Time series mean value" pv="BL15I-EA-PSL-01:STAT:TSMeanValue" ro="true" type="array"/>
-		<TSSigma IOC="BL15I-EA-IOC-11" desc="Time series sigma" pv="BL15I-EA-PSL-01:STAT:TSSigma" ro="true" type="array"/>
-		<TSTotal IOC="BL15I-EA-IOC-11" desc="Time series total sum" pv="BL15I-EA-PSL-01:STAT:TSTotal" ro="true" type="array"/>
-		<TSNet IOC="BL15I-EA-IOC-11" desc="Time series net sum" pv="BL15I-EA-PSL-01:STAT:TSNet" ro="true" type="array"/>
-		<TSCentroidX IOC="BL15I-EA-IOC-11" desc="Time series centroid X position" pv="BL15I-EA-PSL-01:STAT:TSCentroidX" ro="true" type="array"/>
-		<TSCentroidY IOC="BL15I-EA-IOC-11" desc="Time series centroid Y position" pv="BL15I-EA-PSL-01:STAT:TSCentroidY" ro="true" type="array"/>
-		<TSSigmaX IOC="BL15I-EA-IOC-11" desc="Time series sigma X" pv="BL15I-EA-PSL-01:STAT:TSSigmaX" ro="true" type="array"/>
-		<TSSigmaY IOC="BL15I-EA-IOC-11" desc="Time series sigma Y" pv="BL15I-EA-PSL-01:STAT:TSSigmaY" ro="true" type="array"/>
-		<TSSigmaXY IOC="BL15I-EA-IOC-11" desc="Time series sigma XY" pv="BL15I-EA-PSL-01:STAT:TSSigmaXY" ro="true" type="array"/>
-		<ComputeProfiles IOC="BL15I-EA-IOC-11" desc="Set ComputeProfiles" pv="BL15I-EA-PSL-01:STAT:ComputeProfiles" ro="false" type="binary"/>
-		<ComputeProfiles_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ComputeProfiles" pv="BL15I-EA-PSL-01:STAT:ComputeProfiles_RBV" ro="true" type="binary"/>
-		<ProfileSizeX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileSizeX" pv="BL15I-EA-PSL-01:STAT:ProfileSizeX_RBV" ro="true" type="pv"/>
-		<ProfileSizeY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileSizeY" pv="BL15I-EA-PSL-01:STAT:ProfileSizeY_RBV" ro="true" type="pv"/>
-		<CursorX IOC="BL15I-EA-IOC-11" desc="Set CursorX" pv="BL15I-EA-PSL-01:STAT:CursorX" ro="false" type="pv"/>
-		<CursorX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for CursorX" pv="BL15I-EA-PSL-01:STAT:CursorX_RBV" ro="true" type="pv"/>
-		<CursorY IOC="BL15I-EA-IOC-11" desc="Set CursorY" pv="BL15I-EA-PSL-01:STAT:CursorY" ro="false" type="pv"/>
-		<CursorY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for CursorY" pv="BL15I-EA-PSL-01:STAT:CursorY_RBV" ro="true" type="pv"/>
-		<ProfileAverageX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileAverageX" pv="BL15I-EA-PSL-01:STAT:ProfileAverageX_RBV" ro="true" type="array"/>
-		<ProfileAverageY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileAverageY" pv="BL15I-EA-PSL-01:STAT:ProfileAverageY_RBV" ro="true" type="array"/>
-		<ProfileThresholdX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileThresholdX" pv="BL15I-EA-PSL-01:STAT:ProfileThresholdX_RBV" ro="true" type="array"/>
-		<ProfileThresholdY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileThresholdY" pv="BL15I-EA-PSL-01:STAT:ProfileThresholdY_RBV" ro="true" type="array"/>
-		<ProfileCentroidX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileCentroidX" pv="BL15I-EA-PSL-01:STAT:ProfileCentroidX_RBV" ro="true" type="array"/>
-		<ProfileCentroidY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileCentroidY" pv="BL15I-EA-PSL-01:STAT:ProfileCentroidY_RBV" ro="true" type="array"/>
-		<ProfileCursorX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileCursorX" pv="BL15I-EA-PSL-01:STAT:ProfileCursorX_RBV" ro="true" type="array"/>
-		<ProfileCursorY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ProfileCursorY" pv="BL15I-EA-PSL-01:STAT:ProfileCursorY_RBV" ro="true" type="array"/>
-		<ComputeHistogram IOC="BL15I-EA-IOC-11" desc="Set ComputeHistogram" pv="BL15I-EA-PSL-01:STAT:ComputeHistogram" ro="false" type="binary"/>
-		<ComputeHistogram_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ComputeHistogram" pv="BL15I-EA-PSL-01:STAT:ComputeHistogram_RBV" ro="true" type="binary"/>
-		<HistSize IOC="BL15I-EA-IOC-11" desc="Set HistSize" pv="BL15I-EA-PSL-01:STAT:HistSize" ro="false" type="pv"/>
-		<HistSize_RBV IOC="BL15I-EA-IOC-11" desc="Readback for HistSize" pv="BL15I-EA-PSL-01:STAT:HistSize_RBV" ro="true" type="pv"/>
-		<HistMin IOC="BL15I-EA-IOC-11" desc="Set HistMin" pv="BL15I-EA-PSL-01:STAT:HistMin" ro="false" type="pv"/>
-		<HistMin_RBV IOC="BL15I-EA-IOC-11" desc="Readback for HistMin" pv="BL15I-EA-PSL-01:STAT:HistMin_RBV" ro="true" type="pv"/>
-		<HistMax IOC="BL15I-EA-IOC-11" desc="Set HistMax" pv="BL15I-EA-PSL-01:STAT:HistMax" ro="false" type="pv"/>
-		<HistMax_RBV IOC="BL15I-EA-IOC-11" desc="Readback for HistMax" pv="BL15I-EA-PSL-01:STAT:HistMax_RBV" ro="true" type="pv"/>
-		<HistEntropy_RBV IOC="BL15I-EA-IOC-11" desc="Readback for HistEntropy" pv="BL15I-EA-PSL-01:STAT:HistEntropy_RBV" ro="true" type="pv"/>
-		<Histogram_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Histogram" pv="BL15I-EA-PSL-01:STAT:Histogram_RBV" ro="true" type="array"/>
-		<MaxSizeX IOC="BL15I-EA-IOC-11" desc="Set MaxSizeX" pv="BL15I-EA-PSL-01:STAT:MaxSizeX" ro="false" type="pv"/>
-		<SetXHOPR IOC="BL15I-EA-IOC-11" desc="Set SetXHOPR" pv="BL15I-EA-PSL-01:STAT:SetXHOPR" ro="false" type="pv"/>
-		<MaxSizeY IOC="BL15I-EA-IOC-11" desc="Set MaxSizeY" pv="BL15I-EA-PSL-01:STAT:MaxSizeY" ro="false" type="pv"/>
-		<SetYHOPR IOC="BL15I-EA-IOC-11" desc="Set SetYHOPR" pv="BL15I-EA-PSL-01:STAT:SetYHOPR" ro="false" type="pv"/>
-	</NDStats>
-	<NDROI desc="psl.roi NDROI class instance" name="psl.roi_NDROI">
-		<Label IOC="BL15I-EA-IOC-11" desc="Set Label" pv="BL15I-EA-PSL-01:ROI:Name" ro="false" type="pv"/>
-		<Label_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Label" pv="BL15I-EA-PSL-01:ROI:Name_RBV" ro="true" type="pv"/>
-		<BinX IOC="BL15I-EA-IOC-11" desc="Set BinX" pv="BL15I-EA-PSL-01:ROI:BinX" ro="false" type="pv"/>
-		<BinX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BinX" pv="BL15I-EA-PSL-01:ROI:BinX_RBV" ro="true" type="pv"/>
-		<BinY IOC="BL15I-EA-IOC-11" desc="Set BinY" pv="BL15I-EA-PSL-01:ROI:BinY" ro="false" type="pv"/>
-		<BinY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BinY" pv="BL15I-EA-PSL-01:ROI:BinY_RBV" ro="true" type="pv"/>
-		<BinZ IOC="BL15I-EA-IOC-11" desc="Set BinZ" pv="BL15I-EA-PSL-01:ROI:BinZ" ro="false" type="pv"/>
-		<BinZ_RBV IOC="BL15I-EA-IOC-11" desc="Readback for BinZ" pv="BL15I-EA-PSL-01:ROI:BinZ_RBV" ro="true" type="pv"/>
-		<MinX IOC="BL15I-EA-IOC-11" desc="Set MinX" pv="BL15I-EA-PSL-01:ROI:MinX" ro="false" type="pv"/>
-		<MinX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinX" pv="BL15I-EA-PSL-01:ROI:MinX_RBV" ro="true" type="pv"/>
-		<MinY IOC="BL15I-EA-IOC-11" desc="Set MinY" pv="BL15I-EA-PSL-01:ROI:MinY" ro="false" type="pv"/>
-		<MinY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinY" pv="BL15I-EA-PSL-01:ROI:MinY_RBV" ro="true" type="pv"/>
-		<MinZ IOC="BL15I-EA-IOC-11" desc="Set MinZ" pv="BL15I-EA-PSL-01:ROI:MinZ" ro="false" type="pv"/>
-		<MinZ_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MinZ" pv="BL15I-EA-PSL-01:ROI:MinZ_RBV" ro="true" type="pv"/>
-		<SizeX IOC="BL15I-EA-IOC-11" desc="Set SizeX" pv="BL15I-EA-PSL-01:ROI:SizeX" ro="false" type="pv"/>
-		<SizeX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX" pv="BL15I-EA-PSL-01:ROI:SizeX_RBV" ro="true" type="pv"/>
-		<SizeY IOC="BL15I-EA-IOC-11" desc="Set SizeY" pv="BL15I-EA-PSL-01:ROI:SizeY" ro="false" type="pv"/>
-		<SizeY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY" pv="BL15I-EA-PSL-01:ROI:SizeY_RBV" ro="true" type="pv"/>
-		<SizeZ IOC="BL15I-EA-IOC-11" desc="Set SizeZ" pv="BL15I-EA-PSL-01:ROI:SizeZ" ro="false" type="pv"/>
-		<SizeZ_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeZ" pv="BL15I-EA-PSL-01:ROI:SizeZ_RBV" ro="true" type="pv"/>
-		<MaxSizeX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MaxSizeX" pv="BL15I-EA-PSL-01:ROI:MaxSizeX_RBV" ro="true" type="pv"/>
-		<MaxSizeY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MaxSizeY" pv="BL15I-EA-PSL-01:ROI:MaxSizeY_RBV" ro="true" type="pv"/>
-		<MaxSizeZ_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MaxSizeZ" pv="BL15I-EA-PSL-01:ROI:MaxSizeZ_RBV" ro="true" type="pv"/>
-		<ReverseX IOC="BL15I-EA-IOC-11" desc="Set ReverseX" pv="BL15I-EA-PSL-01:ROI:ReverseX" ro="false" type="binary"/>
-		<ReverseX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ReverseX" pv="BL15I-EA-PSL-01:ROI:ReverseX_RBV" ro="true" type="binary"/>
-		<ReverseY IOC="BL15I-EA-IOC-11" desc="Set ReverseY" pv="BL15I-EA-PSL-01:ROI:ReverseY" ro="false" type="binary"/>
-		<ReverseY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ReverseY" pv="BL15I-EA-PSL-01:ROI:ReverseY_RBV" ro="true" type="binary"/>
-		<ReverseZ IOC="BL15I-EA-IOC-11" desc="Set ReverseZ" pv="BL15I-EA-PSL-01:ROI:ReverseZ" ro="false" type="binary"/>
-		<ReverseZ_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ReverseZ" pv="BL15I-EA-PSL-01:ROI:ReverseZ_RBV" ro="true" type="binary"/>
-		<ArraySizeX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySizeX" pv="BL15I-EA-PSL-01:ROI:ArraySizeX_RBV" ro="true" type="pv"/>
-		<ArraySizeY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySizeY" pv="BL15I-EA-PSL-01:ROI:ArraySizeY_RBV" ro="true" type="pv"/>
-		<ArraySizeZ_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ArraySizeZ" pv="BL15I-EA-PSL-01:ROI:ArraySizeZ_RBV" ro="true" type="pv"/>
-		<EnableX IOC="BL15I-EA-IOC-11" desc="Set EnableX" pv="BL15I-EA-PSL-01:ROI:EnableX" ro="false" type="binary"/>
-		<EnableX_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableX" pv="BL15I-EA-PSL-01:ROI:EnableX_RBV" ro="true" type="binary"/>
-		<EnableY IOC="BL15I-EA-IOC-11" desc="Set EnableY" pv="BL15I-EA-PSL-01:ROI:EnableY" ro="false" type="binary"/>
-		<EnableY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableY" pv="BL15I-EA-PSL-01:ROI:EnableY_RBV" ro="true" type="binary"/>
-		<EnableZ IOC="BL15I-EA-IOC-11" desc="Set EnableZ" pv="BL15I-EA-PSL-01:ROI:EnableZ" ro="false" type="binary"/>
-		<EnableZ_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableZ" pv="BL15I-EA-PSL-01:ROI:EnableZ_RBV" ro="true" type="binary"/>
-		<EnableScale IOC="BL15I-EA-IOC-11" desc="Set EnableScale" pv="BL15I-EA-PSL-01:ROI:EnableScale" ro="false" type="binary"/>
-		<EnableScale_RBV IOC="BL15I-EA-IOC-11" desc="Readback for EnableScale" pv="BL15I-EA-PSL-01:ROI:EnableScale_RBV" ro="true" type="binary"/>
-		<Scale IOC="BL15I-EA-IOC-11" desc="Set Scale" pv="BL15I-EA-PSL-01:ROI:Scale" ro="false" type="pv"/>
-		<Scale_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Scale" pv="BL15I-EA-PSL-01:ROI:Scale_RBV" ro="true" type="pv"/>
-		<DataTypeOut IOC="BL15I-EA-IOC-11" desc="Set DataTypeOut" pv="BL15I-EA-PSL-01:ROI:DataTypeOut" ro="false" type="mbbinary"/>
-		<DataTypeOut_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DataTypeOut" pv="BL15I-EA-PSL-01:ROI:DataTypeOut_RBV" ro="true" type="mbbinary"/>
-	</NDROI>
-	<NDFile desc="psl.tif NDFile class instance" name="psl.tif_NDFile">
-		<FilePath IOC="BL15I-EA-IOC-11" desc="Set FilePath" pv="BL15I-EA-PSL-01:TIF:FilePath" ro="false" type="array"/>
-		<FilePath_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FilePath" pv="BL15I-EA-PSL-01:TIF:FilePath_RBV" ro="true" type="array"/>
-		<FilePathExists IOC="BL15I-EA-IOC-11" desc="Report whether the entered file path exists" pv="BL15I-EA-PSL-01:TIF:FilePathExists_RBV" ro="true" type="binary"/>
-		<FileName IOC="BL15I-EA-IOC-11" desc="Set FileName" pv="BL15I-EA-PSL-01:TIF:FileName" ro="false" type="array"/>
-		<FileName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileName" pv="BL15I-EA-PSL-01:TIF:FileName_RBV" ro="true" type="array"/>
-		<FileNumber IOC="BL15I-EA-IOC-11" desc="Set FileNumber" pv="BL15I-EA-PSL-01:TIF:FileNumber" ro="false" type="pv"/>
-		<FileNumber_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileNumber" pv="BL15I-EA-PSL-01:TIF:FileNumber_RBV" ro="true" type="pv"/>
-		<AutoIncrement IOC="BL15I-EA-IOC-11" desc="Set AutoIncrement" pv="BL15I-EA-PSL-01:TIF:AutoIncrement" ro="false" type="binary"/>
-		<AutoIncrement_RBV IOC="BL15I-EA-IOC-11" desc="Readback for AutoIncrement" pv="BL15I-EA-PSL-01:TIF:AutoIncrement_RBV" ro="true" type="binary"/>
-		<FileTemplate IOC="BL15I-EA-IOC-11" desc="Set FileTemplate" pv="BL15I-EA-PSL-01:TIF:FileTemplate" ro="false" type="array"/>
-		<FileTemplate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileTemplate" pv="BL15I-EA-PSL-01:TIF:FileTemplate_RBV" ro="true" type="array"/>
-		<FullFileName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FullFileName" pv="BL15I-EA-PSL-01:TIF:FullFileName_RBV" ro="true" type="array"/>
-		<AutoSave IOC="BL15I-EA-IOC-11" desc="Set AutoSave" pv="BL15I-EA-PSL-01:TIF:AutoSave" ro="false" type="binary"/>
-		<AutoSave_RBV IOC="BL15I-EA-IOC-11" desc="Readback for AutoSave" pv="BL15I-EA-PSL-01:TIF:AutoSave_RBV" ro="true" type="binary"/>
-		<WriteFile IOC="BL15I-EA-IOC-11" desc="Set WriteFile" pv="BL15I-EA-PSL-01:TIF:WriteFile" ro="false" type="pv"/>
-		<WriteFile_RBV IOC="BL15I-EA-IOC-11" desc="Readback for WriteFile" pv="BL15I-EA-PSL-01:TIF:WriteFile_RBV" ro="true" type="binary"/>
-		<ReadFile IOC="BL15I-EA-IOC-11" desc="Set ReadFile" pv="BL15I-EA-PSL-01:TIF:ReadFile" ro="false" type="pv"/>
-		<ReadFile_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ReadFile" pv="BL15I-EA-PSL-01:TIF:ReadFile_RBV" ro="true" type="binary"/>
-		<FileFormat IOC="BL15I-EA-IOC-11" desc="Set FileFormat" pv="BL15I-EA-PSL-01:TIF:FileFormat" ro="false" type="mbbinary"/>
-		<FileFormat_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileFormat" pv="BL15I-EA-PSL-01:TIF:FileFormat_RBV" ro="true" type="mbbinary"/>
-		<FileWriteMode IOC="BL15I-EA-IOC-11" desc="Set FileWriteMode" pv="BL15I-EA-PSL-01:TIF:FileWriteMode" ro="false" type="mbbinary"/>
-		<FileWriteMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileWriteMode" pv="BL15I-EA-PSL-01:TIF:FileWriteMode_RBV" ro="true" type="mbbinary"/>
-		<Capture IOC="BL15I-EA-IOC-11" desc="Set Capture" pv="BL15I-EA-PSL-01:TIF:Capture" ro="false" type="pv"/>
-		<Capture_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Capture" pv="BL15I-EA-PSL-01:TIF:Capture_RBV" ro="true" type="binary"/>
-		<NumCapture IOC="BL15I-EA-IOC-11" desc="Set NumCapture" pv="BL15I-EA-PSL-01:TIF:NumCapture" ro="false" type="pv"/>
-		<NumCapture_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumCapture" pv="BL15I-EA-PSL-01:TIF:NumCapture_RBV" ro="true" type="pv"/>
-		<NumCaptured_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumCaptured" pv="BL15I-EA-PSL-01:TIF:NumCaptured_RBV" ro="true" type="pv"/>
-		<WriteStatus IOC="BL15I-EA-IOC-11" desc="Status of file open and write operations" pv="BL15I-EA-PSL-01:TIF:WriteStatus" ro="true" type="binary"/>
-		<WriteMessage IOC="BL15I-EA-IOC-11" desc="Error message regarding any file operation failure" pv="BL15I-EA-PSL-01:TIF:WriteMessage" ro="true" type="array"/>
-	</NDFile>
-	<NDFile desc="psl.hdf NDFile class instance" name="psl.hdf_NDFile">
-		<FilePath IOC="BL15I-EA-IOC-11" desc="Set FilePath" pv="BL15I-EA-PSL-01:HDF:FilePath" ro="false" type="array"/>
-		<FilePath_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FilePath" pv="BL15I-EA-PSL-01:HDF:FilePath_RBV" ro="true" type="array"/>
-		<FilePathExists IOC="BL15I-EA-IOC-11" desc="Report whether the entered file path exists" pv="BL15I-EA-PSL-01:HDF:FilePathExists_RBV" ro="true" type="binary"/>
-		<FileName IOC="BL15I-EA-IOC-11" desc="Set FileName" pv="BL15I-EA-PSL-01:HDF:FileName" ro="false" type="array"/>
-		<FileName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileName" pv="BL15I-EA-PSL-01:HDF:FileName_RBV" ro="true" type="array"/>
-		<FileNumber IOC="BL15I-EA-IOC-11" desc="Set FileNumber" pv="BL15I-EA-PSL-01:HDF:FileNumber" ro="false" type="pv"/>
-		<FileNumber_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileNumber" pv="BL15I-EA-PSL-01:HDF:FileNumber_RBV" ro="true" type="pv"/>
-		<AutoIncrement IOC="BL15I-EA-IOC-11" desc="Set AutoIncrement" pv="BL15I-EA-PSL-01:HDF:AutoIncrement" ro="false" type="binary"/>
-		<AutoIncrement_RBV IOC="BL15I-EA-IOC-11" desc="Readback for AutoIncrement" pv="BL15I-EA-PSL-01:HDF:AutoIncrement_RBV" ro="true" type="binary"/>
-		<FileTemplate IOC="BL15I-EA-IOC-11" desc="Set FileTemplate" pv="BL15I-EA-PSL-01:HDF:FileTemplate" ro="false" type="array"/>
-		<FileTemplate_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileTemplate" pv="BL15I-EA-PSL-01:HDF:FileTemplate_RBV" ro="true" type="array"/>
-		<FullFileName_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FullFileName" pv="BL15I-EA-PSL-01:HDF:FullFileName_RBV" ro="true" type="array"/>
-		<AutoSave IOC="BL15I-EA-IOC-11" desc="Set AutoSave" pv="BL15I-EA-PSL-01:HDF:AutoSave" ro="false" type="binary"/>
-		<AutoSave_RBV IOC="BL15I-EA-IOC-11" desc="Readback for AutoSave" pv="BL15I-EA-PSL-01:HDF:AutoSave_RBV" ro="true" type="binary"/>
-		<WriteFile IOC="BL15I-EA-IOC-11" desc="Set WriteFile" pv="BL15I-EA-PSL-01:HDF:WriteFile" ro="false" type="pv"/>
-		<WriteFile_RBV IOC="BL15I-EA-IOC-11" desc="Readback for WriteFile" pv="BL15I-EA-PSL-01:HDF:WriteFile_RBV" ro="true" type="binary"/>
-		<ReadFile IOC="BL15I-EA-IOC-11" desc="Set ReadFile" pv="BL15I-EA-PSL-01:HDF:ReadFile" ro="false" type="pv"/>
-		<ReadFile_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ReadFile" pv="BL15I-EA-PSL-01:HDF:ReadFile_RBV" ro="true" type="binary"/>
-		<FileFormat IOC="BL15I-EA-IOC-11" desc="Set FileFormat" pv="BL15I-EA-PSL-01:HDF:FileFormat" ro="false" type="mbbinary"/>
-		<FileFormat_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileFormat" pv="BL15I-EA-PSL-01:HDF:FileFormat_RBV" ro="true" type="mbbinary"/>
-		<FileWriteMode IOC="BL15I-EA-IOC-11" desc="Set FileWriteMode" pv="BL15I-EA-PSL-01:HDF:FileWriteMode" ro="false" type="mbbinary"/>
-		<FileWriteMode_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FileWriteMode" pv="BL15I-EA-PSL-01:HDF:FileWriteMode_RBV" ro="true" type="mbbinary"/>
-		<Capture IOC="BL15I-EA-IOC-11" desc="Set Capture" pv="BL15I-EA-PSL-01:HDF:Capture" ro="false" type="pv"/>
-		<Capture_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Capture" pv="BL15I-EA-PSL-01:HDF:Capture_RBV" ro="true" type="binary"/>
-		<NumCapture IOC="BL15I-EA-IOC-11" desc="Set NumCapture" pv="BL15I-EA-PSL-01:HDF:NumCapture" ro="false" type="pv"/>
-		<NumCapture_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumCapture" pv="BL15I-EA-PSL-01:HDF:NumCapture_RBV" ro="true" type="pv"/>
-		<NumCaptured_RBV IOC="BL15I-EA-IOC-11" desc="Readback for NumCaptured" pv="BL15I-EA-PSL-01:HDF:NumCaptured_RBV" ro="true" type="pv"/>
-		<WriteStatus IOC="BL15I-EA-IOC-11" desc="Status of file open and write operations" pv="BL15I-EA-PSL-01:HDF:WriteStatus" ro="true" type="binary"/>
-		<WriteMessage IOC="BL15I-EA-IOC-11" desc="Error message regarding any file operation failure" pv="BL15I-EA-PSL-01:HDF:WriteMessage" ro="true" type="array"/>
-	</NDFile>
-	<NDFileTIFF desc="psl.tif NDFileTIFF class instance" name="psl.tif_NDFileTIFF"/>
-	<NDFileHDF5 desc="psl.hdf NDFileHDF5 class instance" name="psl.hdf_NDFileHDF5">
-		<NumRowChunks IOC="BL15I-EA-IOC-11" desc="Number of rows to use per chunk" pv="BL15I-EA-PSL-01:HDF:NumRowChunks" ro="false" type="pv"/>
-		<NumRowChunks_RBV IOC="BL15I-EA-IOC-11" desc="Readback of number of rows to use per chunk" pv="BL15I-EA-PSL-01:HDF:NumRowChunks_RBV" ro="true" type="pv"/>
-		<NumColChunks IOC="BL15I-EA-IOC-11" desc="Number of columns to use per chunk" pv="BL15I-EA-PSL-01:HDF:NumColChunks" ro="false" type="pv"/>
-		<NumColChunks_RBV IOC="BL15I-EA-IOC-11" desc="Readback of number of columns to use per chunk" pv="BL15I-EA-PSL-01:HDF:NumColChunks_RBV" ro="true" type="pv"/>
-		<NumFramesChunks IOC="BL15I-EA-IOC-11" desc="Number of frames to cache and use per chunk" pv="BL15I-EA-PSL-01:HDF:NumFramesChunks" ro="false" type="pv"/>
-		<NumFramesChunks_RBV IOC="BL15I-EA-IOC-11" desc="Readback of number of frames to use and cache per chunk" pv="BL15I-EA-PSL-01:HDF:NumFramesChunks_RBV" ro="true" type="pv"/>
-		<NumExtraDims IOC="BL15I-EA-IOC-11" desc="Number of extra dimensions [0..2]" pv="BL15I-EA-PSL-01:HDF:NumExtraDims" ro="false" type="pv"/>
-		<NumExtraDims_RBV IOC="BL15I-EA-IOC-11" desc="Readback number of extra dimensions" pv="BL15I-EA-PSL-01:HDF:NumExtraDims_RBV" ro="true" type="pv"/>
-		<ExtraDimSizeN IOC="BL15I-EA-IOC-11" desc="Size of extra dimension N (no. of frames per point)" pv="BL15I-EA-PSL-01:HDF:ExtraDimSizeN" ro="false" type="pv"/>
-		<ExtraDimSizeN_RBV IOC="BL15I-EA-IOC-11" desc="Readback size of extra dimension N (no. of frames per point)" pv="BL15I-EA-PSL-01:HDF:ExtraDimSizeN_RBV" ro="true" type="pv"/>
-		<ExtraDimSizeX IOC="BL15I-EA-IOC-11" desc="Size of extra dimension X" pv="BL15I-EA-PSL-01:HDF:ExtraDimSizeX" ro="false" type="pv"/>
-		<ExtraDimSizeX_RBV IOC="BL15I-EA-IOC-11" desc="Readback size of extra dimension X" pv="BL15I-EA-PSL-01:HDF:ExtraDimSizeX_RBV" ro="true" type="pv"/>
-		<ExtraDimSizeY IOC="BL15I-EA-IOC-11" desc="Size of extra dimension Y" pv="BL15I-EA-PSL-01:HDF:ExtraDimSizeY" ro="false" type="pv"/>
-		<ExtraDimSizeY_RBV IOC="BL15I-EA-IOC-11" desc="Readback size of extra dimension Y" pv="BL15I-EA-PSL-01:HDF:ExtraDimSizeY_RBV" ro="true" type="pv"/>
-		<runtime IOC="BL15I-EA-IOC-11" desc="Total runtime from first frame to file closed" pv="BL15I-EA-PSL-01:HDF:RunTime" ro="true" type="pv"/>
-		<IOSpeed IOC="BL15I-EA-IOC-11" desc="Overall IO speed from first frame to file closed" pv="BL15I-EA-PSL-01:HDF:IOSpeed" ro="true" type="pv"/>
-		<NumFramesFlush IOC="BL15I-EA-IOC-11" desc="Flush to file every Nth frame" pv="BL15I-EA-PSL-01:HDF:NumFramesFlush" ro="false" type="pv"/>
-		<NumFramesFlush_RBV IOC="BL15I-EA-IOC-11" desc="Readback the number of frames between file flush" pv="BL15I-EA-PSL-01:HDF:NumFramesFlush_RBV" ro="false" type="pv"/>
-		<Compression IOC="BL15I-EA-IOC-11" desc="Select or switch off compression filter" pv="BL15I-EA-PSL-01:HDF:Compression" ro="false" type="mbbinary"/>
-		<Compression_RBV IOC="BL15I-EA-IOC-11" desc="Readback selected compression filter" pv="BL15I-EA-PSL-01:HDF:Compression_RBV" ro="true" type="mbbinary"/>
-		<NumBitPrecision IOC="BL15I-EA-IOC-11" desc="N-bit compression filter: number of data bits per pixel" pv="BL15I-EA-PSL-01:HDF:NumDataBits" ro="false" type="pv"/>
-		<NumBitPrecision_RBV IOC="BL15I-EA-IOC-11" desc="Readback N-bit compression filter: number of data bits per pixel" pv="BL15I-EA-PSL-01:HDF:NumDataBits_RBV" ro="true" type="pv"/>
-		<NumBitOffset IOC="BL15I-EA-IOC-11" desc="N-bit compression filter: dataword bit-offset in pixel" pv="BL15I-EA-PSL-01:HDF:DataBitsOffset" ro="false" type="pv"/>
-		<NumBitOffset_RBV IOC="BL15I-EA-IOC-11" desc="Readback N-bit compression filter: dataword bit-offset in pixel" pv="BL15I-EA-PSL-01:HDF:DataBitsOffset_RBV" ro="true" type="pv"/>
-		<szipNumPixels IOC="BL15I-EA-IOC-11" desc="szip compression filter: number of pixels in filter" pv="BL15I-EA-PSL-01:HDF:SZipNumPixels" ro="false" type="pv"/>
-		<szipNumPixels_RBV IOC="BL15I-EA-IOC-11" desc="Readback szip compression filter: number of pixels in filter" pv="BL15I-EA-PSL-01:HDF:SZipNumPixels_RBV" ro="true" type="pv"/>
-		<ZCompressLevel IOC="BL15I-EA-IOC-11" desc="zlib compression filter: compression level" pv="BL15I-EA-PSL-01:HDF:ZLevel" ro="false" type="pv"/>
-		<ZCompressLevel_RBV IOC="BL15I-EA-IOC-11" desc="Readback zlib compression filter: compression level" pv="BL15I-EA-PSL-01:HDF:ZLevel_RBV" ro="true" type="pv"/>
-	</NDFileHDF5>
-	<NDOverlay desc="psl.ovl NDOverlay class instance" name="psl.ovl_NDOverlay">
-		<Name0 IOC="BL15I-EA-IOC-11" desc="Set Name0" pv="BL15I-EA-PSL-01:OVL:1:Name" ro="false" type="pv"/>
-		<Name_RBV0 IOC="BL15I-EA-IOC-11" desc="Readback for Name0" pv="BL15I-EA-PSL-01:OVL:1:Name_RBV" ro="true" type="pv"/>
-		<Use0 IOC="BL15I-EA-IOC-11" desc="Set Use0" pv="BL15I-EA-PSL-01:OVL:1:Use" ro="false" type="binary"/>
-		<Use0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Use0" pv="BL15I-EA-PSL-01:OVL:1:Use_RBV" ro="true" type="binary"/>
-		<PositionXLink0 IOC="BL15I-EA-IOC-11" desc="Set PositionXLink0" pv="BL15I-EA-PSL-01:OVL:1:PositionXLink" ro="false" type="pv"/>
-		<PositionX0 IOC="BL15I-EA-IOC-11" desc="Set PositionX0" pv="BL15I-EA-PSL-01:OVL:1:PositionX" ro="false" type="pv"/>
-		<PositionX0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionX0" pv="BL15I-EA-PSL-01:OVL:1:PositionX_RBV" ro="true" type="pv"/>
-		<PositionYLink0 IOC="BL15I-EA-IOC-11" desc="Set PositionYLink0" pv="BL15I-EA-PSL-01:OVL:1:PositionYLink" ro="false" type="pv"/>
-		<PositionY0 IOC="BL15I-EA-IOC-11" desc="Set PositionY0" pv="BL15I-EA-PSL-01:OVL:1:PositionY" ro="false" type="pv"/>
-		<PositionY0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionY0" pv="BL15I-EA-PSL-01:OVL:1:PositionY_RBV" ro="true" type="pv"/>
-		<SizeXLink0 IOC="BL15I-EA-IOC-11" desc="Set SizeXLink0" pv="BL15I-EA-PSL-01:OVL:1:SizeXLink" ro="false" type="pv"/>
-		<SizeX0 IOC="BL15I-EA-IOC-11" desc="Set SizeX0" pv="BL15I-EA-PSL-01:OVL:1:SizeX" ro="false" type="pv"/>
-		<SizeX0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX0" pv="BL15I-EA-PSL-01:OVL:1:SizeX_RBV" ro="true" type="pv"/>
-		<SizeYLink0 IOC="BL15I-EA-IOC-11" desc="Set SizeYLink0" pv="BL15I-EA-PSL-01:OVL:1:SizeYLink" ro="false" type="pv"/>
-		<SizeY0 IOC="BL15I-EA-IOC-11" desc="Set SizeY0" pv="BL15I-EA-PSL-01:OVL:1:SizeY" ro="false" type="pv"/>
-		<SizeY0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY0" pv="BL15I-EA-PSL-01:OVL:1:SizeY_RBV" ro="true" type="pv"/>
-		<Shape0 IOC="BL15I-EA-IOC-11" desc="Set Shape0" pv="BL15I-EA-PSL-01:OVL:1:Shape" ro="false" type="mbbinary"/>
-		<Shape0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Shape0" pv="BL15I-EA-PSL-01:OVL:1:Shape_RBV" ro="true" type="mbbinary"/>
-		<DrawMode0 IOC="BL15I-EA-IOC-11" desc="Set DrawMode0" pv="BL15I-EA-PSL-01:OVL:1:DrawMode" ro="false" type="mbbinary"/>
-		<DrawMode0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DrawMode0" pv="BL15I-EA-PSL-01:OVL:1:DrawMode_RBV" ro="true" type="mbbinary"/>
-		<Red0 IOC="BL15I-EA-IOC-11" desc="Set Red0" pv="BL15I-EA-PSL-01:OVL:1:Red" ro="false" type="pv"/>
-		<Red0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Red0" pv="BL15I-EA-PSL-01:OVL:1:Red_RBV" ro="true" type="pv"/>
-		<Green0 IOC="BL15I-EA-IOC-11" desc="Set Green0" pv="BL15I-EA-PSL-01:OVL:1:Green" ro="false" type="pv"/>
-		<Green0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Green0" pv="BL15I-EA-PSL-01:OVL:1:Green_RBV" ro="true" type="pv"/>
-		<Blue0 IOC="BL15I-EA-IOC-11" desc="Set Blue0" pv="BL15I-EA-PSL-01:OVL:1:Blue" ro="false" type="pv"/>
-		<Blue0_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Blue0" pv="BL15I-EA-PSL-01:OVL:1:Blue_RBV" ro="true" type="pv"/>
-		<Name1 IOC="BL15I-EA-IOC-11" desc="Set Name1" pv="BL15I-EA-PSL-01:OVL:2:Name" ro="false" type="pv"/>
-		<Name_RBV1 IOC="BL15I-EA-IOC-11" desc="Readback for Name1" pv="BL15I-EA-PSL-01:OVL:2:Name_RBV" ro="true" type="pv"/>
-		<Use1 IOC="BL15I-EA-IOC-11" desc="Set Use1" pv="BL15I-EA-PSL-01:OVL:2:Use" ro="false" type="binary"/>
-		<Use1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Use1" pv="BL15I-EA-PSL-01:OVL:2:Use_RBV" ro="true" type="binary"/>
-		<PositionXLink1 IOC="BL15I-EA-IOC-11" desc="Set PositionXLink1" pv="BL15I-EA-PSL-01:OVL:2:PositionXLink" ro="false" type="pv"/>
-		<PositionX1 IOC="BL15I-EA-IOC-11" desc="Set PositionX1" pv="BL15I-EA-PSL-01:OVL:2:PositionX" ro="false" type="pv"/>
-		<PositionX1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionX1" pv="BL15I-EA-PSL-01:OVL:2:PositionX_RBV" ro="true" type="pv"/>
-		<PositionYLink1 IOC="BL15I-EA-IOC-11" desc="Set PositionYLink1" pv="BL15I-EA-PSL-01:OVL:2:PositionYLink" ro="false" type="pv"/>
-		<PositionY1 IOC="BL15I-EA-IOC-11" desc="Set PositionY1" pv="BL15I-EA-PSL-01:OVL:2:PositionY" ro="false" type="pv"/>
-		<PositionY1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionY1" pv="BL15I-EA-PSL-01:OVL:2:PositionY_RBV" ro="true" type="pv"/>
-		<SizeXLink1 IOC="BL15I-EA-IOC-11" desc="Set SizeXLink1" pv="BL15I-EA-PSL-01:OVL:2:SizeXLink" ro="false" type="pv"/>
-		<SizeX1 IOC="BL15I-EA-IOC-11" desc="Set SizeX1" pv="BL15I-EA-PSL-01:OVL:2:SizeX" ro="false" type="pv"/>
-		<SizeX1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX1" pv="BL15I-EA-PSL-01:OVL:2:SizeX_RBV" ro="true" type="pv"/>
-		<SizeYLink1 IOC="BL15I-EA-IOC-11" desc="Set SizeYLink1" pv="BL15I-EA-PSL-01:OVL:2:SizeYLink" ro="false" type="pv"/>
-		<SizeY1 IOC="BL15I-EA-IOC-11" desc="Set SizeY1" pv="BL15I-EA-PSL-01:OVL:2:SizeY" ro="false" type="pv"/>
-		<SizeY1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY1" pv="BL15I-EA-PSL-01:OVL:2:SizeY_RBV" ro="true" type="pv"/>
-		<Shape1 IOC="BL15I-EA-IOC-11" desc="Set Shape1" pv="BL15I-EA-PSL-01:OVL:2:Shape" ro="false" type="mbbinary"/>
-		<Shape1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Shape1" pv="BL15I-EA-PSL-01:OVL:2:Shape_RBV" ro="true" type="mbbinary"/>
-		<DrawMode1 IOC="BL15I-EA-IOC-11" desc="Set DrawMode1" pv="BL15I-EA-PSL-01:OVL:2:DrawMode" ro="false" type="mbbinary"/>
-		<DrawMode1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DrawMode1" pv="BL15I-EA-PSL-01:OVL:2:DrawMode_RBV" ro="true" type="mbbinary"/>
-		<Red1 IOC="BL15I-EA-IOC-11" desc="Set Red1" pv="BL15I-EA-PSL-01:OVL:2:Red" ro="false" type="pv"/>
-		<Red1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Red1" pv="BL15I-EA-PSL-01:OVL:2:Red_RBV" ro="true" type="pv"/>
-		<Green1 IOC="BL15I-EA-IOC-11" desc="Set Green1" pv="BL15I-EA-PSL-01:OVL:2:Green" ro="false" type="pv"/>
-		<Green1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Green1" pv="BL15I-EA-PSL-01:OVL:2:Green_RBV" ro="true" type="pv"/>
-		<Blue1 IOC="BL15I-EA-IOC-11" desc="Set Blue1" pv="BL15I-EA-PSL-01:OVL:2:Blue" ro="false" type="pv"/>
-		<Blue1_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Blue1" pv="BL15I-EA-PSL-01:OVL:2:Blue_RBV" ro="true" type="pv"/>
-		<Name2 IOC="BL15I-EA-IOC-11" desc="Set Name2" pv="BL15I-EA-PSL-01:OVL:3:Name" ro="false" type="pv"/>
-		<Name_RBV2 IOC="BL15I-EA-IOC-11" desc="Readback for Name2" pv="BL15I-EA-PSL-01:OVL:3:Name_RBV" ro="true" type="pv"/>
-		<Use2 IOC="BL15I-EA-IOC-11" desc="Set Use2" pv="BL15I-EA-PSL-01:OVL:3:Use" ro="false" type="binary"/>
-		<Use2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Use2" pv="BL15I-EA-PSL-01:OVL:3:Use_RBV" ro="true" type="binary"/>
-		<PositionXLink2 IOC="BL15I-EA-IOC-11" desc="Set PositionXLink2" pv="BL15I-EA-PSL-01:OVL:3:PositionXLink" ro="false" type="pv"/>
-		<PositionX2 IOC="BL15I-EA-IOC-11" desc="Set PositionX2" pv="BL15I-EA-PSL-01:OVL:3:PositionX" ro="false" type="pv"/>
-		<PositionX2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionX2" pv="BL15I-EA-PSL-01:OVL:3:PositionX_RBV" ro="true" type="pv"/>
-		<PositionYLink2 IOC="BL15I-EA-IOC-11" desc="Set PositionYLink2" pv="BL15I-EA-PSL-01:OVL:3:PositionYLink" ro="false" type="pv"/>
-		<PositionY2 IOC="BL15I-EA-IOC-11" desc="Set PositionY2" pv="BL15I-EA-PSL-01:OVL:3:PositionY" ro="false" type="pv"/>
-		<PositionY2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionY2" pv="BL15I-EA-PSL-01:OVL:3:PositionY_RBV" ro="true" type="pv"/>
-		<SizeXLink2 IOC="BL15I-EA-IOC-11" desc="Set SizeXLink2" pv="BL15I-EA-PSL-01:OVL:3:SizeXLink" ro="false" type="pv"/>
-		<SizeX2 IOC="BL15I-EA-IOC-11" desc="Set SizeX2" pv="BL15I-EA-PSL-01:OVL:3:SizeX" ro="false" type="pv"/>
-		<SizeX2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX2" pv="BL15I-EA-PSL-01:OVL:3:SizeX_RBV" ro="true" type="pv"/>
-		<SizeYLink2 IOC="BL15I-EA-IOC-11" desc="Set SizeYLink2" pv="BL15I-EA-PSL-01:OVL:3:SizeYLink" ro="false" type="pv"/>
-		<SizeY2 IOC="BL15I-EA-IOC-11" desc="Set SizeY2" pv="BL15I-EA-PSL-01:OVL:3:SizeY" ro="false" type="pv"/>
-		<SizeY2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY2" pv="BL15I-EA-PSL-01:OVL:3:SizeY_RBV" ro="true" type="pv"/>
-		<Shape2 IOC="BL15I-EA-IOC-11" desc="Set Shape2" pv="BL15I-EA-PSL-01:OVL:3:Shape" ro="false" type="mbbinary"/>
-		<Shape2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Shape2" pv="BL15I-EA-PSL-01:OVL:3:Shape_RBV" ro="true" type="mbbinary"/>
-		<DrawMode2 IOC="BL15I-EA-IOC-11" desc="Set DrawMode2" pv="BL15I-EA-PSL-01:OVL:3:DrawMode" ro="false" type="mbbinary"/>
-		<DrawMode2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DrawMode2" pv="BL15I-EA-PSL-01:OVL:3:DrawMode_RBV" ro="true" type="mbbinary"/>
-		<Red2 IOC="BL15I-EA-IOC-11" desc="Set Red2" pv="BL15I-EA-PSL-01:OVL:3:Red" ro="false" type="pv"/>
-		<Red2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Red2" pv="BL15I-EA-PSL-01:OVL:3:Red_RBV" ro="true" type="pv"/>
-		<Green2 IOC="BL15I-EA-IOC-11" desc="Set Green2" pv="BL15I-EA-PSL-01:OVL:3:Green" ro="false" type="pv"/>
-		<Green2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Green2" pv="BL15I-EA-PSL-01:OVL:3:Green_RBV" ro="true" type="pv"/>
-		<Blue2 IOC="BL15I-EA-IOC-11" desc="Set Blue2" pv="BL15I-EA-PSL-01:OVL:3:Blue" ro="false" type="pv"/>
-		<Blue2_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Blue2" pv="BL15I-EA-PSL-01:OVL:3:Blue_RBV" ro="true" type="pv"/>
-		<Name3 IOC="BL15I-EA-IOC-11" desc="Set Name3" pv="BL15I-EA-PSL-01:OVL:4:Name" ro="false" type="pv"/>
-		<Name_RBV3 IOC="BL15I-EA-IOC-11" desc="Readback for Name3" pv="BL15I-EA-PSL-01:OVL:4:Name_RBV" ro="true" type="pv"/>
-		<Use3 IOC="BL15I-EA-IOC-11" desc="Set Use3" pv="BL15I-EA-PSL-01:OVL:4:Use" ro="false" type="binary"/>
-		<Use3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Use3" pv="BL15I-EA-PSL-01:OVL:4:Use_RBV" ro="true" type="binary"/>
-		<PositionXLink3 IOC="BL15I-EA-IOC-11" desc="Set PositionXLink3" pv="BL15I-EA-PSL-01:OVL:4:PositionXLink" ro="false" type="pv"/>
-		<PositionX3 IOC="BL15I-EA-IOC-11" desc="Set PositionX3" pv="BL15I-EA-PSL-01:OVL:4:PositionX" ro="false" type="pv"/>
-		<PositionX3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionX3" pv="BL15I-EA-PSL-01:OVL:4:PositionX_RBV" ro="true" type="pv"/>
-		<PositionYLink3 IOC="BL15I-EA-IOC-11" desc="Set PositionYLink3" pv="BL15I-EA-PSL-01:OVL:4:PositionYLink" ro="false" type="pv"/>
-		<PositionY3 IOC="BL15I-EA-IOC-11" desc="Set PositionY3" pv="BL15I-EA-PSL-01:OVL:4:PositionY" ro="false" type="pv"/>
-		<PositionY3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionY3" pv="BL15I-EA-PSL-01:OVL:4:PositionY_RBV" ro="true" type="pv"/>
-		<SizeXLink3 IOC="BL15I-EA-IOC-11" desc="Set SizeXLink3" pv="BL15I-EA-PSL-01:OVL:4:SizeXLink" ro="false" type="pv"/>
-		<SizeX3 IOC="BL15I-EA-IOC-11" desc="Set SizeX3" pv="BL15I-EA-PSL-01:OVL:4:SizeX" ro="false" type="pv"/>
-		<SizeX3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX3" pv="BL15I-EA-PSL-01:OVL:4:SizeX_RBV" ro="true" type="pv"/>
-		<SizeYLink3 IOC="BL15I-EA-IOC-11" desc="Set SizeYLink3" pv="BL15I-EA-PSL-01:OVL:4:SizeYLink" ro="false" type="pv"/>
-		<SizeY3 IOC="BL15I-EA-IOC-11" desc="Set SizeY3" pv="BL15I-EA-PSL-01:OVL:4:SizeY" ro="false" type="pv"/>
-		<SizeY3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY3" pv="BL15I-EA-PSL-01:OVL:4:SizeY_RBV" ro="true" type="pv"/>
-		<Shape3 IOC="BL15I-EA-IOC-11" desc="Set Shape3" pv="BL15I-EA-PSL-01:OVL:4:Shape" ro="false" type="mbbinary"/>
-		<Shape3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Shape3" pv="BL15I-EA-PSL-01:OVL:4:Shape_RBV" ro="true" type="mbbinary"/>
-		<DrawMode3 IOC="BL15I-EA-IOC-11" desc="Set DrawMode3" pv="BL15I-EA-PSL-01:OVL:4:DrawMode" ro="false" type="mbbinary"/>
-		<DrawMode3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DrawMode3" pv="BL15I-EA-PSL-01:OVL:4:DrawMode_RBV" ro="true" type="mbbinary"/>
-		<Red3 IOC="BL15I-EA-IOC-11" desc="Set Red3" pv="BL15I-EA-PSL-01:OVL:4:Red" ro="false" type="pv"/>
-		<Red3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Red3" pv="BL15I-EA-PSL-01:OVL:4:Red_RBV" ro="true" type="pv"/>
-		<Green3 IOC="BL15I-EA-IOC-11" desc="Set Green3" pv="BL15I-EA-PSL-01:OVL:4:Green" ro="false" type="pv"/>
-		<Green3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Green3" pv="BL15I-EA-PSL-01:OVL:4:Green_RBV" ro="true" type="pv"/>
-		<Blue3 IOC="BL15I-EA-IOC-11" desc="Set Blue3" pv="BL15I-EA-PSL-01:OVL:4:Blue" ro="false" type="pv"/>
-		<Blue3_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Blue3" pv="BL15I-EA-PSL-01:OVL:4:Blue_RBV" ro="true" type="pv"/>
-		<Name4 IOC="BL15I-EA-IOC-11" desc="Set Name4" pv="BL15I-EA-PSL-01:OVL:5:Name" ro="false" type="pv"/>
-		<Name_RBV4 IOC="BL15I-EA-IOC-11" desc="Readback for Name4" pv="BL15I-EA-PSL-01:OVL:5:Name_RBV" ro="true" type="pv"/>
-		<Use4 IOC="BL15I-EA-IOC-11" desc="Set Use4" pv="BL15I-EA-PSL-01:OVL:5:Use" ro="false" type="binary"/>
-		<Use4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Use4" pv="BL15I-EA-PSL-01:OVL:5:Use_RBV" ro="true" type="binary"/>
-		<PositionXLink4 IOC="BL15I-EA-IOC-11" desc="Set PositionXLink4" pv="BL15I-EA-PSL-01:OVL:5:PositionXLink" ro="false" type="pv"/>
-		<PositionX4 IOC="BL15I-EA-IOC-11" desc="Set PositionX4" pv="BL15I-EA-PSL-01:OVL:5:PositionX" ro="false" type="pv"/>
-		<PositionX4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionX4" pv="BL15I-EA-PSL-01:OVL:5:PositionX_RBV" ro="true" type="pv"/>
-		<PositionYLink4 IOC="BL15I-EA-IOC-11" desc="Set PositionYLink4" pv="BL15I-EA-PSL-01:OVL:5:PositionYLink" ro="false" type="pv"/>
-		<PositionY4 IOC="BL15I-EA-IOC-11" desc="Set PositionY4" pv="BL15I-EA-PSL-01:OVL:5:PositionY" ro="false" type="pv"/>
-		<PositionY4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionY4" pv="BL15I-EA-PSL-01:OVL:5:PositionY_RBV" ro="true" type="pv"/>
-		<SizeXLink4 IOC="BL15I-EA-IOC-11" desc="Set SizeXLink4" pv="BL15I-EA-PSL-01:OVL:5:SizeXLink" ro="false" type="pv"/>
-		<SizeX4 IOC="BL15I-EA-IOC-11" desc="Set SizeX4" pv="BL15I-EA-PSL-01:OVL:5:SizeX" ro="false" type="pv"/>
-		<SizeX4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX4" pv="BL15I-EA-PSL-01:OVL:5:SizeX_RBV" ro="true" type="pv"/>
-		<SizeYLink4 IOC="BL15I-EA-IOC-11" desc="Set SizeYLink4" pv="BL15I-EA-PSL-01:OVL:5:SizeYLink" ro="false" type="pv"/>
-		<SizeY4 IOC="BL15I-EA-IOC-11" desc="Set SizeY4" pv="BL15I-EA-PSL-01:OVL:5:SizeY" ro="false" type="pv"/>
-		<SizeY4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY4" pv="BL15I-EA-PSL-01:OVL:5:SizeY_RBV" ro="true" type="pv"/>
-		<Shape4 IOC="BL15I-EA-IOC-11" desc="Set Shape4" pv="BL15I-EA-PSL-01:OVL:5:Shape" ro="false" type="mbbinary"/>
-		<Shape4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Shape4" pv="BL15I-EA-PSL-01:OVL:5:Shape_RBV" ro="true" type="mbbinary"/>
-		<DrawMode4 IOC="BL15I-EA-IOC-11" desc="Set DrawMode4" pv="BL15I-EA-PSL-01:OVL:5:DrawMode" ro="false" type="mbbinary"/>
-		<DrawMode4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DrawMode4" pv="BL15I-EA-PSL-01:OVL:5:DrawMode_RBV" ro="true" type="mbbinary"/>
-		<Red4 IOC="BL15I-EA-IOC-11" desc="Set Red4" pv="BL15I-EA-PSL-01:OVL:5:Red" ro="false" type="pv"/>
-		<Red4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Red4" pv="BL15I-EA-PSL-01:OVL:5:Red_RBV" ro="true" type="pv"/>
-		<Green4 IOC="BL15I-EA-IOC-11" desc="Set Green4" pv="BL15I-EA-PSL-01:OVL:5:Green" ro="false" type="pv"/>
-		<Green4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Green4" pv="BL15I-EA-PSL-01:OVL:5:Green_RBV" ro="true" type="pv"/>
-		<Blue4 IOC="BL15I-EA-IOC-11" desc="Set Blue4" pv="BL15I-EA-PSL-01:OVL:5:Blue" ro="false" type="pv"/>
-		<Blue4_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Blue4" pv="BL15I-EA-PSL-01:OVL:5:Blue_RBV" ro="true" type="pv"/>
-		<Name5 IOC="BL15I-EA-IOC-11" desc="Set Name5" pv="BL15I-EA-PSL-01:OVL:6:Name" ro="false" type="pv"/>
-		<Name_RBV5 IOC="BL15I-EA-IOC-11" desc="Readback for Name5" pv="BL15I-EA-PSL-01:OVL:6:Name_RBV" ro="true" type="pv"/>
-		<Use5 IOC="BL15I-EA-IOC-11" desc="Set Use5" pv="BL15I-EA-PSL-01:OVL:6:Use" ro="false" type="binary"/>
-		<Use5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Use5" pv="BL15I-EA-PSL-01:OVL:6:Use_RBV" ro="true" type="binary"/>
-		<PositionXLink5 IOC="BL15I-EA-IOC-11" desc="Set PositionXLink5" pv="BL15I-EA-PSL-01:OVL:6:PositionXLink" ro="false" type="pv"/>
-		<PositionX5 IOC="BL15I-EA-IOC-11" desc="Set PositionX5" pv="BL15I-EA-PSL-01:OVL:6:PositionX" ro="false" type="pv"/>
-		<PositionX5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionX5" pv="BL15I-EA-PSL-01:OVL:6:PositionX_RBV" ro="true" type="pv"/>
-		<PositionYLink5 IOC="BL15I-EA-IOC-11" desc="Set PositionYLink5" pv="BL15I-EA-PSL-01:OVL:6:PositionYLink" ro="false" type="pv"/>
-		<PositionY5 IOC="BL15I-EA-IOC-11" desc="Set PositionY5" pv="BL15I-EA-PSL-01:OVL:6:PositionY" ro="false" type="pv"/>
-		<PositionY5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionY5" pv="BL15I-EA-PSL-01:OVL:6:PositionY_RBV" ro="true" type="pv"/>
-		<SizeXLink5 IOC="BL15I-EA-IOC-11" desc="Set SizeXLink5" pv="BL15I-EA-PSL-01:OVL:6:SizeXLink" ro="false" type="pv"/>
-		<SizeX5 IOC="BL15I-EA-IOC-11" desc="Set SizeX5" pv="BL15I-EA-PSL-01:OVL:6:SizeX" ro="false" type="pv"/>
-		<SizeX5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX5" pv="BL15I-EA-PSL-01:OVL:6:SizeX_RBV" ro="true" type="pv"/>
-		<SizeYLink5 IOC="BL15I-EA-IOC-11" desc="Set SizeYLink5" pv="BL15I-EA-PSL-01:OVL:6:SizeYLink" ro="false" type="pv"/>
-		<SizeY5 IOC="BL15I-EA-IOC-11" desc="Set SizeY5" pv="BL15I-EA-PSL-01:OVL:6:SizeY" ro="false" type="pv"/>
-		<SizeY5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY5" pv="BL15I-EA-PSL-01:OVL:6:SizeY_RBV" ro="true" type="pv"/>
-		<Shape5 IOC="BL15I-EA-IOC-11" desc="Set Shape5" pv="BL15I-EA-PSL-01:OVL:6:Shape" ro="false" type="mbbinary"/>
-		<Shape5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Shape5" pv="BL15I-EA-PSL-01:OVL:6:Shape_RBV" ro="true" type="mbbinary"/>
-		<DrawMode5 IOC="BL15I-EA-IOC-11" desc="Set DrawMode5" pv="BL15I-EA-PSL-01:OVL:6:DrawMode" ro="false" type="mbbinary"/>
-		<DrawMode5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DrawMode5" pv="BL15I-EA-PSL-01:OVL:6:DrawMode_RBV" ro="true" type="mbbinary"/>
-		<Red5 IOC="BL15I-EA-IOC-11" desc="Set Red5" pv="BL15I-EA-PSL-01:OVL:6:Red" ro="false" type="pv"/>
-		<Red5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Red5" pv="BL15I-EA-PSL-01:OVL:6:Red_RBV" ro="true" type="pv"/>
-		<Green5 IOC="BL15I-EA-IOC-11" desc="Set Green5" pv="BL15I-EA-PSL-01:OVL:6:Green" ro="false" type="pv"/>
-		<Green5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Green5" pv="BL15I-EA-PSL-01:OVL:6:Green_RBV" ro="true" type="pv"/>
-		<Blue5 IOC="BL15I-EA-IOC-11" desc="Set Blue5" pv="BL15I-EA-PSL-01:OVL:6:Blue" ro="false" type="pv"/>
-		<Blue5_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Blue5" pv="BL15I-EA-PSL-01:OVL:6:Blue_RBV" ro="true" type="pv"/>
-		<Name6 IOC="BL15I-EA-IOC-11" desc="Set Name6" pv="BL15I-EA-PSL-01:OVL:7:Name" ro="false" type="pv"/>
-		<Name_RBV6 IOC="BL15I-EA-IOC-11" desc="Readback for Name6" pv="BL15I-EA-PSL-01:OVL:7:Name_RBV" ro="true" type="pv"/>
-		<Use6 IOC="BL15I-EA-IOC-11" desc="Set Use6" pv="BL15I-EA-PSL-01:OVL:7:Use" ro="false" type="binary"/>
-		<Use6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Use6" pv="BL15I-EA-PSL-01:OVL:7:Use_RBV" ro="true" type="binary"/>
-		<PositionXLink6 IOC="BL15I-EA-IOC-11" desc="Set PositionXLink6" pv="BL15I-EA-PSL-01:OVL:7:PositionXLink" ro="false" type="pv"/>
-		<PositionX6 IOC="BL15I-EA-IOC-11" desc="Set PositionX6" pv="BL15I-EA-PSL-01:OVL:7:PositionX" ro="false" type="pv"/>
-		<PositionX6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionX6" pv="BL15I-EA-PSL-01:OVL:7:PositionX_RBV" ro="true" type="pv"/>
-		<PositionYLink6 IOC="BL15I-EA-IOC-11" desc="Set PositionYLink6" pv="BL15I-EA-PSL-01:OVL:7:PositionYLink" ro="false" type="pv"/>
-		<PositionY6 IOC="BL15I-EA-IOC-11" desc="Set PositionY6" pv="BL15I-EA-PSL-01:OVL:7:PositionY" ro="false" type="pv"/>
-		<PositionY6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionY6" pv="BL15I-EA-PSL-01:OVL:7:PositionY_RBV" ro="true" type="pv"/>
-		<SizeXLink6 IOC="BL15I-EA-IOC-11" desc="Set SizeXLink6" pv="BL15I-EA-PSL-01:OVL:7:SizeXLink" ro="false" type="pv"/>
-		<SizeX6 IOC="BL15I-EA-IOC-11" desc="Set SizeX6" pv="BL15I-EA-PSL-01:OVL:7:SizeX" ro="false" type="pv"/>
-		<SizeX6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX6" pv="BL15I-EA-PSL-01:OVL:7:SizeX_RBV" ro="true" type="pv"/>
-		<SizeYLink6 IOC="BL15I-EA-IOC-11" desc="Set SizeYLink6" pv="BL15I-EA-PSL-01:OVL:7:SizeYLink" ro="false" type="pv"/>
-		<SizeY6 IOC="BL15I-EA-IOC-11" desc="Set SizeY6" pv="BL15I-EA-PSL-01:OVL:7:SizeY" ro="false" type="pv"/>
-		<SizeY6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY6" pv="BL15I-EA-PSL-01:OVL:7:SizeY_RBV" ro="true" type="pv"/>
-		<Shape6 IOC="BL15I-EA-IOC-11" desc="Set Shape6" pv="BL15I-EA-PSL-01:OVL:7:Shape" ro="false" type="mbbinary"/>
-		<Shape6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Shape6" pv="BL15I-EA-PSL-01:OVL:7:Shape_RBV" ro="true" type="mbbinary"/>
-		<DrawMode6 IOC="BL15I-EA-IOC-11" desc="Set DrawMode6" pv="BL15I-EA-PSL-01:OVL:7:DrawMode" ro="false" type="mbbinary"/>
-		<DrawMode6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DrawMode6" pv="BL15I-EA-PSL-01:OVL:7:DrawMode_RBV" ro="true" type="mbbinary"/>
-		<Red6 IOC="BL15I-EA-IOC-11" desc="Set Red6" pv="BL15I-EA-PSL-01:OVL:7:Red" ro="false" type="pv"/>
-		<Red6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Red6" pv="BL15I-EA-PSL-01:OVL:7:Red_RBV" ro="true" type="pv"/>
-		<Green6 IOC="BL15I-EA-IOC-11" desc="Set Green6" pv="BL15I-EA-PSL-01:OVL:7:Green" ro="false" type="pv"/>
-		<Green6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Green6" pv="BL15I-EA-PSL-01:OVL:7:Green_RBV" ro="true" type="pv"/>
-		<Blue6 IOC="BL15I-EA-IOC-11" desc="Set Blue6" pv="BL15I-EA-PSL-01:OVL:7:Blue" ro="false" type="pv"/>
-		<Blue6_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Blue6" pv="BL15I-EA-PSL-01:OVL:7:Blue_RBV" ro="true" type="pv"/>
-		<Name7 IOC="BL15I-EA-IOC-11" desc="Set Name7" pv="BL15I-EA-PSL-01:OVL:8:Name" ro="false" type="pv"/>
-		<Name_RBV7 IOC="BL15I-EA-IOC-11" desc="Readback for Name7" pv="BL15I-EA-PSL-01:OVL:8:Name_RBV" ro="true" type="pv"/>
-		<Use7 IOC="BL15I-EA-IOC-11" desc="Set Use7" pv="BL15I-EA-PSL-01:OVL:8:Use" ro="false" type="binary"/>
-		<Use7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Use7" pv="BL15I-EA-PSL-01:OVL:8:Use_RBV" ro="true" type="binary"/>
-		<PositionXLink7 IOC="BL15I-EA-IOC-11" desc="Set PositionXLink7" pv="BL15I-EA-PSL-01:OVL:8:PositionXLink" ro="false" type="pv"/>
-		<PositionX7 IOC="BL15I-EA-IOC-11" desc="Set PositionX7" pv="BL15I-EA-PSL-01:OVL:8:PositionX" ro="false" type="pv"/>
-		<PositionX7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionX7" pv="BL15I-EA-PSL-01:OVL:8:PositionX_RBV" ro="true" type="pv"/>
-		<PositionYLink7 IOC="BL15I-EA-IOC-11" desc="Set PositionYLink7" pv="BL15I-EA-PSL-01:OVL:8:PositionYLink" ro="false" type="pv"/>
-		<PositionY7 IOC="BL15I-EA-IOC-11" desc="Set PositionY7" pv="BL15I-EA-PSL-01:OVL:8:PositionY" ro="false" type="pv"/>
-		<PositionY7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for PositionY7" pv="BL15I-EA-PSL-01:OVL:8:PositionY_RBV" ro="true" type="pv"/>
-		<SizeXLink7 IOC="BL15I-EA-IOC-11" desc="Set SizeXLink7" pv="BL15I-EA-PSL-01:OVL:8:SizeXLink" ro="false" type="pv"/>
-		<SizeX7 IOC="BL15I-EA-IOC-11" desc="Set SizeX7" pv="BL15I-EA-PSL-01:OVL:8:SizeX" ro="false" type="pv"/>
-		<SizeX7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeX7" pv="BL15I-EA-PSL-01:OVL:8:SizeX_RBV" ro="true" type="pv"/>
-		<SizeYLink7 IOC="BL15I-EA-IOC-11" desc="Set SizeYLink7" pv="BL15I-EA-PSL-01:OVL:8:SizeYLink" ro="false" type="pv"/>
-		<SizeY7 IOC="BL15I-EA-IOC-11" desc="Set SizeY7" pv="BL15I-EA-PSL-01:OVL:8:SizeY" ro="false" type="pv"/>
-		<SizeY7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for SizeY7" pv="BL15I-EA-PSL-01:OVL:8:SizeY_RBV" ro="true" type="pv"/>
-		<Shape7 IOC="BL15I-EA-IOC-11" desc="Set Shape7" pv="BL15I-EA-PSL-01:OVL:8:Shape" ro="false" type="mbbinary"/>
-		<Shape7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Shape7" pv="BL15I-EA-PSL-01:OVL:8:Shape_RBV" ro="true" type="mbbinary"/>
-		<DrawMode7 IOC="BL15I-EA-IOC-11" desc="Set DrawMode7" pv="BL15I-EA-PSL-01:OVL:8:DrawMode" ro="false" type="mbbinary"/>
-		<DrawMode7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for DrawMode7" pv="BL15I-EA-PSL-01:OVL:8:DrawMode_RBV" ro="true" type="mbbinary"/>
-		<Red7 IOC="BL15I-EA-IOC-11" desc="Set Red7" pv="BL15I-EA-PSL-01:OVL:8:Red" ro="false" type="pv"/>
-		<Red7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Red7" pv="BL15I-EA-PSL-01:OVL:8:Red_RBV" ro="true" type="pv"/>
-		<Green7 IOC="BL15I-EA-IOC-11" desc="Set Green7" pv="BL15I-EA-PSL-01:OVL:8:Green" ro="false" type="pv"/>
-		<Green7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Green7" pv="BL15I-EA-PSL-01:OVL:8:Green_RBV" ro="true" type="pv"/>
-		<Blue7 IOC="BL15I-EA-IOC-11" desc="Set Blue7" pv="BL15I-EA-PSL-01:OVL:8:Blue" ro="false" type="pv"/>
-		<Blue7_RBV IOC="BL15I-EA-IOC-11" desc="Readback for Blue7" pv="BL15I-EA-PSL-01:OVL:8:Blue_RBV" ro="true" type="pv"/>
-	</NDOverlay>
-	<ffmpegStream desc="psl.mpg ffmpegStream class instance" name="psl.mpg_ffmpegStream">
-		<QUALITY IOC="BL15I-EA-IOC-11" desc="Set QUALITY" pv="BL15I-EA-PSL-01:MPG:QUALITY" ro="false" type="pv"/>
-		<QUALITY_RBV IOC="BL15I-EA-IOC-11" desc="Readback for QUALITY" pv="BL15I-EA-PSL-01:MPG:QUALITY_RBV" ro="true" type="pv"/>
-		<MAXW IOC="BL15I-EA-IOC-11" desc="Set MAXW" pv="BL15I-EA-PSL-01:MPG:MAXW" ro="false" type="pv"/>
-		<MAXW_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MAXW" pv="BL15I-EA-PSL-01:MPG:MAXW_RBV" ro="true" type="pv"/>
-		<MAXH IOC="BL15I-EA-IOC-11" desc="Set MAXH" pv="BL15I-EA-PSL-01:MPG:MAXH" ro="false" type="pv"/>
-		<MAXH_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MAXH" pv="BL15I-EA-PSL-01:MPG:MAXH_RBV" ro="true" type="pv"/>
-		<FALSE_COL IOC="BL15I-EA-IOC-11" desc="Set FALSE_COL" pv="BL15I-EA-PSL-01:MPG:FALSE_COL" ro="false" type="binary"/>
-		<FALSE_COL_RBV IOC="BL15I-EA-IOC-11" desc="Readback for FALSE_COL" pv="BL15I-EA-PSL-01:MPG:FALSE_COL_RBV" ro="true" type="binary"/>
-		<ALWAYS_ON IOC="BL15I-EA-IOC-11" desc="Set ALWAYS_ON" pv="BL15I-EA-PSL-01:MPG:ALWAYS_ON" ro="false" type="binary"/>
-		<ALWAYS_ON_RBV IOC="BL15I-EA-IOC-11" desc="Readback for ALWAYS_ON" pv="BL15I-EA-PSL-01:MPG:ALWAYS_ON_RBV" ro="true" type="binary"/>
-		<HTTP_PORT_RBV IOC="BL15I-EA-IOC-11" desc="Readback for HTTP_PORT" pv="BL15I-EA-PSL-01:MPG:HTTP_PORT_RBV" ro="true" type="pv"/>
-		<HOST_RBV IOC="BL15I-EA-IOC-11" desc="Readback for HOST" pv="BL15I-EA-PSL-01:MPG:HOST_RBV" ro="true" type="pv"/>
-		<CLIENTS_RBV IOC="BL15I-EA-IOC-11" desc="Readback for CLIENTS" pv="BL15I-EA-PSL-01:MPG:CLIENTS_RBV" ro="true" type="pv"/>
-		<JPG_URL_RBV IOC="BL15I-EA-IOC-11" desc="Readback for JPG URL" pv="BL15I-EA-PSL-01:MPG:JPG_URL_RBV" ro="true" type="pv"/>
-		<MJPG_URL_RBV IOC="BL15I-EA-IOC-11" desc="Readback for MJPG URL" pv="BL15I-EA-PSL-01:MPG:MJPG_URL_RBV" ro="true" type="pv"/>
-	</ffmpegStream>
 	<eurotherm2k desc="Cyberstar Blower" name="ENV.BLOW1">
 		<PVRBV IOC="BL15I-EA-IOC-12" desc="temperature readback" pv="BL15I-EA-BLOW-01:LOOP1:PV:RBV" ro="true" type="pv"/>
 		<SP IOC="BL15I-EA-IOC-12" desc="setpoint" pv="BL15I-EA-BLOW-01:LOOP1:SP" ro="false" type="pv"/>
@@ -2271,6 +1615,41 @@
 	<simpleBinary desc="Fast shutter" name="FSHTR2.STATE">
 		<RECORD IOC="BL15I-EA-IOC-15" desc="RECORD" pv="BL15I-EA-FSHTR-02:STATE" ro="true" type="binary"/>
 	</simpleBinary>
+	<linkam desc="Linkam Furnace" name="linkam1">
+		<SETPUMPMODE IOC="BL15I-EA-IOC-17" desc="Set pump mode" pv="BL15I-EA-FURNC-01:PUMP:MODE:SET" ro="false" type="binary"/>
+		<SETRAMPLIMIT IOC="BL15I-EA-IOC-17" desc="Set ramp limit" pv="BL15I-EA-FURNC-01:RAMP:LIMIT:SET" ro="false" type="pv"/>
+		<SETRAMPRATE IOC="BL15I-EA-IOC-17" desc="Set ramp rate" pv="BL15I-EA-FURNC-01:RAMP:RATE:SET" ro="false" type="pv"/>
+		<SETRAMPCONTROL IOC="BL15I-EA-IOC-17" desc="Set ramp control" pv="BL15I-EA-FURNC-01:RAMP:CTRL:SET" ro="false" type="mbbinary"/>
+		<SETLOGPERIOD IOC="BL15I-EA-IOC-17" desc="Set log period" pv="BL15I-EA-FURNC-01:LOG:PERIOD:SET" ro="false" type="mbbinary"/>
+		<CLEARLOG IOC="BL15I-EA-IOC-17" desc="Clear log" pv="BL15I-EA-FURNC-01:LOG:RESET" ro="false" type="binary"/>
+		<SETLOGMODE IOC="BL15I-EA-IOC-17" desc="Set log mode" pv="BL15I-EA-FURNC-01:LOG:MODE:SET" ro="false" type="mbbinary"/>
+		<STATUS IOC="BL15I-EA-IOC-17" desc="Get ramp status" pv="BL15I-EA-FURNC-01:STATUS" ro="true" type="mbbinary"/>
+		<EB1 IOC="BL15I-EA-IOC-17" desc="Get EB1" pv="BL15I-EA-FURNC-01:ERROR" ro="true" type="pv"/>
+		<GS1 IOC="BL15I-EA-IOC-17" desc="Get GS1" pv="BL15I-EA-FURNC-01:GSTATUS" ro="true" type="pv"/>
+		<SB1 IOC="BL15I-EA-IOC-17" desc="Get SB1" pv="BL15I-EA-FURNC-01:CALCSB1" ro="true" type="pv"/>
+		<PUMPSPEED IOC="BL15I-EA-IOC-17" desc="Get pump speed" pv="BL15I-EA-FURNC-01:PUMP:SPEED" ro="true" type="pv"/>
+		<SETPUMPSPEED IOC="BL15I-EA-IOC-17" desc="Set manual pump speed" pv="BL15I-EA-FURNC-01:PUMP:SPEED:SET" ro="false" type="pv"/>
+		<PUMPMODE IOC="BL15I-EA-IOC-17" desc="Get pump mode" pv="BL15I-EA-FURNC-01:PUMP:MODE" ro="true" type="pv"/>
+		<STAGESTATUS IOC="BL15I-EA-IOC-17" desc="Get stage status" pv="BL15I-EA-FURNC-01:RSTATUS2" ro="true" type="pv"/>
+		<STARTREAD IOC="BL15I-EA-IOC-17" desc="Read log" pv="BL15I-EA-FURNC-01:LOG:STARTREAD" ro="false" type="binary"/>
+		<DISABLE IOC="BL15I-EA-IOC-17" desc="Disable comms" pv="BL15I-EA-FURNC-01:DISABLE" ro="false" type="binary"/>
+		<LOGTEMP IOC="BL15I-EA-IOC-17" desc="Log temp data" pv="BL15I-EA-FURNC-01:LOG:TEMP:CMP" ro="true" type="array"/>
+		<LOGDSC IOC="BL15I-EA-IOC-17" desc="Log DSC data" pv="BL15I-EA-FURNC-01:LOG:DSC:CMP" ro="true" type="array"/>
+		<TEMP IOC="BL15I-EA-IOC-17" desc="Current temp" pv="BL15I-EA-FURNC-01:TEMP" ro="true" type="pv"/>
+	</linkam>
+	<OxInstCryojet desc="Cryojet" name="CJET">
+		<PGAIN_SET IOC="BL15I-EA-IOC-17" desc="set pid p" pv="BL15I-CG-CJET-01:P:SET" ro="false" type="pv"/>
+		<IGAIN_SET IOC="BL15I-EA-IOC-17" desc="set pid i" pv="BL15I-CG-CJET-01:I:SET" ro="false" type="pv"/>
+		<DGAIN_SET IOC="BL15I-EA-IOC-17" desc="set pid d" pv="BL15I-CG-CJET-01:D:SET" ro="false" type="pv"/>
+		<SHIELDFLOW_SET IOC="BL15I-EA-IOC-17" desc="set shield flow" pv="BL15I-CG-CJET-01:SHIELDFLW:SET" ro="false" type="pv"/>
+		<SAMPLEFLOW_SET IOC="BL15I-EA-IOC-17" desc="set sample flow" pv="BL15I-CG-CJET-01:SAMPLEFLW:SET" ro="false" type="pv"/>
+		<TEMP_SET IOC="BL15I-EA-IOC-17" desc="set target temp" pv="BL15I-CG-CJET-01:TTEMP:SET" ro="false" type="pv"/>
+		<SENSOR_TEMP IOC="BL15I-EA-IOC-17" desc="get sensor temp" pv="BL15I-CG-CJET-01:STEMP" ro="true" type="pv"/>
+		<DISABLE IOC="BL15I-EA-IOC-17" desc="disable comms" pv="BL15I-CG-CJET-01:DISABLE" ro="false" type="binary"/>
+	</OxInstCryojet>
+	<simplePv desc="Cryo Level" name="CLEVEL">
+		<RECORD IOC="BL15I-EA-IOC-17" desc="Fill level" pv="BL15I-CG-CJET-01:ILM:LEVEL" ro="true" type="pv"/>
+	</simplePv>
 	<ADBase desc="gige1.cam ADBase class instance" name="gige1.cam_ADBase">
 		<PortName_RBV IOC="BL15I-DI-IOC-01" desc="Readback for PortName" pv="BL15I-DI-GIGE-01:CAM:PortName_RBV" ro="true" type="pv"/>
 		<Manufacturer_RBV IOC="BL15I-DI-IOC-01" desc="Readback for Manufacturer" pv="BL15I-DI-GIGE-01:CAM:Manufacturer_RBV" ro="true" type="pv"/>

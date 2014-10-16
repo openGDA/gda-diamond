@@ -77,6 +77,8 @@ class DetectorShield(ScannableBase):
             return True
         elif state == self.FAULT and self.ignoreFault:
             return False
+        elif not self.ignoreFault:
+            simpleLog("%s.ignoreFault=False, do '%s.ignoreFault=True' to ignore fault conditions" % (self.name, self.name))
         raise Exception("%r is not %r, %r, %r, or %r on %r" % (self.state, self.OPEN, self.CLOSED, self.OPENING, self.CLOSING, self.pvManager['STA'].pvName))
 
     def pfuncname(self):
