@@ -35,6 +35,8 @@
 	<import resource="../../../servers/main/common/device/peAreaDetector.xml"/>
 	<import resource="peAreaDetector.xml" />
 
+	<import resource="pil3AreaDetector.xml" />
+
 	<import resource="pslAreaDetector.xml" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
