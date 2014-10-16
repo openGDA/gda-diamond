@@ -108,7 +108,7 @@
 
 	</bean>
 	
-		<bean id="sixckappa_cryo" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
+	<bean id="sixckappa_cryo" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="cryophi" />
