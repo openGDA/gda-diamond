@@ -85,7 +85,8 @@ public class B18SamplePreparerTest {
 			B18SampleParameters parameters = new B18SampleParameters();
 			parameters.setName(sampleName);
 			parameters.setDescription1(description1);
-			preparer.configure(parameters);
+			// this preparer does not vary its behaviour based on the scan
+			preparer.configure(null, parameters);
 
 			SampleEnvironmentIterator iterator = preparer.createIterator(null);
 
@@ -116,7 +117,8 @@ public class B18SamplePreparerTest {
 			parameters.setStage(B18SampleParameters.STAGE[1]);
 			parameters.setXYThetaStageParameters(xytParameters);
 
-			preparer.configure(parameters);
+			// this preparer does not vary its behaviour based on the scan
+			preparer.configure(null, parameters);
 
 			SampleEnvironmentIterator iterator = preparer.createIterator(null);
 
@@ -156,7 +158,8 @@ public class B18SamplePreparerTest {
 			parameters.setStage(B18SampleParameters.STAGE[2]);
 			parameters.setLN2CryoStageParameters(stageParams);
 
-			preparer.configure(parameters);
+			// this preparer does not vary its behaviour based on the scan
+			preparer.configure(null, parameters);
 
 			SampleEnvironmentIterator iterator = preparer.createIterator(null);
 
@@ -193,7 +196,8 @@ public class B18SamplePreparerTest {
 			parameters.setStage(B18SampleParameters.STAGE[0]);
 			parameters.setSampleWheelParameters(sampleWheelParameters);
 
-			preparer.configure(parameters);
+			// this preparer does not vary its behaviour based on the scan
+			preparer.configure(null, parameters);
 
 			SampleEnvironmentIterator iterator = preparer.createIterator(null);
 
@@ -235,7 +239,8 @@ public class B18SamplePreparerTest {
 			parameters.setTemperatureControl(B18SampleParameters.TEMP_CONTROL[2]);
 			parameters.setFurnaceParameters(stageParams);
 
-			preparer.configure(parameters);
+			// this preparer does not vary its behaviour based on the scan
+			preparer.configure(null, parameters);
 
 			SampleEnvironmentIterator iterator = preparer.createIterator(null);
 

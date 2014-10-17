@@ -2,6 +2,7 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import gda.device.Scannable;
 import uk.ac.gda.beans.exafs.ISampleParameters;
+import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.server.exafs.scan.SampleEnvironmentPreparer;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
@@ -34,7 +35,7 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 	}
 
 	@Override
-	public void configure(ISampleParameters parameters) throws Exception {
+	public void configure(IScanParameters scanParameters, ISampleParameters parameters) throws Exception {
 		this.parameters = (B18SampleParameters) parameters;
 	}
 

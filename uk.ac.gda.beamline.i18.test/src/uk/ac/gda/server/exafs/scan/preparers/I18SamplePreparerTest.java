@@ -102,7 +102,7 @@ public class I18SamplePreparerTest {
 			parameters.setAttenuatorParameter2(atn2Parameters);
 			parameters.setVfmxActive(false);
 
-			preparer.configure(parameters);
+			preparer.configure(null, parameters);
 
 			SampleEnvironmentIterator iterator = preparer.createIterator(null);
 

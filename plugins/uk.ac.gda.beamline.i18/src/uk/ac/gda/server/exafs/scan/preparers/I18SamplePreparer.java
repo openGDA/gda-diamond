@@ -4,6 +4,7 @@ import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.gui.RCPController;
 import uk.ac.gda.beans.exafs.ISampleParameters;
+import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.server.exafs.scan.SampleEnvironmentPreparer;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
@@ -19,6 +20,7 @@ public class I18SamplePreparer implements SampleEnvironmentPreparer {
 	private final Scannable kb_vfm_x;
 	
 	private I18SampleParameters parameters;
+	private IScanParameters scanParameters;
 
 	public I18SamplePreparer(RCPController rcpController, Scannable sc_MicroFocusSampleX,
 			Scannable sc_MicroFocusSampleY, Scannable sc_sample_z, EnumPositioner D7A, EnumPositioner D7B,
@@ -33,13 +35,14 @@ public class I18SamplePreparer implements SampleEnvironmentPreparer {
 	}
 
 	@Override
-	public void configure(ISampleParameters parameters) throws Exception {
+	public void configure(IScanParameters scanParameters, ISampleParameters parameters) throws Exception {
+		this.scanParameters = scanParameters;
 		this.parameters = (I18SampleParameters) parameters;
 	}
 
 	@Override
 	public SampleEnvironmentIterator createIterator(String experimentType) {
-		return new I18SampleEnvironmentIterator(parameters, rcpController, sc_MicroFocusSampleX,
+		return new I18SampleEnvironmentIterator(scanParameters, parameters, rcpController, sc_MicroFocusSampleX,
 				sc_MicroFocusSampleY, sc_sample_z, d7a, d7b,
 				kb_vfm_x);
 	}
