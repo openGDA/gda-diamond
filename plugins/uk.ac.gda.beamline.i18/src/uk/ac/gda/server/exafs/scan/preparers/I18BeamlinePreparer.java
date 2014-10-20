@@ -42,6 +42,7 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
+import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.server.exafs.scan.BeamlinePreparer;
 
 /**
@@ -93,6 +94,12 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 
 	@Override
 	public void prepareForExperiment() throws Exception {
+
+		// only run fluorescence maps on I18, not transmission maps.
+		if (scanBean instanceof MicroFocusScanParameters && detectorBean.getExperimentType().equals("Transmission")){
+			throw new IllegalArgumentException("Need to set the detector parameters to be Fluorescence for maps. Cannot run this map.");
+		}
+
 		if (LocalProperties.get("gda.mode").equals("live")) {
 			// topupMonitor and beamMonitor should be defaults in every I18 scan
 			topupMonitor.setPauseBeforePoint(true);

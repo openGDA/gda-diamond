@@ -25,6 +25,7 @@ import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
+import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class I18DetectorPreparer implements QexafsDetectorPreparer {
@@ -137,6 +138,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 				}
 			}
 		} else if (scanBean instanceof QEXAFSParameters) {
+			// pass
+		} else if (scanBean instanceof MicroFocusScanParameters) {
 			// pass
 		} else {
 			// # EXAFS
