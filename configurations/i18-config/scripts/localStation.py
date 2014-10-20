@@ -1,4 +1,12 @@
 #@PydevCodeAnalysisIgnore
+
+from uk.ac.gda.server.exafs.scan.preparers import I18BeamlinePreparer
+from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
+from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
+from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
+from uk.ac.gda.server.exafs.scan import XasScan, QexafsScan
+from uk.ac.gda.client.microfocus.scan import MapScan, MapSelector
+
 from gda.configuration.properties import LocalProperties
 from gda.data import PathConstructor
 from gda.data.fileregistrar import IcatXMLCreator
@@ -100,12 +108,18 @@ gains = [i0_keithley_gain, it_keithley_gain]
 detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xmapMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap)
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
+
 if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
-    beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, trajBeamMonitor, energy, auto_mDeg_idGap_mm_converter)
-    xas = XasScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy, Finder.getInstance().find("metashop"), True)
+    energy_scannable_for_scans = energy
 else:
-    beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, trajBeamMonitor, energy_nogap, auto_mDeg_idGap_mm_converter)
-    xas = XasScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, Finder.getInstance().find("metashop"), True)
+    energy_scannable_for_scans = energy_nogap
+    topupMonitor = None
+    beamMonitor = None
+    detectorFillingMonitor = None
+    trajBeamMonitor = None
+beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, trajBeamMonitor, energy_scannable_for_scans, auto_mDeg_idGap_mm_converter)
+xas = XasScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True)
+non_raster_map = MapScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z)
 xanes = xas
 qexafs = QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
 
@@ -139,7 +153,7 @@ non_raster_map = Map(beamlinePreparer, detectorPreparer, samplePreparer, outputP
 # raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,None, None, traj1SampleX, None, raster_xspress, traj1PositionReader, None)
 
 # map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
-map = MapSelect(non_raster_map, None, None)
+map = MapSelector(non_raster_map, None, None)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     detectorPreparer.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor)
@@ -149,7 +163,7 @@ else:
 vararg_alias("xas")
 vararg_alias("xanes")
 vararg_alias("qexafs")
- alias("map")
+vararg_alias("map")
 # alias("raster_map")
 # alias("raster_map_return_write")
 alias("meta_add")
