@@ -58,5 +58,14 @@ echo Config folder: $GDA_CONFIG
 echo GDA mode: $GDA_MODE
 echo Other args: $*
 
+export GDALOGS=/dls_sw/$BEAMLINE/software/logs
+export LOGFILE=$GDALOGS/gda_output_`date +%F-%T`.txt
+touch $LOGFILE
+if [ -e $GDALOGS/gda_output.txt ]; then
+	rm $GDALOGS/gda_output.txt
+fi
+ln -s $LOGFILE $GDALOGS/gda_output.txt
+
+
 echo python2.6  $GDA_CORE/bin/gda  --config=$GDA_CONFIG --smart --trace servers -v --mode=$GDA_MODE $*
      python2.6  $GDA_CORE/bin/gda  --config=$GDA_CONFIG --smart --trace servers -v --mode=$GDA_MODE $*
