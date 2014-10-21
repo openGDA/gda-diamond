@@ -22,7 +22,8 @@ Import-Package: org.eclipse.ui.intro.config,
  org.springframework.beans.factory.xml;version="3.0.4",
  org.springframework.context;version="3.0.4",
  org.springframework.core;version="3.0.4",
- org.springframework.util;version="3.0.4"
+ org.springframework.util;version="3.0.4",
+ uk.ac.gda.devices.vgscienta
 Export-Package: uk.ac.gda.rcp.views.dashboard,
  uk.ac.gda.rcp.views.dashboard.actions,
  uk.ac.gda.rcp.views.sample
