@@ -11,7 +11,7 @@
 	
 	<bean id="simpleUDPServer" class="gda.device.scannable.SimpleUDPServerScannable">
 		<property name="port" value="9876"/>
-		<property name="prefix" value="pixiumDataReduction"/>
+		<property name="prefix" value="DataReduction"/>
 	</bean>
 	
 	<bean id="datareduction" class="org.opengda.lde.scannables.DataReductionScannable">
