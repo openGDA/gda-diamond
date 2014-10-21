@@ -18,6 +18,7 @@
 
 package org.dawnsci.plotting.tools.profile;
 
+
 import org.dawnsci.plotting.tools.profile.model.TimeResolvedDataNode;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;

@@ -91,14 +91,6 @@ original_header =              finder.find("datawriterconfig").getHeader()[:]
 
 gains = [i0_keithley_gain, it_keithley_gain]
 
-
-# xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
-# vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
-
-# detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig)
-# samplePreparer =   I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
-# outputPreparer =   I18OutputPreparer(datawriterconfig)
-
 detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xmapMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap)
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
@@ -116,6 +108,7 @@ xas = XasScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer
 non_raster_map = MapScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z)
 xanes = xas
 qexafs = QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
+
 
 # if (LocalProperties.get("gda.mode") == 'live'):
 #     non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
@@ -140,6 +133,10 @@ qexafs = QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPr
 # map = MapSelect(non_raster_map, raster_map, raster_map_return_write, samplePreparer)
 # 
 # non_raster_map = Map(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy, True, Finder.getInstance().find("metashop"), counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z)
+
+
+#non_raster_map = Map(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy, True, Finder.getInstance().find("metashop"), counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z)
+
 # # while traj stage 3 hardware is switched off
 # raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid, trajBeamMonitor)
 # raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
