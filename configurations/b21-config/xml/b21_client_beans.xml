@@ -9,8 +9,7 @@
         http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<import resource="devices/biosaxsRobotPlates.xml" />
-	<import resource="devices/hplcPlates.xml" />
+	<import resource="b21_hatsaxs.xml" />
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
