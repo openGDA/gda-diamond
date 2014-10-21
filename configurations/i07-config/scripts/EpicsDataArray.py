@@ -6,7 +6,7 @@ from gda.epics import CAClient
 from gda.data import NumTracker
 from gda.data import PathConstructor
 #import gda
-from gda.analysis import DataSet
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 from gda.analysis import Plotter
 
 from gda.jython import JythonServer;
@@ -73,7 +73,7 @@ class EpicsDataArrayClass:
 		self.length = 0;
 		self.head=0;
 
-		self.dataSetCh01=DataSet([maxLength]); 
+		self.dataSetCh01=DoubleDataset([maxLength]); 
 		self.dataSetCh01.setName("Channel 1");
 		self.js = Finder.getInstance().find("command_server");
 

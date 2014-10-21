@@ -1,7 +1,10 @@
 from gda.jython.commands.InputCommands import requestInput
-from gda.analysis import DataSet, Fitter, Plotter, ScanFileHolder
-from gda.analysis.utils import GeneticAlg
-from gda.analysis.functions import Gaussian
+from  org.eclipse.dawnsci.analysis.dataset.impl import Dataset
+from gda.analysis import ScanFileHolder
+from gda.analysis import RCPPlotter
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter
+from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
+from uk.ac.diamond.scisoft.analysis.fitting.functions import Gaussian
 import gda.data.NumTracker
 from gda.jython.commands.ScannableCommands import pos, scan
 
@@ -139,7 +142,10 @@ class FocusFinder(object):
 		"""(xdataset, ydataset, smoothing)"""
 		width = xds.max() - xds.min()
 		height = fds.max() - fds.min()
-		result = Fitter.plot(xds, fds,GeneticAlg(0.0001),[Gaussian(xds.min(),xds.max(), width, width*height)])
+		
+		result=Fitter.fit(xds, fds,GeneticAlg(0.0001),[Gaussian(xds.min(),xds.max(), width, width*height)])
+		RCPPlotter.plot("Data Vector", xds ,[fds, result.getFunction(0).makeDataset([xds])]) 
+		
 		x = result[0].getValue()
 		fwhm = result[1].getValue()
 		return (x, fwhm)
@@ -177,9 +183,9 @@ class FocusFinder(object):
 		print "-"*(colwidth*7 + 4)	
 	
 	def plotAxisToScanVersusStepWidth(self):
-		xdataset = DataSet(self.xvalues[0:self.currentPoint+1])
+		xdataset = Dataset(self.xvalues[0:self.currentPoint+1])
 		xdataset.setName(self.axisToScan.getName())
-		f = DataSet(self.gaussfitWidth[0:self.currentPoint+1])
+		f = Dataset(self.gaussfitWidth[0:self.currentPoint+1])
 		f.setName('gaussfitWidth (FWHM)')	
 		Plotter.plot("Focus Finder",xdataset, [ f])
 

@@ -1,9 +1,9 @@
 from gda.analysis import RCPPlotter
-from gda.analysis import DataSet
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 
 pp=RCPPlotter()
 
-d=DataSet.arange(10000)
+d=DoubleDataset.arange(10000)
 d.shape = [100,100]
 
 pp.imagePlot("Area Detector", d)

@@ -1,10 +1,12 @@
 from temporarySrsReader import createSrsPath, readSrsDataFile
 from gda.analysis.io import JPEGLoader, TIFFImageLoader, ConvertedTIFFImageLoader
 from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
-from gda.analysis import ScanFileHolder, DataSet, Plotter
+from gda.analysis import ScanFileHolder
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 from gdascripts.scan.process.ScanDataProcessor import loadScanFile
 from gda.analysis import ScanFileHolder
 from gda.analysis.io import SRSLoader
+from gda.analysis import RCPPlotter
 from gda.configuration.properties import LocalProperties
 
 def loadSrsColumn(path, columnName):
@@ -37,12 +39,12 @@ def loadScanAndImages(scanID, root_path = None):
 
 def loadImageStack(pathList):
 	height, width = loadImage(pathList[0]).getDimensions()
-	imagestack = DataSet('imagestack', [len(pathList), height, width])
+	imagestack = DoubleDataset('imagestack', [len(pathList), height, width])
 	imagestack.fill(-1)
 	print "Creating image stack [images][height][width] = [%i][%i][%i]" % (len(pathList), height, width)
 	for i in range(len(pathList)):
 		image = loadImage(pathList[i])
-		Plotter.plotImage('Pilatus Plot', image)
+		RCPPlotter.plotImage('Pilatus Plot', image)
 		image.shape = [1, height, width]
 		imagestack[i:i+1,:,:] = image
 	return imagestack 
