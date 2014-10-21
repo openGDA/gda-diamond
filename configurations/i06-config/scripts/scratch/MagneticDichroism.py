@@ -8,7 +8,6 @@ from gda.device import Detector
 
 from gda.analysis.io import PilatusTiffLoader, JPEGLoader, TIFFImageLoader
 from gda.analysis import ScanFileHolder
-from gda.analysis.utils import DatasetMaths;
 from gda.analysis import RCPPlotter;
 
 from gda.data import PathConstructor

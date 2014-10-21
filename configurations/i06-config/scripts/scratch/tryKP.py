@@ -1,5 +1,4 @@
 from gda.analysis import ScanFileHolder;
-from gda.analysis import DataSet;
 
 class KeyPositionClass(object):
 

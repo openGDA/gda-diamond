@@ -6,7 +6,7 @@ import math;
 from gda.factory import Finder
 from gda.epics import CAClient;
 from gda.device.scannable import PseudoDevice;
-from gda.analysis import DataSet
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 
 from gov.aps.jca.event import PutEvent;
 from gov.aps.jca.event import PutListener;
@@ -395,9 +395,7 @@ class EpicsMCADataDeviceClass(PseudoDevice):
 			la.append(self.data[i]);
 #		print "---> Debug: get waveform: end at: " + ctime();
 		
-		ds=DataSet(la);#ds is a new DataSet with dimension [numberOfDetectors, size];
-#TODO: For the new dataset, the above line should be changed to the following
-#		ds=DataSet.array(la) #ds is a new DataSet with dimension [numberOfDetectors, size];
+		ds=DoubleDataset.array(la) #ds is a new DataSet with dimension [numberOfDetectors, size];
 		
 		self.dataset = ds;
 		return True;

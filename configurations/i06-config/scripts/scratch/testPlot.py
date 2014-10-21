@@ -12,7 +12,6 @@ from gda.analysis.io import JPEGLoader, TIFFImageLoader, ConvertedTIFFImageLoade
 from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
 
 from gda.analysis import ScanFileHolder
-from gda.analysis.functions.dataset import MakeMask;
 from gda.analysis import DataSet;
 
 # scan testMotor1 -2*math.pi 2*math.pi 0.1 PlotXY("testMotor1",["math.sin(testMotor1)+random.random()"]), dummyCounter 0.1

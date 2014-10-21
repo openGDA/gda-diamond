@@ -3,7 +3,6 @@
 #Example images from : "/dls/i06/data/2010/si0/28431_UViewImage" or "/home/xr56/testData/28431_UViewImage/"
 
 from gda.analysis import RCPPlotter
-from gda.analysis import DataSet;
 import scisoftpy.plot as dpl
 
 run "scisoft/peem_analysis"

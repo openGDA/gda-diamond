@@ -5,7 +5,7 @@ from uk.ac.diamond.scisoft.analysis.plotserver import GuiParameters;
 from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI, RectangularROIList;
 
 pp=RCPPlotter()
-pp.plot("Area Detector", DataSet.array(range(100)) )
+pp.plot("Area Detector", DoubleDataset.array(range(100)) )
 
 
 
@@ -13,7 +13,7 @@ pp.plot("Area Detector", DataSet.array(range(100)) )
 #d = DataSet.arange(10000)
 #d.shape = [100,100]
 
-d=DataSet.arange(10000)
+d=DoubleDataset.arange(10000)
 d.shape = [100,100]
 # or, d = DataSet.arange(10000).reshape((100,100)) in GDA v8.12
 

@@ -11,7 +11,6 @@ from gda.analysis import *
 from gda.analysis.io import PNGLoader, PNGSaver, JPEGLoader, TIFFImageLoader, ScanFileHolderException, ConvertedTIFFImageLoader
 from gda.analysis import ScanFileHolder
 from gda.analysis import DataSet;
-from gda.analysis.utils import DatasetMaths;
 
 GDA_FILELOADERS={
 			'TIF':TIFFImageLoader,

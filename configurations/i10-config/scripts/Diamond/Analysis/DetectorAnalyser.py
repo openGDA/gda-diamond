@@ -4,8 +4,8 @@ from gda.device import Detector;
 
 from gda.analysis.io import JPEGLoader, TIFFImageLoader, ConvertedTIFFImageLoader
 from gda.analysis import ScanFileHolder
-from gda.analysis import DataSet;
-from gda.analysis.functions.dataset import MakeMask;
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from uk.ac.diamond.scisoft.analysis.dataset.function import MakeMask;
 from gda.analysis import RCPPlotter;
 
 import os;
@@ -170,7 +170,7 @@ class DetectorAnalyserClass(PseudoDevice):
 #		arrayListDataset = ArrayList(dataset.exec(maskMaker));
 #		self.mask=DataSet(arrayListDataset.get(0));
 
-		self.mask = DataSet( ArrayList(dataset.exec(maskMaker)).get(0) );
+		self.mask = DoubleDataset( ArrayList(dataset.exec(maskMaker)).get(0) );
 		return self.mask;
 
 	def applyMask(self, mask=None, dataset=None):

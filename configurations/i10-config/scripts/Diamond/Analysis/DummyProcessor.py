@@ -1,8 +1,5 @@
 from gdascripts.analysis.datasetprocessor.twod.TwodDataSetProcessor import TwodDataSetProcessor
 
-from gda.analysis import DataSet
-
-
 class DummyTwodPorcessor(TwodDataSetProcessor):
 	def __init__(self, name='dummy',
 				labelList=('a','b','c', 'd'),
