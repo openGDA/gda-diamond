@@ -1,11 +1,11 @@
 import math
 from gda.analysis.utils import GeneticAlg
-from gda.analysis import DataSet
 from gda.analysis import RCPPlotter
 from time import sleep
 from gda.factory import Finder
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter
 from uk.ac.diamond.scisoft.analysis.fitting.functions import StraightLine, Gaussian
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 #ref = refinement()
 #ref.calibrateElement(20.0,0,23. 24. 22.4 0.001)
 
@@ -67,7 +67,7 @@ class refinement() :
 		print start
 		print stop
 	
-		xds=DataSet(self.be)[start:stop]
+		xds=DoubleDataset(self.be)[start:stop]
 
 		print "here"
 		yds=self.ds[chan][start:stop]
@@ -115,9 +115,9 @@ class refinement() :
 		data =[]
 		for i in range(self.edxd.getNumberOfElements()):
 			det = self.edxd.getSubDetector(i)
-			data.append(DataSet(det.getName(), det.readoutDoubles()))
+			data.append(DoubleDataset(det.getName(), det.readoutDoubles()))
 			
-		yaxis = DataSet("Energy", self.edxd.getSubDetector(0).getEnergyBins())
+		yaxis = DoubleDataset("Energy", self.edxd.getSubDetector(0).getEnergyBins())
 		##plot
 		RCPPlotter.plot("Scan Plot 1", yaxis, data);
 		return data
