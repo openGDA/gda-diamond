@@ -1,9 +1,14 @@
 from gda.device.detector import INexusProviderDataSetProcessor
 
-from gda.analysis.functions.dataset import Integrate2D
-from gda.analysis import DataSet, Fitter
-from gda.analysis.utils import GeneticAlg
-from gda.analysis.functions import Gaussian, Offset
+from uk.ac.diamond.scisoft.analysis.dataset.function import Integrate2D
+
+from uk.ac.diamond.scisoft.analysis.fitting.functions import Gaussian, Offset
+from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
+
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+
+from gda.analysis import RCPPlotter
 
 import scisoftpy as dnp
 import pi
@@ -19,9 +24,9 @@ class DataSetFitter(INexusProviderDataSetProcessor):
         dsx = ds.sum(1)
         dsyaxis = dnp.arange(dsy.shape[0])
         dsxaxis = dnp.arange(dsy.shape[0])
-        dsy, dsx = integrator.execute(ds)
-        dsyaxis = DataSet.arange(dsy.shape[0])
-        dsxaxis = DataSet.arange(dsx.shape[0])
+        dsy, dsx = integrator.value(ds)
+        dsyaxis = DoubleDataset.arange(dsy.shape[0])
+        dsxaxis = DoubleDataset.arange(dsx.shape[0])
         
         gaussian = Gaussian(dsyaxis.min(), dsyaxis.max(), dsyaxis.max()-dsyaxis.min(), (dsyaxis.max()-dsyaxis.min())*(dsy.max()-dsy.min()) )
         gaussian.getParameter(2).setLowerLimit(0)
@@ -34,7 +39,8 @@ class DataSetFitter(INexusProviderDataSetProcessor):
         if self.maxwidth is not None:
             gaussian.getParameter(1).setUpperLimit(self.maxwidth)
         try:
-            ansx = Fitter.plot( dsxaxis, dsx, GeneticAlg(.001), [ gaussian, Offset( dsx.min(),dsx.max() ) ] )
+            ansx = Fitter.fit( dsxaxis, dsx, GeneticAlg(.001), [ gaussian, Offset( dsx.min(),dsx.max() ) ] )
+            RCPPlotter.plot("Data Vector", dsxaxis,ansx.display(dsxaxis)[0]);
         except java.lang.IllegalArgumentException:
             # Probably cannot find Plot_Manager on the finder
             ansx = Fitter.fit( dsxaxis, dsx, GeneticAlg(.001), [ gaussian, Offset( dsx.min(),dsx.max() ) ] )

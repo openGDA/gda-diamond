@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.4.0.201310051539-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.6.0.201407080615-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -156,7 +156,15 @@
 		<config>devices/epics/float1.xml</config>
 		<config>devices/epics/float2.xml</config>
 		<config>devices/epics/float3.xml</config>
+		<config>devices/dcm.xml</config>
+		<config>devices/dummy/dcm_motors.xml</config>
+		<config>devices/dummy/ion_chamber.xml</config>
+		<config>devices/epics/dcm_motors.xml</config>
+		<config>devices/epics/ion_chamber.xml</config>
+		<config>servers/main/beamlineEnergyController.xml</config>
 	</configs>
+	<autoconfigs>
+	</autoconfigs>
 	<configSets>
 	</configSets>
 </beansProjectDescription>

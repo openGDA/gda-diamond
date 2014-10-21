@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.4.0.201310051539-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.6.0.201407080615-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -89,7 +89,6 @@
 		<config>servers/main/live/live_server_common.xml</config>
 		<config>devices/dummy/m1.xml</config>
 		<config>devices/epics/m1.xml</config>
-		<config>devices/dummy/optics_hutch4_shutter.xml</config>
 		<config>devices/epics/optics_hutch4_shutter.xml</config>
 		<config>devices/optics_hutch4_shutter.xml</config>
 		<config>devices/dummy/pco1_ndplugins.xml</config>
@@ -124,7 +123,12 @@
 		<config>devices/dummy/phase_ring_motors.xml</config>
 		<config>devices/dummy/pinhole_motors.xml</config>
 		<config>devices/dummy/zone_plate_motors.xml</config>
+		<config>devices/abstract_nxplugins.xml</config>
+		<config>devices/dummy/translation_stage_motors.xml</config>
+		<config>devices/simulationAD.xml</config>
 	</configs>
+	<autoconfigs>
+	</autoconfigs>
 	<configSets>
 	</configSets>
 </beansProjectDescription>
