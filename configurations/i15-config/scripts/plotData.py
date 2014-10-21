@@ -1,7 +1,8 @@
 #test of writing data from mca to the Data Vector
 import math
 
-from gda.analysis import DataSet,ScanFileHolder,Plotter
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from gda.analysis import ScanFileHolder,Plotter
 from gda.analysis.io import IFileLoader, LoadDataHolder
 from gda.factory import Finder
 from gda.device.epicsdevice import ReturnType
@@ -14,10 +15,10 @@ class XYDataLoader(IFileLoader):
         pass
     def loadFile(self):
         dataHolder = LoadDataHolder()
-        xDataSet = DataSet(1,len(self.xData),self.xData)
+        xDataSet = DoubleDataset(1,len(self.xData),self.xData)
         xDataSet.setName(self.xName)
         dataHolder.addDataSet(xDataSet.getName(), xDataSet);
-        yDataSet = DataSet(1,len(self.yData),self.yData)
+        yDataSet = DoubleDataset(1,len(self.yData),self.yData)
         yDataSet.setName(self.yName)
         dataHolder.addDataSet(yDataSet.getName(), yDataSet);
         return dataHolder

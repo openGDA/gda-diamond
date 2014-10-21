@@ -4,16 +4,21 @@
 from gdascripts.analysis.datasetprocessor.oned.XYDataSetProcessor import XYDataSetFunction
 #from GaussianPeakAndBackground import GaussianPeak
 from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import GaussianPeak
-from gda.analysis.functions import Gaussian, Offset
-from gda.analysis import ScanFileHolder
-from gda.analysis.utils import GeneticAlg, NelderMead
+from gda.analysis import ScanFileHolder, RCPPlotter
 
-#from gda.analysis import DataSetFunctionFitter
+from uk.ac.diamond.scisoft.analysis.fitting.functions import Gaussian, Offset
+from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg, NelderMead
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
+
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+
 
 try:
-    from gda.analysis import Fitter # from swingclient plugin not available to PyDev tests
+    from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
     def fitplot(*args):
-        return Fitter.plot(*args)
+        fitted_function = Fitter.fit(*args)
+        RCPPlotter.plot("Data Vector", args[0],fitted_function.display(args[0])[0]);
+        return fitted_function
 except ImportError:
     def fitplot(*args):
         #return DataSetFunctionFitter.fit(*args)
@@ -67,7 +72,8 @@ class TwoGaussianEdges(XYDataSetFunction):
         gu = Gaussian([uposC, ufwhmC, uareaC])
         gd = Gaussian([dposC, dfwhmC, dareaC])        
         try:    
-            r = fitplot(xDataSet, dyDataSet, GeneticAlg(1e-10), [gu, gd])
+            r = Fitter.fit(xDataSet, dyDataSet, GeneticAlg(1e-10), [gu, gd])
+            RCPPlotter.plot("Data Vector", xDataSet,r.display(xDataSet)[0]);
         except: #java.lang.IllegalArgumentException: cannot find the Plot_Manager object of type PlotManager
             #r = DataSetFunctionFitter().fit(xDataSet, dyDataSet, GeneticAlg(1e-10), [gu, gd])
             raise

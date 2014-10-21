@@ -1,30 +1,35 @@
 import os, glob
 from time import sleep
-from gda.analysis import Plotter, Fitter
-from gda.data import NumTracker
-import gda.analysis.utils.GeneticAlg
-from gda.jython.commands import InputCommands
-from gdascripts.messages import handle_messages
-from gdascripts.messages.handle_messages import simpleLog
-from operationalControl import genericScanChecks
-from gda.analysis import ScanFileHolder
-from gda.analysis import DataSet
-from gda.analysis.functions import Step
 
+
+from gda.analysis import RCPPlotter
+from gda.analysis import ScanFileHolder
+from gda.analysis.functions import Step
+from gda.data import NumTracker
+from gda.jython.commands import InputCommands
+
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
+from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
+
+from gdascripts.messages.handle_messages import simpleLog
+
+from operationalControl import genericScanChecks
 
 # Optimiser for fitting step function - e.g. MonteCarlo(0.001), GeneticAlg(0.001), GradientDescent(0.001)...
-optimiser =  gda.analysis.utils.GeneticAlg(0.001)
+optimiser =  GeneticAlg(0.001)
 
 def getDerivative(fileNo=0):
 	"""
 	Calculate cscanderivative and optionally fit Gaussian within a given range and calculate FWHM
 	"""
 	data = getData(fileNo)
-	Plotter.plot("Data Vector", data[0], data[1])
+	RCPPlotter.plot("Data Vector", data[0], data[1])
 	
 	derivative = data[1].diff(data[0])
 	derivative.setName("derivative of " + str(fileNo) + ".dat")
-	Plotter.plotOver("Data Vector", data[0], derivative)
+	RCPPlotter.addPlot("Data Vector", data[0], derivative)
 	
 	# Save derivative, then optionally fit Gaussian graph and find FWHM
 	response = InputCommands.requestInput('Fit Gaussian in range? (e.g. 0.1, 0.2 or q to quit)')
@@ -44,9 +49,10 @@ def getDerivative(fileNo=0):
 					pointsY.append(derivative[i])
 			
 			# fit Gaussian
-			fit = Fitter.plot(data[0], derivative, optimiser, 
-			 		[Gaussian(minX, maxX, maxX - minX, (maxX - minX) * DataSet(pointsY).max() / 2)])
-			simpleLog("FWHM is " + `fit[1].value`)
+			fit = Fitter.fit(data[0], derivative, optimiser, 
+			 		[Gaussian(minX, maxX, maxX - minX, (maxX - minX) * DoubleDataset(pointsY).max() / 2)])
+			RCPPlotter.plot("Data Vector", data[0],fit.display(data[0])[0]);
+
 			
 		response = InputCommands.requestInput("Enter another range to fit? (q to quit)")
 
@@ -110,9 +116,10 @@ def fitStepFunction(fileNo=0):
 	maxPos = 0.9
 	
 	# 2. Fit step function		
-	fit = Fitter.plot(data[0], data[1], 
+	fit = Fitter.fit(data[0], data[1], 
 					  optimiser, 
 					 [Step(minY, maxY, minX1, maxX1, minX2, maxX2, minH1, maxH1, minH2, maxH2, minW, maxW, minPos, maxPos)])
+	RCPPlotter.plot("Data Vector", data[0],fit.display(data[0])[0]);
 	
 	# 3. Get peak centre value (fit[0...6].value gives each parameter value)
 	#simpleLog("Fit vals: " + fit.disp())
@@ -128,9 +135,9 @@ def fitStepFunction(fileNo=0):
 	#simpleLog("x vals: " + str(xVals))
 	if (len(xVals) == 2):
 		simpleLog( "FWHM: " + str(xVals[1] - xVals[0]))
-		dsX = DataSet([xVals[0], xVals[1]])
-		dsY = DataSet([innerPeakHalfMax, innerPeakHalfMax])
-		Plotter.plotOver("Data Vector", dsX, dsY)
+		dsX = DoubleDataset([xVals[0], xVals[1]])
+		dsY = DoubleDataset([innerPeakHalfMax, innerPeakHalfMax])
+		RCPPlotter.addPlot("Data Vector", dsX, dsY)
 	else:
 		simpleLog( "Cannot find inner peak FWHM")
 	
