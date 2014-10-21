@@ -1,8 +1,9 @@
 import math
-from gda.analysis.utils import GeneticAlg
-from gda.analysis import DataSet, Fitter, RCPPlotter
-from gda.analysis.functions import Gaussian, StraightLine
-
+from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
+from gda.analysis import RCPPlotter
+from org.eclipse.dawnsci.analysis.dataset.impl import Dataset
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter
+from uk.ac.diamond.scisoft.analysis.fitting.functions import StraightLine, Gaussian
 
 #ref = refinement()
 #ref.calibrateElement(20.0,0,23. 24. 22.4 0.001)
@@ -61,7 +62,7 @@ class refinement() :
 		print start
 		print stop
 	
-		xds=DataSet(self.be)[start:stop]
+		xds=Dataset(self.be)[start:stop]
 
 		print "here"
 		yds=self.ds[chan][start:stop]
@@ -73,8 +74,8 @@ class refinement() :
 		RCPPlotter.plot("Plot 1", xds ,[yds, fit.getFunction().makeDataSet([xds])])
 	
 		# get out the 2 peak values
-		peak1 = fit[2].getValue()
-		fwhm1 = fit[3].getValue()
+		peak1 = fit.getPosition()
+		fwhm1 = fit.getFWHM()
 
 		print "peak position = %f with width %f " % (peak1, fwhm1)
 

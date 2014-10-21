@@ -18,7 +18,6 @@
 
 package gda.device.detector.edxd;
 
-import gda.analysis.DataSet;
 import gda.analysis.RCPPlotter;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
@@ -30,14 +29,15 @@ import gda.device.epicsdevice.ReturnType;
 import gda.factory.Configurable;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
+import gda.util.persistence.LocalDatabase.LocalDatabaseException;
 import gda.util.persistence.LocalObjectShelf;
 import gda.util.persistence.LocalObjectShelfManager;
 import gda.util.persistence.ObjectShelfException;
-import gda.util.persistence.LocalDatabase.LocalDatabaseException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,13 +96,13 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 		xmap = new FindableEpicsDevice();
 		xmap.setDeviceName(getDeviceName());
 		xmap.setName(getDeviceName());
-		
-		//TODO do we really need to call configure here??
+
+		// TODO do we really need to call configure here??
 		xmap.configure();
 
 		// Add all the EDXD Elements to the detector
 		for (int i = 0; i < getNumberOfElements(); i++) {
-			subDetectors.add(new EDXDElement(xmap, i+1));
+			subDetectors.add(new EDXDElement(xmap, i + 1));
 
 		}
 
@@ -206,7 +206,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 		double live_time_mean = 0.0;
 
 		// one final thing for the use of plotting
-		DataSet[] plotds = new DataSet[subDetectors.size()];
+		DoubleDataset[] plotds = new DoubleDataset[subDetectors.size()];
 
 		// populate the data item from the elements
 		for (int i = 0; i < subDetectors.size(); i++) {
@@ -214,11 +214,16 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 			EDXDElement det = subDetectors.get(i);
 
 			// add the data
-			plotds[i] = new DataSet(det.getName(), det.readoutDoubles());
+			double[] detData =  det.readoutDoubles();
+			plotds[i] = new DoubleDataset( detData);
+			plotds[i].setName(det.getName());
+			double sum = 0;
+			for (double value : detData){
+				sum += value;
+			}
+			totalCounts += sum;
 
-			totalCounts += plotds[i].sum();
-
-			data.addData(det.getName(), det.getDataDimensions(), det.getDataType(), plotds[i].doubleArray(), "counts",
+			data.addData(det.getName(), det.getDataDimensions(), det.getDataType(), plotds[i], "counts",
 					1);
 
 			// add the energy Axis
@@ -259,11 +264,11 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 			double[] dead_time = { (1.0 - (output_count_rate[0] / input_count_rate[0])) * real_time[0] };
 			data.addElement(det.getName(), "edxd_dead_time", new int[] { dead_time.length }, NexusFile.NX_FLOAT64,
 					dead_time, "seconds", true);
-			
+
 			// simple deadtime calculation for now, which is simply based on the 2 rates
 			double[] dead_time_percent = { (1.0 - (output_count_rate[0] / input_count_rate[0])) * 100.0 };
-			data.addElement(det.getName(), "edxd_dead_time_percent", new int[] { dead_time_percent.length }, NexusFile.NX_FLOAT64,
-					dead_time_percent, "percent", true);
+			data.addElement(det.getName(), "edxd_dead_time_percent", new int[] { dead_time_percent.length },
+					NexusFile.NX_FLOAT64, dead_time_percent, "percent", true);
 
 			// now calculate the deadtime statistics
 			if (dead_time[0] > dead_time_max)
@@ -631,7 +636,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	private boolean newTrace = true;
 
-	private ArrayList<DataSet> traceDataSets = new ArrayList<DataSet>();
+	private ArrayList<DoubleDataset> traceDataSets = new ArrayList<DoubleDataset>();
 
 	/**
 	 * 
@@ -646,12 +651,11 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	 * @param detectorNumber
 	 */
 	public void monitorSpectra(int detectorNumber) {
-		if (detectorNumber < 1 || detectorNumber > getNumberOfElements())
-		{
+		if (detectorNumber < 1 || detectorNumber > getNumberOfElements()) {
 			throw new IllegalArgumentException("Detector number must be between 1 and 24 (both limits inclusive)");
 		}
-		detectorNumber-=1;
-		
+		detectorNumber -= 1;
+
 		plotAllSpectra = false;
 		traceOneSpectra = detectorNumber;
 		newTrace = true;
@@ -682,7 +686,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	 * @throws DeviceException
 	 * @throws InterruptedException
 	 */
-	public DataSet[] acquire(double aquisitionTime) throws DeviceException, InterruptedException {
+	public DoubleDataset[] acquire(double aquisitionTime) throws DeviceException, InterruptedException {
 		return acquire(aquisitionTime, true);
 	}
 
@@ -696,7 +700,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("static-access")
-	public DataSet[] acquire(double aquisitionTime, boolean verbose) throws DeviceException, InterruptedException {
+	public DoubleDataset[] acquire(double aquisitionTime, boolean verbose) throws DeviceException, InterruptedException {
 		this.setCollectionTime(aquisitionTime);
 		this.collectData();
 
@@ -712,22 +716,22 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 		this.verifyData();
 
 		// now the data is acquired, plot it out to plot2 for the time being.
-		DataSet[] data = new DataSet[subDetectors.size()];
+		DoubleDataset[] data = new DoubleDataset[subDetectors.size()];
 
 		for (int i = 0; i < subDetectors.size(); i++) {
 
 			EDXDElement det = subDetectors.get(i);
 
 			// add the data
-			data[i] = new DataSet(det.getName(), det.readoutDoubles());
-
+			data[i] = new DoubleDataset(det.readoutDoubles());
+			data[i].setName(det.getName());
 		}
-		DataSet yaxis = new DataSet("Energy", subDetectors.get(0).getEnergyBins());
-
+		DoubleDataset yaxis = new DoubleDataset(subDetectors.get(0).getEnergyBins());
+		yaxis.setName("Energy");
 		try {
 			RCPPlotter.plot(EDXD_PLOT, yaxis, data);
 		} catch (Exception e) {
-			throw new DeviceException(e.getMessage(),e);
+			throw new DeviceException(e.getMessage(), e);
 		}
 
 		return data;
@@ -735,36 +739,37 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	}
 
 	@SuppressWarnings("static-access")
-	private void updatePlots(DataSet[] plotds) throws DeviceException {
-		try{
-			
-			if(plotAllSpectra) {
-				DataSet yAxis = new DataSet("Energy",subDetectors.get(0).getEnergyBins());
+	private void updatePlots(DoubleDataset[] plotds) throws DeviceException {
+		try {
+
+			if (plotAllSpectra) {
+				DoubleDataset yAxis = new DoubleDataset(subDetectors.get(0).getEnergyBins());
+				yAxis.setName("Energy");
 				RCPPlotter.plot(EDXD_PLOT, yAxis, plotds);
 			} else {
-	
-				if(traceOneSpectra!=null) {
-					DataSet yAxis = new DataSet("Energy",subDetectors.get(traceOneSpectra).getEnergyBins());
+
+				if (traceOneSpectra != null) {
+					DoubleDataset yAxis = new DoubleDataset(subDetectors.get(traceOneSpectra).getEnergyBins());
+					yAxis.setName("Energy");
 					if (newTrace) {
 						traceDataSets.clear();
-						newTrace=false;
+						newTrace = false;
 					}
 					traceDataSets.add(plotds[traceOneSpectra]);
 					while (traceDataSets.size() > TOTAL_NUMBER_OF_TRACE_DATASETS) {
 						traceDataSets.remove(0);
 					}
-					DataSet[] plotValues = new DataSet[traceDataSets.size()];
-					for(int i = 0; i < traceDataSets.size(); i++) {
-						plotValues[i] = traceDataSets.get(i);				
+					DoubleDataset[] plotValues = new DoubleDataset[traceDataSets.size()];
+					for (int i = 0; i < traceDataSets.size(); i++) {
+						plotValues[i] = traceDataSets.get(i);
 					}
 					RCPPlotter.stackPlot(EDXD_PLOT, yAxis, plotValues);
-
 
 				}
 			}
 
 		} catch (Exception e) {
-			throw new DeviceException(e.getMessage(),e);
+			throw new DeviceException(e.getMessage(), e);
 		}
 
 	}

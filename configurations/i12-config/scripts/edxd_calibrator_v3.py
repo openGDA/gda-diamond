@@ -1,8 +1,9 @@
 import math
-from gda.analysis.utils import GeneticAlg
-from gda.analysis import DataSet, Fitter, RCPPlotter
-from gda.analysis.functions import Gaussian, StraightLine
-
+from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
+from gda.analysis import RCPPlotter
+from org.eclipse.dawnsci.analysis.dataset.impl import Dataset
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter
+from uk.ac.diamond.scisoft.analysis.fitting.functions import Gaussian, StraightLine 
 # call these 2 lines to get this to work.
 #ref = refinement()
 #ref.calibrate(20.0, 22., 24., 22.4, 0.001)
@@ -82,7 +83,7 @@ class refinement() :
 				maxval = tmp
 
 	
-		xds=DataSet(self.be)[start:stop]
+		xds=Dataset(self.be)[start:stop]
 
 		yds=self.ds[chan][start:stop]
 
@@ -92,11 +93,11 @@ class refinement() :
 		RCPPlotter.plot("Plot 1", xds ,[yds, fit.getFunction().makeDataSet([xds])])
 	
 		# get out the 2 peak values
-		peak1 = fit[2].getValue()
-		fwhm1 = fit[3].getValue()
+		peak1 = fit[2].getPosition()
+		fwhm1 = fit[3].getFWHM()
 
-		peak2 = fit[5].getValue()
-		fwhm2 = fit[6].getValue()
+		peak2 = fit[5].getPosition()
+		fwhm2 = fit[6].getFWHM()
 
 		# return the second peak
 		if peak1 > peak2:

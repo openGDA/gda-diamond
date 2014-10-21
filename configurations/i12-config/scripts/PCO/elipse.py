@@ -76,7 +76,7 @@ class ElipseProblem(ProblemDefinition) :
 		return value
 
 
-from gda.analysis.utils.optimisation import Neldermead
+from uk.ac.diamond.scisoft.analysis.optimize import NelderMead
 
 def get_DataSets(points) :
 	xvals = []
@@ -122,18 +122,26 @@ def fit_elipse(points):
 
 	print "firing up the GA!"
 
-	nm = Neldermead()
+# 	nm = Neldermead()
 
 	problem = ElipseProblem(points, 10)
 
 	inputvals = getparamsfrompoints(points)
 
-	result = nm.optimise(inputvals, problem, 0.0001)
+	problem.setParameterValues(inputvals) # = parameters
+#
+#  	result = nm.optimise(inputvals, problem, 0.0001)
+
+	nmd  = NelderMead()   # new guy  used uk.ac.diamond.scisoft.analysis.optimize.NelderMead
+	nmd.setAccuracy(0.0001)
+	nmd.optimize(None, None, problem)
+	result = problem.getParameterValues();
 
 	data = get_DataSets(points)
 
 	initial = elipse(inputvals[0],inputvals[1],inputvals[2],inputvals[3],inputvals[4],100)
 	
+# 	x,y,a,b,angle,numberofpoints
 	vals = elipse(result[0],result[1],result[2],result[3],result[4],100)
 	
 	init = get_DataSets(initial)

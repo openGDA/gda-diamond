@@ -1,7 +1,10 @@
 import math
-from gda.analysis.utils import GeneticAlg
-from gda.analysis import DataSet, Fitter, RCPPlotter
-from gda.analysis.functions import Gaussian, StraightLine
+from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
+from gda.analysis import RCPPlotter
+from uk.ac.diamond.scisoft.analysis.fitting.functions import StraightLine, Gaussian
+
+from  org.eclipse.dawnsci.analysis.dataset.impl import Dataset
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter
 
 #ref = refinement()
 #ref.calibrateElement(20.0,0,23. 24. 22.4 0.001)
@@ -66,14 +69,14 @@ class refinement() :
 		print start
 		print stop
 	
-		xds=DataSet(self.be)[start:stop]
+		xds=Dataset(self.be)[start:stop]
 
 		print "here"
 		yds=self.ds[chan][start:stop]
 
 		print "fitting the data"
 		# Fit the data using a GA
-		fit = Fitter.fit (xds, yds,GeneticAlg(0.01),[StraightLine(-yds.max(),yds.max(),yds.min(),yds.max()), Gaussian(min,max,2*(max-min),1000)])
+		fit = Fitter.fit(xds, yds, GeneticAlg(0.01), [StraightLine(-yds.max(),yds.max(),yds.min(),yds.max()), Gaussian(min,max,2*(max-min),1000)])
 
 		RCPPlotter.plot("Plot 1", xds ,[yds, fit.getFunction().makeDataSet([xds])])
 	

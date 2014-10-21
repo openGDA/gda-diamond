@@ -18,7 +18,6 @@
 
 package gda.device.detector.phantom;
 
-import gda.analysis.DataSet;
 import gda.analysis.ScanFileHolder;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorBase;
@@ -32,6 +31,7 @@ import javax.naming.TimeLimitExceededException;
 
 import org.eclipse.dawnsci.analysis.api.io.IFileSaver;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 /**
  * The main interface for the Phantom Camera, this is set on top of a set of hardware simulations and real classes.
@@ -396,11 +396,11 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 		boolean finished = false;
 		
-		DataSet dataSet;
+		DoubleDataset dataSet;
 		
 		while (!finished) {
 			try {
-				dataSet = new DataSet(600, 800, hardware.getDataBlock(600 * 800));
+				dataSet = new DoubleDataset(hardware.getDataBlock(600 * 800), 600, 800);
 				output.addDataSet("Image" + 0, dataSet);
 				finished = true;
 			} catch (OutOfMemoryError e) {
@@ -450,7 +450,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 		System.out.println(hardware.command("img { cine:1, start:" + cineNumber + ", cnt:1 }"));
 
-		DataSet dataSet = new DataSet(600, 800, hardware.getDataBlock(600 * 800));
+		DoubleDataset dataSet = new DoubleDataset(hardware.getDataBlock(600 * 800), 600, 800);
 		
 		try {
 			output.addDataSet("Image" + 0, dataSet);
@@ -611,7 +611,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 			// now collect the data off the camera
 			try {
 				//TODO need to sort out getting the height and width correctly
-				result.addDataSet("Frame"+i, new DataSet(600,800,hardware.getDataBlock(imageSize)));
+				result.addDataSet("Frame"+i, new DoubleDataset(hardware.getDataBlock(imageSize),600,800));
 			} catch (IndexOutOfBoundsException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

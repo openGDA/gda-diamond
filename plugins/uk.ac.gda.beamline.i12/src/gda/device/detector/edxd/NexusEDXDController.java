@@ -18,7 +18,6 @@
 
 package gda.device.detector.edxd;
 
-import gda.analysis.DataSet;
 import gda.analysis.RCPPlotter;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.Detector;
@@ -32,11 +31,12 @@ import gda.factory.Configurable;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.util.persistence.ObjectShelfException;
 import gda.util.persistence.LocalDatabase.LocalDatabaseException;
+import gda.util.persistence.ObjectShelfException;
 
 import java.util.ArrayList;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,7 +134,7 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 
 		int noOfSubDetectors = edxdController.getNumberOfElements();
 		// one final thing for the use of plotting
-		DataSet[] plotds = new DataSet[noOfSubDetectors];
+		DoubleDataset[] plotds = new DoubleDataset[noOfSubDetectors];
 
 
 		// populate the data item from the elements
@@ -143,11 +143,17 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 			EDXDElement det = edxdController.getSubDetector(i);
 
 			// add the data
-			plotds[i] = new DataSet(det.getName(),det.readoutDoubles());
+			double[] detData = det.readoutDoubles();
+			double thisSum = 0;
+			for (double item : detData) {
+				thisSum+= item;
+			}
+			totalCounts += thisSum;
 
-			totalCounts += plotds[i].sum();
+			plotds[i] = new DoubleDataset(detData);
+			plotds[i].getName();
 
-			data.addData(det.getName(), det.getDataDimensions(), det.getDataType(), plotds[i].doubleArray(), "counts", 1);
+			data.addData(det.getName(), det.getDataDimensions(), det.getDataType(), plotds[i], "counts", 1);
 
 			// add the energy Axis
 			double[] energy = det.getEnergyBins();
@@ -443,7 +449,7 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 
 	private boolean newTrace = true;
 
-	private ArrayList<DataSet> traceDataSets = new ArrayList<DataSet>();
+	private ArrayList<DoubleDataset> traceDataSets = new ArrayList<DoubleDataset>();
 
 	
 
@@ -516,18 +522,19 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 
 		// now the data is acquired, plot it out to plot2 for the time being.
 		int  noElem = edxdController.getNumberOfElements();
-		DataSet[] data = new DataSet[noElem];
+		DoubleDataset[] data = new DoubleDataset[noElem];
 
 		for( int i = 0; i < noElem; i++) {
 
 			EDXDElement det = edxdController.getSubDetector(i);
 
 			// add the data
-			data[i] = new DataSet(det.getName(),det.readoutDoubles());
-
+			data[i] = new DoubleDataset(det.readoutDoubles());
+			data[i].setName(det.getName());
 		}
-		DataSet yaxis = new DataSet("Energy",edxdController.getSubDetector(0).getEnergyBins());
-
+		DoubleDataset yaxis = new DoubleDataset(edxdController.getSubDetector(0).getEnergyBins());
+		yaxis.setName("Energy");
+		
 		try {
 			RCPPlotter.plot(EDXD_PLOT, yaxis, data);
 		} catch (Exception e) {
@@ -539,14 +546,16 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 
 
 	@SuppressWarnings("static-access")
-	private void updatePlots(DataSet[] plotds) throws Exception {
+	private void updatePlots(DoubleDataset[] plotds) throws Exception {
 		if(plotAllSpectra) {
-			DataSet yAxis = new DataSet("Energy",edxdController.getSubDetector(0).getEnergyBins());
+			DoubleDataset yAxis = new DoubleDataset(edxdController.getSubDetector(0).getEnergyBins());
+			yAxis.setName("Energy");
 			RCPPlotter.plot(EDXD_PLOT, yAxis, plotds);
 		} else {
 
 			if(traceOneSpectra!=null) {
-				DataSet yAxis = new DataSet("Energy",edxdController.getSubDetector(traceOneSpectra).getEnergyBins());
+				DoubleDataset yAxis = new DoubleDataset(edxdController.getSubDetector(traceOneSpectra).getEnergyBins());
+				yAxis.setName("Energy");
 				if (newTrace) {
 					traceDataSets.clear();
 					newTrace=false;
@@ -555,7 +564,7 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 				while (traceDataSets.size() > TOTAL_NUMBER_OF_TRACE_DATASETS) {
 					traceDataSets.remove(0);
 				}
-				DataSet[] plotValues = new DataSet[traceDataSets.size()];
+				DoubleDataset[] plotValues = new DoubleDataset[traceDataSets.size()];
 				for(int i = 0; i < traceDataSets.size(); i++) {
 					plotValues[i] = traceDataSets.get(i);				
 				}

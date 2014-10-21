@@ -1,13 +1,16 @@
-from gda.analysis.utils import NelderMead
-from gda.analysis.functions import CompositeFunction
-from gda.analysis.functions import Offset
-from gda.analysis import DataSet, RCPPlotter, Fitter
+from uk.ac.diamond.scisoft.analysis.fitting.functions import Offset, CompositeFunction
+from uk.ac.diamond.scisoft.analysis.optimize import NelderMead
+from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
+
+from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+
+from gda.analysis import RCPPlotter
 
 def parser(dataset):
     length = dataset.getDimensions()[0]
     #print length
     
-    ds = DataSet([length])
+    ds = DoubleDataset([length])
     peaks = []
     
     for i in range(length) :
