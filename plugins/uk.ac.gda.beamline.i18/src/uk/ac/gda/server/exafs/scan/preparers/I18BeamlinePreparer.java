@@ -23,7 +23,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.DetectorFillingMonitorScannable;
 import gda.device.scannable.I18BeamMonitor;
-import gda.device.scannable.LineRepeatingBeamMonitor;
+import gda.device.scannable.I18LineRepeatingBeamMonitor;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -57,7 +57,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 	private final TopupChecker topupMonitor;
 	private final I18BeamMonitor beamMonitor;
 	private final DetectorFillingMonitorScannable detectorFillingMonitor;
-	private final LineRepeatingBeamMonitor trajBeamMonitor;
+	private final I18LineRepeatingBeamMonitor trajBeamMonitor;
 	private final AutoRenameableConverter auto_mDeg_idGap_mm_converter;
 	private final Scannable energyScannable;
 
@@ -71,7 +71,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 	private boolean handleGapConverter;
 
 	public I18BeamlinePreparer(TopupChecker topupMonitor, I18BeamMonitor beamMonitor,
-			DetectorFillingMonitorScannable detectorFillingMonitor, LineRepeatingBeamMonitor trajBeamMonitor,
+			DetectorFillingMonitorScannable detectorFillingMonitor, I18LineRepeatingBeamMonitor trajBeamMonitor,
 			Scannable energyScannable, AutoRenameableConverter auto_mDeg_idGap_mm_converter) {
 		this.topupMonitor = topupMonitor;
 		this.beamMonitor = beamMonitor;

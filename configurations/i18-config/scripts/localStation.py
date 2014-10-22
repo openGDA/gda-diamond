@@ -15,7 +15,7 @@ from gda.device.scannable import DummyScannable
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import I18BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
-from gda.device.scannable import LineRepeatingBeamMonitor
+from gda.device.scannable import I18LineRepeatingBeamMonitor
 from gda.factory import Finder
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
 # from microfocus.map_select import MapSelect
@@ -62,7 +62,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     detectorFillingMonitor.setDuration(25.0)
     detectorFillingMonitor.configure()
 
-    trajBeamMonitor = LineRepeatingBeamMonitor(beamMonitor)
+    trajBeamMonitor = I18LineRepeatingBeamMonitor(energy)
     trajBeamMonitor.setName("trajBeamMonitor")
     trajBeamMonitor.configure()
     trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
@@ -104,10 +104,11 @@ else:
     detectorFillingMonitor = None
     trajBeamMonitor = None
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, trajBeamMonitor, energy_scannable_for_scans, auto_mDeg_idGap_mm_converter)
-xas = XasScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True)
-non_raster_map = MapScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z)
+xas =            XasScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True)
 xanes = xas
-qexafs = QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
+qexafs =         QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
+non_raster_map = MapScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z)
+raster_map =     RasterMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, traj1ContiniousX, traj1PositionReader, sc_MicroFocusSampleY, sc_sample_z)
 
 
 # if (LocalProperties.get("gda.mode") == 'live'):
@@ -144,7 +145,11 @@ qexafs = QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPr
 # raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,None, None, traj1SampleX, None, raster_xspress, traj1PositionReader, None)
 
 # map = MapSelect(non_raster_map, raster_map, raster_map_return_write)
-map = MapSelector(non_raster_map, None, None)
+
+
+
+
+map = MapSelector(non_raster_map, raster_map, None, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     detectorPreparer.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor)

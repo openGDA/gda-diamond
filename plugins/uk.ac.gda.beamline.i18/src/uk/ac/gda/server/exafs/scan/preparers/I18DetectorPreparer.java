@@ -15,6 +15,8 @@ import gda.jython.commands.ScannableCommands;
 
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
@@ -26,9 +28,10 @@ import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
+import uk.ac.gda.client.microfocus.scan.RasterMapDetectorPreparer;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
-public class I18DetectorPreparer implements QexafsDetectorPreparer {
+public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDetectorPreparer {
 
 	private final Scannable[] gains;
 	private final TfgScalerWithFrames counterTimer01;
@@ -44,9 +47,10 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	private BufferedDetector qexafs_xmap;
 	private BufferedDetector qexafs_xspress;
 	private BufferedDetector qexafsFFI0;
+	private BufferedDetector buffered_cid;
 
 	public I18DetectorPreparer(Scannable[] gains,
-			TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem, Xmap vortexConfig , BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress, BufferedDetector QexafsFFI0, BufferedDetector qexafs_xmap ) {
+			TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem, Xmap vortexConfig , BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress, BufferedDetector QexafsFFI0, BufferedDetector qexafs_xmap, BufferedDetector buffered_cid) {
 		this.gains = gains;
 		this.counterTimer01 = ionchambers;
 		this.xspress2system = xspressSystem;
@@ -55,6 +59,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		this.qexafs_xmap = qexafs_xmap;
 		this.qexafs_counterTimer01 = qexafs_counterTimer01;
 		this.qexafs_xspress = qexafs_xspress;
+		this.buffered_cid = buffered_cid;
 	}
 
 	@Override
@@ -105,7 +110,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	@Override
 	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
 		
-		// TODO this was written before xspress3 added and implemented on the beamline (this was done for 8.4 in November 2014)
+		// this was written before xspress3 added and implemented on the beamline (this was done for 8.4 in November 2014)
 		String expt_type = detectorBean.getExperimentType();
 		if (expt_type.equals("Transmission")) {
 			return new BufferedDetector[] { qexafs_counterTimer01 };
@@ -120,6 +125,25 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		
 		return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress, qexafsFFI0 };
 	}
+	
+	@Override
+	public BufferedDetector[] getRasterMapDetectors() throws Exception {
+
+		String expt_type = detectorBean.getExperimentType();
+		if (expt_type.equals("Transmission")) {
+			return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid };
+		}
+
+		if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Silicon")) {
+			return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xmap };
+		} /*else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) {
+			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3",
+					"qexafs_FFI0_xspress3" });
+		} */
+		
+		return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xspress };
+	}
+
 
 	public void addMonitors(TopupChecker topupMonitor, BeamMonitor beam,
 			DetectorFillingMonitorScannable detectorFillingMonitor) {
@@ -205,4 +229,5 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 			}
 		}
 	}
+
 }

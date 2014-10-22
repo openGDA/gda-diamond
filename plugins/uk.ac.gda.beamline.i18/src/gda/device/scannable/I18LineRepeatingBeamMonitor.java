@@ -20,39 +20,30 @@ package gda.device.scannable;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.epics.connection.InitializationListener;
 
 /**
- * I18 specific.
- * <p>
- * This will pause scans if the ring current goes below 1mA or if the front-end shutter is closed.
- * <p>
- * When the beam comes back it moves the energy scannable to its current position so that the ID gap is definitely at
- * the right place.
+ * Similar to I18BeamMonitor except that it throws a RedoScanLineThrowable to repeat the line instead of pausing the
+ * scan.
  */
-public class I18BeamMonitor extends BeamMonitor implements InitializationListener {
+public class I18LineRepeatingBeamMonitor extends LineRepeatingBeamMonitor {
 
 	private Scannable beamlineEnergyWithGapScannable;
 
-	public I18BeamMonitor(Scannable beamlineEnergyWithGapScannable) {
-		super();
+	public I18LineRepeatingBeamMonitor(Scannable beamlineEnergyWithGapScannable) {
+		this.beamlineEnergyWithGapScannable = beamlineEnergyWithGapScannable;
 		this.inputNames = new String[0];
 		this.extraNames = new String[0];
 		this.outputFormat = new String[0];
 		this.level = 1;
-		this.beamlineEnergyWithGapScannable = beamlineEnergyWithGapScannable;
 	}
 
 	@Override
 	protected void testShouldPause() throws DeviceException {
 		super.testShouldPause();
-
+		
 		// set energy to same value so idgap goes to correct position.
 		Double beamlineEnergy = (Double) beamlineEnergyWithGapScannable.getPosition();
 		beamlineEnergyWithGapScannable.moveTo(beamlineEnergy);
-	}
 
-	@Override
-	public void initializationCompleted() {
 	}
 }
