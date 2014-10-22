@@ -2,6 +2,7 @@ from gda.scan import ConstantVelocityRasterScan
 from gdascripts.scan import rasterscans
 from gdascripts.scan.rasterscans import RasterScan
 from gdascripts.scan.trajscans import setDefaultScannables
+from gda.epics import CAClient
 import time
 
 class XRFMap(RasterScan):
@@ -13,6 +14,7 @@ class XRFMap(RasterScan):
         self.columnScannable = columnScannable
         self.andor = andor
         self.vortex = vortex
+        
         # setup the Andor trigger to internal for snapshots by default
         if andor != None:
             andor.getCollectionStrategy().getAdBase().setTriggerMode(0)
@@ -21,21 +23,23 @@ class XRFMap(RasterScan):
     def __call__(self, *args):
 
         # if one arg, then use that as the map size, else ignore any and all args
-        from gda.epics import CAClient
+        
         if len(args) == 1:
             self.map_size = int(args[0])
         else :
             self.map_size = CAClient().get("BL08I-EA-DET-01:HDF5:ExtraDimSizeX_RBV")
             print "Map size will be",str(self.map_size)
-
+        self.OptimizeChunk()
+        
+        #self.XmapROISetup()
         if self.andor != None:
-            self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor, 0.1, self.vortex]       
+            self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor, 0.1, self.vortex,0.1]       
             self.andor.getCollectionStrategy().getAdBase().stopAcquiring()
             time.sleep(1)
             CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
             self.ROISetup()
         else:
-            self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.vortex]       
+            self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.vortex, 0.1]       
             
         RasterScan.__call__(self,self.scanargs)
      
@@ -73,8 +77,50 @@ class XRFMap(RasterScan):
         andor.roistats4.setRoi(XmidSize,YmidSize,XmidSize,YmidSize,"quadrant4")
         andor.roistats5.setRoi(0,0,Xsize,Ysize,"transmission")
       
+    def OptimizeChunk(self):
+        Xsize = andor.getCollectionStrategy().getAdBase().getArraySizeX_RBV()
+        Ysize = andor.getCollectionStrategy().getAdBase().getArraySizeY_RBV() 
+        dataType = andor.getCollectionStrategy().getAdBase().getDataType()
+        # Each chunk is 1 MByte
+        chunkSize = (1024**2)
+        #pixel size in bytes
+        pixelSize = (dataType+1)*2
+        framesPerChunk = (chunkSize)/(Xsize*Ysize*pixelSize)
+        print "framesperChunk:",framesPerChunk
+        andor.getAdditionalPluginList()[0].setFramesChunks(framesPerChunk)
+    
+    #EPICs ROI is set up with points number here we set up the ROI using beam energy
+    def setROI1 (self,startEnergy,stopEnergy):   
+        ROIstart = int(startEnergy/self.getEnergyBinWidth())
+        ROIsize = int(stopEnergy/self.getEnergyBinWidth())- ROIstart
+        self.vortex.xmaproistats1.setRoi(ROIstart,0,ROIsize,1,"roi1")
+         
+    def setROI2 (self,startEnergy,stopEnergy):   
+        ROIstart = int(startEnergy/self.getEnergyBinWidth())
+        ROIsize = int(stopEnergy/self.getEnergyBinWidth())- ROIstart    
+        self.vortex.xmaproistats2.setRoi(ROIstart,0,ROIsize,1,"roi2")
+    
+    def setROI3 (self,startEnergy,stopEnergy):       
+        ROIstart = int(startEnergy/self.getEnergyBinWidth())
+        ROIsize = int(stopEnergy/self.getEnergyBinWidth())- ROIstart
+        self.vortex.xmaproistats3.setRoi(ROIstart,0,ROIsize,1,"roi3")
+    
+    def setROI4 (self,startEnergy,stopEnergy): 
+        ROIstart = int(startEnergy/self.getEnergyBinWidth())
+        ROIsize = int(stopEnergy/self.getEnergyBinWidth())- ROIstart   
+        self.vortex.xmaproistats4.setRoi(ROIstart,0,ROIsize,1,"roi4")
+        
+    def getEnergyBinWidth(self):
+        return float(CAClient().get("BL08I-EA-DET-02:DXP1:MCABinWidth_RBV"))
+    
+    def setBinSpectrumSize(self,binSize): 
+        maxEnergy = 4.096       
+        CAClient().put("BL08I-EA-DET-02:MCA1.NUSE",str(binSize))
+        CAClient().put("BL08I-EA-DET-02:DXP1:MaxEnergy",str(maxEnergy))
+        
+        
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
 # row = stxmDummy.stxmDummyY
-xrfmap = XRFMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,None,_xmap)
+xrfmap = XRFMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor,_xmap)
 print "Command xrfmap(mapSize) created for arming the XRF (Vortex) detector before running STXM maps"
