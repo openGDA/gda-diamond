@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
  uk.ac.gda.common,
  uk.ac.gda.api,
- uk.ac.gda.core
+ uk.ac.gda.core,
+ uk.ac.gda.devices.vgscienta;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Diamond Light Source
@@ -22,8 +23,7 @@ Import-Package: org.eclipse.ui.intro.config,
  org.springframework.beans.factory.xml;version="3.0.4",
  org.springframework.context;version="3.0.4",
  org.springframework.core;version="3.0.4",
- org.springframework.util;version="3.0.4",
- uk.ac.gda.devices.vgscienta
+ org.springframework.util;version="3.0.4"
 Export-Package: uk.ac.gda.rcp.views.dashboard,
  uk.ac.gda.rcp.views.dashboard.actions,
  uk.ac.gda.rcp.views.sample
