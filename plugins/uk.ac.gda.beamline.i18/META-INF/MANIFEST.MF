@@ -31,16 +31,20 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.client;bundle-version="8.43.0",
  uk.ac.gda.client.experimentdefinition,
  uk.ac.gda.client.exafs;bundle-version="1.0.0",
- uk.ac.gda.client.microfocus;bundle-version="1.0.0"
+ uk.ac.gda.client.microfocus;bundle-version="1.0.0",
+ uk.ac.gda.client.vortex;bundle-version="1.0.0",
+ uk.ac.gda.nexus
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
+Export-Package: gda.device.scannable,
+ gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
  gda.exfas.ui.validation;
   uses:="uk.ac.gda.beans.exafs.i18,
    uk.ac.gda.beans.exafs,
    uk.ac.gda.beans.microfocus,
    gda.exafs.scan,
    uk.ac.gda.client.experimentdefinition",
+ gda.images.camera,
  uk.ac.gda.beamline.i18;
   uses:="org.eclipse.jface.resource,
    org.eclipse.ui,

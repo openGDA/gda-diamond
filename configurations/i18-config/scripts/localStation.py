@@ -95,6 +95,15 @@ detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xm
 samplePreparer = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 
+<<<<<<< HEAD
+=======
+detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig, I0_keithley, It_keithley, cmos_for_maps)
+samplePreparer =   I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x)
+outputPreparer =   I18OutputPreparer(datawriterconfig)
+
+
+# user mode on the live beamline, use energy
+>>>>>>> refs/remotes/origin/gda-8.40
 if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
     energy_scannable_for_scans = energy
 else:
@@ -122,6 +131,7 @@ raster_map =     RasterMap(beamlinePreparer, detectorPreparer, samplePreparer, o
     
 
 # give object references to energy and table motors, now do not need the finder or to edit XML
+<<<<<<< HEAD
 # non_raster_map.setEnergyScannables(energy,energy_nogap)
 # non_raster_map.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 # raster_map.setEnergyScannables(energy,energy_nogap)
@@ -129,6 +139,17 @@ raster_map =     RasterMap(beamlinePreparer, detectorPreparer, samplePreparer, o
 # raster_map_return_write.setEnergyScannables(energy,energy_nogap)
 # raster_map_return_write.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 # samplePreparer.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
+=======
+non_raster_map.setEnergyScannables(energy,energy_nogap)
+non_raster_map.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
+non_raster_map.setCmos(cmos_for_maps)
+raster_map.setEnergyScannables(energy,energy_nogap)
+raster_map.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
+raster_map.setCmos(cmos_for_maps)
+raster_map_return_write.setEnergyScannables(energy,energy_nogap)
+raster_map_return_write.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
+samplePreparer.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
+>>>>>>> refs/remotes/origin/gda-8.40
 
 
 # map = MapSelect(non_raster_map, raster_map, raster_map_return_write, samplePreparer)
@@ -150,6 +171,7 @@ raster_map =     RasterMap(beamlinePreparer, detectorPreparer, samplePreparer, o
 
 
 map = MapSelector(non_raster_map, raster_map, None, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader)
+
 
 if (LocalProperties.get("gda.mode") == 'live'):
     detectorPreparer.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor)

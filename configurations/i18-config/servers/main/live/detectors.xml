@@ -134,25 +134,19 @@
 			one value for each element -->
 		<property name="eventProcessingTimes">
 			<list>	
+<!-- 			values for the Vortex -->
 				<value>1.7867731067630825e-08</value>
 				<value>2.1322543748867164e-08</value>
 				<value>2.1412068256345848e-08</value>
 				<value>2.5302404673324592e-08</value>
-				
-<!-- 				old values changed 10/04/14 -->
-<!-- 				<value>3.297e-08</value> -->
-<!-- 				<value>2.813e-08</value> -->
-<!-- 				<value>2.065e-08</value> -->
-<!-- 				<value>1.781e-08</value> -->
-				
-<!-- 				new values changed 10/04/14 -->
-				<value>7.9028e-07</value>
-				<value>8.2e-07</value>
-				<value>2.616e-06</value>
-				<value>2.616e-06</value>
-				
-				<value>1.387e-08</value>
-				<value>3.604e-08</value>
+
+<!-- 			SGX	new values 3/10/14 -->
+				<value>8.9e-07</value>
+				<value>8.9e-07</value>
+				<value>8.6e-07</value>
+				<value>9.0e-07</value>
+				<value>8.7e-07</value>
+				<value>9.1e-07</value>
 			</list>
 		</property>
 
