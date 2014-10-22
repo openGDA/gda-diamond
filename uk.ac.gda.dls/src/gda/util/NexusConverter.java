@@ -19,7 +19,6 @@
 package gda.util;
 
 
-import gda.analysis.DataSet;
 import gda.analysis.ScanFileHolder;
 import gda.data.nexus.extractor.NexusExtractorException;
 
@@ -38,6 +37,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.nexusformat.NexusException;
 
 import uk.ac.diamond.scisoft.analysis.io.NexusLoader;
@@ -115,10 +115,10 @@ public class NexusConverter {
 			ScanFileHolder holder = new ScanFileHolder();
 			holder.load(new NexusLoader(nexus.getAbsolutePath()));
 			
-		    final DataSet set2d = holder.getAxis(name2d);
+		    final Dataset set2d = holder.getAxis(name2d);
 		    set2d.setName(name2d);
 		    
-		    DataSet set1d =  null;
+		    Dataset set1d =  null;
 		    if (key2d!=null){
 		    	set1d = holder.getAxis(key2d);
 		    	set1d.setName(key2d);
@@ -129,7 +129,7 @@ public class NexusConverter {
 		}
 	}
 
-	private static void write2D(final DataSet set1d, final DataSet set2d, final File out, final File nexus) throws Exception {
+	private static void write2D(final Dataset set1d, final Dataset set2d, final File out, final File nexus) throws Exception {
 		
 		final BufferedWriter writer = new BufferedWriter(new FileWriter(out));
 		try {
@@ -139,7 +139,7 @@ public class NexusConverter {
 			writer.write("# Header data is not currently recreated by the NexusConverter\n");
 			
 			writer.write(getTitlesLine(set1d, set2d));
-			final int[] dims = set2d.getDimensions();
+			final int[] dims = set2d.getShape();
 			
 			// Add columns for the second dimension.
 			StringBuilder buf = new StringBuilder("# ");
@@ -158,11 +158,11 @@ public class NexusConverter {
 	        for (int i = 0; i < dims[0]; i++) {
 				buf = new StringBuilder();
 				if (set1d!=null) {
-					buf.append(set1d.get(i));
+					buf.append(set1d.getDouble(i));
 					buf.append('\t');
 				}
 				for (int j = 0; j < dims[1]; j++) {
-					buf.append(set2d.get(i, j));
+					buf.append(set2d.getDouble(i, j));
 					buf.append('\t');
 				}
 				buf.append('\n');
@@ -244,14 +244,14 @@ public class NexusConverter {
 			writer.write("# Ascii file produced from '"+nexus.getAbsolutePath()+"' on "+DateFormat.getInstance().format(new Date())+"\n");
 			writer.write("# Header data is not currently recreated by the NexusConverter\n");
 			
-			final Map<String,DataSet> data = new HashMap<String, DataSet>(names.size());
+			final Map<String,Dataset> data = new HashMap<String, Dataset>(names.size());
 			
 			for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
 				
 				final String name = iterator.next();
 				try {
-					final DataSet set = holder.getAxis(name);
-					if (set.getDimensions().length>1) {
+					final Dataset set = holder.getAxis(name);
+					if (set.getShape().length>1) {
 						// Could sum it one day.
 						iterator.remove();
 						continue;
@@ -305,12 +305,12 @@ public class NexusConverter {
 		return ret;
 		
 	}
-	private static String getData(List<String> names, Map<String, DataSet> data, int i) {
+	private static String getData(List<String> names, Map<String, Dataset> data, int i) {
 		final StringBuilder buf = new StringBuilder();
 		for (String name : names) {
-			final DataSet set = data.get(name);
+			final Dataset set = data.get(name);
 			if (i<set.getSize()) {
-				buf.append(String.format("%9.4f", set.get(i)));
+				buf.append(String.format("%9.4f", set.getDouble(i)));
 			} else {
 				buf.append(" -   ");
 			}
@@ -320,23 +320,23 @@ public class NexusConverter {
 		return buf.toString();
 	}
 
-	private static int getMaxSizeFirstDimension(Map<String, DataSet> data) {
+	private static int getMaxSizeFirstDimension(Map<String, Dataset> data) {
 		int ret = Integer.MIN_VALUE;
-		for (DataSet set : data.values()) {
-			final int[] dims = set.getDimensions();
+		for (Dataset set : data.values()) {
+			final int[] dims = set.getShape();
 			ret = Math.max(dims[0], ret);
 		}
 		return ret;
 	}
 
-	private static String getTitlesLine(List<String> names, Map<String, DataSet> data) {
+	private static String getTitlesLine(List<String> names, Map<String, Dataset> data) {
 		final StringBuilder buf = new StringBuilder("# ");
 		for (String name : names) {
 			buf.append("  ");
 			buf.append(name);
 			
-			final DataSet set = data.get(name);
-			int     len = String.format("%9.4f", set.get(0)).length();
+			final Dataset set = data.get(name);
+			int     len = String.format("%9.4f", set.getDouble(0)).length();
 			len = len-name.length()-2;
 			for (int i = 0; i < len; i++) buf.append(" ");
 				
@@ -346,15 +346,15 @@ public class NexusConverter {
 		return buf.toString();
 	}
 	
-	private static String getTitlesLine(DataSet... data) {
+	private static String getTitlesLine(Dataset... data) {
 		final StringBuilder buf = new StringBuilder("# ");
-		for (DataSet set : data) {
+		for (Dataset set : data) {
 			
 			if (set==null) continue;
 			buf.append("  ");
 			buf.append(set.getName());
 			
-			int     len = String.format("%9.4f", set.get(0)).length();
+			int     len = String.format("%9.4f", set.getDouble(0)).length();
 			len = len-set.getName().length()-2;
 			for (int i = 0; i < len; i++) buf.append(" ");
 				
