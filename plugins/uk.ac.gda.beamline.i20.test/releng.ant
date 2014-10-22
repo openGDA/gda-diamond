@@ -31,6 +31,7 @@
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.client.experimentdefinition/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.client.exafs/bin" />
+				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.beans.vortex/bin" />
 				<pathelement location="${workspace.git.loc}/dawn-eclipse.git/org.eclipse.dawnsci.analysis.api/bin" />
 				<pathelement location="${workspace.git.loc}/scisoft-core.git/uk.ac.diamond.scisoft.analysis/bin" />
 				<path refid="libs.jars.path" />
