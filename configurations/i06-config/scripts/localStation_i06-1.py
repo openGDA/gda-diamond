@@ -45,15 +45,18 @@ userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
 #execfile(gdaScriptDir + "laserDelayStage.py");
 
 print "-------------------------------------------------------------------"
-print "Enable the Superconducting Magnet Control.";
-try:
-    execfile(gdaScriptDir + "BeamlineI06/useMagnet.py");
-except:
-    exceptionType, exception, traceback=sys.exc_info();
-    print "XXXXXXXXXX:  Magnet Setting Up Error "
-    logger.dump("---> ", exceptionType, exception, traceback)
-    localStationErrorCount+=1
-
+enableSuperconductingMagnetControl=True
+if enableSuperconductingMagnetControl:
+    print "Enable the Superconducting Magnet Control."
+    try:
+        execfile(gdaScriptDir + "BeamlineI06/useMagnet.py")
+    except:
+        exceptionType, exception, traceback=sys.exc_info()
+        print "XXXXXXXXXX:  Magnet Setting Up Error "
+        logger.dump("---> ", exceptionType, exception, traceback)
+        localStationErrorCount+=1
+else:
+    print "Not enabled: Superconducting Magnet Control."
 
 #Setup the PIXIS Camera
 try:
