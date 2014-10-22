@@ -1,5 +1,5 @@
 import math
-from gda.analysis.utils import GeneticAlg
+from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
 from gda.analysis import RCPPlotter
 from time import sleep
 from gda.factory import Finder

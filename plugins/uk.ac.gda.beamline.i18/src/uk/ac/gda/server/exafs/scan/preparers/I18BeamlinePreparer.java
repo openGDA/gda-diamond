@@ -57,26 +57,27 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 	private final TopupChecker topupMonitor;
 	private final I18BeamMonitor beamMonitor;
 	private final DetectorFillingMonitorScannable detectorFillingMonitor;
-	private final I18LineRepeatingBeamMonitor trajBeamMonitor;
 	private final AutoRenameableConverter auto_mDeg_idGap_mm_converter;
 	private final Scannable energyScannable;
 
 	private IScanParameters scanBean;
 	private IDetectorParameters detectorBean;
+	@SuppressWarnings("unused")
 	private ISampleParameters sampleParameters;
+	@SuppressWarnings("unused")
 	private IOutputParameters outputBean;
+	@SuppressWarnings("unused")
 	private String experimentFullPath;
 	private Date scanStart;
 
 	private boolean handleGapConverter;
 
 	public I18BeamlinePreparer(TopupChecker topupMonitor, I18BeamMonitor beamMonitor,
-			DetectorFillingMonitorScannable detectorFillingMonitor, I18LineRepeatingBeamMonitor trajBeamMonitor,
+			DetectorFillingMonitorScannable detectorFillingMonitor,
 			Scannable energyScannable, AutoRenameableConverter auto_mDeg_idGap_mm_converter) {
 		this.topupMonitor = topupMonitor;
 		this.beamMonitor = beamMonitor;
 		this.detectorFillingMonitor = detectorFillingMonitor;
-		this.trajBeamMonitor = trajBeamMonitor;
 		this.energyScannable = energyScannable;
 		this.auto_mDeg_idGap_mm_converter = auto_mDeg_idGap_mm_converter;
 	}

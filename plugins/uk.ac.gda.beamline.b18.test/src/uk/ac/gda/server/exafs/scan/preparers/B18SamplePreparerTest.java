@@ -20,8 +20,6 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import gda.device.Scannable;
-import gda.device.scannable.DummyScannable;
 import gda.device.scannable.ScannableMotor;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;

@@ -161,6 +161,37 @@
 		</property>
 	</bean>
 
+	<bean id="buffered_cid" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>right_minus_diode</value>
+				<value>right_plus_diode</value>
+				<value>left_minus_diode</value>
+				<value>left_plus_diode</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserver" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="firstDataChannel" value="3" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="ttlSocket" value="1" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+				<value>%4.6g</value>
+			</list>
+		</property>
+		<property name="slave" value="true" />
+	</bean>
+	
+
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller" ref="xmapcontroller" />
 

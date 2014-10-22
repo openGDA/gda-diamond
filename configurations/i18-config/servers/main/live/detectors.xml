@@ -215,17 +215,6 @@
 				<value>left_plus_diode</value>
 			</list>
 		</property>
-		
-<!-- 		<property name="scaler" ref="CalMemory" /> -->
-<!-- 		<property name="timer" ref="tfg" /> -->
-<!-- 		<property name="daserver" ref="daserver" /> -->
-<!-- 		<property name="timeChannelRequired" value="false" /> -->
-<!-- 		<property name="darkCurrentRequired" value="false" /> -->
-<!-- 		<property name="outputLogValues" value="false" /> -->
-<!-- 		<property name="TFGv2" value="true" /> -->
-<!-- 		<property name="numChannelsToRead" value="4" /> -->
-<!-- 		<property name="ttlSocket" value="1" /> -->
-		
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
 		<property name="daserver" ref="daserver" />

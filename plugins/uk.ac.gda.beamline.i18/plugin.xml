@@ -205,6 +205,14 @@
             class="uk.ac.gda.beans.exafs.QEXAFSParameters"
             describer="uk.ac.gda.exafs.ui.describers.QEXAFSParametersDescriber">
       </bean>
+      <bean
+            class="uk.ac.gda.beans.vortex.VortexParameters"
+            describer="uk.ac.gda.exafs.ui.describers.VortexDescriber">
+      </bean>
+      <bean
+            class="uk.ac.gda.beans.xspress.XspressParameters"
+            describer="uk.ac.gda.exafs.ui.describers.XspressDescriber">
+      </bean>
    </extension>
    <extension
          point="uk.ac.gda.client.dashboard.objects">
