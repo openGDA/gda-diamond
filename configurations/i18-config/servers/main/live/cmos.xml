@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
+	<!-- HDF5 file writers -->
 	<bean id="abstract_hdf5_filewriter_nochunking"
 		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter"
 		abstract="true">
@@ -17,6 +17,7 @@
 		<property name="framesFlush" value="0" />
 		<property name="lazyOpen" value="true" />
 		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="setChunking" value="false" /> 
 		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks 
 			is 64 -->
 	</bean>
@@ -35,18 +36,73 @@
 		<property name="fileNameTemplate" value="cmos" />
 	</bean>
 
+
+	<!-- Define ROIs -->
+<!-- 	<bean id="roistats1" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats1" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI1:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT1:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="roistats2" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats2" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI2:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT2:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="roistats3" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats3" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI3:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT3:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="roistats4" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats4" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI4:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT4:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="roistats5" -->
+<!-- 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> -->
+<!-- 		<property name="pluginName" value="roistats5" /> -->
+<!-- 		<property name="baseRoiPVName" value="BL18I-EA-DET-06:ROI5:" /> -->
+<!-- 		<property name="baseStatsPVName" value="BL18I-EA-DET-06:STAT5:" /> -->
+<!-- 		<property name="roiInputNdArrayPort" value="DET1.CAM" /> -->
+<!-- 		<property name="enabledBasicStats" value="Total" /> -->
+<!-- 		<property name="oneTimeSeriesCollectionPerLine" value="false" /> -->
+<!-- 	</bean> -->
+
+
+	<!-- main objects -->
 	<bean id="cmos_base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL18I-EA-DET-06:CAM:" />
 	</bean>
 
-	<bean id="cmos_collection_strategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+	<bean id="cmos_stepscan_collection_strategy"
+		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
 		<constructor-arg ref="cmos_base" />
 		<constructor-arg value="0." />
 	</bean>
 
 	<bean id="cmos" class="gda.device.detector.NXDetector">
 		<property name="name" value="cmos" />
-		<property name="collectionStrategy" ref="cmos_collection_strategy" />
+		<property name="collectionStrategy" ref="cmos_stepscan_collection_strategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="cmos_hdf5_filewriter_nochunking" />
@@ -54,6 +110,46 @@
 		</property>
 	</bean>
 
+	<bean id="cmos_hardwaretriggered_strategy"
+		class="gda.device.detector.addetector.triggering.CMOSMultipleHardwareTriggered">
+		<constructor-arg ref="cmos_base" />
+		<constructor-arg value="1.5" />
+		<property name="generateCallbacks" value="true" />
+	</bean>
 
+<!-- NXDetector cannot be used on ContinuousScans, but that's OK as the readout time is so large there would be no gain for use in raster scans -->
+	<bean id="cmos_for_maps" class="gda.device.detector.NXDetector">
+		<property name="name" value="cmos" />
+		<property name="collectionStrategy" ref="cmos_hardwaretriggered_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cmos_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
+<!-- I am leaving this here as this could be used for phase contrast in the future. Never tested though. -->
+
+<!-- 	<bean id="cmos_for_phasecontrast" class="gda.device.detector.NXDetector"> -->
+<!-- 		<property name="name" value="cmos" /> -->
+<!-- 		<property name="collectionStrategy" ref="cmos_hardwaretriggered_strategy" /> -->
+<!-- 		<property name="additionalPluginList"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="cmos_hdf5_filewriter_nochunking" /> -->
+<!-- 				<ref bean="roistats1" /> -->
+<!-- 				<ref bean="roistats2" /> -->
+<!-- 				<ref bean="roistats3" /> -->
+<!-- 				<ref bean="roistats4" /> -->
+<!-- 				<ref bean="roistats5" /> -->
+<!-- 				<bean -->
+<!-- 					class="gda.device.detector.nxdetector.plugin.areadetector.phasecontrast.PhaseContrastCalculationPlugin"> -->
+<!-- 					<property name="roi1Name" value="quadrant1" /> -->
+<!-- 					<property name="roi2Name" value="quadrant2" /> -->
+<!-- 					<property name="roi3Name" value="quadrant3" /> -->
+<!-- 					<property name="roi4Name" value="quadrant4" /> -->
+<!-- 				</bean> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
 </beans>

@@ -136,25 +136,19 @@
 			one value for each element -->
 		<property name="eventProcessingTimes">
 			<list>	
+<!-- 			values for the Vortex -->
 				<value>1.7867731067630825e-08</value>
 				<value>2.1322543748867164e-08</value>
 				<value>2.1412068256345848e-08</value>
 				<value>2.5302404673324592e-08</value>
-				
-<!-- 				old values changed 10/04/14 -->
-<!-- 				<value>3.297e-08</value> -->
-<!-- 				<value>2.813e-08</value> -->
-<!-- 				<value>2.065e-08</value> -->
-<!-- 				<value>1.781e-08</value> -->
-				
-<!-- 				new values changed 10/04/14 -->
-				<value>7.9028e-07</value>
-				<value>8.2e-07</value>
-				<value>2.616e-06</value>
-				<value>2.616e-06</value>
-				
-				<value>1.387e-08</value>
-				<value>3.604e-08</value>
+
+<!-- 			SGX	new values 3/10/14 -->
+				<value>8.9e-07</value>
+				<value>8.9e-07</value>
+				<value>8.6e-07</value>
+				<value>9.0e-07</value>
+				<value>8.7e-07</value>
+				<value>9.1e-07</value>
 			</list>
 		</property>
 
@@ -174,6 +168,7 @@
 	</bean>
 	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="raster_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
 		<property name="xmap" ref="xmapMca" />
@@ -278,7 +273,39 @@
 		<property name="xmap" ref="xmapMca" />
 		<property name="counterTimer" ref="counterTimer01" />
 		<property name="i0_channel" value="1" />
+		<property name="local" value="true" />
 	</bean>
 
-	
+	<bean id="I0_keithley" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL18I-EA-IAMP-02:Gain" />
+		<property name="values">
+			<map>
+				<entry key="10^3 V/A" value="10^3 V/A" />
+				<entry key="10^4 V/A" value="10^4 V/A" />
+				<entry key="10^5 V/A" value="10^5 V/A" />
+				<entry key="10^6 V/A" value="10^6 V/A" />
+				<entry key="10^7 V/A" value="10^7 V/A" />
+				<entry key="10^8 V/A" value="10^8 V/A" />
+				<entry key="10^9 V/A" value="10^9 V/A" />
+				<entry key="10^10 V/A" value="10^10 V/A" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="It_keithley" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="pvName" value="BL18I-EA-IAMP-03:Gain" />
+		<property name="values">
+			<map>
+				<entry key="10^3 V/A" value="10^3 V/A" />
+				<entry key="10^4 V/A" value="10^4 V/A" />
+				<entry key="10^5 V/A" value="10^5 V/A" />
+				<entry key="10^6 V/A" value="10^6 V/A" />
+				<entry key="10^7 V/A" value="10^7 V/A" />
+				<entry key="10^8 V/A" value="10^8 V/A" />
+				<entry key="10^9 V/A" value="10^9 V/A" />
+				<entry key="10^10 V/A" value="10^10 V/A" />
+			</map>
+		</property>
+	</bean>
+		
 </beans>
