@@ -212,6 +212,7 @@
 				<ref bean="pixium_hdf.adarrayplugin"/>
 			</list>
 		</property>
+		<property name="eventAdmin" ref="eventadmin"/>
 	</bean>
 	
 <!-- 	using multiple exposures per image in TIFF, not process plugin, using EPICS write tiff files -->
