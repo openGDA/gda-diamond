@@ -56,7 +56,7 @@
 	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
 		<property name="motor" ref="bragg_motor" />
-		<property name="scalingFactor" value="-1" />
+		<property name="scalingFactor" value="1" />
 		<property name="protectionLevel" value="3" />
 	</bean>
 
