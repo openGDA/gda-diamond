@@ -53,7 +53,7 @@
 		<property name="remotePort" value="9999" />
 	</bean>
 
-	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+<!-- 	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" /> -->
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 

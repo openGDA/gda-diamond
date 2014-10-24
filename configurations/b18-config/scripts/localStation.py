@@ -1,10 +1,11 @@
 print "Initialization Started";
 
-from exafsscripts.exafs.b18DetectorPreparer import B18DetectorPreparer
-from exafsscripts.exafs.b18SamplePreparer import B18SamplePreparer
-from exafsscripts.exafs.b18OutputPreparer import B18OutputPreparer
-from exafsscripts.exafs.xas_scan import XasScan
-from exafsscripts.exafs.qexafs_scan import QexafsScan
+from uk.ac.gda.server.exafs.scan.preparers import B18BeamlinePreparer
+from uk.ac.gda.server.exafs.scan.preparers import B18DetectorPreparer
+from uk.ac.gda.server.exafs.scan.preparers import B18SamplePreparer
+from uk.ac.gda.server.exafs.scan.preparers import B18OutputPreparer
+from uk.ac.gda.server.exafs.scan import XasScan, QexafsScan
+# from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import BeamMonitor
 from gda.device.scannable import MonoCoolScannable
@@ -13,25 +14,18 @@ from gda.configuration.properties import LocalProperties
 from gda.jython.scriptcontroller.logging import LoggingScriptController
 from gda.scan import ScanBase#this is required for skip current repetition to work BLXVIIIB-99
 from gda.device.monitor import EpicsMonitor
-#from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
 from gda.data.scan.datawriter import NexusDataWriter
-from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig, Xspress3Config
+# from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig, Xspress3Config
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
-ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
+# ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 
 
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
-
-
-xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
-vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
-xspress3Config = Xspress3Config(xspress3, ExafsScriptObserver)
-
 
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units]
@@ -40,18 +34,18 @@ offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_
 
 
 #if (LocalProperties.get("gda.mode") == 'live'):
-detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig, xspress3Config)
+detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
 #else:
 #    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
-outputPreparer = B18OutputPreparer(datawriterconfig)
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01)
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
+outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
+xas = XasScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy,Finder.getInstance().find("metashop"), True)
 xanes = xas
+qexafs = QexafsScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
 
-alias("xas")
-alias("xanes")
-alias("qexafs")
+vararg_alias("xas")
+vararg_alias("xanes")
+vararg_alias("qexafs")
 alias("vortex")
 alias("xspress")
 alias("meta_add")
@@ -76,7 +70,7 @@ topupMonitor.setScannableToBeMonitored(topup)
 beamMonitor = BeamMonitor()
 beamMonitor.setName("beamMonitor")
 beamMonitor.setMachineModeMonitor(machineModeMonitor)
-beamMonitor.setShutterPV("FE18B-PS-SHTR-02:STA")
+beamMonitor.setShutterPVs(["FE18B-PS-SHTR-01:STA","FE18B-PS-SHTR-01:STA"])  # there are two shutters, it looks like only shutter 1 is operated!
 beamMonitor.setPauseBeforeScan(True)     # for qexafs, test FE and machine current at the start of each scan
 beamMonitor.configure()
 
@@ -108,6 +102,8 @@ if (LocalProperties.get("gda.mode") == 'live'):
     
     run "userStartupScript"
 else :
+    print "Moving dummy DCM's to useful positions..."
     energy(7000) # start the simulation with an energy in a useful range
-
+    qexafs_energy(7000)
+    print "...moves done";
 print "Initialization Complete";

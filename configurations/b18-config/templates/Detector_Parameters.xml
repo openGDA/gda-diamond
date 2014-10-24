@@ -18,6 +18,12 @@
         <detector>xspress2system</detector>
         <detector>counterTimer01</detector>
     </detectorGroup>
+    <detectorGroup>
+        <name>Xspress3</name>
+        <detector>xspress3</detector>
+        <detector>FFI0_xspress3</detector>
+        <detector>counterTimer01</detector>
+    </detectorGroup>
     <experimentType>Transmission</experimentType>
     <transmission>
         <detectorType>transmission</detectorType>

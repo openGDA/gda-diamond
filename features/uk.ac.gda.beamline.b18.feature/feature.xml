@@ -50,13 +50,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.server.exafs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.devices.mythen.visualisation"
          download-size="0"
          install-size="0"
@@ -65,20 +58,6 @@
 
    <plugin
          id="uk.ac.diamond.scisoft.spectroscopy"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.swingclient"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.server.exafs.epics"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -112,19 +91,6 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
-         id="uk.ac.gda.client.xspress2"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.exafs.datawriter"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="uk.ac.gda.devices.xspress2"
@@ -138,13 +104,6 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-
-   <plugin
-         id="uk.ac.gda.client.vortex"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="uk.ac.gda.devices.xspress3"

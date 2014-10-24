@@ -1,0 +1,9 @@
+# ignore build output
+/bin
+
+# ignore backup and temporary files
+*~
+*.tmp
+*.bak
+/bin/
+

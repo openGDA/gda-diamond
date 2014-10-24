@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
      
-     <bean id="qexafs_energy" class="gda.device.scannable.QexafsTestingScannable">
+     <bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
 		<property name="motor" ref="energy_motor" />
 		<property name="lowerGdaLimits" value="2000" />
 		<property name="upperGdaLimits" value="35000" />
@@ -16,6 +16,7 @@
 
 	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
+		<property name="daserver" ref="DAServer" />
 		<property name="inputNames">
 			<list>
 			</list>
@@ -40,10 +41,10 @@
 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
-				<value>liveTime</value>
+				<value>time</value>
 				<value>I0</value>
 				<value>It</value>
-				<value>Iother</value>
+				<value>Iref</value>
 				<value>lnI0It</value>
 				<value>lnItIref</value>
 			</list>
@@ -55,11 +56,11 @@
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
+		<property name="numChannelsToRead" value="3" />
 		<property name="outputFormat">
 			<list>
-				<value>%6.4g</value>
-				<value>%6.4g</value>
+				<value>%.6g</value>
+				<value>%6.5g</value>
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>

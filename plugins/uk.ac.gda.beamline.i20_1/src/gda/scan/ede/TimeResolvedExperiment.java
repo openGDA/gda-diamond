@@ -85,18 +85,16 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	@Override
 	protected boolean shouldPublishItScanData(EdeScanProgressBean progress) {
 		int current = 0;
+		List<TimingGroup> groups = itScans[0].getScanParameters().getTimingGroups();
 		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
-			current += itScans[0].getScanParameters().getTimingGroups().get(i).getNumberOfFrames();
-		}
-		if (current == 0) {
-			return true;
+			current += groups.get(i).getNumberOfFrames();
 		}
 		current += progress.getFrameNumOfThisSDP() + 1; // + 1 because it is 0 index
 		int avg = (int) (totalNumberOfspectra / (totalTime / noOfSecPerSpectrumToPublish));
 		if (avg < 1) {
 			avg = 1;
 		}
-		if (current % avg == 0 || current == totalNumberOfspectra) {
+		if (current % avg == 0 || current == totalNumberOfspectra || current == 1) {
 			return true;
 		}
 		return false;

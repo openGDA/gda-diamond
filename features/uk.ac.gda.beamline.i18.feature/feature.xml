@@ -114,13 +114,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.client.xspress2"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.devices.xspress2"
          download-size="0"
          install-size="0"
@@ -137,13 +130,6 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-
-   <plugin
-         id="uk.ac.gda.client.vortex"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="uk.ac.gda.devices.xspress3"

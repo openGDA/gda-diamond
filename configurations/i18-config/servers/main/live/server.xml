@@ -25,14 +25,13 @@
 
 	<import resource="file:${gda.config}/servers/main/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/keithleys.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/table1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/table3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/trajStage1.xml" />
-<!-- 	temp reomved while IOC switched off -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/trajStage3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/cmos.xml" />
-<!--     <import resource="file:${gda.config}/servers/main/${gda.mode}/attocubes.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/qexafs.xml" />
 	<import resource="file:${gda.config}/servers/main/datawriter.xml" />

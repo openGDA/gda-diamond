@@ -445,6 +445,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		this.scanType = scanType;
 	}
 
+	@Override
 	public StripDetector getDetector() {
 		return theDetector;
 	}
