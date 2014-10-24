@@ -216,20 +216,22 @@
 		<property name="marName" value="mar165" /> <property name="pixelSize" value="0.000080" 
 		/> <property name="detectorType" value="SAXS" /> </bean> 
 		
-
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
+-->
+<!--
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
 		<property name="epicsDeviceName" value="edxd" />
-		<property name="NUMBER_OF_ELEMENTS" value="4" />
+		<property name="numberOfElements" value="4" />
+		<property name="elementOffset" value="1" />
 	</bean>
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController2">
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="local" value="true" />
 		<property name="edxdControllerName" value="edxdcontroller" />
 	</bean>
 	<bean id="xmap" class="uk.ac.gda.server.ncd.subdetector.NcdXmapDetector">
 		<property name="xmapControllerName" value="xmapcontroller" />
 	</bean>
--->
+	-->
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
@@ -242,7 +244,7 @@
 				<ref bean="I0" />
 				<ref bean="It" />
 				<ref bean="TfgTimes" />
-				<!-- <bean="xmap" /> -->
+	<!--			<ref bean="xmap" />-->
 			</list>
 		</property>
 	</bean>
