@@ -30,6 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.dawb.common.ui.widgets.ActionBarWrapper;
+import org.dawnsci.plotting.tools.profile.model.SpectraRegionDataNode;
 import org.dawnsci.plotting.tools.profile.model.SpectrumDataNode;
 import org.dawnsci.plotting.tools.profile.model.TimeEnergyShiftingModel;
 import org.dawnsci.plotting.tools.profile.model.TimeResolvedDataNode;
