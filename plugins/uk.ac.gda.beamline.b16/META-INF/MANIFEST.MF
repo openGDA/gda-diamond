@@ -16,8 +16,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources;bundle-version="3.6.0",
  uk.ac.gda.libs;bundle-version="1.0.0",
  uk.ac.gda.common.client;bundle-version="1.0.0",
- uk.ac.gda.devices.xmap;bundle-version="1.0.0",
- uk.ac.gda.client.vortex;bundle-version="1.0.0"
+ uk.ac.gda.devices.xmap;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: uk.ac.gda.beamline.b16
