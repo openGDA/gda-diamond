@@ -5,6 +5,7 @@ import gda.data.scan.datawriter.DataWriter;
 import gda.data.scan.datawriter.DataWriterFactory;
 import gda.data.scan.datawriter.DefaultDataWriterFactory;
 import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
+import gda.device.Detector;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
@@ -260,6 +261,12 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	public void setAdditional_channels_enabled(boolean additional_channels_enabled) {
 		this.additional_channels_enabled = additional_channels_enabled;
+	}
+
+	@Override
+	public Detector[] getExtraDetectors() {
+		// not required for this beamline
+		return null;
 	}
 
 }

@@ -4,7 +4,7 @@ from uk.ac.gda.server.exafs.scan.preparers import I18BeamlinePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
-from uk.ac.gda.server.exafs.scan import XasScan, QexafsScan
+from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan
 from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap
 
 from gda.configuration.properties import LocalProperties
@@ -87,7 +87,7 @@ elementListScriptController =  finder.find("elementListScriptController")
 
 gains = [i0_keithley_gain, it_keithley_gain]
 
-detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xmapMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap, buffered_cid)
+detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xmapMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap, buffered_cid, None)
 samplePreparer   = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 
@@ -101,7 +101,7 @@ else:
     trajBeamMonitor = None
     
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy_scannable_for_scans, auto_mDeg_idGap_mm_converter)
-xas =            XasScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True)
+xas =            EnergyScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True)
 xanes = xas
 qexafs =         QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
 non_raster_map = StepMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, elementListScriptController)

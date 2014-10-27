@@ -18,9 +18,9 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import static org.junit.Assert.fail;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
+import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
@@ -44,6 +44,7 @@ import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
+import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 
 public class I18DetectorPreparerTest {
 
@@ -56,6 +57,8 @@ public class I18DetectorPreparerTest {
 	private BufferedDetector qexafs_xspress;
 	private BufferedDetector QexafsFFI0;
 	private BufferedDetector qexafs_xmap;
+	private NXDetector cmos_for_maps;
+	private BufferedDetector buffered_cid;
 
 	@Before
 	public void setup() {
@@ -77,16 +80,15 @@ public class I18DetectorPreparerTest {
 		qexafs_xspress = (BufferedDetector) createMock(BufferedDetector.class, "qexafs_xspress");
 		QexafsFFI0 = (BufferedDetector) createMock(BufferedDetector.class, "QexafsFFI0");
 		qexafs_xmap = (BufferedDetector) createMock(BufferedDetector.class, "qexafs_xmap");
+		buffered_cid = (BufferedDetector) createMock(BufferedDetector.class, "buffered_cid");
+		cmos_for_maps = (NXDetector) createMock(NXDetector.class, "cmos_for_maps");
 
 		sensitivities = new Scannable[3];
 		sensitivities[0] = createMockScannable("i0_keithley_gain");
 		sensitivities[1] = createMockScannable("it_keithley_gain");
 
-//		public I18DetectorPreparer(Scannable[] gains,
-//				TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem, Xmap vortexConfig , BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress, BufferedDetector QexafsFFI0, BufferedDetector qexafs_xmap ) {
-
-		thePreparer = new I18DetectorPreparer(sensitivities, ionchambers,
-				xspressSystem, xmpaMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap);
+		thePreparer = new I18DetectorPreparer(sensitivities, ionchambers, xspressSystem, xmpaMca,
+				qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap, buffered_cid, cmos_for_maps);
 	}
 
 	private Scannable createMockScannable(String string) {
@@ -103,73 +105,99 @@ public class I18DetectorPreparerTest {
 	}
 
 	@Test
-	public void testFluoDetectors() {
-		try {
-			Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
+	public void testDiffractionDetectors() throws Exception {
+		Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
 
-			FluorescenceParameters fluoParams = new FluorescenceParameters();
-			fluoParams.setCollectDiffractionImages(false);
-			for (IonChamberParameters params : ionParamsSet) {
-				fluoParams.addIonChamberParameter(params);
-			}
-
-			fluoParams.setConfigFileName("Fluo_config.xml");
-			fluoParams.setDetectorType("Germanium");
-
-			DetectorParameters detParams = new DetectorParameters();
-			detParams.setFluorescenceParameters(fluoParams);
-			detParams.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
-
-			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
-
-			Mockito.verify(xspressSystem).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
-			Mockito.verify(xspressSystem).configure();
-			Mockito.verifyZeroInteractions(xmpaMca);
-
-			fluoParams.setDetectorType("Silicon");
-			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
-			Mockito.verify(xmpaMca).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
-			Mockito.verify(xmpaMca).configure();
-
-		} catch (Exception e) {
-			fail(e.getMessage());
+		FluorescenceParameters fluoParams = new FluorescenceParameters();
+		for (IonChamberParameters params : ionParamsSet) {
+			fluoParams.addIonChamberParameter(params);
 		}
+
+		fluoParams.setConfigFileName("Fluo_config.xml");
+		fluoParams.setDetectorType("Germanium");
+
+		DetectorParameters detParams = new DetectorParameters();
+		detParams.setFluorescenceParameters(fluoParams);
+		detParams.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
+		
+		MicroFocusScanParameters mfParameters = new MicroFocusScanParameters();
+
+		thePreparer.configure(mfParameters, detParams, null, "/scratch/test/xml/path/");
+		
+		// only return an object for step maps with diffraction flag set to true
+		
+		mfParameters.setRaster(false);
+		fluoParams.setCollectDiffractionImages(true);
+		org.junit.Assert.assertEquals(cmos_for_maps, thePreparer.getExtraDetectors()[0]);
+		
+		mfParameters.setRaster(false);
+		fluoParams.setCollectDiffractionImages(false);
+		org.junit.Assert.assertNull(thePreparer.getExtraDetectors());
+		
+		
+		mfParameters.setRaster(true);
+		fluoParams.setCollectDiffractionImages(true);
+		org.junit.Assert.assertNull(thePreparer.getExtraDetectors());
 	}
 
 	@Test
-	public void testFluoTimes() {
-		try {
-			Region region = new Region();
-			region.setEnergy(7000.0);
-			region.setStep(3.0);
-			region.setTime(1.0);
+	public void testFluoDetectors() throws Exception {
+		Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
 
-			XanesScanParameters xanesParams = new XanesScanParameters();
-			xanesParams.setEdge("K");
-			xanesParams.setElement("Fe");
-			xanesParams.addRegion(region);
-			xanesParams.setFinalEnergy(7021.0);
-
-			Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
-
-			TransmissionParameters transParams = new TransmissionParameters();
-			transParams.setCollectDiffractionImages(false);
-			for (IonChamberParameters params : ionParamsSet) {
-				transParams.addIonChamberParameter(params);
-			}
-
-			DetectorParameters detParams = new DetectorParameters();
-			detParams.setTransmissionParameters(transParams);
-			detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
-
-			thePreparer.configure(xanesParams, detParams, null, "/scratch/test/xml/path");
-			thePreparer.beforeEachRepetition();
-
-			Mockito.verify(ionchambers).setTimes(new Double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 });
-
-		} catch (Exception e) {
-			fail(e.getMessage());
+		FluorescenceParameters fluoParams = new FluorescenceParameters();
+		fluoParams.setCollectDiffractionImages(false);
+		for (IonChamberParameters params : ionParamsSet) {
+			fluoParams.addIonChamberParameter(params);
 		}
+
+		fluoParams.setConfigFileName("Fluo_config.xml");
+		fluoParams.setDetectorType("Germanium");
+
+		DetectorParameters detParams = new DetectorParameters();
+		detParams.setFluorescenceParameters(fluoParams);
+		detParams.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
+
+		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
+
+		Mockito.verify(xspressSystem).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
+		Mockito.verify(xspressSystem).configure();
+		Mockito.verifyZeroInteractions(xmpaMca);
+
+		fluoParams.setDetectorType("Silicon");
+		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
+		Mockito.verify(xmpaMca).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
+		Mockito.verify(xmpaMca).configure();
+	}
+
+	@Test
+	public void testFluoTimes() throws Exception {
+		Region region = new Region();
+		region.setEnergy(7000.0);
+		region.setStep(3.0);
+		region.setTime(1.0);
+
+		XanesScanParameters xanesParams = new XanesScanParameters();
+		xanesParams.setEdge("K");
+		xanesParams.setElement("Fe");
+		xanesParams.addRegion(region);
+		xanesParams.setFinalEnergy(7021.0);
+
+		Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
+
+		TransmissionParameters transParams = new TransmissionParameters();
+		transParams.setCollectDiffractionImages(false);
+		for (IonChamberParameters params : ionParamsSet) {
+			transParams.addIonChamberParameter(params);
+		}
+
+		DetectorParameters detParams = new DetectorParameters();
+		detParams.setTransmissionParameters(transParams);
+		detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
+
+		thePreparer.configure(xanesParams, detParams, null, "/scratch/test/xml/path");
+		thePreparer.beforeEachRepetition();
+
+		Mockito.verify(ionchambers).setTimes(new Double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 });
 	}
 
 	private Set<IonChamberParameters> makeIonChamberParameters() {
@@ -200,27 +228,22 @@ public class I18DetectorPreparerTest {
 	}
 
 	@Test
-	public void testIonChambers() {
-		try {
-			Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
+	public void testIonChambers() throws Exception {
+		Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
 
-			TransmissionParameters transParams = new TransmissionParameters();
-			transParams.setCollectDiffractionImages(false);
-			for (IonChamberParameters params : ionParamsSet) {
-				transParams.addIonChamberParameter(params);
-			}
-
-			DetectorParameters detParams = new DetectorParameters();
-			detParams.setTransmissionParameters(transParams);
-			detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
-
-			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path");
-
-			Mockito.verify(sensitivities[0]).moveTo("1 nA/V");
-
-		} catch (Exception e) {
-			fail(e.getMessage());
+		TransmissionParameters transParams = new TransmissionParameters();
+		transParams.setCollectDiffractionImages(false);
+		for (IonChamberParameters params : ionParamsSet) {
+			transParams.addIonChamberParameter(params);
 		}
+
+		DetectorParameters detParams = new DetectorParameters();
+		detParams.setTransmissionParameters(transParams);
+		detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
+
+		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path");
+
+		Mockito.verify(sensitivities[0]).moveTo("1 nA/V");
 	}
 
 }

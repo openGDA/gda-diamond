@@ -1,7 +1,10 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import gda.device.Detector;
+import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
+import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
@@ -14,8 +17,6 @@ import gda.jython.InterfaceProvider;
 import gda.jython.commands.ScannableCommands;
 
 import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
 
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -48,9 +49,12 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 	private BufferedDetector qexafs_xspress;
 	private BufferedDetector qexafsFFI0;
 	private BufferedDetector buffered_cid;
+	private NXDetector hardwareTriggeredCmos;
 
-	public I18DetectorPreparer(Scannable[] gains,
-			TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem, Xmap vortexConfig , BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress, BufferedDetector QexafsFFI0, BufferedDetector qexafs_xmap, BufferedDetector buffered_cid) {
+	public I18DetectorPreparer(Scannable[] gains, TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem,
+			Xmap vortexConfig, BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress,
+			BufferedDetector QexafsFFI0, BufferedDetector qexafs_xmap, BufferedDetector buffered_cid,
+			NXDetector hardwareTriggeredCmos) {
 		this.gains = gains;
 		this.counterTimer01 = ionchambers;
 		this.xspress2system = xspressSystem;
@@ -60,6 +64,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 		this.qexafs_counterTimer01 = qexafs_counterTimer01;
 		this.qexafs_xspress = qexafs_xspress;
 		this.buffered_cid = buffered_cid;
+		this.hardwareTriggeredCmos = hardwareTriggeredCmos;
 	}
 
 	@Override
@@ -81,9 +86,27 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 				xmpaMca.configure();
 			}
 			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
+			if (fluoresenceParameters.isCollectDiffractionImages() && scanBean instanceof MicroFocusScanParameters) {
+				control_cmos((MicroFocusScanParameters) scanBean);
+			}
 		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
 			TransmissionParameters transmissionParameters = detectorBean.getTransmissionParameters();
 			control_all_ionc(transmissionParameters.getIonChamberParameters());
+		}
+	}
+
+	private void control_cmos(MicroFocusScanParameters microFocusParameters) throws DeviceException {
+		if (microFocusParameters.isRaster()) {
+			double rowLength = microFocusParameters.getXEnd() - microFocusParameters.getXStart();
+			long pointsPerRow = Math.round(Math.floor((rowLength / microFocusParameters.getXStepSize()))) + 1;
+			// print "points per row",str(pointsPerRow)
+			double collectionTime = microFocusParameters.getRowTime() / pointsPerRow;
+			// print "time per point",str(collectionTime)
+			// print "Setting cmos to collect for",str(collectionTime),"s"
+			hardwareTriggeredCmos.setCollectionTime(collectionTime);
+		} else {
+			// print "Setting cmos to collect for",microFocusParameters.getCollectionTime(),"s"
+			hardwareTriggeredCmos.setCollectionTime(microFocusParameters.getCollectionTime());
 		}
 	}
 
@@ -106,11 +129,12 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 	public void completeCollection() {
 		// nothing here
 	}
-	
+
 	@Override
 	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
-		
-		// this was written before xspress3 added and implemented on the beamline (this was done for 8.4 in November 2014)
+
+		// this was written before xspress3 added and implemented on the beamline (this was done for 8.4 in November
+		// 2014)
 		String expt_type = detectorBean.getExperimentType();
 		if (expt_type.equals("Transmission")) {
 			return new BufferedDetector[] { qexafs_counterTimer01 };
@@ -118,14 +142,15 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 
 		if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Silicon")) {
 			return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xmap, qexafsFFI0 };
-		} /*else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) {
-			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3",
-					"qexafs_FFI0_xspress3" });
-		} */
-		
+		} /*
+		 * else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) { return
+		 * createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3", "qexafs_FFI0_xspress3" });
+		 * }
+		 */
+
 		return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress, qexafsFFI0 };
 	}
-	
+
 	@Override
 	public BufferedDetector[] getRasterMapDetectors() throws Exception {
 
@@ -136,14 +161,14 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 
 		if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Silicon")) {
 			return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xmap };
-		} /*else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) {
-			return createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3",
-					"qexafs_FFI0_xspress3" });
-		} */
-		
+		} /*
+		 * else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) { return
+		 * createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3", "qexafs_FFI0_xspress3" });
+		 * }
+		 */
+
 		return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xspress };
 	}
-
 
 	public void addMonitors(TopupChecker topupMonitor, BeamMonitor beam,
 			DetectorFillingMonitorScannable detectorFillingMonitor) {
@@ -212,7 +237,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 			if (ionChamberParams.getGain() == null || ionChamberParams.getGain() == "") {
 				return;
 			}
-//			String[] gainStringParts = ionChamberParams.getGain().split(" ");
+			// String[] gainStringParts = ionChamberParams.getGain().split(" ");
 			try {
 				InterfaceProvider.getTerminalPrinter().print(
 						"Changing sensitivity of " + ionChamberParams.getName() + " to " + ionChamberParams.getGain());
@@ -228,6 +253,23 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 				throw e;
 			}
 		}
+	}
+
+	@Override
+	public Detector[] getExtraDetectors() {
+
+		// add the cmos when asked for diffraction during step fluo maps.  This is for XRD maps.
+		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
+			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
+			if (fluoresenceParameters.isCollectDiffractionImages() && scanBean instanceof MicroFocusScanParameters) {
+				MicroFocusScanParameters microParams = (MicroFocusScanParameters) scanBean;
+				if (!microParams.isRaster()) {
+					return new Detector[] { hardwareTriggeredCmos };
+				}
+			}
+		}
+
+		return null;
 	}
 
 }
