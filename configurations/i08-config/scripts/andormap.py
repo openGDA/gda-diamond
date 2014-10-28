@@ -3,6 +3,7 @@ from gdascripts.scan import rasterscans
 from gdascripts.scan.rasterscans import RasterScan
 from gdascripts.scan.trajscans import setDefaultScannables
 import time
+import math
 
 class AndorMap(RasterScan):
      
@@ -30,6 +31,7 @@ class AndorMap(RasterScan):
         time.sleep(1)
         CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
         self.ROISetup()
+        self.OptimizeChunk()
         RasterScan.__call__(self,self.scanargs)
      
     def _createScan(self, args):
@@ -66,6 +68,19 @@ class AndorMap(RasterScan):
         andor.roistats4.setRoi(XmidSize,YmidSize,XmidSize,YmidSize,"quadrant4")
         andor.roistats5.setRoi(0,0,Xsize,Ysize,"transmission")
       
+    def OptimizeChunk(self):
+        Xsize = andor.getCollectionStrategy().getAdBase().getArraySizeX_RBV()
+        Ysize = andor.getCollectionStrategy().getAdBase().getArraySizeY_RBV() 
+        dataType = andor.getCollectionStrategy().getAdBase().getDataType()
+        # Each chunk is 1 MByte
+        chunkSize = (1024**2)
+        #pixel size in bytes
+        pixelSize = (dataType+1)*2
+        print "pixelSize:",pixelSize
+        framesPerChunk = (chunkSize)/(Xsize*Ysize*pixelSize)
+        print "framesperChunk:",framesPerChunk
+        andor.getAdditionalPluginList()[0].setFramesChunks(framesPerChunk)
+        
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
 # row = stxmDummy.stxmDummyY

@@ -97,13 +97,29 @@ transmission_plotter.setName("transmission_plotter")
 transmission_plotter.setZ_colName('transmission_total')
 transmission_plotter.setPlotViewname("Transmission")
 
-add_default horizontal_plotter vertical_plotter transmission_plotter
+roi1_plotter = TwoDScanPlotter()
+roi1_plotter.setName("roi1_plotter")
+roi1_plotter.setZ_colName('roi1_total')
+roi1_plotter.setPlotViewname("ROI1")
+
+roi2_plotter = TwoDScanPlotter()
+roi2_plotter.setName("roi2_plotter")
+roi2_plotter.setZ_colName('roi2_total')
+roi2_plotter.setPlotViewname("ROI2")
+
+roi3_plotter = TwoDScanPlotter()
+roi3_plotter.setName("roi3_plotter")
+roi3_plotter.setZ_colName('roi3_total')
+roi3_plotter.setPlotViewname("ROI3")
+
+roi4_plotter = TwoDScanPlotter()
+roi4_plotter.setName("roi4_plotter")
+roi4_plotter.setZ_colName('roi4_total')
+roi4_plotter.setPlotViewname("ROI4")
+
+
+
+add_default horizontal_plotter vertical_plotter transmission_plotter roi1_plotter roi2_plotter roi3_plotter roi4_plotter
 
 
 print "Initialisation Complete";
-
-
-
-
-
-
