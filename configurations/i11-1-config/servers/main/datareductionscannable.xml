@@ -5,8 +5,14 @@
 
 	<bean name="eventadmin" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
 	
-	<bean id="calibrationScannable" class="org.opengda.lde.scannables.FileReferenceScannable">
+	<bean id="calibrationScannable" class="org.opengda.lde.scannables.StringValueScannable">
 		<property name="name" value="calibrationScannable"/>
+	</bean>
+	<bean id="sampleName" class="org.opengda.lde.scannables.StringValueScannable">
+		<property name="name" value="sampleName"/>
+	</bean>
+	<bean id="calibrantName" class="org.opengda.lde.scannables.StringValueScannable">
+		<property name="name" value="calibrantName"/>
 	</bean>
 	
 	<bean id="simpleUDPServer" class="gda.device.scannable.SimpleUDPServerScannable">

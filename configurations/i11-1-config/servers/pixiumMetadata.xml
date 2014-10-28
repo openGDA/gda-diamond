@@ -169,7 +169,7 @@
 						<property name="units" value="none" />
 					</bean>
 				</entry>
-				<entry key="calibrant_name">
+				<entry key="calibrantName">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="calibrant:NXsample/name" />
@@ -177,7 +177,7 @@
 					</bean>
 				</entry>
 				<!-- Sample information here -->
-				<entry key="sample_name">
+				<entry key="sampleName">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="sample:NXsample/name" />
@@ -216,7 +216,7 @@
 			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
 		<property name="arguments">
 			<set>
-				<value>calibrant_name</value>
+				<value>calibrantName</value>
 				<value>pixium_TriggerMode</value>
 				<value>pixium_PUMode</value>
 				<value>pixium_BaseExposure</value>
@@ -224,7 +224,7 @@
 				<value>pixium_TotalCount</value>
 				<value>s6xgap</value>
 				<value>s6ygap</value>
-				<value>sample_name</value>
+				<value>sampleName</value>
 				<value>calibrationScannable</value>
 			</set>
 		</property>

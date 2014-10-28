@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	
+	<bean id="resUtil" class="org.opengda.lde.utils.LDEResourceUtil">
+<!-- 		<property name="fileName" value="D:/scratch/i11/data/Test123/My.seq" /> -->
+		<property name="fileName" value="samples.lde" />
+	</bean>
+	<bean id="datacollection" class="org.opengda.lde.experiments.DataCollection">
+		<property name="resUtil" ref="resUtil" />
+		<property name="eventAdmin" ref="eventadmin"/>
+		<property name="sampleNameScannable" ref="sampleName"/>
+		<property name="calibrantNameScannable" ref="calibrantName"/>
+		<property name="datareduction" ref="datareduction"/>
+		<property name="pixium" ref="pixium_hdf"/>
+		<property name="stages">
+			<list>
+				<ref bean="ls1"/>
+				<ref bean="ls2"/>
+				<ref bean="ms1"/>
+				<ref bean="ms2"/>
+				<ref bean="ms3"/>
+				<ref bean="ms4"/>
+				<ref bean="ss1"/>
+				<ref bean="ss2"/>
+				<ref bean="ss3"/>
+				<ref bean="ss4"/>
+				<ref bean="ss5"/>
+				<ref bean="ss6"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>
