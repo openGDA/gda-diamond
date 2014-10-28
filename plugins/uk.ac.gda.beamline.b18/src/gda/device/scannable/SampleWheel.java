@@ -18,73 +18,74 @@
 
 package gda.device.scannable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.epics.CAClient;
+import gda.epics.LazyPVFactory;
+import gda.epics.PV;
+import gda.epics.ReadOnlyPV;
 import gda.factory.FactoryException;
-import gov.aps.jca.CAException;
-import gov.aps.jca.TimeoutException;
+
+import java.io.IOException;
 
 public class SampleWheel extends ScannableBase implements Scannable {
 
-	private static final Logger logger = LoggerFactory.getLogger(SampleWheel.class);
-	
-	private String demandPV; 		// BL18B-EA-SAMPL-03:ROT.VAL
-	private String readbackPV; 		// BL18B-EA-SAMPL-03:ROT.RBV
-	private String inPosPV; 		// BL18B-EA-SAMPL-03:ROT.DMOV
-
-	private String filterBasePV; 	// BL18B-EA-SAMPL-03:ROT:POS
+	private String demandPVString; // BL18B-EA-SAMPL-03:ROT.VAL
+	private String readbackPVString; // BL18B-EA-SAMPL-03:ROT.RBV
+	private String inPosPVString; // BL18B-EA-SAMPL-03:ROT.DMOV
+	private String filterBasePVString; // BL18B-EA-SAMPL-03:ROT:POS
 
 	private int numberOfFilters;
 	private Filter[] filters;
 
-	private CAClient ca_client = new CAClient();
+	private PV<Double> demandPV;
 
-	public SampleWheel(){
+	private ReadOnlyPV<Double> readbackPV;
+
+	private ReadOnlyPV<Integer> inPosPV;
+
+	// private CAClient ca_client = new CAClient();
+
+	public SampleWheel() {
 		updateFilters();
 	}
-	
+
+	@Override
+	public void configure() throws FactoryException {
+		demandPV = LazyPVFactory.newDoublePV(demandPVString);
+		readbackPV = LazyPVFactory.newReadOnlyDoublePV(readbackPVString);
+		inPosPV = LazyPVFactory.newReadOnlyIntegerPV(inPosPVString);
+		updateFilters();
+	}
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		try {
-			CAClient caClient = new CAClient(demandPV);
-			caClient.configure();
-			caClient.caputWait(Double.parseDouble(position.toString()));
+			demandPV.putNoWait(Double.parseDouble(position.toString()));
 		} catch (Exception e) {
-			logger.error("Could not move SampleWheel", e);
-		} 
+			throw new DeviceException(e.getMessage(), e);
+		}
 	}
 
 	@Override
 	public Object rawGetPosition() throws DeviceException {
 		try {
-			return Double.parseDouble(ca_client.caget(readbackPV).toString());
-		} catch (NumberFormatException e) {
-		} catch (CAException e) {
-		} catch (TimeoutException e) {
-		} catch (InterruptedException e) {
+			return readbackPV.get();
+		} catch (Exception e) {
+			throw new DeviceException(e.getMessage(), e);
 		}
-		return 0;
 	}
 
 	@Override
 	public boolean isBusy() throws DeviceException {
-		int status = -1;
 		try {
-			status = Integer.parseInt(ca_client.caget(inPosPV).toString());
-		} catch (CAException e) {
-		} catch (TimeoutException e) {
-		} catch (InterruptedException e) {
+			int status = inPosPV.get();
+			return status != 1;
+		} catch (Exception e) {
+			throw new DeviceException(e.getMessage(), e);
 		}
-		if(status==1)
-			return false;
-		return true;
 	}
 
-	public void moveToFilter(String filterName) {
+	public void moveToFilter(String filterName) throws DeviceException {
 		updateFilters();
 		int filterNumber = findFilterNumber(filterName);
 		if (filterNumber != -1) {
@@ -92,52 +93,47 @@ public class SampleWheel extends ScannableBase implements Scannable {
 		}
 	}
 
-	public int findFilterNumber(String filterName) {
+	private int findFilterNumber(String filterName) throws DeviceException {
 		for (int i = 0; i < filters.length; i++) {
-			if (filters[i].name.equals(filterName))
+			if (filters[i].getName().equals(filterName))
 				return i;
 		}
 		return -1;
 	}
 
-	public Filter[] getFilters() {
-		return filters;
-	}
-
-	public String[] getFilterNames(){
+	public String[] getFilterNames() throws DeviceException {
 		updateFilters();
 		String[] names = new String[numberOfFilters];
-		for(int i=0;i<numberOfFilters;i++){
-			String filter = filters[i].name.toString();
-			names[i]=filter;
+		for (int i = 0; i < numberOfFilters; i++) {
+			String filter = filters[i].getName();
+			names[i] = filter;
 		}
 		return names;
 	}
-	
+
 	public void updateFilters() {
 		filters = new Filter[numberOfFilters];
 		for (int i = 1; i <= numberOfFilters; i++) {
-			String name = filterBasePV + i + ":DESC";
-			String go = filterBasePV + i + ":GO.PROC";
-			String val = filterBasePV + i + ":VAL";
-			filters[i-1] = new Filter(name, go, val);
+			String name = filterBasePVString + i + ":DESC";
+			String go = filterBasePVString + i + ":GO.PROC";
+			filters[i - 1] = new Filter(name, go);
 		}
 	}
 
 	public String getDemandPV() {
-		return demandPV;
+		return demandPVString;
 	}
 
 	public void setDemandPV(String demandPV) {
-		this.demandPV = demandPV;
+		this.demandPVString = demandPV;
 	}
 
 	public String getReadbackPV() {
-		return readbackPV;
+		return readbackPVString;
 	}
 
 	public void setReadbackPV(String readbackPV) {
-		this.readbackPV = readbackPV;
+		this.readbackPVString = readbackPV;
 	}
 
 	public int getNumberOfFilters() {
@@ -148,77 +144,46 @@ public class SampleWheel extends ScannableBase implements Scannable {
 		this.numberOfFilters = numberOfFilters;
 	}
 
-	class Filter {
-		private String namePV;
-		private String goPV;
-		private String posPV;
-
-		private String name;
-		private double pos;
-
-		private CAClient ca_client = new CAClient();
-
-		public Filter(String newNamePV, String newGoPV, String newPosPV) {
-			namePV = newNamePV;
-			goPV = newGoPV;
-			posPV = newPosPV;
-			updateName();
-			updatePos();
-		}
-
-		public void updateName() {
-			try {
-				name = ca_client.caget(namePV);
-			} catch (CAException e) {
-			} catch (TimeoutException e) {
-			} catch (InterruptedException e) {
-			}
-		}
-
-		public void updatePos() {
-			try {
-				pos = Double.parseDouble(ca_client.caget(posPV).toString());
-			} catch (NumberFormatException e) {
-			} catch (CAException e) {
-			} catch (TimeoutException e) {
-			} catch (InterruptedException e) {
-			}
-		}
-
-		public void go() {
-			try {
-				CAClient caClient = new CAClient(goPV);
-				caClient.configure();
-				caClient.caputWait(1);
-			} catch (Exception e) {
-				logger.error("Could not move SampleWheel", e);
-			} 
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public double getPos() {
-			return pos;
-		}
-	}
-
 	public String getInPosPV() {
-		return inPosPV;
+		return inPosPVString;
 	}
 
 	public void setInPosPV(String inPosPV) {
-		this.inPosPV = inPosPV;
+		this.inPosPVString = inPosPV;
 	}
 
 	public String getFilterBasePV() {
-		return filterBasePV;
+		return filterBasePVString;
 	}
 
 	public void setFilterBasePV(String filterBasePV) {
-		this.filterBasePV = filterBasePV;
+		this.filterBasePVString = filterBasePV;
 	}
-	
-	
+
+	class Filter {
+
+		private ReadOnlyPV<String> namePV;
+		private PV<Integer> goPV;
+
+		public Filter(String newNamePV, String newGoPV) {
+			namePV = LazyPVFactory.newReadOnlyStringPV(newNamePV);
+			goPV = LazyPVFactory.newIntegerPV(newGoPV);
+		}
+
+		public void go() throws DeviceException {
+			try {
+				goPV.putNoWait(1);
+			} catch (IOException e) {
+				throw new DeviceException(e.getMessage(), e);
+			}
+		}
+
+		public String getName() throws DeviceException {
+			try {
+				return namePV.get();
+			} catch (IOException e) {
+				throw new DeviceException(e.getMessage(), e);
+			}
+		}
+	}
 }
