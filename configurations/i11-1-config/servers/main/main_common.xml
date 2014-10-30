@@ -57,18 +57,20 @@
 	<import resource="MS2.xml"/>
 	<import resource="MS3.xml"/>
 <!-- 	<import resource="MS4.xml"/> -->
-<!-- 	<import resource="LS1.xml"/> -->
-<!-- 	<import resource="LS2.xml"/> -->
-<!-- 	<import resource="LS3.xml"/> -->
-<!-- 	<import resource="LS4.xml"/> -->
-<!-- 	<import resource="LS5.xml"/> -->
-<!-- 	<import resource="LS6.xml"/> -->
+<!-- 	<import resource="SS1.xml"/> -->
+<!-- 	<import resource="SS2.xml"/> -->
+<!-- 	<import resource="SS3.xml"/> -->
+<!-- 	<import resource="SS4.xml"/> -->
+<!-- 	<import resource="SS5.xml"/> -->
+<!-- 	<import resource="SS6.xml"/> -->
 	<import resource="BSTP1.xml"/>
+<!-- 	<import resource="detectorArm.xml"/> -->
 <!-- 	<import resource="Spinner2.xml"/> -->
 <!-- 	<import resource="Robot.xml"/> -->
 	<import resource="pixium.xml"/>
 <!-- 	<import resource="Mar345.xml"/> -->
 	<import resource="datareductionscannable.xml"/>
+<!-- 	<import resource="datacollection.xml"/> -->
 	<import resource="../servers_common.xml" />
 
 </beans>

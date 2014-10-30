@@ -5,14 +5,15 @@
 
 	
 	<bean id="resUtil" class="org.opengda.lde.utils.LDEResourceUtil">
-<!-- 		<property name="fileName" value="D:/scratch/i11/data/Test123/My.seq" /> -->
 		<property name="fileName" value="samples.lde" />
 	</bean>
+	
 	<bean id="datacollection" class="org.opengda.lde.experiments.DataCollection">
 		<property name="resUtil" ref="resUtil" />
 		<property name="eventAdmin" ref="eventadmin"/>
 		<property name="sampleNameScannable" ref="sampleName"/>
 		<property name="calibrantNameScannable" ref="calibrantName"/>
+		<property name="detectorArm" ref="detectorArm"/>
 		<property name="datareduction" ref="datareduction"/>
 		<property name="pixium" ref="pixium_hdf"/>
 		<property name="stages">
