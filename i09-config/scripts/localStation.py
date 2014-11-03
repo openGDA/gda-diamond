@@ -214,8 +214,12 @@ print "-------------------------------------------------------------------------
 # James' temporary solution, this require to comment out Java PGM energy object
 #from epics.motor.positionCompareMotorClass import PositionCompareMotorClass
 #pgmenergy=PositionCompareMotorClass("pgmenergy", "BL09I-ENERGY-MOTOR-01.VAL", "BL09I-ENERGY-MOTOR-01.RBV", "BL09I-ENERGY-MOTOR-01.STOP", 0.015, "mm", "%.4f")
+
+    
+
 print "Create an 'analyserscan' command for scanning the electron analyser."
-from command.analyser_scan import analyserscan, analyserscan_v1  # @UnusedImport
+from command.analyser_scan import analyserscan, analyserscan_v1, zerosupplies  # @UnusedImport
+alias("zerosupplies")
 alias("analyserscan")
 alias("analyserscan_v1")
 print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."

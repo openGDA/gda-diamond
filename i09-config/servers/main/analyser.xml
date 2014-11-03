@@ -241,6 +241,8 @@
 		<property name="dcmenergy" ref="dcmenergy"/>
 		<property name="pgmenergy" ref="pgmenergy"/>
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
+		<property name="softXRayFastShutter" ref="fsj1"/>
+		<property name="hardXRayFastShutter" ref="fsi1"/>
 	</bean>
 	
 	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.EW4000">

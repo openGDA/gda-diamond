@@ -16,9 +16,16 @@ from time import sleep
 from gda.jython import InterfaceProvider, Jython
 import time
 from gda.device.scannable import DummyScannable
+from gdascripts.utils import caput
 #from localStation import setSubdirectory
+
+ENABLEZEROSUPPLIES=True
 PRINTTIME=False
 zeroScannable=DummyScannable("zeroScannable")
+
+def zerosupplies():
+    caput("ELECTRON-ANALYSER-01:TEST:ZERO_SUPPLIES", 1)
+    
 def analyserscan(*args):
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
@@ -51,6 +58,8 @@ def analyserscan(*args):
                 arg.getCollectionStrategy().setSequence(sequence)
             i=i+1
     scan(newargs)
+    if ENABLEZEROSUPPLIES:
+        zerosupplies()  # @UndefinedVariable
     
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 

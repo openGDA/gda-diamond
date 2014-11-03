@@ -65,6 +65,15 @@
 		<property name="cameraXSize" value="1000"/>
 		<property name="cameraYSize" value="900"/>
 	</bean>
+	<bean id="regionvalidator" class="org.opengda.detector.electronanalyser.lenstable.RegionValidator">
+	<property name="name" value="regionvalidator"/>
+		<property name="lookupTablePathMap">
+			<map>
+				<entry key="Low" value="${gda.config}/lookupTables/low_elementset_table.txt"/>
+				<entry key="High" value="${gda.config}/lookupTables/high_elementset_table.txt"/>
+			</map>
+		</property>
+	</bean>
 	
 	<bean id="sequenceviewfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewFactory">
@@ -77,6 +86,7 @@
 		<property name="analyser" ref="analyser"/>
 		<property name="analyserStatePV" value="ELECTRON-ANALYSER-01:TEST:DetectorState_RBV"/>
 		<property name="analyserTotalTimeRemainingPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_TIME_LEFT_RBV"/>
+		<property name="regionValidator" ref="regionvalidator"/>
 	</bean>
 
 	<bean id="regionviewfactory"
