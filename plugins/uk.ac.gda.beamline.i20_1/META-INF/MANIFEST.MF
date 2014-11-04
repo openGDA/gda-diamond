@@ -40,8 +40,6 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)",
  uk.ac.diamond.scisoft.deprecated,
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
- uk.ac.gda.devices.xspress2;bundle-version="1.0.0",
- uk.ac.gda.devices.xmap;bundle-version="1.0.0",
  uk.ac.gda.beans.vortex;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.deprecated,
  org.dawnsci.slicing.tools;bundle-version="1.0.0"
