@@ -10,6 +10,9 @@
 	
 	<bean id="datacollection" class="org.opengda.lde.experiments.DataCollection">
 		<property name="resUtil" ref="resUtil" />
+		<property name="dataDriver" value="dls"/>
+		<property name="dataFolder" value="data"/>
+		<property name="beamlineID" value="i11-1"/>
 		<property name="eventAdmin" ref="eventadmin"/>
 		<property name="sampleNameScannable" ref="sampleName"/>
 		<property name="calibrantNameScannable" ref="calibrantName"/>
