@@ -3,34 +3,202 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="bs_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-RS-ABSB-02:X" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="bs_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bs_x_motor" />
-		<property name="local" value="true" />
-		<property name="protectionLevel" value="3" />
-	</bean>
-
-	<bean id="bs_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-RS-ABSB-02:Y" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="bs_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="bs_y_motor" />
-		<property name="local" value="true" />
-		<property name="protectionLevel" value="3" />
-	</bean>
-
-	<bean id="bs" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
-		<property name="groupMembers">
-			<list>
-				<ref bean="bs_x" />
-				<ref bean="bs_y" />
-			</list>
-		</property>
-		<property name="protectionLevel" value="3" />
-	</bean>
+    <bean id="bs1_x_motor" class="gda.device.motor.EpicsMotor">
+            <property name="pvName" value="BL22I-EA-SAXSP-01:BS1:X" />
+            <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_x" class="gda.device.scannable.ScannableMotor">
+            <property name="motor" ref="bs1_x_motor" />
+            <property name="local" value="true" />
+            <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs1_y_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS1:Y" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs1_y_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs2_x_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:X" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_x" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs2_x_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs2_y_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:Y" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs2_y_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs3_x_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:X" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_x" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs3_x_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs3_y_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:Y" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs3_y_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs3_roll_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:ROLL" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_roll" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs3_roll_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs1_x_off_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS1:CSX" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_x_off" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs1_x_off_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs2_x_off_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:CSX" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_x_off" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs2_x_off_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs3_x_off_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:CSX" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_x_off" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs3_x_off_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs2_x_abs_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:XABS" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_x_abs" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs2_x_abs_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs2_yaw_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:YAW" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_yaw" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs2_yaw_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs3_yaw_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:YAW" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_yaw" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs3_yaw_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs1_x_abs_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS1:XABS" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_x_abs" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs1_x_abs_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs1_y_off_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS1:CSY" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_y_off" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs1_y_off_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs2_y_off_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:CSY" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_y_off" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs2_y_off_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs3_y_off_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:CSY" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_y_off" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs3_y_off_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs2_y_abs_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:YABS" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_y_abs" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs2_y_abs_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs2_pitch_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:PITCH" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_pitch" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs2_pitch_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs3_pitch_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:PITCH" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_pitch" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs3_pitch_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs1_y_abs_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS1:YABS" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_y_abs" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs1_y_abs_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
+    <bean id="bs3_cs_roll_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:CSR" />
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_cs_roll" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bs3_roll_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
 </beans>
