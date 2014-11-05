@@ -62,9 +62,9 @@
        <perspectiveShortcut
              id="gda.rcp.ncd.perspectives.GridScanPerspective">
        </perspectiveShortcut>
--   </perspectiveExtension>
--   </extension>
-<extension
+    </perspectiveExtension>
+   </extension>
+   <extension
       point="uk.ac.gda.client.dashboard.objects">
    <Scannable
          name="bsdiode"
@@ -93,4 +93,27 @@
       </presentation>
    </config>
 </extension>
+      <extension
+            point="org.eclipse.ui.menus">
+         <menuContribution
+		      allPopups="false"
+		      locationURI="menu:window?after=showView">
+		   <menu
+		         label="Area Detectors">
+		      <command
+		            commandId="org.eclipse.ui.views.showView"
+		            label="Pilatus2M"
+		            style="push">
+		         <parameter
+		               name="org.eclipse.ui.views.showView.viewId"
+		               value="uk.ac.gda.epics.adviewer.mpegview">
+		         </parameter>
+		         <parameter
+		               name="org.eclipse.ui.views.showView.secondaryId"
+		               value="pv//Pilatus2M//BL22I-EA-PILAT-01@">
+		         </parameter>
+		      </command>
+		   </menu>
+		</menuContribution>
+   </extension>
 </plugin>
