@@ -34,21 +34,27 @@
 	</bean>
 	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_y_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="sample_finex" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_topx_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="sample_finey" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_topy_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="sample_finez" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_topz_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="sample_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_pitch_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="sample_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_roll_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	
 
