@@ -104,7 +104,7 @@ GeneralCommands.alias("visit")
 
 
 
-#from init.init_scan_commands_and_processing import * 
+#from init.init_scan_commands_and_processing import *
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
@@ -145,9 +145,9 @@ if installation.isDummy():
 	exec('ai3l=SingleInputDummy("ai3l")')
 	exec('ai5l=SingleInputDummy("ai5l")')
 	exec('ai13l=SingleInputDummy("ai13l")')
-	exec('energy = SingleInputDummy("energy")')	
+	exec('energy = SingleInputDummy("energy")')
 	exec('ct7 = SingleInputDummy("ct7")')
-	from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector	
+	from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector
 	x.asynchronousMoveTo(430)
 	ippws4 = CreateImageReadingDummyDetector.create(x)
 	sfh = ScanFileHolder()
@@ -175,14 +175,14 @@ print "Wrapped the monitors: " + toPrint
 
 if installation.isLive():
 
-	
+
 #	bladel = MonitorWrapper(ai1, "bladel") #@UndefinedVariable
 #	blader = MonitorWrapper(ai2, "blader") #@UndefinedVariable
 #	bladet = MonitorWrapper(ai3, "bladet") #@UndefinedVariable
 #	bladeb = MonitorWrapper(ai4, "bladeb") #@UndefinedVariable
 #	pips1 = MonitorWrapper(ai5, "pips1") #@UndefinedVariable
 #	pips2 = MonitorWrapper(ai6, "pips2") #@UndefinedVariable
-	
+
 	qbpm1 = MonitorWrapper(ai9, "qbpm1") #@UndefinedVariable
 	qbpm2 = MonitorWrapper(ai10, "qbpm2") #@UndefinedVariable
 	qbpm3 = MonitorWrapper(ai11, "qbpm3") #@UndefinedVariable
@@ -220,7 +220,7 @@ sca.assign(16, ['ct16'])
 ###                 TCA (sets up only, use struck for readback              ###
 ###############################################################################
 
-# there is an offical server.xml device to do this. This hack taken from i16. 
+# there is an offical server.xml device to do this. This hack taken from i16.
 print "Creating TCA scanables"
 if installation.isLive():
 	vtca=device_tca.TCA('BL16B-EA-DET-01:tca1')
@@ -278,7 +278,7 @@ if installation.isLive():
 		print "***********************************************************************************"
 		print str(e)
 else:
-	print "* Not installing vmca MCA wrappers (as not live installation) *"	
+	print "* Not installing vmca MCA wrappers (as not live installation) *"
 
 
 ###############################################################################
@@ -293,13 +293,13 @@ if installation.isLive():
 	linosz =  LinosCn30PiezoStage("linosz",'BL16B-EA-CN30-01:Z:')
 	linos = ScannableGroup('linos', [linosx,  linosy, linosz])
 	linos.configure()
-	
+
 print "Creating Jena Piezo devices. Channel1 -> jpx, Channel2 -> jpy"
 #print "* Seems to work okay with Readback rate set to 0.2 s on epics panel *"
 if installation.isLive():
 	jpx=pd_JenaPiezoChannel.JenaPiezoChannel('x',"BL16B-EA-IOC-01:JENA1",distancePerStep=1, readSetPosition=0, delayAfterAskingToMove=0.2)
 	jpy=pd_JenaPiezoChannel.JenaPiezoChannel('y',"BL16B-EA-IOC-01:JENA2",distancePerStep=1, readSetPosition=0, delayAfterAskingToMove=0.2)
-else: 
+else:
 	print "* Not installing jena piezo drivers (as not live installation) *"
 
 if installation.isLive():
@@ -343,7 +343,7 @@ else:
 
 if installation.isLive():
 	print "Installing atto devices from epics BL16B-EA-ATTO..."
-	
+
 	from scannable.epics.anc150axis import createAnc150Axis
 
 	attorot1  = createAnc150Axis("attorot1",  "BL16B-EA-ATTO-03:PIEZO3:", 0.25)
@@ -357,7 +357,7 @@ if installation.isLive():
 	attoz2    = createAnc150Axis("attoz2",    "BL16B-EA-ATTO-04:PIEZO2:", 0.25)
 	attoy1    = createAnc150Axis("attoy1",    "BL16B-EA-ATTO-01:PIEZO3:", 0.25)
 	attoy2    = createAnc150Axis("attoy2",    "BL16B-EA-ATTO-02:PIEZO3:", 0.25)
-	
+
 	attorot1.setFrequency(625)
 	attorot2.setFrequency(625)
 	attotilt1.setFrequency(1000)
@@ -428,8 +428,8 @@ tb3y.setOutputFormat(['%5.7g']) #@UndefinedVariable
 ippws4.setLevel(9)
 t.setOutputFormat(['%6.6f'])
 try:
-	kbwireX.setOutputFormat(['%.3f'])	
-	kbwireY.setOutputFormat(['%.3f'])	
+	kbwireX.setOutputFormat(['%.3f'])
+	kbwireY.setOutputFormat(['%.3f'])
 except NameError:
 	pass
 ###############################################################################
@@ -443,21 +443,21 @@ if installation.isLive():
 	oldcheckbeam.setLevel(6)
 	checkct15 = pd_waitWhileScannableBelowThreshold.WaitWhileScannableBelowThreshold('checkcttime', ct15, minumumThreshold=160000, secondsBetweenChecks=0.5, secondsToWaitAfterBeamBackUp=10) #@UndefinedVariable
 	checkct15.setLevel(6)
-	
+
 	print "Adding checky device (y>0.17, 15s wait after beam back)"
 	#checky = pd_waitWhileScannableBelowThreshold.WaitWhileScannableBelowThreshold('checky', ct15, minumumThreshold=150000, #secondsBetweenChecks=0.5, secondsToWaitAfterBeamBackUp=10)
 	checky = pd_waitWhileScannableBelowThreshold.WaitWhileScannableBelowThreshold('checky', y, minumumThreshold=0.17, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=15)
 	checky.setLevel(6)
 	checky.scannableToMonitor = ai5#@UndefinedVariable
-	
 
-if installation.isLive():	
+
+if installation.isLive():
 	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
 	checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
 	checkshtr1 = WaitForScannableState('checkshtr1', shtr1, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
 	checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1])
 	checkbeam.configure()
-	
+
 
 ###############################################################################
 ###                             HARDWARE WORKAROUND                             ###
@@ -466,12 +466,12 @@ if installation.isLive():
 	print ""
 	print "    CAUTION: The gda does not know about limits on these devices and"
 	print "             will not know if a move has failed."
-	
+
 	tarmTheta = SetPvAndWaitForCallbackWithSeparateReadback("tarmTheta","BL16B-MO-DIFF-01:A:THETA:A.VAL","BL16B-MO-DIFF-01:A:THETA:A.RBV" ,30)
 	tarm2Theta = SetPvAndWaitForCallbackWithSeparateReadback("tarm2Theta","BL16B-MO-DIFF-01:A:2THETA:A.VAL","BL16B-MO-DIFF-01:A:2THETA:A.RBV" ,30)
 	tarmTheta.setOutputFormat(['%6.5f'])
 	tarm2Theta.setOutputFormat(['%6.5f'])
-	
+
 	fcTheta.setOutputFormat(['%6.5f']) #@UndefinedVariable
 	fc2Theta.setOutputFormat(['%6.5f'])#@UndefinedVariable
 
@@ -498,21 +498,21 @@ if installation.isLive() and ENABLE_PILATUS:
 									None,
 									_pilatus_for_snaps,
 									[],
-									panel_name='Pilatus Plot',
-									panel_name_rcp='Plot 1', 
+									panel_name='Detector Plot',
+									panel_name_rcp='Plot 1',
 									iFileLoader=PilatusTiffLoader,
 									fileLoadTimout=60,
 									printNfsTimes=False,
 									returnPathAsImageNumberOnly=False)
-		
+
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 		#pil100k.printNfsTimes = True
-		
-		
+
+
 		pil.processors=[DetectorDataProcessorWithRoi('max', pil, [SumMaxPositionAndValue()], False)]
-		
+
 		pil.display_image = True
 		pilpeak2d = DetectorDataProcessorWithRoi('pilpeak2d', pil, [TwodGaussianPeak()])
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
@@ -525,14 +525,14 @@ if installation.isLive() and ENABLE_PILATUS:
 
 		pilgain = pd_setPvAndWait.SetPvAndWait('pilgain', 'BL16B-EA-PILAT-01:Gain', delayAfterAskingToMove=0.5)
 		pilgain.setOutputFormat(['%.0f'])
-		pilthresh = pd_setPvAndWait.SetPvAndWait('pilthresh', 'BL16B-EA-PILAT-01:ThresholdEnergy', delayAfterAskingToMove=0.5) 
+		pilthresh = pd_setPvAndWait.SetPvAndWait('pilthresh', 'BL16B-EA-PILAT-01:ThresholdEnergy', delayAfterAskingToMove=0.5)
 		pilsettings = pd_readManyPVs.ReadManyPVs('pilsettings','BL16B-EA-PILAT-01:READ',['VCMP','VRF','VTRM','VADJ','VCAL','VRFS','VDEL'])
-		
-		
+
+
 		roi1 = DetectorDataProcessorWithRoi('roi1', pil, [SumMaxPositionAndValue()])
 		#roi1.setRoi(0,0,50,50)
-		
-		
+
+
 	except gda.factory.FactoryException:
 		print " *** Could not connect to pilatus (FactoryException)"
 	except 	java.lang.IllegalStateException:
@@ -544,7 +544,7 @@ else:
 if installation.isLive():
 	print "-------------------------------MEDIPIX INIT---------------------------------------"
 	try:
-		
+
 		#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
 
 		medipix = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix',
@@ -564,16 +564,16 @@ if installation.isLive():
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 		#pil100k.printNfsTimes = True
-		
+
 		medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
-		
+
 		# TODO: MBB Start - Rob, please check this
 		medipix.display_image = True
 		medipixpeak2d = DetectorDataProcessorWithRoi('medipixpeak2d', medipix, [TwodGaussianPeak()])
 		medipixmax2d = DetectorDataProcessorWithRoi('medipixmax2d', medipix, [SumMaxPositionAndValue()])
 		medipixintensity2d = DetectorDataProcessorWithRoi('medipixintensity2d', medipix, [PixelIntensity()])
 		# TODO: MBB End
-		
+
 
 	except gda.factory.FactoryException:
 		print " *** Could not connect to pilatus (FactoryException)"
@@ -586,32 +586,47 @@ else:
 if installation.isLive():
 	print "-------------------------------PSL INIT---------------------------------------"
 	try:
-		
+
 		#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
 
-		psl = SwitchableHardwareTriggerableProcessingDetectorWrapper('psl',
-																		_psl,
-																		None,
-																		_psl_for_snaps,
-																		[],
-																		panel_name='Data Vector',
-																		panel_name_rcp='Plot 1',
-																		fileLoadTimout=60,
-																		printNfsTimes=False,
-																		returnPathAsImageNumberOnly=False)
+		PSL_AUTO_RECONNECT = True
+		if not PSL_AUTO_RECONNECT:
+			psl = SwitchableHardwareTriggerableProcessingDetectorWrapper('psl',
+			                                                             _psl,
+			                                                             None,
+			                                                             _psl_for_snaps,
+			                                                             [],
+			                                                             panel_name='Data Vector',
+			                                                             panel_name_rcp='Plot 1',
+			                                                             fileLoadTimout=60,
+			                                                             printNfsTimes=False,
+			                                                             returnPathAsImageNumberOnly=False)
+		else:
+			from scannable.SwitchableProcessingDetectorWrapperWithReconnect import SwitchableProcessingDetectorWrapperWithReconnect
+			psl = SwitchableProcessingDetectorWrapperWithReconnect('psl',
+			                                                       _psl,
+			                                                       None,
+			                                                       _psl_for_snaps,
+			                                                       "BL16B-EA-DET-07:CAM:RESET.PROC",
+			                                                       [],
+			                                                       panel_name='Data Vector',
+			                                                       panel_name_rcp='Plot 1',
+			                                                       fileLoadTimout=60,
+			                                                       printNfsTimes=False,
+			                                                       returnPathAsImageNumberOnly=False)
 		psl.disable_operation_outside_scans = True
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 		#pil100k.printNfsTimes = True
-		
+
 		psl.processors=[DetectorDataProcessorWithRoi('max', psl, [SumMaxPositionAndValue()], False)]
-		
+
 		psl.display_image = True
 		pslpeak2d = DetectorDataProcessorWithRoi('pslpeak2d', medipix, [TwodGaussianPeak()])
 		pslmax2d = DetectorDataProcessorWithRoi('pslmax2d', medipix, [SumMaxPositionAndValue()])
 		pslitensity2d = DetectorDataProcessorWithRoi('pslintensity2d', medipix, [PixelIntensity()])
-		
+
 
 	except gda.factory.FactoryException:
 		print " *** Could not connect to pilatus (FactoryException)"
@@ -669,7 +684,7 @@ hkl.setLevel(5) #@UndefinedVariable
 ###                          IPP image processor                            ###
 ###############################################################################
 if not installation.isLive():
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='ImageProPlus Plot')
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Detector Plot', panel_name_rcp="Plot 1")
 	#setIPPWrapperDir( '/scratch/ws/trunk/plugins/uk.ac.gda.core/scripts/gdascripts/scannable/detector/dummy/focused_beam_dataset//') #@UndefinedVariable
 	ipp.returnPathAsImageNumberOnly = True
 	def emulateSlowFileSystem(makeSlow = True):
@@ -684,7 +699,7 @@ if not installation.isLive():
 			print "*Not* emulating file system for ipp"
 
 else:
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='ImageProPlus Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Detector Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 
@@ -729,7 +744,7 @@ else:
 if installation.isLive():
 	from scannable.hw.cryostream700 import Cryostream700
 	cryo = Cryostream700('cryo', 'BL16B-EA-CSTRM-01:')
-	
+
 	from scannable.hw.agilentpsu import AgilentPsuCurrent, AgilentPsuVoltage
 	psu1c = AgilentPsuCurrent('psu1c', 'BL16B-EA-PSU-01:', 5, .001)
 	psu1v = AgilentPsuVoltage('psu1v','BL16B-EA-PSU-01:', 5)
@@ -743,7 +758,7 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		None,
 		_pcoedge_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name='ImageProPlus Plot',
+		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
 		fileLoadTimout=60)
 
@@ -760,7 +775,7 @@ if installation.isLive() and ENABLE_PCO4000:
 		None,
 		_pco4000_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name='ImageProPlus Plot',
+		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
 		fileLoadTimout=60)
 
@@ -785,7 +800,7 @@ class Bladesum(PseudoDevice):
 		self.c = c
 		self.d = d
 		self.name = "bladesum"
-	
+
 		self.setExtraNames(['bladesum']);
 		self.setOutputFormat(['%6.6f'])
 		self.setInputNames([])
@@ -795,7 +810,7 @@ class Bladesum(PseudoDevice):
 
 	def asynchronousMoveTo(self,waitUntilTime):
 		pass
-	
+
 	def isBusy(self):
 		return False
 
@@ -805,7 +820,7 @@ class Bladevdif(PseudoDevice):
 		self.c = c
 		self.d = d
 		self.name = "bladevdif"
-	
+
 		self.setExtraNames(['bladevdif']);
 		self.setOutputFormat(['%6.6f'])
 		self.setInputNames([])
@@ -818,17 +833,17 @@ class Bladevdif(PseudoDevice):
 
 	def isBusy(self):
 		return False
-	
+
 if installation.isLive():
 #	bladesum = Bladesum(bladel,blader,bladet,bladeb)
 #	bladevdif = Bladevdif(bladet,bladeb)
 	b16angle = pd_readPvAfterWaiting.ReadPvAfterWaiting("b16angle","FE16B-DI-BEAM-01:Y:ANGLE")
-	ai4prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai4prompt","BL16B-EA-RIM-01:AI4")	
+	ai4prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai4prompt","BL16B-EA-RIM-01:AI4")
 	ai5prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai5prompt","BL16B-EA-RIM-01:AI5")
 	ai6prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai6prompt","BL16B-EA-RIM-01:AI6")
 	ai7prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai7prompt","BL16B-EA-RIM-01:AI7")
 	Braggtemp=pd_readPvAfterWaiting.ReadPvAfterWaiting("Braggtemp","BL16B-OP-DCM-01:TEMP:BRAGG")
-	
+
 	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO1',True )
 	bo1trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo1trig','BL16B-EA-DIO-01:BO1',True )
 	bo1trig = bo1trigBasic
@@ -837,16 +852,61 @@ if installation.isLive():
 	vortrealt = pd_readPvAfterWaiting.ReadPvAfterWaiting("vrealt","BL16B-EA-DET-01:aim_adc1.ERTM")
 	vortroi1lo = pd_readPvAfterWaiting.ReadPvAfterWaiting("roi1lo","BL16B-EA-DET-01:aim_adc1.R1LO")
 	vortroi1hi = pd_readPvAfterWaiting.ReadPvAfterWaiting("roi1hi","BL16B-EA-DET-01:aim_adc1.R1HI")
-	
+
 	test2mot5.outputFormat = ['%.4f'] #@UndefinedVariable
 	test2mot6.outputFormat = ['%.4f']#@UndefinedVariable
+	fcX.outputFormat = ['%.4f']#@UndefinedVariable
+	fcY.outputFormat = ['%.4f']#@UndefinedVariable
+	fcZ.outputFormat = ['%.4f']#@UndefinedVariable
 
 	FBDAC2level=pd_readPvAfterWaiting.ReadPvAfterWaiting("FBDAC2level","BL16B-OP-DCM-01:FB:DAC:02")
-	
+
 	topup_time=pd_readPvAfterWaiting.ReadPvAfterWaiting("topup_time","SR-CS-FILL-01:COUNTDOWN")
 	topup_gate_short=pd_readPvAfterWaiting.ReadPvAfterWaiting("topup_gate_short","BL16B-EA-EVR-01:SR-PRE-INJ-GATE")
 
 	topup_time.setOutputFormat(['%6.5f'])#@UndefinedVariable
+
+##################################################################################
+# C Bloomer PVs
+cb1=pd_readPvAfterWaiting.ReadPvAfterWaiting("cb1","BL16B-EA-RIM-05:A:WAVE1")
+cb2=pd_readPvAfterWaiting.ReadPvAfterWaiting("cb2","BL16B-EA-RIM-05:A:WAVE2")
+
+
+from scannable.epicsArray import EpicsArrayAverageScannable
+waveA1 = EpicsArrayAverageScannable("waveA1", "BL16B-EA-RIM-05:A:WAVE1")
+waveA2 = EpicsArrayAverageScannable("waveA2", "BL16B-EA-RIM-05:A:WAVE2")
+waveA3 = EpicsArrayAverageScannable("waveA3", "BL16B-EA-RIM-05:A:WAVE3")
+waveA4 = EpicsArrayAverageScannable("waveA4", "BL16B-EA-RIM-05:A:WAVE4")
+waveA5 = EpicsArrayAverageScannable("waveA5", "BL16B-EA-RIM-05:A:WAVE5")
+waveA6 = EpicsArrayAverageScannable("waveA6", "BL16B-EA-RIM-05:A:WAVE6")
+waveA7 = EpicsArrayAverageScannable("waveA7", "BL16B-EA-RIM-05:A:WAVE7")
+waveA8 = EpicsArrayAverageScannable("waveA8", "BL16B-EA-RIM-05:A:WAVE8")
+waveB1 = EpicsArrayAverageScannable("waveB1", "BL16B-EA-RIM-05:B:WAVE1")
+waveB2 = EpicsArrayAverageScannable("waveB2", "BL16B-EA-RIM-05:B:WAVE2")
+waveB3 = EpicsArrayAverageScannable("waveB3", "BL16B-EA-RIM-05:B:WAVE3")
+waveB4 = EpicsArrayAverageScannable("waveB4", "BL16B-EA-RIM-05:B:WAVE4")
+waveB5 = EpicsArrayAverageScannable("waveB5", "BL16B-EA-RIM-05:B:WAVE5")
+waveB6 = EpicsArrayAverageScannable("waveB6", "BL16B-EA-RIM-05:B:WAVE6")
+waveB7 = EpicsArrayAverageScannable("waveB7", "BL16B-EA-RIM-05:B:WAVE7")
+waveB8 = EpicsArrayAverageScannable("waveB8", "BL16B-EA-RIM-05:B:WAVE8")
+waveC1 = EpicsArrayAverageScannable("waveC1", "BL16B-EA-RIM-06:C:WAVE1")
+waveC2 = EpicsArrayAverageScannable("waveC2", "BL16B-EA-RIM-06:C:WAVE2")
+waveC3 = EpicsArrayAverageScannable("waveC3", "BL16B-EA-RIM-06:C:WAVE3")
+waveC4 = EpicsArrayAverageScannable("waveC4", "BL16B-EA-RIM-06:C:WAVE4")
+waveC5 = EpicsArrayAverageScannable("waveC5", "BL16B-EA-RIM-06:C:WAVE5")
+waveC6 = EpicsArrayAverageScannable("waveC6", "BL16B-EA-RIM-06:C:WAVE6")
+waveC7 = EpicsArrayAverageScannable("waveC7", "BL16B-EA-RIM-06:C:WAVE7")
+waveC8 = EpicsArrayAverageScannable("waveC8", "BL16B-EA-RIM-06:C:WAVE8")
+
+waves = ScannableGroup("waves",
+		[waveA1, waveA2, waveA3, waveA4, waveA5, waveA6, waveA7, waveA8,
+		waveB1, waveB2, waveB3, waveB4, waveB5, waveB6, waveB7, waveB8,
+		waveC1, waveC2, waveC3, waveC4, waveC5, waveC6, waveC7, waveC8])
+
+##################################################################################
+
+
+
 
 ###################################################################################
 ######         Setup for I18 experiment                                     #######
@@ -906,7 +966,7 @@ dummy_x = DummyPD("x")
 dummy_x.asynchronousMoveTo(430)
 
 dummy_rawDet = CreateImageReadingDummyDetector.create(dummy_x)
-dummy_det = ProcessingDetectorWrapper('dummy_det', dummy_rawDet, [], panel_name='ImageProPlus Plot')
+dummy_det = ProcessingDetectorWrapper('dummy_det', dummy_rawDet, [], panel_name='Detector Plot')
 dummy_det.display_image=False
 dummy_peak2d = DetectorDataProcessor('dummy_peak2d', dummy_det, [TwodGaussianPeak()])
 
@@ -916,7 +976,7 @@ try:
 	run("localStationUser")
 except java.io.FileNotFoundException, e:
 	print "No localStationUser run"
-	
+
 #from scannable.performance import LogTimeSinceLastGetPositionLessConstant
 #twrite = LogTimeSinceLastGetPositionLessConstant('twrite', 'BL16B-EA-IOC-10:TWRITE')
 
@@ -966,7 +1026,7 @@ caen1 = CaenHvSupply('caen1', 'BL16B-EA-CAEN-01:', 1)
 print "Done!"
 from epics_scripts.device.scannable.pvscannables_with_logic import PVWithSeparateReadbackAndToleranceScannable
 furnace = PVWithSeparateReadbackAndToleranceScannable('furnace', pv_set='BL16B-EA-TEMPC-01:RAMP:LIMIT:SET', pv_read='BL16B-EA-TEMPC-01:TEMP', timeout=36000, tolerance = .1)
-#run('startup_pie725')
+run('startup_pie725')
 
 
 #print "!!!! Renaming pcoedgepeak2d --> peak2d for bimorph scripts !!!!"

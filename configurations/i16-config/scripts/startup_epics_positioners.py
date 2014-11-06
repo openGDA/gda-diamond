@@ -230,10 +230,16 @@ zp2z=SingleEpicsPositionerClass('zp2z','BL16I-MO-ZPT-07:Z2.VAL','BL16I-MO-ZPT-07
 
 #micosx=SingleEpicsPositionerClass('micosx','BL16I-MO-PIEZO-03:MMC:01:DEMAND','BL16I-MO-PIEZO-03:MMC:01:POS:ENC','BL16I-MO-PIEZO-03:MMC:01:ACT:BUSY','BL16I-MO-PIEZO-03:MMC:01:STOP','mm','%.4f')
 #micosy=SingleEpicsPositionerClass('micosy','BL16I-MO-PIEZO-03:MMC:02:DEMAND','BL16I-MO-PIEZO-03:MMC:02:POS:ENC','BL16I-MO-PIEZO-03:MMC:02:ACT:BUSY','BL16I-MO-PIEZO-03:MMC:02:STOP','mm','%.4f')
-micosx=SingleEpicsPositionerNotDmovClassDirtyPiezo('micosx','BL16I-MO-PIEZO-03:MMC:01:DEMAND','BL16I-MO-PIEZO-03:MMC:01:POS:ENC','BL16I-MO-PIEZO-03:MMC:01:ACT:BUSY','BL16I-MO-PIEZO-03:MMC:01:STOP','mm','%.4f')
-micosx.setOutputFormat(['%.5f'])
-micosy=SingleEpicsPositionerNotDmovClassDirtyPiezo('micosy','BL16I-MO-PIEZO-03:MMC:02:DEMAND','BL16I-MO-PIEZO-03:MMC:02:POS:ENC','BL16I-MO-PIEZO-03:MMC:02:ACT:BUSY','BL16I-MO-PIEZO-03:MMC:02:STOP','mm','%.4f')
-micosy.setOutputFormat(['%.5f'])
+
+#micosx=SingleEpicsPositionerNotDmovClassDirtyPiezo('micosx','BL16I-MO-PIEZO-03:MMC:01:DEMAND','BL16I-MO-PIEZO-03:MMC:01:POS:ENC','BL16I-MO-PIEZO-03:MMC:01:ACT:BUSY','BL16I-MO-PIEZO-03:MMC:01:STOP','mm','%.4f')
+#micosx.setOutputFormat(['%.5f'])
+#micosy=SingleEpicsPositionerNotDmovClassDirtyPiezo('micosy','BL16I-MO-PIEZO-03:MMC:02:DEMAND','BL16I-MO-PIEZO-03:MMC:02:POS:ENC','BL16I-MO-PIEZO-03:MMC:02:ACT:BUSY','BL16I-MO-PIEZO-03:MMC:02:STOP','mm','%.4f')
+#micosy.setOutputFormat(['%.5f'])
+
+######## PV's seem to have changed for micos.
+micosx=SingleEpicsPositionerSetAndGetOnlyClass('micosx','BL16I-EA-PIEZO-01:C1:X:MOV:WR','BL16I-EA-PIEZO-01:C1:X:MOV:WR','microns','%.2f',help='micos motor')
+micosy=SingleEpicsPositionerSetAndGetOnlyClass('micosy','BL16I-EA-PIEZO-01:C1:Y:MOV:WR','BL16I-EA-PIEZO-01:C1:Y:MOV:WR','microns','%.2f',help='micos motor')
+micosz=SingleEpicsPositionerSetAndGetOnlyClass('micosz','BL16I-EA-PIEZO-01:C1:Z:MOV:WR','BL16I-EA-PIEZO-01:C1:Z:MOV:WR','microns','%.2f',help='micos motor')
 
 #BL16I-MO-PIEZO-03:MMC:02:POS:ENC
 #BL16I-MO-ZPT-02:X1.VAL
@@ -254,3 +260,6 @@ kbbhd=kbt1
 kbbhu=kbt2
 kbbvu=kbt5
 kbbvd=kbt6
+
+a1x=SingleEpicsPositionerSetAndGetOnlyClass('a1x','BL16I-EA-ANC-01:M3:POS','BL16I-EA-ANC-01:M3:POS','V','%5.2f',help='Attocube 1 x')
+

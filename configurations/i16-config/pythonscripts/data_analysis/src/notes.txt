@@ -1,0 +1,186 @@
+scans=range(450745,450755)# pdc etazero+0.056 atten 0
+
+9/7/14 20:50
+>>> runfile('/dls_sw/i16/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/data_analysis/src/corr2_submit_jobs.py')
+Your job 1255755 ("submit_scan_450745.sh") has been submitted
+Your job 1255756 ("submit_scan_450746.sh") has been submitted
+Your job 1255757 ("submit_scan_450747.sh") has been submitted
+Your job 1255758 ("submit_scan_450748.sh") has been submitted
+Your job 1255759 ("submit_scan_450749.sh") has been submitted
+Your job 1255760 ("submit_scan_450750.sh") has been submitted
+Your job 1255761 ("submit_scan_450751.sh") has been submitted
+Your job 1255762 ("submit_scan_450752.sh") has been submitted
+Your job 1255763 ("submit_scan_450753.sh") has been submitted
+Your job 1255764 ("submit_scan_450754.sh") has been submitted
+
+
+
+>>>corr2_out...failed part way through second scan...(maybe open for writing?)
+>>>restarted - failed imediately..
+=== Adding scan 450746 chunk 114 to dataset
+=== Adding scan 450746 chunk 115 to dataset
+=== Adding scan 450746 chunk 116 to dataset
+Traceback (most recent call last):
+  File "/dls_sw/apps/python/anaconda/1.7.0/64/lib/python2.7/site-packages/IPython/core/interactiveshell.py", line 2820, in run_code
+    exec code_obj in self.user_global_ns, self.user_ns
+  File "<ipython-input-10-30ff57fe9ecb>", line 1, in <module>
+    runfile('/dls_sw/i16/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/data_analysis/src/corr2_out.py')
+  File "/dls_sw/apps/DawnDiamond/1.6/builds-stable/DawnDiamond-1.6.0.v20140703-1228-linux64/plugins/org.python.pydev_3.3.3.201401272249/pysrc/pydev_umd.py", line 167, in runfile
+    execfile(filename, namespace)
+  File "/dls_sw/i16/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/data_analysis/src/corr2_out.py", line 24, in <module>
+    outcorr2[ichunk]+=incorr2[ichunk]
+  File "/dls_sw/apps/python/anaconda/1.7.0/64/lib/python2.7/site-packages/h5py/_hl/dataset.py", line 439, in __getitem__
+    self.id.read(mspace, fspace, arr, mtype)
+  File "h5d.pyx", line 179, in h5py.h5d.DatasetID.read (h5py/h5d.c:2479)
+  File "_proxy.pyx", line 130, in h5py._proxy.dset_rw (h5py/_proxy.c:1378)
+  File "_proxy.pyx", line 84, in h5py._proxy.H5PY_H5Dread (h5py/_proxy.c:1068)
+IOError: can't read data (Dataset: Read failed)
+
+=== submitted agin - _a in out file
+Your job 1321101 ("submit_scan_450745.sh") has been submitted
+Your job 1321102 ("submit_scan_450746.sh") has been submitted
+Your job 1321103 ("submit_scan_450747.sh") has been submitted
+Your job 1321104 ("submit_scan_450748.sh") has been submitted
+Your job 1321105 ("submit_scan_450749.sh") has been submitted
+Your job 1321106 ("submit_scan_450750.sh") has been submitted
+Your job 1321107 ("submit_scan_450751.sh") has been submitted
+Your job 1321108 ("submit_scan_450752.sh") has been submitted
+Your job 1321109 ("submit_scan_450753.sh") has been submitted
+Your job 1321110 ("submit_scan_450754.sh") has been submitted
+
+
+
+corr2_out
+
+=== Adding scan 450752 chunk 192 to dataset
+=== Adding scan 450752 chunk 193 to dataset
+=== Adding scan 450752 chunk 194 to dataset
+Traceback (most recent call last):
+  File "/dls_sw/apps/python/anaconda/1.7.0/64/lib/python2.7/site-packages/IPython/core/interactiveshell.py", line 2820, in run_code
+    exec code_obj in self.user_global_ns, self.user_ns
+  File "<ipython-input-6-30ff57fe9ecb>", line 1, in <module>
+    runfile('/dls_sw/i16/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/data_analysis/src/corr2_out.py')
+  File "/dls_sw/apps/DawnDiamond/1.6/builds-stable/DawnDiamond-1.6.0.v20140703-1228-linux64/plugins/org.python.pydev_3.3.3.201401272249/pysrc/pydev_umd.py", line 167, in runfile
+    execfile(filename, namespace)
+  File "/dls_sw/i16/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/data_analysis/src/corr2_out.py", line 20, in <module>
+    infile = h5py.File(h5in,'r')
+  File "/dls_sw/apps/python/anaconda/1.7.0/64/lib/python2.7/site-packages/h5py/_hl/files.py", line 207, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl)
+  File "/dls_sw/apps/python/anaconda/1.7.0/64/lib/python2.7/site-packages/h5py/_hl/files.py", line 79, in make_fid
+    fid = h5f.open(name, h5f.ACC_RDONLY, fapl=fapl)
+  File "h5f.pyx", line 71, in h5py.h5f.open (h5py/h5f.c:1543)
+IOError: unable to open file (File accessability: Unable to open file)
+
+
+=== Elvis has left the building
+=== Good scans:  [450746, 450747, 450748, 450750, 450751, 450752, 450753, 450754]
+=== Bad scans:  [450745, 450749]
+
+
+
+>>> runfile('/dls_sw/i16/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/data_analysis/src/corr2_submit_jobs.py')
+Your job 1454413 ("submit_scan_450745_part_99.sh") has been submitted
+>>> runfile('/dls_sw/i16/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/data_analysis/src/corr2_submit_jobs.py')
+Your job 1457722 ("submit_scan_450745_part_0.sh") has been submitted
+Your job 1457723 ("submit_scan_450745_part_1.sh") has been submitted
+Your job 1457724 ("submit_scan_450745_part_2.sh") has been submitted
+Your job 1457725 ("submit_scan_450745_part_3.sh") has been submitted
+Your job 1457726 ("submit_scan_450745_part_4.sh") has been submitted
+Your job 1457727 ("submit_scan_450745_part_5.sh") has been submitted
+Your job 1457728 ("submit_scan_450745_part_6.sh") has been submitted
+Your job 1457729 ("submit_scan_450745_part_7.sh") has been submitted
+Your job 1457730 ("submit_scan_450745_part_8.sh") has been submitted
+Your job 1457731 ("submit_scan_450745_part_9.sh") has been submitted
+Your job 1457732 ("submit_scan_450746_part_0.sh") has been submitted
+Your job 1457733 ("submit_scan_450746_part_1.sh") has been submitted
+Your job 1457734 ("submit_scan_450746_part_2.sh") has been submitted
+Your job 1457735 ("submit_scan_450746_part_3.sh") has been submitted
+Your job 1457736 ("submit_scan_450746_part_4.sh") has been submitted
+Your job 1457737 ("submit_scan_450746_part_5.sh") has been submitted
+Your job 1457738 ("submit_scan_450746_part_6.sh") has been submitted
+Your job 1457739 ("submit_scan_450746_part_7.sh") has been submitted
+Your job 1457740 ("submit_scan_450746_part_8.sh") has been submitted
+Your job 1457741 ("submit_scan_450746_part_9.sh") has been submitted
+Your job 1457742 ("submit_scan_450747_part_0.sh") has been submitted
+Your job 1457743 ("submit_scan_450747_part_1.sh") has been submitted
+Your job 1457744 ("submit_scan_450747_part_2.sh") has been submitted
+Your job 1457745 ("submit_scan_450747_part_3.sh") has been submitted
+Your job 1457746 ("submit_scan_450747_part_4.sh") has been submitted
+Your job 1457747 ("submit_scan_450747_part_5.sh") has been submitted
+Your job 1457748 ("submit_scan_450747_part_6.sh") has been submitted
+Your job 1457749 ("submit_scan_450747_part_7.sh") has been submitted
+Your job 1457750 ("submit_scan_450747_part_8.sh") has been submitted
+Your job 1457751 ("submit_scan_450747_part_9.sh") has been submitted
+Your job 1457752 ("submit_scan_450748_part_0.sh") has been submitted
+Your job 1457753 ("submit_scan_450748_part_1.sh") has been submitted
+Your job 1457754 ("submit_scan_450748_part_2.sh") has been submitted
+Your job 1457755 ("submit_scan_450748_part_3.sh") has been submitted
+Your job 1457756 ("submit_scan_450748_part_4.sh") has been submitted
+Your job 1457757 ("submit_scan_450748_part_5.sh") has been submitted
+Your job 1457758 ("submit_scan_450748_part_6.sh") has been submitted
+Your job 1457759 ("submit_scan_450748_part_7.sh") has been submitted
+Your job 1457760 ("submit_scan_450748_part_8.sh") has been submitted
+Your job 1457761 ("submit_scan_450748_part_9.sh") has been submitted
+Your job 1457762 ("submit_scan_450749_part_0.sh") has been submitted
+Your job 1457763 ("submit_scan_450749_part_1.sh") has been submitted
+Your job 1457764 ("submit_scan_450749_part_2.sh") has been submitted
+Your job 1457765 ("submit_scan_450749_part_3.sh") has been submitted
+Your job 1457766 ("submit_scan_450749_part_4.sh") has been submitted
+Your job 1457767 ("submit_scan_450749_part_5.sh") has been submitted
+Your job 1457768 ("submit_scan_450749_part_6.sh") has been submitted
+Your job 1457769 ("submit_scan_450749_part_7.sh") has been submitted
+Your job 1457770 ("submit_scan_450749_part_8.sh") has been submitted
+Your job 1457771 ("submit_scan_450749_part_9.sh") has been submitted
+Your job 1457772 ("submit_scan_450750_part_0.sh") has been submitted
+Your job 1457773 ("submit_scan_450750_part_1.sh") has been submitted
+Your job 1457774 ("submit_scan_450750_part_2.sh") has been submitted
+Your job 1457775 ("submit_scan_450750_part_3.sh") has been submitted
+Your job 1457776 ("submit_scan_450750_part_4.sh") has been submitted
+Your job 1457777 ("submit_scan_450750_part_5.sh") has been submitted
+Your job 1457778 ("submit_scan_450750_part_6.sh") has been submitted
+Your job 1457779 ("submit_scan_450750_part_7.sh") has been submitted
+Your job 1457780 ("submit_scan_450750_part_8.sh") has been submitted
+Your job 1457781 ("submit_scan_450750_part_9.sh") has been submitted
+Your job 1457782 ("submit_scan_450751_part_0.sh") has been submitted
+Your job 1457784 ("submit_scan_450751_part_1.sh") has been submitted
+Your job 1457786 ("submit_scan_450751_part_2.sh") has been submitted
+Your job 1457788 ("submit_scan_450751_part_3.sh") has been submitted
+Your job 1457789 ("submit_scan_450751_part_4.sh") has been submitted
+Your job 1457790 ("submit_scan_450751_part_5.sh") has been submitted
+Your job 1457791 ("submit_scan_450751_part_6.sh") has been submitted
+Your job 1457792 ("submit_scan_450751_part_7.sh") has been submitted
+Your job 1457793 ("submit_scan_450751_part_8.sh") has been submitted
+Your job 1457794 ("submit_scan_450751_part_9.sh") has been submitted
+Your job 1457795 ("submit_scan_450752_part_0.sh") has been submitted
+Your job 1457796 ("submit_scan_450752_part_1.sh") has been submitted
+Your job 1457797 ("submit_scan_450752_part_2.sh") has been submitted
+Your job 1457798 ("submit_scan_450752_part_3.sh") has been submitted
+Your job 1457799 ("submit_scan_450752_part_4.sh") has been submitted
+Your job 1457800 ("submit_scan_450752_part_5.sh") has been submitted
+Your job 1457801 ("submit_scan_450752_part_6.sh") has been submitted
+Your job 1457802 ("submit_scan_450752_part_7.sh") has been submitted
+Your job 1457803 ("submit_scan_450752_part_8.sh") has been submitted
+Your job 1457804 ("submit_scan_450752_part_9.sh") has been submitted
+Your job 1457805 ("submit_scan_450753_part_0.sh") has been submitted
+Your job 1457806 ("submit_scan_450753_part_1.sh") has been submitted
+Your job 1457807 ("submit_scan_450753_part_2.sh") has been submitted
+Your job 1457808 ("submit_scan_450753_part_3.sh") has been submitted
+Your job 1457809 ("submit_scan_450753_part_4.sh") has been submitted
+Your job 1457810 ("submit_scan_450753_part_5.sh") has been submitted
+Your job 1457811 ("submit_scan_450753_part_6.sh") has been submitted
+Your job 1457812 ("submit_scan_450753_part_7.sh") has been submitted
+Your job 1457813 ("submit_scan_450753_part_8.sh") has been submitted
+Your job 1457814 ("submit_scan_450753_part_9.sh") has been submitted
+Your job 1457815 ("submit_scan_450754_part_0.sh") has been submitted
+Your job 1457816 ("submit_scan_450754_part_1.sh") has been submitted
+Your job 1457817 ("submit_scan_450754_part_2.sh") has been submitted
+Your job 1457818 ("submit_scan_450754_part_3.sh") has been submitted
+Your job 1457819 ("submit_scan_450754_part_4.sh") has been submitted
+Your job 1457820 ("submit_scan_450754_part_5.sh") has been submitted
+Your job 1457821 ("submit_scan_450754_part_6.sh") has been submitted
+Your job 1457822 ("submit_scan_450754_part_7.sh") has been submitted
+Your job 1457823 ("submit_scan_450754_part_8.sh") has been submitted
+Your job 1457824 ("submit_scan_450754_part_9.sh") has been submitted
+
+
+next: calc_coinc - check each sum to see if processing had finished.

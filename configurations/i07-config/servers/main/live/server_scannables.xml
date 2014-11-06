@@ -12,26 +12,7 @@
     http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
     http://www.springframework.org/schema/aop 
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-    
-    <!-- Shutters / Valves -->
-    <bean id="VALVES" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="groupMembers">
-            <list>
-                <ref bean="shutter1" />
-                <ref bean="gv1" />
-                <ref bean="gv2" />
-                <ref bean="gv4" />
-                <ref bean="gv5" />
-                <ref bean="gv6" />
-                <ref bean="gv7" />
-                <ref bean="gv8" />
-                <ref bean="gv9" />
-            </list>
-        </property>
-        <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-    </bean>
-    
+
     <!-- Insersion Device ID Motors -->
     <!-- Gap-->
     <bean id="idgap" class="gda.device.scannable.ScannableMotor">

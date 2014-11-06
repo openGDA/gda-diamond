@@ -5,10 +5,10 @@
 
 	<bean id="pilatus1_driver" class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
 		<property name="deviceName" value="pilatus1_pilatus" />
-			</bean>
-			<bean id="pilatus1_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-				<property name="deviceName" value="pilatus1_ADBase" />
-			</bean>
+	</bean>
+	<bean id="pilatus1_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="deviceName" value="pilatus1_ADBase" />
+	</bean>
 
 	<bean id="pilatus1" class="gda.device.detector.addetector.HardwareTriggerableADDetector">
 

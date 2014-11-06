@@ -101,7 +101,7 @@
 	</bean>
 
 	<bean id="pilatus1_multi" class="gda.device.detector.NXDetector">
-		<property name="name" value="pilatus1" />
+		<property name="name" value="pilatus1_multi" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_multiple_exposures_per_collection_internal_triggering"/>
 		<property name="additionalPluginList">
 			<list>

@@ -10,32 +10,32 @@ import scisoftpy
 import os.path
 import numpy as np
 try:
-    import specfilewrapper
+    import dlstools.specfilewrapper as specfilewrapper
 except:
     print '=== Need to obtain specfilewrapper.py and compatible specfile.so from ERSF PyMCA package in order to load spec files'
 
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.collections import PolyCollection
 import matplotlib.cm as cm
-from matplotlib.colors import Normalize
+#from matplotlib.colors import Normalize
 
-class quickplot():
+class quickplot:
     #experimental - do not use!
     #no parameter checks kwargs etc
     #quick test of quickplot- eventually have all automatic params
     def plot(self,*args):
         xstr, ystr=args[0], args[1]
-        figure()
-        plot(self.dict[xstr], self.dict[ystr])
-        xlabel(xstr)
-        ylabel(ystr)
-        grid(True)
-        title('#'+str(self.datanumber)+' '+self.date)
-        axis('tight')
+        plt.figure()
+        plt.plot(self.dict[xstr], self.dict[ystr])
+        plt.xlabel(xstr)
+        plt.ylabel(ystr)
+        plt.grid(True)
+        plt.title('#'+str(self.datanumber)+' '+self.date)
+        plt.axis('tight')
     def cards(self, xstr, ystr, zstr, cmap=cm.jet):
         #experimental!
-        fig = figure()
+        fig = plt.figure()
         ax = fig.gca(projection='3d')
         verts = []
         zs = self.s.dict[xstr][:,0]
@@ -51,9 +51,9 @@ class quickplot():
         ax.set_ylim3d(self.s.dict[xstr].min(),self.s.dict[xstr].max())
 #        ax.set_zlim3d(self.s.dict[zstr].min(),self.s.dict[zstr].max())
         ax.set_zlim3d(0,self.s.dict[zstr].max())
-        show()
+        plt.show()
 
-class dataloader():
+class dataloader:
     '''
     Data loader base class
     Can use d=np.loadtxt(filename).transpose() to load ascii file with nympy function
@@ -94,6 +94,7 @@ class dataloader():
              #   print "=== Warning: could not unpack "+str(key)
     def load(self,datanumber):
         self.open_source(self.source, self.sourcefunc)
+        print '=== Using load from base class - does nothing'
         #overload with specific method to obtain dictionary from data source
         return {'Testdata':7.1}
     def open_source(self, source, f):
@@ -128,7 +129,8 @@ class dataloader():
         return goodscans
     def scanexists(self, n):
         try:
-            self(n)
+            #self(n)
+            self.load(int(n))
             return True
         except:
             return False
@@ -174,10 +176,10 @@ class specloader(dataloader):
         self.cmd=self.scan.command()
         return dict
 
-class data():
+class data:
     pass
 
-class ScanSequence():
+class ScanSequence:
     'Tools for handling data from a sequence of scans'
     def sequence_to_dict(self, scanlist, fields=True):
         '''
@@ -293,7 +295,7 @@ class dlsloader(dataloader,ScanSequence, quickplot):
         self.file=self.pathfmt % datanumber
         #print self.file
         self.dirname=os.path.dirname(self.file)+os.sep #directory name with trailing separator - used for reading secondary data files etc
-        self.dataobject=scisoftpy.io.load(self.file, formats=['srs','tiff'],warn=self.warn)
+        self.dataobject=scisoftpy.io.load(self.file, formats=['srs','tiff'],warn=not self.warn)
         labels=self.dataobject.keys()
         try:        
             scan=self.dataobject['scancommand']
@@ -303,18 +305,21 @@ class dlsloader(dataloader,ScanSequence, quickplot):
         dict.update(self.dataobject); # then data
         dict['scan']=scan; dict['labels']=labels; # then scan and labels
         return dict
+    
     def scanexists(self, n):#should be faster than the one in base class
         #print self.pathfmt % n
+        self.open_source(self.source, self.sourcefunc)  #### to fix findscans bug
         return os.path.exists(self.pathfmt % n)
 
 class piloader(dlsloader):
     def load(self,datanumber):
+        print '=== Use tiffloader for all tiff files (e.g. medipix and pilatus)'
         self.open_source(self.source, self.sourcefunc)
         dict={}
         #self.file=self.first+str(datanumber)+'.'+self.ext  
         self.file=self.pathfmt % datanumber
         #print self.file
-        self.dataobject=scisoftpy.io.load(self.file, formats=['tiff'])
+        self.dataobject=scisoftpy.io.load(self.file, formats=['tiff'],warn=self.warn)
         labels=self.dataobject.keys()
         try:        
             scan=self.dataobject['scancommand']
@@ -327,6 +332,32 @@ class piloader(dlsloader):
     
     def get_preamble(self):
         return self.file
+
+class tiffloader(dlsloader):
+    def load(self,datanumber):
+        self.open_source(self.source, self.sourcefunc)
+        dict={}
+        #self.file=self.first+str(datanumber)+'.'+self.ext  
+        self.file=self.pathfmt % datanumber
+        #print self.file
+        self.dataobject=scisoftpy.io.load(self.file, formats=['tiff'],warn=self.warn)
+        labels=self.dataobject.keys()
+        try:        
+            scan=self.dataobject['scancommand']
+        except:
+            scan=''
+        dict.update(self.dataobject.metadata) #update dict with metadata
+        dict.update(self.dataobject); # then data
+        dict['scan']=scan; dict['labels']=labels; # then scan and labels
+        return dict
+    
+    def get_preamble(self):
+        return self.file
+
+
+
+
+
 
 
 
