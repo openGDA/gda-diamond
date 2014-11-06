@@ -144,7 +144,7 @@ public class SimulatedData {
 	}
 
 	public static boolean isLoaded() {
-		return simulatedIt_raw != null;
+		return false;
 	}
 
 
