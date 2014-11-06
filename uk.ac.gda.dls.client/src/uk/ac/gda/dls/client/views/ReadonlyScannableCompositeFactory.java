@@ -18,6 +18,8 @@
 
 package uk.ac.gda.dls.client.views;
 
+import java.util.Map;
+
 import gda.device.Scannable;
 import gda.device.monitor.DummyMonitor;
 import gda.rcp.views.CompositeFactory;
@@ -98,11 +100,29 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 		this.minPeriodMS = minPeriodMS;
 	}
 
+	private Map<String, Integer> colourMap;
+
+
+	public Map<String, Integer> getColourMap() {
+		return colourMap;
+	}
+
+	/**
+	 * 
+	 * @param colourMap map of ids to pass to Display.getSystemColor to allow setting of foreground based on value
+	 * Useful for enums
+	 */
+	public void setColourMap(Map<String, Integer> colourMap) {
+		this.colourMap = colourMap;
+	}	
+	
+	
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		ReadonlyScannableComposite readonlyScannableComposite = new ReadonlyScannableComposite(parent, style, scannable,
 				label, units, decimalPlaces);
 		readonlyScannableComposite.setMinPeriodMS(minPeriodMS);
+		readonlyScannableComposite.setColourMap(colourMap);
 		return readonlyScannableComposite;
 	}
 
