@@ -2,7 +2,8 @@
 
 # Command to start the GDA client
 
-DLS_CONFIG_BIN=$(readlink -f $(dirname $0))
+DLS_CONFIG=$(readlink -f $(dirname $0)/..)
+GDA_INSTAL_GIT_LOC=$(readlink -f $(dirname $0)/../../../)
 
 function gdaclienthelp {
 	cat 1>&2 <<EOF
@@ -140,7 +141,7 @@ done
 . /usr/share/Modules/init/bash
 module load global/http_proxy
 
-. $DLS_CONFIG_BIN/loadjava.sh
+. $DLS_CONFIG/bin/loadjava.sh
 
 if [ ! -z $GDA_RESET ] ; then
   if [ ! -z $GDA_KEEP ] ; then
@@ -198,7 +199,7 @@ PREVMARGS=" -consoleLog -showLocation -data ${WORKSPACE} -configuration ${CONFIG
 VMARGS="-XX:ErrorFile=$GDA_CLIENT_LOG_DIR/hs_err_pid%p.log $GDA_CLIENT_VMARGS"
 
 # see http://wiki.eclipse.org/Eclipse.ini
-COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs -Dgda.dls-config=$DLS_CONFIG_BIN/../ -Dgda.install.git.loc=$DLS_CONFIG_BIN/../../../ $VMARGS"
+COMMAND="${GDA_CLIENT} $PREVMARGS --launcher.appendVmargs -vmargs -Dgda.dls-config=$DLS_CONFIG -Dgda.install.git.loc=$GDA_INSTAL_GIT_LOC $VMARGS"
 
 echo Starting GDA Client...
 if [ -z $NOHUP_LOGFILE ] ; then
