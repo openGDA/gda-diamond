@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="xreye2x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="XEYE2.X" />
+	<bean id="d7x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D7.X" />
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="xreye2y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="XEYE2.Y" />
+	<bean id="d7y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D7.Y" />
 		<property name="local" value="true"/>
 	</bean>
 </beans>

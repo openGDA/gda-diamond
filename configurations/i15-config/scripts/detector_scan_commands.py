@@ -4,9 +4,11 @@ from gda.scan import ConcurrentScan, ConstantVelocityScanLine
 from gdascripts.pd.dummy_pds import DummyPD
 from shutterCommands import openEHShutter, closeEHShutter
 from gda.device.scannable import ScannableBase
+from gda.device.scannable import ScannableMotionBase
 from gdascripts.parameters import beamline_parameters
 from gda.device.detector import NXDetector
 from gdascripts.utils import caget, caput
+from time import sleep
 
 # If the functions or defaults values below change, please update the user wiki
 # page: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Exposures%20and%20scans%20using%20mar%2C%20ccd%2C%20Pilatus%2C%20etc.
@@ -138,11 +140,14 @@ def _configureConstantVelocityMove(axis):
 	
 	return continuouslyScannableViaController, continuousMoveController
 
-def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
+def rockScan(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
 		sampleSuffix="rockScan_test", d1out=True, d2out=True):
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
 	
-	hardwareTriggeredNXDetector = _configureDetector(detector, exposureTime, noOfRocks, sampleSuffix, dark=False)
+	if noOfRocksPerExposure <> 1:
+		raise Exception("noOfRocksPerExposure=%r is not supported. Only noOfRocksPerExposure=1 is currently supported, if you want multiple rocks with each in a different exposure, set noOfExposures. If you want multiple rocks in the same image, use rockScanUnsync" % noOfRocksPerExposure)
+	
+	hardwareTriggeredNXDetector = _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis)
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
@@ -154,7 +159,7 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 								  hardwareTriggeredNXDetector, exposureTime,
 								])
 	
-	scan = ConcurrentScan([numExposuresPD, 1, noOfRocks, 1,
+	scan = ConcurrentScan([numExposuresPD, 1, noOfExposures, 1,
 						   detectorShield,
 						   DiodeController(d1out, d2out),
 						   sc1
@@ -175,7 +180,99 @@ def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		wrappedDetector, centre - abs(rockSize), centre - abs(rockSize),
 			abs(2*rockSize)])
 	scan.runScan()
+"""
 
+def rockScanUnsync(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
+		sampleSuffix="rockScanUnsync_test", d1out=True, d2out=True):
+	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
+	
+	if noOfExposures <> 1:
+		raise Exception("noOfExposures=%r is not supported. Only noOfExposures=1 is currently supported, if you want multiple rocks with each in a different exposure, use rockScan" % noOfExposures)
+	
+	if   axis.name == "dkphi_rocker":
+		rockScanUnsyncJythonRocker(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures, sampleSuffix, d1out, d2out)
+	elif axis.name == "dkphi_rockscan":
+		rockScanUnsyncEpicsRocker( axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures, sampleSuffix, d1out, d2out)
+	else:
+		raise Exception('Unsupported motor %r, only dkphi_rocker or dkphi_rockscan supported.' % (axis.name))
+	
+def rockScanUnsyncJythonRocker(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
+		sampleSuffix="rockScanUnsync_test", d1out=True, d2out=True):
+	
+	orig_speed = axis.scannable.speed
+	
+	#speed = float(rockSize)/float(exposureTime)*float(noOfRocksPerExposure)
+	
+	ACCL = 0.25
+	timePerRock = float(exposureTime) / float(noOfRocksPerExposure)
+	# speed   ____________
+	#        /            \
+	#       /              \
+	#      /                \
+	#     /                  \
+	#    |ACCL|cruiseTime|ACCL|
+	#    |    timePerRock     |
+	#    cruiseTime = timePerRock - 2.*ACCL
+	#    speed = rockSize / (cruiseTime + ACCL)
+	speed = float(rockSize*2) / (timePerRock - ACCL)
+	
+	# Old calc							New calc
+	# rockSize = 5						
+	# exposureTime = 300				
+	# noOfRocksPerExposure = 100		accl = 0.25
+
+	# speed = 1.666						timePerRock = 3
+	# timePerRock = 3+0.25				speed = 1.818
+
+	speed_min = 0.1
+	speed_max = 8.0
+	if speed > speed_max:
+		raise Exception('Speed %r too high (max= %r), reduce noOfRocksPerExposure.' % (speed, speed_max))
+	elif speed < speed_min:
+		raise Exception('Speed %r too low (min= %r), increase noOfRocksPerExposure.' % (speed, speed_min))
+	
+	print "Moving %s at speed %r" % (axis.name, speed)
+	
+	axis.scannable.speed = speed
+	axis.moveTo( [centre, rockSize] )
+	
+	expose(detector, exposureTime=exposureTime, noOfExposures=noOfExposures,
+		sampleSuffix=sampleSuffix, d1out=d1out, d2out=d2out)
+	
+	print "Stopping %s and setting speed back to %r" % (axis.name, orig_speed)
+	axis.stop()
+	sleep(1) # The speed setting fails if immediately after a stop!
+	axis.scannable.speed = orig_speed
+	print "Moving %s back to %r" % (axis.name, centre)
+	axis.moveTo( [centre, 0] )
+
+def rockScanUnsyncEpicsRocker(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
+		sampleSuffix="rockScanUnsync_test", d1out=True, d2out=True):
+
+	print "Moving %s to start position %r" % (axis.name, centre-rockSize)
+	axis.scannable.moveTo(centre-rockSize) # Go to start position
+
+	axis.setupScan(centre, rockSize, noOfRocksPerExposure)
+
+	_configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark=False)
+
+	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+	detectorShield = jythonNameMap.ds
+	numExposuresPD = DummyPD("exposure")
+	zebraFastShutter = jythonNameMap.zebraFastShutter
+	
+	scan = ConcurrentScan([numExposuresPD, 1, noOfExposures, 1,
+						   detectorShield,
+						   DiodeController(d1out, d2out),
+						   detector, exposureTime,
+						   zebraFastShutter, exposureTime,
+						   axis, exposureTime ])
+	scan.runScan()
+	
+	print "Moving %s back to %r" % (axis.name, centre)
+	axis.scannable.moveTo(centre) # Go back to centre
+
+"""
 def expose(detector, exposureTime=1, noOfExposures=1,
 		fileName="expose_test", d1out=True, d2out=True):
 	wrappedDetector = _getWrappedDetector(None, 1, 1, 1,
@@ -190,7 +287,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 	scan.runScan()
 """
 
-def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, dark):
+def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	
 	supportedDetectors = {'mar':    jythonNameMap.marHWT
@@ -200,9 +297,15 @@ def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, 
 						, 'mpxHWT': detector
 						, 'mpxc':   jythonNameMap.mpxcHWT
 						, 'mpxcHWT':detector
-						, 'mpxthr':   jythonNameMap.mpxcHWT
+						, 'mpxthr':   jythonNameMap.mpxthrHWT
 						, 'mpxthrHWT':detector
+						, 'pil3':    jythonNameMap.pil3HWT
+						, 'pil3HWT': detector
 						}
+	
+	# Since the interface changed, check that noOfExposures is numeric
+	if not isinstance(noOfExposures, (int, long, float)):
+		raise TypeError("noOfExposures=%r (%s), but expected it to be numeric!" % (noOfExposures, type(noOfExposures),))
 	
 	if supportedDetectors.has_key(detector.name):
 		hardwareTriggeredNXDetector = supportedDetectors[detector.name]
@@ -218,7 +321,7 @@ def _configureDetector(detector, exposureTime, numberOfExposures, sampleSuffix, 
 	detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
 	
 	
-	if numberOfExposures != 1 or detector.getCollectionStrategy().getNumberImagesPerCollection(exposureTime) > 1:
+	if noOfExposures != 1 or detector.getCollectionStrategy().getNumberImagesPerCollection(exposureTime) > 1:
 		filePathTemplate="$datadir$/$scan$-%s-files-%s-" % (detector.name, sampleSuffix)
 		fileNameTemplate=""
 		fileTemplate="%s%s%05d"	# One image per file

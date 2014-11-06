@@ -38,19 +38,11 @@
 			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
 	</bean>
 
-	<!-- Copy FileRegistrar xml files for debugging unknown instrument problems. -->
-	<bean id="FileRegistrarDebug" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrarDebug" />
-		<property name="directory"
-			value="/dls/${gda.instrument}/var/dropZone/${gda.instrument}-" />
-	</bean>
-
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DataWriterFactory" />
 		<property name="dataWriterExtenders">
 			<list>
 				<ref bean="FileRegistrar" />
-				<ref bean="FileRegistrarDebug" />
 			</list>
 		</property>
 	</bean>

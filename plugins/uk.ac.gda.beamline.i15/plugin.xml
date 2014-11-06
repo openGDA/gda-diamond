@@ -33,6 +33,7 @@
             locationURI="menu:window?after=showView">
          <menu
                label="Area Detectors">
+
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Mar345 (mar) Array View"
@@ -46,6 +47,7 @@
                      value="mar">
                </parameter>
             </command>
+
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Merlin (mpx) Array View"
@@ -56,9 +58,10 @@
                </parameter>
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
-                     value="mpx">
+                     value="pv//mpx//BL15I-EA-DET-18@">
                </parameter>
             </command>
+
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="Perkin Elmer (pe) Array View"
@@ -110,6 +113,33 @@
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
                      value="pv//psl//BL15I-EA-PSL-01@">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Pilatus 3 300k (pil3) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//pil3//BL15I-EA-PILAT-03@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Pilatus 3 300k (pil3) Live (MJPeg) View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//pil3//BL15I-EA-PILAT-03@">
                </parameter>
             </command>
 

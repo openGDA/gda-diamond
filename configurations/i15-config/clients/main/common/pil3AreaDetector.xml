@@ -8,7 +8,7 @@
 			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 				<property name="map">
 					<map>
-						<entry key="SERVICE_NAME" value="mpx" />
+						<entry key="SERVICE_NAME" value="pil3" />
 					</map>
 				</property>
 			</bean>
@@ -16,9 +16,7 @@
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
 		<!-- Note concrete class in service property vvv, but Interface ^^^ in class property -->
 		<property name="service">
-			<bean class="uk.ac.gda.epics.adviewer.SimpleADPVSuffixes">
-				<property name="adBaseSuffix" value="Merlin1:" />
-			</bean>
+			<bean class="uk.ac.gda.epics.adviewer.DLSADPVSuffixes" />
 		</property>
 	</bean>
 </beans>

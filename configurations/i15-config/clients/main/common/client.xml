@@ -30,11 +30,12 @@
 	<import resource="../../../servers/main/common/device/marAreaDetector.xml"/>
 	<import resource="marAreaDetector.xml" />
 
-	<import resource="../../../servers/main/common/device/mpxAreaDetector.xml"/>
 	<import resource="mpxAreaDetector.xml" />
 
 	<import resource="../../../servers/main/common/device/peAreaDetector.xml"/>
 	<import resource="peAreaDetector.xml" />
+
+	<import resource="pil3AreaDetector.xml" />
 
 	<import resource="pslAreaDetector.xml" />
 

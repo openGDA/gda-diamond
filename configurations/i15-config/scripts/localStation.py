@@ -39,8 +39,9 @@ from gdascripts.scan.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
+#global zebraContinuousMoveController
 import scannables.detectors.fastShutterZebraDetector
-zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter', 'BL15I-EA-ZEBRA-01:', zebraContinuousMoveController)
+zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController)
 
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
@@ -81,7 +82,6 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	djack1, djack2, djack3, dtransx, drotation, detz, ddelta,\
 	shdx, shdy, shdz,\
 	bsx, bsy,\
-	xreye_x, xreye_y,\
 	tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,\
 	s7xpos, s7ypos, s7xgap, s7xgap,\
 	d6x,\
@@ -91,9 +91,8 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	shfmcurve, shfmellip, shfmx, shfmpitch, \
 	pin3x, pin3y,\
 	sx, sy, sz, spitch, syaw, sroll,\
-	spivotx, spivoty, spivotz, sphi,\
+	spivotx, spivoty, spivotz, sphi, ssx, ssz,\
 	d7x, d7y,\
-	xreye2x, xreye2y,\
 	bs2x, bs2y, bs3x, bs3y, bs3z, \
 	\
 	d1, d2, d3, d4, d5, d6, d7, d8, d9\
@@ -198,9 +197,6 @@ try:
 		spivotx = pd_epicsdevice.Simple_PD_EpicsDevice("spivotx", beamline, "-MO-SFAB-01:PIVOT:X")
 		spivoty = pd_epicsdevice.Simple_PD_EpicsDevice("spivoty", beamline, "-MO-SFAB-01:PIVOT:Y")
 		spivotz = pd_epicsdevice.Simple_PD_EpicsDevice("spivotz", beamline, "-MO-SFAB-01:PIVOT:Z")
-		sphi    = pd_epicsdevice.Simple_PD_EpicsDevice("sphi",    beamline, "-MO-SFAB-01:ROTARY")
-		ssx     = pd_epicsdevice.Simple_PD_EpicsDevice("ssx",     beamline, "-MO-SFAB-01:SAMPLE:X")
-		ssy     = pd_epicsdevice.Simple_PD_EpicsDevice("ssy",     beamline, "-MO-SFAB-01:SAMPLE:Y")
 
 		patch12x7 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x7", beamline, "-EA-PATCH-12:X7")
 		patch12x8 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x8", beamline, "-EA-PATCH-12:X8")
@@ -426,6 +422,7 @@ try:
 		alias("expose")
 		alias("darkExpose")
 		alias("rockScan")
+		alias("rockScanUnsync")
 		#alias("resetCCDScanNumber")
 		#alias("incrementMarScanNumber")
 		#alias("resetMarScanNumber")
@@ -519,6 +516,13 @@ try:
 		alias('dkphi_rocker')
 	except:
 		localStation_exception(sys.exc_info(), "creating dkphi_rocker object")
+
+	try:
+		from scannables.EpicsRockingScannable import EpicsRockingScannable
+		dkphi_rockscan = EpicsRockingScannable('dkphi_rockscan', scannable=dkphi)
+		alias('dkphi_rockscan')
+	except:
+		localStation_exception(sys.exc_info(), "creating dkphi_rockscan object")
 
 	try:
 		dx.setOutputFormat(["%.6g"])
@@ -667,7 +671,6 @@ try:
 				djack1, djack2, djack3, dtransx, drotation, detz, ddelta,
 				shdx, shdy, shdz,
 				bsx, bsy,
-				xreye_x, xreye_y,
 				tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,
 				s7xpos, s7ypos, s7xgap, s7xgap,
 				d6x,
@@ -677,9 +680,8 @@ try:
 				shfmcurve, shfmellip, shfmx, shfmpitch,
 				pin3x, pin3y,
 				sx, sy, sz, spitch, syaw, sroll,
-				spivotx, spivoty, spivotz, sphi,
+				spivotx, spivoty, spivotz, sphi, ssx, ssz,
 				d7x, d7y,
-				xreye2x, xreye2y,
 				bs2x, bs2y, bs3x, bs3y, bs3z,
 				#det2z,
 				d1, d2, d3, d4, d5, d6, d7, d8, d9,

@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="xreye2x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xreye2x_motor" />
+	<bean id="d7x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d7x_motor" />
 	</bean>
 
-	<bean id="xreye2y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xreye2y_motor" />
+	<bean id="d7y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d7y_motor" />
 	</bean>
 </beans>
