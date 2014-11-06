@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i18-config" componentType="buckminster" version="1.0.0">
+<?xml version="1.0" encoding="UTF-8"?><cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i18-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="dls-config" componentType="buckminster"/>
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.core.jobs" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.core.resources" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.equinox.common" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i18" componentType="osgi.bundle"/>
@@ -10,8 +12,6 @@
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.oe" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.core.jobs" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.core.resources" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.equinox.common" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.beans.vortex" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>

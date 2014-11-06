@@ -20,7 +20,7 @@ from exafsscripts.exafs.i18SamplePreparer import I18SamplePreparer
 from exafsscripts.exafs.i18OutputPreparer import I18OutputPreparer
 from exafsscripts.exafs.xas_scan import XasScan
 from exafsscripts.exafs.qexafs_scan import QexafsScan
-from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
+from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig, Xspress3Config
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
 from gda.data.scan.datawriter import NexusDataWriter
 
@@ -32,6 +32,9 @@ from pd_setPvAndWaitForCallbackWithSeparateReadback import SetPvAndWaitForCallba
 print "Initialization Started";
 
 finder = Finder.getInstance()
+
+test = DummyScannable("test")
+
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
@@ -89,8 +92,9 @@ original_header =              finder.find("datawriterconfig").getHeader()[:]
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
+xspress3Config = Xspress3Config(xspress3, ExafsScriptObserver)
 
-detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig, I0_keithley, It_keithley, cmos_for_maps)
+detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig, xspress3Config, I0_keithley, It_keithley, cmos_for_maps)
 samplePreparer =   I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x)
 outputPreparer =   I18OutputPreparer(datawriterconfig)
 
@@ -100,26 +104,31 @@ if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'Us
     xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 # else use energy_nogap
 else :
-    xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+#     xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy_nogap, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
+    xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, test, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 
 if (LocalProperties.get("gda.mode") == 'live'):
     non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
-    raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, buffered_cid, trajBeamMonitor)
-    raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
+    raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, qexafs_xspress3, buffered_cid, trajBeamMonitor)
+    raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj_xspress3, traj1tfg, traj1xmap, traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
 else:
     non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
-    raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, None, None, raster_xspress, None, None)
-    raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, None, None, None)
+    raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, None, None, raster_xspress, qexafs_xspress3, None, None)
+    raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj_xspress3, traj1tfg, traj1xmap, traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, None, None, None)
     
 
 # give object references to energy and table motors, now do not need the finder or to edit XML
-non_raster_map.setEnergyScannables(energy,energy_nogap)
+
+# non_raster_map.setEnergyScannables(energy,energy_nogap)
+non_raster_map.setEnergyScannables(test,test)
 non_raster_map.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 non_raster_map.setCmos(cmos_for_maps)
-raster_map.setEnergyScannables(energy,energy_nogap)
+raster_map.setEnergyScannables(test,test)
+# raster_map.setEnergyScannables(energy,energy_nogap)
 raster_map.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 raster_map.setCmos(cmos_for_maps)
-raster_map_return_write.setEnergyScannables(energy,energy_nogap)
+raster_map_return_write.setEnergyScannables(test,test)
+# raster_map_return_write.setEnergyScannables(energy,energy_nogap)
 raster_map_return_write.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 samplePreparer.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 
@@ -146,7 +155,6 @@ alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
 
-test = DummyScannable("test")
 
 if (LocalProperties.get("gda.mode") == 'live'):
     photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/")
