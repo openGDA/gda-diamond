@@ -6,11 +6,11 @@
 	<bean id="xspress3Controller"
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
 		<property name="epicsTemplate" value="BL18I-EA-XSP3-01" />
+		<property name="numberOfChannels" value="10" />
 	</bean>
 
 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
 		<property name="controller" ref="xspress3Controller" />
-		<property name="numberOfChannelsToRead" value="4" />
 		<property name="writeHDF5Files" value="true" />
 	</bean>
 
