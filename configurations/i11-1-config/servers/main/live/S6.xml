@@ -5,28 +5,28 @@
 
 	<!-- S2 Motors (individual Motions) -->
 	<bean id="s6xminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:X:MINUS"/>
+		<property name="pvName" value="BL11J-AL-SLITS-06:X:MINUS"/>
 	</bean>
 	<bean id="s6xplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:X:PLUS"/>
+		<property name="pvName" value="BL11J-AL-SLITS-06:X:PLUS"/>
 	</bean>
 	<bean id="s6yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:Y:MINUS"/>
+		<property name="pvName" value="BL11J-AL-SLITS-06:Y:MINUS"/>
 	</bean>
 	<bean id="s6yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:Y:PLUS"/>
+		<property name="pvName" value="BL11J-AL-SLITS-06:Y:PLUS"/>
 	</bean>
 	<!-- S2 Motors (Compound Motions) -->
 	<bean id="s6xpos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:X:CENTRE"/>
+		<property name="pvName" value="BL11J-AL-SLITS-06:X:CENTRE"/>
 	</bean>
 	<bean id="s6xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:X:SIZE"/>
+		<property name="pvName" value="BL11J-AL-SLITS-06:X:SIZE"/>
 	</bean>
 	<bean id="s6ypos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:Y:CENTRE"/>
+		<property name="pvName" value="BL11J-AL-SLITS-06:Y:CENTRE"/>
 	</bean>
 	<bean id="s6ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:Y:SIZE"/>
+		<property name="pvName" value="BL11J-AL-SLITS-06:Y:SIZE"/>
 	</bean>
 </beans>

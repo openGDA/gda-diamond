@@ -3,27 +3,27 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
-	<bean id="ms3x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ms3x_motor"/>
+	<bean id="ms4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ms4x_motor"/>
 	</bean>
-	<bean id="ms3y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ms3y_motor"/>
+	<bean id="ms4y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ms4y_motor"/>
 	</bean>
-	<bean id="ms3rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ms3rot_motor"/>
+	<bean id="ms4rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ms4rot_motor"/>
 	</bean>
 	
-	<bean id="ms3" class="org.opengda.lde.experiments.SampleStage">
+	<bean id="ms4" class="org.opengda.lde.experiments.SampleStage">
 		<property name="groupMembers">
 			<list>
-				<ref bean="ms3x"/>
-				<ref bean="ms3y"/>
-				<ref bean="ms3rot"/>
+				<ref bean="ms4x"/>
+				<ref bean="ms4y"/>
+				<ref bean="ms4rot"/>
 			</list>
 		</property>
 		<property name="engagePosition" value="0.0"/>
 		<property name="parkPosition" value="-400.0"/>
 		<property name="positionTolerance" value="0.001"/>
-		<property name="zPosition" value="985.0"/>
+		<property name="zPosition" value="1335.0"/>
 	</bean>
 </beans>
