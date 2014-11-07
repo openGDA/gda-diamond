@@ -5,7 +5,7 @@ from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
 from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan
-from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap
+from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap, FasterRasterMap
 
 from gda.configuration.properties import LocalProperties
 from gda.data import PathConstructor
@@ -31,48 +31,58 @@ print "Initialization Started";
 
 finder = Finder.getInstance()
 
-if (LocalProperties.get("gda.mode") == 'live'):
-    print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
-    topupMonitor = TopupChecker()
-    topupMonitor.setName("topupMonitor")
-    topupMonitor.setTolerance(1.0)
-    topupMonitor.setWaittime(1)
-    topupMonitor.setTimeout(600)
-    topupMonitor.setMachineModeMonitor(machineModeMonitor)
-    topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
-    topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
-    topupMonitor.configure()
+# if (LocalProperties.get("gda.mode") == 'live'):
+print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
+topupMonitor = TopupChecker()
+topupMonitor.setName("topupMonitor")
+topupMonitor.setTolerance(1.0)
+topupMonitor.setWaittime(1)
+topupMonitor.setTimeout(600)
+topupMonitor.setMachineModeMonitor(machineModeMonitor)
+topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
+topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
+topupMonitor.configure()
 
-    beamMonitor = I18BeamMonitor(energy)
-    beamMonitor.setName("beamMonitor")
-    beamMonitor.setMachineModeMonitor(machineModeMonitor)
-    beamMonitor.configure()
-    traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
-    traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
-    traj3ContiniousX.setBeamMonitor(beamMonitor)
-    traj3ContiniousX.setTopupMonitor(topupMonitor)
-    
-    detectorFillingMonitor = DetectorFillingMonitorScannable()
-    detectorFillingMonitor.setName("detectorFillingMonitor")
-    detectorFillingMonitor.setStartTime(9)
-    detectorFillingMonitor.setDuration(25.0)
-    detectorFillingMonitor.configure()
+beamMonitor = I18BeamMonitor(energy)
+beamMonitor.setName("beamMonitor")
+beamMonitor.setMachineModeMonitor(machineModeMonitor)
+beamMonitor.configure()
+# traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
+# traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
+# traj3ContiniousX.setBeamMonitor(beamMonitor)
+# traj3ContiniousX.setTopupMonitor(topupMonitor)
 
-    trajBeamMonitor = I18LineRepeatingBeamMonitor(energy)
-    trajBeamMonitor.setName("trajBeamMonitor")
-    trajBeamMonitor.configure()
-    trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
-    trajBeamMonitor.setLevel(1)
-    
-    add_default topupMonitor
-    add_default beamMonitor
+detectorFillingMonitor = DetectorFillingMonitorScannable()
+detectorFillingMonitor.setName("detectorFillingMonitor")
+detectorFillingMonitor.setStartTime(9)
+detectorFillingMonitor.setDuration(25.0)
+detectorFillingMonitor.configure()
 
-    archiver = IcatXMLCreator()
-    archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
+trajBeamMonitor = I18LineRepeatingBeamMonitor(energy)
+trajBeamMonitor.setName("trajBeamMonitor")
+trajBeamMonitor.configure()
+trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
+trajBeamMonitor.setLevel(1)
 
-else:
-    traj1xmap = finder.find("traj1xmap")
-    traj3xmap = finder.find("traj3xmap")
+add_default topupMonitor
+add_default beamMonitor
+
+#     archiver = IcatXMLCreator()
+#     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
+
+# else:
+#     traj1xmap = finder.find("traj1xmap")
+#     traj3xmap = finder.find("traj3xmap")
+#     
+#     topupMonitor = DummyMonitor()
+#     topupMonitor.setName("topupMonitor")
+#     beamMonitor = DummyMonitor()
+#     beamMonitor.setName("beamMonitor")
+#     detectorFillingMonitor = DummyMonitor()
+#     detectorFillingMonitor.setName("detectorFillingMonitor")
+#     trajBeamMonitor = DummyMonitor()
+#     trajBeamMonitor.setName("trajBeamMonitor")
+
 
 rcpController =                finder.find("RCPController")
 XASLoggingScriptController =   finder.find("XASLoggingScriptController")
@@ -95,10 +105,6 @@ if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'Us
     energy_scannable_for_scans = energy
 else:
     energy_scannable_for_scans = energy_nogap
-    topupMonitor = None
-    beamMonitor = None
-    detectorFillingMonitor = None
-    trajBeamMonitor = None
     
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy_scannable_for_scans, auto_mDeg_idGap_mm_converter)
 xas =            EnergyScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True)
@@ -109,7 +115,7 @@ if (LocalProperties.get("gda.mode") != 'live'):
     traj1PositionReader = None
     traj3PositionReader = None
 raster_map =     RasterMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, traj1ContiniousX, traj1PositionReader, sc_MicroFocusSampleY, sc_sample_z, trajBeamMonitor, elementListScriptController)
-
+faster_raster_map = FasterRasterMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, traj1ContiniousX, traj1PositionReader, sc_MicroFocusSampleY, sc_sample_z, trajBeamMonitor, elementListScriptController)
 
 # if (LocalProperties.get("gda.mode") == 'live'):
 #     raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
@@ -119,7 +125,7 @@ raster_map =     RasterMap(beamlinePreparer, detectorPreparer, samplePreparer, o
 # raster_map_return_write.setEnergyScannables(energy,energy_nogap)
 # raster_map_return_write.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 
-map = MapSelector(non_raster_map, raster_map, None, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader)
+map = MapSelector(non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader)
 
 
 if (LocalProperties.get("gda.mode") == 'live'):
@@ -131,8 +137,8 @@ vararg_alias("xas")
 vararg_alias("xanes")
 vararg_alias("qexafs")
 vararg_alias("map")
-# alias("raster_map")
-# alias("raster_map_return_write")
+vararg_alias("raster_map")
+vararg_alias("raster_map_return_write")
 alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")

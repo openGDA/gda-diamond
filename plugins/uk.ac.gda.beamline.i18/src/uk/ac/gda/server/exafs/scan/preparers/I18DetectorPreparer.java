@@ -167,7 +167,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 		 * }
 		 */
 
-		return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xspress };
+		return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress };
 	}
 
 	public void addMonitors(TopupChecker topupMonitor, BeamMonitor beam,

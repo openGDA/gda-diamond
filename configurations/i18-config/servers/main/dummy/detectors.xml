@@ -130,7 +130,8 @@
 		<property name="slave" value="true" />
 	</bean>
 
-	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetectorForTesting">
+<!-- 	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetectorForTesting"> -->
+	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
 	</bean>
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
