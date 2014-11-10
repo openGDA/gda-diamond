@@ -4,8 +4,8 @@ from uk.ac.gda.server.exafs.scan.preparers import I18BeamlinePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
-from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan
-from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap, FasterRasterMap
+from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan, XasScanFactory
+from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap, FasterRasterMap, MapFactory
 
 from gda.configuration.properties import LocalProperties
 from gda.data import PathConstructor
@@ -107,15 +107,66 @@ else:
     energy_scannable_for_scans = energy_nogap
     
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy_scannable_for_scans, auto_mDeg_idGap_mm_converter)
-xas =            EnergyScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True)
+
+# TODO this could all be done in Sping XML
+theFactory = XasScanFactory();
+theFactory.setBeamlinePreparer(beamlinePreparer);
+theFactory.setDetectorPreparer(detectorPreparer);
+theFactory.setSamplePreparer(samplePreparer);
+theFactory.setOutputPreparer(outputPreparer);
+theFactory.setCommandQueueProcessor(commandQueueProcessor);
+theFactory.setXASLoggingScriptController(XASLoggingScriptController);
+theFactory.setDatawriterconfig(datawriterconfig);
+theFactory.setEnergyScannable(energy_scannable_for_scans);
+theFactory.setMetashop(Finder.getInstance().find("metashop"));
+theFactory.setIncludeSampleNameInNexusName(True);
+theFactory.setOriginal_header(original_header);
+theFactory.setQexafsDetectorPreparer(detectorPreparer);
+theFactory.setQexafsEnergyScannable(qexafs_energy);
+
+xas = theFactory.createEnergyScan();
 xanes = xas
-qexafs =         QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
-non_raster_map = StepMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, elementListScriptController)
+qeaxfs = theFactory.createQexafsScan()
+
+
 if (LocalProperties.get("gda.mode") != 'live'):
     traj1PositionReader = None
     traj3PositionReader = None
-raster_map =     RasterMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, traj1ContiniousX, traj1PositionReader, sc_MicroFocusSampleY, sc_sample_z, trajBeamMonitor, elementListScriptController)
-faster_raster_map = FasterRasterMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, traj1ContiniousX, traj1PositionReader, sc_MicroFocusSampleY, sc_sample_z, trajBeamMonitor, elementListScriptController)
+
+
+# TODO this could all be done in Sping XML
+mapFactory = MapFactory();
+mapFactory.setBeamlinePreparer(beamlinePreparer);
+mapFactory.setDetectorPreparer(detectorPreparer);
+mapFactory.setSamplePreparer(samplePreparer);
+mapFactory.setOutputPreparer(outputPreparer);
+mapFactory.setCommandQueueProcessor(commandQueueProcessor);
+mapFactory.setXASLoggingScriptController(XASLoggingScriptController);
+mapFactory.setDatawriterconfig(datawriterconfig);
+mapFactory.setEnergyScannable(energy_scannable_for_scans);
+mapFactory.setMetashop(metashop);
+mapFactory.setIncludeSampleNameInNexusName(True);
+mapFactory.setOriginal_header(original_header);
+mapFactory.setCounterTimer(counterTimer01);
+mapFactory.setxScan(sc_MicroFocusSampleX);
+mapFactory.setyScan(sc_MicroFocusSampleY);
+mapFactory.setzScan(sc_sample_z);
+mapFactory.setElementListScriptController(elementListScriptController);
+mapFactory.setRasterMapDetectorPreparer(detectorPreparer);
+mapFactory.setTrajectoryMotor(traj1ContiniousX); # use the MapSelector object to switch to the large stage (stage 3)
+mapFactory.setPositionReader(traj1PositionReader); # use the MapSelector object to switch to the large stage (stage 3)
+mapFactory.setTrajectoryBeamMonitor(trajBeamMonitor);
+
+non_raster_map = mapFactory.createStepMap()
+raster_map = mapFactory.createRasterMap()
+faster_raster_map = mapFactory.createFasterRasterMap();
+
+# xas =            EnergyScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True)
+# xanes = xas
+# qexafs =         QexafsScan(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
+#non_raster_map = StepMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, counterTimer01, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, elementListScriptController)
+#raster_map =     RasterMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, traj1ContiniousX, traj1PositionReader, sc_MicroFocusSampleY, sc_sample_z, trajBeamMonitor, elementListScriptController)
+#faster_raster_map = FasterRasterMap(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy_scannable_for_scans, Finder.getInstance().find("metashop"), True, traj1ContiniousX, traj1PositionReader, sc_MicroFocusSampleY, sc_sample_z, trajBeamMonitor, elementListScriptController)
 
 # if (LocalProperties.get("gda.mode") == 'live'):
 #     raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, raster_xmap, traj1tfg, traj1xmap,traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, raster_xspress, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
