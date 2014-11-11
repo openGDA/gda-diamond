@@ -31,6 +31,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private static final String SAMPLE_TABLE_FOLDER = "sampleTableFolder";
 	private static final String DETECTOR_PLOT_FOLDER = "detectorPlotFolder";
 	private static final String DETECTOR_STATUS_FOLDER = "detectorStatusFolder";
+	private static final String SCAN_PLOT_FOLDER="scanPlotFolder";
 	
 	private static final String SAMPLE_GROUP_VIEW_ID = SampleGroupView.ID;
 	private static final String PIXIUM_IMAGE_VIEW_ID = LiveImageView.ID;
@@ -51,7 +52,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private void defineActions(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
-		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.85, editorArea);
+		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.4, editorArea);
 		statusFolder.addView(STATUS_VIEW_ID);
 
 		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.13, editorArea); //$NON-NLS-1$
@@ -60,17 +61,19 @@ public class LDEPerspective implements IPerspectiveFactory {
         
         IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.LEFT, (float)0.9, editorArea); //$NON-NLS-1$
         sampleTableFolder.addView(SAMPLE_GROUP_VIEW_ID);
+        
+        IFolderLayout statusPlotFolder=layout.createFolder(DETECTOR_STATUS_FOLDER, IPageLayout.RIGHT, (float)0.85, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
+        statusPlotFolder.addView(DETECTOR_STATUS_VIEW_ID);
 
-        IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.BOTTOM, (float)0.5, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
+        IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.TOP, (float)0.75, STATUS_FOLDER); //$NON-NLS-1$
         detectorPlotFolder.addView(PIXIUM_IMAGE_VIEW_ID);
         detectorPlotFolder.addView(DETECTOR_PLOT_VIEW_ID);
 
-        IFolderLayout statusPlotFolder=layout.createFolder(DETECTOR_STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.58, PROJ_FOLDER); //$NON-NLS-1$
-        statusPlotFolder.addView(DETECTOR_STATUS_VIEW_ID);
+        IFolderLayout scanPlotFolder= layout.createFolder(SCAN_PLOT_FOLDER, IPageLayout.RIGHT, (float)0.33, DETECTOR_PLOT_FOLDER); //$NON-NLS-1$
+        scanPlotFolder.addView(PIXIUM_PLOT_VIEW_ID);
+        scanPlotFolder.addView(SCAN_PLOT_VIEW_ID);
         
-        IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.RIGHT, (float)0.5, DETECTOR_PLOT_FOLDER); //$NON-NLS-1$
-        terminalfolder.addView(PIXIUM_PLOT_VIEW_ID);
-        terminalfolder.addView(SCAN_PLOT_VIEW_ID);
+        IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.RIGHT, (float)0.5, SCAN_PLOT_FOLDER); //$NON-NLS-1$
         terminalfolder.addView(JythonTerminalView.ID);
         terminalfolder.addPlaceholder(IPageLayout.ID_PROBLEM_VIEW);
         terminalfolder.addPlaceholder(NewSearchUI.SEARCH_VIEW_ID);
