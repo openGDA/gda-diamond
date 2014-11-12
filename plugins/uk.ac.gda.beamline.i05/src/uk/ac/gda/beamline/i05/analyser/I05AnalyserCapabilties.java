@@ -807,7 +807,7 @@ public class I05AnalyserCapabilties implements AnalyserCapabilties {
 
 	@Override
 	public Short[] getPassEnergies() {
-		return new Short[] { 1, 2, 5, 10, 20, 50 };
+		return new Short[] { 1, 2, 5, 10, 20, 50, 100};
 	}
 
 	@Override
@@ -831,5 +831,10 @@ public class I05AnalyserCapabilties implements AnalyserCapabilties {
 	@Override
 	public String[] getLensModes() {
 		return lens2angles.keySet().toArray(new String[0]);
+	}
+	
+	@Override
+	public String[] getPsuModes() {
+		return new String[] { "Low Pass", "High Pass" };
 	}
 }
