@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,7 @@ public class ContinuousModeControllerComposite{
 	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerComposite.class);
 	private Combo lensMode;
 	private Combo passEnergy;
+	private Text psuEnergy;	
 	private Button startButton;
 	private Button stopButton;
 	private Button zeroButton;
@@ -124,6 +126,18 @@ public class ContinuousModeControllerComposite{
 		};
 		passEnergy.addSelectionListener(passEnergyListener);
 
+		label = new Label(composite, SWT.NONE);
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		label.setText("psu mode");
+		
+		psuEnergy = new Text(composite, SWT.BORDER | SWT.LEFT);
+		psuEnergy.setEditable(false);
+
+		psuEnergy.setEnabled(false);		
+		psuEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		String psuState = JythonServerFacade.getInstance().evaluateCommand("psu_mode.getPosition()");
+		psuEnergy.setText(psuState);
+		
 		Composite control = new Composite(comp, SWT.NONE);
 		control.setLayout(new GridLayout(2, false));
 		control.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 2));

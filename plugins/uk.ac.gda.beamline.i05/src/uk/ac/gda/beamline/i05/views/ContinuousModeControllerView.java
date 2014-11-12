@@ -12,6 +12,7 @@ import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 public class ContinuousModeControllerView extends ViewPart implements IObserver {
 	
 	private Device analyser;
+	private Device psu;
 	private AnalyserCapabilties capabilities;
 	
 	public ContinuousModeControllerView() {
@@ -26,6 +27,10 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		if (analyser != null) {
 			analyser.addIObserver(this);
 		}
+		psu = (Device) Finder.getInstance().find("psu_mode");
+		if (psu != null) {
+			psu.addIObserver(this);
+		}		
 		continuousModeControllerComposite = new ContinuousModeControllerComposite(parent, capabilities);
 	}
 
