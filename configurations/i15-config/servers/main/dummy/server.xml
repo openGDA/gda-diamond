@@ -24,6 +24,7 @@
 	</bean>
 
 	<import resource="device/all.xml"/>
+	<import resource="scannable/all.xml"/>
 	<import resource="transient/all.xml"/>
 	<import resource="../common/server.xml"/>
 
@@ -49,7 +50,7 @@
 	<!-- id="ODCCD" not available in dummy -->	
 	<!-- id="Mar345Detector" not available in dummy -->	
 
-	<!-- corba:export not needed in dummy -->
+	<corba:export namespace="${gda.factory.factoryName}" />
 
 	<!-- SingletonRegistrationPostProcessor not needed in dummy-->
 </beans>
