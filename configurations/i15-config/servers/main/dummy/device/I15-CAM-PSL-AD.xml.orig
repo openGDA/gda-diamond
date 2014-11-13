@@ -1,0 +1,10 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+<<<<<<< HEAD
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+=======
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+>>>>>>> 411e71fe650c196de2c348e69131ef08b948b9bc
+
+</beans>

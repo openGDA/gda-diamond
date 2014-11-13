@@ -53,7 +53,7 @@ mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsSc
 
 from detector_scan_commands import *
 from centreProxy import *
-from scanPeak import *
+#from scanPeak import *
 from diodeTime import *
 from setGain import *
 #from marAuxiliary import marErase, resetMarScanNumber
