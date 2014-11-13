@@ -31,6 +31,9 @@ print "Initialization Started";
 
 finder = Finder.getInstance()
 
+test = DummyScannable("test")
+
+
 # if (LocalProperties.get("gda.mode") == 'live'):
 print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
 topupMonitor = TopupChecker()
@@ -95,7 +98,18 @@ original_header =              finder.find("datawriterconfig").getHeader()[:]
 elementListScriptController =  finder.find("elementListScriptController")
 
 
+xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
+xspress3Config = Xspress3Config(xspress3, ExafsScriptObserver)
+
+detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig, xspress3Config, I0_keithley, It_keithley, cmos_for_maps)
+samplePreparer =   I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x)
+outputPreparer =   I18OutputPreparer(datawriterconfig)
+
+
+
 gains = [i0_keithley_gain, it_keithley_gain]
+samplePreparer.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 
 detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xmapMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap, buffered_cid, None)
 samplePreparer   = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
@@ -195,7 +209,6 @@ alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
 
-test = DummyScannable("test")
 
 if (LocalProperties.get("gda.mode") == 'live'):
     photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/")

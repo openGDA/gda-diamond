@@ -120,7 +120,7 @@
 	<bean id="harmonic5" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic5" />
 		<constructor-arg value="harmonic5_converter" />
-		<constructor-arg value="17164" />
+		<constructor-arg value="17201" />
 		<constructor-arg value="24800" />
 	</bean>
 	<bean id="harmonic7" class="gda.util.converters.util.RangeandConverterNameHolder">
