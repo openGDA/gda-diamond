@@ -75,8 +75,7 @@ from idEnergy import my_energy_class1
 # create the command to run STXM mpas which involve andor
 
 run "andormap"
-#run('startup_raster')
-#run "gda_startup.py"
+run "xrfmap"
 
 # create plotters for raster maps
 test2 = gda.device.scannable.DummyScannable()
