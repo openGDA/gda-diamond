@@ -50,7 +50,7 @@
 <extension point="uk.ac.gda.client.dashboard.objects">
       <Scannable name="s2_xsize" tooltip="s2 horizontal slit size" />
       <Scannable name="s2_ysize" tooltip="s2 vertical slit size" />
-      <Scannable name="s6_ysize" tooltip="monochromator exit slit setting" />
+      <Scannable name="exit_slit" tooltip="monochromator exit slit setting" />
       <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
       <Scannable name="energy" tooltip="photon energy" />
       <Scannable name="pgm_cff" tooltip="monochromator cff" />

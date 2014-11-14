@@ -117,7 +117,7 @@
 						<property name="prerequisiteScannableNames">
 							<list>
 								<value>pgm_cff</value>
-								<value>s6_ysize</value>
+								<value>exit_slit</value>
 								<value>pgm_linedensity</value>
 							</list>
 						</property>
@@ -135,7 +135,7 @@
 						</property>
 					</bean>
 				</entry>
-				<entry key="s6_ysize">
+				<entry key="exit_slit">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
@@ -385,7 +385,7 @@
 				<value>sapolar</value>
 				<value>satilt</value>
 				<value>saazimuth</value>
-				<value>s6_ysize</value>
+				<value>exit_slit</value>
 				<value>s6_xsize</value>
 				<value>s2_ysize</value>
 				<value>s2_xsize</value>
