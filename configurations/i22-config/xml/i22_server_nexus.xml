@@ -179,6 +179,10 @@
 		</property>
 	</bean>
 
+	<bean id="scanListFileWriter" class="uk.ac.gda.server.ncd.data.scan.ScanListDataWriterExtender">
+		<property name="filename" value="scanlist.csv" />
+	</bean>
+
 	<bean id="scan2terminal" class="uk.ac.gda.server.ncd.data.ScanInformationTerminalLogger">
 		<property name="extractorList">
 			<list>
@@ -203,6 +207,7 @@
 				<ref bean="scan2elog" />
 				<ref bean="scan2terminal" />
 				<ref bean="twodscan" />
+				<ref bean="scanListFileWriter" />
 			</list>
 		</property>
 	</bean>
@@ -247,7 +252,7 @@
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
 		<property name="storedMetadataEntry" ref="subdirectory" />
 	</bean>
-	
+
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="gda/detectorInfoPath"/>
 		<property name="service" ref="detectorInfoPath"/>
@@ -258,7 +263,7 @@
 		<property name="name" value="title" />
 		<property name="value" value="" />
 	</bean>
-	
+
 	<bean class="gda.data.metadata.MetadataBlaster" id="observableScanTitle">
 		<property name="storedMetadataEntry" ref="title" />
 	</bean>
