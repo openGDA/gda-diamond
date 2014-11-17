@@ -18,6 +18,7 @@
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
 		<property name="local" value="true"/>
+		<property name="machineModeMonitor" ref="machineModeMonitor" />
 	</bean>
 	
 	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
@@ -29,7 +30,6 @@
 		<property name="machineModeMonitor" ref="machineModeMonitor" />
 		
 	</bean>
-	
 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/alignment_stage" />
