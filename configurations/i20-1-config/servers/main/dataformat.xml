@@ -43,27 +43,20 @@
 					</property>
 				</bean>
 				<bean id="wigglergap" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="Wiggler gap selected: %5.5f mm" />
+					<property name="label" value="Wiggler gap selected: %5.2f mm" />
 					<property name="labelValues">
 						<list>
 							<ref bean="wiggler_gap" />
 						</list>
 					</property>
 				</bean>
-				<bean id="frontendaperture" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="Frontend aperture: %5.5f mm" />
-					<property name="labelValues">
-						<list>
-							<ref bean="frontend_aperture" />
-						</list>
-					</property>
-				</bean>
+				
 				<bean id="newLine1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value=" " />
 				</bean>
 				<bean id="primaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label"
-						value="Primary slits:  vertical gap= %4.5f mm; horizontal gap= %4.5f mm; vertical offset= %4.5f mm; horizontal offset= %4.5f mrad" />
+						value="Primary slits:  vertical gap= %4.3f mm; horizontal gap= %4.3f mm; vertical offset= %4.3f mm; horizontal offset= %4.3f mrad" />
 					<property name="labelValues">
 						<list>
 							<ref bean="s1_vgap" />
@@ -75,7 +68,7 @@
 				</bean>
 				<bean id="secondaryslits" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label"
-						value="Secondary slits:  vertical gap= %4.5f mm; horizontal gap= %4.5f mm; vertical offset= %4.5f mm; horizontal offset= %4.5f mm" />
+						value="Secondary slits:  vertical gap= %4.3f mm; horizontal gap= %4.3f mm; vertical offset= %4.3f mm; horizontal offset= %4.3f mm" />
 					<property name="labelValues">
 						<list>
 							<ref bean="s2_vgap" />
@@ -97,12 +90,11 @@
 					</property>
 				</bean>
 				<bean id="me2" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="ME2: %s; Pitch: %s; Roll: %.4f"/>
+					<property name="label" value="ME2: %s; Pitch: %.3f"/>
 					<property name="labelValues">
 						<list>
 							<ref bean="me2_stripe"/>
 							<ref bean="me2_pitch"/>
-							<ref bean="me2_roll"/>
 						</list>
 					</property>
 				</bean>
@@ -110,7 +102,7 @@
 					<property name="label" value=" " />
 				</bean>
 				<bean id="poly_crystal" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="theta: %s degrees; bend1: %s mm ; bend2: %s mm ; twist: %s mm"/>
+					<property name="label" value="Polychromator: theta: %.4f degrees; bend1: %.4f mm ; bend2: %.4f mm ; twist: %.4f mm"/>
 					<property name="labelValues">
 						<list>
 							<ref bean="poly_theta"/>
@@ -121,7 +113,7 @@
 					</property>
 				</bean>
 				<bean id="twotheta_arm" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label" value="2theta arm: %s degrees"/>
+					<property name="label" value="2theta arm: %.4f degrees"/>
 					<property name="labelValues">
 						<list>
 							<ref bean="twotheta"/>
