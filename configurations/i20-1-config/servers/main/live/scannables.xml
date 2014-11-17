@@ -14,7 +14,7 @@
 		<property name="local" value="false" />
 	</bean>
 
-	<bean id="shutterChecker" class="gda.device.scannable.ShutterChecker">
+	<bean id="shutterChecker" class="uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker">
 		<property name="shutter" ref="shutter2" />
 		<property name="pssPVName" value="BL20J-PS-SHTR-02:CON"/>
 	</bean>
