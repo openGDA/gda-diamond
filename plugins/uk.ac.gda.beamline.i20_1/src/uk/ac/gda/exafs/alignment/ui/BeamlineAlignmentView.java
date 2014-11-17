@@ -519,7 +519,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		suggestionControls.put(applyButton, lblWigglerSuggestion);
 
 		Scannable scannable = ScannableSetup.WIGGLER_GAP.getScannable();
-		scannable.addIObserver(moveObserver);
+		// We do not observe the movement to stop because we cant control the stop from GDA
+		// scannable.addIObserver(moveObserver);
 		ScannableWrapper scannableWrapper = ScannableSetup.WIGGLER_GAP.getScannableWrapper();
 		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
 			@Override

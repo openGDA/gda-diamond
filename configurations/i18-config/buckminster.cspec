@@ -13,6 +13,7 @@
         <cs:dependency name="uk.ac.gda.oe" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.client" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.server.exafs.epics" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beans.vortex" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>

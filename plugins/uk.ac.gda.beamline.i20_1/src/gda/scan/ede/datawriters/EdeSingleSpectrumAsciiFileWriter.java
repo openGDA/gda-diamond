@@ -23,7 +23,6 @@ import gda.scan.EnergyDispersiveExafsScan;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
@@ -65,7 +64,15 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		asciiFile.createNewFile();
 		FileWriter writer = new FileWriter(asciiFile);
 		log("Writing EDE format ascii file: " + asciiFilename);
-		writerHeader(writer);
+		writer.write("# " + this.getScannablesConfiguration());
+		writer.write("# I0 Dark\n");
+		writer.write("# " + EdeDataConstants.TimingGroupMetadata.toMetadataString(createTimingGroupsMetaData(i0DarkScan.getScanParameters())[0]));
+		writer.write("# I0\n");
+		writer.write("# " + EdeDataConstants.TimingGroupMetadata.toMetadataString(createTimingGroupsMetaData(i0InitialScan.getScanParameters())[0]));
+		writer.write("# It Dark\n");
+		writer.write("# " + EdeDataConstants.TimingGroupMetadata.toMetadataString(createTimingGroupsMetaData(itDarkScan.getScanParameters())[0]));
+		writer.write("# It\n");
+		writer.write("# " + EdeDataConstants.TimingGroupMetadata.toMetadataString(createTimingGroupsMetaData(itScan.getScanParameters())[0]));
 		writer.write("#" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t" + EdeDataConstants.I0_CORR_COLUMN_NAME + "\t"
 				+ EdeDataConstants.IT_CORR_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\t " + EdeDataConstants.I0_RAW_COLUMN_NAME + "\t"
 				+ EdeDataConstants.IT_RAW_COLUMN_NAME + "\t" + EdeDataConstants.I0_DARK_COLUMN_NAME + "\t" + EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
@@ -95,18 +102,6 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		}
 		writer.close();
 		return asciiFilename;
-	}
-
-	private void writerHeader(FileWriter writer) throws IOException {
-		if (!itDarkScan.equals(i0DarkScan)) {
-			writer.write("#I0 Dark:" + i0DarkScan.getHeaderDescription());
-			writer.write("\n#It Dark:" + itDarkScan.getHeaderDescription());
-		} else {
-			writer.write("#Dark:" + i0DarkScan.getHeaderDescription());
-		}
-		writer.write("\n#I0:" + i0InitialScan.getHeaderDescription());
-		writer.write("\n#It:" + itScan.getHeaderDescription());
-		writer.write("\n");
 	}
 
 	@Override

@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
+import gda.device.Scannable;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.List;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
@@ -43,6 +46,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -50,10 +55,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.client.composites.MotorPositionEditorControl;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
+import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class SampleStageMotorsComposite extends Composite {
@@ -72,6 +79,9 @@ public class SampleStageMotorsComposite extends Composite {
 	private final Button useIrefCheckButton;
 
 	private final Composite sampleIRefPositionComposite;
+
+	private final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+	private final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 
 	public SampleStageMotorsComposite(Composite parent, int style, FormToolkit toolkit) {
 		this(parent, style, toolkit, false);
@@ -110,6 +120,14 @@ public class SampleStageMotorsComposite extends Composite {
 			}
 		});
 		i0section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		final ToolBar i0MotorSectionTbar = new ToolBar(i0section, SWT.FLAT | SWT.HORIZONTAL);
+		new ToolItem(i0MotorSectionTbar, SWT.SEPARATOR);
+		final ToolItem i0StopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(i0MotorSectionTbar, movingScannables);
+		i0section.setTextClient(i0MotorSectionTbar);
+		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(i0section, i0StopMotorsBarItem));
+		i0StopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
+
 		sampleI0PositionComposite = toolkit.createComposite(i0section, SWT.NONE);
 		sampleI0PositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		toolkit.paintBordersFor(sampleI0PositionComposite);
@@ -122,6 +140,14 @@ public class SampleStageMotorsComposite extends Composite {
 		final Section itSection = toolkit.createSection(this, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		itSection.setText("It sample position");
 		itSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		//		final ToolBar itMotorSectionTbar = new ToolBar(itSection, SWT.FLAT | SWT.HORIZONTAL);
+		//		new ToolItem(itMotorSectionTbar, SWT.SEPARATOR);
+		//		final ToolItem itStopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(itMotorSectionTbar, movingScannables);
+		//		itsection.setTextClient(itMotorSectionTbar);
+		//		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(itSection, itStopMotorsBarItem));
+		//		itStopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
+
 		sampleItPositionComposite = toolkit.createComposite(itSection, SWT.NONE);
 		sampleItPositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		toolkit.paintBordersFor(sampleItPositionComposite);
@@ -230,7 +256,6 @@ public class SampleStageMotorsComposite extends Composite {
 					}
 				});
 				sampleStageMotorComposites.add(composite);
-				sampleStageMotorComposites.add(composite);
 				composite = createMotorPositionComposite(sampleIRefPositionComposite, experimentMotorPostion,
 						ExperimentMotorPostion.TARGET_IREF_POSITION,
 						experimentMotorPostion.getScannableSetup().getLabel(), new Listener() {
@@ -257,20 +282,27 @@ public class SampleStageMotorsComposite extends Composite {
 		Composite positionAllComposite = toolkit.createComposite(parent, SWT.NONE);
 		toolkit.paintBordersFor(positionAllComposite);
 		positionAllComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		int columns = (listener != null) ? 2 : 1;
-		positionAllComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(columns, false));
 
-		Composite positionComposite = toolkit.createComposite(positionAllComposite, SWT.NONE);
-		toolkit.paintBordersFor(positionComposite);
-		positionComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		positionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		positionAllComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(4, false));
 
-		Label xPosLabel = toolkit.createLabel(positionComposite, label, SWT.None);
+		Label xPosLabel = toolkit.createLabel(positionAllComposite, label, SWT.None);
 		GridData gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
 		gridData.widthHint = 90;
 		xPosLabel.setLayoutData(gridData);
 
-		final NumberEditorControl positionControl = new NumberEditorControl(positionComposite, SWT.None, experimentMotorPostion, propertyName, false);
+		Scannable scannable = experimentMotorPostion.getScannableSetup().getScannable();
+		scannable.addIObserver(moveObserver);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(positionAllComposite, SWT.None,  experimentMotorPostion.getScannableSetup().getScannableWrapper(), true);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gridData.widthHint = 230;
+		motorPositionEditorControl.setLayoutData(gridData);
+
+		Button readCurrentPositionButton = toolkit.createButton(positionAllComposite, "Set", SWT.PUSH);
+		readCurrentPositionButton.setToolTipText("Read current position for " + label);
+		readCurrentPositionButton.addListener(SWT.Selection, listener);
+		readCurrentPositionButton.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		final NumberEditorControl positionControl = new NumberEditorControl(positionAllComposite, SWT.None, experimentMotorPostion, propertyName, false);
 		positionControl.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		positionControl.setUnit(ClientConfig.UnitSetup.MILLI_METER.getText());
 		positionControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -280,12 +312,6 @@ public class SampleStageMotorsComposite extends Composite {
 			positionControl.setToolTipText("Lower :" + scannableWrapper.getLowerLimit() + " Upper: " + scannableWrapper.getUpperLimit());
 		}
 
-		if (listener != null) {
-			Button readCurrentPositionButton = toolkit.createButton(positionAllComposite, "Read", SWT.PUSH);
-			readCurrentPositionButton.setToolTipText("Read current position for " + label);
-			readCurrentPositionButton.addListener(SWT.Selection, listener);
-			readCurrentPositionButton.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
-		}
 		return positionAllComposite;
 	}
 }

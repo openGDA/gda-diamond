@@ -131,7 +131,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		String desc = scanType.toString() + " " + motorPositions.getType().toString() + " scan with " + scanParameters.getGroups().size() + " timing groups";
 		for (int index = 0; index < scanParameters.getGroups().size(); index++){
 			TimingGroup group = scanParameters.getGroups().get(index);
-			desc += "\n#Group "+ index + " "+group.getHeaderDescription();
+			desc += "\n#Group "+ index + " " + group.getHeaderDescription();
 		}
 		return desc;
 	}
