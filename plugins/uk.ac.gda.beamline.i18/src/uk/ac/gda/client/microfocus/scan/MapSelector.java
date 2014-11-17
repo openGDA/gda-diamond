@@ -41,7 +41,7 @@ public class MapSelector {
 
 	private final StepMap non_raster;
 	private final RasterMap raster;
-	private final RasterMap faster_raster;
+	private final FasterRasterMap faster_raster;
 
 	private RasterMap raster_mode;
 	private boolean currentMapIsRaster = false;
@@ -50,11 +50,11 @@ public class MapSelector {
 	private RealPositionReader stage1PositionReader;
 	private RealPositionReader stage3PositionReader;
 
-	public MapSelector(StepMap non_raster, RasterMap raster, RasterMap raster_return_write,
+	public MapSelector(StepMap non_raster, RasterMap raster, FasterRasterMap faster_raster,
 			ContinuouslyScannable stage1TrajMotor, ContinuouslyScannable stage3TrajMotor, RealPositionReader stage1PositionReader, RealPositionReader stage3PositionReader) {
 		this.non_raster = non_raster;
 		this.raster = raster;
-		this.faster_raster = raster_return_write;
+		this.faster_raster = faster_raster;
 		raster_mode = raster;
 		this.stage1TrajMotor = stage1TrajMotor;
 		this.stage3TrajMotor = stage3TrajMotor;

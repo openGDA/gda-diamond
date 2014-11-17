@@ -152,4 +152,10 @@
 	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
 		<property name="position" value="Shutdown" />
 	</bean>
+	
+	<bean id="machineTopupMonitor" class="gda.device.monitor.DummyMonitor">
+		<property name="constantValue" value="600"></property>
+	</bean>
+	
+	
 </beans>

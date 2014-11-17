@@ -4,7 +4,7 @@ from uk.ac.gda.server.exafs.scan.preparers import B18BeamlinePreparer
 from uk.ac.gda.server.exafs.scan.preparers import B18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import B18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import B18OutputPreparer
-from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan
+from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan, XasScanFactory
 # from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import BeamMonitor
@@ -39,9 +39,26 @@ detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sen
 #    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
-xas = EnergyScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, energy,Finder.getInstance().find("metashop"), True)
+
+# TODO this could all be done in Sping XML
+theFactory = XasScanFactory();
+theFactory.setBeamlinePreparer(B18BeamlinePreparer());
+theFactory.setDetectorPreparer(detectorPreparer);
+theFactory.setSamplePreparer(samplePreparer);
+theFactory.setOutputPreparer(outputPreparer);
+theFactory.setCommandQueueProcessor(commandQueueProcessor);
+theFactory.setXASLoggingScriptController(XASLoggingScriptController);
+theFactory.setDatawriterconfig(datawriterconfig);
+theFactory.setEnergyScannable(energy);
+theFactory.setMetashop(Finder.getInstance().find("metashop"));
+theFactory.setIncludeSampleNameInNexusName(True);
+theFactory.setOriginal_header(original_header);
+theFactory.setQexafsDetectorPreparer(detectorPreparer);
+theFactory.setQexafsEnergyScannable(qexafs_energy);
+
+xas = theFactory.createEnergyScan();
 xanes = xas
-qexafs = QexafsScan(B18BeamlinePreparer(), detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, Finder.getInstance().find("metashop"), True)
+qeaxfs = theFactory.createQexafsScan()
 
 vararg_alias("xas")
 vararg_alias("xanes")
