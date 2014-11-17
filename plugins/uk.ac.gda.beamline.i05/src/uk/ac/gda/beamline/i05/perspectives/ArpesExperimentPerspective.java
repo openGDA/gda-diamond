@@ -81,7 +81,7 @@ public class ArpesExperimentPerspective implements IPerspectiveFactory {
 					File srcPth            = new File(srcDataRootPath, sampFileName);
 					
 					String tgtDataRootPath = PathConstructor.createFromProperty("gda.analyser.sampleConf.dir");   
-					String cfgTgtPath      = PathConstructor.createFromTemplate(tgtDataRootPath + "/visits/$visit$/xml"); // location that is available in dummy and live variants and is visitor-specific
+					String cfgTgtPath      = PathConstructor.createFromTemplate(tgtDataRootPath + "/$visit$/xml"); // location that is available in dummy and live variants and is visitor-specific
 					File tgtXmlDir         = new File(cfgTgtPath);
 					File tgtPth            = new File(tgtXmlDir, sampFileName);
 					
