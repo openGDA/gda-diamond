@@ -4,8 +4,7 @@ Bundle-Name: Diamond Light Source Beamline I07 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i07;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.gda.beamline.i07.Activator
-Require-Bundle: ch.qos.logback.beagle;bundle-version="[1.1.4,1.1.5)",
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.ui.intro,
  org.eclipse.ui.console;bundle-version="3.4.0",
