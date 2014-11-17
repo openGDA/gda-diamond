@@ -43,7 +43,6 @@ public class I10ScanPerspective implements IPerspectiveFactory {
 				"bottom", IPageLayout.BOTTOM, 0.8f, editorArea);
 		bottomfolder.addView(uk.ac.gda.views.baton.BatonView.ID);
 		bottomfolder.addView("org.dawb.workbench.plotting.views.toolPageView.1D");
-		bottomfolder.addView("ch.qos.logback.beagle.view.BeagleView");
 		bottomfolder.addPlaceholder("org.dawb.passerelle.views.ValueView");
 		bottomfolder.addPlaceholder("org.eclipse.ui.views.ProgressView");
 		bottomfolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
