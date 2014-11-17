@@ -18,12 +18,25 @@
 
 package gda.scan.ede.datawriters;
 
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.data.scan.datawriter.AsciiMetadataConfig;
+import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
 import gda.device.detector.StripDetector;
+import gda.factory.Findable;
+import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
+
+import java.util.ArrayList;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.ac.gda.exafs.data.AlignmentParametersBean;
+import uk.ac.gda.exafs.data.AlignmentParametersModel;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public abstract class EdeExperimentDataWriter {
 
@@ -78,6 +91,43 @@ public abstract class EdeExperimentDataWriter {
 	}
 
 	public abstract String writeDataFile() throws Exception;
+
+	protected EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
+		TimingGroupMetadata[] metaData = new TimingGroupMetadata[scanParameters.getGroups().size()];
+		for (int i = 0; i < scanParameters.getGroups().size(); i++) {
+			TimingGroup group = scanParameters.getGroups().get(i);
+			metaData[i] = new TimingGroupMetadata(i, group.getNumberOfFrames(), group.getTimePerScan(),
+					group.getTimePerFrame(), group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
+		}
+		return metaData;
+	}
+
+	// FIXME
+	protected String getScannablesConfiguration() {
+		ArrayList<Findable> configs = Finder.getInstance().listAllObjects(FindableAsciiDataWriterConfiguration.class.getSimpleName());
+		if (configs == null) {
+			return "";
+		}
+		StringBuilder configBuilder = new StringBuilder();
+		try {
+			if (!configs.isEmpty()) {
+				// Adding scannables
+				AsciiDataWriterConfiguration config = (AsciiDataWriterConfiguration) configs.get(0);
+				for (AsciiMetadataConfig line : config.getHeader()) {
+					configBuilder.append(config.getCommentMarker() + " " + line.toString() + "\n");
+				}
+			}
+			// Adding alignment parameters
+			Object result = InterfaceProvider.getJythonNamespace()
+					.getFromJythonNamespace(AlignmentParametersModel.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
+			if (result != null && (result instanceof AlignmentParametersBean)) {
+				configBuilder.append("# " + result.toString() + "\n");
+			}
+		} catch (Exception e) {
+			logger.error("Unable to get scannable configuration information", e);
+		}
+		return configBuilder.toString();
+	}
 
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);

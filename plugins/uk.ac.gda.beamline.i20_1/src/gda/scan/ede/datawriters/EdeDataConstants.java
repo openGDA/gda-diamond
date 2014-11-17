@@ -147,15 +147,27 @@ public class EdeDataConstants {
 			return metaDataset;
 		}
 
+		public static String toMetadataString(TimingGroupMetadata timingGroupMetadata) {
+			StringBuilder metadataStr = new StringBuilder();
+			metadataStr.append(String.format("Group: %d\t", 0));
+			metadataStr.append(String.format("Number of spectra: %d\t", timingGroupMetadata.getNoOfFrames()));
+			metadataStr.append(String.format("Accumulation time: %.6fs\t", timingGroupMetadata.getAccumulationTime()));
+			metadataStr.append(String.format("Time per spectrum: %.6fs\t",  timingGroupMetadata.getTimePerSpectrum()));
+			metadataStr.append(String.format("Preceding delay: %.6f\t",timingGroupMetadata.getPreceedingTimeDelay()));
+			metadataStr.append(String.format("Number of accumulations: %d", timingGroupMetadata.getNoOfAccumulations()));
+			metadataStr.append("\n");
+			return metadataStr.toString();
+		}
+
 		public static String toMetadataString(Dataset data) {
 			StringBuilder metadataStr = new StringBuilder();
 			int noOfGroups = data.getShape()[0];
 			for (int i = 0; i < noOfGroups; i++) {
 				metadataStr.append(String.format("Group: %d\t",                 data.getInt(i, 0)));
 				metadataStr.append(String.format("Number of spectra: %d\t",     data.getInt(i, 1)));
-				metadataStr.append(String.format("Accumulation time: %.4fs\t",  data.getDouble(i, 2)));
-				metadataStr.append(String.format("Time per spectrum: %.4fs\t",  data.getDouble(i, 3)));
-				metadataStr.append(String.format("Preceding delay: %.4f\t",     data.getDouble(i, 4)));
+				metadataStr.append(String.format("Accumulation time: %.6fs\t",  data.getDouble(i, 2)));
+				metadataStr.append(String.format("Time per spectrum: %.6fs\t",  data.getDouble(i, 3)));
+				metadataStr.append(String.format("Preceding delay: %.6f\t",     data.getDouble(i, 4)));
 				metadataStr.append(String.format("Number of accumulations: %d", data.getInt(i, 5)));
 				metadataStr.append("\n");
 			}

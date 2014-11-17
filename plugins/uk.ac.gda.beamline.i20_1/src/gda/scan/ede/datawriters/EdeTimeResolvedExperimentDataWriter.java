@@ -18,30 +18,18 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.data.scan.datawriter.AsciiMetadataConfig;
-import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
 import gda.device.detector.StripDetector;
-import gda.factory.Findable;
-import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
 import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import uk.ac.gda.exafs.data.AlignmentParametersBean;
-import uk.ac.gda.exafs.data.AlignmentParametersModel;
-import uk.ac.gda.exafs.ui.data.EdeScanParameters;
-import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter {
 
@@ -108,6 +96,9 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		TimingGroupMetadata[] i0ForIRefScanMetaData = null;
 
 		String scannablesConfiguration = getScannablesConfiguration();
+		if (itScans.length > 1) {
+			scannablesConfiguration = scannablesConfiguration + "# Number of cycles: " + itScans.length + "\n";
+		}
 		String energyCalibration = null;
 		if (itScans[0].getDetector().isEnergyCalibrationSet()) {
 			energyCalibration = itScans[0].getDetector().getEnergyCalibration().toString();
@@ -117,46 +108,6 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		timeResolvedNexusFileHelper.updateWithNormalisedData(true);
 
 		return itFilename;
-	}
-
-	// FIXME
-	private String getScannablesConfiguration() {
-		ArrayList<Findable> configs = Finder.getInstance().listAllObjects(FindableAsciiDataWriterConfiguration.class.getSimpleName());
-		if (configs == null) {
-			return "";
-		}
-		StringBuilder configBuilder = new StringBuilder();
-		try {
-			if (!configs.isEmpty()) {
-				// Adding scannables
-				AsciiDataWriterConfiguration config = (AsciiDataWriterConfiguration) configs.get(0);
-				for (AsciiMetadataConfig line : config.getHeader()) {
-					configBuilder.append(config.getCommentMarker() + " " + line.toString() + "\n");
-				}
-			}
-			// Adding alignment parameters
-			Object result = InterfaceProvider.getJythonNamespace()
-					.getFromJythonNamespace(AlignmentParametersModel.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
-			if (result != null && (result instanceof AlignmentParametersBean)) {
-				configBuilder.append("# " + result.toString() + "\n");
-			}
-			if (itScans.length > 1) {
-				configBuilder.append("# Number of cycles: " + itScans.length + "\n");
-			}
-		} catch (Exception e) {
-			logger.error("Unable to get scannable configuration information", e);
-		}
-		return configBuilder.toString();
-	}
-
-	private EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
-		TimingGroupMetadata[] metaData = new TimingGroupMetadata[scanParameters.getGroups().size()];
-		for (int i = 0; i < scanParameters.getGroups().size(); i++) {
-			TimingGroup group = scanParameters.getGroups().get(i);
-			metaData[i] = new TimingGroupMetadata(i, group.getNumberOfFrames(), group.getTimePerScan(),
-					group.getTimePerFrame(), group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
-		}
-		return metaData;
 	}
 
 	private void validateData() throws Exception {
