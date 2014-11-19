@@ -20,6 +20,8 @@ package uk.ac.gda.exafs.alignment.ui;
 
 import gda.device.Scannable;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
@@ -27,9 +29,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
@@ -43,6 +47,8 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
+import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 
 public class FocusingView extends ViewPart {
@@ -52,6 +58,8 @@ public class FocusingView extends ViewPart {
 	private static final Logger logger = LoggerFactory.getLogger(FocusingView.class);
 
 	private FormToolkit toolkit;
+
+	private PropertyChangeListener sampleStageMotorsChangeListener;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -120,11 +128,10 @@ public class FocusingView extends ViewPart {
 		bendSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
-	@SuppressWarnings({ "static-access", "unused" })
 	private void createFormCurvatureSection(Form form) throws Exception {
 		final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
 		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
-		final Section curvatureSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section curvatureSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		toolkit.paintBordersFor(curvatureSection);
 		curvatureSection.setText("Curvature/Ellipticity");
 		toolkit.paintBordersFor(curvatureSection);
@@ -156,7 +163,8 @@ public class FocusingView extends ViewPart {
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(curvatureSection, SWT.FLAT | SWT.HORIZONTAL);
-		new ToolItem(motorSectionTbar, SWT.SEPARATOR);
+		@SuppressWarnings("unused")
+		ToolItem separator = new ToolItem(motorSectionTbar, SWT.SEPARATOR);
 		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
 		curvatureSection.setTextClient(motorSectionTbar);
 		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(curvatureSection, stopMotorsBarItem));
@@ -167,30 +175,19 @@ public class FocusingView extends ViewPart {
 		curvatureSection.setSeparatorControl(defaultSectionSeparator);
 	}
 
-	@SuppressWarnings({ "static-access", "unused" })
 	private void createFormSampleSection(Form form) throws Exception {
 		final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
 		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 
-		final Section samplePositionSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section samplePositionSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		toolkit.paintBordersFor(samplePositionSection);
 		samplePositionSection.setText("Sample position");
 		toolkit.paintBordersFor(samplePositionSection);
 		samplePositionSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite samplePositionComposite = toolkit.createComposite(samplePositionSection, SWT.NONE);
-		toolkit.paintBordersFor(samplePositionComposite);
-		samplePositionComposite.setLayout(new GridLayout(2, false));
-		samplePositionSection.setClient(samplePositionComposite);
-
-		Label lblSampleZ = toolkit.createLabel(samplePositionComposite, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
-		lblSampleZ.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
-		Scannable scannable = ScannableSetup.SAMPLE_Z_POSITION.getScannable();
-		scannable.addIObserver(moveObserver);
-		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(samplePositionComposite, SWT.None,  ScannableSetup.SAMPLE_Z_POSITION.getScannableWrapper(), true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(samplePositionSection, SWT.FLAT | SWT.HORIZONTAL);
-		new ToolItem(motorSectionTbar, SWT.SEPARATOR);
+		@SuppressWarnings("unused")
+		ToolItem separator = new ToolItem(motorSectionTbar, SWT.SEPARATOR);
 		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
 		samplePositionSection.setTextClient(motorSectionTbar);
 		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(samplePositionSection, stopMotorsBarItem));
@@ -199,6 +196,60 @@ public class FocusingView extends ViewPart {
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(samplePositionSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		samplePositionSection.setSeparatorControl(defaultSectionSeparator);
+
+		final Composite samplePositionComposite = toolkit.createComposite(samplePositionSection, SWT.NONE);
+		toolkit.paintBordersFor(samplePositionComposite);
+		samplePositionComposite.setLayout(new GridLayout(2, false));
+		samplePositionSection.setClient(samplePositionComposite);
+
+		sampleStageMotorsChangeListener = new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				try {
+					clearSampleStageMotorControls(samplePositionComposite);
+					addSampleStageMotorEditors(samplePositionComposite, moveObserver, (ExperimentMotorPostion[]) evt.getNewValue());
+					samplePositionSection.layout(true);
+					samplePositionSection.getParent().layout(true);
+				} catch (Exception e) {
+					UIHelper.showError("Unable to add Sample stage motor controls", e.getMessage());
+					logger.error("Unable to add Sample stage motor controls", e);
+				}
+			}
+		};
+		addSampleStageMotorEditors(samplePositionComposite, moveObserver, (SampleStageMotors.INSTANCE.getSelectedMotors()));
+		SampleStageMotors.INSTANCE.addPropertyChangeListener(SampleStageMotors.SELECTED_MOTORS_PROP_NAME, sampleStageMotorsChangeListener);
+	}
+
+	public void clearSampleStageMotorControls(final Composite samplePositionComposite) {
+		for (Control childWidget :samplePositionComposite.getChildren()) {
+			childWidget.dispose();
+		}
+	}
+
+	private void addSampleStageMotorEditors(Composite parent, ScannableMotorMoveObserver moveObserver, ExperimentMotorPostion[] motors) throws Exception {
+		GridData labelGridData = new GridData(GridData.BEGINNING, GridData.CENTER, false, false);
+		labelGridData.widthHint = 120;
+		GridData controlGridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		for (ExperimentMotorPostion motor : motors) {
+			Label label = toolkit.createLabel(parent, motor.getScannableSetup().getLabel(), SWT.NONE);
+			label.setLayoutData(labelGridData);
+			Scannable scannable = motor.getScannableSetup().getScannable();
+			scannable.addIObserver(moveObserver);
+			MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None,  motor.getScannableSetup().getScannableWrapper(), true);
+			motorPositionEditorControl.setLayoutData(controlGridData);
+		}
+		Label lblSampleZ = toolkit.createLabel(parent, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
+		lblSampleZ.setLayoutData(labelGridData);
+		Scannable scannable = ScannableSetup.SAMPLE_Z_POSITION.getScannable();
+		scannable.addIObserver(moveObserver);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None,  ScannableSetup.SAMPLE_Z_POSITION.getScannableWrapper(), true);
+		motorPositionEditorControl.setLayoutData(controlGridData);
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		SampleStageMotors.INSTANCE.removePropertyChangeListener(SampleStageMotors.SELECTED_MOTORS_PROP_NAME, sampleStageMotorsChangeListener);
 	}
 
 	@Override
