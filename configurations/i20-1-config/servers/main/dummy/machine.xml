@@ -15,14 +15,14 @@
 	</bean>
 	<bean id="fillMode" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
-			<list>	
+			<list>
 				<value>Remote Fill</value>
 			</list>
 		</property>
 	</bean>
-	<bean id="machineMode" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
-			<list>	
+			<list>
 				<value>User</value>
 			</list>
 		</property>
