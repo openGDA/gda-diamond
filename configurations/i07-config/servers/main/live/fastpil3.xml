@@ -44,6 +44,7 @@
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="fastpil3" />
 		<property name="ndFile" ref="fastpil3_camserver_ndfile" />
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 	<!-- NXDetectors -->
