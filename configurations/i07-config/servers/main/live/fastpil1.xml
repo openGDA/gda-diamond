@@ -47,14 +47,14 @@
 	</bean>
 
 	<!-- NXDetectors -->
-	 <bean id="fastpil1_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-	 	<constructor-arg value="fastpil1" />
+	<bean id="fastpil1_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="Pilatus 1" />
 		<constructor-arg value="6" />
-	 </bean>
+	</bean>
 
-	 <bean id="fastpil1_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
-	 	<constructor-arg ref="pilatus1_adbase" />
-	 </bean>
+	<bean id="fastpil1_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
+		<constructor-arg ref="pilatus1_adbase" />
+	</bean>
 
 	<bean id="fastpil1" class="gda.device.detector.NXDetector">
 		<property name="name" value="fastpil1" />
