@@ -31,7 +31,7 @@ http://www.opengda.org
 -Djacorb.config.dir=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/jacorb/live
 -Dgda.propertiesFile=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/properties/live/java.properties
 -Dgda.config=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/properties/JCALibrary.properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/jca/live/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
 -client
 -Xms128m
