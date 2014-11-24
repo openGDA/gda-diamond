@@ -835,6 +835,10 @@ xeye.display_image = True
 xeyemax2d = DetectorDataProcessorWithRoi('xeyemax2d', xeye, [SumMaxPositionAndValue()])
 xeyepeak2d = DetectorDataProcessorWithRoi('xeyepeak2d', xeye, [TwodGaussianPeak()])
 
+xeye.processors=[DetectorDataProcessorWithRoi('peak', xeye, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+xeye.processors[0].processors[1].setScalingFactors(0.0014, 0.0014)
+
+
 #scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 
 
