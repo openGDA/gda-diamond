@@ -167,8 +167,6 @@
 	<bean id="_medipix" class="gda.device.detector.NXDetector">
 		<property name="name" value="medipix" />
 		<property name="collectionStrategy" ref="medipix_nxcollectionstrategy" />
-		<!-- <property name="additionalPluginList"> <list> <ref bean="medipix_nxfilewriter_for_scans" 
-			/> </list> </property> -->
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="medipix_roistat_pair1" />
@@ -177,6 +175,7 @@
 				<ref bean="medipix_roistat_pair4" />
 				<ref bean="medipix_roistat_pair5" />
 				<ref bean="medipix_roistat_pair6" />
+		<!-- 		<ref bean="medipix_nxfilewriter_for_scans" />  -->
 			</list>
 		</property>
 	</bean>
