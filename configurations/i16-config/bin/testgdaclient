@@ -3,7 +3,7 @@
 
 
 . gda_setup_env_test gda_swingclient_output
-
+export GDA_MODE=dummy
 echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
 
 
