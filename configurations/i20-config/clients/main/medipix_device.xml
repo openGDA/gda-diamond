@@ -9,7 +9,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<bean id="medipix_cam_base" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL20I-EA-DET-05:MERLIN1:" />
+		<property name="prefix" value="BL20I-EA-DET-05:CAM:" />
 	</bean>
 	<bean id="medipix_arr" class="gda.spring.V17NDArrayFactoryBean">
 		<property name="prefix" value="BL20I-EA-DET-05:ARR:" />
@@ -26,7 +26,4 @@
 	<bean id="medipix_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
 		<property name="prefix" value="BL20I-EA-DET-05:MJPG:" />
 	</bean>
-
-
-
 </beans>	

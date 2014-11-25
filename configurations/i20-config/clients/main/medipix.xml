@@ -32,5 +32,4 @@
 		<property name="service" ref="medipixADController" />
 		<property name="properties" ref="medipixdictionary" />
 	</bean>
-	
 </beans>
