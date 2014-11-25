@@ -46,6 +46,7 @@
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:PLUS:I" />
 		<property name="local" value="false"/>
 	</bean>
+	
 	<bean id="d3_drain_yminus" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:MINUS:I" />
 		<property name="local" value="false"/>
