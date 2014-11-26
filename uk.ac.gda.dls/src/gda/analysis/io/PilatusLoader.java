@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
+import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +44,6 @@ public class PilatusLoader extends AbstractFileLoader {
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(PilatusLoader.class);
 
-	private String fileName = "";
-
 	/**
 	 * @param FileName
 	 * @deprecated Use {@link PilatusTiffLoader} or {@link TIFFImageLoader}
@@ -53,6 +52,10 @@ public class PilatusLoader extends AbstractFileLoader {
 	public PilatusLoader(String FileName) {
 		logger.warn("Deprecated: use PilatusTiffLoader or ConvertedTIFFImageLoader");
 		fileName = FileName;
+	}
+
+	@Override
+	protected void clearMetadata() {
 	}
 
 	/**
@@ -133,4 +136,7 @@ public class PilatusLoader extends AbstractFileLoader {
 		}
 	}
 
+	@Override
+	public void loadMetadata(IMonitor mon) throws Exception {
+	}
 }
