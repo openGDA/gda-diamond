@@ -19,4 +19,4 @@ gda.objectserver.xml    = ${gda.config}/xml/server/serverSimple.xml
 #testing.gda.gui.xml   =${gda.config}/xml/TB_Client_Testing.xml
 
 
-include=./java_common.properties
+include=../common/java.properties
