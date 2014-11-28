@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-2.5.xsd
+    http://www.diamond.ac.uk/schema/gda/corba
+    http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml" />
+
+    <bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
+        <property name="local" value="true" />
+    </bean>
+
+    <import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
+
+    <import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
+
+    <bean id="script_paths" parent="common_script_paths">
+        <property name="projects">
+            <list merge="true">
+                <ref bean="gda_epics_script_project" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="command_server" parent="abstract_command_server">
+        <property name="jythonScriptPaths" ref="script_paths" />
+        <property name="disableBatonControlOverVisitMetadataEntry" value="false" />
+    </bean>
+
+    <bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
+
+    <bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+        <property name="metadataEntries">
+            <list>
+                <bean class="gda.data.metadata.PropertyMetadataEntry">
+                    <property name="name" value="instrument"/>
+                    <property name="propertyName" value="gda.instrument"/>
+                </bean>
+                <bean class="gda.data.metadata.PropertyMetadataEntry">
+                    <property name="name" value="defVisit"/>
+                    <property name="propertyName" value="gda.defVisit"/>
+                </bean>
+                <bean class="gda.data.metadata.StoredMetadataEntry">
+                    <property name="name" value="federalid" />
+                </bean>
+                <bean class="gda.data.metadata.StoredMetadataEntry">
+                    <property name="name" value="visitid" />
+                </bean>
+                <bean class="gda.data.metadata.StoredScanMetadataEntry">
+                    <property name="name" value="title" />
+                    <property name="value" value="undefined" />
+                </bean>
+                <bean class="gda.data.metadata.StoredMetadataEntry">
+                    <property name="name" value="note" />
+                    <property name="value" value="undefined" />
+                </bean>
+                <ref bean="subdirectory" />
+            </list>
+        </property>
+    </bean>
+
+</beans>
