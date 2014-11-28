@@ -7,37 +7,35 @@
     http://www.springframework.org/schema/util 
     http://www.springframework.org/schema/util/spring-util-2.5.xsd
     http://www.diamond.ac.uk/schema/gda/corba 
-    http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+    http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
     http://www.springframework.org/schema/aop 
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-    
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="file:${gda.config}/properties/live/java.properties" />
+        <property name="location" value="file:${gda.config}/properties/${gda.mode}/java.properties" />
     </bean>
-    
+
     <bean class="gda.spring.FindableNameSetterPostProcessor" />
-    
+
+    <corba:adapterfactory namespace="${sys:gda.factory.factoryName}" />
+
     <bean class="gda.factory.corba.util.AdapterFactory">
-        <constructor-arg index="0" value="${gda.factory.factoryName}" />
+        <constructor-arg index="0" value="${sys:gda.factory.factoryName}" />
         <constructor-arg index="1">
             <bean class="gda.spring.NetServiceFactoryBean" />
         </constructor-arg>
     </bean>
 
-<!--     <import resource="file:${gda.config}/xml/client/client_core.xml" />  -->
-    
-    <corba:import namespace="I07" names="command_server, GDAMetadata, SimpleServlet, ScanDataStore" /> 
-    
+    <corba:import namespace="I07" names="command_server, GDAMetadata, SimpleServlet, ScanDataStore" />
     <corba:import namespace="I07" names="plot_server" />
-    
+
     <bean class="gda.rcp.util.OSGIServiceRegister">
         <property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
         <property name="service" ref="plot_server" />
     </bean>
 
-   
    <!--  Removed thes two as a temprary measure during callout on June 24th at 11:55 pm - Rob W -->
 <!--     <import resource="fastpil1_clientside.xml"/> -->
 <!--     <import resource="fastpil3_clientside.xml"/> -->
