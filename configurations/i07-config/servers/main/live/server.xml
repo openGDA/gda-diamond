@@ -30,6 +30,43 @@
 		</constructor-arg>
 	</bean>
 
+	<bean id="fastshutter" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="fastshutter" />
+		<property name="pvName" value="BL07I-EA-SHTR-01:CON" />
+		<property name="level" value="6" />
+	</bean>
+
+	<bean id="_fshutterDelay" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fastshutter" />
+				<bean id="_fsWait" class="gda.device.scannable.TimeDelayScannable">
+					<property name="name" value="_fsWait" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fastshutterScan" class="gda.device.scannable.TogglerScannable">
+		<constructor-arg ref="_fshutterDelay" />
+		<property name="startValue">
+			<list>
+				<value>1</value>
+				<value>0.5</value>
+			</list>
+		</property>
+		<property name="endValue">
+			<list>
+				<value>0</value>
+				<value>0</value>
+			</list>
+		</property>
+		<property name="hook">
+			<value>AT_LEVEL</value>
+		</property>
+		<property name="level" value="100" />
+	</bean>
+
 	<import resource="server_dummies.xml" />
 
 	<import resource="server_epics.xml" />
@@ -61,8 +98,10 @@
 
 	<import resource="lakeshore.xml" />
 
+	<!--
 	<import resource="pie.xml" />
 	<import resource="zone_plates.xml" />
+	-->
 
 	<import
 		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
