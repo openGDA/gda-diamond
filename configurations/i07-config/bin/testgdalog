@@ -1,0 +1,8 @@
+#!/bin/bash
+. gda_setup_env_test gda_client_output
+
+echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
+
+
+#unset BEAMLINE
+$GDA_CORE_SCRIPT logpanel --mode=dummy $@
