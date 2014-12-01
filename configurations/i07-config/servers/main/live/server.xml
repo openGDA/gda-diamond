@@ -23,11 +23,41 @@
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
+	<bean id="fastshutter" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="fastshutter" />
+		<property name="pvName" value="BL07I-EA-SHTR-01:CON" />
+		<property name="level" value="6" />
+	</bean>
+
+	<bean id="_fshutterDelay" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fastshutter" />
+				<bean id="_fsWait" class="gda.device.scannable.TimeDelayScannable">
+					<property name="name" value="_fsWait" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fastshutterScan" class="gda.device.scannable.TogglerScannable">
+		<constructor-arg ref="_fshutterDelay" />
+		<property name="startValue">
+			<list>
+				<value>1</value>
+				<value>0.5</value>
+			</list>
+		</property>
+		<property name="endValue">
+			<list>
+				<value>0</value>
+				<value>0</value>
+			</list>
+		</property>
+		<property name="hook">
+			<value>AT_LEVEL</value>
+		</property>
+		<property name="level" value="100" />
 	</bean>
 
 	<import resource="server_dummies.xml" />
@@ -58,34 +88,16 @@
 	<import resource="fleacamera4_06.xml" />
 
 	<import resource="server_core.xml" />
+	<import resource="../common/server.xml" />
 
 	<import resource="lakeshore.xml" />
 
+	<!--
 	<import resource="pie.xml" />
 	<import resource="zone_plates.xml" />
-
-	<import
-		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
-
-	<bean id="script_paths" parent="common_script_paths">
-		<property name="projects">
-			<list merge="true">
-				<ref bean="gda_epics_script_project" />
-			</list>
-		</property>
-	</bean>
-
-
-	<bean id="command_server" parent="abstract_command_server">
-		<property name="jythonScriptPaths" ref="script_paths" />
-		<!-- <property name="stopJythonScannablesOnStopAll" value="false" /> -->
-		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
-	</bean>
-
+	-->
 
 	<import resource="commandQueueProcessor.xml" />
-	<import resource="terminal_logger.xml" />
-
 
 	<corba:export namespace="I07" />
 

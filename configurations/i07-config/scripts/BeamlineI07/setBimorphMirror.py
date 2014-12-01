@@ -16,7 +16,7 @@ VFMMonitorPV = "BL07I-OP-KBM-01:VFM:GET-VOUT";
 VFMStatusPV = "BL07I-OP-KBM-01:VFM:GET-STATUS";
 
 hfm = BimorphVoltageDeviceClass('hfm', hfmBasePV, 8, 10);
-vfm = BimorphVoltageDeviceClass('vfm', vfmBasePV, 16, 10);
+vfm = BimorphVoltageDeviceClass('vfm', vfmBasePV, 16, 10, "BL07I-OP-KBM-01:HFM:GET-STATUS");
 
 
 #Old bimorph voltage setter

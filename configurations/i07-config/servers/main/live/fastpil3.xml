@@ -44,17 +44,18 @@
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="fastpil3" />
 		<property name="ndFile" ref="fastpil3_camserver_ndfile" />
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 	<!-- NXDetectors -->
-	 <bean id="fastpil3_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-	 	<constructor-arg value="fastpil3" />
+	<bean id="fastpil3_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="Pilatus 3" />
 		<constructor-arg value="6" />
-	 </bean>
+	</bean>
 
-	 <bean id="fastpil3_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
-	 	<constructor-arg ref="pilatus3_adbase" />
-	 </bean>
+	<bean id="fastpil3_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
+		<constructor-arg ref="pilatus3_adbase" />
+	</bean>
 
 	<bean id="fastpil3" class="gda.device.detector.NXDetector">
 		<property name="name" value="fastpil3" />

@@ -152,28 +152,41 @@
                label="Area Detectors">
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="fastpil1 MPeg"
+                  label="Pilatus1 Array"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
                </parameter>
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
-                     value="fastpil1">
+                     value="pv//Pilatus 1//BL07I-EA-PILAT-01@">
                </parameter>
             </command>
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="fastpil3 MPeg"
+                  label="Pilatus2 Array"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
                </parameter>
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
-                     value="fastpil3">
+                     value="pv//Pilatus 2//BL07I-EA-PILAT-02@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Pilatus3 Array"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//Pilatus 3//BL07I-EA-PILAT-03@">
                </parameter>
             </command>
          </menu>

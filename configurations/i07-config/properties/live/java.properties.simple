@@ -10,7 +10,6 @@ gda.factory.allowExceptionInConfigure=true
 gda.simulation = false
 
 gda.factory.doStringInterpolation= true
-gda.factory.factoryName = I07
 gda.oe.oefactory        = remote
 #gda.oe.oefactory        = local
 #gda.objectserver.xml    = ${gda.config}/xml/castor/server/server.xml
@@ -19,4 +18,4 @@ gda.objectserver.xml    = ${gda.config}/xml/server/serverSimple.xml
 #testing.gda.gui.xml   =${gda.config}/xml/TB_Client_Testing.xml
 
 
-include=./java_common.properties
+include=../common/java.properties
