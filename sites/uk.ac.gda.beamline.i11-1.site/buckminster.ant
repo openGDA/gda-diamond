@@ -309,9 +309,16 @@ Additional Ant tasks for Buckminster build. Based on http://www.ralfebert.de/blo
         <fail message="ERROR: product.parent.directory.location not set - did you remember to specify a .properties file?">
             <condition><not><isset property="product.parent.directory.location" /></not></condition>
         </fail>
+        <!-- For buckminster.output.root and buckminster.temp.root, first create their immediate parent directories (if required)
+             This ensures that _directory.set.group is applied to the immediate parent(s) if we needed to create them also
+             This is a common case when buckminster.root.prefix is used, and needs to be created -->
+        <dirname property="output.root.parent" file="${buckminster.output.root}" />
         <antcall target="setup.directory">
-            <param name="setup.directory.name" value="${buckminster.root.prefix}" />
-            <param name="setup.directory.delete.previous" value="${buckminster.root.prefix.delete.previous}" />
+            <param name="setup.directory.name" value="${output.root.parent}" />
+        </antcall>
+        <dirname property="temp.root.parent" file="${buckminster.temp.root}" />
+        <antcall target="setup.directory">
+            <param name="setup.directory.name" value="${temp.root.parent}" />
         </antcall>
         <antcall target="setup.directory">
             <param name="setup.directory.name" value="${buckminster.output.root}" />
@@ -411,9 +418,11 @@ Additional Ant tasks for Buckminster build. Based on http://www.ralfebert.de/blo
         <property.expand property="destination.zipfile" definition="${zip.file.name}"/>
         <echo>Zipping ${destination} (including the directory) into ${destination.parent}/${destination.zipfile}.zip using platform zip command</echo>
         <exec executable="zip" osfamily="unix" dir="${destination.parent}" failonerror="true">
-            <arg value="-qr" />
-            <arg value="-n" />
-            <arg value=".jar" />
+            <arg value="--quiet" />
+            <arg value="--recurse-paths" />
+            <arg value="--symlinks" />  <!-- Required since the MacOS product contains a symlink -->
+            <arg value="--suffixes" />
+            <arg value=".gif:.jar:.png:" />
             <arg value="${destination.zipfile}.zip" />
             <arg value="${destination.directory}" />
         </exec>
