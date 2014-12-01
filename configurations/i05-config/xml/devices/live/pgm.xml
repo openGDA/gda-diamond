@@ -73,11 +73,11 @@
                         <list>
                                 <ref bean="pgm_energy" />
                                 <ref bean="pgm_cff" />
-                                <ref bean="pgm_linedensity" />
                                 <ref bean="pgm_mpitch" />
                                 <ref bean="pgm_mtrans" />
                                 <ref bean="pgm_gpitch" />
                                 <ref bean="pgm_gtrans" />
+                                <ref bean="pgm_linedensity" />
                         </list>
                 </property>
                 <property name="local" value="true" />

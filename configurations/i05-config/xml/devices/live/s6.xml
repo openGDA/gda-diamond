@@ -30,12 +30,12 @@
                 <property name="local" value="true" />
         </bean>
 
-        <bean id="s6_ysize_motor" class="gda.device.motor.EpicsMotor">
+        <bean id="exit_slit_motor" class="gda.device.motor.EpicsMotor">
                 <property name="pvName" value="BL05I-AL-SLITS-06:YSIZE" />
                 <property name="local" value="true" />
         </bean>
-        <bean id="s6_ysize" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="s6_ysize_motor" />
+        <bean id="exit_slit" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="exit_slit_motor" />
                 <property name="local" value="false" />
         </bean>
 
@@ -54,7 +54,7 @@
                                 <ref bean="s6_xcentre" />
                                 <ref bean="s6_ycentre" />
                                 <ref bean="s6_xsize" />
-                                <ref bean="s6_ysize" />
+                                <ref bean="exit_slit" />
                                 <ref bean="s6_z" />
                         </list>
                 </property>

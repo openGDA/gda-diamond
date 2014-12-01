@@ -75,13 +75,13 @@ public class ArpesExperimentPerspective implements IPerspectiveFactory {
 				  logger.info("perspectiveActivated: iwbPage label:"+page.getLabel()+", perspective label:"+perspective.getLabel());
 				  				  
 				  if (perspective.getId().equals("uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective")) {
-				  	
-					String sampFileName    = PathConstructor.createFromProperty("gda.analyser.sampleConf"); // initialExampleAnalyserConfig.arpes
-					String srcDataRootPath = PathConstructor.createFromProperty("gda.scripts");             // location that is available in dummy and live and is version controlled   					  
+
+					String sampFileName    = PathConstructor.createFromProperty("gda.analyser.sampleConf");       // full path to initialExampleAnalyserConfig.arpes
+					String srcDataRootPath = PathConstructor.createFromProperty("gda.analyser.sampleConf.dir");   // location that is available in dummy and live and is version controlled
 					File srcPth            = new File(srcDataRootPath, sampFileName);
 					
-					String tgtDataRootPath = PathConstructor.createFromProperty("gda.data");                // location that is available in dummy and live variants and is visitor-specific
-					String cfgTgtPath      = PathConstructor.createFromTemplate(tgtDataRootPath + "/$year$/$visit$/xml");
+					String tgtDataRootPath = PathConstructor.createFromProperty("gda.analyser.sampleConf.dir");   
+					String cfgTgtPath      = PathConstructor.createFromTemplate(tgtDataRootPath + "/$visit$/xml"); // location that is available in dummy and live variants and is visitor-specific
 					File tgtXmlDir         = new File(cfgTgtPath);
 					File tgtPth            = new File(tgtXmlDir, sampFileName);
 					
