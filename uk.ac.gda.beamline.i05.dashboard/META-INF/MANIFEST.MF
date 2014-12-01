@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
  uk.ac.gda.common,
  uk.ac.gda.api,
- uk.ac.gda.core
+ uk.ac.gda.core,
+ uk.ac.gda.devices.vgscienta;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Diamond Light Source

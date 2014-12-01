@@ -29,8 +29,17 @@ import gda.jython.IJythonServerStatusObserver;
 import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
+import gda.jython.commandinfo.CommandThreadEvent;
+import gda.jython.commandinfo.CommandThreadEventType;
+import gda.jython.commandinfo.CommandThreadInfo;
+import gda.jython.commandinfo.ICommandThreadObserver;
 import gda.observable.IObserver;
+import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanDataPoint;
+import gda.scan.ScanEvent;
+import uk.ac.gda.devices.vgscienta.FlexibleFrameDetector;
+import uk.ac.gda.devices.vgscienta.FrameUpdate;
+import uk.ac.gda.devices.vgscienta.SweptProgress;
 
 import java.util.Collection;
 import java.util.Date;
@@ -52,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * A system status display panel updater, this contains all the logic, so the GUI class be edited by graphical SWT
  * layout editors without breaking functionality.
  */
-public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, IJythonServerStatusObserver {
+public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, IJythonServerStatusObserver, ICommandThreadObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(MetadataUpdater.class);
 
@@ -64,6 +73,8 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 	private Integer totalScanPoints;
 	private Date started;
 	private String lastFileName;
+	private int lastScanNumber;
+	private FlexibleFrameDetector analyser;
 
 	private class MetadataListener extends KeyAdapter implements FocusListener, IObserver {
 		private Text widget;
@@ -91,7 +102,6 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 		public void keyReleased(KeyEvent e) {
 			super.keyReleased(e);
 			if (e.character == SWT.CR) {
-
 				try {
 					metadata.setMetadataValue(metadataName, widget.getText().trim());
 				} catch (Exception e1) {
@@ -103,7 +113,6 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 		@Override
 		public void focusGained(FocusEvent e) {
 			// TODO Auto-generated method stub
-
 		}
 
 		@Override
@@ -147,24 +156,30 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 		try {
 			metadata = GDAMetadataProvider.getInstance();
 
-			new MetadataListener(client.subDirectory, "subdirectory", (Device) Finder.getInstance().find(
-					"observableSubdirectory"));
-			new MetadataListener(client.sampleName, "samplename", (Device) Finder.getInstance().find(
-					"observableSamplename"));
+			new MetadataListener(client.subDirectory, "subdirectory", (Device) Finder.getInstance().find("observableSubdirectory"));
+			new MetadataListener(client.sampleName, "samplename", (Device) Finder.getInstance().find("observableSamplename"));
 
 		} catch (Exception e) {
 			logger.warn("could not find required metadata", e);
 		}
 
+		// get events from two observables: JythonServerFacade and Analyser
 		jsf = JythonServerFacade.getInstance();
 		jsf.addIObserver(this);
+		jsf.addScanEventObserver(this);
+		jsf.addCommandThreadObserver(this);
+
+		analyser = (FlexibleFrameDetector) Finder.getInstance().find("analyser");
+		if (analyser != null) {
+			analyser.addIObserver(this);
+		}
 
 		client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
 	}
 
 	@Override
 	public void update(Object iObservable, Object arg) {
-		if (client.frameStatus.isDisposed()) {
+		if (client.scanStatLbl.isDisposed()) {
 			jsf.deleteIObserver(this);
 			return;
 		}
@@ -229,67 +244,98 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 			return (elapsed * total / currentpoint) - elapsed;
 		}
 
+		private void updateElapsedTime () {
+			if (started != null){ // non-null indicates clock has started
+				client.elapsedTime.setText(hms4millis(((new Date()).getTime()) - started.getTime()));  // could be move to ScanEvent to be more frequent 
+			 // client.remainTimeLbl.setText(hms4millis(noddyETAprediction(currentPointNumber, totalScanPoints, elapsed)));  // TBD
+			}				
+		}
+		
+		private void clockStart() {
+			client.elapsedTime.setText("--:--:--");
+			started = new Date(); 		
+		}
+		
+		private void clockStop() {
+			started = null;
+		}
 		@Override
 		public void run() {
-			if (arg != null) {
-				try {
-					// if we don't sleep here we might catch the scan before a number as been assigned
-					Thread.sleep(25);
-				} catch (InterruptedException e) {
-					logger.error("TODO put description of error here", e);
-				}
-				if (arg instanceof ScanDataPoint) {
-					lastFileName = ((ScanDataPoint) arg).getCurrentFilename();
-					int currentPointNumber = ((ScanDataPoint) arg).getCurrentPointNumber();
-					client.frameNumber.setText(String.format("%s / %s", pointNoAsStr(currentPointNumber), scanstring));
-					client.progressBar.setSelection(10000 * currentPointNumber / totalScanPoints);
-					long elapsed = (new Date()).getTime() - started.getTime();
-					client.elapsedTime.setText(hms4millis(elapsed));
-					client.eta.setText(hms4millis(noddyETAprediction(currentPointNumber, totalScanPoints, elapsed)));
-				} else if (arg instanceof JythonServerStatus) {
-					JythonServerStatus jss = (JythonServerStatus) arg;
-					switch (jss.scanStatus) {
-					case Jython.IDLE:
-						client.frameStatus.setText("IDLE");
-						client.frameNumber.setText("[0] / [0]");
-						client.progressBar.setSelection(10000);
-						client.elapsedTime.setText("--:--:--");
-						client.eta.setText("--:--:--");
+			if (arg != null) {                                         // to trace: System.out.println("QQQQ:arg Class="+arg.getClass().getName());
+				logger.debug("run() Observable arg Class="+arg.getClass().getName());
+
+				if (arg instanceof CommandThreadEvent) {               // use Thread Status Information to deduce when command line scan has started and stopped
+					CommandThreadEvent cte = (CommandThreadEvent) arg;
+					CommandThreadInfo  cti = (CommandThreadInfo) cte.getInfo();
+					if (cti != null) {                                 // only command line scans have CommandThreadEventInfo 
+						if (cte.getEventType()== CommandThreadEventType.START) {
+							clockStart();
+						} else if (cte.getEventType()== CommandThreadEventType.TERMINATE) {
+							clockStop();
+						}
+					}
+				} else if (arg instanceof SweptProgress) {
+					updateElapsedTime();
+					
+				} else	if (arg instanceof ScanEvent) {             // update view related to all scans: analyser fixed/ analyser swept/command line
+					ScanEvent se = (ScanEvent) arg;
+					final int curPointNumber = se.getCurrentPointNumber() + 1; // CurrentPointNumbers is a zero-based index
+					final int maxPointNumber = se.getLatestInformation().getNumberOfPoints();
+					ScanStatus ss = se.getLatestStatus();
+
+					client.scanPntLbl.setText(String.format("%d / %d", curPointNumber, maxPointNumber));
+					client.progressBar.setSelection(10000 * curPointNumber / maxPointNumber);
+					client.scanStatLbl.setText(ss.toString());      // n.b. a *different* notion of scan status, the JythonServerStatus.scanStatus one, also writes into this field, see jss below
+					if (ss == ScanStatus.COMPLETED_OKAY) {          // use ScanEvent to access items to update at end-of-scan
 						client.scanFile.setText(lastFileName);
+						client.scanNumLbl.setText(Integer.toString(lastScanNumber + 1)); // indicate number in file name that will be used for next scan
+					}
+					
+				} else if (arg instanceof FrameUpdate) {            // update view for "Command Queue" scans (ARPES Scan Editor Queue Experiment)
+					updateElapsedTime();
+					
+				} else if (arg instanceof ScanDataPoint) {
+					ScanDataPoint sdp = (ScanDataPoint) arg;
+					lastFileName = sdp.getCurrentFilename();        // store and delay displaying until JythonServerStatus next becomes IDLE
+					lastScanNumber = sdp.getScanIdentifier();
+					updateElapsedTime();
+					
+				} else if (arg instanceof JythonServerStatus) {     // currently only "Command Queue" scans trigger these events, Jython Command Line scans do not
+					JythonServerStatus jss = (JythonServerStatus) arg;
+					
+					switch (jss.scriptStatus) {
+					case Jython.RUNNING:
+						clockStart();
+						break;
+					case Jython.IDLE:
+						clockStop();
+						break;
+					}
+					
+					switch (jss.scanStatus) {                       // deprecated? currently only scan=IDLE occurs
+					case Jython.IDLE:
+						client.scanStatLbl.setText("IDLE");
+						client.scanPntLbl.setText("[0] / [0]");
+						client.progressBar.setSelection(10000);
+						client.remainTimeLbl.setText("--:--:--");
 						break;
 					case Jython.PAUSED:
-						client.frameStatus.setText("PAUSED");
+						client.scanStatLbl.setText("PAUSED");
 						break;
 					case Jython.RUNNING:
+						client.scanStatLbl.setText("RUNNING");
 						started = new Date();
 						client.elapsedTime.setText("00:00:00");
-						scanstring = jsf
-								.evaluateCommand("finder.find(\"command_server\").getCurrentScanInformation().getDimensions().tolist()");
+						scanstring = jsf.evaluateCommand("finder.find(\"command_server\").getCurrentScanInformation().getDimensions().tolist()");
 						scandimensions = parseScanDimensions(scanstring);
 						totalScanPoints = multiply(scandimensions);
-						client.frameNumber.setText(String.format("%s / %s", pointNoAsStr(0), scanstring));
-						client.frameStatus.setText(getScanNumber());
 						break;
 					default:
-						client.frameStatus.setText("UNKNOWN");
+						client.scanStatLbl.setText("UNKNOWN");
 						break;
 					}
 				}
 			}
-		}
-	}
-
-	private String getScanNumber() {
-		try {
-			String string = jsf
-					.evaluateCommand("finder.find(\"command_server\").getCurrentScanInformation().getScanNumber()");
-			string = string.trim();
-			if (string.endsWith("L")) {
-				return string.substring(0, string.length() - 1);
-			}
-			return string;
-		} catch (Exception e) {
-			return "UNKNOWN";
 		}
 	}
 }
