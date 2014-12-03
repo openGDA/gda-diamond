@@ -96,8 +96,6 @@ except:
     logger.dump("---> ", exceptionType, exception, traceback)
     localStationErrorCount+=1
 
-
-    
 try:
     print "-------------------------------------------------------------------"
     #print "Change the default output format to meet the branch line requirements"
@@ -113,11 +111,33 @@ except:
     logger.dump("---> ", exceptionType, exception, traceback)
     localStationErrorCount+=1
 
+print "-------------------------------------------------------------------"
+print "Set up idio and ifio"
+
+try:
+    execfile(gdaScriptDir + "BeamlineI06/idivio.py");
+except:
+    exceptionType, exception, traceback=sys.exc_info();
+    print "XXXXXXXXXX:  idivio Error "
+    logger.dump("---> ", exceptionType, exception, traceback)
+    localStationErrorCount+=1
+
 # Set up the scan processing wrappers
+print "-------------------------------------------------------------------"
+print "Set up standard scan processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 import gdascripts.utils #@UnusedImport
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
+
+scan_processor_normal_processes = scan_processor.processors
+scan_processor_empty_processes  = []
+
+def scan_processing_on():
+	scan_processor.processors = scan_processor_normal_processes
+
+def scan_processing_off():
+	scan_processor.processors = scan_processor_empty_processes
 
 print "-------------------------------------------------------------------"
 print "==================================================================="
