@@ -96,8 +96,6 @@ except:
     logger.dump("---> ", exceptionType, exception, traceback)
     localStationErrorCount+=1
 
-
-    
 try:
     print "-------------------------------------------------------------------"
     #print "Change the default output format to meet the branch line requirements"
@@ -110,6 +108,17 @@ try:
 except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  Errors when running the localstation_i06.py"
+    logger.dump("---> ", exceptionType, exception, traceback)
+    localStationErrorCount+=1
+
+print "-------------------------------------------------------------------"
+print "Set up idio and ifio"
+
+try:
+    execfile(gdaScriptDir + "BeamlineI06/idivio.py");
+except:
+    exceptionType, exception, traceback=sys.exc_info();
+    print "XXXXXXXXXX:  idivio Error "
     logger.dump("---> ", exceptionType, exception, traceback)
     localStationErrorCount+=1
 
