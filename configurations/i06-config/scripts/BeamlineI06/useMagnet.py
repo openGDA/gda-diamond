@@ -2,8 +2,8 @@
 
 from Diamond.PseudoDevices.SuperconductingMagnet import SuperconductingMagnetClass, ModeMagnetClass;
 from Diamond.PseudoDevices.SuperconductingMagnet import CartesianMagnetClass, SphericalMagnetClass, SingleAxisMagnetClass;
-
 from Diamond.PseudoDevices.Flipper import FlipperClass, DichroicFlipperClass
+from gda.jython.commands.GeneralCommands import alias
 
 #The root EPICS PV for the superconducting magnet
 magRootPV = 'BL06J-EA-MAG-01';
@@ -27,7 +27,10 @@ magz = SingleAxisMagnetClass('magz', 'scm', SingleAxisMagnetClass.Z);
 magrho = SingleAxisMagnetClass('magrho', 'scm', SingleAxisMagnetClass.RHO);
 magth  = SingleAxisMagnetClass('magth',  'scm', SingleAxisMagnetClass.THETA);
 magphi = SingleAxisMagnetClass('magphi', 'scm', SingleAxisMagnetClass.PHI);
-
+magdelay=scm.delay
+magtolerance=scm.tolerance
+#alias(magdelay)
+#alias(magtolerance)
 
 print "Note: Use object name 'hyst2' for the hysteresis measurement with flipping magnet";
 print "Usage: scan hyst2 -1 1 0.1";
