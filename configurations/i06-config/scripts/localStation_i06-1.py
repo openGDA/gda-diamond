@@ -114,10 +114,21 @@ except:
     localStationErrorCount+=1
 
 # Set up the scan processing wrappers
+print "-------------------------------------------------------------------"
+print "Set up standard scan processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 import gdascripts.utils #@UnusedImport
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
+
+scan_processor_normal_processes = scan_processor.processors
+scan_processor_empty_processes  = []
+
+def scan_processing_on():
+	scan_processor.processors = scan_processor_normal_processes
+
+def scan_processing_off():
+	scan_processor.processors = scan_processor_empty_processes
 
 print "-------------------------------------------------------------------"
 print "==================================================================="
