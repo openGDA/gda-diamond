@@ -20,18 +20,18 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/client/pluginCustomization.ini
+      <vmArgs>-Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i07-config/client/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
--Dgda.install.git.loc=/dls_sw/i07/software/gda/workspace_git
--Dgda.install.workspace.loc=/dls_sw/i07/software/gda
+-Dgda.install.git.loc=../workspace_git
+-Dgda.install.workspace.loc=../workspace
+-Dgda.config=../workspace_git/gda-mt.git/configurations/i07-config
 -Dgda.data=/dls/i07/data
 -Dgda.var=/dls_sw/i07/var
 -Dgda.logs.dir=/dls_sw/i07/logs
--Djacorb.config.dir=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/jacorb/live
--Dgda.propertiesFile=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/properties/live/java.properties
--Dgda.config=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i07/software/gda/workspace_git/gda-mt.git/configurations/i07-config/properties/JCALibrary.properties
+-Djacorb.config.dir=${gda.mode}/jacorb/${gda.mode}
+-Dgda.propertiesFile=${gda.mode}/properties/${gda.mode}/java.properties
+-Dgov.aps.jca.JCALibrary.properties=${gda.mode}/properties/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
 -client
 -Xms128m
