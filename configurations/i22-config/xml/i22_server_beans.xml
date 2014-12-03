@@ -135,6 +135,14 @@
 		<property name="plotPanel" value="Plot 2D" />
 	</bean>
 	
+	<bean id="ncddetectorsProcessingListener" class="uk.ac.gda.server.ncd.data.scan.DataProcessingScanListener" >
+		<property name="detector" ref="ncddetectors"/>
+		<property name="runner" ref="saxsprocessingrunner" />
+		<property name="background" ref="backgroundDataFile" />
+		<property name="collectionId" ref="dataCollectionId" />
+		<property name="disabled" value="true" />
+	</bean>
+
 	<gda:rbac />
 	<corba:export namespace="i22" />
 </beans>
