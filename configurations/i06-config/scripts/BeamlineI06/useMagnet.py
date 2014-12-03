@@ -29,8 +29,8 @@ magth  = SingleAxisMagnetClass('magth',  'scm', SingleAxisMagnetClass.THETA);
 magphi = SingleAxisMagnetClass('magphi', 'scm', SingleAxisMagnetClass.PHI);
 magdelay=scm.delay
 magtolerance=scm.tolerance
-alias(magdelay)
-alias(magtolerance)
+#alias(magdelay)
+#alias(magtolerance)
 
 print "Note: Use object name 'hyst2' for the hysteresis measurement with flipping magnet";
 print "Usage: scan hyst2 -1 1 0.1";
