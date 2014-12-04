@@ -14,7 +14,6 @@
 	<import resource="ID.xml" />
 	<!-- Optics Hutch -->
 	<import resource="DummyMotors.xml" />
-	<import resource="BFM.xml" />
 	<import resource="DummyScannables.xml" />
 	<!-- <import resource="Shutters.xml"/> -->
 	<import resource="PGM.xml" />
