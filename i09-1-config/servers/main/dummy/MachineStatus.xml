@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="operationmode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Shutdow</value>
+				<value>Injection</value>
+				<value>No Beam</value>
+				<value>Mach. Dev.</value>
+				<value>User</value>
+				<value>Special</value>
+				<value>BL Startup</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="fillmode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Standby</value>
+				<value>SB Repeat</value>
+				<value>MB Repeat</value>
+				<value>SB One Shot</value>
+				<value>Seq. Fill</value>
+				<value>Spread Fil</value>
+				<value>Periodic SB</value>
+				<value>Periodic SB</value>
+				<value>Remote Fill</value>
+				<value>SB Arc Fill</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="feabsorber" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Fault</value>
+				<value>Open</value>
+				<value>Opening</value>
+				<value>Closed</value>
+				<value>Closing</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="portshutterstatus" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Fault</value>
+				<value>Open</value>
+				<value>Opening</value>
+				<value>Closed</value>
+				<value>Closing</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ringcurrent" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="ringenergy" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="idgap" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="lifetime" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="countdown" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<!-- <bean id="message1" class="gda.device.simplearray.EpicsSimpleArray"> -->
+	<!-- <property name="deviceName" value="MSTAT.MESS1"/> -->
+	<!-- </bean> -->
+	<!-- <bean id="message2" class="gda.device.simplearray.EpicsSimpleArray"> -->
+	<!-- <property name="deviceName" value="MSTAT.MESS2"/> -->
+	<!-- </bean> -->
+
+</beans>
