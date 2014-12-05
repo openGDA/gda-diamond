@@ -20,7 +20,9 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i12/software/gda/config/pluginCustomization.ini
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Declipse.pluginCustomization=/dls_sw/i12/software/gda/config/pluginCustomization.ini
 -Dgda.config=/dls_sw/i12/software/gda/config
 -Dgda.data=/dls/i12/data
 -Dgda.install.git.loc=/dls_sw/i12/software/gda/workspace_git
