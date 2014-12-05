@@ -11,7 +11,9 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/pluginCustomization.ini
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Declipse.pluginCustomization=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/pluginCustomization.ini
 -Djacorb.config.dir=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/jacorb/live
 -Dgda.install.workspace.loc=/dls_sw/i16/software/gda/workspace
 -Dgda.install.git.loc=/dls_sw/i16/software/gda/workspace_git
