@@ -20,7 +20,9 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i07-config/client/pluginCustomization.ini
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i07-config/client/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
 -Dgda.install.git.loc=../workspace_git
