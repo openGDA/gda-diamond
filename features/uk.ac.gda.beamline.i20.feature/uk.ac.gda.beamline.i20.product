@@ -11,7 +11,9 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.install.workspace.loc=/dls_sw/i20/software/gda
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dgda.install.workspace.loc=/dls_sw/i20/software/gda
 -Dgda.install.git.loc=/dls_sw/i20/software/gda_git
 -Dgda.config=/dls_sw/i20/software/gda/config
 
