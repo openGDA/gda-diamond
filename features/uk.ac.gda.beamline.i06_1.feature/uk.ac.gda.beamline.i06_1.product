@@ -21,7 +21,9 @@ http://www.opengda.org
 
    <launcherArgs>
       <programArgs>-consolelog</programArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Declipse.pluginCustomization=/dls_sw/i06-1/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06-1/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
 -Dgda.install.git.loc=/dls_sw/i06-1/software/gda/workspace_git
