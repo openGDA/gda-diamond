@@ -121,12 +121,23 @@ public class I20RoomTempIterator implements SampleEnvironmentIterator {
 		if (pitchEnabled)
 			sample_pitch.asynchronousMoveTo(pitch);
 
-		sample_x.waitWhileBusy();
-		sample_y.waitWhileBusy();
-		sample_z.waitWhileBusy();
-		sample_rot.waitWhileBusy();
-		sample_roll.waitWhileBusy();
-		sample_pitch.waitWhileBusy();
+		if (samXEnabled)
+			sample_x.waitWhileBusy();
+
+		if (samYEnabled)
+			sample_y.waitWhileBusy();
+
+		if (samZEnabled)
+			sample_z.waitWhileBusy();
+
+		if (rotEnabled)
+			sample_rot.waitWhileBusy();
+
+		if (rollEnabled)
+			sample_roll.waitWhileBusy();
+
+		if (pitchEnabled)
+			sample_pitch.waitWhileBusy();
 		// self.log( "Sample stage move complete.");
 
 	}

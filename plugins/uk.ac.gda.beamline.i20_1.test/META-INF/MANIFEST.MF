@@ -9,6 +9,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  org.junit;bundle-version="[4.10.0,5.0.0)",
  uk.ac.diamond.org.powermock;bundle-version="[1.5.1,1.5.2)",
- javassist;bundle-version="[3.18.0,3.18.1)"
-Import-Package: org.mockito;version="1.9.5",
- org.mockito.stubbing;version="1.9.5"
+ javassist;bundle-version="[3.18.0,3.18.1)",
+ uk.ac.gda.devices.xspress2
+Import-Package: gda.device.detector.xmap,
+ org.mockito;version="1.9.5",
+ org.mockito.stubbing;version="1.9.5",
+ uk.ac.gda.server.exafs.scan.preparers

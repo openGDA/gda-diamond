@@ -5,7 +5,6 @@
 
 	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
 		<property name="commentMarker" value="#"></property>
-		<property name="controllerName" value="ExafsScriptObserver"></property>
 		<property name="header">
 			<list>
 				<bean id="machine1" class="gda.data.scan.datawriter.AsciiMetadataConfig">
@@ -229,7 +228,6 @@
 
 	<bean id="datawriterconfig_xes" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
 		<property name="commentMarker" value="#"></property>
-		<property name="controllerName" value="ExafsScriptObserver"></property>
 		<property name="header">
 			<list>
 				<bean id="machine2" class="gda.data.scan.datawriter.AsciiMetadataConfig">

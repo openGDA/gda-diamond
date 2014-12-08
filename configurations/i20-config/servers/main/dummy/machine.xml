@@ -34,7 +34,7 @@
 	<bean id="shutter1" class="gda.device.enumpositioner.DummyValve">
 		<property name="position" value="Open" />
 	</bean>
-	<bean id="absorber" class="gda.device.enumpositioner.DummyValve">
-		<property name="position" value="Open" />
-	</bean>
+<!-- 	<bean id="absorber" class="gda.device.enumpositioner.DummyValve"> -->
+<!-- 		<property name="position" value="Open" /> -->
+<!-- 	</bean> -->
 </beans>

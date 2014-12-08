@@ -114,11 +114,20 @@ public class XESRoomTempIterator implements SampleEnvironmentIterator {
 		if (finerotEnabled)
 			sample_fine_rot.asynchronousMoveTo(finerotation);
 
-		sample_x.waitWhileBusy();
-		sample_y.waitWhileBusy();
-		sample_z.waitWhileBusy();
-		sample_rot.waitWhileBusy();
-		sample_fine_rot.waitWhileBusy();
+		if (samXEnabled)
+			sample_x.waitWhileBusy();
+
+		if (samYEnabled)
+			sample_y.waitWhileBusy();
+
+		if (samZEnabled)
+			sample_z.waitWhileBusy();
+
+		if (rotEnabled)
+			sample_rot.waitWhileBusy();
+
+		if (finerotEnabled)
+			sample_fine_rot.waitWhileBusy();
 		// self.log( "Sample stage move complete.");
 
 	}

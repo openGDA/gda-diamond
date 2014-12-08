@@ -20,17 +20,12 @@ package uk.ac.gda.server.exafs.scan.iterators;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.jython.InterfaceProvider;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
@@ -40,14 +35,14 @@ import uk.ac.gda.doe.DOEUtils;
 
 public class I20CryostatIterator implements SampleEnvironmentIterator {
 
-	private static final Logger logger = LoggerFactory.getLogger(I20CryostatIterator.class);
+//	private static final Logger  = LoggerFactory.getLogger(I20CryostatIterator.class);
 
 	private Scannable cryostat;
 	private Scannable cryostick_pos;
 	private CryostatParameters parameters;
-	private Set<Entry<CryostatSampleDetails, Double>> entries;
-	private Iterator<Entry<CryostatSampleDetails, Double>> entriesIterator;
-	private Entry<CryostatSampleDetails, Double> currentCollection;
+	private Set<I20CryostatIteratorEntry> entries;
+	private Iterator<I20CryostatIteratorEntry> entriesIterator;
+	private I20CryostatIteratorEntry currentCollection;
 
 	public I20CryostatIterator(I20SampleParameters i20Bean, Scannable cryostat, Scannable cryostick_pos) {
 		this.cryostat = cryostat;
@@ -63,53 +58,51 @@ public class I20CryostatIterator implements SampleEnvironmentIterator {
 			for (String temp : temps) {
 				temperatures_array.add(Double.parseDouble(temp));
 			}
+		} else {
+			temperatures_array = new ArrayList<Double>();
+			temperatures_array.add(Double.parseDouble(parameters.getTemperature()));
 		}
 
 		boolean loopSampleFirst = parameters.getLoopChoice() == CryostatProperties.LOOP_OPTION[0];
-		LinkedHashMap<CryostatSampleDetails, Double> dataCollections = new LinkedHashMap<CryostatSampleDetails, Double>();
 
+		entries = new LinkedHashSet<I20CryostatIteratorEntry>();
 		if (loopSampleFirst) {
 			for (CryostatSampleDetails sample : parameters.getSamples()) {
 				for (Double temp : temperatures_array) {
-					dataCollections.put(sample, temp);
+					entries.add(new I20CryostatIteratorEntry(sample,temp));
 				}
 			}
 		} else {
 			for (Double temp : temperatures_array) {
 				for (CryostatSampleDetails sample : parameters.getSamples()) {
-					dataCollections.put(sample, temp);
+					entries.add(new I20CryostatIteratorEntry(sample,temp));
 				}
 			}
 		}
-
-		entries = dataCollections.entrySet();
+		
 		entriesIterator = entries.iterator();
 	}
 
 	@Override
 	public int getNumberOfRepeats() {
-		int repeats = 1;
-		for (Entry<CryostatSampleDetails, Double> entry : entries) {
-			repeats += entry.getKey().getNumberOfRepetitions();
-		}
-		return repeats;
+		return entries.size();
 	}
 
 	@Override
 	public void next() throws DeviceException, InterruptedException {
 		currentCollection = entriesIterator.next();
-		log("Moving cryostick_pos to " + cryostick_pos);
-		Double motorPosition = currentCollection.getKey().getPosition();
+//		log("Moving cryostick_pos to " + cryostick_pos);
+		Double motorPosition = currentCollection.details.getPosition();
 		cryostick_pos.asynchronousMoveTo(motorPosition);
-		Double temperature = currentCollection.getValue();
-		log("Setting cryostat to " + temperature + "K...");
+		Double temperature = currentCollection.temperature;
+//		log("Setting cryostat to " + temperature + "K...");
 		cryostat.asynchronousMoveTo(temperature);
-		log("Waiting for cryostick_pos to move");
+//		log("Waiting for cryostick_pos to move");
 		cryostick_pos.waitWhileBusy();
-		log("cryostick_pos move complete.");
-		log("Waiting for Cryostat to set temperature");
+//		log("cryostick_pos move complete.");
+//		log("Waiting for Cryostat to set temperature");
 		cryostat.waitWhileBusy();
-		log("Cryostat temperature change complete.");
+//		log("Cryostat temperature change complete.");
 	}
 
 	@Override
@@ -119,18 +112,67 @@ public class I20CryostatIterator implements SampleEnvironmentIterator {
 
 	@Override
 	public String getNextSampleName() {
-		return currentCollection.getKey().getSample_name();
+		return currentCollection.details.getSample_name();
 	}
 
 	@Override
 	public List<String> getNextSampleDescriptions() {
 		List<String> descriptions = new ArrayList<String>();
-		descriptions.add(currentCollection.getKey().getSampleDescription());
+		descriptions.add(currentCollection.details.getSampleDescription());
 		return descriptions;
 	}
 
-	private void log(String msg) {
-		logger.info(msg);
-		InterfaceProvider.getTerminalPrinter().print(msg);
+//	private void log(String msg) {
+//		logger.info(msg);
+//		InterfaceProvider.getTerminalPrinter().print(msg);
+//	}
+	
+	private class I20CryostatIteratorEntry{
+		CryostatSampleDetails details;
+		Double temperature;
+		public I20CryostatIteratorEntry(CryostatSampleDetails details, Double temperature) {
+			super();
+			this.details = details;
+			this.temperature = temperature;
+		}
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getOuterType().hashCode();
+			result = prime * result + ((details == null) ? 0 : details.hashCode());
+			result = prime * result + ((temperature == null) ? 0 : temperature.hashCode());
+			return result;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			I20CryostatIteratorEntry other = (I20CryostatIteratorEntry) obj;
+			if (!getOuterType().equals(other.getOuterType()))
+				return false;
+			if (details == null) {
+				if (other.details != null)
+					return false;
+			} else if (!details.equals(other.details))
+				return false;
+			if (temperature == null) {
+				if (other.temperature != null)
+					return false;
+			} else if (!temperature.equals(other.temperature))
+				return false;
+			return true;
+		}
+		
+		private I20CryostatIterator getOuterType() {
+			return I20CryostatIterator.this;
+		}
 	}
+
 }
+
+

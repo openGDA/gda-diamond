@@ -4,24 +4,24 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="topup_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-		<property name="position" value="60"/>
-	</bean>
-	<bean id="topup" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="s" />
-		<property name="motor" ref="topup_motor" />
-		<property name="hardwareUnitString" value="s" />
-	</bean>
-	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
-		<property name="scannableToBeMonitored" ref="topup" />
-		<property name="tolerance" value="10" />
-		<property name="timeout" value="60" />
-		<property name="waittime" value="10" />
-		<property name="level" value="0" />
-		<property name="pauseBeforePoint" value="true" />
-		<property name="local" value="true"/>
-	</bean>
+<!-- 	<bean id="topup_motor" class="gda.device.motor.DummyMotor"> -->
+<!-- 		<property name="speed" value="200" /> -->
+<!-- 		<property name="position" value="60"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="topup" class="gda.device.scannable.ScannableMotor"> -->
+<!-- 		<property name="initialUserUnits" value="s" /> -->
+<!-- 		<property name="motor" ref="topup_motor" /> -->
+<!-- 		<property name="hardwareUnitString" value="s" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="topupChecker" class="gda.device.scannable.TopupChecker"> -->
+<!-- 		<property name="scannableToBeMonitored" ref="topup" /> -->
+<!-- 		<property name="tolerance" value="10" /> -->
+<!-- 		<property name="timeout" value="60" /> -->
+<!-- 		<property name="waittime" value="10" /> -->
+<!-- 		<property name="level" value="0" /> -->
+<!-- 		<property name="pauseBeforePoint" value="true" /> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 	</bean> -->
 
 
 	<bean id="absorber_motor" class="gda.device.motor.DummyMotor">
@@ -40,14 +40,6 @@
 		<property name="local" value="true"/>
 	</bean>
 
-<!-- this is in machine.xml in the live config -->
-
-	<bean id="shutterChecker" class="gda.device.scannable.ShutterChecker">
-		<property name="shutter" ref="shutter1" />
-		<property name="pssPVName" value="BL20I-PS-IOC-01:M11:LOP"/>
-<!-- 		private static final String[] ehDetectorNames = new String[] { "ionchambers", "xspress2system", "xmapMca", "I1", "FFI0", "FFI1", "FFI0_vortex", "d9_current", "d9_gain" }; -->
-	
-	</bean>
 
 	<bean id="test_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="200" />
