@@ -11,7 +11,9 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i16-config/pluginCustomization.ini
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i16-config/pluginCustomization.ini
 -Dgda.mode=live
 -Djacorb.config.dir=../workspace_git/gda-mt.git/configurations/i16-config/jacorb/${gda.mode}
 -Dgda.install.workspace.loc=../workspace
@@ -24,7 +26,6 @@
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.gda.client/gda.open_xyplot_on_scan_start_id=uk.ac.gda.client.liveplotview
 -Duk.ac.diamond.scisoft.analysis.rcp/plotView.plottingsystem=1
-
 -Xms256m
 -Xmx2024m
 -XX:MaxPermSize=256m
