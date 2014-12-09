@@ -2,8 +2,8 @@
 
 # Command to start the GDA client
 
-DLS_CONFIG_BIN=$(readlink -f $(dirname $0))
-GDA_INSTALL_GIT_LOC=$(readlink -f $DLS_CONFIG_BIN/../../../)
+DLS_CONFIG=$(readlink -f $(dirname $0)/..)
+GDA_INSTALL_GIT_LOC=$(readlink -f $(dirname $0)/../../../)
 
 function gdaclienthelp {
 	cat 1>&2 <<EOF
@@ -139,7 +139,7 @@ done
 . /usr/share/Modules/init/bash
 module load global/http_proxy
 
-. $DLS_CONFIG_BIN/loadjava.sh
+. $DLS_CONFIG/bin/loadjava.sh
 
 # GDA_CLIENT not set, and --client not used? - use default location
 if [ -z "$GDA_CLIENT" ]; then
