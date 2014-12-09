@@ -110,7 +110,7 @@
 		         </parameter>
 		         <parameter
 		               name="org.eclipse.ui.views.showView.secondaryId"
-		               value="pv//Pilatus2M//BL22I-EA-PILAT-01@">
+		               value="pv//Pilatus2M//BL22I-EA-PILAT-01@//saxsDetectorSuffixes">
 		         </parameter>
 		      </command>
 		   </menu>
