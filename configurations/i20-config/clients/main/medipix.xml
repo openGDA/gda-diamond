@@ -18,6 +18,7 @@
 		<property name="adBase" ref="medipix_cam_base" />
 		<property name="ffmpegStream" ref="medipix_ffmpeg" />
 		<property name="imageNDROI" ref="medipix_roi"/>
+		<property name="connectToPlotServer" value="true" />
 	</bean>
 
 	<bean id="medipixdictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
@@ -32,5 +33,4 @@
 		<property name="service" ref="medipixADController" />
 		<property name="properties" ref="medipixdictionary" />
 	</bean>
-	
 </beans>
