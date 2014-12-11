@@ -62,6 +62,7 @@
 		<property name="gdaVarDirectory" value="${gda.var}" />
 		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
 		<property name="remotePort" value="9999" />
+		<property name="remoteServerUsesJline" value="true"/>
 	</bean>
 
 
