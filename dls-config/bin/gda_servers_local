@@ -58,7 +58,7 @@ echo Config folder: $GDA_CONFIG
 echo GDA mode: $GDA_MODE
 echo Other args: $*
 
-export GDALOGS=/dls_sw/$BEAMLINE/software/logs
+export GDALOGS=/scratch
 export LOGFILE=$GDALOGS/gda_output_`date +%F-%T`.txt
 touch $LOGFILE
 if [ -e $GDALOGS/gda_output.txt ]; then
