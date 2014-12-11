@@ -84,6 +84,7 @@
 
 	<import resource="../../../devices/epics/pco1_ndplugins.xml" />
 	<import resource="../../../devices/epics/lens.xml" />
+	<import resource="../../../devices/epics/pco_binning.xml" />
 	<import resource="../../../devices/epics/zebra.xml" />
 	
 	<import resource="../../../devices/epics/float1.xml" />
@@ -105,6 +106,7 @@
 	</bean>
 
 	<import resource="../../../devices/live/p2r.xml"/>	
+	<import resource="../../../devices/epics/sample_stage_hexapod_motors.xml"/>
 	<import resource="../common.xml" />
 
 </beans>

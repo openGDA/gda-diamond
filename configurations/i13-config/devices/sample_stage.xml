@@ -51,8 +51,10 @@ At ss1_samplex = 5 rot=90 then ss1_x should be 0 and ss1_z 5.
 	<bean id="ss1_x" class="uk.ac.gda.beamline.i13i.ScannableRotatingGonio">
 		<property name="xScannableMotor" ref="ss1_samplex"/>
 		<property name="yScannableMotor" ref="ss1_samplez"/>
-		<property name="xScannableScale" value="-1.0"/>	
-		<property name="yScannableScale" value="1.0"/>
+<!-- IF USING SMARTACT THEN SCALE IS 1.0 		<property name="xScannableScale" value="-1.0"/>	
+ -->		<property name="xScannableScale" value="1.0"/>	
+<!-- IF USING SMARTACT THEN SCALE IS -1.0		<property name="yScannableScale" value="1.0"/>
+ -->		<property name="yScannableScale" value="-1.0"/>
 		<property name="rotScannableMotor" ref="ss1_rot"/>
 		<property name="rotScannableOffset" value="0"/>
 		<property name="inputNames" value="ss1_x"/>
@@ -61,8 +63,10 @@ At ss1_samplex = 5 rot=90 then ss1_x should be 0 and ss1_z 5.
 		<property name="xScannableMotor" ref="ss1_samplex"/>
 		<property name="yScannableMotor" ref="ss1_samplez"/>
 		<property name="rotScannableMotor" ref="ss1_rot"/>
-		<property name="xScannableScale" value="-1.0"/>
-		<property name="yScannableScale" value="1.0"/>
+<!-- IF USING SMARTACT THEN SCALE IS 1.0 		<property name="xScannableScale" value="-1.0"/>
+ -->		<property name="xScannableScale" value="1.0"/>
+<!-- IF USING SMARTACT THEN SCALE IS -1.0		<property name="yScannableScale" value="1.0"/>
+ -->		<property name="yScannableScale" value="-1.0"/>
 		<property name="rotScannableOffset" value="0"/>
 		<property name="reportX" value="false"/>
 		<property name="inputNames" value="ss1_z"/>

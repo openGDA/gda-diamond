@@ -18,35 +18,35 @@
 
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
+import gda.device.DeviceException;
 import gda.device.ScannableMotionUnits;
-import gda.device.scannable.ScannablePositionChangeEvent;
-import gda.device.scannable.ScannableStatus;
 import gda.device.scannable.ScannableUtils;
 import gda.observable.IObserver;
-
-import java.util.Vector;
 
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealVector;
 import org.eclipse.dawnsci.plotting.api.jreality.tool.IImagePositionEvent;
 import org.eclipse.dawnsci.plotting.api.jreality.tool.ImagePositionListener;
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.ImageFigure;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.epics.adviewer.composites.MJPeg;
@@ -54,24 +54,26 @@ import uk.ac.gda.epics.adviewer.composites.imageviewer.NewImageListener;
 import uk.ac.gda.epics.adviewer.views.MJPegView;
 
 public class I13MJPegViewInitialiser implements NewImageListener  {
-
+	private static final Logger logger = LoggerFactory.getLogger(I13MJPegViewInitialiser.class);
 	I13ADControllerImpl adControllerImpl;
 	boolean changeRotationAxisX, changeImageMarker, vertMoveOnClickEnabled, horzMoveOnClickEnabled;
-	private RectangleFigure rotationAxisFigure;
+/*	private RectangleFigure rotationAxisFigure;
 
 	RectangleFigure imageMarkerFigureX, imageMarkerFigureY, imageCenterFigureX, imageCenterFigureY;
-
+*/
 	private MJPeg mJPeg;
 	MJPegView mjPegView;
-	private Action rotationAxisAction;
+/*	private Action rotationAxisAction;
 	private Action imageCenterAction;
 	private Action showImageMarkerAction;
+*/	private I13MJPEGViewComposite i13mjpegViewComposite;
 
-	public I13MJPegViewInitialiser(I13ADControllerImpl adController, MJPeg mJPeg, MJPegView mjPegView) {
+	public I13MJPegViewInitialiser(I13ADControllerImpl adController, MJPeg mJPeg, MJPegView mjPegView, I13MJPEGViewComposite i13mjpegViewComposite) {
 		super();
 		this.adControllerImpl = adController;
 		this.mJPeg = mJPeg;
 		this.mjPegView = mjPegView;
+		this.i13mjpegViewComposite = i13mjpegViewComposite;
 
 		Menu rightClickMenu = new Menu(mJPeg.getCanvas());
 		MenuItem setRotationAxisX = new MenuItem(rightClickMenu, SWT.PUSH);
@@ -234,7 +236,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 			}
 		}, null);
 
-		Vector<Action> showActions = new Vector<Action>();
+/*		Vector<Action> showActions = new Vector<Action>();
 
 		rotationAxisAction = new Action("Show rotation axis", IAction.AS_CHECK_BOX) {
 			@Override
@@ -291,7 +293,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 		MenuCreator showMenu = new MenuCreator("Show",
 				"Actions that lead to items shown on the image or in other views", showActions);
-
+*/
 /*		moveOnClickAction = new Action("Move Sample On Click", IAction.AS_CHECK_BOX) {
 			@Override
 			public void run() {
@@ -306,12 +308,12 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		MenuCreator moveMenu = new MenuCreator("Alignment", "Actions that move the camera and sample stages",
 				moveActions);
 */
-		IActionBars actionBars = mjPegView.getViewSite().getActionBars();
+/*		IActionBars actionBars = mjPegView.getViewSite().getActionBars();
 		IToolBarManager toolBar = actionBars.getToolBarManager();
-		toolBar.add(showMenu);
+*///		toolBar.add(showMenu);
 //		toolBar.add(moveMenu);
 
-		rotationAxisObserver = new IObserver() {
+/*		rotationAxisObserver = new IObserver() {
 
 			@Override
 			public void update(Object source, final Object arg) {
@@ -325,8 +327,8 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 		};
 		adControllerImpl.getRotationAxisXScannable().addIObserver(rotationAxisObserver);
-
-		cameraXYObserver = new IObserver() {
+*/
+/*		cameraXYObserver = new IObserver() {
 
 			@Override
 			public void update(Object source, final Object arg) {
@@ -341,11 +343,11 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 		showRotationAxisFromNonUIThread(rotationAxisAction);
 		showImageMarkerFromNonUIThread(showImageMarkerAction);
-		showImageCenterFromNonUIThread(imageCenterAction);
+*///		showImageCenterFromNonUIThread(imageCenterAction);
 
 	}
 
-	private void showRotationAxisFromNonUIThread(final Action rotationAxisAction) {
+/*	private void showRotationAxisFromNonUIThread(final Action rotationAxisAction) {
 		if (rotationAxisAction.isChecked()) {
 
 			mjPegView.getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
@@ -379,7 +381,8 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 			});
 		}
 	}
-	private void showImageCenterFromNonUIThread(final Action showImageCenter) {
+*/
+/*	private void showImageCenterFromNonUIThread(final Action showImageCenter) {
 		if (showImageCenter.isChecked()) {
 			mjPegView.getViewSite().getShell().getDisplay().asyncExec(new Runnable() {
 
@@ -404,8 +407,8 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		imageCenterAction.setChecked(checked);
 		imageCenterAction.run();
 	}
-	
-	void showRotationAxis(boolean show) throws Exception {
+*/	
+/*	void showRotationAxis(boolean show) throws Exception {
 		RectangleFigure rotationAxisFigure = getRotationAxisFigure();
 		if (rotationAxisFigure.getParent() == mJPeg.getTopFigure())
 			mJPeg.getTopFigure().remove(rotationAxisFigure);
@@ -438,7 +441,8 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 		}
 	}
-	void showImageCenter(boolean show) {
+*/
+/*	void showImageCenter(boolean show) {
 		RectangleFigure imageCenterFigureX = getImageCenterFigureX();
 		if (imageCenterFigureX.getParent() == mJPeg.getTopFigure())
 			mJPeg.getTopFigure().remove(imageCenterFigureX);
@@ -465,7 +469,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 		}
 	}
-	private RectangleFigure getImageCenterFigureX() {
+*//*	private RectangleFigure getImageCenterFigureX() {
 		if (imageCenterFigureX == null) {
 			imageCenterFigureX = new RectangleFigure();
 			imageCenterFigureX.setFill(true);
@@ -488,8 +492,8 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		}
 		return imageCenterFigureY;
 	}
-
-	private RectangleFigure getRotationAxisFigure() {
+*/
+/*	private RectangleFigure getRotationAxisFigure() {
 		if (rotationAxisFigure == null) { 
 			rotationAxisFigure = new RectangleFigure();
 			rotationAxisFigure.setFill(true);
@@ -499,7 +503,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		}
 		return rotationAxisFigure;
 	}
-
+*/
 	static int widthOffAxis = 20;
 	static int widthOffAxisHalf = widthOffAxis / 2;
 	private IObserver rotationAxisObserver;
@@ -507,8 +511,33 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 	public Action moveOnClickAction;
 	private int lastImageHeight;
 	private int lastImageWidth;
+	private AxisDragFigure axisDragFigure;
+	private ROIDragFigure roiDragFigure;
+	protected Point location;
+	private Dimension roiSize=new Dimension(50,50);
+	private Point roiStart=new Point(10,10);
+	
+	
+	ImageFigure getAxisDragFigure(boolean x_axis){
+		if (axisDragFigure == null){
+			axisDragFigure = new AxisDragFigure(x_axis, this, mJPeg.getCanvas());
+			mJPeg.getTopFigure().add(axisDragFigure, new Rectangle(0, 0, -1, -1));
+		}
+		return axisDragFigure;
+	}
 
-	void showImageMarker(boolean show) throws Exception {
+	Figure getAxisROIFigure(){
+		if (roiDragFigure == null){
+			roiDragFigure = new ROIDragFigure(this, mJPeg.getCanvas() );
+			roiDragFigure.setSize(roiSize);
+			mJPeg.getTopFigure().add(roiDragFigure, new Rectangle(roiStart.x, roiStart.y, roiSize.width, roiSize.height));
+		}
+		return roiDragFigure;
+	}
+	
+	
+	
+/*	void showImageMarker(boolean show) throws Exception {
 		RectangleFigure imageMarkerFigureX = getImageMarkerFigureX();
 		if (imageMarkerFigureX.getParent() == mJPeg.getTopFigure())
 			mJPeg.getTopFigure().remove(imageMarkerFigureX);
@@ -599,7 +628,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		}
 		return imageMarkerFigureY;
 	}
-
+*/
 	static RealVector createVectorOf(double... data) {
 		return MatrixUtils.createRealVector(data);
 	}
@@ -626,11 +655,86 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 	@Override
 	public void handlerNewImageNotification(ImageData lastImage2) throws Exception {
 		if( lastImageWidth != lastImage2.width || lastImageHeight != lastImage2.height){
-			showRotationAxisFromNonUIThread(rotationAxisAction);
+/*			showRotationAxisFromNonUIThread(rotationAxisAction);
 			showImageMarkerFromNonUIThread(showImageMarkerAction);
-			showImageCenterFromNonUIThread(imageCenterAction);
+*///			showImageCenterFromNonUIThread(imageCenterAction);
 			lastImageWidth = lastImage2.width;
 			lastImageHeight = lastImage2.height;
 		}
+	}
+
+	public void handleDragAxisBtn(boolean x_axis) {
+		ImageFigure fig = getAxisDragFigure(x_axis); 
+		ImageData imageData = mJPeg.getImageData();
+		Control canvas = mJPeg.getCanvas();
+		if( imageData != null && !canvas.isDisposed()){
+			//clone to allow modification of alpha
+			ImageData clone = (ImageData) imageData.clone();
+			clone.alpha=0x80;
+			Image image = new Image(canvas.getDisplay(), clone);
+			fig.setImage(image);
+		} else {
+			fig.setImage(null);
+		}
+		final Cursor cursorWait = new Cursor(Display.getDefault(), SWT.CURSOR_HAND);
+		Display.getDefault().getActiveShell().setCursor(cursorWait);
+	}
+
+	public void handleAxisDrag(boolean x_axis , int x) {
+		Display.getDefault().getActiveShell().setCursor(null);
+		mJPeg.getTopFigure().remove(axisDragFigure);
+		axisDragFigure.stop();
+
+		axisDragFigure = null;
+		i13mjpegViewComposite.updateStatus("");
+		Display.getDefault().getActiveShell().setCursor(null);		
+		DisplayScaleProvider scale = adControllerImpl.getCameraScaleProvider();
+
+		double move;
+		try {
+			//in y move by -1 * move
+			move = x / ((x_axis ? scale.getPixelsPerMMInX() : -scale.getPixelsPerMMInY())/1000.);
+			ScannableMotionUnits sampleCentringMotor = x_axis ? adControllerImpl.getSampleCentringXMotor() : adControllerImpl.getSampleCentringYMotor();
+			sampleCentringMotor.asynchronousMoveTo(ScannableUtils
+					.getCurrentPositionArray(sampleCentringMotor)[0] + move); 
+		} catch (DeviceException e) {
+			logger.error("Error moving axis", e);
+		}
+
+			
+	}
+
+	public void handleAxisDragCancel(@SuppressWarnings("unused") boolean x_axis) {
+		mJPeg.getTopFigure().remove(axisDragFigure);
+		axisDragFigure.stop();
+		axisDragFigure = null;
+		i13mjpegViewComposite.updateStatus("");
+		Display.getDefault().getActiveShell().setCursor(null);		
+	}
+
+	public void handleDragROIBtn() {
+		getAxisROIFigure(); 
+		final Cursor cursorWait = new Cursor(Display.getDefault(), SWT.CURSOR_HAND);
+		Display.getDefault().getActiveShell().setCursor(cursorWait);
+	}
+
+	public void handleROIDragCancel() {
+		mJPeg.getTopFigure().remove(roiDragFigure);
+		roiDragFigure.stop();
+		roiDragFigure = null;
+		i13mjpegViewComposite.updateStatus("");
+		Display.getDefault().getActiveShell().setCursor(null);		
+		
+	}
+
+	public void handleROIDrag() {
+		Display.getDefault().getActiveShell().setCursor(null);
+		mJPeg.getTopFigure().remove(roiDragFigure);
+		roiDragFigure.stop();
+
+		roiDragFigure = null;
+		i13mjpegViewComposite.updateStatus("");
+		Display.getDefault().getActiveShell().setCursor(null);		
+
 	}
 }

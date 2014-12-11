@@ -69,8 +69,18 @@
 	</bean>
 
 	<corba:import namespace="i13"
-		names="rotationAxisXScannable, cameraXYScannable, lens" />
+		names="rotationAxisXScannable, cameraXYScannable, lens, binning_x, binning_y" />
 
+	<bean id="pco_binx_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-EA-DET-01:CAM:BinX_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
+	<bean id="pco_biny_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-EA-DET-01:CAM:BinY_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
 	<import resource="../../devices/cameraScaleProviders.xml" />
 
 	<bean id="i13ADController"
@@ -87,7 +97,11 @@
 		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
-		<property name="lensScannable" ref="lens" />
+		<property name="lensEnum" ref="lens" />
+		<property name="binningXEnum" ref="binning_x" />
+		<property name="binningYEnum" ref="binning_y" />
+		<!-- <property name="regionSizeXEnum" ref="region_size_x"/> <property name="regionSizeYEnum" 
+			ref="region_size_y"/> -->
 		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />
@@ -277,73 +291,74 @@
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="PCO" />
-								<constructor-arg value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView"/>
+								<constructor-arg
+									value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
 								<constructor-arg value="" />
 							</bean>
-					
+
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d1" />
 								<constructor-arg value="d1" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-DI-PHDGN-01:"/>
-<!-- 								<constructor-arg value="diagnosticCameraType"/>
- -->							</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-01:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d2" />
 								<constructor-arg value="d2" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-DI-PHDGN-02:"/>
-	<!-- 							<constructor-arg value="diagnosticCameraType"/>
-	 -->						</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-02:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d3" />
 								<constructor-arg value="d3" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-DI-PHDGN-03:"/>
-		<!-- 						<constructor-arg value="diagnosticCameraType"/>
-		 -->					</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-03:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d4" />
 								<constructor-arg value="d4" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-DI-PHDGN-04:"/>
-<!-- 								<constructor-arg value="diagnosticCameraType"/>
- -->							</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-04:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="oh4_shtr" />
 								<constructor-arg value="oh4_shtr" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-DI-PHDGN-05:"/>
-<!-- 								<constructor-arg value="diagnosticCameraType"/>
- -->							</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-05:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d5" />
 								<constructor-arg value="d5" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-DI-PHDGN-06:"/>
-<!-- 								<constructor-arg value="diagnosticCameraType"/>
- -->							</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-06:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="Float 1" />
 								<constructor-arg value="Float 1" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-OP-FLOAT-01:"/>
-<!-- 								<constructor-arg value="diagnosticCameraType"/>
- -->							</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-OP-FLOAT-01:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="Float 2" />
 								<constructor-arg value="Float 2" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-OP-FLOAT-02:"/>
-	<!-- 							<constructor-arg value="diagnosticCameraType"/>
-	 -->						</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-OP-FLOAT-02:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="Float 3" />
 								<constructor-arg value="Float 3" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13I-OP-FLOAT-03:"/>
-	<!-- 							<constructor-arg value="diagnosticCameraType"/>
-	 -->						</bean>
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-OP-FLOAT-03:" />
+								<!-- <constructor-arg value="diagnosticCameraType"/> -->
+							</bean>
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="WebCams" />
 								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
@@ -451,7 +466,7 @@
 	</bean>
 
 
-<!-- 	<bean id="hex_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	<bean id="hex_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}hex_x" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -466,7 +481,6 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
 	<bean id="hex_rx" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}hex_rx" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
@@ -481,7 +495,7 @@
 		<property name="serviceUrl" value="${gda.rmi.prefix}hex_rz" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> -->
+	</bean>
 
 	<bean id="translate_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}translate_x" />
@@ -490,22 +504,17 @@
 	</bean>
 
 
-<!-- 	<bean id="p2r_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_rot" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="p2r_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_y" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="p2r_force" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_force" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
- -->
+	<!-- <bean id="p2r_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> 
+		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_rot" /> <property 
+		name="serviceInterface" value="gda.device.ScannableMotionUnits" /> <property 
+		name="refreshStubOnConnectFailure" value="true" /> </bean> <bean id="p2r_y" 
+		class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> <property name="serviceUrl" 
+		value="${gda.rmi.prefix}p2r_y" /> <property name="serviceInterface" value="gda.device.ScannableMotionUnits" 
+		/> <property name="refreshStubOnConnectFailure" value="true" /> </bean> <bean 
+		id="p2r_force" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> 
+		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_force" /> <property 
+		name="serviceInterface" value="gda.device.ScannableMotionUnits" /> <property 
+		name="refreshStubOnConnectFailure" value="true" /> </bean> -->
 
 	<bean id="sampleCentring" class="gda.rcp.views.StageCompositeFactory">
 		<property name="stageCompositeDefinitions">
@@ -513,22 +522,22 @@
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_x" />
 					<property name="stepSize" value="10" />
-					<property name="decimalPlaces" value="0"/>
+					<property name="decimalPlaces" value="0" />
 				</bean>
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_sampley" />
 					<property name="stepSize" value="10" />
-					<property name="decimalPlaces" value="0"/>
+					<property name="decimalPlaces" value="0" />
 				</bean>
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_z" />
 					<property name="stepSize" value="10" />
-					<property name="decimalPlaces" value="0"/>
+					<property name="decimalPlaces" value="0" />
 				</bean>
 				<bean class="gda.rcp.views.StageCompositeDefinition">
 					<property name="scannable" ref="ss1_rot" />
 					<property name="stepSize" value="45" />
-					<property name="decimalPlaces" value="1"/>
+					<property name="decimalPlaces" value="1" />
 				</bean>
 			</util:list>
 		</property>
@@ -539,11 +548,12 @@
 	<bean id="stages" class="gda.rcp.views.TabFolderCompositeFactory">
 		<property name="factories">
 			<util:list>
- 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory" ref="sampleCentring" />
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 					<property name="imageFilePath" value="icons/samplestage.gif" />
 					<property name="label" value="Sample Centring" />
+					<property name="enabled" value="true" />
 				</bean>
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory">
@@ -553,17 +563,17 @@
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_samplex" />
 										<property name="stepSize" value="10" />
-										<property name="decimalPlaces" value="0"/>
+										<property name="decimalPlaces" value="0" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_sampley" />
 										<property name="stepSize" value="10" />
-										<property name="decimalPlaces" value="0"/>
+										<property name="decimalPlaces" value="0" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_samplez" />
 										<property name="stepSize" value="10" />
-										<property name="decimalPlaces" value="0"/>
+										<property name="decimalPlaces" value="0" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_rot" />
@@ -571,7 +581,7 @@
 										<property name="bigStep" value="90" />
 										<property name="useSteps" value="true" />
 										<property name="stepSize" value="45" />
-										<property name="decimalPlaces" value="1"/>
+										<property name="decimalPlaces" value="1" />
 									</bean>
 								</util:list>
 							</property>
@@ -581,7 +591,8 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 					<property name="imageFilePath" value="icons/samplestage.gif" />
 					<property name="label" value="Top" />
-				</bean> 
+					<property name="enabled" value="false" />
+				</bean>
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory">
 						<bean class="gda.rcp.views.StageCompositeFactory">
@@ -590,7 +601,7 @@
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="translate_x" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 								</util:list>
 							</property>
@@ -600,6 +611,7 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Translation" />
+					<property name="enabled" value="false" />
 				</bean>
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory">
@@ -609,17 +621,17 @@
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_X" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_Y" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="ss1_Z" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 								</util:list>
 							</property>
@@ -644,7 +656,8 @@
 					/> <property name="imageFilePath" value="icons/samplebasestage.gif" /> <property 
 					name="label" value="P2R" /> </bean> -->
 
-<!-- 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+					<property name="enabled" value="${use.hexapod}" />
 					<property name="compositeFactory">
 						<bean class="gda.rcp.views.StageCompositeFactory">
 							<property name="stageCompositeDefinitions">
@@ -652,32 +665,32 @@
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="hex_x" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="hex_y" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="hex_z" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="hex_rx" />
 										<property name="stepSize" value=".01" />
-										<property name="decimalPlaces" value="4"/>
+										<property name="decimalPlaces" value="4" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="hex_ry" />
 										<property name="stepSize" value=".01" />
-										<property name="decimalPlaces" value="4"/>
+										<property name="decimalPlaces" value="4" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="hex_rz" />
 										<property name="stepSize" value=".01" />
-										<property name="decimalPlaces" value="4"/>
+										<property name="decimalPlaces" value="4" />
 									</bean>
 								</util:list>
 							</property>
@@ -687,7 +700,7 @@
 					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Hexapod" />
-				</bean> -->
+				</bean>
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory">
 						<bean class="gda.rcp.views.StageCompositeFactory">
@@ -696,17 +709,17 @@
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="cs1_x" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="cs1_y" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 									<bean class="gda.rcp.views.StageCompositeDefinition">
 										<property name="scannable" ref="cs1_z" />
 										<property name="stepSize" value=".1" />
-										<property name="decimalPlaces" value="2"/>
+										<property name="decimalPlaces" value="2" />
 									</bean>
 								</util:list>
 							</property>

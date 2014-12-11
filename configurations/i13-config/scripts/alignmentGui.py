@@ -129,3 +129,66 @@ class TomoDet():
         except :
             exceptionType, exception, traceback = sys.exc_info()
             handle_messages.log(None, "Error setting lens to "+ `position` , exceptionType, exception, traceback, False)      
+
+    def setBinningX(self, externalPosition, internalPosition):
+        try:
+            print "Setting binning_x to " + `externalPosition`
+            self.stop()
+            self.pco1_cam_base.setBinX(internalPosition)
+            self.pco1_cam_base.setSizeX(self.pco1_cam_base.getMaxSizeX_RBV())
+            print "Done"
+        except :
+            exceptionType, exception, traceback = sys.exc_info()
+            handle_messages.log(None, "Error setting binning x to "+ `externalPosition` , exceptionType, exception, traceback, False)      
+    
+    def setBinningY(self,  externalPosition, internalPosition):
+        try:
+            print "Setting binning_y to " + `externalPosition`
+            self.stop()
+            self.pco1_cam_base.setBinY(internalPosition)
+            self.pco1_cam_base.setSizeY(self.pco1_cam_base.getMaxSizeY_RBV())
+            print "Done"
+        except :
+            exceptionType, exception, traceback = sys.exc_info()
+            handle_messages.log(None, "Error setting binning y to "+ `externalPosition` , exceptionType, exception, traceback, False)      
+
+
+    def setRegionX(self, externalPosition, internalPosition):
+        try:
+            print "Setting region X to " + `externalPosition`
+            self.stop()
+#            self.pco1_cam_base.setBinX(internalPosition)
+            maxX = self.pco1_cam_base.getMaxSizeX_RBV()
+            maxXAfterBinning = maxX /self.pco1_cam_base.getBinX_RBV()
+            
+            if externalPosition == "Full":
+                start = 0
+                size = maxXAfterBinning
+            else:
+                start = maxXAfterBinning/4
+                size = maxXAfterBinning/2
+                
+            print "Done"
+        except :
+            exceptionType, exception, traceback = sys.exc_info()
+            handle_messages.log(None, "Error setting region x to "+ `externalPosition` , exceptionType, exception, traceback, False)      
+
+    def setRegionY(self, externalPosition, internalPosition):
+        try:
+            print "Setting region Y to " + `externalPosition`
+            self.stop()
+#            self.pco1_cam_base.setBinX(internalPosition)
+            maxY = self.pco1_cam_base.getMaxSizeY_RBV()
+            maxYAfterBinning = maxY /self.pco1_cam_base.getBinY_RBV()
+            
+            if externalPosition == "Full":
+                start = 0
+                size = maxYAfterBinning
+            else:
+                start = maxYAfterBinning/4
+                size = maxYAfterBinning/2
+                
+            print "Done"
+        except :
+            exceptionType, exception, traceback = sys.exc_info()
+            handle_messages.log(None, "Error setting region y to "+ `externalPosition` , exceptionType, exception, traceback, False)      

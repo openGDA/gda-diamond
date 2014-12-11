@@ -18,6 +18,7 @@
 
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
+import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.device.ScannableMotionUnits;
 import gda.jython.InterfaceProvider;
@@ -54,18 +55,57 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 
 
 
-	private Scannable lensScannable;
+	private EnumPositioner lensEnum;
+
+	private EnumPositioner binningXEnum;
+	private EnumPositioner binningYEnum;
+
+	private EnumPositioner regionSizeXEnum;
+	private EnumPositioner regionSizeYEnum;
+	
 
 
-	public Scannable getLensScannable() {
-		return lensScannable;
+
+	public EnumPositioner getLensEnum() {
+		return lensEnum;
 	}
 
-	public void setLensScannable(Scannable lensScannable) {
-		this.lensScannable = lensScannable;
+	public void setLensEnum(EnumPositioner lensEnum) {
+		this.lensEnum = lensEnum;
 	}
 
+	public EnumPositioner getBinningXEnum() {
+		return binningXEnum;
+	}
 
+	public void setBinningXEnum(EnumPositioner binningXEnum) {
+		this.binningXEnum = binningXEnum;
+	}
+
+	public EnumPositioner getBinningYEnum() {
+		return binningYEnum;
+	}
+
+	public void setBinningYEnum(EnumPositioner binningYEnum) {
+		this.binningYEnum = binningYEnum;
+	}
+
+/*	public EnumPositioner getRegionSizeXEnum() {
+		return regionSizeXEnum;
+	}
+
+	public void setRegionSizeXEnum(EnumPositioner regionSizeXEnum) {
+		this.regionSizeXEnum = regionSizeXEnum;
+	}
+
+	public EnumPositioner getRegionSizeYEnum() {
+		return regionSizeYEnum;
+	}
+
+	public void setRegionSizeYEnum(EnumPositioner regionSizeYEnum) {
+		this.regionSizeYEnum = regionSizeYEnum;
+	}
+*/
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		super.afterPropertiesSet();
@@ -206,5 +246,6 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	public void setCameraImageHeightMax(int cameraImageHeightMax) {
 		this.cameraImageHeightMax = cameraImageHeightMax;
 	}
+
 
 }

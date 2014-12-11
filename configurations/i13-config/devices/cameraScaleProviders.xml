@@ -11,36 +11,50 @@
 
 	<bean id="displayScaleProvider" class="uk.ac.gda.beamline.i13i.SelectableDisplayScaleProvider">
 		<property name="keyScannable" ref="lens" />
+		<property name="binXScannable" ref="pco_binx_rbv"/>
+		<property name="binYScannable" ref="pco_biny_rbv"/>
 		<property name="providers">
 			<map>
-				<entry key="X2 Pink">
+				<entry key="1X25 Pink">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="534" />
-					<property name="pixelsPerMMInY" value="534" />
+					<property name="pixelsPerMMInX" value="350" />
+					<property name="pixelsPerMMInY" value="350" />
 				</bean>
 				</entry>
-				<entry key="X4 Pink">
+				<entry key="2X Mono">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="1088" />
-					<property name="pixelsPerMMInY" value="1088" />
+					<property name="pixelsPerMMInX" value="625" />
+					<property name="pixelsPerMMInY" value="625" />
+				</bean>
+				</entry>
+				<entry key="2X Pink">
+				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="625" />
+					<property name="pixelsPerMMInY" value="625" />
+				</bean>
+				</entry>
+				<entry key="4X Pink">
+				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="1234" />
+					<property name="pixelsPerMMInY" value="1234" />
 				</bean>
 				</entry>
 				<entry key="X4 Mono">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="1088" />
-					<property name="pixelsPerMMInY" value="1088" />
+					<property name="pixelsPerMMInX" value="1234" />
+					<property name="pixelsPerMMInY" value="1234" />
 				</bean>
 				</entry>
-				<entry key="X10 Pink">
+				<entry key="10X Pink">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="2740" />
-					<property name="pixelsPerMMInY" value="2740" />
+					<property name="pixelsPerMMInX" value="3030" />
+					<property name="pixelsPerMMInY" value="3030" />
 				</bean>
 				</entry>
 				<entry key="X10 Mono">
 				<bean class="uk.ac.gda.beamline.i13i.DisplayScaleProviderImpl">
-					<property name="pixelsPerMMInX" value="2740" />
-					<property name="pixelsPerMMInY" value="2740" />
+					<property name="pixelsPerMMInX" value="3030" />
+					<property name="pixelsPerMMInY" value="3030" />
 				</bean>
 				</entry>
 				<entry key="6"> <!-- unknown -->

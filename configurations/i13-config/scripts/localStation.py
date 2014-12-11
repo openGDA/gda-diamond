@@ -117,9 +117,9 @@ try:
 			position2="4X Pink"
 			position3="2X Pink"
 			position4="1X25 Pink"
-			position5="5"
-			position6="6"
-			position7="7"
+			position5="10X Mono"
+			position6="4X Mono"
+			position7="2X Mono"
 
 			caput("BL13I-EA-TURR-01:DEMAND.ZRST",position1)
 			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", position1)
@@ -200,7 +200,7 @@ try:
 	from tomographyScan import reportJythonNamespaceMapping, reportTomo
 	alias("reportJythonNamespaceMapping")
 	alias("reportTomo")
-	tomography_additional_scannables=[] #[p2r_force, p2r_y]
+	tomography_additional_scannables=[p2r_force, p2r_y] #[]
 	#for fast flyscans
 	if isLive():
 		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="d:\\i13\\data"
@@ -244,6 +244,8 @@ try:
 	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
 		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 	
+# Ensure rot speed is set in case GDA has crashed during fly scan.
+	ss1_rot.motor.speed=45
 	if isLive():
 		run("localStationUser.py")
 

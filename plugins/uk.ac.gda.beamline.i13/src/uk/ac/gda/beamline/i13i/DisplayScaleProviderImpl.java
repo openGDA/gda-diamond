@@ -40,8 +40,8 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 */	
 	DisplayScaleProvider currentProvider=this;
 	
-	Scannable keyScannable;
-	Map<String , DisplayScaleProvider> providers;
+//	Scannable keyScannable;
+//	Map<String , DisplayScaleProvider> providers;
 	
 	@Override
 	public void addIObserver(IObserver anIObserver) {
@@ -71,17 +71,17 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 		this.pixelsPerMMInY = pixelsPerMMInY;
 	}
 	void getProvider() throws DeviceException{
-		if( keyScannable != null && providers != null){
+/*		if( keyScannable != null && providers != null){
 			String key = ((String[])keyScannable.getPosition())[0];
 			currentProvider= providers.get(key);
-		}
+		}*/
 		if( currentProvider == null)
 			currentProvider = this;
 	}
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		getProvider();
-		if(keyScannable != null){
+/*		if(keyScannable != null){
 			keyScannable.addIObserver(new IObserver() {
 				
 				@Override
@@ -94,7 +94,7 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 					}
 				}
 			});
-		}
+		}*/
 		
 		
 	}
