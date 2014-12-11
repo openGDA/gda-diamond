@@ -43,6 +43,7 @@ Export-Package: gda.device.detector,
  gda.exafs.validation,
  uk.ac.gda.beamline.i20,
  uk.ac.gda.beamline.i20.ui.handlers,
+ uk.ac.gda.server.exafs.scan,
  uk.ac.gda.server.exafs.scan.iterators,
  uk.ac.gda.server.exafs.scan.preparers
 Bundle-Vendor: Diamond Light Source
