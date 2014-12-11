@@ -25,7 +25,9 @@
 	<import resource="I10-DJ3-DCAM.xml" />
 	 -->
 
+	<!-- 
 	<import resource="I10-PIMTE.xml" />
+	 -->
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />

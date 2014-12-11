@@ -23,11 +23,9 @@
 -Dgda.client.jython.automatic.interpreter=1
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
--Xms512m
--Xmx1024m
--XX:PermSize=128m
--XX:MaxPermSize=1024m
--XX:+DisableExplicitGC</vmArgs>
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 

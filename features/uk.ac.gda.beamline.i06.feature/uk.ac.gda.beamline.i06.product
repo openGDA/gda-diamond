@@ -35,7 +35,9 @@ http://www.opengda.org
 -Dgda.propertiesFile=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/java.properties_i06
 -Dgda.config=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/JCALibrary.properties
--Dpython.cachedir=~/python.cachedir</vmArgs>
+-Dpython.cachedir=~/python.cachedir
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false</vmArgs>
       <vmArgsLin>-client
 -Xms128m
 -Xmx1024m

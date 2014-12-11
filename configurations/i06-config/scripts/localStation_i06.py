@@ -109,3 +109,11 @@ except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  Errors when running the BeamlineI06/XEnergy/xenergy.py from localstation_i06.py"
     logger.dump("---> ", exceptionType, exception, traceback)
+
+try:
+    print "Enabling the Laser..."
+    execfile(gdaScriptDir + "BeamlineI06/useSlap.py");
+except:
+    exceptionType, exception, traceback=sys.exc_info();
+    print "XXXXXXXXXX:  Errors when running the BeamlineI06/useSlap.py from localstation_i06.py"
+    logger.dump("---> ", exceptionType, exception, traceback)
