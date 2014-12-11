@@ -12,7 +12,7 @@ global RetTilt, RetRotation, AnaTilt ,AnaRotation, \
 global mac116, mac117, mac118, mac119, mac120
 global zebra
 
-import sys
+import sys, gda, java
 #from rasor.init_scan_commands_and_processing import * 
 from gda.configuration.properties import LocalProperties
 from gdascripts.messages import handle_messages
@@ -283,8 +283,18 @@ if andor_installed:
     except:
         localStation_exception(sys.exc_info(), "creating andor & andorGV12 objects")
 
+######## Imports for the I10 Pimte and I06b Pixis cameras ###############
+from gdascripts.scannable.detector.DetectorDataProcessor \
+    import DetectorDataProcessor #, DetectorDataProcessorWithRoi
+
+from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue \
+    import SumMaxPositionAndValue
+
+from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
+    import TwodGaussianPeak
+
 ######## Setting up the I10 Pimte camera ###############
-pimte_installed = True
+pimte_installed = False
 
 if pimte_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
@@ -296,12 +306,6 @@ if pimte_installed:
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-    
-        from gdascripts.scannable.detector.DetectorDataProcessor \
-            import DetectorDataProcessor #, DetectorDataProcessorWithRoi
-
-        from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue \
-            import SumMaxPositionAndValue
 
         pimteSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pimteSMPV', pimte1det, None, pimte1det_for_snaps,
@@ -312,9 +316,6 @@ if pimte_installed:
         #pimteSMPV.processors=[DetectorDataProcessorWithRoi('max', pimte1det, [SumMaxPositionAndValue()], False)]
         pimteSMPV.processors=[DetectorDataProcessor        ('max', pimte1det, [SumMaxPositionAndValue()], False)]
 
-        from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
-            import TwodGaussianPeak
-        
         pimte2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pimte2d', pimte1det, None, pimte1det_for_snaps,
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
@@ -328,7 +329,7 @@ if pimte_installed:
         localStation_exception(sys.exc_info(), "creating pimte objects")
 
 ######## Setting up the I06 Pixis camera ###############
-pixis_installed = False
+pixis_installed = True
 
 if pixis_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
@@ -341,12 +342,6 @@ if pixis_installed:
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
     
-        from gdascripts.scannable.detector.DetectorDataProcessor \
-            import DetectorDataProcessor #, DetectorDataProcessorWithRoi
-
-        from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue \
-            import SumMaxPositionAndValue
-
         pixisSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pixisSMPV', pixis1det, None, pixis1det_for_snaps,
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
@@ -356,9 +351,6 @@ if pixis_installed:
         #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [SumMaxPositionAndValue()], False)]
         pixisSMPV.processors=[DetectorDataProcessor        ('max', pixis1det, [SumMaxPositionAndValue()], False)]
 
-        from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
-            import TwodGaussianPeak
-        
         pixis2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pixis2d', pixis1det, None, pixis1det_for_snaps,
             panel_name='Andor CCD', panel_name_rcp='Plot 1',
