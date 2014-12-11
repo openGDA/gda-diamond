@@ -67,6 +67,7 @@
 				<property name="resetToInitialValues" value="false" />
 			</bean>
 		</property>
+		<property name="initialCompression" value="zlib" />
 	</bean>
 
 	<bean id="mpx_sweep_driver"

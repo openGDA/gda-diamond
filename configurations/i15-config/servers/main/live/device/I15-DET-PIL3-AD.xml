@@ -14,6 +14,7 @@
 				<property name="resetToInitialValues" value="false" />
 			</bean>	
 		</property>
+		<property name="initialCompression" value="zlib" />
 	</bean>
 
 	<bean id="pil3_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
