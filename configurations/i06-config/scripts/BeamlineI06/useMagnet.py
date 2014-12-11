@@ -29,8 +29,8 @@ magth  = SingleAxisMagnetClass('magth',  'scm', SingleAxisMagnetClass.THETA);
 magphi = SingleAxisMagnetClass('magphi', 'scm', SingleAxisMagnetClass.PHI);
 magdelay=scm.delay
 magtolerance=scm.tolerance
-#alias(magdelay)
-#alias(magtolerance)
+magdelay(0.1)    # Tests suggest that with magtolerance set up, only a very short delay is needed.
+magtolerance(6.) # Given that the magnet goes +-6T mag moves will always return the demand position after magdelay.
 
 print "Note: Use object name 'hyst2' for the hysteresis measurement with flipping magnet";
 print "Usage: scan hyst2 -1 1 0.1";
