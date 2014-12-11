@@ -98,6 +98,7 @@
 				<property name="filePathConverter" ref="pe_UnixToWindowsFilePathConverter" />
 			</bean>
 		</property>
+		<property name="initialCompression" value="zlib" />
 	</bean>
 
 	<!-- NXDetector collection strategies -->
