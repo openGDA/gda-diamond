@@ -117,6 +117,7 @@
 				<property name="resetToInitialValues" value="false" />
 			</bean>
 		</property>
+		<property name="initialCompression" value="zlib" />
 	</bean>
 
 	<!-- NXDetector collection strategies -->

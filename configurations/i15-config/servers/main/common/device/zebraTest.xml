@@ -40,6 +40,7 @@
 
 	<bean id="zebraTestNDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="zebraTestNDFileHDF5_base" />
+		<property name="initialCompression" value="zlib" />
 	</bean>
 
 	<bean id="zebraTestMultiImageHDF5FileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
