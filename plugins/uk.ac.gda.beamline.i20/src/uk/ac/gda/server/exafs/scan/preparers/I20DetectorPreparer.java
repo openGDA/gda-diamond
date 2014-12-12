@@ -1,3 +1,20 @@
+/*-
+ * Copyright © 2015 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import gda.device.Detector;
@@ -5,7 +22,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2System;
+import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.TopupChecker;
 import gda.util.Element;
 
@@ -25,7 +42,7 @@ import uk.ac.gda.server.exafs.scan.DetectorPreparer;
 
 public class I20DetectorPreparer implements DetectorPreparer {
 
-	private Xspress2System xspress2system;
+	private Xspress2Detector xspress2system;
 	private Scannable[] sensitivities;
 	private Scannable[] sensitivity_units;
 	private Scannable[] offsets;
@@ -36,7 +53,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private TopupChecker topupChecker;
 	private IScanParameters scanBean;
 
-	public I20DetectorPreparer(Xspress2System xspress2system, Scannable[] sensitivities, Scannable[] sensitivity_units,
+	public I20DetectorPreparer(Xspress2Detector xspress2system, Scannable[] sensitivities, Scannable[] sensitivity_units,
 			Scannable[] offsets, Scannable[] offset_units, TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1,
 			Xmap vortex, TopupChecker topupChecker) {
 		this.xspress2system = xspress2system;

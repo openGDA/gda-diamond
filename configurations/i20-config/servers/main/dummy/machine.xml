@@ -19,7 +19,7 @@
 	<bean id="fillMode" class="gda.device.enumpositioner.DummyValve">
 		<property name="position" value="Remote Fill" />
 	</bean>
-	<bean id="topup" class="gda.device.controlpoint.DummyControlPoint">
+	<bean id="topup" class="gda.device.monitor.DummyMonitor">
 		<property name="value" value="120" />
 	</bean>
 

@@ -1,3 +1,20 @@
+/*-
+ * Copyright © 2015 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import gda.configuration.properties.LocalProperties;
@@ -6,7 +23,7 @@ import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2System;
+import gda.device.detector.xspress.Xspress2Detector;
 import gda.scan.ScanPlotSettings;
 
 import java.util.ArrayList;
@@ -32,7 +49,7 @@ public class I20OutputPreparer implements OutputPreparer {
 	private IScanParameters scanParameters;
 	private IOutputParameters outputParameters;
 	private TfgScalerWithFrames ionchambers;
-	private Xspress2System xspress2system;
+	private Xspress2Detector xspress2system;
 	private Xmap xmapMca;
 	private Metadata meta;
 	private IDetectorParameters detectorBean;
@@ -41,7 +58,7 @@ public class I20OutputPreparer implements OutputPreparer {
 
 	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig,
 			AsciiDataWriterConfiguration datawriterconfig_xes, TfgScalerWithFrames ionchambers,
-			Xspress2System xspress2system, Xmap xmapMca, I20DetectorPreparer detectorPreparer) {
+			Xspress2Detector xspress2system, Xmap xmapMca, I20DetectorPreparer detectorPreparer) {
 		this.datawriterconfig = datawriterconfig;
 		this.datawriterconfig_xes = datawriterconfig_xes;
 		this.ionchambers = ionchambers;

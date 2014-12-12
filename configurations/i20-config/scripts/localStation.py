@@ -1,31 +1,33 @@
 print "\n\n****Running the I20 startup script****\n\n"
 
-from org.jscience.physics.quantities import Quantity
-from org.jscience.physics.units import Unit
-from gda.configuration.properties import LocalProperties
-from gda.device.scannable import DummyScannable
-from gda.jython import JythonServerFacade
-from gda.scan import ScanBase
+from time import sleep
+
 from devices import RealBlades
 from devices.RealBlades import BladeAngle
 from devices.RealBlades import SubtractAngle
 from devices.RealBlades import AverageAngle
-from exafsscripts.exafs.i20DetectorPreparer import I20DetectorPreparer
-from exafsscripts.exafs.i20SamplePreparer import I20SamplePreparer
-from exafsscripts.exafs.i20OutputPreparer import I20OutputPreparer
-from exafsscripts.exafs.xas_scan import XasScan
-from exafsscripts.exafs.xes_scan import I20XesScan
-from time import sleep
-from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
-from gda.device.scannable import TwoDScanPlotter
-from xes.xes_offsets import XESOffsets
-from xes.xes_calculate import XESCalculate
+# from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
+from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 from gdascripts.pd.time_pds import showtimeClass, waittime
 import mono_calibration 
 from vortex_elements import VortexElements
-from gda.data.scan.datawriter import NexusDataWriter
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
+from xes.xes_offsets import XESOffsets
+from xes.xes_calculate import XESCalculate
 
+from org.jscience.physics.quantities import Quantity
+from org.jscience.physics.units import Unit
+
+from gda.configuration.properties import LocalProperties
+from gda.data.scan.datawriter import NexusDataWriter
+from gda.device.scannable import DummyScannable
+from gda.device.scannable import TwoDScanPlotter
+from gda.jython import JythonServerFacade
+from gda.scan import ScanBase
+from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory
+from uk.ac.gda.server.exafs.scan.preparers import I20DetectorPreparer, I20OutputPreparer, I20SamplePreparer, I20BeamlinePreparer
+
+
+rcpController = finder.find("RCPController")
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
@@ -35,6 +37,7 @@ original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 datawriterconfig_xes = Finder.getInstance().find("datawriterconfig_xes")
 original_header_xes = Finder.getInstance().find("datawriterconfig").getHeader()[:]
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
+
 sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity,i1_stanford_sensitivity]
 sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units,i1_stanford_sensitivity_units]
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
@@ -45,38 +48,54 @@ if LocalProperties.get("gda.mode") == "live":
     from vortex_elements import VortexElements
     vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
 
-xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+# xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
+# xspressConfig.initialize()
+# alias("xspressConfig")
+# 
+# vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
+# vortexConfig.initialize()
+# alias("vortexConfig")
 
-xspressConfig.initialize()
-alias("xspressConfig")
+#detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
+#samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos, rcpController)
+#outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
-vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
-vortexConfig.initialize()
-alias("vortexConfig")
-detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
+#### preparers ###
+detectorPreparer = I20DetectorPreparer(xspress2system, sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, topupChecker)
+samplePreparer = I20SamplePreparer(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll, sample_pitch, filterwheel, cryostat, cryostick_pos, rcpController)
+outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, ionchambers, xspress2system, xmapMca, detectorPreparer)
+beamlinePreparer = I20BeamlinePreparer()
 
-
-rcpController = finder.find("RCPController")
-
-samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos, rcpController)
-outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 twodplotter = TwoDScanPlotter()
 twodplotter.setName("twodplotter")
 
 store_dir = LocalProperties.getVarDir() +"xes_offsets/"
 xes_offsets = XESOffsets(store_dir, spectrometer)
-
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
 
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, bragg1, ionchambers, False, True, True, False, False)
+theFactory = XesScanFactory();
+theFactory.setBeamlinePreparer(beamlinePreparer);
+theFactory.setDetectorPreparer(detectorPreparer);
+theFactory.setSamplePreparer(samplePreparer);
+theFactory.setOutputPreparer(outputPreparer);
+# theFactory.setCommandQueueProcessor(commandQueueProcessor);
+theFactory.setLoggingScriptController(XASLoggingScriptController);
+theFactory.setDatawriterconfig(datawriterconfig);
+theFactory.setEnergyScannable(bragg1);
+theFactory.setMetashop(Finder.getInstance().find("metashop"));
+theFactory.setIncludeSampleNameInNexusName(True);
+# theFactory.setOriginal_header(original_header);
+theFactory.setScanName("xas")
+theFactory.setAnalyserAngle(XESBragg)
+theFactory.setXes_energy(XESEnergy)
 
-xes = I20XesScan(xas,XASLoggingScriptController, detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, XASLoggingScriptController, ExafsScriptObserver, datawriterconfig_xes, original_header_xes, sample_x, sample_y, sample_z, sample_rot, sample_fine_rot,twodplotter,I1,bragg1,XESEnergy,XESBragg, xes_offsets, False)
-
+xas = theFactory.createEnergyScan();
 xanes = xas
+xes = theFactory.createXesScan()
 
-alias("xas")
-alias("xanes")
-alias("xes")
+vararg_alias("xas")
+vararg_alias("xanes")
+vararg_alias("xes")
 alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
@@ -109,7 +128,7 @@ if LocalProperties.get("gda.mode") == "live":
 else:
     remove_default([topupChecker])
     remove_default([absorberChecker])
-    remove_default([shutterChecker])
+
 
 #
 # XES offsets section

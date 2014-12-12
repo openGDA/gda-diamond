@@ -13,15 +13,15 @@
 <!-- 		<property name="motor" ref="topup_motor" /> -->
 <!-- 		<property name="hardwareUnitString" value="s" /> -->
 <!-- 	</bean> -->
-<!-- 	<bean id="topupChecker" class="gda.device.scannable.TopupChecker"> -->
-<!-- 		<property name="scannableToBeMonitored" ref="topup" /> -->
-<!-- 		<property name="tolerance" value="10" /> -->
-<!-- 		<property name="timeout" value="60" /> -->
-<!-- 		<property name="waittime" value="10" /> -->
-<!-- 		<property name="level" value="0" /> -->
-<!-- 		<property name="pauseBeforePoint" value="true" /> -->
-<!-- 		<property name="local" value="true"/> -->
-<!-- 	</bean> -->
+	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
+		<property name="scannableToBeMonitored" ref="topup" />
+		<property name="tolerance" value="10" />
+		<property name="timeout" value="60" />
+		<property name="waittime" value="10" />
+		<property name="level" value="0" />
+		<property name="pauseBeforePoint" value="true" />
+		<property name="local" value="true"/>
+	</bean>
 
 
 	<bean id="absorber_motor" class="gda.device.motor.DummyMotor">

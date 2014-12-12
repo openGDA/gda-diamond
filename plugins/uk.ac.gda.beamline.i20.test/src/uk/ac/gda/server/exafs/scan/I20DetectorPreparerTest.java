@@ -22,7 +22,7 @@ import gda.device.Detector;
 import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2System;
+import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.DummyScannable;
 import gda.device.scannable.TopupChecker;
 
@@ -42,7 +42,7 @@ import uk.ac.gda.server.exafs.scan.preparers.I20DetectorPreparer;
 
 public class I20DetectorPreparerTest {
 
-	private Xspress2System xspressSystem;
+	private Xspress2Detector xspressSystem;
 	private Xmap xmpaMca;
 	private TfgScalerWithFrames ionchambers;
 	private TfgScalerWithFrames I1;
@@ -55,7 +55,7 @@ public class I20DetectorPreparerTest {
 
 	@Before
 	public void setup() {
-		xspressSystem = (Xspress2System) createMock(Xspress2System.class, "xspressSystem");
+		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		xmpaMca = (Xmap) createMock(Xmap.class, "xmpaMca");
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 		I1 = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
