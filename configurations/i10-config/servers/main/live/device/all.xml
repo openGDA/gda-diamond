@@ -20,7 +20,9 @@
 	<import resource="I10-CA2.xml"/>
 	<import resource="I10-CA3.xml"/>
 	<import resource="I10-CA4.xml"/>
+	<!-- 
 	<import resource="I10-PIMTE.xml"/>
+	 -->
 	<import resource="I10-RASOR.xml"/>
 	<!-- 
 	<import resource="I10-RASOR-ANDOR1.xml" />
