@@ -76,12 +76,6 @@
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
-				<entry key="m1_y">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths" value="instrument:NXinstrument/Mirror1:NXmirror/m1_y" />
-						<property name="units" value="mm" />
-					</bean>
-				</entry>
 				<entry key="m1_roll">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="instrument:NXinstrument/Mirror1:NXmirror/m1_roll" />
@@ -405,7 +399,6 @@
 				<value>bda_y</value>
 				<value>m1_x</value>
 				<value>m1_pitch</value>
-				<value>m1_y</value>
 				<value>m1_roll</value>
 				<value>m1_yaw</value>
 				<value>s1_xsize</value>
