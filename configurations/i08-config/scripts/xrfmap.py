@@ -4,6 +4,7 @@ from gdascripts.scan.rasterscans import RasterScan
 from gdascripts.scan.trajscans import setDefaultScannables
 from gda.epics import CAClient
 import time
+from plotters import Plotter
 
 class XRFMap(RasterScan):
      
@@ -18,7 +19,12 @@ class XRFMap(RasterScan):
         self.setROI2(0.5, 1)
         self.setROI3(1, 1.5)
         self.setROI4(1.5, 2)
-                 
+        self.roi1_plotter = Plotter("roi1_plotter",'roi1_total',"ROI1")
+        self.roi2_plotter = Plotter("roi2_plotter",'roi2_total',"ROI2")
+        self.roi3_plotter = Plotter("roi3_plotter",'roi3_total',"ROI3")
+        self.roi4_plotter = Plotter("roi4_plotter",'roi4_total',"ROI4")        
+        add_default self.roi1_plotter.getPlotter() self.roi2_plotter.getPlotter() self.roi3_plotter.getPlotter() self.roi4_plotter.getPlotter()
+        
     def __call__(self, *args):
 
         # if one arg, then use that as the map size, else ignore any and all args
@@ -29,13 +35,13 @@ class XRFMap(RasterScan):
             self.Xsize  = int(args[0])
             self.Ysize = int(args[1])
         
-        self.resetPlotters()
+        self.resetPlotters(self.Xsize, self.Ysize)
         if self.andor != None:
             self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1, self.vortex,0.1]   
-            andormap.PrepareForCollection()
+            andormap.PrepareForCollection(self.Xsize, self.Ysize)
         else:
             self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.vortex, 0.1]       
-            
+         
         RasterScan.__call__(self,self.scanargs)
      
     def _createScan(self, args):
@@ -84,16 +90,12 @@ class XRFMap(RasterScan):
         maxEnergy = 4.096       
         CAClient().put("BL08I-EA-DET-02:MCA1.NUSE",str(binSize))
         CAClient().put("BL08I-EA-DET-02:DXP1:MaxEnergy",str(maxEnergy))
-    
-    def resetPlotters(self):
-        roi1_plotter.setXArgs(0, self.Xsize, 1)
-        roi1_plotter.setYArgs(0, self.Ysize, 1)
-        roi2_plotter.setXArgs(0, self.Xsize, 1)
-        roi2_plotter.setYArgs(0, self.Ysize, 1)
-        roi3_plotter.setXArgs(0, self.Xsize, 1)
-        roi3_plotter.setYArgs(0, self.Ysize, 1)
-        roi4_plotter.setXArgs(0, self.Xsize, 1)
-        roi4_plotter.setYArgs(0, self.Ysize, 1)
+        
+    def resetPlotters(self,Xsize, Ysize):
+        self.roi1_plotter.setAxis(Xsize,Ysize)
+        self.roi2_plotter.setAxis(Xsize,Ysize)
+        self.roi3_plotter.setAxis(Xsize,Ysize)
+        self.roi4_plotter.setAxis(Xsize,Ysize)
         
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX

@@ -73,7 +73,7 @@ from idEnergy import my_energy_class1
 # set up the Andor Area Detector ROIs etc for hardware-driven mapping
 #run "AndorConfiguration"
 # create the command to run STXM mpas which involve andor
-
+print "Before andormap"
 run "andormap"
 run "xrfmap"
 
@@ -81,44 +81,43 @@ run "xrfmap"
 test2 = gda.device.scannable.DummyScannable()
 test2.setName("test2")
 from gda.device.scannable import TwoDScanPlotter
-horizontal_plotter = TwoDScanPlotter()
-horizontal_plotter.setName("horizontal_plotter")
-horizontal_plotter.setZ_colName('Horizontal')
-horizontal_plotter.setPlotViewname("Horizontal Gradient")
+#horizontal_plotter = TwoDScanPlotter()
+#horizontal_plotter.setName("horizontal_plotter")
+#horizontal_plotter.setZ_colName('Horizontal')
+#horizontal_plotter.setPlotViewname("Horizontal Gradient")
 
-vertical_plotter = TwoDScanPlotter()
-vertical_plotter.setName("vertical_plotter")
-vertical_plotter.setZ_colName('Vertical')
-vertical_plotter.setPlotViewname("Vertical Gradient")
+#vertical_plotter = TwoDScanPlotter()
+#vertical_plotter.setName("vertical_plotter")
+#vertical_plotter.setZ_colName('Vertical')
+#vertical_plotter.setPlotViewname("Vertical Gradient")
 
-transmission_plotter = TwoDScanPlotter()
-transmission_plotter.setName("transmission_plotter")
-transmission_plotter.setZ_colName('transmission_total')
-transmission_plotter.setPlotViewname("Transmission")
+#transmission_plotter = TwoDScanPlotter()
+#transmission_plotter.setName("transmission_plotter")
+#transmission_plotter.setZ_colName('transmission_total')
+#transmission_plotter.setPlotViewname("Transmission")
 
-roi1_plotter = TwoDScanPlotter()
-roi1_plotter.setName("roi1_plotter")
-roi1_plotter.setZ_colName('roi1_total')
-roi1_plotter.setPlotViewname("ROI1")
+#roi1_plotter = TwoDScanPlotter()
+#roi1_plotter.setName("roi1_plotter")
+#roi1_plotter.setZ_colName('roi1_total')
+#roi1_plotter.setPlotViewname("ROI1")
 
-roi2_plotter = TwoDScanPlotter()
-roi2_plotter.setName("roi2_plotter")
-roi2_plotter.setZ_colName('roi2_total')
-roi2_plotter.setPlotViewname("ROI2")
+#roi2_plotter = TwoDScanPlotter()
+#roi2_plotter.setName("roi2_plotter")
+#roi2_plotter.setZ_colName('roi2_total')
+#roi2_plotter.setPlotViewname("ROI2")
 
-roi3_plotter = TwoDScanPlotter()
-roi3_plotter.setName("roi3_plotter")
-roi3_plotter.setZ_colName('roi3_total')
-roi3_plotter.setPlotViewname("ROI3")
+#roi3_plotter = TwoDScanPlotter()
+#roi3_plotter.setName("roi3_plotter")
+#roi3_plotter.setZ_colName('roi3_total')
+#roi3_plotter.setPlotViewname("ROI3")
 
-roi4_plotter = TwoDScanPlotter()
-roi4_plotter.setName("roi4_plotter")
-roi4_plotter.setZ_colName('roi4_total')
-roi4_plotter.setPlotViewname("ROI4")
+#roi4_plotter = TwoDScanPlotter()
+#roi4_plotter.setName("roi4_plotter")
+#roi4_plotter.setZ_colName('roi4_total')
+#roi4_plotter.setPlotViewname("ROI4")
 
-
-
-add_default horizontal_plotter vertical_plotter transmission_plotter roi1_plotter roi2_plotter roi3_plotter roi4_plotter
+#add_default horizontal_plotter vertical_plotter transmission_plotter 
+#add_default roi1_plotter roi2_plotter roi3_plotter roi4_plotter
 
 
 print "Initialisation Complete";
