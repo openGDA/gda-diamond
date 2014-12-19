@@ -80,15 +80,20 @@
 		<constructor-arg value="BL08I-EA-DET-02" />
 	</bean>
  -->
+ 
+ 	
 	<bean id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm"
 		class="gda.device.detector.xmap.XmapHardwareTriggeredCollectionStrategy">
 		<constructor-arg ref="edxdcontroller" />
 		<!-- <constructor-arg ref="nDHDF5PVProvider" /> -->
 	</bean>
 	
-	 <bean id="xbuffer" class="gda.device.detector.xmap.XBufferPlugin">
-		<property name="basePVName" value="BL08I-EA-DET-02:XBUF:" />
-		<property name="EnableXBuf" value="ENABLE" />
+	 <bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.XbufferPlugin.XBufferPVs">
+		<constructor-arg index="0" value="BL08I-EA-DET-02:XBUF:" />
+	</bean>
+	
+	<bean id="xbuffer" class="gda.device.detector.nxdetector.xmap.XbufferPlugin.XBufferPlugin">
+		<constructor-arg ref= "xbufferpv"/>
 	</bean>
 	
 <!-- Define ROIs -->
