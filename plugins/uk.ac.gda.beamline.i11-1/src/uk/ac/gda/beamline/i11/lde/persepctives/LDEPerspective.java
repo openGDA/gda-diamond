@@ -19,6 +19,7 @@ import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
+import uk.ac.gda.epics.client.pixium.views.PixiumView;
 import uk.ac.gda.epics.client.views.StatusView;
 
 public class LDEPerspective implements IPerspectiveFactory {
@@ -30,7 +31,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private static final String STATUS_FOLDER = "statusFolder";
 	private static final String SAMPLE_TABLE_FOLDER = "sampleTableFolder";
 	private static final String DETECTOR_PLOT_FOLDER = "detectorPlotFolder";
-	private static final String DETECTOR_STATUS_FOLDER = "detectorStatusFolder";
+	private static final String DETECTOR_FOLDER = "detectorFolder";
 	private static final String SCAN_PLOT_FOLDER="scanPlotFolder";
 	
 	private static final String SAMPLE_GROUP_VIEW_ID = SampleGroupView.ID;
@@ -40,7 +41,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private static final String SCAN_PLOT_VIEW_ID = LivePlotView.ID;
 	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.client.navigator";
 	private static final String STATUS_VIEW_ID = "uk.ac.gda.beamline.i11.lde.views.statusView";
-	private static final String DETECTOR_STATUS_VIEW_ID = StatusView.ID;
+	private static final String DETECTOR_VIEW_ID = PixiumView.ID;
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -62,8 +63,8 @@ public class LDEPerspective implements IPerspectiveFactory {
         IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.LEFT, (float)0.9, editorArea); //$NON-NLS-1$
         sampleTableFolder.addView(SAMPLE_GROUP_VIEW_ID);
         
-        IFolderLayout statusPlotFolder=layout.createFolder(DETECTOR_STATUS_FOLDER, IPageLayout.RIGHT, (float)0.85, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
-        statusPlotFolder.addView(DETECTOR_STATUS_VIEW_ID);
+        IFolderLayout statusPlotFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.75, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
+        statusPlotFolder.addView(DETECTOR_VIEW_ID);
 
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.TOP, (float)0.75, STATUS_FOLDER); //$NON-NLS-1$
         detectorPlotFolder.addView(PIXIUM_IMAGE_VIEW_ID);
