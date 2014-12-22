@@ -278,7 +278,7 @@ def meta_rm_allPIXIUM():
 alias("meta_rm_allPIXIUM")
 
 def pad_hdf(t,n=1.0):
-    scan(ds, 1.0, n, 1.0, pixium_hdf, t, Io, t, Ie2)  # @UndefinedVariable
+    scan(ds, 1.0, n, 1.0, pixium_hdf, t)  # @UndefinedVariable
     scaler2(1)  # @UndefinedVariable
     
 
@@ -293,13 +293,15 @@ SAM=2
 def lde(t, collectionType=SAM, n=1.0):  # @UndefinedVariable
     if (collectionType==NDR):
         #just collect raw image, no data reduction
-        scan(ds, 1.0,n,1.0, pixium_hdf, t, Io, t, Ie2)  # @UndefinedVariable
+        scan(ds, 1.0,n,1.0, pixium_hdf, t)  # @UndefinedVariable
     else:
         if (collectionType==CAL):
+            if (str(calibrantName.getPosition())=="Undefined"):  # @UndefinedVariable
+                raise Exception("Calibrant name is not defined.")
             datareduction.setCalibrant(True)  # @UndefinedVariable
         else:
             datareduction.setCalibrant(False)  # @UndefinedVariable
-        scan(datareduction, 1.0,n,1.0, pixium_hdf, t, Io, t, Ie2)  # @UndefinedVariable
+        scan(datareduction, 1.0,n,1.0, pixium_hdf, t)  # @UndefinedVariable
 
 alias("lde")      
 ##### new objects must be added above this line ###############

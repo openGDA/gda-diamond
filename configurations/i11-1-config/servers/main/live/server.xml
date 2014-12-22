@@ -87,7 +87,7 @@
 	<import resource="MS1.xml"/>
 	<import resource="MS2.xml"/>
 	<import resource="MS3.xml"/>
-<!-- 	<import resource="MS4.xml"/> -->
+	<import resource="MS4.xml"/>
 	<import resource="SS1.xml"/>
 	<import resource="SS2.xml"/>
 	<import resource="SS3.xml"/>
@@ -96,7 +96,7 @@
 <!-- 	<import resource="SS6.xml"/> -->
 	<!-- <import resource="BSTP1.xml"/> -->
 <!-- 	<import resource="detectorArm.xml"/> -->
-<!-- 	<import resource="Spinner2.xml"/> -->
+	<import resource="Spinner.xml"/>
 <!-- 	<import resource="RobotNX100.xml"/> -->
 	<import resource="DummyMotors.xml"/>
 <!-- 	<import resource="usermotors.xml"/> -->

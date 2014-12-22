@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.4.0.201310051539-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.6.3.201411271034-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -228,16 +228,18 @@
 		<config>clients/rcp/commandRunner.xml</config>
 		<config>clients/rcp/batonStateProvider.xml</config>
 		<config>clients/rcp/detectorFileDisplayer.xml</config>
-		<config>clients/rcp/live/spinner2.xml</config>
 		<config>servers/main/live/S6.xml</config>
 		<config>servers/main/live/S1.xml</config>
 		<config>servers/main/live/S2.xml</config>
 		<config>servers/main/live/S3.xml</config>
 		<config>servers/main/live/S4.xml</config>
 		<config>servers/main/live/S5.xml</config>
-		<config>servers/main/live/Spinner2.xml</config>
 		<config>servers/main/BeamMonitor2.xml</config>
+		<config>servers/main/live/Spinner.xml</config>
+		<config>clients/rcp/live/spinner.xml</config>
 	</configs>
+	<autoconfigs>
+	</autoconfigs>
 	<configSets>
 		<configSet>
 			<name><![CDATA[client]]></name>
@@ -347,10 +349,10 @@
 				<config>servers/main/tfg2.xml</config>
 				<config>servers/scriptControllers.xml</config>
 				<config>servers/servers_common.xml</config>
-				<config>clients/rcp/live/spinner2.xml</config>
 				<config>servers/main/live/S6.xml</config>
-				<config>servers/main/live/Spinner2.xml</config>
 				<config>servers/main/BeamMonitor2.xml</config>
+				<config>servers/main/live/Spinner.xml</config>
+				<config>clients/rcp/live/spinner.xml</config>
 			</configs>
 			<profiles>
 				<profile><![CDATA[server]]></profile>

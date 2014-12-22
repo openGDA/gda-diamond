@@ -11,6 +11,8 @@ from gda.jython.commands.ScannableCommands import scan
 ds1=DummyScannable("ds1")
 NDR=0
 CAL=1
+calName=Finder.getInstance().find("calibrantName")
+
 dr=Finder.getInstance().find("datareduction")
 def ldescan(*args):
     MUSTADDDATAREDUCTIONATEND=False
@@ -30,6 +32,8 @@ def ldescan(*args):
         scan(newargs)
     else:
         if (args[i]==CAL):
+            if (str(calName.getPosition())=="Undefined"):  # @UndefinedVariable
+                raise Exception("Calibrant name is not defined.")
             dr.setCalibrant(True)
         else:
             dr.setCalibrant(False)

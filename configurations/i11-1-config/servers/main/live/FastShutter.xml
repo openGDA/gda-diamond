@@ -6,5 +6,11 @@
 	<bean id="fastshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="deviceName" value="ENV.SHTR"/>
 	</bean>
+	<bean id="fastshutter1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL11J-MO-FSHTR-01:SHUTTER"/>
+	</bean>
+	<bean id="fastshutter2" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL11J-MO-FSHTR-02:SHUTTER"/>
+	</bean>
 
 </beans>
