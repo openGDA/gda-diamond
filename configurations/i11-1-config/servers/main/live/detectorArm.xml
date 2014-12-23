@@ -5,12 +5,12 @@
 
 	<!-- Area Detector Motors (individual Motions) -->
 	<bean id="detectorX_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:X:MINUS"/>
+		<property name="pvName" value="BL11J-MO-TABLE-01:DET:01:X"/>
 	</bean>
 	<bean id="detectorY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:X:PLUS"/>
+		<property name="pvName" value="BL11J-MO-TABLE-01:DET:01:Y"/>
 	</bean>
 	<bean id="detectorZ_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-AL-SLITS-01:Y:MINUS"/>
+		<property name="pvName" value="BL11J-MO-TABLE-01:DET:01:Z"/>
 	</bean>
 </beans>
