@@ -15,6 +15,8 @@ zpoints=drange(1.152, 3.9, -0.05496)
 #if len(xpoints) != len(ypoints) or len(xpoints) != len(zpoints):
 if len(xpoints) != len(zpoints):
     raise ValueError("The number of path points for each scannables must the same.")
+
+
 #path=zip(xpoints, ypoints, zpoints)
 path=zip(xpoints, zpoints)
 print path

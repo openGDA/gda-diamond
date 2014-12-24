@@ -31,31 +31,14 @@ from org.opengda.detector.electronanalyser.scan import RegionScannable,\
     RegionPositionProvider
 import os
 import time
-import types
+from types import TupleType, ListType, FloatType, IntType
+from gda.device import Scannable
 
 
-def pathscan(scannables, path, args=[]): #@UndefinedVariable
+def pathscan(*args): #@UndefinedVariable
     ''' 
     Scan a group of scannables following the specified path and 
     collect data at each point from scannables args
-    '''
-    sg=ScannableGroup()
-    for each in scannables:
-        sg.addGroupMember(each)
-    sg.setName("pathgroup")
-    scan([sg, path]+args)
-
-PRINTTIME=False
-
-def analyserpathscan(scannables, path, *args):
-    '''
-    perform single/multiple regions analyser data collection at each point on the specified path,
-    and produce a single scan file recording all scannables' poistions and metadata, along with
-    analyser scann data under region's name as NXdetector node.
-    
-    implementation details:
-    This function pre-process sequence file to set up analyser 'ew4000' ready for data collection, 
-    then delegate the scan process to 'pathscan'.    
     '''
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
@@ -63,7 +46,69 @@ def analyserpathscan(scannables, path, *args):
     i=0;
     while i< len(args):
         arg = args[i]
-        newargs.append(arg)
+        if type(arg)==TupleType:
+            if allElementsAreScannable(arg):
+                scannableGroup=ScannableGroup("pathgroup")
+                for each in arg:
+                    scannableGroup.addGroupMember(each)
+                newargs.append(scannableGroup)
+            elif allElementsAreListOfNumber(arg):
+                newargs.append(arg)
+            else:
+                raise TypeError, "Only tuple of scannables and tuple of list of numbers are supported."
+        else:
+            newargs.append(arg)
+        i=i+1
+    scan(newargs)
+    if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
+
+PRINTTIME=False
+
+
+def allElementsAreScannable(arg):
+    for each in arg:
+        if not isinstance(each, Scannable):
+            return False
+    return True
+
+
+def allElementsAreListOfNumber(arg):
+    for each in arg:
+        if not type(each)==ListType:
+            return False
+        for item in each:
+            if not (type(item)==FloatType or type(item)==IntType):
+                return False
+    return True
+
+def analyserpathscan(*args):
+    '''
+    perform single/multiple regions analyser data collection at each point on the specified path,
+    and produce a single scan file recording all scannables' poistions and metadata, along with
+    analyser scan data under region's name as NXdetector node.
+    
+    implementation details:
+    This function pre-process sequence file to set up analyser 'ew4000' ready for data collection.
+    It creates scannable group to support point-to-point concurrent scan.
+    '''
+    starttime=time.ctime()
+    if PRINTTIME: print "=== Scan started: "+starttime
+    newargs=[]
+    i=0;
+    while i< len(args):
+        arg = args[i]
+        if type(arg)==TupleType:
+            if allElementsAreScannable(arg):
+                scannableGroup=ScannableGroup("pathgroup")
+                for each in arg:
+                    scannableGroup.addGroupMember(each)
+                newargs.append(scannableGroup)
+            elif allElementsAreListOfNumber(arg):
+                newargs.append(arg)
+            else:
+                raise TypeError, "Only tuple of scannables and tuple of list of numbers are supported."
+        else:
+            newargs.append(arg)
         i=i+1
         if isinstance( arg,  EW4000 ):
             controller = Finder.getInstance().find("SequenceFileObserver")
@@ -82,7 +127,7 @@ def analyserpathscan(scannables, path, *args):
             if isinstance(arg.getCollectionStrategy(), EW4000CollectionStrategy):
                 arg.getCollectionStrategy().setSequence(sequence)
             i=i+1
-    pathscan(scannables, path, newargs)
+    scan(newargs)
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
 def analyserpathscan_v1(scannables, path, *args):

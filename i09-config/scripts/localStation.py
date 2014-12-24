@@ -218,10 +218,12 @@ print "-------------------------------------------------------------------------
     
 
 print "Create an 'analyserscan' command for scanning the electron analyser."
-from command.analyser_scan import analyserscan, analyserscan_v1, zerosupplies  # @UnusedImport
+#from command.analyser_scan import analyserscan, analyserscan_v1, zerosupplies, analyserscancheck # @UnusedImport
+from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
 alias("zerosupplies")
 alias("analyserscan")
 alias("analyserscan_v1")
+alias("analyserscancheck")
 print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
 #from pseudodevices.shutter import EpicsShutterClass, psi2,psj2  # @UnusedImport
 nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-HD-01:STAT:Total_RBV","","%d")
