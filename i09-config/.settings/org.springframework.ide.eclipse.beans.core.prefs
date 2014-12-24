@@ -86,6 +86,6 @@
 //org.springframework.ide.eclipse.beans.core.prefix.http\://www.springframework.org/schema/webflow-config=flow
 eclipse.preferences.version=1
 org.springframework.ide.eclipse.beans.core.default.version.check.classpath=true
-org.springframework.ide.eclipse.beans.core.enable.project.preferences=true
+org.springframework.ide.eclipse.beans.core.enable.project.preferences=false
 org.springframework.ide.eclipse.beans.core.ignoreMissingNamespaceHandler=true
 org.springframework.ide.eclipse.beans.core.loadNamespaceHandlerFromClasspath=true
