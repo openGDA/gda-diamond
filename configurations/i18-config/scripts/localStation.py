@@ -91,7 +91,8 @@ datawriterconfig =             finder.find("datawriterconfig")
 original_header =              finder.find("datawriterconfig").getHeader()[:]
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
-vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
+# vortexConfig =  VortexConfig(xmapMca, ExafsScriptObserver)
+vortexConfig =  VortexConfig(None, ExafsScriptObserver)
 xspress3Config = Xspress3Config(xspress3, ExafsScriptObserver)
 
 detectorPreparer = I18DetectorPreparer(xspressConfig, vortexConfig, xspress3Config, I0_keithley, It_keithley, cmos_for_maps)
@@ -108,12 +109,12 @@ else :
 
 if (LocalProperties.get("gda.mode") == 'live'):
     non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
-    raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, traj1PositionReader, traj3PositionReader, raster_xspress, qexafs_xspress3, buffered_cid, trajBeamMonitor)
-    raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj_xspress3, traj1tfg, traj1xmap, traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
+    raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, None, traj1PositionReader, traj3PositionReader, raster_xspress, qexafs_xspress3, buffered_cid, trajBeamMonitor)
+    raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj_xspress3, traj1tfg, None, traj3tfg, None, traj1SampleX, traj3SampleX, traj1PositionReader, traj3PositionReader, trajBeamMonitor)
 else:
     non_raster_map =                           Map(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, sc_MicroFocusSampleX, sc_MicroFocusSampleY)
-    raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, raster_xmap, None, None, raster_xspress, qexafs_xspress3, None, None)
-    raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj_xspress3, traj1tfg, traj1xmap, traj3tfg, traj3xmap, traj1SampleX, traj3SampleX, None, None, None)
+    raster_map =                         RasterMap(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj1ContiniousX, traj3ContiniousX, raster_counterTimer01, None, None, None, raster_xspress, qexafs_xspress3, None, None)
+    raster_map_return_write = RasterMapReturnWrite(xspressConfig, vortexConfig, D7A, D7B, kb_vfm_x, counterTimer01, rcpController, ExafsScriptObserver, outputPreparer, detectorPreparer, traj_xspress3, traj1tfg, None, traj3tfg, None, traj1SampleX, traj3SampleX, None, None, None)
     
 
 # give object references to energy and table motors, now do not need the finder or to edit XML
@@ -176,3 +177,7 @@ print " map.disableUseIDGap()"
 print " map.enableUseIDGap()"
 print ""
 print "****************************************"
+
+
+from gda.scan import EpicsTrajectoryScanController
+EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(2000)
