@@ -8,6 +8,7 @@ from gda.device.detector import PseudoDetector
 from gda.device.Detector import BUSY, IDLE
 
 import __main__ as gdamain
+import threading
 
 class VersaStatClientClass(object):
 	
@@ -130,6 +131,16 @@ class VersaStatDeviceClass(PseudoDevice):
 		self.setOutputFormat(["%12.8f", "%12.8f"]);
 		self.setLevel(7);
 		self.device = vars(gdamain)[deviceName];
+		self.getPosThread = None
+		self.lastPos = None
+
+	def atPointStart(self):
+		#TODO: alternative to bare thread?
+		self.getPosThread = threading.Thread( None, self.getEI, None, None )
+		self.getPosThread.start()
+
+	def atPointEnd(self):
+		self.getPosThread = None
 
 	def info(self):
 		self.device.info();
@@ -159,7 +170,14 @@ class VersaStatDeviceClass(PseudoDevice):
 		return ss;
 
 	def getPosition(self):
+		if self.getPosThread != None:
+			self.getPosThread.join()
+			return self.lastPos
 		return self.device.getEI();
+
+	def getEI(self):
+		self.lastPos = self.device.getEI()
+		return self.lastPos
 
 	def asynchronousMoveTo(self,newPos):
 		self.device.setPotentialDC(newPos);
@@ -168,6 +186,13 @@ class VersaStatDeviceClass(PseudoDevice):
 	def isBusy(self):
 		return False;
 
+	def atCommandFailure(self):
+		self.stop()
+
+	def stop(self):
+		if self.getPosThread != None and self.getPosThread.isAlive():
+			print "thread may still be running"
+			self.getPosThread = None
 
 class VersaStatMonitorClass(PseudoDetector):
 	def __init__(self, name, deviceName):

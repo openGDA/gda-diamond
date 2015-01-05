@@ -35,7 +35,7 @@
       <perspectiveExtension targetID="uk.ac.gda.sixd.ExperimentPerspective">
          <view
                closeable="false"
-               id="uk.ac.gda.sixd.views.terminalView"
+               id="gda.rcp.jythonterminalview"
                minimized="false"
                moveable="true"
                ratio="0.95"
@@ -49,7 +49,7 @@
                id="gda.dal.sdsview"
                moveable="true"
                relationship="stack"
-               relative="uk.ac.gda.sixd.views.terminalView"
+               relative="gda.rcp.jythonterminalview"
                showTitle="true"
                visible="true">
          </view>
@@ -59,7 +59,7 @@
                moveable="true"
                ratio="0.3"
                relationship="right"
-               relative="uk.ac.gda.sixd.views.terminalView"
+               relative="gda.rcp.jythonterminalview"
                showTitle="true"
                visible="true">
          </view>
@@ -105,7 +105,7 @@
                moveable="true"
                ratio="0.60"
                relationship="bottom"
-               relative="uk.ac.gda.sixd.views.terminalView"
+               relative="gda.rcp.jythonterminalview"
                closeable="true"
                showTitle="true"
                visible="true">
@@ -154,17 +154,6 @@
          </view>
 -->
          
-         <view
-               closeable="false"
-               id="gda.rcp.jythoncontrollerview"
-               minimized="false"
-               moveable="false"
-               ratio="0.3"
-               relationship="top"
-               relative="ch.qos.logback.beagle.view.BeagleView"
-               showTitle="false"
-               visible="true">
-         </view>
         
       </perspectiveExtension>
       <perspectiveExtension
