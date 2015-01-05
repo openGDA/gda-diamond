@@ -3,6 +3,7 @@ Copy of Peter Bencocks conversion functions: /dls_sw/i10/scripts/Peter/pgm.py
 
 For use with GDA on I10 at Diamond Light Source
 """
+from math import sin, asin
 
 # Calculates energy for given grating density, grating angle, plane mirror angle, offsets and calibration
 # gd = grating density
@@ -11,7 +12,7 @@ For use with GDA on I10 at Diamond Light Source
 # ecg = energy calibration gradient
 # ecr = energy calibration reference
 
-from math import degrees, radians, sqrt, sin, asin
+from math import degrees, radians, sqrt
 
 def angles2energy(gd, grang, pmang, groff, pmoff, ecg, ecr):
     KE=1.239842e-3
