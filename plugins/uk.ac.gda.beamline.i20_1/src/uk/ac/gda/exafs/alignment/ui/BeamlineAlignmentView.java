@@ -21,7 +21,7 @@ package uk.ac.gda.exafs.alignment.ui;
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
-import gda.device.detector.StripDetector;
+import gda.device.detector.xstrip.StripDetector;
 import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
@@ -42,12 +42,10 @@ import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.databinding.validation.ValidationStatus;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IMessageProvider;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -143,7 +141,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private Label energyLabel;
 	private Button butDetectorSetup;
 
-	private Binding detectorValueBinding = null;
+	private final Binding detectorValueBinding = null;
 	private FormText labelDeltaEValue;
 
 	@Override
@@ -438,38 +436,46 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			butDetectorSetup.addListener(SWT.Selection, new Listener() {
 				@Override
 				public void handleEvent(Event event) {
-					DetectorSetupDialog setup = new DetectorSetupDialog(Display.getDefault().getActiveShell());
-					setup.setBlockOnOpen(true);
-					setup.open();
+					DetectorSetupDialog setup;
+					try {
+						setup = new DetectorSetupDialog(Display.getDefault().getActiveShell());
+						setup.setBlockOnOpen(true);
+						setup.open();
+					} catch (Exception e) {
+						logger.error("Tried to open incorrect detector setup page.", e);
+					}
 				}
 			});
 
 			cmbDetectorType.setInput(DetectorModel.INSTANCE.getAvailableDetectors());
-			UpdateValueStrategy detectorSelectionUpdateStrategy = new UpdateValueStrategy() {
-				@Override
-				protected IStatus doSet(IObservableValue observableValue, Object value) {
-					StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
-					boolean changeConfirm = true;
-					if (detector != null && detector.isConnected()) {
-						changeConfirm = MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Changing Detectors", detector.getName() + " is currently connected. Disconnect " + detector.getName() + " and connect " + ((StripDetector)value).getName() + "?");
-					}
-					if (changeConfirm) {
-						IStatus status = super.doSet(observableValue, value);
-						if (!status.isOK()) {
-							revertToModel();
-							logger.error("Unable to set new detector", status.getMessage());
-							UIHelper.showError("Unable to set new detector", status.getMessage());
-						}
-						return status;
-					}
-					revertToModel();
-					return ValidationStatus.ok();
-				}
-			};
-			detectorValueBinding = dataBindingCtx.bindValue(
-					ViewersObservables.observeSingleSelection(cmbDetectorType),
-					BeanProperties.value(DetectorModel.CURRENT_DETECTOR_SETUP_PROP_NAME).observe(DetectorModel.INSTANCE),
-					detectorSelectionUpdateStrategy, null);
+
+			// TODO Assume only one
+
+			//			UpdateValueStrategy detectorSelectionUpdateStrategy = new UpdateValueStrategy() {
+			//				@Override
+			//				protected IStatus doSet(IObservableValue observableValue, Object value) {
+			//					StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
+			//					boolean changeConfirm = true;
+			//					if (detector != null && detector.isConnected()) {
+			//						changeConfirm = MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Changing Detectors", detector.getName() + " is currently connected. Disconnect " + detector.getName() + " and connect " + ((StripDetector)value).getName() + "?");
+			//					}
+			//					if (changeConfirm) {
+			//						IStatus status = super.doSet(observableValue, value);
+			//						if (!status.isOK()) {
+			//							revertToModel();
+			//							logger.error("Unable to set new detector", status.getMessage());
+			//							UIHelper.showError("Unable to set new detector", status.getMessage());
+			//						}
+			//						return status;
+			//					}
+			//					revertToModel();
+			//					return ValidationStatus.ok();
+			//				}
+			//			};
+			//			detectorValueBinding = dataBindingCtx.bindValue(
+			//					ViewersObservables.observeSingleSelection(cmbDetectorType),
+			//					BeanProperties.value(DetectorModel.CURRENT_DETECTOR_SETUP_PROP_NAME).observe(DetectorModel.INSTANCE),
+			//					detectorSelectionUpdateStrategy, null);
 
 			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.AUGGESTED_PARAMETERS_PROP_KEY, new PropertyChangeListener() {
 				@Override

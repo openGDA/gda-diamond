@@ -19,7 +19,6 @@
 package uk.ac.gda.exafs.calibration.ui;
 
 import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
 import gda.util.exafs.Element;
 
 import java.io.File;
@@ -129,12 +128,7 @@ public class EDECalibrationSection extends ResourceComposite {
 					wizardDialog.setPageSize(1024, 768);
 					if (wizardDialog.open() == Window.OK) {
 						if (calibrationModel.getCalibrationDetails().getCalibrationResult() != null) {
-							try {
-								DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationModel.getCalibrationDetails());
-							} catch (DeviceException e1) {
-								UIHelper.showError("Unable to set energy calibration", e1.getMessage());
-								logger.warn("Unable to set energy calibration", e1);
-							}
+							DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().setEnergyCalibration(calibrationModel.getCalibrationDetails());
 						}
 					}
 				} catch (Exception e) {

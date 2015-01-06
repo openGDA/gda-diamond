@@ -20,12 +20,11 @@ package gda.scan;
 
 import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 import gda.data.nexus.tree.NexusTreeProvider;
-import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.device.detector.ExperimentLocationUtils;
-import gda.device.detector.ExperimentStatus;
-import gda.device.detector.StripDetector;
+import gda.device.detector.Detector;
+import gda.device.detector.DetectorStatus;
+import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TopupChecker;
@@ -61,7 +60,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
 
-	protected final StripDetector theDetector;
+	protected final Detector theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
 	protected final Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
 
@@ -92,7 +91,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	 * @param shutter
 	 */
 	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topupChecker) {
+			Detector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topupChecker) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
@@ -167,13 +166,13 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	@Override
 	public void doCollection() throws Exception {
 		// FIXME This is temporary solution as real data in unavailable
-		SimulatedData.reset();
+		// SimulatedData.reset();
 		validate();
 		if (topupChecker != null) {
 			topupChecker.atScanStart();
 		}
 		logger.debug(toString() + " loading detector parameters...");
-		theDetector.loadParameters(scanParameters);
+		theDetector.prepareDetectorwithScanParameters(scanParameters);
 		shutter.moveTo("Reset");
 		if (scanType == EdeScanType.DARK) {
 			// close the shutter
@@ -207,8 +206,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	protected void pollDetectorAndFetchData() throws DeviceException, Exception {
 		Integer nextFrameToRead = 0;
 		try {
-			ExperimentStatus progressData = fetchStatusAndWait();
-			Integer currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
+			DetectorStatus progressData = fetchStatusAndWait();
+			Integer currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
 			while (!collectionFinished(progressData)) {
 				// Review here we assume currentFrame - 1 is ready to read
 				if (currentFrame > nextFrameToRead) {
@@ -221,7 +220,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 					return;
 				}
 				progressData = fetchStatusAndWait();
-				currentFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(scanParameters, progressData.loc);
+				currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
 			}
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
@@ -249,10 +248,10 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	 * fetch the latest status of the TFG, if it is paused (waiting for a trigger) then do not return until the pause
 	 * has finished.
 	 */
-	private ExperimentStatus fetchStatusAndWait() throws DeviceException, InterruptedException {
-		ExperimentStatus progressData = theDetector.fetchStatus();
+	private DetectorStatus fetchStatusAndWait() throws DeviceException, InterruptedException {
+		DetectorStatus progressData = theDetector.fetchStatus();
 		boolean sendMessage = true;
-		while (progressData.detectorStatus == Detector.PAUSED) {
+		while (progressData.getDetectorStatus() == Detector.PAUSED) {
 			Thread.sleep(1000);
 			waitIfPaused();
 			if (sendMessage) {
@@ -264,8 +263,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		return progressData;
 	}
 
-	private Boolean collectionFinished(ExperimentStatus progressData) {
-		return progressData.detectorStatus == Detector.IDLE || progressData.detectorStatus == Detector.FAULT;
+	private Boolean collectionFinished(DetectorStatus progressData) {
+		return progressData.getDetectorStatus() == Detector.IDLE || progressData.getDetectorStatus() == Detector.FAULT;
 	}
 
 	@Override
@@ -350,8 +349,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		thisPoint.setScanPlotSettings(getScanPlotSettings());
 		thisPoint.setScanDimensions(getDimensions());
 		if (indexer != null) {
-			indexer.setGroup(ExperimentLocationUtils.getGroupNum(scanParameters, thisFrame));
-			indexer.setFrame(ExperimentLocationUtils.getFrameNum(scanParameters, thisFrame));
+			indexer.setGroup(DetectorScanDataUtils.getGroupNum(scanParameters, thisFrame));
+			indexer.setFrame(DetectorScanDataUtils.getFrameNum(scanParameters, thisFrame));
 			thisPoint.addScannable(indexer);
 			thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
 		}
@@ -390,8 +389,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
 		rawData.add(thisPoint);
 		if (progressUpdater != null) {
-			int groupNumOfThisSDP = ExperimentLocationUtils.getGroupNum(scanParameters, absoulteFrameNumber);
-			int frameNumOfThisSDP = ExperimentLocationUtils.getFrameNum(scanParameters, absoulteFrameNumber);
+			int groupNumOfThisSDP = DetectorScanDataUtils.getGroupNum(scanParameters, absoulteFrameNumber);
+			int frameNumOfThisSDP = DetectorScanDataUtils.getFrameNum(scanParameters, absoulteFrameNumber);
 			EdeScanProgressBean progress = new EdeScanProgressBean(groupNumOfThisSDP, frameNumOfThisSDP, scanType,
 					motorPositions.getType(), thisPoint);
 			progressUpdater.update(this, progress);
@@ -446,7 +445,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	}
 
 	@Override
-	public StripDetector getDetector() {
+	public Detector getDetector() {
 		return theDetector;
 	}
 }

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="DAServer" class="gda.device.detector.DummyXStripDAServer">
+	<bean id="DAServer" class="gda.device.detector.xstrip.DummyXStripDAServer">
 		<property name="local" value="True" />
 		<property name="host" value="localhost" />
 		<property name="port" value="1972" />

@@ -16,9 +16,10 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.detector;
+package gda.device.detector.xstrip;
 
 import gda.device.Detector;
+import gda.device.detector.DummyDAServer;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -72,13 +73,13 @@ public class DummyXStripDAServer extends DummyDAServer {
 
 	private int[] createDummyEDEMcaData(int numberOfFrames) {
 
-		int[] data = new int[numberOfFrames * XHDetector.NUMBER_ELEMENTS];
+		int[] data = new int[numberOfFrames * XhDetector.MAX_PIXEL];
 
 		for (int frame = 0; frame < numberOfFrames; frame++) {
 
 			if (readoutMode == MODE.FLAT) {
-				for (int i = 0; i < XHDetector.NUMBER_ELEMENTS; i++) {
-					data[(frame * XHDetector.NUMBER_ELEMENTS) + i] = 1;
+				for (int i = 0; i < XhDetector.MAX_PIXEL; i++) {
+					data[(frame * XhDetector.MAX_PIXEL) + i] = 1;
 				}
 				continue;
 			}
@@ -94,10 +95,10 @@ public class DummyXStripDAServer extends DummyDAServer {
 
 			// generate random values with a step at the edge of the baseline
 			for (int i = 0; i < edge; i++) {
-				data[(frame * XHDetector.NUMBER_ELEMENTS) + i] = (int) Math.round((Math.random() * noise));
+				data[(frame * XhDetector.MAX_PIXEL) + i] = (int) Math.round((Math.random() * noise));
 			}
-			for (int i = edge; i < XHDetector.NUMBER_ELEMENTS; i++) {
-				data[(frame * XHDetector.NUMBER_ELEMENTS) + i] = (int) Math.round((Math.random() * noise) + step);
+			for (int i = edge; i < XhDetector.MAX_PIXEL; i++) {
+				data[(frame * XhDetector.MAX_PIXEL) + i] = (int) Math.round((Math.random() * noise) + step);
 			}
 		}
 
@@ -477,7 +478,7 @@ public class DummyXStripDAServer extends DummyDAServer {
 		}
 
 		private void sleepClockCycles(Long integrationTime) throws InterruptedException {
-			Thread.sleep(Math.round(integrationTime * XHDetector.XSTRIP_CLOCKRATE * 1E3));
+			Thread.sleep(Math.round(integrationTime * XhDetector.XSTRIP_CLOCKRATE * 1E3));
 		}
 
 		private void waitForContinueSignal() throws InterruptedException {

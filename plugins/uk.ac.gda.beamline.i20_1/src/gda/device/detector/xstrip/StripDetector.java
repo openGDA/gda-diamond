@@ -16,11 +16,12 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.detector;
+package gda.device.detector.xstrip;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
-import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
+import gda.device.detector.DetectorStatus;
+import gda.device.detector.NexusDetector;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -87,14 +88,14 @@ public interface StripDetector extends NexusDetector {
 	 * 
 	 * @return the array of regions
 	 */
-	public XHROI[] getRois();
+	public XhRoi[] getRois();
 
 	/**
 	 * Ignoring the lower and upper channel properties, explicitly set the regions in use.
 	 * 
 	 * @param rois
 	 */
-	public void setRois(XHROI[] rois);
+	public void setRois(XhRoi[] rois);
 
 	/**
 	 * Set evenly sized regions of interest, ignoring channels outside of the lower and upper channel limits.
@@ -152,7 +153,7 @@ public interface StripDetector extends NexusDetector {
 	 * @return details of the experiment progress using an enhanced progress bean object
 	 * @throws DeviceException
 	 */
-	public ExperimentStatus fetchStatus() throws DeviceException;
+	public DetectorStatus fetchStatus() throws DeviceException;
 
 	/**
 	 * Send the software trigger continue command.
@@ -187,7 +188,7 @@ public interface StripDetector extends NexusDetector {
 	 * @return PolynomialFunction
 	 * @throws DeviceException
 	 */
-	public CalibrationDetails getEnergyCalibration() throws DeviceException;
+	//public CalibrationDetails getEnergyCalibration() throws DeviceException;
 
 	/**
 	 * Set the energy calibration. The detector object should persist this between GDA server restarts.
@@ -195,7 +196,7 @@ public interface StripDetector extends NexusDetector {
 	 * @param calibrationDetails
 	 * @throws DeviceException
 	 */
-	public void setEnergyCalibration(CalibrationDetails calibrationDetails) throws DeviceException;
+	//public void setEnergyCalibration(CalibrationDetails calibrationDetails) throws DeviceException;
 
-	boolean isEnergyCalibrationSet();
+	//boolean isEnergyCalibrationSet();
 }

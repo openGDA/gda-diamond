@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.detector.XHDetector;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -86,7 +84,7 @@ public class IncludedStripsSectionComposite extends ResourceComposite {
 		cmbFirstStripViewer = new ComboViewer(cmbFirstStrip);
 		cmbFirstStripViewer.setContentProvider(new ArrayContentProvider());
 		cmbFirstStripViewer.setLabelProvider(new LabelProvider());
-		cmbFirstStripViewer.setInput(XHDetector.getStrips());
+		cmbFirstStripViewer.setInput(DetectorModel.INSTANCE.getCurrentDetector().getPixels());
 
 		Label lblLastStrip = toolkit.createLabel(stripsComposite, "Last strip", SWT.NONE);
 		lblLastStrip.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -95,7 +93,7 @@ public class IncludedStripsSectionComposite extends ResourceComposite {
 		cmbLastStripViewer = new ComboViewer(cmbLastStrip);
 		cmbLastStripViewer.setContentProvider(new ArrayContentProvider());
 		cmbLastStripViewer.setLabelProvider(new LabelProvider());
-		cmbLastStripViewer.setInput(XHDetector.getStrips());
+		cmbLastStripViewer.setInput(DetectorModel.INSTANCE.getCurrentDetector().getPixels());
 
 		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, dectectorChangeListener);
 
@@ -104,8 +102,8 @@ public class IncludedStripsSectionComposite extends ResourceComposite {
 		}
 
 		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
-			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getLowerChannel()));
-			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getUpperChannel()));
+			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().getLowerChannel()));
+			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().getUpperChannel()));
 		}
 
 		dataBindingCtx.bindValue(

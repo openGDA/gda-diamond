@@ -19,7 +19,9 @@
 package uk.ac.gda.exafs.alignment.ui;
 
 import gda.device.DeviceException;
-import gda.device.detector.XCHIPDetector;
+import gda.device.detector.xstrip.XCHIPDetector;
+import gda.device.detector.xstrip.XhDetector;
+import gda.device.detector.xstrip.XhDetectorData;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -93,11 +95,21 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 	private Binding bindTxtBiasVoltage;
 	private Binding bindExcludedStrips;
 
-	private final String biasErrorMessage = "Voltage not in range. Enter input between " + DetectorModel.INSTANCE.getCurrentDetector().getMinBias() + " and " + DetectorModel.INSTANCE.getCurrentDetector().getMaxBias() + ".";
-	private final String detectorInputMessage = "Edit details for " + DetectorModel.INSTANCE.getCurrentDetector().getName() + " detector.";
+	private final String biasErrorMessage;
+	private final String detectorInputMessage;
 
-	public DetectorSetupDialog(Shell parentShell) {
+	private final XhDetector detector;
+	private final XhDetectorData detectorData;
+
+	public DetectorSetupDialog(Shell parentShell) throws Exception {
 		super(parentShell);
+		if (!(DetectorModel.INSTANCE.getCurrentDetector() instanceof XhDetector)) {
+			throw new Exception("Current detector is not the Xh detector");
+		}
+		detector = (XhDetector) DetectorModel.INSTANCE.getCurrentDetector();
+		detectorData = (XhDetectorData) detector.getDetectorData();
+		biasErrorMessage = "Voltage not in range. Enter input between " + detectorData.getMinBias() + " and " + detectorData.getMaxBias() + ".";
+		detectorInputMessage = "Edit details for Xh detector.";
 	}
 
 	@Override
@@ -205,12 +217,12 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 		});
 		bindTxtBiasVoltage = dataBindingCtx.bindValue(
 				WidgetProperties.text(SWT.Modify).observe(txtBiasVoltage),
-				BeanProperties.value(DetectorModel.BIAS_PROP_NAME).observe(DetectorModel.INSTANCE),
+				BeanProperties.value(DetectorModel.BIAS_PROP_NAME).observe(detectorData),
 				new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST).setBeforeSetValidator(new IValidator() {
 					@Override
 					public IStatus validate(Object value) {
 						if (value instanceof Double) {
-							if (DetectorModel.INSTANCE.isVoltageInRange((double) value)) {
+							if (detectorData.isVoltageInRange((double) value)) {
 								return ValidationStatus.ok();
 							}
 							return ValidationStatus.error(biasErrorMessage);
@@ -221,7 +233,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 				new UpdateValueStrategy().setAfterGetValidator(new IValidator() {
 					@Override
 					public IStatus validate(Object value) {
-						if (DetectorModel.INSTANCE.isVoltageInRange((double) value)) {
+						if (detectorData.isVoltageInRange((double) value)) {
 							return ValidationStatus.ok();
 						}
 						return ValidationStatus.error("Voltage not in range");

@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import gda.device.detector.XHDetector;
 import gda.factory.Finder;
 import gda.jython.IScanDataPointObserver;
 import gda.jython.InterfaceProvider;
@@ -38,15 +37,11 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.swt.widgets.Display;
 
 import uk.ac.gda.client.plotting.model.Node;
+import uk.ac.gda.exafs.data.DetectorModel;
 
 public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 
-	public final static DoubleDataset stripsData = new DoubleDataset(XHDetector.getStripsInDouble());
-
-	static {
-		stripsData.setName("Strip");
-	}
-
+	private final DoubleDataset stripsData;
 	private final Map<Integer, EdeScanNode> scans = new HashMap<Integer, EdeScanNode>();
 	private final IObservableList dataset = new WritableList(new ArrayList<EdeScanNode>(), EdeScanNode.class);
 
@@ -61,6 +56,7 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 		super(null);
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
 		InterfaceProvider.getScanDataPointProvider().addIScanDataPointObserver(this);
+		stripsData = DetectorModel.INSTANCE.getCurrentDetector().createDatasetForPixel();
 	}
 
 	public boolean isUseStripsAsXaxis() {
@@ -137,5 +133,9 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	@Override
 	public void removeChild(Node dataNode) {
 		// NOt supported
+	}
+
+	public DoubleDataset getStripsData() {
+		return stripsData;
 	}
 }

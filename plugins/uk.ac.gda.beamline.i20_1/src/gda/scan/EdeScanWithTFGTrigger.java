@@ -21,7 +21,7 @@ package gda.scan;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
-import gda.device.detector.StripDetector;
+import gda.device.detector.Detector;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -59,17 +59,17 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveExafsScan {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeScanWithTFGTrigger.class);
-	private final DAServer daserver;
+	private final DAServer daServerForTriggeringWithTFG;
 	private final TFGTrigger triggeringParameters;
 	private final boolean shouldWaitForTopup;
 
 	public EdeScanWithTFGTrigger(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			StripDetector theDetector, Integer repetitionNumber, Scannable shutter, boolean shouldWaitForTopup) {
+			Detector theDetector, Integer repetitionNumber, Scannable shutter, boolean shouldWaitForTopup) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter, null);
 
 		this.triggeringParameters = triggeringParameters;
 		this.shouldWaitForTopup = shouldWaitForTopup;
-		daserver = Finder.getInstance().find("daserverForTfg");
+		daServerForTriggeringWithTFG = Finder.getInstance().find("daserverForTfg");
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		// load the detector parameters
 		validate();
 		logger.debug(toString() + " loading detector parameters...");
-		theDetector.loadParameters(scanParameters);
+		theDetector.prepareDetectorwithScanParameters(scanParameters);
 		// derive the eTFG parameters and load them
 		prepareTFG(shouldWaitForTopup);
 		// move into the it position
@@ -105,13 +105,13 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		String command = triggeringParameters.getTfgSetupGrupsCommandParameters(numberOfRepetitions, shouldStartOnTopupSignal);
 
 		// send buffer to daserver
-		daserver.sendCommand(command);
+		daServerForTriggeringWithTFG.sendCommand(command);
 
 	}
 
 
 	private void startTFG() throws DeviceException {
-		daserver.sendCommand("tfg start");
+		daServerForTriggeringWithTFG.sendCommand("tfg start");
 	}
 
 	@Override

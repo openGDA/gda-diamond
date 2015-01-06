@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import gda.device.detector.XHROI;
+import gda.device.detector.xstrip.XhRoi;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -84,7 +84,7 @@ public class XHROIComposite extends Composite {
 		return upperLevel;
 	}
 
-	public void selectionChanged(XHROI xhroi) {
+	public void selectionChanged(XhRoi xhroi) {
 		name.setValue(xhroi.getName());
 		lowerLevel.setValue(xhroi.getLowerLevel());
 		upperLevel.setValue(xhroi.getUpperLevel());		

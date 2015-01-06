@@ -20,9 +20,9 @@ package gda.scan;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.tree.NexusTreeProvider;
+import gda.device.detector.Detector;
 import gda.device.detector.NXDetectorData;
-import gda.device.detector.StripDetector;
-import gda.device.detector.XHDetector;
+import gda.device.detector.xstrip.XhDetector;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.position.EdePositionType;
@@ -84,18 +84,18 @@ public class SimulatedData {
 		loopFrame = 0;
 	}
 
-	public static NexusTreeProvider[] readSimulatedDataFromFile(int lowFrame, int highFrame, StripDetector theDetector, EdePositionType positionType, EdeScanType scanType)  throws Exception {
+	public static NexusTreeProvider[] readSimulatedDataFromFile(int lowFrame, int highFrame, Detector theDetector, EdePositionType positionType, EdeScanType scanType)  throws Exception {
 		if (simulatedIt_raw == null) {
 			throw new Exception("Simulated data not loaded");
 		}
-		simulatedEnergies = ((XHDetector) theDetector).getEnergyForChannels();
+		simulatedEnergies = ((XhDetector) theDetector).getEnergyForChannels();
 		int numberOfFrames = (highFrame + 1) - lowFrame;
 		NexusTreeProvider[] nexusTreeProvider = new NexusTreeProvider[numberOfFrames];
 		int startFrame = loopFrame++ % MAX;
 
 		for(int i = 0; i < numberOfFrames; i++) {
 			NXDetectorData thisFrame = new NXDetectorData(theDetector);
-			thisFrame.addAxis(theDetector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedEnergies, 1, 1, "eV", false);
+			thisFrame.addAxis(theDetector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { XhDetector.MAX_PIXEL }, NexusFile.NX_FLOAT64, simulatedEnergies, 1, 1, "eV", false);
 			double[] simulatedData = null;
 			if (positionType == EdePositionType.OUTBEAM) {
 				if (scanType == EdeScanType.LIGHT) {
@@ -117,7 +117,7 @@ public class SimulatedData {
 				}
 			}
 
-			thisFrame.addData(theDetector.getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { XHDetector.NUMBER_ELEMENTS }, NexusFile.NX_FLOAT64, simulatedData, "eV", 1);
+			thisFrame.addData(theDetector.getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { XhDetector.MAX_PIXEL }, NexusFile.NX_FLOAT64, simulatedData, "eV", 1);
 			for (String name : thisFrame.getExtraNames()) {
 				thisFrame.setPlottableValue(name, 0.0);
 			}
@@ -126,10 +126,10 @@ public class SimulatedData {
 		return nexusTreeProvider;
 	}
 
-	private static double[] createCorrectedSimulatedData(double[] simulatedData, StripDetector theDetector) {
+	private static double[] createCorrectedSimulatedData(double[] simulatedData, Detector theDetector) {
 		double[] correctedSimulatedData = new double[simulatedData.length];
 		for (int i = 0; i < simulatedData.length; i++) {
-			if (i >= theDetector.getLowerChannel() && i <= theDetector.getUpperChannel()) {
+			if (i >= theDetector.getDetectorData().getLowerChannel() && i <= theDetector.getDetectorData().getUpperChannel()) {
 				correctedSimulatedData[i] = simulatedData[i];
 			} else {
 				correctedSimulatedData[i] = 0.0;

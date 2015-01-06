@@ -16,8 +16,9 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.detector;
+package gda.device.detector.xstrip;
 
+import gda.device.detector.DetectorScanInfo;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -25,21 +26,20 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * Tools for converting between absolute frame number (as data stored in memory in terms of absolute frames) and
  * group/frame number (which is how experiments are defined).
  */
-public abstract class ExperimentLocationUtils {
+public final class DetectorScanDataUtils {
+
+	private DetectorScanDataUtils() {}
+
 	/**
 	 * Given the absolute frame number (zero-based), works out the group number (also zero based)
 	 */
 	public static Integer getGroupNum(EdeScanParameters edeScan, Integer absoluteFrameNum) {
-
 		if (absoluteFrameNum == 0) {
 			return 0;
 		}
-
 		int[] groupTotals = getGroupTotals(edeScan);
-
 		int togo = absoluteFrameNum;
 		int groupNum = 0;
-
 		while (togo > 0) {
 			togo -= groupTotals[groupNum];
 			groupNum++;
@@ -55,7 +55,6 @@ public abstract class ExperimentLocationUtils {
 	 */
 	private static int[] getGroupTotals(EdeScanParameters edeScan) {
 		int[] totals = new int[edeScan.getGroups().size()];
-
 		for (int i = 0; i < edeScan.getGroups().size(); i++) {
 			totals[i] = edeScan.getGroups().get(i).getNumberOfFrames();
 		}
@@ -71,11 +70,9 @@ public abstract class ExperimentLocationUtils {
 		if (absoluteFrameNum == 0) {
 			return 0;
 		}
-
 		int[] groupTotals = getGroupTotals(edeScan);
 		int togo = absoluteFrameNum;
 		int groupNum = 0;
-
 		do {
 			// subtract the number in each group in turn
 			togo -= groupTotals[groupNum];
@@ -84,7 +81,6 @@ public abstract class ExperimentLocationUtils {
 
 		// if we have dropped to zero or below then we know the group the frame is in, so correct by the number of
 		// frames in that group
-
 		if (togo < 0) {
 			return togo + groupTotals[groupNum - 1];
 		}
@@ -92,19 +88,15 @@ public abstract class ExperimentLocationUtils {
 
 	}
 
-	public static Integer getAbsoluteFrameNumber(EdeScanParameters edeScan, ExperimentLocation loc) {
-
+	public static Integer getAbsoluteFrameNumber(EdeScanParameters edeScan, DetectorScanInfo loc) {
 		int[] groupTotals = getGroupTotals(edeScan);
 		int groupNum = 0;
 		int absFrameNum = 0;
-
 		while (groupNum < loc.groupNum) {
 			absFrameNum += groupTotals[groupNum];
 			groupNum++;
 		}
-
 		absFrameNum += (loc.frameNum);
-
 		return absFrameNum;
 	}
 
@@ -112,18 +104,13 @@ public abstract class ExperimentLocationUtils {
 	 * Given the absolute frame number (zero-based), works out the starting time (in s) since the start of the scan
 	 */
 	public static Double getFrameTime(EdeScanParameters scanParameters, Integer absoluteFrameNum) {
-
 		int groupNum = getGroupNum(scanParameters, absoluteFrameNum);
 		int frameNum = getFrameNum(scanParameters, absoluteFrameNum);
-
 		double totalTime = 0.0;
-
 		for (int group = 0; group < groupNum; group++){
 			totalTime += getGroupTotalTime(scanParameters.getGroups().get(group));
 		}
-
 		totalTime += getTimeOfFrameInGroup(scanParameters.getGroups().get(groupNum),frameNum);
-
 		return totalTime;
 	}
 
@@ -150,5 +137,4 @@ public abstract class ExperimentLocationUtils {
 	private static double getGroupTotalTime(TimingGroup timingGroup) {
 		return getTimeOfFrameInGroup(timingGroup, timingGroup.getNumberOfFrames());
 	}
-
 }

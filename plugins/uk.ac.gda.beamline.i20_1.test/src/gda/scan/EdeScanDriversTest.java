@@ -21,8 +21,8 @@ package gda.scan;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
-import gda.device.detector.DummyXStripDAServer;
-import gda.device.detector.XHDetector;
+import gda.device.detector.xstrip.DummyXStripDAServer;
+import gda.device.detector.xstrip.XhDetector;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
@@ -48,7 +48,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 @PowerMockIgnore({"javax.management.*", "javax.xml.parsers.*", "org.apache.xerces.*" ,"com.sun.org.apache.xerces.internal.jaxp.*", "ch.qos.logback.*", "org.slf4j.*"})
 public class EdeScanDriversTest extends EdeTestBase {
 	private static DummyXStripDAServer daserver;
-	private static XHDetector xh;
+	private static XhDetector xh;
 	private String testDir;
 	private static ScannableMotor sample_x;
 	private static ScannableMotor sample_y;
@@ -65,7 +65,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 		// dummy daserver
 		daserver = new DummyXStripDAServer();
 		// detector
-		xh = new XHDetector();
+		xh = new XhDetector();
 		xh.setDaServer(daserver);
 		xh.setName("xh");
 		xh.setDetectorName("xh0");
@@ -124,7 +124,9 @@ public class EdeScanDriversTest extends EdeTestBase {
 	}
 
 	// FIXME This is not testing anything?
+	// Ignore as SingleSpectrumDriver is deprecated
 	@Test
+	@Ignore
 	public void testDriveSingleSpectrumScan_motorpositions() throws Exception {
 		setup("testDriveSingleSpectrumScan_motorpositions");
 
@@ -163,8 +165,8 @@ public class EdeScanDriversTest extends EdeTestBase {
 
 	}
 	
-	@Test
-
+	// Ignored because LinearExperimentDriver is deprecated
+	@Ignore @Test
 	public void testDriveLinearSpectrumScan_motorpositions() throws Exception {
 		setup("testDriveLinearSpectrumScan_motorpositions");
 		

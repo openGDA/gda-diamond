@@ -18,11 +18,9 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.device.Detector;
-import gda.device.DeviceException;
-import gda.device.detector.StripDetector;
-import gda.device.detector.XHDetector;
-import gda.device.detector.XHROI;
+import gda.device.detector.Detector;
+import gda.device.detector.Roi;
+import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Finder;
 import gda.observable.IObserver;
 
@@ -56,7 +54,7 @@ public class DetectorModel extends ObservableModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(DetectorModel.class);
 
-	private StripDetector currentDetector;
+	private Detector currentDetector;
 
 	private final EnergyCalibrationSetObserver energyCalibrationSetObserver = new EnergyCalibrationSetObserver();
 
@@ -64,11 +62,9 @@ public class DetectorModel extends ObservableModel {
 		return energyCalibrationSetObserver;
 	}
 
-	private final List<StripDetector> availableDetectors = new ArrayList<StripDetector>();
-	private final List<XHROI> roisModel = new ArrayList<XHROI>();
-	private final WritableList rois = new WritableList(roisModel, XHROI.class);
-
-	private Double biasCache;
+	private final List<Detector> availableDetectors = new ArrayList<Detector>();
+	private final List<Roi> roisModel = new ArrayList<Roi>();
+	private final WritableList rois = new WritableList(roisModel, Roi.class);
 
 	private Integer[] excludedStripsCache;
 
@@ -90,35 +86,34 @@ public class DetectorModel extends ObservableModel {
 		}
 	}
 
-	public void setupDetectors() throws Exception {
+	private void setupDetectors() {
 		for (DetectorSetup detectorSetup : DetectorSetup.values()) {
 
-			Object detectorBean = Finder.getInstance().find(detectorSetup.getDetectorName());
-			if (detectorBean != null && detectorBean instanceof StripDetector) {
-				StripDetector stripdetector = (StripDetector) detectorBean;
-				availableDetectors.add(stripdetector);
-				if (stripdetector.isConnected()) {
-					setCurrentDetector(stripdetector);
-				}
+			Object currentDetector = Finder.getInstance().find(detectorSetup.getDetectorName());
+			if (currentDetector != null && currentDetector instanceof Detector) {
+				Detector detector = (Detector) currentDetector;
+				availableDetectors.add(detector);
+				setCurrentDetector(detector);
+				break;
 			}
 		}
 	}
 
 	public void reloadROIs() {
 		rois.clear();
-		for (XHROI roi : currentDetector.getRois()) {
+		for (Roi roi : currentDetector.getDetectorData().getRois()) {
 			rois.add(roi);
 		}
 	}
 
 	public void addRIO() {
-		currentDetector.setNumberRois(rois.size() + 1);
+		currentDetector.getDetectorData().setNumberRois(rois.size() + 1);
 		reloadROIs();
 	}
 
 	public void removeRIO() {
 		if (rois.size() > 1) {
-			currentDetector.setNumberRois(rois.size() - 1);
+			currentDetector.getDetectorData().setNumberRois(rois.size() - 1);
 			reloadROIs();
 		}
 	}
@@ -127,8 +122,8 @@ public class DetectorModel extends ObservableModel {
 		if (currentDetector == null) {
 			throw new DetectorUnavailableException();
 		}
-		int currentValue = currentDetector.getUpperChannel();
-		currentDetector.setUpperChannel(value);
+		int currentValue = currentDetector.getDetectorData().getUpperChannel();
+		currentDetector.getDetectorData().setUpperChannel(value);
 		this.firePropertyChange(UPPER_CHANNEL_PROP_NAME, currentValue, value);
 		this.reloadROIs();
 	}
@@ -137,8 +132,8 @@ public class DetectorModel extends ObservableModel {
 		if (currentDetector == null) {
 			throw new DetectorUnavailableException();
 		}
-		int currentValue = currentDetector.getLowerChannel();
-		currentDetector.setLowerChannel(value);
+		int currentValue = currentDetector.getDetectorData().getLowerChannel();
+		currentDetector.getDetectorData().setLowerChannel(value);
 		this.firePropertyChange(LOWER_CHANNEL_PROP_NAME, currentValue, value);
 		this.reloadROIs();
 	}
@@ -147,87 +142,62 @@ public class DetectorModel extends ObservableModel {
 		if (currentDetector == null) {
 			throw new DetectorUnavailableException();
 		}
-		return currentDetector.getUpperChannel();
+		return currentDetector.getDetectorData().getUpperChannel();
 	}
 
 	public int getLowerChannel() throws DetectorUnavailableException {
 		if (currentDetector == null) {
 			throw new DetectorUnavailableException();
 		}
-		return currentDetector.getLowerChannel();
+		return currentDetector.getDetectorData().getLowerChannel();
 	}
 
-	public StripDetector getCurrentDetector() {
+	public Detector getCurrentDetector() {
 		return currentDetector;
 	}
 
 	public Detector getCurrentStepScanDetector() {
-		return Finder.getInstance().find("ss"+currentDetector.getName());
+		// FIXME
+		return Finder.getInstance().find("ss" + currentDetector.getName());
 	}
 
-	public void setCurrentDetector(StripDetector detector) throws Exception {
-		try {
-			try {
-				if (currentDetector != null) {
-					if (currentDetector.isConnected()) {
-						currentDetector.disconnect();
-					}
-					currentDetector.deleteIObserver(energyCalibrationSetObserver);
-				}
-				firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, (currentDetector == null), false);
-				firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = null);
-				firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, null);
-				firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, null);
-			} catch (DeviceException e) {
-				throw new Exception("DeviceException when disconnecting detector " + currentDetector.getName(), e);
-			}
-			if (!detector.isConnected()) {
-				detector.connect();
-			}
-			biasCache = null;
-			excludedStripsCache = null;
-			firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = detector);
-			firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, true);
-			firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, currentDetector.getLowerChannel());
-			firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, currentDetector.getUpperChannel());
-			currentDetector.addIObserver(energyCalibrationSetObserver);
-		} catch (DeviceException e) {
-			firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, false);
-			firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, null, null);
-			firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, null);
-			firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, null);
-			throw new Exception("DeviceException when connecting detector " + detector.getName(), e);
-		}
+	public void setCurrentDetector(Detector detector) {
+		excludedStripsCache = null;
+		firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = detector);
+		firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, true);
+		firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, currentDetector.getDetectorData().getLowerChannel());
+		firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, currentDetector.getDetectorData().getUpperChannel());
+		currentDetector.addIObserver(energyCalibrationSetObserver);
 	}
 
 	public boolean isDetectorConnected() {
 		return (currentDetector != null);
 	}
 
-	public List<StripDetector> getAvailableDetectors() {
+	public List<Detector> getAvailableDetectors() {
 		return availableDetectors;
 	}
 
-	public boolean isVoltageInRange(double value) {
-		return (currentDetector.getMinBias() <= value & value <= currentDetector.getMaxBias());
-	}
+	//	public boolean isVoltageInRange(double value) {
+	//		return (currentDetector.getMinBias() <= value & value <= currentDetector.getMaxBias());
+	//	}
+	//
+	//	public double getBias() throws DeviceException {
+	//		if (biasCache == null) {
+	//			biasCache = new Double(currentDetector.getBias());
+	//		}
+	//		return biasCache.doubleValue();
+	//	}
+	//
+	//	public void setBias(double bias) throws DeviceException {
+	//		currentDetector.setBias(bias);
+	//		firePropertyChange(BIAS_PROP_NAME, null, bias);
+	//		biasCache = null;
+	//	}
 
-	public double getBias() throws DeviceException {
-		if (biasCache == null) {
-			biasCache = new Double(currentDetector.getBias());
-		}
-		return biasCache.doubleValue();
-	}
-
-	public void setBias(double bias) throws DeviceException {
-		currentDetector.setBias(bias);
-		firePropertyChange(BIAS_PROP_NAME, null, bias);
-		biasCache = null;
-	}
-
-	public void setExcludedStrips(Integer[] excludedStrips) throws DeviceException {
-		Integer[] currentExcludedStrips = currentDetector.getExcludedStrips();
-		currentDetector.setExcludedStrips(excludedStrips);
+	public void setExcludedStrips(Integer[] excludedStrips) {
+		Integer[] currentExcludedStrips = currentDetector.getDetectorData().getExcludedPixels();
+		currentDetector.getDetectorData().setExcludedPixels(excludedStrips);
 		firePropertyChange(CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME, currentExcludedStrips, excludedStrips);
 		excludedStripsCache = null;
 	}
@@ -236,7 +206,7 @@ public class DetectorModel extends ObservableModel {
 	public Integer[] getExcludedStrips() {
 		// TODO Find out why we need cache
 		if (excludedStripsCache == null) {
-			excludedStripsCache = currentDetector.getExcludedStrips();
+			excludedStripsCache = currentDetector.getDetectorData().getExcludedPixels();
 		}
 		System.out.println("getExcludedStrips called " + excludedStripsCache + " for " + currentDetector.getName());
 		return excludedStripsCache;
@@ -244,7 +214,7 @@ public class DetectorModel extends ObservableModel {
 
 	public Integer[] getStrips() {
 		// TODO Refactor this!
-		return XHDetector.getStrips();
+		return currentDetector.getPixels();
 	}
 
 	public WritableList getRois() {
@@ -274,26 +244,18 @@ public class DetectorModel extends ObservableModel {
 					@Override
 					public void run() {
 						String value = "";
-						if (((StripDetector) source).isEnergyCalibrationSet()) {
-							try {
-								value = ((StripDetector) source).getEnergyCalibration().getFormattedPolinormal();
-							} catch (DeviceException e) {
-								logger.error("Error getting calibration information", e);
-							}
+						if (((Detector) source).getDetectorData().isEnergyCalibrationSet()) {
+							value = ((Detector) source).getDetectorData().getEnergyCalibration().getFormattedPolinormal();
+							EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
 						}
-						EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
 					}
 				});
 			}
 		}
 
 		public String getEnergyCalibration() {
-			if (DetectorModel.INSTANCE.getCurrentDetector() != null &&  DetectorModel.INSTANCE.getCurrentDetector().isEnergyCalibrationSet()) {
-				try {
-					return DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getFormattedPolinormal();
-				} catch (DeviceException e) {
-					logger.error("Error getting calibration information", e);
-				}
+			if (DetectorModel.INSTANCE.getCurrentDetector() != null &&  DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().isEnergyCalibrationSet()) {
+				return DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().getEnergyCalibration().getFormattedPolinormal();
 			}
 			return "";
 		}

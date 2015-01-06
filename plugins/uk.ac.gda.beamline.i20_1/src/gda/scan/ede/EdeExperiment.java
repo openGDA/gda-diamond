@@ -26,7 +26,7 @@ import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
-import gda.device.detector.XCHIPDetector;
+import gda.device.detector.Detector;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -98,7 +98,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected boolean runItWithTriggerOptions = true; // default for linear/cyclic experiments
 
 	protected Scannable beamLightShutter;
-	protected XCHIPDetector theDetector;
+	protected Detector theDetector;
 	protected EdeScan i0DarkScan;
 	protected EdeScan itDarkScan;
 	protected EdeScan i0LightScan;
@@ -486,7 +486,7 @@ public abstract class EdeExperiment implements IObserver {
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
 			if (source.equals(i0DarkScan)) {
 				lastEnergyData = ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
-				if (!theDetector.isEnergyCalibrationSet()) {
+				if (!theDetector.getDetectorData().isEnergyCalibrationSet()) {
 					lastEnergyData.setName("Strip");
 				}
 				lastI0DarkData = i0DarkScan.extractLastDetectorDataSet();

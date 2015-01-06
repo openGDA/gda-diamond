@@ -66,7 +66,7 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 	public DoubleDataset getXAxisDataset() {
 		ExperimentRootNode experimentDataNode = (ExperimentRootNode) parent.getParent().getParent();
 		if (experimentDataNode.isUseStripsAsXaxis()) {
-			return ExperimentRootNode.stripsData;
+			return experimentDataNode.getStripsData();
 		}
 		return ((SpectraNode) parent).getXAxisData();
 	}

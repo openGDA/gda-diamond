@@ -21,8 +21,8 @@ package gda.scan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import gda.device.DeviceException;
-import gda.device.detector.ExperimentLocation;
-import gda.device.detector.ExperimentLocationUtils;
+import gda.device.detector.DetectorScanInfo;
+import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.scannable.FrameIndexer;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdePositionType;
@@ -75,15 +75,15 @@ public class FrameIndexerTest {
 
 				// test from absolute number to user meaningful timing group / frame number
 
-				Integer groupOutput = ExperimentLocationUtils.getGroupNum(params, index);
-				Integer frameOutput = ExperimentLocationUtils.getFrameNum(params, index);
+				Integer groupOutput = DetectorScanDataUtils.getGroupNum(params, index);
+				Integer frameOutput = DetectorScanDataUtils.getFrameNum(params, index);
 				System.out.println(index + "\t" + group + "\t" + groupOutput + "\t" + frame + "\t" + frameOutput);
 				assertEquals(group, groupOutput);
 				assertEquals(frame, frameOutput);
 
 				// test from timing group / frame number to absolute number
-				ExperimentLocation loc = new ExperimentLocation(group, frame, 0);
-				Integer zerobasedAbsoluteFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(params, loc);
+				DetectorScanInfo loc = new DetectorScanInfo(group, frame, 0);
+				Integer zerobasedAbsoluteFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(params, loc);
 				System.out.println(index + "\t" + zerobasedAbsoluteFrame);
 				assertEquals(index, zerobasedAbsoluteFrame);
 
@@ -110,12 +110,12 @@ public class FrameIndexerTest {
 		for (Integer absFrameNum = 0; absFrameNum <= 54; absFrameNum++) {
 
 			// test from absolute number to user meaningful timing group / frame number
-			Integer groupOutput = ExperimentLocationUtils.getGroupNum(params, absFrameNum);
-			Integer frameOutput = ExperimentLocationUtils.getFrameNum(params, absFrameNum);
+			Integer groupOutput = DetectorScanDataUtils.getGroupNum(params, absFrameNum);
+			Integer frameOutput = DetectorScanDataUtils.getFrameNum(params, absFrameNum);
 
 			// test from timing group / frame number to absolute number
-			ExperimentLocation loc = new ExperimentLocation(groupOutput, frameOutput, 1);
-			Integer zerobasedAbsoluteFrame = ExperimentLocationUtils.getAbsoluteFrameNumber(params, loc);
+			DetectorScanInfo loc = new DetectorScanInfo(groupOutput, frameOutput, 1);
+			Integer zerobasedAbsoluteFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(params, loc);
 			System.out.println(absFrameNum + "\t" + zerobasedAbsoluteFrame + "\t" + groupOutput + "\t" + frameOutput);
 
 			assertEquals(absFrameNum, zerobasedAbsoluteFrame);
@@ -143,8 +143,8 @@ public class FrameIndexerTest {
 		FrameIndexer indexer = new FrameIndexer(EdeScanType.DARK, EdePositionType.OUTBEAM, 0);
 
 		// first frame (frame is zero based but value reported to users will be 1 based)
-		Integer group = ExperimentLocationUtils.getGroupNum(params, 0);
-		Integer frame = ExperimentLocationUtils.getFrameNum(params, 0);
+		Integer group = DetectorScanDataUtils.getGroupNum(params, 0);
+		Integer frame = DetectorScanDataUtils.getFrameNum(params, 0);
 		indexer.setGroup(group);
 		indexer.setFrame(frame);
 		assertEquals(Integer.valueOf(0), group);
@@ -152,8 +152,8 @@ public class FrameIndexerTest {
 		assertArrayEquals(new Integer[] { 0, 0, 0, 0, 0 }, (Integer[]) indexer.getPosition());
 
 		// 20th frame
-		group = ExperimentLocationUtils.getGroupNum(params, 20);
-		frame = ExperimentLocationUtils.getFrameNum(params, 20);
+		group = DetectorScanDataUtils.getGroupNum(params, 20);
+		frame = DetectorScanDataUtils.getFrameNum(params, 20);
 		indexer.setGroup(group);
 		indexer.setFrame(frame);
 		assertEquals(Integer.valueOf(5), group);
@@ -161,8 +161,8 @@ public class FrameIndexerTest {
 		assertArrayEquals(new Integer[] { 0, 0, 0, 5, 5 }, (Integer[]) indexer.getPosition());
 
 		// 27th frame
-		group = ExperimentLocationUtils.getGroupNum(params, 27);
-		frame = ExperimentLocationUtils.getFrameNum(params, 27);
+		group = DetectorScanDataUtils.getGroupNum(params, 27);
+		frame = DetectorScanDataUtils.getFrameNum(params, 27);
 		indexer.setGroup(group);
 		indexer.setFrame(frame);
 		assertEquals(Integer.valueOf(6), group);
@@ -170,8 +170,8 @@ public class FrameIndexerTest {
 		assertArrayEquals(new Integer[] { 0, 0, 0, 6, 6 }, (Integer[]) indexer.getPosition());
 
 		// 51st frame
-		group = ExperimentLocationUtils.getGroupNum(params, 51);
-		frame = ExperimentLocationUtils.getFrameNum(params, 51);
+		group = DetectorScanDataUtils.getGroupNum(params, 51);
+		frame = DetectorScanDataUtils.getFrameNum(params, 51);
 		indexer.setGroup(group);
 		indexer.setFrame(frame);
 		assertEquals(Integer.valueOf(9), group);

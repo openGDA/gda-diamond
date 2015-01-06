@@ -20,13 +20,14 @@ package gda.scan.ede.drivers;
 
 import gda.device.Monitor;
 import gda.device.Scannable;
-import gda.device.detector.StripDetector;
+import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Finder;
 
 /**
  * Convenience class which takes a series of parameters, runs the scan and then returns the name of the ascii file
  * created.
  */
+@Deprecated
 public class SingleSpectrumDriver extends ScanDriver{
 
 	private final StripDetector detector;

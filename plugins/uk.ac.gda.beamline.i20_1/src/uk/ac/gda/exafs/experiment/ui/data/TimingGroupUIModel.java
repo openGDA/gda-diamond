@@ -19,8 +19,8 @@
 package uk.ac.gda.exafs.experiment.ui.data;
 
 import gda.device.DeviceException;
-import gda.device.detector.StripDetector;
-import gda.device.detector.XCHIPDetector;
+import gda.device.detector.Detector;
+import gda.device.detector.xstrip.XCHIPDetector;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -357,13 +357,9 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			double integrationTime = getIntegrationTime();
 			int noOfSpectra = getNumberOfSpectrum();
 			if (integrationTime > 0 & timePerSpectrum > 0) {
-				StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
-				if (detector instanceof XCHIPDetector) {
-					int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(timePerSpectrum, ExperimentUnit.SEC), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(integrationTime, ExperimentUnit.SEC), noOfSpectra);
-					setNoOfAccumulations(numberScansInFrame);
-				} else {
-					throw new DeviceException("Detector not found to get number of scans in frame");
-				}
+				Detector detector = DetectorModel.INSTANCE.getCurrentDetector();
+				int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(timePerSpectrum, ExperimentUnit.SEC), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(integrationTime, ExperimentUnit.SEC), noOfSpectra);
+				setNoOfAccumulations(numberScansInFrame);
 			}
 		} catch (DeviceException e) {
 			logger.warn("Unable to update max accumulations");

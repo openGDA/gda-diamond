@@ -20,7 +20,7 @@ package gda.scan.ede.drivers;
 
 import gda.device.Monitor;
 import gda.device.Scannable;
-import gda.device.detector.StripDetector;
+import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Finder;
 import gda.scan.ede.TimeResolvedExperiment;
 

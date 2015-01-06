@@ -18,7 +18,8 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.device.detector.StripDetector;
+import gda.device.detector.DetectorData;
+import gda.device.detector.Detector;
 import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
@@ -63,7 +64,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	public EdeTimeResolvedExperimentDataWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
 			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
-			StripDetector theDetector, String nexusfileName) {
+			Detector theDetector, String nexusfileName) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0DarkScan = i0DarkScan;
 		i0InitialLightScan = i0LightScan;
@@ -100,8 +101,9 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 			scannablesConfiguration = scannablesConfiguration + "# Number of cycles: " + itScans.length + "\n";
 		}
 		String energyCalibration = null;
-		if (itScans[0].getDetector().isEnergyCalibrationSet()) {
-			energyCalibration = itScans[0].getDetector().getEnergyCalibration().toString();
+		DetectorData detectorData = itScans[0].getDetector().getDetectorData();
+		if (detectorData.isEnergyCalibrationSet()) {
+			energyCalibration = detectorData.getEnergyCalibration().toString();
 		}
 		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);
 

@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2011 Diamond Light Source Ltd.
+ * Copyright © 2014 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -18,35 +18,13 @@
 
 package gda.device.detector;
 
-import java.io.Serializable;
 
-/**
- * Holds the definition of a Region of Interest for the XH detector. ROIs must not overlap.
- */
-public class XHROI implements Serializable{
-
+public class Roi {
 	private String name = "";
 	private int lowerLevel;
 	private int upperLevel;
 
-	public XHROI(){
-	}
-
-
-	public XHROI(String string) {
-		name = string;
-	}
-
-	@Override
-	public String toString() {
-		return "XHROI [name=" + name + ", lowerLevel=" + lowerLevel + ", upperLevel=" + upperLevel + "]";
-	}
-
 	public String getName() {
-		return name;
-	}
-
-	public String getLabel() {
 		return name;
 	}
 
@@ -72,5 +50,14 @@ public class XHROI implements Serializable{
 
 	public void setUpperLevel(int upperLevel) {
 		this.upperLevel = upperLevel;
+	}
+
+	public boolean isInsideRio(int elementNumber) {
+		return elementNumber >= getLowerLevel() && elementNumber <= getUpperLevel();
+	}
+
+	@Override
+	public String toString() {
+		return "Roi [name=" + name + ", lowerLevel=" + lowerLevel + ", upperLevel=" + upperLevel + "]";
 	}
 }

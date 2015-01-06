@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.detector.XHROI;
+import gda.device.detector.xstrip.XhRoi;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
@@ -110,7 +110,7 @@ public class DetectorROIsSection extends ResourceComposite {
 		viewerNumberColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((XHROI) element).getName();
+				return ((XhRoi) element).getName();
 			}
 		});
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(2));
@@ -121,7 +121,7 @@ public class DetectorROIsSection extends ResourceComposite {
 		viewerlowerLevelColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return Integer.toString(((XHROI) element).getLowerLevel());
+				return Integer.toString(((XhRoi) element).getLowerLevel());
 			}
 		});
 		// TODO add editing support
@@ -134,7 +134,7 @@ public class DetectorROIsSection extends ResourceComposite {
 		viewerUpperLevelColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return Integer.toString(((XHROI) element).getUpperLevel());
+				return Integer.toString(((XhRoi) element).getUpperLevel());
 			}
 		});
 		// TODO add editing support
@@ -222,9 +222,9 @@ public class DetectorROIsSection extends ResourceComposite {
 		@Override
 		protected Object getValue(Object element) {
 			if (isEditingUpperLevel) {
-				return Integer.toString(((XHROI) element).getUpperLevel());
+				return Integer.toString(((XhRoi) element).getUpperLevel());
 			}
-			return Integer.toString(((XHROI) element).getLowerLevel());
+			return Integer.toString(((XhRoi) element).getLowerLevel());
 		}
 
 		@Override
@@ -232,9 +232,9 @@ public class DetectorROIsSection extends ResourceComposite {
 			try {
 				// TODO Do validation for overlapping values and boundary checking
 				if (isEditingUpperLevel) {
-					((XHROI) element).setUpperLevel(Integer.parseInt((String) value));
+					((XhRoi) element).setUpperLevel(Integer.parseInt((String) value));
 				} else {
-					((XHROI) element).setLowerLevel(Integer.parseInt((String) value));
+					((XhRoi) element).setLowerLevel(Integer.parseInt((String) value));
 				}
 				this.getViewer().update(element, null);
 			} catch (NumberFormatException e) {

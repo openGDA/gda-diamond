@@ -16,12 +16,12 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.detector;
+package gda.device.detector.xstrip;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
-import uk.ac.gda.exafs.ui.data.EdeScanParameters;
-import uk.ac.gda.exafs.ui.data.TimingGroup;
+import gda.device.detector.DetectorBase;
+import gda.device.detector.NexusDetector;
 
 /**
  * Drive an XHDetector object so it can be used in 'regular' step scans. For ad hoc scans during commissioning /
@@ -29,21 +29,21 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 
-	private XHDetector xh;
+	private XhDetector xh;
 	private int numberScansPerFrame = 1;
 
 	@Override
 	public void collectData() throws DeviceException {
-		EdeScanParameters myscan = new EdeScanParameters();
-		TimingGroup group1 = new TimingGroup();
-		group1.setLabel("group1");
-		group1.setNumberOfFrames(1);
-		// for this class accept time in ms not s, as per the normal Detector interface
-		group1.setTimePerScan(getCollectionTime() / 1000.0);
-		group1.setNumberOfScansPerFrame(numberScansPerFrame);
-		myscan.addGroup(group1);
-		xh.loadParameters(myscan);
-		xh.collectData();
+		//		EdeScanParameters myscan = new EdeScanParameters();
+		//		TimingGroup group1 = new TimingGroup();
+		//		group1.setLabel("group1");
+		//		group1.setNumberOfFrames(1);
+		//		// for this class accept time in ms not s, as per the normal Detector interface
+		//		group1.setTimePerScan(getCollectionTime() / 1000.0);
+		//		group1.setNumberOfScansPerFrame(numberScansPerFrame);
+		//		myscan.addGroup(group1);
+		//		xh.loadParameters(myscan);
+		//		xh.collectData();
 	}
 
 	@Override
@@ -61,11 +61,11 @@ public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 		return xh.readout();
 	}
 
-	public XHDetector getXh() {
+	public XhDetector getXh() {
 		return xh;
 	}
 
-	public void setXh(XHDetector xh) {
+	public void setXh(XhDetector xh) {
 		this.xh = xh;
 	}
 

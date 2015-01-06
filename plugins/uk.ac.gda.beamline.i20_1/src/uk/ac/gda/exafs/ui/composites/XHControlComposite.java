@@ -20,8 +20,7 @@ package uk.ac.gda.exafs.ui.composites;
 
 import gda.device.DeviceException;
 import gda.device.detector.NXDetectorData;
-import gda.device.detector.StripDetector;
-import gda.device.detector.XHDetector;
+import gda.device.detector.xstrip.XhDetector;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
@@ -89,26 +88,24 @@ public class XHControlComposite extends Composite implements IObserver {
 	private ToolItem snapshotAndSave;
 
 	private Thread liveLoop;
-
 	private final FormToolkit toolkit;
-
 	private final DetectorControlModel detectorControlModel;
 
 	private NumberEditorControl txtSnapTime;
-
 	private NumberEditorControl txtNumScansPerFrame;
-
 	private NumberEditorControl txtLiveTime;
-
 	private NumberEditorControl txtRefreshPeriod;
 
 	private final DoubleDataset strips;
-
 	private ILineTrace lineTrace;
+	private final XhDetector detector;
 
-	private static StripDetector getDetector(){
-		return DetectorModel.INSTANCE.getCurrentDetector();
-	}
+
+	//	private static StripDetector getDetector(){
+	//		return DetectorModel.INSTANCE.getCurrentDetector();
+	//	}
+
+
 
 	public static class DetectorControlModel extends ObservableModel {
 		public static final String LIVE_INTEGRATION_TIME_PROP_NAME = "liveIntegrationTime";
@@ -151,11 +148,12 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
 		super(parent, SWT.None);
+		detector = (XhDetector) DetectorModel.INSTANCE.getCurrentDetector();
 		this.plottingSystem = plottingSystem;
 		setupEnergySpectrumTraceLine();
 		toolkit = new FormToolkit(parent.getDisplay());
 		detectorControlModel = new DetectorControlModel();
-		strips = getStripsDataSet();
+		strips = detector.createDatasetForPixel();
 		createUI();
 	}
 
@@ -167,14 +165,6 @@ public class XHControlComposite extends Composite implements IObserver {
 		lineTrace.setTraceColor(Display.getDefault().getSystemColor(SWT.COLOR_BLUE));
 		lineTrace.setTraceType(TraceType.SOLID_LINE);
 		plottingSystem.addTrace(lineTrace);
-	}
-
-	private DoubleDataset getStripsDataSet() {
-		double[] values = new double[XHDetector.getStrips().length];
-		for (int i = 0; i < XHDetector.getStrips().length; i++) {
-			values[i] = XHDetector.getStrips()[i];
-		}
-		return new DoubleDataset(values);
 	}
 
 	private void createUI() {
@@ -369,7 +359,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	}
 
 
-	private static void collectData(Double collectionPeriod, int numberScans, Integer scansPerFrame) throws DeviceException, InterruptedException {
+	private void collectData(Double collectionPeriod, int numberScans, Integer scansPerFrame) throws DeviceException, InterruptedException {
 
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		EdeScanParameters simpleParams = new EdeScanParameters();
@@ -386,9 +376,9 @@ public class XHControlComposite extends Composite implements IObserver {
 		}
 		simpleParams.addGroup(group1);
 
-		getDetector().setAttribute(XHDetector.ATTR_LOADPARAMETERS, simpleParams);
-		getDetector().collectData();
-		getDetector().waitWhileBusy();
+		detector.setAttribute(XhDetector.ATTR_LOADPARAMETERS, simpleParams);
+		detector.collectData();
+		detector.waitWhileBusy();
 	}
 
 	/**
@@ -407,7 +397,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		collectData(collectionPeriod, 1,scansPerFrame);
 
 		// will return a double[] of corrected data
-		final Object results = getDetector().getAttribute(XHDetector.ATTR_READALLFRAMES);
+		final Object results = detector.getAttribute(XhDetector.ATTR_READALLFRAMES);
 
 		if (results != null) {
 			Display.getDefault().asyncExec(new Runnable() {
@@ -421,10 +411,10 @@ public class XHControlComposite extends Composite implements IObserver {
 		}
 
 		if (writeData) {
-			getDetector().getAttribute(XHDetector.ATTR_WRITEFIRSTFRAME);
+			detector.getAttribute(XhDetector.ATTR_WRITEFIRSTFRAME);
 		}
 
-		NXDetectorData readout = (NXDetectorData) getDetector().readout();
+		NXDetectorData readout = (NXDetectorData) detector.readout();
 		return readout.getDoubleVals();
 	}
 
@@ -457,7 +447,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				@Override
 				public void run() {
 					try {
-						int numberSectors = getDetector().getRois().length;
+						int numberSectors = detector.getDetectorData().getRois().length;
 						allValues = new double[0];
 						regionValues = new double[numberSectors][0];
 						while (continueLiveLoop

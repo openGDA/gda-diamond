@@ -18,7 +18,7 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.device.detector.StripDetector;
+import gda.device.detector.Detector;
 import gda.scan.EnergyDispersiveExafsScan;
 
 import java.io.File;
@@ -37,7 +37,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	private String asciiFilename;
 
 	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0InitialScan, EnergyDispersiveExafsScan itScan, EnergyDispersiveExafsScan i0DarkScan,
-			EnergyDispersiveExafsScan itDarkScan, StripDetector theDetector) {
+			EnergyDispersiveExafsScan itDarkScan, Detector theDetector) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0InitialScan = i0InitialScan;
 		this.itScan = itScan;
@@ -76,7 +76,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		writer.write("#" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t" + EdeDataConstants.I0_CORR_COLUMN_NAME + "\t"
 				+ EdeDataConstants.IT_CORR_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\t " + EdeDataConstants.I0_RAW_COLUMN_NAME + "\t"
 				+ EdeDataConstants.IT_RAW_COLUMN_NAME + "\t" + EdeDataConstants.I0_DARK_COLUMN_NAME + "\t" + EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
-		for (int channel = 0; channel < theDetector.getNumberChannels(); channel++) {
+		for (int channel = 0; channel < theDetector.getMaxPixel(); channel++) {
 			Double i0Initial = i0InitialDataSet.get(channel);
 			Double it = itDataSet.get(channel);
 

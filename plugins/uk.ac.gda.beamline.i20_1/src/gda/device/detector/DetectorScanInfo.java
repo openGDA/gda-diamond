@@ -18,20 +18,13 @@
 
 package gda.device.detector;
 
-public class ExperimentLocation {
+public class DetectorScanInfo {
 
 	public Integer groupNum;
 	public Integer frameNum;
 	public Integer scanNum;
 
-	/**
-	 * These values are to be human readable so must be 1-based not zero-based.
-	 * 
-	 * @param groupNum
-	 * @param frameNum
-	 * @param scanNum
-	 */
-	public ExperimentLocation(Integer groupNum, Integer frameNum, Integer scanNum) {
+	public DetectorScanInfo(Integer groupNum, Integer frameNum, Integer scanNum) {
 		super();
 		this.groupNum = groupNum;
 		this.frameNum = frameNum;

@@ -22,9 +22,9 @@ import static org.junit.Assert.assertEquals;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.GdaNexusFile;
-import gda.device.detector.DummyXStripDAServer;
-import gda.device.detector.StepScanXHDetector;
-import gda.device.detector.XHDetector;
+import gda.device.detector.xstrip.DummyXStripDAServer;
+import gda.device.detector.xstrip.StepScanXHDetector;
+import gda.device.detector.xstrip.XhDetector;
 import gda.device.enumpositioner.DummyPositioner;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
@@ -66,7 +66,7 @@ public class EdeScanTest extends EdeTestBase {
 
 	private static final int MCA_WIDTH = 1024;
 	private DummyXStripDAServer daserver;
-	private XHDetector xh;
+	private XhDetector xh;
 	private String testDir;
 	private DummyMonitor topupMonitor;
 	private final DummyPositioner shutter = createShutter2();
@@ -86,7 +86,7 @@ public class EdeScanTest extends EdeTestBase {
 		// dummy daserver
 		daserver = new DummyXStripDAServer();
 		// detector
-		xh = new XHDetector();
+		xh = new XhDetector();
 		xh.setDaServer(daserver);
 		xh.setName("xh");
 		xh.setDetectorName("xh0");
