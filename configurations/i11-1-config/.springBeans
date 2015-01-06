@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.4.0.201310051539-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.5.1.201404300732-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -108,7 +108,6 @@
 		<config>servers/main/dummy/Ic4.xml</config>
 		<config>servers/main/live/Ic4.xml</config>
 		<config>servers/main/simulation/Ic4.xml</config>
-		<config>servers/main/ID_OE.xml</config>
 		<config>servers/main/ID.xml</config>
 		<config>servers/main/dummy/ID.xml</config>
 		<config>servers/main/live/ID.xml</config>
@@ -238,6 +237,8 @@
 		<config>servers/main/live/Spinner2.xml</config>
 		<config>servers/main/BeamMonitor2.xml</config>
 	</configs>
+	<autoconfigs>
+	</autoconfigs>
 	<configSets>
 		<configSet>
 			<name><![CDATA[client]]></name>
@@ -276,7 +277,6 @@
 				<config>servers/main/etl2.xml</config>
 				<config>servers/main/ForntEndAperture.xml</config>
 				<config>servers/main/GDAMetadata.xml</config>
-				<config>servers/main/ID_OE.xml</config>
 				<config>servers/main/ID.xml</config>
 				<config>servers/main/Ie.xml</config>
 				<config>servers/main/Io.xml</config>
