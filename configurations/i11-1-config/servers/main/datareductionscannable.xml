@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean name="eventadmin" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
+	
+	<bean id="calibrationScannable" class="org.opengda.lde.scannables.StringValueScannable">
+		<property name="name" value="calibrationScannable"/>
+	</bean>
+	<bean id="sampleName" class="org.opengda.lde.scannables.StringValueScannable">
+		<property name="name" value="sampleName"/>
+	</bean>
+	<bean id="calibrantName" class="org.opengda.lde.scannables.StringValueScannable">
+		<property name="name" value="calibrantName"/>
+	</bean>
+	
+	<bean id="simpleUDPServer" class="gda.device.scannable.SimpleUDPServerScannable">
+		<property name="port" value="9876"/>
+		<property name="prefix" value="DataReduction"/>
+	</bean>
+	
+	<bean id="datareduction" class="org.opengda.lde.scannables.DataReductionScannable">
+		<property name="name" value="datareduction"/>
+		<property name="eventAdmin" ref="eventadmin"/>
+		<property name="currentCalibrationScannable" ref="calibrationScannable"/>
+		<property name="simpleUDPServer" ref="simpleUDPServer"/>
+	</bean>
+</beans>

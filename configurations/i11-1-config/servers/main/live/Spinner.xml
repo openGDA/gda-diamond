@@ -2,13 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="spin2" class="gda.device.spin.Spin">
-		<property name="enableName" value="SPIN.ENABLE"/>
-		<property name="speedName" value="SPIN.SPEED"/>
+	<bean id="spin" class="org.opengda.lde.scannables.Spinner">
+		<property name="onOffPV" value="BL11J-EA-MCL-02:DO1"/>
+		<property name="voltagePV" value="BL11J-EA-MCL-02:AO1"/>
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/spin2" />
-		<property name="service" ref="spin2" />
+		<property name="serviceName" value="gda/spin" />
+		<property name="service" ref="spin" />
 		<property name="serviceInterface" value="gda.device.ISpin" />
 	</bean>
 

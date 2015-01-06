@@ -228,7 +228,8 @@ try:
     pixium_FanSpeed1 = DisplayEpicsPVClass('pixium_FanSpeed1', 'BL11J-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
     pixium_FanSpeed2 = DisplayEpicsPVClass('pixium_FanSpeed2', 'BL11J-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
     pixium_DetectorTemperature = DisplayEpicsPVClass('pixium_DetectorTemperature', 'BL11J-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
-    calibrant_name=CalibrantScannable("calibrant_name", "CeO2(NIST SRM 674b)")
+#     calibrant_name=CalibrantScannable("calibrant_name", "CeO2(NIST SRM 674b)")
+#     sample_name=CalibrantScannable("sample_name", "Undefined")
 except:
     print "cannot create extra pixium scannables"
 
@@ -275,6 +276,34 @@ def meta_rm_allPIXIUM():
             msg = "\t Unable to find a meta scannable named: " + sname
             print msg
 alias("meta_rm_allPIXIUM")
+
+def pad_hdf(t,n=1.0):
+    scan(ds, 1.0, n, 1.0, pixium_hdf, t)  # @UndefinedVariable
+    scaler2(1)  # @UndefinedVariable
+    
+
+alias("pad_hdf")
+from lde.ldescan import *  # @UnusedWildImport
+alias("ldescan")
+
+NDR=0
+CAL=1
+SAM=2
+
+def lde(t, collectionType=SAM, n=1.0):  # @UndefinedVariable
+    if (collectionType==NDR):
+        #just collect raw image, no data reduction
+        scan(ds, 1.0,n,1.0, pixium_hdf, t)  # @UndefinedVariable
+    else:
+        if (collectionType==CAL):
+            if (str(calibrantName.getPosition())=="Undefined"):  # @UndefinedVariable
+                raise Exception("Calibrant name is not defined.")
+            datareduction.setCalibrant(True)  # @UndefinedVariable
+        else:
+            datareduction.setCalibrant(False)  # @UndefinedVariable
+        scan(datareduction, 1.0,n,1.0, pixium_hdf, t)  # @UndefinedVariable
+
+alias("lde")      
 ##### new objects must be added above this line ###############
 print
 print "=================================================================================================================";

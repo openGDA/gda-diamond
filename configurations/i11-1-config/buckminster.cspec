@@ -2,6 +2,10 @@
     <cs:dependencies>
         <cs:dependency name="dls-config" componentType="buckminster"/>
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.common" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.ecore" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.ecore.xmi" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.emf.edit" componentType="osgi.bundle"/>
         <cs:dependency name="org.opengda.lde" componentType="osgi.bundle"/>
         <cs:dependency name="org.opengda.lde.model" componentType="osgi.bundle"/>
         <cs:dependency name="org.opengda.lde.model.edit" componentType="osgi.bundle"/>
@@ -15,9 +19,6 @@
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls.client" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.epics.client.pixium" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.emf.common" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.emf.ecore" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.emf.ecore.xmi" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.emf.edit" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.osgi" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>

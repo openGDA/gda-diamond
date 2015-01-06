@@ -27,7 +27,9 @@ PyDev http://pydev.org/
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/i11/software/gda/config/plugin_customization.ini
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Declipse.pluginCustomization=/dls_sw/i11/software/gda/config/plugin_customization.ini
 -Dgda.install.workspace.loc=/dls_sw/i11/software/gda/workspace
 -Dgda.install.git.loc=/dls_sw/i11/software/gda/workspace_git
 -Dgda.propertiesFile=/dls_sw/i11/software/gda/config/properties/live/java.properties
