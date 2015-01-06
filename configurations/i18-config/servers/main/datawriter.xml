@@ -58,19 +58,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean id="sampleStagexyz" class="gda.data.scan.datawriter.AsciiMetadataConfig">
-					<property name="label"
-						value="SampleStage:  sample_x= %4.3f; sample_y= %4.3f; sample_z= %4.3f; sample_thetacoarse= %4.3f; sample_thetafine= %4.3f" />
-					<property name="labelValues">
-						<list>
-							<ref bean="sc_MicroFocusSampleX" />
-							<ref bean="sc_MicroFocusSampleY" />
-							<ref bean="sc_sample_z" />
-							<ref bean="sc_sample_thetacoarse" />
-							<ref bean="sc_sample_thetafine" />
-						</list>
-					</property>
-				</bean>
 				<bean id="attenuators" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label" value="Attenuators:  D7A= %s; D7B= %s" />
 					<property name="labelValues">
