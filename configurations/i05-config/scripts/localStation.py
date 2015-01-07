@@ -87,7 +87,7 @@ centre_energy.setInputNames(["centre_energy"])
 caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
 
 print "==================================================================="
-if LocalProperties.get("gda.config")=="live":  # don't execute in squish tests
+if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
    print "Running i05 scripts."
    run "beamline/master.py"
 print "==================================================================="
