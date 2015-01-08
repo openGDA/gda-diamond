@@ -33,7 +33,6 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.devices.xspress2;bundle-version="1.0.0",
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
  uk.ac.gda.beans.vortex;bundle-version="1.0.0",
- uk.ac.gda.client.vortex;bundle-version="1.0.0",
  uk.ac.gda.nexus
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
