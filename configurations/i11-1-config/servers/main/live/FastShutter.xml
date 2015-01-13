@@ -8,9 +8,11 @@
 	</bean>
 	<bean id="fastshutter1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL11J-MO-FSHTR-01:SHUTTER"/>
+		<property name="readOnly" value="false"/>
 	</bean>
 	<bean id="fastshutter2" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL11J-MO-FSHTR-02:SHUTTER"/>
+		<property name="readOnly" value="false"/>
 	</bean>
 
 </beans>
