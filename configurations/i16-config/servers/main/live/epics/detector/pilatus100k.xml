@@ -57,6 +57,7 @@
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="waitForFileArrival" value="false" /> <!--should be True if not using ProcessingDetectorWrapper -->
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>

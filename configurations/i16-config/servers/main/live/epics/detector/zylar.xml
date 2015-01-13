@@ -29,6 +29,7 @@
 			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="_zylar" />
 		<property name="ndFile" ref="zylar_ndfile" />
+		<property name="waitForFileArrival" value="false" />
 		<property name="keyNameForMetadataPathTemplate" value="zylar_path_template" />
 	</bean>
 
