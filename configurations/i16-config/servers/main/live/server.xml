@@ -69,6 +69,7 @@
 	<import resource="epics/detector/medipix.xml" />
 	<import resource="epics/detector/c10.xml" />
 	<import resource="epics/detector/xeye.xml" />
+	<import resource="epics/detector/zylar.xml" />
 
 
 	<import resource="epics/trajectory_scan_controller_xps2.xml" />

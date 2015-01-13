@@ -841,6 +841,23 @@ xeye.processors[0].processors[1].setScalingFactors(0.0014, 0.0014)
 
 #scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 
+zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper('zylar',
+                                                               _zylar,
+                                                               None,
+                                                               _zylar_for_snaps,
+                                                               [],
+                                                               panel_name='Firecam', #no idea?
+                                                               panel_name_rcp='Plot 2',
+                                                               fileLoadTimout=60,
+                                                               printNfsTimes=False,
+                                                               returnPathAsImageNumberOnly=True)
+
+zylar.display_image = True
+zylarmax2d = DetectorDataProcessorWithRoi('zylarmax2d', zylar, [SumMaxPositionAndValue()])
+zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPeak()])
+
+zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+#zylar needs scaling factors?
 
 ### cam1 ###
 bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
