@@ -901,7 +901,11 @@ andortemp = ADTemperature('andortemp', andor1.getCollectionStrategy().getAdBase(
 from scannable.andor import andor_trigger_output_enable, andor_trigger_output_disable
 alias('andor_trigger_output_disable')
 alias('andor_trigger_output_enable')
-andor_trigger_output_enable()
+try:
+	andor_trigger_output_enable()
+except:
+	print "Error configuring andor"
+	print "Is IOC running?"
 
 
 print "-------------------------------MEDIPIX INIT---------------------------------------"
