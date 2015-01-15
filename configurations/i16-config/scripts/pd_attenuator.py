@@ -66,6 +66,7 @@ class Atten(PseudoDevice):
 		if len(stringa) != len(self.foils):
 			print "Error: wrong length of input string"
 		else:
+			#To prevent damage, all insertions must be done before any removals
 			for k in range(len(self.foils)):
 				if stringa[k]=='1':
 					try:

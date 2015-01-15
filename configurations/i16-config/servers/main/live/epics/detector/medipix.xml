@@ -42,6 +42,7 @@
 		<property name="ndFile" ref="medipix_ndfiletif" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
 		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="waitForFileArrival" value="false" />
 	</bean>
 
 	<bean id="medipix_nxfilewriter_for_snaps"

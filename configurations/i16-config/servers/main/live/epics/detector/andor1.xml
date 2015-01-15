@@ -31,6 +31,7 @@
 		<constructor-arg value="andor" />
 		<property name="ndFile" ref="andor_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="andor_path_template" />
+		<property name="waitForFileArrival" value="false" />
 		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 

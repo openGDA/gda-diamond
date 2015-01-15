@@ -28,6 +28,7 @@
 		<constructor-arg value="c10" />
 		<property name="ndFile" ref="c10_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="c10_path_template" />
+		<property name="waitForFileArrival" value="false" />
 		<property name="writeErrorStatusSupported" value="false" />
 	</bean>
 

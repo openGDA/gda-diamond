@@ -57,6 +57,7 @@
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="waitForFileArrival" value="false" /> <!--should be True if not using ProcessingDetectorWrapper -->
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
@@ -120,6 +121,8 @@
 		</property>
 	</bean>
 
+	<bean id="pilatus1_force_callbacks" class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
+
 	<bean id="pilatus1_hardware_triggered" class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="pilatus1_hardware_triggered" />
 		<property name="hardwareTriggerProvider" ref="xpsTrajController" />
@@ -127,6 +130,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pilatus1_nxfilewriter_for_hardware_triggering" />
+				<ref bean="pilatus1_force_callbacks" />
 			</list>
 		</property>
 	</bean>

@@ -28,6 +28,7 @@
 		<constructor-arg value="_xeye" />
 		<property name="ndFile" ref="xeye_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="xeye_path_template" />
+		<property name="waitForFileArrival" value="false" />
 		<property name="writeErrorStatusSupported" value="false" />
 	</bean>
 

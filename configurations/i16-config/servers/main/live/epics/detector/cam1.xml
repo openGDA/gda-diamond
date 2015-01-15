@@ -39,6 +39,7 @@
 		<constructor-arg value="cam1" />
 		<property name="ndFile" ref="cam1_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="cam1_path_template" />
+		<property name="waitForFileArrival" value="false" />
 		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 
