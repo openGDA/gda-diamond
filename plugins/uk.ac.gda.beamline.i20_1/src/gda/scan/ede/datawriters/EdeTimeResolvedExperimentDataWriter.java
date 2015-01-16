@@ -19,7 +19,7 @@
 package gda.scan.ede.datawriters;
 
 import gda.device.detector.DetectorData;
-import gda.device.detector.Detector;
+import gda.device.detector.EdeDetectorBase;
 import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
@@ -64,7 +64,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	public EdeTimeResolvedExperimentDataWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
 			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
-			Detector theDetector, String nexusfileName) {
+			EdeDetectorBase theDetector, String nexusfileName) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0DarkScan = i0DarkScan;
 		i0InitialLightScan = i0LightScan;

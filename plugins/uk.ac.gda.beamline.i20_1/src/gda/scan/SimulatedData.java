@@ -20,7 +20,7 @@ package gda.scan;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.tree.NexusTreeProvider;
-import gda.device.detector.Detector;
+import gda.device.detector.EdeDetectorBase;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.xstrip.XhDetector;
 import gda.scan.ede.EdeScanType;
@@ -84,7 +84,7 @@ public class SimulatedData {
 		loopFrame = 0;
 	}
 
-	public static NexusTreeProvider[] readSimulatedDataFromFile(int lowFrame, int highFrame, Detector theDetector, EdePositionType positionType, EdeScanType scanType)  throws Exception {
+	public static NexusTreeProvider[] readSimulatedDataFromFile(int lowFrame, int highFrame, EdeDetectorBase theDetector, EdePositionType positionType, EdeScanType scanType)  throws Exception {
 		if (simulatedIt_raw == null) {
 			throw new Exception("Simulated data not loaded");
 		}
@@ -126,7 +126,7 @@ public class SimulatedData {
 		return nexusTreeProvider;
 	}
 
-	private static double[] createCorrectedSimulatedData(double[] simulatedData, Detector theDetector) {
+	private static double[] createCorrectedSimulatedData(double[] simulatedData, EdeDetectorBase theDetector) {
 		double[] correctedSimulatedData = new double[simulatedData.length];
 		for (int i = 0; i < simulatedData.length; i++) {
 			if (i >= theDetector.getDetectorData().getLowerChannel() && i <= theDetector.getDetectorData().getUpperChannel()) {

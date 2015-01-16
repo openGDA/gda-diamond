@@ -26,7 +26,7 @@ import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
-import gda.device.detector.Detector;
+import gda.device.detector.EdeDetectorBase;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -98,7 +98,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected boolean runItWithTriggerOptions = true; // default for linear/cyclic experiments
 
 	protected Scannable beamLightShutter;
-	protected Detector theDetector;
+	protected EdeDetectorBase theDetector;
 	protected EdeScan i0DarkScan;
 	protected EdeScan itDarkScan;
 	protected EdeScan i0LightScan;

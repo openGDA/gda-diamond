@@ -49,9 +49,9 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 import com.google.gson.Gson;
 
-public abstract class Detector extends DetectorBase implements EdeDetector {
+public abstract class EdeDetectorBase extends DetectorBase implements EdeDetector {
 
-	private static final Logger logger = LoggerFactory.getLogger(Detector.class);
+	private static final Logger logger = LoggerFactory.getLogger(EdeDetectorBase.class);
 	private static final int INITIAL_NO_OF_ROIS = 4;
 	private static final Gson GSON = new Gson();
 	private static final String PROP_FILE_EXTENSION = ".properties";

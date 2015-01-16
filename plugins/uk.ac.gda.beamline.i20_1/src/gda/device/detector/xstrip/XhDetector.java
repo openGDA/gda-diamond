@@ -21,7 +21,7 @@ package gda.device.detector.xstrip;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.detector.DAServer;
-import gda.device.detector.Detector;
+import gda.device.detector.EdeDetectorBase;
 import gda.device.detector.DetectorData;
 import gda.device.detector.DetectorStatus;
 
@@ -47,7 +47,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * Not implemented yet: beam orbit trigger, setup-leds. But these may not be required.
  */
 
-public class XhDetector extends Detector {
+public class XhDetector extends EdeDetectorBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(XhDetector.class);
 

@@ -20,7 +20,7 @@ package gda.device.detector.frelon;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
-import gda.device.detector.Detector;
+import gda.device.detector.EdeDetectorBase;
 import gda.device.detector.DetectorData;
 import gda.device.detector.DetectorStatus;
 import gda.device.frelon.Frelon;
@@ -29,7 +29,7 @@ import gda.device.lima.LimaCCD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EdeFrelon extends Detector {
+public class EdeFrelon extends EdeDetectorBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeFrelon.class);
 

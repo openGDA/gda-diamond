@@ -22,7 +22,7 @@ import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.device.detector.Detector;
+import gda.device.detector.EdeDetectorBase;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.scannable.FrameIndexer;
@@ -60,7 +60,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
 
-	protected final Detector theDetector;
+	protected final EdeDetectorBase theDetector;
 	// also keep SDPs in memory for quick retrieval for online data reduction and storage to ASCII files.
 	protected final Vector<ScanDataPoint> rawData = new Vector<ScanDataPoint>();
 
@@ -91,7 +91,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	 * @param shutter
 	 */
 	public EdeScan(EdeScanParameters scanParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			Detector theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topupChecker) {
+			EdeDetectorBase theDetector, Integer repetitionNumber, Scannable shutter, TopupChecker topupChecker) {
 		setMustBeFinal(true);
 		this.scanParameters = scanParameters;
 		this.motorPositions = motorPositions;
@@ -251,7 +251,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private DetectorStatus fetchStatusAndWait() throws DeviceException, InterruptedException {
 		DetectorStatus progressData = theDetector.fetchStatus();
 		boolean sendMessage = true;
-		while (progressData.getDetectorStatus() == Detector.PAUSED) {
+		while (progressData.getDetectorStatus() == EdeDetectorBase.PAUSED) {
 			Thread.sleep(1000);
 			waitIfPaused();
 			if (sendMessage) {
@@ -264,7 +264,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	}
 
 	private Boolean collectionFinished(DetectorStatus progressData) {
-		return progressData.getDetectorStatus() == Detector.IDLE || progressData.getDetectorStatus() == Detector.FAULT;
+		return progressData.getDetectorStatus() == EdeDetectorBase.IDLE || progressData.getDetectorStatus() == EdeDetectorBase.FAULT;
 	}
 
 	@Override
@@ -445,7 +445,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	}
 
 	@Override
-	public Detector getDetector() {
+	public EdeDetectorBase getDetector() {
 		return theDetector;
 	}
 }

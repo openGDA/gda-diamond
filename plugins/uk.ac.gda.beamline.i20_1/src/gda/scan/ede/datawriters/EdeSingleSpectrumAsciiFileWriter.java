@@ -18,7 +18,7 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.device.detector.Detector;
+import gda.device.detector.EdeDetectorBase;
 import gda.scan.EnergyDispersiveExafsScan;
 
 import java.io.File;
@@ -37,7 +37,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	private String asciiFilename;
 
 	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0InitialScan, EnergyDispersiveExafsScan itScan, EnergyDispersiveExafsScan i0DarkScan,
-			EnergyDispersiveExafsScan itDarkScan, Detector theDetector) {
+			EnergyDispersiveExafsScan itDarkScan, EdeDetectorBase theDetector) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
 		this.i0InitialScan = i0InitialScan;
 		this.itScan = itScan;

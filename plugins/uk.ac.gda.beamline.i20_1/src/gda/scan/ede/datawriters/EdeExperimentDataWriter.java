@@ -21,7 +21,7 @@ package gda.scan.ede.datawriters;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.data.scan.datawriter.AsciiMetadataConfig;
 import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
-import gda.device.detector.Detector;
+import gda.device.detector.EdeDetectorBase;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -43,7 +43,7 @@ public abstract class EdeExperimentDataWriter {
 	private static final Logger logger = LoggerFactory.getLogger(EdeExperimentDataWriter.class);
 
 	protected String filenameTemplate = "";
-	protected Detector theDetector;
+	protected EdeDetectorBase theDetector;
 
 	protected final DoubleDataset energyDataSet;
 
