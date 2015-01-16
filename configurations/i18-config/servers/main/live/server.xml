@@ -39,7 +39,7 @@
 	<import resource="file:${gda.config}/servers/main/converters.xml" />
 	<import resource="file:${gda.config}/servers/main/rmiserver.xml" />
 	<import resource="file:${gda.config}/servers/main/LoggingScriptController.xml" />
-	<import resource="file:${gda.config}/servers/main/scriptControllers.xml" />
+	<import resource="file:${gda.config}/servers/main/clientServerShared.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 

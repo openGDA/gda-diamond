@@ -11,4 +11,15 @@
 		<property name="importCommand" value="" />
 	</bean>
 	
+	<!-- 	detector configuration objects -->
+	<bean id="xspressConfig" class="gda.device.detector.xspress.XspressDetectorConfiguration" >
+		<constructor-arg>
+			<ref bean="xspress2system" />
+		</constructor-arg>
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspressConfig" />
+		<property name="service" ref="xspressConfig" />
+		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
+	</bean>
 </beans>

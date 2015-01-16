@@ -139,31 +139,4 @@
 		<property name="service" ref="filterwheel" />
 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 	</bean>
-	
-<!-- 	<bean id="cryostick_pos_motor" class="gda.device.motor.DummyMotor"/> -->
-<!-- 	<bean id="cryostick_pos" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="motor" ref="cryostick_pos_motor" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="cryostick" class="gda.device.enumpositioner.DummyEnumPositioner"> -->
-<!-- 		<property name="positions"> -->
-<!-- 			<list> -->
-<!-- 				<value>Pos1</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
-<!-- 		<property name="serviceName" value="gda/cryostick" /> -->
-<!-- 		<property name="service" ref="cryostick" /> -->
-<!-- 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	instead of having a sim for the gda.device.scannable.Lakeshore340Scannable class -->
-<!-- 	<bean id="cryostat_energy_sim_motor" class="gda.device.motor.DummyMotor"/> -->
-<!-- 	<bean id="cryostat" class="gda.device.scannable.ScannableMotor"> -->
-<!-- 		<property name="motor" ref="cryostat_energy_sim_motor" /> -->
-<!-- 	</bean> -->
-
-	
-
 </beans>

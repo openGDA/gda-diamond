@@ -46,15 +46,14 @@ theFactory.setBeamlinePreparer(B18BeamlinePreparer());
 theFactory.setDetectorPreparer(detectorPreparer);
 theFactory.setSamplePreparer(samplePreparer);
 theFactory.setOutputPreparer(outputPreparer);
-theFactory.setCommandQueueProcessor(commandQueueProcessor);
-theFactory.setXASLoggingScriptController(XASLoggingScriptController);
+theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
 theFactory.setEnergyScannable(energy);
 theFactory.setMetashop(Finder.getInstance().find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
-theFactory.setOriginal_header(original_header);
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
 theFactory.setQexafsEnergyScannable(qexafs_energy);
+theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
 xanes = xas

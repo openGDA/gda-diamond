@@ -31,6 +31,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/trajStage1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/trajStage3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3.xml" />
 	<import resource="file:${gda.config}/servers/main/scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/qexafs.xml" />
 	<import resource="file:${gda.config}/servers/main/datawriter.xml" />
@@ -38,7 +39,7 @@
 	<import resource="file:${gda.config}/servers/main/converters.xml" />
 	<import resource="file:${gda.config}/servers/main/rmiserver.xml" />
 	<import resource="file:${gda.config}/servers/main/LoggingScriptController.xml" />
-	<import resource="file:${gda.config}/servers/main/scriptControllers.xml" />
+	<import resource="file:${gda.config}/servers/main/clientServerShared.xml" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<corba:export namespace="I18" />

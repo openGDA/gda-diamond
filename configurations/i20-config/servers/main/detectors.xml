@@ -25,7 +25,6 @@
 				<value>FF</value>
 			</list>
 		</property>
-		<property name="alwaysRecordRawMCAs" value="true" />
 		<property name="slave" value="false" />
 		<property name="configFileName"
 			value="${gda.config}/var/templates/Vortex_Parameters.xml" />
@@ -48,5 +47,26 @@
 		</property>
 	</bean>
 
+	<bean id="xspressConfig" class="gda.device.detector.xspress.XspressDetectorConfiguration" >
+		<constructor-arg>
+			<ref bean="xspress2system" />
+		</constructor-arg>
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspressConfig" />
+		<property name="service" ref="xspressConfig" />
+		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
+	</bean>
+	
+	<bean id="vortexConfig" class="gda.device.detector.xmap.VortexDetectorConfiguration" >
+		<constructor-arg>
+			<ref bean="xmapMca" />
+		</constructor-arg>
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/vortexConfig" />
+		<property name="service" ref="vortexConfig" />
+		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
+	</bean>
 
 </beans>

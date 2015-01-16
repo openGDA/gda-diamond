@@ -88,10 +88,24 @@ theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setScanName("xas")
 theFactory.setAnalyserAngle(XESBragg)
 theFactory.setXes_energy(XESEnergy)
+xes = theFactory.createXesScan()
+
+theFactory = XasScanFactory();
+theFactory.setBeamlinePreparer(beamlinePreparer);
+theFactory.setDetectorPreparer(detectorPreparer);
+theFactory.setSamplePreparer(samplePreparer);
+theFactory.setOutputPreparer(outputPreparer);
+theFactory.setLoggingScriptController(XASLoggingScriptController);
+theFactory.setDatawriterconfig(datawriterconfig);
+theFactory.setEnergyScannable(energy_scannable_for_scans);
+theFactory.setMetashop(Finder.getInstance().find("metashop"));
+theFactory.setIncludeSampleNameInNexusName(True);
+theFactory.setQexafsDetectorPreparer(detectorPreparer);
+theFactory.setQexafsEnergyScannable(qexafs_energy);
+theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
 xanes = xas
-xes = theFactory.createXesScan()
 
 vararg_alias("xas")
 vararg_alias("xanes")

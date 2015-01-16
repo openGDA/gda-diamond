@@ -59,8 +59,6 @@
 			value="${gda.config}/var/templates/Xspress_Parameters.xml" />
 		<property name="dtcConfigFileName"
 			value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />
-<!-- 		<property name="alwaysRecordRawMCAs" value="true"/> -->
-<!-- 		<property name="onlyDisplayFF" value="true" /> -->
 	</bean>
 
 	<bean id="tfg" class="gda.device.timer.Etfg">

@@ -24,7 +24,6 @@
 		<property name="dtcConfigFileName"
 			value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="fullMCABits" value="12" />
-		<property name="onlyDisplayFF" value="true" />
 		<property name="outputFormat">
 			<list>
 				<value>%9.2f</value>

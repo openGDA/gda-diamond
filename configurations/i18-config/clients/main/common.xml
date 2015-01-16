@@ -105,4 +105,11 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 		<property name="class" value="gda.commandqueue.Queue" />
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
+	
+	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/xspressConfig" />
+		<property name="serviceInterface"
+			value="gda.device.detector.FluorescentDetectorConfiguration" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>	
 </beans>

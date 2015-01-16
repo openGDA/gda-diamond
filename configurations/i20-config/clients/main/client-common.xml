@@ -70,4 +70,17 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
 	
+	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/xspressConfig" />
+		<property name="serviceInterface"
+			value="gda.device.detector.FluorescentDetectorConfiguration" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="vortexConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/vortexConfig" />
+		<property name="serviceInterface"
+			value="gda.device.detector.FluorescentDetectorConfiguration" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>	
+	
 </beans>

@@ -285,21 +285,21 @@
 		file containing the MCAs -->
 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
 		<property name="controller" ref="xspress3Controller" />
-		<property name="numberOfChannelsToRead" value="4" />
+<!-- 		<property name="numberOfChannelsToRead" value="4" /> -->
 		<property name="writeHDF5Files" value="true" />
 	</bean>
 
 	<bean id="qexafs_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
-		<property name="controller" ref="xspress3Controller" />
-		<property name="numberOfChannelsToRead" value="4" />
+		<property name="Xspress3Detector" ref="xspress3" />
+<!-- 		<property name="numberOfChannelsToRead" value="4" /> -->
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xspress3" />
 		<property name="service" ref="xspress3" />
 		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.xspress3.FluorescenceAcquire" />
+			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 	</bean>
 
 	<bean id="FFI0_xspress3"
@@ -314,6 +314,41 @@
 		<property name="qexafsXspress" ref="qexafs_xspress3" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 		<property name="i0_channel" value="1" />
+	</bean>
+	
+	
+<!-- 	detector configuration objects -->
+	<bean id="xspressConfig" class="gda.device.detector.xspress.XspressDetectorConfiguration" >
+		<constructor-arg>
+			<ref bean="xspress2system" />
+		</constructor-arg>
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspressConfig" />
+		<property name="service" ref="xspressConfig" />
+		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
+	</bean>
+	
+	<bean id="vortexConfig" class="gda.device.detector.xmap.VortexDetectorConfiguration" >
+		<constructor-arg>
+			<ref bean="xmapMca" />
+		</constructor-arg>
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/vortexConfig" />
+		<property name="service" ref="vortexConfig" />
+		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
+	</bean>
+	
+	<bean id="xspress3Config" class="uk.ac.gda.devices.detector.xspress3.Xspress3DetectorConfiguration" >
+		<constructor-arg>
+			<ref bean="xspress3" />
+		</constructor-arg>
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspress3Config" />
+		<property name="service" ref="xspress3Config" />
+		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
 	</bean>
 
 </beans>
