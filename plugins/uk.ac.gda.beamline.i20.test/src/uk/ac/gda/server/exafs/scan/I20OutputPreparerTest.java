@@ -26,7 +26,6 @@ import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
-import gda.device.detector.xspress.Xspress2System;
 import gda.scan.ScanPlotSettings;
 
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public class I20OutputPreparerTest {
 		datawriterconfig_xes = PowerMockito.mock(AsciiDataWriterConfiguration.class);
 
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
-		xspressSystem = (Xspress2Detector) createMock(Xspress2System.class, "xspressSystem");
+		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		xmpaMca = (Xmap) createMock(Xmap.class, "xmpaMca");
 
 		i20DetectorPreparer = PowerMockito.mock(I20DetectorPreparer.class);
