@@ -53,15 +53,24 @@ class EnergyScannableSwitchableTest(unittest.TestCase):
     def test__repr__(self):
         self.assertEquals(repr(self.idd_pos_neg_switchable), "EnergyScannableSwitchable(u'idd_pos_neg_switchable', ['idd_pos', 'idd_neg'])")
 
-    def testAsynchronousMoveTo(self):
+    def testAsynchronousMoveToFirst(self):
+        self.idd_pos_neg_switchable.energyScannableInsideSwitcher = None
         self.idd_pos_neg_switchable.asynchronousMoveTo(1234.5)
         self.idd_pos.asynchronousMoveTo.assert_called_with(1234.5)
-        #self.idd_neg.asynchronousMoveTo.assert_called_with((None,))
+        self.assertEqual(self.idd_neg.asynchronousMoveTo.call_count, 0)
+
+    def testAsynchronousMoveToInner(self):
+        self.idd_pos_neg_switchable.energyScannableInsideSwitcher = True
+        self.idd_pos_neg_switchable.asynchronousMoveTo(1234.5)
+        self.idd_pos.asynchronousMoveTo.assert_called_with(1234.5)
+        self.assertEqual(self.idd_neg.asynchronousMoveTo.call_count, 0)
+
+    def testAsynchronousMoveToOuter(self):
+        self.idd_pos_neg_switchable.energyScannableInsideSwitcher = False
+        self.idd_pos_neg_switchable.asynchronousMoveTo(1234.5)
+        self.assertEqual(self.idd_pos.asynchronousMoveTo.call_count, 0)
+        self.assertEqual(self.idd_neg.asynchronousMoveTo.call_count, 0)
 
     def testGetPosition(self):
         self.idd_pos.getPosition.return_value = (1.2, 2.3, 3.4)
         self.assertEqual(list(self.idd_pos_neg_switchable.getPosition()), [1.2, 2.3, 3.4])
-
-#if __name__ == "__main__":
-#    #import sys;sys.argv = ['', 'Test.testName']
-#    unittest.main()
