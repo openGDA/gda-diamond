@@ -67,6 +67,7 @@
 	<import resource="pneumatic/shutterabsorber.xml" />
 	
 	<import resource="detector/scaler_vortex.xml" />
+	<import resource="detector/simad.xml" />
 <!-- 	<import resource="detector/xmap_vortex.xml" /> -->
 	<!-- import resource="detector/mca_vortex.xml" EMPTY-->
 	
@@ -99,5 +100,41 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="testMover" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="testMover" />
+	</bean>
+
+	<bean id="testMoverWait" class="gda.device.scannable.TimeDelayScannable">
+		<property name="name" value="testMoverWait" />
+	</bean>
+
+	<bean id="testMoveDelay" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="testMover" />
+				<ref bean="testMoverWait" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="testMoverScan" class="gda.device.scannable.TogglerScannable">
+		<constructor-arg ref="testMoveDelay" />
+		<property name="startValue">
+			<list>
+				<value>1</value>
+				<value>0.5</value>
+			</list>
+		</property>
+		<property name="endValue">
+			<list>
+				<value>0</value>
+				<value>0</value>
+			</list>
+		</property>
+		<property name="hook">
+			<value>AT_LEVEL</value>
+		</property>
+		<property name="level" value="100" />
+	</bean>
 
 </beans>
