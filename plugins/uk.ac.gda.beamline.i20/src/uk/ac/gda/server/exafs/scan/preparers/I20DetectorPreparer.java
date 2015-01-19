@@ -99,9 +99,12 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			}
 		} else if (detectorBean.getExperimentType() == DetectorParameters.XES_TYPE) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getXesParameters();
-			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
-			vortex.setConfigFileName(xmlFileName);
-			vortex.configure();
+			String detType = fluoresenceParameters.getDetectorType();
+			if (detType.equals(FluorescenceParameters.SILICON_DET_TYPE)) {
+				String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
+				vortex.setConfigFileName(xmlFileName);
+				vortex.configure();
+			}
 		}
 
 		List<IonChamberParameters> ionChamberParamsArray = null;
