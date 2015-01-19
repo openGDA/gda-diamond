@@ -98,6 +98,7 @@
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="writeErrorStatusSupported" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
 		<!-- <property name="returnPathRelativeToDatadir" value="true"/> Erroneousely 
 			returns e.g.: tmp/434615-rasterpil1-files rather than tmp/434616-rasterpil1-files/00000_00097.tif -->
 	</bean>
