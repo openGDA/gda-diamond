@@ -12,7 +12,9 @@
 
    <launcherArgs>
       <programArgs>-nosplash</programArgs>
-      <vmArgs>-Declipse.pluginCustomization=/dls_sw/b18/software/gda/workspace_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18/plugin_customization.ini
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Declipse.pluginCustomization=/dls_sw/b18/software/gda/workspace_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18/plugin_customization.ini
 -Dgda.mode=live
 -Dosgi.locking=none
 -Dgda.install.workspace.loc=/dls_sw/b18/software/gda
