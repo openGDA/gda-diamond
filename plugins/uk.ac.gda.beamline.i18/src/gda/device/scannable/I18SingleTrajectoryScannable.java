@@ -19,6 +19,7 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
+import gda.scan.EpicsTrajectoryScanController;
 
 /**
  * I18 specific EpicsSingleTrajectoryScannable which checks the beam after moving to the start of a line, but before starting the acquisition.
@@ -31,6 +32,8 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 	@Override
 	public void prepareForContinuousMove() throws DeviceException {
 		super.prepareForContinuousMove();
+		
+		EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000);
 		
 		// just before the data collection begins, test the beam and topup. 
 		if (beamMonitor != null){
