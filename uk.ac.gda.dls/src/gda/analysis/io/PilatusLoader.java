@@ -50,7 +50,7 @@ public class PilatusLoader extends AbstractFileLoader {
 	 */
 	@Deprecated
 	public PilatusLoader(String FileName) {
-		logger.warn("Deprecated: use PilatusTiffLoader or ConvertedTIFFImageLoader");
+		logger.warn("Deprecated: use PilatusTiffLoader or TIFFImageLoader");
 		fileName = FileName;
 	}
 
