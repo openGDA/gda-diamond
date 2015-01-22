@@ -45,12 +45,11 @@
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	<bean id="xspress3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xspress3" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	 <bean id="xspress3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+         <property name="serviceUrl" value="${gda.rmi.prefix}xspress3" />
+         <property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+         <property name="refreshStubOnConnectFailure" value="true" />
+     </bean> 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="gda.commandqueue.Processor" />
 		<property name="service" ref="commandQueueProcessor" />
@@ -60,8 +59,7 @@
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class"
-			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+		<property name="class" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 		<property name="service" ref="xspress3" />
 	</bean>
 
@@ -87,5 +85,30 @@
 
 	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener"> 
 		<property name="clientFileAnnouncerName" value="sockpuppet" /> </bean> -->
+	</bean> 
+
+	<bean id="ionc1_gas_injector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc1_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> 
+	<bean id="ionc2_gas_injector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc2_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> 
+	<bean id="ionc3_gas_injector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc3_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> 
+	
+	
+	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
+		<property name="clientFileAnnouncerName" value="sockpuppet" />
+	</bean> -->
 
 </beans>

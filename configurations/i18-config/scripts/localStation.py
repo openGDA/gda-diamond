@@ -201,4 +201,17 @@ print "To disable/enable use of the ID Gap:"
 print " map.disableUseIDGap()"
 print " map.enableUseIDGap()"
 print ""
+print "To disable/enable output of real positions in raster maps:"
+print " map.disableRealPositions()"
+print " map.enableRealPositions()"
+print ""
+print "To change the y axis used in maps to fine theta (but could be any motor):"
+print " non_raster_map.stage1_y = sc_sample_thetafine"
+print " raster_map.stage1_y = sc_sample_thetafine"
+print " raster_map_return_write.stage1_y = sc_sample_thetafine"
+print " map.setStage(1)"
 print "****************************************"
+
+
+from gda.scan import EpicsTrajectoryScanController
+EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(2000)

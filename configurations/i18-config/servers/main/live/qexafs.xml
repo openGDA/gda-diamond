@@ -69,23 +69,23 @@
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
 
-	<bean id="qexafs_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
-		<property name="xmap" ref="xmapMca" />
-		<property name="controller" ref="edxdcontroller" />
-		<property name="daServer" ref="daserver" />
-		<property name="local" value="true" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" />
-		<property name="deadTimeEnabled" value="false" />
-	</bean>
+<!-- 	<bean id="qexafs_xmap" class="gda.device.detector.xmap.XmapBufferedDetector"> -->
+<!-- 		<property name="xmap" ref="xmapMca" /> -->
+<!-- 		<property name="controller" ref="edxdcontroller" /> -->
+<!-- 		<property name="daServer" ref="daserver" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 		<property name="inputNames"> -->
+<!-- 			<list> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" /> -->
+<!-- 		<property name="deadTimeEnabled" value="false" /> -->
+<!-- 	</bean> -->
 
-	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
-		<property name="qexafsXmap" ref="qexafs_xmap" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="local" value="true" />
-	</bean>
+<!-- 	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO"> -->
+<!-- 		<property name="qexafsXmap" ref="qexafs_xmap" /> -->
+<!-- 		<property name="qexafsScaler" ref="qexafs_counterTimer01" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 
 </beans>

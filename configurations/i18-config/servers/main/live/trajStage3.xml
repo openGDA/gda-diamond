@@ -93,10 +93,10 @@
 		<property name="hardwareTriggerProvider" ref="traj3ScanControllerAdapter" />
 	</bean>
 
-	<bean id="traj3xmap" class="gda.device.detector.xmap.HardwareTriggeredNexusXmapImpl">
-		<property name="hardwareTriggerProvider" ref="traj3ScanControllerAdapter" />
-		<property name="xmap" ref="xmapMca" />
-		<property name="controller" ref="edxdcontroller" />
-	</bean>
+<!-- 	<bean id="traj3xmap" class="gda.device.detector.xmap.HardwareTriggeredNexusXmapImpl"> -->
+<!-- 		<property name="hardwareTriggerProvider" ref="traj3ScanControllerAdapter" /> -->
+<!-- 		<property name="xmap" ref="xmapMca" /> -->
+<!-- 		<property name="controller" ref="edxdcontroller" /> -->
+<!-- 	</bean> -->
 
 </beans>

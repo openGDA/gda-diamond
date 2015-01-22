@@ -3,21 +3,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<!-- 	<bean id="xspress3Controller" -->
-<!-- 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller"> -->
-<!-- 		<property name="epicsTemplate" value="BL18I-EA-XSP3-01" /> -->
-<!-- 		<property name="numberOfChannels" value="10" /> -->
-<!-- 	</bean> -->
-	
+
 	<bean id="xspress3Controller"
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
-		<constructor-arg>
-			<ref bean="daserver" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="tfg" />
-		</constructor-arg>
-		<property name="numberOfChannels" value="10"/>
+		<constructor-arg index="0" ref= "tfg"/>
+		<constructor-arg index="1" ref= "daserver"/>
+		<property name="numberOfChannels" value="10" />
 	</bean>
 
 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">

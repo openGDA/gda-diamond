@@ -664,6 +664,26 @@
 		<property name="base_pressure" ref="ionc_base_pressure" />
 		<property name="hvStatusScannable" ref="ionc3hvstat" />
 	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc1_gas_injector" />
+		<property name="service" ref="ionc1_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc2_gas_injector" />
+		<property name="service" ref="ionc2_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc3_gas_injector" />
+		<property name="service" ref="ionc3_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+	
 
 	<bean id="ionc1_pressure" class="gda.device.scannable.SimplePVScannable">
 		<property name="pvName" value="BL18B-EA-GIR-01:P2" />

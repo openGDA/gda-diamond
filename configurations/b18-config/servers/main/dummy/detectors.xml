@@ -127,7 +127,6 @@
 		<constructor-arg>
 			<ref bean="tfg" />
 		</constructor-arg>
-		<property name="numberOfChannels" value="4"/>
 	</bean>
 
 	<!-- <bean id="cirrus" class="uk.ac.gda.devices.cirrus.DummyCirrusDetector"> -->
