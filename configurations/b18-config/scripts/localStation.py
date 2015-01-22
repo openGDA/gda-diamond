@@ -85,7 +85,8 @@ topupMonitor.setScannableToBeMonitored(topup)
 
 beamMonitor = BeamMonitor()
 beamMonitor.setName("beamMonitor")
-beamMonitor.setMachineModeMonitor(machineModeMonitor)
+if (LocalProperties.get("gda.mode") == 'live'):
+    beamMonitor.setMachineModeMonitor(machineModeMonitor)
 beamMonitor.setShutterPVs(["FE18B-PS-SHTR-01:STA","FE18B-PS-SHTR-01:STA"])  # there are two shutters, it looks like only shutter 1 is operated!
 beamMonitor.setPauseBeforeScan(True)     # for qexafs, test FE and machine current at the start of each scan
 beamMonitor.configure()

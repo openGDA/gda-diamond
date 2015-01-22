@@ -15,13 +15,27 @@
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
 	</bean>
+
+	
+	<bean id="xspress3_daserver" class="gda.device.detector.DAServer">
+		<property name="local" value="True" />
+		<property name="host" value="bl18i-ea-serv-01" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
+	
 	
 	<bean id="xspress2controller"
 		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
 		<property name="daServer" ref="daserver" />
 		<property name="tfg" ref="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
-
 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
@@ -127,55 +141,51 @@
 		<property name="slave" value="true" />
 	</bean>
 
-	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
-		<property name="controller" ref="xmapcontroller" />
+<!-- 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap"> -->
+<!-- 		<property name="controller" ref="xmapcontroller" /> -->
 
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list, 
-			one value for each element -->
-		<property name="eventProcessingTimes">
-			<list>	
-<!-- 			values for the Vortex -->
-				<value>1.7867731067630825e-08</value>
-				<value>2.1322543748867164e-08</value>
-				<value>2.1412068256345848e-08</value>
-				<value>2.5302404673324592e-08</value>
+<!-- 		<property name="eventProcessingTimes"> -->
+<!-- 			<list>	 -->
+<!-- 				<value>1.7867731067630825e-08</value> -->
+<!-- 				<value>2.1322543748867164e-08</value> -->
+<!-- 				<value>2.1412068256345848e-08</value> -->
+<!-- 				<value>2.5302404673324592e-08</value> -->
 
-<!-- 			SGX	new values 3/10/14 -->
-				<value>8.9e-07</value>
-				<value>8.9e-07</value>
-				<value>8.6e-07</value>
-				<value>9.0e-07</value>
-				<value>8.7e-07</value>
-				<value>9.1e-07</value>
-			</list>
-		</property>
+<!-- 				<value>8.9e-07</value> -->
+<!-- 				<value>8.9e-07</value> -->
+<!-- 				<value>8.6e-07</value> -->
+<!-- 				<value>9.0e-07</value> -->
+<!-- 				<value>8.7e-07</value> -->
+<!-- 				<value>9.1e-07</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
 
-		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/templates/Vortex_Parameters.xml" />
-		<property name="tfg" ref="tfg" />
-		<property name="sumAllElementData" value="true" />
-	</bean>
+<!-- 		<property name="slave" value="false" /> -->
+<!-- 		<property name="configFileName" -->
+<!-- 			value="${gda.config}/templates/Vortex_Parameters.xml" /> -->
+<!-- 		<property name="tfg" ref="tfg" /> -->
+<!-- 		<property name="sumAllElementData" value="true" /> -->
+<!-- 	</bean> -->
 
-	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap">
-		<property name="xmap" ref="xmapMca" />
-		<property name="local" value="True" />
-		<property name="timer" ref="tfg" />
-		<property name="slave" value="true" />
-		<property name="collectionModePV" value="BL18I-EA-DET-04:CollectMode" />
-	</bean>
+<!-- 	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap"> -->
+<!-- 		<property name="xmap" ref="xmapMca" /> -->
+<!-- 		<property name="local" value="True" /> -->
+<!-- 		<property name="timer" ref="tfg" /> -->
+<!-- 		<property name="slave" value="true" /> -->
+<!-- 		<property name="collectionModePV" value="BL18I-EA-DET-04:CollectMode" /> -->
+<!-- 	</bean> -->
 	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="raster_xmap" class="gda.device.detector.xmap.XmapBufferedDetector">
-		<property name="xmap" ref="xmapMca" />
-		<property name="controller" ref="edxdcontroller">
-		</property>
-		<property name="daServer" ref="daserver" />
-		<property name="local" value="true" />
-		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" />
-	</bean>
+<!-- 	<bean id="raster_xmap" class="gda.device.detector.xmap.XmapBufferedDetector"> -->
+<!-- 		<property name="xmap" ref="xmapMca" /> -->
+<!-- 		<property name="controller" ref="edxdcontroller"> -->
+<!-- 		</property> -->
+<!-- 		<property name="daServer" ref="daserver" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" /> -->
+<!-- 	</bean> -->
 
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
@@ -256,12 +266,12 @@
 		<property name="i0_channel" value="1" />
 	</bean>
 
-	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0">
-		<property name="xmap" ref="xmapMca" />
-		<property name="counterTimer" ref="counterTimer01" />
-		<property name="i0_channel" value="1" />
-		<property name="local" value="true" />
-	</bean>
+<!-- 	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0"> -->
+<!-- 		<property name="xmap" ref="xmapMca" /> -->
+<!-- 		<property name="counterTimer" ref="counterTimer01" /> -->
+<!-- 		<property name="i0_channel" value="1" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 
 	<bean id="I0_keithley" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL18I-EA-IAMP-02:Gain" />

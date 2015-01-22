@@ -10,6 +10,28 @@
 	<bean id="ionc2_gas_injector" class="gda.device.scannable.DummyScannable" />
 	<bean id="ionc3_gas_injector" class="gda.device.scannable.DummyScannable" />
 	
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc1_gas_injector" />
+		<property name="service" ref="ionc1_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc2_gas_injector" />
+		<property name="service" ref="ionc2_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc3_gas_injector" />
+		<property name="service" ref="ionc3_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+	
+	
+	
 	<bean id="lakeshore" class="gda.device.scannable.DummyLakeshoreScannable" >
 		<property name="InputNames" value="lakeshore" />
 	</bean>
