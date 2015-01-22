@@ -2,6 +2,7 @@ from gda.scan import ConstantVelocityRasterScan
 from gdascripts.scan import rasterscans
 from gdascripts.scan.rasterscans import RasterScan
 from gdascripts.scan.trajscans import setDefaultScannables
+from gda.epics import CAClient
 import time
 import math
 
@@ -9,7 +10,8 @@ class AndorMap(RasterScan):
      
     def __init__(self,rowScannable,columnScannable,andor):
         RasterScan.__init__(self)
-        self.map_size = 50 # default
+        self.Xsize = 50 # default
+        self.Ysize = 50 # default
         self.rowScannable = rowScannable
         self.columnScannable = columnScannable
         self.andor = andor
@@ -20,18 +22,18 @@ class AndorMap(RasterScan):
     def __call__(self, *args):
 
         # if one arg, then use that as the map size, else ignore any and all args
-        from gda.epics import CAClient
         if len(args) == 1:
-            self.map_size = int(args[0])
-        else :
-            self.map_size = CAClient().get("BL08I-EA-DET-01:HDF5:ExtraDimSizeX_RBV")
-            print "Map size will be",str(self.map_size)
-        self.scanargs = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor, 0.1]       
-        andor.getCollectionStrategy().getAdBase().stopAcquiring()
-        time.sleep(1)
-        CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
-        self.ROISetup()
-        self.OptimizeChunk()
+            self.Xsize = int(args[0])
+            self.Ysize = int(args[0])
+        elif len(args) == 2:
+            self.Xsize  = int(args[0])
+            self.Ysize = int(args[1])
+        # not implemented still waiting for SLS feedback
+        #else :
+         #   self.map_size = CAClient().get("BL08I-EA-DET-01:HDF5:ExtraDimSizeX_RBV")
+          #  print "Map size will be",str(self.map_size)
+        self.PrepareForCollection()
+        self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1]
         RasterScan.__call__(self,self.scanargs)
      
     def _createScan(self, args):
@@ -81,8 +83,28 @@ class AndorMap(RasterScan):
         print "framesperChunk:",framesPerChunk
         andor.getAdditionalPluginList()[0].setFramesChunks(framesPerChunk)
         
+    def OpenAndorShutter(self):
+        CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
+     
+    def PrepareForCollection(self):   
+        andor.getCollectionStrategy().getAdBase().stopAcquiring()
+        time.sleep(1)
+        self.OpenAndorShutter()
+        self.ROISetup()
+        self.OptimizeChunk()
+        self.resetPlotters()
+        
+    def resetPlotters(self):
+         transmission_plotter.setXArgs(0, self.Xsize, 1)
+         transmission_plotter.setYArgs(0, self.Ysize, 1)
+         horizontal_plotter.setXArgs(0, self.Xsize, 1)
+         horizontal_plotter.setYArgs(0, self.Ysize, 1)
+         vertical_plotter.setXArgs(0, self.Xsize, 1)
+         vertical_plotter.setYArgs(0, self.Ysize, 1)
+         
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
 # row = stxmDummy.stxmDummyY
 andormap = AndorMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor)
+alias andormap
 print "Command andormap(mapSize) created for arming the Andor detector before running STXM maps"
