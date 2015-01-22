@@ -648,53 +648,92 @@ try:
 	
 	# meta should be created last to ensure we have all required scannables
 	try:
-		from gdascripts.scannable.installStandardScannableMetadataCollection import *
+		from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
 		meta.rootNamespaceDict=globals()
 		note.rootNamespaceDict=globals()
 
+		# See http://confluence.diamond.ac.uk/x/UQKY
+		#from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
+		from gdascripts.metadata.metadata_commands import * #@UnusedWildImport
+		alias("setTitle")
+		alias("getTitle")
+		alias("meta_add") # addmeta
+		alias("meta_ll")  # 
+		alias("meta_ls")  # lsmeta
+		alias("meta_rm")  # rmmeta
+		# meta_clear_alldynamical
+		#				  # setmeta # Errors if used with metashop
+		#				  # note
+		meta.readFromNexus = True
+
+		metashop=Finder.getInstance().find("metashop")
+		LocalProperties.set( NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop" ) # gda.nexus.metadata.provider.name
+		# As well as metashop needing to be define, GDAMetadata also needs to be defined.
+		# metashop is defined in mt-config/servers/main/common/required_at_start.py
+
+		simpleLog("Metadata scannables, from configuration: " + " ".join(str(x.name) for x in metashop.getMetaScannables()))
+
+		# New metadata system doesn't allow metadata scannables to be set
 		def stdmeta():
-			stdmetadatascannables = (ringCurrent, wigglerField,
-				s1xpos, s1xgap, s1ypos, s1ygap,
-				s1xplus, s1xminus, s1yplus, s1yminus,
-				dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,
-				dcmxtl1roll, dcmxtl1z, dcmenergy,
-				qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,
-				s6ypos, s6ygap, s6yup, s6ydown,
-				vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,
-				hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,
-				qbpm2_x, qbpm2_y, qbpm2A, qbpm2B, qbpm2C, qbpm2D, qbpm2total,
-				s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,
-				fsx, fsy,
-				pinx, piny, pinz, pinpitch, pinyaw,
-				thermo1, thermo2, thermo3, pt100_1,
-				dx, dy, dz, dkphi, dkappa, dktheta,
-				djack1, djack2, djack3, dtransx, drotation, detz, ddelta,
-				shdx, shdy, shdz,
-				bsx, bsy,
-				tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,
-				s7xpos, s7ypos, s7xgap, s7xgap,
-				d6x,
-				fs2x, fs2y,
-				skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,
-				svfmcurve, svfmellip, svfmy, svfmpitch,
-				shfmcurve, shfmellip, shfmx, shfmpitch,
-				pin3x, pin3y,
-				sx, sy, sz, spitch, syaw, sroll,
-				spivotx, spivoty, spivotz, sphi, ssx, ssz,
-				d7x, d7y,
-				bs2x, bs2y, bs3x, bs3y, bs3z,
-				#det2z,
-				d1, d2, d3, d4, d5, d6, d7, d8, d9,
-				d1sum, d2sum, d3sum, d4sum, d5sum
-				#cryox, cryoy, cryoz, cryorot
+			""" This function resets the metadata scannables to the standard list in localststion"""
+			stdmetadatascannables = ('ringCurrent', 'wigglerField',
+				's1xpos', 's1xgap', 's1ypos', 's1ygap',
+				's1xplus', 's1xminus', 's1yplus', 's1yminus',
+				'dcmbragg1', 'dcmbragg2', 'dcmxtl1y', 'dcmxtl2y',
+				'dcmxtl1roll', 'dcmxtl1z', 'dcmenergy',
+				'qbpm1_x', 'qbpm1_y', 'qbpm1A', 'qbpm1B', 'qbpm1C', 'qbpm1D', 'qbpm1total',
+				's6ypos', 's6ygap', 's6yup', 's6ydown',
+				'vfm_x', 'vfm_y', 'vfm_pitch', 'vfm_curve', 'vfm_ellipticity', 'vfm_gravsag',
+				'hfm_x', 'hfm_y', 'hfm_pitch', 'hfm_curve', 'hfm_ellipticity', 'hfm_yaw', 'hfm_roll',
+				'qbpm2_x', 'qbpm2_y', 'qbpm2A', 'qbpm2B', 'qbpm2C', 'qbpm2D', 'qbpm2total',
+				's4xpos', 's4xgap', 's4ypos', 's4ygap', 's4yaw', 's4pitch',
+				'fsx', 'fsy',
+				'pinx', 'piny', 'pinz', 'pinpitch', 'pinyaw',
+				'thermo1', 'thermo2', 'thermo3', 'pt100_1',
+				'dx', 'dy', 'dz', 'dkphi', 'dkappa', 'dktheta',
+				'djack1', 'djack2', 'djack3', 'dtransx', 'drotation', 'detz', 'ddelta',
+				'shdx', 'shdy', 'shdz',
+				'bsx', 'bsy',
+				'tab2jack1', 'tab2jack2', 'tab2jack3', 'tab2transx', 'tab2rotation',
+				's7xpos', 's7ypos', 's7xgap', 's7xgap',
+				'd6x',
+				'fs2x', 'fs2y',
+				'skbjack1', 'skbjack2', 'skbjack3', 'skby', 'skbpitch', 'skbroll',
+				'svfmcurve', 'svfmellip', 'svfmy', 'svfmpitch',
+				'shfmcurve', 'shfmellip', 'shfmx', 'shfmpitch',
+				'pin3x', 'pin3y',
+				'sx', 'sy', 'sz', 'spitch', 'syaw', 'sroll',
+				'spivotx', 'spivoty', 'spivotz', 'sphi', 'ssx', 'ssz',
+				'd7x', 'd7y',
+				'bs2x', 'bs2y', 'bs3x', 'bs3y', 'bs3z',
+				'det2z',
+				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9',
+				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
+				'cryox', 'cryoy', 'cryoz', 'cryorot'
 				)
-			setmeta_ret=setmeta(*stdmetadatascannables)
-			simpleLog("Standard metadata scannables: " + setmeta_ret)
+			
+			before=set(metashop.getMetaScannables())
+			errors=[]
+			for scn_name in stdmetadatascannables:
+				try:
+					scn=finder.find(scn_name)
+					meta_add(scn)
+				except:
+					errors.append(scn_name)
+			after=set(metashop.getMetaScannables())
+			if (before-after):
+				simpleLog("Metadata scannables, removed:            " + " ".join(str(x.name) for x in before-after))
+			if (after-before):
+				simpleLog("                     added:              " + " ".join(str(x.name) for x in after-before))
+			if (after):
+				simpleLog("                     current:            " + " ".join(str(x.name) for x in after))
+			if (errors):
+				simpleLog("                     erroring:           " + " ".join(x for x in errors))
 			#return ''
 
 		stdmeta()
-		simpleLog("Use 'stdmeta()' to reset to standard scannables")
-		#alias('stdmeta')
+		simpleLog("Use 'stdmeta' to reset to standard scannables")
+		alias('stdmeta')
 		add_default(meta)
 		meta.quiet = True
 		
@@ -715,7 +754,7 @@ except:
 	localStation_exception(sys.exc_info(), "running localStationUser user script")
 
 if len(localStation_exceptions) > 0:
-	simpleLog("=============== ERRORS DURING STARTUP ================")
+	simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 
 for localStationException in localStation_exceptions:
 	simpleLog(localStationException)
