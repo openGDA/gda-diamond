@@ -535,7 +535,10 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "setting output formats")
 
-	run('utilities/centreBeam')
+	try:
+		run('utilities/centreBeam')
+	except:
+		localStation_exception(sys.exc_info(), "running centreBeam")
 
 	try:
 		from scannables.chiPseudoDevice import ChiPseudoDevice
