@@ -1,41 +1,42 @@
 import sys;
 from gdascripts.messages import handle_messages
-from gdascripts.messages.handle_messages import simpleLog
+from gdascripts.messages.handle_messages import simpleLog # @UnusedImport
 
-import cendac
-import integrationTests
-import CrysalisDataCollection
-import pd_epicsdevice
+import cendac # @UnusedImport
+import integrationTests # @UnusedImport
+import CrysalisDataCollection # @UnusedImport
+import pd_epicsdevice # @UnusedImport
 #import ruby_scripts
-import gdascripts.pd.epics_pds
+import gdascripts.pd.epics_pds # @UnusedImport
+from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 import gdascripts.pd.time_pds
-import gdascripts.utils
+import gdascripts.utils # @UnusedImport
 import pd_ratio
 import pd_baseTable
 import dataDir
-import shutterCommands
-import marAuxiliary
+import shutterCommands # @UnusedImport
+import marAuxiliary # @UnusedImport
 #from marAuxiliary import closeMarShield as closeDetectorShield
 #from marAuxiliary import openMarShield as openDetectorShield
-import ccdAuxiliary
+import ccdAuxiliary # @UnusedImport
 import ccdScanMechanics
-from ccdScanMechanics import setMaxVelocity
+from ccdScanMechanics import setMaxVelocity # @UnusedImport
 import ccdFloodCorrections
-import ccdScripts
-import pilatus_scripts
+import ccdScripts # @UnusedImport
+import pilatus_scripts # @UnusedImport
 import operationalControl
 
-from operationalControl import *
+from operationalControl import * # @UnusedWildImport
 from dummy_scan_objects import SimpleDummyDetector
 from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters
 from gda.device.epicsdevice import ReturnType
 from gda.util import VisitPath
-from constants import *
-from dataPlot import dp
-from meterCounterSetup import *
+from constants import * # @UnusedWildImport
+from dataPlot import dp # @UnusedImport
+from meterCounterSetup import * # @UnusedWildImport
 #from scan_commands import scan
-from gdascripts.scan.installStandardScansWithProcessing import *
+from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
@@ -51,18 +52,17 @@ import scannables.MerlinColourModeThresholdsScannable
 mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
     PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
 
-from detector_scan_commands import *
-from centreProxy import *
+from detector_scan_commands import * # @UnusedWildImport
+from centreProxy import * # @UnusedWildImport
 #from scanPeak import *
-from diodeTime import *
-from setGain import *
+from diodeTime import * # @UnusedWildImport
+from setGain import * # @UnusedWildImport
 #from marAuxiliary import marErase, resetMarScanNumber
 #from ccdAuxiliary import resetCCDScanNumber
 #from pilatus_scripts import resetPilatusScanNumber
 
-from dataDir import setDir, setFullUserDir
-from time import sleep
-from ccdFloodCorrections import exportMultiDark
+from dataDir import setDir, setFullUserDir # @UnusedImport
+from ccdFloodCorrections import exportMultiDark # @UnusedImport
 from gda.epics import CAClient
 
 global finder, run, etl, prop, add_default, vararg_regex, \
@@ -208,7 +208,6 @@ try:
 		patch12x14 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x14", beamline, "-EA-PATCH-12:X14")
 
 		#ring= finder.find("Ring")
-		from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
 		detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
@@ -372,7 +371,6 @@ try:
 		d4_d2 = pd_ratio.Simple_PD_Ratio('d4_d2', d4, d2)
 		d5_d1 = pd_ratio.Simple_PD_Ratio('d5_d1', d5, d1)
 		
-		from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-DI-PHDGN-01:DIODESUM", "", "%f")
 		d2sum = DisplayEpicsPVClass("d2sum", "BL15I-DI-PHDGN-02:DIODESUM", "", "%f")
 		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-PHDGN-03:DIODESUM", "", "%f")
@@ -493,6 +491,7 @@ try:
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
 	
+	"""
 	if False:
 		try:
 			from scannables.detectors.fastShutterDetector import FastShutterDetector
@@ -501,6 +500,7 @@ try:
 			localStation_exception(sys.exc_info(), "creating fsdet object")
 	else:
 		simpleLog("* Not creating fsdet object *")
+	"""
 	
 	try:
 		from scannables.safeScannable import SafeScannable
@@ -576,7 +576,7 @@ try:
 		try:
 			from gdascripts.scan.process.ScannableScan import ScannableScan
 			from gdascripts.scan.gdascans import Rscan
-			from gdascripts.scan.gdascans import Scan
+			#from gdascripts.scan.gdascans import Scan
 			from future.TwoGaussianEdges import TwoGaussianEdges
 	
 			wirescanner = ScannableScan('wirescanner', TwoGaussianEdges(), Rscan, sx, -2, 3, 0.1, w, 0.5, d7)
