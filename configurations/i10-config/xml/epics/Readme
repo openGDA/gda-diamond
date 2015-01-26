@@ -18,7 +18,7 @@ Epics gda-interface locations
 Epics gui by using configure-ioc:
 
 $ configure-ioc show BL10I-gui ME01D-gui ME02P-gui
-BL10I-gui /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-9/bin/linux-x86_64/stBL10I-gui
+BL10I-gui /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-13/bin/linux-x86_64/stBL10I-gui
 ME01D-gui /dls_sw/prod/R3.14.12.3/ioc/ME01D/BL/4-0/bin/linux-x86_64/stME01D-gui
 ME02P-gui /dls_sw/work/R3.14.11/ioc/ME02P/MO/bin/linux-x86/stME02P-gui
 
@@ -26,11 +26,16 @@ ME02P-gui /dls_sw/work/R3.14.11/ioc/ME02P/MO/bin/linux-x86/stME02P-gui
 data directories too: 
 
 $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL10I/BL/*/data/BL10I-gda-interface.xml /dls_sw/work/*/ioc/BL10I/BL/data/BL10I-gda-interface.xml /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/*/xml/epics/BL10I-gda-interface.xml /dls_sw/i10/software/gda_versions/*/workspace_git/gda-mt.git/configurations/*/xml/epics/BL10I-gda-interface.xml
--r-xr-xr-x. 1 rqs43846 dcs      1006210 2014-07-09 19:08 /dls_sw/work/R3.14.12.3/ioc/BL10I/BL/data/BL10I-gda-interface.xml
+-rwxrwxr-x+ 1 voo82358 dls_dasc 1005450 2015-01-19 14:49 /dls_sw/i10/software/gda_versions/gda_8.40b/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
+-rwxrwxr-x+ 1 voo82358 dls_dasc 1005450 2015-01-19 14:49 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
+-r-xr-xr-x. 1 rqs43846 dcs      1005450 2015-01-16 14:57 /dls_sw/work/R3.14.12.3/ioc/BL10I/BL/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1005450 2015-01-16 11:57 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-14/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1005922 2014-12-24 12:12 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-13/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1003402 2014-12-23 19:25 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-12/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1006210 2014-10-07 11:58 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-11/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1006210 2014-07-23 09:48 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-10/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1006210 2014-07-09 19:02 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-9/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1006210 2014-07-01 16:39 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-8/data/BL10I-gda-interface.xml
--rwxrwxr-x. 1 voo82358 dls_dasc 1006210 2014-07-01 16:39 /dls_sw/i10/software/gda_versions/gda_8.40b/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
--rwxrwxr-x. 1 voo82358 dls_dasc 1006210 2014-07-01 16:39 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1001320 2014-06-26 17:05 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-7/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1001320 2014-06-20 17:57 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-6/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1001320 2014-06-05 18:10 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-5/data/BL10I-gda-interface.xml
@@ -48,27 +53,15 @@ $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL10I/BL/*/data/BL10I-gda-interf
 -r-xr-xr-x. 1    37523    37523 1001475 2014-03-19 11:12 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-45/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523  999659 2014-03-18 09:25 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-44/data/BL10I-gda-interface.xml
 -rwxrwxr-x+ 1 voo82358 dls_dasc  990177 2014-03-07 22:10 /dls_sw/i10/software/gda_versions/gda_8.34e/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  992884 2014-01-10 15:52 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-43/data/BL10I-gda-interface.xml
 -rwxrwxr-x+ 1 voo82358 dls_dasc  990177 2013-12-13 13:52 /dls_sw/i10/software/gda_versions/gda_8.34d/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  992884 2013-11-22 13:59 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-42/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991736 2013-11-13 18:35 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-41/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991736 2013-11-08 15:40 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-40/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991736 2013-11-07 12:27 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-39/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991100 2013-10-25 17:35 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-38/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991100 2013-10-10 10:42 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-37/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991100 2013-10-04 18:59 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-36/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991100 2013-10-01 18:17 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-35/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991100 2013-10-01 14:28 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-34/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991100 2013-09-06 10:15 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-33/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  991100 2013-08-30 11:48 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-32/data/BL10I-gda-interface.xml
--r-xr-xr-x. 1    37523    37523  990177 2013-07-11 10:26 /dls_sw/prod/R3.14.11/ioc/BL10I/BL/2-31/data/BL10I-gda-interface.xml
 
 $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/ME01D/BL/*/data/ME01D-gda-interface.xml /dls_sw/work/*/ioc/ME01D/BL/data/ME01D-gda-interface.xml /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/*/xml/epics/ME01D-gda-interface.xml /dls_sw/i10/software/gda_versions/*/workspace_git/gda-mt.git/configurations/*/xml/epics/ME01D-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 460215 2014-07-23 10:12 /dls_sw/prod/R3.14.12.3/ioc/ME01D/BL/4-1/data/ME01D-gda-interface.xml
 -rwxrwxr-x+ 1 voo82358 dls_dasc 398719 2014-06-05 10:11 /dls_sw/i10/software/gda_versions/gda_8.40a/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME01D-gda-interface.xml
 -r-xr-xr-x. 1 rqs43846 dcs      460215 2014-03-28 12:03 /dls_sw/work/R3.14.12.3/ioc/ME01D/BL/data/ME01D-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 460215 2014-03-28 11:56 /dls_sw/prod/R3.14.12.3/ioc/ME01D/BL/4-0/data/ME01D-gda-interface.xml
--rwxrwxr-x. 1 voo82358 dls_dasc 460215 2014-03-28 11:56 /dls_sw/i10/software/gda_versions/gda_8.40b/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME01D-gda-interface.xml
--rwxrwxr-x. 1 voo82358 dls_dasc 460215 2014-03-28 11:56 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME01D-gda-interface.xml
+-rwxrwxr-x+ 1 voo82358 dls_dasc 460215 2014-03-28 11:56 /dls_sw/i10/software/gda_versions/gda_8.40b/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME01D-gda-interface.xml
+-rwxrwxr-x+ 1 voo82358 dls_dasc 460215 2014-03-28 11:56 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME01D-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 460215 2014-03-27 18:23 /dls_sw/prod/R3.14.11/ioc/ME01D/BL/3-18/data/ME01D-gda-interface.xml
 -rwxrwxr-x+ 1 voo82358 dls_dasc 398719 2014-03-21 11:57 /dls_sw/i10/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME01D-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 387232 2014-03-19 14:21 /dls_sw/prod/R3.14.11/ioc/ME01D/BL/3-17/data/ME01D-gda-interface.xml
@@ -91,8 +84,8 @@ $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/ME02P/MO/*/data/ME02P-gda-interf
 -rwxrwxr-x+ 1 voo82358 dls_dasc 7509 2014-06-05 10:11 /dls_sw/i10/software/gda_versions/gda_8.40a/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME02P-gda-interface.xml
 -rwxrwxr-x+ 1 voo82358 dls_dasc 7509 2014-03-21 11:56 /dls_sw/i10/software/gda_versions/gda_8.38a/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME02P-gda-interface.xml
 -r-xr-xr-x. 1 pjl45    dcs      8763 2014-03-13 09:27 /dls_sw/work/R3.14.12.3/ioc/ME02P/MO/data/ME02P-gda-interface.xml
--rwxrwxr-x. 1 voo82358 dls_dasc 8763 2014-03-13 09:27 /dls_sw/i10/software/gda_versions/gda_8.40b/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME02P-gda-interface.xml
--rwxrwxr-x. 1 voo82358 dls_dasc 8763 2014-03-13 09:27 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME02P-gda-interface.xml
+-rwxrwxr-x+ 1 voo82358 dls_dasc 8763 2014-03-13 09:27 /dls_sw/i10/software/gda_versions/gda_8.40b/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME02P-gda-interface.xml
+-rwxrwxr-x+ 1 voo82358 dls_dasc 8763 2014-03-13 09:27 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME02P-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 7509 2014-03-13 09:23 /dls_sw/prod/R3.14.11/ioc/ME02P/MO/3-3/data/ME02P-gda-interface.xml
 -r-xr-xr-x. 1 pjl45    dcs      7509 2014-03-13 09:19 /dls_sw/work/R3.14.11/ioc/ME02P/MO/data/ME02P-gda-interface.xml
 -rwxrwxr-x+ 1 voo82358 dls_dasc 7509 2014-03-07 22:10 /dls_sw/i10/software/gda_versions/gda_8.34e/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME02P-gda-interface.xml
@@ -102,6 +95,7 @@ $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/ME02P/MO/*/data/ME02P-gda-interf
 -r-xr-xr-x. 1    37523    37523 7509 2011-04-05 09:15 /dls_sw/prod/R3.14.11/ioc/ME02P/MO/3-0/data/ME02P-gda-interface.xml
 -r-xr-xr-x. 1    37523 dcs      7509 2011-04-01 16:47 /dls_sw/prod/R3.14.8.2/ioc/ME02P/MO/2-1/data/ME02P-gda-interface.xml
 -r-xr-xr-x. 1    37523 dcs      7509 2010-04-27 16:31 /dls_sw/prod/R3.14.8.2/ioc/ME02P/MO/2-0/data/ME02P-gda-interface.xml
+
 
 -------------------------------
 Epics gda-interface old history
