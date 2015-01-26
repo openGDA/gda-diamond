@@ -256,10 +256,6 @@
 		file containing the MCAs -->
 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
 		<property name="controller" ref="xspress3Controller" />
-<<<<<<< HEAD
-<!-- 		<property name="numberOfChannelsToRead" value="4" /> -->
-=======
->>>>>>> refs/remotes/origin/gda-8.40
 		<property name="writeHDF5Files" value="true" />
 	</bean>
 

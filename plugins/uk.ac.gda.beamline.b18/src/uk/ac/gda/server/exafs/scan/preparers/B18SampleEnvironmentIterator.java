@@ -186,10 +186,10 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	private Scannable[] control_lakeshore(LakeshoreParameters lakeshore_bean) throws InterruptedException,
 			DeviceException {
 		log("Lakeshore is the temp controller");
-		boolean selectTemp0 = lakeshore_bean.isTempSelect0();
-		boolean selectTemp1 = lakeshore_bean.isTempSelect1();
-		boolean selectTemp2 = lakeshore_bean.isTempSelect2();
-		boolean selectTemp3 = lakeshore_bean.isTempSelect3();
+//		boolean selectTemp0 = lakeshore_bean.isTempSelect0();
+//		boolean selectTemp1 = lakeshore_bean.isTempSelect1();
+//		boolean selectTemp2 = lakeshore_bean.isTempSelect2();
+//		boolean selectTemp3 = lakeshore_bean.isTempSelect3();
 		double temperature = lakeshore_bean.getSetPointSet();
 		double tolerance = lakeshore_bean.getTolerance();
 		double wait_time = lakeshore_bean.getTime();
