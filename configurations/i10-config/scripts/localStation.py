@@ -10,7 +10,6 @@ global tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha, difx, lgf, lgb, lgm
 global RetTilt, RetRotation, AnaTilt ,AnaRotation, \
         AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb
 global mac116, mac117, mac118, mac119, mac120
-global zebra
 
 import sys, gda, java
 #from rasor.init_scan_commands_and_processing import * 
@@ -363,10 +362,10 @@ if pixis_installed:
     except:
         localStation_exception(sys.exc_info(), "creating pixis objects")
 
-######## Setting up the semi-automatic Zebra triggered camera ###############
-zebra_detector_installed = False
+######## Setting up the semi-automatic Zebra triggered cameras ###############
+zebra_triggered_pimte_detector_installed = False
 
-if zebra_detector_installed:
+if zebra_triggered_pimte_detector_installed:
     from future.scannable.ZebraTriggeredDetector import ZebraTriggeredDetector
     in4ttl=10
     in3ttl=7
@@ -396,6 +395,37 @@ if zebra_detector_installed:
         notScanInput=in4ttl, notReadyInput=in3ttl, triggerOutSoftInput=4,
         setCollectionTimeInstructions=setCollectionTimeInstructions,
         prepareForCollectionInstructions=prepareForCollectionInstructions)
+
+zebra_triggered_pco_detector_installed = True
+
+if zebra_triggered_pco_detector_installed:
+    from future.scannable.ZebraTriggeredDetector import ZebraTriggeredDetector
+    zebra=finder.find('zebra')
+    in4ttl=10
+    setCollectionTimeInstructions = "Setting collection time in Zebra"
+    prepareForCollectionInstructions=None
+    scanStartInstructions="""
+    If you are having problems, or you are stuck only able to see this text:
+        On the CamWare screen, make sure that:
+            In Camera Control, teh Trigger mode is set to External Exp. Ctrl
+        Then File menu > Direct Record To File,
+            Set number of images to store as number of points in scan +1 or greater
+            Set the name of the file for this scan.
+    On the Zebra EDM screen (Launchers > Beamlines > BL10I BLADE > ZEB1) ensure that:
+        On the SYS tab:
+            OUT4 TTL is 55 (PULSE4)
+        On the PULSE tab, ensure that:
+            PULSE4 input is 63 (SOFT_IN4) and Trigger on Rising Edge
+    Also make sure that:
+        The Zebra TTL Out 4 is connected to the Camera exp. trig (control in)
+        The Zebra TTL In 4  is connected to the Camera busy (status out)
+        Ensure that the dip switches beneath the control in sockets are all set to ON"""
+    pco = ZebraTriggeredDetector('pco', zebra=zebra, 
+        notScanInput=in4ttl, notReadyInput=None, triggerOutSoftInput=4,
+        setCollectionTimeInstructions=setCollectionTimeInstructions,
+        prepareForCollectionInstructions=prepareForCollectionInstructions,
+        scanStartInstructions=scanStartInstructions, 
+        gateNotTrigger=True, notScanInverted=True, zebraPulse=4)
 
 ######## Setting up the Zebra as a fast dicriosm counter ###############
 zebra_fastdicr_installed = True

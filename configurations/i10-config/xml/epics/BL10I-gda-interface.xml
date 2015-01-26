@@ -206,24 +206,6 @@
 	<simpleMotor desc="D5 gas cell Y motor" name="D5.Y">
 		<RECORD desc="Motor" pv="BL10I-DI-IONC-01:Y" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="I-branch user motors 1" name="UI1.motor1">
-		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS1" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="I-branch user motors 1" name="UI1.motor2">
-		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS2" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="I-branch user motors 1" name="UI1.motor3">
-		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS3" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="I-branch user motors 1" name="UI1.motor4">
-		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS4" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="I-branch user motors 1" name="UI1.motor5">
-		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS5" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="I-branch user motors 1" name="UI1.motor6">
-		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS6" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="S4 x-gapsize mtr (cmpnd)" name="SLITS4.XSIZE">
 		<RECORD desc="Motor" pv="BL10I-AL-SLITS-04:XSIZE" ro="false" type="motor"/>
 	</simpleMotor>
@@ -320,6 +302,24 @@
 	<simpleMotor desc="M4 roll (Rz) mtr (cmpnd)" name="M4.ROLL">
 		<RECORD desc="Motor" pv="BL10I-OP-FOCS-01:ROLL" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="I-branch user motors 1" name="UI1.motor1">
+		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="I-branch user motors 1" name="UI1.motor2">
+		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="I-branch user motors 1" name="UI1.motor3">
+		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="I-branch user motors 1" name="UI1.motor4">
+		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="I-branch user motors 1" name="UI1.motor5">
+		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS5" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="I-branch user motors 1" name="UI1.motor6">
+		<RECORD desc="Motor" pv="BL10I-MO-USER-01:AXIS6" ro="false" type="motor"/>
+	</simpleMotor>
 	<positioner desc="DJ2A positioner" name="DJ2A.POS">
 		<SELECT desc="Position Selection" pv="BL10J-DI-PHDGN-03:DET:X:MP:SELECT" ro="false" type="mbbinary"/>
 		<DMOV desc="Done Moving Indicator" pv="BL10J-DI-PHDGN-03:DET:X:MP:DMOV" ro="true" type="pv"/>
@@ -386,42 +386,6 @@
 	<simpleMotor desc="S9 bottom blade Y motor" name="SLITS9.YMINUS">
 		<RECORD desc="Motor" pv="BL10J-AL-SLITS-03:YMINUS" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor1">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS1" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor2">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS2" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor3">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS3" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor4">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS4" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor5">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS5" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor6">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS6" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 2" name="UJ2.motor1">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-02:AXIS1" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 2" name="UJ2.motor2">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-02:AXIS2" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 2" name="UJ2.motor3">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-02:AXIS3" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 2" name="UJ2.motor4">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-02:AXIS4" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 2" name="UJ2.motor5">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-02:AXIS5" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="J-branch user motors 2" name="UJ2.motor6">
-		<RECORD desc="Motor" pv="BL10J-MO-USER-02:AXIS6" ro="false" type="motor"/>
-	</simpleMotor>
 	<simpleMotor desc="S7 x-gapsize mtr (cmpnd)" name="SLITS7.XSIZE">
 		<RECORD desc="Motor" pv="BL10J-AL-SLITS-01:XSIZE" ro="false" type="motor"/>
 	</simpleMotor>
@@ -472,6 +436,39 @@
 	</simpleMotor>
 	<simpleMotor desc="M6 roll (Rz) mtr (cmpnd)" name="M6.ROLL">
 		<RECORD desc="Motor" pv="BL10J-OP-FOCA-01:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Magnet Insert Y motor" name="MAGJ1.INSERTY">
+		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:INSERT:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Magnet Insert Y rotn motor" name="MAGJ1.INSERTROTY">
+		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:INSERT:ROTY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Magnet Insert Y encoder RB" name="MAGJ1.INSERTENCY">
+		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:INSERT:ENCY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Magnet Stand X motor" name="MAGJ1.X">
+		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Magnt Insrt ROTY encdr RB" name="MAGJ1.INSERTENCROTY">
+		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:INSERT:ENCROTY" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor1">
+		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor2">
+		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor3">
+		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor4">
+		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor5">
+		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS5" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="J-branch user motors 1" name="UJ1.motor6">
+		<RECORD desc="Motor" pv="BL10J-MO-USER-01:AXIS6" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleScaler desc="Scaler Card 1" name="SCALER1">
 		<RECORD desc="Scaler" pv="BL10I-DI-SCLR-01:SCALER1" ro="false" type="scaler"/>
@@ -9367,16 +9364,4 @@
 	<simplePv desc="Magnet Intelligent Level Meter J1" name="MAGJ1.ILMJ1">
 		<RECORD desc="Fill level" pv="BL10J-EA-ILM-01:LEVEL" ro="true" type="pv"/>
 	</simplePv>
-	<simpleMotor desc="Magnet Insert Y motor" name="MAGJ1.INSERTY">
-		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:INSERT:Y" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Magnet Insert Y rotn motor" name="MAGJ1.INSERTROTY">
-		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:INSERT:ROTY" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Magnet Insert Y encoder RB" name="MAGJ1.INSERTENCY">
-		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:INSERT:ENCY" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="Magnet Stand X motor" name="MAGJ1.X">
-		<RECORD desc="Motor" pv="BL10J-EA-MAG-01:X" ro="false" type="motor"/>
-	</simpleMotor>
 </devices>
