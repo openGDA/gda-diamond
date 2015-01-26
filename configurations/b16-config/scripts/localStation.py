@@ -587,8 +587,6 @@ if installation.isLive():
 	print "-------------------------------PSL INIT---------------------------------------"
 	try:
 
-		#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
-
 		PSL_AUTO_RECONNECT = True
 		if not PSL_AUTO_RECONNECT:
 			psl = SwitchableHardwareTriggerableProcessingDetectorWrapper('psl',
@@ -615,27 +613,23 @@ if installation.isLive():
 			                                                       printNfsTimes=False,
 			                                                       returnPathAsImageNumberOnly=False)
 		psl.disable_operation_outside_scans = True
-		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
-		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
-		#pil100k.printNfsTimes = True
-
 		psl.processors=[DetectorDataProcessorWithRoi('max', psl, [SumMaxPositionAndValue()], False)]
-
 		psl.display_image = True
-		pslpeak2d = DetectorDataProcessorWithRoi('pslpeak2d', medipix, [TwodGaussianPeak()])
-		pslmax2d = DetectorDataProcessorWithRoi('pslmax2d', medipix, [SumMaxPositionAndValue()])
-		pslitensity2d = DetectorDataProcessorWithRoi('pslintensity2d', medipix, [PixelIntensity()])
+		pslpeak2d = DetectorDataProcessorWithRoi('pslpeak2d', psl, [TwodGaussianPeak()])
+		pslmax2d = DetectorDataProcessorWithRoi('pslmax2d', psl, [SumMaxPositionAndValue()])
+		pslitensity2d = DetectorDataProcessorWithRoi('pslintensity2d', psl, [PixelIntensity()])
 
+		pslroi1 = DetectorDataProcessorWithRoi('pslroi1', psl, [SumMaxPositionAndValue()])
+		pslroi2 = DetectorDataProcessorWithRoi('pslroi2', psl, [SumMaxPositionAndValue()])
+		pslroi3 = DetectorDataProcessorWithRoi('pslroi3', psl, [SumMaxPositionAndValue()])
 
 	except gda.factory.FactoryException:
-		print " *** Could not connect to pilatus (FactoryException)"
-	except 	java.lang.IllegalStateException:
-		print " *** Could not connect to pilatus (IllegalStateException)"
-	print "-------------------------------PILATUS INIT COMPLETE---------------------------------------"
+		print " *** Could not connect to PSL SCMOS (FactoryException)"
+	except java.lang.IllegalStateException:
+		print " *** Could not connect to PSL SCMOS (IllegalStateException)"
+	print "-------------------------------PSL SCMOS INIT COMPLETE---------------------------------------"
 else:
-	print "*** Pilatus disabled from localStation.py "
-
+	print "*** PSL SCMOS disabled from localStation.py "
 
 ###############################################################################
 ###                                Uniblitz                                 ###
