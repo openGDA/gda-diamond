@@ -54,12 +54,6 @@
 		<VENDOR IOC="BL15I-MO-IOC-01" desc="Vendor String" pv="BL15I-DI-IAMP-02:VENDOR" ro="true" type="pv"/>
 		<MODEL IOC="BL15I-MO-IOC-01" desc="Model String" pv="BL15I-DI-IAMP-02:MODEL" ro="true" type="pv"/>
 	</currAmpQuad>
-	<currAmpQuad desc="" name="enz0">
-		<RANGE IOC="BL15I-MO-IOC-01" desc="Range Selection" pv="BL15I-DI-IAMP-00:SETRANGE" ro="false" type="mbbinary"/>
-		<RANGE_READBACK IOC="BL15I-MO-IOC-01" desc="Range Readback" pv="BL15I-DI-IAMP-00:MRREADBACK" ro="true" type="mbbinary"/>
-		<VENDOR IOC="BL15I-MO-IOC-01" desc="Vendor String" pv="BL15I-DI-IAMP-00:VENDOR" ro="true" type="pv"/>
-		<MODEL IOC="BL15I-MO-IOC-01" desc="Model String" pv="BL15I-DI-IAMP-00:MODEL" ro="true" type="pv"/>
-	</currAmpQuad>
 	<currAmpQuad desc="" name="enz3">
 		<RANGE IOC="BL15I-MO-IOC-01" desc="Range Selection" pv="BL15I-DI-IAMP-03:SETRANGE" ro="false" type="mbbinary"/>
 		<RANGE_READBACK IOC="BL15I-MO-IOC-01" desc="Range Readback" pv="BL15I-DI-IAMP-03:MRREADBACK" ro="true" type="mbbinary"/>
@@ -75,11 +69,6 @@
 		<XPOS IOC="BL15I-MO-IOC-01" desc="X Position" pv="BL15I-DI-QBPM-02:XPOS" ro="true" type="pv"/>
 		<YPOS IOC="BL15I-MO-IOC-01" desc="Y Position" pv="BL15I-DI-QBPM-02:YPOS" ro="true" type="pv"/>
 		<INTENSITY IOC="BL15I-MO-IOC-01" desc="Summed intensity value" pv="BL15I-DI-QBPM-02:INTEN" ro="true" type="pv"/>
-	</bpm>
-	<bpm desc="QBPM3 vertical position" name="QBPM3V">
-		<XPOS IOC="BL15I-MO-IOC-01" desc="X Position" pv="BL15I-DI-QBPM-00:XPOS" ro="true" type="pv"/>
-		<YPOS IOC="BL15I-MO-IOC-01" desc="Y Position" pv="BL15I-DI-QBPM-00:YPOS" ro="true" type="pv"/>
-		<INTENSITY IOC="BL15I-MO-IOC-01" desc="Summed intensity value" pv="BL15I-DI-QBPM-00:INTEN" ro="true" type="pv"/>
 	</bpm>
 	<ETLdetector desc="ETL detector" name="ETL1">
 		<HVADC IOC="BL15I-MO-IOC-01" desc="read the hv output voltage" pv="BL15I-EA-DET-01:M1:D0:HVADC" ro="true" type="pv"/>
@@ -162,18 +151,6 @@
 	</simplePv>
 	<simplePv desc="" name="QBPM2.D">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-QBPM-02:D" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM0.A">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-QBPM-00:A" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM0.B">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-QBPM-00:B" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM0.C">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-QBPM-00:C" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="" name="QBPM0.D">
-		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-QBPM-00:D" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="EH1 Diode 1" name="PHDGN1">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="RECORD" pv="BL15I-DI-PHDGN-01:I" ro="true" type="pv"/>
@@ -908,12 +885,6 @@
 	<simpleMotor desc="S6 Y Centre (compound)" name="S6.YCENTRE">
 		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-06:Y:CENTER" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="" name="W3.X">
-		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-OP-WIND-03:DCAM:X" ro="false" type="motor"/>
-	</simpleMotor>
-	<simpleMotor desc="" name="W3.Y">
-		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-OP-WIND-03:DCAM:Y" ro="false" type="motor"/>
-	</simpleMotor>
 	<simplePv desc="AB1 TEMPERATURE 01" name="AB1.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-01:TEMP1" ro="true" type="pv"/>
 	</simplePv>
@@ -1109,12 +1080,6 @@
 	<simplePv desc="M1 Mirror Temp" name="M1.MIRRT">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-VFM-01:MIRROR:TEMP" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="W3 TEMPERATURE 1" name="W3.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-03:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W3 TEMPERATURE 2" name="W3.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-03:TEMP2" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="HO5 Mask Cooling Input Temp" name="HO5.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP1" ro="true" type="pv"/>
 	</simplePv>
@@ -1257,10 +1222,10 @@
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-07:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="HO9 Incoming Water Temp" name="HO9.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-10:TEMP1" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-09:TEMP1" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="HO9 Outgoing Water Temp" name="HO9.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-10:TEMP2" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-09:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="AB5 TEMPERATURE 1" name="AB5.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-05:TEMP1" ro="true" type="pv"/>
@@ -1269,10 +1234,10 @@
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-05:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="HO10 Incoming Water Temp" name="HO10.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-11:TEMP1" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-10:TEMP1" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="HO10 Outgoing Water Temp" name="HO10.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-11:TEMP2" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-10:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="" name="PATCH50.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-50:TEMP1" ro="true" type="pv"/>

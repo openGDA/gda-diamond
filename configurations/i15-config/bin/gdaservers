@@ -25,7 +25,14 @@ echo
 echo "Keep this window open, and you will see a pop-up when the restart has completed"
 echo
 
-GDA_VAR=$(readlink -f $GDA_ROOT/../var)
+# Correct GDA_VAR when running dummy mode
+if [ "$GDA_MODE" = "dummy" ]; then
+	GDA_VAR=/scratch/dls_sw/i15/software/gda_versions/var
+	# Note that this should match with the gda.var value in properties/dummy/java.properties
+else
+	GDA_VAR=$(readlink -f $GDA_ROOT/../var)
+fi
+
 if [ -d $GDA_VAR ]; then
 	export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
 	echo OBJECT_SERVER_STARTUP_FILE=$OBJECT_SERVER_STARTUP_FILE
