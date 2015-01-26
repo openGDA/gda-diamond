@@ -37,7 +37,7 @@ gda.server.logging.port = 6788
 gda.logPanel.logging.port = 6790
 #gda.logPanel.logging.port=6002
 
-gda.defVisit = cm4955-2
+gda.defVisit = cm12154-1
 
 
 ## For Camera data storage
