@@ -1,5 +1,1 @@
-#!/bin/bash
-# runs the servers locally
-#source /dls_sw/dasc/tools_versions/set_tools.sh
-. /dls_sw/i20-1/software/gda_git/gda-diamond.git/dls-config/bin/loadjava.sh
-/dls_sw/i20-1/software/gda_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i20-1/software/gda/config --mode=live --restart logpanel
+/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gda_start_logpanel $@

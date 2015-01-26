@@ -1,2 +1,1 @@
-# ssh into i20-1-control as gda2 account which should then run the servers script locally there
-ssh -i /dls_sw/i20-1/software/gda/config/.ssh/id_dsa gda2@i20-1-control
+/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaservers $@
