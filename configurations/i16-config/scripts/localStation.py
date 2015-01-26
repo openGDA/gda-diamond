@@ -10,11 +10,17 @@ LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 import installation
 
 if installation.isDummy():
-	USE_DIFFCALC = False
-	USE_CRYO_GEOMETRY = False
+	USE_DIFFCALC = True 
+	USE_CRYO_GEOMETRY = True
+
 else:
+	# see also notes below
+	# Changed for Allesandro's experiment on Jan 20 2015 -- RobW
 	USE_DIFFCALC = False  # <-- change here for live gda!
 	USE_CRYO_GEOMETRY = False
+	#USE_DIFFCALC = True  # <-- change here for live gda!
+	#USE_CRYO_GEOMETRY = True
+
 
 USE_DUMMY_IDGAP_MOTOR = False
 #USE_DUMMY_IDGAP_MOTOR = True
@@ -53,7 +59,7 @@ from gdascripts.scannable.installStandardScannableMetadataCollection import * #@
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor, DetectorDataProcessorWithRoi, HardwareTriggerableDetectorDataProcessor
-from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy
+from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy, SingleInputDummy
 from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera
 
 # I16
@@ -107,6 +113,28 @@ from pd_acescaler import acesca1
 from device_serial_x2000 import x2000class
 from pd_azihklClass import AzihklClass
 from spechelp import * # aliases man objects
+from scannable.MoveThroughOrigin import MoveThroughOriginScannable
+from gda.device.scannable.scannablegroup import DeferredScannableGroup
+
+# Configure here as nested beans are not configured
+eulerNames = ["phi", "chi", "eta", "mu", "delta", "gam"]
+for motor, name in zip(euler_cryo.getScannableMotors(), eulerNames):
+	motor.name = name
+	motor.configure()
+
+##CHANGED TO USE LIMIT CRYOPHI
+if USE_CRYO_GEOMETRY:
+	_cryophi = euler_cryo.phi
+	_cryophi.setUpperGdaLimits(165)
+	_cryophi.setLowerGdaLimits(-165)
+	exec("cryophi = MoveThroughOriginScannable(euler_cryo.phi)")
+	#cryophi.name = "cryophi"
+	exec("sixckappa_cryo = DeferredScannableGroup()")
+	sixckappa_cryo.setGroupMembers([cryophi, kap, kth, kmu, kdelta, kgam])
+	sixckappa_cryo.setName("sixckappa_cryo")
+	sixckappa_cryo.deferredControlPoint = sixckappa.getDeferredControlPoint()
+	sixckappa_cryo.configure()
+
 
 alias("jobs")
 
@@ -137,10 +165,15 @@ note.rootNamespaceDict=globals()
 print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
 if USE_CRYO_GEOMETRY:
 	sixc = sixckappa_cryo #@UndefinedVariable
+	# NOTE: To switch cryophi between a real epics motor and the dummy axis sometimes used edit:
+	#    /i16-config/servers/main/common/scannable/motor/sixckappa.xml
+	# This axis is found on the Epics synoptic under 'ANC1' button: BL16I-MO-ANC-01:P1
+	#
+	# Diffcalc instructions here: http://confluence.diamond.ac.uk/display/I16/Diffcalc or http://confluence.diamond.ac.uk/x/855TAQ
 else:
 	sixc = sixckappa #@UndefinedVariable  NOTE: sixc is overwritten by diffcalc later
 if USE_CRYO_GEOMETRY:	
-	exec("cryophi=sixc.cryophi")
+	pass # TThere is already a cryophi
 else:
 	exec("kphi=sixc.kphi")
 	
@@ -305,8 +338,25 @@ base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/
 if installation.isLive():
 	sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
 
-
-run("startup_diffractometer_euler")
+if USE_CRYO_GEOMETRY:
+	# u'phi', u'chi', u'eta', u'mu', u'delta', u'gam'
+	# The standard euler device causes an offset to be applied to phi to account for any kappa rotation.
+	# This correction is not applicable to the cryo-phi geometry. Create a coordinated motion group which
+	# will ensure kmu, kdelta & kgam are moved in a coordinated way (cryophi will not).
+	euler =  DeferredScannableGroup()
+	euler.setName("euler")
+	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
+	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
+	euler.configure()
+	phi = euler.phi
+	chi = euler.chi 
+	eta = euler.eta
+	exec("mu=euler.mu")
+	exec("delta=euler.delta")
+	exec("gam=euler.gam")
+	
+else:
+	run("startup_diffractometer_euler")
 
 if USE_CRYO_GEOMETRY:
 	chi.setOffset(-90)
