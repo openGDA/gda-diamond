@@ -3,14 +3,18 @@ from gda.device.scannable import PseudoDevice
 from gda.epics import CAClient
 #use iddrpenergy!!!!!!!!!!!!!
 
+global pgmenergy, iddgap, idugap, iddtrp, iddbrp, idutrp, idubrp
+
 class UndulatorControlClass:
-    def __init__(self):
+    def __init__(self, ugap_unused=150., dgap_unused=150.):
         self.energy = 700.0
         self.xpol = 'pc'
         self.offhar = 0.0
         self.detune = 3.0
         self.xmode = '2idxmcd' # other possible values: '2idxas', 'idd' , 'idu'
         self.ugap = 50.0
+        self.ugap_unused = ugap_unused
+        self.dgap_unused = dgap_unused
         self.dgap = 50.0
         self.dtrp = 22.0
         self.dbrp = 22.0
@@ -161,7 +165,7 @@ class UndulatorControlClass:
         if (self.xmode.upper() == 'IDD'):
             #print "downstream ondulator mode"        
             dgap = self.idmm(energy, self.dListGapDict[self.xpol])    
-            ugap = 150.0
+            ugap = self.ugap_unused # 150.0
             utrp = ubrp = 0.0
             dgap -= abs(self.offhar)
             if (self.xpol in ['pc', 'nc', 'lh']):
@@ -173,7 +177,7 @@ class UndulatorControlClass:
 
         if (self.xmode.upper() == 'IDU'):
             #print "downstream ondulator mode"        
-            dgap = 150    
+            dgap = self.dgap_unused # 150
             ugap = self.idmm(energy, self.uListGapDict[self.xpol])
             ugap -= abs(self.offhar)
             dtrp = dbrp = 0
@@ -401,7 +405,7 @@ iduxas = '2idxas'
 idd =  'idd'
 idu = 'idu'
 
-ins_device = UndulatorControlClass()
+ins_device = UndulatorControlClass(ugap_unused=100., dgap_unused=100.)
 
 xenergy = XenergyClass("xenergy",ins_device)
 
