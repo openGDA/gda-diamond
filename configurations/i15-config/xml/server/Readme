@@ -11,9 +11,11 @@ BL15I-gui /dls_sw/prod/R3.14.12.3/ioc/BL15I/BL/3-4/bin/linux-x86_64/stBL15I-gui
 data directories too: 
 
 $ ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL15I/BL/*/data/BL15I-gda-interface.xml /dls_sw/work/*/ioc/BL15I/BL/data/BL15I-gda-interface.xml /dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/xml/server/BL15I-gda-interface.xml /dls_sw/i15/software/gda_versions/*/workspace_git/gda-mt.git/configurations/i15-config/xml/server/BL15I-gda-interface.xml
+-rwxrwxr-x. 1 voo82358 dls_dasc 481938 2015-01-22 11:36 /dls_sw/i15/software/gda_versions/gda_8.42a/workspace_git/gda-mt.git/configurations/i15-config/xml/server/BL15I-gda-interface.xml
+-rwxrwxr-x. 1 voo82358 dls_dasc 481938 2015-01-22 11:36 /dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/xml/server/BL15I-gda-interface.xml
+-r-xr-xr-x. 1 fgz73762 dcs      481938 2015-01-22 09:54 /dls_sw/work/R3.14.12.3/ioc/BL15I/BL/data/BL15I-gda-interface.xml
+-rwxrw-r--. 1 voo82358 dls_dasc 483988 2014-11-06 17:50 /dls_sw/i15/software/gda_versions/gda_8.40b/workspace_git/gda-mt.git/configurations/i15-config/xml/server/BL15I-gda-interface.xml
 -r-xr-xr-x+ 1 voo82358 dls_dasc 483988 2014-10-02 16:07 /dls_sw/i15/software/gda_versions/gda_8.40a/workspace_git/gda-mt.git/configurations/i15-config/xml/server/BL15I-gda-interface.xml
--r-xr-xr-x+ 1 voo82358 dls_dasc 483988 2014-10-02 16:07 /dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/xml/server/BL15I-gda-interface.xml
--r-xr-xr-x. 1 fgz73762 dcs      483988 2014-09-29 10:22 /dls_sw/work/R3.14.12.3/ioc/BL15I/BL/data/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 483988 2014-09-19 18:01 /dls_sw/prod/R3.14.12.3/ioc/BL15I/BL/3-4/data/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 475047 2014-07-01 11:10 /dls_sw/prod/R3.14.12.3/ioc/BL15I/BL/3-3-2/data/BL15I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 572121 2014-06-26 12:42 /dls_sw/prod/R3.14.12.3/ioc/BL15I/BL/3-3-1/data/BL15I-gda-interface.xml

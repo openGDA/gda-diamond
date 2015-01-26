@@ -177,11 +177,6 @@ try:
 		#qbpm2ccurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2ccurrent", beamline, "-DI-IAMP-02:CHC:PEAK")
 		#qbpm2dcurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2dcurrent", beamline, "-DI-IAMP-02:CHD:PEAK")
 	
-		#qbpm0A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0A", beamline, "-DI-QBPM-00:A")
-		#qbpm0B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0B", beamline, "-DI-QBPM-00:B")
-		#qbpm0C = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0C", beamline, "-DI-QBPM-00:C")
-		#qbpm0D = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0D", beamline, "-DI-QBPM-00:D")
-
 		qbpm1A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1A", beamline, "-DI-QBPM-01:A")
 		qbpm1B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1B", beamline, "-DI-QBPM-01:B")
 		qbpm1C = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1C", beamline, "-DI-QBPM-01:C")
