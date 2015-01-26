@@ -1,6 +1,8 @@
 #!/bin/bash
 #unset BEAMLINE
 
+export GDA_MODE=dummy
+
 . gda_setup_env_test gda_client_output
 
 export GDA_CLIENT=$GDA_ROOT/client/gda-${BEAMLINE}

@@ -55,6 +55,7 @@
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="waitForFileArrival" value="false" />
 	</bean>
 
 	<bean id="pilatus2_hardware_triggered" class="gda.device.detector.HardwareTriggeredNXDetector">

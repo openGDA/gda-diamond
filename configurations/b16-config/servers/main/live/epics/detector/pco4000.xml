@@ -23,7 +23,7 @@
 	<!-- NXDetector collection strategies -->
 
 	<bean id="pco4000_addriverpco" class = "gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
-	<property name="basePvName" value="BL16B-EA-DET-03:CAM"/>
+		<property name="basePvName" value="BL16B-EA-DET-03:CAM"/>
 	</bean>
 	
 	<bean id="pco4000_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePco">
