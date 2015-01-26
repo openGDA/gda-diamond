@@ -22,14 +22,15 @@ import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
 public class DetectorData extends ObservableModel {
-	private Integer[] excludedPixels = new Integer[]{};
-	private int lowerChannel;
-	private int upperChannel;
+	private Integer[] excludedPixels = new Integer[]{}; //list of dead pixel locations
+	private int lowerChannel; // lower bound for ROI
+	private int upperChannel; //Upper bound for ROI
 
 	public static final String ROIS_PROP_NAME = "rois";
 	private Roi[] rois;
 
 	private CalibrationDetails energyCalibration;
+
 	public int getLowerChannel() {
 		return lowerChannel;
 	}

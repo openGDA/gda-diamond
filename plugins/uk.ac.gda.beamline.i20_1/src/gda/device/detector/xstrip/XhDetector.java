@@ -18,12 +18,11 @@
 
 package gda.device.detector.xstrip;
 
-import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.detector.DAServer;
-import gda.device.detector.EdeDetectorBase;
 import gda.device.detector.DetectorData;
 import gda.device.detector.DetectorStatus;
+import gda.device.detector.EdeDetectorBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,56 +121,7 @@ public class XhDetector extends EdeDetectorBase {
 	}
 
 	@Override
-	public int getStatus() throws DeviceException {
-		DetectorStatus current = fetchStatus();
-		return current.getDetectorStatus();
-	}
-
-	/**
-	 * Reads the first frame only.
-	 */
-	@Override
-	public NexusTreeProvider readout() throws DeviceException {
-		return readFrames(0, 0)[0];
-	}
-
-	/**
-	 * Returns a NexusTreeProvider for every frame.
-	 * 
-	 * @param startFrame
-	 *            - absolute frame index ignoring the group num
-	 * @param finalFrame
-	 *            - absolute frame index ignoring the group num
-	 * @return NexusTreeProvider[]
-	 * @throws DeviceException
-	 */
-	@Override
-	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException {
-		int[] elements = readoutFrames(startFrame, finalFrame);
-		int numberOfFrames = finalFrame - startFrame + 1;
-		int[][] rawDataInFrames = unpackRawDataToFrames(elements, numberOfFrames);
-		NexusTreeProvider[] results = new NexusTreeProvider[rawDataInFrames.length];
-		for (int i = 0; i < rawDataInFrames.length; i++) {
-			results[i] = createNXDetectorData(rawDataInFrames[i]);
-		}
-		return results;
-	}
-
-	private int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
-
-		int[][] unpacked = new int[numFrames][MAX_PIXEL];
-		int iterator = 0;
-
-		for (int frame = 0; frame < numFrames; frame++) {
-			for (int datum = 0; datum < MAX_PIXEL; datum++) {
-				unpacked[frame][datum] = scalerData[iterator];
-				iterator++;
-			}
-		}
-		return unpacked;
-	}
-
-	private synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
+	protected synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] value = null;
 		if (hasValidDataHandle()) {
 			int numFrames = finalFrame - startFrame + 1;
@@ -525,7 +475,7 @@ public class XhDetector extends EdeDetectorBase {
 
 	/**
 	 * To send the continue command when a group has been setup to wait for an input from a software trigger (LEMO #9)
-	 * 
+	 *
 	 * @throws DeviceException
 	 */
 	//	@Override
@@ -536,7 +486,7 @@ public class XhDetector extends EdeDetectorBase {
 	/**
 	 * This information should be wrapped better in the future but need to know if this works and how it will be used
 	 * first.
-	 * 
+	 *
 	 * @return raw data from the timing settings part of the TFG memory
 	 * @throws DeviceException
 	 */

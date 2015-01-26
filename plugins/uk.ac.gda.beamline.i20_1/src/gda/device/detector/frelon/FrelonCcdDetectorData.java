@@ -21,15 +21,18 @@ package gda.device.detector.frelon;
 import gda.device.detector.DetectorData;
 import gda.device.frelon.Frelon.ROIMode;
 import gda.device.frelon.Frelon.SPB2Config;
+import gda.device.lima.LimaROIInt;
 
 public class FrelonCcdDetectorData extends DetectorData {
 	public static final int MAX_PIXEL = 2048;
 
-	private ROIMode roiMode;
-	private int binValue = 1;
-	private int yStartPaxel = 0;
+	private ROIMode roiMode=ROIMode.KINETIC;
+	private int hotizontalBinValue=1;
+	private int verticalBinValue = 1; // vert.binning i.e. image_bin Y component
+	private int yStartPixel = 0; //CCD line begin in Frelon GUI, or roi_bin_offset in line, must be multiple of vertivalBinValue
 	private int yLength = 2048;
-	private SPB2Config spb2Config;
+	private SPB2Config spb2Config; //hardware pixel rate configuration: Speed or Precision
+	private LimaROIInt areaOfInterest;
 
 	public ROIMode getRoiMode() {
 		return roiMode;
@@ -37,17 +40,23 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public void setRoiMode(ROIMode roiMode) {
 		this.roiMode = roiMode;
 	}
-	public int getBinValue() {
-		return binValue;
+	public int getHotizontalBinValue() {
+		return hotizontalBinValue;
 	}
-	public void setBinValue(int binValue) {
-		this.binValue = binValue;
+	public void setHotizontalBinValue(int hotizontalBinValue) {
+		this.hotizontalBinValue = hotizontalBinValue;
+	}
+	public int getVerticalBinValue() {
+		return verticalBinValue;
+	}
+	public void setVerticalBinValue(int binValue) {
+		verticalBinValue = binValue;
 	}
 	public int getyStartPaxel() {
-		return yStartPaxel;
+		return yStartPixel;
 	}
 	public void setyStartPaxel(int yStartPaxel) {
-		this.yStartPaxel = yStartPaxel;
+		yStartPixel = yStartPaxel;
 	}
 	public int getyLength() {
 		return yLength;
@@ -61,4 +70,14 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public void setSpb2Config(SPB2Config spb2Config) {
 		this.spb2Config = spb2Config;
 	}
+	public LimaROIInt getAreaOfInterest() {
+		return areaOfInterest;
+	}
+	public void setAreaOfInterest(LimaROIInt areaOfInterest) {
+		// set the limits for ROI in energy direction
+		setLowerChannel(areaOfInterest.getBeginX());
+		setUpperChannel(areaOfInterest.getEndX());
+		this.areaOfInterest = areaOfInterest;
+	}
+
 }
