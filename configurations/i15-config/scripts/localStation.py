@@ -1,41 +1,42 @@
 import sys;
 from gdascripts.messages import handle_messages
-from gdascripts.messages.handle_messages import simpleLog
+from gdascripts.messages.handle_messages import simpleLog # @UnusedImport
 
-import cendac
-import integrationTests
-import CrysalisDataCollection
-import pd_epicsdevice
+import cendac # @UnusedImport
+import integrationTests # @UnusedImport
+import CrysalisDataCollection # @UnusedImport
+import pd_epicsdevice # @UnusedImport
 #import ruby_scripts
-import gdascripts.pd.epics_pds
+import gdascripts.pd.epics_pds # @UnusedImport
+from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 import gdascripts.pd.time_pds
-import gdascripts.utils
+import gdascripts.utils # @UnusedImport
 import pd_ratio
 import pd_baseTable
 import dataDir
-import shutterCommands
-import marAuxiliary
+import shutterCommands # @UnusedImport
+import marAuxiliary # @UnusedImport
 #from marAuxiliary import closeMarShield as closeDetectorShield
 #from marAuxiliary import openMarShield as openDetectorShield
-import ccdAuxiliary
+import ccdAuxiliary # @UnusedImport
 import ccdScanMechanics
-from ccdScanMechanics import setMaxVelocity
+from ccdScanMechanics import setMaxVelocity # @UnusedImport
 import ccdFloodCorrections
-import ccdScripts
-import pilatus_scripts
+import ccdScripts # @UnusedImport
+import pilatus_scripts # @UnusedImport
 import operationalControl
 
-from operationalControl import *
+from operationalControl import * # @UnusedWildImport
 from dummy_scan_objects import SimpleDummyDetector
 from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters
 from gda.device.epicsdevice import ReturnType
 from gda.util import VisitPath
-from constants import *
-from dataPlot import dp
-from meterCounterSetup import *
+from constants import * # @UnusedWildImport
+from dataPlot import dp # @UnusedImport
+from meterCounterSetup import * # @UnusedWildImport
 #from scan_commands import scan
-from gdascripts.scan.installStandardScansWithProcessing import *
+from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
@@ -51,18 +52,17 @@ import scannables.MerlinColourModeThresholdsScannable
 mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
     PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
 
-from detector_scan_commands import *
-from centreProxy import *
+from detector_scan_commands import * # @UnusedWildImport
+from centreProxy import * # @UnusedWildImport
 #from scanPeak import *
-from diodeTime import *
-from setGain import *
+from diodeTime import * # @UnusedWildImport
+from setGain import * # @UnusedWildImport
 #from marAuxiliary import marErase, resetMarScanNumber
 #from ccdAuxiliary import resetCCDScanNumber
 #from pilatus_scripts import resetPilatusScanNumber
 
-from dataDir import setDir, setFullUserDir
-from time import sleep
-from ccdFloodCorrections import exportMultiDark
+from dataDir import setDir, setFullUserDir # @UnusedImport
+from ccdFloodCorrections import exportMultiDark # @UnusedImport
 from gda.epics import CAClient
 
 global finder, run, etl, prop, add_default, vararg_regex, \
@@ -177,11 +177,6 @@ try:
 		#qbpm2ccurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2ccurrent", beamline, "-DI-IAMP-02:CHC:PEAK")
 		#qbpm2dcurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2dcurrent", beamline, "-DI-IAMP-02:CHD:PEAK")
 	
-		#qbpm0A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0A", beamline, "-DI-QBPM-00:A")
-		#qbpm0B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0B", beamline, "-DI-QBPM-00:B")
-		#qbpm0C = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0C", beamline, "-DI-QBPM-00:C")
-		#qbpm0D = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm0D", beamline, "-DI-QBPM-00:D")
-
 		qbpm1A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1A", beamline, "-DI-QBPM-01:A")
 		qbpm1B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1B", beamline, "-DI-QBPM-01:B")
 		qbpm1C = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1C", beamline, "-DI-QBPM-01:C")
@@ -208,7 +203,6 @@ try:
 		patch12x14 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x14", beamline, "-EA-PATCH-12:X14")
 
 		#ring= finder.find("Ring")
-		from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
 		detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
@@ -372,7 +366,6 @@ try:
 		d4_d2 = pd_ratio.Simple_PD_Ratio('d4_d2', d4, d2)
 		d5_d1 = pd_ratio.Simple_PD_Ratio('d5_d1', d5, d1)
 		
-		from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-DI-PHDGN-01:DIODESUM", "", "%f")
 		d2sum = DisplayEpicsPVClass("d2sum", "BL15I-DI-PHDGN-02:DIODESUM", "", "%f")
 		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-PHDGN-03:DIODESUM", "", "%f")
@@ -493,6 +486,7 @@ try:
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
 	
+	"""
 	if False:
 		try:
 			from scannables.detectors.fastShutterDetector import FastShutterDetector
@@ -501,6 +495,7 @@ try:
 			localStation_exception(sys.exc_info(), "creating fsdet object")
 	else:
 		simpleLog("* Not creating fsdet object *")
+	"""
 	
 	try:
 		from scannables.safeScannable import SafeScannable
@@ -535,7 +530,10 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "setting output formats")
 
-	run('utilities/centreBeam')
+	try:
+		run('utilities/centreBeam')
+	except:
+		localStation_exception(sys.exc_info(), "running centreBeam")
 
 	try:
 		from scannables.chiPseudoDevice import ChiPseudoDevice
@@ -573,7 +571,7 @@ try:
 		try:
 			from gdascripts.scan.process.ScannableScan import ScannableScan
 			from gdascripts.scan.gdascans import Rscan
-			from gdascripts.scan.gdascans import Scan
+			#from gdascripts.scan.gdascans import Scan
 			from future.TwoGaussianEdges import TwoGaussianEdges
 	
 			wirescanner = ScannableScan('wirescanner', TwoGaussianEdges(), Rscan, sx, -2, 3, 0.1, w, 0.5, d7)
@@ -648,53 +646,92 @@ try:
 	
 	# meta should be created last to ensure we have all required scannables
 	try:
-		from gdascripts.scannable.installStandardScannableMetadataCollection import *
+		from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
 		meta.rootNamespaceDict=globals()
 		note.rootNamespaceDict=globals()
 
+		# See http://confluence.diamond.ac.uk/x/UQKY
+		#from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
+		from gdascripts.metadata.metadata_commands import * #@UnusedWildImport
+		alias("setTitle")
+		alias("getTitle")
+		alias("meta_add") # addmeta
+		alias("meta_ll")  # 
+		alias("meta_ls")  # lsmeta
+		alias("meta_rm")  # rmmeta
+		# meta_clear_alldynamical
+		#				  # setmeta # Errors if used with metashop
+		#				  # note
+		meta.readFromNexus = True
+
+		metashop=Finder.getInstance().find("metashop")
+		LocalProperties.set( NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop" ) # gda.nexus.metadata.provider.name
+		# As well as metashop needing to be define, GDAMetadata also needs to be defined.
+		# metashop is defined in mt-config/servers/main/common/required_at_start.py
+
+		simpleLog("Metadata scannables, from configuration: " + " ".join(str(x.name) for x in metashop.getMetaScannables()))
+
+		# New metadata system doesn't allow metadata scannables to be set
 		def stdmeta():
-			stdmetadatascannables = (ringCurrent, wigglerField,
-				s1xpos, s1xgap, s1ypos, s1ygap,
-				s1xplus, s1xminus, s1yplus, s1yminus,
-				dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,
-				dcmxtl1roll, dcmxtl1z, dcmenergy,
-				qbpm1_x, qbpm1_y, qbpm1A, qbpm1B, qbpm1C, qbpm1D, qbpm1total,
-				s6ypos, s6ygap, s6yup, s6ydown,
-				vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,
-				hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,
-				qbpm2_x, qbpm2_y, qbpm2A, qbpm2B, qbpm2C, qbpm2D, qbpm2total,
-				s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,
-				fsx, fsy,
-				pinx, piny, pinz, pinpitch, pinyaw,
-				thermo1, thermo2, thermo3, pt100_1,
-				dx, dy, dz, dkphi, dkappa, dktheta,
-				djack1, djack2, djack3, dtransx, drotation, detz, ddelta,
-				shdx, shdy, shdz,
-				bsx, bsy,
-				tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,
-				s7xpos, s7ypos, s7xgap, s7xgap,
-				d6x,
-				fs2x, fs2y,
-				skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,
-				svfmcurve, svfmellip, svfmy, svfmpitch,
-				shfmcurve, shfmellip, shfmx, shfmpitch,
-				pin3x, pin3y,
-				sx, sy, sz, spitch, syaw, sroll,
-				spivotx, spivoty, spivotz, sphi, ssx, ssz,
-				d7x, d7y,
-				bs2x, bs2y, bs3x, bs3y, bs3z,
-				#det2z,
-				d1, d2, d3, d4, d5, d6, d7, d8, d9,
-				d1sum, d2sum, d3sum, d4sum, d5sum
-				#cryox, cryoy, cryoz, cryorot
+			""" This function resets the metadata scannables to the standard list in localststion"""
+			stdmetadatascannables = ('ringCurrent', 'wigglerField',
+				's1xpos', 's1xgap', 's1ypos', 's1ygap',
+				's1xplus', 's1xminus', 's1yplus', 's1yminus',
+				'dcmbragg1', 'dcmbragg2', 'dcmxtl1y', 'dcmxtl2y',
+				'dcmxtl1roll', 'dcmxtl1z', 'dcmenergy',
+				'qbpm1_x', 'qbpm1_y', 'qbpm1A', 'qbpm1B', 'qbpm1C', 'qbpm1D', 'qbpm1total',
+				's6ypos', 's6ygap', 's6yup', 's6ydown',
+				'vfm_x', 'vfm_y', 'vfm_pitch', 'vfm_curve', 'vfm_ellipticity', 'vfm_gravsag',
+				'hfm_x', 'hfm_y', 'hfm_pitch', 'hfm_curve', 'hfm_ellipticity', 'hfm_yaw', 'hfm_roll',
+				'qbpm2_x', 'qbpm2_y', 'qbpm2A', 'qbpm2B', 'qbpm2C', 'qbpm2D', 'qbpm2total',
+				's4xpos', 's4xgap', 's4ypos', 's4ygap', 's4yaw', 's4pitch',
+				'fsx', 'fsy',
+				'pinx', 'piny', 'pinz', 'pinpitch', 'pinyaw',
+				'thermo1', 'thermo2', 'thermo3', 'pt100_1',
+				'dx', 'dy', 'dz', 'dkphi', 'dkappa', 'dktheta',
+				'djack1', 'djack2', 'djack3', 'dtransx', 'drotation', 'detz', 'ddelta',
+				'shdx', 'shdy', 'shdz',
+				'bsx', 'bsy',
+				'tab2jack1', 'tab2jack2', 'tab2jack3', 'tab2transx', 'tab2rotation',
+				's7xpos', 's7ypos', 's7xgap', 's7xgap',
+				'd6x',
+				'fs2x', 'fs2y',
+				'skbjack1', 'skbjack2', 'skbjack3', 'skby', 'skbpitch', 'skbroll',
+				'svfmcurve', 'svfmellip', 'svfmy', 'svfmpitch',
+				'shfmcurve', 'shfmellip', 'shfmx', 'shfmpitch',
+				'pin3x', 'pin3y',
+				'sx', 'sy', 'sz', 'spitch', 'syaw', 'sroll',
+				'spivotx', 'spivoty', 'spivotz', 'sphi', 'ssx', 'ssz',
+				'd7x', 'd7y',
+				'bs2x', 'bs2y', 'bs3x', 'bs3y', 'bs3z',
+				'det2z',
+				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9',
+				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
+				'cryox', 'cryoy', 'cryoz', 'cryorot'
 				)
-			setmeta_ret=setmeta(*stdmetadatascannables)
-			simpleLog("Standard metadata scannables: " + setmeta_ret)
+			
+			before=set(metashop.getMetaScannables())
+			errors=[]
+			for scn_name in stdmetadatascannables:
+				try:
+					scn=finder.find(scn_name)
+					meta_add(scn)
+				except:
+					errors.append(scn_name)
+			after=set(metashop.getMetaScannables())
+			if (before-after):
+				simpleLog("Metadata scannables, removed:            " + " ".join(str(x.name) for x in before-after))
+			if (after-before):
+				simpleLog("                     added:              " + " ".join(str(x.name) for x in after-before))
+			if (after):
+				simpleLog("                     current:            " + " ".join(str(x.name) for x in after))
+			if (errors):
+				simpleLog("                     erroring:           " + " ".join(x for x in errors))
 			#return ''
 
 		stdmeta()
-		simpleLog("Use 'stdmeta()' to reset to standard scannables")
-		#alias('stdmeta')
+		simpleLog("Use 'stdmeta' to reset to standard scannables")
+		alias('stdmeta')
 		add_default(meta)
 		meta.quiet = True
 		
@@ -715,7 +752,7 @@ except:
 	localStation_exception(sys.exc_info(), "running localStationUser user script")
 
 if len(localStation_exceptions) > 0:
-	simpleLog("=============== ERRORS DURING STARTUP ================")
+	simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 
 for localStationException in localStation_exceptions:
 	simpleLog(localStationException)
