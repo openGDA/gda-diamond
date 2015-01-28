@@ -124,11 +124,30 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		String propertiesFileName = LocalProperties.getVarDir() + getName() + PROP_FILE_EXTENSION;
 		return propertiesFileName;
 	}
-
+	/**
+	 * detector's maximum pixel size in energy direction.
+	 * @return maximum pixels of camera in energy direction
+	 */
 	public abstract int getMaxPixel();
+	/**
+	 * calculate the number of scans (TFG2 term) or accumulations in a single frame based on detector clock rate.
+	 * @param frameTime
+	 * @param scanTime
+	 * @param numberOfFrames
+	 * @return number of accumulations.
+	 * @throws DeviceException
+	 */
 	public abstract int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException;
+	/**
+	 * configure the timing group and send them to TFG2 server.
+	 * @throws DeviceException
+	 */
 	protected abstract void configureDetectorForCollection() throws DeviceException;
-	public abstract NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
+	/**
+	 * fetch detector status from hardware.
+	 * @return {@link DetectorStatus}
+	 * @throws DeviceException
+	 */
 	public abstract DetectorStatus fetchStatus() throws DeviceException;
 
 	public DetectorData getDetectorData() {
@@ -266,5 +285,60 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			pixelDataArray[i] = pixelDataArray[i];
 		}
 		return new DoubleDataset(pixelDataArray);
+	}
+
+	@Override
+	public int getStatus() throws DeviceException {
+		DetectorStatus current = fetchStatus();
+		return current.getDetectorStatus();
+	}
+
+	/**
+	 * Reads the first frame only.
+	 */
+	@Override
+	public NexusTreeProvider readout() throws DeviceException {
+		// TODO read data from detector
+		return readFrames(0, 0)[0];
+	}
+	/**
+	 * returns a list of {@link NexusTreeProvider}, one for each frame in the specified range.
+	 *
+	 * @param startFrame
+	 * @param finalFrame
+	 * @return list of {@link NexusTreeProvider}
+	 * @throws DeviceException
+	 */
+	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException {
+		int[] elements = readoutFrames(startFrame, finalFrame);
+		int numberOfFrames = finalFrame - startFrame + 1;
+		int[][] rawDataInFrames = unpackRawDataToFrames(elements, numberOfFrames);
+		NexusTreeProvider[] results = new NexusTreeProvider[rawDataInFrames.length];
+		for (int i = 0; i < rawDataInFrames.length; i++) {
+			results[i] = createNXDetectorData(rawDataInFrames[i]);
+		}
+		return results;
+	}
+	/**
+	 * implements the read out of frames from the actual detector used.
+	 * @param startFrame
+	 * @param finalFrame
+	 * @return an 1D integer array containing all frames concatenated from start frame to the final frame inclusively.
+	 * @throws DeviceException
+	 */
+	protected abstract int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException;
+
+	private int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
+
+		int[][] unpacked = new int[numFrames][getMaxPixel()];
+		int iterator = 0;
+
+		for (int frame = 0; frame < numFrames; frame++) {
+			for (int datum = 0; datum < getMaxPixel(); datum++) {
+				unpacked[frame][datum] = scalerData[iterator];
+				iterator++;
+			}
+		}
+		return unpacked;
 	}
 }
