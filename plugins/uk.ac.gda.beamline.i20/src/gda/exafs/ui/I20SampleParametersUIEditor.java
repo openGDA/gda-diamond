@@ -30,6 +30,17 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import org.dawnsci.common.richbeans.components.FieldComposite.NOTIFY_TYPE;
+import org.dawnsci.common.richbeans.components.selector.BeanSelectionEvent;
+import org.dawnsci.common.richbeans.components.selector.BeanSelectionListener;
+import org.dawnsci.common.richbeans.components.selector.VerticalListEditor;
+import org.dawnsci.common.richbeans.components.wrappers.BooleanWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.ComboWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
+import org.dawnsci.common.richbeans.event.ValueAdapter;
+import org.dawnsci.common.richbeans.event.ValueEvent;
+import org.dawnsci.common.richbeans.event.ValueListener;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.PreferenceDialog;
@@ -56,19 +67,8 @@ import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
-import uk.ac.gda.richbeans.components.FieldComposite.NOTIFY_TYPE;
-import uk.ac.gda.richbeans.components.selector.BeanSelectionEvent;
-import uk.ac.gda.richbeans.components.selector.BeanSelectionListener;
-import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
-import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
-import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 import uk.ac.gda.richbeans.editors.DirtyContainer;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
-import uk.ac.gda.richbeans.event.ValueAdapter;
-import uk.ac.gda.richbeans.event.ValueEvent;
-import uk.ac.gda.richbeans.event.ValueListener;
 
 public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(I20SampleParametersUIEditor.class);

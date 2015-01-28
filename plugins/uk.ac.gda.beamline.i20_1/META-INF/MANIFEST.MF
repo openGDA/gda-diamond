@@ -45,7 +45,9 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.exafs.api;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.deprecated,
  org.dawnsci.slicing.tools;bundle-version="1.0.0",
- org.gda.tango;bundle-version="1.0.0"
+ org.gda.tango;bundle-version="1.0.0",
+ org.dawnsci.common.widgets,
+ uk.ac.gda.exafs.api;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,

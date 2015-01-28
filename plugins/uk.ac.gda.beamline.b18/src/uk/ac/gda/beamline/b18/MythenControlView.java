@@ -36,6 +36,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -66,7 +67,6 @@ import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotJob;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotJobType;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotWindow;
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotViewConfig;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
 
 /**
  * Plot View is the main Analysis panel that can display any n-D scalar data it is the replacement of the Data Vector

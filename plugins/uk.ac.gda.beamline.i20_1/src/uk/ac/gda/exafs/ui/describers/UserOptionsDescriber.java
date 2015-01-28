@@ -18,8 +18,9 @@
 
 package uk.ac.gda.exafs.ui.describers;
 
+import org.dawnsci.common.richbeans.xml.XMLBeanContentDescriber;
+
 import uk.ac.gda.exafs.ui.data.UserOptions;
-import uk.ac.gda.richbeans.xml.XMLBeanContentDescriber;
 
 public final class UserOptionsDescriber extends XMLBeanContentDescriber {
 

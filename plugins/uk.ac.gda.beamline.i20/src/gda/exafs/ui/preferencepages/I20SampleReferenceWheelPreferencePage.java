@@ -23,6 +23,10 @@ import gda.device.EnumPositioner;
 import gda.factory.Finder;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.dawnsci.common.richbeans.beans.BeanUI;
+import org.dawnsci.common.richbeans.components.selector.BeanSelectionEvent;
+import org.dawnsci.common.richbeans.components.selector.BeanSelectionListener;
+import org.dawnsci.common.richbeans.components.selector.VerticalListEditor;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -37,10 +41,6 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.exafs.ExafsActivator;
-import uk.ac.gda.richbeans.beans.BeanUI;
-import uk.ac.gda.richbeans.components.selector.BeanSelectionEvent;
-import uk.ac.gda.richbeans.components.selector.BeanSelectionListener;
-import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
 
 public class I20SampleReferenceWheelPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private static final Logger logger = LoggerFactory.getLogger(I20SampleReferenceWheelPreferencePage.class);

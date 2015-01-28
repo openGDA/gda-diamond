@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import uk.ac.gda.beans.BeansFactory;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
@@ -39,6 +38,7 @@ import uk.ac.gda.beans.validation.InvalidBeanException;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
 import uk.ac.gda.exafs.ui.data.ScanObject;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
  * A class to check that the XML parameters are sensible. This is an additional check which is beyond that which the
@@ -201,7 +201,7 @@ public class I20Validator extends ExafsValidator {
 				if (errors.size() == 0) {
 					Object energyScanBean;
 					try {
-						energyScanBean = BeansFactory.getBeanObject(xmlFolderName, x.getScanFileName());
+						energyScanBean = XMLHelpers.getBeanObject(xmlFolderName, x.getScanFileName());
 					} catch (Exception e) {
 						InvalidBeanMessage msg = new InvalidBeanMessage(e.getMessage());
 						errors.add(msg);

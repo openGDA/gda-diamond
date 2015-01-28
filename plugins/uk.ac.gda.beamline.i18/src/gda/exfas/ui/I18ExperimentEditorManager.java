@@ -26,7 +26,6 @@ import org.eclipse.core.resources.IFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.beans.BeansFactory;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
@@ -36,6 +35,7 @@ import uk.ac.gda.client.experimentdefinition.IExperimentBeanDescription;
 import uk.ac.gda.client.experimentdefinition.IExperimentEditorManager;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
 import uk.ac.gda.exafs.ui.data.ScanObject;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class I18ExperimentEditorManager extends ExperimentEditorManager implements IExperimentEditorManager {
 
@@ -75,7 +75,7 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 								samParameters.getSampleStageParameters().setDisable(true);
 							else
 								samParameters.getSampleStageParameters().setDisable(false);
-							BeansFactory.saveBean(file.getLocation().toFile(), samParameters);
+							XMLHelpers.saveBean(file.getLocation().toFile(), samParameters);
 						}
 					catch (Exception e) {
 						logger.error("Error saving bean "+desc.getName()+ "to file", e);

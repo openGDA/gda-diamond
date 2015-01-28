@@ -18,6 +18,16 @@
 
 package gda.exafs.ui.composites;
 
+import org.dawnsci.common.richbeans.components.scalebox.NumberBox;
+import org.dawnsci.common.richbeans.components.scalebox.RangeBox;
+import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
+import org.dawnsci.common.richbeans.components.selector.BeanSelectionEvent;
+import org.dawnsci.common.richbeans.components.selector.BeanSelectionListener;
+import org.dawnsci.common.richbeans.components.selector.VerticalListEditor;
+import org.dawnsci.common.richbeans.components.wrappers.ComboWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.RadioWrapper;
+import org.dawnsci.common.richbeans.event.ValueEvent;
+import org.dawnsci.common.richbeans.event.ValueListener;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -33,16 +43,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
-import uk.ac.gda.richbeans.components.scalebox.NumberBox;
-import uk.ac.gda.richbeans.components.scalebox.RangeBox;
-import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
-import uk.ac.gda.richbeans.components.selector.BeanSelectionEvent;
-import uk.ac.gda.richbeans.components.selector.BeanSelectionListener;
-import uk.ac.gda.richbeans.components.selector.VerticalListEditor;
-import uk.ac.gda.richbeans.components.wrappers.ComboWrapper;
-import uk.ac.gda.richbeans.components.wrappers.RadioWrapper;
-import uk.ac.gda.richbeans.event.ValueEvent;
-import uk.ac.gda.richbeans.event.ValueListener;
 
 public class CryostatTableComposite extends I20SampleParametersComposite {
 	private RadioWrapper loopChoice;

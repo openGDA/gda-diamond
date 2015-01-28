@@ -18,12 +18,20 @@
 
 package gda.exafs.ui.composites;
 
+import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
+import org.dawnsci.common.richbeans.components.selector.ListEditor;
+import org.dawnsci.common.richbeans.components.selector.ListEditorUI;
+import org.dawnsci.common.richbeans.components.wrappers.BooleanWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.SpinnerWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -32,15 +40,6 @@ import org.eclipse.swt.widgets.Label;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.common.rcp.util.GridUtils;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
-import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
-import uk.ac.gda.richbeans.components.selector.ListEditor;
-import uk.ac.gda.richbeans.components.selector.ListEditorUI;
-import uk.ac.gda.richbeans.components.wrappers.BooleanWrapper;
-import uk.ac.gda.richbeans.components.wrappers.SpinnerWrapper;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
-
-import org.eclipse.swt.layout.GridLayout;
 
 public class RoomTemperatureComposite extends I20SampleParametersComposite implements ListEditorUI {
 	private ScaleBox sample_x;

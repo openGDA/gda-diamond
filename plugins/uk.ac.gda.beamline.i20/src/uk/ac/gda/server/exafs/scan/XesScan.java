@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import uk.ac.gda.beans.BeansFactory;
 import uk.ac.gda.beans.exafs.IDetectorConfigurationParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
@@ -35,6 +34,7 @@ import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.SignalParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class XesScan extends XasScanBase implements XasScan {
 
@@ -145,7 +145,7 @@ public class XesScan extends XasScanBase implements XasScan {
 				xes_energy.getName(), analyserAngle.getName());
 		i20OutputParameters.addSignal(analyserSignal);
 		try {
-			IScanParameters xasScanParams = (IScanParameters) BeansFactory.getBeanObject(experimentFullPath + "/",
+			IScanParameters xasScanParams = (IScanParameters) XMLHelpers.getBeanObject(experimentFullPath + "/",
 					xesScanParameters.getScanFileName());
 			xas.doCollection(sampleBean, xasScanParams, detectorBean, outputBean, detectorConfigurationBean,
 					experimentFullPath, numRepetitions);

@@ -18,14 +18,14 @@
 
 package gda.device.scannable;
 
-import java.io.IOException;
-
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorBase;
 import gda.epics.LazyPVFactory;
 import gda.epics.PV;
 import gda.factory.FactoryException;
+
+import java.io.IOException;
 
 public class ADCMonitor extends DetectorBase implements Detector {
 	private final String pvPrefix;

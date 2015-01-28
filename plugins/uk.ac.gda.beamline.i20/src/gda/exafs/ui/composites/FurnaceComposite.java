@@ -18,16 +18,15 @@
 
 package gda.exafs.ui.composites;
 
+import org.dawnsci.common.richbeans.components.FieldBeanComposite;
+import org.dawnsci.common.richbeans.components.scalebox.NumberBox;
+import org.dawnsci.common.richbeans.components.scalebox.RangeBox;
+import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-
-import uk.ac.gda.richbeans.components.FieldBeanComposite;
-import uk.ac.gda.richbeans.components.scalebox.NumberBox;
-import uk.ac.gda.richbeans.components.scalebox.RangeBox;
-import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
 
 public class FurnaceComposite extends FieldBeanComposite {
 	private ScaleBox x, y, z;

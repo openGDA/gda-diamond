@@ -32,7 +32,9 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.client.experimentdefinition,
  uk.ac.gda.client.exafs;bundle-version="1.0.0",
  uk.ac.gda.client.microfocus;bundle-version="1.0.0",
- uk.ac.gda.nexus
+ uk.ac.gda.nexus,
+ org.dawnsci.common.widgets,
+ uk.ac.gda.exafs.api;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.scannable,

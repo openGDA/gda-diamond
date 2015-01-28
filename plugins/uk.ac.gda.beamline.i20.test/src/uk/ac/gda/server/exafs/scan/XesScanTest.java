@@ -47,6 +47,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.aspectj.util.Reflection;
+import org.dawnsci.common.richbeans.beans.BeansFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,7 +61,6 @@ import org.powermock.api.support.membermodification.strategy.MethodStubStrategy;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import uk.ac.gda.beans.BeansFactory;
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
@@ -74,6 +74,7 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ ScannableCommands.class, ConcurrentScan.class, BeansFactory.class })
@@ -307,7 +308,7 @@ public class XesScanTest {
 
 		BeansFactory.setClasses(new Class[] { XanesScanParameters.class });
 		PowerMockito.mockStatic(BeansFactory.class);
-		PowerMockito.when(BeansFactory.getBeanObject(Matchers.anyString(), Matchers.any())).thenReturn(xanesParams);
+		PowerMockito.when(XMLHelpers.getBeanObject(Matchers.anyString(), Matchers.any())).thenReturn(xanesParams);
 		return xanesParams;
 	}
 

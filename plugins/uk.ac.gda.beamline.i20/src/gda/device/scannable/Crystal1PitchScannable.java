@@ -18,11 +18,11 @@
 
 package gda.device.scannable;
 
-import java.io.IOException;
-
 import gda.device.DeviceException;
 import gda.epics.LazyPVFactory;
 import gda.epics.PV;
+
+import java.io.IOException;
 
 /**
  * For I20 only. Only allows movement of the Crystal1Pitch motor if intensity feedback has been disabled.

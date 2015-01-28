@@ -18,18 +18,18 @@
 
 package uk.ac.gda.exafs.ui.data;
 
-import uk.ac.gda.beans.IRichBean;
+import uk.ac.gda.util.beans.xml.XMLRichBean;
 
-public class TimeFrame implements IRichBean {
-	
-	
+public class TimeFrame implements XMLRichBean {
+
+
 	private String label;  // unique id within the TFGParameters
 	private double deadTime;
 	private double liveTime;
 	private int lemoIn;
 	private int lemoOut;
-	
-	
+
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
@@ -98,32 +98,35 @@ public class TimeFrame implements IRichBean {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		TimeFrame other = (TimeFrame) obj;
-		if (Double.doubleToLongBits(deadTime) != Double.doubleToLongBits(other.deadTime))
+		if (Double.doubleToLongBits(deadTime) != Double.doubleToLongBits(other.deadTime)) {
 			return false;
+		}
 		if (label == null) {
-			if (other.label != null)
+			if (other.label != null) {
 				return false;
-		} else if (!label.equals(other.label))
+			}
+		} else if (!label.equals(other.label)) {
 			return false;
-		if (lemoIn != other.lemoIn)
+		}
+		if (lemoIn != other.lemoIn) {
 			return false;
-		if (lemoOut != other.lemoOut)
+		}
+		if (lemoOut != other.lemoOut) {
 			return false;
-		if (Double.doubleToLongBits(liveTime) != Double.doubleToLongBits(other.liveTime))
+		}
+		if (Double.doubleToLongBits(liveTime) != Double.doubleToLongBits(other.liveTime)) {
 			return false;
+		}
 		return true;
 	}
-
-
-	@Override
-	public void clear() {
-	}
-
 }

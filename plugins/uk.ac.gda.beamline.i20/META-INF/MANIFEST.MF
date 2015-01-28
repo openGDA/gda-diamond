@@ -32,6 +32,7 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
  uk.ac.gda.devices.xmap;bundle-version="1.0.0",
  uk.ac.gda.devices.xspress2;bundle-version="1.0.0",
+ org.dawnsci.common.widgets,
  uk.ac.gda.exafs.api;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

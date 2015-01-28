@@ -26,8 +26,8 @@ import org.eclipse.ui.IPerspectiveFactory;
 
 import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
 import uk.ac.gda.exafs.experiment.ui.CyclicExperimentView;
-import uk.ac.gda.exafs.experiment.ui.TimeResolvedExperimentView;
 import uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionView;
+import uk.ac.gda.exafs.experiment.ui.TimeResolvedExperimentView;
 import uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView;
 
 public class ExperimentPerspective implements IPerspectiveFactory {

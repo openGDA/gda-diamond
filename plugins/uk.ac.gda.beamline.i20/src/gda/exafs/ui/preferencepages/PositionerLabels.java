@@ -24,21 +24,13 @@ import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import uk.ac.gda.beans.IRichBean;
+import uk.ac.gda.util.beans.xml.XMLRichBean;
 
-public class PositionerLabels implements IRichBean {
+public class PositionerLabels implements XMLRichBean {
 	static public final URL mappingURL = PositionerLabels.class.getResource("PositionerLabelMapping.xml");
 	static public final URL schemaURL = PositionerLabels.class.getResource("PositionerLabelMapping.xsd");
 	private List<PositionerLabelBean> labels;
 
-	/**
-	 * Method required to use with BeanUI. Called using reflection.
-	 */
-	@Override
-	public void clear() {
-		if (labels != null)
-			labels.clear();
-	}
 
 	public PositionerLabels() {
 		labels = new Vector<PositionerLabelBean>(7);

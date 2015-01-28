@@ -23,7 +23,6 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.DetectorFillingMonitorScannable;
 import gda.device.scannable.I18BeamMonitor;
-import gda.device.scannable.I18LineRepeatingBeamMonitor;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;

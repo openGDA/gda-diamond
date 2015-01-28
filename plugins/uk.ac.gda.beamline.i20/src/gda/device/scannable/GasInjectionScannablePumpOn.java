@@ -18,13 +18,13 @@
 
 package gda.device.scannable;
 
-import java.util.List;
-
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.epics.CAClient;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
+
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -26,9 +26,9 @@ import org.python.core.PyInteger;
 import org.python.core.PyObject;
 import org.python.core.PySequence;
 
-import uk.ac.gda.beans.BeansFactory;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.client.microfocus.scan.datawriter.MicroFocusWriterExtender;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
  * The single point of access in the jython environment for map scans. This redirects calls based on its configuration
@@ -71,7 +71,7 @@ public class MapSelector {
 		int numRepetitions = ((PySequence) pyArgs).__finditem__(5).asInt();
 
 		// it has to be a MicroFocusScanParameters object or its not a map
-		MicroFocusScanParameters scanBean = (MicroFocusScanParameters) BeansFactory.getBeanObject(folderName,
+		MicroFocusScanParameters scanBean = (MicroFocusScanParameters) XMLHelpers.getBeanObject(folderName,
 				scanFileName);
 		currentMapIsRaster = scanBean.isRaster();
 		if (currentMapIsRaster) {

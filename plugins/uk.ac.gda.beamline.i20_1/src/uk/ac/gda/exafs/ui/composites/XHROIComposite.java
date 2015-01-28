@@ -20,24 +20,23 @@ package uk.ac.gda.exafs.ui.composites;
 
 import gda.device.detector.xstrip.XhRoi;
 
+import org.dawnsci.common.richbeans.components.scalebox.IntegerBox;
+import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
+import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import uk.ac.gda.richbeans.components.scalebox.IntegerBox;
-import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
-
 /**
  * may not need - do not commit yet!
  */
 public class XHROIComposite extends Composite {
 
-	private TextWrapper name;
-	private IntegerBox lowerLevel;
-	private IntegerBox upperLevel;
+	private final TextWrapper name;
+	private final IntegerBox lowerLevel;
+	private final IntegerBox upperLevel;
 
 	public XHROIComposite(Composite parent, int style) {
 		super(parent, style);
@@ -48,11 +47,11 @@ public class XHROIComposite extends Composite {
 		label.setText("Name");
 		name = new TextWrapper(this, SWT.NONE);
 		name.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-//		name.addModifyListener(new ModifyListener() {
-//			@Override
-//			public void modifyText(ModifyEvent e) {
-//			}
-//		});
+		//		name.addModifyListener(new ModifyListener() {
+		//			@Override
+		//			public void modifyText(ModifyEvent e) {
+		//			}
+		//		});
 
 		label = new Label(this, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -71,7 +70,7 @@ public class XHROIComposite extends Composite {
 		upperLevel.setMaximum(1023);
 		upperLevel.setMinimum(1);
 	}
-	
+
 	public TextWrapper getLabel(){
 		return name;
 	}
@@ -87,7 +86,7 @@ public class XHROIComposite extends Composite {
 	public void selectionChanged(XhRoi xhroi) {
 		name.setValue(xhroi.getName());
 		lowerLevel.setValue(xhroi.getLowerLevel());
-		upperLevel.setValue(xhroi.getUpperLevel());		
+		upperLevel.setValue(xhroi.getUpperLevel());
 	}
 
 }

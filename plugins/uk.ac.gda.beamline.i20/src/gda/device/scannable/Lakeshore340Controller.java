@@ -21,7 +21,9 @@ package gda.device.scannable;
 import gda.epics.LazyPVFactory;
 import gda.epics.PV;
 import gda.epics.ReadOnlyPV;
+
 import java.io.IOException;
+
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 
 public class Lakeshore340Controller implements ILakeshore340{

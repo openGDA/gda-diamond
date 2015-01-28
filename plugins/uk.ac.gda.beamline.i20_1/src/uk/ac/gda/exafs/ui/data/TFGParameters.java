@@ -22,10 +22,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.Vector;
 
-import uk.ac.gda.beans.IRichBean;
+import uk.ac.gda.util.beans.xml.XMLRichBean;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
-public class TFGParameters implements IRichBean {
+public class TFGParameters implements XMLRichBean {
 
 	static public final URL mappingURL = EdeScanParameters.class.getResource("EdeParametersMapping.xml");
 	static public final URL schemaURL = EdeScanParameters.class.getResource("EdeParametersMapping.xsd");
@@ -36,7 +36,7 @@ public class TFGParameters implements IRichBean {
 
 	boolean autoRearm =false;
 	List<TimeFrame> timeFrames = new Vector<TimeFrame>();
-	
+
 	public boolean isAutoRearm() {
 		return autoRearm;
 	}
@@ -54,7 +54,7 @@ public class TFGParameters implements IRichBean {
 	}
 
 	public void addTimeFrame(TimeFrame tf1) {
-		timeFrames.add(tf1);		
+		timeFrames.add(tf1);
 	}
 
 	@Override
@@ -68,28 +68,26 @@ public class TFGParameters implements IRichBean {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		TFGParameters other = (TFGParameters) obj;
-		if (autoRearm != other.autoRearm)
+		if (autoRearm != other.autoRearm) {
 			return false;
+		}
 		if (timeFrames == null) {
-			if (other.timeFrames != null)
+			if (other.timeFrames != null) {
 				return false;
-		} else if (!timeFrames.equals(other.timeFrames))
+			}
+		} else if (!timeFrames.equals(other.timeFrames)) {
 			return false;
+		}
 		return true;
 	}
-
-	@Override
-	public void clear() {
-		timeFrames.clear();
-	}
-
-
-
 }

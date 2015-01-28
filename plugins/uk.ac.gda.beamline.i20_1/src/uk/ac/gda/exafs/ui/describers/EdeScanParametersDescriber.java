@@ -18,8 +18,9 @@
 
 package uk.ac.gda.exafs.ui.describers;
 
+import org.dawnsci.common.richbeans.xml.XMLBeanContentDescriber;
+
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
-import uk.ac.gda.richbeans.xml.XMLBeanContentDescriber;
 
 /**
  * @author rjw82
@@ -28,7 +29,7 @@ import uk.ac.gda.richbeans.xml.XMLBeanContentDescriber;
 public final class EdeScanParametersDescriber extends XMLBeanContentDescriber {
 
 	public static String ID = "uk.ac.gda.exafs.ui.EdeScanParametersEditor";
-	
+
 	@Override
 	public String getBeanName() {
 		return EdeScanParameters.class.getName();

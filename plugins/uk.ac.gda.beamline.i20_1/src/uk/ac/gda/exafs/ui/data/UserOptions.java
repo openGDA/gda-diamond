@@ -22,17 +22,17 @@ import java.net.URL;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import uk.ac.gda.beans.IRichBean;
+import uk.ac.gda.util.beans.xml.XMLRichBean;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
  * Additional options for users on the EDE branchline.
  */
-public class UserOptions implements IRichBean {
-	
+public class UserOptions implements XMLRichBean {
+
 	static public final URL mappingURL = EdeScanParameters.class.getResource("EdeParametersMapping.xml");
 	static public final URL schemaURL = EdeScanParameters.class.getResource("EdeParametersMapping.xsd");
-	
+
 	public static UserOptions createFromXML(String filename) throws Exception {
 		return (UserOptions) XMLHelpers.createFromXML(mappingURL, UserOptions.class, schemaURL, filename);
 	}
@@ -41,9 +41,9 @@ public class UserOptions implements IRichBean {
 		XMLHelpers.writeToXML(mappingURL, useroptions, filename);
 	}
 
-	
+
 	private String scriptName;
-	
+
 	public void setScriptName(String scriptName) {
 		this.scriptName = scriptName;
 	}
@@ -51,7 +51,7 @@ public class UserOptions implements IRichBean {
 	public String getScriptName() {
 		return scriptName;
 	}
-	
+
 	@Override
 	public String toString() {
 		try {
@@ -59,12 +59,6 @@ public class UserOptions implements IRichBean {
 		} catch (Exception e) {
 			return e.getMessage();
 		}
-	}
-
-
-	@Override
-	public void clear() {
-		// nothing to do in this class		
 	}
 
 	@Override
@@ -77,18 +71,23 @@ public class UserOptions implements IRichBean {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		UserOptions other = (UserOptions) obj;
 		if (scriptName == null) {
-			if (other.scriptName != null)
+			if (other.scriptName != null) {
 				return false;
-		} else if (!scriptName.equals(other.scriptName))
+			}
+		} else if (!scriptName.equals(other.scriptName)) {
 			return false;
+		}
 		return true;
 	}
 

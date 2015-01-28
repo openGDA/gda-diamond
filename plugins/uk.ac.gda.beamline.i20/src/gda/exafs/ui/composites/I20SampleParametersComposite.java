@@ -24,11 +24,10 @@ import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.dawnsci.common.richbeans.components.FieldBeanComposite;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import uk.ac.gda.richbeans.components.FieldBeanComposite;
 
 public abstract class I20SampleParametersComposite  extends FieldBeanComposite {
 	private static Logger logger = LoggerFactory.getLogger(I20SampleParametersComposite.class);

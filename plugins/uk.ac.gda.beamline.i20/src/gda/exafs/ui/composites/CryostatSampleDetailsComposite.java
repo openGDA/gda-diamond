@@ -23,6 +23,12 @@ import gda.jython.JythonServerFacade;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
+import org.dawnsci.common.richbeans.components.selector.ListEditor;
+import org.dawnsci.common.richbeans.components.selector.ListEditorUI;
+import org.dawnsci.common.richbeans.components.wrappers.SpinnerWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
+import org.dawnsci.common.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -38,12 +44,6 @@ import org.eclipse.swt.widgets.Label;
 
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.common.rcp.util.GridUtils;
-import uk.ac.gda.richbeans.components.scalebox.ScaleBox;
-import uk.ac.gda.richbeans.components.selector.ListEditor;
-import uk.ac.gda.richbeans.components.selector.ListEditorUI;
-import uk.ac.gda.richbeans.components.wrappers.SpinnerWrapper;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper;
-import uk.ac.gda.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 
 public class CryostatSampleDetailsComposite extends I20SampleParametersComposite implements ListEditorUI {
 	private ScaleBox cryostick;
