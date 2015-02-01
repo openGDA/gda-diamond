@@ -44,6 +44,7 @@
 				<pathelement location="${workspace.git.loc}/gda-devices-mythen.git/uk.ac.gda.devices.mythen/bin" />
 				<pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/bin" />
 				<pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/jars/*" />
+				<pathelement location="${workspace.git.loc}/dawn-ui.git/org.dawnsci.common.widgets/bin" />
 				<path refid="tp.slf4j.path" />  <!--ensure that required org.slf4j.LoggerFactory appears first in classpath -->
 				<pathelement location="${workspace.loc}/tp/plugins/*" />
 				<pathelement location="${workspace.git.loc}/dawn-third.git/ncsa.hdf/bin" />
