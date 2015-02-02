@@ -1,6 +1,5 @@
 #@PydevCodeAnalysisIgnore
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
-from uk.ac.gda.beans import BeansFactory
 from gda.factory import Finder
 from gda.jython.commands.ScannableCommands import scan, add_default
 from java.io import File
