@@ -10,8 +10,6 @@ execfile(os.path.join(uk_ac_gda_beamline_b16, 'scripts', 'microfocus', 'microfoc
 
 alias("mapscan") #@UndefinedVariable
 
-from uk.ac.gda.beans import BeansFactory
-
 #b16beansfactory = BeansFactory()
 #print "Configuring beans factory"
 #b16beansfactory.setClassList(["uk.ac.gda.beans.exafs.DetectorParameters", "uk.ac.gda.beans.vortex.VortexParameters", "uk.ac.gda.beans.microfocus.MicroFocusScanParameters"])

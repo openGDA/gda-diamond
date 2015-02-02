@@ -1,6 +1,6 @@
 #@PydevCodeAnalysisIgnore
 from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
-from uk.ac.gda.beans import BeansFactory
+from uk.ac.gda.util.beans.xml import XMLHelpers
 from gda.factory import Finder
 from gda.exafs.scan import BeanGroup
 from java.io import File
@@ -33,8 +33,8 @@ def mapscan (scanFileName, detectorFileName, folderName=None, scanNumber= -1, va
         print "validation", validation
 
     # Create the beans from the file names        
-    scanBean     = BeansFactory.getBeanObject(MicroFocusEnvironment().getScriptFolder(), scanFileName)
-    detectorBean = BeansFactory.getBeanObject(MicroFocusEnvironment().getScriptFolder(), detectorFileName)
+    scanBean     = XMLHelpers.getBeanObject(MicroFocusEnvironment().getScriptFolder(), scanFileName)
+    detectorBean = XMLHelpers.getBeanObject(MicroFocusEnvironment().getScriptFolder(), detectorFileName)
      
     # give the beans to the xasdatawriter class to help define the folders/filenames 
     beanGroup = BeanGroup()
@@ -88,7 +88,7 @@ def mapscan (scanFileName, detectorFileName, folderName=None, scanNumber= -1, va
         selectedElement = elements[0]
         mfd.setRoiNames(array(elements, java.lang.String))
         mfd.setDetectorBeanFileName(detectorBeanFileName)
-        bean = BeansFactory.getBean(File(detectorBeanFileName))   
+        bean = XMLHelpers.getBean(File(detectorBeanFileName))   
         detector = globals()[bean.getDetectorName()]   
         mfd.setDetectors(array(detectorList, gda.device.Detector))     
         mfd.setSelectedElement(selectedElement)

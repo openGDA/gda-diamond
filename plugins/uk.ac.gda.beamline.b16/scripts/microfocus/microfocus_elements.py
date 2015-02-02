@@ -1,5 +1,5 @@
 #@PydevCodeAnalysisIgnore
-from uk.ac.gda.beans import BeansFactory
+from uk.ac.gda.util.beans.xml import XMLHelpers
 from java.io import File
 from java.lang import System
 import sys
@@ -8,7 +8,7 @@ def getNumberOfDetectors(detectorFileName):
     detectorBean=0
     try:
         print detectorFileName
-        detectorBean = BeansFactory.getBean(File(detectorFileName));
+        detectorBean = XMLHelpers.getBean(File(detectorFileName));
         print detectorBean
         numberOfDetectorElements = detectorBean.getDetectorList().size()
         return numberOfDetectorElements
@@ -21,7 +21,7 @@ def showElementsList(detectorFileName):
     detectorBean=0
     try:
         print detectorFileName
-        detectorBean = BeansFactory.getBean(File(detectorFileName));
+        detectorBean = XMLHelpers.getBean(File(detectorFileName));
         print detectorBean
         numberOfDetectorElements = detectorBean.getDetectorList().size()
         print numberOfDetectorElements        

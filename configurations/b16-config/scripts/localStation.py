@@ -932,7 +932,6 @@ run('setup_bimorph')
 
 from bimorph import runOptimisation
 import bimorph
-from uk.ac.gda.beans import BeansFactory
 from bimorph_mirror_optimising import SlitScanner
 from gdascripts.scannable.detector.dummy.focused_beam_dataset import CreateImageReadingDummyDetector
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
