@@ -5,5 +5,7 @@
 *~
 *.tmp
 *.bak
-/bin/
 
+# ignore test output
+/test-reports
+/test-scratch
