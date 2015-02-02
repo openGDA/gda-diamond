@@ -24,7 +24,7 @@ echo "Kill all GDA Clients running locally"
 gda --stop client
 sleep 2;
 
-SSHOPTS="-o StrictHostKeyChecking=no -o BatchMode=yes"
+SSHOPTS="-o StrictHostKeyChecking=no -o BatchMode=yes -o UserKnownHostsFile=/dev/null"
 
 echo "Starting GDA Servers remotely..."
 ssh $SSHOPTS -i /$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
