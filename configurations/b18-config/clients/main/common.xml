@@ -85,7 +85,7 @@
 
 	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener"> 
 		<property name="clientFileAnnouncerName" value="sockpuppet" /> </bean> -->
-	</bean> 
+<!-- 	</bean>  -->
 
 	<bean id="ionc1_gas_injector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ionc1_gas_injector" />

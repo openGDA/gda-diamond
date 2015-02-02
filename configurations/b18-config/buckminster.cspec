@@ -8,8 +8,9 @@
         <cs:dependency name="uk.ac.gda.beamline.b18.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.client" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.xspress3" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.exafs.api" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.server.exafs.epics" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.exafs.api" componentType="osgi.bundle"/>
+        <cs:dependency name="org.dawnsci.common.widgets" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
