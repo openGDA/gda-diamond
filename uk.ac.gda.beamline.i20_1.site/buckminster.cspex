@@ -44,7 +44,7 @@
                 <property key="product.os" value="linux" />
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86_64" />
-                <property key="profile" value="GDA-example" />
+                <property key="profile" value="GDA-EDE" />
                 <property key="iu" value="uk.ac.gda.beamline.i20_1.product" />
             </properties>
             <prerequisites>
@@ -67,7 +67,7 @@
                 <property key="product.os" value="linux" />
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86_64" />
-                <property key="profile" value="HRPD" />
+                <property key="profile" value="GDA-EDE" />
                 <property key="iu" value="uk.ac.gda.beamline.i20_1.product" />
             </properties>
             <prerequisites>
@@ -90,8 +90,8 @@
                 <property key="product.os" value="linux" />
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86_64" />
-                <property key="profile" value="HRPD" />
-                <property key="iu" value="uk.ac.gda.beamline.i20_1.dummy.product" />
+                <property key="profile" value="GDA-EDE" />
+                <property key="iu" value="uk.ac.gda.beamline.i20_1.dummy_product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
@@ -113,7 +113,7 @@
                 <property key="product.os" value="win32" />
                 <property key="product.ws" value="win32" />
                 <property key="product.arch" value="x86" />
-                <property key="profile" value="GDA-example" />
+                <property key="profile" value="GDA-EDE" />
                 <property key="iu" value="uk.ac.gda.beamline.i20_1.product" />
             </properties>
             <prerequisites>

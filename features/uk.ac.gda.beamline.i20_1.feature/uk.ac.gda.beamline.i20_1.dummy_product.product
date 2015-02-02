@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I20 EDE Dummy" id="uk.ac.gda.beamline.i20_1.i20_1_dummy_product" application="uk.ac.gda.client.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="GDA I20 EDE" id="uk.ac.gda.beamline.i20_1.dummy_product" application="uk.ac.gda.client.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -36,35 +36,15 @@
 
    <splash
       location="uk.ac.gda.client" />
-   <launcher name="gda-i20-1">
+   <launcher>
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
-   <license>
-        <url>http://www.gnu.org/licenses/</url>
-        <text>
-   Copyright © 2013 Diamond Light Source Ltd.
-
-GDA is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License version 3 as published by the Free
-Software Foundation.
-
-GDA is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
-details.
-
-You should have received a copy of the GNU General Public License along
-with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
-         </text>
-   </license>
 
    <plugins>
       <plugin id="ch.qos.logback.classic"/>
@@ -114,6 +94,7 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="org.apache.commons.io"/>
       <plugin id="org.apache.commons.jexl"/>
       <plugin id="org.apache.commons.lang"/>
+      <plugin id="org.apache.commons.logging"/>
       <plugin id="org.apache.commons.math"/>
       <plugin id="org.apache.commons.math3"/>
       <plugin id="org.apache.httpcomponents.httpclient"/>
