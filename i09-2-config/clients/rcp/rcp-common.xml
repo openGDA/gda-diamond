@@ -9,7 +9,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 <!--  	<bean class="gda.spring.FindableNameSetterPostProcessor" /> -->
 	
-	<corba:import namespace="i09" names="plot_server" />
+	<corba:import namespace="i09-2" names="plot_server" />
 	
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
