@@ -6,6 +6,7 @@
         <cs:dependency name="org.eclipse.emf.ecore" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.emf.ecore.xmi" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.emf.edit" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.osgi" componentType="osgi.bundle"/>
         <cs:dependency name="org.opengda.detector.electronanalyser" componentType="osgi.bundle"/>
         <cs:dependency name="org.opengda.detector.electronanalyser.model" componentType="osgi.bundle"/>
         <cs:dependency name="org.opengda.detector.electronanalyser.model.edit" componentType="osgi.bundle"/>
@@ -17,7 +18,5 @@
         <cs:dependency name="uk.ac.gda.common" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls.client" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.osgi" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
