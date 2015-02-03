@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=gda-user-guide
 Type=Application
-Exec=firefox http://www.opengda.org/documentation/manuals/GDA_User_Guide/8.18/contents.html
+Exec=firefox http://www.opengda.org/documentation/manuals/GDA_User_Guide/trunk/contents.html
 Icon=/usr/share/pixmaps/nautilus/Bluecurve/emblem-web.png
 Icon[en_GB]=/usr/share/pixmaps/nautilus/Bluecurve/emblem-web.png
 Terminal=false
