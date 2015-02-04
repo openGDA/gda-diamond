@@ -77,7 +77,7 @@ import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ ScannableCommands.class, ConcurrentScan.class, BeansFactory.class })
+@PrepareForTest({ ScannableCommands.class, ConcurrentScan.class, XMLHelpers.class, XanesScanParameters.class })
 public class XesScanTest {
 
 	private Scannable analyserAngle;
@@ -307,8 +307,8 @@ public class XesScanTest {
 		xanesParams.setFinalEnergy(7021.0);
 
 		BeansFactory.setClasses(new Class[] { XanesScanParameters.class });
-		PowerMockito.mockStatic(BeansFactory.class);
-		PowerMockito.when(XMLHelpers.getBeanObject(Matchers.anyString(), Matchers.any())).thenReturn(xanesParams);
+		PowerMockito.mockStatic(XMLHelpers.class);
+		PowerMockito.when(XMLHelpers.getBeanObject(Matchers.anyString(), Matchers.anyObject())).thenReturn(xanesParams);
 		return xanesParams;
 	}
 
