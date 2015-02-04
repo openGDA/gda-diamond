@@ -81,6 +81,11 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
 
     # Override: public interface Scannable extends Device
 
+    # Note that neither stop() nor atCommandFailure() are called when operatingContinuously, however stopAndReset()
+    # is called on the controller, so the controller needs to handle failures there.
+    
+    # We do need an atScanEnd() though, since unlike stop() and atCommandFailure(), stopAndReset() isn't called
+    # when the scan line completes.
     def atScanEnd(self):
         if self.verbose: self.logger.info('atScanEnd()... _operating_continuously=%r' % self._operating_continuously)
         if self._operating_continuously:
@@ -88,33 +93,14 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
         else:
             #raise Exception()
             self._controller.atScanEnd()
-        """ Why is this being called? 
-        
-            It looks like self._operating_continuously is being set back to false before atScanEnd is being called!
-        
-        See:
-
-2013-06-18 18:14:04,094 INFO  gda.jython.logger.RedirectableFileLogger -  | 2013-06-18 18:14:04.094000  
-2013-06-18 18:14:04,095 INFO  gda.jython.logger.RedirectableFileLogger -  |  mcs1  
-2013-06-18 18:14:04,096 INFO  gda.jython.logger.RedirectableFileLogger -  |  atScanLineEnd  
-2013-06-18 18:14:04,100 INFO  gda.jython.logger.RedirectableFileLogger -  | Traceback (most recent call last):  
-2013-06-18 18:14:04,101 INFO  gda.jython.logger.RedirectableFileLogger -  |   File "<input>", line 1, in <module>  
-2013-06-18 18:14:04,101 INFO  gda.jython.logger.RedirectableFileLogger -  |   File "/dls_sw/i10/software/gda_versions/gda_8.30a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 151, in __call__  
-2013-06-18 18:14:04,102 INFO  gda.jython.logger.RedirectableFileLogger -  |     scan.runScan()  
-2013-06-18 18:14:04,103 INFO  gda.jython.logger.RedirectableFileLogger -  |   File "/dls_sw/i10/software/gda_versions/gda_8.30a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 151, in __call__  
-2013-06-18 18:14:04,103 INFO  gda.jython.logger.RedirectableFileLogger -  |     scan.runScan()  
-2013-06-18 18:14:04,104 INFO  gda.jython.logger.RedirectableFileLogger -  |   File "/dls_sw/i10/software/gda/i10-config/scripts/scannable/continuous/energy.py", line 236, in atScanEnd  
-2013-06-18 18:14:04,104 INFO  gda.jython.logger.RedirectableFileLogger -  |     raise Exception()  
-2013-06-18 18:14:04,105 INFO  gda.jython.logger.RedirectableFileLogger -  | Exception  
-2013-06-18 18:14:04,108 ERROR gda.jython.GDAInteractiveConsole - InteractiveConsole exception: Traceback (most recent call last):
-  File "<input>", line 1, in <module>
-  File "/dls_sw/i10/software/gda_versions/gda_8.30a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 151, in __call__
-    scan.runScan()
-  File "/dls_sw/i10/software/gda_versions/gda_8.30a/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/scan/concurrentScanWrapper.py", line 151, in __call__
-    scan.runScan()
-  File "/dls_sw/i10/software/gda/i10-config/scripts/scannable/continuous/energy.py", line 236, in atScanEnd
-    raise Exception()
-Exception
- org.python.core.PyException
-    at org.python.core.PyException.doRaise(PyException.java:219)
+        """ Note, self._operating_continuously is being set back to false before atScanEnd is being called. See:
+2015-02-04 21:43:26,833 INFO  ContinuousPgmEnergyScannable:egy - setOperatingContinuously(1) was 0
+...
+2015-02-04 21:43:27,048 INFO  ContinuousPgmEnergyScannable:egy - asynchronousMoveTo(841)...  
+2015-02-04 21:43:27,048 INFO  ContinuousPgmEnergyScannable:egy - waitWhileBusy()...  
+2015-02-04 21:43:27,048 INFO  ContinuousPgmEnergyScannable:egy - waitWhileBusy()...  
+2015-02-04 21:43:27,048 INFO  ContinuousPgmEnergyScannable:egy - getPositionCallable()... last_requested_position=841.0  
+...
+2015-02-04 21:30:53,128 INFO  ContinuousPgmEnergyScannable:egy - setOperatingContinuously(0) was 1
+2015-02-04 21:30:53,128 INFO  ContinuousPgmEnergyScannable:egy - atScanEnd()... _operating_continuously=0
 """

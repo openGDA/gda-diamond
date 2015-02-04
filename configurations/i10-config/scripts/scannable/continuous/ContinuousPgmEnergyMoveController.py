@@ -16,6 +16,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self.name = name
         self._energy = energy
         self._start_event = threading.Event()
+        self._energy_speed_orig = None
         self._movelog_time = datetime.now()
         self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyMoveController:%s" % name)
         self.verbose = False
@@ -109,6 +110,8 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self._start_event.clear()
         if self.verbose:
             self.logger.info('stopAndReset()')
+        self._energy.stop()
+        self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device
 
@@ -146,6 +149,8 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
     class DelayableEnergyPositionCallable(Callable):
     
         def __init__(self, controller, demand_position):
+            #self.start_event = threading.Event()
+            self.start_event = controller._start_event
             self._controller, self._demand_position = controller, demand_position
             self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyMoveController:%s:DelayableCallable[%r]" % (controller.name, demand_position))
             if self._controller.verbose:
@@ -161,7 +166,10 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
             else:
                 if self._controller.verbose:
                     self.logger.info('wait()...')
-                self._controller._start_event.wait(60)
+                timeout=60
+                self.start_event.wait(timeout)
+                if not self.start_event.isSet():
+                    raise Exception("%rs timeout waiting for startMove() to be called on %s at position %r." % (timeout, self._controller.name, self._demand_position))
                 if self._controller.verbose:
                     self.logger.info('...wait()')
             # Wait for delay before actually move start and then a time given by
@@ -191,7 +199,13 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         # TODO: return actual positions back calculated from energy positions
         return self.DelayableEnergyPositionCallable(self, position)
 
+    def _restore_orig_speed(self):
+        if self._energy_speed_orig:
+            if self.verbose: self.logger.info('Restoring original speed %r, was %r' % (self._energy_speed_orig, self._energy.speed))
+            self._energy.speed = self._energy_speed_orig
+            self._energy_speed_orig = None
+
     def atScanEnd(self):
         if self.verbose:
             self.logger.info('atScanEnd()...')
-        self._energy.speed = self._energy_speed_orig
+        self._restore_orig_speed()
