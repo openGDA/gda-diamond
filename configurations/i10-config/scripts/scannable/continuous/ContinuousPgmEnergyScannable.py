@@ -14,8 +14,8 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
         self.name = name
         self._controller = controller
         self.inputNames = [name]
-        self.extraNames = []
-        self.outputFormat = ['%f']
+        self.extraNames = controller.getPositionCallableExtraNames()
+        self.outputFormat = controller.getPositionCallableFormat()
         self._operating_continuously = False
         self._last_requested_position = None
         self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyScannable:%s" % name)

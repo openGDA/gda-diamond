@@ -189,8 +189,14 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
                 time.sleep(sleeptime_s-delta_s)
             energy = self._controller._energy()
             if self._controller.verbose:
-                self.logger.info('...DelayableCallable:call returning %r' % energy)
-            return energy
+                self.logger.info('...DelayableCallable:call returning %r, %r' % (self._demand_position, energy))
+            return self._demand_position, energy
+
+    def getPositionCallableExtraNames(self):
+        return ['readback']
+
+    def getPositionCallableFormat(self):
+        return ['%f', '%f']
 
     # public Callable<T> getPositionCallable() throws DeviceException;
     def getPositionCallableFor(self, position):
