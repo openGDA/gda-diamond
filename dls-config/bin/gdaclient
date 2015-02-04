@@ -75,7 +75,7 @@ CONFIG_PARENT=/scratch/gda_configs
 
 WORKSPACE=$WORKSPACE_PARENT/$(whoami)
 
-ARGS=$(getopt -a -o \? -l help,data:,reset,log,keep,nohup:,client: -n "gdaclient" -- "$@")
+ARGS=$(getopt -a -o \? -l help,data:,reset,log,start,keep,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
 if [ $? -ne 0 ];
@@ -114,6 +114,9 @@ while true; do
     --log)
         shift;
         GDA_LOG=0
+      ;;
+    --start)
+        shift;# Ignoring this parameter as being passed through from gda bash script
       ;;
     --nohup)
         shift;

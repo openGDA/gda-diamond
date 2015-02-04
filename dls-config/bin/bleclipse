@@ -38,9 +38,9 @@ SELF=$(readlink -f $0)
 # How many directories we have to go up depends on the location of the
 # bin directory. For dls-config ROOT is 4 directories up from bin:
 # i.e. workspace_git/gda-diamond.git/dls-config/bin/bleclipse
-GDA_ROOT=$(dirname $0)/../../../..
+GDA_WORKSPACE_PARENT=$(dirname $0)/../../../..
 
-WORKSPACE=$(readlink -f $GDA_ROOT/workspace)
+WORKSPACE=$(readlink -f $GDA_WORKSPACE_PARENT/workspace)
 
 if [ -d $WORKSPACE/.metadata ] ; then
   echo "Starting Eclipse (`which eclipse`)..."

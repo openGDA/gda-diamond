@@ -1,0 +1,15 @@
+# Parameter 1 is the console log name - {servers|<servername>|client|logpanel}
+bashlog debug "gda_setup_consolelog_facility" "Entered"
+
+export GDA_LOG_FILE="${GDA_LOGS_DIR}/gda_script_log.txt"
+consolelogfile_dir=$(dirname ${GDA_LOG_FILE})
+consolelogfile_name=$(basename ${GDA_LOG_FILE})
+
+# Create the parent directory for the console log file, and create an (initially empty) logfile
+if [[ ! -d "${consolelogfile_dir}" ]]; then
+    bashlog info "gda_setup_consolelog_facility" "issuing: mkdir -pv -m 777 ${consolelogfile_dir}"
+    mkdir -pv -m 777 ${consolelogfile_dir}/
+fi
+touch ${GDA_LOG_FILE}
+
+bashlog debug "gda_setup_consolelog_facility" "Exited"

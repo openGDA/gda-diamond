@@ -1,0 +1,22 @@
+# Setup specific to this facility, that is done before the client is started
+
+# Set up some basic environment
+module load global/http_proxy
+. ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/loadjava.sh
+
+# Define GDA_VAR
+if [ "${GDA_MODE}" == "live" ]; then
+  # GDA_VAR will point to something like /dls_sw/<beamline>/software/gda_versions/var/
+  export GDA_VAR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../var)
+else
+  export GDA_VAR=${GDA_WORKSPACE_PARENT}/var
+fi
+
+# Define GDA_LOGS_DIR
+if [ "${GDA_MODE}" == "live" ]; then
+  # GDA_LOGS_DIR will point to something like /dls_sw/<beamline>/logs/
+  export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../../logs)
+else
+  export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/logs
+fi
+
