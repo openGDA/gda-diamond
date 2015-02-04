@@ -6,9 +6,7 @@ for use with GDA at Diamond Light Source
 from datetime import datetime
 from gda.device.scannable import ContinuouslyScannableViaController, \
     ScannableMotionBase, PositionCallableProvider
-from java.util.concurrent import Callable
-import threading, time
-
+from org.slf4j import LoggerFactory
 
 class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, ScannableMotionBase, PositionCallableProvider):
 
@@ -20,10 +18,13 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
         self.outputFormat = ['%f']
         self._operating_continuously = False
         self._last_requested_position = None
+        self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyScannable:%s" % name)
         self.verbose = False
     # Implement: public interface ContinuouslyScannableViaController extends Scannable
 
     def setOperatingContinuously(self, b):
+        if self.verbose:
+            self.logger.info('setOperatingContinuously(%r) was %r' % (b, self._operating_continuously))
         self._operating_continuously = b
 
     def isOperatingContinously(self):
@@ -37,14 +38,15 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
     # public Callable<T> getPositionCallable() throws DeviceException;
     def getPositionCallable(self):
         if self.verbose:
-            print str(datetime.now()), self.name, ':getPositionCallable...'
+            self.logger.info('getPositionCallable()... last_requested_position=%r' % (
+                                                       self._last_requested_position))
         return self._controller.getPositionCallableFor(self._last_requested_position)
 
     # Override: public class ScannableMotionBase extends ScannableBase implements ScannableMotion, INeXusInfoWriteable
 
     def asynchronousMoveTo(self, position):
         if self.verbose:
-            print str(datetime.now()), self.name, ':asynchronousMoveTo(%r)...' % position
+            self.logger.info('asynchronousMoveTo(%r)...' % position)
         position = float(position)
         if self._operating_continuously:
             self._last_requested_position = position
@@ -53,7 +55,7 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
 
     def getPosition(self):
         if self.verbose:
-            print str(datetime.now()), self.name, ':getPosition...'
+            self.logger.info('getPosition()...')
         if self._operating_continuously:
             raise Exception()
             # Should be using getPositionCallable
@@ -63,7 +65,7 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
 
     def waitWhileBusy(self):
         if self.verbose:
-            print str(datetime.now()), self.name, ':waitWhileBusy...'
+            self.logger.info('waitWhileBusy()...')
         if self._operating_continuously:
             return # self._controller.waitWhileMoving()
         else:
@@ -80,6 +82,7 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
     # Override: public interface Scannable extends Device
 
     def atScanEnd(self):
+        if self.verbose: self.logger.info('atScanEnd()... _operating_continuously=%r' % self._operating_continuously)
         if self._operating_continuously:
             self._controller.atScanEnd()
         else:

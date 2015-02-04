@@ -3,10 +3,11 @@ Continuous Energy Scannable and Controller for using Constant Velocity on I10
 for use with GDA at Diamond Light Source
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from gda.device import DeviceBase
 from gda.device.continuouscontroller import ConstantVelocityMoveController
 from java.util.concurrent import Callable
+from org.slf4j import LoggerFactory
 import threading, time
 
 class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
@@ -15,29 +16,31 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self.name = name
         self._energy = energy
         self._start_event = threading.Event()
+        self._movelog_time = datetime.now()
+        self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyMoveController:%s" % name)
         self.verbose = False
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
     def setStart(self, start): # double
         self._move_start = start
         if self.verbose:
-            print str(datetime.now()), self.name, 'start=', start
+            self.logger.info('setStart(%r)' % start)
 
     def setEnd(self, end): # double
         self._move_end = end
         if self.verbose:
-            print str(datetime.now()), self.name, 'end=', end
+            self.logger.info('setEnd(%r)' % end)
 
     def setStep(self, step): # double
         self._move_step = step
         if self.verbose:
-            print str(datetime.now()), self.name, 'step=', step
+            self.logger.info('setStep(%r)' % step)
 
     # Implement: public interface ContinuousMoveController extends HardwareTriggerProvider
 
     def prepareForMove(self):
         if self.verbose:
-            print str(datetime.now()), self.name, 'prepareForMove...'
+            self.logger.info('prepareForMove()...')
         self._energy_speed_orig = self._energy.speed
         ### Calculate main cruise moves & speeds from start/end/step
         self._energy_speed = self.getTotalMove() / self.getTotalTime()
@@ -51,22 +54,22 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self._energy.speed = self._energy_speed_orig
         if self.getMoveDirectionPositive():
             if self.verbose:
-                print str(datetime.now()), self.name, 'asynchronousMoveTo(%r)' % (
-                                            self._move_start - self._runupdown)
+                self.logger.info('prepareForMove:asynchronousMoveTo(%r) (+ve)' % (
+                                            self._move_start - self._runupdown))
             self._energy.asynchronousMoveTo(self._move_start - self._runupdown)
         else:
             if self.verbose:
-                print str(datetime.now()), self.name, 'asynchronousMoveTo(%r)' % (
-                                            self._move_start + self._runupdown)
+                self.logger.info('prepareForMove:asynchronousMoveTo(%r) (-ve)' % (
+                                            self._move_start + self._runupdown))
             self._energy.asynchronousMoveTo(self._move_start + self._runupdown)
         self.waitWhileMoving()
         ### Calculate trigger delays
         if self.verbose:
-            print str(datetime.now()), self.name, '...prepareForMove'
+            self.logger.info('...prepareForMove')
 
     def startMove(self):
         if self.verbose:
-            print str(datetime.now()), self.name, 'startMove...'
+            self.logger.info('startMove()...')
         
         # Notify all position callables to start waiting for their time
         self._start_time = datetime.now()
@@ -75,52 +78,56 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self._energy.speed = self._energy_speed
         if self.getMoveDirectionPositive():
             if self.verbose:
-                print str(datetime.now()), self.name, 'asynchronousMoveTo(%r)' % (
-                                            self._move_end + self._runupdown)
+                self.logger.info('startMove:asynchronousMoveTo(%r) (+ve)' % (
+                                            self._move_end + self._runupdown))
             self._energy.asynchronousMoveTo(self._move_end + self._runupdown)
         else:
             if self.verbose:
-                print str(datetime.now()), self.name, 'asynchronousMoveTo(%r)' % (
-                                            self._move_end - self._runupdown)
+                self.logger.info('startMove:asynchronousMoveTo(%r) (-ve)' % (
+                                            self._move_end - self._runupdown))
             self._energy.asynchronousMoveTo(self._move_end - self._runupdown)
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
         if self.verbose:
-            print str(datetime.now()), self.name, '...startMove'
+            self.logger.info('...startMove')
 
     def isMoving(self):
-        if self.verbose:
-            print str(datetime.now()), self.name, 'isMoving', self._energy()
+        if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
+            self.logger.info('isMoving()=%r @ %r' % (self._energy.isBusy(), self._energy()))
+            self._movelog_time = datetime.now()
         return self._energy.isBusy()
 
     def waitWhileMoving(self):
         if self.verbose:
-            print str(datetime.now()), self.name, 'waitWhileMoving...'
+            self.logger.info('waitWhileMoving()...')
         while self.isMoving():
             time.sleep(1)
         if self.verbose:
-            print str(datetime.now()), self.name, '...waitWhileMoving'
+            self.logger.info('...waitWhileMoving()')
 
     def stopAndReset(self):
         self._start_time = None
         self._start_event.clear()
         if self.verbose:
-            print str(datetime.now()), self.name, 'stopAndReset'
+            self.logger.info('stopAndReset()')
 
     # Implement: public interface HardwareTriggerProvider extends Device
 
     def setTriggerPeriod(self, seconds): # double
         self._triggerPeriod = seconds
         if self.verbose:
-            print str(datetime.now()), self.name, 'setTriggerPeriod(%r)' % seconds
+            self.logger.info('setTriggerPeriod(%r)' % seconds)
 
     def getNumberTriggers(self):
         triggers = self.getTotalMove() / self._move_step
         if self.verbose:
-            print str(datetime.now()), self.name, 'getNumberTriggers=', triggers, int(triggers)
+            self.logger.info('getNumberTriggers()=%r (%r)' % (int(triggers), triggers))
         return int(triggers)
 
     def getTotalTime(self):
-        return self.getNumberTriggers() * self._triggerPeriod
+        totalTime = self.getNumberTriggers() * self._triggerPeriod
+        if self.verbose:
+            self.logger.info('getTotalTime()=%r' % totalTime)
+        return totalTime
 
     # Override: public abstract class DeviceBase implements Device, ConditionallyConfigurable, Localizable
 
@@ -129,7 +136,9 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
     # Other functions
 
     def getTotalMove(self):
-        return abs(self._move_end - self._move_start)
+        totalMove = abs(self._move_end - self._move_start)
+        if self.verbose: self.logger.info('getTotalMove()=%r' % totalMove)
+        return totalMove
 
     def getMoveDirectionPositive(self):
         return (self._move_end - self._move_start) > 0
@@ -138,22 +147,23 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
     
         def __init__(self, controller, demand_position):
             self._controller, self._demand_position = controller, demand_position
+            self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyMoveController:%s:DelayableCallable[%r]" % (controller.name, demand_position))
             if self._controller.verbose:
-                print str(datetime.now()), self._controller.name, self._demand_position, 'DelayableCallable:__init__(%r, %r)...' % (controller.name, demand_position)
+                self.logger.info('__init__(%r, %r)...' % (controller.name, demand_position))
     
         def call(self):
             if self._controller.verbose:
-                print str(datetime.now()), self._controller.name, self._demand_position, 'DelayableCallable:call...'
+                self.logger.info('call...')
             # Wait for controller to start all motors moving and set start time
             if self._controller._start_time:
                 if self._controller.verbose:
-                    print str(datetime.now()), self._controller.name, self._demand_position, 'start_time=', self._controller._start_time
+                    self.logger.info('start_time=%r' % (self._controller._start_time))
             else:
                 if self._controller.verbose:
-                    print str(datetime.now()), self._controller.name, self._demand_position, 'wait()...'
+                    self.logger.info('wait()...')
                 self._controller._start_event.wait(60)
                 if self._controller.verbose:
-                    print str(datetime.now()), self._controller.name, self._demand_position, '...wait()' #, self._controller._start_event.is_set()
+                    self.logger.info('...wait()')
             # Wait for delay before actually move start and then a time given by
             # how far through the scan this point is
             complete = abs( (self._demand_position - self._controller._move_start) /
@@ -164,24 +174,24 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
             delta = datetime.now() - self._controller._start_time
             delta_s = delta.seconds + delta.microseconds/1000000.
             if delta_s > sleeptime_s:
-                print str(datetime.now()), self._controller.name, self._demand_position, 'sleep time already past!!!'
+                self.logger.warning('Sleep time already past!!!')
             else:
                 if self._controller.verbose:
-                    print str(datetime.now()), self._controller.name, self._demand_position, 'sleeping...', sleeptime_s, delta_s, sleeptime_s-delta_s
+                    self.logger.info('sleeping... sleeptime_s=%r, delta_s=%r, sleeptime_s-delta_s=%r' % (sleeptime_s, delta_s, sleeptime_s-delta_s))
                 time.sleep(sleeptime_s-delta_s)
             energy = self._controller._energy()
             if self._controller.verbose:
-                print str(datetime.now()), self._controller.name, self._demand_position, '...DelayableCallable:call returning', energy
+                self.logger.info('...DelayableCallable:call returning %r' % energy)
             return energy
 
     # public Callable<T> getPositionCallable() throws DeviceException;
     def getPositionCallableFor(self, position):
         if self.verbose:
-            print str(datetime.now()), self.name, ':getPositionCallableFor(%r)...' % position
+            self.logger.info('getPositionCallableFor(%r)...' % position)
         # TODO: return actual positions back calculated from energy positions
         return self.DelayableEnergyPositionCallable(self, position)
 
     def atScanEnd(self):
         if self.verbose:
-            print str(datetime.now()), self.name, ':atScanEnd...'
+            self.logger.info('atScanEnd()...')
         self._energy.speed = self._energy_speed_orig
