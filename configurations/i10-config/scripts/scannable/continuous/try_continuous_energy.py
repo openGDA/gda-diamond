@@ -16,9 +16,12 @@ from scannable.continuous.ContinuousPgmEnergyMoveController import \
                           ContinuousPgmEnergyMoveController
 from scannable.continuous.ContinuousPgmEnergyScannable import \
                           ContinuousPgmEnergyScannable
+from scannable.continuous.ContinuousPgmGratingEnergyMoveController import \
+                          ContinuousPgmGratingEnergyMoveController
 from org.slf4j import LoggerFactory
 
 global pgm_energy
+global pgm_grat_pitch, pgm_m2_pitch
 
 cemc = ContinuousPgmEnergyMoveController('cemc', pgm_energy); cemc.verbose=True
 egy = ContinuousPgmEnergyScannable('egy', cemc);              egy.verbose=True
@@ -58,6 +61,12 @@ binpointId2JawPhase = WaveformChannelScannable('binpointId2JawPhase', binpointc,
 binpointMcaTime     = WaveformChannelScannable('binpointMcaTime',     binpointc, 'MCA:ELAPSEDTIME:'); binpointMcaTime.setHardwareTriggerProvider(cemc);     binpointMcaTime.verbose=True
 binpointCustom1     = WaveformChannelScannable('binpointCustom1',     binpointc, 'CUSTOM1:');         binpointCustom1.setHardwareTriggerProvider(cemc);     binpointCustom1.verbose=True
 binpointCustom2     = WaveformChannelScannable('binpointCustom2',     binpointc, 'CUSTOM2:');         binpointCustom2.setHardwareTriggerProvider(cemc);     binpointCustom2.verbose=True
+
+cemc_g = ContinuousPgmGratingEnergyMoveController('cemc_g', pgm_grat_pitch, pgm_m2_pitch);                                                                                 cemc_g.verbose=True
+egy_g = ContinuousPgmEnergyScannable('egy_g', cemc_g);                                                                                                                      egy_g.verbose=True
+
+mcsr17_g            = WaveformChannelScannable('mcsr17_g', mcsrc, 18);                                           mcsr17_g.setHardwareTriggerProvider(cemc_g);            mcsr17_g.verbose=True
+binpointPgmEnergy_g = WaveformChannelScannable('binpointPgmEnergy_g', binpointc, 'PGM:ENERGY:');      binpointPgmEnergy_g.setHardwareTriggerProvider(cemc_g); binpointPgmEnergy_g.verbose=True
 
 # cvscan egy 695 705 1 mcs1 mcs17 mcs16 2 binpointGrtPitch binpointMirPitch binpointPgmEnergy binpointId1JawPhase binpointId2JawPhase binpointMcaTime 
 

@@ -8,17 +8,19 @@ from gda.device import DeviceBase
 from gda.device.continuouscontroller import ConstantVelocityMoveController
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
+from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2grating
 import threading, time
 
-class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
+class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
 
-    def __init__(self, name, energy): # motors, maybe also detector to set the delay time
+    def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch): # motors, maybe also detector to set the delay time
         self.name = name
-        self._energy = energy
+        self._pgm_grat_pitch = pgm_grat_pitch
+        self._pgm_mirr_pitch = pgm_mirr_pitch
         self._start_event = threading.Event()
-        self._energy_speed_orig = None
+        self._pgm_grat_pitch_speed_orig = None
         self._movelog_time = datetime.now()
-        self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyMoveController:%s" % name)
+        self.logger = LoggerFactory.getLogger("ContinuousPgmGratingEnergyMoveController:%s" % name)
         self.verbose = False
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
@@ -42,27 +44,77 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
     def prepareForMove(self):
         if self.verbose:
             self.logger.info('prepareForMove()...')
-        self._energy_speed_orig = self._energy.speed
+        self._pgm_grat_pitch_speed_orig = self._pgm_grat_pitch.speed
+
+        # Calculate the energy midpoint
+        energy_midpoint = (self._move_end + self._move_start) / 2.
+        if self.verbose: self.logger.info('prepareForMove:energy_midpoint=%r ' % (energy_midpoint))
+
+        # Hard code these values until we can work out a nice way of getting at the PVs
+        self.grating_density                 = 400.              # caget BL10I-OP-PGM-01:NLINES
+        self.cff                             = 2.25              # caget BL10I-OP-PGM-01:CFF
+        self.grating_offset                  = 0.40708           # caget BL10I-OP-PGM-01:GRTOFFSET
+        self.plane_mirror_offset             = 0.002739          # caget BL10I-OP-PGM-01:MIROFFSET
+        
+        #self.pgm_energy                     = 712.300           # caget BL10I-OP-PGM-01:ENERGY
+        #self.grating_pitch                  = 88.0151063265128  # caget -g15 BL10I-OP-PGM-01:GRT:PITCH
+        #self.mirror_pitch                   = 88.2753263680692  # caget -g15 BL10I-OP-PGM-01:MIR:PITCH
+
+        self.energy_calibration_gradient     = 1.02152           # caget BL10I-OP-PGM-01:MX
+        self.energy_calibration_reference    = 372.              # caget BL10I-OP-PGM-01:REFERENCE
+
+        # Calculate plane mirror angle for given grating density, energy, cff and offsets
+        self.mirr_pitch_midpoint =   enecff2mirror(gd     = self.grating_density,
+                                                   energy = energy_midpoint,
+                                                   cff    = self.cff,
+                                                   groff  = self.grating_offset,
+                                                   pmoff  = self.plane_mirror_offset,
+                                                   ecg    = self.energy_calibration_gradient,
+                                                   ecr    = self.energy_calibration_reference)
+
+        # Calculate grating angles for given grating density, energy, mirror angle and offsets
+        self._grat_pitch_start = enemirror2grating(gd     = self.grating_density,
+                                                   energy = self._move_start,
+                                                   pmang  = self.mirr_pitch_midpoint,
+                                                   groff  = self.grating_offset,
+                                                   pmoff  = self.plane_mirror_offset,
+                                                   ecg    = self.energy_calibration_gradient,
+                                                   ecr    = self.energy_calibration_reference)
+
+        self._grat_pitch_end   = enemirror2grating(gd     = self.grating_density,
+                                                   energy = self._move_end,
+                                                   pmang  = self.mirr_pitch_midpoint,
+                                                   groff  = self.grating_offset,
+                                                   pmoff  = self.plane_mirror_offset,
+                                                   ecg    = self.energy_calibration_gradient,
+                                                   ecr    = self.energy_calibration_reference)
+
         ### Calculate main cruise moves & speeds from start/end/step
-        self._energy_speed = self.getTotalMove() / self.getTotalTime()
+        self._pgm_grat_pitch_speed = (abs(self._grat_pitch_end - self._grat_pitch_start) /
+            self.getTotalTime())
         ### Calculate ramp distance from required speed and ramp times
         # Set the speed before we read out ramp times in case it is dependent
-        self._energy.speed = self._energy_speed 
+        self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed
         # Should really be / | | | | | \ not /| | | | |\
-        self._runupdown = self._energy_speed/2 * self._energy.timeToVelocity
+        self._runupdown = self._pgm_grat_pitch_speed/2 * self._pgm_grat_pitch.timeToVelocity
         ### Move ID at full speed to start position
         ### Move pgm at full speed to start position
-        self._energy.speed = self._energy_speed_orig
-        if self.getMoveDirectionPositive():
+        if self.verbose:
+            self.logger.info('prepareForMove:_pgm_mirr_pitch.asynchronousMoveTo(%r) @ %r ' % (
+                                                self.mirr_pitch_midpoint*1000., self._pgm_mirr_pitch.speed))
+        self._pgm_mirr_pitch.asynchronousMoveTo(self.mirr_pitch_midpoint*1000.)
+        
+        self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
+        if self.getGratingMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('prepareForMove:asynchronousMoveTo(%r) (+ve)' % (
-                                            self._move_start - self._runupdown))
-            self._energy.asynchronousMoveTo(self._move_start - self._runupdown)
+                self.logger.info('prepareForMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (+ve)' % (
+                                                    (self._grat_pitch_start - self._runupdown)*1000., self._pgm_grat_pitch_speed_orig))
+            self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_start - self._runupdown)*1000.)
         else:
             if self.verbose:
-                self.logger.info('prepareForMove:asynchronousMoveTo(%r) (-ve)' % (
-                                            self._move_start + self._runupdown))
-            self._energy.asynchronousMoveTo(self._move_start + self._runupdown)
+                self.logger.info('prepareForMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (-ve)' % (
+                                                    (self._grat_pitch_start + self._runupdown)*1000., self._pgm_grat_pitch_speed_orig))
+            self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_start + self._runupdown)*1000.)
         self.waitWhileMoving()
         ### Calculate trigger delays
         if self.verbose:
@@ -76,26 +128,28 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self._start_time = datetime.now()
         self._start_event.set()
         # Start threads to start ID & PGM and at the correct times
-        self._energy.speed = self._energy_speed
-        if self.getMoveDirectionPositive():
+        self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed
+        if self.getGratingMoveDirectionPositive():
             if self.verbose:
-                self.logger.info('startMove:asynchronousMoveTo(%r) (+ve)' % (
-                                            self._move_end + self._runupdown))
-            self._energy.asynchronousMoveTo(self._move_end + self._runupdown)
+                self.logger.info('startMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (+ve)' % (
+                                                    (self._grat_pitch_end + self._runupdown)*1000., self._pgm_grat_pitch_speed))
+            self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end + self._runupdown)*1000.)
         else:
             if self.verbose:
-                self.logger.info('startMove:asynchronousMoveTo(%r) (-ve)' % (
-                                            self._move_end - self._runupdown))
-            self._energy.asynchronousMoveTo(self._move_end - self._runupdown)
+                self.logger.info('startMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (-ve)' % (
+                                                    (self._grat_pitch_end - self._runupdown)*1000., self._pgm_grat_pitch_speed))
+            self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end - self._runupdown)*1000.)
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
         if self.verbose:
             self.logger.info('...startMove')
 
     def isMoving(self):
         if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
-            self.logger.info('isMoving()=%r @ %r' % (self._energy.isBusy(), self._energy()))
+            self.logger.info('isMoving() _pgm_grat_pitch=%r @ %r, _pgm_mirr_pitch=%r @ %r' % (
+                self._pgm_grat_pitch.isBusy(), self._pgm_grat_pitch(),
+                self._pgm_mirr_pitch.isBusy(), self._pgm_mirr_pitch()))
             self._movelog_time = datetime.now()
-        return self._energy.isBusy()
+        return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy()
 
     def waitWhileMoving(self):
         if self.verbose:
@@ -110,7 +164,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self._start_event.clear()
         if self.verbose:
             self.logger.info('stopAndReset()')
-        self._energy.stop()
+        self._pgm_grat_pitch.stop()
         self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device
@@ -143,8 +197,8 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         if self.verbose: self.logger.info('getTotalMove()=%r' % totalMove)
         return totalMove
 
-    def getMoveDirectionPositive(self):
-        return (self._move_end - self._move_start) > 0
+    def getGratingMoveDirectionPositive(self):
+        return (self._grat_pitch_end - self._grat_pitch_start) > 0
 
     class DelayableEnergyPositionCallable(Callable):
     
@@ -152,7 +206,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
             #self.start_event = threading.Event()
             self.start_event = controller._start_event
             self._controller, self._demand_position = controller, demand_position
-            self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyMoveController:%s:DelayableCallable[%r]" % (controller.name, demand_position))
+            self.logger = LoggerFactory.getLogger("ContinuousPgmGratingEnergyMoveController:%s:DelayableCallable[%r]" % (controller.name, demand_position))
             if self._controller.verbose:
                 self.logger.info('__init__(%r, %r)...' % (controller.name, demand_position))
     
@@ -174,9 +228,18 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
                     self.logger.info('...wait()')
             # Wait for delay before actually move start and then a time given by
             # how far through the scan this point is
-            complete = abs( (self._demand_position - self._controller._move_start) /
-                            (self._controller._move_end - self._controller._move_start) )
-            sleeptime_s = (self._controller._energy.timeToVelocity
+            
+            grat_pitch = enemirror2grating(gd     = self._controller.grating_density,
+                                           energy = self._demand_position,
+                                           pmang  = self._controller.mirr_pitch_midpoint,
+                                           groff  = self._controller.grating_offset,
+                                           pmoff  = self._controller.plane_mirror_offset,
+                                           ecg    = self._controller.energy_calibration_gradient,
+                                           ecr    = self._controller.energy_calibration_reference)
+            
+            complete = abs( (grat_pitch - self._controller._grat_pitch_start) /
+                            (self._controller._grat_pitch_end - self._controller._grat_pitch_start) )
+            sleeptime_s = (self._controller._pgm_grat_pitch.timeToVelocity
                 + (complete * self._controller.getTotalTime()))
             
             delta = datetime.now() - self._controller._start_time
@@ -187,7 +250,14 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
                 if self._controller.verbose:
                     self.logger.info('sleeping... sleeptime_s=%r, delta_s=%r, sleeptime_s-delta_s=%r' % (sleeptime_s, delta_s, sleeptime_s-delta_s))
                 time.sleep(sleeptime_s-delta_s)
-            energy = self._controller._energy()
+            
+            energy = angles2energy(gd       = self._controller.grating_density,
+                                   grang    = self._controller._pgm_grat_pitch()/1000.,
+                                   pmang    = self._controller._pgm_mirr_pitch()/1000.,
+                                   groff    = self._controller.grating_offset,
+                                   pmoff    = self._controller.plane_mirror_offset,
+                                   ecg      = self._controller.energy_calibration_gradient,
+                                   ecr      = self._controller.energy_calibration_reference)
             if self._controller.verbose:
                 self.logger.info('...DelayableCallable:call returning %r, %r' % (self._demand_position, energy))
             return self._demand_position, energy
@@ -206,12 +276,13 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         return self.DelayableEnergyPositionCallable(self, position)
 
     def _restore_orig_speed(self):
-        if self._energy_speed_orig:
-            if self.verbose: self.logger.info('Restoring original speed %r, was %r' % (self._energy_speed_orig, self._energy.speed))
-            self._energy.speed = self._energy_speed_orig
-            self._energy_speed_orig = None
+        if self._pgm_grat_pitch_speed_orig:
+            if self.verbose: self.logger.info('Restoring original speed %r, was %r' % (self._pgm_grat_pitch_speed_orig, self._pgm_grat_pitch.speed))
+            self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
+            self._pgm_grat_pitch_speed_orig = None
 
     def atScanEnd(self):
         if self.verbose:
             self.logger.info('atScanEnd()...')
         self._restore_orig_speed()
+        # Should we also move the pgm_energy to a known value too, such as the midpoint?
