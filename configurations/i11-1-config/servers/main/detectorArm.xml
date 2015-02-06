@@ -15,7 +15,7 @@
 	
 
 	<bean id="detectorArm" class="org.opengda.lde.experiments.DetectorArm">
-		<property name="parkPosition" value="2885.0" />
+		<property name="parkPosition" value="2800.0" />
 		<property name="positionTolerance" value="0.01"/>
 		<property name="groupMembers">
 			<list>

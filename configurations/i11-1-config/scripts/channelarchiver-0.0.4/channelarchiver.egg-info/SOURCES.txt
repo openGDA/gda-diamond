@@ -1,0 +1,16 @@
+LICENSE.rst
+MANIFEST.in
+README.rst
+setup.py
+channelarchiver/__init__.py
+channelarchiver/channelarchiver.py
+channelarchiver/codes.py
+channelarchiver/exceptions.py
+channelarchiver/models.py
+channelarchiver/structures.py
+channelarchiver/utils.py
+channelarchiver.egg-info/PKG-INFO
+channelarchiver.egg-info/SOURCES.txt
+channelarchiver.egg-info/dependency_links.txt
+channelarchiver.egg-info/requires.txt
+channelarchiver.egg-info/top_level.txt
