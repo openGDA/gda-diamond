@@ -204,7 +204,7 @@
 		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
-<!-- 		<property name="fastshutter" ref="fastshutter"/> -->
+		<property name="fastshutter" ref="fastshutter1"/>
 		<property name="collectionStrategy" ref="pixium.simpleAcquire"/>
 		<property name="additionalPluginList">
 			<list>
@@ -250,7 +250,7 @@
 		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
-<!-- 		<property name="fastshutter" ref="fastshutter"/> -->
+		<property name="fastshutter" ref="fastshutter1"/>
 		<property name="collectionStrategy" ref="pixium_tif.multipleExposure"/>
 		<property name="additionalPluginList">
 			<list>
@@ -278,7 +278,7 @@
 		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
-<!-- 		<property name="fastshutter" ref="fastshutter"/> -->
+		<property name="fastshutter" ref="fastshutter1"/>
 		<property name="collectionStrategy" ref="pixium.simpleAcquire"/>
 		<property name="additionalPluginList">
 			<list>
