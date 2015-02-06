@@ -16,6 +16,8 @@ from scannable.continuous.ContinuousMoveScannable import \
                           ContinuousMoveScannable
 from scannable.continuous.ContinuousPgmGratingEnergyMoveController import \
                           ContinuousPgmGratingEnergyMoveController
+from scannable.continuous.ContinuousMovePgmEnergyBinpointScannable import \
+                          ContinuousMovePgmEnergyBinpointScannable
 from org.slf4j import LoggerFactory
 
 global pgm_energy
@@ -61,10 +63,13 @@ binpointCustom1     = WaveformChannelScannable('binpointCustom1',     binpointc,
 binpointCustom2     = WaveformChannelScannable('binpointCustom2',     binpointc, 'CUSTOM2:');             binpointCustom2.setHardwareTriggerProvider(cemc);     binpointCustom2.verbose=True
 
 cemc_g = ContinuousPgmGratingEnergyMoveController(                   'cemc_g',  pgm_grat_pitch, pgm_m2_pitch);                                                           cemc_g.verbose=True
-egy_g =  ContinuousMoveScannable('egy_g',                             cemc_g);                                                                                            egy_g.verbose=True
 
-mcsr17_g            = WaveformChannelScannable('mcsr17_g', mcsrc, 18);                                           mcsr17_g.setHardwareTriggerProvider(cemc_g);            mcsr17_g.verbose=True
-binpointPgmEnergy_g = WaveformChannelScannable('binpointPgmEnergy_g', binpointc, 'PGM:ENERGY:');      binpointPgmEnergy_g.setHardwareTriggerProvider(cemc_g); binpointPgmEnergy_g.verbose=True
+mcsr17_g            = WaveformChannelScannable('mcsr17_g',            mcsrc,     18);                          mcsr17_g.setHardwareTriggerProvider(cemc_g);            mcsr17_g.verbose=True
+binpointGrtPitch_g  = WaveformChannelScannable('binpointGrtPitch_g',  binpointc, 'GRT:PITCH:');      binpointGrtPitch_g.setHardwareTriggerProvider(cemc);  binpointGrtPitch_g.verbose=True
+binpointMirPitch_g  = WaveformChannelScannable('binpointMirPitch_g',  binpointc, 'MIR:PITCH:');      binpointMirPitch_g.setHardwareTriggerProvider(cemc);  binpointMirPitch_g.verbose=True
+binpointPgmEnergy_g = WaveformChannelScannable('binpointPgmEnergy_g', binpointc, 'PGM:ENERGY:');    binpointPgmEnergy_g.setHardwareTriggerProvider(cemc); binpointPgmEnergy_g.verbose=True
+
+egy_g =  ContinuousMovePgmEnergyBinpointScannable('egy_g',            cemc_g,    binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);                            egy_g.verbose=True
 
 # cvscan egy 695 705 1 mcs1 mcs17 mcs16 2 binpointGrtPitch binpointMirPitch binpointPgmEnergy binpointId1JawPhase binpointId2JawPhase binpointMcaTime 
 

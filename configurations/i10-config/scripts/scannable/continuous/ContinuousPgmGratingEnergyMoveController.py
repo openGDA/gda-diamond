@@ -41,6 +41,23 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
 
     # Implement: public interface ContinuousMoveController extends HardwareTriggerProvider
 
+    def getPgmEnergyParameters(self):
+        # Hard code these values until we can work out a nice way of getting at the PVs
+        # TODO: Get the values from their Epics PVs
+        grating_density                 = 400.              # caget BL10I-OP-PGM-01:NLINES
+        cff                             = 2.25              # caget BL10I-OP-PGM-01:CFF
+        grating_offset                  = 0.40708           # caget BL10I-OP-PGM-01:GRTOFFSET
+        plane_mirror_offset             = 0.002739          # caget BL10I-OP-PGM-01:MIROFFSET
+
+        #pgm_energy                     = 712.300           # caget BL10I-OP-PGM-01:ENERGY
+        #grating_pitch                  = 88.0151063265128  # caget -g15 BL10I-OP-PGM-01:GRT:PITCH
+        #mirror_pitch                   = 88.2753263680692  # caget -g15 BL10I-OP-PGM-01:MIR:PITCH
+
+        energy_calibration_gradient     = 1.02152           # caget BL10I-OP-PGM-01:MX
+        energy_calibration_reference    = 372.              # caget BL10I-OP-PGM-01:REFERENCE
+
+        return grating_density, cff, grating_offset, plane_mirror_offset, energy_calibration_gradient, energy_calibration_reference
+
     def prepareForMove(self):
         if self.verbose:
             self.logger.info('prepareForMove()...')
@@ -50,18 +67,8 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         energy_midpoint = (self._move_end + self._move_start) / 2.
         if self.verbose: self.logger.info('prepareForMove:energy_midpoint=%r ' % (energy_midpoint))
 
-        # Hard code these values until we can work out a nice way of getting at the PVs
-        self.grating_density                 = 400.              # caget BL10I-OP-PGM-01:NLINES
-        self.cff                             = 2.25              # caget BL10I-OP-PGM-01:CFF
-        self.grating_offset                  = 0.40708           # caget BL10I-OP-PGM-01:GRTOFFSET
-        self.plane_mirror_offset             = 0.002739          # caget BL10I-OP-PGM-01:MIROFFSET
-        
-        #self.pgm_energy                     = 712.300           # caget BL10I-OP-PGM-01:ENERGY
-        #self.grating_pitch                  = 88.0151063265128  # caget -g15 BL10I-OP-PGM-01:GRT:PITCH
-        #self.mirror_pitch                   = 88.2753263680692  # caget -g15 BL10I-OP-PGM-01:MIR:PITCH
-
-        self.energy_calibration_gradient     = 1.02152           # caget BL10I-OP-PGM-01:MX
-        self.energy_calibration_reference    = 372.              # caget BL10I-OP-PGM-01:REFERENCE
+        (self.grating_density, self.cff, self.grating_offset, self.plane_mirror_offset, self.energy_calibration_gradient,
+         self.energy_calibration_reference) = self.getPgmEnergyParameters()
 
         # Calculate plane mirror angle for given grating density, energy, cff and offsets
         self.mirr_pitch_midpoint =   enecff2mirror(gd     = self.grating_density,
