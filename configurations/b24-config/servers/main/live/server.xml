@@ -12,8 +12,8 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/live/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -25,8 +25,12 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<!-- Temporarily use dummy devices -->
+	<import resource="../dummy/device/all.xml"/>
+	<!-- 
 	<import resource="device/all.xml"/>
-	<import resource="../common/server.xml"/>
+	 -->
+	<import resource="../_common/server.xml"/>
 
 	<import resource="metadata.xml"/>
 
@@ -66,15 +70,7 @@
 		<property name="dummyMode" value="false"/>
 	</bean>
 
-	<!-- Proportional Counter -->	
-	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="PRCNT1.I" />
-	</bean>
-
-	<bean id="ODCCD" class="gda.device.detector.odccd.ODCCDController" />
-	<bean id="Mar345Detector" class="gda.device.detector.mar345.Mar345Detector" />
-
-	<corba:export namespace="${gda.factory.factoryName}" />
-
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
 </beans>

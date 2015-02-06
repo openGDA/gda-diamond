@@ -9,12 +9,11 @@
 		http://www.diamond.ac.uk/schema/gda/corba
 		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/dummy/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -24,7 +23,7 @@
 	</bean>
 
 	<import resource="device/all.xml"/>
-	<import resource="../common/server.xml"/>
+	<import resource="../_common/server.xml"/>
 
 	<import resource="metadata.xml"/>
 
@@ -45,12 +44,7 @@
 	</bean>
  -->
 
-	<!-- id="prop" not available in dummy -->	
-
-	<!-- id="ODCCD" not available in dummy -->	
-	<!-- id="Mar345Detector" not available in dummy -->	
-
-	<!-- corba:export not needed in dummy -->
-
 	<!-- SingletonRegistrationPostProcessor not needed in dummy-->
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
 </beans>

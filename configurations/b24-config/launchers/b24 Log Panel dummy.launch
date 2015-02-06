@@ -17,6 +17,6 @@
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="gda.util.LogPanel"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="uk.ac.gda.core"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.config=../workspace_git/gda-mt.git/configurations/b24-config&#10;-Dgda.mode=dummy&#10;-Djacorb.config.dir=../workspace_git/gda-mt.git/configurations/b24-config/jacorb/dummy&#10;-Dgda.propertiesFile=../workspace_git/gda-mt.git/configurations/b24-config/properties/dummy/java.properties&#10;-Dgov.aps.jca.JCALibrary.properties=../workspace_git/gda-mt.git/configurations/b24-config/jca/dummy/JCALibrary.properties&#10;-Xms128m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dgda.config=../workspace_git/gda-mt.git/configurations/b24-config&#10;-Dgda.mode=dummy&#10;-Djacorb.config.dir=../workspace_git/gda-mt.git/configurations/b24-config/properties/dummy/jacorb&#10;-Dgda.propertiesFile=../workspace_git/gda-mt.git/configurations/b24-config/properties/dummy/java.properties&#10;-Dgov.aps.jca.JCALibrary.properties=../workspace_git/gda-mt.git/configurations/b24-config/properties/dummy/JCALibrary.properties&#10;-Xms128m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc}"/>
 </launchConfiguration>

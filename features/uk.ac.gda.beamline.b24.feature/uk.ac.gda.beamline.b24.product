@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Light Source Beamline B24" id="uk.ac.gda.beamline.b24.product" application="uk.ac.gda.client.application" version="8.43.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Light Source Beamline B24" id="uk.ac.gda.beamline.b24.product" application="uk.ac.gda.client.application" version="8.42.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -13,20 +13,19 @@
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=/dls_sw/b24/software/gda/config/pluginCustomization.ini
--Djacorb.config.dir=/dls_sw/b24/software/gda/config/jacorb/live
--Dgda.install.workspace.loc=/dls_sw/b24/software/gda/workspace
--Dgda.config=/dls_sw/b24/software/gda/config
--Dgda.propertiesFile=/dls_sw/b24/software/gda/config/properties/live/java.properties
--Dgda.data=/dls/b24/data
+-Dgda.config=../workspace_git/gda-mt.git/configurations/b24-config
 -Dgda.mode=live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/b24/software/gda/config/jca/live/JCALibrary.properties
+-Djacorb.config.dir=../workspace_git/gda-mt.git/configurations/b24-config/properties/live/jacorb
+-Dgda.propertiesFile=../workspace_git/gda-mt.git/configurations/b24-config/properties/live/java.properties
+-Dgov.aps.jca.JCALibrary.properties=../workspace_git/gda-mt.git/configurations/b24-config/properties/live/JCALibrary.properties
+-Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/b24-config/clients/main/common/pluginCustomization.ini
+-Dgda.logs.dir=../../../../logs
+-Dgda.client.jython.automatic.interpreter=1
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
+-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Duk.ac.diamond.scisoft.analysis.io.nocaching=true
--Xms256m
--Xmx2024m
--XX:MaxPermSize=256m
--XX:+DisableExplicitGC</vmArgs>
+-Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
@@ -64,6 +63,9 @@ You should have received a copy of the GNU General Public License along
 with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          </text>
    </license>
+
+   <plugins>
+   </plugins>
 
    <features>
       <feature id="uk.ac.gda.beamline.b24.feature"/>
