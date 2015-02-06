@@ -3,22 +3,26 @@ Continuous Energy Scannable and Controller for using Constant Velocity on I10
 for use with GDA at Diamond Light Source
 """
 
-from datetime import datetime
 from gda.device.scannable import ContinuouslyScannableViaController, \
     ScannableMotionBase, PositionCallableProvider
 from org.slf4j import LoggerFactory
 
-class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, ScannableMotionBase, PositionCallableProvider):
+""" This scannable uses the dead reckoned position callable provided by motor controller.
 
-    def __init__(self, name, controller):
+    Due to the lack of precision timing, the actual position at any point could be different
+    to the reported position.
+"""
+class ContinuousMoveScannable(ContinuouslyScannableViaController, ScannableMotionBase, PositionCallableProvider):
+
+    def __init__(self, name, move_controller):
         self.name = name
-        self._controller = controller
+        self._move_controller = move_controller
         self.inputNames = [name]
-        self.extraNames = controller.getPositionCallableExtraNames()
-        self.outputFormat = controller.getPositionCallableFormat()
+        self.extraNames = move_controller.getPositionCallableExtraNames()
+        self.outputFormat = move_controller.getPositionCallableFormat()
         self._operating_continuously = False
         self._last_requested_position = None
-        self.logger = LoggerFactory.getLogger("ContinuousPgmEnergyScannable:%s" % name)
+        self.logger = LoggerFactory.getLogger("ContinuousMoveScannable:%s" % name)
         self.verbose = False
     # Implement: public interface ContinuouslyScannableViaController extends Scannable
 
@@ -31,7 +35,7 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
         return self._operating_continuously
 
     def getContinuousMoveController(self):
-        return self._controller
+        return self._move_controller
 
     # Implement: public interface PositionCallableProvider<T> {
 
@@ -39,8 +43,8 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
     def getPositionCallable(self):
         if self.verbose:
             self.logger.info('getPositionCallable()... last_requested_position=%r' % (
-                                                       self._last_requested_position))
-        return self._controller.getPositionCallableFor(self._last_requested_position)
+                                                            self._last_requested_position))
+        return self._move_controller.getPositionCallableFor(self._last_requested_position)
 
     # Override: public class ScannableMotionBase extends ScannableBase implements ScannableMotion, INeXusInfoWriteable
 
@@ -67,13 +71,13 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
         if self.verbose:
             self.logger.info('waitWhileBusy()...')
         if self._operating_continuously:
-            return # self._controller.waitWhileMoving()
+            return # self._move_controller.waitWhileMoving()
         else:
             raise Exception()
 
     def isBusy(self):
         if self._operating_continuously:
-            return False #self._controller.isBusy()
+            return False #self._move_controller.isBusy()
         else:
             raise Exception()
 
@@ -82,17 +86,17 @@ class ContinuousPgmEnergyScannable(ContinuouslyScannableViaController, Scannable
     # Override: public interface Scannable extends Device
 
     # Note that neither stop() nor atCommandFailure() are called when operatingContinuously, however stopAndReset()
-    # is called on the controller, so the controller needs to handle failures there.
+    # is called on the move_controller, so the move_controller needs to handle failures there.
     
     # We do need an atScanEnd() though, since unlike stop() and atCommandFailure(), stopAndReset() isn't called
     # when the scan line completes.
     def atScanEnd(self):
         if self.verbose: self.logger.info('atScanEnd()... _operating_continuously=%r' % self._operating_continuously)
         if self._operating_continuously:
-            self._controller.atScanEnd()
+            self._move_controller.atScanEnd()
         else:
             #raise Exception()
-            self._controller.atScanEnd()
+            self._move_controller.atScanEnd()
         """ Note, self._operating_continuously is being set back to false before atScanEnd is being called. See:
 2015-02-04 21:43:26,833 INFO  ContinuousPgmEnergyScannable:egy - setOperatingContinuously(1) was 0
 ...
