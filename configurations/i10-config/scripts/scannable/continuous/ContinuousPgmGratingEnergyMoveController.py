@@ -14,30 +14,29 @@ import threading, time
 class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
 
     def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch): # motors, maybe also detector to set the delay time
+        self.logger = LoggerFactory.getLogger("ContinuousPgmGratingEnergyMoveController:%s" % name)
+        self.verbose = False
+        
         self.name = name
         self._pgm_grat_pitch = pgm_grat_pitch
         self._pgm_mirr_pitch = pgm_mirr_pitch
         self._start_event = threading.Event()
         self._pgm_grat_pitch_speed_orig = None
         self._movelog_time = datetime.now()
-        self.logger = LoggerFactory.getLogger("ContinuousPgmGratingEnergyMoveController:%s" % name)
-        self.verbose = False
+
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
     def setStart(self, start): # double
         self._move_start = start
-        if self.verbose:
-            self.logger.info('setStart(%r)' % start)
+        if self.verbose: self.logger.info('setStart(%r)' % start)
 
     def setEnd(self, end): # double
         self._move_end = end
-        if self.verbose:
-            self.logger.info('setEnd(%r)' % end)
+        if self.verbose: self.logger.info('setEnd(%r)' % end)
 
     def setStep(self, step): # double
         self._move_step = step
-        if self.verbose:
-            self.logger.info('setStep(%r)' % step)
+        if self.verbose: self.logger.info('setStep(%r)' % step)
 
     # Implement: public interface ContinuousMoveController extends HardwareTriggerProvider
 
@@ -59,8 +58,7 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         return grating_density, cff, grating_offset, plane_mirror_offset, energy_calibration_gradient, energy_calibration_reference
 
     def prepareForMove(self):
-        if self.verbose:
-            self.logger.info('prepareForMove()...')
+        if self.verbose: self.logger.info('prepareForMove()...')
         self._pgm_grat_pitch_speed_orig = self._pgm_grat_pitch.speed
 
         # Calculate the energy midpoint
@@ -106,20 +104,17 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         self._runupdown = self._pgm_grat_pitch_speed/2 * self._pgm_grat_pitch.timeToVelocity
         ### Move ID at full speed to start position
         ### Move pgm at full speed to start position
-        if self.verbose:
-            self.logger.info('prepareForMove:_pgm_mirr_pitch.asynchronousMoveTo(%r) @ %r ' % (
+        if self.verbose: self.logger.info('prepareForMove:_pgm_mirr_pitch.asynchronousMoveTo(%r) @ %r ' % (
                                                 self.mirr_pitch_midpoint*1000., self._pgm_mirr_pitch.speed))
         self._pgm_mirr_pitch.asynchronousMoveTo(self.mirr_pitch_midpoint*1000.)
         
         self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
         if self.getGratingMoveDirectionPositive():
-            if self.verbose:
-                self.logger.info('prepareForMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (+ve)' % (
+            if self.verbose: self.logger.info('prepareForMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (+ve)' % (
                                                     (self._grat_pitch_start - self._runupdown)*1000., self._pgm_grat_pitch_speed_orig))
             self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_start - self._runupdown)*1000.)
         else:
-            if self.verbose:
-                self.logger.info('prepareForMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (-ve)' % (
+            if self.verbose: self.logger.info('prepareForMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (-ve)' % (
                                                     (self._grat_pitch_start + self._runupdown)*1000., self._pgm_grat_pitch_speed_orig))
             self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_start + self._runupdown)*1000.)
         self.waitWhileMoving()
@@ -128,8 +123,7 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
             self.logger.info('...prepareForMove')
 
     def startMove(self):
-        if self.verbose:
-            self.logger.info('startMove()...')
+        if self.verbose: self.logger.info('startMove()...')
         
         # Notify all position callables to start waiting for their time
         self._start_time = datetime.now()
@@ -137,18 +131,15 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         # Start threads to start ID & PGM and at the correct times
         self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed
         if self.getGratingMoveDirectionPositive():
-            if self.verbose:
-                self.logger.info('startMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (+ve)' % (
+            if self.verbose: self.logger.info('startMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (+ve)' % (
                                                     (self._grat_pitch_end + self._runupdown)*1000., self._pgm_grat_pitch_speed))
             self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end + self._runupdown)*1000.)
         else:
-            if self.verbose:
-                self.logger.info('startMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (-ve)' % (
+            if self.verbose: self.logger.info('startMove:_pgm_grat_pitch.asynchronousMoveTo(%r) @ %r (-ve)' % (
                                                     (self._grat_pitch_end - self._runupdown)*1000., self._pgm_grat_pitch_speed))
             self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end - self._runupdown)*1000.)
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
-        if self.verbose:
-            self.logger.info('...startMove')
+        if self.verbose: self.logger.info('...startMove')
 
     def isMoving(self):
         if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
@@ -159,18 +150,15 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         return self._pgm_grat_pitch.isBusy() or self._pgm_mirr_pitch.isBusy()
 
     def waitWhileMoving(self):
-        if self.verbose:
-            self.logger.info('waitWhileMoving()...')
+        if self.verbose: self.logger.info('waitWhileMoving()...')
         while self.isMoving():
             time.sleep(1)
-        if self.verbose:
-            self.logger.info('...waitWhileMoving()')
+        if self.verbose: self.logger.info('...waitWhileMoving()')
 
     def stopAndReset(self):
         self._start_time = None
         self._start_event.clear()
-        if self.verbose:
-            self.logger.info('stopAndReset()')
+        if self.verbose: self.logger.info('stopAndReset()')
         self._pgm_grat_pitch.stop()
         self._restore_orig_speed()
 
@@ -178,19 +166,16 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
 
     def setTriggerPeriod(self, seconds): # double
         self._triggerPeriod = seconds
-        if self.verbose:
-            self.logger.info('setTriggerPeriod(%r)' % seconds)
+        if self.verbose: self.logger.info('setTriggerPeriod(%r)' % seconds)
 
     def getNumberTriggers(self):
         triggers = self.getTotalMove() / self._move_step
-        if self.verbose:
-            self.logger.info('getNumberTriggers()=%r (%r)' % (int(triggers), triggers))
+        if self.verbose: self.logger.info('getNumberTriggers()=%r (%r)' % (int(triggers), triggers))
         return int(triggers)
 
     def getTotalTime(self):
         totalTime = self.getNumberTriggers() * self._triggerPeriod
-        if self.verbose:
-            self.logger.info('getTotalTime()=%r' % totalTime)
+        if self.verbose: self.logger.info('getTotalTime()=%r' % totalTime)
         return totalTime
 
     # Override: public abstract class DeviceBase implements Device, ConditionallyConfigurable, Localizable
@@ -218,21 +203,17 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
                 self.logger.info('__init__(%r, %r)...' % (controller.name, demand_position))
     
         def call(self):
-            if self._controller.verbose:
-                self.logger.info('call...')
+            if self._controller.verbose: self.logger.info('call...')
             # Wait for controller to start all motors moving and set start time
             if self._controller._start_time:
-                if self._controller.verbose:
-                    self.logger.info('start_time=%r' % (self._controller._start_time))
+                if self._controller.verbose: self.logger.info('start_time=%r' % (self._controller._start_time))
             else:
-                if self._controller.verbose:
-                    self.logger.info('wait()...')
+                if self._controller.verbose: self.logger.info('wait()...')
                 timeout=60
                 self.start_event.wait(timeout)
                 if not self.start_event.isSet():
                     raise Exception("%rs timeout waiting for startMove() to be called on %s at position %r." % (timeout, self._controller.name, self._demand_position))
-                if self._controller.verbose:
-                    self.logger.info('...wait()')
+                if self._controller.verbose: self.logger.info('...wait()')
             # Wait for delay before actually move start and then a time given by
             # how far through the scan this point is
             
@@ -289,7 +270,6 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
             self._pgm_grat_pitch_speed_orig = None
 
     def atScanEnd(self):
-        if self.verbose:
-            self.logger.info('atScanEnd()...')
+        if self.verbose: self.logger.info('atScanEnd()...')
         self._restore_orig_speed()
         # Should we also move the pgm_energy to a known value too, such as the midpoint?

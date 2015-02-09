@@ -20,6 +20,9 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         individual binpoint scannables are added to the scan. """
 
     def __init__(self, name, move_controller, binpointGrtPitch, binpointMirPitch, binpointPgmEnergy):
+        self.logger = LoggerFactory.getLogger("ContinuousMovePgmEnergyBinpointScannable:%s" % name)
+        self.verbose = False
+        
         self.name = name
         #from gda.device.continuouscontroller import ConstantVelocityMoveController
         #self._move_controller = ConstantVelocityMoveController() # Enable completion of interface methods
@@ -39,14 +42,11 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
 
         self._operating_continuously = False
         self._last_requested_position = None
-        self.logger = LoggerFactory.getLogger("ContinuousMovePgmEnergyBinpointScannable:%s" % name)
-        self.verbose = False
 
     # Implement: public interface ContinuouslyScannableViaController extends Scannable
 
     def setOperatingContinuously(self, b):
-        if self.verbose:
-            self.logger.info('setOperatingContinuously(%r) was %r' % (b, self._operating_continuously))
+        if self.verbose: self.logger.info('setOperatingContinuously(%r) was %r' % (b, self._operating_continuously))
         self._operating_continuously = b
 
     def isOperatingContinously(self):
@@ -59,8 +59,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
 
     # public Callable<T> getPositionCallable() throws DeviceException;
     def getPositionCallable(self):
-        if self.verbose:
-            self.logger.info('getPositionCallable()... last_requested_position=%r' % (
+        if self.verbose: self.logger.info('getPositionCallable()... last_requested_position=%r' % (
                                                self._last_requested_position))
         return EnergyCalculatingCallable(self, self._last_requested_position,
                                          self._binpointGrtPitch.getPositionCallable(),
@@ -72,8 +71,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     # Override: public class ScannableMotionBase extends ScannableBase implements ScannableMotion, INeXusInfoWriteable
 
     def asynchronousMoveTo(self, position):
-        if self.verbose:
-            self.logger.info('asynchronousMoveTo(%r)...' % position)
+        if self.verbose: self.logger.info('asynchronousMoveTo(%r)...' % position)
         position = float(position)
         if self._operating_continuously:
             self._last_requested_position = position
@@ -81,6 +79,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             raise Exception()
 
     def atScanLineStart(self):
+        if self.verbose: self.logger.info('atScanLineStart()...')
         self._binpointGrtPitch.atScanLineStart()
         self._binpointMirPitch.atScanLineStart()
         self._binpointPgmEnergy.atScanLineStart()
@@ -92,6 +91,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
          self.energy_calibration_reference) = self._move_controller.getPgmEnergyParameters()
 
     def atScanLineEnd(self):
+        if self.verbose: self.logger.info('atScanLineEnd()...')
         self._binpointGrtPitch.atScanLineEnd()
         self._binpointMirPitch.atScanLineEnd()
         self._binpointPgmEnergy.atScanLineEnd()
@@ -100,8 +100,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         # have been returned, the detector will be told to shut down.
 
     def getPosition(self):
-        if self.verbose:
-            self.logger.info('getPosition()...')
+        if self.verbose: self.logger.info('getPosition()...')
         if self._operating_continuously:
             raise Exception()
             # Should be using getPositionCallable
@@ -110,8 +109,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             raise Exception()
 
     def waitWhileBusy(self):
-        if self.verbose:
-            self.logger.info('waitWhileBusy()...')
+        if self.verbose: self.logger.info('waitWhileBusy()...')
         if self._operating_continuously:
             return # self._move_controller.waitWhileMoving()
         else:
