@@ -4,7 +4,7 @@
 
 umask 002
 
-export BEAMLINE=i09
+export BEAMLINE=i09-2
 
 
 . /dls_sw/$BEAMLINE/etc/${BEAMLINE}_profile.sh

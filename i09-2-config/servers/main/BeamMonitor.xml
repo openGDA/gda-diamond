@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="bm" class="gda.device.monitor.IonChamberBeamMonitor">
-		<property name="monitor" ref="sm6iamp23" />
+		<property name="monitor" ref="sm6iamp27" />
 		<property name="threshold" value="0.02" />
 		<property name="monitorOn" value="false"/>
 	</bean>

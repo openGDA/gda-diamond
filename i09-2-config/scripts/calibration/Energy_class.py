@@ -18,7 +18,7 @@ class BeamEnergy(ScannableMotionBase):
         instance.
         The lookup Table object is described by gda.function.LookupTable class.'''
         
-    def __init__(self, name, gap="igap", dcm="dcmenergy", undulatorperiod=27, lut="IIDCalibrationTable.txt"):
+    def __init__(self, name, gap="jgap", dcm="pgmenergy", undulatorperiod=27, lut="JIDCalibrationTable.txt"):
         '''Constructor - Only succeed if it find the lookup table, otherwise raise exception.'''
         finder=Finder.getInstance()
         self.lut=readLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)

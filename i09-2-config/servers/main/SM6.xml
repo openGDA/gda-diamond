@@ -32,7 +32,7 @@
 				<ref bean="sm6pitch" />
 				<ref bean="sm6roll" />
 				<ref bean="sm6yaw" />
-				<ref bean="sm6amp23"/>
+				<ref bean="sm6iamp27"/>
 			</list>
 		</property>
 	</bean>

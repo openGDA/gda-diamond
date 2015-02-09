@@ -9,7 +9,7 @@
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<corba:import namespace="i09"
+	<corba:import namespace="i09-2"
 		names="command_server, ScanDataStore, SimpleServlet" />
 
 	<!-- create connection to remote objects via netService -->

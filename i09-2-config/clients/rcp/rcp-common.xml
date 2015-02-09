@@ -53,7 +53,7 @@
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="idGap" />
+								<property name="scannable" ref="jidGap" />
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
 							</bean>
@@ -96,10 +96,10 @@
 		<property name="plotViewID" value="uk.ac.gda.beamline.i09.plotView" />
 	</bean> -->
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
-		<property name="service" ref="camera_config" />
-	</bean>
+<!-- 	<bean class="gda.rcp.util.OSGIServiceRegister"> -->
+<!-- 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" /> -->
+<!-- 		<property name="service" ref="camera_config" /> -->
+<!-- 	</bean> -->
 
 	<import resource="../clients-common.xml" />
 
