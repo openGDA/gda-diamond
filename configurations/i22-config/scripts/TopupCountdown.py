@@ -11,7 +11,7 @@ class TopupCountdown(PseudoDevice):
 	self.setInputNames([name])
 	self.setOutputFormat(["%1.0f"])
 	self.secsBefore=2
-	self.secsAfter=580
+	self.secsAfter=590
 	self.tupv=CAClient("SR-CS-FILL-01:COUNTDOWN")
 	self.tupv.configure()
 	self.setLevel(7)

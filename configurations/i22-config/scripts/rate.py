@@ -32,7 +32,7 @@ class DetGuard(IObserver):
 	self.shutter("Close")
 	#elog
 
-detguard=DetGuard(ncddetectors, shutter)
+detguard=DetGuard(ncddetectors, eh_shutter)
 
 detguard.limits["Rapid2Dpeaksoft"]=0.75*1000000
 detguard.limits["Rapid2Dpeakhard"]=1000000
@@ -45,8 +45,8 @@ detguard.limits["Hotwaxspeakhard"]=1000000
 detguard.limits["Hotsaxspeaksoft"]=0.75*1000000
 detguard.limits["Hotsaxspeakhard"]=1000000
 
-detguard.limits["Pilatus2Mpeaksoft"]=0.75*1000000
-detguard.limits["Pilatus2Mpeakhard"]=1000000
+detguard.limits["Pilatus2Mpeakcountssoft"]=0.75*1000000
+detguard.limits["Pilatus2Mpeakcountshard"]=1000000
 
 # 65536
 detguard.limits["Marpeakcountssoft"]=65500
