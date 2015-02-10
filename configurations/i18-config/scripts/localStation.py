@@ -189,4 +189,4 @@ print "****************************************"
 
 
 from gda.scan import EpicsTrajectoryScanController
-EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(2000)
+EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000)
