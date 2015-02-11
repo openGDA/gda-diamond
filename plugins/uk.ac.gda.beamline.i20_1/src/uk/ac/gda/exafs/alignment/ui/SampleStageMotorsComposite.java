@@ -100,15 +100,15 @@ public class SampleStageMotorsComposite extends Composite {
 
 		selectSampleStageMotors = toolkit.createButton(topControlComposite, "Select sample stage motors", SWT.None);
 		selectSampleStageMotors.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-
-		final Section i0section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		i0section.setText("I0 sample position");
 		selectSampleStageMotors.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				showAvailableMotorsDialog();
 			}
 		});
+
+		final Section i0section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		i0section.setText("I0 sample position");
 		i0section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		sampleI0PositionComposite = toolkit.createComposite(i0section, SWT.NONE);
 		sampleI0PositionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
@@ -267,7 +267,7 @@ public class SampleStageMotorsComposite extends Composite {
 
 		Label xPosLabel = toolkit.createLabel(positionComposite, label, SWT.None);
 		GridData gridData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
-		gridData.widthHint = 90;
+		gridData.widthHint = 120;
 		xPosLabel.setLayoutData(gridData);
 
 		final NumberEditorControl positionControl = new NumberEditorControl(positionComposite, SWT.None, experimentMotorPostion, propertyName, false);

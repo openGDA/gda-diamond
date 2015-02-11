@@ -100,6 +100,8 @@ public class ClientConfig {
 		POLY_BENDER_2("Bender 2", "poly_bend2",UnitSetup.MILLI_METER),
 
 		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
+		SAMPLE_TABLEX_POSITION("Sample table x", "sample_tablex", UnitSetup.MILLI_METER),
+		SAMPLE_TABLEY_POSITION("Sample table y", "sample_tabley", UnitSetup.MILLI_METER),
 		SAMPLE_X_POSITION("Sample x", "sample_x", UnitSetup.MILLI_METER),
 		SAMPLE_Y_POSITION("Sample y", "sample_y", UnitSetup.MILLI_METER),
 		SAMPLE_TOP_X_POSITION("Sample top x", "sample_finex", UnitSetup.MILLI_METER),
