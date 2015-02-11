@@ -6,6 +6,7 @@ from gda.epics import CAClient
 import time
 import math
 from plotters import Plotter
+from gda.factory import Finder
 
 class AndorMap(RasterScan):
      
@@ -21,7 +22,7 @@ class AndorMap(RasterScan):
         self.horizontal_plotter = Plotter("horizontal_plotter",'Horizontal',"Horizontal Gradient")
         self.vertical_plotter = Plotter("vertical_plotter",'Vertical',"Vertical Gradient")
         self.transmission_plotter = Plotter("transmission_plotter",'transmission_total',"Transmission")   
-        add_default self.horizontal_plotter.getPlotter() self.vertical_plotter.getPlotter() self.transmission_plotter.getPlotter() 
+        add_default self.horizontal_plotter.getPlotter() self.vertical_plotter.getPlotter() self.transmission_plotter.getPlotter()  
          
          
     def __call__(self, *args):
