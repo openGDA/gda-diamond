@@ -272,21 +272,6 @@
             name="Camera View"
             restorable="true">
       </view>
-      <!--stickyView
-            closeable="true"
-            id="uk.ac.gda.beamline.i18.cameraView"
-            moveable="true">
-      </stickyView>
-      <stickyView
-            closeable="true"
-            id="uk.ac.gda.client.microfocus.views.SamplePositionView"
-            moveable="true">
-      </stickyView>
-      <stickyView
-            closeable="true"
-            id="uk.ac.gda.exafs.ui.views.scalersmonitor"
-            moveable="true">
-      </stickyView-->
    </extension>
    <extension
          point="uk.ac.gda.microfocus.display.detectorfile">
@@ -518,14 +503,6 @@
             type="Output">
       </describer>
    </extension>
-  <extension
-        point="org.eclipse.ui.perspectives">
-     <perspective
-           class="uk.ac.gda.beamline.i18.ui.CommonPerspective"
-           id="uk.ac.gda.beamline.i18.ui.CommonPerspective"
-           name="Common">
-     </perspective>
-  </extension>
   <extension
         point="uk.ac.gda.microfocus.zScannableName">
      <zscannable

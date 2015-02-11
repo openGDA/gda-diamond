@@ -109,23 +109,11 @@
 		</property>
 	</bean>
 
-	<bean id="sc_microfocusXZ" class="gda.device.scannable.CoupledScannable">
-		<property name="scannables">
-			<list>
-				<ref bean="sc_sample_z" />
-				<ref bean="sc_sample_xz" />
-			</list>
-		</property>
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
+	<bean id="sample_focus" class="gda.device.scannable.I18SampleFocusScannable">
+		<property name="xScannable" ref="sc_MicroFocusSampleX" />
+		<property name="zScannable" ref="sc_sample_z" />
 	</bean>
-	
-	<bean id="sc_sample_xz" class="gda.device.scannable.ConvertorScannable">
-		<property name="scannableName" value="sc_MicroFocusSampleX" />
-		<property name="convertorName" value="xz_converter" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
+
 
 	<bean id="sc_MicroFocusSampleStage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -138,8 +126,7 @@
 				<ref bean="sc_sample_y3" />
 				<ref bean="sc_sample_thetafine" />
 				<ref bean="sc_MicroFocusSampleY" />
-				<ref bean="sc_microfocusXZ" />
-				<ref bean="sc_sample_xz" />
+				<ref bean="sample_focus" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

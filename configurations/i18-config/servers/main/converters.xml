@@ -11,10 +11,6 @@
 		<constructor-arg value="mDeg_dcm_perp_mm_converter" />
 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/mDeg_dcm_perp_mm_converter.xml" />
 	</bean>
-	<bean id="xz_converter" class="gda.util.converters.JEPConverterHolder">
-		<constructor-arg value="xz_converter" />
-		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/xz_converter.xml" />
-	</bean>
 	<bean id="mDeg_idGap_mm_converter" class="gda.util.converters.RenameableConverter">
 		<constructor-arg value="mDeg_idGap_mm_converter" />
 		<constructor-arg value="harmonic1_converter" />
