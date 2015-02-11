@@ -20,12 +20,12 @@ package uk.ac.gda.beamline.i05.scannable;
 
 import gda.data.scan.datawriter.SelfCreatingLink;
 import gda.data.scan.datawriter.scannablewriter.ComponentWriter;
-import gda.data.scan.datawriter.scannablewriter.DefaultComponentWriter;
+import gda.data.scan.datawriter.scannablewriter.NumberComponentWriter;
 import gda.data.scan.datawriter.scannablewriter.SingleScannableWriter;
 import gda.data.scan.datawriter.scannablewriter.StringComponentWriter;
 
 import java.util.Collection;
-import java.util.Vector;
+import java.util.Collections;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.nexusformat.NeXusFileInterface;
@@ -35,7 +35,7 @@ public class EnergyScannableWriter extends SingleScannableWriter {
 
 	String stokesPath = "instrument:NXinstrument/insertion_device:NXinsertion_device/beam:NXbeam/final_polarisation_stokes";
 
-	protected class DoubleArrayComponentWriter extends DefaultComponentWriter {
+	protected class DoubleArrayComponentWriter extends NumberComponentWriter {
 		final int arraylength;
 
 		public DoubleArrayComponentWriter(final int arraylength) {
@@ -43,8 +43,8 @@ public class EnergyScannableWriter extends SingleScannableWriter {
 		}
 
 		@Override
-		protected Object getComponentSlab(final Object pos) {
-			return pos;
+		protected double[] getComponentSlab(final Object pos) {
+			return (double[]) pos;
 		}
 
 		@Override
@@ -102,6 +102,7 @@ public class EnergyScannableWriter extends SingleScannableWriter {
 		public Collection<SelfCreatingLink> makeComponent(final NeXusFileInterface file, final int[] dim,
 				final String path, final String scannableName, final String componentName, final Object pos,
 				final String unit) throws NexusException {
+
 			super.makeComponent(file, dim, path, scannableName, componentName, pos, unit);
 			final double[] stokes = getStokes(pos.toString());
 			if (stokes == null) {
@@ -109,7 +110,7 @@ public class EnergyScannableWriter extends SingleScannableWriter {
 			} else {
 				stokesWriter.makeComponent(file, dim, stokesPath, scannableName, componentName, stokes, null);
 			}
-			return new Vector<SelfCreatingLink>();
+			return Collections.emptySet();
 		}
 
 		@Override
@@ -128,6 +129,6 @@ public class EnergyScannableWriter extends SingleScannableWriter {
 	@Override
 	protected void resetComponentWriters() {
 		super.resetComponentWriters();
-		cwriter.put("polarisation", new PolarisationComponentWriter());
+		getCwriter().put("polarisation", new PolarisationComponentWriter());
 	}
 }
