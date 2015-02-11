@@ -10,6 +10,8 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="sd9y"/>
+				<ref bean="sd9iamp9"/>
+				<ref bean="sd9iamp36"/>
 			</list>
 		</property>
 	</bean>

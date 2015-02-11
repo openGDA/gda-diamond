@@ -31,6 +31,7 @@
 	<import resource="SD1.xml" />
 	<import resource="SD2.xml" />
 	<import resource="SD3.xml" />
+	<import resource="SD6.xml" />
 <!-- 	<import resource="SD4.xml"/> -->
 	<import resource="SD9.xml"/>
 	<import resource="SD10.xml"/>

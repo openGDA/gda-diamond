@@ -6,4 +6,8 @@
 	<bean id="sd11y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09K-MO-SD-11:Y"/>
 	</bean>
+	<bean id="sd11iamp7" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="SD11.IAMP7" />
+		<property name="poll" value="true"/>
+	</bean>
 </beans>
