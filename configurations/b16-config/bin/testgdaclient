@@ -4,6 +4,7 @@
 
 . gda_setup_env_test gda_swingclient_output
 
+
 echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
 
 
