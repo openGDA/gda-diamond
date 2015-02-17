@@ -107,12 +107,17 @@ def d2in():
 	"""
 	setState("D2", "-DI-PHDGN-02:CON", 1)
 
+def moveMotorsTogether(motor1, position1, motor2, position2):
+	motor1.asynchronousMoveTo(position1)
+	motor2.asynchronousMoveTo(position2)
+	motor1.waitWhileBusy()
+	motor2.waitWhileBusy()
+
 def d3in():
 	"""
 	move diode 3 in
 	"""
-	d3x.moveTo(0)
-	d3y.moveTo(0)
+	moveMotorsTogether(d3x, 0, d3y, 0)
 
 def d4in():
 	"""
@@ -137,8 +142,7 @@ def d3out():
 	"""
 	move diode 3 out and reset the brightness of the questar to zero
 	"""
-	d3x.moveTo(19)
-	d3y.moveTo(25)
+	moveMotorsTogether(d3x, 19, d3y, 25)
 
 def d4out():
 	"""
