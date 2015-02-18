@@ -43,25 +43,22 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="gda.rcp.EmptyPerspective"
-            icon="icons/house.png"
-            id="uk.ac.gda.beamline.b16.scanperspective"
-            name="Scan">
-      </perspective>
-      <perspective
-            class="gda.rcp.EmptyNoEditorPerspective"
-            id="uk.ac.gda.beamline.b16.scannoeditorperspective"
-            name="ScanNoEd">
-      </perspective>
-      <perspective
-            class="uk.ac.diamond.scisoft.analysis.rcp.DataExplorationPerspective"
-            icon="icons/chart_curve.png"
-            id="uk.ac.diamond.scisoft.analysis.rcp.contributions.perspective1"
-            name="Data Explorer">
+            class="uk.ac.gda.beamline.b16.B16PcoPerspective"
+            icon="icons/DetectorParametersIcon.png"
+            id="uk.ac.gda.beamline.b16.B16PcoPerspective"
+            name="PCO Perspective">
       </perspective>
    </extension>
    <extension
-         point="org.eclipse.ui.menus">
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <perspectiveShortcut
+               id="uk.ac.gda.beamline.b16.B16PcoPerspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+   </extension>
+   <extension point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
             locationURI="menu:window?after=showView">
@@ -108,5 +105,11 @@
             </command>
          </menu>
       </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.activities">
+      <defaultEnablement
+            id="uk.ac.gda.epics.adviewer.disableviews">
+      </defaultEnablement>
    </extension>
 </plugin>
