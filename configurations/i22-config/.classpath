@@ -45,7 +45,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.libs"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.nexus"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.oe"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.server.ncd"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.server.ncd.epics"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.video"/>
