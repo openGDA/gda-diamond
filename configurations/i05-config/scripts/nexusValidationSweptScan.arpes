@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ARPESScanBean>
+    <lensMode>Angular30</lensMode>
+    <sweptMode>true</sweptMode>
+    <passEnergy>10</passEnergy>
+    <startEnergy>54.5</startEnergy>
+    <endEnergy>56.0</endEnergy>
+    <stepEnergy>2.0</stepEnergy>
+    <timePerStep>0.2</timePerStep>
+    <iterations>1</iterations>
+    <configureOnly>false</configureOnly>
+</ARPESScanBean>

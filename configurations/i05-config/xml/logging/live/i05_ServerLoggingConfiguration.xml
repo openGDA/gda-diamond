@@ -42,6 +42,12 @@
     <logger name="gda.data.nexus.NexusFileWrapper">
         <level value="DEBUG"/>
     </logger>    
+    <logger name="gda.device.motor.MoveEventQueue"> 
+        <level value="WARN"/>
+    </logger>    
+    <logger name="gda.device.motor.EpicsMotor"> 
+        <level value="WARN"/>
+    </logger>    
     <root>
         <level value="ALL"/>
         <appender-ref ref="SOCKET"/>
