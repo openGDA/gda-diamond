@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+<!-- 
 	<bean id="omega" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="DR1ThetaMotor" />
 	</bean>
@@ -30,5 +31,6 @@
 			</list>
 		</property>
 	</bean>
+-->
 
 </beans>

@@ -14,7 +14,7 @@
       <programArgs>-consoleLog</programArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=/dls_sw/b16/software/gda/workspace_git/gda-mt.git/configurations/b16-config/pluginCustomization.ini
+-Declipse.pluginCustomization=/dls_sw/b16/software/gda/workspace_git/gda-mt.git/configurations/b16-config/plugin_customization.ini
 -Dgda.config=/dls_sw/b16/software/gda/workspace_git/gda-mt.git/configurations/b16-config
 -Dgda.install.git.loc=/dls_sw/b16/software/gda/workspace_git
 -Djacorb.config.dir=/dls_sw/b16/software/gda/workspace_git/gda-mt.git/configurations/b16-config/jacorb/live
