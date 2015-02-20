@@ -94,7 +94,8 @@ ExafsScriptObserver =          finder.find("ExafsScriptObserver")
 auto_mDeg_idGap_mm_converter = finder.find("auto_mDeg_idGap_mm_converter")
 loggingcontroller =            finder.find("XASLoggingScriptController")
 datawriterconfig =             finder.find("datawriterconfig")
-original_header =              finder.find("datawriterconfig").getHeader()[:]
+if finder.find("datawriterconfig").getHeader() != None:
+    original_header =              finder.find("datawriterconfig").getHeader()[:]
 elementListScriptController =  finder.find("elementListScriptController")
 
 gains = [i0_keithley_gain, it_keithley_gain]
@@ -106,6 +107,11 @@ if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'Us
     energy_scannable_for_scans = energy
 else:
     energy_scannable_for_scans = energy_nogap
+    
+# simulation
+if (LocalProperties.get("gda.mode") == 'dummy'):
+    energy(7000)
+    energy_nogap(7000)
     
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy_scannable_for_scans, auto_mDeg_idGap_mm_converter)
 
