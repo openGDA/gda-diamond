@@ -15,3 +15,4 @@ jythonCache/
 var
 *.class
 $py.class
+*~
