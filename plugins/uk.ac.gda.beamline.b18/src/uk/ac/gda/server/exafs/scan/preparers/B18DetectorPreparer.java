@@ -114,7 +114,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		}
 		if (times.length > 0) {
 			ionchambers.setTimes(times);
-			// log("Setting detector frame times, using array of length " + times.length + "...");
+			InterfaceProvider.getTerminalPrinter().print("Setting detector frame times, using array of length " + times.length + "...");
 		}
 		return;
 	}
@@ -142,7 +142,24 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			String flushString = ion_chamber.getFlush().toString();
 			String purge_pressure = "25.0";
 			String purge_period = "120.0";
-			String gas_select_val = "0";
+
+			String gas_select = ion_chamber.getGasType();
+			String gas_select_val = "-1";
+			String gas_report_string = "He";
+			if (gas_select == "Kr") {
+				gas_select_val = "0";
+				gas_report_string = "He + Kr";
+			} else if (gas_select == "N") {
+				gas_select_val = "1";
+				gas_report_string = "He + N2";
+			} else if (gas_select == "Ar") {
+				gas_select_val = "2";
+				gas_report_string = "He + Ar";
+			}
+
+			InterfaceProvider.getTerminalPrinter().print(
+					"Changing gas of " + ion_chamber.getName() + " to " + gas_report_string + " for "
+							+ ion_chamber.getPercentAbsorption() + " % absorption");
 			ionc_gas_injector_scannables.get(ion_chamber_num).moveTo(
 					new Object[] { purge_pressure, purge_period, gas_fill1_pressure, gas_fill1_period,
 							gas_fill2_pressure, gas_fill2_period, gas_select_val, flushString });
@@ -190,7 +207,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		mythen_scannable.setCollectionTime(fluoresenceParameters.getMythenTime());
 		mythen_scannable.setSubDirectory(experimentFolderName);
 
-		StaticScan staticscan = new StaticScan(new Scannable[] { mythen_scannable });
+		StaticScan staticscan = new StaticScan(new Scannable[] { mythen_scannable, energy_scannable});
 
 		// use the Factory to enable unit testing - which would use a DummyDataWriter
 		DataWriterFactory datawriterFactory = new DefaultDataWriterFactory();

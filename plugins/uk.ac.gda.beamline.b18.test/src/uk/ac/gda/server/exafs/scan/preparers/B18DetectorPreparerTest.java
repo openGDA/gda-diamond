@@ -20,6 +20,7 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.fail;
 import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.mythen.MythenDetectorImpl;
@@ -66,7 +67,7 @@ public class B18DetectorPreparerTest {
 	private B18DetectorPreparer thePreparer;
 
 	@Before
-	public void setup() {
+	public void setup() throws DeviceException {
 
 		JythonServerFacade jythonserverfacade = Mockito.mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
@@ -79,13 +80,16 @@ public class B18DetectorPreparerTest {
 		Mockito.when(jythonserver.getDefaultScannables()).thenReturn(new Vector<Scannable>());
 
 		mythen_scannable = (MythenDetectorImpl) createMock(MythenDetectorImpl.class, "mythen_scannable");
+		Mockito.when(mythen_scannable.readout()).thenReturn("/scratch/test/xml/path/0001.dat");
+		
 		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		vortexConfig = (Xmap) createMock(Xmap.class, "vortexConfig");
 		xspress3Config = (Xspress3Detector) createMock(Xspress3Detector.class, "xspress3Config");
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 
 		energy_scannable = createMockScannable("energy_scannable");
-
+		Mockito.when(energy_scannable.getPosition()).thenReturn(10000.0);
+		
 		sensitivities = new Scannable[3];
 		sensitivities[0] = createMockScannable("I0_sensitivity");
 		sensitivities[1] = createMockScannable("It_sensitivity");
@@ -126,6 +130,9 @@ public class B18DetectorPreparerTest {
 	private Scannable createMock(Class<? extends Scannable> clazz, String name) {
 		Scannable newMock = PowerMockito.mock(clazz);
 		Mockito.when(newMock.getName()).thenReturn(name);
+		Mockito.when(newMock.getInputNames()).thenReturn(new String[]{name});
+		Mockito.when(newMock.getExtraNames()).thenReturn(new String[]{});
+		Mockito.when(newMock.getOutputFormat()).thenReturn(new String[]{"%.2f"});
 		return newMock;
 	}
 
@@ -245,7 +252,7 @@ public class B18DetectorPreparerTest {
 		ionParams.setDeviceName("counterTimer01");
 		ionParams.setGain("1 nA/V");
 		ionParams.setOffset("1 pA");
-		ionParams.setGasType("Ar");
+		ionParams.setGasType("He");
 		ionParams.setPercentAbsorption(15.0);
 		ionParams.setTotalPressure(1.1);
 		ionParams.setPressure(99.63);
@@ -294,7 +301,7 @@ public class B18DetectorPreparerTest {
 			Mockito.verifyZeroInteractions(offsets[2]);
 			Mockito.verifyZeroInteractions(offsets_units[2]);
 			
-			Mockito.verify(ionc_gas_injector_scannables.get(0)).moveTo(new Object[]{"25.0","120.0",99630.0,200.0,1100.0,200.0,"0","false"});
+			Mockito.verify(ionc_gas_injector_scannables.get(0)).moveTo(new Object[]{"25.0","120.0",99630.0,200.0,1100.0,200.0,"-1","false"});
 			Mockito.verifyZeroInteractions(ionc_gas_injector_scannables.get(1));
 			Mockito.verifyZeroInteractions(ionc_gas_injector_scannables.get(2));
 			
