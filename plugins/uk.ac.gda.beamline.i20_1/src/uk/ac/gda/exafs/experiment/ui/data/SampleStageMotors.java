@@ -31,6 +31,8 @@ public class SampleStageMotors extends ObservableModel {
 
 	static {
 		scannables = new ExperimentMotorPostion[] {
+				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TABLEX_POSITION),
+				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TABLEY_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_X_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_Y_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TOP_X_POSITION),
