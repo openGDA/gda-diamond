@@ -28,16 +28,24 @@ import sys
 #  tbd handle divide by zero
 #  return slvDelta/mstrDelta
 
-
 debug = False
 
-def genRangeByStep(start, end, step, incEndPoint=False, tol=1e-6): # option to include last element even if it is > than end
+
+def dirCmp(step, sv, end):          # compare in the direction of travel
+    if step > 0.0:
+        return sv < end
+    elif step < 0.0:
+        return sv > end
+    else:
+        raise ValueError, "Step size should not be zero"
+
+def genRangeByStep(start, end, step, incEndPoint=False): # option to include last element even if it is > than end
     sv = start
     fRng = [sv]
-    while sv < end:  
+    while dirCmp(step, sv, end):
         sv += step
         fRng += [sv]
-    if debug: print >> sys.stderr, "genRangeByStep", incEndPoint, fRng    
+    if debug: print >> sys.stderr, "genRangeByStep", incEndPoint, fRng, start, end, step
     if incEndPoint:  return fRng           # for all but last segment, exclude the last point
     else:            return fRng[:-1]
 
@@ -47,8 +55,8 @@ def genRangeByCount(start, end, step, count):
     return fRng
 
 class pathscanTable:
-    ''' pathscanTable segemented scan '''
-    mstrColWidth = 21  # width of master column  in ASCII table
+    ''' pathscanTable segmented scan '''
+    mstrColWidth = 22  # width of master column  in ASCII table
     slvColWidth  = 21  # width of slave  columns in ASCII table
 
     def __init__(self, mstrAxis=None, mstrStep=None, mstrAnchors=None):
@@ -124,17 +132,18 @@ class pathscanTable:
         bdrStr = ''.join(["  |"] + ["-"*self.mstrColWidth] +[ "+" + "-"*self.slvColWidth for i in range(self.numSlvs)] + ["|"])
         tblStrLst += [ bdrStr ]
         # column headers
-        hdrStr = ''.join(["  | %-*s " % (self.mstrColWidth-2, self.mstrAxis)] + ["| %-*s   " % (self.mstrColWidth-4, r[0]) for r in self.slvAnchors] + ["|"])
+        hdrStr = ''.join(["  | %-*s " % (self.mstrColWidth-2, self.mstrAxis)] + ["| %-*s  " % (self.mstrColWidth-4, r[0]) for r in self.slvAnchors] + ["|"])
         tblStrLst += [ hdrStr ]
         tblStrLst += [ bdrStr ]
         # picket rows
+        oddRowFmt = "}%(d) 7.3f=%(s) 6.3f*%(n)-3i"  # values supplied by dict
         for ri in range(self.segsLen):
             rowStr = ""
-            if ri%2==1: rowStr += "  |  }%(d)6.3f=%(s)-5.3f*%(n)-3i  "  % self.mstrAnchors[ri]   # dict values
-            else:       rowStr += "A%1i|%6.3f               " % (ri/2, self.mstrAnchors[ri])
+            if ri%2==1: rowStr += "  |   "+oddRowFmt % self.mstrAnchors[ri]             # dict values
+            else:       rowStr += "A%1i|% 7.3f               " % (ri/2, self.mstrAnchors[ri])
             for ci in range(self.numSlvs):
-                if ri%2==1: rowStr += "|  }%(d)6.3f=%(s)-5.3f*%(n)-3i  " % self.slvAnchors[ci][1][ri]
-                else:       rowStr += "| %-9.3f           " % self.slvAnchors[ci][1][ri]
+                if ri%2==1: rowStr += "|  "+oddRowFmt % self.slvAnchors[ci][1][ri]      # dict values
+                else:       rowStr += "| % 9.3f           " % self.slvAnchors[ci][1][ri]
             rowStr += "|"
             tblStrLst += [rowStr]
         tblStrLst += [ bdrStr ]
