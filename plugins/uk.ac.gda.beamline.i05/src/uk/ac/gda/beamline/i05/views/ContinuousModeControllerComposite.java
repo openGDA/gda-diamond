@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -52,7 +53,7 @@ import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class ContinuousModeControllerComposite{
+public class ContinuousModeControllerComposite {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerComposite.class);
 	private Combo lensMode;
@@ -75,7 +76,7 @@ public class ContinuousModeControllerComposite{
 		composite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 2));
 		
 		Label label = new Label(composite, SWT.NONE);
-		label.setText("lensMode");
+		label.setText("Lens Mode");
 		
 		lensMode = new Combo(composite, SWT.NONE);
 		lensMode.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
@@ -94,50 +95,63 @@ public class ContinuousModeControllerComposite{
 		};
 		lensMode.addSelectionListener(lensModeListener);
 		
+		label = new Label(composite, SWT.NONE);
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		label.setText("Pass Energy");
+		
+		passEnergy = new Combo(composite, SWT.NONE);
+		passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+
 		Comparator<String> passEComparator = new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
 				return Integer.valueOf(o1.substring(0, o1.lastIndexOf(" "))).compareTo(Integer.valueOf(o2.substring(0, o2.lastIndexOf(" "))));
 			}
 		};
-		final Map<String, Short> passMap = 	new TreeMap<String, Short>(passEComparator);
-		for (short s: capabilities.getPassEnergies()) {
-			passMap.put(String.format("%d eV", s), s);
-		}
-		label = new Label(composite, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("passEnergy");
-		
-		passEnergy = new Combo(composite, SWT.NONE);
-		passEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		String[] passArray = passMap.keySet().toArray(new String[] {});
-		passEnergy.setItems(passArray);
+
+		final Map<String, Short> passMapL = new TreeMap<String, Short>(passEComparator);
+		for (short s: capabilities.getPassEnergiesLow()) { passMapL.put(String.format("%d eV", s), s); }
+		final String[] passArrayL = passMapL.keySet().toArray(new String[] {});
+
+		final Map<String, Short> passMapH = new TreeMap<String, Short>(passEComparator);
+		for (short s: capabilities.getPassEnergiesHigh()) { passMapH.put(String.format("%d eV", s), s); }
+		final String[] passArrayH = passMapH.keySet().toArray(new String[] {});
+
 		String activePE = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
-		passEnergy.select(comboForPE(activePE, passArray));
+		String psum = JythonServerFacade.getInstance().evaluateCommand("psu_mode.getPosition()").trim();
+
+		if (psum.equals("High Pass (XPS)")) {
+			passEnergy.setItems(passArrayH);
+			passEnergy.select(comboForPE(activePE, passArrayH));
+			passEnergy.setItems(passArrayH);  // at initialisation default to low energy list
+		} else if (psum.equals("Low Pass (UPS)")) {
+			passEnergy.setItems(passArrayL);
+			passEnergy.select(comboForPE(activePE, passArrayL));
+			passEnergy.setItems(passArrayL);  // at initialisation default to low energy list
+		} else {
+			logger.error("Failed to read psu_mode");
+		}
 		
-		SelectionListener passEnergyListener = new SelectionListener() {
+		FocusListener passEnergyFocusListener = new FocusListener() {  // on focus, update to high or low energies list 
 			@Override
-			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().runCommand(String.format("analyser.setPassEnergy(%d)", passMap.get(passEnergy.getItem(passEnergy.getSelectionIndex()))));
+			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
+				String psum = JythonServerFacade.getInstance().evaluateCommand("psu_mode.getPosition()").trim();
+				System.out.println("PSUMD="+psum); // drop, for debugging
+				if (psum.equals("High Pass (XPS)")) {
+					passEnergy.setItems(passArrayH);
+				} else if (psum.equals("Low Pass (UPS)")) {
+					passEnergy.setItems(passArrayL);
+				}				
+		        System.out.println("In Focus Listener Focus Gained:"+psum);  // drop, for debugging
 			}
 			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
+			public void focusLost(org.eclipse.swt.events.FocusEvent e) {
+				// TODO Auto-generated method stub
+		        System.out.println("In Focus Listener FocusLost");				// drop, for debugging
 			}
 		};
-		passEnergy.addSelectionListener(passEnergyListener);
+        passEnergy.addFocusListener(passEnergyFocusListener);
 
-		label = new Label(composite, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		label.setText("psu mode");
-		
-		psuEnergy = new Text(composite, SWT.BORDER | SWT.LEFT);
-		psuEnergy.setEditable(false);
-
-		psuEnergy.setEnabled(false);		
-		psuEnergy.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
-		String psuState = JythonServerFacade.getInstance().evaluateCommand("psu_mode.getPosition()");
-		psuEnergy.setText(psuState);
-		
 		Composite control = new Composite(comp, SWT.NONE);
 		control.setLayout(new GridLayout(2, false));
 		control.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 2));
@@ -186,7 +200,7 @@ public class ContinuousModeControllerComposite{
 					Thread.sleep(250);
 				} catch (InterruptedException e1) {
 					logger.error("Error sleeping.", e1);
-				};
+				}
 				JythonServerFacade.getInstance().runCommand("analyser.zeroSupplies()");
 			}
 			@Override

@@ -809,6 +809,14 @@ public class I05AnalyserCapabilties implements AnalyserCapabilties {
 	public Short[] getPassEnergies() {
 		return new Short[] { 1, 2, 5, 10, 20, 50, 100};
 	}
+	@Override
+	public Short[] getPassEnergiesLow() {
+		return new Short[] { 1, 2, 5, 10, 20};
+	}
+	@Override
+	public Short[] getPassEnergiesHigh() {
+		return new Short[] { 5, 10, 20, 50, 100};
+	}
 
 	@Override
 	public double getEnergyWidthForPass(int pass) {
