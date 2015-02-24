@@ -39,28 +39,6 @@ offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units]
 
 
-#if (LocalProperties.get("gda.mode") == 'live'):
-detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig, xspress3Config)
-#else:
-#    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
-samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
-outputPreparer = B18OutputPreparer(datawriterconfig)
-xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01)
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
-xanes = xas
-
-alias("xas")
-alias("xanes")
-alias("qexafs")
-alias("vortex")
-alias("xspress")
-alias("meta_add")
-alias("meta_ll")
-alias("meta_ls")
-alias("meta_rm")
-alias("meta_clear_alldynamical")
-
-
 from gda.jython.commands.ScannableCommands import cv as cvscan
 vararg_alias("cvscan")
 vararg_alias("cv")
@@ -109,5 +87,24 @@ if (LocalProperties.get("gda.mode") == 'live'):
     run "userStartupScript"
 else :
     energy(7000) # start the simulation with an energy in a useful range
+    
+detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig, xspress3Config)
+samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
+outputPreparer = B18OutputPreparer(datawriterconfig)
+xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01)
+qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01,topupMonitor, beamMonitor)
+xanes = xas
+
+alias("xas")
+alias("xanes")
+alias("qexafs")
+alias("vortex")
+alias("xspress")
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
+alias("meta_clear_alldynamical")
+
 
 print "Initialization Complete";
