@@ -27,7 +27,9 @@ echo
 
 # Correct GDA_VAR when running dummy mode
 if [ "$GDA_MODE" = "dummy" ]; then
-	GDA_VAR=/scratch/dls_sw/i15/software/gda_versions/var
+#	GDA_VAR=/scratch/dls_sw/i15/software/gda_versions/var
+#KrisB - Change GDA_VAR path for my scratch
+	GDA_VAR=$(readlink -f $GDA_ROOT/var)
 	# Note that this should match with the gda.var value in properties/dummy/java.properties
 else
 	GDA_VAR=$(readlink -f $GDA_ROOT/../var)
