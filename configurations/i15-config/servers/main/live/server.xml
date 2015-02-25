@@ -12,8 +12,8 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/live/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -28,7 +28,7 @@
 	<import resource="device/all.xml"/>
 	<import resource="scannable/all.xml"/>
 	<import resource="transient/all.xml"/>
-	<import resource="../common/server.xml"/>
+	<import resource="../_common/server.xml"/>
 
 	<import resource="metadata.xml"/>
 
