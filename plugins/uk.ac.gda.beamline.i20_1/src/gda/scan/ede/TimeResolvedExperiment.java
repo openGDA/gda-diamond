@@ -21,6 +21,7 @@ package gda.scan.ede;
 import gda.device.DeviceException;
 import gda.device.scannable.TopupChecker;
 import gda.scan.EdeScan;
+import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
@@ -102,7 +103,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	/**
 	 * NPE if this is called before the scan has been run and the datawriter has been created
-	 * 
+	 *
 	 * @return the name of the I0 output file
 	 */
 	public String getI0Filename() {
@@ -111,7 +112,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	/**
 	 * NPE if this is called before the scan has been run and the datawriter has been created
-	 * 
+	 *
 	 * @return the name of the I0 output file
 	 */
 	public String getIRefFilename() {
@@ -120,7 +121,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	/**
 	 * NPE if this is called before the scan has been run and the datawriter has been created
-	 * 
+	 *
 	 * @return the name of the It output file
 	 */
 	public String getItFilename() {
@@ -129,7 +130,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	/**
 	 * NPE if this is called before the scan has been run and the datawriter has been created
-	 * 
+	 *
 	 * @return the name of the It output file
 	 */
 	public String getItFinalFilename() {
@@ -138,7 +139,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	/**
 	 * NPE if this is called before the scan has been run and the datawriter has been created
-	 * 
+	 *
 	 * @return the name of the It output file
 	 */
 	public String getItAveragedFilename() {
@@ -159,13 +160,64 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	}
 
 	@Override
-	protected void addFinalScans() {
+	protected void addFinalScans() throws Exception {
+		int repetitions = getRepetitions();
+		double timeToTopup = getNextTopupTime();
+
+		if (shouldRunItDark()) {
+			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
+			itDarkScanParameters.setUseFrameTime(true);
+			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			itDarkScan.setProgressUpdater(this);
+			scansBeforeIt.add(itDarkScan);
+		} else {
+			itDarkScan = i0DarkScan;
+		}
+
+		i0ScanParameters.setUseFrameTime(false);
+		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+		i0LightScan.setProgressUpdater(this);
+		scansBeforeIt.add(i0LightScan);
+
+		if (runIRef) {
+			i0ForiRefScanParameters.setUseFrameTime(false);
+			i0ForiRefScan = new EdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			scansBeforeIt.add(i0ForiRefScan);
+			i0ForiRefScan.setProgressUpdater(this);
+
+			iRefScanParameters.setUseFrameTime(false);
+			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			scansBeforeIt.add(iRefScan);
+			iRefScan.setProgressUpdater(this);
+		}
+
+		if (runItWithTriggerOptions) {
+			itScans = new EdeScanWithTFGTrigger[repetitions];
+
+			itScanParameters.setUseFrameTime(true);
+			for(int repIndex = 0; repIndex < repetitions; repIndex++){
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
+				itScans[repIndex].setProgressUpdater(this);
+				scansForIt.add(itScans[repIndex]);
+			}
+		} else {
+			itScans = new EdeScan[repetitions];
+			itScanParameters.setUseFrameTime(true);
+			for(int repIndex = 0; repIndex < repetitions; repIndex++){
+				itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter,createTopupCheckerForStartOfExperiment(timeToTopup));
+				itScans[repIndex].setProgressUpdater(this);
+				scansForIt.add(itScans[repIndex]);
+			}
+		}
+
+		i0ScanParameters.setUseFrameTime(false);
 		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector,
 				firstRepetitionIndex, beamLightShutter, createTopupCheckerForAfterItScans());
 		i0FinalScan.setProgressUpdater(this);
 		scansAfterIt.add(i0FinalScan);
 
 		if (runIRef) {
+			iRefScanParameters.setUseFrameTime(false);
 			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector,
 					firstRepetitionIndex, beamLightShutter, null);
 			iRefFinalScan.setProgressUpdater(this);

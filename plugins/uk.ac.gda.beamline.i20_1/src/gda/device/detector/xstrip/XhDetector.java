@@ -306,7 +306,8 @@ public class XhDetector extends EdeDetectorBase {
 			String delays = buildDelaysCommand(timingGroup);
 
 			String command;
-			if (numberOfScansPerFrame == 0) {
+			//			if (numberOfScansPerFrame == 0) {
+			if (currentScanParameter.isUseFrameTime()){
 				// use the frame-time qualifier
 				command = createTimingCommand("setup-group", i, numFrames, 0, scanTimeInClockCycles, "frame-time",
 						frameTimeInCycles, delays, lemoOut, extTrig);
@@ -397,7 +398,7 @@ public class XhDetector extends EdeDetectorBase {
 		String extTrig = "";
 		if (timingGroup.isGroupTrig()) {
 			int lemo = timingGroup.getGroupTrigLemo();
-			extTrig = "ext-trig-group trig-mux " + lemo;
+			extTrig = " ext-trig-group trig-mux " + lemo;
 			if (!timingGroup.isGroupTrigRisingEdge()) {
 				extTrig += " trig-falling";
 			}

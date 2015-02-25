@@ -34,7 +34,6 @@ import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.observable.IObserver;
 import gda.scan.EdeScan;
-import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
 import gda.scan.ScanPlotSettings;
@@ -206,7 +205,7 @@ public abstract class EdeExperiment implements IObserver {
 			newGroup.setNumberOfFrames(1);
 			newGroup.setTimePerScan(accumulationTime);
 			if(commonNumberOfAccumulcations == null) {
-				newGroup.setNumberOfScansPerFrame(theDetector.getNumberScansInFrame(itGroup.getTimePerFrame(), accumulationTime, newGroup.getNumberOfFrames()));
+				newGroup.setNumberOfScansPerFrame(theDetector.getNumberScansInFrame(itGroup.getTimePerFrame(), itGroup.getTimePerScan(), newGroup.getNumberOfFrames()));
 			} else {
 				newGroup.setNumberOfScansPerFrame(commonNumberOfAccumulcations);
 			}
@@ -217,7 +216,7 @@ public abstract class EdeExperiment implements IObserver {
 		return parameters;
 	}
 
-	private EdeScanParameters deriveItDarkParametersFromItParameters() {
+	protected EdeScanParameters deriveItDarkParametersFromItParameters() {
 		List<TimingGroup> itgroups = itScanParameters.getGroups();
 
 		EdeScanParameters parameters = new EdeScanParameters();
@@ -243,56 +242,18 @@ public abstract class EdeExperiment implements IObserver {
 	protected abstract boolean shouldRunItDark();
 
 	private void addScansForExperiment() throws Exception {
-		int repetitions = getRepetitions();
+
 		double timeToTopup = getNextTopupTime();
+		i0ScanParameters.setUseFrameTime(false);
 		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, createTopupCheckerForStartOfExperiment(timeToTopup));
 		i0DarkScan.setProgressUpdater(this);
 		scansBeforeIt.add(i0DarkScan);
 
 		if (runIRef) {
+			iRefScanParameters.setUseFrameTime(false);
 			iRefDarkScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
 			scansBeforeIt.add(iRefDarkScan);
 			iRefDarkScan.setProgressUpdater(this);
-		}
-
-		if (shouldRunItDark()) {
-			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
-			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
-			itDarkScan.setProgressUpdater(this);
-			scansBeforeIt.add(itDarkScan);
-		} else {
-			itDarkScan = i0DarkScan;
-		}
-
-		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
-		i0LightScan.setProgressUpdater(this);
-		scansBeforeIt.add(i0LightScan);
-
-		if (runIRef) {
-			i0ForiRefScan = new EdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
-			scansBeforeIt.add(i0ForiRefScan);
-			i0ForiRefScan.setProgressUpdater(this);
-
-			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
-			scansBeforeIt.add(iRefScan);
-			iRefScan.setProgressUpdater(this);
-		}
-
-		if (runItWithTriggerOptions) {
-			itScans = new EdeScanWithTFGTrigger[repetitions];
-
-			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
-				itScans[repIndex].setProgressUpdater(this);
-				scansForIt.add(itScans[repIndex]);
-			}
-		} else {
-			itScans = new EdeScan[repetitions];
-			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter,createTopupCheckerForStartOfExperiment(timeToTopup));
-				itScans[repIndex].setProgressUpdater(this);
-				scansForIt.add(itScans[repIndex]);
-			}
 		}
 
 		addFinalScans();
@@ -300,7 +261,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract boolean shouldWaitForTopup(int repIndex, double timeToTopupInSec);
 
-	protected abstract void addFinalScans();
+	protected abstract void addFinalScans() throws Exception;
 
 	public String runExperiment() throws Exception {
 		try {
@@ -442,7 +403,7 @@ public abstract class EdeExperiment implements IObserver {
 		return topupchecker;
 	}
 
-	private TopupChecker createTopupCheckerForStartOfExperiment(double nextTopupTime) throws Exception {
+	protected TopupChecker createTopupCheckerForStartOfExperiment(double nextTopupTime) throws Exception {
 		double predictedExperimentTime = getTimeRequiredForFullExperiment();
 		if (predictedExperimentTime < nextTopupTime) {
 			// Don't wait for topup
@@ -461,7 +422,7 @@ public abstract class EdeExperiment implements IObserver {
 		return createTopupChecker(getTimeRequiredBeforeItCollection());
 	}
 
-	private double getNextTopupTime() throws DeviceException {
+	protected double getNextTopupTime() throws DeviceException {
 		return (double) topup.getPosition();
 	}
 

@@ -41,4 +41,5 @@
 	<outputsWidth5>0</outputsWidth5>
 	<outputsWidth6>0</outputsWidth6>
 	<outputsWidth7>0</outputsWidth7>
+	<useFrameTime>false</useFrameTime>
 </EdeScanParameters>

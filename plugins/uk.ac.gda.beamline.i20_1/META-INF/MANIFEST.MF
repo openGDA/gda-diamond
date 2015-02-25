@@ -51,12 +51,19 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,
+ gda.device.scannable,
+ gda.scan,
+ gda.scan.ede,
+ gda.scan.ede.datawriters,
+ gda.scan.ede.drivers,
+ gda.scan.ede.position,
+ gda.scan.ede.timeestimators,
  uk.ac.gda.beamline.i20_1,
+ uk.ac.gda.beamline.i20_1.utils,
  uk.ac.gda.exafs.data,
- uk.ac.gda.exafs.ui.composites,
- uk.ac.gda.exafs.ui.data,
- uk.ac.gda.exafs.ui.composites,
- uk.ac.gda.exafs.ui.describers
+ uk.ac.gda.exafs.detectortemperature,
+ uk.ac.gda.exafs.experiment.trigger,
+ uk.ac.gda.exafs.experiment.ui.data
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api
 Import-Package: ncsa.hdf.object,
  ncsa.hdf.object.h5,

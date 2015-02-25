@@ -60,7 +60,8 @@ public class XHDetectorTest {
 		daserver.clearRecievedCommands();
 
 		EdeScanParameters scan = new EdeScanParameters();
-
+		scan.setUseFrameTime(true);
+		
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);
@@ -82,6 +83,7 @@ public class XHDetectorTest {
 		daserver.clearRecievedCommands();
 
 		EdeScanParameters scan = new EdeScanParameters();
+		scan.setUseFrameTime(true);
 
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
@@ -114,6 +116,7 @@ public class XHDetectorTest {
 		daserver.clearRecievedCommands();
 
 		EdeScanParameters scan = new EdeScanParameters();
+		scan.setUseFrameTime(true);
 
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
@@ -138,6 +141,7 @@ public class XHDetectorTest {
 		daserver.clearRecievedCommands();
 
 		EdeScanParameters scan = new EdeScanParameters();
+		scan.setUseFrameTime(true);
 
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
@@ -164,6 +168,7 @@ public class XHDetectorTest {
 		daserver.clearRecievedCommands();
 
 		EdeScanParameters scan = new EdeScanParameters();
+		scan.setUseFrameTime(true);
 		scan.setOutputsChoice0(EdeScanParameters.TRIG_FRAME_BEFORE);
 
 		TimingGroup group1 = new TimingGroup();
@@ -189,6 +194,7 @@ public class XHDetectorTest {
 		daserver.clearRecievedCommands();
 
 		EdeScanParameters scan = new EdeScanParameters();
+		scan.setUseFrameTime(true);
 		scan.setOutputsChoice0(EdeScanParameters.TRIG_FRAME_BEFORE);
 		scan.setOutputsWidth0(2);
 
@@ -216,6 +222,7 @@ public class XHDetectorTest {
 		daserver.clearRecievedCommands();
 
 		EdeScanParameters scan = new EdeScanParameters();
+		scan.setUseFrameTime(true);
 		scan.setOutputsChoice6(EdeScanParameters.TRIG_FRAME_BEFORE);
 
 		TimingGroup group1 = new TimingGroup();

@@ -61,6 +61,9 @@
 		<field name="outputsWidth7" type="double">
 			<bind-xml name="outputsWidth7" node="element" />
 		</field>
+		<field name="useFrameTime" type="boolean">
+			<bind-xml name="useFrameTime" node="element" />
+		</field>
 	</class>
 	
 	<class name="uk.ac.gda.exafs.ui.data.TimingGroup">

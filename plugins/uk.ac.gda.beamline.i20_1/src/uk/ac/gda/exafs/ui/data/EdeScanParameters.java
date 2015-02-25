@@ -63,7 +63,7 @@ public class EdeScanParameters implements Serializable {
 	/**
 	 * Utility method to easily create a single group, single frame, single scan EdeScanParameters of the given
 	 * integration time.
-	 * 
+	 *
 	 * @param integrationTimeInS
 	 * @return EdeScanParameters
 	 */
@@ -74,7 +74,7 @@ public class EdeScanParameters implements Serializable {
 	/**
 	 * Utility method to easily create a single group, single frame EdeScanParameters of the given integration time for
 	 * the frame and the number of scans in that frame.
-	 * 
+	 *
 	 * @param integrationTimeInS
 	 * @return EdeScanParameters
 	 */
@@ -125,6 +125,7 @@ public class EdeScanParameters implements Serializable {
 	private double outputsWidth6 = 0;
 	private double outputsWidth7 = 0;
 
+	private boolean useFrameTime=false;
 
 	public EdeScanParameters() {
 	}
@@ -334,6 +335,14 @@ public class EdeScanParameters implements Serializable {
 	public String getScannableName() {
 		// no moving parts (I know of yet)...
 		return null;
+	}
+
+	public boolean isUseFrameTime() {
+		return useFrameTime;
+	}
+
+	public void setUseFrameTime(boolean useFrameTime) {
+		this.useFrameTime = useFrameTime;
 	}
 
 }
