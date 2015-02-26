@@ -1,12 +1,16 @@
 from uk.ac.gda.exafs.ui.data import EdeScanParameters
 
 from gda.configuration.properties import LocalProperties
+from gdascripts.utils import caget
 
 run("roi_control.py")
 run("gdascripts/javajythonutil.py")
 
 das = finder.find("DAServer")
+das4tfg=finder.find("daserverForTfg")
 
+def machineMode():
+    return caget("CS-CS-MSTAT-01:MODE")
 # These scannables are checked before any scan data point
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
