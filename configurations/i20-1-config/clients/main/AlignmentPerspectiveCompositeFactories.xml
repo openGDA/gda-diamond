@@ -93,7 +93,7 @@
 	</bean> 
 	<bean id="det_z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}det_z" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="serviceInterface" value="gda.device.IAirBearingScannableMotor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean> 
 	<bean id="sample_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
@@ -103,12 +103,17 @@
 	</bean>
 	<bean id="sample_z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}sample_z" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="serviceInterface" value="gda.device.IAirBearingScannableMotor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	<bean id="twotheta" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}twotheta" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="serviceInterface" value="gda.device.IAirBearingScannableMotor" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="stage3_z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}stage3_z" />
+		<property name="serviceInterface" value="gda.device.IAirBearingScannableMotor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	
@@ -117,4 +122,27 @@
 		<property name="serviceInterface" value="gda.device.scannable.AlignmentStage" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	<!-- T5 -->
+	<bean id="sample_tablex" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}sample_tablex" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="sample_tabley" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}sample_tabley" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<!-- user motors -->
+	<bean id="um1" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}um1" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="um2" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}um2" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	
 </beans>
