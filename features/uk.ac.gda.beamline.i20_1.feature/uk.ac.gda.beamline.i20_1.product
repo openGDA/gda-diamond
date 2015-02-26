@@ -11,24 +11,26 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.install.workspace.loc=/dls_sw/i20-1/software/gda
--Dgda.install.git.loc=/dls_sw/i20-1/software/gda_git
+      <vmArgs>-Dgda.install.workspace.loc=/dls_sw/i20-1/software/gda/workspace
+-Dgda.install.git.loc=/dls_sw/i20-1/software/gda/workspace_git
 -Dgda.config=/dls_sw/i20-1/software/gda/config
--Djava.library.path=/dls_sw/i20-1/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
+-Djava.library.path=/dls_sw/i20-1/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
 -Dgda.propertiesFile=/dls_sw/i20-1/software/gda/config/properties/live/java.properties
 -Djacorb.config.dir=/dls_sw/i20-1/software/gda/config/jacorb/live
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i20-1/software/gda/config/jca/live/JCALibrary.properties
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Xms128m
 -Xmx1024m
 -XX:PermSize=128m 
 -XX:MaxPermSize=256m
--XX:+DisableExplicitGC</vmArgs>
+-XX:+DisableExplicitGC
+      </vmArgs>
       <vmArgsMac>-XstartOnFirstThread
-			-Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+			-Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
