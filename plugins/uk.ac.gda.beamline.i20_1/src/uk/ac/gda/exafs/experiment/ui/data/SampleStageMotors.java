@@ -35,11 +35,14 @@ public class SampleStageMotors extends ObservableModel {
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TABLEY_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_X_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_Y_POSITION),
+				new ExperimentMotorPostion(ScannableSetup.SAMPLE_Z_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TOP_X_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TOP_Y_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TOP_Z_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_PITCH_POSITION),
-				new ExperimentMotorPostion(ScannableSetup.SAMPLE_ROLL_POSITION)
+				new ExperimentMotorPostion(ScannableSetup.SAMPLE_ROLL_POSITION),
+				new ExperimentMotorPostion(ScannableSetup.USER_MOTOR1_POSITION),
+				new ExperimentMotorPostion(ScannableSetup.USER_MOTOR2_POSITION)
 		};
 	}
 

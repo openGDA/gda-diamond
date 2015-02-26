@@ -99,16 +99,18 @@ public class ClientConfig {
 		POLY_BENDER_1("Bender 1", "poly_bend1", UnitSetup.MILLI_METER),
 		POLY_BENDER_2("Bender 2", "poly_bend2",UnitSetup.MILLI_METER),
 
-		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
 		SAMPLE_TABLEX_POSITION("Sample table x", "sample_tablex", UnitSetup.MILLI_METER),
 		SAMPLE_TABLEY_POSITION("Sample table y", "sample_tabley", UnitSetup.MILLI_METER),
 		SAMPLE_X_POSITION("Sample x", "sample_x", UnitSetup.MILLI_METER),
 		SAMPLE_Y_POSITION("Sample y", "sample_y", UnitSetup.MILLI_METER),
+		SAMPLE_Z_POSITION("Sample z", "sample_z", UnitSetup.MILLI_METER),
 		SAMPLE_TOP_X_POSITION("Sample top x", "sample_finex", UnitSetup.MILLI_METER),
 		SAMPLE_TOP_Y_POSITION("Sample top y", "sample_finey", UnitSetup.MILLI_METER),
 		SAMPLE_TOP_Z_POSITION("Sample top z", "sample_finez", UnitSetup.MILLI_METER),
-		SAMPLE_PITCH_POSITION("Sample pitch", "sample_pitch", UnitSetup.MILLI_METER),
-		SAMPLE_ROLL_POSITION("Sample roll", "sample_roll", UnitSetup.MILLI_METER),
+		SAMPLE_PITCH_POSITION("Sample pitch", "sample_pitch", UnitSetup.DEGREE),
+		SAMPLE_ROLL_POSITION("Sample roll", "sample_roll", UnitSetup.DEGREE),
+		USER_MOTOR1_POSITION("User motor 1", "um1", UnitSetup.MILLI_METER),
+		USER_MOTOR2_POSITION("User motor 2", "um2", UnitSetup.MILLI_METER),
 
 		SLIT_1_HORIZONAL_GAP("Primary slit hgap", "s1_hgap", UnitSetup.MILLI_RADIAN),
 
