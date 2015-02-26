@@ -45,6 +45,7 @@ public class TFGTriggerTest {
 		tfgTrigger.getSampleEnvironment().add(testObj);
 		
 		String command = tfgTrigger.getTfgSetupGrupsCommandParameters(1, false);
+//		System.out.print(command);
 		assertTrue(command.equals("tfg setup-groups\n" +
 			"1 0.500000 0.0 0 0 0 0\n" +
 			"1 0.100000 0.0 4 0 0 0\n" +
@@ -52,7 +53,7 @@ public class TFGTriggerTest {
 			"1 3.200000 0.0 8 0 0 0\n" +
 			"1 0.100000 0.0 10 0 0 0\n" +
 			"20 0 0.000001 0 8 0 9\n" +
-			"1 6.800000 0.0 8 0 9 0\n" +
+			"1 7.300000 0.0 8 0 0 0\n" +
 			"-1 0 0 0 0 0 0"));
 	}
 }
