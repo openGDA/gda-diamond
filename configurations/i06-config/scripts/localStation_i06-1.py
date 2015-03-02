@@ -60,7 +60,7 @@ else:
 
 #Setup the PIXIS Camera
 print "-------------------------------------------------------------------"
-enablePixisDetector=False
+enablePixisDetector=True
 # See also the server_pixis import in server_i06-1.xml
 if enablePixisDetector:
     print "Set up the PIXIS"
