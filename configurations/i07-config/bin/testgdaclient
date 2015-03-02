@@ -9,7 +9,6 @@ export GDA_CLIENT=$GDA_ROOT/client/gda-${BEAMLINE}
 export GDA_CLIENT_LOG_DIR=$GDA_CONFIG/dummy_dir/logs
 
 VMARGS="-Dgda.mode=$GDA_MODE $VMARGS"
-VMARGS="-Dgda.install.git.loc=$GDA_ROOT/workspace_git $VMARGS"
 VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/$GDA_MODE $VMARGS"
 VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/$GDA_MODE/java.properties $VMARGS"
 VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/$GDA_MODE/JCALibrary.properties $VMARGS"
