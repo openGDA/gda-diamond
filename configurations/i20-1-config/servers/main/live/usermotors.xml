@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="um1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR2" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR3" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um4_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR4" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um5_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR5" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um6_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR6" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um7_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR7" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um8_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR8" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um9_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR9" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="um10_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-PATCH-01:MTR10" />
+		<property name="local" value="true" />
+	</bean>
+
+	<import resource="file:${gda.config}/servers/main/usermotors-common.xml" />
+
+</beans>
+	

@@ -17,14 +17,24 @@
 	</bean>
 	
 <!-- 	T3 Third stage -->
-	<bean id="stage3_z" class="gda.device.scannable.ScannableMotor">
+	<bean id="stage3_z_air" class="gda.device.enumpositioner.EpicsAirBearingControl">
+		<property name="readPV" value="BL20J-MO-TABLE-03:AIR:RBV"/>
+		<property name="setPV" value="BL20J-MO-TABLE-03:AIR"/>
+	</bean>
+	<bean id="stage3_z" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="stage3_z_motor" />
+		<property name="airBearingScannable" ref="stage3_z_air"/>
 	</bean>
 	
 <!-- 	T2 Sample stage -->
-	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
+	<bean id="sample_z_air" class="gda.device.enumpositioner.EpicsAirBearingControl">
+		<property name="readPV" value="BL20J-MO-TABLE-02:AIR:RBV"/>
+		<property name="setPV" value="BL20J-MO-TABLE-02:AIR"/>
+	</bean>
+	<bean id="sample_z" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="sample_z_motor" />
 		<property name="initialUserUnits" value="mm" />
+		<property name="airBearingScannable" ref="sample_z_air"/>
 	</bean>
 	
 <!-- 	T4 sample environment table -->
@@ -50,13 +60,21 @@
 	</bean>
 	<bean id="sample_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_pitch_motor" />
-		<property name="initialUserUnits" value="mm" />
+		<property name="initialUserUnits" value="deg" />
 	</bean>
 	<bean id="sample_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_roll_motor" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	<!-- T5 -->
+	<bean id="sample_tablex" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_tablex_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
-	
+	<bean id="sample_tabley" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_tabley_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
 
 <!-- 	Detector stage -->
 	<bean id="det_x" class="gda.device.scannable.ScannableMotor">
@@ -69,9 +87,14 @@
 	</bean>
 
 <!-- 	T1 Detector support stage -->
-	<bean id="det_z" class="gda.device.scannable.ScannableMotor">
+	<bean id="det_z_air" class="gda.device.enumpositioner.EpicsAirBearingControl">
+		<property name="readPV" value="BL20J-MO-TABLE-01:AIR:RBV"/>
+		<property name="setPV" value="BL20J-MO-TABLE-01:AIR"/>
+	</bean>
+	<bean id="det_z" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="detector_z_motor" />
 		<property name="initialUserUnits" value="mm" />
+		<property name="airBearingScannable" ref="det_z_air"/>
 	</bean>
 	
 	<bean id="det_distance" class="gda.device.scannable.DetectorDistance">
@@ -80,9 +103,14 @@
 	</bean>
 
 <!-- 	two theta arm -->
-	<bean id="twotheta" class="gda.device.scannable.ScannableMotor">
+	<bean id="twotheta_air" class="gda.device.enumpositioner.EpicsAirBearingControl">
+		<property name="readPV" value="BL20J-MO-ARM-01:AIR:RBV"/>
+		<property name="setPV" value="BL20J-MO-ARM-01:AIR"/>
+	</bean>
+	<bean id="twotheta" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="twotheta_motor" />
 		<property name="initialUserUnits" value="deg" />
+		<property name="airBearingScannable" ref="twotheta_air"/>
 	</bean>
 <!--	<bean id="twotheta_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="twotheta_mm_motor" />
@@ -107,7 +135,7 @@
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/det_z" />
 		<property name="service" ref="det_z" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="serviceInterface" value="gda.device.IAirBearingScannableMotor" />
 	</bean>  
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/sample_x" />
@@ -148,12 +176,29 @@
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/sample_z" />
 		<property name="service" ref="sample_z" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="serviceInterface" value="gda.device.IAirBearingScannableMotor" />
 	</bean>  
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/twotheta" />
 		<property name="service" ref="twotheta" />
+		<property name="serviceInterface" value="gda.device.IAirBearingScannableMotor" />
+	</bean> 
+	<!-- T3 -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/stage3_z" />
+		<property name="service" ref="stage3_z" />
+		<property name="serviceInterface" value="gda.device.IAirBearingScannableMotor" />
+	</bean> 
+	<!-- T5 --> 
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/sample_tablex" />
+		<property name="service" ref="sample_tablex" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>  
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/sample_tabley" />
+		<property name="service" ref="sample_tabley" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
 
 </beans>

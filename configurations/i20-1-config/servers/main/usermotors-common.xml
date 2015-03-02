@@ -1,0 +1,150 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="um1" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um1_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="um2" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um2_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="um3" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um3_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="um4" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um4_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="um5" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um5_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="um6" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um6_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="um7" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um7_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="um8" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um8_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="um9" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um9_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+	<bean id="um10" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="um10_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="um" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="um1" />
+				<ref bean="um2" />
+				<ref bean="um3" />
+				<ref bean="um4" />
+				<ref bean="um5" />
+				<ref bean="um6" />
+				<ref bean="um7" />
+				<ref bean="um8" />
+				<ref bean="um9" />
+				<ref bean="um10" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- rmi exports -->
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um1" />
+		<property name="service" ref="um1" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um2" />
+		<property name="service" ref="um2" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um3" />
+		<property name="service" ref="um3" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um4" />
+		<property name="service" ref="um4" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um5" />
+		<property name="service" ref="um5" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um6" />
+		<property name="service" ref="um6" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um7" />
+		<property name="service" ref="um7" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um8" />
+		<property name="service" ref="um8" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um9" />
+		<property name="service" ref="um9" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um10" />
+		<property name="service" ref="um10" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+
+</beans>
+	

@@ -22,6 +22,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frontend_and_shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/usermotors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
@@ -33,6 +34,10 @@
 <!-- 	do this here as it may have object references to earlier XML files -->
 	<import resource="file:${gda.config}/servers/main/dataformat.xml" />
 
+
+<!--  Frelon camera-->
+	<import resource="frelon_tango.xml" />
+	<import resource="../frelon.xml" />
 
 <!-- for when this used live: -->
 
