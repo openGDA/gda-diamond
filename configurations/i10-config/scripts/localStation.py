@@ -559,6 +559,12 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
 
+try:
+    from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
+    gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
+except:
+    localStation_exception(sys.exc_info(), "creating gflow2 scannable")
+
 print "Attempting to run localStationUser.py for users script directory"
 try:
     run("localStationUser")
