@@ -57,11 +57,11 @@
                 base="${product.parent.directory.location}">
             </products>
         </public>
-        
-        <public name="create.product-linux.gtk.x86_64-withSymlink" actor="ant">
+
+        <public name="create.product-linux.gtk.x86_64-with.symlink" actor="ant">
             <actorProperties>
                 <property key="buildFile" value="buckminster.ant" />
-                <property key="targets" value="create.client" />
+                <property key="targets" value="create.product-with.symlink" />
             </actorProperties>
             <properties>
                 <property key="product.os" value="linux" />
