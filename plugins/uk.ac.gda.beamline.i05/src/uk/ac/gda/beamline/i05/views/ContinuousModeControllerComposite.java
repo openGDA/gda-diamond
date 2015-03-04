@@ -123,11 +123,9 @@ public class ContinuousModeControllerComposite {
 		if (psum.equals("High Pass (XPS)")) {
 			passEnergy.setItems(passArrayH);
 			passEnergy.select(comboForPE(activePE, passArrayH));
-			passEnergy.setItems(passArrayH);  // at initialisation default to low energy list
 		} else if (psum.equals("Low Pass (UPS)")) {
 			passEnergy.setItems(passArrayL);
 			passEnergy.select(comboForPE(activePE, passArrayL));
-			passEnergy.setItems(passArrayL);  // at initialisation default to low energy list
 		} else {
 			logger.error("Failed to read psu_mode");
 		}
@@ -136,22 +134,39 @@ public class ContinuousModeControllerComposite {
 			@Override
 			public void focusGained(org.eclipse.swt.events.FocusEvent e) {
 				String psum = JythonServerFacade.getInstance().evaluateCommand("psu_mode.getPosition()").trim();
-				System.out.println("PSUMD="+psum); // drop, for debugging
 				if (psum.equals("High Pass (XPS)")) {
 					passEnergy.setItems(passArrayH);
 				} else if (psum.equals("Low Pass (UPS)")) {
 					passEnergy.setItems(passArrayL);
-				}				
-		        System.out.println("In Focus Listener Focus Gained:"+psum);  // drop, for debugging
+				} else	{
+					logger.error("Failed to read psu_mode");
+				}			
 			}
 			@Override
 			public void focusLost(org.eclipse.swt.events.FocusEvent e) {
 				// TODO Auto-generated method stub
-		        System.out.println("In Focus Listener FocusLost");				// drop, for debugging
 			}
 		};
         passEnergy.addFocusListener(passEnergyFocusListener);
 
+		SelectionListener passEnergyListener = new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String psum = JythonServerFacade.getInstance().evaluateCommand("psu_mode.getPosition()").trim();
+				if (psum.equals("High Pass (XPS)")) {
+					JythonServerFacade.getInstance().runCommand(String.format("analyser.setPassEnergy(%d)", passMapH.get(passEnergy.getItem(passEnergy.getSelectionIndex()))));
+				} else if (psum.equals("Low Pass (UPS)")) {
+					JythonServerFacade.getInstance().runCommand(String.format("analyser.setPassEnergy(%d)", passMapL.get(passEnergy.getItem(passEnergy.getSelectionIndex()))));
+				} else	{
+					logger.error("Failed to read psu_mode");
+				}				
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		};
+		passEnergy.addSelectionListener(passEnergyListener);
+		
 		Composite control = new Composite(comp, SWT.NONE);
 		control.setLayout(new GridLayout(2, false));
 		control.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 2));
