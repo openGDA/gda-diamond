@@ -23,6 +23,7 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         self._start_event = threading.Event()
         self._pgm_grat_pitch_speed_orig = None
         self._movelog_time = datetime.now()
+        self._runupdown_time = None
 
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
@@ -101,7 +102,8 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         # Set the speed before we read out ramp times in case it is dependent
         self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed
         # Should really be / | | | | | \ not /| | | | |\
-        self._runupdown = self._pgm_grat_pitch_speed/2 * self._pgm_grat_pitch.timeToVelocity
+        self._runupdown_time = self._pgm_grat_pitch.timeToVelocity
+        self._runupdown = self._pgm_grat_pitch_speed/2 * self._runupdown_time
         ### Move ID at full speed to start position
         ### Move pgm at full speed to start position
         if self.verbose: self.logger.info('prepareForMove:_pgm_mirr_pitch.asynchronousMoveTo(%r) @ %r ' % (
@@ -178,6 +180,9 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         if self.verbose: self.logger.info('getTotalTime()=%r' % totalTime)
         return totalTime
 
+    def getTimeToVelocity(self):
+        return self._runupdown_time
+
     # Override: public abstract class DeviceBase implements Device, ConditionallyConfigurable, Localizable
 
         # None needed
@@ -227,7 +232,7 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
             
             complete = abs( (grat_pitch - self._controller._grat_pitch_start) /
                             (self._controller._grat_pitch_end - self._controller._grat_pitch_start) )
-            sleeptime_s = (self._controller._pgm_grat_pitch.timeToVelocity
+            sleeptime_s = (self._runupdown_time
                 + (complete * self._controller.getTotalTime()))
             
             delta = datetime.now() - self._controller._start_time
