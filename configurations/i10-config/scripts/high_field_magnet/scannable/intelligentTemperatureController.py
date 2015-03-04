@@ -27,13 +27,14 @@ Extensions:
     `scn.stable_time_sec=X` is the time it needs to be in tolerance for, 0 by default
     `scn.verbose=True` prints out extra debugging info (at 10Hz) defaults to False"""
 
-    def __init__(self, name, pvroot, temp_tolerance, stable_time_sec=0):
+    def __init__(self, name, pvroot, temp_tolerance, stable_time_sec=0, stop_sets_setpoint_to_readback=False):
         self.name = name
         
         self.itc = IntelligentTemperatureController(pvroot)
         self.temp_tolerance = temp_tolerance
         self.stable_time_sec = stable_time_sec
-
+        self.stop_sets_setpoint_to_readback = stop_sets_setpoint_to_readback
+        
         self.setpoint = 0
         self.stable = True
         self.verbose = False
@@ -71,7 +72,8 @@ Extensions:
         self.hold_timer.cancel()
 
     def stop(self):
-        self.rawAsynchronousMoveTo(self.itc.getTempSensor())
+        if self.stop_sets_setpoint_to_readback:
+            self.rawAsynchronousMoveTo(self.itc.getTempSensor())
         self.stable = True
         if self.verbose:
             print "IntelligentTemperatureControllerScannable: Stopped"
