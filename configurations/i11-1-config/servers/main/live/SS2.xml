@@ -4,10 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="ss2x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-MO-TABLE-01:SS:02:X"/>
+		<property name="pvName" value="BL11J-MO-SSLID-02:X"/>
 	</bean>
 	<bean id="ss2y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-MO-TABLE-01:SS:02:Y"/>
+		<property name="pvName" value="BL11J-MO-SSLID-02:Y"/>
 	</bean>
 
 </beans>

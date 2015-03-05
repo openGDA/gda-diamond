@@ -44,6 +44,6 @@
 		<property name="engagePosition" value="0.0"/>
 		<property name="parkPosition" value="-400.0"/>
 		<property name="positionTolerance" value="0.001"/>
-		<property name="zPosition" value="-315"/>
+		<property name="zPosition" value="-400.0"/>
 	</bean>
 </beans>
