@@ -115,6 +115,12 @@ def allElementsAreListOfNumber(arg):
                 return False
     return True
 
+def allElementsAreNumber(arg):
+    for each in arg:
+        if not (type(each)==FloatType or type(each)==IntType):
+            return False
+    return True
+
 def analyserscan(*args):
     ''' a more generalised scan that extends standard GDA scan syntax to support 
     1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group and 
@@ -147,8 +153,11 @@ def analyserscan(*args):
             elif allElementsAreListOfNumber(arg):
                 #parsing scannable group's position lists
                 newargs.append(arg)
+            elif allElementsAreNumber(arg):
+                #parsing scannable group's position lists
+                newargs.append(arg)
             else:
-                raise TypeError, "Only tuple of scannables and tuple of list of numbers are supported."
+                raise TypeError, "Only tuple of scannables and tuple of numbers or list of numbers are supported."
         else:
             newargs.append(arg)
         i=i+1
