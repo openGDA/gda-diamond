@@ -2,7 +2,7 @@
 
 if [ -f "/etc/profile.d/modules.sh" ]; then
 	. /etc/profile.d/modules.sh	
-	module load java/gda832
+	module load java/7u51
 else
 	echo "cannot source /etc/profile.d/modules.sh"	
 	exit 1
