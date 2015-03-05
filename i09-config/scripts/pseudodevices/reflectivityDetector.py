@@ -12,7 +12,7 @@ SLITXOFFSET=-11.7 #mm 2.7 mm slit
 SLITZOFFSET=2.75 #mm
 TTHOFFSET=3.0 #-2.9131 #degree
 SINEBARLENGTH=12.5 #mm
-XTDIRECTBEAM=-179.68 #mm 2.7 mm slit 
+XTDIRECTBEAM=-179.61 #mm 2.7 mm slit 
 #XTDIRECTBEAM=-157.1 #mm -136.847
 #XTDIRECTBEAM=-135.878 #mm -136.847
 
@@ -55,9 +55,13 @@ class ReflectivityDetectorMotor(ScannableMotionBase):
         angle = (float(new_position) - TTHOFFSET) * pi / 180
         Xtval=XTOFFSET-(SAMPLEDETECTORDISTANCE-SLITZOFFSET)*tan(angle)+SLITXOFFSET/cos(angle)-SLITXOFFSET
         Xrval=-SINEBARLENGTH*sin(angle)
-#        if Xtval<self.xt.getLowerGdaLimits() or Xtval > self.xt.getUpperGdaLimits():
-#            raise ValueError(str(self.xt.getName()) + str(" is outside limits"))
-#        if Xrval<self.xr.getLowerGdaLimits() or Xrval > self.xr.getUpperGdaLimits():
+        if Xtval<self.xt.getLowerMotorLimit() or Xtval > self.xt.getUpperMotorLimit():
+            raise ValueError(str(self.xt.getName()) + str(" is outside limits"))
+        #print "xr value is " +str(Xrval)
+        if Xrval<self.xr.getLowerMotorLimit()+0.2:
+            Xrval=-6.25
+        elif Xrval > self.xr.getUpperMotorLimit()-0.2:
+            Xrval=6.25
 #            raise ValueError(str(self.xr.getName()) + str(" is outside limits"))
         self.xt.asynchronousMoveTo(Xtval)
         self.xr.asynchronousMoveTo(Xrval)
