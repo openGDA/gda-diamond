@@ -3,6 +3,7 @@
 # @author: Fajin Yuan
 # updated 26/06/2014
 from types import NoneType
+from java.io import File
 
 
 print "=================================================================================================================";
@@ -82,6 +83,28 @@ def setSubdirectory(dirname):
     
 def getSubdirectory():
     return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+
+def abspath(*bits):
+    return os.path.abspath(os.path.join(*bits))
+
+def cdd(dirname):
+    if dirname.startswith(File.separator):
+        LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, dirname)
+    else:
+        propertyValue=LocalProperties.get(LocalProperties.GDA_DATAWRITER_DIR)
+        if propertyValue.contains("$subdirectory$"):
+            propertyValue=propertyValue.replace("$subdirectory$", "")
+        visitdir=PathConstructor.createFromTemplate(propertyValue)
+        dirname=os.path.realpath(os.path.join(visitdir, "..", dirname))
+        LocalProperties.set(LocalProperties.GDA_DATAWRITER_DIR, dirname)
+    eventAdmin=Finder.getInstance().find("eventadmin")
+    if eventAdmin is None:
+        print "Cannot find 'eventAdmin' on the GDA server. Please create a Spring bean using 'Scriptcontroller' Java class"
+    else:
+        eventAdmin.update(LocalProperties.GDA_DATAWRITER_DIR, dirname)
+    print "Data Directory changed to "+ LocalProperties.get(LocalProperties.GDA_DATAWRITER_DIR)
+    
+alias("cdd")
 
 print
 
