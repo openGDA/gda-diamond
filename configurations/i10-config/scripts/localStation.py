@@ -10,6 +10,8 @@ global tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha, difx, lgf, lgb, lgm
 global RetTilt, RetRotation, AnaTilt ,AnaRotation, \
         AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb
 global mac116, mac117, mac118, mac119, mac120
+global RASOR_SCALER, UI1, UJ1
+global zebra
 
 import sys, gda, java
 #from rasor.init_scan_commands_and_processing import * 
@@ -522,7 +524,22 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating metadata objects")
 
+try:
+    print "Fixing extra names on RASOR mac scannables"
+    for scn in RASOR_SCALER.getGroupMembers():
+        scn.setInputNames([scn.name])
 
+    print "Fixing extra names on UI1 mac scannables"
+    for scn in UI1.getGroupMembers():
+        scn.setInputNames([scn.name])
+
+    print "Fixing extra names on UJ1 mac scannables"
+    for scn in UJ1.getGroupMembers():
+        scn.setInputNames([scn.name])
+    
+    print "Fixed extra names on all mac scannables"
+except:
+    localStation_exception(sys.exc_info(), "fixing extra names on mac scannables")
 
 ###############################################################################
 ###                           Wait for beam device                          ###
@@ -541,6 +558,12 @@ try:
     checkbeam.configure()
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
+
+try:
+    from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
+    gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
+except:
+    localStation_exception(sys.exc_info(), "creating gflow2 scannable")
 
 print "Attempting to run localStationUser.py for users script directory"
 try:
