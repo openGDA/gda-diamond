@@ -1,4 +1,4 @@
-Config=7
+Config=6
 
 # Configuration 1: 2.5 keV focused
 if Config==1:
@@ -16,7 +16,7 @@ if Config==1:
     pos hm1x 1.5
     pos hd3x -20.975
     pos hs1xgap 1.5
-    rscan dcmfpitch -4.5 4.5 0.1 hd3iamp4
+    scan dcmfpitch 0.5 9.5 0.1 hd3iamp4
     pos dcmfpitch peakdata.cfwhm
     pos hd3x -1
     pos hd4x -23.558
@@ -37,6 +37,9 @@ if Config==1:
     pos hm2y 4.1
     pos hm2x -2.902
     pos hm2pitch 4.861
+    
+# CCC
+    pos cccx -5
 
 #HM3
     pos hm3y 5
@@ -87,6 +90,9 @@ if Config==2:
 
     pos hs1xgap 1.5
     pos hd4x -1
+
+# CCC
+    pos cccx -5
 
 #HM3
     pos hm3y 5
@@ -153,7 +159,7 @@ if Config==4:
     pos dcmfpitch 5
     pos dcmfroll 5
     pos dcmpitch 0.0458
-    pos dcmroll -0.0185
+    pos dcmroll -0.0254
     hd3iamp4.setGain("10^4 low noise")
     hd4iamp6.setGain("10^4 low noise")
     pos hm1pitch 0
@@ -170,22 +176,22 @@ if Config==4:
     pos hd4x -1
     pos hs1xgap 1.5
 
-    pos dcmoffset 23.0
-    pos hs2ycentre 22.7
+    pos dcmoffset 22.6
+    pos hs2ycentre 22.3
 # HM1
-    pos hm1y -91.345
+    pos hm1y -91.745
     pos hm1x 0.475
     pos hm1pitch 2.846
     pos hm1yaw 0.12
-    pos hm1roll 0.02
+    pos hm1roll 0.0
 
 # HM2
-    pos hm2y 11.1
+    pos hm2y 10.7
     pos hm2x -1.6894
     pos hm2pitch 3.1275
 
 # CCC
-    pos cccy -71
+    pos cccy -71.4
     pos cccx 4.2
     
 # Check dcm energy
@@ -201,7 +207,8 @@ if Config==4:
     pos hm3elipticalbender 1190
 
 # Configuration 5: Si(044) channel cut focused @ 8.1417 keV
-if Config==5:
+if Config==5:    
+    pos cccx -5
     pos igap 7.47
     pos dcmenergy 8.1417
     pos dcmoffset 16
@@ -242,7 +249,7 @@ if Config==5:
 
 # CCC
     pos cccy -10.5
-#pos cccx 4.35
+    pos cccx 4.35
 
 # HM3
     pos hm3x 1.4
@@ -289,6 +296,9 @@ if Config==6:
     pos hm2y 4.1
     pos hm2x -4.838
     pos hm2pitch 6.64
+    
+# CCC
+    pos cccx -5
 
 #HM3
     pos hm3y 5
@@ -297,7 +307,7 @@ if Config==6:
     pos hm3mainbender 103000
     pos hm3elipticalbender 730
 
-# Configuration 6: 2.5 keV defocused in vertical direction only
+# Configuration 7: 2.5 keV defocused in vertical direction only
 if Config==7:
 #   pos igap 15.39
     ienergy.setOrder(1)
@@ -336,6 +346,9 @@ if Config==7:
     pos hm2y 4.1
     pos hm2x -4.838
     pos hm2pitch 6.64
+    
+# CCC
+    pos cccx -5
 
 #HM3
     pos hm3y 5
