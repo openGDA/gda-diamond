@@ -2,7 +2,7 @@
 from Diamond.PseudoDevices.ID_Polarisation import ID_PolarisationClass;
 #from Diamond.PseudoDevices.ID_Polarisation import ID_PolarisationWithMonitorClass
 from Diamond.PseudoDevices.ID_Polarisation import EnergyConsolidationClass;
-from Diamond.PseudoDevices.ID_Polarisation import NewEnergyConsolidationClass;
+#from Diamond.PseudoDevices.ID_Polarisation import NewEnergyConsolidationClass;
 
 from Diamond.PseudoDevices.ID_Polarisation import CombinedIDEnergyClass;
 
@@ -32,7 +32,7 @@ iduEnablePV = "SR06I-MO-SERVC-21:IDBLENA";
 iddpol = ID_PolarisationClass('iddpol', iddpolSetPV, iddpolGetPV, iddpolStatusPV, iddEnablePV);
 denergy = EnergyConsolidationClass('denergy', iddpol, denergy0, denergy1);
 hdenergy = EnergyConsolidationClass('hdenergy', iddpol, iddpgmenergy, denergy1);
-newdenergy = NewEnergyConsolidationClass('denergy', iddpol, denergy0, denergy1);
+#newdenergy = NewEnergyConsolidationClass('denergy', iddpol, denergy0, denergy1);
 iddrpenergy = EnergyConsolidationClass('iddrpenergy', iddpol, iddrpenergy0, iddrpenergy1);
 Energy.addGroupMember(denergy);
 Energy.addGroupMember(hdenergy);
