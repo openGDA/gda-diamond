@@ -11,7 +11,7 @@ class UndulatorControlClass:
         self.xpol = 'pc'
         self.offhar = 0.0
         self.detune = 3.0
-        self.xmode = '2idxmcd' # other possible values: '2idxas', 'idd' , 'idu'
+        self.xmode = 'idxmcd' # other possible values: 'idxas', 'idd' , 'idu'
         self.ugap = 50.0
         self.ugap_unused = ugap_unused
         self.dgap_unused = dgap_unused
@@ -107,20 +107,20 @@ class UndulatorControlClass:
   
     def calcIdPos(self,energy):
         #this method calculates the ID position. The allowed mode are:
-        #'2idxmcd' to make xmcd with 2 undulators with opposite polarization
-        #'2idxas' to use 2 undulator at the same energy and polarization, for maximum intensity
+        #'idxmcd' to make xmcd with 2 undulators with opposite polarization
+        #'idxas' to use 2 undulator at the same energy and polarization, for maximum intensity
         #'idd', 'idu' to use only one undulator
         #the field 'offhar' is used to keep the undulator slightly detuned and reduce the flux
         #the field 'detune' is the amount of mm the gap of the undulator with unwnated polarization is closed
-        #when using '2idxmcd' e
-        if self.xmode not in ['2idxmcd', '2idxas', 'idd', 'idu']:
-            print "mode string is wrong: legal values ['2idxmcd', '2idxas', 'idd', 'idu']. Operation cancelled."
+        #when using 'idxmcd' e
+        if self.xmode not in ['idxmcd', 'idxas', 'idd', 'idu']:
+            print "mode string is wrong: legal values ['idxmcd', 'idxas', 'idd', 'idu']. Operation cancelled."
             return 0
         if (self.xpol not in(['pc', 'nc', 'lh', 'lv'])):
             print "polarization string is wrong: legal values ['pc', 'nc', 'lh', 'lv']"
             return 0  
      
-        if ((self.xmode.upper() == '2IDXMCD')&(self.xpol in ['pc', 'nc'])):
+        if ((self.xmode.upper() == 'IDXMCD')&(self.xpol in ['pc', 'nc'])):
             #print "calculatin Id parameters for 2 undulator xmcd, circular"        
             dgap = self.idmm(energy, self.dpcListGap)    
             ugap = self.idmm(energy, self.uncListGap)
@@ -133,7 +133,7 @@ class UndulatorControlClass:
             dtrp = dbrp = self.idmm(dgap,self.dpcListPhase)
             utrp = ubrp = self.idmm(ugap,self.uncListPhase)
 
-        if ((self.xmode.upper() == '2IDXMCD')&(self.xpol in ['lh', 'lv'])):
+        if ((self.xmode.upper() == 'IDXMCD')&(self.xpol in ['lh', 'lv'])):
             #print "2 undulator xmcd, linear"        
             dgap = self.idmm(energy, self.dlhListGap)    
             ugap = self.idmm(energy, self.ulvListGap)
@@ -147,7 +147,7 @@ class UndulatorControlClass:
             utrp = self.idmm(energy, self.dlvListPhase)
             ubrp = -self.idmm(energy, self.dlvListPhase)
 
-        if (self.xmode.upper() == '2IDXAS'):
+        if (self.xmode.upper() == 'IDXAS'):
             #print "2 undulator xas"        
             dgap = self.idmm(self.energy, self.dListGapDict[self.xpol])    
             ugap = self.idmm(self.energy, self.uListGapDict[self.xpol])
@@ -315,13 +315,13 @@ class XmodeClass(PseudoDevice):
         self.setExtraNames([])
         self.setOutputFormat(['%s'])
         self.setLevel(4)
-        self.xmode = '2idxmcd'
+        self.xmode = 'idxmcd'
         self.iambusy = False
         #self.aliases = {'xmcd': 'xmcd2und', 'xmcd2und' : 'xmcd2und', 'xas' : 'xas2und', 'xas2und': 'xas2und'} 
         #self.aliases.update({'xdd': 'xdd', 'xud': 'xud'})
 
     def getPosition(self): 
-        print "allowed xmode values: iduxmcd, iduxas, idd, idu"
+        print "allowed xmode values: idxmcd, idxas, idd, idu"
         self.xmode = self.id.xmode
         return self.xmode
 
@@ -400,8 +400,8 @@ class DetuneClass(PseudoDevice):
 
 exec('[ins_device, xenergy, xpol, xmode, offhar, detune] = [None, None, None, None, None, None]')
 
-iduxmcd = '2idxmcd'
-iduxas = '2idxas'
+idxmcd = 'idxmcd'
+idxas = 'idxas'
 idd =  'idd'
 idu = 'idu'
 
