@@ -1,20 +1,19 @@
 #!/bin/bash
-# This script is only invoked when user gda2 ssh's to the control machine. It is run by an entry in gda's ~/.ssh/authorized_keys
 
-here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-# This script is run as a single command by ssh, so we need to set up our environment
-# See http://stackoverflow.com/questions/216202/why-does-an-ssh-remote-command-get-fewer-environment-variables-then-when-run-man
 . /usr/share/Modules/init/bash
+. /dls_sw/i15/etc/i15_profile.sh
 
-# There is no user or screen to prompt or display pop-ups
-export GDA_NO_PROMPT=true
+CMD="$SSH_ORIGINAL_COMMAND"
+: ${CMD:="$*"}
 
-# Set an environment variable to indicate we came through the remote startup script, so that we can error if we attempt to do this recursively
-export GDA_IN_REMOTE_STARTUP=true
+SOFTWAREFOLDER=dls_sw; export SOFTWAREFOLDER
+OBJECT_SERVER_STARTUP_FILE=/$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/object_server_startup_server_main
+rm -f $OBJECT_SERVER_STARTUP_FILE
 
-if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then 
-    ${here_dir}/gda  --${SSH_ORIGINAL_COMMAND} --mode=live servers
-else
-    ${here_dir}/gda --restart --mode=live servers
-fi
+/dls_sw/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/bin/GDA_StartServers $CMD
+
+# look for the output file which will tell us when the servers have started
+
+/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-mt.git/configurations/mt-config/bin/lookForFile $OBJECT_SERVER_STARTUP_FILE Server
+
+echo Completed $0

@@ -15,6 +15,16 @@
 		http://www.diamond.ac.uk/schema/gda/corba
 		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/live/java.properties</value>
+				<value>file:${gda.config}/properties/common/java.properties</value>
+			</list>
+		</property>
+	</bean>
+
 	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" />
-    <import resource="../_common/client.xml"/>
+
+	<import resource="../common/client.xml"/>
 </beans>

@@ -19,7 +19,7 @@
 -Dgda.propertiesFile=../workspace_git/gda-mt.git/configurations/i15-config/properties/live/java.properties
 -Dgov.aps.jca.JCALibrary.properties=../workspace_git/gda-mt.git/configurations/i15-config/jca/live/JCALibrary.properties
 -Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i15-config/clients/main/common/pluginCustomization.ini
--Dgda.logs.dir=../../../logs
+-Dgda.logs.dir=../../../../logs
 -Dgda.client.jython.automatic.interpreter=1
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
