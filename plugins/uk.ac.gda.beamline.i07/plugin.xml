@@ -34,7 +34,7 @@
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension targetID="uk.ac.gda.sixd.ExperimentPerspective">
          <view
-               closeable="false"
+               closeable="true"
                id="gda.rcp.jythonterminalview"
                minimized="false"
                moveable="true"
@@ -54,7 +54,7 @@
                visible="true">
          </view>
          <view
-               closeable="false"
+               closeable="true"
                id="gda.rcp.jythoneditorview"
                moveable="true"
                ratio="0.3"
@@ -64,7 +64,7 @@
                visible="true">
          </view>
          <view
-               closeable="false"
+               closeable="true"
                id="uk.ac.gda.client.liveplotview"
                minimized="false"
                moveable="true"
@@ -75,7 +75,7 @@
                visible="true">
          </view>
          <view
-               closeable="false"
+               closeable="true"
                id="uk.ac.diamond.scisoft.analysis.rcp.views.ImageExplorerView"
                minimized="false"
                moveable="true"
@@ -83,7 +83,7 @@
                relative="uk.ac.gda.client.liveplotview">
          </view>
          <view
-               closeable="false"
+               closeable="true"
                id="uk.ac.gda.sixd.views.AreaDetectorView"
                moveable="true"
                ratio="0.5"
