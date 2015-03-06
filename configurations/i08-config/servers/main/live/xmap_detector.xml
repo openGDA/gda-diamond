@@ -67,28 +67,40 @@
 		<property name="writeErrorStatusSupported" value="false" />
 	</bean>
 	
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.XmapMappingModeEpicsLayer">
+		<constructor-arg index="0" value="BL08I-EA-DET-02:" />
+		<property name="PixelsPerBuffer" value="10" />
+	</bean>  
+	
+	<bean id="edxdcontroller" class="gda.device.detector.nxdetector.xmap.controller.XmapAcquisitionBaseEpicsLayer">
+		<constructor-arg index="0" value="BL08I-EA-DET-02:" />
+		<constructor-arg index="1" ref="xmapMapping" />		
+	</bean>
+	
+	<!-- <bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="epicsDeviceName" value="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="local" value="true" />
 		<property name="numberOfElements" value="1" />
-		<!-- <property name="pixelAdvanceMode" value="GATE" /> -->
-		<!-- <property name="hdf5" ref="raw_xmap_hdf5filewriter" /> -->
-	</bean>
-
-	<!-- <bean id="nDHDF5PVProvider" class="gda.device.detector.xmap.edxd.NDHDF5PVProvider">
-		<constructor-arg value="BL08I-EA-DET-02" />
-	</bean>
- -->
-	<bean id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm"
+	</bean>  -->
+ 	
+	<!-- <bean id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm"
 		class="gda.device.detector.xmap.XmapHardwareTriggeredCollectionStrategy">
 		<constructor-arg ref="edxdcontroller" />
-		<!-- <constructor-arg ref="nDHDF5PVProvider" /> -->
+	</bean> -->
+	
+	<bean id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm"
+		class="gda.device.detector.nxdetector.xmap.collectionStrategy.XmapHardwareTriggeredCollectionStrategy">
+		<constructor-arg ref="edxdcontroller" />
+	</bean> 
+	
+<!-- Separate the EPICs layer from the collection strategy though create two objects-->	
+	 <bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPVs">
+		<constructor-arg index="0" value="BL08I-EA-DET-02:XBUF:" />
 	</bean>
 	
-	 <bean id="xbuffer" class="gda.device.detector.xmap.XBufferPlugin">
-		<property name="basePVName" value="BL08I-EA-DET-02:XBUF:" />
-		<property name="EnableXBuf" value="ENABLE" />
+	<bean id="xbuffer" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPlugin">
+		<constructor-arg ref= "xbufferpv"/>
 	</bean>
 	
 <!-- Define ROIs -->
@@ -131,16 +143,6 @@
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="EnableROIPVPairSupported" value="false" />
 	</bean> 
-	
-	<!-- <bean id="xmap_hdf5_filereader" class="gda.device.detector.xmap.XmapReadbackHdf5NXPlugin">
-		<constructor-arg ref="edxdcontroller" />
-		<constructor-arg ref="nDHDF5PVProvider" />
-		<constructor-arg>
-			<list>
-				<value>1.1029752060937018e-007</value>
-			</list>
-		</constructor-arg>
-	</bean> -->
 
 	<!-- underscore as it should be wrapped in the scanwrapper -->
 	<bean id="_xmap" class="gda.device.detector.HardwareTriggeredNXDetector">

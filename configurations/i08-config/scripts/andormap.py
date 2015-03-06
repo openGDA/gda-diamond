@@ -5,6 +5,8 @@ from gdascripts.scan.trajscans import setDefaultScannables
 from gda.epics import CAClient
 import time
 import math
+from plotters import Plotter
+from gda.factory import Finder
 
 class AndorMap(RasterScan):
      
@@ -17,6 +19,10 @@ class AndorMap(RasterScan):
         self.andor = andor
         # setup the Andor trigger to internal for snapshots by default
         andor.getCollectionStrategy().getAdBase().setTriggerMode(0)
+        self.horizontal_plotter = Plotter("horizontal_plotter",'Horizontal',"Horizontal Gradient")
+        self.vertical_plotter = Plotter("vertical_plotter",'Vertical',"Vertical Gradient")
+        self.transmission_plotter = Plotter("transmission_plotter",'transmission_total',"Transmission")   
+        add_default self.horizontal_plotter.getPlotter() self.vertical_plotter.getPlotter() self.transmission_plotter.getPlotter()  
          
          
     def __call__(self, *args):
@@ -32,7 +38,7 @@ class AndorMap(RasterScan):
         #else :
          #   self.map_size = CAClient().get("BL08I-EA-DET-01:HDF5:ExtraDimSizeX_RBV")
           #  print "Map size will be",str(self.map_size)
-        self.PrepareForCollection()
+        self.PrepareForCollection(self.Xsize, self.Ysize)
         self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1]
         RasterScan.__call__(self,self.scanargs)
      
@@ -86,21 +92,18 @@ class AndorMap(RasterScan):
     def OpenAndorShutter(self):
         CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
      
-    def PrepareForCollection(self):   
+    def PrepareForCollection(self,Xsize,Ysize):   
         andor.getCollectionStrategy().getAdBase().stopAcquiring()
         time.sleep(1)
         self.OpenAndorShutter()
         self.ROISetup()
         self.OptimizeChunk()
-        self.resetPlotters()
+        self.resetPlotters(Xsize, Ysize)
         
-    def resetPlotters(self):
-         transmission_plotter.setXArgs(0, self.Xsize, 1)
-         transmission_plotter.setYArgs(0, self.Ysize, 1)
-         horizontal_plotter.setXArgs(0, self.Xsize, 1)
-         horizontal_plotter.setYArgs(0, self.Ysize, 1)
-         vertical_plotter.setXArgs(0, self.Xsize, 1)
-         vertical_plotter.setYArgs(0, self.Ysize, 1)
+    def resetPlotters(self, Xsize, Ysize):
+        self.vertical_plotter.setAxis(Xsize,Ysize)
+        self.horizontal_plotter.setAxis(Xsize,Ysize)
+        self.transmission_plotter.setAxis(Xsize,Ysize)
          
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX

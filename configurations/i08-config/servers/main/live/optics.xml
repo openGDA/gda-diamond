@@ -12,7 +12,12 @@
 		<property name="pvName" value="SR08I-MO-SERVC-01:BLGAPMTR" />
 		<property name="local" value="true" />
 	</bean>
-
+	
+<!--ID Energy including lookup with calibration of plane grating monochromator/ ID gap -->
+	 <!-- <bean id="idenergy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-MO-GLBL-01:ENERGY" />
+		<property name="local" value="true" />
+	</bean> -->
 <!--Frontend: Customized Aperture -->
 	 <bean id="bda_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE08I-AL-APTR-02:X" />
@@ -35,10 +40,10 @@
 		<property name="local" value="true" />
 	</bean>
 	
-	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
+	<!-- <bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-COLM-01:Y" />
 		<property name="local" value="true" />
-	</bean>
+	</bean> -->
 	
 	 <bean id="m1_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-COLM-01:ROLL" />
