@@ -327,14 +327,15 @@ if installation.isLive():
 else:
 	print "* Not installing piezo4 device (as not live installation) *"
 
+
 if installation.isLive():
 	print "Installing micospiezo1/2 devices from epics BL16B-EA-PIEZO-03:MMC"
 	micospiezo1=SetPvAndWaitForCallbackWithSeparateReadback2(
 		"micospiezo1", "BL16B-EA-PIEZO-03:MMC:01:DEMAND",
-					   "BL16B-EA-PIEZO-03:MMC:01:POS:RBV", 20, 0.000001)
+					   "BL16B-EA-PIEZO-03:MMC:01:POS:RBV", 40, 0.000001)
 	micospiezo2=SetPvAndWaitForCallbackWithSeparateReadback2(
 		"micospiezo2", "BL16B-EA-PIEZO-03:MMC:02:DEMAND",
-					   "BL16B-EA-PIEZO-03:MMC:02:POS:RBV", 20, 0.000001)
+					   "BL16B-EA-PIEZO-03:MMC:02:POS:RBV", 40, 0.000001)
 	micos = ScannableGroup('micos', [micospiezo1,  micospiezo2])
 	micos.configure()
 else:
@@ -452,7 +453,7 @@ if installation.isLive():
 
 
 if installation.isLive():
-	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
+	checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 10, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
 	checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
 	checkshtr1 = WaitForScannableState('checkshtr1', shtr1, secondsBetweenChecks=1,secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
 	checkbeam = ScannableGroup('checkbeam', [checkrc,  checkfe, checkshtr1])
@@ -503,7 +504,7 @@ if installation.isLive() and ENABLE_PILATUS:
 									iFileLoader=PilatusTiffLoader,
 									fileLoadTimout=60,
 									printNfsTimes=False,
-									returnPathAsImageNumberOnly=False)
+									returnPathAsImageNumberOnly=True)
 
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
@@ -557,7 +558,7 @@ if installation.isLive():
 																		iFileLoader=PilatusTiffLoader,
 																		fileLoadTimout=60,
 																		printNfsTimes=False,
-									returnPathAsImageNumberOnly=False)
+									returnPathAsImageNumberOnly=True)
 		medipix.disable_operation_outside_scans = True
 		medipix_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix_threshold_kev', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0_RBV', 10)
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
@@ -598,7 +599,7 @@ if installation.isLive():
 			                                                             panel_name_rcp='Plot 1',
 			                                                             fileLoadTimout=60,
 			                                                             printNfsTimes=False,
-			                                                             returnPathAsImageNumberOnly=False)
+			                                                             returnPathAsImageNumberOnly=True)
 		else:
 			from scannable.SwitchableProcessingDetectorWrapperWithReconnect import SwitchableProcessingDetectorWrapperWithReconnect
 			psl = SwitchableProcessingDetectorWrapperWithReconnect('psl',
@@ -611,7 +612,7 @@ if installation.isLive():
 			                                                       panel_name_rcp='Plot 1',
 			                                                       fileLoadTimout=60,
 			                                                       printNfsTimes=False,
-			                                                       returnPathAsImageNumberOnly=False)
+			                                                       returnPathAsImageNumberOnly=True)
 		psl.disable_operation_outside_scans = True
 		psl.processors=[DetectorDataProcessorWithRoi('max', psl, [SumMaxPositionAndValue()], False)]
 		psl.display_image = True
@@ -694,8 +695,11 @@ if not installation.isLive():
 
 else:
 	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Detector Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], panel_name='Detector Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
+	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
+	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp2, report_path = False))
 
 def configureScanPipeline(length = None, simultaneousPoints = None):
 	lengthProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_LENGTH
@@ -754,6 +758,7 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		[],
 		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
+		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
 	pcoedgepeak2d = DetectorDataProcessorWithRoi('peak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
@@ -771,6 +776,7 @@ if installation.isLive() and ENABLE_PCO4000:
 		[],
 		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
+		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
 	pco4000peak2d = DetectorDataProcessorWithRoi('peak2d', pco4000, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
