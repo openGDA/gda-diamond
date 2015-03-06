@@ -30,18 +30,18 @@ idupolStatusPV = 'BL06I-OP-IDU-01:POL:STATUS';
 iduEnablePV = "SR06I-MO-SERVC-21:IDBLENA";
 
 iddpol = ID_PolarisationClass('iddpol', iddpolSetPV, iddpolGetPV, iddpolStatusPV, iddEnablePV);
-denergy = EnergyConsolidationClass('denergy', iddpol, denergy0, denergy1);
-hdenergy = EnergyConsolidationClass('hdenergy', iddpol, iddpgmenergy, denergy1);
+denergy = EnergyConsolidationClass('denergy', iddpol, denergy0, denergy1, inPositionTolerance = 0.05);
+hdenergy = EnergyConsolidationClass('hdenergy', iddpol, iddpgmenergy, denergy1, inPositionTolerance = 0.05);
 #newdenergy = NewEnergyConsolidationClass('denergy', iddpol, denergy0, denergy1);
-iddrpenergy = EnergyConsolidationClass('iddrpenergy', iddpol, iddrpenergy0, iddrpenergy1);
+iddrpenergy = EnergyConsolidationClass('iddrpenergy', iddpol, iddrpenergy0, iddrpenergy1, inPositionTolerance = 0.05);
 Energy.addGroupMember(denergy);
 Energy.addGroupMember(hdenergy);
 Energy.addGroupMember(iddrpenergy);
 
 idupol = ID_PolarisationClass('idupol', idupolSetPV, idupolGetPV, idupolStatusPV, iduEnablePV);
-uenergy = EnergyConsolidationClass('uenergy', idupol, uenergy0, uenergy1);
-huenergy = EnergyConsolidationClass('uenergy', idupol, idupgmenergy, uenergy1);
-idurpenergy = EnergyConsolidationClass('idurpenergy', idupol, idurpenergy0, idurpenergy1);
+uenergy = EnergyConsolidationClass('uenergy', idupol, uenergy0, uenergy1, inPositionTolerance = 0.05);
+huenergy = EnergyConsolidationClass('uenergy', idupol, idupgmenergy, uenergy1, inPositionTolerance = 0.05);
+idurpenergy = EnergyConsolidationClass('idurpenergy', idupol, idurpenergy0, idurpenergy1, inPositionTolerance = 0.05);
 Energy.addGroupMember(uenergy);
 Energy.addGroupMember(huenergy);
 Energy.addGroupMember(idurpenergy);
