@@ -695,8 +695,11 @@ if not installation.isLive():
 
 else:
 	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Detector Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], panel_name='Detector Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
+	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
+	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp2, report_path = False))
 
 def configureScanPipeline(length = None, simultaneousPoints = None):
 	lengthProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_LENGTH
