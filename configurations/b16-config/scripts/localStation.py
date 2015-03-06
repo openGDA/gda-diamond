@@ -327,14 +327,15 @@ if installation.isLive():
 else:
 	print "* Not installing piezo4 device (as not live installation) *"
 
+
 if installation.isLive():
 	print "Installing micospiezo1/2 devices from epics BL16B-EA-PIEZO-03:MMC"
 	micospiezo1=SetPvAndWaitForCallbackWithSeparateReadback2(
 		"micospiezo1", "BL16B-EA-PIEZO-03:MMC:01:DEMAND",
-					   "BL16B-EA-PIEZO-03:MMC:01:POS:RBV", 20, 0.000001)
+					   "BL16B-EA-PIEZO-03:MMC:01:POS:RBV", 40, 0.000001)
 	micospiezo2=SetPvAndWaitForCallbackWithSeparateReadback2(
 		"micospiezo2", "BL16B-EA-PIEZO-03:MMC:02:DEMAND",
-					   "BL16B-EA-PIEZO-03:MMC:02:POS:RBV", 20, 0.000001)
+					   "BL16B-EA-PIEZO-03:MMC:02:POS:RBV", 40, 0.000001)
 	micos = ScannableGroup('micos', [micospiezo1,  micospiezo2])
 	micos.configure()
 else:
