@@ -7,7 +7,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder
-		location="file:${gda.config}/properties/${gda.mode}/java.properties,file:${gda.config}/properties/java.properties" />
+		location="file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties,file:${gda.config}/properties/_common/common_instance_java.properties" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
@@ -467,10 +467,9 @@
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 	</bean>
 
-	<import resource="devices/${gda.mode}/i05_server_devices.xml" />
-	<import resource="i05_server_dummy.xml" />
-	<import resource="analyser.xml" />
-	<import resource="combinedgonio.xml" />
+	<import resource="../../../xml/devices/${gda.mode}/i05_server_devices.xml" />
+	<import resource="../../../xml/analyser.xml" />
+	<import resource="../../../xml/combinedgonio.xml" />
 
 	<corba:export namespace="i05" />
 	<gda:rbac />

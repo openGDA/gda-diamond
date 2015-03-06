@@ -1,44 +1,21 @@
-#! /bin/bash
+#!/bin/bash
+# This script is only invoked when user gda2 ssh's to the control machine. It is run by an entry in gda's ~/.ssh/authorized_keys
 
-export BEAMLINE=i05
+here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# This script is run as a single command by ssh, so we need to set up our environment
+# See http://stackoverflow.com/questions/216202/why-does-an-ssh-remote-command-get-fewer-environment-variables-then-when-run-man
 . /usr/share/Modules/init/bash
 
-. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
+# There is no user or screen to prompt or display pop-ups
+export GDA_NO_PROMPT=true
 
-LOGFILE=/dls_sw/$BEAMLINE/logs/gda_server.log
+# Set an environment variable to indicate we came through the remote startup script, so that we can error if we attempt to do this recursively
+export GDA_IN_REMOTE_STARTUP=true
 
-mv -f nohup.out nohup.out.0 || true
-touch nohup.out
+if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then 
+    ${here_dir}/gda  --${SSH_ORIGINAL_COMMAND} --mode=live servers
+else
+    ${here_dir}/gda --restart --mode=live servers
+fi 
 
-export GDA_CONFIG=/dls_sw/$BEAMLINE/software/gda/config
-
-( 
-/dls_sw/$BEAMLINE/software/gda/bin/gda --stop logserver || true
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --mode=live nameserver 
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --mode=live eventserver 
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --mode=live logserver 
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --mode=live --properties=/dls_sw/$BEAMLINE/software/gda/config/properties/java.properties.clientlogserver logserver 
-JAVA_OPTS="-Xms1024m -Xmx8192m -XX:PermSize=256m -XX:MaxPermSize=512m" nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --mode=live --debug --verbose objectserver 
-) &
-
-cat >> $LOGFILE <<EOF
-
-gda server restart
-
-EOF
-
-## show log until 'Server initialisation complete' is seen
-PIP=/tmp/`basename $0`-$$
-mknod $PIP p
-tail -n 1 -f $LOGFILE >  $PIP &
-awk '{
-        if (!/DEBUG/) print ;
-        if (/gda.util.ObjectServer - Server initialisation complete.*server.xml/) {
-                print "\nAll done, you can start the client now\n" ;
-                exit ;
-        }
-}' < $PIP
-rm $PIP
-
-sleep 6
