@@ -503,7 +503,7 @@ if installation.isLive() and ENABLE_PILATUS:
 									iFileLoader=PilatusTiffLoader,
 									fileLoadTimout=60,
 									printNfsTimes=False,
-									returnPathAsImageNumberOnly=False)
+									returnPathAsImageNumberOnly=True)
 
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
@@ -557,7 +557,7 @@ if installation.isLive():
 																		iFileLoader=PilatusTiffLoader,
 																		fileLoadTimout=60,
 																		printNfsTimes=False,
-									returnPathAsImageNumberOnly=False)
+									returnPathAsImageNumberOnly=True)
 		medipix.disable_operation_outside_scans = True
 		medipix_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix_threshold_kev', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0_RBV', 10)
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
@@ -598,7 +598,7 @@ if installation.isLive():
 			                                                             panel_name_rcp='Plot 1',
 			                                                             fileLoadTimout=60,
 			                                                             printNfsTimes=False,
-			                                                             returnPathAsImageNumberOnly=False)
+			                                                             returnPathAsImageNumberOnly=True)
 		else:
 			from scannable.SwitchableProcessingDetectorWrapperWithReconnect import SwitchableProcessingDetectorWrapperWithReconnect
 			psl = SwitchableProcessingDetectorWrapperWithReconnect('psl',
@@ -611,7 +611,7 @@ if installation.isLive():
 			                                                       panel_name_rcp='Plot 1',
 			                                                       fileLoadTimout=60,
 			                                                       printNfsTimes=False,
-			                                                       returnPathAsImageNumberOnly=False)
+			                                                       returnPathAsImageNumberOnly=True)
 		psl.disable_operation_outside_scans = True
 		psl.processors=[DetectorDataProcessorWithRoi('max', psl, [SumMaxPositionAndValue()], False)]
 		psl.display_image = True
@@ -754,6 +754,7 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		[],
 		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
+		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
 	pcoedgepeak2d = DetectorDataProcessorWithRoi('peak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
@@ -771,6 +772,7 @@ if installation.isLive() and ENABLE_PCO4000:
 		[],
 		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
+		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
 	pco4000peak2d = DetectorDataProcessorWithRoi('peak2d', pco4000, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
