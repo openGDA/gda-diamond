@@ -32,9 +32,9 @@ bashlog info "gda_servers_pre_facility" "set \${GDA_VAR}=${GDA_VAR}"
 # Define GDA_LOGS_DIR
 if [ "${GDA_MODE}" == "live" ]; then
     # GDA_LOGS_DIR will point to something like /dls_sw/<beamline>/logs/
-    export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../../logs)
+    export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../../logs/servers)
 else
-    export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/logs
+    export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/logs/servers
 fi
 bashlog info "gda_servers_pre_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
 
