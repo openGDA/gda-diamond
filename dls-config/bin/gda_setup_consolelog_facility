@@ -1,7 +1,8 @@
-# Parameter 1 is the console log name - {servers|<servername>|client|logpanel}
+# Parameter 1 is the console log folder name - {servers|client|logpanel}
 bashlog debug "gda_setup_consolelog_facility" "Entered"
+echo parameter 1 is $1
 
-export GDA_LOG_FILE="${GDA_LOGS_DIR}/gda_script_log.txt"
+export GDA_LOG_FILE="${GDA_LOGS_DIR}/$1/gda_script_log.txt"
 consolelogfile_dir=$(dirname ${GDA_LOG_FILE})
 consolelogfile_name=$(basename ${GDA_LOG_FILE})
 

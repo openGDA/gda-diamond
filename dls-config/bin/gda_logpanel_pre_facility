@@ -7,8 +7,8 @@ module load global/http_proxy
 # Define GDA_LOGS_DIR
 if [ "${GDA_MODE}" == "live" ]; then
   # GDA_LOGS_DIR will point to something like /dls_sw/<beamline>/logs/
-  export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../../logs/logpanel)
+  export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../../logs)
 else
-  export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/logs/logpanel
+  export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/logs
 fi
 echo GDA_LOGS_DIR = $GDA_LOGS_DIR
