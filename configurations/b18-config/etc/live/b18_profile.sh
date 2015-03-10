@@ -6,10 +6,5 @@ if [ ! -n "$BEAMLINE" ]; then
   exit 1
 fi
 
-export GDA_INSTANCE_NAME=${BEAMLINE}
-
-export GDA_WORKSPACE_PARENT=/dls_sw/$BEAMLINE/software/gda
-export GDA_INSTANCE_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-dls-beamlines-xas.git/b18
-export PATH=$GDA_INSTANCE_CONFIG/bin:${PATH}
+export PATH=/dls_sw/b18/software/gda/workspace_git/gda-dls-beamlines-xas.git/b18/bin:${PATH}
 export GDA_MODE=live
-

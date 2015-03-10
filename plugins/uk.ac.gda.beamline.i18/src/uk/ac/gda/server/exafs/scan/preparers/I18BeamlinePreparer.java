@@ -57,27 +57,23 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 	private final I18BeamMonitor beamMonitor;
 	private final DetectorFillingMonitorScannable detectorFillingMonitor;
 	private final AutoRenameableConverter auto_mDeg_idGap_mm_converter;
-	private final Scannable energyScannable;
+	protected Scannable energyNoGap;
+	protected Scannable energyWithGap;
+	protected Scannable energyInUse;
 
 	private IScanParameters scanBean;
 	private IDetectorParameters detectorBean;
-	@SuppressWarnings("unused")
-	private ISampleParameters sampleParameters;
-	@SuppressWarnings("unused")
-	private IOutputParameters outputBean;
-	@SuppressWarnings("unused")
-	private String experimentFullPath;
 	private Date scanStart;
-
-	private boolean handleGapConverter;
 
 	public I18BeamlinePreparer(TopupChecker topupMonitor, I18BeamMonitor beamMonitor,
 			DetectorFillingMonitorScannable detectorFillingMonitor,
-			Scannable energyScannable, AutoRenameableConverter auto_mDeg_idGap_mm_converter) {
+			Scannable energyWithGap, Scannable energyNoGap, AutoRenameableConverter auto_mDeg_idGap_mm_converter) {
 		this.topupMonitor = topupMonitor;
 		this.beamMonitor = beamMonitor;
 		this.detectorFillingMonitor = detectorFillingMonitor;
-		this.energyScannable = energyScannable;
+		this.energyWithGap = energyWithGap;
+		this.energyNoGap = energyNoGap;
+		this.energyInUse = energyWithGap;
 		this.auto_mDeg_idGap_mm_converter = auto_mDeg_idGap_mm_converter;
 	}
 
@@ -87,9 +83,6 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 			throws Exception {
 		this.scanBean = scanBean;
 		this.detectorBean = detectorBean;
-		this.sampleParameters = sampleParameters;
-		this.outputBean = outputBean;
-		this.experimentFullPath = experimentFullPath;
 	}
 
 	@Override
@@ -128,7 +121,6 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 	}
 
 	private void moveMonoToInitialPosition() throws DeviceException, InterruptedException {
-		handleGapConverter = true;
 		Double initialPosition = null;
 		if (scanBean instanceof XasScanParameters) {
 			initialPosition = ((XasScanParameters) scanBean).getInitialEnergy();
@@ -143,15 +135,17 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 			}
 		}
 
-		if (energyScannable != null && initialPosition != null) {
-			energyScannable.waitWhileBusy();
-			energyScannable.asynchronousMoveTo(initialPosition);
+		if (energyInUse != null && initialPosition != null) {
+			energyInUse.waitWhileBusy();
+			energyInUse.moveTo(initialPosition);
 			log("Moving mono to initial position...");
-			log("move complete, disabling harmonic change");
-			log("disabling harmonic converter");
 
-			auto_mDeg_idGap_mm_converter.disableAutoConversion();
-			handleGapConverter = true;
+			if (energyInUse == energyWithGap) {
+				log("mono move complete, disabling harmonic change");
+				auto_mDeg_idGap_mm_converter.disableAutoConversion();
+			} else {
+				log("mono move complete.");
+			}
 		}
 	}
 
@@ -167,9 +161,9 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 		log("Map start time " + scanStart);
 		log("Map end time " + scanEnd);
 		// if (moveMonoToStartBeforeScan) {
-		energyScannable.stop();
+//		energyScannable.stop();
 		// }
-		if (handleGapConverter) {
+		if (energyInUse == energyWithGap) {
 			// TODO move to I18's detectorPreparer.completeCollection() call one of the preparers here to do some
 			// beamline specific reset
 			// print "enabling gap converter"
@@ -179,6 +173,15 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 
 		// for maps
 		((JythonServer) Finder.getInstance().find("command_server")).removeDefault(detectorFillingMonitor);
+	}
+
+	public void setUseWithGapEnergy() {
+		energyInUse = energyWithGap;
+		
+	}
+
+	public void setUseNoGapEnergy() {
+		energyInUse = energyNoGap;
 	}
 
 }

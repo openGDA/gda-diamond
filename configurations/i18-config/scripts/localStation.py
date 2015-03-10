@@ -1,5 +1,3 @@
-#@PydevCodeAnalysisIgnore
-
 from uk.ac.gda.server.exafs.scan.preparers import I18BeamlinePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
@@ -8,24 +6,23 @@ from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan, XasScanFactory
 from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap, FasterRasterMap, MapFactory
 
 from gda.configuration.properties import LocalProperties
-from gda.data import PathConstructor
-from gda.data.fileregistrar import IcatXMLCreator
+#from gda.data import PathConstructor
+#from gda.data.fileregistrar import IcatXMLCreator
 from gda.device.monitor import DummyMonitor
 from gda.device.scannable import DummyScannable
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import I18BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
-from gda.device.scannable import I18LineRepeatingBeamMonitor
 from gda.factory import Finder
-from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
-from cid_photodiode import CidPhotoDiode
+#from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
+#from cid_photodiode import CidPhotoDiode
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
-from gda.data.scan.datawriter import NexusDataWriter
+#from gda.data.scan.datawriter import NexusDataWriter
 
-from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
-from edxd_calibrator import refinement #script refinement that is used to calibrate the vortex about once a year
-from sampleStageTilt import *
-from pd_setPvAndWaitForCallbackWithSeparateReadback import SetPvAndWaitForCallbackWithSeparateReadback2
+#from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
+#from edxd_calibrator import refinement #script refinement that is used to calibrate the vortex about once a year
+#from sampleStageTilt import *
+#from pd_setPvAndWaitForCallbackWithSeparateReadback import SetPvAndWaitForCallbackWithSeparateReadback2
 
 print "Initialization Started";
 
@@ -61,12 +58,6 @@ detectorFillingMonitor.setStartTime(9)
 detectorFillingMonitor.setDuration(25.0)
 detectorFillingMonitor.configure()
 
-trajBeamMonitor = I18LineRepeatingBeamMonitor(energy)
-trajBeamMonitor.setName("trajBeamMonitor")
-trajBeamMonitor.configure()
-trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
-trajBeamMonitor.setLevel(1)
-
 add_default topupMonitor
 add_default beamMonitor
 
@@ -99,7 +90,7 @@ if finder.find("datawriterconfig").getHeader() != None:
 elementListScriptController =  finder.find("elementListScriptController")
 
 gains = [i0_keithley_gain, it_keithley_gain]
-detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xmapMca, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xmap, buffered_cid, None)
+detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3,FFI0_xspress3, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xspress3,qexafs_FFI0_xspress3, buffered_cid, None)
 samplePreparer   = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 
@@ -108,12 +99,15 @@ if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'Us
 else:
     energy_scannable_for_scans = energy_nogap
     
+# while testing in low-alpha only
+energy_scannable_for_scans = energy_nogap
+    
 # simulation
 if (LocalProperties.get("gda.mode") == 'dummy'):
     energy(7000)
     energy_nogap(7000)
     
-beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy_scannable_for_scans, auto_mDeg_idGap_mm_converter)
+beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter)
 
 theFactory = XasScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);
@@ -145,7 +139,8 @@ mapFactory.setSamplePreparer(samplePreparer);
 mapFactory.setOutputPreparer(outputPreparer);
 mapFactory.setLoggingScriptController(XASLoggingScriptController);
 mapFactory.setDatawriterconfig(datawriterconfig);
-mapFactory.setEnergyScannable(energy_scannable_for_scans);
+mapFactory.setEnergyWithGapScannable(energy);
+mapFactory.setEnergyNoGapScannable(energy_nogap);
 mapFactory.setMetashop(Finder.getInstance().find("metashop"));
 mapFactory.setIncludeSampleNameInNexusName(True);
 mapFactory.setCounterTimer(counterTimer01);
@@ -156,7 +151,6 @@ mapFactory.setElementListScriptController(elementListScriptController);
 mapFactory.setRasterMapDetectorPreparer(detectorPreparer);
 mapFactory.setTrajectoryMotor(traj1ContiniousX); # use the MapSelector object to switch to the large stage (stage 3)
 mapFactory.setPositionReader(finder.find("traj1PositionReader")); # use the MapSelector object to switch to the large stage (stage 3)
-mapFactory.setTrajectoryBeamMonitor(trajBeamMonitor);
 mapFactory.setScanName("step map")
 
 
@@ -164,7 +158,7 @@ non_raster_map = mapFactory.createStepMap()
 raster_map = mapFactory.createRasterMap()
 faster_raster_map = mapFactory.createFasterRasterMap();
 
-map = MapSelector(non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader)
+map = MapSelector(beamlinePreparer, non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader)
 
 
 if (LocalProperties.get("gda.mode") == 'live'):

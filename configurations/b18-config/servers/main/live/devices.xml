@@ -522,7 +522,7 @@
 		<property name="inputPv" value="BL18B-EA-TEMPC-02:OMINPUT_S2" />
 	</bean>
 
-	<bean id="ionc1_power_supply" class="gda.device.scannable.PowerSupplyScannable">
+	<bean id="ionc1_power_supply" class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL18B-EA-ISEG-01:V1_ACTUAL" />
 		<property name="voltage" value="BL18B-EA-ISEG-01:SET_V1_DEMAND" />
 		<property name="disable" value="BL18B-EA-ISEG-01:DISABLE:POLL" />
@@ -530,7 +530,7 @@
 		<property name="start_ramp" value="BL18B-EA-ISEG-01:V1_START" />
 	</bean>
 
-	<bean id="ionc2_power_supply" class="gda.device.scannable.PowerSupplyScannable">
+	<bean id="ionc2_power_supply" class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL18B-EA-ISEG-01:V2_ACTUAL" />
 		<property name="voltage" value="BL18B-EA-ISEG-01:SET_V2_DEMAND" />
 		<property name="disable" value="BL18B-EA-ISEG-01:DISABLE:POLL" />
@@ -538,7 +538,7 @@
 		<property name="start_ramp" value="BL18B-EA-ISEG-01:V2_START" />
 	</bean>
 
-	<bean id="ionc3_power_supply" class="gda.device.scannable.PowerSupplyScannable">
+	<bean id="ionc3_power_supply" class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL18B-EA-ISEG-02:V1_ACTUAL" />
 		<property name="voltage" value="BL18B-EA-ISEG-02:SET_V1_DEMAND" />
 		<property name="disable" value="BL18B-EA-ISEG-02:DISABLE:POLL" />

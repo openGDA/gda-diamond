@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<bean id="qexafs_energy" class="gda.device.scannable.I18QexafsScannable">
+	<bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.I18QexafsScannable">
 		<property name="motor" ref="dcm_energy_motor" />
 		<property name="inKev" value="true" />
 		<property name="lowerGdaLimits" value="2" />
@@ -26,6 +26,7 @@
 
 	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
+		<property name="daserver" ref = "daserver"/>
 		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
