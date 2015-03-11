@@ -1,4 +1,5 @@
 #!/bin/sh
+Rubbish
 export BEAMLINE=i08
 export GDAFOLDER=/dls_sw/$BEAMLINE/software
 export GDAVAR=/dls_sw/$BEAMLINE/software/gda_versions/var
