@@ -1,3 +1,4 @@
+from gda.configuration.properties import LocalProperties
 from gda.scan import ConstantVelocityRasterScan
 from gdascripts.scan import rasterscans
 from gdascripts.scan.rasterscans import RasterScan
@@ -90,7 +91,8 @@ class AndorMap(RasterScan):
         andor.getAdditionalPluginList()[0].setFramesChunks(framesPerChunk)
         
     def OpenAndorShutter(self):
-        CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
+        if (LocalProperties.get("gda.mode") == 'live'):
+            CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
      
     def PrepareForCollection(self,Xsize,Ysize):   
         andor.getCollectionStrategy().getAdBase().stopAcquiring()
