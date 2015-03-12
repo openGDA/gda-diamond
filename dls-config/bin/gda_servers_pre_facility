@@ -40,10 +40,6 @@ bashlog info "gda_servers_pre_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
 
 export OBJECT_SERVER_STARTUP_FILE=${GDA_VAR}/object_server_startup_server_main
 bashlog info "gda_servers_pre_facility" "set \${OBJECT_SERVER_STARTUP_FILE}=${OBJECT_SERVER_STARTUP_FILE}"
-if [[ -f "${OBJECT_SERVER_STARTUP_FILE}" ]]; then
-    bashlog info "gda_servers_pre_facility" "deleting ${OBJECT_SERVER_STARTUP_FILE}, last modified $(stat --format=%y ${OBJECT_SERVER_STARTUP_FILE} | cut -c 1-19)"
-    rm -fv ${OBJECT_SERVER_STARTUP_FILE}
-fi
 
 if [ "$GDA_MODE" = "live" ]; then
     export CONTROL_MACHINE_USER=gda2
