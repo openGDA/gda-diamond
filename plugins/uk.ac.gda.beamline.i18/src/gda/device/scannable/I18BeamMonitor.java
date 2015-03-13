@@ -48,8 +48,8 @@ public class I18BeamMonitor extends BeamMonitor implements InitializationListene
 		super.testShouldPause();
 
 		// set energy to same value so idgap goes to correct position.
-		Double beamlineEnergy = (Double) beamlineEnergyWithGapScannable.getPosition();
-		beamlineEnergyWithGapScannable.moveTo(beamlineEnergy);
+//		Double beamlineEnergy = (Double) beamlineEnergyWithGapScannable.getPosition();
+//		beamlineEnergyWithGapScannable.moveTo(beamlineEnergy);
 	}
 
 	@Override

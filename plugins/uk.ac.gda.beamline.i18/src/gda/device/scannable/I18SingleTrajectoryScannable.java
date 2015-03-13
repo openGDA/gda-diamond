@@ -31,6 +31,8 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 	
 	@Override
 	public void prepareForContinuousMove() throws DeviceException {
+		// force rebuild of trajectory for bi-di maps
+		trajectoryBuildDone = false;
 		super.prepareForContinuousMove();
 		
 		EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000);

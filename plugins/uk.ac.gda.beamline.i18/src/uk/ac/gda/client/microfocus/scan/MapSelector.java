@@ -28,6 +28,7 @@ import org.python.core.PySequence;
 
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.client.microfocus.scan.datawriter.MicroFocusWriterExtender;
+import uk.ac.gda.server.exafs.scan.preparers.I18BeamlinePreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
@@ -49,9 +50,12 @@ public class MapSelector {
 	private ContinuouslyScannable stage3TrajMotor;
 	private RealPositionReader stage1PositionReader;
 	private RealPositionReader stage3PositionReader;
+	private I18BeamlinePreparer beamlinePreparer;
 
-	public MapSelector(StepMap non_raster, RasterMap raster, FasterRasterMap faster_raster,
-			ContinuouslyScannable stage1TrajMotor, ContinuouslyScannable stage3TrajMotor, RealPositionReader stage1PositionReader, RealPositionReader stage3PositionReader) {
+	public MapSelector(I18BeamlinePreparer beamlinePreparer, StepMap non_raster, RasterMap raster, FasterRasterMap faster_raster,
+			ContinuouslyScannable stage1TrajMotor, ContinuouslyScannable stage3TrajMotor,
+			RealPositionReader stage1PositionReader, RealPositionReader stage3PositionReader) {
+		this.beamlinePreparer = beamlinePreparer;
 		this.non_raster = non_raster;
 		this.raster = raster;
 		this.faster_raster = faster_raster;
@@ -67,7 +71,7 @@ public class MapSelector {
 		String scanFileName = ((PySequence) pyArgs).__finditem__(1).asString();
 		String detectorFileName = ((PySequence) pyArgs).__finditem__(2).asString();
 		String outputFileName = ((PySequence) pyArgs).__finditem__(3).asString();
-		String folderName = ((PySequence) pyArgs).__finditem__(4).asString()+ "/";
+		String folderName = ((PySequence) pyArgs).__finditem__(4).asString() + "/";
 		int numRepetitions = ((PySequence) pyArgs).__finditem__(5).asInt();
 
 		// it has to be a MicroFocusScanParameters object or its not a map
@@ -81,7 +85,7 @@ public class MapSelector {
 			non_raster.doCollection(sampleFileName, scanFileName, detectorFileName, outputFileName, folderName,
 					numRepetitions);
 		}
-		return new PyInteger(0); 
+		return new PyInteger(0);
 	}
 
 	public MicroFocusWriterExtender getMFD() {
@@ -101,7 +105,7 @@ public class MapSelector {
 
 	public void setStage(int stageNumber) {
 
-		switch (stageNumber){
+		switch (stageNumber) {
 		case 1:
 			raster.setTrajectoryMotor(stage1TrajMotor);
 			raster.setPositionReader(stage1PositionReader);
@@ -117,6 +121,36 @@ public class MapSelector {
 		default:
 			InterfaceProvider.getTerminalPrinter().print("only stages 1 or 3 may be selected");
 		}
+	}
+
+	/**
+	 * Normal running conditions
+	 */
+	public void enableUseIDGap() {
+		non_raster.setUseWithGapEnergy();
+		raster.setUseWithGapEnergy();
+		faster_raster.setUseWithGapEnergy();
+		beamlinePreparer.setUseWithGapEnergy();
+	}
+
+	/**
+	 * For shutdown and machine-dev days when there is no control of the ID gap
+	 */
+	public void disableUseIDGap() {
+		non_raster.setUseNoGapEnergy();
+		raster.setUseNoGapEnergy();
+		faster_raster.setUseNoGapEnergy();
+		beamlinePreparer.setUseNoGapEnergy();
+	}
+
+	public void enableRealPositions() {
+		raster.setIncludeRealPositionReader(true);
+		faster_raster.setIncludeRealPositionReader(true);
+	}
+
+	public void disableRealPositions() {
+		raster.setIncludeRealPositionReader(false);
+		faster_raster.setIncludeRealPositionReader(false);
 	}
 
 }

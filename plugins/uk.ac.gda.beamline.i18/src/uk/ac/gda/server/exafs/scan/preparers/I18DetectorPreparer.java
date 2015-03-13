@@ -6,7 +6,6 @@ import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.BeamMonitor;
 import gda.device.scannable.DetectorFillingMonitorScannable;
@@ -30,6 +29,10 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.client.microfocus.scan.RasterMapDetectorPreparer;
+import uk.ac.gda.devices.detector.xspress3.Xspress3;
+import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
+import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector;
+import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0Detector;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDetectorPreparer {
@@ -37,7 +40,6 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 	private final Scannable[] gains;
 	private final TfgScalerWithFrames counterTimer01;
 	private final Xspress2Detector xspress2system;
-	private final Xmap xmpaMca;
 
 	private IScanParameters scanBean;
 	private IDetectorParameters detectorBean;
@@ -45,24 +47,28 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 	private BeamMonitor beam;
 	private DetectorFillingMonitorScannable detectorFillingMonitor;
 	private BufferedDetector qexafs_counterTimer01;
-	private BufferedDetector qexafs_xmap;
+	private Xspress3BufferedDetector qexafs_xspress3;
 	private BufferedDetector qexafs_xspress;
 	private BufferedDetector qexafsFFI0;
 	private BufferedDetector buffered_cid;
 	private NXDetector hardwareTriggeredCmos;
+	private Xspress3 xspress3;
+	private Xspress3FFoverI0Detector ffI0_xspress3;
+	private Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3;
 
-	public I18DetectorPreparer(Scannable[] gains, TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem,
-			Xmap vortexConfig, BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress,
-			BufferedDetector QexafsFFI0, BufferedDetector qexafs_xmap, BufferedDetector buffered_cid,
+	public I18DetectorPreparer(Scannable[] gains, TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem, Xspress3 xspress3, Xspress3FFoverI0Detector FFI0_xspress3, BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress,
+			BufferedDetector QexafsFFI0, Xspress3BufferedDetector qexafs_xspress3, Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3, BufferedDetector buffered_cid,
 			NXDetector hardwareTriggeredCmos) {
 		this.gains = gains;
 		this.counterTimer01 = ionchambers;
 		this.xspress2system = xspressSystem;
-		this.xmpaMca = vortexConfig;
+		this.xspress3 = xspress3;
+		this.ffI0_xspress3 = FFI0_xspress3;
 		this.qexafsFFI0 = QexafsFFI0;
-		this.qexafs_xmap = qexafs_xmap;
+		this.qexafs_xspress3 = qexafs_xspress3;
 		this.qexafs_counterTimer01 = qexafs_counterTimer01;
 		this.qexafs_xspress = qexafs_xspress;
+		this.qexafs_FFI0_xspress3 = qexafs_FFI0_xspress3;
 		this.buffered_cid = buffered_cid;
 		this.hardwareTriggeredCmos = hardwareTriggeredCmos;
 	}
@@ -78,12 +84,12 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
 			String detType = fluoresenceParameters.getDetectorType();
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
-			if (detType == "Germanium") {
+			if (detType.compareTo(FluorescenceParameters.GERMANIUM_DET_TYPE) == 0) {
 				xspress2system.setConfigFileName(xmlFileName);
 				xspress2system.configure();
-			} else if (detType == "Silicon") {
-				xmpaMca.setConfigFileName(xmlFileName);
-				xmpaMca.configure();
+			} else if (detType.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0){
+				xspress3.setConfigFileName(xmlFileName);
+				xspress3.loadConfigurationFromFile();
 			}
 			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
 			if (fluoresenceParameters.isCollectDiffractionImages() && scanBean instanceof MicroFocusScanParameters) {
@@ -132,22 +138,15 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 
 	@Override
 	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
-
-		// this was written before xspress3 added and implemented on the beamline (this was done for 8.4 in November
-		// 2014)
 		String expt_type = detectorBean.getExperimentType();
 		if (expt_type.equals("Transmission")) {
 			return new BufferedDetector[] { qexafs_counterTimer01 };
 		}
-
-		if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Silicon")) {
-			return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xmap, qexafsFFI0 };
-		} /*
-		 * else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) { return
-		 * createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3", "qexafs_FFI0_xspress3" });
-		 * }
-		 */
-
+		// else Fluo
+		String det_type = detectorBean.getFluorescenceParameters().getDetectorType();
+		if (det_type.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
+			return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3 };
+		} // else Ge
 		return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress, qexafsFFI0 };
 	}
 
@@ -159,14 +158,11 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 			return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid };
 		}
 
-		if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Silicon")) {
-			return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xmap };
-		} /*
-		 * else if (detectorBean.getFluorescenceParameters().getDetectorType().equals("Xspress3")) { return
-		 * createBufferedDetArray(new String[] { "qexafs_counterTimer01", "qexafs_xspress3", "qexafs_FFI0_xspress3" });
-		 * }
-		 */
-
+		// else Fluo
+		String det_type = detectorBean.getFluorescenceParameters().getDetectorType();
+		if (det_type.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
+			return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xspress3, qexafs_FFI0_xspress3 };
+		}// else Ge
 		return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress };
 	}
 

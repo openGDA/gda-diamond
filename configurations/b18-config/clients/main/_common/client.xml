@@ -61,24 +61,24 @@
 		<property name="service" ref="xspress3" />
 	</bean>
 
-	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xspressConfig" />
-		<property name="serviceInterface"
-			value="gda.device.detector.FluorescentDetectorConfiguration" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="vortexConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}vortexConfig" />
-		<property name="serviceInterface"
-			value="gda.device.detector.FluorescentDetectorConfiguration" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="xspress3Config" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xspress3Config" />
-		<property name="serviceInterface"
-			value="gda.device.detector.FluorescentDetectorConfiguration" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+<!-- 	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}xspressConfig" /> -->
+<!-- 		<property name="serviceInterface" -->
+<!-- 			value="gda.device.detector.FluorescentDetectorConfiguration" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="vortexConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}vortexConfig" /> -->
+<!-- 		<property name="serviceInterface" -->
+<!-- 			value="gda.device.detector.FluorescentDetectorConfiguration" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="xspress3Config" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}xspress3Config" /> -->
+<!-- 		<property name="serviceInterface" -->
+<!-- 			value="gda.device.detector.FluorescentDetectorConfiguration" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
 
 
 	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener"> 
