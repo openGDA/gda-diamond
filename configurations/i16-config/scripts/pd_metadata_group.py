@@ -24,7 +24,9 @@ class ReadPDGroupClass(PseudoDevice):
 				position = pd()
 			except (Exception, java.lang.Exception), e:
 				#print self.name + ": The position of " + pd.name + " is 'Unavailable' as it's getPosition is throwing:", e
-				position = ['Unavailable'] * len(pd.outputFormat)
+				#position = ['Unavailable'] * len(pd.outputFormat)
+				#position = [float('nan')] * len(pd.outputFormat)
+				position = [-9999999.99999999] * len(pd.outputFormat)
 			
 			# Create a list from the position
 			try:
