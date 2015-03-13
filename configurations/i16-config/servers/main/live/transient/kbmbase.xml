@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+<!--
 	<bean id="kbmbaseX1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-02:X1" />
 		<property name="local" value="true" />
@@ -32,7 +33,69 @@
 		<property name="pvName" value="BL16I-MO-KBM-02:Y3" />
 		<property name="local" value="true" />
 	</bean>
-	
+-->
+
+
+	<bean id="kbmbaseX1Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:PSC:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:X1" />
+				<property name="local" value="true" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="kbmbaseX2Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:PSC:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:X2" />
+				<property name="local" value="true" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="kbmbaseX3Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:PSC:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:X3" />
+				<property name="local" value="true" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="kbmbaseY1Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:PSC:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:Y1" />
+				<property name="local" value="true" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="kbmbaseY2Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:PSC:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:Y2" />
+				<property name="local" value="true" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="kbmbaseY3Motor" class="gda.device.motor.EpicsMotorDecorator" >
+		<property name="iocPv" value="BL16I-MO-IOC-07:PSC:STATUS" />
+		<constructor-arg>
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="pvName" value="BL16I-MO-KBM-02:Y3" />
+				<property name="local" value="true" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
 	<bean id="kbmbaseX1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="kbmbaseX1Motor" />
 	</bean>
