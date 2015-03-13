@@ -186,7 +186,7 @@
 		<property name="units" value="counts" />
 		<property name="channel" value="3" />
 		<property name="label" value="data" />
-		<property name="scalingAndOffset" ref="bsdiodegain" />
+		<property name="scalingAndOffset" ref="bs1diodegain" />
 	</bean>
 
 	<bean id="I0"
