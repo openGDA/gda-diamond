@@ -109,4 +109,6 @@ string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
 gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLI22", "BLI22-RUNL", None)
 print "importing bimorph"
 import bimorph
+print "creating sampleCam and adding to ncdDetectors"
+execfile(gdaScriptDir + "sampleCam.py")
 print "==================================================================="

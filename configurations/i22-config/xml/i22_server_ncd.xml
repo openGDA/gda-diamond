@@ -284,6 +284,7 @@
 	<import resource="cameras/i22_biosaxscam.xml" />
 	<import resource="cameras/i22_floatingcam.xml" />
 	<import resource="cameras/i22_d12gige.xml" />
+	<import resource="cameras/i22_d11gige.xml" />
 
 	<bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
 		<property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
