@@ -2,7 +2,7 @@
 <user_permissions>
 
 <!-- by default users have permission 1 -->
-<!-- level 2 will allow them to drive some extra motors (e.g. energy at the moment) -->
+<!-- level 2 will allow them to drive some extra motors (e.g. energy, finepitch, mfsaxs) -->
 <!-- with the current configuration all motors are accessible with level 3 -->
 
 <!--users on visit sm7886-1, added by NJT on Aug 8th 2012 so users could change mfsax position-->
@@ -37,4 +37,10 @@
 <mm54>3</mm54>
 <!--user on visit sm10396-1, added by AS on 03 October 2014 so user could change energy-->
 <orl45758>2</orl45758>
+<!--user on visit sm11975-1, added by AS on 17 January 2015 so user could change energy-->
+<gdg98951>2</gdg98951>
+<!--user on visit sm10458-1, added by NJT on 13 February 2015 so user could change d3filter setting-->
+<ooy64573>3</ooy64573>
+<!--user on visit sm10094-1, added by AS on 25 February 2015 so user could change energy-->
+<fwu78166>2</fwu78166>
 </user_permissions>
