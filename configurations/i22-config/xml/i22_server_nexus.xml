@@ -297,11 +297,12 @@
 		<property name="storedMetadataEntry" ref="samplename" />
 	</bean>
 	<bean
-		class="gda.device.scannable.DummyUnitsScannable" id="sample_thickness">
+		class="uk.ac.gda.server.ncd.scannable.ScanResetDummyUnitScannable" id="sample_thickness">
 		<property name="name" value="sample_thickness" />
 		<property name="inputNames"><list><value>sample_thickness</value></list></property>
 		<property name="outputFormat"><list><value>%5.5g</value></list></property>
 		<property name="protectionLevel" value="1" />
 		<property name="userUnits" value="mm" />
+		<property name="resetValue" value="NaN" />
 	</bean>
 </beans>
