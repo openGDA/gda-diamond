@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+	
+	
+<!-- 	live only files -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" /> 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" /> 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/photodiode.xml" />	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/andor.xml" />
+ 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xmap_detector.xml" />	
+		
+<!-- 	shared files -->
+	<import resource="file:${gda.config}/servers/main/andor.xml" /> 
+	<import resource="file:${gda.config}/servers/main/metadata.xml" /> 
+ 	<import resource="file:${gda.config}/servers/main/opticsScannables.xml" /> 
+	<import resource="file:${gda.config}/servers/main/stxmScannables.xml" /> 
+	
+<!-- 	Command Server at the end -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+	<corba:export namespace="I08" />
+	
+</beans>
