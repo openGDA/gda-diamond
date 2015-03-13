@@ -134,8 +134,11 @@ cos_c=fit_func('cosine + const',['amp','period','phase', 'constant'], 'amp*np.co
 
 pv2_c=fit_func('Two Pseudo-Voigt + const',['area1','centre1','width1','lfrac1','area2','centre2','width2','lfrac2','constant'],
               'area1/width1/(lfrac1*np.pi/2+(1-lfrac1)*np.sqrt(np.pi/4/np.log(2)))*(lfrac1/(1+4*((x-centre1)/width1)**2)+(1-lfrac1)*np.exp(-4*np.log(2)*((x-centre1)/width1)**2))+area2/width2/(lfrac2*np.pi/2+(1-lfrac2)*np.sqrt(np.pi/4/np.log(2)))*(lfrac2/(1+4*((x-centre2)/width2)**2)+(1-lfrac2)*np.exp(-4*np.log(2)*((x-centre2)/width2)**2))+constant'
-              )  
+              )
 
+cos_sin_cos_sin_c=fit_func('cosx + sinx +cos2x +sin2x + const',['cosx_amp','sinx_amp','cos2x_amp','sin2x_amp','constant'],
+              'cosx_amp*np.cos(x) + sinx_amp*np.sin(x) + cos2x_amp*np.cos(2*x) + sin2x_amp*np.sin(2*x) + constant'
+              )  
 
 
 

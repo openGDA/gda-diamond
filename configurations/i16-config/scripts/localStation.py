@@ -390,7 +390,15 @@ hkl.setLevel(6)
 
 from scannable.tripod import TripodToolBase
 
-_kbm_common_geom = {'l':[134.2, 134.2, 134.2],
+#_kbm_common_geom = {'l':[134.2, 134.2, 134.2],
+#		't':[219.129, 219.129, 84.963],
+#		'psi':[-pi / 3, pi / 3, 0],
+#		'theta':[pi / 4, pi / 4, -pi / 4],
+#		'BX':[0.0, 0.0, 357.313],
+#		'BY':[249.324, 0.0, 249.324 / 2] }
+
+# New ball assembly - new leg lenths (need to check t values as well)
+_kbm_common_geom = {'l':[142.0, 142.0, 142.0],
 		't':[219.129, 219.129, 84.963],
 		'psi':[-pi / 3, pi / 3, 0],
 		'theta':[pi / 4, pi / 4, -pi / 4],
@@ -1015,7 +1023,7 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 ###                           P/A detector angles                           ###
 ###############################################################################
 if installation.isLive():
-	tthp.apd = 3.5 #2/10/11 - changed from 1.75
+	tthp.apd = 1.75 #16/1/15 - changed from 1.75
 	tthp.diode=56.4#2/10/11 - changed from 55.6
 	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
@@ -1187,6 +1195,9 @@ def open_valves():
 #ci=240.0; cj=108.0	#11/03/14
 #ci=243.0; cj=106.0	#09/04/14
 ci=257.0; cj=109.0	#24/06/14
+ci=247.0; cj=106.0	#01/12/14
+ci=245.0; cj=107.0	#10/12/14
+ci=244.0; cj=110.0	#13/01/15
 maxi=486; maxj=194
 
 #small centred
@@ -1252,6 +1263,13 @@ roi5.setRoi(0,0,486,14)
 #very small centred
 roi6 = HardwareTriggerableDetectorDataProcessor('roi6', pil, [SumMaxPositionAndValue()])
 iw=7; jw=7; roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
+
+#for searching for reflections at known delta
+#wideroi = HardwareTriggerableDetectorDataProcessor('roi3', pil, [SumMaxPositionAndValue()])
+#wid=20; wideroi.setRoi(int(ci-wid/2.),0,int(ci+wid/2.),maxj)
+
+
+
 
 #roi6.setRoi(258-3,99+3,258+3,99-3)
 
