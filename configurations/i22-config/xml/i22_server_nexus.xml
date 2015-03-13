@@ -19,12 +19,18 @@
 							<list>
 								<value>instrument:NXinstrument/monochromator:NXmonochromator/energy</value>
 								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/gap</value>
+								<value>instrument:NXinstrument/monochromator:NXmonochromator/perp</value>
+								<value>instrument:NXinstrument/pilthres</value>
+								<value>instrument:NXinstrument/pilthresWAXS</value>
 							</list>
 						</property>
 						<property name="units">
 							<list>
 								<value>keV</value>
 								<value>mm</value>
+								<value>mm</value>
+								<value>keV</value>
+								<value>keV</value>
 							</list>
 						</property>
 						<property name="prerequisiteScannableNames">
