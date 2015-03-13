@@ -21,14 +21,33 @@ import matplotlib.cm as cm
 #from matplotlib.colors import Normalize
 
 class quickplot:
-    #experimental - do not use!
-    #no parameter checks kwargs etc
-    #quick test of quickplot- eventually have all automatic params
-    def plot(self,*args):
-        xstr, ystr=args[0], args[1]
-        plt.figure()
-        plt.plot(self.dict[xstr], self.dict[ystr])
-        plt.xlabel(xstr)
+    '''
+    plot method produces simple plot with 1-3 string args (x,y,colour)
+    string args select fields to plot and provide axis labels
+    new figure created unless keyword hold is used; hold True/false has usual behaviour
+    example:
+    d.plot('APD')
+    subplot(2,2,1); d.plot('eta','APD','r', hold=1)
+    '''
+    def plot(self, *args, **kwargs):
+        if not 'hold' in kwargs.keys():  
+            plt.figure()    #create new fig
+        else:
+            plt.hold(kwargs['hold'])  #or use hold value
+            
+        if len(args)==1:
+            ystr=args[0]
+            plt.plot(self.dict[ystr])
+        elif len(args)==2:
+            xstr, ystr=args[0], args[1]
+            plt.plot(self.dict[xstr], self.dict[ystr])        
+            plt.xlabel(xstr)
+        elif len(args)==3:
+            xstr, ystr=args[0], args[1]
+            plt.plot(self.dict[xstr], self.dict[ystr], args[2])
+            plt.xlabel(xstr)
+        else:
+            raise ValueError('Wrong number of input argumants (should be 1-3)')
         plt.ylabel(ystr)
         plt.grid(True)
         plt.title('#'+str(self.datanumber)+' '+self.date)

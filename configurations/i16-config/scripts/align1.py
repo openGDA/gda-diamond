@@ -72,14 +72,14 @@ def alignpinv():
 	pos chi 0
 	bzpos=base_z()[0]
 	#scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode vpos
-	scan base_z bzpos-0.25 bzpos+0.25 .01 w 1 diode
+	scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode
 #	scan base_z bzpos-0.1 bzpos+0.1 .01 w 1 diode
 	pos phi 0
 	#scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode vpos
-	scan base_z bzpos-0.25 bzpos+0.25 .01 w 1 checkbeam diode
-#	scan base_z bzpos-0.1 bzpos+0.1 .01 w 1 checkbeam diode
+#	scan base_z bzpos-0.2 bzpos+0.2 .01 w 1 checkbeam diode
+	scan base_z bzpos-0.1 bzpos+0.1 .01 w 1 checkbeam diode
 	#print "===Now you must move base_z to centre...";
-	basezcen=(edge(0,'Base_z','diode')[1]+edge(-1,'Base_z','diode')[1])/2.
+	basezcen=(edge(0,'Base_z','diode')[1]+edge(-1,'Base_z','diode')[2])/2. # now uses falling edhe of first scan
 	print 'Moving base_z to ' + str(basezcen)
 	print base_z(basezcen)	#spc 2/10/11
 	print "If the plots look ok then type energy.calibrate()"

@@ -34,7 +34,7 @@
 	<import resource="epics/motor/s6.xml" />
 	<import resource="epics/motor/sixc.xml" />
 	<import resource="epics/motor/sixcbase.xml" />
-<!-- 	<import resource="transient/kbmbase.xml" /> -->
+	<import resource="transient/kbmbase.xml" />
 	
 	<import resource="epics/motor/sixcsample.xml" />
 
