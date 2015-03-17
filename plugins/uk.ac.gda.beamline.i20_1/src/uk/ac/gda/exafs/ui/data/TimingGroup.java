@@ -89,7 +89,7 @@ public class TimingGroup implements Serializable {
 		}
 	}
 
-	private boolean groupTrigRisingEdge = true;
+	private boolean groupTrigRisingEdge = false;
 	private boolean allFramesTrigRisingEdge = true;
 	private boolean framesExclFirstTrigRisingEdge = true;
 	private boolean scansTrigRisingEdge = true;
@@ -355,7 +355,7 @@ public class TimingGroup implements Serializable {
 	/**
 	 * If this is 0 then the timePerFrame attribute will be used when creating the timing group. I.e. in the setup-group
 	 * command the frame-time qualifier will be used when numberOfScansPerFrame == 0
-	 * 
+	 *
 	 * @param numberOfScansPerFrame
 	 */
 	public void setNumberOfScansPerFrame(int numberOfScansPerFrame) {
