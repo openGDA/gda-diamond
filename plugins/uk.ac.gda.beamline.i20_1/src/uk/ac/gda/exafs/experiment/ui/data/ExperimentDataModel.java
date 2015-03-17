@@ -102,8 +102,7 @@ public class ExperimentDataModel extends UIObservableModel {
 	}
 
 	public Object getSampleDetails() {
-		// TODO Auto-generated method stub
-		return null;
+		return sampleDetails;
 	}
 
 	public void setSampleDetails(String sampleDetails) {
