@@ -359,6 +359,10 @@ public abstract class EdeExperiment implements IObserver {
 		metadataText.append(getHeaderText());
 		if (!sampleDetails.isEmpty()) {
 			metadataText.append("\nSample details: " + sampleDetails + "\n");
+
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add(sampleDetails);
+			dataWriter.setDescriptions(arrayList);
 		}
 		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", metadataText.toString(),
 				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");
