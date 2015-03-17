@@ -82,14 +82,16 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	}
 
 	public TriggerableObject createNewSampleEnvEntry() throws Exception {
-		if (sampleEnvironment.size() == MAX_PORTS_FOR_SAMPLE_ENV) {
-			throw new Exception("Maxium ports reached: " + MAX_PORTS_FOR_SAMPLE_ENV);
-		}
+		//TODO clean-up once tested. the following is too restrictive, PBS/BS want to be able to select same port for different triggers.
+		//		if (sampleEnvironment.size() == MAX_PORTS_FOR_SAMPLE_ENV) {
+		//			throw new Exception("Maxium ports reached: " + MAX_PORTS_FOR_SAMPLE_ENV);
+		//		}
 		TriggerableObject obj = new TriggerableObject();
 		obj.setName("Default");
 		obj.setTriggerPulseLength(DEFAULT_PULSE_WIDTH_IN_SEC);
 		obj.setTriggerDelay(0.1);
-		obj.setTriggerOutputPort(TriggerOutputPort.values()[sampleEnvironment.size() + 2]);
+		//		obj.setTriggerOutputPort(TriggerOutputPort.values()[sampleEnvironment.size() + 2]);
+		obj.setTriggerOutputPort(TriggerOutputPort.values()[2]);
 		return obj;
 	}
 
