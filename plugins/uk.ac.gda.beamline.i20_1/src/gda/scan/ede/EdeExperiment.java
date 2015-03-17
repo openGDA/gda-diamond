@@ -290,13 +290,13 @@ public abstract class EdeExperiment implements IObserver {
 
 	private String addToMultiScanAndRun() throws Exception {
 		try {
-			addMetaData();
 			ScanPlotSettings plotNothing = new ScanPlotSettings();
 			plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
 			plotNothing.setYAxesShown(new String[]{});
 			plotNothing.setYAxesNotShown(new String[]{});
 
 			XasAsciiNexusDataWriter dataWriter = new XasAsciiNexusDataWriter();
+			addMetaData(dataWriter);
 
 			String template = fileNamePrefix.isEmpty() ? "ascii/" + "%d.dat" : "ascii/" + fileNamePrefix + "_%d.dat";
 			dataWriter.setAsciiFileNameTemplate(template);
@@ -354,7 +354,7 @@ public abstract class EdeExperiment implements IObserver {
 		return getTimeRequiredBeforeItCollection() + getTimeRequiredForItCollection() + getTimeRequiredAfterItCollection();
 	}
 
-	private void addMetaData() {
+	private void addMetaData(XasAsciiNexusDataWriter dataWriter) {
 		StringBuilder metadataText = new StringBuilder();
 		// Alignment parameters
 		Object result = InterfaceProvider.getJythonNamespace()
