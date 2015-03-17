@@ -133,7 +133,7 @@ public class XHDetectorTest {
 
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 last",commands[9]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 5000000 frame-time 50000000 ext-trig-group trig-mux 5 trig-falling last",commands[9]);
 	}
 
 	@Test
@@ -242,7 +242,7 @@ public class XHDetectorTest {
 		//always clear out signals before setting anything up
 		assertEquals("xstrip timing ext-output \"xh0\" -1 dc",commands[0]);
 		assertEquals("xstrip timing ext-output \"xh0\" 6 frame-pre-delay",commands[1]);
-		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 300 frame-time 500 lemo-out 4096 ext-trig-group trig-mux 5 last",commands[10]);
+		assertEquals("xstrip timing setup-group \"xh0\" 0 1 0 300 frame-time 500 lemo-out 4096 ext-trig-group trig-mux 5 trig-falling last",commands[10]);
 	}
 
 	@Test
