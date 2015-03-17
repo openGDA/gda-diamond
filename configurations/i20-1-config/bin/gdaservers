@@ -1,1 +1,1 @@
-/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaservers $@
+./gda --start servers
