@@ -273,6 +273,12 @@ public abstract class EdeExperiment implements IObserver {
 		} catch(Exception e) {
 			logger.error("Error running experiment", e);
 			throw e;
+		} finally {
+			if (beamLightShutter!= null) {
+				logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
+				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
+				beamLightShutter.moveTo("Close");
+			}
 		}
 	}
 
