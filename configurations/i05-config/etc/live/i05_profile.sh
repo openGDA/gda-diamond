@@ -1,7 +1,5 @@
-# i08 beamline profile
-#This script is sourced from /dls_sw/b24/etc/i08_profile.sh
-#KrisB 17/09/14 - Commenting out $BEAMLINE as always set on beamline workstations via /etc/profile.d/beamline.sh
-
+# i05 beamline profile
+#This script is sourced from /dls_sw/i05/etc/i05_profile.sh
 
 if [ ! -n "$BEAMLINE" ]; then
   echo "ERROR: BEAMLINE not set" 1>&2
