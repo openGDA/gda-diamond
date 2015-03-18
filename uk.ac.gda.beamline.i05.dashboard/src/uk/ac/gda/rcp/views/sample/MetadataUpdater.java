@@ -112,7 +112,6 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 
 		@Override
 		public void focusGained(FocusEvent e) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
@@ -146,10 +145,11 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 
 	/**
 	 * Constructor
-	 * 
-	 * @param client
+	 *
+	 * @param client {@link SampleMetadataView}
 	 *            who to update
 	 */
+	@SuppressWarnings("unused") //compiler thinks neither MetadataListener is used
 	public MetadataUpdater(final SampleMetadataView client) {
 		this.client = client;
 
@@ -183,19 +183,14 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 			jsf.deleteIObserver(this);
 			return;
 		}
-		Display.getDefault().asyncExec(new Updater(iObservable, arg));
+		Display.getDefault().asyncExec(new Updater(arg));
 	}
 
 	private class Updater implements Runnable {
-		private Object iObservable;
 		private Object arg;
+		private int currentPointNumber;
 
-		/**
-		 * @param iObservable
-		 * @param arg
-		 */
-		public Updater(Object iObservable, Object arg) {
-			this.iObservable = iObservable;
+		public Updater(Object arg) {
 			this.arg = arg;
 		}
 
@@ -206,17 +201,6 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 				sd.add(Integer.valueOf(st.nextToken()));
 			}
 			return sd;
-		}
-
-		private String pointNoAsStr(Integer point) {
-			Vector<Integer> currentLoc = new Vector<Integer>(scandimensions);
-			int totalsofar = 1;
-			for (int j = currentLoc.size() - 1; j >= 0; j--) {
-				int inhere = currentLoc.get(j);
-				currentLoc.set(j, point / totalsofar % inhere + 1);
-				totalsofar *= inhere;
-			}
-			return currentLoc.toString();
 		}
 
 		private Integer multiply(Collection<Integer> c) {
@@ -241,33 +225,36 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 			if (currentpoint == 0) {
 				return 0;
 			}
-			return (elapsed * total / currentpoint) - elapsed;
+			return (total - currentPointNumber - 1) * elapsed / currentPointNumber;
 		}
 
 		private void updateElapsedTime () {
 			if (started != null){ // non-null indicates clock has started
-				client.elapsedTime.setText(hms4millis(((new Date()).getTime()) - started.getTime()));  // could be move to ScanEvent to be more frequent 
-			 // client.remainTimeLbl.setText(hms4millis(noddyETAprediction(currentPointNumber, totalScanPoints, elapsed)));  // TBD
-			}				
+				long elapsed = ((new Date()).getTime()) - started.getTime();
+				client.elapsedTime.setText(hms4millis(elapsed));
+				if (totalScanPoints != null) {
+					client.remainTimeLbl.setText(hms4millis(noddyETAprediction(currentPointNumber, totalScanPoints, elapsed)));
+				}
+			}
 		}
-		
+
 		private void clockStart() {
 			client.elapsedTime.setText("--:--:--");
-			started = new Date(); 		
+			started = new Date();
 		}
-		
+
 		private void clockStop() {
 			started = null;
 		}
 		@Override
 		public void run() {
-			if (arg != null) {                                         // to trace: System.out.println("QQQQ:arg Class="+arg.getClass().getName());
+			if (arg != null) {
 				logger.debug("run() Observable arg Class="+arg.getClass().getName());
 
 				if (arg instanceof CommandThreadEvent) {               // use Thread Status Information to deduce when command line scan has started and stopped
 					CommandThreadEvent cte = (CommandThreadEvent) arg;
 					CommandThreadInfo  cti = (CommandThreadInfo) cte.getInfo();
-					if (cti != null) {                                 // only command line scans have CommandThreadEventInfo 
+					if (cti != null) {                                 // only command line scans have CommandThreadEventInfo
 						if (cte.getEventType()== CommandThreadEventType.START) {
 							clockStart();
 						} else if (cte.getEventType()== CommandThreadEventType.TERMINATE) {
@@ -276,33 +263,37 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 					}
 				} else if (arg instanceof SweptProgress) {
 					updateElapsedTime();
-					
+
 				} else	if (arg instanceof ScanEvent) {             // update view related to all scans: analyser fixed/ analyser swept/command line
 					ScanEvent se = (ScanEvent) arg;
-					final int curPointNumber = se.getCurrentPointNumber() + 1; // CurrentPointNumbers is a zero-based index
-					final int maxPointNumber = se.getLatestInformation().getNumberOfPoints();
+					currentPointNumber = se.getCurrentPointNumber() + 1; // CurrentPointNumbers is a zero-based index
+					totalScanPoints = se.getLatestInformation().getNumberOfPoints();
 					ScanStatus ss = se.getLatestStatus();
 
-					client.scanPntLbl.setText(String.format("%d / %d", curPointNumber, maxPointNumber));
-					client.progressBar.setSelection(10000 * curPointNumber / maxPointNumber);
+					client.scanPntLbl.setText(String.format("%d / %d", currentPointNumber, totalScanPoints));
+					client.progressBar.setSelection(10000 * currentPointNumber / totalScanPoints);
 					client.scanStatLbl.setText(ss.toString());      // n.b. a *different* notion of scan status, the JythonServerStatus.scanStatus one, also writes into this field, see jss below
 					if (ss == ScanStatus.COMPLETED_OKAY) {          // use ScanEvent to access items to update at end-of-scan
 						client.scanFile.setText(lastFileName);
 						client.scanNumLbl.setText(Integer.toString(lastScanNumber + 1)); // indicate number in file name that will be used for next scan
 					}
-					
 				} else if (arg instanceof FrameUpdate) {            // update view for "Command Queue" scans (ARPES Scan Editor Queue Experiment)
 					updateElapsedTime();
-					
+
 				} else if (arg instanceof ScanDataPoint) {
 					ScanDataPoint sdp = (ScanDataPoint) arg;
 					lastFileName = sdp.getCurrentFilename();        // store and delay displaying until JythonServerStatus next becomes IDLE
 					lastScanNumber = sdp.getScanIdentifier();
+					totalScanPoints = sdp.getNumberOfPoints();
+					currentPointNumber = sdp.getCurrentPointNumber();
+					//only start timing from first point, or remaining time is (even more) inaccurate
+					//when there is a long delay getting to the first point
+					if (currentPointNumber == 0) { clockStart(); }
 					updateElapsedTime();
-					
+
 				} else if (arg instanceof JythonServerStatus) {     // currently only "Command Queue" scans trigger these events, Jython Command Line scans do not
 					JythonServerStatus jss = (JythonServerStatus) arg;
-					
+
 					switch (jss.scriptStatus) {
 					case Jython.RUNNING:
 						clockStart();
@@ -311,7 +302,7 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 						clockStop();
 						break;
 					}
-					
+
 					switch (jss.scanStatus) {                       // deprecated? currently only scan=IDLE occurs
 					case Jython.IDLE:
 						client.scanStatLbl.setText("IDLE");
