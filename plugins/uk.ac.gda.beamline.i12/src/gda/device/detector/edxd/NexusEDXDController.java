@@ -37,7 +37,7 @@ import gda.util.persistence.ObjectShelfException;
 import java.util.ArrayList;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.nexusformat.NexusFile;
+import gda.data.nexus.NexusGlobals;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,33 +157,33 @@ public class NexusEDXDController extends DetectorBase implements Configurable, N
 
 			// add the energy Axis
 			double[] energy = det.getEnergyBins();
-			data.addAxis(det.getName(),"edxd_energy", new int[] {energy.length}, NexusFile.NX_FLOAT64, energy, 2, 2, "keV", false);
+			data.addAxis(det.getName(),"edxd_energy", new int[] {energy.length}, NexusGlobals.NX_FLOAT64, energy, 2, 2, "keV", false);
 
 			// add the q Axis
 			double[] q = det.getQMapping();
-			data.addAxis(det.getName(),"edxd_q", new int[] {energy.length}, NexusFile.NX_FLOAT64, q, 2, 1, "units", false);
+			data.addAxis(det.getName(),"edxd_q", new int[] {energy.length}, NexusGlobals.NX_FLOAT64, q, 2, 1, "units", false);
 
 			double[] elive_time = {det.getEnergyLiveTime()};
-			data.addElement(det.getName(),"edxd_energy_live_time", new int[] {elive_time.length}, NexusFile.NX_FLOAT64, elive_time, "seconds", true);
+			data.addElement(det.getName(),"edxd_energy_live_time", new int[] {elive_time.length}, NexusGlobals.NX_FLOAT64, elive_time, "seconds", true);
 
 			double[] tlive_time = {det.getTriggerLiveTime()};
-			data.addElement(det.getName(),"edxd_trigger_live_time", new int[] {tlive_time.length}, NexusFile.NX_FLOAT64, tlive_time, "seconds", true);
+			data.addElement(det.getName(),"edxd_trigger_live_time", new int[] {tlive_time.length}, NexusGlobals.NX_FLOAT64, tlive_time, "seconds", true);
 
 			double[] real_time = {det.getRealTime()};
-			data.addElement(det.getName(),"edxd_real_time", new int[] {real_time.length}, NexusFile.NX_FLOAT64, real_time, "seconds", true);
+			data.addElement(det.getName(),"edxd_real_time", new int[] {real_time.length}, NexusGlobals.NX_FLOAT64, real_time, "seconds", true);
 
 			int[] events = {det.getEvents()};
-			data.addElement(det.getName(),"edxd_events", new int[] {events.length}, NexusFile.NX_INT32, events, "counts", true);
+			data.addElement(det.getName(),"edxd_events", new int[] {events.length}, NexusGlobals.NX_INT32, events, "counts", true);
 
 			double[] input_count_rate = {det.getRealTime()};
-			data.addElement(det.getName(),"edxd_input_count_rate", new int[] {input_count_rate.length}, NexusFile.NX_FLOAT64, input_count_rate, "counts/second", true);
+			data.addElement(det.getName(),"edxd_input_count_rate", new int[] {input_count_rate.length}, NexusGlobals.NX_FLOAT64, input_count_rate, "counts/second", true);
 
 			double[] output_count_rate = {det.getRealTime()};
-			data.addElement(det.getName(),"edxd_output_count_rate", new int[] {output_count_rate.length}, NexusFile.NX_FLOAT64, output_count_rate, "counts/second", true);
+			data.addElement(det.getName(),"edxd_output_count_rate", new int[] {output_count_rate.length}, NexusGlobals.NX_FLOAT64, output_count_rate, "counts/second", true);
 
 			// simple deadtime calculation for now, which is simply based on the 2 rates
 			double[] dead_time = {(1.0-(output_count_rate[0]/input_count_rate[0]))*real_time[0]};
-			data.addElement(det.getName(),"edxd_dead_time", new int[] {dead_time.length}, NexusFile.NX_FLOAT64, dead_time, "seconds", true);
+			data.addElement(det.getName(),"edxd_dead_time", new int[] {dead_time.length}, NexusGlobals.NX_FLOAT64, dead_time, "seconds", true);
 
 			// now calculate the deadtime statistics		
 			if(dead_time[0] > dead_time_max )

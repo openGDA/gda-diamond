@@ -28,7 +28,7 @@ import gda.device.epicsdevice.ReturnType;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.nexusformat.NeXusFileInterface;
 import org.nexusformat.NexusException;
-import org.nexusformat.NexusFile;
+import gda.data.nexus.NexusGlobals;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -469,7 +469,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 	}
 
 	public int getDataType() {
-		return NexusFile.NX_FLOAT64;
+		return NexusGlobals.NX_FLOAT64;
 	}
 
 	@Override
