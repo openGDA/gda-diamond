@@ -20,6 +20,7 @@ package gda.util;
 
 
 import gda.analysis.ScanFileHolder;
+import gda.data.nexus.NexusException;
 import gda.data.nexus.extractor.NexusExtractorException;
 
 import java.io.BufferedWriter;
@@ -38,7 +39,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.nexusformat.NexusException;
 
 import uk.ac.diamond.scisoft.analysis.io.NexusLoader;
 import uk.ac.gda.util.io.SortingUtils;
