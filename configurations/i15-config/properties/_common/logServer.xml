@@ -9,9 +9,9 @@
     <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
 
     <appender name="ServerDebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${gda.logs.dir}/gda_java_log.txt</File>
+        <File>${gda.logs.dir}/gda_server.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/gda_java_log.%d{yyyy-MM-dd}.txt.gz</FileNamePattern>
+            <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d %-5level ["logserver.xml"%property{HOSTNAME}/%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>
@@ -22,6 +22,4 @@
         <port>${gda.logserver.out.port}</port>
         <!-- 02/12/2014 KrisB - The Log Panel currently can't take a pattern option -->
     </appender>
-    
-
 </included>
