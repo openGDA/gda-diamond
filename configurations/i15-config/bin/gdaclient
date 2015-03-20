@@ -1,20 +1,5 @@
 #!/bin/bash
-
-export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
-. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_client_output
-
-export GDA_CLIENT_LOG_DIR=$GDA_LOGS_DIR
-
-VMARGS="-Dgda.mode=$GDA_MODE $VMARGS"
-VMARGS="-Dgda.install.git.loc=$GDA_ROOT/workspace_git $VMARGS"
-VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/$GDA_MODE $VMARGS"
-VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/$GDA_MODE/java.properties $VMARGS"
-VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/$GDA_MODE/JCALibrary.properties $VMARGS"
-
-export GDA_CLIENT_VMARGS=$VMARGS
-#echo  GDA_CLIENT_VMARGS=$VMARGS
-export GDA_CLIENT=$GDA_ROOT/client/gda-$BEAMLINE
-
-cd $GDA_ROOT/client
-
-$GDA_CLIENT_SCRIPT --log --keep --nohup $GDA_CONSOLE_LOG $*
+# This is required to be on the path until the Diamond Launcher scripts in 
+# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
+# this cannot be done until all beamlines use the standard startup commands. 
+gda client $*
