@@ -21,7 +21,9 @@ package gda.scan;
 import static org.junit.Assert.assertEquals;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
-import gda.data.nexus.GdaNexusFile;
+import gda.data.nexus.NexusException;
+import gda.data.nexus.NexusFile;
+import gda.data.nexus.NexusGlobals;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.StepScanXHDetector;
 import gda.device.detector.xstrip.XhDetector;
@@ -29,9 +31,7 @@ import gda.device.enumpositioner.DummyPositioner;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Findable;
-import gda.scan.ede.CyclicExperiment;
 import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.SingleSpectrumScan;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
@@ -46,7 +46,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -54,8 +53,6 @@ import java.util.Map;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.nexusformat.NexusException;
-import org.nexusformat.NexusFile;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -277,7 +274,7 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws NexusException {
-		GdaNexusFile file = new GdaNexusFile(nexusFilename, NexusFile.NXACC_READ);
+		NexusFile file = new NexusFile(nexusFilename, NexusGlobals.NXACC_READ);
 		file.openpath("entry1");
 		
 		// cyclic?
@@ -297,7 +294,7 @@ public class EdeScanTest extends EdeTestBase {
 		file.close();
 	}
 	
-	private void assertLinearData(GdaNexusFile file, String dataName, int numberSpectra, boolean testForCycles) throws NexusException{
+	private void assertLinearData(NexusFile file, String dataName, int numberSpectra, boolean testForCycles) throws NexusException{
 		file.openpath(dataName);
 		assertDimensions(file, "data", new int[] { numberSpectra, MCA_WIDTH });
 		assertDimensions(file, "energy", new int[] { MCA_WIDTH });
@@ -309,7 +306,7 @@ public class EdeScanTest extends EdeTestBase {
 		file.closegroup();
 	}
 
-	private void assertDimensions(GdaNexusFile file, String dataName, int[] expectedDims) throws NexusException {
+	private void assertDimensions(NexusFile file, String dataName, int[] expectedDims) throws NexusException {
 		file.opendata(dataName);
 		int[] iDim = new int[20];
 		int[] iStart = new int[2];
