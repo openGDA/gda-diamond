@@ -44,7 +44,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,13 +57,13 @@ public class ContinuousModeControllerComposite {
 	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerComposite.class);
 	private Combo lensMode;
 	private Combo passEnergy;
-	private Text psuEnergy;	
 	private Button startButton;
 	private Button stopButton;
 	private Button zeroButton;
 	private boolean running = false;
 	private Button shutterButton;
 	
+	@SuppressWarnings("unused") //compiler thinks NudgePositionerComposite isn't used
 	public ContinuousModeControllerComposite(Composite parent, AnalyserCapabilties capabilities) {
 		
 		Composite comp = new Composite(parent, SWT.NONE);
