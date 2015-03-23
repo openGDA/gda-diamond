@@ -25,7 +25,7 @@ OPTIONS:
     --reset     Delete the workspace. Either the default location or the
                 location specified by the --data option.
     --keep      Keep (rename) the old workspace rather than deleting it.
-    --no-log    Don't start the log client when the GDA client is started.
+    --log       Don't start the log client when the GDA client is started.
     --nohup Y   Start the client using nohup, redirecting output to file Y.
     --client Z  Use client Z, overriding default and GDA_CLIENT variable.
     --          End argument parsing, send remaining options to the GDA client.
@@ -75,7 +75,7 @@ CONFIG_PARENT=/scratch/gda_configs
 
 WORKSPACE=$WORKSPACE_PARENT/$(whoami)
 
-ARGS=$(getopt -a -o \? -l help,data:,reset,no-log,start,keep,nohup:,client: -n "gdaclient" -- "$@")
+ARGS=$(getopt -a -o \? -l help,data:,reset,log,start,keep,nohup:,client: -n "gdaclient" -- "$@")
 
 #Bad arguments - getopt returns non-zero
 if [ $? -ne 0 ];
@@ -111,7 +111,7 @@ while true; do
         shift;
         GDA_KEEP=1
       ;;
-    --no-log)
+    --log)
         shift;
         GDA_LOG=0
       ;;
