@@ -22,8 +22,8 @@ import static org.junit.Assert.assertEquals;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.NexusException;
-import gda.data.nexus.NexusFile;
-import gda.data.nexus.NexusGlobals;
+import gda.data.nexus.NexusFileInterface;
+import gda.data.nexus.NexusUtils;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.StepScanXHDetector;
 import gda.device.detector.xstrip.XhDetector;
@@ -274,7 +274,7 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws NexusException {
-		NexusFile file = new NexusFile(nexusFilename, NexusGlobals.NXACC_READ);
+		NexusFileInterface file = NexusUtils.openNexusFileReadOnly(nexusFilename);
 		file.openpath("entry1");
 		
 		// cyclic?
@@ -294,7 +294,7 @@ public class EdeScanTest extends EdeTestBase {
 		file.close();
 	}
 	
-	private void assertLinearData(NexusFile file, String dataName, int numberSpectra, boolean testForCycles) throws NexusException{
+	private void assertLinearData(NexusFileInterface file, String dataName, int numberSpectra, boolean testForCycles) throws NexusException{
 		file.openpath(dataName);
 		assertDimensions(file, "data", new int[] { numberSpectra, MCA_WIDTH });
 		assertDimensions(file, "energy", new int[] { MCA_WIDTH });
@@ -306,7 +306,7 @@ public class EdeScanTest extends EdeTestBase {
 		file.closegroup();
 	}
 
-	private void assertDimensions(NexusFile file, String dataName, int[] expectedDims) throws NexusException {
+	private void assertDimensions(NexusFileInterface file, String dataName, int[] expectedDims) throws NexusException {
 		file.opendata(dataName);
 		int[] iDim = new int[20];
 		int[] iStart = new int[2];
