@@ -53,7 +53,7 @@
 		<property name="ndFileHDF5" ref="xmap_ndfilehdf5" />
 		<property name="fileNameTemplate" value="xmap" />
 		<!-- <property name="filePathTemplate" value="X:/data/2014/cm4958-4" /> -->
-		<property name="filePathTemplate" value="$datadir$" />
+		<property name="filePathTemplate" value="$datadir$/" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" /> 
