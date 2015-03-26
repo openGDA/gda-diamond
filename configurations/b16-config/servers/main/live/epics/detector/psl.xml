@@ -26,6 +26,8 @@
 	<bean id="psl_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.PSLSingleExposure">
 		<constructor-arg ref="psl_adbase" />
 		<constructor-arg value="-1" />
+		<constructor-arg value="" />
+		<constructor-arg value="" />
 	</bean>
 
 	<!-- NXDetector file writers -->
