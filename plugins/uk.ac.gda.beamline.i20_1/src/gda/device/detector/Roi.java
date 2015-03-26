@@ -18,8 +18,10 @@
 
 package gda.device.detector;
 
+import java.io.Serializable;
 
-public class Roi {
+
+public class Roi implements Serializable {
 	private String name = "";
 	private int lowerLevel;
 	private int upperLevel;

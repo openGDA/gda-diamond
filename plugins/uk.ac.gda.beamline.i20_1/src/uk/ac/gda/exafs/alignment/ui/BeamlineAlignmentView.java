@@ -21,7 +21,7 @@ package uk.ac.gda.exafs.alignment.ui;
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
-import gda.device.detector.xstrip.StripDetector;
+import gda.device.detector.EdeDetector;
 import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
@@ -194,7 +194,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		cmbDetectorType.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((StripDetector) element).getName();
+				return ((EdeDetector) element).getName();
 			}
 		});
 		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

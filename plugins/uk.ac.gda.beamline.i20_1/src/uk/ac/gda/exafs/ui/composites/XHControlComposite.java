@@ -19,6 +19,7 @@
 package uk.ac.gda.exafs.ui.composites;
 
 import gda.device.DeviceException;
+import gda.device.detector.EdeDetector;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.xstrip.XhDetector;
 import gda.jython.InterfaceProvider;
@@ -98,7 +99,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private final DoubleDataset strips;
 	private ILineTrace lineTrace;
-	private final XhDetector detector;
+	private final EdeDetector detector;
 
 
 	//	private static StripDetector getDetector(){
@@ -148,7 +149,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	public XHControlComposite(Composite parent, IPlottingSystem plottingSystem) {
 		super(parent, SWT.None);
-		detector = (XhDetector) DetectorModel.INSTANCE.getCurrentDetector();
+		detector = DetectorModel.INSTANCE.getCurrentDetector();
 		this.plottingSystem = plottingSystem;
 		setupEnergySpectrumTraceLine();
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -383,7 +384,7 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	/**
 	 * Collects a single frame of data and plots it.
-	 * 
+	 *
 	 * @param writeData - writes a file of the data
 	 * @param collectionPeriod - ms
 	 * @param title

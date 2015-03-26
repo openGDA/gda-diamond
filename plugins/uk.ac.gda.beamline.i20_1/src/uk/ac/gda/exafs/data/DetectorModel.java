@@ -18,9 +18,10 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.device.detector.EdeDetectorBase;
+import gda.device.detector.EdeDetector;
 import gda.device.detector.Roi;
 import gda.device.detector.xstrip.StripDetector;
+import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.observable.IObserver;
 
@@ -54,7 +55,7 @@ public class DetectorModel extends ObservableModel {
 
 	private static final Logger logger = LoggerFactory.getLogger(DetectorModel.class);
 
-	private EdeDetectorBase currentDetector;
+	private EdeDetector currentDetector;
 
 	private final EnergyCalibrationSetObserver energyCalibrationSetObserver = new EnergyCalibrationSetObserver();
 
@@ -62,7 +63,7 @@ public class DetectorModel extends ObservableModel {
 		return energyCalibrationSetObserver;
 	}
 
-	private final List<EdeDetectorBase> availableDetectors = new ArrayList<EdeDetectorBase>();
+	private final List<EdeDetector> availableDetectors = new ArrayList<EdeDetector>();
 	private final List<Roi> roisModel = new ArrayList<Roi>();
 	private final WritableList rois = new WritableList(roisModel, Roi.class);
 
@@ -89,12 +90,12 @@ public class DetectorModel extends ObservableModel {
 	private void setupDetectors() {
 		for (DetectorSetup detectorSetup : DetectorSetup.values()) {
 
-			Object currentDetector = Finder.getInstance().find(detectorSetup.getDetectorName());
-			if (currentDetector != null && currentDetector instanceof EdeDetectorBase) {
-				EdeDetectorBase detector = (EdeDetectorBase) currentDetector;
-				availableDetectors.add(detector);
-				setCurrentDetector(detector);
-				break;
+			Findable detector = Finder.getInstance().find(detectorSetup.getDetectorName());
+			if (detector != null && detector instanceof EdeDetector) {
+				EdeDetector ededetector = (EdeDetector) detector;
+				availableDetectors.add(ededetector);
+				setCurrentDetector(ededetector);
+				//				break;
 			}
 		}
 	}
@@ -152,16 +153,16 @@ public class DetectorModel extends ObservableModel {
 		return currentDetector.getDetectorData().getLowerChannel();
 	}
 
-	public EdeDetectorBase getCurrentDetector() {
+	public EdeDetector getCurrentDetector() {
 		return currentDetector;
 	}
 
-	public EdeDetectorBase getCurrentStepScanDetector() {
+	public EdeDetector getCurrentStepScanDetector() {
 		// FIXME
 		return Finder.getInstance().find("ss" + currentDetector.getName());
 	}
 
-	public void setCurrentDetector(EdeDetectorBase detector) {
+	public void setCurrentDetector(EdeDetector detector) {
 		excludedStripsCache = null;
 		firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = detector);
 		firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, true);
@@ -174,7 +175,7 @@ public class DetectorModel extends ObservableModel {
 		return (currentDetector != null);
 	}
 
-	public List<EdeDetectorBase> getAvailableDetectors() {
+	public List<EdeDetector> getAvailableDetectors() {
 		return availableDetectors;
 	}
 
@@ -244,8 +245,8 @@ public class DetectorModel extends ObservableModel {
 					@Override
 					public void run() {
 						String value = "";
-						if (((EdeDetectorBase) source).getDetectorData().isEnergyCalibrationSet()) {
-							value = ((EdeDetectorBase) source).getDetectorData().getEnergyCalibration().getFormattedPolinormal();
+						if (((EdeDetector) source).getDetectorData().isEnergyCalibrationSet()) {
+							value = ((EdeDetector) source).getDetectorData().getEnergyCalibration().getFormattedPolinormal();
 							EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
 						}
 					}

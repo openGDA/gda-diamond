@@ -89,6 +89,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		detectorData.setNumberRois(INITIAL_NO_OF_ROIS);
 	}
 
+	@Override
 	public void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException {
 		currentScanParameter = newParameters;
 		configureDetectorForCollection();
@@ -128,6 +129,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 * detector's maximum pixel size in energy direction.
 	 * @return maximum pixels of camera in energy direction
 	 */
+	@Override
 	public abstract int getMaxPixel();
 	/**
 	 * calculate the number of scans (TFG2 term) or accumulations in a single frame based on detector clock rate.
@@ -137,6 +139,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 * @return number of accumulations.
 	 * @throws DeviceException
 	 */
+	@Override
 	public abstract int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException;
 	/**
 	 * configure the timing group and send them to TFG2 server.
@@ -148,8 +151,10 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 * @return {@link DetectorStatus}
 	 * @throws DeviceException
 	 */
+	@Override
 	public abstract DetectorStatus fetchStatus() throws DeviceException;
 
+	@Override
 	public DetectorData getDetectorData() {
 		return detectorData;
 	}
@@ -208,10 +213,12 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		return extras;
 	}
 
+	@Override
 	public Integer[] getPixels() {
 		return pixels;
 	}
 
+	@Override
 	public double[] getEnergyForChannels() {
 		double[] energy = new double[getMaxPixel()];
 		for (int i = 0; i < energy.length; i++) {
@@ -228,6 +235,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		return calibration.getCalibrationResult().value(channel / (double) getMaxPixel());
 	}
 
+	@Override
 	public void writeLiveDataFile() throws DeviceException {
 		try {
 			ScanDataPoint sdp = new ScanDataPoint();
@@ -278,6 +286,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		}
 	}
 
+	@Override
 	public DoubleDataset createDatasetForPixel() {
 		Integer[] pixelData = getPixels();
 		double[] pixelDataArray = new double[pixelData.length];
@@ -309,6 +318,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 * @return list of {@link NexusTreeProvider}
 	 * @throws DeviceException
 	 */
+	@Override
 	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException {
 		int[] elements = readoutFrames(startFrame, finalFrame);
 		int numberOfFrames = finalFrame - startFrame + 1;

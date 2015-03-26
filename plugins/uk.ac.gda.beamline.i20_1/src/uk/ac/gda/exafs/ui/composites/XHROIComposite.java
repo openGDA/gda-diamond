@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import gda.device.detector.xstrip.XhRoi;
+import gda.device.detector.Roi;
 
 import org.dawnsci.common.richbeans.components.scalebox.IntegerBox;
 import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
@@ -83,7 +83,7 @@ public class XHROIComposite extends Composite {
 		return upperLevel;
 	}
 
-	public void selectionChanged(XhRoi xhroi) {
+	public void selectionChanged(Roi xhroi) {
 		name.setValue(xhroi.getName());
 		lowerLevel.setValue(xhroi.getLowerLevel());
 		upperLevel.setValue(xhroi.getUpperLevel());

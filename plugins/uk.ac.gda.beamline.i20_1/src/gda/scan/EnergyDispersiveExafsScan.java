@@ -18,7 +18,7 @@
 
 package gda.scan;
 
-import gda.device.detector.EdeDetectorBase;
+import gda.device.detector.EdeDetector;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanType;
 
@@ -48,5 +48,5 @@ public interface EnergyDispersiveExafsScan extends Scan {
 
 	public String getHeaderDescription();
 
-	public EdeDetectorBase getDetector();
+	public EdeDetector getDetector();
 }
