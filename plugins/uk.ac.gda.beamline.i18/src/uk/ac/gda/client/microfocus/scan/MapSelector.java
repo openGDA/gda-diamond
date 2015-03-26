@@ -18,6 +18,8 @@
 
 package uk.ac.gda.client.microfocus.scan;
 
+import gda.device.Scannable;
+import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.RealPositionReader;
 import gda.jython.InterfaceProvider;
@@ -51,10 +53,17 @@ public class MapSelector {
 	private RealPositionReader stage1PositionReader;
 	private RealPositionReader stage3PositionReader;
 	private I18BeamlinePreparer beamlinePreparer;
+	private Scannable stage1X;
+	private Scannable stage1Y;
+	private Scannable stage1Z;
+	private Scannable stage3X;
+	private Scannable stage3Y;
+	private Scannable stage3Z;
+	private BufferedScaler ionChambers;
 
 	public MapSelector(I18BeamlinePreparer beamlinePreparer, StepMap non_raster, RasterMap raster, FasterRasterMap faster_raster,
 			ContinuouslyScannable stage1TrajMotor, ContinuouslyScannable stage3TrajMotor,
-			RealPositionReader stage1PositionReader, RealPositionReader stage3PositionReader) {
+			RealPositionReader stage1PositionReader, RealPositionReader stage3PositionReader, BufferedScaler ionChambers) {
 		this.beamlinePreparer = beamlinePreparer;
 		this.non_raster = non_raster;
 		this.raster = raster;
@@ -64,6 +73,7 @@ public class MapSelector {
 		this.stage3TrajMotor = stage3TrajMotor;
 		this.stage1PositionReader = stage1PositionReader;
 		this.stage3PositionReader = stage3PositionReader;
+		this.ionChambers = ionChambers;
 	}
 
 	public PyObject __call__(PyObject pyArgs) throws Exception {
@@ -107,16 +117,42 @@ public class MapSelector {
 
 		switch (stageNumber) {
 		case 1:
+			non_raster.setxScan(stage1X);
+			non_raster.setyScan(stage1Y);
+			non_raster.setzScan(stage1Z);
+			raster.setxScan(stage1X);
+			raster.setyScan(stage1Y);
+			raster.setzScan(stage1Z);
+			faster_raster.setxScan(stage1X);
+			faster_raster.setyScan(stage1Y);
+			faster_raster.setzScan(stage1Z);
+
 			raster.setTrajectoryMotor(stage1TrajMotor);
 			raster.setPositionReader(stage1PositionReader);
 			faster_raster.setTrajectoryMotor(stage1TrajMotor);
 			faster_raster.setPositionReader(stage1PositionReader);
+			
+			ionChambers.setTtlSocket(1);
+			
 			break;
 		case 3:
+			non_raster.setxScan(stage3X);
+			non_raster.setyScan(stage3Y);
+			non_raster.setzScan(stage3Z);
+			raster.setxScan(stage3X);
+			raster.setyScan(stage3Y);
+			raster.setzScan(stage3Z);
+			faster_raster.setxScan(stage3X);
+			faster_raster.setyScan(stage3Y);
+			faster_raster.setzScan(stage3Z);
+			
 			raster.setTrajectoryMotor(stage3TrajMotor);
 			raster.setPositionReader(stage3PositionReader);
 			faster_raster.setTrajectoryMotor(stage3TrajMotor);
 			faster_raster.setPositionReader(stage3PositionReader);
+			
+			ionChambers.setTtlSocket(1);
+
 			break;
 		default:
 			InterfaceProvider.getTerminalPrinter().print("only stages 1 or 3 may be selected");
@@ -151,6 +187,30 @@ public class MapSelector {
 	public void disableRealPositions() {
 		raster.setIncludeRealPositionReader(false);
 		faster_raster.setIncludeRealPositionReader(false);
+	}
+
+	public void setStage1X(Scannable stage1x) {
+		stage1X = stage1x;
+	}
+
+	public void setStage1Y(Scannable stage1y) {
+		stage1Y = stage1y;
+	}
+
+	public void setStage1Z(Scannable stage1z) {
+		stage1Z = stage1z;
+	}
+
+	public void setStage3X(Scannable stage3x) {
+		stage3X = stage3x;
+	}
+
+	public void setStage3Y(Scannable stage3y) {
+		stage3Y = stage3y;
+	}
+
+	public void setStage3Z(Scannable stage3z) {
+		stage3Z = stage3z;
 	}
 
 }

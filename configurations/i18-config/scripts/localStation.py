@@ -93,11 +93,14 @@ gains = [i0_keithley_gain, it_keithley_gain]
 detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3,FFI0_xspress3, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xspress3,qexafs_FFI0_xspress3, buffered_cid, None)
 samplePreparer   = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
+beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter)
 
 if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
     energy_scannable_for_scans = energy
+    beamlinePreparer.setUseWithGapEnergy()
 else:
     energy_scannable_for_scans = energy_nogap
+    beamlinePreparer.setUseNoGapEnergy()
     
 # while testing in low-alpha only
 energy_scannable_for_scans = energy_nogap
@@ -107,7 +110,6 @@ if (LocalProperties.get("gda.mode") == 'dummy'):
     energy(7000)
     energy_nogap(7000)
     
-beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter)
 
 theFactory = XasScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);
@@ -158,8 +160,20 @@ non_raster_map = mapFactory.createStepMap()
 raster_map = mapFactory.createRasterMap()
 faster_raster_map = mapFactory.createFasterRasterMap();
 
-map = MapSelector(beamlinePreparer, non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader)
+map = MapSelector(beamlinePreparer, non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader, qexafs_counterTimer01)
+map.setStage1X(sc_MicroFocusSampleX)
+map.setStage1Y(sc_MicroFocusSampleY)
+map.setStage1Z(sc_sample_z)
+map.setStage3X(table_x)
+map.setStage3Y(table_y)
+map.setStage3Z(table_z)
 
+map.setStage(1)
+
+if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
+    map.enableUseIDGap()
+else:
+    map.disableUseIDGap()
 
 if (LocalProperties.get("gda.mode") == 'live'):
     detectorPreparer.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor)
