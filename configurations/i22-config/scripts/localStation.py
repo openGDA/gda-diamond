@@ -96,7 +96,7 @@ setVisit = metadatatweaks.setVisit
 alias("setVisit")
 sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 
-run("/BeamlineScripts/master.py")
+run("BeamlineScripts/master.py")
 execfile(gdaScriptDir + "atten.py")
 execfile(gdaScriptDir + "rate.py")
 
