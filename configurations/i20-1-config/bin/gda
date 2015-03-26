@@ -1,6 +1,6 @@
 #!/bin/bash
 # Expects a parameter line that can be passed on to the gda python script
-
+export GDA_DEBUG=true
 here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 set -o nounset  # Turn on nounset
 set -o errexit  # Turn on errexit
@@ -41,7 +41,9 @@ bashlog debug "gda Bash script" "Params = $@"
 
 if [[ "$PARAMS" != *"all"* ]]; then # '--start all' or 'all' not used, so just operate on single component
     # Pass control to the gda_core bash script
+    bashlog DEBUG "gda Bash Script" "About to source gda_core script"
     . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
+    bashlog DEBUG "gda Bash Script" " gda_core script just finished"
 else # all included as a parameter so start the logpanel, servers and client
     if [[ "$PARAMS" == *"--start all"* ]]; then
         PARAMS="${PARAMS/--start all/}"
@@ -73,3 +75,5 @@ else # all included as a parameter so start the logpanel, servers and client
       for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
     fi
 fi
+
+bashlog DEBUG "gda Bash Script" "Last line of script"

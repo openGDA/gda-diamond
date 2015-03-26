@@ -11,10 +11,25 @@
 
     <!-- Console  -->
     <!-- include file="${gda.config}/servers/log/_common/logSharedWithClients.xml"/-->
-
-    <root>
+    <logger name="gda">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="gda.device.corba.impl">
         <level value="INFO"/>
-        <appender-ref ref="LogServer" />
-        <appender-ref ref="ServerDebugFILE"/>
-     </root>
+    </logger>
+    <logger name="gda.device.temperature">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.jython.corba.impl">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.oe.corba.impl">
+        <level value="INFO"/>
+    </logger>
+ 
+    <root>
+        <level value="ALL"/>
+        <appender-ref ref="DebugFILE"/>
+        <appender-ref ref="LogServer"/>
+    </root>
 </configuration>
