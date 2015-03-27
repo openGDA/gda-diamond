@@ -28,9 +28,6 @@ import gda.device.epicsdevice.FindableEpicsDevice;
 import gda.device.epicsdevice.ReturnType;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-
-import gda.data.nexus.NexusGlobals;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -468,10 +465,6 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 	public double setMaxWidth(double maxWidth) throws DeviceException {
 		xmap.setValue("SET" + MAXWIDTH + number.toString(), "", maxWidth);
 		return getTriggerGapTime();
-	}
-
-	public int getDataType() {
-		return NexusGlobals.NX_FLOAT64;
 	}
 
 	@Override

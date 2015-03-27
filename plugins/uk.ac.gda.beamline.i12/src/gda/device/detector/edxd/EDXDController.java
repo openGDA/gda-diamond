@@ -19,6 +19,7 @@
 package gda.device.detector.edxd;
 
 import gda.analysis.RCPPlotter;
+import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorBase;
@@ -38,7 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import gda.data.nexus.NexusGlobals;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -223,52 +223,43 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 			}
 			totalCounts += sum;
 
-			data.addData(det.getName(), det.getDataDimensions(), det.getDataType(), plotds[i], "counts",
+			data.addData(det.getName(), new NexusGroupData(det.getDataDimensions(), plotds[i].getData()), "counts",
 					1);
 
 			// add the energy Axis
 			double[] energy = det.getEnergyBins();
-			data.addAxis(det.getName(), "edxd_energy_approx", new int[] { energy.length }, NexusGlobals.NX_FLOAT64,
-					energy, 2, 2, "keV", false);
+			data.addAxis(det.getName(), "edxd_energy_approx", new NexusGroupData(energy), 2, 2, "keV", false);
 
 			// add the q Axis
 			double[] q = det.getQMapping();
-			data.addAxis(det.getName(), "edxd_q", new int[] { energy.length }, NexusGlobals.NX_FLOAT64, q, 2, 1, "units",
+			data.addAxis(det.getName(), "edxd_q", new NexusGroupData(q), 2, 1, "units",
 					false);
 
 			double[] elive_time = { det.getEnergyLiveTime() };
-			data.addElement(det.getName(), "edxd_energy_live_time", new int[] { elive_time.length },
-					NexusGlobals.NX_FLOAT64, elive_time, "seconds", true);
+			data.addElement(det.getName(), "edxd_energy_live_time", new NexusGroupData(elive_time), "seconds", true);
 
 			double[] tlive_time = { det.getTriggerLiveTime() };
-			data.addElement(det.getName(), "edxd_trigger_live_time", new int[] { tlive_time.length },
-					NexusGlobals.NX_FLOAT64, tlive_time, "seconds", true);
+			data.addElement(det.getName(), "edxd_trigger_live_time", new NexusGroupData(tlive_time), "seconds", true);
 
 			double[] real_time = { det.getRealTime() };
-			data.addElement(det.getName(), "edxd_real_time", new int[] { real_time.length }, NexusGlobals.NX_FLOAT64,
-					real_time, "seconds", true);
+			data.addElement(det.getName(), "edxd_real_time", new NexusGroupData(real_time), "seconds", true);
 
 			int[] events = { det.getEvents() };
-			data.addElement(det.getName(), "edxd_events", new int[] { events.length }, NexusGlobals.NX_INT32, events,
-					"counts", true);
+			data.addElement(det.getName(), "edxd_events", new NexusGroupData(events), "counts", true);
 
 			double[] input_count_rate = { det.getInputCountRate() };
-			data.addElement(det.getName(), "edxd_input_count_rate", new int[] { input_count_rate.length },
-					NexusGlobals.NX_FLOAT64, input_count_rate, "counts/second", true);
+			data.addElement(det.getName(), "edxd_input_count_rate", new NexusGroupData(input_count_rate), "counts/second", true);
 
 			double[] output_count_rate = { det.getOutputCountRate() };
-			data.addElement(det.getName(), "edxd_output_count_rate", new int[] { output_count_rate.length },
-					NexusGlobals.NX_FLOAT64, output_count_rate, "counts/second", true);
+			data.addElement(det.getName(), "edxd_output_count_rate", new NexusGroupData(output_count_rate), "counts/second", true);
 
 			// simple deadtime calculation for now, which is simply based on the 2 rates
 			double[] dead_time = { (1.0 - (output_count_rate[0] / input_count_rate[0])) * real_time[0] };
-			data.addElement(det.getName(), "edxd_dead_time", new int[] { dead_time.length }, NexusGlobals.NX_FLOAT64,
-					dead_time, "seconds", true);
+			data.addElement(det.getName(), "edxd_dead_time", new NexusGroupData(dead_time), "seconds", true);
 
 			// simple deadtime calculation for now, which is simply based on the 2 rates
 			double[] dead_time_percent = { (1.0 - (output_count_rate[0] / input_count_rate[0])) * 100.0 };
-			data.addElement(det.getName(), "edxd_dead_time_percent", new int[] { dead_time_percent.length },
-					NexusGlobals.NX_FLOAT64, dead_time_percent, "percent", true);
+			data.addElement(det.getName(), "edxd_dead_time_percent", new NexusGroupData(dead_time_percent), "percent", true);
 
 			// now calculate the deadtime statistics
 			if (dead_time[0] > dead_time_max)
