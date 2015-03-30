@@ -1,3 +1,5 @@
-. /dls_sw/i08/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
-/dls_sw/i08/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i08/software/gda/config --mode=live --restart logpanel
-
+#!/bin/bash
+# This is required to be on the path until the Diamond Launcher scripts in
+# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
+# this cannot be done until all beamlines use the standard startup commands.
+gda --start logpanel $*

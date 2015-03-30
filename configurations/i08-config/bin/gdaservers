@@ -1,1 +1,5 @@
-ssh -i /dls_sw/i08/software/gda_versions/var/i08ssh.key gda2@i08-control
+#!/bin/bash
+# This is required to be on the path until the Diamond Launcher scripts in
+# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
+# this cannot be done until all beamlines use the standard startup commands.
+gda --start servers $*
