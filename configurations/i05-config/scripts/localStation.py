@@ -48,8 +48,10 @@ gauge06=DisplayEpicsPVClass("gauge06","BL05I-VA-GAUGE-06:P","","%.3e")
 gauge07=DisplayEpicsPVClass("gauge07","BL05I-VA-GAUGE-07:P","","%.3e")
 gauge09=DisplayEpicsPVClass("gauge09","BL05I-VA-GAUGE-09:P","","%.3e")
 
-d10xpos=DisplayEpicsPVClass("d10xpos","BLI05-DI-PHDGN-10:DCAM:STAT:CentroidX_RBV","","%.3e")
-d10ypox=DisplayEpicsPVClass("d10ypos","BLI05-DI-PHDGN-10:DCAM:STAT:CentroidY_RBV","","%.3e")
+#These scannables look at the spot position using the endstation camera and stats.
+#Removed because they are not used and require centroid to be on in AD.
+#d10xpos=DisplayEpicsPVClass("d10xpos","BLI05-DI-PHDGN-10:DCAM:STAT:CentroidX_RBV","","%.3e")
+#d10ypox=DisplayEpicsPVClass("d10ypos","BLI05-DI-PHDGN-10:DCAM:STAT:CentroidY_RBV","","%.3e")
 
 import metadatatweaks
 getTitle = metadatatweaks.getTitle
