@@ -53,7 +53,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeDetectorBase.class);
 	private static final int INITIAL_NO_OF_ROIS = 4;
-	private static final Gson GSON = new Gson();
+	protected static final Gson GSON = new Gson();
 	private static final String PROP_FILE_EXTENSION = ".properties";
 	private static final String DETECTOR_DATA = "detectorData";
 
@@ -66,17 +66,11 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	public void configure() throws FactoryException {
 		createPixelData();
 		loadDetectorData();
-	}
-
-	private void createPixelData() {
-		pixels = new Integer[getMaxPixel()];
-		for (int i = 0; i < pixels.length; i++) {
-			pixels[i] = i;
+		if (detectorData == null) {
+			detectorData = createDetectorData();
+			detectorData.setNumberRois(INITIAL_NO_OF_ROIS);
+			saveDetectorData();
 		}
-	}
-
-	private void loadDetectorData() {
-		detectorData = createData();
 		detectorData.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -86,7 +80,13 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 				}
 			}
 		});
-		detectorData.setNumberRois(INITIAL_NO_OF_ROIS);
+	}
+
+	private void createPixelData() {
+		pixels = new Integer[getMaxPixel()];
+		for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = i;
+		}
 	}
 
 	@Override
@@ -108,7 +108,24 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		}
 	}
 
-	protected abstract DetectorData createData();
+	protected abstract DetectorData createDetectorData();
+	protected abstract void createDetectorDataFromJson(String property);
+
+	private void loadDetectorData() {
+		PropertiesConfiguration store;
+		try {
+			store = new PropertiesConfiguration(getPropertyFileName());
+			store.load();
+			Object property = store.getProperty(DETECTOR_DATA);
+			if (property != null && property instanceof String) {
+				createDetectorDataFromJson((String) property);
+			}
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			logger.error("TODO put description of error here", e);
+		}
+
+	}
 
 	private void saveDetectorData() {
 		PropertiesConfiguration store;
@@ -125,14 +142,18 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		String propertiesFileName = LocalProperties.getVarDir() + getName() + PROP_FILE_EXTENSION;
 		return propertiesFileName;
 	}
+
 	/**
 	 * detector's maximum pixel size in energy direction.
+	 *
 	 * @return maximum pixels of camera in energy direction
 	 */
 	@Override
 	public abstract int getMaxPixel();
+
 	/**
 	 * calculate the number of scans (TFG2 term) or accumulations in a single frame based on detector clock rate.
+	 *
 	 * @param frameTime
 	 * @param scanTime
 	 * @param numberOfFrames
@@ -140,14 +161,19 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 * @throws DeviceException
 	 */
 	@Override
-	public abstract int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException;
+	public abstract int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames)
+			throws DeviceException;
+
 	/**
 	 * configure the timing group and send them to TFG2 server.
+	 *
 	 * @throws DeviceException
 	 */
 	protected abstract void configureDetectorForCollection() throws DeviceException;
+
 	/**
 	 * fetch detector status from hardware.
+	 *
 	 * @return {@link DetectorStatus}
 	 * @throws DeviceException
 	 */
@@ -164,8 +190,10 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		NXDetectorData thisFrame = new NXDetectorData(this);
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { getMaxPixel() }, NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
-		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { getMaxPixel() }, NexusFile.NX_FLOAT64, correctedData, "eV", 1);
+		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { getMaxPixel() },
+				NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
+		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { getMaxPixel() },
+				NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -187,8 +215,9 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 					// simply set excluded strips to be zero
 					if (ArrayUtils.contains(detectorData.getExcludedPixels(), stripIndex)) {
 						out[frame][stripIndex] = 0.0;
-					} else if (!currentScanParameter.getIncludeCountsOutsideROIs() && (stripIndex < detectorData.getLowerChannel()
-							|| stripIndex > detectorData.getUpperChannel())) {
+					} else if (!currentScanParameter.getIncludeCountsOutsideROIs()
+							&& (stripIndex < detectorData.getLowerChannel() || stripIndex > detectorData
+									.getUpperChannel())) {
 						out[frame][stripIndex] = 0.0;
 					} else {
 						out[frame][stripIndex] = rawData[(frame * getMaxPixel()) + stripIndex];
@@ -258,7 +287,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		}
 	}
 
-	private void writeAsciiFile(ScanDataPoint sdp,String nexusFilePath) throws Exception {
+	private void writeAsciiFile(ScanDataPoint sdp, String nexusFilePath) throws Exception {
 		DoubleDataset dataSet = ScanDataHelper.extractDetectorDataFromSDP(this.getName(), sdp);
 		String asciiFileFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusFilePath);
 		String asciiFilename = FilenameUtils.getBaseName(nexusFilePath);
@@ -270,18 +299,20 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		String line = System.getProperty("line.separator");
 		try {
 			asciiFileWriter = new FileWriter(asciiFile);
-			asciiFileWriter.write(String.format("#%s\t%s", EdeDataConstants.STRIP_COLUMN_NAME, EdeDataConstants.ENERGY_COLUMN_NAME));
+			asciiFileWriter.write(String.format("#%s\t%s", EdeDataConstants.STRIP_COLUMN_NAME,
+					EdeDataConstants.ENERGY_COLUMN_NAME));
 			asciiFileWriter.write(line);
 			for (int i = 0; i < dataSet.getSize(); i++) {
 				asciiFileWriter.write(String.format("%d\t%f", i, dataSet.get(i)));
 				asciiFileWriter.write(line);
 			}
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			throw new Exception("Unable to write ascii data");
 		} finally {
 			if (asciiFileWriter != null) {
 				asciiFileWriter.close();
-				InterfaceProvider.getTerminalPrinter().print("Writing data to file (Ascii): " + asciiFile.getAbsolutePath());
+				InterfaceProvider.getTerminalPrinter().print(
+						"Writing data to file (Ascii): " + asciiFile.getAbsolutePath());
 			}
 		}
 	}
@@ -310,6 +341,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		// TODO read data from detector
 		return readFrames(0, 0)[0];
 	}
+
 	/**
 	 * returns a list of {@link NexusTreeProvider}, one for each frame in the specified range.
 	 *
@@ -329,8 +361,10 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		}
 		return results;
 	}
+
 	/**
 	 * implements the read out of frames from the actual detector used.
+	 *
 	 * @param startFrame
 	 * @param finalFrame
 	 * @return an 1D integer array containing all frames concatenated from start frame to the final frame inclusively.

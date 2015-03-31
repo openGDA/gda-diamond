@@ -615,7 +615,13 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	@Override
-	protected DetectorData createData() {
+	protected DetectorData createDetectorData() {
 		return new XhDetectorData();
+	}
+
+
+	@Override
+	protected void createDetectorDataFromJson(String property) {
+		detectorData=GSON.fromJson(property, XhDetectorData.class);
 	}
 }

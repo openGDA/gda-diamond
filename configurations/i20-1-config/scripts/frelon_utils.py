@@ -76,7 +76,7 @@ class frelon:
         print self.frelon.getROIMode()
         
         deviceAttribute = DeviceAttribute("image_roi", 4, 1)
-        deviceAttribute.insert(array([0, 1, 2048, 1], 'i'))
+        deviceAttribute.insert(array([0, 1, 2048, 1], 'i')) # [begin-x, begin-y, end-x, end-y]
         self.lima.getTangoDeviceProxy().write_attribute(deviceAttribute)
         
         print self.lima.getImageROIInt()
