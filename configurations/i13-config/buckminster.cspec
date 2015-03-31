@@ -12,6 +12,6 @@
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.test.helpers" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.tomography.scan" componentType="osgi.bundle"/>
-        <cs:dependency name="com.springsource.org.hamcrest.core" componentType="osgi.bundle"/>
+        <cs:dependency name="org.hamcrest.core" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
