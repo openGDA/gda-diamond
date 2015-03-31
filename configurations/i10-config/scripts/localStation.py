@@ -249,7 +249,7 @@ if andor_installed:
         # the andor has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
         andor = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'andor', andor1det, None, andor1det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
     
@@ -262,7 +262,7 @@ if andor_installed:
     
         andorGV12 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'andorGV12', andor1GV12det, None, andor1GV12det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
     
@@ -304,13 +304,13 @@ if pimte_installed:
         # the pimte has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
         pimte = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pimte', pimte1det, None, pimte1det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 
         pimteSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pimteSMPV', pimte1det, None, pimte1det_for_snaps,
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
         pimteSMPV.display_image = True
@@ -319,7 +319,7 @@ if pimte_installed:
 
         pimte2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pimte2d', pimte1det, None, pimte1det_for_snaps,
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
         pimte2d.display_image = True
@@ -339,13 +339,13 @@ if pixis_installed:
         # the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
         pixis = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pixis', pixis1det, None, pixis1det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
     
         pixisSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pixisSMPV', pixis1det, None, pixis1det_for_snaps,
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
         pixisSMPV.display_image = True
@@ -354,7 +354,7 @@ if pixis_installed:
 
         pixis2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pixis2d', pixis1det, None, pixis1det_for_snaps,
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
         pixis2d.display_image = True
