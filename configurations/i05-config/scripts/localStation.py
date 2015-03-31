@@ -41,11 +41,6 @@ s2xminus=DisplayEpicsPVClass('s2xminus', 'BL05I-AL-SLITS-02:X:MINUS:I', '', '%5.
 s2yplus=DisplayEpicsPVClass('s2yplus', 'BL05I-AL-SLITS-02:Y:PLUS:I', '', '%5.5g')
 s2yminus=DisplayEpicsPVClass('s2yminus', 'BL05I-AL-SLITS-02:Y:MINUS:I', '', '%5.5g')
 
-s3xplus=DisplayEpicsPVClass('s3xplus', 'BL05I-AL-SLITS-03:X:PLUS:I', '', '%5.5g')
-s3xminus=DisplayEpicsPVClass('s3xminus', 'BL05I-AL-SLITS-03:X:MINUS:I', '', '%5.5g')
-s3yplus=DisplayEpicsPVClass('s3yplus', 'BL05I-AL-SLITS-03:Y:PLUS:I', '', '%5.5g')
-s3yminus=DisplayEpicsPVClass('s3yminus', 'BL05I-AL-SLITS-03:Y:MINUS:I', '', '%5.5g')
-
 gauge01=DisplayEpicsPVClass("gauge01","BL05I-VA-GAUGE-01:P","","%.3e")
 gauge03=DisplayEpicsPVClass("gauge03","BL05I-VA-GAUGE-03:P","","%.3e")
 gauge04=DisplayEpicsPVClass("gauge04","BL05I-VA-GAUGE-04:P","","%.3e")
