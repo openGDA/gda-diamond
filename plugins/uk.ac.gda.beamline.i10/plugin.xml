@@ -233,7 +233,7 @@
 
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="Princeton Instruments (pimte) Array View"
+                  label="Princeton Instruments (pixis) Array View"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
@@ -241,12 +241,12 @@
                </parameter>
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//pimte//BL10I-EA-PIXIS-01@//pimteSuffixService">
+                     value="pv//pixis//BL10I-EA-PIXIS-01@//pixisSuffixService">
                </parameter>
             </command>
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="Princeton Instruments (pimte) Live (MJPeg) View"
+                  label="Princeton Instruments (pixis) Live (MJPeg) View"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
@@ -254,7 +254,7 @@
                </parameter>
                <parameter
                      name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//pimte//BL10I-EA-PIXIS-01@//pimteSuffixService">
+                     value="pv//pixis//BL10I-EA-PIXIS-01@//pixisSuffixService">
                </parameter>
             </command>
 
