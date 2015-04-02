@@ -206,15 +206,9 @@ public class ContinuousModeControllerComposite {
 		SelectionListener zeroListener = new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				// It is important to make sure the analyser is idle before zeroing supplies.
-				
-				JythonServerFacade.getInstance().runCommand("analyser.getADBase().stopAcquiring()");
-				//Sleep as there is a possible race condition between stopping acquisition and zeroing suppies.
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e1) {
-					logger.error("Error sleeping.", e1);
-				}
+				// Zero supplies button in new IOCs also stops. Although I think the better way to go
+				// Might be to stop as this also zero supplies. Left for now in case we need to change
+				// back to an older IOC
 				JythonServerFacade.getInstance().runCommand("analyser.zeroSupplies()");
 			}
 			@Override
@@ -222,7 +216,7 @@ public class ContinuousModeControllerComposite {
 			}
 		};
 		zeroButton.addSelectionListener(zeroListener);
-		
+
 		shutterButton = new Button(control, SWT.NONE);
 		shutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		shutterButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
