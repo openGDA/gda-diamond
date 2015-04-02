@@ -186,10 +186,46 @@ public class EdeFrelon extends EdeDetectorBase {
 		}
 		super.stop();
 	}
+	/**
+	 * retrieve calculated accumulation number of frames per image from the detector.
+	 * the third parameter is not used here. It is just API signature used by XH detector.
+	 */
 	@Override
-	public int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException {
-		// TODO Query the detector to find out how many scans that can fit
-		return 0;
+	public int getNumberScansInFrame(double expoTime, double accTime, int numberOfImages) throws DeviceException {
+		// TODO Query the detector to find out how many accumulations that can fit
+		try {
+			getLimaCcd().setAcqExpoTime(expoTime);
+		} catch (DevFailed e) {
+			logger.error("failed to set LimaCcd acq_expo_time for " + getName(), e);
+			throw new DeviceException("failed to set LimaCcd acq_expo_time for " + getName(), e);
+		}
+
+		try {
+			if (getLimaCcd().getAcqMode()==AcqMode.ACCUMULATION) {
+				try {
+					getLimaCcd().setAccTimeMode(((FrelonCcdDetectorData)getDetectorData()).getAccumulationTimeMode());
+				} catch (DevFailed e) {
+					logger.error("Failed to set LimaCcd acc_time_mode", e);
+					throw new DeviceException(getName(), "Fail to set LimaCcd acc_time_mode.", e);
+				}
+				try {
+					getLimaCcd().setAccMaxExpoTime(accTime);
+				} catch (DevFailed e) {
+					logger.error("Failed to set LimaCcd acc_max_expotime", e);
+					throw new DeviceException(getName(), "Fail to set LimaCcd acc_max_expotime.", e);
+				}
+				try {
+					return getLimaCcd().getAccNbFrames();
+				} catch (DevFailed e) {
+					logger.error("Failed to get LimaCcd acc_nb_frames", e);
+					throw new DeviceException(getName(), "Fail to set LimaCcd acc_nb_frames.", e);
+				}
+			}
+		} catch (DevFailed e) {
+			logger.error("Failed to get LimaCcd acq_mode", e);
+			throw new DeviceException(getName(), "Fail to get LimaCcd acq_mode.", e);
+		}
+		return 1;
 	}
 
 	@Override
