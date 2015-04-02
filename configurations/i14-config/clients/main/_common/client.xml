@@ -25,7 +25,7 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<corba:import namespace="I08" names="plot_server" />
+	<corba:import namespace="I14" names="plot_server" />
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
