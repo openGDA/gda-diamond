@@ -8,11 +8,11 @@
            
 <!--machine and front end -->
 
-	<bean id="absorber" class="gda.device.monitor.DummyEpicsMonitor">
+	<!-- <bean id="absorber" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="Open" />
 	</bean>
 	
 	<bean id="topup" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="300" />
-	</bean>
+	</bean> -->
 </beans>
