@@ -14,19 +14,25 @@ from gda.jython.commands.GeneralCommands import alias
 
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = "/dls/i22/software/gda/config/scripts/"
+setupScriptDir = "setup/"
+#beamlineScriptDir = "beamlineScripts/"
+
 gdascripts = "/dls/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
 
-execfile(gdascripts + "/pd/epics_pds.py");
-execfile(gdascripts + "/pd/time_pds.py");
-execfile(gdascripts + "/pd/dummy_pds.py");
-execfile(gdascripts + "/utils.py");
+execfile(gdascripts + "/pd/epics_pds.py")
+execfile(gdascripts + "/pd/time_pds.py")
+execfile(gdascripts + "/pd/dummy_pds.py")
+execfile(gdascripts + "/utils.py")
 
 #Set up the Bimorph Mirror 
 #print "Setting up access to Bimorph Mirror Channels...";
-execfile(gdaScriptDir + "fastshuttershutter.py");
-execfile(gdaScriptDir + "notchrissbimorph.py");
+run(setupScriptDir + "fastshuttershutter.py")
+#execfile(gdaScriptDir + "fastshuttershutter.py")
+run(setupScriptDir +  "notchrissbimorph.py")
+#execfile(gdaScriptDir + "notchrissbimorph.py")
 
-execfile(gdaScriptDir + "LookupTables.py");
+#execfile(gdaScriptDir + "LookupTables.py")
+run(setupScriptDir + "LookupTables.py")
 #execfile(gdaScriptDir + "CheckShutter.py");
 
 i0xplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD1:I_C","ua","%.3e")
@@ -35,16 +41,16 @@ i0yplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD3:I_C","ua","%.3e")
 i0yminus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD4:I_C","ua","%.3e")
 i0=DisplayEpicsPVClass("i0","BL22I-DI-IAMP-06:INTEN_C","ua","%.3e")
 
-execfile(gdaScriptDir + "TopupCountdown.py")
-execfile(gdaScriptDir + "gainpds.py")
-execfile(gdaScriptDir + "microfocus.py")
+run(setupScriptDir +  "TopupCountdown.py")
+#run(setupScriptDir +  "gainpds.py")
+#run(setupScriptDir +  "microfocus.py")
 
-from linkam import Linkam
-linkam=Linkam("linkam","BL22I-EA-TEMPC-01")
-from linkamrampmaster4000 import LinkamRampMaster4000
-lrm4k=LinkamRampMaster4000("lrm4k",linkam)
+#from linkam import Linkam
+#linkam=Linkam("linkam","BL22I-EA-TEMPC-01")
+#from linkamrampmaster4000 import LinkamRampMaster4000
+#lrm4k=LinkamRampMaster4000("lrm4k",linkam)
 
-from installStandardScansWithProcessing import *
+from setup.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 
 from ncdutils import DetectorMeta
@@ -65,8 +71,8 @@ finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 #create cam1, peak2d
 #scan slit start end step cam1 620 peak2d
 #run "setupBimorphOptimisation"
-
-import gridscan
+run(setupScriptDir + "energy.py")
+from setup import gridscan
 
 print "Create ncdgridscan"
 try:
@@ -81,7 +87,7 @@ gridxy.configure()
 ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
 ncdgridscan.snap()
 
-import metadatatweaks
+from setup import metadatatweaks
 getTitle = metadatatweaks.getTitle
 alias("getTitle")
 setTitle = metadatatweaks.setTitle
@@ -96,9 +102,9 @@ setVisit = metadatatweaks.setVisit
 alias("setVisit")
 sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 
-run("BeamlineScripts/master.py")
-execfile(gdaScriptDir + "atten.py")
-execfile(gdaScriptDir + "rate.py")
+#run("BeamlineScripts/master.py")
+run(setupScriptDir +  "atten.py")
+run(setupScriptDir +  "rate.py")
 
 from gdascripts.pd.time_pds import actualTimeClass
 epoch=actualTimeClass("epoch")
