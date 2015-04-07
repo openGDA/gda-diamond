@@ -21,25 +21,28 @@
     </logger>
     <logger name="gda.jython.corba.impl">
         <level value="INFO"/>
-    </logger>    
+    </logger>
     <logger name="gda.oe.corba.impl">
         <level value="INFO"/>
-    </logger> 
+    </logger>
     <logger name="gda.device.monitor.corba.impl">
         <level value="INFO"/>
-    </logger>   
+    </logger>
     <logger name="gda.oe.positioners.Positioner">
         <level value="INFO"/>
-    </logger>   
+    </logger>
     <logger name="gda.data.nexus.extractor.NexusExtractor">
         <level value="DEBUG"/>
     </logger>
     <logger name="gda.data.nexus.NexusFileWrapper">
         <level value="DEBUG"/>
-    </logger>    
+    </logger>
     <logger name="uk.ac.gda.server.ncd.detector.DAServer">
         <level value="DEBUG"/>
-    </logger>    
+    </logger>
+    <logger name="org.apache.http">
+        <level value="INFO"/>
+    </logger>
     <root>
         <level value="ALL"/>
         <appender-ref ref="SOCKET"/>

@@ -62,24 +62,27 @@
         <level value="INFO"/>
     </logger>
     <logger name="gda.device.motor">
-        <level value="INFO"/> 
+        <level value="INFO"/>
     </logger>
     <logger name="httpclient.wire.content">
-        <level value="INFO"/> 
+        <level value="INFO"/>
+    </logger>
+    <logger name="org.apache.http">
+        <level value="INFO"/>
     </logger>
     <logger name="org.apache.commons.httpclient">
-        <level value="INFO"/> 
+        <level value="INFO"/>
     </logger>
     <logger name="gda.data.nexus.extractor.NexusExtractor">
         <level value="DEBUG"/>
-    </logger>    
+    </logger>
     <logger name="gda.data.nexus.NexusFileWrapper">
         <level value="DEBUG"/>
-    </logger>    
+    </logger>
     <logger name="uk.ac.gda.server.ncd.detector.DAServer">
         <level value="DEBUG"/>
-    </logger>    
-    
+    </logger>
+
     <root>
         <level value="All"/>
         <appender-ref ref="CONSOLE"/>
