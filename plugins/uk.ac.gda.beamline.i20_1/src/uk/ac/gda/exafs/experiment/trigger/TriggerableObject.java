@@ -24,7 +24,7 @@ import uk.ac.gda.beans.ObservableModel;
 
 import com.google.gson.annotations.Expose;
 
-public class TriggerableObject extends ObservableModel implements Serializable{
+public class TriggerableObject extends ObservableModel implements Serializable, Comparable<TriggerableObject>{
 
 	public enum TriggerOutputPort {
 		USR_OUT_0(0, "USR OUT 0"),
@@ -117,5 +117,18 @@ public class TriggerableObject extends ObservableModel implements Serializable{
 
 	public double getTotalDelay() {
 		return this.getTriggerDelay() + getTotalDuration();
+	}
+
+	@Override
+	public int compareTo(TriggerableObject o) {
+		double delayTime=o.getTriggerDelay();
+		double diff=triggerDelay-delayTime;
+		if (diff<0) {
+			return -1;
+		} else if (diff>0) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 }
