@@ -11,9 +11,9 @@
 		<property name="numberOfChannels" value="10" />
 	</bean>
 
-	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
+	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector">
 		<property name="controller" ref="xspress3Controller" />
-		<property name="writeHDF5Files" value="true" />
+		<property name="readDataFromFile" value="false" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
