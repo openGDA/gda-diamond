@@ -90,7 +90,7 @@ if finder.find("datawriterconfig").getHeader() != None:
 elementListScriptController =  finder.find("elementListScriptController")
 
 gains = [i0_keithley_gain, it_keithley_gain]
-detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3,FFI0_xspress3, qexafs_counterTimer01, qexafs_xspress, QexafsFFI0, qexafs_xspress3,qexafs_FFI0_xspress3, buffered_cid, None)
+detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3,FFI0_xspress3, raster_counterTimer01, raster_xspress, QexafsFFI0, raster_xspress3,raster_FFI0_xspress3, buffered_cid, None)
 samplePreparer   = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter)
@@ -160,7 +160,7 @@ non_raster_map = mapFactory.createStepMap()
 raster_map = mapFactory.createRasterMap()
 faster_raster_map = mapFactory.createFasterRasterMap();
 
-map = MapSelector(beamlinePreparer, non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader, qexafs_counterTimer01)
+map = MapSelector(beamlinePreparer, non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader, raster_counterTimer01)
 map.setStage1X(sc_MicroFocusSampleX)
 map.setStage1Y(sc_MicroFocusSampleY)
 map.setStage1Z(sc_sample_z)

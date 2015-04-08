@@ -48,10 +48,10 @@
 	
 <!-- 	HardwareTriggeredDetector classes for two-way faster raster -->
 
-	<bean id="traj_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.HardwareTriggeredXspress3Detector">
-		<property name="xspress3" ref="qexafs_xspress3" />
-	</bean>
+<!-- 	<bean id="traj_xspress3" -->
+<!-- 		class="uk.ac.gda.devices.detector.xspress3.HardwareTriggeredXspress3Detector"> -->
+<!-- 		<property name="xspress3" ref="qexafs_xspress3" /> -->
+<!-- 	</bean> -->
 
 
 <!-- 	<bean id="cmos_for_maps" class="gda.device.detector.NXDetector"> -->
