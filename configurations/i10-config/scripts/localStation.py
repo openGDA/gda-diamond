@@ -17,6 +17,7 @@ import sys, gda, java
 #from rasor.init_scan_commands_and_processing import * 
 from gda.configuration.properties import LocalProperties
 from gdascripts.messages import handle_messages
+from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.pd import epics_pds
 
 # setup standard scans with processing
@@ -25,9 +26,12 @@ scan_processor.rootNamespaceDict=globals()
 import gdascripts.utils #@UnusedImport
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
 
+localStation_exceptions = []
+
 def localStation_exception(exc_info, msg):
     typ, exception, traceback = exc_info
-    handle_messages.simpleLog("! Failure %s !" % msg)
+    simpleLog("! Failure %s !" % msg)
+    localStation_exceptions.append("    %s" % msg)
     handle_messages.log(None, "Error %s -  " % msg , typ, exception, traceback, False)
 
 ##setup metadata for the file
@@ -565,15 +569,21 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating gflow2 scannable")
 
-print "Attempting to run localStationUser.py for users script directory"
+print "*"*80
+print "Attempting to run localStationUser.py from users script directory"
 try:
     run("localStationUser")
     print "localStationUser.py completed."
-    print "**************************************************"
 except java.io.FileNotFoundException, e:
-    print "No localStationUser run"
+    print "No localStationUser.py found in user scripts directory"
 except:
     localStation_exception(sys.exc_info(), "running localStationUser user script")
+
+if len(localStation_exceptions) > 0:
+    simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
+
+for localStationException in localStation_exceptions:
+    simpleLog(localStationException)
 
 print "**************************************************"
 print "localStation.py completed."
