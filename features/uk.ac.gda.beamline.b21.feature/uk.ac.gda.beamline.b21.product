@@ -12,10 +12,22 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+      <vmArgs>-Duser.timezone=GMT
+-Dgda.config=/dls_sw/b21/software/gda/config
+-Dgda.propertiesFile=/dls_sw/b21/software/gda/config/properties/live/java.properties
+-Dgda.install.workspace.loc=/dls_sw/b21/software/gda/workspace
+-Dgda.install.git.loc=/dls_sw/b21/software/gda/workspace_git
+-Djacorb.config.dir=/dls_sw/b21/software/gda/config/jacorb/live
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/b21/software/gda/config/jca/live/JCALibrary.properties
+-Declipse.pluginCustomization=/dls_sw/b21/software/gda/config/client/pluginCustomization.ini
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dorg.dawb.editor.h5.use.default=false
 -Xms512m
--Xmx1024m</vmArgs>
+-Xmx1024m
+-XX:PermSize=128m
+-XX:MaxPermSize=512m
+-XX:-UseCompressedOops</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
