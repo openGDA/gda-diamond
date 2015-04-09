@@ -12,7 +12,7 @@
 <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/i05 Client"/>
 <booleanAttribute key="default" value="true"/>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="/scratch/gda_workspaces/${env_var:LOGNAME}"/>
+<stringAttribute key="location" value="${workspace_loc}/../gda-workspace"/>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="BEAMLINE" value="i05"/>
 </mapAttribute>
