@@ -377,7 +377,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		}
 		simpleParams.addGroup(group1);
 
-		detector.setAttribute(XhDetector.ATTR_LOADPARAMETERS, simpleParams);
+		detector.setAttribute(XhDetector.ATTR_LOADPARAMETERS, simpleParams);// does this works? before refector to this class the original XHDetector did overwrite setAttribute(...)
 		detector.collectData();
 		detector.waitWhileBusy();
 	}
@@ -397,8 +397,9 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		collectData(collectionPeriod, 1,scansPerFrame);
 
-		// will return a double[] of corrected data
-		final Object results = detector.getAttribute(XhDetector.ATTR_READALLFRAMES);
+		//get pixel corrected data from detector
+		NXDetectorData readout = (NXDetectorData) detector.readout();
+		final Double[] results = readout.getDoubleVals();
 
 		if (results != null) {
 			Display.getDefault().asyncExec(new Runnable() {
@@ -412,11 +413,10 @@ public class XHControlComposite extends Composite implements IObserver {
 		}
 
 		if (writeData) {
-			detector.getAttribute(XhDetector.ATTR_WRITEFIRSTFRAME);
+			detector.writeLiveDataFile();
 		}
 
-		NXDetectorData readout = (NXDetectorData) detector.readout();
-		return readout.getDoubleVals();
+		return results;
 	}
 
 	private void updatePlotWithData(final String title, final Object results) {
