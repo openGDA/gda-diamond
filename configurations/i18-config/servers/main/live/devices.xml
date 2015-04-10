@@ -220,42 +220,42 @@
 	</bean>
 	<!-- Monochromator / DCM Motors -->
 	
-	<bean id="dcm_bragg_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="1000.0"></property>
-	</bean>
-	<bean id="dcm_energy_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="1000.0"></property>
-	</bean>
+<!-- 	<bean id="dcm_bragg_motor" class="gda.device.motor.DummyMotor"> -->
+<!-- 		<property name="speed" value="1000.0"></property> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="dcm_energy_motor" class="gda.device.motor.DummyMotor" /> -->
+<!-- 	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.DummyMotor" /> -->
+<!-- 	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.DummyMotor" /> -->
+<!-- 	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.DummyMotor" /> -->
+<!-- 	<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor"> -->
+<!-- 		<property name="speed" value="1000.0"></property> -->
+<!-- 	</bean> -->
 	
 	
-<!-- 	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="DCM:BRAGG"></property> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="DCM.ENERGY"></property> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="DCM:XTAL1:ROLL"></property> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="DCM:XTAL2:ROLL"></property> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="DCM:XTAL2:PITCH"></property> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="DCM:XTAL2:YPRIME"></property> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
+	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM:BRAGG"></property>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM.ENERGY"></property>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM:XTAL1:ROLL"></property>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM:XTAL2:ROLL"></property>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM:XTAL2:PITCH"></property>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DCM:XTAL2:YPRIME"></property>
+		<property name="local" value="true" />
+	</bean>
 	<bean id="s2xpos_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S2.XDISP"></property>
 		<property name="local" value="true" />

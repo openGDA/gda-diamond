@@ -90,7 +90,7 @@ if finder.find("datawriterconfig").getHeader() != None:
 elementListScriptController =  finder.find("elementListScriptController")
 
 gains = [i0_keithley_gain, it_keithley_gain]
-detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3,FFI0_xspress3, raster_counterTimer01, raster_xspress, QexafsFFI0, raster_xspress3,raster_FFI0_xspress3, buffered_cid, None)
+detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3, raster_counterTimer01, raster_xspress, QexafsFFI0, raster_xspress3,raster_FFI0_xspress3, buffered_cid, None)
 samplePreparer   = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
 outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter)
@@ -174,11 +174,6 @@ if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'Us
     map.enableUseIDGap()
 else:
     map.disableUseIDGap()
-
-if (LocalProperties.get("gda.mode") == 'live'):
-    detectorPreparer.addMonitors(topupMonitor, beamMonitor, detectorFillingMonitor)
-else:
-    detectorPreparer.addMonitors(None, None, None)
 
 vararg_alias("xas")
 vararg_alias("xanes")

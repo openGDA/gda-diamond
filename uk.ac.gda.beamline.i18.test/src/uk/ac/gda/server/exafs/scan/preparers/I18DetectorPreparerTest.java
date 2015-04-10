@@ -46,7 +46,6 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector;
-import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0Detector;
 import uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector;
 
 public class I18DetectorPreparerTest {
@@ -62,7 +61,6 @@ public class I18DetectorPreparerTest {
 	private NXDetector cmos_for_maps;
 	private BufferedDetector buffered_cid;
 	private Xspress3BufferedDetector qexafs_xspress3;
-	private Xspress3FFoverI0Detector FFI0_xspress3;
 	private Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3;
 
 	@Before
@@ -85,8 +83,6 @@ public class I18DetectorPreparerTest {
 				"xspressSystem");
 		xspress3 = (Xspress3WithFullCalculationsDetector) createMock(
 				Xspress3WithFullCalculationsDetector.class, "xspress3");
-		FFI0_xspress3 = (Xspress3FFoverI0Detector) createMock(
-				Xspress3FFoverI0Detector.class, "FFI0_xspress3");
 		ionchambers = (TfgScalerWithFrames) createMock(
 				TfgScalerWithFrames.class, "ionchambers");
 		qexafs_counterTimer01 = (BufferedDetector) createMock(
@@ -109,9 +105,9 @@ public class I18DetectorPreparerTest {
 		sensitivities[1] = createMockScannable("it_keithley_gain");
 
 		thePreparer = new I18DetectorPreparer(sensitivities, ionchambers,
-				xspressSystem, xspress3, FFI0_xspress3, qexafs_counterTimer01,
-				qexafs_xspress, QexafsFFI0, qexafs_xspress3,
-				qexafs_FFI0_xspress3, buffered_cid, cmos_for_maps);
+				xspressSystem, xspress3, qexafs_counterTimer01, qexafs_xspress,
+				QexafsFFI0, qexafs_xspress3, qexafs_FFI0_xspress3,
+				buffered_cid, cmos_for_maps);
 	}
 
 	private Scannable createMockScannable(String string) {
