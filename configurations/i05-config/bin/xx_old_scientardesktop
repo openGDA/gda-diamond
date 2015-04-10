@@ -1,3 +1,0 @@
-#! /bin/sh
-
-rdesktop -g 1200x900 -T analyserIOC -u DIAMOND\\i05detector -a 16 i05-1-ecam
