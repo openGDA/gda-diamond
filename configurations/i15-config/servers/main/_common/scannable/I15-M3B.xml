@@ -39,4 +39,8 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- Since the gda skb prefix is not the same as the Epics M3B designation,
+	     duplicate the scannable group to make it easier to find. -->
+	<bean id="M3B" parent="skb" />
 </beans>

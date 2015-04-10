@@ -22,4 +22,16 @@
 	<bean id="drotation" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="Dr1RotationMotor" />
 	</bean>
+
+	<bean id="BASE1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="djack1" />
+				<ref bean="djack2" />
+				<ref bean="djack3" />
+				<ref bean="dtransx" />
+				<ref bean="drotation" />
+			</list>
+		</property>
+	</bean>
 </beans>
