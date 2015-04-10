@@ -3,11 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="d7femto" class="uk.ac.gda.arpes.scannable.NonLocalEpicsScannable">
-		<property name="pvName" value="BL05I-VA-ERIO-01:MOD2:INPUT1:VALUE" />
-		<property name="useNameAsExtraName" value="true" />
-		<property name="local" value="false" />
-	</bean>
 	<bean id="d7_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-DI-PHDGN-07:IONC:Y" />
 		<property name="local" value="true" />
