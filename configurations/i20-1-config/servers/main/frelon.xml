@@ -24,6 +24,16 @@
 		</property>
 	</bean>
 	
+	<bean id="frelon" class="gda.device.detector.frelon.EdeFrelon">
+		<property name="frelon" ref="__frelon"/>
+		<property name="limaCcd" ref="__limaCCD"/>
+	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/frelon" />
+		<property name="service" ref="frelon" />
+		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
+	</bean>
 	
 	
 	
