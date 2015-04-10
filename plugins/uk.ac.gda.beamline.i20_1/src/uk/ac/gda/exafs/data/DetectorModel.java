@@ -224,7 +224,7 @@ public class DetectorModel extends ObservableModel {
 
 	private static enum DetectorSetup {
 		// XH("xh"), XSTRIP("xstrip"), CCD("ccd");
-		XH("xh"), XSTRIP("xstrip");
+		XH("xh"), XSTRIP("xstrip"), FRELON("frelon");
 		private final String detectorName;
 
 		private DetectorSetup(String detectorName) {
