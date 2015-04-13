@@ -50,7 +50,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public static final int VERTICAL_BIN_SIZE_LIMIT = 2048;
 	public static final int HORIZONRAL_BIN_SIZE_LIMIT = 8;
 	//Frelon parameters
-	private ImageMode imageMode=ImageMode.FRAME_TRANSFERT;
+	private ImageMode imageMode=ImageMode.FULL_FRAME;
 	private InputChannels inputChannel=InputChannels.I1_2_3_4;
 	private boolean ev2CorrectionActive=false;
 	private ROIMode roiMode=ROIMode.KINETIC;
@@ -181,7 +181,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 		if (binValue>VERTICAL_BIN_SIZE_LIMIT) {
 			throw new IllegalArgumentException("The limit of vertical binning size is "+VERTICAL_BIN_SIZE_LIMIT+" lines.");
 		}
-		List<Integer> allowedValues= Arrays.asList(1,2,4,8,16,32,64,128,256,512,1024,2048);
+		List<Integer> allowedValues= Arrays.asList(1,2,4,8,16,32,64,128,256,512,1024);
 		if (allowedValues.contains(binValue)) {
 			verticalBinValue = binValue;
 		} else {
