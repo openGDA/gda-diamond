@@ -21,7 +21,16 @@ package uk.ac.gda.exafs.ui.composites;
 import gda.device.DeviceException;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.NXDetectorData;
+import gda.device.detector.frelon.EdeFrelon;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.detector.xstrip.XhDetector;
+import gda.device.frelon.Frelon.ROIMode;
+import gda.device.frelon.Frelon.SPB2Config;
+import gda.device.lima.LimaCCD.AccTimeMode;
+import gda.device.lima.LimaCCD.AcqMode;
+import gda.device.lima.LimaCCD.AcqTriggerMode;
+import gda.device.lima.LimaROIInt;
+import gda.device.lima.impl.LimaROIIntImpl;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
@@ -96,17 +105,21 @@ public class XHControlComposite extends Composite implements IObserver {
 	private NumberEditorControl txtNumScansPerFrame;
 	private NumberEditorControl txtLiveTime;
 	private NumberEditorControl txtRefreshPeriod;
+	private NumberEditorControl txtVertBinning;
 
 	private final DoubleDataset strips;
 	private ILineTrace lineTrace;
 	private final EdeDetector detector;
 
+	private NumberEditorControl txtCcdLineBegin;
+
+	private ToolItem configDetector;
+
+	private FrelonCcdDetectorData detectorData;
 
 	//	private static StripDetector getDetector(){
 	//		return DetectorModel.INSTANCE.getCurrentDetector();
 	//	}
-
-
 
 	public static class DetectorControlModel extends ObservableModel {
 		public static final String LIVE_INTEGRATION_TIME_PROP_NAME = "liveIntegrationTime";
@@ -120,6 +133,12 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		public static final String NUMBER_OF_ACCUMULATIONS_PROP_NAME = "numberOfAccumulations";
 		private int numberOfAccumulations;
+
+		public static final String VERTICAL_BINNING_PROP_NAME = "vertivalBinning";
+		private int vertivalBinning;
+
+		public static final String CCD_LINE_BEGIN_PROP_NAME = "ccdLineBegin";
+		private int ccdLineBegin;
 
 		public double getLiveIntegrationTime() {
 			return liveIntegrationTime;
@@ -144,6 +163,18 @@ public class XHControlComposite extends Composite implements IObserver {
 		}
 		public void setNumberOfAccumulations(int numberOfAccumulations) {
 			firePropertyChange(NUMBER_OF_ACCUMULATIONS_PROP_NAME, this.numberOfAccumulations, this.numberOfAccumulations = numberOfAccumulations);
+		}
+		public int getVerticalBinning() {
+			return vertivalBinning;
+		}
+		public void setVerticalBinning(int binValue) {
+			firePropertyChange(VERTICAL_BINNING_PROP_NAME, vertivalBinning, vertivalBinning = binValue);
+		}
+		public int getCcdLineBegin() {
+			return ccdLineBegin;
+		}
+		public void setCcdLineBegin(int roiBinOffset) {
+			firePropertyChange(CCD_LINE_BEGIN_PROP_NAME, ccdLineBegin, ccdLineBegin = roiBinOffset);
 		}
 	}
 
@@ -173,20 +204,110 @@ public class XHControlComposite extends Composite implements IObserver {
 		buildSections();
 	}
 
+	public void updateView(EdeDetector ededetector) {
+		// TODO Auto-generated method stub
+		if (ededetector instanceof EdeFrelon) {
+			detectorData=(FrelonCcdDetectorData) detector.getDetectorData();
+			txtVertBinning.setEnabled(true);
+			txtCcdLineBegin.setEnabled(true);
+			configDetector.setEnabled(true);
+		} else {
+			txtVertBinning.setEnabled(false);
+			txtCcdLineBegin.setEnabled(false);
+			configDetector.setEnabled(false);
+		}
+	}
+
 	private synchronized void buildSections() {
 		ScrolledForm scrolledform = toolkit.createScrolledForm(this);
 		scrolledform.setLayoutData(new GridData(SWT.FILL,SWT.FILL, true, true));
 		Form form = scrolledform.getForm();
 		TableWrapLayout layout1 = new TableWrapLayout();
-		layout1.numColumns = 2;
+		layout1.numColumns = 3;
 		form.getBody().setLayout(layout1);
 		try {
 			createTimesGroup(form.getBody());
 			createSnapShotGroup(form.getBody());
+			createFrelonBinAndOffsetGroup(form.getBody());
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create sections", e.getMessage());
 			logger.error("Unable to create sections", e);
 		}
+	}
+
+	private void createFrelonBinAndOffsetGroup(Composite parentForm) throws Exception {
+		@SuppressWarnings("static-access")
+		final Section section = toolkit.createSection(parentForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		toolkit.paintBordersFor(section);
+		section.setText("Frelon binning and offset settings");
+		toolkit.paintBordersFor(section);
+		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		Composite frelonSectionComposite = toolkit.createComposite(section, SWT.NONE);
+		toolkit.paintBordersFor(frelonSectionComposite);
+		frelonSectionComposite.setLayout(new GridLayout(2, false));
+		section.setClient(frelonSectionComposite);
+
+		// vertical binning
+		Label lbl  = toolkit.createLabel(frelonSectionComposite, "Vertical Binning", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		int storedVerticalBinning = Activator.getDefault().getPreferenceStore().getInt(I20_1PreferenceInitializer.VERTICALBINNING);
+		if (storedVerticalBinning == 0) {
+			storedVerticalBinning = 1;
+		}
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.VERTICAL_BINNING_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(java.beans.PropertyChangeEvent evt) {
+				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.VERTICALBINNING, (int) evt.getNewValue());
+			}
+		});
+		detectorControlModel.setVerticalBinning(storedVerticalBinning);
+		//TODO replace the following with a combo having a fixed list
+		txtVertBinning = new NumberEditorControl(frelonSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.VERTICAL_BINNING_PROP_NAME, true);
+		txtVertBinning.setUnit(UnitSetup.PIXEL.getText());
+		txtVertBinning.setDigits(0);
+		txtVertBinning.setRange(1, FrelonCcdDetectorData.HORIZONRAL_BIN_SIZE_LIMIT);
+		txtVertBinning.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		// ROI BIN Offset
+		lbl = toolkit.createLabel(frelonSectionComposite, "CCD Line Begin", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		int ccdLineBegin = Activator.getDefault().getPreferenceStore().getInt(I20_1PreferenceInitializer.CCDLINEBEGIN);
+		if (ccdLineBegin != 0) {
+			ccdLineBegin = 0;
+		}
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.CCD_LINE_BEGIN_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(java.beans.PropertyChangeEvent evt) {
+				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.CCDLINEBEGIN, (int) evt.getNewValue());
+			}
+		});
+		detectorControlModel.setNumberOfAccumulations(ccdLineBegin);
+		txtCcdLineBegin = new NumberEditorControl(frelonSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		txtCcdLineBegin.setRange(0, FrelonCcdDetectorData.MAX_PIXEL-1);
+		txtCcdLineBegin.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);
+		configDetector = new ToolItem(motorSectionTbar, SWT.NULL);
+		configDetector.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+				"/icons/arrow_refresh.png").createImage());
+		configDetector.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				configureFrelondetector(detectorControlModel.getVerticalBinning(), detectorControlModel.getCcdLineBegin());
+			}
+		});
+		section.setTextClient(motorSectionTbar);
+
+		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
+		toolkit.paintBordersFor(sectionSeparator);
+		section.setSeparatorControl(sectionSeparator);
+	}
+
+	private void configureFrelondetector(int verticalBinning, int ccdLineBegin) {
+		detectorData.setVerticalBinValue(verticalBinning);
+		detectorData.setRoiBinOffset(ccdLineBegin);
 	}
 
 	@SuppressWarnings("static-access")
@@ -361,23 +482,46 @@ public class XHControlComposite extends Composite implements IObserver {
 
 
 	private void collectData(Double collectionPeriod, int numberScans, Integer scansPerFrame) throws DeviceException, InterruptedException {
+		if (detector instanceof XhDetector) {
+			// collect data from XHDetector and send the spectrum to local Plot 1 window
+			EdeScanParameters simpleParams = new EdeScanParameters();
+			simpleParams.setIncludeCountsOutsideROIs(true);
+			TimingGroup group1 = new TimingGroup();
+			group1.setDelayBetweenFrames(0);
+			group1.setLabel("group1");
+			group1.setNumberOfFrames(numberScans);
+			if (scansPerFrame > 0) {
+				group1.setNumberOfScansPerFrame(scansPerFrame);
+				group1.setTimePerScan(new Double(collectionPeriod) / 1000);
+			} else {
+				group1.setTimePerFrame(new Double(collectionPeriod) / 1000);
+			}
+			simpleParams.addGroup(group1);
 
-		// collect data from XHDetector and send the spectrum to local Plot 1 window
-		EdeScanParameters simpleParams = new EdeScanParameters();
-		simpleParams.setIncludeCountsOutsideROIs(true);
-		TimingGroup group1 = new TimingGroup();
-		group1.setDelayBetweenFrames(0);
-		group1.setLabel("group1");
-		group1.setNumberOfFrames(numberScans);
-		if (scansPerFrame > 0) {
-			group1.setNumberOfScansPerFrame(scansPerFrame);
-			group1.setTimePerScan(new Double(collectionPeriod) / 1000);
-		} else {
-			group1.setTimePerFrame(new Double(collectionPeriod) / 1000);
+			detector.prepareDetectorwithScanParameters(simpleParams);
+		} else if (detector instanceof EdeFrelon) {
+			detectorData=(FrelonCcdDetectorData) detector.getDetectorData();
+			detectorData.setSpb2Config(SPB2Config.SPEED);
+			detectorData.setNumberOfImages(scansPerFrame);
+			detectorData.setTriggerMode(AcqTriggerMode.INTERNAL_TRIGGER);
+			if (continueLiveLoop) {
+				//live
+				detectorData.setAcqMode(AcqMode.SINGLE);
+				detectorData.setExposureTime(collectionPeriod);
+			} else { //snapshot
+				detectorData.setAcqMode(AcqMode.ACCUMULATION);
+				detectorData.setAccumulationMaximumExposureTime(detectorControlModel.getSnapshotIntegrationTime());
+				detectorData.setExposureTime(detectorControlModel.getSnapshotIntegrationTime()*collectionPeriod);
+				detectorData.setAccumulationTimeMode(AccTimeMode.LIVE);
+			}
+			detectorData.setHotizontalBinValue(1);
+			detectorData.setVerticalBinValue(detectorControlModel.getVerticalBinning());
+			detectorData.setRoiBinOffset(detectorControlModel.getCcdLineBegin());
+			detectorData.setRoiMode(ROIMode.KINETIC);
+			LimaROIInt areaOfInterest = detectorData.getAreaOfInterest();
+			detectorData.setAreaOfInterest(new LimaROIIntImpl(areaOfInterest.getBeginX(),areaOfInterest.getEndX(), 0,0));
+			detector.prepareDetectorwithScanParameters(null);
 		}
-		simpleParams.addGroup(group1);
-
-		detector.setAttribute(XhDetector.ATTR_LOADPARAMETERS, simpleParams);// does this works? before refector to this class the original XHDetector did overwrite setAttribute(...)
 		detector.collectData();
 		detector.waitWhileBusy();
 	}
@@ -526,4 +670,5 @@ public class XHControlComposite extends Composite implements IObserver {
 			snapshotAndSave.setEnabled(canContinue);
 		}
 	}
+
 }

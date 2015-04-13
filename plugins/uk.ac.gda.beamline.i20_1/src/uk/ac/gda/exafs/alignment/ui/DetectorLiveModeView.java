@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
+import gda.device.detector.EdeDetector;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
@@ -100,5 +102,9 @@ public class DetectorLiveModeView extends ViewPart {
 			return plottingSystem;
 		}
 		return super.getAdapter(clazz);
+	}
+
+	public void update(EdeDetector ededetector) {
+		controlComposite.updateView(ededetector);
 	}
 }

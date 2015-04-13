@@ -30,6 +30,10 @@ import gda.device.lima.LimaCCD.AccTimeMode;
 import gda.device.lima.LimaCCD.AcqMode;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.lima.LimaROIInt;
+import gda.device.lima.impl.LimaROIIntImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -43,26 +47,26 @@ import com.google.gson.Gson;
  */
 public class FrelonCcdDetectorData extends DetectorData {
 	public static final int MAX_PIXEL = 2048;
-	private static final int VERTICAL_BIN_SIZE_LIMIT = 2048;
-	private static final int HORIZONRAL_BIN_SIZE_LIMIT = 8;
+	public static final int VERTICAL_BIN_SIZE_LIMIT = 2048;
+	public static final int HORIZONRAL_BIN_SIZE_LIMIT = 8;
 	//Frelon parameters
 	private ImageMode imageMode=ImageMode.FRAME_TRANSFERT;
 	private InputChannels inputChannel=InputChannels.I1_2_3_4;
 	private boolean ev2CorrectionActive=false;
 	private ROIMode roiMode=ROIMode.KINETIC;
 	private int yStartPixel = 0; //CCD line begin in Frelon GUI, or roi_bin_offset in line
-	private SPB2Config spb2Config=SPB2Config.PRECISION; //hardware pixel rate configuration: Speed or Precision
+	private SPB2Config spb2Config=SPB2Config.SPEED; //hardware pixel rate configuration: Speed or Precision
 	// Lima parameters
 	private int hotizontalBinValue=1; // 1, 2, 4, 8.
 	private int verticalBinValue = 1; // vert.binning i.e. image_bin Y component
 	private AcqMode acqMode=AcqMode.SINGLE;
 	private int numberOfImages=1;
-	private AcqTriggerMode triggerMode=AcqTriggerMode.EXTERNAL_GATE;
+	private AcqTriggerMode triggerMode=AcqTriggerMode.INTERNAL_TRIGGER;
 	private double latencyTime=0.0;
 	private double exposureTime=1.0;
-	private double accumulationMaximumExposureTime=1.0;
-	private final AccTimeMode accumulationTimeMode=AccTimeMode.LIVE;
-	private LimaROIInt areaOfInterest; // in units of binning sizes in x and y directions
+	private double accumulationMaximumExposureTime=0.1;
+	private AccTimeMode accumulationTimeMode=AccTimeMode.LIVE;
+	private LimaROIInt areaOfInterest=new LimaROIIntImpl(0, 0, 2037, 2037); // in units of binning sizes in x and y directions
 
 	//Frelon attriutes
 	public ImageMode getImageMode() {
@@ -148,15 +152,26 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public AccTimeMode getAccumulationTimeMode() {
 		return accumulationTimeMode;
 	}
+	public void setAccumulationTimeMode(AccTimeMode accumulationTimeMode) {
+		this.accumulationTimeMode = accumulationTimeMode;
+	}
 	public int getHotizontalBinValue() {
 		return hotizontalBinValue;
 	}
 
-	public void setHotizontalBinValue(int hotizontalBinValue) {
+	public void setHotizontalBinValue(int binValue) {
 		if (hotizontalBinValue>HORIZONRAL_BIN_SIZE_LIMIT) {
 			throw new IllegalArgumentException("The limit of horizontal binning size is "+HORIZONRAL_BIN_SIZE_LIMIT+" pixels.");
 		}
-		this.hotizontalBinValue = hotizontalBinValue;
+		List<Integer> allowedValues= Arrays.asList(1,2,4,8);
+		if (allowedValues.contains(hotizontalBinValue)) {
+			hotizontalBinValue = binValue;
+		} else {
+			throw new IllegalArgumentException("The horizontal binning can only be one of "+allowedValues.toArray(new Integer[] {})+" pixels.");
+		}
+		int xLength=MAX_PIXEL/hotizontalBinValue;
+		areaOfInterest.setBeginX(0);
+		areaOfInterest.setEndX(xLength-1);
 	}
 	public int getVerticalBinValue() {
 		return verticalBinValue;
@@ -166,7 +181,15 @@ public class FrelonCcdDetectorData extends DetectorData {
 		if (binValue>VERTICAL_BIN_SIZE_LIMIT) {
 			throw new IllegalArgumentException("The limit of vertical binning size is "+VERTICAL_BIN_SIZE_LIMIT+" lines.");
 		}
-		verticalBinValue = binValue;
+		List<Integer> allowedValues= Arrays.asList(1,2,4,8,16,32,64,128,256,512,1024,2048);
+		if (allowedValues.contains(binValue)) {
+			verticalBinValue = binValue;
+		} else {
+			throw new IllegalArgumentException("The vertical binning can only be one of "+allowedValues.toArray(new Integer[] {})+" pixels.");
+		}
+		int yLength=MAX_PIXEL/verticalBinValue;
+		areaOfInterest.setBeginY(0);
+		areaOfInterest.setEndY(yLength-1);
 	}
 	/**
 	 * return area of interest from java object.

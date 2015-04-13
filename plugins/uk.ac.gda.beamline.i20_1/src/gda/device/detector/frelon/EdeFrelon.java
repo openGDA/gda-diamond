@@ -141,8 +141,11 @@ public class EdeFrelon extends EdeDetectorBase {
 			throw new DeviceException(getName(), "Failed to get acquire trigger mode from detector.", e1);
 		}
 		super.setCollectionTime(collectionTime);
+		if (collectionTime!=0.0) {
+			((FrelonCcdDetectorData)getDetectorData()).setExposureTime(collectionTime);
+		}
 		try {
-			getLimaCcd().setAcqExpoTime(collectionTime);
+			getLimaCcd().setAcqExpoTime(((FrelonCcdDetectorData)getDetectorData()).getExposureTime());
 		} catch (DevFailed e) {
 			logger.error("failed to set exposure time for " + getName(), e);
 			throw new DeviceException("failed to set exposure time for " + getName(), e);
@@ -252,10 +255,8 @@ public class EdeFrelon extends EdeDetectorBase {
 			throw new DeviceException(getName(), "Fail to set Frelon detector input channel", e2);
 		}
 		// set the bin size for the detector
-		getLimaCcd().setImageBin(frelonCcdDetectorData.getHotizontalBinValue(), frelonCcdDetectorData.getVerticalBinValue()); // Horizontal
-		// binning
-		// always
-		// 1
+		getLimaCcd().setImageBin(frelonCcdDetectorData.getHotizontalBinValue(), frelonCcdDetectorData.getVerticalBinValue());
+
 		try {
 			getFrelon().setROIMode(frelonCcdDetectorData.getRoiMode());
 		} catch (DevFailed e) {
@@ -284,10 +285,21 @@ public class EdeFrelon extends EdeDetectorBase {
 		}
 		updateImageProperties();
 		try {
-			getLimaCcd().setAcqMode(frelonCcdDetectorData.getAcqMode());
+			if (frelonCcdDetectorData.getExposureTime()>frelonCcdDetectorData.getAccumulationMaximumExposureTime()) {
+				getLimaCcd().setAcqMode(AcqMode.ACCUMULATION);
+			} else {
+				getLimaCcd().setAcqMode(AcqMode.SINGLE);
+			}
+			//			getLimaCcd().setAcqMode(frelonCcdDetectorData.getAcqMode());
 		} catch (DevFailed e) {
 			logger.error("Failed to set Frelon detector acq_mode", e);
 			throw new DeviceException(getName(), "Fail to set Frelon detector acq_mode.", e);
+		}
+		try {
+			getLimaCcd().setAcqNbFrames(frelonCcdDetectorData.getNumberOfImages());
+		} catch (DevFailed e1) {
+			logger.error("Failed to set Frelon detector acq_nb_frame", e1);
+			throw new DeviceException(getName(), "Fail to set Frelon detector acq_nb_frame.", e1);
 		}
 		try {
 			getLimaCcd().setAcqTriggerMode(frelonCcdDetectorData.getTriggerMode());
