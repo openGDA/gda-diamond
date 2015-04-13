@@ -66,7 +66,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	private double exposureTime=1.0;
 	private double accumulationMaximumExposureTime=0.1;
 	private AccTimeMode accumulationTimeMode=AccTimeMode.LIVE;
-	private LimaROIInt areaOfInterest=new LimaROIIntImpl(0, 0, 2037, 2037); // in units of binning sizes in x and y directions
+	private LimaROIInt areaOfInterest=new LimaROIIntImpl(0, 0, 2048, 2048); // in units of binning sizes in x and y directions
 
 	//Frelon attriutes
 	public ImageMode getImageMode() {
@@ -171,7 +171,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 		}
 		int xLength=MAX_PIXEL/hotizontalBinValue;
 		areaOfInterest.setBeginX(0);
-		areaOfInterest.setEndX(xLength-1);
+		areaOfInterest.setLengthX(xLength);
 	}
 	public int getVerticalBinValue() {
 		return verticalBinValue;
@@ -189,7 +189,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 		}
 		int yLength=MAX_PIXEL/verticalBinValue;
 		areaOfInterest.setBeginY(0);
-		areaOfInterest.setEndY(yLength-1);
+		areaOfInterest.setLengthY(yLength);
 	}
 	/**
 	 * return area of interest from java object.
@@ -207,7 +207,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public void setAreaOfInterest(LimaROIInt areaOfInterest) {
 		// set the limits for ROI in energy direction
 		setLowerChannel(areaOfInterest.getBeginX());
-		setUpperChannel(areaOfInterest.getEndX());
+		setUpperChannel(areaOfInterest.getLengthX()+areaOfInterest.getBeginX());
 		this.areaOfInterest = areaOfInterest;
 	}
 }

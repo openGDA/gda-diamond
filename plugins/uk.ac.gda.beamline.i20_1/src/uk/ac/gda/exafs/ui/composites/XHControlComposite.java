@@ -519,7 +519,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			detectorData.setRoiBinOffset(detectorControlModel.getCcdLineBegin());
 			detectorData.setRoiMode(ROIMode.KINETIC);
 			LimaROIInt areaOfInterest = detectorData.getAreaOfInterest();
-			detectorData.setAreaOfInterest(new LimaROIIntImpl(areaOfInterest.getBeginX(),areaOfInterest.getEndX(), 0,0));
+			detectorData.setAreaOfInterest(new LimaROIIntImpl(areaOfInterest.getBeginX(),0, areaOfInterest.getLengthX(), 1));
 			detector.prepareDetectorwithScanParameters(null);
 		}
 		detector.collectData();
