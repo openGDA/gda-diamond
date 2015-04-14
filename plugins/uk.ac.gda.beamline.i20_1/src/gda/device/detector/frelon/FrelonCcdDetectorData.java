@@ -51,7 +51,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public static final int HORIZONRAL_BIN_SIZE_LIMIT = 8;
 	//Frelon parameters
 	private ImageMode imageMode=ImageMode.FULL_FRAME;
-	private InputChannels inputChannel=InputChannels.I1_2_3_4;
+	private InputChannels inputChannel=InputChannels.I3_4;
 	private boolean ev2CorrectionActive=false;
 	private ROIMode roiMode=ROIMode.KINETIC;
 	private int yStartPixel = 0; //CCD line begin in Frelon GUI, or roi_bin_offset in line
