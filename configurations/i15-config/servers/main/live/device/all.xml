@@ -45,6 +45,7 @@
 	<import resource="I15-Sample-Environments-Cyberstar-Blower.xml"/>
 	<import resource="I15-SFAB.xml"/>
 	<import resource="I15-SHD.xml"/>
+	<import resource="I15-SHD2.xml"/>
 	<import resource="I15-SMPL1.xml"/>
 	<import resource="I15-T2TB.xml"/>
 	<import resource="I15-VFM.xml"/>
