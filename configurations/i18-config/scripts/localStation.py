@@ -127,7 +127,7 @@ theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
 xanes = xas
-qeaxfs = theFactory.createQexafsScan()
+qexafs = theFactory.createQexafsScan()
 
 
 if (LocalProperties.get("gda.mode") != 'live'):
