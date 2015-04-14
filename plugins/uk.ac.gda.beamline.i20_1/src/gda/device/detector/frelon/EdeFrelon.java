@@ -218,6 +218,13 @@ public class EdeFrelon extends EdeDetectorBase {
 					throw new DeviceException(getName(), "Fail to set LimaCcd acc_max_expotime.", e);
 				}
 				try {
+					// prepare the camera for a new acquisition, have to be called each time a parameter is set.
+					getLimaCcd().prepareAcq();
+				} catch (DevFailed e) {
+					logger.error("Call to limaCcd.prepareAcq() failed", e);
+					throw new DeviceException(getName(), "Call to limaCcd.prepareAcq() failed.", e);
+				}
+				try {
 					return getLimaCcd().getAccNbFrames();
 				} catch (DevFailed e) {
 					logger.error("Failed to get LimaCcd acc_nb_frames", e);
@@ -285,12 +292,7 @@ public class EdeFrelon extends EdeDetectorBase {
 		}
 		updateImageProperties();
 		try {
-			if (frelonCcdDetectorData.getExposureTime()>frelonCcdDetectorData.getAccumulationMaximumExposureTime()) {
-				getLimaCcd().setAcqMode(AcqMode.ACCUMULATION);
-			} else {
-				getLimaCcd().setAcqMode(AcqMode.SINGLE);
-			}
-			//			getLimaCcd().setAcqMode(frelonCcdDetectorData.getAcqMode());
+			getLimaCcd().setAcqMode(frelonCcdDetectorData.getAcqMode());
 		} catch (DevFailed e) {
 			logger.error("Failed to set Frelon detector acq_mode", e);
 			throw new DeviceException(getName(), "Fail to set Frelon detector acq_mode.", e);
