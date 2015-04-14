@@ -9,32 +9,31 @@ from localStationScripts.pd_epicsdevice import Simple_PD_EpicsDevice
 #import ruby_scripts
 import gdascripts.pd.epics_pds # @UnusedImport
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
-import gdascripts.pd.time_pds
+from gdascripts.pd.time_pds import waittime
 import gdascripts.utils # @UnusedImport
 from localStationScripts.pd_ratio import Simple_PD_Ratio
-import pd_baseTable
-import dataDir
-import localStationScripts.shutterCommands # @UnusedImport
+from localStationScripts.baseTable import BaseTable
+#import dataDir
+from localStationScripts.shutterCommands import configure as shutterCommands_configure
 #import marAuxiliary # @UnusedImport
 #from marAuxiliary import closeMarShield as closeDetectorShield
 #from marAuxiliary import openMarShield as openDetectorShield
 #import ccdAuxiliary # @UnusedImport
-import ccdScanMechanics
-from ccdScanMechanics import setMaxVelocity # @UnusedImport
+from localStationScripts.ccdScanMechanics import configure as ccdScanMechanics_configure
+from localStationScripts.ccdScanMechanics import setMaxVelocity # @UnusedImport
 #import ccdFloodCorrections
 #import ccdScripts # @UnusedImport
 #import pilatus_scripts # @UnusedImport
-import operationalControl
-
-from operationalControl import * # @UnusedWildImport
+from localStationScripts.operationalControl import configure as operationalControl_configure
+from localStationScripts.operationalControl import * # @UnusedWildImport
 #from dummy_scan_objects import SimpleDummyDetector
 from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters
 from gda.device.epicsdevice import ReturnType
 from gda.util import VisitPath
-from constants import * # @UnusedWildImport
+from localStationScripts.constants import * # @UnusedWildImport
 #from dataPlot import dp # @UnusedImport
-from meterCounterSetup import * # @UnusedWildImport
+#from meterCounterSetup import * # @UnusedWildImport
 #from scan_commands import scan
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
@@ -52,8 +51,8 @@ import scannables.MerlinColourModeThresholdsScannable
 mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
     PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
 
-from detector_scan_commands import * # @UnusedWildImport
-from centreProxy import * # @UnusedWildImport
+from localStationScripts.detector_scan_commands import * # @UnusedWildImport
+from localStationScripts.centreProxy import * # @UnusedWildImport
 #from scanPeak import *
 #from diodeTime import * # @UnusedWildImport
 #from setGain import * # @UnusedWildImport
@@ -61,7 +60,7 @@ from centreProxy import * # @UnusedWildImport
 #from ccdAuxiliary import resetCCDScanNumber
 #from pilatus_scripts import resetPilatusScanNumber
 
-from dataDir import setDir, setFullUserDir # @UnusedImport
+#from dataDir import setDir, setFullUserDir # @UnusedImport
 #from ccdFloodCorrections import exportMultiDark # @UnusedImport
 from gda.epics import CAClient
 
@@ -158,9 +157,9 @@ try:
 
 	try:
 		simpleLog("Creating devices")
-		w = gdascripts.pd.time_pds.waittime
-		baseTab = pd_baseTable.BaseTable("baseTab", beamline, "-MO-DIFF-01:BASE:", djack1, djack2, djack3, 2.5)
-		baseTab2 = pd_baseTable.BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
+		w = waittime
+		baseTab = BaseTable("baseTab", beamline, "-MO-DIFF-01:BASE:", djack1, djack2, djack3, 2.5)
+		baseTab2 = BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
 		qbpm1total = Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")
 		qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN")
 		#s4pitch = Simple_PD_EpicsDevice("s4pitch", beamline, "-AL-SLITS-04:PITCH.VAL")
@@ -327,42 +326,25 @@ try:
 
 	try:
 		simpleLog("Create diodes")
-		finder.find("PHDGN1").configure()
-		finder.find("PHDGN2").configure()
-		finder.find("PHDGN3").configure()
-		finder.find("PHDGN4").configure()
-		finder.find("PHDGN5").configure()
-		finder.find("PHDGN6").configure()
-		finder.find("PHDGN7").configure()
-		finder.find("PHDGN8").configure()
-		finder.find("PHDGN9").configure()
-		d1 = finder.find("PHDGN1").createEpicsChannel("d1", ReturnType.DBR_NATIVE, "", "")
-		d1.setLevel(6)
-		d2 = finder.find("PHDGN2").createEpicsChannel("d2", ReturnType.DBR_NATIVE, "", "")
-		d2.setLevel(6)
-		d3 = finder.find("PHDGN3").createEpicsChannel("d3", ReturnType.DBR_NATIVE, "", "")
-		d3.setLevel(6)
-		d4 = finder.find("PHDGN4").createEpicsChannel("d4", ReturnType.DBR_NATIVE, "", "")
-		d4.setLevel(6)
-		d5 = finder.find("PHDGN5").createEpicsChannel("d5", ReturnType.DBR_NATIVE, "", "")
-		d5.setLevel(6)
-		d6 = finder.find("PHDGN6").createEpicsChannel("d6", ReturnType.DBR_NATIVE, "", "")
-		d6.setLevel(6)
-		d7 = finder.find("PHDGN7").createEpicsChannel("d7", ReturnType.DBR_NATIVE, "", "")
-		d7.setLevel(6)
-		d8 = finder.find("PHDGN8").createEpicsChannel("d8", ReturnType.DBR_NATIVE, "", "")
-		d8.setLevel(6)
-		d9 = finder.find("PHDGN9").createEpicsChannel("d9", ReturnType.DBR_NATIVE, "", "")
-		d9.setLevel(6)
-		d1.setValue(".SCAN", 9)
-		d2.setValue(".SCAN", 9)
-		d3.setValue(".SCAN", 9)
-		d4.setValue(".SCAN", 9)
-		d5.setValue(".SCAN", 9)
-		d6.setValue(".SCAN", 9)
-		d7.setValue(".SCAN", 9)
-		d8.setValue(".SCAN", 9)
-		d9.setValue(".SCAN", 9)
+		
+		def diodeFactory(channel_name, finder_name):
+			simplePv = finder.find(finder_name)
+			simplePv.configure()
+			diode = simplePv.createEpicsChannel(channel_name, ReturnType.DBR_NATIVE, "", "")
+			diode.setLevel(6)
+			diode.setValue(".SCAN", 9)
+			return diode
+		
+		d1=diodeFactory("d1", "PHDGN1")
+		d2=diodeFactory("d2", "PHDGN2")
+		d3=diodeFactory("d3", "PHDGN3")
+		d4=diodeFactory("d4", "PHDGN4")
+		d5=diodeFactory("d5", "PHDGN5")
+		d6=diodeFactory("d6", "PHDGN6")
+		d7=diodeFactory("d7", "PHDGN7")
+		d8=diodeFactory("d8", "PHDGN8")
+		d9=diodeFactory("d9", "PHDGN9")
+		
 		simpleLog("Create diode ratios")
 		d2_d1 = Simple_PD_Ratio('d2_d1', d2, d1)
 		d3_d2 = Simple_PD_Ratio('d3_d2', d3, d2)
@@ -428,7 +410,7 @@ try:
 
 	try:
 		#simpleLog("Create ETL detector objects, names: etl_lowlim, etl_uplim, etl_gain")
-		from detector_control_pds import * #@UnusedWildImport
+		from localStationScripts.etl_detector import * #@UnusedWildImport
 		
 		#print "ETL detector control values are: "
 		#print "\tName  \t\tTarget   \tPosition"
@@ -634,18 +616,24 @@ try:
 	else:
 		simpleLog("* Not creating dperp & dpara *")
 
-	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-	beamlineParameters = beamline_parameters.Parameters()
+	try:
+		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+		beamlineParameters = beamline_parameters.Parameters()
+	except:
+		localStation_exception(sys.exc_info(), "creating jythonNameMap & beamlineParameters")
 	
-	dataDir.configure(jythonNameMap, beamlineParameters)
-	localStationScripts.shutterCommands.configure(jythonNameMap, beamlineParameters)
-	#marAuxiliary.configure(jythonNameMap, beamlineParameters)
-	operationalControl.configure(jythonNameMap, beamlineParameters)
-	#ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
-	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)
-	#ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
-#	ccdScripts.configure(jythonNameMap, beamlineParameters)
-#	pilatus_scripts.configure(jythonNameMap, beamlineParameters)
+	try:
+		#dataDir.configure(jythonNameMap, beamlineParameters)
+		shutterCommands_configure(jythonNameMap, beamlineParameters)
+		#marAuxiliary.configure(jythonNameMap, beamlineParameters)
+		operationalControl_configure(jythonNameMap, beamlineParameters)
+		#ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
+		ccdScanMechanics_configure(jythonNameMap, beamlineParameters)
+		#ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
+		#ccdScripts.configure(jythonNameMap, beamlineParameters)
+		#pilatus_scripts.configure(jythonNameMap, beamlineParameters)
+	except:
+		localStation_exception(sys.exc_info(), "configuring scripts")
 	
 	# meta should be created last to ensure we have all required scannables
 	try:
