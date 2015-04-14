@@ -1,6 +1,6 @@
 from gda.jython.commands import InputCommands
 from math import pi, tan
-from GeneralScan import GeneralScan
+from localStationScripts.GeneralScan import GeneralScan
 from operationalControl import genericScanChecks
 #from scanPeak import fitStepFunction
 

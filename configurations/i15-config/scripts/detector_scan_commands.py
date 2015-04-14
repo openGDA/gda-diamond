@@ -2,7 +2,7 @@
 from gdascripts.messages.handle_messages import simpleLog
 from gda.scan import ConcurrentScan, ConstantVelocityScanLine
 from gdascripts.pd.dummy_pds import DummyPD
-from shutterCommands import openEHShutter, closeEHShutter
+from localStationScripts.shutterCommands import openEHShutter, closeEHShutter
 from gda.device.scannable import ScannableBase
 from gda.device.scannable import ScannableMotionBase
 from gdascripts.parameters import beamline_parameters
