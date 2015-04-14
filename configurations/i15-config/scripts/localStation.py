@@ -2,7 +2,7 @@ import sys;
 from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog # @UnusedImport
 
-import cendac # @UnusedImport
+#import localStationScripts.centreDac # @UnusedImport
 #import integrationTests # @UnusedImport
 #import CrysalisDataCollection # @UnusedImport
 from localStationScripts.pd_epicsdevice import Simple_PD_EpicsDevice

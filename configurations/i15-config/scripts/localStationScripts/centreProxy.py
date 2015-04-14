@@ -1,5 +1,5 @@
 from gdascripts.parameters import beamline_parameters
-from cendac import CentreDAC
+from localStationScripts.centreDac import CentreDAC
 
 def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 		auto_fit=False, rotation_centre=None):
