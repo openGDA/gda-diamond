@@ -33,6 +33,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -59,14 +60,18 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	protected DetectorData detectorData;
 	protected EdeScanParameters currentScanParameter;
+	protected EdeDetector currentDetector;
 
 	private Integer[] pixels;
 
 	@Override
 	public void configure() throws FactoryException {
 		createPixelData();
-		loadDetectorData();
-		if (detectorData == null) {
+
+		try {
+			loadDetectorData();
+		} catch (ConfigurationException e) {
+			logger.info("create a new default detector data for {}",getName());
 			detectorData = createDetectorData();
 			detectorData.setNumberRois(INITIAL_NO_OF_ROIS);
 			saveDetectorData();
@@ -80,6 +85,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 				}
 			}
 		});
+		updateExtraNames(detectorData.getRois());
 	}
 
 	private void createPixelData() {
@@ -109,30 +115,37 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	protected abstract DetectorData createDetectorData();
-	protected abstract void createDetectorDataFromJson(String property);
+	protected abstract DetectorData createDetectorDataFromJson(String property);
 
-	private void loadDetectorData() {
+	private void loadDetectorData() throws ConfigurationException {
 		PropertiesConfiguration store;
-		try {
-			store = new PropertiesConfiguration(getPropertyFileName());
-			store.load();
-			Object property = store.getProperty(DETECTOR_DATA);
-			if (property != null && property instanceof String) {
-				createDetectorDataFromJson((String) property);
+		store = new PropertiesConfiguration();
+		store.load(getPropertyFileName());
+		List<Object> json = store.getList(DETECTOR_DATA);
+		logger.info("{} is {}",DETECTOR_DATA, json );
+		// to recover Json string from property
+		String property="";
+		int i=0;
+		for (Object each : json) {
+			property += each;
+			i++;
+			if (i==json.size()) {
+				break;
 			}
-		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
+			property+=",";
 		}
-
+		logger.info("property value is {}", property);
+		if (!property.isEmpty()) {
+			detectorData=createDetectorDataFromJson(property);
+		}
 	}
 
 	private void saveDetectorData() {
 		PropertiesConfiguration store;
 		try {
-			store = new PropertiesConfiguration(getPropertyFileName());
+			store = new PropertiesConfiguration();
 			store.setProperty(DETECTOR_DATA, GSON.toJson(detectorData));
-			store.save();
+			store.save(getPropertyFileName());
 		} catch (ConfigurationException e) {
 			logger.error("Unable to store connected state", e);
 		}
@@ -186,14 +199,13 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	protected NXDetectorData createNXDetectorData(int[] elements) {
-		double[] correctedData = performCorrections(elements, true)[0];
+		//TODO sort out excluded string correction
+		double[] correctedData = performCorrections(elements, false)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { getMaxPixel() },
-				NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
-		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { getMaxPixel() },
-				NexusFile.NX_FLOAT64, correctedData, "eV", 1);
+		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { getMaxPixel() },NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
+		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { getMaxPixel() },NexusFile.NX_FLOAT64, correctedData, "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -206,7 +218,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		return thisFrame;
 	}
 
-	private double[][] performCorrections(int[] rawData, boolean checkForExcludedStrips) {
+	protected double[][] performCorrections(int[] rawData, boolean checkForExcludedStrips) {
 		int frameCount = rawData.length / getMaxPixel();
 		double[][] out = new double[frameCount][getMaxPixel()];
 		for (int frame = 0; frame < frameCount; frame++) {
@@ -215,7 +227,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 					// simply set excluded strips to be zero
 					if (ArrayUtils.contains(detectorData.getExcludedPixels(), stripIndex)) {
 						out[frame][stripIndex] = 0.0;
-					} else if (!currentScanParameter.getIncludeCountsOutsideROIs()
+					} else if (currentScanParameter!=null && !currentScanParameter.getIncludeCountsOutsideROIs()
 							&& (stripIndex < detectorData.getLowerChannel() || stripIndex > detectorData
 									.getUpperChannel())) {
 						out[frame][stripIndex] = 0.0;

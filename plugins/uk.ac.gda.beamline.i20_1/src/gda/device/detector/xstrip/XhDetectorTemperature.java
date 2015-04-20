@@ -21,6 +21,7 @@ package gda.device.detector.xstrip;
 import gda.data.PathConstructor;
 import gda.device.DeviceException;
 import gda.device.detector.DAServer;
+import gda.device.detector.DetectorTemperature;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -34,7 +35,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 
 
-public class XhDetectorTemperature {
+public class XhDetectorTemperature implements DetectorTemperature {
 
 	private static final Logger logger = LoggerFactory.getLogger(XhDetectorTemperature.class);
 

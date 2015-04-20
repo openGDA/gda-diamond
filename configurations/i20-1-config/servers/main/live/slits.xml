@@ -115,11 +115,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="ts_speed_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-OP-PCHRO-01:TS:XFINE.VELO" />
-		<property name="local" value="true" />
-	</bean>
-
 	<import resource="file:${gda.config}/servers/main/slits-common.xml" />
 
 </beans>

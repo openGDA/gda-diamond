@@ -24,7 +24,7 @@ def runsinglespectrumscan():
             
     filePrefix = "test"
     
-    detectorName = "xh"
+    detectorName = "frelon"
     topCheckerScannable = "topup"
     shutterName = "shutter2"
 

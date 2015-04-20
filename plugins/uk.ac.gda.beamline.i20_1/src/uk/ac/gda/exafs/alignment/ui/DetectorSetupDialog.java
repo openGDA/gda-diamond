@@ -21,8 +21,6 @@ package uk.ac.gda.exafs.alignment.ui;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorData;
 import gda.device.detector.EdeDetector;
-import gda.device.detector.frelon.EdeFrelon;
-import gda.device.detector.xstrip.XCHIPDetector;
 import gda.device.detector.xstrip.XhDetector;
 import gda.device.detector.xstrip.XhDetectorData;
 
@@ -110,13 +108,12 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 		detectorData = detector.getDetectorData();
 		if (detectorData instanceof XhDetectorData) {
 			biasErrorMessage = "Voltage not in range. Enter input between " + ((XhDetectorData) detectorData).getMinBias() + " and " + ((XhDetectorData) detectorData).getMaxBias() + ".";
-		}
-		if (detector instanceof XhDetector) {
 			detectorInputMessage = "Edit details for Xh detector.";
-		} else if (detector instanceof EdeFrelon) {
-			detectorInputMessage = "Edit details for Ede Frelon detector.";
 		} else {
-			throw new Exception("Current Detector is not the EdeDetector.");
+			detectorInputMessage = "Edit details for Ede Frelon detector.";
+		}
+		if (detector == null) {
+			throw new Exception("Current Detector is null.");
 		}
 	}
 
@@ -181,7 +178,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 			cursor = Display.getDefault().getActiveShell().getCursor();
 			Cursor waitCursor = Display.getDefault().getSystemCursor(SWT.CURSOR_WAIT);
 			Display.getDefault().getActiveShell().setCursor(waitCursor);
-			temperatureValues = ((XCHIPDetector) DetectorModel.INSTANCE.getCurrentDetector()).getTemperatures();
+			temperatureValues = (DetectorModel.INSTANCE.getCurrentDetector()).getTemperatures();
 			if (!temperatureValues.isEmpty()) {
 				int weight = 100 / temperatureValues.size();
 				String[] values = new String[temperatureValues.size()];
@@ -290,7 +287,9 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 				IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL, false);
-		bindTxtBiasVoltage.validateModelToTarget();
+		if (detector instanceof XhDetector) {
+			bindTxtBiasVoltage.validateModelToTarget();
+		}
 	}
 
 	private void showExcludedStripsDialog() {
@@ -325,7 +324,9 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 	@Override
 	protected void okPressed() {
 		bindExcludedStrips.updateTargetToModel();
-		bindTxtBiasVoltage.updateTargetToModel();
+		if (detector instanceof XhDetector) {
+			bindTxtBiasVoltage.updateTargetToModel();
+		}
 		disposeBinding();
 		super.okPressed();
 	}
