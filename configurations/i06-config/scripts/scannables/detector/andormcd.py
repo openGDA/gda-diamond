@@ -30,6 +30,8 @@ class AndorMCD(DetectorBase):
         self._busypv = LazyPVFactory.newDoublePV(busypv)
         self._next_image_number = 0
 
+        self.nb_frames = 1
+
     def prepareForCollection(self):
         self._next_image_number = 1
         self.scannumber = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation().getScanNumber()
@@ -68,7 +70,7 @@ class AndorMCD(DetectorBase):
     def _write_commands_file(self, collection_time):
         if DEBUG:
             print "writing command file for collection time:", collection_time
-        commands = ["stim %.3f" % collection_time, "snsi 1", "getm", "gtim", "gnsi"]
+        commands = ["stim %.3f" % collection_time, "snsi %d" % self.nb_frames, "getm", "gtim", "gnsi"]
         commandfilepath = os.path.join( PARAMETER_FILES_PATH, "commands.txt" )
         commandsfile = open( commandfilepath, mode = 'w' )
         for command in commands:
