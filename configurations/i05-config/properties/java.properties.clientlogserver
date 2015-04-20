@@ -1,5 +1,0 @@
-#  The Factory name MUST MATCH the name at top of the Instance XML files 
-gda.factory.factoryName 	= i05
-gda.server.logging.port = 6789
-gda.logserver.xml = ${gda.config}/xml/logging/${gda.mode}/i05_logServerClient.xml 
-gda.logs.dir = /dls_sw/i05/logs/

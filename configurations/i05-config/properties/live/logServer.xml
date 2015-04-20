@@ -9,9 +9,6 @@
     <!-- ServerDebugFILE LogServer -->
     <include file="${gda.config}/properties/_common/logServer.xml"/>
 
-    <!-- Console  -->
-    <!-- include file="${gda.config}/servers/log/_common/logSharedWithClients.xml"/-->
-
     <root>
         <level value="INFO"/>
         <appender-ref ref="LogServer" />

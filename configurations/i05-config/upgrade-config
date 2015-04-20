@@ -1,1 +1,0 @@
-rsync -nva --delete --exclude .svn /dls_sw/i05/software/gda-stable/config/ .
