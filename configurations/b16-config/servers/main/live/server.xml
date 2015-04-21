@@ -50,6 +50,7 @@
 	<import resource="epics/motor/test1.xml" />
 	<import resource="epics/motor/test2.xml" />
 	<import resource="epics/motor/test3.xml" />
+	<import resource="epics/motor/aerotech_piezo.xml" />
 
 	<import resource="../common/scannable/motors.xml" />
 
