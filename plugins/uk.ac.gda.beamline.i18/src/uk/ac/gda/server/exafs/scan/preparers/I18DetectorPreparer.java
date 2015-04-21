@@ -5,6 +5,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.NXDetector;
+import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.exafs.scan.ExafsScanPointCreator;
@@ -123,6 +124,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 
 	@Override
 	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
+		((BufferedScaler) qexafs_counterTimer01).setTtlSocket(0);
 		String expt_type = detectorBean.getExperimentType();
 		if (expt_type.equals("Transmission")) {
 			return new BufferedDetector[] { qexafs_counterTimer01 };
@@ -137,7 +139,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 
 	@Override
 	public BufferedDetector[] getRasterMapDetectors() throws Exception {
-
+		((BufferedScaler) qexafs_counterTimer01).setTtlSocket(1);
 		String expt_type = detectorBean.getExperimentType();
 		if (expt_type.equals("Transmission")) {
 			return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid };
