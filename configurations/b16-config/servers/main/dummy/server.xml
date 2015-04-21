@@ -19,6 +19,7 @@
 	<import
 		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml" />
 
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
 
 	<!--AngularPositioner> <name>DCMBasePitchPos</name> <motorName>DCMBasePitchMotor</motorName> 
 	<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner> 

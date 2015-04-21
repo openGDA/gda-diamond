@@ -19,6 +19,8 @@
 	<import
 		resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml" />
 
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
 		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/b16-" />
@@ -48,6 +50,7 @@
 	<import resource="epics/motor/test1.xml" />
 	<import resource="epics/motor/test2.xml" />
 	<import resource="epics/motor/test3.xml" />
+	<import resource="epics/motor/aerotech_piezo.xml" />
 
 	<import resource="../common/scannable/motors.xml" />
 

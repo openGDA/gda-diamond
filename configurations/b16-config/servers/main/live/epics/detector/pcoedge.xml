@@ -11,12 +11,12 @@
 	</bean>
 
 	<bean id="pcoedge_ndfile" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="ME07M-EA-DET-01:TIF:" />
+		<property name="prefix" value="ME07M-EA-DET-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/b16" />
-				<property name="windowsSubString" value="N:" />
+				<property name="windowsSubString" value="X:" />
 			</bean>
 		</property>
 	</bean>

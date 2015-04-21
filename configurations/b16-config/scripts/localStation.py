@@ -670,7 +670,7 @@ if installation.isLive():
 if USE_YOU_DIFFCALC_ENGINE:
 	run('example/startup/b16fourcircle_you_engine.py')
 else:
-	run('/example/startup/b16fivecircle.py')
+	run('example/startup/b16fivecircle.py')
 energy.setLevel(4)
 hkl.setLevel(5) #@UndefinedVariable
 
