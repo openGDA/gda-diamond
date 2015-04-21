@@ -364,7 +364,7 @@ public class XesScanTest {
 				experimentalFullPath);
 		inorder.verify(detectorPreparer).configure(xanesParams, detParams, outputParams, experimentalFullPath);
 		inorder.verify(samplePreparer).configure(xanesParams, sampleParams);
-		inorder.verify(outputPreparer).configure(outputParams, xanesParams, detParams);
+		inorder.verify(outputPreparer).configure(outputParams, xanesParams, detParams, sampleParams);
 
 		inorder.verify(samplePreparer).createIterator("Fluorescence");
 		inorder.verify(beamlinePreparer).prepareForExperiment();
@@ -418,7 +418,7 @@ public class XesScanTest {
 				experimentalFullPath);
 		inorder.verify(detectorPreparer).configure(xanesParams, detParams, outputParams, experimentalFullPath);
 		inorder.verify(samplePreparer).configure(xanesParams, sampleParams);
-		inorder.verify(outputPreparer).configure(outputParams, xanesParams, detParams);
+		inorder.verify(outputPreparer).configure(outputParams, xanesParams, detParams, sampleParams);
 
 		inorder.verify(samplePreparer).createIterator("Fluorescence");
 		inorder.verify(beamlinePreparer).prepareForExperiment();

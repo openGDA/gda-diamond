@@ -35,6 +35,7 @@ import org.apache.commons.lang.ArrayUtils;
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
+import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.SignalParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
@@ -70,7 +71,7 @@ public class I20OutputPreparer implements OutputPreparer {
 	}
 
 	@Override
-	public void configure(IOutputParameters outputParameters, IScanParameters scanBean, IDetectorParameters detectorBean)
+	public void configure(IOutputParameters outputParameters, IScanParameters scanBean, IDetectorParameters detectorBean, ISampleParameters sampleParameters)
 			throws DeviceException {
 
 		this.detectorBean = detectorBean;
