@@ -28,6 +28,7 @@
 	<!-- 
 	<import resource="I10-PIMTE.xml" />
 	 -->
+	<import resource="I10-PIXIS.xml" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />

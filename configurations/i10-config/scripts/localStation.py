@@ -17,6 +17,7 @@ import sys, gda, java
 #from rasor.init_scan_commands_and_processing import * 
 from gda.configuration.properties import LocalProperties
 from gdascripts.messages import handle_messages
+from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.pd import epics_pds
 
 # setup standard scans with processing
@@ -25,9 +26,12 @@ scan_processor.rootNamespaceDict=globals()
 import gdascripts.utils #@UnusedImport
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
 
+localStation_exceptions = []
+
 def localStation_exception(exc_info, msg):
     typ, exception, traceback = exc_info
-    handle_messages.simpleLog("! Failure %s !" % msg)
+    simpleLog("! Failure %s !" % msg)
+    localStation_exceptions.append("    %s" % msg)
     handle_messages.log(None, "Error %s -  " % msg , typ, exception, traceback, False)
 
 ##setup metadata for the file
@@ -249,7 +253,7 @@ if andor_installed:
         # the andor has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
         andor = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'andor', andor1det, None, andor1det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
     
@@ -262,7 +266,7 @@ if andor_installed:
     
         andorGV12 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'andorGV12', andor1GV12det, None, andor1GV12det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
     
@@ -304,13 +308,13 @@ if pimte_installed:
         # the pimte has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
         pimte = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pimte', pimte1det, None, pimte1det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 
         pimteSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pimteSMPV', pimte1det, None, pimte1det_for_snaps,
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
         pimteSMPV.display_image = True
@@ -319,7 +323,7 @@ if pimte_installed:
 
         pimte2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pimte2d', pimte1det, None, pimte1det_for_snaps,
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
         pimte2d.display_image = True
@@ -339,13 +343,13 @@ if pixis_installed:
         # the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
         pixis = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pixis', pixis1det, None, pixis1det_for_snaps, [],
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
     
         pixisSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pixisSMPV', pixis1det, None, pixis1det_for_snaps,
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
         pixisSMPV.display_image = True
@@ -354,7 +358,7 @@ if pixis_installed:
 
         pixis2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
             'pixis2d', pixis1det, None, pixis1det_for_snaps,
-            panel_name='Andor CCD', panel_name_rcp='Plot 1',
+            panel_name=None, panel_name_rcp='Plot 1',
             toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
             fileLoadTimout=15, returnPathAsImageNumberOnly=True)
         pixis2d.display_image = True
@@ -565,15 +569,21 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating gflow2 scannable")
 
-print "Attempting to run localStationUser.py for users script directory"
+print "*"*80
+print "Attempting to run localStationUser.py from users script directory"
 try:
     run("localStationUser")
     print "localStationUser.py completed."
-    print "**************************************************"
 except java.io.FileNotFoundException, e:
-    print "No localStationUser run"
+    print "No localStationUser.py found in user scripts directory"
 except:
     localStation_exception(sys.exc_info(), "running localStationUser user script")
+
+if len(localStation_exceptions) > 0:
+    simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
+
+for localStationException in localStation_exceptions:
+    simpleLog(localStationException)
 
 print "**************************************************"
 print "localStation.py completed."
