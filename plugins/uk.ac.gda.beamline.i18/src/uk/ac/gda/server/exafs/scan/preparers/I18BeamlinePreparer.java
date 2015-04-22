@@ -46,8 +46,6 @@ import uk.ac.gda.server.exafs.scan.BeamlinePreparer;
 
 /**
  * Configures beamline energy and scan monitors for each experiment.
- * <p>
- * TODO check that this works for every scan type! It probably does not at the moment.
  */
 public class I18BeamlinePreparer implements BeamlinePreparer {
 
@@ -94,10 +92,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 		}
 
 		if (LocalProperties.get("gda.mode").equals("live")) {
-			// topupMonitor and beamMonitor should be defaults in every I18 scan
 			topupMonitor.setPauseBeforePoint(true);
-			// if step map only
-			// topupMonitor.setCollectionTime(((XasScanParameters) scanBean).getCollectionTime());
 			topupMonitor.setPauseBeforeLine(false);
 
 			beamMonitor.setPauseBeforePoint(true);
@@ -137,8 +132,8 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 
 		if (energyInUse != null && initialPosition != null) {
 			energyInUse.waitWhileBusy();
-			energyInUse.moveTo(initialPosition);
 			log("Moving mono to initial position...");
+			energyInUse.moveTo(initialPosition);
 
 			if (energyInUse == energyWithGap) {
 				log("mono move complete, disabling harmonic change");
@@ -157,31 +152,24 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 	@Override
 	public void completeExperiment() throws Exception {
 
-		Date scanEnd = new Date();
-		log("Map start time " + scanStart);
-		log("Map end time " + scanEnd);
-		// if (moveMonoToStartBeforeScan) {
-//		energyScannable.stop();
-		// }
+		if (scanBean instanceof MicroFocusScanParameters) {
+			Date scanEnd = new Date();
+			log("Map start time " + scanStart);
+			log("Map end time " + scanEnd);
+		}
+
 		if (energyInUse == energyWithGap) {
-			// TODO move to I18's detectorPreparer.completeCollection() call one of the preparers here to do some
-			// beamline specific reset
-			// print "enabling gap converter"
-			// Object auto_mDeg_idGap_mm_converter = Finder.getInstance().find("auto_mDeg_idGap_mm_converter");
 			auto_mDeg_idGap_mm_converter.enableAutoConversion();
 		}
 
-		// for maps
 		((JythonServer) Finder.getInstance().find("command_server")).removeDefault(detectorFillingMonitor);
 	}
 
 	public void setUseWithGapEnergy() {
-		energyInUse = energyWithGap;
-		
+		energyInUse = energyWithGap;		
 	}
 
 	public void setUseNoGapEnergy() {
 		energyInUse = energyNoGap;
 	}
-
 }
