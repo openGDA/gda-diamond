@@ -63,6 +63,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="fastpil3_nxfilewriter_for_scans" />
+				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats1" />
