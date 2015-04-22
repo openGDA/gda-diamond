@@ -27,9 +27,11 @@ import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServer;
+import gda.jython.commands.ScannableCommands;
 import gda.util.converters.AutoRenameableConverter;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,7 @@ import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
+import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
@@ -93,22 +96,60 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 
 		if (LocalProperties.get("gda.mode").equals("live")) {
 			topupMonitor.setPauseBeforePoint(true);
-			topupMonitor.setPauseBeforeLine(false);
+			topupMonitor.setPauseBeforeLine(true);
+			// set the topupMonitor to use the correct time before topup
+			configureTopupMonitor();
 
 			beamMonitor.setPauseBeforePoint(true);
 			beamMonitor.setPauseBeforeLine(true);
 
+			// if we are using the Ge detector, then add the detectorFillingMonitor
 			if (detectorBean.getExperimentType().equals("Fluorescence")
 					&& detectorBean.getFluorescenceParameters().getDetectorType().equals("Germanium")) {
-				((JythonServer) Finder.getInstance().find("command_server")).addDefault(detectorFillingMonitor);
 				detectorFillingMonitor.setPauseBeforePoint(true);
-				detectorFillingMonitor.setPauseBeforeLine(false);
+				detectorFillingMonitor.setPauseBeforeLine(true);
+				ScannableCommands.add_default(new Object[] { detectorFillingMonitor });
+			} else {
+				ScannableCommands.remove_default(new Object[] { detectorFillingMonitor });
 			}
-
+			
 			setupHarmonic();
 		}
 		
 		scanStart = new Date();
+	}
+
+	private void configureTopupMonitor() {
+		if (scanBean instanceof MicroFocusScanParameters){
+			if (((MicroFocusScanParameters) scanBean).isRaster()){
+				// set to the row time
+				double rowTime = ((MicroFocusScanParameters) scanBean).getRowTime();
+				topupMonitor.setCollectionTime(rowTime + 15.0); // give a 15s overhead for starting the row (generous)
+			} else {
+				// set to the point time
+				double pointTime = ((MicroFocusScanParameters) scanBean).getCollectionTime();
+				topupMonitor.setCollectionTime(pointTime + 2.0); // give a 2s overhead for each point
+			}
+		} else if (scanBean instanceof XasScanParameters) {
+			// set to the longest time step
+			XasScanParameters parameters = (XasScanParameters) scanBean;
+			double maxTime = 0;
+			if (parameters.getEdgeTime() > maxTime) maxTime = parameters.getEdgeTime();
+			if (parameters.getPreEdgeTime() > maxTime) maxTime = parameters.getPreEdgeTime();
+			if (parameters.getExafsTime() > maxTime) maxTime = parameters.getExafsTime();
+			if (parameters.getExafsFromTime() > maxTime) maxTime = parameters.getExafsFromTime();
+			if (parameters.getExafsToTime() > maxTime) maxTime = parameters.getExafsToTime();
+			topupMonitor.setCollectionTime(maxTime + 2.0); // give a 2s overhead for each point
+		} else if (scanBean instanceof XanesScanParameters) {
+			List<Region> regions = ((XanesScanParameters) scanBean).getRegions();
+			double maxTime = 0;
+			for(Region region : regions){
+				if (region.getTime() > maxTime){
+					maxTime = region.getTime();
+				}
+			}
+			topupMonitor.setCollectionTime(maxTime + 2.0); // give a 2s overhead for each point
+		}
 	}
 
 	private void setupHarmonic() throws DeviceException, InterruptedException {// : #, gap_converter):
