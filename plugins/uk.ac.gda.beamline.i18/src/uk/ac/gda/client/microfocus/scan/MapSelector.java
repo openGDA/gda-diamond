@@ -132,7 +132,7 @@ public class MapSelector {
 			faster_raster.setTrajectoryMotor(stage1TrajMotor);
 			faster_raster.setPositionReader(stage1PositionReader);
 			
-			ionChambers.setTtlSocket(1);
+//			ionChambers.setTtlSocket(1);
 			
 			break;
 		case 3:
@@ -151,7 +151,7 @@ public class MapSelector {
 			faster_raster.setTrajectoryMotor(stage3TrajMotor);
 			faster_raster.setPositionReader(stage3PositionReader);
 			
-			ionChambers.setTtlSocket(1);
+//			ionChambers.setTtlSocket(1);
 
 			break;
 		default:
