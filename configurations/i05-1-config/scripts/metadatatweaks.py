@@ -17,10 +17,10 @@ def getSubdirectory():
 
 def setVisit(visit):
     user=GDAMetadataProvider.getInstance().getMetadataValue("federalid")
-    if user != "i05user":
+    if user != "i05-1user":
         oldvisit = GDAMetadataProvider.getInstance().getMetadataValue("visit")
         try:
-            ElogEntry.post("visit manually changed from %s to %s by %s" % (oldvisit, visit, user), "", "gda", None, "BLI22", "BLI22-USR", None)
+            ElogEntry.post("visit manually changed from %s to %s by %s" % (oldvisit, visit, user), "", "gda", None, "BL05J", "BL05J-USR", None)
         except:
             pass
     GDAMetadataProvider.getInstance().setMetadataValue("visit", visit)

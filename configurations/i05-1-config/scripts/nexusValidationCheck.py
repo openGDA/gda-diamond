@@ -3,15 +3,15 @@ import arpes, shutil
 # script to be run as part of acceptance testing a newly installed GDA on I05
 # performs one fixed & one swept scan
 
-nexusValidationTestsDir = "/dls/science/groups/das/NeXusAudit/I05"
+nexusValidationTestsDir = "/dls/science/groups/das/NeXusAudit/I05-1"
 xtn = ".nxs"
 xtnLen = len(xtn)
 
-arpes.ARPESRun("/dls_sw/i05/software/gda/config/scripts/nexusValidationFixedScan.arpes").run() # editor.getPath()<-beanfile for swept scan <- variant of 
+arpes.ARPESRun("/dls_sw/i05-1/software/gda/config/scripts/nexusValidationFixedScan.arpes").run() # editor.getPath()<-beanfile for swept scan <- variant of 
 lastScanFile = lastScanDataPoint().currentFilename                                             # get path of last file
 shutil.copy(lastScanFile, nexusValidationTestsDir+"/"+lastScanFile[:-xtnLen]+"_fixed"+xtn)     # copy resulting nexus file to validation area
 
-arpes.ARPESRun("/dls_sw/i05/software/gda/config/scripts/nexusValidationSweptScan.arpes").run() # editor.getPath()<-beanfile for swept scan <- variant of 
+arpes.ARPESRun("/dls_sw/i05-1/software/gda/config/scripts/nexusValidationSweptScan.arpes").run() # editor.getPath()<-beanfile for swept scan <- variant of 
 lastScanFile = lastScanDataPoint().currentFilename                                             # get path of last file
 shutil.copy(lastScanFile, nexusValidationTestsDir+"/"+lastScanFile[:-xtnLen]+"_swept"+xtn)     # copy resulting nexus file to validation area
 

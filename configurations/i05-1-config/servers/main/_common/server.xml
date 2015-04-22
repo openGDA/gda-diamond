@@ -458,10 +458,10 @@
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 	</bean>
 
-	<import resource="../../../xml/devices/${gda.mode}/i05_server_devices.xml" />
+	<import resource="../../../xml/devices/${gda.mode}/i05-1_server_devices.xml" />
 	<import resource="../../../xml/analyser.xml" />
 	<import resource="../../../xml/combinedgonio.xml" />
 
-	<corba:export namespace="i05" />
+	<corba:export namespace="i05-1" />
 	<gda:rbac />
 </beans>
