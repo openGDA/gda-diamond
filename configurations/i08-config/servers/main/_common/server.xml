@@ -22,7 +22,6 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	
-	
 <!-- 	live only files -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" /> 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />

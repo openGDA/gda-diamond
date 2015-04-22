@@ -1,3 +1,0 @@
-. /dls_sw/i08/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
-/dls_sw/i08/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/dls_sw/i08/software/gda/config --mode=live --restart logpanel
-

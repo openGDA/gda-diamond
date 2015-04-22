@@ -1,1 +1,0 @@
-ssh -i /dls_sw/i08/software/gda_versions/var/i08ssh.key gda2@i08-control
