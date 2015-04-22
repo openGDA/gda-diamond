@@ -1,0 +1,3 @@
+#This is I14's file which needs to be recreated for i14
+export CONTROL_MACHINE_PUBKEY="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0ZhaP9ybEclyt5KDt+Lgg/lWgtbQa8MNrqig4yuZApKz0wv0xEzxcRmG69a1SaDpCBw8tuHRAW5F5jXDXsfxjWLLzotD4IzN6r0H5/lgQW18DJQ0dJ2MjWRtdGfb5XJIwp2EtHU9Jso0lTYoki/4m4wrkDqRf8SJ/wziiw4+XzInLmBkbZ74eY2W4BfyHoAYnVeOk9hyIx4T+ATebv38JvcMLbM//mnkZusrs6WeaBdJAJvNk4ArUx7967QLZZqBFDiL82PKzE4nrrCcxzhXfFiBjcAMxCd5+HMYdN3TKUeQOWfVB4eICsDlWtPsa9q+coJRGLhaHPiGKsnOxepr3Q=="
+bashlog debug "gda_servers_pre_instance" "exported CONTROL_MACHINE_PUBKEY=${CONTROL_MACHINE_PUBKEY:0:12}..."

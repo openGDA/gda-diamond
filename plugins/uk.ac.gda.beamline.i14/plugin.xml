@@ -6,10 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I08 Beamline">
+            name="GDA I14 Beamline">
          <property
                name="appName"
-               value="GDA I08 Beamline">
+               value="GDA I14 Beamline">
          </property>
       </product>
    </extension>
@@ -87,29 +87,6 @@
       </perspectiveExtension>
    </extension>
    <extension
-         point="uk.ac.gda.client.dashboard.objects">
-      <Scannable
-            name="pgm_energy"
-            tooltip="Plane Grating monochromator energy">
-      </Scannable>
-      <Scannable
-            name="topup"
-            tooltip="Topup">
-      </Scannable>
-      <Scannable
-            name="absorber"
-            tooltip="Front end absorber">
-      </Scannable>
-      <Scannable
-            name="opticsShutter"
-            tooltip="Optics Shutter">
-      </Scannable>
-      <Scannable
-            name="shutter1"
-            tooltip="Experimental shutter">
-      </Scannable>
-   </extension>
-   <extension
          point="uk.ac.gda.client.preferences">
       <preference
             name="gda.client.max.size.cached.points"
@@ -119,26 +96,6 @@
   
    <extension
          point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:window?after=showView">
-         <menu
-               label="Area Detectors">
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Andor"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//Andor//BL08I-EA-DET-01@">
-               </parameter>
-            </command>
-         </menu>
-      </menuContribution>
    </extension>
   
   
