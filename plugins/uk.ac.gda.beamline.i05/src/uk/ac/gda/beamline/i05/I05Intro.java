@@ -18,25 +18,31 @@
 
 package uk.ac.gda.beamline.i05;
 
-import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.part.IntroPart;
-import org.osgi.framework.FrameworkUtil;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class I05Intro extends IntroPart {
-
+	private static final Logger logger = LoggerFactory.getLogger(I05Intro.class);
+	
 	@Override
 	public void standbyStateChanged(boolean standby) {
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
+		
+		// This is to fix ARPES-253. Create a preference store and then set aspectRatio to false this will make
+		// 2D plots fill the available space by default.
+		IPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, "org.dawnsci.plotting");
+		store.setValue("org.dawb.plotting.system.aspectRatio", false);
+		
 		for (String id : new String[] {
 				"uk.ac.gda.client.scripting.JythonPerspective",	
 				"uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective",
@@ -45,7 +51,7 @@ public class I05Intro extends IntroPart {
 			try {
 				PlatformUI.getWorkbench().showPerspective(id, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
 			} catch (WorkbenchException e) {
-					// we see if that fails and it is not the end of the world
+				logger.error("Error creating workbench: " + e.getMessage());
 			}
 		}
 	}

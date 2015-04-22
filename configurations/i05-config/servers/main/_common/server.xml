@@ -43,15 +43,6 @@
 					<property name="name" value="note" />
 					<property name="value" value="undefined" />
 				</bean>
-				<!-- <bean class="gda.data.metadata.EpicsMetadataEntry"> <property name="name" 
-					value="instrument.source.energy" /> <property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" 
-					/> </bean> <bean class="gda.data.metadata.EpicsMetadataEntry"> <property 
-					name="name" value="instrument.source.current" /> <property name="pvName" 
-					value="SR-DI-DCCT-01:SIGNAL" /> </bean> <bean class="gda.data.metadata.ScannableMetadataEntry"> 
-					<property name="name" value="instrument.monochromator.energy" /> <property 
-					name="scannableName" value="energy" /> </bean> <bean class="gda.data.metadata.EpicsMetadataEntry"> 
-					<property name="name" value="instrument.insertion_device.gap" /> <property 
-					name="pvName" value="SR05I-MO-SERVC-01:CURRGAPD" /> </bean> -->
 			</list>
 		</property>
 	</bean>
@@ -84,8 +75,8 @@
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
 			</bean>
 		</property>
-		<property name="gdaVarDirectory" value="${gda.config}/var" />
-		<property name="cacheDirectory" value="${gda.config}/var/jythonCache" />
+		<property name="gdaVarDirectory" value="${gda.var}" />
+		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
 		<property name="remotePort" value="8920" />
 	</bean>
 
