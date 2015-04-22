@@ -7,7 +7,7 @@
             class="uk.ac.gda.beamline.i05.I05Intro"
             id="uk.ac.gda.beamline.i05.i05intro">
       </intro>
-      <introProductBinding introId="uk.ac.gda.beamline.i05.i05intro" productId="uk.ac.gda.beamline.i05.product"/>
+      <introProductBinding introId="uk.ac.gda.beamline.i05.i05intro" productId="uk.ac.gda.beamline.i05-1.product"/>
    </extension>
    <extension
          id="product"
