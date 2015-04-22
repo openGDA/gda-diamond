@@ -35,14 +35,14 @@
 	
 <!-- 	BufferedDetector classes for use in ContinuousScans  (Qexafs and raster maps) -->
 
-	<bean id="qexafs_xspress3"
+	<bean id="raster_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
 		<property name="xspress3Detector" ref="xspress3" />
 	</bean>
 
-	<bean id="qexafs_FFI0_xspress3"
+	<bean id="raster_FFI0_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
-		<property name="qexafsXspress" ref="qexafs_xspress3" />
+		<property name="qexafsXspress" ref="raster_xspress3" />
 		<property name="qexafsScaler" ref="raster_counterTimer01" />
 		<property name="i0_channel" value="1" />
 	</bean>
@@ -51,10 +51,10 @@
 	
 <!-- 	HardwareTriggeredDetector classes for two-way faster raster -->
 
-	<bean id="traj_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.HardwareTriggeredXspress3Detector">
-		<property name="xspress3" ref="qexafs_xspress3" />
-	</bean>
+<!-- 	<bean id="traj_xspress3" -->
+<!-- 		class="uk.ac.gda.devices.detector.xspress3.HardwareTriggeredXspress3Detector"> -->
+<!-- 		<property name="xspress3" ref="raster_xspress3" /> -->
+<!-- 	</bean> -->
 
 
 <!-- 	<bean id="cmos_for_maps" class="gda.device.detector.NXDetector"> -->

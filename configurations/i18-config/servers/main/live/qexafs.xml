@@ -24,69 +24,51 @@
 		<property name="numPulsesPV" value="BL18I-OP-DCM-01:COMP:NPULSES" />
 	</bean>
 
-	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
-		<property name="xspress2system" ref="xspress2system" />
-		<property name="daserver" ref = "daserver"/>
-		<property name="local" value="true" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
-		<property name="extraNames">
-			<list>
-				<value>I0</value>
-				<value>It</value>
-				<value>Iother</value>
-				<value>lnI0It</value>
-				<value>lnItIref</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="daserver" />
-		<property name="timeChannelRequired" value="false" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="true" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="3" />
-		<property name="ttlSocket" value="0" />
-		<property name="outputFormat">
-			<list>
-				<value>%6.4g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%.6g</value>
-				<value>%.6g</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
-		<property name="qexafsXspress" ref="qexafs_xspress" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-	</bean>
-
-<!-- 	<bean id="qexafs_xmap" class="gda.device.detector.xmap.XmapBufferedDetector"> -->
-<!-- 		<property name="xmap" ref="xmapMca" /> -->
-<!-- 		<property name="controller" ref="edxdcontroller" /> -->
-<!-- 		<property name="daServer" ref="daserver" /> -->
+<!-- 	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector"> -->
+<!-- 		<property name="xspress2system" ref="xspress2system" /> -->
+<!-- 		<property name="daserver" ref = "daserver"/> -->
 <!-- 		<property name="local" value="true" /> -->
 <!-- 		<property name="inputNames"> -->
 <!-- 			<list> -->
 <!-- 			</list> -->
 <!-- 		</property> -->
-<!-- 		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" /> -->
-<!-- 		<property name="deadTimeEnabled" value="false" /> -->
 <!-- 	</bean> -->
 
-<!-- 	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO"> -->
-<!-- 		<property name="qexafsXmap" ref="qexafs_xmap" /> -->
-<!-- 		<property name="qexafsScaler" ref="qexafs_counterTimer01" /> -->
-<!-- 		<property name="local" value="true" /> -->
+<!-- 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler"> -->
+<!-- 		<property name="extraNames"> -->
+<!-- 			<list> -->
+<!-- 				<value>time</value> -->
+<!-- 				<value>I0</value> -->
+<!-- 				<value>It</value> -->
+<!-- 				<value>Iother</value> -->
+<!-- 				<value>lnI0It</value> -->
+<!-- 				<value>lnItIref</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="scaler" ref="CalMemory" /> -->
+<!-- 		<property name="timer" ref="tfg" /> -->
+<!-- 		<property name="daserver" ref="daserver" /> -->
+<!-- 		<property name="timeChannelRequired" value="true" /> -->
+<!-- 		<property name="darkCurrentRequired" value="false" /> -->
+<!-- 		<property name="outputLogValues" value="true" /> -->
+<!-- 		<property name="TFGv2" value="true" /> -->
+<!-- 		<property name="numChannelsToRead" value="3" /> -->
+<!-- 		<property name="ttlSocket" value="0" /> -->
+<!-- 		<property name="outputFormat"> -->
+<!-- 			<list> -->
+<!-- 				<value>%6.4g</value> -->
+<!-- 				<value>%6.4g</value> -->
+<!-- 				<value>%9d</value> -->
+<!-- 				<value>%9d</value> -->
+<!-- 				<value>%9d</value> -->
+<!-- 				<value>%.6g</value> -->
+<!-- 				<value>%.6g</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
 <!-- 	</bean> -->
 
+	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
+		<property name="qexafsXspress" ref="raster_xspress" />
+		<property name="qexafsScaler" ref="raster_counterTimer01" />
+	</bean>
 </beans>
