@@ -4,6 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="id" class="uk.ac.gda.beamline.i05.scannable.I05Apple">
+	    <property name="local" value="true" />
 		<property name="gapScannable" ref="rawid_gap" />
 		<property name="upperPhaseScannable" ref="rawid_upperphase" />
 		<property name="lowerPhaseScannable" ref="rawid_lowerphase" />

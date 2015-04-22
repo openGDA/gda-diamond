@@ -3,8 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="s6_xcentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL05I-AL-SLITS-06:XGAP" />
+        <bean id="s6_xcentre_motor" class="gda.device.motor.DummyMotor">
                 <property name="local" value="true" />
         </bean>
         <bean id="s6_xcentre" class="gda.device.scannable.ScannableMotor">
@@ -12,8 +11,7 @@
                 <property name="local" value="true" />
         </bean>
 
-        <bean id="s6_ycentre_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL05I-AL-SLITS-06:YGAP" />
+        <bean id="s6_ycentre_motor" class="gda.device.motor.DummyMotor">
                 <property name="local" value="true" />
         </bean>
         <bean id="s6_ycentre" class="gda.device.scannable.ScannableMotor">
@@ -21,8 +19,7 @@
                 <property name="local" value="true" />
         </bean>
 
-        <bean id="s6_xsize_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL05I-AL-SLITS-06:XSIZE" />
+        <bean id="s6_xsize_motor" class="gda.device.motor.DummyMotor">
                 <property name="local" value="true" />
         </bean>
         <bean id="s6_xsize" class="gda.device.scannable.ScannableMotor">
@@ -30,8 +27,7 @@
                 <property name="local" value="true" />
         </bean>
 
-        <bean id="exit_slit_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL05I-AL-SLITS-06:YSIZE" />
+        <bean id="exit_slit_motor" class="gda.device.motor.DummyMotor">
                 <property name="local" value="true" />
         </bean>
         <bean id="exit_slit" class="gda.device.scannable.ScannableMotor">
@@ -39,8 +35,7 @@
                 <property name="local" value="false" />
         </bean>
 
-        <bean id="s6_z_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL05I-AL-SLITS-06:Z" />
+        <bean id="s6_z_motor" class="gda.device.motor.DummyMotor">
                 <property name="local" value="true" />
         </bean>
         <bean id="s6_z" class="gda.device.scannable.ScannableMotor">

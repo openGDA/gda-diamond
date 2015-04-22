@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="gda.device.scannable.DummyMultiElementScannable" id="cryostat">
+		<property name="inputNames">
+			<list>
+				<value>demand</value>
+			</list>
+		</property>
+		<property name="extraNames">
+			<list>
+				<value>cryostat</value>
+				<value>sample</value>
+				<value>shield</value>
+				<value>heater</value>
+				<value>heatersetting</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%1.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+	</bean>
+</beans>

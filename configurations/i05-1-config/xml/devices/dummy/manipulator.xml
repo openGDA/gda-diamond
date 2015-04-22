@@ -60,8 +60,6 @@
                                 <ref bean="satilt" />
                                 <ref bean="sapolar" />
                                 <ref bean="saazimuth" />
-                                <ref bean="salong" />
-                                <ref bean="saperp" />
                         </list>
                 </property>
                 <property name="local" value="false" />
