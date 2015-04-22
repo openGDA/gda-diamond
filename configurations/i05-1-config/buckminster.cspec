@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i05-1-config" componentType="buckminster" version="1.0.0">
+    <cs:dependencies>
+        <cs:dependency name="dls-config" componentType="buckminster"/>
+        <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.deprecated" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.beamline.i05-1" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.beamline.i05-1.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.client.experimentdefinition" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.video.views" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.arpes" componentType="osgi.bundle"/>
+    </cs:dependencies>
+</cs:cspec>

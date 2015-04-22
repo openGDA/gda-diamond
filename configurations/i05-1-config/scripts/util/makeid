@@ -1,0 +1,7 @@
+
+sh mots2xml.sh rawid << EOF
+gap ID1.GAP
+lowerphase ID1.LOWERPHASE
+upperphase ID1.UPPERPHASE
+EOF
+

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+        <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="uk.ac.gda.beamline.i05.I05Intro"
+            id="uk.ac.gda.beamline.i05.i05intro">
+      </intro>
+      <introProductBinding introId="uk.ac.gda.beamline.i05.i05intro" productId="uk.ac.gda.beamline.i05.product"/>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Beamline I05">
+         <property
+               name="appName"
+               value="Beamline I05">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>         
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i05.I05StartupService">
+      </startup>
+   </extension>
+<extension
+          point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension targetID="*">
+       <perspectiveShortcut
+             id="uk.ac.gda.client.scripting.JythonPerspective">
+       </perspectiveShortcut>
+   </perspectiveExtension>
+   </extension>
+<extension point="uk.ac.gda.client.dashboard.objects">
+      <Scannable name="s2_xsize" tooltip="s2 horizontal slit size" />
+      <Scannable name="s2_ysize" tooltip="s2 vertical slit size" />
+      <Scannable name="exit_slit" tooltip="monochromator exit slit setting" />
+      <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
+      <Scannable name="energy" tooltip="photon energy" />
+      <Scannable name="pgm_cff" tooltip="monochromator cff" />
+      <Scannable name="cryostat" tooltip="sample temperature" />
+      <Scannable name="sa" tooltip="cryo manipulator" />
+      <Scannable name="psu_mode" tooltip="High or Low Pass" />
+</extension>
+<extension
+      point="uk.ac.gda.client.preferences">
+   <preference
+         name="gda.client.max.size.cached.points"
+         value="10000">
+   </preference>
+</extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
+            id="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
+            icon="icons/application_view_gallery.png"
+            name="ARPES Alignment">
+      </perspective>     
+      <perspective
+            class="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
+            id="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
+            icon="icons/application_view_gallery.png"
+            name="ARPES Experiment">
+      </perspective>  
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Data Acquisition - ARPES"
+            id="gda.rcp.arpes">
+      </category>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.ROIProfilePlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.cameraview"
+            name="Detector Plot"
+            restorable="true">
+      </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.sweptview"
+            name="Swept Plot"
+            restorable="true">
+      </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.sumview"
+            name="Detector Sum Plot"
+            restorable="true">
+      </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.gda.beamline.i05.views.ContinuousModeControllerView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.arpes.ui.continuousmodecontroller"
+            name="Continuous Mode"
+            restorable="true">
+      </view>
+            <view
+                  class="uk.ac.gda.beamline.i05.views.CryoView"
+                  id="uk.ac.gda.arpes.ui.views.CryoView"
+                  name="Cryo View">
+            </view>
+   </extension>
+ </plugin>

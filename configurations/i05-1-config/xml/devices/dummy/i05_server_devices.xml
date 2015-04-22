@@ -1,0 +1,109 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	<!-- <import resource="devices/s1.xml" /> <import resource="devices/s2.xml" 
+		/> <import resource="devices/s3.xml" /> <import resource="devices/s4.xml" 
+		/> <import resource="devices/dcm.xml" /> <import resource="devices/d1.xml" 
+		/> <import resource="devices/d2.xml" /> -->
+		
+	<import resource="rawid.xml" />
+	<import resource="id.xml" />
+	<import resource="scientaslit.xml" />
+	<import resource="gonio.xml" />
+	<import resource="pgm.xml" />
+	
+	<bean class="gda.device.scannable.DummyMultiElementScannable" id="cryostat">
+		<property name="inputNames">
+			<list>
+				<value>demand</value>
+			</list>
+		</property>
+		<property name="extraNames">
+			<list>
+				<value>cryostat</value>
+				<value>sample</value>
+				<value>shield</value>
+				<value>heater</value>
+				<value>heatersetting</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%1.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+	</bean>
+
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="s6_xsize">
+		<property name="inputNames">
+			<list>
+				<value>s6_xsize</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+	
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="exit_slit">
+		<property name="inputNames">
+			<list>
+				<value>exit_slit</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+	
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="s2_ysize">
+		<property name="inputNames">
+			<list>
+				<value>s2_ysize</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+	
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="s2_xsize">
+		<property name="inputNames">
+			<list>
+				<value>s2_xsize</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+</beans>
