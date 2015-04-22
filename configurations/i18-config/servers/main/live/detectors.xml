@@ -35,6 +35,14 @@
 			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="sumAllElementData" value = "true"/>
 	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspress2system" />
+		<property name="service" ref="xspress2system" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+	</bean>
+	
 
 	<!-- Time Frame Generator -->
 	<bean id="tfg" class="gda.device.timer.Etfg">
