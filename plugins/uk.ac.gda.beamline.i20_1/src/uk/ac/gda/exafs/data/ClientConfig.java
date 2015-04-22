@@ -51,6 +51,7 @@ public class ClientConfig {
 		HOUR("h"),
 		MINUTE("min"),
 		TESLA("T"),
+		PIXEL("pixel"),
 
 		SELECTION("");
 

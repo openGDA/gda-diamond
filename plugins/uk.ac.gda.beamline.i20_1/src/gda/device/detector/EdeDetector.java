@@ -18,6 +18,33 @@
 
 package gda.device.detector;
 
+import gda.data.nexus.tree.NexusTreeProvider;
+import gda.device.DeviceException;
+
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+
 public interface EdeDetector extends NexusDetector {
+
+	public abstract NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
+
+	public abstract DoubleDataset createDatasetForPixel();
+
+	public abstract void writeLiveDataFile() throws DeviceException;
+
+	public abstract double[] getEnergyForChannels();
+
+	public abstract Integer[] getPixels();
+
+	public abstract DetectorData getDetectorData();
+
+	public abstract DetectorStatus fetchStatus() throws DeviceException;
+
+	public abstract int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException;
+
+	public abstract int getMaxPixel();
+
+	public abstract void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException;
 
 }

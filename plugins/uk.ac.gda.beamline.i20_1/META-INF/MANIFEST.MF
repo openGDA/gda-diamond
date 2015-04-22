@@ -51,6 +51,8 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,
+ gda.device.detector.frelon,
+ gda.device.detector.xstrip,
  gda.device.scannable,
  gda.scan,
  gda.scan.ede,

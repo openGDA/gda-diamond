@@ -22,6 +22,7 @@ import gda.device.DeviceException;
 import gda.device.detector.DAServer;
 import gda.device.detector.DetectorData;
 import gda.device.detector.DetectorStatus;
+import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * Not implemented yet: beam orbit trigger, setup-leds. But these may not be required.
  */
 
-public class XhDetector extends EdeDetectorBase {
+public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 	private static final Logger logger = LoggerFactory.getLogger(XhDetector.class);
 
@@ -614,7 +615,13 @@ public class XhDetector extends EdeDetectorBase {
 	}
 
 	@Override
-	protected DetectorData createData() {
+	protected DetectorData createDetectorData() {
 		return new XhDetectorData();
+	}
+
+
+	@Override
+	protected void createDetectorDataFromJson(String property) {
+		detectorData=GSON.fromJson(property, XhDetectorData.class);
 	}
 }

@@ -13,11 +13,13 @@
    <launcherArgs>
       <vmArgs>-Dgda.install.workspace.loc=/dls_sw/i20-1/software/gda/workspace
 -Dgda.install.git.loc=/dls_sw/i20-1/software/gda/workspace_git
+-Dgda.facility.dir=/dls_sw/i20-1/software/gda/workspace_git/gda-diamond.git/dls-config
+-Dgda.core.dir=/dls_sw/i20-1/software/gda/workspace_git/gda-core.git/core-config
 -Dgda.config=/dls_sw/i20-1/software/gda/config
 -Djava.library.path=/dls_sw/i20-1/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
--Dgda.propertiesFile=/dls_sw/i20-1/software/gda/config/properties/live/java.properties
--Djacorb.config.dir=/dls_sw/i20-1/software/gda/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i20-1/software/gda/config/jca/live/JCALibrary.properties
+-Dgda.propertiesFile=/dls_sw/i20-1/software/gda/config/properties/live/live_instance_java.properties
+-Djacorb.config.dir=/dls_sw/i20-1/software/gda/config/properties/live/jacorb
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i20-1/software/gda/config/properties/live/JCALibrary.properties
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false

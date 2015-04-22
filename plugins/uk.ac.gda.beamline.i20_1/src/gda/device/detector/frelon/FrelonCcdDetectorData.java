@@ -19,50 +19,86 @@
 package gda.device.detector.frelon;
 
 import gda.device.detector.DetectorData;
+import gda.device.detector.EdeDetectorBase;
+import gda.device.frelon.Frelon;
+import gda.device.frelon.Frelon.ImageMode;
+import gda.device.frelon.Frelon.InputChannels;
 import gda.device.frelon.Frelon.ROIMode;
 import gda.device.frelon.Frelon.SPB2Config;
+import gda.device.lima.LimaCCD;
+import gda.device.lima.LimaCCD.AccTimeMode;
+import gda.device.lima.LimaCCD.AcqMode;
+import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.lima.LimaROIInt;
+import gda.device.lima.impl.LimaROIIntImpl;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+import com.google.gson.Gson;
+/**
+ * object to hold detector's configuration data.
+ * Only the writable attributes in {@link LimaCCD} and {@link Frelon} need to be cached here.
+ *
+ * These attribute settings in this object will be persisted by {@link EdeDetectorBase}
+ * using {@link Gson} and {@link PropertiesConfiguration} from client to the server.
+ */
 public class FrelonCcdDetectorData extends DetectorData {
 	public static final int MAX_PIXEL = 2048;
-
+	public static final int VERTICAL_BIN_SIZE_LIMIT = 2048;
+	public static final int HORIZONRAL_BIN_SIZE_LIMIT = 8;
+	//Frelon parameters
+	private ImageMode imageMode=ImageMode.FULL_FRAME;
+	private InputChannels inputChannel=InputChannels.I3_4;
+	private boolean ev2CorrectionActive=false;
 	private ROIMode roiMode=ROIMode.KINETIC;
-	private int hotizontalBinValue=1;
+	private int yStartPixel = 0; //CCD line begin in Frelon GUI, or roi_bin_offset in line
+	private SPB2Config spb2Config=SPB2Config.SPEED; //hardware pixel rate configuration: Speed or Precision
+	// Lima parameters
+	private int hotizontalBinValue=1; // 1, 2, 4, 8.
 	private int verticalBinValue = 1; // vert.binning i.e. image_bin Y component
-	private int yStartPixel = 0; //CCD line begin in Frelon GUI, or roi_bin_offset in line, must be multiple of vertivalBinValue
-	private int yLength = 2048;
-	private SPB2Config spb2Config; //hardware pixel rate configuration: Speed or Precision
-	private LimaROIInt areaOfInterest;
+	private AcqMode acqMode=AcqMode.SINGLE;
+	private int numberOfImages=1;
+	private AcqTriggerMode triggerMode=AcqTriggerMode.INTERNAL_TRIGGER;
+	private double latencyTime=0.0;
+	private double exposureTime=1.0;
+	private double accumulationMaximumExposureTime=0.1;
+	private AccTimeMode accumulationTimeMode=AccTimeMode.LIVE;
+	private LimaROIInt areaOfInterest=new LimaROIIntImpl(0, 0, 2048, 2048); // in units of binning sizes in x and y directions
 
+	//Frelon attriutes
+	public ImageMode getImageMode() {
+		return imageMode;
+	}
+	public void setImageMode(ImageMode imageMode) {
+		this.imageMode = imageMode;
+	}
+
+	public InputChannels getInputChannel() {
+		return inputChannel;
+	}
+	public void setInputChannel(InputChannels inputChannel) {
+		this.inputChannel = inputChannel;
+	}
+	public boolean isEv2CorrectionActive() {
+		return ev2CorrectionActive;
+	}
+	public void setEv2CorrectionActive(boolean ev2CorrectionActive) {
+		this.ev2CorrectionActive = ev2CorrectionActive;
+	}
 	public ROIMode getRoiMode() {
 		return roiMode;
 	}
 	public void setRoiMode(ROIMode roiMode) {
 		this.roiMode = roiMode;
 	}
-	public int getHotizontalBinValue() {
-		return hotizontalBinValue;
-	}
-	public void setHotizontalBinValue(int hotizontalBinValue) {
-		this.hotizontalBinValue = hotizontalBinValue;
-	}
-	public int getVerticalBinValue() {
-		return verticalBinValue;
-	}
-	public void setVerticalBinValue(int binValue) {
-		verticalBinValue = binValue;
-	}
-	public int getyStartPaxel() {
+	public int getRoiBinOffset() {
 		return yStartPixel;
 	}
-	public void setyStartPaxel(int yStartPaxel) {
-		yStartPixel = yStartPaxel;
-	}
-	public int getyLength() {
-		return yLength;
-	}
-	public void setyLength(int yLength) {
-		this.yLength = yLength;
+	public void setRoiBinOffset(int yStartPixel) {
+		this.yStartPixel = yStartPixel;
 	}
 	public SPB2Config getSpb2Config() {
 		return spb2Config;
@@ -70,14 +106,108 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public void setSpb2Config(SPB2Config spb2Config) {
 		this.spb2Config = spb2Config;
 	}
+	//LIMA attributes
+	public AcqMode getAcqMode() {
+		return acqMode;
+	}
+	public void setAcqMode(AcqMode acqMode) {
+		this.acqMode = acqMode;
+	}
+
+	public int getNumberOfImages() {
+		return numberOfImages;
+	}
+	public void setNumberOfImages(int numberOfImages) {
+		this.numberOfImages = numberOfImages;
+	}
+
+	public AcqTriggerMode getTriggerMode() {
+		return triggerMode;
+	}
+	public void setTriggerMode(AcqTriggerMode triggerMode) {
+		this.triggerMode = triggerMode;
+	}
+
+	public double getLatencyTime() {
+		return latencyTime;
+	}
+	public void setLatencyTime(double latencyTime) {
+		this.latencyTime = latencyTime;
+	}
+
+	public double getExposureTime() {
+		return exposureTime;
+	}
+	public void setExposureTime(double exposureTime) {
+		this.exposureTime = exposureTime;
+	}
+
+	public double getAccumulationMaximumExposureTime() {
+		return accumulationMaximumExposureTime;
+	}
+	public void setAccumulationMaximumExposureTime(double accumulationMaximumExposureTime) {
+		this.accumulationMaximumExposureTime = accumulationMaximumExposureTime;
+	}
+
+	public AccTimeMode getAccumulationTimeMode() {
+		return accumulationTimeMode;
+	}
+	public void setAccumulationTimeMode(AccTimeMode accumulationTimeMode) {
+		this.accumulationTimeMode = accumulationTimeMode;
+	}
+	public int getHotizontalBinValue() {
+		return hotizontalBinValue;
+	}
+
+	public void setHotizontalBinValue(int binValue) {
+		if (hotizontalBinValue>HORIZONRAL_BIN_SIZE_LIMIT) {
+			throw new IllegalArgumentException("The limit of horizontal binning size is "+HORIZONRAL_BIN_SIZE_LIMIT+" pixels.");
+		}
+		List<Integer> allowedValues= Arrays.asList(1,2,4,8);
+		if (allowedValues.contains(hotizontalBinValue)) {
+			hotizontalBinValue = binValue;
+		} else {
+			throw new IllegalArgumentException("The horizontal binning can only be one of "+allowedValues.toArray(new Integer[] {})+" pixels.");
+		}
+		int xLength=MAX_PIXEL/hotizontalBinValue;
+		areaOfInterest.setBeginX(0);
+		areaOfInterest.setLengthX(xLength);
+	}
+	public int getVerticalBinValue() {
+		return verticalBinValue;
+	}
+
+	public void setVerticalBinValue(int binValue) {
+		if (binValue>VERTICAL_BIN_SIZE_LIMIT) {
+			throw new IllegalArgumentException("The limit of vertical binning size is "+VERTICAL_BIN_SIZE_LIMIT+" lines.");
+		}
+		List<Integer> allowedValues= Arrays.asList(1,2,4,8,16,32,64,128,256,512,1024);
+		if (allowedValues.contains(binValue)) {
+			verticalBinValue = binValue;
+		} else {
+			throw new IllegalArgumentException("The vertical binning can only be one of "+allowedValues.toArray(new Integer[] {})+" pixels.");
+		}
+		int yLength=MAX_PIXEL/verticalBinValue;
+		areaOfInterest.setBeginY(0);
+		areaOfInterest.setLengthY(yLength);
+	}
+	/**
+	 * return area of interest from java object.
+	 * These data will be used to set to camera's image_roi attribute.
+	 * @return ROI
+	 */
 	public LimaROIInt getAreaOfInterest() {
 		return areaOfInterest;
 	}
+	/**
+	 * sets area of interest to be use.
+	 * These data will be send to camera's image_roi attribute before acquisition
+	 * @param areaOfInterest
+	 */
 	public void setAreaOfInterest(LimaROIInt areaOfInterest) {
 		// set the limits for ROI in energy direction
 		setLowerChannel(areaOfInterest.getBeginX());
-		setUpperChannel(areaOfInterest.getEndX());
+		setUpperChannel(areaOfInterest.getLengthX()+areaOfInterest.getBeginX());
 		this.areaOfInterest = areaOfInterest;
 	}
-
 }

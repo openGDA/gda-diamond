@@ -19,8 +19,14 @@
 		<project>uk.ac.gda.server.exafs.epics</project>
 	</projects>
 	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.dltk.core.scriptbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.python.pydev.pythonNature</nature>
+		<nature>net.sourceforge.shelled.core.nature</nature>
 	</natures>
 </projectDescription>

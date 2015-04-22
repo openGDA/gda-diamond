@@ -26,6 +26,8 @@ public class I20_1PreferenceInitializer extends AbstractPreferenceInitializer {
 	public static final String REFRESHRATE = "uk.ac.gda.beamline.i20_1.refreshrate.preference";
 	public static final String SNAPSHOTTIME = "uk.ac.gda.beamline.i20_1.snapshottime.preference";
 	public static final String SCANSPERFRAME = "uk.ac.gda.beamline.i20_1.scansperframe.preference";
+	public static final String VERTICALBINNING = "uk.ac.gda.beamline.i20_1.verticalbinning.preference";
+	public static final String CCDLINEBEGIN = "uk.ac.gda.beamline.i20_1.ccdlinebegin.preference";
 	public static String LIVEMODETIME = "uk.ac.gda.beamline.i20_1.livemodetime.preference";
 
 	public I20_1PreferenceInitializer() {
@@ -38,6 +40,8 @@ public class I20_1PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(SNAPSHOTTIME, 1);
 		store.setDefault(SCANSPERFRAME, 1);
 		store.setDefault(LIVEMODETIME, 1);
+		store.setDefault(VERTICALBINNING, 1);
+		store.setDefault(CCDLINEBEGIN, 0);
 	}
 
 }

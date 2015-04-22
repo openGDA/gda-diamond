@@ -19,6 +19,9 @@
 package uk.ac.gda.exafs.alignment.ui;
 
 import gda.device.DeviceException;
+import gda.device.detector.DetectorData;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.xstrip.XCHIPDetector;
 import gda.device.detector.xstrip.XhDetector;
 import gda.device.detector.xstrip.XhDetectorData;
@@ -95,21 +98,26 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 	private Binding bindTxtBiasVoltage;
 	private Binding bindExcludedStrips;
 
-	private final String biasErrorMessage;
-	private final String detectorInputMessage;
+	private String biasErrorMessage;
+	private String detectorInputMessage;
 
-	private final XhDetector detector;
-	private final XhDetectorData detectorData;
+	private final EdeDetector detector;
+	private final DetectorData detectorData;
 
 	public DetectorSetupDialog(Shell parentShell) throws Exception {
 		super(parentShell);
-		if (!(DetectorModel.INSTANCE.getCurrentDetector() instanceof XhDetector)) {
-			throw new Exception("Current detector is not the Xh detector");
+		detector = DetectorModel.INSTANCE.getCurrentDetector();
+		detectorData = detector.getDetectorData();
+		if (detectorData instanceof XhDetectorData) {
+			biasErrorMessage = "Voltage not in range. Enter input between " + ((XhDetectorData) detectorData).getMinBias() + " and " + ((XhDetectorData) detectorData).getMaxBias() + ".";
 		}
-		detector = (XhDetector) DetectorModel.INSTANCE.getCurrentDetector();
-		detectorData = (XhDetectorData) detector.getDetectorData();
-		biasErrorMessage = "Voltage not in range. Enter input between " + detectorData.getMinBias() + " and " + detectorData.getMaxBias() + ".";
-		detectorInputMessage = "Edit details for Xh detector.";
+		if (detector instanceof XhDetector) {
+			detectorInputMessage = "Edit details for Xh detector.";
+		} else if (detector instanceof EdeFrelon) {
+			detectorInputMessage = "Edit details for Ede Frelon detector.";
+		} else {
+			throw new Exception("Current Detector is not the EdeDetector.");
+		}
 	}
 
 	@Override
@@ -215,37 +223,39 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 				return type;
 			}
 		});
-		bindTxtBiasVoltage = dataBindingCtx.bindValue(
-				WidgetProperties.text(SWT.Modify).observe(txtBiasVoltage),
-				BeanProperties.value(DetectorModel.BIAS_PROP_NAME).observe(detectorData),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST).setBeforeSetValidator(new IValidator() {
-					@Override
-					public IStatus validate(Object value) {
-						if (value instanceof Double) {
-							if (detectorData.isVoltageInRange((double) value)) {
+		if (detector instanceof XhDetector) {
+			bindTxtBiasVoltage = dataBindingCtx.bindValue(
+					WidgetProperties.text(SWT.Modify).observe(txtBiasVoltage),
+					BeanProperties.value(DetectorModel.BIAS_PROP_NAME).observe(detectorData),
+					new UpdateValueStrategy(UpdateValueStrategy.POLICY_ON_REQUEST).setBeforeSetValidator(new IValidator() {
+						@Override
+						public IStatus validate(Object value) {
+							if (value instanceof Double) {
+								if (((XhDetectorData) detectorData).isVoltageInRange((double) value)) {
+									return ValidationStatus.ok();
+								}
+								return ValidationStatus.error(biasErrorMessage);
+							}
+							return ValidationStatus.error("Not a valid decimal value");
+						}
+					}),
+					new UpdateValueStrategy().setAfterGetValidator(new IValidator() {
+						@Override
+						public IStatus validate(Object value) {
+							if (((XhDetectorData) detectorData).isVoltageInRange((double) value)) {
 								return ValidationStatus.ok();
 							}
-							return ValidationStatus.error(biasErrorMessage);
+							return ValidationStatus.error("Voltage not in range");
 						}
-						return ValidationStatus.error("Not a valid decimal value");
-					}
-				}),
-				new UpdateValueStrategy().setAfterGetValidator(new IValidator() {
-					@Override
-					public IStatus validate(Object value) {
-						if (detectorData.isVoltageInRange((double) value)) {
-							return ValidationStatus.ok();
-						}
-						return ValidationStatus.error("Voltage not in range");
-					}
-				}));
+					}));
 
-		txtBiasVoltage.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				bindTxtBiasVoltage.validateTargetToModel();
-			}
-		});
+			txtBiasVoltage.addModifyListener(new ModifyListener() {
+				@Override
+				public void modifyText(ModifyEvent e) {
+					bindTxtBiasVoltage.validateTargetToModel();
+				}
+			});
+		}
 
 		bindExcludedStrips = dataBindingCtx.bindValue(
 				WidgetProperties.text(SWT.Modify).observe(txtExcludedStrips),

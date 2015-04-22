@@ -9,33 +9,33 @@
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
 	</bean>
 
-<!-- 
-	<bean id="xstrip" class="gda.device.detector.XHDetector">
+ 
+	<bean id="xstrip" class="gda.device.detector.xstrip.XhDetector">
 		<property name="detectorName" value="xh0"/>
 		<property name="daServer" ref="DAServer"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
 	</bean>
 
-	<bean id="ssxh" class="gda.device.detector.StepScanXHDetector">
+	<bean id="ssxh" class="gda.device.detector.xstrip.StepScanXHDetector">
 		<property name="xh" ref="xh"/>
 	</bean>
 	
-	<bean id="ssxstrip" class="gda.device.detector.StepScanXHDetector">
+	<bean id="ssxstrip" class="gda.device.detector.xstrip.StepScanXHDetector">
 		<property name="xh" ref="xstrip"/>
 	</bean>
- -->
+
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xh" />
 		<property name="service" ref="xh" />
 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
 	</bean>
-<!-- 	
+ 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xstrip" />
 		<property name="service" ref="xstrip" />
-		<property name="serviceInterface" value="gda.device.detector.XCHIPDetector" />
+		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
 	</bean>
--->
+
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/external_tfg.xml" />
 	
 

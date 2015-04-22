@@ -19,8 +19,7 @@
 package uk.ac.gda.exafs.experiment.ui.data;
 
 import gda.device.DeviceException;
-import gda.device.detector.EdeDetectorBase;
-import gda.device.detector.xstrip.XCHIPDetector;
+import gda.device.detector.EdeDetector;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -357,8 +356,8 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			double integrationTime = getIntegrationTime();
 			int noOfSpectra = getNumberOfSpectrum();
 			if (integrationTime > 0 & timePerSpectrum > 0) {
-				EdeDetectorBase detector = DetectorModel.INSTANCE.getCurrentDetector();
-				int numberScansInFrame = ((XCHIPDetector) detector).getNumberScansInFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(timePerSpectrum, ExperimentUnit.SEC), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(integrationTime, ExperimentUnit.SEC), noOfSpectra);
+				EdeDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
+				int numberScansInFrame = detector.getNumberScansInFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(timePerSpectrum, ExperimentUnit.SEC), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(integrationTime, ExperimentUnit.SEC), noOfSpectra);
 				setNoOfAccumulations(numberScansInFrame);
 			}
 		} catch (DeviceException e) {

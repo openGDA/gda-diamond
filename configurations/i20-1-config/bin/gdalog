@@ -1,1 +1,1 @@
-/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gda_start_logpanel $@
+gda --start logpanel

@@ -18,7 +18,9 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -29,9 +31,12 @@ import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
 import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -170,6 +175,33 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Output port");
+		viewerNumberColumn.setEditingSupport(new EditingSupport(sampleEnvironmentTableViewer) {
+			@Override
+			protected void setValue(Object element, Object value) {
+				((TriggerableObject) element).setTriggerOutputPort((TriggerOutputPort)value);
+			}
+			@Override
+			protected Object getValue(Object element) {
+				return ((TriggerableObject) element).getTriggerOutputPort();
+			}
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				final ComboBoxViewerCellEditor ce = new ComboBoxViewerCellEditor(sampleEnvironmentTableViewer.getTable());
+				ce.setLabelProvider(new LabelProvider());
+				ce.setContentProvider(new ArrayContentProvider());
+				List<TriggerOutputPort> availablePorts = new ArrayList<TriggerOutputPort>();
+				TriggerOutputPort[] values = TriggerableObject.TriggerOutputPort.values();
+				for (int i=2; i<values.length; i++) {
+					availablePorts.add(values[i]);
+				}
+				ce.setInput(availablePorts);
+				return ce;
+			}
+			@Override
+			protected boolean canEdit(Object element) {
+				return true;
+			}
+		});
 
 		Composite tableContainerAddRemove = new Composite(container, SWT.NULL);
 		gridData = new GridData(SWT.END, SWT.FILL, false, true);

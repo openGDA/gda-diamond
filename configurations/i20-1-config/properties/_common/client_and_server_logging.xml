@@ -2,9 +2,15 @@
 
 <included>
 
+<!--     <define scope="context" name="JVMNAME" class="gda.util.logging.JvmNamePropertyDefiner" /> -->
     <!-- The include statement in the following java.properties file is not read so you need to reference both -->
-    <property file="${gda.config}/properties/_common/new_i20-1_java.properties" />
-    <property file="${gda.config}/properties/${gda.mode}/new_i20-1_java.properties" />
+    <property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
+    <property file="${gda.config}/properties/_common/common_instance_java.properties" />
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Name>Finest</Name>
+        <Marker>FINEST</Marker>
+        <OnMatch>DENY</OnMatch>
+    </turboFilter>
 
     <!-- include file is relative to the application directory -->
 
@@ -14,6 +20,12 @@
         <Port>${gda.server.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d %-5level [%property{HOSTNAME}/%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m %n %ex</pattern>
+        </layout>
     </appender>
 
 </included>

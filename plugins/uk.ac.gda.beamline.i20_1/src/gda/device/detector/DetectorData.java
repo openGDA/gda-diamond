@@ -18,13 +18,15 @@
 
 package gda.device.detector;
 
+import java.io.Serializable;
+
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
-public class DetectorData extends ObservableModel {
+public class DetectorData extends ObservableModel implements Serializable{
 	private Integer[] excludedPixels = new Integer[]{}; //list of dead pixel locations
-	private int lowerChannel; // lower bound for ROI
-	private int upperChannel; //Upper bound for ROI
+	private int lowerChannel; // lower bound for ROI in energy
+	private int upperChannel; //Upper bound for ROI in energy
 
 	public static final String ROIS_PROP_NAME = "rois";
 	private Roi[] rois;

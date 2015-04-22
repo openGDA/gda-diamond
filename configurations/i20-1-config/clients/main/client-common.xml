@@ -64,17 +64,7 @@
 		<property name="service" ref="plot_server" />
 	</bean>	
 
-	<bean id="xh" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xh" />
-		<property name="serviceInterface" value="gda.device.detector.XCHIPDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
 
-	<bean id="xstrip" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xstrip" />
-		<property name="serviceInterface" value="gda.device.detector.XCHIPDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
 
 	<import resource="file:${gda.config}/clients/main/AlignmentPerspectiveCompositeFactories.xml" />
 

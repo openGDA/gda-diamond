@@ -21,7 +21,9 @@ package uk.ac.gda.exafs.alignment.ui;
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
-import gda.device.detector.xstrip.StripDetector;
+import gda.device.detector.EdeDetector;
+import gda.factory.Findable;
+import gda.factory.Finder;
 import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
@@ -48,7 +50,9 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -63,6 +67,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
@@ -194,10 +200,27 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		cmbDetectorType.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object element) {
-				return ((StripDetector) element).getName();
+				return ((EdeDetector) element).getName();
 			}
 		});
 		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cmbDetectorType.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				// TODO Auto-generated method stub
+				if (event!=null && !event.getSelection().isEmpty()) {
+					String text = cmbDetectorType.getCombo().getText();
+					Findable detector = Finder.getInstance().find(text);
+					if (detector != null && detector instanceof EdeDetector) {
+						EdeDetector ededetector = (EdeDetector) detector;
+						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+						IViewPart view = page.findView(DetectorLiveModeView.ID);
+						((DetectorLiveModeView)view).update(ededetector);
+					}
+				}
+			}
+		});
 		toolkit.paintBordersFor(detectorConfigComposite);
 
 		butDetectorSetup = toolkit.createButton(detectorConfigComposite, "Setup", SWT.FLAT);

@@ -21,7 +21,7 @@ package gda.scan;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
-import gda.device.detector.EdeDetectorBase;
+import gda.device.detector.EdeDetector;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -64,7 +64,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	private final boolean shouldWaitForTopup;
 
 	public EdeScanWithTFGTrigger(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			EdeDetectorBase theDetector, Integer repetitionNumber, Scannable shutter, boolean shouldWaitForTopup) {
+			EdeDetector theDetector, Integer repetitionNumber, Scannable shutter, boolean shouldWaitForTopup) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter, null);
 
 		this.triggeringParameters = triggeringParameters;

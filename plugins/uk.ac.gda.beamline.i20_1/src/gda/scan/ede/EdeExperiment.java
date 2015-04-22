@@ -26,7 +26,7 @@ import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
-import gda.device.detector.EdeDetectorBase;
+import gda.device.detector.EdeDetector;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -97,7 +97,7 @@ public abstract class EdeExperiment implements IObserver {
 	protected boolean runItWithTriggerOptions = true; // default for linear/cyclic experiments
 
 	protected Scannable beamLightShutter;
-	protected EdeDetectorBase theDetector;
+	protected EdeDetector theDetector;
 	protected EdeScan i0DarkScan;
 	protected EdeScan itDarkScan;
 	protected EdeScan i0LightScan;
@@ -273,6 +273,12 @@ public abstract class EdeExperiment implements IObserver {
 		} catch(Exception e) {
 			logger.error("Error running experiment", e);
 			throw e;
+		} finally {
+			if (beamLightShutter!= null) {
+				logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
+				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
+				beamLightShutter.moveTo("Close");
+			}
 		}
 	}
 
@@ -284,13 +290,13 @@ public abstract class EdeExperiment implements IObserver {
 
 	private String addToMultiScanAndRun() throws Exception {
 		try {
-			addMetaData();
 			ScanPlotSettings plotNothing = new ScanPlotSettings();
 			plotNothing.setUnlistedColumnBehaviour(ScanPlotSettings.IGNORE);
 			plotNothing.setYAxesShown(new String[]{});
 			plotNothing.setYAxesNotShown(new String[]{});
 
 			XasAsciiNexusDataWriter dataWriter = new XasAsciiNexusDataWriter();
+			addMetaData(dataWriter);
 
 			String template = fileNamePrefix.isEmpty() ? "ascii/" + "%d.dat" : "ascii/" + fileNamePrefix + "_%d.dat";
 			dataWriter.setAsciiFileNameTemplate(template);
@@ -348,7 +354,7 @@ public abstract class EdeExperiment implements IObserver {
 		return getTimeRequiredBeforeItCollection() + getTimeRequiredForItCollection() + getTimeRequiredAfterItCollection();
 	}
 
-	private void addMetaData() {
+	private void addMetaData(XasAsciiNexusDataWriter dataWriter) {
 		StringBuilder metadataText = new StringBuilder();
 		// Alignment parameters
 		Object result = InterfaceProvider.getJythonNamespace()
@@ -359,6 +365,10 @@ public abstract class EdeExperiment implements IObserver {
 		metadataText.append(getHeaderText());
 		if (!sampleDetails.isEmpty()) {
 			metadataText.append("\nSample details: " + sampleDetails + "\n");
+
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add(sampleDetails);
+			dataWriter.setDescriptions(arrayList);
 		}
 		NexusFileMetadata metadata = new NexusFileMetadata(theDetector.getName() + "_settings", metadataText.toString(),
 				EntryTypes.NXinstrument, NXinstrumentSubTypes.NXdetector, theDetector.getName() + "_settings");

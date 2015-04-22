@@ -21,7 +21,8 @@ package gda.device.detector.xstrip;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorStatus;
-import gda.device.detector.NexusDetector;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.Roi;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**
@@ -35,7 +36,7 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  * The detector is in charge of its own timing for the experiment. The timing information is supplied by a
  * EdeScanParameters object.
  */
-public interface StripDetector extends NexusDetector {
+public interface StripDetector extends EdeDetector {
 
 	public static final String CALIBRATION_PROP_KEY = "calibration";
 
@@ -43,7 +44,7 @@ public interface StripDetector extends NexusDetector {
 	 * Set up the time frames as defined by the supplied object.
 	 * <p>
 	 * The time frames are started by the start method.
-	 * 
+	 *
 	 * @param newParameters
 	 * @throws DeviceException
 	 */
@@ -51,21 +52,21 @@ public interface StripDetector extends NexusDetector {
 
 	/**
 	 * Reload the last scan as defined by the last call to loadParameters;
-	 * 
+	 *
 	 * @throws DeviceException
 	 */
 	public void loadTemplateParameters() throws DeviceException;
 
 	/**
 	 * Return the scan that would be run by the next call to collectData or start, or that is underway.
-	 * 
+	 *
 	 * @return EdeScanParameters
 	 */
 	public EdeScanParameters getLoadedParameters();
 
 	/**
 	 * Start the time frame sequence supplied by the last call of loadParameters().
-	 * 
+	 *
 	 * @throws DeviceException
 	 */
 	public void start() throws DeviceException;
@@ -85,21 +86,21 @@ public interface StripDetector extends NexusDetector {
 
 	/**
 	 * Returns the regions in use, as defined by calls to setRois or setNumberRois
-	 * 
+	 *
 	 * @return the array of regions
 	 */
-	public XhRoi[] getRois();
+	public Roi[] getRois();
 
 	/**
 	 * Ignoring the lower and upper channel properties, explicitly set the regions in use.
-	 * 
+	 *
 	 * @param rois
 	 */
-	public void setRois(XhRoi[] rois);
+	public void setRois(Roi[] rois);
 
 	/**
 	 * Set evenly sized regions of interest, ignoring channels outside of the lower and upper channel limits.
-	 * 
+	 *
 	 * @param numberOfRois
 	 */
 	public void setNumberRois(int numberOfRois);
@@ -115,7 +116,7 @@ public interface StripDetector extends NexusDetector {
 	/**
 	 * Sets the bias voltage. If the given value is 0.0 then the bias will be switched off. If non-zero then the bias
 	 * will be swicthed on if necessary and then applied.
-	 * 
+	 *
 	 * @throws DeviceException
 	 */
 	public void setBias(Double biasVoltage) throws DeviceException;
@@ -141,7 +142,7 @@ public interface StripDetector extends NexusDetector {
 	 * The numbers of the strips which should be excluded when returning the data and creating region totals.
 	 * <p>
 	 * NB: these strips are still to be accounted for by the set/getChannelBiases methods.
-	 * 
+	 *
 	 * @param excludedStrips
 	 * @throws DeviceException
 	 */
@@ -157,21 +158,21 @@ public interface StripDetector extends NexusDetector {
 
 	/**
 	 * Send the software trigger continue command.
-	 * 
+	 *
 	 * @throws DeviceException
 	 */
 	public void fireSoftTrig() throws DeviceException;
 
 	/**
 	 * Connect to the underlying hardware. These detectors do not connect to the hardware during their configure().
-	 * 
+	 *
 	 * @throws DeviceException
 	 */
 	public void connect() throws DeviceException;
 
 	/**
 	 * Disconnect to the underlying hardware
-	 * 
+	 *
 	 * @throws DeviceException
 	 */
 	public void disconnect() throws DeviceException;
@@ -184,7 +185,7 @@ public interface StripDetector extends NexusDetector {
 	/**
 	 * Returns the function used to convert channel number to energy. If not calibrated it should return a simple y = x
 	 * function.
-	 * 
+	 *
 	 * @return PolynomialFunction
 	 * @throws DeviceException
 	 */
@@ -192,7 +193,7 @@ public interface StripDetector extends NexusDetector {
 
 	/**
 	 * Set the energy calibration. The detector object should persist this between GDA server restarts.
-	 * 
+	 *
 	 * @param calibrationDetails
 	 * @throws DeviceException
 	 */
