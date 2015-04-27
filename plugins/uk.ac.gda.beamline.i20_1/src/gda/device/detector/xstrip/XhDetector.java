@@ -26,6 +26,7 @@ import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -79,11 +80,13 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 	// must be in configuration info
 	private String templateFileName;
+	private final XhDetectorTemperature detectorTemp;
 
 	public XhDetector() {
 		super();
 		// defaults which will be updated when number of sectors changed
 		inputNames = new String[] { "time" };
+		detectorTemp=new XhDetectorTemperature(daServer, "xh_temperatures");
 	}
 
 
@@ -621,7 +624,28 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 
 	@Override
-	protected void createDetectorDataFromJson(String property) {
-		detectorData=GSON.fromJson(property, XhDetectorData.class);
+	protected DetectorData createDetectorDataFromJson(String property) {
+		return GSON.fromJson(property, XhDetectorData.class);
 	}
+
+
+	@Override
+	public void synchronizWithDetectorData() {
+		// TODO Auto-generated method stub
+		//No-op
+	}
+
+
+	@Override
+	public EdeDetector getDetectorInstance() {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
+	@Override
+	public HashMap<String, Double> getTemperatures() throws DeviceException {
+		return detectorTemp.getTemperatures();
+	}
+
 }

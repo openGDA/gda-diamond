@@ -21,6 +21,8 @@ package gda.device.detector;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 
+import java.util.HashMap;
+
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -36,8 +38,9 @@ public interface EdeDetector extends NexusDetector {
 	public abstract double[] getEnergyForChannels();
 
 	public abstract Integer[] getPixels();
-
+	public abstract EdeDetector getDetectorInstance();
 	public abstract DetectorData getDetectorData();
+	public abstract HashMap<String, Double> getTemperatures() throws DeviceException;
 
 	public abstract DetectorStatus fetchStatus() throws DeviceException;
 
@@ -46,5 +49,9 @@ public interface EdeDetector extends NexusDetector {
 	public abstract int getMaxPixel();
 
 	public abstract void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException;
+	/**
+	 * to pull detector setting from detector server to synchronise the {@link DetectorData} object
+	 */
+	void synchronizWithDetectorData();
 
 }

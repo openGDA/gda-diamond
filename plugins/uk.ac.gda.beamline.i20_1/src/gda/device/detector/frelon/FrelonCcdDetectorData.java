@@ -29,7 +29,6 @@ import gda.device.lima.LimaCCD;
 import gda.device.lima.LimaCCD.AccTimeMode;
 import gda.device.lima.LimaCCD.AcqMode;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
-import gda.device.lima.LimaROIInt;
 import gda.device.lima.impl.LimaROIIntImpl;
 
 import java.util.Arrays;
@@ -47,14 +46,14 @@ import com.google.gson.Gson;
  */
 public class FrelonCcdDetectorData extends DetectorData {
 	public static final int MAX_PIXEL = 2048;
-	public static final int VERTICAL_BIN_SIZE_LIMIT = 2048;
+	public static final int VERTICAL_BIN_SIZE_LIMIT = 1024;
 	public static final int HORIZONRAL_BIN_SIZE_LIMIT = 8;
 	//Frelon parameters
 	private ImageMode imageMode=ImageMode.FULL_FRAME;
 	private InputChannels inputChannel=InputChannels.I3_4;
 	private boolean ev2CorrectionActive=false;
 	private ROIMode roiMode=ROIMode.KINETIC;
-	private int yStartPixel = 0; //CCD line begin in Frelon GUI, or roi_bin_offset in line
+	private int yStartPixel = 1927; //CCD line begin in Frelon GUI, or roi_bin_offset in line
 	private SPB2Config spb2Config=SPB2Config.SPEED; //hardware pixel rate configuration: Speed or Precision
 	// Lima parameters
 	private int hotizontalBinValue=1; // 1, 2, 4, 8.
@@ -66,7 +65,9 @@ public class FrelonCcdDetectorData extends DetectorData {
 	private double exposureTime=1.0;
 	private double accumulationMaximumExposureTime=0.1;
 	private AccTimeMode accumulationTimeMode=AccTimeMode.LIVE;
-	private LimaROIInt areaOfInterest=new LimaROIIntImpl(0, 0, 2048, 2048); // in units of binning sizes in x and y directions
+	// a hack below to using concrete class not interface LimaROTInt as Gson does not support interface without extra work on InstanceCreator.
+	//TODO register an InstanceCreator in Gson gson = new GsonBuilder().registerTypeAdapter(Animal.class, new InterfaceAdapter<Animal>()).create();
+	private LimaROIIntImpl areaOfInterest=new LimaROIIntImpl(0, 0, 2048, 2048); // in units of binning sizes in x and y directions
 
 	//Frelon attriutes
 	public ImageMode getImageMode() {
@@ -196,7 +197,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	 * These data will be used to set to camera's image_roi attribute.
 	 * @return ROI
 	 */
-	public LimaROIInt getAreaOfInterest() {
+	public LimaROIIntImpl getAreaOfInterest() {
 		return areaOfInterest;
 	}
 	/**
@@ -204,7 +205,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	 * These data will be send to camera's image_roi attribute before acquisition
 	 * @param areaOfInterest
 	 */
-	public void setAreaOfInterest(LimaROIInt areaOfInterest) {
+	public void setAreaOfInterest(LimaROIIntImpl areaOfInterest) {
 		// set the limits for ROI in energy direction
 		setLowerChannel(areaOfInterest.getBeginX());
 		setUpperChannel(areaOfInterest.getLengthX()+areaOfInterest.getBeginX());

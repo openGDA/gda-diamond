@@ -31,7 +31,7 @@ public class DetectorData extends ObservableModel implements Serializable{
 	public static final String ROIS_PROP_NAME = "rois";
 	private Roi[] rois;
 
-	private CalibrationDetails energyCalibration;
+	private CalibrationDetails energyCalibration=null;
 
 	public int getLowerChannel() {
 		return lowerChannel;
@@ -60,7 +60,7 @@ public class DetectorData extends ObservableModel implements Serializable{
 	}
 
 	public boolean isEnergyCalibrationSet() {
-		return energyCalibration == null;
+		return energyCalibration != null;
 	}
 
 	public Integer[] getExcludedPixels() {

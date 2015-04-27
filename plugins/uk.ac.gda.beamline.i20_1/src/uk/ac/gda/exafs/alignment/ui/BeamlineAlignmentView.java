@@ -67,8 +67,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
@@ -164,11 +162,35 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			bindFiltersForPowerCalculation();
 			bindModelWithUI();
 			updatePower();
+			initialiseUI();
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create motor controls", e.getMessage());
 			logger.error("Unable to create motor controls", e);
 		}
 
+	}
+
+
+	private void initialiseUI() {
+		cmbDetectorType.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector()));
+		cmbDetectorType.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event!=null && !event.getSelection().isEmpty()) {
+					String text = cmbDetectorType.getCCombo().getText();
+					Findable detector = Finder.getInstance().find(text);
+					if (detector != null && detector instanceof EdeDetector) {
+						EdeDetector ededetector = (EdeDetector) detector;
+						DetectorModel.INSTANCE.setCurrentDetector(ededetector);
+						// TODO why frelon settings not update
+						//IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+						//IViewPart view = page.findView(DetectorLiveModeView.ID);
+						//((DetectorLiveModeView)view).update(ededetector);
+					}
+				}
+			}
+		});
 	}
 
 
@@ -204,23 +226,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			}
 		});
 		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		cmbDetectorType.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				// TODO Auto-generated method stub
-				if (event!=null && !event.getSelection().isEmpty()) {
-					String text = cmbDetectorType.getCombo().getText();
-					Findable detector = Finder.getInstance().find(text);
-					if (detector != null && detector instanceof EdeDetector) {
-						EdeDetector ededetector = (EdeDetector) detector;
-						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-						IViewPart view = page.findView(DetectorLiveModeView.ID);
-						((DetectorLiveModeView)view).update(ededetector);
-					}
-				}
-			}
-		});
 		toolkit.paintBordersFor(detectorConfigComposite);
 
 		butDetectorSetup = toolkit.createButton(detectorConfigComposite, "Setup", SWT.FLAT);

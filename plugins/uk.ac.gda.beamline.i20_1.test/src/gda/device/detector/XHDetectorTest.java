@@ -50,6 +50,7 @@ public class XHDetectorTest {
 		daserver = new DummyXStripDAServer();
 
 		xh = new XhDetector();
+		xh.setName("xh");
 		xh.setDaServer(daserver);
 		xh.setDetectorName("xh0");
 		xh.configure();

@@ -23,18 +23,24 @@ import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorData;
 import gda.device.detector.DetectorStatus;
+import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
 import gda.device.frelon.Frelon;
-import gda.device.frelon.Frelon.ROIMode;
+import gda.device.lima.LimaBin;
 import gda.device.lima.LimaCCD;
 import gda.device.lima.LimaCCD.AcqMode;
 import gda.device.lima.LimaCCD.AcqStatus;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.lima.LimaCCD.ImageType;
+import gda.device.lima.impl.LimaROIIntImpl;
 import gda.factory.FactoryException;
+
+import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class EdeFrelon extends EdeDetectorBase {
 
@@ -59,10 +65,12 @@ public class EdeFrelon extends EdeDetectorBase {
 
 	public EdeFrelon() {
 		super();
+		inputNames = new String[] {};
 	}
 
 	public EdeFrelon(Frelon frelon, LimaCCD limaCcd) {
 		super();
+		inputNames = new String[] {};
 		this.setFrelon(frelon);
 		this.setLimaCcd(limaCcd);
 	}
@@ -82,15 +90,102 @@ public class EdeFrelon extends EdeDetectorBase {
 	}
 
 	@Override
+	public void synchronizWithDetectorData() {
+		detectorData=getDetectorData();
+		LimaBin imageBin;
+		try {
+			imageBin = limaCcd.getImageBin();
+			((FrelonCcdDetectorData)detectorData).setHotizontalBinValue((int) imageBin.getBinX());
+			((FrelonCcdDetectorData)detectorData).setVerticalBinValue((int) imageBin.getBinY());
+		} catch (DevFailed e) {
+			logger.error("Fail to get Lima ccd image_bin.", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setAccumulationMaximumExposureTime(limaCcd.getAccMaxExpoTime());
+		} catch (DevFailed e) {
+			logger.error("Fail to get lima ccd acc_max_expotime", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setAccumulationTimeMode(limaCcd.getAccTimeMode());
+		} catch (DevFailed e) {
+			logger.error("Fail to get lima ccd acc_time_mode", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setAcqMode(limaCcd.getAcqMode());
+		} catch (DevFailed e) {
+			logger.error("Fail to get lima ccd acq_mode", e);
+		}
+		try {
+			LimaROIIntImpl imageROIInt = (LimaROIIntImpl) limaCcd.getImageROIInt();
+			((FrelonCcdDetectorData)detectorData).setAreaOfInterest(imageROIInt);
+			((FrelonCcdDetectorData)detectorData).setLowerChannel(imageROIInt.getBeginX());
+			((FrelonCcdDetectorData)detectorData).setUpperChannel(imageROIInt.getLengthX()+imageROIInt.getBeginX());
+			((FrelonCcdDetectorData)detectorData).setNumberRois(detectorData.getRois().length);
+		} catch (DevFailed e) {
+			logger.error("Fail to get lima ccd image_roi", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setEv2CorrectionActive(frelon.isE2VCorrectionActive());
+		} catch (DevFailed e) {
+			logger.error("Fail to get frelon e2v_correction", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setExposureTime(limaCcd.getAcqExpoTime());
+		} catch (DevFailed e) {
+			logger.error("Fail to get lima ccd acq_expo_time", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setImageMode(frelon.getImageMode());
+		} catch (DevFailed e) {
+			logger.error("Fail to get frelon image_mode", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setInputChannel(frelon.getInputChannels());
+		} catch (DevFailed e) {
+			logger.error("Fail to get frelon input_channel", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setLatencyTime(limaCcd.getLatencyTime());
+		} catch (DevFailed e) {
+			logger.error("Fail to get lima ccd latency_time", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setNumberOfImages(limaCcd.getAcqNbFrames());
+		} catch (DevFailed e) {
+			logger.error("Fail to get lima ccd acq_nb_frames", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setRoiBinOffset((int) frelon.getROIBinOffset());
+		} catch (DevFailed e) {
+			logger.error("Fail to get frelon roi_bin_offset", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setRoiMode(frelon.getROIMode());
+		} catch (DevFailed e) {
+			logger.error("Fail to get frelon roi_mode", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setSpb2Config(frelon.getSPB2Config());
+		} catch (DevFailed e) {
+			logger.error("Fail to get frelon spb2_config", e);
+		}
+		try {
+			((FrelonCcdDetectorData)detectorData).setTriggerMode(limaCcd.getAcqTriggerMode());
+		} catch (DevFailed e) {
+			logger.error("Fail to get lima ccd acq_trigger_mode", e);
+		}
+	}
+
+	@Override
 	public synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
 		byte[] byteData = null;
 		int[] intData = null;
+		updateImageProperties();
 		try {
 			int n = 0;
 			int lastImageNumber = -1;
 			if ((lastImageNumber = getLimaCcd().getLastImageReady()) != finalFrame - startFrame) {
-				logger.error("EdeFrelon.readoutFrames: image not ready {} should be {}", lastImageNumber, finalFrame
-						- startFrame);
+				logger.error("EdeFrelon.readoutFrames: image not ready {} should be {}", lastImageNumber, finalFrame - startFrame);
 				throw new DeviceException("EdeFrelon.readoutFrames: image not ready");
 			}
 
@@ -109,6 +204,7 @@ public class EdeFrelon extends EdeDetectorBase {
 					}
 				} else if (imageType == ImageType.BPP16) {
 					if (byteData.length != imageWidth * imageHeight * 2) {
+						logger.warn("byteData length = {}, image width = {}, image height = {}", byteData.length,imageWidth,imageHeight);
 						logger.error("EdeFrelon.readoutFrames: failed: expected {} bytes, got {}", imageWidth
 								* imageHeight * 2, byteData.length);
 						throw new DeviceException("EdeFrelon.readoutFrames: failed to read all the image data");
@@ -150,6 +246,16 @@ public class EdeFrelon extends EdeDetectorBase {
 			logger.error("failed to set exposure time for " + getName(), e);
 			throw new DeviceException("failed to set exposure time for " + getName(), e);
 		}
+	}
+	@Override
+	public double getCollectionTime() throws DeviceException {
+		try {
+			logger.info("Exposure time on detector {} is {}, GDA demand time is {}.", getName(), limaCcd.getAcqExpoTime(), collectionTime);
+		} catch (DevFailed e) {
+			logger.error("Failed to get acq_expo_time from detector.", e);
+			throw new DeviceException(getName(), "Failed to get acq_expo_time from detector.", e);
+		}
+		return super.getCollectionTime();
 	}
 
 	@Override
@@ -240,29 +346,47 @@ public class EdeFrelon extends EdeDetectorBase {
 
 	@Override
 	protected void configureDetectorForCollection() throws DeviceException {
-		// read detector configuration data and send them to detector hardware
 		FrelonCcdDetectorData frelonCcdDetectorData = (FrelonCcdDetectorData) getDetectorData();
-		try {
-			// set the internal config for pixel rate, PRECISION or SPEED.
-			getFrelon().setSPB2Config(frelonCcdDetectorData.getSpb2Config());
-		} catch (DevFailed e1) {
-			logger.error("Failed to set Frelon detector HD_configuration.", e1);
-			throw new DeviceException(getName(), "Fail to set Frelon detector HD_configuration", e1);
+		// the following only handle 1 timing group, because it send to actual detector immediately.
+		for (Integer i = 0; i < currentScanParameter.getGroups().size(); i++) {
+			TimingGroup timingGroup = currentScanParameter.getGroups().get(i);
+			double accumlationTime = timingGroup.getTimePerScan();
+			int numberOfAccumulation = timingGroup.getNumberOfScansPerFrame();
+			double exposureTime = timingGroup.getTimePerFrame();
+			Integer numberOfImages = timingGroup.getNumberOfFrames();
+			frelonCcdDetectorData.setAccumulationMaximumExposureTime(accumlationTime);
+			frelonCcdDetectorData.setNumberOfImages(numberOfImages);
+			if (numberOfAccumulation>1) {
+				frelonCcdDetectorData.setAcqMode(AcqMode.ACCUMULATION);
+				setCollectionTime(accumlationTime*numberOfAccumulation);
+			} else {
+				frelonCcdDetectorData.setAcqMode(AcqMode.SINGLE);
+				setCollectionTime(accumlationTime);
+			}
 		}
-		try {
-			getFrelon().setImageMode(frelonCcdDetectorData.getImageMode());
-		} catch (DevFailed e2) {
-			logger.error("Failed to set Frelon detector image mode", e2);
-			throw new DeviceException(getName(), "Fail to set Frelon detector image mode", e2);
-		}
-		try {
-			getFrelon().setInputChannels(frelonCcdDetectorData.getInputChannel());
-		} catch (DevFailed e2) {
-			logger.error("Failed to set Frelon detector input channel", e2);
-			throw new DeviceException(getName(), "Fail to set Frelon detector input channel", e2);
-		}
+
+		// read detector configuration data and send them to detector hardware
+		//		try {
+		//			// set the internal config for pixel rate, PRECISION or SPEED.
+		//			getFrelon().setSPB2Config(frelonCcdDetectorData.getSpb2Config());
+		//		} catch (DevFailed e1) {
+		//			logger.error("Failed to set Frelon detector HD_configuration.", e1);
+		//			throw new DeviceException(getName(), "Fail to set Frelon detector HD_configuration", e1);
+		//		}
+		//		try {
+		//			getFrelon().setImageMode(frelonCcdDetectorData.getImageMode());
+		//		} catch (DevFailed e2) {
+		//			logger.error("Failed to set Frelon detector image mode", e2);
+		//			throw new DeviceException(getName(), "Fail to set Frelon detector image mode", e2);
+		//		}
+		//		try {
+		//			getFrelon().setInputChannels(frelonCcdDetectorData.getInputChannel());
+		//		} catch (DevFailed e2) {
+		//			logger.error("Failed to set Frelon detector input channel", e2);
+		//			throw new DeviceException(getName(), "Fail to set Frelon detector input channel", e2);
+		//		}
 		// set the bin size for the detector
-		getLimaCcd().setImageBin(frelonCcdDetectorData.getHotizontalBinValue(), frelonCcdDetectorData.getVerticalBinValue());
+		//				getLimaCcd().setImageBin(frelonCcdDetectorData.getHotizontalBinValue(), frelonCcdDetectorData.getVerticalBinValue());
 
 		try {
 			getFrelon().setROIMode(frelonCcdDetectorData.getRoiMode());
@@ -270,26 +394,32 @@ public class EdeFrelon extends EdeDetectorBase {
 			logger.error("Fail to set Frelon detector ROI mode.", e);
 			throw new DeviceException(getName(), "Fail to set Frelon detector ROI mode", e);
 		}
-		try {
-			ROIMode roiMode = getFrelon().getROIMode();
-			if (roiMode != ROIMode.NONE) {
-				// setting the AOI (area of interest) to Frelon detector
-				try {
-					getLimaCcd().setImageROIInt(frelonCcdDetectorData.getAreaOfInterest());
-				} catch (DevFailed e1) {
-					logger.error("Failed to set Lima CCD area of interest for " + roiMode.name() + " ROI.", e1);
-					throw new DeviceException(getName(), "Failed to set Lima CCD area of interest " + roiMode.name()
-							+ " ROI.", e1);
-				}
-			}
-			if (roiMode == ROIMode.KINETIC) {
-				// set roi_bin_offset in pixels vertically or lines
-				getFrelon().setROIBinOffset(frelonCcdDetectorData.getRoiBinOffset());
-			}
-		} catch (DevFailed e) {
-			logger.error("Fail to set Frelon detector ROI bin offset.", e);
-			throw new DeviceException(getName(), "Fail to set Frelon detector ROI bin offset.", e);
-		}
+		//		try {
+		//			ROIMode roiMode = getFrelon().getROIMode();
+		//			if (roiMode != ROIMode.NONE) {
+		//				// setting the AOI (area of interest) to Frelon detector
+		//				try {
+		//					getLimaCcd().setImageROIInt(frelonCcdDetectorData.getAreaOfInterest());
+		//				} catch (DevFailed e1) {
+		//					logger.error("Failed to set Lima CCD area of interest for " + roiMode.name() + " ROI.", e1);
+		//					throw new DeviceException(getName(), "Failed to set Lima CCD area of interest for " + roiMode.name()
+		//							+ " ROI.", e1);
+		//				}
+		//			}
+		//TODO commented out because this method call fails to send to device attribute.
+		//			if (roiMode == ROIMode.KINETIC) {
+		//				try {
+		//					// set roi_bin_offset in pixels vertically or lines
+		//					getFrelon().setROIBinOffset(frelonCcdDetectorData.getRoiBinOffset());
+		//				} catch (DevFailed e) {
+		//					logger.error("Fail to set Frelon detector ROI bin offset.", e);
+		//					throw new DeviceException(getName(), "Fail to set Frelon detector ROI bin offset.", e);
+		//				}
+		//			}
+		//	} catch (DevFailed e) {
+		//		logger.error("Fail to get Frelon detector ROI bin offset.", e);
+		//		throw new DeviceException(getName(), "Fail to get Frelon detector ROI bin offset.", e);
+		//	}
 		updateImageProperties();
 		try {
 			getLimaCcd().setAcqMode(frelonCcdDetectorData.getAcqMode());
@@ -321,7 +451,7 @@ public class EdeFrelon extends EdeDetectorBase {
 					getLimaCcd().setAccMaxExpoTime(frelonCcdDetectorData.getAccumulationMaximumExposureTime());
 				} catch (DevFailed e) {
 					logger.error("Failed to set LimaCcd acc_max_expotime", e);
-					throw new DeviceException(getName(), "Fail to set LimaCcd acc_max_expotime.", e);
+					throw new DeviceException(getName(), "Fail to set LimaCcd acc_max_expo_time.", e);
 				}
 			}
 		} catch (DevFailed e) {
@@ -379,8 +509,8 @@ public class EdeFrelon extends EdeDetectorBase {
 		return status;
 	}
 	@Override
-	protected void createDetectorDataFromJson(String property) {
-		detectorData = GSON.fromJson(property, FrelonCcdDetectorData.class);
+	protected DetectorData createDetectorDataFromJson(String property) {
+		return GSON.fromJson(property, FrelonCcdDetectorData.class);
 	}
 
 	@Override
@@ -467,6 +597,23 @@ public class EdeFrelon extends EdeDetectorBase {
 
 	public void setFrelon(Frelon frelon) {
 		this.frelon = frelon;
+	}
+
+	@Override
+	public EdeDetector getDetectorInstance() {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public HashMap<String, Double> getTemperatures() throws DeviceException {
+		//TODO impelement frelon temperatures access
+		HashMap<String, Double> dummytemps=new HashMap<String, Double>(4);
+		dummytemps.put("CCDTEMP", -15.0);
+		dummytemps.put("PELTCUR", 2.07);
+		dummytemps.put("CCDPRES", 750.0);
+		dummytemps.put("PCBTEMP", 41.0);
+		return dummytemps;
 	}
 
 

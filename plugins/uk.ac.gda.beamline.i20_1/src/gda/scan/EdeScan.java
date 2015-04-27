@@ -20,11 +20,13 @@ package gda.scan;
 
 import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 import gda.data.nexus.tree.NexusTreeProvider;
+import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.xstrip.DetectorScanDataUtils;
+import gda.device.detector.xstrip.XhDetector;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TopupChecker;
@@ -35,6 +37,7 @@ import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdeScanPosition;
+import gda.util.Sleep;
 
 import java.util.List;
 import java.util.Vector;
@@ -207,20 +210,27 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		Integer nextFrameToRead = 0;
 		try {
 			DetectorStatus progressData = fetchStatusAndWait();
-			Integer currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
-			while (!collectionFinished(progressData)) {
-				// Review here we assume currentFrame - 1 is ready to read
-				if (currentFrame > nextFrameToRead) {
-					createDataPoints(nextFrameToRead, currentFrame - 1);
-					nextFrameToRead = currentFrame;
+			if (theDetector instanceof XhDetector) {
+				Integer currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
+				while (!collectionFinished(progressData)) {
+					// Review here we assume currentFrame - 1 is ready to read
+					if (currentFrame > nextFrameToRead) {
+						createDataPoints(nextFrameToRead, currentFrame - 1);
+						nextFrameToRead = currentFrame;
+					}
+					Thread.sleep(100);
+					waitIfPaused();
+					if (isFinishEarlyRequested()){
+						return;
+					}
+					progressData = fetchStatusAndWait();
+					currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
 				}
-				Thread.sleep(100);
-				waitIfPaused();
-				if (isFinishEarlyRequested()){
-					return;
+			} else {
+				while (theDetector.isBusy()) {
+					Sleep.sleep(10);
 				}
-				progressData = fetchStatusAndWait();
-				currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
+				createDataPoints(0, 0);
 			}
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
@@ -229,7 +239,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			throw e;
 		} finally {
 			// have we read all the frames?
-			readoutRestOfFrames(nextFrameToRead);
+			if (theDetector instanceof XhDetector) {
+				readoutRestOfFrames(nextFrameToRead);
+			}
 		}
 	}
 
@@ -251,7 +263,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private DetectorStatus fetchStatusAndWait() throws DeviceException, InterruptedException {
 		DetectorStatus progressData = theDetector.fetchStatus();
 		boolean sendMessage = true;
-		while (progressData.getDetectorStatus() == EdeDetector.PAUSED) {
+		while (progressData.getDetectorStatus() == Detector.PAUSED ) {
 			Thread.sleep(1000);
 			waitIfPaused();
 			if (sendMessage) {
