@@ -62,7 +62,7 @@ binpointMcaTime     = WaveformChannelScannable('binpointMcaTime',     binpointc,
 binpointCustom1     = WaveformChannelScannable('binpointCustom1',     binpointc, 'CUSTOM1:');             binpointCustom1.setHardwareTriggerProvider(cemc);     binpointCustom1.verbose=True
 binpointCustom2     = WaveformChannelScannable('binpointCustom2',     binpointc, 'CUSTOM2:');             binpointCustom2.setHardwareTriggerProvider(cemc);     binpointCustom2.verbose=True
 
-cemc_g = ContinuousPgmGratingEnergyMoveController(                   'cemc_g',  pgm_grat_pitch, pgm_m2_pitch);                                                           cemc_g.verbose=True
+cemc_g = ContinuousPgmGratingEnergyMoveController(                   'cemc_g',  pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:');                                       cemc_g.verbose=True
 
 mcsr17_g            = WaveformChannelScannable('mcsr17_g',            mcsrc,     18);                          mcsr17_g.setHardwareTriggerProvider(cemc_g);            mcsr17_g.verbose=True
 binpointGrtPitch_g  = WaveformChannelScannable('binpointGrtPitch_g',  binpointc, 'GRT:PITCH:');      binpointGrtPitch_g.setHardwareTriggerProvider(cemc_g);  binpointGrtPitch_g.verbose=True
