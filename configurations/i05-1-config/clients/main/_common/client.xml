@@ -16,7 +16,7 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<corba:import namespace="i05" names="plot_server" />
+	<corba:import namespace="i05-1" names="plot_server" />
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
@@ -44,10 +44,4 @@
 		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	
-
-
-	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties" />
-
-	<gda:rbac />
 </beans>

@@ -2,7 +2,7 @@
 #For beamline specific initialisation code.
 #
 print "===================================================================";
-print "Performing beamline specific initialisation code (i05).";
+print "Performing beamline specific initialisation code (i05-1).";
 print
 
 print "Importing generic features...";
@@ -72,6 +72,6 @@ import pathscanTable as pst
 
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
-   print "Running i05 scripts."
+   print "Running i05-1 scripts."
    run "beamline/master.py"
 print "==================================================================="

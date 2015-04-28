@@ -12,11 +12,6 @@
         http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-        <!-- <bean id="webcam9_cam_config" class="uk.ac.gda.video.views.CameraParameters">
-                <property name="name" value="Webcam 9"/>
-                <property name="mjpegURL" value="http://i05-webcam9.diamond.ac.uk/mjpg/video.mjpg" />
-        </bean>
-        -->
         <bean id="scienta_cam_config" class="uk.ac.gda.video.views.CameraParameters">
                 <property name="name" value="Scienta Camera"/>
                 <property name="mjpegURL" value="http://diamrd2336.diamond.ac.uk:8080/CCD.MJPEG.mjpg" />
@@ -45,10 +40,7 @@
                 <property name="service" ref="camera_config" />
         </bean>
         
-        <bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-        <!--  host should better be autodiscovered -->
-          <!--       <property name="serviceUrl"
-                        value="rmi://i05-control.diamond.ac.uk/gda/commandQueueProcessor" /> -->           
+        <bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> 
                 <property name="serviceUrl"
                         value="rmi://localhost/gda/commandQueueProcessor" />
                 <property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
