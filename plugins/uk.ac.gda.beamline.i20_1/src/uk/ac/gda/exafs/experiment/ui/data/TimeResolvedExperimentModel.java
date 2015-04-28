@@ -238,9 +238,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
 			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());
-			timingGroup.setUseExernalTrigger(loadedGroup.isUseExernalTrigger());
-			timingGroup.setExernalTriggerAvailable(loadedGroup.isExernalTriggerAvailable());
-			timingGroup.setExernalTriggerInputLemoNumber(loadedGroup.getExernalTriggerInputLemoNumber());
+			timingGroup.setUseExternalTrigger(loadedGroup.isUseExternalTrigger());
+			timingGroup.setExternalTriggerAvailable(loadedGroup.isExternalTriggerAvailable());
+			timingGroup.setExternalTriggerInputLemoNumber(loadedGroup.getExternalTriggerInputLemoNumber());
 			double delay = 0.0;
 			if (loadedGroup.getDelay() > 0) {
 				delay = loadedGroup.getDelay();
@@ -299,8 +299,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
 		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
-		newGroup.setExernalTriggerAvailable(true);
-		newGroup.setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers.ZERO);
+		newGroup.setExternalTriggerAvailable(true);
+		newGroup.setExternalTriggerInputLemoNumber(InputTriggerLemoNumbers.ZERO);
 		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
@@ -491,7 +491,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							// integration time is always in milli sec
 							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
-							timingGroup.setGroupTrig(uiTimingGroup.isUseExernalTrigger());
+							timingGroup.setGroupTrig(uiTimingGroup.isUseExternalTrigger());
 							// Set up lemo outs
 							setupLemoOuts(timingGroup);
 							timingGroups.add(timingGroup);
@@ -603,9 +603,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			if (i > 0) {
 				TimingGroupUIModel previous = (TimingGroupUIModel) groupList.get(i-1);
 				startTime = previous.getEndTime();
-				group.setExernalTriggerAvailable(false);
+				group.setExternalTriggerAvailable(false);
 			} else {
-				group.setExernalTriggerAvailable(true);
+				group.setExternalTriggerAvailable(true);
 			}
 			group.setName("Group " + i);
 			group.resetInitialTime(startTime, groupDuration, 0.0, groupDuration);

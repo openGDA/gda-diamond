@@ -40,6 +40,7 @@ public interface EdeDetector extends NexusDetector {
 	public abstract Integer[] getPixels();
 	public abstract EdeDetector getDetectorInstance();
 	public abstract DetectorData getDetectorData();
+	public abstract int getNumberOfSpectra() throws DeviceException;
 	public abstract HashMap<String, Double> getTemperatures() throws DeviceException;
 
 	public abstract DetectorStatus fetchStatus() throws DeviceException;
@@ -48,10 +49,12 @@ public interface EdeDetector extends NexusDetector {
 
 	public abstract int getMaxPixel();
 
-	public abstract void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException;
+	public abstract void prepareDetectorwithScanParameters(EdeScanParameters newParameters, boolean liveView) throws DeviceException;
 	/**
 	 * to pull detector setting from detector server to synchronise the {@link DetectorData} object
 	 */
 	void synchronizWithDetectorData();
+
+	//	void saveDetectorData(DetectorData dd);
 
 }

@@ -209,7 +209,7 @@ public abstract class EdeExperiment implements IObserver {
 			} else {
 				newGroup.setNumberOfScansPerFrame(commonNumberOfAccumulcations);
 			}
-			newGroup.setTimePerFrame(itGroup.getTimePerFrame());
+			newGroup.setTimePerFrame(accumulationTime*newGroup.getNumberOfScansPerFrame());
 			newGroup.setDelayBetweenFrames(0);
 			parameters.addGroup(newGroup);
 		}
@@ -274,6 +274,7 @@ public abstract class EdeExperiment implements IObserver {
 			logger.error("Error running experiment", e);
 			throw e;
 		} finally {
+			theDetector.stop();
 			if (beamLightShutter!= null) {
 				logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
 				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
@@ -335,7 +336,7 @@ public abstract class EdeExperiment implements IObserver {
 		try {
 			writer = createFileWritter();
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
-			writer.writeDataFile();
+			writer.writeDataFile(theDetector);
 			logToJythonTerminal("Scan data written to file.");
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {

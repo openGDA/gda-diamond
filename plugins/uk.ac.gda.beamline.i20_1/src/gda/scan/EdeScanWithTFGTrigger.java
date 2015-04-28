@@ -22,6 +22,8 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.frelon.EdeFrelon;
+import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -63,6 +65,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	private final TFGTrigger triggeringParameters;
 	private final boolean shouldWaitForTopup;
 
+
 	public EdeScanWithTFGTrigger(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
 			EdeDetector theDetector, Integer repetitionNumber, Scannable shutter, boolean shouldWaitForTopup) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter, null);
@@ -75,9 +78,11 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	@Override
 	public void doCollection() throws Exception {
 		// load the detector parameters
+		int numberOfRepititionsDone=0;
 		validate();
 		logger.debug(toString() + " loading detector parameters...");
-		theDetector.prepareDetectorwithScanParameters(scanParameters);
+		theDetector.prepareDetectorwithScanParameters(scanParameters, false);
+		triggeringParameters.setDetector(theDetector);
 		// derive the eTFG parameters and load them
 		prepareTFG(shouldWaitForTopup);
 		// move into the it position
@@ -87,15 +92,34 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		logger.debug(toString() + " starting detector running...");
 		InterfaceProvider.getTerminalPrinter().print(
 				"Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
-		theDetector.collectData();
+		if (theDetector.getName().equalsIgnoreCase("frelon")) {
+			EdeFrelon detector=((EdeFrelon)theDetector);
+			AcqTriggerMode acqTriggerMode = detector.getLimaCcd().getAcqTriggerMode();
+			detector.getLimaCcd().setAcqTriggerMode(AcqTriggerMode.EXTERNAL_TRIGGER);
+			while (numberOfRepititionsDone<scanParameters.getNumberOfRepetitions()) {
+				theDetector.collectData();
 
-		// start the eTFG running
-		startTFG();
+				// start the eTFG running
+				startTFG();
 
-		// poll to get progress
-		Thread.sleep(500);
+				// poll to get progress
+				Thread.sleep(500);
 
-		pollDetectorAndFetchData();
+				pollDetectorAndFetchData();
+				numberOfRepititionsDone++;
+			}
+			detector.getLimaCcd().setAcqTriggerMode(acqTriggerMode);
+		} else {
+			theDetector.collectData();
+
+			// start the eTFG running
+			startTFG();
+
+			// poll to get progress
+			Thread.sleep(500);
+
+			pollDetectorAndFetchData();
+		}
 		logger.debug(toString() + " doCollection finished.");
 	}
 

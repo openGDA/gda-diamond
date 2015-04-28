@@ -25,13 +25,9 @@ import gda.device.detector.EdeDetector;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
-import gda.device.frelon.Frelon.ROIMode;
-import gda.device.frelon.Frelon.SPB2Config;
 import gda.device.lima.LimaCCD.AccTimeMode;
 import gda.device.lima.LimaCCD.AcqMode;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
-import gda.device.lima.LimaROIInt;
-import gda.device.lima.impl.LimaROIIntImpl;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
@@ -118,6 +114,8 @@ public class XHControlComposite extends Composite implements IObserver {
 	private ToolItem configDetector;
 
 	private FrelonCcdDetectorData detectorData;
+
+	private boolean firstTime;
 
 	//	private static StripDetector getDetector(){
 	//		return DetectorModel.INSTANCE.getCurrentDetector();
@@ -382,6 +380,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			@Override
 			public void handleEvent(Event event) {
 				try {
+					firstTime=true;
 					collectAndPlotSnapshot(false, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
 				} catch (DeviceException | InterruptedException e) {
 					UIHelper.showError("Unable to collect data", e.getMessage());
@@ -396,6 +395,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			@Override
 			public void handleEvent(Event event) {
 				try {
+					firstTime=true;
 					collectAndPlotSnapshot(true, detectorControlModel.getSnapshotIntegrationTime(), detectorControlModel.getNumberOfAccumulations(), detectorControlModel.getSnapshotIntegrationTime() + "ms Snapshot");
 				} catch (DeviceException | InterruptedException e) {
 					UIHelper.showError("Unable to collect data", e.getMessage());
@@ -470,6 +470,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		start.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
+				firstTime=true;
 				startCollectingRates();
 			}
 		});
@@ -492,45 +493,34 @@ public class XHControlComposite extends Composite implements IObserver {
 	}
 
 
-	private void collectData(Double collectionPeriod, int numberScans, Integer scansPerFrame) throws DeviceException, InterruptedException {
+	private void collectData(Double collectionPeriod, int numberOfFrames, Integer scansPerFrame) throws DeviceException, InterruptedException {
 		EdeScanParameters simpleParams = new EdeScanParameters();
 		// collect data from XHDetector and send the spectrum to local Plot 1 window
 		simpleParams.setIncludeCountsOutsideROIs(true);
 		TimingGroup group1 = new TimingGroup();
 		group1.setDelayBetweenFrames(0);
 		group1.setLabel("group1");
-		group1.setNumberOfFrames(numberScans);
-		if (scansPerFrame > 0) {
-			group1.setNumberOfScansPerFrame(scansPerFrame);
-			group1.setTimePerScan(new Double(collectionPeriod) / 1000);
-		} else {
-			group1.setTimePerFrame(new Double(collectionPeriod) / 1000);
+		group1.setNumberOfFrames(numberOfFrames);
+		group1.setNumberOfScansPerFrame(scansPerFrame);
+		group1.setTimePerScan(collectionPeriod/1000);
+		group1.setTimePerFrame(collectionPeriod/1000*scansPerFrame);
+		if (firstTime) {
+			if (detector instanceof EdeFrelon) {
+				detectorData = (FrelonCcdDetectorData) detector.getDetectorData();
+				detectorData.setTriggerMode(AcqTriggerMode.INTERNAL_TRIGGER);
+				if (continueLiveLoop) {
+					// live
+					detectorData.setAcqMode(AcqMode.SINGLE);
+					// detectorData.setExposureTime(collectionPeriod);
+				} else { // snapshot
+					detectorData.setAcqMode(AcqMode.ACCUMULATION);
+					detectorData.setAccumulationTimeMode(AccTimeMode.LIVE);
+				}
+			}
+			firstTime=false;
 		}
 		simpleParams.addGroup(group1);
-
-		if (detector instanceof EdeFrelon) {
-			detectorData=(FrelonCcdDetectorData) detector.getDetectorData();
-			detectorData.setSpb2Config(SPB2Config.SPEED);
-			//			detectorData.setNumberOfImages(scansPerFrame);
-			detectorData.setTriggerMode(AcqTriggerMode.INTERNAL_TRIGGER);
-			if (continueLiveLoop) {
-				//live
-				detectorData.setAcqMode(AcqMode.SINGLE);
-				//				detectorData.setExposureTime(collectionPeriod);
-			} else { //snapshot
-				detectorData.setAcqMode(AcqMode.ACCUMULATION);
-				detectorData.setAccumulationMaximumExposureTime(detectorControlModel.getSnapshotIntegrationTime());
-				group1.setTimePerFrame(detectorControlModel.getSnapshotIntegrationTime()*collectionPeriod/1000);
-				detectorData.setAccumulationTimeMode(AccTimeMode.LIVE);
-			}
-			detectorData.setHotizontalBinValue(1);
-			detectorData.setVerticalBinValue(detectorControlModel.getVerticalBinning());
-			detectorData.setRoiBinOffset(detectorControlModel.getCcdLineBegin());
-			detectorData.setRoiMode(ROIMode.KINETIC);
-			LimaROIInt areaOfInterest = detectorData.getAreaOfInterest();
-			detectorData.setAreaOfInterest(new LimaROIIntImpl(areaOfInterest.getBeginX(),0, areaOfInterest.getLengthX(), 1));
-		}
-		detector.prepareDetectorwithScanParameters(simpleParams);
+		detector.prepareDetectorwithScanParameters(simpleParams, true);
 		detector.collectData();
 		detector.waitWhileBusy();
 	}
@@ -554,14 +544,20 @@ public class XHControlComposite extends Composite implements IObserver {
 		NXDetectorData readout = (NXDetectorData) detector.readout();
 		final NexusGroupData ydata = readout.getData(detector.getName(), EdeDataConstants.DATA_COLUMN_NAME, NexusExtractor.SDSClassName);
 		final double[] counts=(double[]) ydata.getBuffer();
-		final NexusGroupData xdata=readout.getData(detector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, NexusExtractor.SDSClassName);
-		final double[] energies=(double[]) xdata.getBuffer();
+		//Note: scientist wanted the live mode always plot in pixels not energy.
+		//		final NexusGroupData xdata=readout.getData(detector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, NexusExtractor.SDSClassName);
+		//		final double[] energies=(double[]) xdata.getBuffer();
+		Integer[] pixels = detector.getPixels();
+		final double[] xdata=new double[pixels.length];
+		for (int i=0; i<pixels.length; i++) {
+			xdata[i]=pixels[i].doubleValue();
+		}
 
 		if (counts != null) {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					updatePlotWithData(title, new DoubleDataset(energies, null), new DoubleDataset(counts, null));
+					updatePlotWithData(title, new DoubleDataset(xdata, null), new DoubleDataset(counts, null));
 				}
 			});
 		} else {

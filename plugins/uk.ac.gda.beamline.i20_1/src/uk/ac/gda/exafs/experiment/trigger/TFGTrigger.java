@@ -18,6 +18,9 @@
 
 package uk.ac.gda.exafs.experiment.trigger;
 
+import gda.device.Detector;
+import gda.jython.InterfaceProvider;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
@@ -48,6 +51,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	private static final double MIN_DEAD_TIME = 0.000001;
 	private static final double MIN_LIVE_TIME = 0.000001;
+	private Detector detector;
 
 	@Expose
 	private final List<TriggerableObject> sampleEnvironment = new ArrayList<TriggerableObject>(MAX_PORTS_FOR_SAMPLE_ENV);
@@ -116,6 +120,13 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	// num_repeats sequence_name
 	// This repeats the pre-recorded sequence num_repeats times.
 	public String getTfgSetupGrupsCommandParameters(int numberOfCycles, boolean shouldStartOnTopupSignal) {
+		if (detector.getName().equalsIgnoreCase("frelon")) {
+			//1st sample environment trigger - no waiting
+			//			tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", thisPoint.length, detectorDataCollection.getTriggerOutputPort().getUsrPort() + thisPoint.port));
+			String tfgCommand=InterfaceProvider.getCommandRunner().evaluateCommand("getCommands4ExternalTFG()");
+			return tfgCommand.toString();
+		}
+		// using TFG setup GUI for XH detector
 		StringBuilder tfgCommand = new StringBuilder();
 		List<TriggerPair> triggerPoints = processTimes(); //ensure there is at least one trigger point at time start point (0.0d,0,0)
 		Collections.sort(triggerPoints);
@@ -126,6 +137,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		}
 		tfgCommand.append("\n");
 		if (shouldStartOnTopupSignal) {
+			//ttl0 - TTL Trigger LEMO0 is used for waiting topup signal
 			tfgCommand.append(String.format("1 %f 0 0 0 8 0\n", MIN_DEAD_TIME));
 		}
 		double iTcollectionEndTime = detectorDataCollection.getTotalDelay();
@@ -136,6 +148,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		boolean itCollectionAdded = false;
 		boolean beginningFramesAdded=false;
 		int totalnumberFramesSoFar=0;
+
 		for (int i = 0; i < triggerPoints.size(); i++) {
 			//process trigger points added by external triggers
 			if (i + 1 < triggerPoints.size()) {
@@ -148,8 +161,10 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 						//wait frame before collection starts
 						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", (iTcollectionStartTime - thisPoint.time), thisPoint.port));
 					}
+
 					//sample environment trigger
 					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", thisPoint.length, detectorDataCollection.getTriggerOutputPort().getUsrPort() + thisPoint.port));
+
 					int numberOfFramesBetweenAdjacentPoints=0;
 					if (!beginningFramesAdded) {
 						numberOfFramesBetweenAdjacentPoints=(int) ((nextPoint.time-iTcollectionStartTime)/singleFrameTime);
@@ -350,6 +365,14 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	public void updateTotalTime() {
 		firePropertyChange(TOTAL_TIME_PROP_NAME, null, getTotalTime());
+	}
+
+	public Detector getDetector() {
+		return detector;
+	}
+
+	public void setDetector(Detector detector) {
+		this.detector = detector;
 	}
 
 }

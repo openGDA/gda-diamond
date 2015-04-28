@@ -39,7 +39,7 @@ public class CalibrationDetails extends ObservableModel implements Serializable 
 
 	public static final String CALIBRATION_RESULT_PROP_NAME = "calibrationResult";
 	@Expose
-	private PolynomialFunction calibrationResult;
+	private PolynomialFunction calibrationResult = new PolynomialFunction(new double[] {0,2048});
 
 	public static final String REFERENCE_RANGE_START_PROP_NAME = "refRanceStart";
 	@Expose

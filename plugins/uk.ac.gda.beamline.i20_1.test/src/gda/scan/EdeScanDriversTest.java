@@ -23,6 +23,7 @@ import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.XhDetector;
+import gda.device.detector.xstrip.XhDetectorData;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
@@ -68,6 +69,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 		xh = new XhDetector();
 		xh.setDaServer(daserver);
 		xh.setName("xh");
+		xh.setDetectorData(new XhDetectorData());
 		xh.setDetectorName("xh0");
 		xh.configure();
 

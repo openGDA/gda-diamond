@@ -18,8 +18,8 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.device.detector.DetectorData;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.IDetectorData;
 import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
@@ -82,8 +82,8 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	 * This method creates more than one ascii file. The filename it returns is for the It data.
 	 */
 	@Override
-	public String writeDataFile() throws Exception {
-		validateData();
+	public String writeDataFile(EdeDetector detector) throws Exception {
+		validateData(detector);
 		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusfileName);
 
 		// Writing out meta data
@@ -101,10 +101,11 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 			scannablesConfiguration = scannablesConfiguration + "# Number of cycles: " + itScans.length + "\n";
 		}
 		String energyCalibration = null;
-		DetectorData detectorData = itScans[0].getDetector().getDetectorData();
+		IDetectorData detectorData = itScans[0].getDetector().getDetectorData();
 		if (detectorData.isEnergyCalibrationSet()) {
 			energyCalibration = detectorData.getEnergyCalibration().toString();
 		}
+		timeResolvedNexusFileHelper.setDetectorName4Node(itScans[0].getDetector().getName());
 		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);
 
 		timeResolvedNexusFileHelper.updateWithNormalisedData(true);
@@ -112,7 +113,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		return itFilename;
 	}
 
-	private void validateData() throws Exception {
+	private void validateData(EdeDetector detector) throws Exception {
 		List<ScanDataPoint> i0DarkData = i0DarkScan.getData();
 		List<ScanDataPoint> i0LightData = i0InitialLightScan.getData();
 		List<ScanDataPoint> i0FinalData = i0FinalLightScan.getData();

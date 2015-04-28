@@ -97,6 +97,11 @@ public class TimeResolvedDataFileHelper {
 	private DoubleDataset iReffCorrecteddata = null;
 	private DoubleDataset iReffNormalisedData = null;
 	private DoubleDataset iRefiNormalisedData = null;
+	private String detectorName4Node;
+
+	public String getDetectorName4Node() {
+		return detectorName4Node;
+	}
 
 	public TimeResolvedDataFileHelper(String nexusfileName) {
 		this.nexusfileName = nexusfileName;
@@ -509,7 +514,7 @@ public class TimeResolvedDataFileHelper {
 
 	// FIXME
 	private String getDetectorNodeName() {
-		return "xstrip";
+		return getDetectorName4Node();
 	}
 
 	private static class Index {
@@ -558,52 +563,89 @@ public class TimeResolvedDataFileHelper {
 
 		int frameIndex = -1;
 
+		boolean i0dark_first_skipped = false;
+		boolean itdark_first_skipped = false;
+		boolean iRefdark_first_skipped = false;
+		boolean i0iLight_first_skipped=false;
+		boolean i0fLight_first_skipped=false;
+		boolean itLight_first_skipped=false;
+		boolean iRefiLight_first_skipped=false;
+		boolean iReffLight_first_skipped=false;
+		boolean i0ForIRefLight_first_skipped=false;
+		boolean skip1stframe=false;
+
 		for (int i = 0; i < rawDataset.getShape()[0]; i++) {
+			logger.info("Raw Dataset number: {}; Scan Type (0:DARK, 1:LIGHT): {}; Position Type (0:OUTBEAM, 1:INBEAM, 2:OUTBEAM_REFERENCE, 3:REFERENCE): {}.",i,beamInOutDataset.get(i), itDataset.get(i));
 			if (beamInOutDataset.get(i) == EdeScanType.DARK.getValue()) {
 				if (itDataset.get(i) == EdePositionType.OUTBEAM.getValue()) { // I0
-					if (i0darkDataSetIndex == null) {
-						i0darkDataSetIndex = new Index(i);
+					if ( skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !i0dark_first_skipped) {
+						i0dark_first_skipped = true;
 					} else {
-						i0darkDataSetIndex.end = i;
+						if (i0darkDataSetIndex == null) {
+							i0darkDataSetIndex = new Index(i);
+						} else {
+							i0darkDataSetIndex.end = i;
+						}
 					}
 				} else if (itDataset.get(i) == EdePositionType.INBEAM.getValue()) { // It
-					if (itDarkDataSetIndex == null) {
-						itDarkDataSetIndex = new Index(i);
+					if (skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !itdark_first_skipped) {
+						itdark_first_skipped = true;
 					} else {
-						itDarkDataSetIndex.end = i;
+						if (itDarkDataSetIndex == null) {
+							itDarkDataSetIndex = new Index(i);
+						} else {
+							itDarkDataSetIndex.end = i;
+						}
 					}
 				} else { // For EdePositionType.REFERENCE IRef
-					if (iRefdarkDataSetIndex == null) { // I0 light is collected, so it is IRefDark
-						iRefdarkDataSetIndex = new Index(i);
+					if (skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !iRefdark_first_skipped) {
+						iRefdark_first_skipped = true;
 					} else {
-						iRefdarkDataSetIndex.end = i;
+						if (iRefdarkDataSetIndex == null) { // I0 light is collected, so it is IRefDark
+							iRefdarkDataSetIndex = new Index(i);
+						} else {
+							iRefdarkDataSetIndex.end = i;
+						}
 					}
 				}
 			} else { // For EdeScanType.LIGHT
 				if (itDataset.get(i) == EdePositionType.OUTBEAM.getValue()) {
 					if (itRawDataSetIndex == null) {
-						if (i0iDataSetIndex == null) { // Must be before i, so it is I0Initial
-							i0iDataSetIndex = new Index(i);
+						if (skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !i0iLight_first_skipped) {
+							i0iLight_first_skipped = true;
 						} else {
-							i0iDataSetIndex.end = i;
+							if (i0iDataSetIndex == null) { // Must be before i, so it is I0Initial
+								i0iDataSetIndex = new Index(i);
+							} else {
+								i0iDataSetIndex.end = i;
+							}
 						}
 					} else {
-						if (i0fDataSetIndex == null) { // Must be after it now, so it is I0final
-							i0fDataSetIndex = new Index(i);
+						if (skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !i0fLight_first_skipped) {
+							i0fLight_first_skipped = true;
 						} else {
-							i0fDataSetIndex.end = i;
+							if (i0fDataSetIndex == null) { // Must be after it now, so it is I0final
+								i0fDataSetIndex = new Index(i);
+							} else {
+								i0fDataSetIndex.end = i;
+							}
 						}
 					}
 				} else if (itDataset.get(i) == EdePositionType.INBEAM.getValue()) {
-					if (itRawDataSetIndex == null) {
-						itRawDataSetIndex = new Index(i);
+					if (skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !itLight_first_skipped) {
+						itLight_first_skipped = true;
 					} else {
-						itRawDataSetIndex.end = i;
+						if (itRawDataSetIndex == null) {
+							itRawDataSetIndex = new Index(i);
+						} else {
+							itRawDataSetIndex.end = i;
+						}
 					}
 					if (cycleDataset.get(i) > cycleIndexValue) {
 						cycleIndexValue = cycleDataset.get(i);
 						cycleCount++;
 					}
+
 					// TODO Refactor to make it clear
 					// Deriving number of timingGroups and number of spectrum per group using i0iDataSet,
 					// assuming the there is one spectrum per group was collected for I0,
@@ -620,26 +662,38 @@ public class TimeResolvedDataFileHelper {
 							timingGroups[frameIndex] = (int) frameDataset.get(i) + 1;
 						}
 					}
+
 				} else if (itDataset.get(i) == EdePositionType.REFERENCE.getValue()) {
 					if (itRawDataSetIndex == null) {
-						if (iRefidataSetIndex == null) {
-							iRefidataSetIndex = new Index(i);
+						if (skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !iRefiLight_first_skipped) {
+							iRefiLight_first_skipped = true;
 						} else {
-							iRefidataSetIndex.end = i;
+							if (iRefidataSetIndex == null) {
+								iRefidataSetIndex = new Index(i);
+							} else {
+								iRefidataSetIndex.end = i;
+							}
 						}
 					} else {
-						if (iReffdataSetIndex == null) {
-							iReffdataSetIndex = new Index(i);
+						if (skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !iReffLight_first_skipped) {
+							iReffLight_first_skipped = true;
 						} else {
-							iReffdataSetIndex.end = i;
+							if (iReffdataSetIndex == null) {
+								iReffdataSetIndex = new Index(i);
+							} else {
+								iReffdataSetIndex.end = i;
+							}
 						}
-
 					}
 				} else if (itDataset.get(i) == EdePositionType.OUTBEAM_REFERENCE.getValue()) {
-					if (i0ForIRefDataSetIndex == null) {
-						i0ForIRefDataSetIndex = new Index(i);
+					if (skip1stframe && getDetectorName4Node().equalsIgnoreCase("frelon") && !i0ForIRefLight_first_skipped) {
+						i0ForIRefLight_first_skipped = true;
 					} else {
-						i0ForIRefDataSetIndex.end = i;
+						if (i0ForIRefDataSetIndex == null) {
+							i0ForIRefDataSetIndex = new Index(i);
+						} else {
+							i0ForIRefDataSetIndex.end = i;
+						}
 					}
 				}
 			}
@@ -925,5 +979,10 @@ public class TimeResolvedDataFileHelper {
 		finally {
 			file.close();
 		}
+	}
+
+	public void setDetectorName4Node(String name) {
+		detectorName4Node=name;
+
 	}
 }

@@ -34,15 +34,17 @@ import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.lima.LimaCCD.ImageType;
 import gda.device.lima.impl.LimaROIIntImpl;
 import gda.factory.FactoryException;
+import gda.observable.IObserver;
 
 import java.util.HashMap;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-public class EdeFrelon extends EdeDetectorBase {
+public class EdeFrelon extends EdeDetectorBase implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeFrelon.class);
 	private static final double PIXEL_RATE=10.0; // MPixel/s per channel
@@ -64,12 +66,10 @@ public class EdeFrelon extends EdeDetectorBase {
 	private ImageType imageType;
 
 	public EdeFrelon() {
-		super();
 		inputNames = new String[] {};
 	}
 
 	public EdeFrelon(Frelon frelon, LimaCCD limaCcd) {
-		super();
 		inputNames = new String[] {};
 		this.setFrelon(frelon);
 		this.setLimaCcd(limaCcd);
@@ -85,92 +85,93 @@ public class EdeFrelon extends EdeDetectorBase {
 				logger.error("Failed to get Image properties from the detector "+getName(), e);
 				throw new FactoryException(e.getMessage(), e);
 			}
+			detectorData.addIObserver(this);
 			setConfigured(true);
 		}
 	}
 
 	@Override
 	public void synchronizWithDetectorData() {
-		detectorData=getDetectorData();
+		setDetectorData(getDetectorData());
 		LimaBin imageBin;
 		try {
 			imageBin = limaCcd.getImageBin();
-			((FrelonCcdDetectorData)detectorData).setHotizontalBinValue((int) imageBin.getBinX());
-			((FrelonCcdDetectorData)detectorData).setVerticalBinValue((int) imageBin.getBinY());
+			((FrelonCcdDetectorData)getDetectorData()).setHotizontalBinValue((int) imageBin.getBinX());
+			((FrelonCcdDetectorData)getDetectorData()).setVerticalBinValue((int) imageBin.getBinY());
 		} catch (DevFailed e) {
 			logger.error("Fail to get Lima ccd image_bin.", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setAccumulationMaximumExposureTime(limaCcd.getAccMaxExpoTime());
+			((FrelonCcdDetectorData)getDetectorData()).setAccumulationMaximumExposureTime(limaCcd.getAccMaxExpoTime());
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd acc_max_expotime", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setAccumulationTimeMode(limaCcd.getAccTimeMode());
+			((FrelonCcdDetectorData)getDetectorData()).setAccumulationTimeMode(limaCcd.getAccTimeMode());
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd acc_time_mode", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setAcqMode(limaCcd.getAcqMode());
+			((FrelonCcdDetectorData)getDetectorData()).setAcqMode(limaCcd.getAcqMode());
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd acq_mode", e);
 		}
 		try {
 			LimaROIIntImpl imageROIInt = (LimaROIIntImpl) limaCcd.getImageROIInt();
-			((FrelonCcdDetectorData)detectorData).setAreaOfInterest(imageROIInt);
-			((FrelonCcdDetectorData)detectorData).setLowerChannel(imageROIInt.getBeginX());
-			((FrelonCcdDetectorData)detectorData).setUpperChannel(imageROIInt.getLengthX()+imageROIInt.getBeginX());
-			((FrelonCcdDetectorData)detectorData).setNumberRois(detectorData.getRois().length);
+			((FrelonCcdDetectorData)getDetectorData()).setAreaOfInterest(imageROIInt);
+			((FrelonCcdDetectorData)getDetectorData()).setLowerChannel(imageROIInt.getBeginX());
+			((FrelonCcdDetectorData)getDetectorData()).setUpperChannel(imageROIInt.getLengthX()+imageROIInt.getBeginX());
+			((FrelonCcdDetectorData)getDetectorData()).setNumberRois(getDetectorData().getRois().length);
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd image_roi", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setEv2CorrectionActive(frelon.isE2VCorrectionActive());
+			((FrelonCcdDetectorData)getDetectorData()).setEv2CorrectionActive(frelon.isE2VCorrectionActive());
 		} catch (DevFailed e) {
 			logger.error("Fail to get frelon e2v_correction", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setExposureTime(limaCcd.getAcqExpoTime());
+			((FrelonCcdDetectorData)getDetectorData()).setExposureTime(limaCcd.getAcqExpoTime());
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd acq_expo_time", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setImageMode(frelon.getImageMode());
+			((FrelonCcdDetectorData)getDetectorData()).setImageMode(frelon.getImageMode());
 		} catch (DevFailed e) {
 			logger.error("Fail to get frelon image_mode", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setInputChannel(frelon.getInputChannels());
+			((FrelonCcdDetectorData)getDetectorData()).setInputChannel(frelon.getInputChannels());
 		} catch (DevFailed e) {
 			logger.error("Fail to get frelon input_channel", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setLatencyTime(limaCcd.getLatencyTime());
+			((FrelonCcdDetectorData)getDetectorData()).setLatencyTime(limaCcd.getLatencyTime());
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd latency_time", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setNumberOfImages(limaCcd.getAcqNbFrames());
+			((FrelonCcdDetectorData)getDetectorData()).setNumberOfImages(limaCcd.getAcqNbFrames());
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd acq_nb_frames", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setRoiBinOffset((int) frelon.getROIBinOffset());
+			((FrelonCcdDetectorData)getDetectorData()).setRoiBinOffset((int) frelon.getROIBinOffset());
 		} catch (DevFailed e) {
 			logger.error("Fail to get frelon roi_bin_offset", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setRoiMode(frelon.getROIMode());
+			((FrelonCcdDetectorData)getDetectorData()).setRoiMode(frelon.getROIMode());
 		} catch (DevFailed e) {
 			logger.error("Fail to get frelon roi_mode", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setSpb2Config(frelon.getSPB2Config());
+			((FrelonCcdDetectorData)getDetectorData()).setSpb2Config(frelon.getSPB2Config());
 		} catch (DevFailed e) {
 			logger.error("Fail to get frelon spb2_config", e);
 		}
 		try {
-			((FrelonCcdDetectorData)detectorData).setTriggerMode(limaCcd.getAcqTriggerMode());
+			((FrelonCcdDetectorData)getDetectorData()).setTriggerMode(limaCcd.getAcqTriggerMode());
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd acq_trigger_mode", e);
 		}
@@ -184,12 +185,13 @@ public class EdeFrelon extends EdeDetectorBase {
 		try {
 			int n = 0;
 			int lastImageNumber = -1;
-			if ((lastImageNumber = getLimaCcd().getLastImageReady()) != finalFrame - startFrame) {
+			if ((lastImageNumber = getLimaCcd().getLastImageReady()) != finalFrame - startFrame+1) {
 				logger.error("EdeFrelon.readoutFrames: image not ready {} should be {}", lastImageNumber, finalFrame - startFrame);
 				throw new DeviceException("EdeFrelon.readoutFrames: image not ready");
 			}
 
 			intData = new int[(int) (imageWidth * imageHeight * (finalFrame - startFrame + 1))];
+			//			byteData= getLimaCcd().getImage(0); //read and dump the 1st frame which frequently crap
 			for (int i = startFrame; i <= finalFrame; i++) {
 				byteData = getLimaCcd().getImage(i);
 				if (imageType == ImageType.BPP32S) {
@@ -222,6 +224,17 @@ public class EdeFrelon extends EdeDetectorBase {
 			logger.error("EdeFrelon.readoutFrames: failed {}", e.errors[0].desc);
 			throw new DeviceException("EdeFrelon.readoutFrames: failed " + e.errors[0].desc);
 		}
+
+		int[] single = new int[FrelonCcdDetectorData.MAX_PIXEL];
+		for (int i = 0; i < (finalFrame - startFrame + 1); i++) {
+			System.arraycopy(intData, FrelonCcdDetectorData.MAX_PIXEL*i, single, 0, FrelonCcdDetectorData.MAX_PIXEL);
+			ArrayUtils.reverse(single);
+			System.arraycopy(single, 0, intData, FrelonCcdDetectorData.MAX_PIXEL*i, FrelonCcdDetectorData.MAX_PIXEL);
+		}
+
+		//		ArrayUtils.reverse(intData);
+
+		//		logger.info("int array size {}", intData.length);
 		return intData;
 	}
 
@@ -302,6 +315,7 @@ public class EdeFrelon extends EdeDetectorBase {
 	@Override
 	public int getNumberScansInFrame(double expoTime, double accTime, int numberOfImages) throws DeviceException {
 		// TODO Query the detector to find out how many accumulations that can fit
+		int accNbFrames=-1;
 		try {
 			getLimaCcd().setAcqExpoTime(expoTime);
 		} catch (DevFailed e) {
@@ -310,42 +324,44 @@ public class EdeFrelon extends EdeDetectorBase {
 		}
 
 		try {
-			if (getLimaCcd().getAcqMode()==AcqMode.ACCUMULATION) {
-				try {
-					getLimaCcd().setAccTimeMode(((FrelonCcdDetectorData)getDetectorData()).getAccumulationTimeMode());
-				} catch (DevFailed e) {
-					logger.error("Failed to set LimaCcd acc_time_mode", e);
-					throw new DeviceException(getName(), "Fail to set LimaCcd acc_time_mode.", e);
-				}
-				try {
-					getLimaCcd().setAccMaxExpoTime(accTime);
-				} catch (DevFailed e) {
-					logger.error("Failed to set LimaCcd acc_max_expotime", e);
-					throw new DeviceException(getName(), "Fail to set LimaCcd acc_max_expotime.", e);
-				}
-				try {
-					// prepare the camera for a new acquisition, have to be called each time a parameter is set.
-					getLimaCcd().prepareAcq();
-				} catch (DevFailed e) {
-					logger.error("Call to limaCcd.prepareAcq() failed", e);
-					throw new DeviceException(getName(), "Call to limaCcd.prepareAcq() failed.", e);
-				}
-				try {
-					return getLimaCcd().getAccNbFrames();
-				} catch (DevFailed e) {
-					logger.error("Failed to get LimaCcd acc_nb_frames", e);
-					throw new DeviceException(getName(), "Fail to set LimaCcd acc_nb_frames.", e);
-				}
+			AcqMode acqMode = getLimaCcd().getAcqMode();
+			getLimaCcd().setAcqMode(AcqMode.ACCUMULATION);
+			try {
+				getLimaCcd().setAccTimeMode(((FrelonCcdDetectorData)getDetectorData()).getAccumulationTimeMode());
+			} catch (DevFailed e) {
+				logger.error("Failed to set LimaCcd acc_time_mode", e);
+				throw new DeviceException(getName(), "Fail to set LimaCcd acc_time_mode.", e);
 			}
+			try {
+				getLimaCcd().setAccMaxExpoTime(accTime);
+			} catch (DevFailed e) {
+				logger.error("Failed to set LimaCcd acc_max_expotime", e);
+				throw new DeviceException(getName(), "Fail to set LimaCcd acc_max_expotime.", e);
+			}
+			try {
+				// prepare the camera for a new acquisition, have to be called each time a parameter is set.
+				getLimaCcd().prepareAcq();
+			} catch (DevFailed e) {
+				logger.error("Call to limaCcd.prepareAcq() failed", e);
+				throw new DeviceException(getName(), "Call to limaCcd.prepareAcq() failed.", e);
+			}
+			try {
+				accNbFrames = getLimaCcd().getAccNbFrames();
+				logger.info("Number of accumulations returned from {} is {}.", getName(), accNbFrames);
+			} catch (DevFailed e) {
+				logger.error("Failed to get LimaCcd acc_nb_frames", e);
+				throw new DeviceException(getName(), "Fail to set LimaCcd acc_nb_frames.", e);
+			}
+			getLimaCcd().setAcqMode(acqMode);
 		} catch (DevFailed e) {
 			logger.error("Failed to get LimaCcd acq_mode", e);
 			throw new DeviceException(getName(), "Fail to get LimaCcd acq_mode.", e);
 		}
-		return 1;
+		return accNbFrames;
 	}
 
 	@Override
-	protected void configureDetectorForCollection() throws DeviceException {
+	protected void configureDetectorForCollection(boolean liveView) throws DeviceException {
 		FrelonCcdDetectorData frelonCcdDetectorData = (FrelonCcdDetectorData) getDetectorData();
 		// the following only handle 1 timing group, because it send to actual detector immediately.
 		for (Integer i = 0; i < currentScanParameter.getGroups().size(); i++) {
@@ -354,10 +370,16 @@ public class EdeFrelon extends EdeDetectorBase {
 			int numberOfAccumulation = timingGroup.getNumberOfScansPerFrame();
 			double exposureTime = timingGroup.getTimePerFrame();
 			Integer numberOfImages = timingGroup.getNumberOfFrames();
-			frelonCcdDetectorData.setAccumulationMaximumExposureTime(accumlationTime);
+			//			if (!liveView) {
+			if (numberOfImages < 2) {
+				//collect minimum 2 spectrum as the 1st one sometime crap.
+				numberOfImages = 2;
+			}
+			//			}
 			frelonCcdDetectorData.setNumberOfImages(numberOfImages);
 			if (numberOfAccumulation>1) {
 				frelonCcdDetectorData.setAcqMode(AcqMode.ACCUMULATION);
+				frelonCcdDetectorData.setAccumulationMaximumExposureTime(accumlationTime);
 				setCollectionTime(accumlationTime*numberOfAccumulation);
 			} else {
 				frelonCcdDetectorData.setAcqMode(AcqMode.SINGLE);
@@ -615,6 +637,38 @@ public class EdeFrelon extends EdeDetectorBase {
 		dummytemps.put("PCBTEMP", 41.0);
 		return dummytemps;
 	}
+
+	@Override
+	public int getNumberOfSpectra() throws DeviceException {
+		try {
+			return limaCcd.getAcqNbFrames();
+		} catch (DevFailed e) {
+			logger.error("Failed to get acq_nb_frames from detector "+getName(), e);
+			throw new DeviceException(getName(),"Failed to get acq_nb_frames from detector ", e);
+		}
+	}
+
+	@Override
+	public void update(Object source, Object arg) {
+		if (source instanceof DetectorData) {
+			this.notifyIObservers(this, arg);
+		}
+
+	}
+	//	@Override
+	//	protected int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
+	//
+	//		int[][] unpacked = new int[numFrames-1][getMaxPixel()];
+	//		int iterator = getMaxPixel(); // dump the 1st frame which frequently crap from frelon detector
+	//
+	//		for (int frame = 0; frame < numFrames-1; frame++) {
+	//			for (int datum = 0; datum < getMaxPixel(); datum++) {
+	//				unpacked[frame][datum] = scalerData[iterator];
+	//				iterator++;
+	//			}
+	//		}
+	//		return unpacked;
+	//	}
 
 
 }

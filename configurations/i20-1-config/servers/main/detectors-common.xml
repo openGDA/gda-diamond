@@ -3,9 +3,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean id="xhDetectorData" class="gda.device.detector.xstrip.XhDetectorData">
+		<property name="upperChannel" value="1023"/>
+		<property name="lowerChannel" value="0"/>
+	</bean>
 	<bean id="xh" class="gda.device.detector.xstrip.XhDetector">
 		<property name="detectorName" value="xh0"/>
 		<property name="daServer" ref="DAServer"/>
+		<property name="detectorData" ref="xhDetectorData"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
 	</bean>
 
@@ -13,6 +18,7 @@
 	<bean id="xstrip" class="gda.device.detector.xstrip.XhDetector">
 		<property name="detectorName" value="xh0"/>
 		<property name="daServer" ref="DAServer"/>
+		<property name="detectorData" ref="xhDetectorData"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
 	</bean>
 
@@ -24,6 +30,12 @@
 		<property name="xh" ref="xstrip"/>
 	</bean>
 
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xhDetectorData" />
+		<property name="service" ref="xhDetectorData" />
+		<property name="serviceInterface" value="gda.device.detector.IDetectorData" />
+	</bean>
+	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xh" />
 		<property name="service" ref="xh" />

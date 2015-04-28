@@ -23,6 +23,7 @@ import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.XhDetector;
+import gda.device.detector.xstrip.XhDetectorData;
 import gda.factory.FactoryException;
 import gda.util.TestUtils;
 
@@ -53,6 +54,7 @@ public class XHDetectorTest {
 		xh.setName("xh");
 		xh.setDaServer(daserver);
 		xh.setDetectorName("xh0");
+		xh.setDetectorData(new XhDetectorData());
 		xh.configure();
 	}
 
@@ -70,7 +72,7 @@ public class XHDetectorTest {
 		group1.setTimePerFrame(1);
 		scan.addGroup(group1);
 
-		xh.prepareDetectorwithScanParameters(scan);
+		xh.prepareDetectorwithScanParameters(scan,false);
 
 		String[] commands = daserver.getRecievedCommands();
 
@@ -102,7 +104,7 @@ public class XHDetectorTest {
 		group2.setPreceedingTimeDelay(60);
 		scan.addGroup(group2);
 
-		xh.prepareDetectorwithScanParameters(scan);
+		xh.prepareDetectorwithScanParameters(scan, false);
 
 		String[] commands = daserver.getRecievedCommands();
 
@@ -128,7 +130,7 @@ public class XHDetectorTest {
 		group1.setGroupTrigLemo(5);
 		scan.addGroup(group1);
 
-		xh.prepareDetectorwithScanParameters(scan);
+		xh.prepareDetectorwithScanParameters(scan,false);
 
 		String[] commands = daserver.getRecievedCommands();
 
@@ -154,7 +156,7 @@ public class XHDetectorTest {
 		group1.setGroupTrigRisingEdge(false);
 		scan.addGroup(group1);
 
-		xh.prepareDetectorwithScanParameters(scan);
+		xh.prepareDetectorwithScanParameters(scan,false);
 
 		String[] commands = daserver.getRecievedCommands();
 
@@ -180,7 +182,7 @@ public class XHDetectorTest {
 		group1.setOutLemo0(true);
 		scan.addGroup(group1);
 
-		xh.prepareDetectorwithScanParameters(scan);
+		xh.prepareDetectorwithScanParameters(scan, false);
 
 		String[] commands = daserver.getRecievedCommands();
 
@@ -207,7 +209,7 @@ public class XHDetectorTest {
 		group1.setOutLemo0(true);
 		scan.addGroup(group1);
 
-		xh.prepareDetectorwithScanParameters(scan);
+		xh.prepareDetectorwithScanParameters(scan,false);
 
 		String[] commands = daserver.getRecievedCommands();
 
@@ -236,7 +238,7 @@ public class XHDetectorTest {
 		group1.setGroupTrigLemo(5);
 		scan.addGroup(group1);
 
-		xh.prepareDetectorwithScanParameters(scan);
+		xh.prepareDetectorwithScanParameters(scan,false);
 
 		String[] commands = daserver.getRecievedCommands();
 

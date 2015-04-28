@@ -272,7 +272,7 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	@Override
-	protected void configureDetectorForCollection() throws DeviceException {
+	protected void configureDetectorForCollection(boolean liveView) throws DeviceException {
 		// read nextScan attribute and convert into daserver commands...
 
 		addOutSignals();
@@ -565,7 +565,7 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	public void setBias(Double biasVoltage) throws DeviceException {
-		XhDetectorData xhDetectorData = (XhDetectorData) detectorData;
+		XhDetectorData xhDetectorData = (XhDetectorData) getDetectorData();
 		if (biasVoltage < xhDetectorData.getMinBias() | biasVoltage > xhDetectorData.getMaxBias()) {
 			throw new DeviceException("Bias voltage of " + biasVoltage + " is unacceptable.");
 		}
@@ -646,6 +646,20 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	@Override
 	public HashMap<String, Double> getTemperatures() throws DeviceException {
 		return detectorTemp.getTemperatures();
+	}
+
+
+	@Override
+	public int getNumberOfSpectra() throws DeviceException {
+		Integer numFrames=0;
+		for (Integer i = 0; i < currentScanParameter.getGroups().size(); i++) {
+
+			TimingGroup timingGroup = currentScanParameter.getGroups().get(i);
+
+			// basic times
+			numFrames += timingGroup.getNumberOfFrames();
+		}
+		return numFrames;
 	}
 
 }

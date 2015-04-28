@@ -191,6 +191,8 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			iRefScan.setProgressUpdater(this);
 		}
 
+		runItWithTriggerOptions=itScanParameters.getGroups().get(0).isGroupTrig();
+
 		if (runItWithTriggerOptions) {
 			itScans = new EdeScanWithTFGTrigger[repetitions];
 

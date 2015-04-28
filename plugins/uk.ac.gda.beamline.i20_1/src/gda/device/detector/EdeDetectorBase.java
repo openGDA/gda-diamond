@@ -68,24 +68,25 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	public void configure() throws FactoryException {
 		createPixelData();
 
-		try {
-			loadDetectorData();
-		} catch (ConfigurationException e) {
-			logger.info("create a new default detector data for {}",getName());
-			detectorData = createDetectorData();
-			detectorData.setNumberRois(INITIAL_NO_OF_ROIS);
-			saveDetectorData();
-		}
-		detectorData.addPropertyChangeListener(new PropertyChangeListener() {
+		//		try {
+		//			loadDetectorData();
+		//		} catch (ConfigurationException e) {
+		//			logger.info("create a new default detector data for {}",getName());
+		//			setDetectorData(createDetectorData());
+		//			getDetectorData().setNumberRois(INITIAL_NO_OF_ROIS);
+		//			saveDetectorData(getDetectorData());
+		//		}
+		getDetectorData().setNumberRois(INITIAL_NO_OF_ROIS);
+		getDetectorData().addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				saveDetectorData();
-				if (evt.getPropertyName().equals(DetectorData.ROIS_PROP_NAME)) {
+				//				saveDetectorData(getDetectorData());
+				if (evt.getPropertyName().equals(IDetectorData.ROIS_PROP_NAME)) {
 					updateExtraNames((Roi[]) evt.getNewValue());
 				}
 			}
 		});
-		updateExtraNames(detectorData.getRois());
+		updateExtraNames(getDetectorData().getRois());
 	}
 
 	private void createPixelData() {
@@ -96,9 +97,9 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	@Override
-	public void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException {
+	public void prepareDetectorwithScanParameters(EdeScanParameters newParameters, boolean liveView) throws DeviceException {
 		currentScanParameter = newParameters;
-		configureDetectorForCollection();
+		configureDetectorForCollection(liveView);
 	}
 
 	private void updateExtraNames(Roi[] rois) {
@@ -136,15 +137,15 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		}
 		logger.info("property value is {}", property);
 		if (!property.isEmpty()) {
-			detectorData=createDetectorDataFromJson(property);
+			setDetectorData(createDetectorDataFromJson(property));
 		}
 	}
 
-	private void saveDetectorData() {
+	private void saveDetectorData(DetectorData dd) {
 		PropertiesConfiguration store;
 		try {
 			store = new PropertiesConfiguration();
-			store.setProperty(DETECTOR_DATA, GSON.toJson(detectorData));
+			store.setProperty(DETECTOR_DATA, GSON.toJson(dd));
 			store.save(getPropertyFileName());
 		} catch (ConfigurationException e) {
 			logger.error("Unable to store connected state", e);
@@ -182,7 +183,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 *
 	 * @throws DeviceException
 	 */
-	protected abstract void configureDetectorForCollection() throws DeviceException;
+	protected abstract void configureDetectorForCollection(boolean liveView) throws DeviceException;
 
 	/**
 	 * fetch detector status from hardware.
@@ -225,10 +226,10 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			for (int stripIndex = 0; stripIndex < getMaxPixel(); stripIndex++) {
 				if (checkForExcludedStrips) {
 					// simply set excluded strips to be zero
-					if (ArrayUtils.contains(detectorData.getExcludedPixels(), stripIndex)) {
+					if (ArrayUtils.contains(getDetectorData().getExcludedPixels(), stripIndex)) {
 						out[frame][stripIndex] = 0.0;
 					} else if (currentScanParameter!=null && !currentScanParameter.getIncludeCountsOutsideROIs()
-							&& (stripIndex < detectorData.getLowerChannel() || stripIndex > detectorData
+							&& (stripIndex < getDetectorData().getLowerChannel() || stripIndex > getDetectorData()
 									.getUpperChannel())) {
 						out[frame][stripIndex] = 0.0;
 					} else {
@@ -243,9 +244,9 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	private double[] getExtraValues(int[] elements) {
-		double[] extras = new double[detectorData.getRois().length + 1];
+		double[] extras = new double[getDetectorData().getRois().length + 1];
 		for (int elementNum = 0; elementNum < getMaxPixel(); elementNum++) {
-			int roi = detectorData.getRoiFor(elementNum);
+			int roi = getDetectorData().getRoiFor(elementNum);
 			if (roi >= 0) {
 				extras[0] += elements[elementNum];
 				extras[roi + 1] += elements[elementNum];
@@ -269,7 +270,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	private double getEnergyForChannel(int channel) {
-		CalibrationDetails calibration = detectorData.getEnergyCalibration();
+		CalibrationDetails calibration = getDetectorData().getEnergyCalibration();
 		if (calibration == null) {
 			return channel;
 		}
@@ -351,7 +352,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	@Override
 	public NexusTreeProvider readout() throws DeviceException {
 		// TODO read data from detector
-		return readFrames(0, 0)[0];
+		return readFrames(1,1)[0];
 	}
 
 	/**
@@ -384,7 +385,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 */
 	protected abstract int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException;
 
-	private int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
+	protected int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
 
 		int[][] unpacked = new int[numFrames][getMaxPixel()];
 		int iterator = 0;
@@ -396,5 +397,9 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			}
 		}
 		return unpacked;
+	}
+
+	public void setDetectorData(DetectorData detectorData) {
+		this.detectorData = detectorData;
 	}
 }

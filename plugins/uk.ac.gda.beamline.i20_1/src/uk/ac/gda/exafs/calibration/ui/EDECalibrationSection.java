@@ -129,6 +129,9 @@ public class EDECalibrationSection extends ResourceComposite {
 					if (wizardDialog.open() == Window.OK) {
 						if (calibrationModel.getCalibrationDetails().getCalibrationResult() != null) {
 							DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().setEnergyCalibration(calibrationModel.getCalibrationDetails());
+							//							dd.setEnergyCalibration(calibrationModel.getCalibrationDetails());
+							//							IDetectorData dd2 = DetectorModel.INSTANCE.getCurrentDetector().getDetectorData();
+							//							DetectorModel.INSTANCE.getCurrentDetector().saveDetectorData(dd);
 						}
 					}
 				} catch (Exception e) {

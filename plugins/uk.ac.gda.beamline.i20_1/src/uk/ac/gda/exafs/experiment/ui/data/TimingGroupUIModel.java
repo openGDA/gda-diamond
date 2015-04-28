@@ -67,17 +67,17 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	@Expose
 	private int noOfAccumulations;
 
-	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExernalTrigger";
+	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExternalTrigger";
 	@Expose
-	private boolean useExernalTrigger;
+	private boolean useExternalTrigger;
 
-	public static final String EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME = "exernalTriggerAvailable";
+	public static final String EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME = "externalTriggerAvailable";
 	@Expose
-	private boolean exernalTriggerAvailable;
+	private boolean externalTriggerAvailable;
 
-	public static final String EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME = "exernalTriggerInputLemoNumber";
+	public static final String EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME = "externalTriggerInputLemoNumber";
 	@Expose
-	private InputTriggerLemoNumbers exernalTriggerInputLemoNumber = InputTriggerLemoNumbers.ZERO;
+	private InputTriggerLemoNumbers externalTriggerInputLemoNumber = InputTriggerLemoNumbers.ZERO;
 
 	public static final String END_TIME_IS_LOCKED = "endTimeIsLocked";
 	@Expose
@@ -314,28 +314,28 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		this.firePropertyChange(NO_OF_ACCUMULATION_PROP_NAME, noOfAccumulations, noOfAccumulations = value);
 	}
 
-	public boolean isUseExernalTrigger() {
-		return useExernalTrigger;
+	public boolean isUseExternalTrigger() {
+		return useExternalTrigger;
 	}
 
-	public void setUseExernalTrigger(boolean value) {
-		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExernalTrigger, useExernalTrigger = value);
+	public void setUseExternalTrigger(boolean value) {
+		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExternalTrigger, useExternalTrigger = value);
 	}
 
-	public boolean isExernalTriggerAvailable() {
-		return exernalTriggerAvailable;
+	public boolean isExternalTriggerAvailable() {
+		return externalTriggerAvailable;
 	}
 
-	public void setExernalTriggerAvailable(boolean exernalTriggerAvailable) {
-		this.firePropertyChange(EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME, this.exernalTriggerAvailable, this.exernalTriggerAvailable = exernalTriggerAvailable);
+	public void setExternalTriggerAvailable(boolean externalTriggerAvailable) {
+		this.firePropertyChange(EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME, this.externalTriggerAvailable, this.externalTriggerAvailable = externalTriggerAvailable);
 	}
 
-	public InputTriggerLemoNumbers getExernalTriggerInputLemoNumber() {
-		return exernalTriggerInputLemoNumber;
+	public InputTriggerLemoNumbers getExternalTriggerInputLemoNumber() {
+		return externalTriggerInputLemoNumber;
 	}
 
-	public void setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers exernalTriggerInputLemoNumber) {
-		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.exernalTriggerInputLemoNumber, this.exernalTriggerInputLemoNumber = exernalTriggerInputLemoNumber);
+	public void setExternalTriggerInputLemoNumber(InputTriggerLemoNumbers externalTriggerInputLemoNumber) {
+		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.externalTriggerInputLemoNumber, this.externalTriggerInputLemoNumber = externalTriggerInputLemoNumber);
 	}
 
 	public TimeResolvedExperimentModel getParent() {
@@ -375,7 +375,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public int getExternalTrigLemoNumber() {
-		return exernalTriggerInputLemoNumber.getLemoNumber();
+		return externalTriggerInputLemoNumber.getLemoNumber();
 	}
 
 	public IValidator getEndTimeValidator() {

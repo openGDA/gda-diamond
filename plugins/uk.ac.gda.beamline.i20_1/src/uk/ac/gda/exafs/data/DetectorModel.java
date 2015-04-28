@@ -18,9 +18,9 @@
 
 package uk.ac.gda.exafs.data;
 
+import gda.device.detector.DetectorData;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.Roi;
-import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.observable.IObserver;
@@ -240,7 +240,7 @@ public class DetectorModel extends ObservableModel {
 		public static final String ENERGY_CALIBRATION_PROP_NAME = "energyCalibration";
 		@Override
 		public void update(final Object source, Object arg) {
-			if (arg.equals(StripDetector.CALIBRATION_PROP_KEY)) {
+			if (arg.equals(DetectorData.CALIBRATION_PROP_KEY)) {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {

@@ -47,13 +47,16 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	}
 
 	@Override
-	public String writeDataFile() throws Exception {
+	public String writeDataFile(EdeDetector detector) throws Exception {
+		DoubleDataset i0DarkDataSet;
+		DoubleDataset itDarkDataSet;
+		DoubleDataset i0InitialDataSet;
+		DoubleDataset itDataSet;
 		// FIXME Check this
-		DoubleDataset i0DarkDataSet = i0DarkScan.extractDetectorDataSet(0);
-		DoubleDataset itDarkDataSet = itDarkScan.extractDetectorDataSet(0);
-		DoubleDataset i0InitialDataSet = i0InitialScan.extractDetectorDataSet(0);
-		DoubleDataset itDataSet = itScan.extractDetectorDataSet(0);
-
+		i0DarkDataSet = i0DarkScan.extractDetectorDataSet(0);
+		itDarkDataSet = itDarkScan.extractDetectorDataSet(0);
+		i0InitialDataSet = i0InitialScan.extractDetectorDataSet(0);
+		itDataSet = itScan.extractDetectorDataSet(0);
 		determineFileAsciiFilePath();
 
 		File asciiFile = new File(asciiFilename);

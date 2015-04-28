@@ -18,59 +18,75 @@
 
 package gda.device.detector;
 
+import gda.observable.IObserver;
+
 import java.io.Serializable;
 
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
-public class DetectorData extends ObservableModel implements Serializable{
+public class DetectorData extends ObservableModel implements Serializable, IDetectorData{
+	public static final String CALIBRATION_PROP_KEY = "calibration";
 	private Integer[] excludedPixels = new Integer[]{}; //list of dead pixel locations
 	private int lowerChannel; // lower bound for ROI in energy
 	private int upperChannel; //Upper bound for ROI in energy
-
-	public static final String ROIS_PROP_NAME = "rois";
+	private final EdeObservableComponent obsComp=new EdeObservableComponent();
 	private Roi[] rois;
+	private CalibrationDetails energyCalibration = new CalibrationDetails();
+	private String name;
 
-	private CalibrationDetails energyCalibration=null;
-
+	@Override
 	public int getLowerChannel() {
 		return lowerChannel;
 	}
+	@Override
 	public void setLowerChannel(int lowerChannel) {
 		this.lowerChannel = lowerChannel;
 	}
+	@Override
 	public int getUpperChannel() {
 		return upperChannel;
 	}
+	@Override
 	public void setUpperChannel(int upperChannel) {
 		this.upperChannel = upperChannel;
 	}
+	@Override
 	public Roi[] getRois() {
 		return rois;
 	}
+	@Override
 	public void setRois(Roi[] rois) {
 		this.rois = rois;
 	}
+	@Override
 	public CalibrationDetails getEnergyCalibration() {
 		return energyCalibration;
 	}
 
+	@Override
 	public void setEnergyCalibration(CalibrationDetails energyCalibration) {
 		this.energyCalibration = energyCalibration;
+		//TODO why not pass the change as energyCalibration - CORBArise?
+		obsComp.notifyIObservers(this, CALIBRATION_PROP_KEY);
 	}
 
+	@Override
 	public boolean isEnergyCalibrationSet() {
 		return energyCalibration != null;
 	}
 
+	@Override
 	public Integer[] getExcludedPixels() {
 		return excludedPixels;
 	}
 
+	@Override
 	public void setExcludedPixels(Integer[] excludedPixels) {
 		this.excludedPixels = excludedPixels;
 	}
 
+	@Override
 	public void setNumberRois(int numberOfRois) {
 		Roi[] rois = createRois(numberOfRois);
 		setRois(rois);
@@ -95,6 +111,7 @@ public class DetectorData extends ObservableModel implements Serializable{
 		return rois;
 	}
 
+	@Override
 	public int getRoiFor(int elementIndex) {
 		for (int i = 0; i < getRois().length; i++) {
 			if (getRois()[i].isInsideRio(elementIndex)) {
@@ -102,5 +119,25 @@ public class DetectorData extends ObservableModel implements Serializable{
 			}
 		}
 		return -1;
+	}
+	@Override
+	public void addIObserver(IObserver observer) {
+		obsComp.addIObserver(observer);
+	}
+	@Override
+	public void deleteIObserver(IObserver observer) {
+		obsComp.deleteIObserver(observer);
+	}
+	@Override
+	public void deleteIObservers() {
+		obsComp.deleteIObservers();
+	}
+	@Override
+	public void setName(String name) {
+		this.name=name;
+	}
+	@Override
+	public String getName() {
+		return name;
 	}
 }

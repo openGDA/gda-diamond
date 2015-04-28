@@ -90,7 +90,7 @@ public abstract class EdeExperimentDataWriter {
 
 	}
 
-	public abstract String writeDataFile() throws Exception;
+	public abstract String writeDataFile(EdeDetector detector) throws Exception;
 
 	protected EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
 		TimingGroupMetadata[] metaData = new TimingGroupMetadata[scanParameters.getGroups().size()];

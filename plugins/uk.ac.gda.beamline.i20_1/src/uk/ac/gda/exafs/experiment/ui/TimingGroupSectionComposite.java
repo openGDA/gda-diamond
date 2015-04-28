@@ -392,8 +392,9 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		externalTriggerComposite.setLayoutData(gridData);
 		externalTriggerComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(3, false));
 
-		useExternalTriggerCheckbox = toolkit.createButton(externalTriggerComposite, "Use exernal trigger", SWT.CHECK);
+		useExternalTriggerCheckbox = toolkit.createButton(externalTriggerComposite, "Use external trigger", SWT.CHECK);
 		useExternalTriggerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		useExternalTriggerCheckbox.setEnabled(true);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(groupSection);
 		toolkit.paintBordersFor(sectionSeparator);

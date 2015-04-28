@@ -175,7 +175,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			topupChecker.atScanStart();
 		}
 		logger.debug(toString() + " loading detector parameters...");
-		theDetector.prepareDetectorwithScanParameters(scanParameters);
+		theDetector.prepareDetectorwithScanParameters(scanParameters, false);
 		shutter.moveTo("Reset");
 		if (scanType == EdeScanType.DARK) {
 			// close the shutter
@@ -230,7 +230,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				while (theDetector.isBusy()) {
 					Sleep.sleep(10);
 				}
-				createDataPoints(0, 0);
+				int numberOfSpectra = theDetector.getNumberOfSpectra();
+				createDataPoints(1, numberOfSpectra-1);
 			}
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
@@ -321,7 +322,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private void createDataPoints(int lowFrame, int highFrame) throws Exception {
 		// readout the correct frame from the detectors
 		Object[][] detData = readDetectors(lowFrame, highFrame);
-
+		int realFrameNumber=0;
+		int realLowFrameNumber=0;
+		ScanDataPoint thisPoint;
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
 			checkThreadInterrupted();
 			waitIfPaused();
@@ -331,10 +334,16 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			currentPointCount++;
 			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
 
-			ScanDataPoint thisPoint = createScanDataPoint(lowFrame, detData, thisFrame);
+			if (theDetector.getName().equalsIgnoreCase("frelon")) {
+				realFrameNumber=thisFrame-1;
+				realLowFrameNumber=lowFrame-1;
+				thisPoint = createScanDataPoint(realLowFrameNumber, detData, realFrameNumber);
+			} else {
+				thisPoint = createScanDataPoint(lowFrame, detData, thisFrame);
+			}
 
 			// then write data to data handler
-			storeAndBroadcastSDP(thisFrame, thisPoint);
+			storeAndBroadcastSDP(realFrameNumber, thisPoint);
 			getDataWriter().addData(thisPoint);
 
 			checkThreadInterrupted();

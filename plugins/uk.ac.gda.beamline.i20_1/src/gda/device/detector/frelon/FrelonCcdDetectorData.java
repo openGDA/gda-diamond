@@ -59,7 +59,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	private int hotizontalBinValue=1; // 1, 2, 4, 8.
 	private int verticalBinValue = 1; // vert.binning i.e. image_bin Y component
 	private AcqMode acqMode=AcqMode.SINGLE;
-	private int numberOfImages=1;
+	private int numberOfImages=2; // minimum 2 spectra as the 1st one usually crap need to be dropped in the future.
 	private AcqTriggerMode triggerMode=AcqTriggerMode.INTERNAL_TRIGGER;
 	private double latencyTime=0.0;
 	private double exposureTime=1.0;
