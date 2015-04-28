@@ -68,7 +68,8 @@ centre_energy.setInputNames(["centre_energy"])
 
 caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
 
-import pathscanTable as pst
+execfile(gdascripts + "scan/pathscanCommand.py");
+from pathscanTable import pathscanTable
 
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
