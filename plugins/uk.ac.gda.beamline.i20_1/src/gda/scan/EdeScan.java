@@ -25,6 +25,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.detector.xstrip.XhDetector;
 import gda.device.scannable.FrameIndexer;
@@ -37,7 +38,6 @@ import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdeScanPosition;
-import gda.util.Sleep;
 
 import java.util.List;
 import java.util.Vector;
@@ -226,12 +226,33 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 					progressData = fetchStatusAndWait();
 					currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
 				}
-			} else {
+			} else if (theDetector instanceof EdeFrelon) {
+				int lastImageRead=-1;
+				EdeFrelon detector=((EdeFrelon)theDetector);
+				int lastImageReady = detector.getLimaCcd().getLastImageReady();
 				while (theDetector.isBusy()) {
-					Sleep.sleep(10);
+					if (lastImageReady > lastImageRead) {
+						if (theDetector.isDropFirstFrame()) {
+							if (lastImageReady==0 && lastImageRead==-1) {
+								//first frame only, no-op
+							} else if (lastImageReady>0 && lastImageRead==-1) {
+								//frames including the first frame, only read from 2nd frame onward
+								createDataPoints(lastImageRead+2,lastImageReady);
+							} else {
+								createDataPoints(lastImageRead+1,lastImageReady);
+							}
+						} else {
+							createDataPoints(lastImageRead+1, lastImageReady);
+						}
+						lastImageRead=lastImageReady;
+					}
+					Thread.sleep(100);
+					waitIfPaused();
+					if (isFinishEarlyRequested()){
+						return;
+					}
+					lastImageReady=detector.getLimaCcd().getLastImageReady();
 				}
-				int numberOfSpectra = theDetector.getNumberOfSpectra();
-				createDataPoints(1, numberOfSpectra-1);
 			}
 		} catch (Exception e) {
 			// scan has been aborted, so stop the collection and let the scan write out the rest of the data point which
