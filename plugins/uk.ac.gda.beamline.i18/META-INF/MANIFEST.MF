@@ -35,7 +35,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.nexus,
  org.dawnsci.common.widgets,
  uk.ac.gda.exafs.api;bundle-version="1.0.0",
- uk.ac.gda.devices.xspress3
+ uk.ac.gda.devices.xspress3,
+ org.eclipse.dawnsci.hdf5;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.scannable,

@@ -36,7 +36,8 @@ Require-Bundle: org.eclipse.ui,
  org.dawnsci.common.widgets,
  uk.ac.gda.devices.hidenrga;bundle-version="1.0.0",
  uk.ac.gda.devices.xmap.epics;bundle-version="1.0.0",
- uk.ac.gda.exafs.api
+ uk.ac.gda.exafs.api,
+ org.eclipse.dawnsci.hdf5;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gda.device.detector,
