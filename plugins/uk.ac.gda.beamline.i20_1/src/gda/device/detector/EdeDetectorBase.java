@@ -61,6 +61,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	protected DetectorData detectorData;
 	protected EdeScanParameters currentScanParameter;
 	protected EdeDetector currentDetector;
+	protected boolean dropFirstFrame=false;
 
 	private Integer[] pixels;
 
@@ -401,5 +402,14 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	public void setDetectorData(DetectorData detectorData) {
 		this.detectorData = detectorData;
+	}
+
+	@Override
+	public boolean isDropFirstFrame() {
+		return dropFirstFrame;
+	}
+
+	public void setDropFirstFrame(boolean dropFirstFrame) {
+		this.dropFirstFrame = dropFirstFrame;
 	}
 }

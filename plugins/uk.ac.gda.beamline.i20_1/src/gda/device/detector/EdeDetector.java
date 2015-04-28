@@ -55,6 +55,8 @@ public interface EdeDetector extends NexusDetector {
 	 */
 	void synchronizWithDetectorData();
 
+	boolean isDropFirstFrame();
+
 	//	void saveDetectorData(DetectorData dd);
 
 }

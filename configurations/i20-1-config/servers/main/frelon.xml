@@ -32,6 +32,7 @@
 		<property name="frelon" ref="__frelon"/>
 		<property name="limaCcd" ref="__limaCCD"/>
 		<property name="detectorData" ref="frelonDetectorData"/>
+		<property name="dropFirstFrame" value="true"/>
 	</bean>
 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">

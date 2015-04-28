@@ -334,7 +334,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			currentPointCount++;
 			stepId = new ScanStepId(theDetector.getName(), currentPointCount);
 
-			if (theDetector.getName().equalsIgnoreCase("frelon")) {
+			if (theDetector.isDropFirstFrame()) {
 				realFrameNumber=thisFrame-1;
 				realLowFrameNumber=lowFrame-1;
 				thisPoint = createScanDataPoint(realLowFrameNumber, detData, realFrameNumber);
