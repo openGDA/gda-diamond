@@ -520,7 +520,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			firstTime=false;
 		}
 		simpleParams.addGroup(group1);
-		detector.prepareDetectorwithScanParameters(simpleParams, true);
+		detector.prepareDetectorwithScanParameters(simpleParams);
 		detector.collectData();
 		detector.waitWhileBusy();
 	}

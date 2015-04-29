@@ -272,7 +272,7 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	@Override
-	protected void configureDetectorForCollection(boolean liveView) throws DeviceException {
+	protected void configureDetectorForCollection() throws DeviceException {
 		// read nextScan attribute and convert into daserver commands...
 
 		addOutSignals();

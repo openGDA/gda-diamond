@@ -183,7 +183,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 					if (detector != null && detector instanceof EdeDetector) {
 						EdeDetector ededetector = (EdeDetector) detector;
 						DetectorModel.INSTANCE.setCurrentDetector(ededetector);
-						// TODO why frelon settings not update
+						// TODO why frelon settings not update in GUI
 						//IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 						//IViewPart view = page.findView(DetectorLiveModeView.ID);
 						//((DetectorLiveModeView)view).update(ededetector);

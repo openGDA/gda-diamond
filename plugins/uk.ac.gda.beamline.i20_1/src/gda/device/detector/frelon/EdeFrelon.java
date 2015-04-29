@@ -361,7 +361,7 @@ public class EdeFrelon extends EdeDetectorBase implements IObserver {
 	}
 
 	@Override
-	protected void configureDetectorForCollection(boolean liveView) throws DeviceException {
+	protected void configureDetectorForCollection() throws DeviceException {
 		FrelonCcdDetectorData frelonCcdDetectorData = (FrelonCcdDetectorData) getDetectorData();
 		// the following only handle 1 timing group, because it send to actual detector immediately.
 		for (Integer i = 0; i < currentScanParameter.getGroups().size(); i++) {
@@ -370,12 +370,10 @@ public class EdeFrelon extends EdeDetectorBase implements IObserver {
 			int numberOfAccumulation = timingGroup.getNumberOfScansPerFrame();
 			double exposureTime = timingGroup.getTimePerFrame();
 			Integer numberOfImages = timingGroup.getNumberOfFrames();
-			//			if (!liveView) {
 			if (numberOfImages < 2) {
 				//collect minimum 2 spectrum as the 1st one sometime crap.
 				numberOfImages = 2;
 			}
-			//			}
 			frelonCcdDetectorData.setNumberOfImages(numberOfImages);
 			if (numberOfAccumulation>1) {
 				frelonCcdDetectorData.setAcqMode(AcqMode.ACCUMULATION);
@@ -650,7 +648,7 @@ public class EdeFrelon extends EdeDetectorBase implements IObserver {
 
 	@Override
 	public void update(Object source, Object arg) {
-		if (source instanceof DetectorData) {
+		if (source == detectorData) {
 			this.notifyIObservers(this, arg);
 		}
 

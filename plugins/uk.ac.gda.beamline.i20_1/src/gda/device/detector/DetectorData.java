@@ -27,12 +27,14 @@ import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
 public class DetectorData extends ObservableModel implements Serializable, IDetectorData{
 	public static final String CALIBRATION_PROP_KEY = "calibration";
+	public static final String ROIS_CHANGED = "rois_changed";
 	private Integer[] excludedPixels = new Integer[]{}; //list of dead pixel locations
 	private int lowerChannel; // lower bound for ROI in energy
 	private int upperChannel; //Upper bound for ROI in energy
 	private final EdeObservableComponent obsComp=new EdeObservableComponent();
 	private Roi[] rois;
 	private CalibrationDetails energyCalibration = new CalibrationDetails();
+	private boolean energyCalibrationSet=false;
 	private String name;
 
 	@Override
@@ -58,6 +60,7 @@ public class DetectorData extends ObservableModel implements Serializable, IDete
 	@Override
 	public void setRois(Roi[] rois) {
 		this.rois = rois;
+		obsComp.notifyIObservers(this, ROIS_CHANGED);
 	}
 	@Override
 	public CalibrationDetails getEnergyCalibration() {
@@ -67,13 +70,14 @@ public class DetectorData extends ObservableModel implements Serializable, IDete
 	@Override
 	public void setEnergyCalibration(CalibrationDetails energyCalibration) {
 		this.energyCalibration = energyCalibration;
+		setEnergyCalibrationSet(true);
 		//TODO why not pass the change as energyCalibration - CORBArise?
 		obsComp.notifyIObservers(this, CALIBRATION_PROP_KEY);
 	}
 
 	@Override
 	public boolean isEnergyCalibrationSet() {
-		return energyCalibration != null;
+		return energyCalibrationSet;
 	}
 
 	@Override
@@ -139,5 +143,8 @@ public class DetectorData extends ObservableModel implements Serializable, IDete
 	@Override
 	public String getName() {
 		return name;
+	}
+	public void setEnergyCalibrationSet(boolean energyCalibrationSet) {
+		this.energyCalibrationSet = energyCalibrationSet;
 	}
 }

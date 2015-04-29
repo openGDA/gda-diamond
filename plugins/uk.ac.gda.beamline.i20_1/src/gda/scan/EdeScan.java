@@ -175,7 +175,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			topupChecker.atScanStart();
 		}
 		logger.debug(toString() + " loading detector parameters...");
-		theDetector.prepareDetectorwithScanParameters(scanParameters, false);
+		theDetector.prepareDetectorwithScanParameters(scanParameters);
 		shutter.moveTo("Reset");
 		if (scanType == EdeScanType.DARK) {
 			// close the shutter

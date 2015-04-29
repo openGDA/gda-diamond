@@ -98,9 +98,9 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	@Override
-	public void prepareDetectorwithScanParameters(EdeScanParameters newParameters, boolean liveView) throws DeviceException {
+	public void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException {
 		currentScanParameter = newParameters;
-		configureDetectorForCollection(liveView);
+		configureDetectorForCollection();
 	}
 
 	private void updateExtraNames(Roi[] rois) {
@@ -184,7 +184,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 *
 	 * @throws DeviceException
 	 */
-	protected abstract void configureDetectorForCollection(boolean liveView) throws DeviceException;
+	protected abstract void configureDetectorForCollection() throws DeviceException;
 
 	/**
 	 * fetch detector status from hardware.

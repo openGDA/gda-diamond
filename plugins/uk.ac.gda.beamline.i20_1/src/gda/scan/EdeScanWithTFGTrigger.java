@@ -81,7 +81,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		int numberOfRepititionsDone=0;
 		validate();
 		logger.debug(toString() + " loading detector parameters...");
-		theDetector.prepareDetectorwithScanParameters(scanParameters, false);
+		theDetector.prepareDetectorwithScanParameters(scanParameters);
 		triggeringParameters.setDetector(theDetector);
 		// derive the eTFG parameters and load them
 		prepareTFG(shouldWaitForTopup);

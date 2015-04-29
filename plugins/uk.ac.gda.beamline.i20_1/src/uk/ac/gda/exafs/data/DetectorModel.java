@@ -94,10 +94,9 @@ public class DetectorModel extends ObservableModel {
 			if (detector != null && detector instanceof EdeDetector) {
 				EdeDetector ededetector = (EdeDetector) detector;
 				availableDetectors.add(ededetector);
-				setCurrentDetector(ededetector);
-				//				break;
 			}
 		}
+		setCurrentDetector(availableDetectors.get(availableDetectors.size()-1));
 	}
 
 	public void reloadROIs() {
@@ -163,6 +162,9 @@ public class DetectorModel extends ObservableModel {
 	}
 
 	public void setCurrentDetector(EdeDetector detector) {
+		if (currentDetector!=null) {
+			currentDetector.deleteIObserver(energyCalibrationSetObserver);
+		}
 		excludedStripsCache = null;
 		firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = detector);
 		firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, true);
@@ -240,7 +242,7 @@ public class DetectorModel extends ObservableModel {
 		public static final String ENERGY_CALIBRATION_PROP_NAME = "energyCalibration";
 		@Override
 		public void update(final Object source, Object arg) {
-			if (arg.equals(DetectorData.CALIBRATION_PROP_KEY)) {
+			if (source instanceof EdeDetector && arg.equals(DetectorData.CALIBRATION_PROP_KEY)) {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {

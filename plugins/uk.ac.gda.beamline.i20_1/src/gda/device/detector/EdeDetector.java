@@ -49,7 +49,7 @@ public interface EdeDetector extends NexusDetector {
 
 	public abstract int getMaxPixel();
 
-	public abstract void prepareDetectorwithScanParameters(EdeScanParameters newParameters, boolean liveView) throws DeviceException;
+	public abstract void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException;
 	/**
 	 * to pull detector setting from detector server to synchronise the {@link DetectorData} object
 	 */
