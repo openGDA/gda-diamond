@@ -276,8 +276,7 @@
 		<property name="detectorInfo" ref="detectorInfoPath" />
 	</bean>
 
-	<bean class="uk.ac.gda.server.ncd.beans.StoredDetectorInfoImpl" id="detectorInfoPath">
-		<property name="currentDataDirectoryUpdater" ref="observableSubdirectory"/>
+	<bean class="uk.ac.gda.server.ncd.beans.PerVisitMaskLocation" id="detectorInfoPath">
 	</bean>
 
 	<import resource="cameras/i22_mfgige.xml" />
