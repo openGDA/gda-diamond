@@ -21,8 +21,6 @@ package gda.scan;
 import static org.junit.Assert.assertEquals;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
-import gda.data.nexus.NexusException;
-import gda.data.nexus.NexusFileInterface;
 import gda.data.nexus.NexusUtils;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.StepScanXHDetector;
@@ -46,11 +44,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.hdf5.nexus.NexusException;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -273,50 +274,45 @@ public class EdeScanTest extends EdeTestBase {
 //		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 	}
 
-	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws NexusException {
-		NexusFileInterface file = NexusUtils.openNexusFileReadOnly(nexusFilename);
-		file.openpath("entry1");
+	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
+		NexusFile file = NexusUtils.createNXFile(nexusFilename);
+		file.openToRead();
+		GroupNode g = file.getGroup("/entry1", false);
 		
 		// cyclic?
 		if (numberRepetitions > 1){
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT+"_averaged",numberExpectedSpectra, false);
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0+"_averaged",numberExpectedSpectra, false);
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0+"_averaged",numberExpectedSpectra, false);	
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT+"_averaged",numberExpectedSpectra, false);
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0+"_averaged",numberExpectedSpectra, false);
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0+"_averaged",numberExpectedSpectra, false);	
 			numberExpectedSpectra *= numberRepetitions;
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, true);
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, true);
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, true);
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, true);
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, true);
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, true);
 		} else {
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, false);
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, false);
-			assertLinearData(file,EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, false);			
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, false);
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, false);
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, false);			
 		}
 		file.close();
 	}
 	
-	private void assertLinearData(NexusFileInterface file, String dataName, int numberSpectra, boolean testForCycles) throws NexusException{
-		file.openpath(dataName);
-		assertDimensions(file, "data", new int[] { numberSpectra, MCA_WIDTH });
-		assertDimensions(file, "energy", new int[] { MCA_WIDTH });
-		assertDimensions(file, "group", new int[] { numberSpectra,4 });
-		assertDimensions(file, "time", new int[] { numberSpectra });
+	private void assertLinearData(NexusFile file, GroupNode g, String dataName, int numberSpectra, boolean testForCycles) throws NexusException{
+		GroupNode gd = file.getGroup(g, dataName, null, false);
+		assertDimensions(file, gd, "data", new int[] { numberSpectra, MCA_WIDTH });
+		assertDimensions(file, gd, "energy", new int[] { MCA_WIDTH });
+		assertDimensions(file, gd, "group", new int[] { numberSpectra,4 });
+		assertDimensions(file, gd, "time", new int[] { numberSpectra });
 		if (testForCycles){
-			assertDimensions(file, "cycle", new int[] { numberSpectra });
+			assertDimensions(file, gd, "cycle", new int[] { numberSpectra });
 		}
-		file.closegroup();
 	}
 
-	private void assertDimensions(NexusFileInterface file, String dataName, int[] expectedDims) throws NexusException {
-		file.opendata(dataName);
-		int[] iDim = new int[20];
-		int[] iStart = new int[2];
-		file.getinfo(iDim, iStart);
-		final int rank = iStart[0];
-		int[] shape = Arrays.copyOf(iDim, rank);
+	private void assertDimensions(NexusFile file, GroupNode gd, String dataName, int[] expectedDims) throws NexusException {
+		DataNode d = file.getData(gd, dataName);
+		int[] shape = d.getDataset().getShape();
 		for (int i = 0; i < expectedDims.length; i++) {
 			assertEquals(expectedDims[i], shape[i]);
 		}
-		file.closedata();
 	}
 
 	@Test
