@@ -20,8 +20,8 @@ package gda.util;
 
 
 import gda.analysis.ScanFileHolder;
-import gda.data.nexus.NexusException;
 import gda.data.nexus.extractor.NexusExtractorException;
+import gda.data.nexus.napi.NexusException;
 
 import java.io.BufferedWriter;
 import java.io.File;
