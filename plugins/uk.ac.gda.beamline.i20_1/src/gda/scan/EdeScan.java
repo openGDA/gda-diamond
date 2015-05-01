@@ -208,6 +208,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	protected void pollDetectorAndFetchData() throws DeviceException, Exception {
 		Integer nextFrameToRead = 0;
+		int lastImageRead=-1;
+		boolean firstReading=false;
+		int lastImageReady=-1;
 		try {
 			DetectorStatus progressData = fetchStatusAndWait();
 			if (theDetector instanceof XhDetector) {
@@ -227,22 +230,20 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 					currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
 				}
 			} else if (theDetector instanceof EdeFrelon) {
-				int lastImageRead=-1;
+				if (theDetector.isDropFirstFrame()) {
+					lastImageRead=0;
+					firstReading=true;
+				}
 				EdeFrelon detector=((EdeFrelon)theDetector);
-				int lastImageReady = detector.getLimaCcd().getLastImageReady();
+				lastImageReady = detector.getLimaCcd().getLastImageReady();
 				while (theDetector.isBusy()) {
 					if (lastImageReady > lastImageRead) {
-						if (theDetector.isDropFirstFrame()) {
-							if (lastImageReady==0 && lastImageRead==-1) {
-								//first frame only, no-op
-							} else if (lastImageReady>0 && lastImageRead==-1) {
-								//frames including the first frame, only read from 2nd frame onward
-								createDataPoints(lastImageRead+2,lastImageReady);
-							} else {
-								createDataPoints(lastImageRead+1,lastImageReady);
-							}
+						if (firstReading) {
+							//frames including the first frame, only read from 2nd frame onward
+							createDataPoints(1,lastImageReady);
+							firstReading=false;
 						} else {
-							createDataPoints(lastImageRead+1, lastImageReady);
+							createDataPoints(lastImageRead+1,lastImageReady);
 						}
 						lastImageRead=lastImageReady;
 					}
@@ -263,6 +264,11 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			// have we read all the frames?
 			if (theDetector instanceof XhDetector) {
 				readoutRestOfFrames(nextFrameToRead);
+			}
+			if (theDetector instanceof EdeFrelon) {
+				if (lastImageRead!=lastImageReady) {
+					createDataPoints(lastImageRead+1,lastImageReady);
+				}
 			}
 		}
 	}
