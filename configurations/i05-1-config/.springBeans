@@ -8,6 +8,36 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>xml/devices/dummy/cryostat.xml</config>
+		<config>xml/devices/dummy/i05-1_server_devices.xml</config>
+		<config>xml/devices/dummy/scientaslit.xml</config>
+		<config>xml/devices/dummy/rawid.xml</config>
+		<config>xml/devices/dummy/id.xml</config>
+		<config>xml/devices/dummy/pgm.xml</config>
+		<config>xml/devices/dummy/s2.xml</config>
+		<config>xml/devices/dummy/manipulator.xml</config>
+		<config>xml/devices/dummy/s6.xml</config>
+		<config>xml/devices/live/s1.xml</config>
+		<config>xml/devices/live/ring.xml</config>
+		<config>xml/devices/live/s2.xml</config>
+		<config>xml/devices/live/sj6.xml</config>
+		<config>xml/devices/live/dj7.xml</config>
+		<config>xml/devices/live/pgm.xml</config>
+		<config>xml/devices/live/rawid.xml</config>
+		<config>xml/devices/live/i05-1_server_devices.xml</config>
+		<config>xml/devices/live/m1.xml</config>
+		<config>xml/devices/live/d6.xml</config>
+		<config>xml/devices/live/s3.xml</config>
+		<config>xml/devices/live/id.xml</config>
+		<config>xml/devices/live/m3mj6.xml</config>
+		<config>xml/devices/live/d3.xml</config>
+		<config>xml/devices/live/s5.xml</config>
+		<config>servers/main/live/server.xml</config>
+		<config>servers/main/dummy/server.xml</config>
+		<config>servers/main/_common/server.xml</config>
+		<config>xml/devices/analyser.xml</config>
+		<config>clients/main/live/client.xml</config>
+		<config>clients/main/_common/client.xml</config>
+		<config>clients/main/dummy/client.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

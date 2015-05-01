@@ -17,8 +17,7 @@
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
-	<bean id="plot_server"
-		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
@@ -459,7 +458,6 @@
 	</bean>
 
 	<import resource="../../../xml/devices/${gda.mode}/i05-1_server_devices.xml" />
-	<import resource="../../../xml/analyser.xml" />
 
 	<corba:export namespace="i05-1" />
 	<gda:rbac />

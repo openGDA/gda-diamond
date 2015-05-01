@@ -44,4 +44,8 @@
 		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
+	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties" />
+
+	<gda:rbac />
 </beans>
