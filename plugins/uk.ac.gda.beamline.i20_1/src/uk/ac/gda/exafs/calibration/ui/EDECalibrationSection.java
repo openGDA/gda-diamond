@@ -75,7 +75,7 @@ public class EDECalibrationSection extends ResourceComposite {
 	private void doBinding() {
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(polynomialValueLbl),
-				BeanProperties.value(DetectorModel.class, EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()));
+				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()));
 	}
 
 	public String loadReferenceData(Element element, String edgeName) {
