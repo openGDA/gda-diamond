@@ -34,6 +34,10 @@
 		<property name="detectorData" ref="frelonDetectorData"/>
 		<property name="dropFirstFrame" value="true"/>
 	</bean>
+		
+	<bean id="ssfrelon" class="gda.device.detector.StepScanEdeDetector">
+		<property name="detector" ref="frelon"/>
+	</bean>
 	
 <!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
 <!-- 		<property name="serviceName" value="gda/frelonDetectorData" /> -->

@@ -22,12 +22,12 @@
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
 	</bean>
 
-	<bean id="ssxh" class="gda.device.detector.xstrip.StepScanXHDetector">
-		<property name="xh" ref="xh"/>
+	<bean id="ssxh" class="gda.device.detector.StepScanEdeDetector">
+		<property name="detector" ref="xh"/>
 	</bean>
 	
-	<bean id="ssxstrip" class="gda.device.detector.xstrip.StepScanXHDetector">
-		<property name="xh" ref="xstrip"/>
+	<bean id="ssxstrip" class="gda.device.detector.StepScanEdeDetector">
+		<property name="detector" ref="xstrip"/>
 	</bean>
 
 <!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->

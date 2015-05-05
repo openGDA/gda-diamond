@@ -22,16 +22,14 @@ import static org.junit.Assert.assertEquals;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.GdaNexusFile;
+import gda.device.detector.StepScanEdeDetector;
 import gda.device.detector.xstrip.DummyXStripDAServer;
-import gda.device.detector.xstrip.StepScanXHDetector;
 import gda.device.detector.xstrip.XhDetector;
 import gda.device.enumpositioner.DummyPositioner;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Findable;
-import gda.scan.ede.CyclicExperiment;
 import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.SingleSpectrumScan;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
@@ -46,7 +44,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -205,8 +202,8 @@ public class EdeScanTest extends EdeTestBase {
 		setup("testStepScan");
 		LocalProperties.set("gda.nexus.createSRS", "true");
 		ScannableMotor xScannable = createMotor("xScannable");
-		StepScanXHDetector ssxh = new StepScanXHDetector();
-		ssxh.setXh(xh);
+		StepScanEdeDetector ssxh = new StepScanEdeDetector();
+		ssxh.setDetector(xh);
 		new ConcurrentScan(new Object[] { xScannable, 0., 1., 1., ssxh, 0.2 }).runScan();
 
 		// test the SRS file to see if the number of columns is correct
