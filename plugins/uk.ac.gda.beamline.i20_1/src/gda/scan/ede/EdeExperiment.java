@@ -458,7 +458,7 @@ public abstract class EdeExperiment implements IObserver {
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
 			if (source.equals(i0DarkScan)) {
 				lastEnergyData = ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
-				if (!theDetector.getDetectorData().isEnergyCalibrationSet()) {
+				if (!theDetector.isEnergyCalibrationSet()) {
 					lastEnergyData.setName("Strip");
 				}
 				lastI0DarkData = i0DarkScan.extractLastDetectorDataSet();

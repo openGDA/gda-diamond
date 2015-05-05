@@ -23,7 +23,6 @@ import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorData;
 import gda.device.detector.DetectorStatus;
-import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
 import gda.device.frelon.Frelon;
 import gda.device.lima.LimaBin;
@@ -34,7 +33,6 @@ import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.lima.LimaCCD.ImageType;
 import gda.device.lima.impl.LimaROIIntImpl;
 import gda.factory.FactoryException;
-import gda.observable.IObserver;
 
 import java.util.HashMap;
 
@@ -44,7 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
-public class EdeFrelon extends EdeDetectorBase implements IObserver {
+public class EdeFrelon extends EdeDetectorBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeFrelon.class);
 	private static final double PIXEL_RATE=10.0; // MPixel/s per channel
@@ -85,7 +83,6 @@ public class EdeFrelon extends EdeDetectorBase implements IObserver {
 				logger.error("Failed to get Image properties from the detector "+getName(), e);
 				throw new FactoryException(e.getMessage(), e);
 			}
-			detectorData.addIObserver(this);
 			setConfigured(true);
 		}
 	}
@@ -184,11 +181,11 @@ public class EdeFrelon extends EdeDetectorBase implements IObserver {
 		updateImageProperties();
 		try {
 			int n = 0;
-			int lastImageNumber = -1;
-			if ((lastImageNumber = getLimaCcd().getLastImageReady()) != finalFrame - startFrame+1) {
-				logger.error("EdeFrelon.readoutFrames: image not ready {} should be {}", lastImageNumber, finalFrame - startFrame);
-				throw new DeviceException("EdeFrelon.readoutFrames: image not ready");
-			}
+			//			int lastImageNumber = -1;
+			//			if ((lastImageNumber = getLimaCcd().getLastImageReady()) != finalFrame - startFrame+1) {
+			//				logger.error("EdeFrelon.readoutFrames: image not ready {} should be {}", lastImageNumber, finalFrame - startFrame+1);
+			//				throw new DeviceException("EdeFrelon.readoutFrames: image not ready");
+			//			}
 
 			intData = new int[(int) (imageWidth * imageHeight * (finalFrame - startFrame + 1))];
 			//			byteData= getLimaCcd().getImage(0); //read and dump the 1st frame which frequently crap
@@ -232,9 +229,6 @@ public class EdeFrelon extends EdeDetectorBase implements IObserver {
 			System.arraycopy(single, 0, intData, FrelonCcdDetectorData.MAX_PIXEL*i, FrelonCcdDetectorData.MAX_PIXEL);
 		}
 
-		//		ArrayUtils.reverse(intData);
-
-		//		logger.info("int array size {}", intData.length);
 		return intData;
 	}
 
@@ -620,12 +614,6 @@ public class EdeFrelon extends EdeDetectorBase implements IObserver {
 	}
 
 	@Override
-	public EdeDetector getDetectorInstance() {
-		// TODO Auto-generated method stub
-		return this;
-	}
-
-	@Override
 	public HashMap<String, Double> getTemperatures() throws DeviceException {
 		//TODO impelement frelon temperatures access
 		HashMap<String, Double> dummytemps=new HashMap<String, Double>(4);
@@ -645,28 +633,4 @@ public class EdeFrelon extends EdeDetectorBase implements IObserver {
 			throw new DeviceException(getName(),"Failed to get acq_nb_frames from detector ", e);
 		}
 	}
-
-	@Override
-	public void update(Object source, Object arg) {
-		if (source == detectorData) {
-			this.notifyIObservers(this, arg);
-		}
-
-	}
-	//	@Override
-	//	protected int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
-	//
-	//		int[][] unpacked = new int[numFrames-1][getMaxPixel()];
-	//		int iterator = getMaxPixel(); // dump the 1st frame which frequently crap from frelon detector
-	//
-	//		for (int frame = 0; frame < numFrames-1; frame++) {
-	//			for (int datum = 0; datum < getMaxPixel(); datum++) {
-	//				unpacked[frame][datum] = scalerData[iterator];
-	//				iterator++;
-	//			}
-	//		}
-	//		return unpacked;
-	//	}
-
-
 }

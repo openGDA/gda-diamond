@@ -53,7 +53,6 @@ import com.google.gson.Gson;
 public abstract class EdeDetectorBase extends DetectorBase implements EdeDetector {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeDetectorBase.class);
-	private static final int INITIAL_NO_OF_ROIS = 4;
 	protected static final Gson GSON = new Gson();
 	private static final String PROP_FILE_EXTENSION = ".properties";
 	private static final String DETECTOR_DATA = "detectorData";
@@ -62,8 +61,10 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	protected EdeScanParameters currentScanParameter;
 	protected EdeDetector currentDetector;
 	protected boolean dropFirstFrame=false;
+	private CalibrationDetails calibration;
 
 	private Integer[] pixels;
+	private boolean energyCalibrationSet;
 
 	@Override
 	public void configure() throws FactoryException {
@@ -271,7 +272,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	private double getEnergyForChannel(int channel) {
-		CalibrationDetails calibration = getDetectorData().getEnergyCalibration();
+		CalibrationDetails calibration = getEnergyCalibration();
 		if (calibration == null) {
 			return channel;
 		}
@@ -412,4 +413,26 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	public void setDropFirstFrame(boolean dropFirstFrame) {
 		this.dropFirstFrame = dropFirstFrame;
 	}
+
+	@Override
+	public CalibrationDetails getEnergyCalibration() {
+		return calibration;
+	}
+
+	@Override
+	public void setEnergyCalibration(CalibrationDetails energyCalibration) {
+		calibration = energyCalibration;
+		setEnergyCalibrationSet(true);
+		this.notifyIObservers(this, CALIBRATION_PROP_KEY);
+	}
+
+	@Override
+	public boolean isEnergyCalibrationSet() {
+		return energyCalibrationSet;
+	}
+
+	public void setEnergyCalibrationSet(boolean energyCalibrationSet) {
+		this.energyCalibrationSet = energyCalibrationSet;
+	}
+
 }

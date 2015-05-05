@@ -635,14 +635,6 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 		//No-op
 	}
 
-
-	@Override
-	public EdeDetector getDetectorInstance() {
-		// TODO Auto-generated method stub
-		return this;
-	}
-
-
 	@Override
 	public HashMap<String, Double> getTemperatures() throws DeviceException {
 		return detectorTemp.getTemperatures();

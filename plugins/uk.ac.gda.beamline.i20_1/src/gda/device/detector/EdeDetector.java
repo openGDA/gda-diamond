@@ -25,9 +25,12 @@ import java.util.HashMap;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
+import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public interface EdeDetector extends NexusDetector {
+	public static final String CALIBRATION_PROP_KEY = "calibration";
+	public static final int INITIAL_NO_OF_ROIS = 4;
 
 	public abstract NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
 
@@ -38,7 +41,6 @@ public interface EdeDetector extends NexusDetector {
 	public abstract double[] getEnergyForChannels();
 
 	public abstract Integer[] getPixels();
-	public abstract EdeDetector getDetectorInstance();
 	public abstract DetectorData getDetectorData();
 	public abstract int getNumberOfSpectra() throws DeviceException;
 	public abstract HashMap<String, Double> getTemperatures() throws DeviceException;
@@ -56,7 +58,21 @@ public interface EdeDetector extends NexusDetector {
 	void synchronizWithDetectorData();
 
 	boolean isDropFirstFrame();
+	/**
+	 * Returns the function used to convert channel number to energy. If not calibrated it should return a simple y = x
+	 * function.
+	 *
+	 * @return PolynomialFunction
+	 */
+	public CalibrationDetails getEnergyCalibration();
 
-	//	void saveDetectorData(DetectorData dd);
+	/**
+	 * Set the energy calibration. The detector object should persist this between GDA server restarts.
+	 *
+	 * @param calibrationDetails
+	 */
+	public void setEnergyCalibration(CalibrationDetails calibrationDetails);
+
+	boolean isEnergyCalibrationSet();
 
 }

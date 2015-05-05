@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.device.detector.DetectorData;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.Roi;
 import gda.factory.Findable;
@@ -242,13 +241,13 @@ public class DetectorModel extends ObservableModel {
 		public static final String ENERGY_CALIBRATION_PROP_NAME = "energyCalibration";
 		@Override
 		public void update(final Object source, Object arg) {
-			if (source instanceof EdeDetector && arg.equals(DetectorData.CALIBRATION_PROP_KEY)) {
+			if (arg.equals(EdeDetector.CALIBRATION_PROP_KEY)) {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
 						String value = "";
-						if (((EdeDetector) source).getDetectorData().isEnergyCalibrationSet()) {
-							value = ((EdeDetector) source).getDetectorData().getEnergyCalibration().getFormattedPolinormal();
+						if (((EdeDetector) source).isEnergyCalibrationSet()) {
+							value = ((EdeDetector) source).getEnergyCalibration().getFormattedPolinormal();
 							EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
 						}
 					}
@@ -257,8 +256,8 @@ public class DetectorModel extends ObservableModel {
 		}
 
 		public String getEnergyCalibration() {
-			if (DetectorModel.INSTANCE.getCurrentDetector() != null &&  DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().isEnergyCalibrationSet()) {
-				return DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().getEnergyCalibration().getFormattedPolinormal();
+			if (DetectorModel.INSTANCE.getCurrentDetector() != null &&  DetectorModel.INSTANCE.getCurrentDetector().isEnergyCalibrationSet()) {
+				return DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getFormattedPolinormal();
 			}
 			return "";
 		}

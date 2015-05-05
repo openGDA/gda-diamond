@@ -35,11 +35,11 @@
 		<property name="dropFirstFrame" value="true"/>
 	</bean>
 	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/frelonDetectorData" />
-		<property name="service" ref="frelonDetectorData" />
-		<property name="serviceInterface" value="gda.device.detector.IDetectorData" />
-	</bean>
+<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
+<!-- 		<property name="serviceName" value="gda/frelonDetectorData" /> -->
+<!-- 		<property name="service" ref="frelonDetectorData" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
+<!-- 	</bean> -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/frelon" />
 		<property name="service" ref="frelon" />

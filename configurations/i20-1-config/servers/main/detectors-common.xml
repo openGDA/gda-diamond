@@ -30,11 +30,11 @@
 		<property name="xh" ref="xstrip"/>
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xhDetectorData" />
-		<property name="service" ref="xhDetectorData" />
-		<property name="serviceInterface" value="gda.device.detector.IDetectorData" />
-	</bean>
+<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
+<!-- 		<property name="serviceName" value="gda/xhDetectorData" /> -->
+<!-- 		<property name="service" ref="xhDetectorData" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
+<!-- 	</bean> -->
 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xh" />

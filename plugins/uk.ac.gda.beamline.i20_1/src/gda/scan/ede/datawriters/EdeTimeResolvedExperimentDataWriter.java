@@ -19,7 +19,6 @@
 package gda.scan.ede.datawriters;
 
 import gda.device.detector.EdeDetector;
-import gda.device.detector.IDetectorData;
 import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
@@ -101,9 +100,8 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 			scannablesConfiguration = scannablesConfiguration + "# Number of cycles: " + itScans.length + "\n";
 		}
 		String energyCalibration = null;
-		IDetectorData detectorData = itScans[0].getDetector().getDetectorData();
-		if (detectorData.isEnergyCalibrationSet()) {
-			energyCalibration = detectorData.getEnergyCalibration().toString();
+		if (detector.isEnergyCalibrationSet()) {
+			energyCalibration = detector.getEnergyCalibration().toString();
 		}
 		timeResolvedNexusFileHelper.setDetectorName4Node(itScans[0].getDetector().getName());
 		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);

@@ -19,12 +19,11 @@
 package gda.device.detector;
 
 import gda.factory.Findable;
-import gda.observable.IObservable;
-import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 
-public interface IDetectorData extends IObservable, Findable {
+public interface IDetectorData extends Findable {
 
 	public static final String ROIS_PROP_NAME = "rois";
+	public static final String EXCLUDED_PIXELS_PROP_NAME = "excludedStrips";
 
 	public abstract int getLowerChannel();
 
@@ -37,12 +36,6 @@ public interface IDetectorData extends IObservable, Findable {
 	public abstract Roi[] getRois();
 
 	public abstract void setRois(Roi[] rois);
-
-	public abstract CalibrationDetails getEnergyCalibration();
-
-	public abstract void setEnergyCalibration(CalibrationDetails energyCalibration);
-
-	public abstract boolean isEnergyCalibrationSet();
 
 	public abstract Integer[] getExcludedPixels();
 

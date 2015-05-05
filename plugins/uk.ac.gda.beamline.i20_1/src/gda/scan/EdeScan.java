@@ -267,7 +267,11 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			}
 			if (theDetector instanceof EdeFrelon) {
 				if (lastImageRead!=lastImageReady) {
-					createDataPoints(lastImageRead+1,lastImageReady);
+					if (lastImageReady!=-1) {
+						createDataPoints(lastImageRead+1,lastImageReady);
+					} else {
+						logger.warn("detector {} does not take any data yet. The lastImageReady = {}", getName(), lastImageReady);
+					}
 				}
 			}
 		}
