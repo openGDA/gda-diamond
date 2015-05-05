@@ -18,7 +18,7 @@
 	see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05.analyser;
+package uk.ac.gda.beamline.i05_1.analyser;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -26,13 +26,13 @@ import java.util.Map;
 
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
-public class I05AnalyserCapabilties implements AnalyserCapabilties {
+public class I05_1AnalyserCapabilties implements AnalyserCapabilties {
 
 	private String name = "AnalyserCapabilties";
 
 	private Map<String, double[]> lens2angles = new LinkedHashMap<String, double[]>(8);
 
-	public I05AnalyserCapabilties() {
+	public I05_1AnalyserCapabilties() {
 		for (Object[] o : new Object[][] {
 				{
 						"Transmission",

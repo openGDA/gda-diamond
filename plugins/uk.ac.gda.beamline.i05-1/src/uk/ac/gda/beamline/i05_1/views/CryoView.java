@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05.views;
+package uk.ac.gda.beamline.i05_1.views;
 
 import gda.device.Scannable;
 import gda.factory.Finder;

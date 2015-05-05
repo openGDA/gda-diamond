@@ -1,4 +1,4 @@
-package uk.ac.gda.beamline.i05.views;
+package uk.ac.gda.beamline.i05_1.views;
 
 import gda.device.Device;
 import gda.factory.Finder;
@@ -9,16 +9,16 @@ import org.eclipse.ui.part.ViewPart;
 
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
-public class ContinuousModeControllerView extends ViewPart implements IObserver {
+public class I05_1ContinuousModeControllerView extends ViewPart implements IObserver {
 	
 	private Device analyser;
 	private Device psu;
 	private AnalyserCapabilties capabilities;
 	
-	public ContinuousModeControllerView() {
+	public I05_1ContinuousModeControllerView() {
 	}
 
-	private ContinuousModeControllerComposite continuousModeControllerComposite;
+	private I05_1ContinuousModeControllerComposite continuousModeControllerComposite;
 	
 	@Override
 	public void createPartControl(Composite parent) {	
@@ -31,7 +31,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		if (psu != null) {
 			psu.addIObserver(this);
 		}		
-		continuousModeControllerComposite = new ContinuousModeControllerComposite(parent, capabilities);
+		continuousModeControllerComposite = new I05_1ContinuousModeControllerComposite(parent, capabilities);
 	}
 
 	@Override

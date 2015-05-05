@@ -16,13 +16,13 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05.perspectives;
+package uk.ac.gda.beamline.i05_1.perspectives;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-public class ArpesAlignmentPerspective implements IPerspectiveFactory {
+public class I05_1ArpesAlignmentPerspective implements IPerspectiveFactory {
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {

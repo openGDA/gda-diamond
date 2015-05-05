@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05.views;
+package uk.ac.gda.beamline.i05_1.views;
 
 import gda.device.DeviceException;
 import gda.device.MotorStatus;
@@ -47,14 +47,14 @@ import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.beamline.i05.I05BeamlineActivator;
+import uk.ac.gda.beamline.i05_1.I05_1BeamlineActivator;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class ContinuousModeControllerComposite {
+public class I05_1ContinuousModeControllerComposite {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerComposite.class);
+	private static final Logger logger = LoggerFactory.getLogger(I05_1ContinuousModeControllerComposite.class);
 	private Combo lensMode;
 	private Combo passEnergy;
 	private Button startButton;
@@ -64,7 +64,7 @@ public class ContinuousModeControllerComposite {
 	private Button shutterButton;
 	
 	@SuppressWarnings("unused") //compiler thinks NudgePositionerComposite isn't used
-	public ContinuousModeControllerComposite(Composite parent, AnalyserCapabilties capabilities) {
+	public I05_1ContinuousModeControllerComposite(Composite parent, AnalyserCapabilties capabilities) {
 		
 		Composite comp = new Composite(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(3, true));
@@ -292,7 +292,7 @@ public class ContinuousModeControllerComposite {
 		new NudgePositionerComposite(comp1, SWT.RIGHT, wrappedEnergyScannable, true, null, true, true);
 		new Label(comp1, SWT.NONE);
 		
-		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", true, true);
+		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05_1BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", true, true);
 		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")), true, null, true, true);
 		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")), true, null, true, true);
 		

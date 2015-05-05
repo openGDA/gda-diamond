@@ -17,7 +17,7 @@
  */
 
 
-package uk.ac.gda.beamline.i05.perspectives;
+package uk.ac.gda.beamline.i05_1.perspectives;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,9 +41,9 @@ import uk.ac.gda.util.io.FileUtils;
 
 
 
-public class ArpesExperimentPerspective implements IPerspectiveFactory {
+public class I05_1ArpesExperimentPerspective implements IPerspectiveFactory {
 
-	private  static final Logger logger = LoggerFactory.getLogger(ArpesExperimentPerspective.class);
+	private  static final Logger logger = LoggerFactory.getLogger(I05_1ArpesExperimentPerspective.class);
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(true);

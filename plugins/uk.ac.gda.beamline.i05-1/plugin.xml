@@ -4,7 +4,7 @@
         <extension
          point="org.eclipse.ui.intro">
       <intro
-            class="uk.ac.gda.beamline.i05.I05Intro"
+            class="uk.ac.gda.beamline.i05_1.I05_1Intro"
             id="uk.ac.gda.beamline.i05.i05intro">
       </intro>
       <introProductBinding introId="uk.ac.gda.beamline.i05.i05intro" productId="uk.ac.gda.beamline.i05-1.product"/>
@@ -14,10 +14,11 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="Beamline I05">
+            description="GDA nanoARPES"
+            name="Beamline I05-1">
          <property
                name="appName"
-               value="Beamline I05">
+               value="Beamline I05-1">
          </property>
          <property
                name="preferenceCustomization"
@@ -36,7 +37,7 @@
    <extension
          point="org.eclipse.ui.startup">
       <startup
-            class="uk.ac.gda.beamline.i05.I05StartupService">
+            class="uk.ac.gda.beamline.i05_1.I05_1StartupService">
       </startup>
    </extension>
 <extension
@@ -68,13 +69,13 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
+            class="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective"
             id="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
             icon="icons/application_view_gallery.png"
             name="ARPES Alignment">
       </perspective>     
       <perspective
-            class="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
+            class="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective"
             id="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
             icon="icons/application_view_gallery.png"
             name="ARPES Experiment">
@@ -112,14 +113,14 @@
       </view>
       <view
             category="gda.rcp.arpes"
-            class="uk.ac.gda.beamline.i05.views.ContinuousModeControllerView"
+            class="uk.ac.gda.beamline.i05_1.views.I05_1ContinuousModeControllerView"
             icon="icons/sample.gif"
             id="uk.ac.gda.arpes.ui.continuousmodecontroller"
             name="Continuous Mode"
             restorable="true">
       </view>
             <view
-                  class="uk.ac.gda.beamline.i05.views.CryoView"
+                  class="uk.ac.gda.beamline.i05_1.views.CryoView"
                   id="uk.ac.gda.arpes.ui.views.CryoView"
                   name="Cryo View">
             </view>

@@ -151,7 +151,7 @@
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
 	
-	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties"	/>
+	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05_1.analyser.I05_1AnalyserCapabilties"	/>
 	
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />

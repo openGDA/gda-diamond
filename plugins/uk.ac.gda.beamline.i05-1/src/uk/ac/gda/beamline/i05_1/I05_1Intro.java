@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05;
+package uk.ac.gda.beamline.i05_1;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -28,8 +28,8 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class I05Intro extends IntroPart {
-	private static final Logger logger = LoggerFactory.getLogger(I05Intro.class);
+public class I05_1Intro extends IntroPart {
+	private static final Logger logger = LoggerFactory.getLogger(I05_1Intro.class);
 	
 	@Override
 	public void standbyStateChanged(boolean standby) {

@@ -16,14 +16,14 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05;
+package uk.ac.gda.beamline.i05_1;
 
 import org.eclipse.ui.IStartup;
 
 /**
  * Setting up the data prior to other views connecting to it.
  */
-public class I05StartupService implements IStartup {
+public class I05_1StartupService implements IStartup {
 
 	@Override
 	public void earlyStartup() {

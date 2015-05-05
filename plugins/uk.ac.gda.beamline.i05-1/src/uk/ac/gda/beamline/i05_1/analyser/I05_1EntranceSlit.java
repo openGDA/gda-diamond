@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05.analyser;
+package uk.ac.gda.beamline.i05_1.analyser;
 
 import gda.epics.connection.EpicsController;
 import gda.factory.Configurable;
@@ -33,8 +33,8 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.devices.vgscienta.EntranceSlitInformationProvider;
 
-public class I05EntranceSlit implements EntranceSlitInformationProvider, Configurable, MonitorListener{
-	private static final Logger logger = LoggerFactory.getLogger(I05EntranceSlit.class);
+public class I05_1EntranceSlit implements EntranceSlitInformationProvider, Configurable, MonitorListener{
+	private static final Logger logger = LoggerFactory.getLogger(I05_1EntranceSlit.class);
 
 	// BL05I-EA-SLITS-01:POS
 	private String labelPV = "BL05I-EA-SLITS-01:POS";

@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05;
+package uk.ac.gda.beamline.i05_1;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -24,14 +24,14 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class I05BeamlineActivator extends AbstractUIPlugin {
+public class I05_1BeamlineActivator extends AbstractUIPlugin {
 
 	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i05";
-	private static I05BeamlineActivator plugin;
+	private static I05_1BeamlineActivator plugin;
 
 	public static final String EXIT_SLIT_SIZE_SCANNABLE = "exit_slit";
 	
-	public I05BeamlineActivator() {
+	public I05_1BeamlineActivator() {
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class I05BeamlineActivator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static I05BeamlineActivator getDefault() {
+	public static I05_1BeamlineActivator getDefault() {
 		return plugin;
 	}
 }
