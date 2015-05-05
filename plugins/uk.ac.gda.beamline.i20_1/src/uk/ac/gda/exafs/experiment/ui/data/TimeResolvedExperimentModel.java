@@ -554,12 +554,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	protected void setScanning(final boolean value) {
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
-			}
-		});
+		//		Display.getDefault().syncExec(new Runnable() {
+		//			@Override
+		//			public void run() {
+		firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
+		//			}
+		//		});
 	}
 
 	public boolean isScanning() {
