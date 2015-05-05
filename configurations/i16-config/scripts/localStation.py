@@ -916,6 +916,7 @@ zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPe
 
 zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
 #zylar needs scaling factors?
+zylar.processors[0].processors[1].setScalingFactors(1, 1)
 
 ### cam1 ###
 bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
