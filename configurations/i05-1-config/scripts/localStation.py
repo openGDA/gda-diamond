@@ -68,6 +68,7 @@ centre_energy.setInputNames(["centre_energy"])
 
 caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
 
+import arpes
 import pathscanTable as pst
 
 print "==================================================================="
