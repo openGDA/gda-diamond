@@ -5,9 +5,9 @@
          point="org.eclipse.ui.intro">
       <intro
             class="uk.ac.gda.beamline.i05_1.I05_1Intro"
-            id="uk.ac.gda.beamline.i05.i05intro">
+            id="uk.ac.gda.beamline.i05_1.i05_1intro">
       </intro>
-      <introProductBinding introId="uk.ac.gda.beamline.i05.i05intro" productId="uk.ac.gda.beamline.i05-1.product"/>
+      <introProductBinding introId="uk.ac.gda.beamline.i05_1.i05_1intro" productId="uk.ac.gda.beamline.i05-1.product"/>
    </extension>
    <extension
          id="product"
@@ -70,13 +70,13 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective"
-            id="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
+            id="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective"
             icon="icons/application_view_gallery.png"
             name="ARPES Alignment">
       </perspective>     
       <perspective
             class="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective"
-            id="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
+            id="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective"
             icon="icons/application_view_gallery.png"
             name="ARPES Experiment">
       </perspective>  
@@ -119,10 +119,5 @@
             name="Continuous Mode"
             restorable="true">
       </view>
-            <view
-                  class="uk.ac.gda.beamline.i05_1.views.CryoView"
-                  id="uk.ac.gda.arpes.ui.views.CryoView"
-                  name="Cryo View">
-            </view>
    </extension>
  </plugin>

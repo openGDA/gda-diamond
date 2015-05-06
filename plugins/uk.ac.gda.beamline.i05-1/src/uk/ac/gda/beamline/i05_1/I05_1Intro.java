@@ -45,8 +45,8 @@ public class I05_1Intro extends IntroPart {
 		
 		for (String id : new String[] {
 				"uk.ac.gda.client.scripting.JythonPerspective",	
-				"uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective",
-				"uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
+				"uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective",
+				"uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective"
 				}) {
 			try {
 				PlatformUI.getWorkbench().showPerspective(id, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
