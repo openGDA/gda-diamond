@@ -53,8 +53,7 @@ public class I05_1ArpesExperimentPerspective implements IPerspectiveFactory {
 			folderLayout.addView("uk.ac.gda.client.arpes.sumview");
 			folderLayout.addView("uk.ac.gda.client.arpes.sweptview");
 		}
-		layout.addView("uk.ac.gda.client.CommandQueueViewFactory", IPageLayout.TOP, 0.55f, "uk.ac.gda.client.arpes.cameraview");
-		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.45f, "uk.ac.gda.client.CommandQueueViewFactory");
+		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.45f, "uk.ac.gda.client.arpes.cameraview");
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.48f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("gda.rcp.jythonterminalview");

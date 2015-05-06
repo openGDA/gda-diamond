@@ -38,7 +38,6 @@ public class I05_1ArpesAlignmentPerspective implements IPerspectiveFactory {
 			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.5f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("gda.rcp.views.baton.BatonView");
 			folderLayout.addView("gda.rcp.jythonterminalview");
-			folderLayout.addView("uk.ac.gda.client.CommandQueueViewFactory");
 		}
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_1", IPageLayout.TOP, 0.79f, "folder_2");
