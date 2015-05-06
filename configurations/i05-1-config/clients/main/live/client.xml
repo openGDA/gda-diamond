@@ -12,14 +12,6 @@
         http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<!-- host should better be autodiscovered -->
-		<property name="serviceUrl"
-			value="rmi://i05-1-control.diamond.ac.uk/gda/commandQueueProcessor" />
-		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
 	<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="sockpuppet" />
 	</bean>
