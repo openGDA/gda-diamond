@@ -115,6 +115,10 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 			} else {
 				datasetNode = scans.get(scanIdentifier);
 			}
+			//Force it to check if users want display data in Strips
+			if (isUseStripsAsXaxis()) {
+				arg=new EdeExperimentProgressBean(edeExperimentProgress.getExperimentCollectionType(), edeScanProgress, edeExperimentProgress.getDataLabel(), edeExperimentProgress.getData(), stripsData);
+			}
 			addedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
 			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, addedData);
 		}
