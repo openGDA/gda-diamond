@@ -275,8 +275,7 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
-		NexusFile file = NexusUtils.createNXFile(nexusFilename);
-		file.openToRead();
+		NexusFile file = NexusUtils.openNexusFileReadOnly(nexusFilename);
 		GroupNode g = file.getGroup("/entry1", false);
 		
 		// cyclic?
