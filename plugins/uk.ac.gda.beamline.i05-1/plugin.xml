@@ -112,10 +112,11 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="false"
             category="gda.rcp.arpes"
             class="uk.ac.gda.beamline.i05_1.views.I05_1ContinuousModeControllerView"
             icon="icons/sample.gif"
-            id="uk.ac.gda.arpes.ui.continuousmodecontroller"
+            id="uk.ac.gda.beamline.i05_1.views.I05_1ContinuousModeControllerView"
             name="Continuous Mode"
             restorable="true">
       </view>

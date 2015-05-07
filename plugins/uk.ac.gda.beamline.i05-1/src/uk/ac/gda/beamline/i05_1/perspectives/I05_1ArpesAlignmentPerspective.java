@@ -33,7 +33,7 @@ public class I05_1ArpesAlignmentPerspective implements IPerspectiveFactory {
 			folderLayout.addView("uk.ac.gda.client.arpes.sumview");
 		}
 		layout.addView("uk.ac.gda.rcp.views.dashboardView", IPageLayout.TOP, 0.28f, "folder_3");
-		layout.addView("uk.ac.gda.arpes.ui.continuousmodecontroller", IPageLayout.TOP, 0.35f, "folder_3");
+		layout.addView("uk.ac.gda.beamline.i05_1.views.I05_1ContinuousModeControllerView", IPageLayout.TOP, 0.35f, "folder_3");
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_2", IPageLayout.BOTTOM, 0.5f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("gda.rcp.views.baton.BatonView");
