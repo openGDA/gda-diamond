@@ -3,27 +3,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<bean id="salong" class="uk.ac.gda.beamline.i05.scannable.CombinedManipulator">
-<property name="scannables">
-<list>
-<ref bean="sax"/>
-<ref bean="say"/>
-</list>
-</property>
-<property name="calculator">
-<bean class="uk.ac.gda.beamline.i05.scannable.salongCalculator" />
-</property>
-</bean>
+	<bean id="salong" class="uk.ac.gda.beamline.i05.scannable.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="sax" />
+				<ref bean="say" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.beamline.i05.scannable.salongCalculator" />
+		</property>
+	</bean>
 
-<bean id="saperp" class="uk.ac.gda.beamline.i05.scannable.CombinedManipulator">
-<property name="scannables">
-<list>
-<ref bean="sax"/>
-<ref bean="say"/>
-</list>
-</property>
-<property name="calculator">
-<bean class="uk.ac.gda.beamline.i05.scannable.saperpCalculator" />
-</property>
-</bean>
+	<bean id="saperp" class="uk.ac.gda.beamline.i05.scannable.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="sax" />
+				<ref bean="say" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.beamline.i05.scannable.saperpCalculator" />
+		</property>
+	</bean>
 </beans>
