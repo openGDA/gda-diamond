@@ -206,9 +206,6 @@ public class FrelonCcdDetectorData extends DetectorData {
 	 * @param areaOfInterest
 	 */
 	public void setAreaOfInterest(LimaROIIntImpl areaOfInterest) {
-		// set the limits for ROI in energy direction
-		setLowerChannel(areaOfInterest.getBeginX());
-		setUpperChannel(areaOfInterest.getLengthX()+areaOfInterest.getBeginX());
 		this.areaOfInterest = areaOfInterest;
 	}
 }

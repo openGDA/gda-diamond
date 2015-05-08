@@ -20,7 +20,6 @@ package gda.device.detector.xstrip;
 
 import gda.device.DeviceException;
 import gda.device.detector.DAServer;
-import gda.device.detector.DetectorData;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
@@ -616,18 +615,6 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	public int getMaxPixel() {
 		return MAX_PIXEL;
 	}
-
-	@Override
-	protected DetectorData createDetectorData() {
-		return new XhDetectorData();
-	}
-
-
-	@Override
-	protected DetectorData createDetectorDataFromJson(String property) {
-		return GSON.fromJson(property, XhDetectorData.class);
-	}
-
 
 	@Override
 	public void synchronizWithDetectorData() {

@@ -21,11 +21,13 @@ package uk.ac.gda.exafs.alignment.ui;
 import gda.device.detector.Roi;
 
 import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -49,6 +51,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.DetectorModel.ROIsSetObserver;
 
 public class DetectorROIsSection extends ResourceComposite {
 
@@ -194,6 +197,10 @@ public class DetectorROIsSection extends ResourceComposite {
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(roisSection),
 				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
+
+		dataBindingCtx.bindValue(
+				ViewersObservables.observeInput(roisTableViewer),
+				BeanProperties.value(ROIsSetObserver.ROIS_PROP_NAME).observe(DetectorModel.INSTANCE.getRoisSetObserver()));
 	}
 
 	// TODO Add editor change support

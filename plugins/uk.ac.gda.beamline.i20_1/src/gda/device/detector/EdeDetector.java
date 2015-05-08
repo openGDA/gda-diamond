@@ -31,6 +31,8 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 public interface EdeDetector extends NexusDetector {
 	public static final String CALIBRATION_PROP_KEY = "calibration";
 	public static final int INITIAL_NO_OF_ROIS = 4;
+	public static final String ROIS_PROP_NAME = "rois";
+	public static final String EXCLUDED_PIXELS_PROP_NAME = "excludedStrips";
 
 	public abstract NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
 
@@ -74,5 +76,44 @@ public interface EdeDetector extends NexusDetector {
 	public void setEnergyCalibration(CalibrationDetails calibrationDetails);
 
 	boolean isEnergyCalibrationSet();
+	/**
+	 * Returns the regions in use, as defined by calls to setRois or setNumberRois
+	 *
+	 * @return the array of regions
+	 */
+	public Roi[] getRois();
 
+	/**
+	 * Ignoring the lower and upper channel properties, explicitly set the regions in use.
+	 *
+	 * @param rois
+	 */
+	public void setRois(Roi[] rois);
+
+	/**
+	 * Set evenly sized regions of interest, ignoring channels outside of the lower and upper channel limits.
+	 *
+	 * @param numberOfRois
+	 */
+	public void setNumberRois(int numberOfRois);
+	public int getNumberOfRois();
+	public void setLowerChannel(int channel);
+
+	public int getLowerChannel();
+
+	public void setUpperChannel(int channel);
+
+	public int getUpperChannel();
+	/**
+	 * The numbers of the strips which should be excluded when returning the data and creating region totals.
+	 * <p>
+	 * NB: these strips are still to be accounted for by the set/getChannelBiases methods.
+	 *
+	 * @param excludedStrips
+	 */
+	public void setExcludedPixels(Integer[] excludedStrips);
+
+	public Integer[] getExcludedPixels();
+
+	public int getRoiFor(int elementIndex);
 }

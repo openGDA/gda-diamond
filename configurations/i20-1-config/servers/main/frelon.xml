@@ -24,8 +24,6 @@
 		</property>
 	</bean>
 	<bean id="frelonDetectorData" class="gda.device.detector.frelon.FrelonCcdDetectorData">
-		<property name="upperChannel" value="2047"/>
-		<property name="lowerChannel" value="0"/>
 	</bean>
 	
 	<bean id="frelon" class="gda.device.detector.frelon.EdeFrelon">
@@ -33,6 +31,8 @@
 		<property name="limaCcd" ref="__limaCCD"/>
 		<property name="detectorData" ref="frelonDetectorData"/>
 		<property name="dropFirstFrame" value="true"/>
+		<property name="upperChannel" value="2047"/>
+		<property name="lowerChannel" value="0"/>
 	</bean>
 		
 	<bean id="ssfrelon" class="gda.device.detector.StepScanEdeDetector">

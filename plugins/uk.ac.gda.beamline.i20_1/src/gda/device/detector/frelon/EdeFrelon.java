@@ -21,7 +21,6 @@ package gda.device.detector.frelon;
 import fr.esrf.Tango.DevFailed;
 import gda.device.Detector;
 import gda.device.DeviceException;
-import gda.device.detector.DetectorData;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetectorBase;
 import gda.device.frelon.Frelon;
@@ -45,16 +44,16 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 public class EdeFrelon extends EdeDetectorBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeFrelon.class);
-	private static final double PIXEL_RATE=10.0; // MPixel/s per channel
-	private static final double PIXEL_SIZE=14; // micro-meter
-	private static final double LINE_TRANSFER_TIME_EXAFS=0.000004; // second 4us
-	private static final double LINE_TRANSFER_TIEM_IMAGING=0.000008; //second 8us
-	private static final int RESOLUTION=16; // bit
-	private static final double READOUT_SPEED=40.0; // MPixel/s
-	private static final double FULL_FRAME_RATE_WITHOUT_BINNING_IMAGING=8.35; //Frames/s
-	private static final double FULL_FRAME_RATE_WITHOUT_BINNING_EXAFS=16.7; //Frames/s
-	private static final double FRAME_TRANSFER_RATE_WITHOU_BINNIN_IMAGING=15.7; //Frames/s, exposure<59ms
-	private static final double FRAME_TRANSFER_RATE_WITHOU_BINNIN_EXAFS=27.6; //Frames/s, exposure<58ms
+	//	private static final double PIXEL_RATE=10.0; // MPixel/s per channel
+	//	private static final double PIXEL_SIZE=14; // micro-meter
+	//	private static final double LINE_TRANSFER_TIME_EXAFS=0.000004; // second 4us
+	//	private static final double LINE_TRANSFER_TIEM_IMAGING=0.000008; //second 8us
+	//	private static final int RESOLUTION=16; // bit
+	//	private static final double READOUT_SPEED=40.0; // MPixel/s
+	//	private static final double FULL_FRAME_RATE_WITHOUT_BINNING_IMAGING=8.35; //Frames/s
+	//	private static final double FULL_FRAME_RATE_WITHOUT_BINNING_EXAFS=16.7; //Frames/s
+	//	private static final double FRAME_TRANSFER_RATE_WITHOU_BINNIN_IMAGING=15.7; //Frames/s, exposure<59ms
+	//	private static final double FRAME_TRANSFER_RATE_WITHOU_BINNIN_EXAFS=27.6; //Frames/s, exposure<58ms
 
 	private LimaCCD limaCcd;
 	private Frelon frelon;
@@ -116,9 +115,9 @@ public class EdeFrelon extends EdeDetectorBase {
 		try {
 			LimaROIIntImpl imageROIInt = (LimaROIIntImpl) limaCcd.getImageROIInt();
 			((FrelonCcdDetectorData)getDetectorData()).setAreaOfInterest(imageROIInt);
-			((FrelonCcdDetectorData)getDetectorData()).setLowerChannel(imageROIInt.getBeginX());
-			((FrelonCcdDetectorData)getDetectorData()).setUpperChannel(imageROIInt.getLengthX()+imageROIInt.getBeginX());
-			((FrelonCcdDetectorData)getDetectorData()).setNumberRois(getDetectorData().getRois().length);
+			setLowerChannel(imageROIInt.getBeginX());
+			setUpperChannel(imageROIInt.getLengthX()+imageROIInt.getBeginX());
+			setNumberRois(getRois().length);
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd image_roi", e);
 		}
@@ -362,7 +361,7 @@ public class EdeFrelon extends EdeDetectorBase {
 			TimingGroup timingGroup = currentScanParameter.getGroups().get(i);
 			double accumlationTime = timingGroup.getTimePerScan();
 			int numberOfAccumulation = timingGroup.getNumberOfScansPerFrame();
-			double exposureTime = timingGroup.getTimePerFrame();
+			//			double exposureTime = timingGroup.getTimePerFrame();
 			Integer numberOfImages = timingGroup.getNumberOfFrames();
 			if (numberOfImages < 2) {
 				//collect minimum 2 spectrum as the 1st one sometime crap.
@@ -521,15 +520,6 @@ public class EdeFrelon extends EdeDetectorBase {
 		}
 
 		return status;
-	}
-	@Override
-	protected DetectorData createDetectorDataFromJson(String property) {
-		return GSON.fromJson(property, FrelonCcdDetectorData.class);
-	}
-
-	@Override
-	protected DetectorData createDetectorData() {
-		return new FrelonCcdDetectorData();
 	}
 
 	@Override

@@ -599,7 +599,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				@Override
 				public void run() {
 					try {
-						int numberSectors = detector.getDetectorData().getRois().length;
+						int numberSectors = detector.getRois().length;
 						allValues = new double[0];
 						regionValues = new double[numberSectors][0];
 						while (continueLiveLoop

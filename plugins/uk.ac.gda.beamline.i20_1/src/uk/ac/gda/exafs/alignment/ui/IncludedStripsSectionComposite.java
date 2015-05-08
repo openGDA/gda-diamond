@@ -97,13 +97,28 @@ public class IncludedStripsSectionComposite extends ResourceComposite {
 
 		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, dectectorChangeListener);
 
+		//TODO why the following extra 2 listeners is required to keep 2 instance of 'Included strips' in sync.
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.LOWER_CHANNEL_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				cmbFirstStripViewer.setSelection(new StructuredSelection(evt.getNewValue()));
+			}
+		});
+
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.UPPER_CHANNEL_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				cmbLastStripViewer.setSelection(new StructuredSelection(evt.getNewValue()));
+			}
+		});
+
 		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
 			bindUpperAndLowerChannelComboViewers();
 		}
 
 		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
-			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().getLowerChannel()));
-			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().getUpperChannel()));
+			cmbFirstStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getLowerChannel()));
+			cmbLastStripViewer.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector().getUpperChannel()));
 		}
 
 		dataBindingCtx.bindValue(
