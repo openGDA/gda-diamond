@@ -301,7 +301,7 @@ public class ContinuousModeControllerComposite {
 		
 		Composite nudgeComposite = new Composite(viewerComposite, SWT.NONE);
 		nudgeComposite.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1));
-		GridLayout glNudgeComposite = new GridLayout(3, false);
+		GridLayout glNudgeComposite = new GridLayout(5, false);
 		glNudgeComposite.horizontalSpacing = 25;
 		nudgeComposite.setLayout(glNudgeComposite);
 		
@@ -309,12 +309,11 @@ public class ContinuousModeControllerComposite {
 		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sax")));
 		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("say")));
 		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saz")));
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("salong")));
+		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saperp")));
 		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("satilt")));
 		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("sapolar")));
 		new NudgePositionerComposite(nudgeComposite, SWT.RIGHT, (Scannable)(Finder.getInstance().find("saazimuth")));
-		new Label(nudgeComposite, SWT.NONE);
-		new Label(nudgeComposite, SWT.NONE);
-		new Label(comp, SWT.NONE);
 	}
 	
 	private int comboForPE(String pe, String[] passArray) {

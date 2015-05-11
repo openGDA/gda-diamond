@@ -26,30 +26,53 @@ import gda.device.scannable.corba.impl.ScannableImpl;
 import gda.factory.FactoryException;
 import gda.factory.corba.util.CorbaAdapterClass;
 import gda.factory.corba.util.CorbaImplClass;
+import gda.observable.IObserver;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ *
+ */
 @CorbaAdapterClass(ScannableAdapter.class)
 @CorbaImplClass(ScannableImpl.class)
-public class CombinedManipulator extends ScannableBase {
+public class CombinedManipulator extends ScannableBase implements IObserver {
 
 	private List<Scannable> scannables = new Vector<Scannable>();
 	private CombinedCaculator calculator;
+	private IObserver iobserver = new IObserver() {
+		
+		@Override
+		public void update(Object source, Object arg) {
+			updateEvent(source, arg);
+		}
+	};
 	
+	/**
+	 * @return The calculator in use
+	 */
 	public CombinedCaculator getCalculator() {
 		return calculator;
 	}
 
+	/**
+	 * @param calculator Sets the calculator to be used
+	 */
 	public void setCalculator(CombinedCaculator calculator) {
 		this.calculator = calculator;
 	}
 
+	/**
+	 * @return The list of scannables moved by this combined scannable
+	 */
 	public List<Scannable> getScannables() {
 		return new Vector<Scannable>(scannables);
 	}
 
+	/**
+	 * @param scannables Sets the list of scannables moved by this combined scannable
+	 */
 	public void setScannables(List<Scannable> scannables) {
 		this.scannables = scannables;
 		setupExtraNames();
@@ -59,6 +82,13 @@ public class CombinedManipulator extends ScannableBase {
 	public void configure() throws FactoryException {
 		setInputNames(new String[] {getName()});
 		setupExtraNames();
+		
+		// Setup observers to pass through events of the "real" scannables
+		// This allow the detection of this scannable starting to move when
+		// one of its "real" scannables moves.	
+		for (Scannable s : scannables) {
+			s.addIObserver(iobserver);
+		}
 	}
 			
 	private void setupExtraNames() {
@@ -97,8 +127,12 @@ public class CombinedManipulator extends ScannableBase {
 		
 		List<Double> demands = calculator.getDemands(doublePosition, getPositions());
 		
-		for (Iterator diterator = demands.iterator(), siterator = scannables.iterator(); diterator.hasNext();) {
-			((Scannable) siterator.next()).asynchronousMoveTo(diterator.next());
+		Iterator<Double> demandsIterator = demands.iterator();
+		Iterator<Scannable> scannablesIterator = scannables.iterator();
+		
+		// Move each of the scannables to their demanded position.
+		while (demandsIterator.hasNext()) {
+			scannablesIterator.next().asynchronousMoveTo(demandsIterator.next());
 		}
 	}
 	
@@ -116,5 +150,20 @@ public class CombinedManipulator extends ScannableBase {
 		Double rbv = calculator.getRBV(pos);
 		pos.insertElementAt(rbv, 0);
 		return pos.toArray(new Double[]{});
+	}
+
+	/**
+	 * This should pass the events fired by the underlying scannables and fire events
+	 * from the combined scannable.
+	 * @param source
+	 * @param arg
+	 */
+	private void updateEvent(Object source, Object arg){
+		update(source, arg);
+	}
+
+	@Override
+	public void update(Object source, Object arg) {
+		notifyIObservers(source, arg);
 	}
 }
