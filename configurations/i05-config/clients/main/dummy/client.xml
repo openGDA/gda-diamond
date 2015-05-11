@@ -44,16 +44,6 @@
                 <property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
                 <property name="service" ref="camera_config" />
         </bean>
-        
-        <bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-        <!--  host should better be autodiscovered -->
-          <!--       <property name="serviceUrl"
-                        value="rmi://i05-control.diamond.ac.uk/gda/commandQueueProcessor" /> -->           
-                <property name="serviceUrl"
-                        value="rmi://localhost/gda/commandQueueProcessor" />
-                <property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
-                <property name="refreshStubOnConnectFailure" value="true" />
-        </bean>
 
 		<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
 			<property name="clientFileAnnouncerName" value="sockpuppet" />

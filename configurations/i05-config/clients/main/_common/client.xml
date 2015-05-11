@@ -30,15 +30,6 @@
 		</constructor-arg>
 	</bean>
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="gda.commandqueue.Processor" />
-		<property name="service" ref="commandQueueProcessor" />
-	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="gda.commandqueue.Queue" />
-		<property name="service" ref="commandQueueProcessor" />
-	</bean>
-
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/analyser" />
 		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
