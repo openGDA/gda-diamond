@@ -480,7 +480,13 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 					public void run() {
 						// FIXME This scanning method needs to be improved
 						final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
-						TimeResolvedExperimentModel.this.setScanning(true);
+						Display.getDefault().syncExec(new Runnable() {
+							@Override
+							public void run() {
+								TimeResolvedExperimentModel.this.setScanning(true);
+							}
+						});
+
 						for (Object object : groupList) {
 							TimingGroupUIModel uiTimingGroup = (TimingGroupUIModel) object;
 							TimingGroup timingGroup = new TimingGroup();
@@ -505,9 +511,15 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
+			} finally {
+				monitor.done();
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						TimeResolvedExperimentModel.this.setScanning(false);
+					}
+				});
 			}
-			TimeResolvedExperimentModel.this.setScanning(false);
-			monitor.done();
 			return Status.OK_STATUS;
 		}
 
