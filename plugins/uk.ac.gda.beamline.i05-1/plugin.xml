@@ -55,8 +55,6 @@
       <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
       <Scannable name="energy" tooltip="photon energy" />
       <Scannable name="pgm_cff" tooltip="monochromator cff" />
-      <Scannable name="cryostat" tooltip="sample temperature" />
-      <Scannable name="sa" tooltip="cryo manipulator" />
       <Scannable name="psu_mode" tooltip="High or Low Pass" />
 </extension>
 <extension
