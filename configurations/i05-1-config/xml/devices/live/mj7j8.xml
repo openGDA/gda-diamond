@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="mj7j8_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-OP-RFM-01:X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="mj7j8_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mj7j8_x_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="mj7j8_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-OP-RFM-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="mj7j8_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mj7j8_y_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="mj7j8_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-OP-RFM-01:Z" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="mj7j8_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mj7j8_z_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="mj7j8_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-OP-RFM-01:YAW" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="mj7j8_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mj7j8_yaw_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="mj7j8_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-OP-RFM-01:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="mj7j8_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mj7j8_pitch_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="mj7j8_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-OP-RFM-01:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="mj7j8_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mj7j8_roll_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="mj7j8" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="mj7j8_x" />
+				<ref bean="mj7j8_y" />
+				<ref bean="mj7j8_z" />
+				<ref bean="mj7j8_yaw" />
+				<ref bean="mj7j8_pitch" />
+				<ref bean="mj7j8_roll" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+</beans>
