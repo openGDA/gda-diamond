@@ -38,6 +38,7 @@
 		<config>clients/main/live/client.xml</config>
 		<config>clients/main/_common/client.xml</config>
 		<config>clients/main/dummy/client.xml</config>
+		<config>xml/devices/live/shtrj.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
