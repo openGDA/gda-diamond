@@ -31,5 +31,12 @@
 
 	<!-- storage ring -->
 	<import resource="ring.xml" />
+	
+	<!-- shutters -->
+	<import resource="shtrj.xml"/>
+	
+	<!-- analyser -->
+	<import resource="scientaslit.xml" />
+	<import resource="../analyser.xml"/>
 
 </beans>

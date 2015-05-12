@@ -44,13 +44,11 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.beamline.i05_1.I05_1BeamlineActivator;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
-
-import org.eclipse.wb.swt.SWTResourceManager;
 
 public class I05_1ContinuousModeControllerComposite {
 	
@@ -225,11 +223,7 @@ public class I05_1ContinuousModeControllerComposite {
 		SelectionListener shutterListener = new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//TODO close shutter
-				//Shutter 1 (HR line)
-				//BL05I-PS-SHTR-01
-				//JythonServerFacade.getInstance().runCommand("");
-				InterfaceProvider.getCommandRunner().runCommand("hr_shutter(1)");
+				InterfaceProvider.getCommandRunner().runCommand("nano_shutter(1)");
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -292,7 +286,7 @@ public class I05_1ContinuousModeControllerComposite {
 		new NudgePositionerComposite(comp1, SWT.RIGHT, wrappedEnergyScannable, true, null, true, true);
 		new Label(comp1, SWT.NONE);
 		
-		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find(I05_1BeamlineActivator.EXIT_SLIT_SIZE_SCANNABLE)), true, "exitSlit", true, true);
+		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("exit_slit")), true, null, true, true);
 		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_ysize")), true, null, true, true);
 		new NudgePositionerComposite(comp1, SWT.RIGHT, (Scannable) (Finder.getInstance().find("s2_xsize")), true, null, true, true);
 		

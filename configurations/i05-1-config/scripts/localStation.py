@@ -36,13 +36,6 @@ execfile(gdascripts + "/utils.py");
 
 print "Creating beamline specific devices...";
 
-gauge01=DisplayEpicsPVClass("gauge01","BL05I-VA-GAUGE-01:P","","%.3e")
-gauge03=DisplayEpicsPVClass("gauge03","BL05I-VA-GAUGE-03:P","","%.3e")
-gauge04=DisplayEpicsPVClass("gauge04","BL05I-VA-GAUGE-04:P","","%.3e")
-gauge06=DisplayEpicsPVClass("gauge06","BL05I-VA-GAUGE-06:P","","%.3e")
-gauge07=DisplayEpicsPVClass("gauge07","BL05I-VA-GAUGE-07:P","","%.3e")
-gauge09=DisplayEpicsPVClass("gauge09","BL05I-VA-GAUGE-09:P","","%.3e")
-
 import metadatatweaks
 getTitle = metadatatweaks.getTitle
 alias("getTitle")
@@ -74,5 +67,5 @@ import pathscanTable as pst
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
    print "Running i05-1 scripts."
-   run "beamline/master.py"
+   #run "beamline/master.py"
 print "==================================================================="
