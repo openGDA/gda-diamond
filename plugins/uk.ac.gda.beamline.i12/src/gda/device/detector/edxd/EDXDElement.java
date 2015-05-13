@@ -25,7 +25,7 @@ import gda.device.detector.DetectorBase;
 import gda.device.epicsdevice.FindableEpicsDevice;
 import gda.device.epicsdevice.ReturnType;
 
-import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.api.tree.Node;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.hdf5.nexus.NexusException;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
@@ -594,7 +594,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 	}
 
 	@Override
-	public void writeNeXusInformation(NexusFile file, GroupNode group) throws NexusException {
+	public void writeNeXusInformation(NexusFile file, Node node) throws NexusException {
 	}
 
 	/**
