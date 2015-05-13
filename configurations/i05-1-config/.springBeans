@@ -39,6 +39,9 @@
 		<config>clients/main/_common/client.xml</config>
 		<config>clients/main/dummy/client.xml</config>
 		<config>xml/devices/live/shtrj.xml</config>
+		<config>servers/main/_common/jython_server.xml</config>
+		<config>servers/main/_common/gda_metadata.xml</config>
+		<config>servers/main/_common/datawriter.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
