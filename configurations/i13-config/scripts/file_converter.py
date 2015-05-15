@@ -6,8 +6,7 @@ def getFileNames(filepath,detectorName="mpx"):
     item = tree.getChildNode("entry1", "NXentry").getChildNode(detectorName, "NXdata")
     item1 = item.getChildNode("image_data", "SDS")
     data=item1.getData()
-    from gda.data.nexus import FileNameBufToStrings
-    return FileNameBufToStrings( data.dimensions, data.getBuffer()).getFilenames()
+    return data.getBuffer()
 
 def getData(filepath,detectorName, itemName):
     from uk.ac.diamond.scisoft.analysis.io import NexusLoader
