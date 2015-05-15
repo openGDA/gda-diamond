@@ -819,16 +819,6 @@ public class TimeResolvedDataFileHelper {
 				file.close();
 			}
 		}
-
-		//		NexusFile nexusfile = new NexusFile(nexusfileName, NexusFile.NXACC_READ);
-		//		try {
-		//			nexusfile.openpath(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIME_COLUMN_NAME);
-		//			return true;
-		//		} catch (NexusException e) {
-		//			return false;
-		//		} finally {
-		//			nexusfile.close();
-		//		}
 	}
 
 	public DoubleDataset getGroupData() throws Exception {
