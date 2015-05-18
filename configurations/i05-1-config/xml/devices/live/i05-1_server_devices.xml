@@ -37,6 +37,6 @@
 	
 	<!-- analyser -->
 	<import resource="scientaslit.xml" />
-	<import resource="../analyser.xml"/>
+	<import resource="analyser.xml"/>
 
 </beans>

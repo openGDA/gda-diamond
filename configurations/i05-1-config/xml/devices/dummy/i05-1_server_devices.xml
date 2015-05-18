@@ -6,7 +6,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<!-- electron analyser -->
-	<import resource="../analyser.xml" />
+	<import resource="analyser.xml" />
 	<import resource="scientaslit.xml" />
 
 	<!-- sample environment -->
