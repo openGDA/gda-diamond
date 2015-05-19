@@ -10,7 +10,7 @@
 		<property name="arguments">
 			<map>
 				<entry key="energy">
-					<bean class="uk.ac.gda.beamline.i05.scannable.EnergyScannableWriter">
+					<bean class="uk.ac.gda.arpes.scannable.EnergyScannableWriter">
 						<property name="paths">
 							<list>
 								<value>instrument:NXinstrument/monochromator:NXmonochromator/energy

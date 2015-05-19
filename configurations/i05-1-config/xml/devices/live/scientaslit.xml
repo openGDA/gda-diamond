@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="scientaslit" class="uk.ac.gda.beamline.i05.analyser.I05EntranceSlit">
+        <bean id="scientaslit" class="uk.ac.gda.beamline.i05_1.analyser.I05_1EntranceSlit">
                 <property name="labelPV" value="BL05I-EA-SLITS-01:POS" />
                 <property name="direction" value="vertical" />
         </bean>
