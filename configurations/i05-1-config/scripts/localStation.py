@@ -59,7 +59,8 @@ centre_energy=analyser.getCentreEnergyScannable()
 centre_energy.setName("centre_energy")
 centre_energy.setInputNames(["centre_energy"])
 
-caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
+# Enable callbacks on ARR1 to allow updating of detector plot
+caput("BL05J-EA-DET-01:ARR1:EnableCallbacks",1)
 
 import arpes
 import pathscanTable as pst
