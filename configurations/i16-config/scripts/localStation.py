@@ -62,6 +62,8 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy, SingleInputDummy
 from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera
 
+from epics.detector.NxProcessingDetectorWrapper import NxProcessingDetectorWrapper
+
 # I16
 import installation
 import ShelveIO
@@ -777,19 +779,19 @@ pil2ms = DetectorWithShutter(pil2m, x1)
 pil100kdet = pilatus1
 _pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
 
-pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
-																pilatus1,
-																pilatus1_hardware_triggered,
-																pilatus1_for_snaps,
-																[],
-																panel_name='Pilatus100k',
-																panel_name_rcp='Plot 1',
-																toreplace=None,
-																replacement=None,
-																iFileLoader=PilatusTiffLoader,
-																fileLoadTimout=60,
-																returnPathAsImageNumberOnly=True,
-																array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
+pil100k = NxProcessingDetectorWrapper('pil100k',
+		pilatus1,
+		pilatus1_hardware_triggered,
+		pilatus1_for_snaps,
+		[],
+		panel_name='Pilatus100k',
+		panel_name_rcp='Plot 1',
+		toreplace=None,
+		replacement=None,
+		iFileLoader=PilatusTiffLoader,
+		fileLoadTimout=60,
+		returnPathAsImageNumberOnly=True,
+		array_monitor_for_hardware_triggering = _pilatus1_counter_monitor)
 pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 pil100k.printNfsTimes = False
 pil100ks = DetectorWithShutter(pil100k, x1)
