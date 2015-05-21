@@ -1,5 +1,5 @@
-#localStation.py
-#For beamline specific initialisation code.
+# localStation.py
+# For beamline specific initialisation code.
 #
 print "===================================================================";
 print "Performing beamline specific initialisation code (i05-1).";
@@ -14,8 +14,8 @@ from gda.jython.commands.GeneralCommands import alias
 from gdascripts.pd.time_pds import actualTimeClass
 
 # Get the location of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.config")+"/scripts/"
-gdascripts = LocalProperties.get("gda.install.git.loc")+"/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
+gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/"
+gdascripts = LocalProperties.get("gda.install.git.loc") + "/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
 
 execfile(gdaScriptDir + "/installStandardScansWithProcessing.py");
 
@@ -25,9 +25,9 @@ execfile(gdascripts + "/pd/time_pds.py");
 class actTimeInInt(actualTimeClass):  # specialise to make displayed time semi-human-readable
    def rawGetPosition(self):
       pad = 10000
-      t = localtime(time.time())      # t = localtime(super(actualTimeClass, self).rawGetPosition())
-      tInInt = ((((((t[0]*100+t[1])*100+t[2])*pad+t[3])*100+t[4])*pad)+t[5])
-      return tInInt                   # actual wall clock date & time
+      t = localtime(time.time())  # t = localtime(super(actualTimeClass, self).rawGetPosition())
+      tInInt = ((((((t[0] * 100 + t[1]) * 100 + t[2]) * pad + t[3]) * 100 + t[4]) * pad) + t[5])
+      return tInInt  # actual wall clock date & time
 actTime = actTimeInInt("actTime")       
 
 execfile(gdascripts + "/pd/dummy_pds.py");
@@ -49,13 +49,11 @@ getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
-def isgold():
-   return saz.getPosition() < -18
-sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename",isgoldpost=isgold)
+sample_name = metadatatweaks.SampleNameScannable("sample_name", "samplename")
 
 from arpesmonitor import ARPESMonitor
-am=ARPESMonitor()
-centre_energy=analyser.getCentreEnergyScannable()
+am = ARPESMonitor()
+centre_energy = analyser.getCentreEnergyScannable()
 centre_energy.setName("centre_energy")
 centre_energy.setInputNames(["centre_energy"])
 
@@ -66,7 +64,7 @@ import arpes
 import pathscanTable as pst
 
 print "==================================================================="
-if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
+if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
    print "Running i05-1 scripts."
-   #run "beamline/master.py"
+   # run "beamline/master.py"
 print "==================================================================="
