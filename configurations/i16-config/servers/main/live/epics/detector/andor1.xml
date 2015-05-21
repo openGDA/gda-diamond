@@ -47,7 +47,6 @@
 		<constructor-arg value="andor" />
 		<property name="ndFile" ref="andor_ndfile" />
 		<property name="numTrackerExtension" value="andor1snaps" />
-		<property name="keyNameForMetadataPathTemplate" value="andor_path_template" />
 		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 

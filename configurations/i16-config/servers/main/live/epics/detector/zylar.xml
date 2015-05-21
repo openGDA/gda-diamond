@@ -44,7 +44,6 @@
 		<constructor-arg value="zylar" />
 		<property name="ndFile" ref="zylar_ndfile" />
 		<property name="numTrackerExtension" value="zylarsnaps" />
-		<property name="keyNameForMetadataPathTemplate" value="zylar_path_template" />
 		<property name="writeErrorStatusSupported" value="false" />
 	</bean>
 
