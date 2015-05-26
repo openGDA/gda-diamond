@@ -46,6 +46,12 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 			topupMonitor.atPointStart();
 		}
 	}
+	
+	@Override
+	public void continuousMoveComplete() throws DeviceException {
+//		rawAsynchronousMoveTo(continuousParameters.getStartPosition());
+		super.continuousMoveComplete();
+	}
 
 	public I18BeamMonitor getBeamMonitor() {
 		return beamMonitor;

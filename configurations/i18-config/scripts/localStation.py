@@ -129,6 +129,7 @@ raster_map_return_write.setEnergyScannables(energy,energy_nogap)
 raster_map_return_write.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 samplePreparer.setStageScannables(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, table_x, table_y, table_z)
 
+
 map = MapSelect(non_raster_map, raster_map, raster_map_return_write, samplePreparer)
 
 
@@ -139,7 +140,9 @@ else:
 
 qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
 xanes = xas
-
+ 
+# ''' Normal running conditions'''
+map.enableUseIDGap()
 
 alias("xas")
 alias("xanes")
