@@ -28,7 +28,7 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<bean id="diff" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="_fivec" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="delta" />

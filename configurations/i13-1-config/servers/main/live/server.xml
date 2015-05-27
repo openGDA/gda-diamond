@@ -12,7 +12,7 @@
 
 	<import resource="../../../devices/live/maxipix_tango.xml"/>
 	<import resource="../../../devices/live/tfg2.xml"/>
-	
+	<import resource="../../../devices/diffractometer.xml" />
 	<import resource="live_server_common.xml" />
 	
 	
