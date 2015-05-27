@@ -12,5 +12,6 @@
         <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.excalibur" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
+        <cs:dependency name="diffcalc" componentType="buckminster"/>
     </cs:dependencies>
 </cs:cspec>
