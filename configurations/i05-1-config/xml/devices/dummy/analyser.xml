@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+           
 	<description>
 		There are 3 ways of configure EPICS access:
 		1. use Java content objects provided by epics-x.x.x.jar to specify
@@ -84,7 +87,7 @@
 		<property name="ndArray" ref="array2" />
 		<!-- <property name="ndStats" ref="stats" /> -->
 		<!-- <property name="ndFile" ref="filebase" /> -->
-		<property name="local" value="true" />
+		<property name="local" value="false" />
 		<property name="capabilities" ref="AnalyserCapabilities" />
 		<property name="fixedModeRegion">
 			<list>
@@ -127,8 +130,34 @@
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
-	
-	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05_1.analyser.I05_1AnalyserCapabilties"	/>
+
+	<import resource="analyser_lens_mapping.xml"/>
+	<bean id="AnalyserCapabilities"	class="uk.ac.gda.beamline.i05_1.analyser.I05_1AnalyserCapabilties">
+		<description>
+			This class is used to hold the specific capabilities of the analyser. it contains a map of
+			lens modes and an array to map pixel position to angle for each.
+		</description>
+		
+		<property name="lens2angles">
+			<map>
+				<entry key="Transmission" value-ref="transmissionArray"/>
+				<entry key="A14_08" value-ref="a14_08Array"/>
+				<entry key="A7_08" value-ref="a7_08Array"/>
+				<entry key="A30_08" value-ref="a30_08Array"/>
+				<entry key="DA30_01" value-ref="da30_01Array"/>
+				<entry key="DA30_08" value-ref="da30_08Array"/>
+				<entry key="DA14_01" value-ref="da14_01Array"/>
+				<entry key="DA14_08" value-ref="da14_08Array"/>
+				<entry key="DA7_08" value-ref="da7_08Array"/>
+				<entry key="DA30Q_01" value-ref="da30q_01Array"/>
+				<entry key="DA30Q_08" value-ref="da30q_08Array"/>
+				<entry key="A14_01" value-ref="a14_01Array"/>
+				<entry key="A30_01" value-ref="a30_01Array"/>
+			</map>
+		</property>
+		<property name="energyStepPerPixel" value="0.086088032" />
+		<property name="detectorEnergyWidthInPixels" value="1064"/>
+	</bean>
 	
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
