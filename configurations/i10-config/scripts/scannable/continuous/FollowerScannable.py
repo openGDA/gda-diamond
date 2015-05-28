@@ -14,10 +14,10 @@ class FollowerThread(threading.Thread):
         self.running = True
 
     def moveTo(self, energy_eV):
-        if self.parent.verbose:
-            msg = "Moving " + self.parent.follower_scannable.name + " to %f" % (energy_eV)
-            self.parent.logger.info(msg)
         idPosition = self.parent.follower_scannable.getIdPosition(energy_eV)
+        if self.parent.verbose:
+            msg = "Moving %s to %f (%r)" % (self.parent.follower_scannable.name, energy_eV, idPosition.jawphase)
+            self.parent.logger.info(msg)
         self.parent.follower_scannable.id_jawphase.moveTo(idPosition.jawphase)
         self.parent.follower_scannable.last_energy_eV = energy_eV
 
@@ -114,3 +114,34 @@ class FollowerScannable(ScannableMotionBase):
         if self.thread and self.thread.running and self.follower_tolerance < 0:
             return self.followed_scannable.isBusy() and self.follower_scannable.isBusy()
         return False
+
+""" This is a zie scannable (zero input and extra names) which allows the following mechanism to be turned on at the start of a
+    continuous scan and off at the end. In this variant the tolerance must be set outside of a scan.
+"""
+class SilentFollowerScannable(FollowerScannable):
+
+    def __init__(self, name, followed_scannable, follower_scannable, follower_tolerance):
+        self.logger = LoggerFactory.getLogger("SilentFollowerScannable:%s" % name)
+        FollowerScannable.__init__(self, name, followed_scannable, follower_scannable)
+        
+        self.follower_tolerance = follower_tolerance
+        
+        self.inputNames = []
+        self.setLevel(5)
+        self.verbose = True
+
+    def atScanStart(self):
+        if self.thread and self.thread.running:
+            self.stop()
+        self.thread=FollowerThread(self)
+        self.thread.start()
+        self.logger.info("%s now following %s with a tolerance of %r ..." % (self.follower_scannable.name, self.followed_scannable.name, self.follower_tolerance))
+
+    def getExtraNames(self): 
+        return []
+
+    def getOutputFormat(self):
+        return []
+
+    def getPosition(self):
+        return None
