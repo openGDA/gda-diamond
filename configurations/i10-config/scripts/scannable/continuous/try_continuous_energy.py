@@ -18,6 +18,8 @@ from scannable.continuous.ContinuousPgmGratingEnergyMoveController import \
                           ContinuousPgmGratingEnergyMoveController
 from scannable.continuous.ContinuousMovePgmEnergyBinpointScannable import \
                           ContinuousMovePgmEnergyBinpointScannable
+#from scannable.continuous.ContinuousMovePgmEnergyIdJawPhaseBinpointScannable import \
+#                          ContinuousMovePgmEnergyIdJawPhaseBinpointScannable
 from org.slf4j import LoggerFactory
 
 global pgm_energy
@@ -61,17 +63,25 @@ binpointId2JawPhase = WaveformChannelScannable('binpointId2JawPhase', binpointc,
 binpointMcaTime     = WaveformChannelScannable('binpointMcaTime',     binpointc, 'MCA:ELAPSEDTIME:');     binpointMcaTime.setHardwareTriggerProvider(cemc);     binpointMcaTime.verbose=True
 binpointCustom1     = WaveformChannelScannable('binpointCustom1',     binpointc, 'CUSTOM1:');             binpointCustom1.setHardwareTriggerProvider(cemc);     binpointCustom1.verbose=True
 binpointCustom2     = WaveformChannelScannable('binpointCustom2',     binpointc, 'CUSTOM2:');             binpointCustom2.setHardwareTriggerProvider(cemc);     binpointCustom2.verbose=True
+# cd /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL10I-CS-IOC-02/0-2/data; ./test_BinPoints_GUI.sh
+# Custom1 and 2 are both currently set to return the current MCA channel number, so should always be equal to the binpount 
 
 cemc_g = ContinuousPgmGratingEnergyMoveController(                   'cemc_g',  pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:');                                       cemc_g.verbose=True
 
-mcsr17_g            = WaveformChannelScannable('mcsr17_g',            mcsrc,     18);                          mcsr17_g.setHardwareTriggerProvider(cemc_g);            mcsr17_g.verbose=True
-binpointGrtPitch_g  = WaveformChannelScannable('binpointGrtPitch_g',  binpointc, 'GRT:PITCH:');      binpointGrtPitch_g.setHardwareTriggerProvider(cemc_g);  binpointGrtPitch_g.verbose=True
-binpointMirPitch_g  = WaveformChannelScannable('binpointMirPitch_g',  binpointc, 'MIR:PITCH:');      binpointMirPitch_g.setHardwareTriggerProvider(cemc_g);  binpointMirPitch_g.verbose=True
-binpointPgmEnergy_g = WaveformChannelScannable('binpointPgmEnergy_g', binpointc, 'PGM:ENERGY:');    binpointPgmEnergy_g.setHardwareTriggerProvider(cemc_g); binpointPgmEnergy_g.verbose=True
+mcsr16_g              = WaveformChannelScannable('mcsr16_g',              mcsrc,     17);                            mcsr16_g.setHardwareTriggerProvider(cemc_g);              mcsr16_g.verbose=True
+mcsr17_g              = WaveformChannelScannable('mcsr17_g',              mcsrc,     18);                            mcsr17_g.setHardwareTriggerProvider(cemc_g);              mcsr17_g.verbose=True
+binpointGrtPitch_g    = WaveformChannelScannable('binpointGrtPitch_g',    binpointc, 'GRT:PITCH:');        binpointGrtPitch_g.setHardwareTriggerProvider(cemc_g);    binpointGrtPitch_g.verbose=True
+binpointMirPitch_g    = WaveformChannelScannable('binpointMirPitch_g',    binpointc, 'MIR:PITCH:');        binpointMirPitch_g.setHardwareTriggerProvider(cemc_g);    binpointMirPitch_g.verbose=True
+binpointPgmEnergy_g   = WaveformChannelScannable('binpointPgmEnergy_g',   binpointc, 'PGM:ENERGY:');      binpointPgmEnergy_g.setHardwareTriggerProvider(cemc_g);   binpointPgmEnergy_g.verbose=True
+binpointId1JawPhase_g = WaveformChannelScannable('binpointId1JawPhase_g', binpointc, 'ID1:JAWPHASE:');  binpointId1JawPhase_g.setHardwareTriggerProvider(cemc_g); binpointId1JawPhase_g.verbose=True
+binpointId2JawPhase_g = WaveformChannelScannable('binpointId2JawPhase_g', binpointc, 'ID2:JAWPHASE:');  binpointId2JawPhase_g.setHardwareTriggerProvider(cemc_g); binpointId2JawPhase_g.verbose=True
+binpointMcaTime_g     = WaveformChannelScannable('binpointMcaTime_g',     binpointc, 'MCA:ELAPSEDTIME:');   binpointMcaTime_g.setHardwareTriggerProvider(cemc_g);     binpointMcaTime_g.verbose=True
+binpointCustom1_g     = WaveformChannelScannable('binpointCustom1_g',     binpointc, 'CUSTOM1:');           binpointCustom1_g.setHardwareTriggerProvider(cemc_g);     binpointCustom1_g.verbose=True
 
 egy_g =  ContinuousMovePgmEnergyBinpointScannable('egy_g',            cemc_g,    binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);                            egy_g.verbose=True
 
-# cvscan egy 695 705 1 mcs1 mcs17 mcs16 2 binpointGrtPitch binpointMirPitch binpointPgmEnergy binpointId1JawPhase binpointId2JawPhase binpointMcaTime 
+# cvscan egy   695 705 1 mcsr17 2 binpointGrtPitch   binpointMirPitch   binpointPgmEnergy   binpointId1JawPhase   binpointId2JawPhase   binpointMcaTime 
+# cvscan egy_g 695 705 1 mcsr17 2 binpointGrtPitch_g binpointMirPitch_g binpointPgmEnergy_g binpointId1JawPhase_g binpointId2JawPhase_g binpointMcaTime_g 
 
 class TrajectoryControllerHelper(ScanListener):
     def __init__(self): # motors, maybe also detector to set the delay time
