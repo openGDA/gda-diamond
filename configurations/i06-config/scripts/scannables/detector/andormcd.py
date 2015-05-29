@@ -30,12 +30,16 @@ class AndorMCD(DetectorBase):
         self._busypv = LazyPVFactory.newDoublePV(busypv)
         self._next_image_number = 0
 
+        self.nb_frames = 1
+        self.background = True
+
     def prepareForCollection(self):
         self._next_image_number = 1
         self.scannumber = InterfaceProvider.getCurrentScanInformationHolder().getCurrentScanInformation().getScanNumber()
         
         # Create folder for scannumber '12345-' + name + '-files'
         self._write_commands_file(self.getCollectionTime())
+        self._write_background_file(self.background)
         self._write_saveinfo_file()
         
         target_dir = self._get_target_directory()
@@ -68,7 +72,7 @@ class AndorMCD(DetectorBase):
     def _write_commands_file(self, collection_time):
         if DEBUG:
             print "writing command file for collection time:", collection_time
-        commands = ["stim %.3f" % collection_time, "snsi 1", "getm", "gtim", "gnsi"]
+        commands = ["stim %.3f" % collection_time, "snsi %d" % self.nb_frames, "getm", "gtim", "gnsi"]
         commandfilepath = os.path.join( PARAMETER_FILES_PATH, "commands.txt" )
         commandsfile = open( commandfilepath, mode = 'w' )
         for command in commands:
@@ -84,6 +88,14 @@ class AndorMCD(DetectorBase):
         savepath = os.path.join( paths, "%05i-%s-files" % (self.scannumber, self.name) )
         saveinfofile.write( savepath + "/\r\n%05d" % self._next_image_number )
         saveinfofile.close()
+
+    def _write_background_file(self, background):
+        if DEBUG:
+            print "writing background switch file"
+        backgroundswitchpath = os.path.join(PARAMETER_FILES_PATH, "background.txt")
+        backgroundfile = open(backgroundswitchpath, mode='w')
+        backgroundfile.write('1' if background else '0')
+        backgroundfile.close()
 
     def _send_hardware_trigger(self):
         self._triggerpv.putWait(10.) # Voltage divider in connector drops this to 5v
