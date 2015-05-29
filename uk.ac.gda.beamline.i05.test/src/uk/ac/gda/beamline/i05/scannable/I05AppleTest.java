@@ -18,7 +18,9 @@
 
 package uk.ac.gda.beamline.i05.scannable;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import gda.device.DeviceException;
 import gda.device.ScannableMotion;
 import gda.device.scannable.DummyUnitsScannable;
@@ -33,12 +35,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uk.ac.gda.beamline.i05.scannable.I05Apple.TrajectorySolver;
+import uk.ac.gda.beamline.i05.scannable.I05Apple.PGMove;
 
 public class I05AppleTest {
 
 	ScannableMotion gap, lower, upper;
-	I05Apple apple; 
-	
+	I05Apple apple;
+	Rectangle2D[] rectangles;
+
 	@Before
 	public void setup() throws DeviceException {
 		apple = new I05Apple();
@@ -55,8 +59,11 @@ public class I05AppleTest {
 		apple.setHorizontalGapPolynomial(new PolynomialFunction(new double[] {0, 1}));
 		apple.setCircularGapPolynomial(new PolynomialFunction(new double[] {0, 1}));
 		apple.setCircularPhasePolynomial(new PolynomialFunction(new double[] {0, 1}));
+
+		rectangles = new Rectangle2D[] { new Rectangle2D.Double(-65, 0, 130, 25),
+										 new Rectangle2D.Double(-10, 0,  20, 38)};
 	}
-	
+
 	@Test
 	public void testH100Pol() throws DeviceException {
 		String pol = apple.getCurrentPolarisation();
@@ -70,7 +77,7 @@ public class I05AppleTest {
 		String pol = apple.getCurrentPolarisation();
 		assertEquals("V100_1Pol does not match", I05Apple.VERTICAL, pol);
 	}
-	
+
 	@Test
 	public void testV100_2Pol() throws DeviceException {
 		lower.moveTo(-70.0);
@@ -78,7 +85,7 @@ public class I05AppleTest {
 		String pol = apple.getCurrentPolarisation();
 		assertEquals("V100_2Pol does not match", I05Apple.VERTICAL, pol);
 	}
-	
+
 	@Test
 	public void testCRPol() throws DeviceException {
 		lower.moveTo(30.0);
@@ -87,8 +94,8 @@ public class I05AppleTest {
 		String pol = apple.getCurrentPolarisation();
 		assertEquals("CRPol does not match", I05Apple.CIRCULAR_RIGHT, pol);
 	}
-	
-	
+
+
 	@Test
 	public void testCLPol() throws DeviceException {
 		lower.moveTo(-30.0);
@@ -97,7 +104,7 @@ public class I05AppleTest {
 		String pol = apple.getCurrentPolarisation();
 		assertEquals("CLPol does not match", I05Apple.CIRCULAR_LEFT, pol);
 	}
-	
+
 	@Test
 	public void testFailForMismatch() throws DeviceException {
 		lower.moveTo(-7.0);
@@ -115,68 +122,73 @@ public class I05AppleTest {
 		double phase = apple.getPhaseForGap(32.0, I05Apple.CIRCULAR_LEFT);
 		assertEquals("testCircPhaseCalc phase does not match", -32.0, phase, 0.2);
 	}
-	
+
 	@Test
 	public void testRightCircPhaseCalc() throws DeviceException {
 		double phase = apple.getPhaseForGap(32.0, I05Apple.CIRCULAR_RIGHT);
 		assertEquals("testCircPhaseCalc phase does not match", 32.0, phase, 0.2);
 	}
-	
+
+	@Test
+	public void testTowerTop() throws DeviceException {
+		TrajectorySolver ts = new I05Apple().new TrajectorySolver(rectangles);
+		assertEquals(ts.towerTop, 38.0, 0.0);  // zero tolerance, should be identical
+	}
 	/*
 	 * Trajectory solver tests
+	 * - a better test would be be a double loop to intersection test each orthogonal step move against the exclusion zone
 	 */
 	@Test
-	public void testSimpleAvoid() throws DeviceException {
-		Rectangle2D[] rectangles = new Rectangle2D[] { new Rectangle2D.Double(7, 0, 9, 5), 
-				new Rectangle2D.Double(12, 0, 2, 10)};
-		Line2D line = new Line2D.Double(2, 3, 1, 11);
+	public void testAvoidA() throws DeviceException {
+		Line2D line = new Line2D.Double(-60, 70,  -10, 40);   // tA
 		TrajectorySolver ts = new I05Apple().new TrajectorySolver(rectangles);
-		List<Line2D> list = ts.avoidZone(line);
-		Point2D[] pointArray = I05Apple.trajectoryToPointArray(list);
-		assertArrayEquals(new Point2D[] {new Point2D.Double(2, 3), new Point2D.Double(1, 11)}, pointArray);
+		List<PGMove> list = ts.getGapPhaseOrder(line, 0);
+
+		assertEquals(list.get(0).moveOrder ,"GP");
+		assertArrayEquals(new Point2D[] { new Point2D.Double(-60, 70),    new Point2D.Double(-10, 40)},
+				          new Point2D[] { list.get(0).moveVector.getP1(), list.get(0).moveVector.getP2()});
 	}
 
 	@Test
-	public void testTrivialAvoid() throws DeviceException {
-		Rectangle2D[] rectangles = new Rectangle2D[] { new Rectangle2D.Double(7, 0, 9, 5), 
-				new Rectangle2D.Double(12, 0, 2, 10)};
-		Line2D line = new Line2D.Double(3, 3, 5, 10);
+	public void testAvoidB() throws DeviceException {
+		Line2D line = new Line2D.Double(-50, 70,   20, 30);   // tB
 		TrajectorySolver ts = new I05Apple().new TrajectorySolver(rectangles);
-		List<Line2D> list = ts.avoidZone(line);
-		Point2D[] pointArray = I05Apple.trajectoryToPointArray(list);
-		assertArrayEquals(new Point2D[] {new Point2D.Double(3, 3), new Point2D.Double(5, 10)}, pointArray);
+		List<PGMove> list = ts.getGapPhaseOrder(line, 0);
+
+		assertEquals(list.get(0).moveOrder ,"GP");
+		assertArrayEquals(new Point2D[] { new Point2D.Double(-50, 70),    new Point2D.Double(0, 50)},  // 50 is half way between 70 & 30
+				          new Point2D[] { list.get(0).moveVector.getP1(), list.get(0).moveVector.getP2()});
+		assertEquals(list.get(1).moveOrder ,"PG");
+		assertArrayEquals(new Point2D[] { new Point2D.Double(0, 50),    new Point2D.Double(20, 30)},
+				          new Point2D[] { list.get(1).moveVector.getP1(), list.get(1).moveVector.getP2()});
 	}
 
 	@Test
-	public void testSingleAvoid() throws DeviceException {
-		Rectangle2D[] rectangles = new Rectangle2D[] { new Rectangle2D.Double(7, 0, 9, 5), 
-				new Rectangle2D.Double(12, 0, 2, 10)};
-		Line2D line = new Line2D.Double(5, 2, 11, 6);
+	public void testAvoidC() throws DeviceException {
+		Line2D line = new Line2D.Double( 67, 10,  -68, 20);   // tC
 		TrajectorySolver ts = new I05Apple().new TrajectorySolver(rectangles);
-		List<Line2D> list = ts.avoidZone(line);
-		Point2D[] pointArray = I05Apple.trajectoryToPointArray(list);
-		assertArrayEquals(new Point2D[] {new Point2D.Double(5, 2), new Point2D.Double(7, 5), new Point2D.Double(11, 6)}, pointArray);
+		List<PGMove> list = ts.getGapPhaseOrder(line, 0);
+
+		assertEquals(list.get(0).moveOrder ,"GP");
+		assertArrayEquals(new Point2D[] { new Point2D.Double(67, 10),    new Point2D.Double(0, 38)},
+				          new Point2D[] { list.get(0).moveVector.getP1(), list.get(0).moveVector.getP2()});
+		assertEquals(list.get(1).moveOrder ,"PG");
+		assertArrayEquals(new Point2D[] { new Point2D.Double(0, 38),    new Point2D.Double(-68, 20)},
+				          new Point2D[] { list.get(1).moveVector.getP1(), list.get(1).moveVector.getP2()});
 	}
 
 	@Test
-	public void testComplexAvoid() throws DeviceException {
-		Rectangle2D[] rectangles = new Rectangle2D[] { new Rectangle2D.Double(7, 0, 9, 5), 
-				new Rectangle2D.Double(12, 0, 2, 10)};
-		Line2D line = new Line2D.Double(5, 5, 17, 1);
+	public void testAvoidD() throws DeviceException {
+		Line2D line = new Line2D.Double(-70, 10,   69, 60);      // tD
+		// Line2D line = new Line2D.Double(-20, 40,   70, 25);
 		TrajectorySolver ts = new I05Apple().new TrajectorySolver(rectangles);
-		List<Line2D> list = ts.avoidZone(line);
-		Point2D[] pointArray = I05Apple.trajectoryToPointArray(list);
-		assertArrayEquals(new Point2D[] {new Point2D.Double(5, 5), new Point2D.Double(12, 10), new Point2D.Double(14, 10), new Point2D.Double(16, 5), new Point2D.Double(17, 1)}, pointArray);
-	}
-	
-	@Test
-	public void testTrickyAvoid() throws DeviceException {
-		Rectangle2D[] rectangles = new Rectangle2D[] { new Rectangle2D.Double(7, 0, 9, 5), 
-				new Rectangle2D.Double(12, 0, 2, 10)};
-		Line2D line = new Line2D.Double(5, 0, 13.5, 10);
-		TrajectorySolver ts = new I05Apple().new TrajectorySolver(rectangles);
-		List<Line2D> list = ts.avoidZone(line);
-		Point2D[] pointArray = I05Apple.trajectoryToPointArray(list);
-		assertArrayEquals(new Point2D[] {new Point2D.Double(5, 0), new Point2D.Double(7, 5), new Point2D.Double(12, 10), new Point2D.Double(13.5, 10)}, pointArray);
+		List<PGMove> list = ts.getGapPhaseOrder(line, 0);
+
+		assertEquals(list.get(0).moveOrder ,"GP");
+		assertArrayEquals(new Point2D[] { new Point2D.Double(-70, 10),    new Point2D.Double(0, 38)},
+				          new Point2D[] { list.get(0).moveVector.getP1(), list.get(0).moveVector.getP2()});
+		assertEquals(list.get(1).moveOrder ,"GP");
+		assertArrayEquals(new Point2D[] { new Point2D.Double(0, 38),    new Point2D.Double(69, 60)},
+				          new Point2D[] { list.get(1).moveVector.getP1(), list.get(1).moveVector.getP2()});
 	}
 }
