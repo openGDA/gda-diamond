@@ -511,36 +511,36 @@
 	<bean id="user2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER2_motor" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user4" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER4_motor" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user5" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER5_motor" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user6" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER6_motor" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user7" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER7_motor" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user8" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER8_motor" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="true"/>
 	</bean>
 	
 	<bean id="userstage" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="configureAtStartup" value="false"/>
+		<property name="configureAtStartup" value="true"/>
 		<property name="local" value="true" />
 		<property name="groupMembers">
 			<list>

@@ -41,7 +41,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	private Scannable gas_fill2_timeout;
 	private Scannable gas_fill_start;
 	private Scannable gas_select;
-	private Scannable control_select;
+	private Scannable control_select;  // the combo box in the Gas Injection Rig screen. Use to abort.
 	private Scannable ion_chamber_select;
 	private Scannable gas_injection_status;
 	private Scannable power_supply;
@@ -62,10 +62,12 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	private int gas_select_val;
 	private String hvstatus;
 	private double original_voltage;
+	private boolean abortPurgeAndFillSequence;
+	private boolean runningPurgeAndFillSequence;
 
 	@Override
 	public boolean isBusy() {
-		return false;
+		return runningPurgeAndFillSequence;
 	}
 
 	public void log(String msg) {
@@ -84,70 +86,84 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
-		String ionc = "";		
-		if(ion_chamber.equals("0"))
-			ionc="I0";
-		else if(ion_chamber.equals("1"))
-			ionc="It";
-		else if(ion_chamber.equals("2"))
-			ionc="Iref";
-		log("Gas filling of " + ionc + " started");
-		
-		if (!(position instanceof List<?>)) {
-			throw new DeviceException("Supplied array must be of type List<String> to move Scannable " + getName());
-		}
+		abortPurgeAndFillSequence = false;
+		runningPurgeAndFillSequence = true;
 
-		@SuppressWarnings("unchecked")
-		List<String> parameters = (List<String>) position;
+		try {
+			// before any operations, check that it is not in an aborted state, if it is then do an Abort to reset the hardware
+			double currentStatus = Double.parseDouble(gas_injection_status.getPosition().toString());
+			if (currentStatus > 128.0){
+				// this is the ABORT option in the Control combo box in the EDM screen
+				control_select.moveTo(1);
+			}
+			
+			String ionc = "";
+			if (ion_chamber.equals("0"))
+				ionc = "I0";
+			else if (ion_chamber.equals("1"))
+				ionc = "It";
+			else if (ion_chamber.equals("2"))
+				ionc = "Iref";
+			log("Gas filling of " + ionc + " started");
 
-		String flush = parameters.get(7);
+			if (!(position instanceof List<?>)) {
+				throw new DeviceException("Supplied array must be of type List<String> to move Scannable " + getName());
+			}
 
-		original_voltage = Double.parseDouble(power_supply.getPosition().toString());
+			@SuppressWarnings("unchecked")
+			List<String> parameters = (List<String>) position;
 
-		// pos ionc1_gas_injector ["2.0","1","0.024377","100.0","1.975623","100.0","2","True"]
+			String flush = parameters.get(7);
 
-		// check if voltage is below 5v.
-		if (checkVoltageInRange(-5, 5)) {
-			configurePurgeAndFill(parameters);
-			if (Boolean.parseBoolean(flush))
-				flush();
-			gas_fill2_pressure.moveTo(gas_fill2_pressure_val);
-			performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
-		}
+			original_voltage = Double.parseDouble(power_supply.getPosition().toString());
 
-		else {
-			log("Voltage is too high to fill gas");
+			// pos ionc1_gas_injector ["2.0","1","0.024377","100.0","1.975623","100.0","2","True"]
 
-			if (getFillStatus().equals("idle")) {
-				log("Setting voltage to 0V.");
-				setVoltage(0);// lower voltage to 0v
-				int voltageTimeout = 300;
-				while ((!checkVoltageInRange(-5, 5)) && voltageTimeout > 0) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+			// check if voltage is below 5v.
+			if (checkVoltageInRange(-5, 5)) {
+				configurePurgeAndFill(parameters);
+				if (Boolean.parseBoolean(flush))
+					flush();
+				gas_fill2_pressure.moveTo(gas_fill2_pressure_val);
+				performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
+			}
+
+			else {
+				log("Voltage is too high to fill gas");
+
+				if (getFillStatus().equals("idle")) {
+					log("Setting voltage to 0V.");
+					setVoltage(0);// lower voltage to 0v
+					int voltageTimeout = 300;
+					while ((!checkVoltageInRange(-5, 5)) && voltageTimeout > 0) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						voltageTimeout--;
 					}
-					voltageTimeout--;
-				}
-				purge_pressure_val = Double.parseDouble(parameters.get(0));
-				gas_fill1_pressure_val = Double.parseDouble(parameters.get(2));
+					purge_pressure_val = Double.parseDouble(parameters.get(0));
+					gas_fill1_pressure_val = Double.parseDouble(parameters.get(2));
 
-				if (gas_fill1_pressure_val + purge_pressure_val < 1100) {
-					// check if voltage is below 5v.
-					if (checkVoltageInRange(-5, 5)) {
-						configurePurgeAndFill(parameters);
-						if (Boolean.parseBoolean(flush))
-							flush();
-						gas_fill2_pressure.moveTo(gas_fill2_pressure_val);
-						performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
-					}
+					if (gas_fill1_pressure_val + purge_pressure_val < 1100) {
+						// check if voltage is below 5v.
+						if (checkVoltageInRange(-5, 5)) {
+							configurePurgeAndFill(parameters);
+							if (Boolean.parseBoolean(flush))
+								flush();
+							gas_fill2_pressure.moveTo(gas_fill2_pressure_val);
+							performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
+						}
+					} else
+						log("Cannot fill gas because pressure is too high");
 				} else
-					log("Cannot fill gas because pressure is too high");
-			} else
-				log("Cannot change voltage unless gas filling is idle");
+					log("Cannot change voltage unless gas filling is idle");
+			}
+		} finally {
+			runningPurgeAndFillSequence = false;
+			log("Gas filling finished");
 		}
-		log("Gas filling finished");
 	}
 
 	public void configurePurgeAndFill(List<String> parameters) throws NumberFormatException, DeviceException {
@@ -158,32 +174,54 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 		gas_fill2_period_val = Double.parseDouble(parameters.get(5));
 		gas_select_val = Integer.parseInt(parameters.get(6));
 		gas_fill1_pressure_val = Double.parseDouble(parameters.get(2));
+		
 		// set ion chamber
+		isAborted();
 		ion_chamber_select.moveTo(Integer.parseInt(ion_chamber));
 		// set purge parameters
+		isAborted();
 		purge_pressure.moveTo(purge_pressure_val);
+		isAborted();
 		purge_period.moveTo(purge_period_val);
+		isAborted();
 		purge_timeout.moveTo(purge_period_val + 10);
 		// set gas
 		// set gas fill 1 parameters
 		if (gas_select_val != -1) {
+			isAborted();
 			gas_select.moveTo(gas_select_val);
 			// gas_fill1_pressure.moveTo(gas_fill1_pressure_val + purge_pressure_val);
+			isAborted();
 			gas_fill1_period.moveTo(gas_fill1_period_val);
+			isAborted();
 			gas_fill1_timeout.moveTo(gas_fill1_period_val + 10);
 		}
 		// set gas fill 2 parameters
+		isAborted();
 		gas_fill2_period.moveTo(gas_fill2_period_val);
+		isAborted();
 		gas_fill2_timeout.moveTo(gas_fill2_period_val + 10);
 		// set control to purge & fill
 		// control_select.moveTo(0);
 
 		try {
+			isAborted();
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DeviceException("Gas Purge and Fill interrupted.");
 		}
+	}
+	
+	private void isAborted() throws DeviceException {
+		if (abortPurgeAndFillSequence) {
+			throw new DeviceException("Gas Purge and Fill aborted.");
+		}
+	}
+
+	@Override
+	public void stop() throws DeviceException {
+		// simply do no more work after the current operation has completed.
+		abortPurgeAndFillSequence = true;
 	}
 
 	public void flush() {
@@ -238,22 +276,25 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 				checkForAbort();
 				waitUntilIdle(300);
 
-				base_pressure_val = Double.parseDouble(base_pressure.getPosition().toString());
-				gas_fill1_pressure.moveTo(gas_fill1_pressure_val + base_pressure_val);
-
-				log("Filling gas 1");
-				control_select.moveTo(3);
-				checkForAbort();
-				gas_fill_start.moveTo(1);// fill 1
-				checkForAbort();
-				waitUntilIdle(fillTimeout);
-
-				log("Purge 2");
-				control_select.moveTo(4);
-				checkForAbort();
-				gas_fill_start.moveTo(1);// purge 2
-				checkForAbort();
-				waitUntilIdle(fillTimeout);
+				// -1 means He only so skip the filling 1 and second purge
+				if (gas_select_val != -1) {
+					base_pressure_val = Double.parseDouble(base_pressure.getPosition().toString());
+					gas_fill1_pressure.moveTo(gas_fill1_pressure_val + base_pressure_val);
+	
+					log("Filling gas 1");
+					control_select.moveTo(3);
+					checkForAbort();
+					gas_fill_start.moveTo(1);// fill 1
+					checkForAbort();
+					waitUntilIdle(fillTimeout);
+	
+					log("Purge 2");
+					control_select.moveTo(4);
+					checkForAbort();
+					gas_fill_start.moveTo(1);// purge 2
+					checkForAbort();
+					waitUntilIdle(fillTimeout);
+				}
 
 				log("Filling gas 2");
 				control_select.moveTo(5);
@@ -301,7 +342,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	}
 
 	public void waitUntilIdle(int timeout) {
-		while ((!getFillStatus().equals("idle")) && timeout > 0) {
+		while ((getFillStatus().contains("gas") || getFillStatus().contains("helium")) && timeout > 0) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
