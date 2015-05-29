@@ -18,8 +18,8 @@
 	<bean id="topup" class="gda.device.monitor.DummyMonitor">
 		<property name="local" value="true" />
 	</bean>
-	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
-		<property name="position" value="Shutdown" />
+	<bean id="machineModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Shutdown" />
 	</bean>
 
 
