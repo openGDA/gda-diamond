@@ -52,6 +52,7 @@ mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsSc
     PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
 
 from localStationScripts.detector_scan_commands import * # @UnusedWildImport
+from localStationScripts.user_commands import * # @UnusedWildImport
 from localStationScripts.centreProxy import * # @UnusedWildImport
 #from scanPeak import *
 #from diodeTime import * # @UnusedWildImport
