@@ -17,6 +17,12 @@
 		<property name="basePVName" value="BL16I-EA-DET-16:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="pluginBase" ref="zylar_ndfile_base" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i16" />
+				<property name="windowsSubString" value="N:" />
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="zylar_nxcollectionstrategy"
@@ -27,7 +33,7 @@
 
 	<bean id="zylar_nxfilewriter_for_scans"
 			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="_zylar" />
+		<constructor-arg value="zylar" />
 		<property name="ndFile" ref="zylar_ndfile" />
 		<property name="waitForFileArrival" value="false" />
 		<property name="keyNameForMetadataPathTemplate" value="zylar_path_template" />
@@ -35,10 +41,9 @@
 
 	<bean id="zylar_nxfilewriter_for_snaps"
 			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
-		<constructor-arg value="_xeye" />
+		<constructor-arg value="zylar" />
 		<property name="ndFile" ref="zylar_ndfile" />
 		<property name="numTrackerExtension" value="zylarsnaps" />
-		<property name="keyNameForMetadataPathTemplate" value="zylar_path_template" />
 		<property name="writeErrorStatusSupported" value="false" />
 	</bean>
 
