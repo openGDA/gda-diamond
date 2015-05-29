@@ -880,7 +880,7 @@ class FlipperClass11Temp(PseudoDevice):
 		self.fracdiff=self.diff/self.sum	
 class FlipperClass12(PseudoDevice):
 	'''
-	dev=FlipperClass12(name, magnetdevice, pilatus, pilatus_roi)
+	dev=FlipperClass12(name, magnetdevice, pilatus, pilatus_roi,pilatus_roi field index (default = last)
 	uses pilatus and ic1 with specified magnet device
 	in: 'magvolts','counttime','ncycles'
 	magvolts is, for example, the x17_anout voltage magntitude
@@ -889,7 +889,7 @@ class FlipperClass12(PseudoDevice):
 	extra: 'firstnum','ic1ratio'
 	waits for self.waittime after flipping
 	'''
-	def __init__(self,name,magnetdevice,pilatus,pilatus_roi):
+	def __init__(self,name,magnetdevice,pilatus,pilatus_roi, index=-1):
 		self.setName(name)
 		self.magdev=magnetdevice
 		self.pil=pilatus
@@ -903,6 +903,7 @@ class FlipperClass12(PseudoDevice):
 		#self.filename=self.rootfilename
 		self.roi=pilatus_roi
 		self.waittime=0
+		self.index=index
 
 	def getPosition(self):
 		return [self.magvolts,self.counttime,self.cycles,self.filenum, self.ic1ratio, self.fracdiff, self.sum, self.diff]
@@ -911,7 +912,10 @@ class FlipperClass12(PseudoDevice):
 		return 0
 
 	def asynchronousMoveTo(self,newpos):
-		self.filenum=self.pil()[1]+1
+		try:
+			self.filenum=self.pil()[1]+1
+		except:
+			self.filenum=0
 
 		self.magvolts=newpos[0]
 		self.counttime=newpos[1]
@@ -926,23 +930,36 @@ class FlipperClass12(PseudoDevice):
 
 			self.magdev(-self.magvolts); w(self.waittime);
 			self.pil(self.counttime); 
-			roi_neg+=self.roi()[-1]
+			
+			try:
+				roi_neg+=self.roi()[self.index]
+			except:
+				roi_neg+=self.roi()
 			mon_neg+=ic1()
 
 			self.magdev(self.magvolts); w(self.waittime);
-			self.pil(self.counttime); 
-			roi_pos+=self.roi()[-1]
+			self.pil(self.counttime);
+			try:
+				roi_pos+=self.roi()[self.index]
+			except:
+				roi_pos+=self.roi() 
 			mon_pos+=ic1()
 
 
 			self.magdev(self.magvolts); w(self.waittime);
 			self.pil(self.counttime); 
-			roi_pos+=self.roi()[-1]
+			try:
+				roi_pos+=self.roi()[self.index]
+			except:
+				roi_pos+=self.roi() 
 			mon_pos+=ic1()
 
 			self.magdev(-self.magvolts); w(self.waittime);
 			self.pil(self.counttime); 
-			roi_neg+=self.roi()[-1]
+			try:
+				roi_neg+=self.roi()[self.index]
+			except:
+				roi_neg+=self.roi()
 			mon_neg+=ic1()
 
 		try:	
@@ -1294,4 +1311,4 @@ flipper12xm=FlipperClass12('flipper12xm',x19_anout,xm,xm)
 #flipper9diode=FlipperClass9diode('flipper9diode')
 # ==== USE QPBM6, not QBPM8 =============
 '''
-flipper4=FlipperClass4a('flipper4',ppa220)
+#flipper4=FlipperClass4a('flipper4',ppa220)
