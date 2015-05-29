@@ -115,28 +115,19 @@
 		<!-- We need a way here to tell file writers that they need to take their image from this ndProcess if defined? -->
 		<property name="filterEnabledAfterCollection" value="True" />
 	</bean>
-
-	<!-- SingleExposureStandard(ADBase adBase, double readoutTime)
-				Negative readoutTime disables AcquirePeriod
-	 -->
-	<!-- 
-	<bean id="pe_SingleExposureStandardCollectionStrategy"
-		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="peAD_config_base" />
-		<constructor-arg value="-1" />
-	</bean>
-	 -->
+	<!-- This really needs to be a MultipleExposureAutoModeDecorator around a SoftwareTrigger Collection Strategy 
+		 so that we can also decorate HardwareTrigger and EpicsTrigger with the same decorator for the same behaviour. -->
 
 	<!-- Should now apply UnsynchronisedExternalShutterDecorator to MultipleExposureSoftwareTriggerAutoMode -->
-	<!-- 
+	<!-- which should itself apply MultipleExposureAutoModeDecorator around a SoftwareTrigger Collection Strategy -->
 	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" 
 			class="gda.device.detector.addetector.triggering.UnsynchronisedExternalShutterDecorator">
 		<property name="decoratee" ref="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
 		<property name="collectionExtensionTimeS" value="10" />
 	</bean>
-	 -->
 
 	<!-- MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
+	<!-- 
 	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" 
 		  class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter">
 		<constructor-arg ref="peAD_config_base" />
@@ -146,6 +137,7 @@
 		<property name="readAcquireTimeFromHardware" value="True" />
 		<property name="procDataTypeOut" value="4" />
 	</bean>
+	 -->
 	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
 	     dkphi set to minimumAccelerationDistance=0.004-->
 	<!-- A value of 4 in procDataTypeOut set the proc output to Int32, it default to 5 which is UInt32
@@ -205,7 +197,6 @@
 		<property name="name" value="pe"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<!-- If switching to this, don't forget to switch the ndArrayPortVal properties above
-		<property name="collectionStrategy" ref="pe_SingleExposureStandardCollectionStrategy" />
 		<property name="collectionStrategy" ref="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
 		 -->
 		<property name="collectionStrategy" ref="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" />
