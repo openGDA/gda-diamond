@@ -4,6 +4,7 @@ from localStationScripts.GeneralScan import GeneralScan
 from localStationScripts.operationalControl import genericScanChecks
 #from scanPeak import fitStepFunction
 
+# Does this need to inherit from GeneralScan? nothing in this class seems to need it!
 class CentreDAC(GeneralScan):
 	"""
 	CentreDAC(rotation_axis, perp2rot_axis, focus_axis,
