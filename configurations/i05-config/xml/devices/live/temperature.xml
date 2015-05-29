@@ -6,6 +6,7 @@
         <bean id="cryostat" class="uk.ac.gda.arpes.scannable.EpicsLakeshore336">
         	<property name="tolerance" value="0.1" />
         	<property name="basePVName" value="BL05I-EA-TCTRL-02:" />
+        	<property name="local" value="true" />
         	<property name="extraNames">
         		<list>
         			<value>cryostat</value>
