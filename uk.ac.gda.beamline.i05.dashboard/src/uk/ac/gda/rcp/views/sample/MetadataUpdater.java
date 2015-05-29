@@ -221,25 +221,27 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 			return String.format("%02d:%02d:%02d", h, m, s);
 		}
 
-		private long noddyETAprediction(int currentpoint, int total, long elapsed) {
+		private long etaPrediction(int currentpoint, int totalPoints, long elapsed) {
 			if (currentpoint == 0) {
 				return 0;
 			}
-			return (total - currentPointNumber - 1) * elapsed / currentPointNumber;
+			long timeRemaining = ((totalPoints - currentPointNumber - 1) * elapsed / currentPointNumber);  // converging estimate: points remaing X current average time per point
+			logger.debug("etaPrediction:"+String.format("totalPoints=%d, currentPointNumber=%d, elapsed=%s remaining=%s", totalPoints, currentPointNumber, hms4millis(elapsed), hms4millis(timeRemaining)));
+			return timeRemaining;
 		}
 
 		private void updateElapsedTime () {
 			if (started != null){ // non-null indicates clock has started
+				logger.debug(String.format("updateElapsedTime, currentPointNumber=%d", currentPointNumber));
 				long elapsed = ((new Date()).getTime()) - started.getTime();
 				client.elapsedTime.setText(hms4millis(elapsed));
-				if (totalScanPoints != null) {
-					client.remainTimeLbl.setText(hms4millis(noddyETAprediction(currentPointNumber, totalScanPoints, elapsed)));
+				if (totalScanPoints != null ) {
+					client.remainTimeLbl.setText(hms4millis(etaPrediction(currentPointNumber, totalScanPoints, elapsed)));
 				}
 			}
 		}
 
 		private void clockStart() {
-			client.elapsedTime.setText("--:--:--");
 			started = new Date();
 		}
 
@@ -262,6 +264,7 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 						}
 					}
 				} else if (arg instanceof SweptProgress) {
+					logger.debug("updateElapsedTime from SweptProgress");
 					updateElapsedTime();
 
 				} else	if (arg instanceof ScanEvent) {             // update view related to all scans: analyser fixed/ analyser swept/command line
@@ -277,8 +280,6 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 						client.scanFile.setText(lastFileName);
 						client.scanNumLbl.setText(Integer.toString(lastScanNumber + 1)); // indicate number in file name that will be used for next scan
 					}
-				} else if (arg instanceof FrameUpdate) {            // update view for "Command Queue" scans (ARPES Scan Editor Queue Experiment)
-					updateElapsedTime();
 
 				} else if (arg instanceof ScanDataPoint) {
 					ScanDataPoint sdp = (ScanDataPoint) arg;
@@ -289,10 +290,12 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 					//only start timing from first point, or remaining time is (even more) inaccurate
 					//when there is a long delay getting to the first point
 					if (currentPointNumber == 0) { clockStart(); }
+					logger.debug("updateElapsedTime from ScanDataPoint");
 					updateElapsedTime();
 
-				} else if (arg instanceof JythonServerStatus) {     // currently only "Command Queue" scans trigger these events, Jython Command Line scans do not
+				} else if (arg instanceof JythonServerStatus) {     // Running Scripts and (deprecated) CommandQueue trigger these events, Jython Console scan commands do not
 					JythonServerStatus jss = (JythonServerStatus) arg;
+					logger.debug("run(): JythonServerStatus {}", jss);
 
 					switch (jss.scriptStatus) {
 					case Jython.RUNNING:
@@ -308,7 +311,6 @@ public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, I
 						client.scanStatLbl.setText("IDLE");
 						client.scanPntLbl.setText("[0] / [0]");
 						client.progressBar.setSelection(10000);
-						client.remainTimeLbl.setText("--:--:--");
 						break;
 					case Jython.PAUSED:
 						client.scanStatLbl.setText("PAUSED");
