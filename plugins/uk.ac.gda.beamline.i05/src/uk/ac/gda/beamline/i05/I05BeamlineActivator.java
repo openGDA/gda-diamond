@@ -29,8 +29,6 @@ public class I05BeamlineActivator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i05";
 	private static I05BeamlineActivator plugin;
 
-	public static final String EXIT_SLIT_SIZE_SCANNABLE = "exit_slit";
-	
 	public I05BeamlineActivator() {
 	}
 
