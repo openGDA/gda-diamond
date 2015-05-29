@@ -4,34 +4,46 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	
+	<!-- slits -->
 	<import resource="s1.xml" />
 	<import resource="s2.xml" />
 	<import resource="s3.xml" />
 	<import resource="s5.xml" />
 	<import resource="s6.xml" />
+	<import resource="sj6.xml" />
 
+	<!-- diagnostics -->
 	<import resource="d3.xml" />
 	<import resource="d6.xml" />
 	<import resource="d7.xml" />
 	<import resource="dj7.xml" />
 	<import resource="d9.xml" />
 	
+	<!-- mirrors -->
 	<import resource="m1.xml" />
 	<import resource="m3mj6.xml" />
 	<import resource="m4m5.xml" />
 
+	<!-- shutters -->
+	<import resource="shtr1.xml"/>
+
+	<!-- plain grating monocromator -->
 	<import resource="pgm.xml" />
 
+	<!-- sample manipulator -->
 	<import resource="gonio.xml" />
-
-	<import resource="rawid.xml" />
-	<import resource="id.xml" />
 	<import resource="temperature.xml" />
 
+	<!-- insertion device -->
+	<import resource="rawid.xml" />
+	<import resource="id.xml" />
+
+	<!-- storage ring -->
 	<import resource="ring.xml" />
 
-	<import resource="sj6.xml" />
-	
+	<!-- analyser -->
 	<import resource="scientaslit.xml" />
 	<import resource="cameras.xml" />
+
 </beans>
