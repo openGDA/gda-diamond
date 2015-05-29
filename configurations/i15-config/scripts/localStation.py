@@ -42,6 +42,9 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 #global zebraContinuousMoveController
 from scannables.detectors.fastShutterZebraDetector import FastShutterZebraDetector
 zebraFastShutter=FastShutterZebraDetector(          'zebraFastShutter', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController)
+from scannables.detectors.checkZebraScannable import ZebraPositionScannable #, ZebraCheckScannable
+zebraPositionScannable=ZebraPositionScannable('zebraPositionScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
+#zebraCheckScannable=ZebraCheckScannable(         'zebraCheckScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
 
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
