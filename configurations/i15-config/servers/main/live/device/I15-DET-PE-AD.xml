@@ -113,6 +113,7 @@
 		<property name="ndProcess" ref="peAD_summary_proc2" />
 		<property name="readAcquireTimeFromHardware" value="True" />
 		<!-- We need a way here to tell file writers that they need to take their image from this ndProcess if defined? -->
+		<property name="filterEnabledAfterCollection" value="True" />
 	</bean>
 
 	<!-- SingleExposureStandard(ADBase adBase, double readoutTime)
