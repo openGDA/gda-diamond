@@ -78,16 +78,20 @@ class hvunit_K2410(PseudoDevice):
 		self.__doc__+='Units for current: '+self.unitstring
 		if help is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help
 
+
 	def reset(self):
 		self.setSourceMode(0) # 0 set source to V mode, 1 set to curr
 		self.setSourceFunc(0) # 0 set source to V mode, 1 set to curr
 		self.setSourVorC(0) # 0 set source to V mode, 1 set to curr
 		self.setSensVorC(0) # 0 set source to V mode, 1 set to curr
 		self.setSensFunc(1) # 0 set sense to V mode, 1 set to curr
-		self.setSensProt(5E-6) # protection to 1mA
+		#self.setSensProt(5E-6) # protection to 1mA
 		self.setSensMeasRange(1100.0)
 		self.setSourceRange(1100)#######delete if problem (testing)
 		self.setSensAutoRange(0) 
+
+
+
 
 
 
@@ -189,4 +193,15 @@ class hvunit_K2410(PseudoDevice):
 	def getSensAutoRange(self):
 		# 0 set input to man, 1 set to auto
 		return self.sensrangeauto.caget()
+
+
+class currentunit(hvunit_K2410):
+	'''
+	modified version of hvunit_K2410 class
+	this version always returns 0 for isBusy status
+	current=currentunit('current','BL16I-EA-K2400-01:','A','%6.3f')
+	'''
+	def isBusy(self):
+		return 0
+
 

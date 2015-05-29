@@ -40,7 +40,7 @@
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="medipix" />
 		<property name="ndFile" ref="medipix_ndfiletif" />
-		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="keyNameForMetadataPathTemplate" value="medipix_path_template" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="waitForFileArrival" value="false" />
 	</bean>
@@ -50,7 +50,6 @@
 		<constructor-arg value="medipix" />
 		<property name="ndFile" ref="medipix_ndfiletif" />
 		<property name="numTrackerExtension" value="medipix_snaps_numracker" />
-		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
 		<property name="writeErrorStatusSupported" value="false"/>
 	</bean>
 	

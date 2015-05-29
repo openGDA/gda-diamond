@@ -66,18 +66,15 @@ def alignpinh():
 	print 'Moving base_y to ' + str(baseycen)
 
 def alignpinv():
+	#please stop editing this!
 	pos phi 180
 	print "===Centre pin vertically on edge. Do horizontal first.Last chance to abort!"; sleep(5)
 #	pos chi 45
 	pos chi 0
 	bzpos=base_z()[0]
-	#scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode vpos
 	scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode
-#	scan base_z bzpos-0.1 bzpos+0.1 .01 w 1 diode
 	pos phi 0
-	#scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode vpos
-#	scan base_z bzpos-0.2 bzpos+0.2 .01 w 1 checkbeam diode
-	scan base_z bzpos-0.1 bzpos+0.1 .01 w 1 checkbeam diode
+	scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode
 	#print "===Now you must move base_z to centre...";
 	basezcen=(edge(0,'Base_z','diode')[1]+edge(-1,'Base_z','diode')[2])/2. # now uses falling edhe of first scan
 	print 'Moving base_z to ' + str(basezcen)

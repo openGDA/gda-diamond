@@ -52,7 +52,7 @@
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus2M" />
 		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
-		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus2m_path_template" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="waitForFileArrival" value="false" />
@@ -82,7 +82,7 @@
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus2M" />
 		<property name="ndFile" ref="pilatus2_camserver_ndfile" />
-		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus2m_path_template" />
 		<property name="waitForFileArrival" value="false" />
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
