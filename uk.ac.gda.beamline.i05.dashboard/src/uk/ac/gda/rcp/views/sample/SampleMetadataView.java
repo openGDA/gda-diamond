@@ -64,6 +64,7 @@ public class SampleMetadataView extends ViewPart {
 			Group grpScanStat = new Group(parent, SWT.NONE);
 			grpScanStat.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 			grpScanStat.setText("Scan Status");
+			grpScanStat.setToolTipText("Cycle: Running, [Paused], Completed");
 			grpScanStat.setLayout(new FillLayout(SWT.HORIZONTAL));
 			scanStatLbl = new Label(grpScanStat, SWT.NONE);
 			scanStatLbl.setText("UNKNOWN");
@@ -75,6 +76,7 @@ public class SampleMetadataView extends ViewPart {
 			Group grpScanNum = new Group(parent, SWT.NONE);
 			grpScanNum.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 			grpScanNum.setText("Running Scan Number");
+			grpScanNum.setToolTipText("Before Scan: Number of the next file to be written; During scan: number of file being written");			
 			grpScanNum.setLayout(new FillLayout(SWT.HORIZONTAL));
 			scanNumLbl = new Label(grpScanNum, SWT.NONE);
 			scanNumLbl.setText("");
@@ -108,6 +110,7 @@ public class SampleMetadataView extends ViewPart {
 			Group grpRemainTime = new Group(parent, SWT.NONE);
 			grpRemainTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 			grpRemainTime.setText("Remaining");
+			grpRemainTime.setToolTipText("Estimate of time remaining based of average time taken so far");					
 			grpRemainTime.setLayout(new FillLayout(SWT.HORIZONTAL));
 				remainTimeLbl = new Label(grpRemainTime, SWT.NONE);
 				remainTimeLbl.setText("00:00:00");
