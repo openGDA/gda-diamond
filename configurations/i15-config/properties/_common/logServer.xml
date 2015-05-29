@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
+	<define scope="context" name="JVMNAME" class="gda.util.logging.JvmNamePropertyDefiner" />
 
     <!--  the include statement in the following java.properties file is not read so you need to reference both -->
     <property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
