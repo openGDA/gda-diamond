@@ -15,8 +15,8 @@ class FastDichroismZebraDetector(DetectorBase, HardwareTriggeredDetector, Detect
     def __init__(self, name, rootPV, continuousMoveController):
         self.name = name
         self.setInputNames([name])
-        self.setExtraNames(['t', 'mon_rise', 'mon_fall', 'det_rise', 'det_fall'])
-        self.setOutputFormat(['%5.5f', '%5.5f', '%d', '%d', '%d', '%d'])
+        self.setExtraNames(self._getExtraNames())
+        self.setOutputFormat(self._getOutputFormat())
         self.setLevel(100)
         self.pvs = PvManager(pvroot = rootPV)
         self.continuousMoveController = continuousMoveController
@@ -116,6 +116,9 @@ class FastDichroismZebraDetector(DetectorBase, HardwareTriggeredDetector, Detect
         TriggerOnFallingEdge=Yes
         DivFirstPulseNumbered1_OUTN=No
 
+        # Perform a Zebra RESET to ensure all of the PVs can be configured.
+        self.pvs['SYS_RESET.PROC'].caput(TIMEOUT, 1)
+
         # The Position compare is used to control the length of acquisition
         # according to the number of pulses acquired, and capture the
         # total number of detector pulses for each phase of the acquisition.
@@ -140,6 +143,8 @@ class FastDichroismZebraDetector(DetectorBase, HardwareTriggeredDetector, Detect
         # If PC_PULSE_DLY were less than acquire_time_per_pulse_s then the
         # capture of the final point would be too early and we would miss some
         # counts.
+        self.pvs['PC_PULSE_SEL'  ].caput(TIMEOUT, 'Time')
+        self.pvs['PC_TSPRE'      ].caput(TIMEOUT, 's')
 
         # The AND gates are used to ensure that Detector and Monitor signals
         # are gated according to both the appropriate windows and whether the
@@ -368,11 +373,18 @@ class FastDichroismZebraDetector(DetectorBase, HardwareTriggeredDetector, Detect
             wait_count += 1
         
         # TODO: We really should return different values when delays are negative, since this also swaps the signals
+        mon_rise = float(self.pvs['PC_DIV1_LAST'].caget())
+        mon_fall = float(self.pvs['PC_DIV2_LAST'].caget())
+        det_rise = float(self.pvs['PC_DIV3_LAST'].caget())
+        det_fall = float(self.pvs['PC_DIV4_LAST'].caget())
         return [ self.acquire_time_in_pulses*self.acquire_time_per_pulse_s, 
-                 float(self.pvs['PC_DIV1_LAST'].caget()), 
-                 float(self.pvs['PC_DIV2_LAST'].caget()), 
-                 float(self.pvs['PC_DIV3_LAST'].caget()), 
-                 float(self.pvs['PC_DIV4_LAST'].caget()) ]
+                 mon_rise, mon_fall, mon_rise-mon_fall, det_rise, det_fall, det_rise-det_fall]
+
+    def _getExtraNames(self):
+        return ['t', 'mon_rise', 'mon_fall', 'mon_diff', 'det_rise', 'det_fall', 'det_diff']
+
+    def _getOutputFormat(self):
+        return ['%5.5f', '%5.5f', '%d', '%d', '%d', '%d', '%d', '%d']
 
 #    def waitWhileBusy(self):
         """ Wait while the detector collects data. Should return as soon as
@@ -400,6 +412,7 @@ class FastDichroismZebraDetector(DetectorBase, HardwareTriggeredDetector, Detect
         self.acquire_time_in_pulses = self.collectionTime*10 # 10Hz
 
         self.pvs['PC_GATE_NGATE' ].caput(TIMEOUT, self.acquire_time_in_pulses)
+        self.pvs['PC_PULSE_STEP' ].caput(TIMEOUT, self.acquire_time_per_pulse_s+0.001)
         self.pvs['PC_PULSE_DLY' ].caput(TIMEOUT, self.acquire_time_per_pulse_s)
         # PC_PULSE is only used to determine when the capture is performed.
         # If PC_PULSE_DLY were less than acquire_time_per_pulse_s then the

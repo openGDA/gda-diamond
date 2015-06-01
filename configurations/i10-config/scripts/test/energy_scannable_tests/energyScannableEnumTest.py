@@ -25,7 +25,7 @@ class EnergyScannablePolyTest(unittest.TestCase):
             {234.9 : IdPosition(gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0, jawphase=0.235)
             ,318.1 : IdPosition(gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0, jawphase=4.524)
             ,516.3 : IdPosition(gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0, jawphase=7.076)
-            ,1660  : IdPosition(gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0, jawphase=11.25)                                    
+            ,1660  : IdPosition(gap=16, rowphase1=0, rowphase2=0, rowphase3=0, rowphase4=0, jawphase=11.25)
             } )
         
         #################### End Example configuration ####################  

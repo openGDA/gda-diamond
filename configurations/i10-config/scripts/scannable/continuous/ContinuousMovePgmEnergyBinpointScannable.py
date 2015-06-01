@@ -154,7 +154,7 @@ class EnergyCalculatingCallable(Callable):
                parent,       demand_position,       grtPitchCallable,       mirPitchCallable,       pgmEnergyCallable):
         (self._parent, self._demand_position, self._grtPitchCallable, self._mirPitchCallable, self._pgmEnergyCallable) = (
                parent,       demand_position,       grtPitchCallable,       mirPitchCallable,       pgmEnergyCallable)
-    
+
     def call(self):
         grtPitch = self._grtPitchCallable.call()
         mirPitch = self._mirPitchCallable.call()
@@ -175,11 +175,11 @@ class EnergyCalculatingCallable(Callable):
         # TODO: Calculate and return cff value.
         # Do we also want to return the motor positions too, given that using this
         # scannable prevents us from adding the binpoint scannables individually?
-    
+
     @staticmethod
     def getPositionCallableExtraNames():
-        return ['demand', 'diff', 'pgm_energy', 'diff']
-    
+        return ['demand', 'demand_diff', 'pgm_energy', 'pgm_energy_diff']
+
     @staticmethod
     def getPositionCallableFormat():
         return ['%f', '%f', '%f', '%f', '%f']

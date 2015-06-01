@@ -6,6 +6,7 @@ for use with GDA at Diamond Light Source
 from datetime import datetime, timedelta
 from gda.device import DeviceBase
 from gda.device.continuouscontroller import ConstantVelocityMoveController
+from gdascripts.scannable.epics.PvManager import PvManager
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2grating
@@ -13,7 +14,7 @@ import threading, time
 
 class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
 
-    def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch): # motors, maybe also detector to set the delay time
+    def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch, pgmpvroot): # motors, maybe also detector to set the delay time
         self.logger = LoggerFactory.getLogger("ContinuousPgmGratingEnergyMoveController:%s" % name)
         self.verbose = False
         
@@ -25,6 +26,16 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         self._movelog_time = datetime.now()
         self._runupdown_time = None
 
+        self.pvs = PvManager({'grating_density':                'NLINES',
+                              'cff':                            'CFF',
+                              'grating_offset':                 'GRTOFFSET',
+                              'plane_mirror_offset':            'MIROFFSET',
+                              'pgm_energy':                     'ENERGY',
+                              'grating_pitch':                  'GRT:PITCH',
+                              'mirror_pitch':                   'MIR:PITCH',
+                              'energy_calibration_gradient':    'MX',
+                              'energy_calibration_reference':   'REFERENCE'}, pgmpvroot)
+        self.pvs.configure()
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
     def setStart(self, start): # double
@@ -42,19 +53,31 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
     # Implement: public interface ContinuousMoveController extends HardwareTriggerProvider
 
     def getPgmEnergyParameters(self):
+        grating_densityFromEnum = {'0' : 400., '1':400., '2':1200.}
+        return (grating_densityFromEnum[self.pvs['grating_density'].caget()],
+                float(self.pvs['cff'].caget()), 
+                float(self.pvs['grating_offset'].caget()), 
+                float(self.pvs['plane_mirror_offset'].caget()), 
+                float(self.pvs['energy_calibration_gradient'].caget()), 
+                float(self.pvs['energy_calibration_reference'].caget()))
+        
+    def getPgmEnergyParametersFixed(self):
         # Hard code these values until we can work out a nice way of getting at the PVs
         # TODO: Get the values from their Epics PVs
+        """
+        caget BL10I-OP-PGM-01:NLINES BL10I-OP-PGM-01:CFF BL10I-OP-PGM-01:GRTOFFSET BL10I-OP-PGM-01:MIROFFSET BL10I-OP-PGM-01:MX BL10I-OP-PGM-01:REFERENCE
+        """
         grating_density                 = 400.              # caget BL10I-OP-PGM-01:NLINES
         cff                             = 2.25              # caget BL10I-OP-PGM-01:CFF
-        grating_offset                  = 0.40708           # caget BL10I-OP-PGM-01:GRTOFFSET
-        plane_mirror_offset             = 0.002739          # caget BL10I-OP-PGM-01:MIROFFSET
+        grating_offset                  = -0.053747         # caget BL10I-OP-PGM-01:GRTOFFSET
+        plane_mirror_offset             = 0.002514          # caget BL10I-OP-PGM-01:MIROFFSET
 
         #pgm_energy                     = 712.300           # caget BL10I-OP-PGM-01:ENERGY
         #grating_pitch                  = 88.0151063265128  # caget -g15 BL10I-OP-PGM-01:GRT:PITCH
         #mirror_pitch                   = 88.2753263680692  # caget -g15 BL10I-OP-PGM-01:MIR:PITCH
 
-        energy_calibration_gradient     = 1.02152           # caget BL10I-OP-PGM-01:MX
-        energy_calibration_reference    = 372.              # caget BL10I-OP-PGM-01:REFERENCE
+        energy_calibration_gradient     = 1.0178            # caget BL10I-OP-PGM-01:MX
+        energy_calibration_reference    = 392.555           # caget BL10I-OP-PGM-01:REFERENCE
 
         return grating_density, cff, grating_offset, plane_mirror_offset, energy_calibration_gradient, energy_calibration_reference
 

@@ -26,7 +26,12 @@ ME02P-gui /dls_sw/work/R3.14.11/ioc/ME02P/MO/bin/linux-x86/stME02P-gui
 data directories too: 
 
 $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL10I/BL/*/data/BL10I-gda-interface.xml /dls_sw/work/*/ioc/BL10I/BL/data/BL10I-gda-interface.xml /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/*/xml/epics/BL10I-gda-interface.xml
--r-xr-xr-x. 1 rqs43846 dcs      1005288 2015-03-19 18:24 /dls_sw/work/R3.14.12.3/ioc/BL10I/BL/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1392278 2015-04-28 16:03 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-23/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1392625 2015-04-21 20:16 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-22/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1392625 2015-04-10 19:31 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-21/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1392625 2015-04-07 10:39 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-20/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1 rqs43846 dcs      1392625 2015-04-02 09:44 /dls_sw/work/R3.14.12.3/ioc/BL10I/BL/data/BL10I-gda-interface.xml
+-r-xr-xr-x. 1    37523    37523 1392625 2015-04-01 21:59 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-19/data/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1005288 2015-03-19 17:52 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-18/data/BL10I-gda-interface.xml
 -rwxrwxr-x. 1 voo82358 dls_dasc 1005450 2015-03-19 10:35 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/BL10I-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 1005450 2015-03-17 12:06 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-17/data/BL10I-gda-interface.xml
@@ -37,8 +42,8 @@ $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/BL10I/BL/*/data/BL10I-gda-interf
 -r-xr-xr-x. 1    37523    37523 1003402 2014-12-23 19:25 /dls_sw/prod/R3.14.12.3/ioc/BL10I/BL/3-12/data/BL10I-gda-interface.xml
 
 $ll -t --time-style=long-iso /dls_sw/prod/*/ioc/ME01D/BL/*/data/ME01D-gda-interface.xml /dls_sw/work/*/ioc/ME01D/BL/data/ME01D-gda-interface.xml /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/*/xml/epics/ME01D-gda-interface.xml
+-r-xr-xr-x. 1 rqs43846 dcs      460215 2015-04-21 15:24 /dls_sw/work/R3.14.12.3/ioc/ME01D/BL/data/ME01D-gda-interface.xml
 -rwxrwxr-x. 1 voo82358 dls_dasc 460215 2015-03-19 10:35 /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/xml/epics/ME01D-gda-interface.xml
--r-xr-xr-x. 1 rqs43846 dcs      460215 2015-03-17 18:30 /dls_sw/work/R3.14.12.3/ioc/ME01D/BL/data/ME01D-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 460215 2015-03-17 16:53 /dls_sw/prod/R3.14.12.3/ioc/ME01D/BL/4-2/data/ME01D-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 460215 2014-07-23 10:12 /dls_sw/prod/R3.14.12.3/ioc/ME01D/BL/4-1/data/ME01D-gda-interface.xml
 -r-xr-xr-x. 1    37523    37523 460215 2014-03-28 11:56 /dls_sw/prod/R3.14.12.3/ioc/ME01D/BL/4-0/data/ME01D-gda-interface.xml
