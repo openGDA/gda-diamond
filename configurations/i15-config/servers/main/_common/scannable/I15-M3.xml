@@ -60,4 +60,15 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- Since the gda svfm & shfm prefixes are not the same as the Epics M3
+	     designation, provide a scannable group to make it easier to find. -->
+	<bean id="M3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="svfm" />
+				<ref bean="shfm" />
+			</list>
+		</property>
+	</bean>
 </beans>

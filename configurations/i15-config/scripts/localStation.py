@@ -2,47 +2,49 @@ import sys;
 from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog # @UnusedImport
 
-import cendac # @UnusedImport
-import integrationTests # @UnusedImport
-import CrysalisDataCollection # @UnusedImport
-import pd_epicsdevice # @UnusedImport
+#import localStationScripts.centreDac # @UnusedImport
+#import integrationTests # @UnusedImport
+#import CrysalisDataCollection # @UnusedImport
+from localStationScripts.pd_epicsdevice import Simple_PD_EpicsDevice
 #import ruby_scripts
 import gdascripts.pd.epics_pds # @UnusedImport
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
-import gdascripts.pd.time_pds
+from gdascripts.pd.time_pds import waittime
 import gdascripts.utils # @UnusedImport
-import pd_ratio
-import pd_baseTable
-import dataDir
-import shutterCommands # @UnusedImport
-import marAuxiliary # @UnusedImport
+from localStationScripts.pd_ratio import Simple_PD_Ratio
+from localStationScripts.baseTable import BaseTable
+#import dataDir
+from localStationScripts.shutterCommands import configure as shutterCommands_configure
+#import marAuxiliary # @UnusedImport
 #from marAuxiliary import closeMarShield as closeDetectorShield
 #from marAuxiliary import openMarShield as openDetectorShield
-import ccdAuxiliary # @UnusedImport
-import ccdScanMechanics
-from ccdScanMechanics import setMaxVelocity # @UnusedImport
-import ccdFloodCorrections
-import ccdScripts # @UnusedImport
-import pilatus_scripts # @UnusedImport
-import operationalControl
-
-from operationalControl import * # @UnusedWildImport
-from dummy_scan_objects import SimpleDummyDetector
+#import ccdAuxiliary # @UnusedImport
+from localStationScripts.ccdScanMechanics import configure as ccdScanMechanics_configure
+from localStationScripts.ccdScanMechanics import setMaxVelocity # @UnusedImport
+#import ccdFloodCorrections
+#import ccdScripts # @UnusedImport
+#import pilatus_scripts # @UnusedImport
+from localStationScripts.operationalControl import configure as operationalControl_configure
+from localStationScripts.operationalControl import * # @UnusedWildImport
+#from dummy_scan_objects import SimpleDummyDetector
 from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters
 from gda.device.epicsdevice import ReturnType
 from gda.util import VisitPath
-from constants import * # @UnusedWildImport
-from dataPlot import dp # @UnusedImport
-from meterCounterSetup import * # @UnusedWildImport
+from localStationScripts.constants import * # @UnusedWildImport
+#from dataPlot import dp # @UnusedImport
+#from meterCounterSetup import * # @UnusedWildImport
 #from scan_commands import scan
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
 #global zebraContinuousMoveController
-import scannables.detectors.fastShutterZebraDetector
-zebraFastShutter=scannables.detectors.fastShutterZebraDetector.FastShutterZebraDetector('zebraFastShutter', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController)
+from scannables.detectors.fastShutterZebraDetector import FastShutterZebraDetector
+zebraFastShutter=FastShutterZebraDetector(          'zebraFastShutter', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController)
+from scannables.detectors.checkZebraScannable import ZebraPositionScannable #, ZebraCheckScannable
+zebraPositionScannable=ZebraPositionScannable('zebraPositionScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
+#zebraCheckScannable=ZebraCheckScannable(         'zebraCheckScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
 
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
@@ -52,18 +54,24 @@ import scannables.MerlinColourModeThresholdsScannable
 mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
     PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
 
-from detector_scan_commands import * # @UnusedWildImport
-from centreProxy import * # @UnusedWildImport
+from localStationScripts.detector_scan_commands import * # @UnusedWildImport
+from localStationScripts.user_commands import * # @UnusedWildImport
+from localStationScripts.centreProxy import * # @UnusedWildImport
 #from scanPeak import *
-from diodeTime import * # @UnusedWildImport
-from setGain import * # @UnusedWildImport
+#from diodeTime import * # @UnusedWildImport
+#from setGain import * # @UnusedWildImport
 #from marAuxiliary import marErase, resetMarScanNumber
 #from ccdAuxiliary import resetCCDScanNumber
 #from pilatus_scripts import resetPilatusScanNumber
 
-from dataDir import setDir, setFullUserDir # @UnusedImport
-from ccdFloodCorrections import exportMultiDark # @UnusedImport
+#from dataDir import setDir, setFullUserDir # @UnusedImport
+#from ccdFloodCorrections import exportMultiDark # @UnusedImport
 from gda.epics import CAClient
+
+from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
+from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
+from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
 global finder, run, etl, prop, add_default, vararg_regex, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
@@ -153,61 +161,61 @@ try:
 
 	try:
 		simpleLog("Creating devices")
-		w = gdascripts.pd.time_pds.waittime
-		baseTab = pd_baseTable.BaseTable("baseTab", beamline, "-MO-DIFF-01:BASE:", djack1, djack2, djack3, 2.5)
-		baseTab2 = pd_baseTable.BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
-		qbpm1total = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")
-		qbpm2total = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN")
-		#s4pitch = pd_epicsdevice.Simple_PD_EpicsDevice("s4pitch", beamline, "-AL-SLITS-04:PITCH.VAL")
-		#s4yaw = pd_epicsdevice.Simple_PD_EpicsDevice("s4yaw", beamline, "-AL-SLITS-04:YAW.VAL")
-		#pin2x = pd_epicsdevice.Simple_PD_EpicsDevice("pin2x", beamline, "-AL-APTR-02:X")
-		#pin2y = pd_epicsdevice.Simple_PD_EpicsDevice("pin2y", beamline, "-AL-APTR-02:Y")
-		#pin2pitch = pd_epicsdevice.Simple_PD_EpicsDevice("pin2pitch", beamline, "-AL-APTR-02:PITCH")
-		#pin2yaw = pd_epicsdevice.Simple_PD_EpicsDevice("pin2yaw", beamline, "-AL-APTR-02:YAW")
-		ionc1 = pd_epicsdevice.Simple_PD_EpicsDevice("ionc1", beamline, "-DI-IONC-01:I")
+		w = waittime
+		baseTab = BaseTable("baseTab", beamline, "-MO-DIFF-01:BASE:", djack1, djack2, djack3, 2.5)
+		baseTab2 = BaseTable("baseTab2", beamline, "-MO-TABLE-03:BASE:", tab2jack1, tab2jack2, tab2jack3, 2.5)
+		qbpm1total = Simple_PD_EpicsDevice("qbpm1total", beamline, "-DI-QBPM-01:INTEN")
+		qbpm2total = Simple_PD_EpicsDevice("qbpm2total", beamline, "-DI-QBPM-02:INTEN")
+		#s4pitch = Simple_PD_EpicsDevice("s4pitch", beamline, "-AL-SLITS-04:PITCH.VAL")
+		#s4yaw = Simple_PD_EpicsDevice("s4yaw", beamline, "-AL-SLITS-04:YAW.VAL")
+		#pin2x = Simple_PD_EpicsDevice("pin2x", beamline, "-AL-APTR-02:X")
+		#pin2y = Simple_PD_EpicsDevice("pin2y", beamline, "-AL-APTR-02:Y")
+		#pin2pitch = Simple_PD_EpicsDevice("pin2pitch", beamline, "-AL-APTR-02:PITCH")
+		#pin2yaw = Simple_PD_EpicsDevice("pin2yaw", beamline, "-AL-APTR-02:YAW")
+		ionc1 = Simple_PD_EpicsDevice("ionc1", beamline, "-DI-IONC-01:I")
 
-		#prop = pd_epicsdevice.Simple_PD_EpicsDevice("prop", beamline, "-DI-PROP-01:I")
-		#dcmpiezo = pd_epicsdevice.Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
-		#s2ygap = pd_epicsdevice.Simple_PD_EpicsDevice("s2ygap", beamline, "-AL-SLITS-02:Y:GAP.VAL")
-		#s2ycen = pd_epicsdevice.Simple_PD_EpicsDevice("s2ycen", beamline, "-AL-SLITS-02:Y:CENTRE.VAL")
-		#qbpX = pd_epicsdevice.Simple_PD_EpicsDevice("qbpX", beamline, "-DI-QBPMD-01:X.VAL")
-		#qbpY = pd_epicsdevice.Simple_PD_EpicsDevice("qbpY", beamline, "-DI-QBPMD-01:Y.VAL")
-		#qbpm2acurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2acurrent", beamline, "-DI-IAMP-02:CHA:PEAK")
-		#qbpm2bcurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2bcurrent", beamline, "-DI-IAMP-02:CHB:PEAK")
-		#qbpm2ccurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2ccurrent", beamline, "-DI-IAMP-02:CHC:PEAK")
-		#qbpm2dcurrent = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2dcurrent", beamline, "-DI-IAMP-02:CHD:PEAK")
+		#prop = Simple_PD_EpicsDevice("prop", beamline, "-DI-PROP-01:I")
+		#dcmpiezo = Simple_PD_EpicsDevice("dcmpiezo", beamline, "-OP-DCM-01:PIEZO:OUT")
+		#s2ygap = Simple_PD_EpicsDevice("s2ygap", beamline, "-AL-SLITS-02:Y:GAP.VAL")
+		#s2ycen = Simple_PD_EpicsDevice("s2ycen", beamline, "-AL-SLITS-02:Y:CENTRE.VAL")
+		#qbpX = Simple_PD_EpicsDevice("qbpX", beamline, "-DI-QBPMD-01:X.VAL")
+		#qbpY = Simple_PD_EpicsDevice("qbpY", beamline, "-DI-QBPMD-01:Y.VAL")
+		#qbpm2acurrent = Simple_PD_EpicsDevice("qbpm2acurrent", beamline, "-DI-IAMP-02:CHA:PEAK")
+		#qbpm2bcurrent = Simple_PD_EpicsDevice("qbpm2bcurrent", beamline, "-DI-IAMP-02:CHB:PEAK")
+		#qbpm2ccurrent = Simple_PD_EpicsDevice("qbpm2ccurrent", beamline, "-DI-IAMP-02:CHC:PEAK")
+		#qbpm2dcurrent = Simple_PD_EpicsDevice("qbpm2dcurrent", beamline, "-DI-IAMP-02:CHD:PEAK")
 	
-		qbpm1A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1A", beamline, "-DI-QBPM-01:A")
-		qbpm1B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1B", beamline, "-DI-QBPM-01:B")
-		qbpm1C = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1C", beamline, "-DI-QBPM-01:C")
-		qbpm1D = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm1D", beamline, "-DI-QBPM-01:D")
+		qbpm1A = Simple_PD_EpicsDevice("qbpm1A", beamline, "-DI-QBPM-01:A")
+		qbpm1B = Simple_PD_EpicsDevice("qbpm1B", beamline, "-DI-QBPM-01:B")
+		qbpm1C = Simple_PD_EpicsDevice("qbpm1C", beamline, "-DI-QBPM-01:C")
+		qbpm1D = Simple_PD_EpicsDevice("qbpm1D", beamline, "-DI-QBPM-01:D")
 
-		qbpm2A = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2A", beamline, "-DI-QBPM-02:A")
-		qbpm2B = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2B", beamline, "-DI-QBPM-02:B")
-		qbpm2C = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2C", beamline, "-DI-QBPM-02:C")
-		qbpm2D = pd_epicsdevice.Simple_PD_EpicsDevice("qbpm2D", beamline, "-DI-QBPM-02:D")
+		qbpm2A = Simple_PD_EpicsDevice("qbpm2A", beamline, "-DI-QBPM-02:A")
+		qbpm2B = Simple_PD_EpicsDevice("qbpm2B", beamline, "-DI-QBPM-02:B")
+		qbpm2C = Simple_PD_EpicsDevice("qbpm2C", beamline, "-DI-QBPM-02:C")
+		qbpm2D = Simple_PD_EpicsDevice("qbpm2D", beamline, "-DI-QBPM-02:D")
 
-		vfm_gravsag = pd_epicsdevice.Simple_PD_EpicsDevice("vfm_gravsag", beamline, "-OP-VFM-01:SAG.VAL")
+		vfm_gravsag = Simple_PD_EpicsDevice("vfm_gravsag", beamline, "-OP-VFM-01:SAG.VAL")
 
-		spivotx = pd_epicsdevice.Simple_PD_EpicsDevice("spivotx", beamline, "-MO-SFAB-01:PIVOT:X")
-		spivoty = pd_epicsdevice.Simple_PD_EpicsDevice("spivoty", beamline, "-MO-SFAB-01:PIVOT:Y")
-		spivotz = pd_epicsdevice.Simple_PD_EpicsDevice("spivotz", beamline, "-MO-SFAB-01:PIVOT:Z")
+		spivotx = Simple_PD_EpicsDevice("spivotx", beamline, "-MO-SFAB-01:PIVOT:X")
+		spivoty = Simple_PD_EpicsDevice("spivoty", beamline, "-MO-SFAB-01:PIVOT:Y")
+		spivotz = Simple_PD_EpicsDevice("spivotz", beamline, "-MO-SFAB-01:PIVOT:Z")
 
-		patch12x7 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x7", beamline, "-EA-PATCH-12:X7")
-		patch12x8 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x8", beamline, "-EA-PATCH-12:X8")
-		patch14x5 = pd_epicsdevice.Simple_PD_EpicsDevice("patch14x5", beamline, "-EA-PATCH-14:X5")
-		patch14x6 = pd_epicsdevice.Simple_PD_EpicsDevice("patch14x6", beamline, "-EA-PATCH-14:X6")
-		patch14x7 = pd_epicsdevice.Simple_PD_EpicsDevice("patch14x7", beamline, "-EA-PATCH-14:X7")
+		patch12x7 = Simple_PD_EpicsDevice("patch12x7", beamline, "-EA-PATCH-12:X7")
+		patch12x8 = Simple_PD_EpicsDevice("patch12x8", beamline, "-EA-PATCH-12:X8")
+		patch14x5 = Simple_PD_EpicsDevice("patch14x5", beamline, "-EA-PATCH-14:X5")
+		patch14x6 = Simple_PD_EpicsDevice("patch14x6", beamline, "-EA-PATCH-14:X6")
+		patch14x7 = Simple_PD_EpicsDevice("patch14x7", beamline, "-EA-PATCH-14:X7")
 
-		patch12x13 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x13", beamline, "-EA-PATCH-12:X13")
-		patch12x14 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x14", beamline, "-EA-PATCH-12:X14")
+		patch12x13 = Simple_PD_EpicsDevice("patch12x13", beamline, "-EA-PATCH-12:X13")
+		patch12x14 = Simple_PD_EpicsDevice("patch12x14", beamline, "-EA-PATCH-12:X14")
 
 		#ring= finder.find("Ring")
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
 		detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
 		
-		patch12x6 = pd_epicsdevice.Simple_PD_EpicsDevice("patch12x6", beamline, "-EA-PATCH-12:X6")
+		patch12x6 = Simple_PD_EpicsDevice("patch12x6", beamline, "-EA-PATCH-12:X6")
 		
 		thermo1 = DisplayEpicsPVClass("thermo1", "BL15I-EA-PATCH-50:TEMP1", "deg C", "%f")
 		thermo2 = DisplayEpicsPVClass("thermo2", "BL15I-EA-PATCH-50:TEMP2", "deg C", "%f")
@@ -225,7 +233,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating devices")
 
-	dummyDetector = SimpleDummyDetector()
+	#dummyDetector = SimpleDummyDetector()
 
 	try:
 		from scannable.CryojetScannable import CryojetScannable
@@ -234,18 +242,15 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating cryojet scannable")
 
+        """ Remove old Epics Pilatus device
 	try:
 		import pd_pilatus
 		pilatus = pd_pilatus.Pilatus("pilatus", "BL15I-EA-PILAT-02:", "/dls/i15/data/currentdir/", "pil")
 	except:
 		localStation_exception(sys.exc_info(), "creating pilatus")
-
+    
 	try:
-		from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
-		from gda.analysis.io import PilatusTiffLoader #, SRSLoader
-		from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
-		from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
-		from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+        from gda.analysis.io import PilatusTiffLoader #, SRSLoader
 
 		pildet = pd_pilatus.EpicsPilatus('pildet', 'BL15I-EA-PILAT-02:',"/dls/i15/data/currentdir/",'p','%s%s%d.tif')
 		#pil = ProcessingDetectorWrapper('pil', pildet, [], panel_name='Pilatus Plot', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
@@ -258,6 +263,7 @@ try:
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
 	except:
 		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
+    """
 
 	""" Remove ODCCD/Ruby/Atlas objects
 	try:
@@ -324,47 +330,30 @@ try:
 
 	try:
 		simpleLog("Create diodes")
-		finder.find("PHDGN1").configure()
-		finder.find("PHDGN2").configure()
-		finder.find("PHDGN3").configure()
-		finder.find("PHDGN4").configure()
-		finder.find("PHDGN5").configure()
-		finder.find("PHDGN6").configure()
-		finder.find("PHDGN7").configure()
-		finder.find("PHDGN8").configure()
-		finder.find("PHDGN9").configure()
-		d1 = finder.find("PHDGN1").createEpicsChannel("d1", ReturnType.DBR_NATIVE, "", "")
-		d1.setLevel(6)
-		d2 = finder.find("PHDGN2").createEpicsChannel("d2", ReturnType.DBR_NATIVE, "", "")
-		d2.setLevel(6)
-		d3 = finder.find("PHDGN3").createEpicsChannel("d3", ReturnType.DBR_NATIVE, "", "")
-		d3.setLevel(6)
-		d4 = finder.find("PHDGN4").createEpicsChannel("d4", ReturnType.DBR_NATIVE, "", "")
-		d4.setLevel(6)
-		d5 = finder.find("PHDGN5").createEpicsChannel("d5", ReturnType.DBR_NATIVE, "", "")
-		d5.setLevel(6)
-		d6 = finder.find("PHDGN6").createEpicsChannel("d6", ReturnType.DBR_NATIVE, "", "")
-		d6.setLevel(6)
-		d7 = finder.find("PHDGN7").createEpicsChannel("d7", ReturnType.DBR_NATIVE, "", "")
-		d7.setLevel(6)
-		d8 = finder.find("PHDGN8").createEpicsChannel("d8", ReturnType.DBR_NATIVE, "", "")
-		d8.setLevel(6)
-		d9 = finder.find("PHDGN9").createEpicsChannel("d9", ReturnType.DBR_NATIVE, "", "")
-		d9.setLevel(6)
-		d1.setValue(".SCAN", 9)
-		d2.setValue(".SCAN", 9)
-		d3.setValue(".SCAN", 9)
-		d4.setValue(".SCAN", 9)
-		d5.setValue(".SCAN", 9)
-		d6.setValue(".SCAN", 9)
-		d7.setValue(".SCAN", 9)
-		d8.setValue(".SCAN", 9)
-		d9.setValue(".SCAN", 9)
+		
+		def diodeFactory(channel_name, finder_name):
+			simplePv = finder.find(finder_name)
+			simplePv.configure()
+			diode = simplePv.createEpicsChannel(channel_name, ReturnType.DBR_NATIVE, "", "")
+			diode.setLevel(6)
+			diode.setValue(".SCAN", 9)
+			return diode
+		
+		d1=diodeFactory("d1", "PHDGN1")
+		d2=diodeFactory("d2", "PHDGN2")
+		d3=diodeFactory("d3", "PHDGN3")
+		d4=diodeFactory("d4", "PHDGN4")
+		d5=diodeFactory("d5", "PHDGN5")
+		d6=diodeFactory("d6", "PHDGN6")
+		d7=diodeFactory("d7", "PHDGN7")
+		d8=diodeFactory("d8", "PHDGN8")
+		d9=diodeFactory("d9", "PHDGN9")
+		
 		simpleLog("Create diode ratios")
-		d2_d1 = pd_ratio.Simple_PD_Ratio('d2_d1', d2, d1)
-		d3_d2 = pd_ratio.Simple_PD_Ratio('d3_d2', d3, d2)
-		d4_d2 = pd_ratio.Simple_PD_Ratio('d4_d2', d4, d2)
-		d5_d1 = pd_ratio.Simple_PD_Ratio('d5_d1', d5, d1)
+		d2_d1 = Simple_PD_Ratio('d2_d1', d2, d1)
+		d3_d2 = Simple_PD_Ratio('d3_d2', d3, d2)
+		d4_d2 = Simple_PD_Ratio('d4_d2', d4, d2)
+		d5_d1 = Simple_PD_Ratio('d5_d1', d5, d1)
 		
 		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-DI-PHDGN-01:DIODESUM", "", "%f")
 		d2sum = DisplayEpicsPVClass("d2sum", "BL15I-DI-PHDGN-02:DIODESUM", "", "%f")
@@ -425,7 +414,7 @@ try:
 
 	try:
 		#simpleLog("Create ETL detector objects, names: etl_lowlim, etl_uplim, etl_gain")
-		from detector_control_pds import * #@UnusedWildImport
+		from localStationScripts.etl_detector import * #@UnusedWildImport
 		
 		#print "ETL detector control values are: "
 		#print "\tName  \t\tTarget   \tPosition"
@@ -504,13 +493,6 @@ try:
 		alias('rot_dkphi')
 	except:
 		localStation_exception(sys.exc_info(), "creating rot_dkphi object")
-
-	try:
-		from scannables.ContinuouslyRockingScannable import ContinuouslyRockingScannable
-		dkphi_rocker = ContinuouslyRockingScannable('dkphi_rocker', scannable=dkphi)
-		alias('dkphi_rocker')
-	except:
-		localStation_exception(sys.exc_info(), "creating dkphi_rocker object")
 
 	try:
 		from scannables.EpicsRockingScannable import EpicsRockingScannable
@@ -631,18 +613,24 @@ try:
 	else:
 		simpleLog("* Not creating dperp & dpara *")
 
-	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-	beamlineParameters = beamline_parameters.Parameters()
+	try:
+		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+		beamlineParameters = beamline_parameters.Parameters()
+	except:
+		localStation_exception(sys.exc_info(), "creating jythonNameMap & beamlineParameters")
 	
-	dataDir.configure(jythonNameMap, beamlineParameters)
-	shutterCommands.configure(jythonNameMap, beamlineParameters)
-	#marAuxiliary.configure(jythonNameMap, beamlineParameters)
-	operationalControl.configure(jythonNameMap, beamlineParameters)
-	#ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
-	ccdScanMechanics.configure(jythonNameMap, beamlineParameters)
-	ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
-#	ccdScripts.configure(jythonNameMap, beamlineParameters)
-#	pilatus_scripts.configure(jythonNameMap, beamlineParameters)
+	try:
+		#dataDir.configure(jythonNameMap, beamlineParameters)
+		shutterCommands_configure(jythonNameMap, beamlineParameters)
+		#marAuxiliary.configure(jythonNameMap, beamlineParameters)
+		operationalControl_configure(jythonNameMap, beamlineParameters)
+		#ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
+		ccdScanMechanics_configure(jythonNameMap, beamlineParameters)
+		#ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
+		#ccdScripts.configure(jythonNameMap, beamlineParameters)
+		#pilatus_scripts.configure(jythonNameMap, beamlineParameters)
+	except:
+		localStation_exception(sys.exc_info(), "configuring scripts")
 	
 	# meta should be created last to ensure we have all required scannables
 	try:

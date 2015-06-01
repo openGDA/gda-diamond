@@ -1,9 +1,9 @@
 from gda.jython.commands import InputCommands
-import shutterCommands
-import marAuxiliary
+from localStationScripts.shutterCommands import sh, openEHShutter, closeEHShutter
+#import marAuxiliary
 from gdascripts.messages.handle_messages import simpleLog
 import java
-from scan_commands import scan
+from localStationScripts.scan_commands import scan
 from gda.jython.commands.ScannableCommands import cscan
 
 global configured, isccd, beamline, dkappa, dktheta, cryobsx
@@ -33,7 +33,7 @@ def shopen():
 	"""
 	sh('o')  - Reset and Open EH & Atlas shutter.
 	"""
-	shutterCommands.sh('o')
+	sh('o')
 
 def oehs():
 	"""
@@ -43,13 +43,13 @@ def oehs():
 		3. Checks the shutter status.
 	syntax: openEHShutter()
 	"""
-	shutterCommands.openEHShutter()
+	openEHShutter()
 
 def shclose():
 	"""
 	sh('c')  - Close EH & Atlas Shutter
 	"""
-	shutterCommands.sh('c')
+	sh('c')
 
 def cehs():
 	"""
@@ -59,19 +59,19 @@ def cehs():
 		2. Waits for it to close.
 		3. Checks the shutter status.
 	"""
-	shutterCommands.closeEHShutter()
+	closeEHShutter()
 
 def shopenall():
 	"""
 	sh('oa') - Reset and Open FE, OH, EH & Atlas Shutters
 	"""
-	shutterCommands.sh('oa')
+	sh('oa')
 
 def shcloseall():
 	"""
 	sh('ca') - Close FE, OH, EH & Atlas Shutters"
 	"""
-	shutterCommands.sh('ca')
+	sh('ca')
 
 def cfs():
 	"""
@@ -82,7 +82,7 @@ def cfs():
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
-	shutterCommands.sh('r')
+	sh('r')
 
 def ofs():
 	"""
@@ -93,7 +93,7 @@ def ofs():
 	See: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Atlas%20detector%20does%20not%20acquire%20images
 	"""
 	checkConfigured()
-	shutterCommands.sh('f')
+	sh('f')
 
 def d1in():
 	"""
@@ -211,13 +211,13 @@ def align():           # open EH and fast shutter
 	#marAuxiliary.closeMarShield()
 	d2in()
 	d3in()
-	shutterCommands.sh('o')
+	sh('o')
 
 def ready():
 	"""
 	close EH & Atlas shutter, move d2 and d3 out and open the mar
 	"""
-	shutterCommands.sh('c')
+	sh('c')
 	d1out()
 	d2out()
 	d3out()

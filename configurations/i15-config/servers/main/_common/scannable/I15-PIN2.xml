@@ -37,4 +37,8 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- Since the gda pin prefix is not the same as the Epics PIN2 designation,
+	     duplicate the scannable group to make it easier to find. -->
+	<bean id="PIN2" parent="pin" />
 </beans>

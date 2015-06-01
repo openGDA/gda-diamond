@@ -1,6 +1,6 @@
 # detector_control_pds copied from i11 config scripts, last modified r20930 13/11/09 fy65
 # Reduced down to only the first sensor & updated to i15 PVs.
-from detector_control_class import DetectorControlClass
+from localStationScripts.detector_control_class import DetectorControlClass
 pds=[]
 #llim11=DetectorControlClass('llim11', 'BL11I-EA-MAC-01:E1:LLIM',    'BL11I-EA-MAC-01:E1:LLIM:RBV',    'mv', '%4.0f'); pds.append(llim11)
 #ulim11=DetectorControlClass('ulim11', 'BL11I-EA-MAC-01:E1:ULIM',    'BL11I-EA-MAC-01:E1:ULIM:RBV',    'mv', '%4.0f'); pds.append(ulim11)

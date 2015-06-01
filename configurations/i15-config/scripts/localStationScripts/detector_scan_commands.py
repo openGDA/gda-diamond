@@ -2,7 +2,7 @@
 from gdascripts.messages.handle_messages import simpleLog
 from gda.scan import ConcurrentScan, ConstantVelocityScanLine
 from gdascripts.pd.dummy_pds import DummyPD
-from shutterCommands import openEHShutter, closeEHShutter
+from localStationScripts.shutterCommands import openEHShutter, closeEHShutter
 from gda.device.scannable import ScannableBase
 from gda.device.scannable import ScannableMotionBase
 from gdascripts.parameters import beamline_parameters
@@ -356,7 +356,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		darkSubtractionLive =  caget(darkSubtractionPVs['live'] +"EnableBackground_RBV")
 		darkSubtraction = darkSubtractionArray + " on array and " + darkSubtractionLive + " on live"
 	else:
-		darkSubtraction = "unavailable"
+		darkSubtraction = "not used"
 	print "Dark subtraction " + darkSubtraction + " for detector " + hardwareTriggeredNXDetector.name
 
 	return hardwareTriggeredNXDetector
@@ -414,7 +414,7 @@ def darkExpose(detector, exposureTime=1,
 
 def _darkSubtractionPVs(detector):
 	if detector.name in ("pe"):
-		return {'array':"BL15I-EA-DET-01:PROC3:", 'live':"BL15I-EA-DET-01:PROC1:"}
+		return {'array':"BL15I-EA-DET-01:PROC3:", 'live':"BL15I-EA-DET-01:PROC4:"}
 	else:
 		return None
 """
