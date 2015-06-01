@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="pinx" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Pin2XMotor" />
+	</bean>
+
+	<bean id="piny" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Pin2YMotor" />
+	</bean>
+
+	<bean id="pinz" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Pin2ZMotor" />
+	</bean>
+
+	<bean id="pinpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Pin2PitchMotor" />
+	</bean>
+
+	<bean id="pinyaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Pin2YawMotor" />
+	</bean>
+
+	<bean id="pin" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pinx" />
+				<ref bean="piny" />
+				<ref bean="pinz" />
+				<ref bean="pinpitch" />
+				<ref bean="pinyaw" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Since the gda pin prefix is not the same as the Epics PIN2 designation,
+	     duplicate the scannable group to make it easier to find. -->
+	<bean id="PIN2" parent="pin" />
+</beans>

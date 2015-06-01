@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="skbjack1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SKBjack1Motor" />
+	</bean>
+
+	<bean id="skbjack2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SKBjack2Motor" />
+	</bean>
+
+	<bean id="skbjack3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SKBjack3Motor" />
+	</bean>
+
+	<bean id="skby" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SKByposMotor" />
+	</bean>
+
+	<bean id="skbpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SKBpitchMotor" />
+	</bean>
+
+	<bean id="skbroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SKBrollMotor" />
+	</bean>
+
+	<bean id="skb" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="skbjack1" />
+				<ref bean="skbjack2" />
+				<ref bean="skbjack3" />
+				<ref bean="skby" />
+				<ref bean="skbpitch" />
+				<ref bean="skbroll" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Since the gda skb prefix is not the same as the Epics M3B designation,
+	     duplicate the scannable group to make it easier to find. -->
+	<bean id="M3B" parent="skb" />
+</beans>

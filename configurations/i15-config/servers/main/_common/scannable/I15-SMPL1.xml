@@ -1,0 +1,176 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DXMotor" />
+	</bean>
+
+	<bean id="dy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DYMotor" />
+	</bean>
+
+	<bean id="dz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DZMotor" />
+	</bean>
+
+	<bean id="dkphi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DkphiMotor" />
+	</bean>
+
+	<bean id="dkappa" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Dr1kappaMotor" />
+	</bean>
+
+	<bean id="dktheta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Dr1kthetaMotor" />
+	</bean>
+
+	<bean id="dmu" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Dr1muMotor" />
+	</bean>
+
+	<!-- 
+	<bean id="dv" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DVMotor" />
+	</bean>
+	 -->
+
+	<bean id="diffractometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dx" />
+				<ref bean="dy" />
+				<ref bean="dz" />
+				<!-- 
+				<ref bean="dv" />
+				 -->
+				<ref bean="dkphi" />
+				<ref bean="dkappa" />
+				<ref bean="dktheta" />
+				<ref bean="dmu" />
+				<ref bean="ddelta" />
+				<ref bean="dgamma" />
+				<ref bean="ddist" />
+				<ref bean="djack1" />
+				<ref bean="djack2" />
+				<ref bean="djack3" />
+				<ref bean="dtransx" />
+				<ref bean="drotation" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SMPL1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dx" />
+				<ref bean="dy" />
+				<ref bean="dz" />
+				<!-- 
+				<ref bean="dv" />
+				 -->
+				<ref bean="dkphi" />
+				<ref bean="dkappa" />
+				<ref bean="dktheta" />
+				<ref bean="dmu" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Should create diffractometer scannable group by merging members of SMPL1 with
+		 the ARM1 & BASE1 EPICS scannable groups, to prevent change in behaviour, but
+		 none of these attempts worked:
+
+	<bean id="diffractometer1"  class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="SMPL1" />
+				<ref bean="ARM1" />
+				<ref bean="BASE1" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="diffractometer2"  class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list merge="true">
+				<ref bean="SMPL1" />
+				<ref bean="ARM1" />
+				<ref bean="BASE1" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="diffractometer3" parent="SMPL1">
+		<property name="groupMembers">
+			<list merge="true">
+				<ref bean="ARM1" />
+				<ref bean="BASE1" />
+			</list>
+		</property>
+	</bean>
+
+	These results in the following:
+	
+>>>diffractometer1
+diffractometer1::
+ dx       : :
+SMPL1::
+ dy       : 2.00400mm (-2.69360:2.84140) mot(-2.69360:2.84140)
+ dz       : -0.0718000mm (-3.76660:2.57340) mot(-3.76660:2.57340)
+ dkphi    : 2.99992mm (-11.6900:12.8120) mot(-11.6900:12.8120)
+ dkappa   : 58.053deg (-175.00:175.00) mot(-175.00:175.00)
+ dktheta  : -134.489deg (-180.000:180.000) mot(-180.000:180.000)
+ dktheta: -33.745deg (-180.00:180.00) mot(-180.00:180.00)
+ dmu      : 0.00034312deg (-33.000:211.00) mot(-33.000:211.00)
+ARM1::
+ ddelta: 89.998deg (-100.10:910.00) mot(-100.10:910.00)
+ dgamma: -0.0059499deg (-57.000:180.00) mot(-57.000:180.00)
+BASE1::
+ ddelta   : 20.000mm (-57.312:192.59) mot(-57.312:192.59)
+ dgamma   : 20.000mm (-55.369:193.13) mot(-55.369:193.13)
+ djack1   : 20.000mm (-56.769:193.23) mot(-56.769:193.23)
+ djack2   : -0.0025000mm (-13.260:86.940) mot(-13.260:86.940)
+ drotation: -0.00010000deg (-0.91000:1.0900) mot(-0.91000:1.0900)
+>>>diffractometer2
+diffractometer2::
+ dx       : :
+SMPL1::
+ dy       : 2.00400mm (-2.69360:2.84140) mot(-2.69360:2.84140)
+ dz       : -0.0718000mm (-3.76660:2.57340) mot(-3.76660:2.57340)
+ dkphi    : 2.99992mm (-11.6900:12.8120) mot(-11.6900:12.8120)
+ dkappa   : 58.053deg (-175.00:175.00) mot(-175.00:175.00)
+ dktheta  : -134.489deg (-180.000:180.000) mot(-180.000:180.000)
+ dktheta: -33.745deg (-180.00:180.00) mot(-180.00:180.00)
+ dmu      : 0.00034312deg (-33.000:211.00) mot(-33.000:211.00)
+ARM1::
+ ddelta: 89.998deg (-100.10:910.00) mot(-100.10:910.00)
+ dgamma: -0.0059499deg (-57.000:180.00) mot(-57.000:180.00)
+BASE1::
+ ddelta   : 20.000mm (-57.312:192.59) mot(-57.312:192.59)
+ dgamma   : 20.000mm (-55.369:193.13) mot(-55.369:193.13)
+ djack1   : 20.000mm (-56.769:193.23) mot(-56.769:193.23)
+ djack2   : -0.0025000mm (-13.260:86.940) mot(-13.260:86.940)
+ drotation: -0.00010000deg (-0.91000:1.0900) mot(-0.91000:1.0900)
+>>>diffractometer3
+diffractometer3::
+ dx       : 2.00400mm (-2.69360:2.84140) mot(-2.69360:2.84140)
+ dy       : -0.0718000mm (-3.76660:2.57340) mot(-3.76660:2.57340)
+ dz       : 2.99992mm (-11.6900:12.8120) mot(-11.6900:12.8120)
+ dkphi    : 58.053deg (-175.00:175.00) mot(-175.00:175.00)
+ dkappa   : -134.489deg (-180.000:180.000) mot(-180.000:180.000)
+ dktheta  : -33.745deg (-180.00:180.00) mot(-180.00:180.00)
+ dmu      : 0.00034312deg (-33.000:211.00) mot(-33.000:211.00)
+ARM1::
+ ddelta: 89.998deg (-100.10:910.00) mot(-100.10:910.00)
+ dgamma: -0.0059499deg (-57.000:180.00) mot(-57.000:180.00)
+BASE1::
+ ddelta   : 20.000mm (-57.312:192.59) mot(-57.312:192.59)
+ dgamma   : 20.000mm (-55.369:193.13) mot(-55.369:193.13)
+ djack1   : 20.000mm (-56.769:193.23) mot(-56.769:193.23)
+ djack2   : -0.0025000mm (-13.260:86.940) mot(-13.260:86.940)
+ drotation: -0.00010000deg (-0.91000:1.0900) mot(-0.91000:1.0900)
+	 -->
+</beans>

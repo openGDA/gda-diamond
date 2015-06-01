@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from gda.device.scannable import ScannableMotionBase
 from gdascripts.messages.handle_messages import simpleLog
 import threading
@@ -13,11 +14,16 @@ class RockerThread(threading.Thread):
         self.rockCount = rockCount
         self.running = True
         self.parent = parent
+        self.movelog_time = datetime.now()
 
     def moveTo(self, position):
+        help_stop_me = ", to stop rocking run 'pos %s [%f 0]'" % (self.parent.name, self.centre)
         if self.parent.verbose:
-            msg = self.name + ": Moving " + self.scannable.name + " to %f (%d)" % (position, self.rockCount)
+            msg = self.name + ": Moving " + self.scannable.name + " to %f (%d)" % (position, self.rockCount) + help_stop_me
             simpleLog(msg)
+        elif (datetime.now() - self.movelog_time) > timedelta(seconds=30):
+            simpleLog("Continuously rocking" + help_stop_me)
+            self.movelog_time = datetime.now()
         self.scannable.moveTo(position)
 
     def run(self):

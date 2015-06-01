@@ -19,7 +19,8 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         self.continuousMoveController = continuousMoveController
         #from gda.device.zebra.controller.impl import ZebraImpl
         #self.zebra = ZebraImpl()
-        self.verbose=True
+        self.verbose=False
+        self.zebraVersion=0x23
 
     def __repr__(self):
         return "%s(name=%r, rootPV=%r, continuousMoveController=%s)" % (self.__class__.__name__, self.name,
@@ -28,18 +29,20 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
     ### Special commands for supporting manual shutter open/close.
 
     def forceOpen(self):
-        """ TODO: This sets bit 3 only, we shouldn't clear the other bits."""
         if self.verbose:
             simpleLog("%s:%s() Forcing shutter open..." % (self.name, self.pfuncname()))
-        #self.zebra.?.set?
-        self.pvs['SOFT_IN'].caput(TIMEOUT, 4)
-        #self.pvs['SOFT_IN:B2'].caput(TIMEOUT, 1) # SOFT_IN:B2 is SOFT_IN3
+        if self.zebraVersion < 0x23:
+            # TODO: This sets bit 3 only, we shouldn't clear the other bits.
+            self.pvs['SOFT_IN'].caput(TIMEOUT, 4)
+        else:
+            self.pvs['SOFT_IN:B2'].caput(TIMEOUT, 1) # SOFT_IN:B2 is SOFT_IN3
 
     def forceOpenRelease(self):
-        """TODO: This clears all bits, we should really only clear bit 3 leaving other bits as is."""
-        #self.zebra.?.set?
-        self.pvs['SOFT_IN'].caput(TIMEOUT, 0)
-        #self.pvs['SOFT_IN:B2'].caput(TIMEOUT, 0) # SOFT_IN:B2 is SOFT_IN3
+        if self.zebraVersion < 0x23:
+            # TODO: This clears all bits, we should really only clear bit 3 leaving other bits as is.
+            self.pvs['SOFT_IN'].caput(TIMEOUT, 0)
+        else:
+            self.pvs['SOFT_IN:B2'].caput(TIMEOUT, 0) # SOFT_IN:B2 is SOFT_IN3
         if self.verbose:
             simpleLog("%s:%s() Released Force shutter open" % (self.name, self.pfuncname()))
 
@@ -64,8 +67,7 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         if self.verbose:
             simpleLog("%s:%s() started... collectionTime=%r" % (self.name, self.pfuncname(), self.collectionTime))
         self.lastExposureTime = self.collectionTime
-        #self.zebra.dev.getIntegerPVValueCache(self.zebra.sysReset+".PROC").putWait(1)
-        #self.zebra.pcArm()
+        # Reset the zebra box before each arm, so that internal dividers are reset
         self.pvs['SYS_RESET.PROC'].caput(TIMEOUT, 1)
         self.pvs['PC_ARM'].caput(TIMEOUT, 1)
 
@@ -118,6 +120,9 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         if self.verbose:
             simpleLog("%s:%s() started... collectionTime=%r" % (self.name, self.pfuncname(), self.collectionTime))
 
+        # Reset the zebra box before trying to set any parameters
+        self.pvs['SYS_RESET.PROC'].caput(TIMEOUT, 1)
+
         # Note that max gate width is 214881.9984, so max collection time is 214s at ms resolution, or 59d at s resolution.
         if self.collectionTime > 20: # Using 20 rather 214 makes it easier to test the switchover. 
             self.timeunit='s'
@@ -125,6 +130,10 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         else:
             self.timeunit='ms'
             self.timeconvert=1000
+        
+        pc_arm_out = self.pvs['PC_ARM_OUT'].caget()
+        if self.verbose or pc_arm_out == '1.0': # Watch out for Zebra already being armed.
+            simpleLog("%s:%s() started... PC_ARM_OUT=%r (type=%r)" % (self.name, self.pfuncname(), pc_arm_out, type(pc_arm_out)))
 
         self.pvs['PC_TSPRE'      ].caput(TIMEOUT, self.timeunit)
         self.pvs['PC_BIT_CAP'    ].caput(TIMEOUT, 961)      # Complex bitfield
