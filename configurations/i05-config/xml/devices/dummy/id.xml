@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="id" class="uk.ac.gda.beamline.i05.scannable.I05Apple">
+	<bean id="id" class="uk.ac.gda.arpes.scannable.I05Apple">
 		<property name="local" value="true" />
 		<property name="gapScannable" ref="rawid_gap" />
 		<property name="upperPhaseScannable" ref="rawid_upperphase" />
@@ -111,7 +111,7 @@
 				</bean>
 		</property>
 	</bean>
-	<bean id="energy" class="uk.ac.gda.beamline.i05.scannable.EnergyScannable">
+	<bean id="energy" class="uk.ac.gda.arpes.scannable.EnergyScannable">
 		<property name="pgm" ref="pgm_energy" />
 		<property name="id" ref="id" />
 	</bean>
