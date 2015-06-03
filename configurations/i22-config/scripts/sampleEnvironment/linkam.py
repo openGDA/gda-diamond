@@ -142,3 +142,6 @@ class Linkam(PseudoDevice):
 				return 0
 			else:
 				return 1
+
+if __name__ == "__main__":
+	linkam = Linkam("linkam", "BL22I-EA-TEMPC-01")

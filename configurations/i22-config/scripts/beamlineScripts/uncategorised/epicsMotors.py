@@ -7,7 +7,8 @@
 # "d13motor.stop()" uses BL22I-DI-PHDGN-13:POSN.STOP
 # BL22I-DI-PHDGN-13:POSN.DMOV is used during scans to tell GDA if the motor is moving
 
-fs_motor=SingleEpicsPositionerClass('fs_motor', 'BL22I-EA-SHTR-01:Y.VAL', 'BL22I-EA-SHTR-01:Y.RBV' , 'BL22I-EA-SHTR-01:Y.DMOV' , 'BL22I-EA-SHTR-01:Y.STOP','mm', '%.5f')
+#fs_motor=SingleEpicsPositionerClass('fs_motor', 'BL22I-EA-SHTR-01:Y.VAL', 'BL22I-EA-SHTR-01:Y.RBV' , 'BL22I-EA-SHTR-01:Y.DMOV' , 'BL22I-EA-SHTR-01:Y.STOP','mm', '%.5f')
+d13_motor=SingleEpicsPositionerClass('d13_motor', 'BL22I-DI-PHDGN-13:P:SETVALUE2.VAL', 'BL22I-DI-PHDGN-13:POSN.RBV' , 'BL22I-DI-PHDGN-13:POSN.DMOV' , 'BL22I-DI-PHDGN-13:POSN.STOP','mm', '%.5f')
 #hexapod_x=SingleEpicsPositionerClass('hexapod_x', 'BL22I-MO-HEX-01:X.VAL' , 'BL22I-MO-HEX-01:X.RBV' , 'BL22I-MO-HEX-01:X.DMOV' , 'BL22I-MO-HEX-01:X.STOP' , 'mm', '%.5f')
 #hexapod_y=SingleEpicsPositionerClass('hexapod_y', 'BL22I-MO-HEX-01:Y.VAL' , 'BL22I-MO-HEX-01:Y.RBV' , 'BL22I-MO-HEX-01:Y.DMOV' , 'BL22I-MO-HEX-01:Y.STOP' , 'mm', '%.5f')
 #bioy=SingleEpicsPositionerClass('bioy', 'BL22I-EA-BSAX-01:Y.VAL' , 'BL22I-EA-BSAX-01:Y.RBV' , 'BL22I-EA-BSAX-01:Y.DMOV' , 'BL22I-EA-BSAX-01:Y.STOP' , 'mm', '%.5f')

@@ -31,9 +31,21 @@
 #d12ycent = DisplayEpicsPVClass("d12ycent","BL22I-DI-PHDGN-12:STAT:CentroidY_RBV","pixel","%.1f")
 
 #valvepos = DisplayEpicsPVClass("valvepos", "BL22I-CG-CRYO-01:FILL:VALVEPOS", "%","%.2f")
-#qbpmypos = DisplayEpicsPVClass("qbpmypos","BL22I-DI-IAMP-06:YPOS","mm","%.4"f")
-#qbpmxpos = DisplayEpicsPVClass("qbpmxpos","BL22I-DI-IAMP-06:XPOS","mm","%.4f")
-#qbpmi = DisplayEpicsPVClass("qbpmi","BL22I-DI-IAMP-06:INTEN_C","uA","%.5e")
+#qbpmypos = DisplayEpicsPVClass("qbpmypos","BL22I-DI-PHDGN-07:BPM:YPOS","mm","%.4f")
+#qbpmxpos = DisplayEpicsPVClass("qbpmxpos","BL22I-DI-PHDGN-07:BPM:XPOS","mm","%.4f")
+#qbpmi = DisplayEpicsPVClass("qbpmi","BL22I-DI-PHDGN-07:BPM:INTEN","V","%.5e")
+qbpmyplus = DisplayEpicsPVClass("qbpmyplus","BL22I-DI-PHDGN-07:Y:PLUS:I","V","%.6f")
+qbpmyminus = DisplayEpicsPVClass("qbpmyminus","BL22I-DI-PHDGN-07:Y:MINUS:I","V","%.6f")
+qbpmxplus = DisplayEpicsPVClass("qbpmxplus","BL22I-DI-PHDGN-07:X:PLUS:I","V","%.6f")
+qbpmxminus = DisplayEpicsPVClass("qbpmxminus","BL22I-DI-PHDGN-07:X:MINUS:I","V","%.6f")
+
+sbpmypos = DisplayEpicsPVClass("sbpmypos","BL22I-AL-SLITS-04:BPM:YPOS","mm","%.4f")
+sbpmxpos = DisplayEpicsPVClass("sbpmxpos","BL22I-AL-SLITS-04:BPM:XPOS","mm","%.4f")
+sbpmi = DisplayEpicsPVClass("sbpmi","BL22I-AL-SLITS-04:BPM:INTEN","V","%.5e")
+sbpmyplus = DisplayEpicsPVClass("sbpmyplus","BL22I-AL-SLITS-04:BPM:BPMI1","V","%.6f")
+sbpmyminus = DisplayEpicsPVClass("sbpmyminus","BL22I-AL-SLITS-04:BPM:BPMI3","V","%.6f")
+sbpmxplus = DisplayEpicsPVClass("sbpmxplus","BL22I-AL-SLITS-04:BPM:BPMI4","V","%.6f")
+sbpmxminus = DisplayEpicsPVClass("sbpmxminus","BL22I-AL-SLITS-04:BPM:BPMI2","V","%.6f")
 #ic = DisplayEpicsPVClass("ic","BL22I-DI-PHDGN-10:DIODE1:I","uA","%.5e")
 
 
@@ -47,7 +59,7 @@
 #roomtemp5=DisplayEpicsPVClass("roomtemp5","BL22I-EA-ROOM-01:TEMP5","deg","%5.4f")
 #roomtemp6=DisplayEpicsPVClass("roomtemp6","BL22I-EA-ROOM-01:TEMP6","deg","%5.4f")
 
-Eurotherm=DisplayEpicsPVClass("Eurotherm","BL22I-EA-TEMPC-02:PV:RBV","deg","%5.2f")
+#Eurotherm=DisplayEpicsPVClass("Eurotherm","BL22I-EA-TEMPC-02:PV:RBV","deg","%5.2f")
 
 #alioy1=DisplayEpicsPVClass("alioy1","BL22I-MO-TABLE-06:Y1.RBV","mm","%.5qe")
 #mfstagey1=DisplayEpicsPVClass("mfstagey1","BL22I-MO-TABLE-07:Y.RBV","mm","%6.6f")
@@ -61,8 +73,7 @@ Eurotherm=DisplayEpicsPVClass("Eurotherm","BL22I-EA-TEMPC-02:PV:RBV","deg","%5.2
 #s2ypi = DisplayEpicsPVClass("s2ypi","BL22I-AL-SLITS-02:Y:PLUS:I:FFB","V","%.5e")
 #s2ymi = DisplayEpicsPVClass("s2ymi","BL22I-AL-SLITS-02:Y:MINUS:I:FFB","V","%.5e")
 
-
-#d6diode0=DisplayEpicsPVClass("d6diode0","BL22I-AL-SLITS-02:X:MINUS:I:FFB","mm","%6.3f")
+#d13diode1=DisplayEpicsPVClass("d13diode1","BL22I-DI-PHDGN-13:DIODE:I","V","%6.3f")
 #i0qbpm=DisplayEpicsPVClass("i0qbpm","BL22I-DI-IAMP-06:INTEN","mm","%6.4f")
 #i0s4=DisplayEpicsPVClass("i0s4","BL22I-DI-IAMP-05:INTEN","mm","%6.4f")
 
@@ -77,3 +88,9 @@ Eurotherm=DisplayEpicsPVClass("Eurotherm","BL22I-EA-TEMPC-02:PV:RBV","deg","%5.2
 #drift_i = DisplayEpicsPVClass("drift_i","BL22I-EA-HV-01:IMON3:RBV","V","%.2f")
 
 #ffboutput=DisplayEpicsPVClass("ffboutput","BL22I-OP-DCM-01:FPMTR:FBS2.CVAL","mm","%6.4f")
+
+#qbpmyplus = DisplayEpicsPVClass("qbpmyplus","BL22I-DI-PHDGN-07:Y:PLUS:I","V","%.4e")
+#qbpmyminus = DisplayEpicsPVClass("qbpmyminus","BL22I-DI-PHDGN-07:Y:MINUS:I","V","%.4e")
+#qbpmxplus = DisplayEpicsPVClass("qbpmxplus","BL22I-DI-PHDGN-07:X:PLUS:I","V","%.4e")
+#qbpmxminus = DisplayEpicsPVClass("qbpmxminus","BL22I-DI-PHDGN-07:X:MINUS:I","V","%.4e")
+

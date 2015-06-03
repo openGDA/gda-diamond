@@ -6,9 +6,9 @@ from gda.data import PathConstructor
 import scisoftpy as dnp
 i22NumTracker = NumTracker("i22");
 
-for mfs_z in dnp.arange (-47, 60, 0.5):
+for mfs_z in dnp.arange (-44, -24, 2):
 	pos mfstage_z mfs_z
-	rscan mfstage_x -0.3 0.3 0.002 topup d10d2 
+	rscan mfstage_x -0.3 0.3 0.002 topup d10d1 
 	go edge
 	
 	size = edge.result.fwhm

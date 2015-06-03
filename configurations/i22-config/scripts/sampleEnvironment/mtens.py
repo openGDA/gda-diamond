@@ -14,9 +14,9 @@ class TensileTester(PseudoDevice):
         self.setExtraNames(["load", "m1Position", "m2position"])
         self.setOutputFormat(["%4.3f", "%4.3f", "%4.3f", "%4.3f"])
         self.m1 = self._createMotor("m1", mot1pv)
-        self.m2 = self._createMotor("m2", mot2pv)
-        self.strain=CAClient(strainpv)
-        self.strain.configure()
+        #self.m2 = self._createMotor("m2", mot2pv)
+        #self.strain=CAClient(strainpv)
+        #self.strain.configure()
         # positive motion moves motors apart, negative towards the centre
         self.setZero()
         self.length = 10

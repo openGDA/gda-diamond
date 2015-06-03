@@ -22,10 +22,10 @@ class FSRepl(gda.observable.IObserver):
             self.oldstate = state
             if state == "DEAD PAUSE":
                 print "moving out"
-                pxy_y.asynchronousMoveTo(self.outbeam)
+                base_x.asynchronousMoveTo(self.outbeam)
             elif state == "DEAD FRAME":
                 print "moving in"
-                pxy_y.asynchronousMoveTo(self.inbeam)
+                base_x.asynchronousMoveTo(self.inbeam)
             elif state == "LIVE FRAME":
                 print "exposing I guess"
         except:
