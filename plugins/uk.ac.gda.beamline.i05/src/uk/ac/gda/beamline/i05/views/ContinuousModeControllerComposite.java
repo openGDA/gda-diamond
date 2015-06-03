@@ -32,8 +32,8 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -41,14 +41,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.common.rcp.util.EclipseUtils;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class ContinuousModeControllerComposite extends Composite {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerComposite.class);
 	private Combo lensMode;
 	private Combo passEnergyCombo;
@@ -58,7 +61,8 @@ public class ContinuousModeControllerComposite extends Composite {
 	private Button shutterButton;
 	private AnalyserCapabilties capabilities;
 
-	@SuppressWarnings("unused") //compiler thinks NudgePositionerComposite isn't used
+	@SuppressWarnings("unused")
+	// compiler thinks NudgePositionerComposite isn't used
 	public ContinuousModeControllerComposite(Composite parent, AnalyserCapabilties capabilities) {
 		super(parent, SWT.NONE);
 		this.capabilities = capabilities;
@@ -83,23 +87,22 @@ public class ContinuousModeControllerComposite extends Composite {
 		String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
 		lensMode.select(Arrays.asList(lensMode.getItems()).indexOf(activeLensMode));
 
-		SelectionListener lensModeListener = new SelectionListener() {
+		SelectionAdapter lensModeListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Changing analyser lens mode to " + lensMode.getText());
 				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensMode.getText() + "\")");
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
 		};
 		lensMode.addSelectionListener(lensModeListener);
 
 		// Centre energy
-		NudgePositionerComposite centre_energyNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("raw_centre_energy")), "centre_energy", false);
+		NudgePositionerComposite centre_energyNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE,
+				(Scannable) (Finder.getInstance().find("raw_centre_energy")), "centre_energy", false);
 		GridDataFactory.swtDefaults().span(1, 2).applyTo(centre_energyNpc);
 		// Acquire time
-		NudgePositionerComposite acquire_timeNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("acquire_time")), null, false);
+		NudgePositionerComposite acquire_timeNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE,
+				(Scannable) (Finder.getInstance().find("acquire_time")), null, false);
 		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquire_timeNpc);
 
 		// Analyser Start Button
@@ -107,14 +110,12 @@ public class ContinuousModeControllerComposite extends Composite {
 		startButton.setLayoutData(new GridData(100, SWT.DEFAULT));
 		startButton.setText("Start");
 		startButton.setToolTipText("Apply voltages and start acquiring");
-		SelectionListener startListener = new SelectionListener() {
+		SelectionAdapter startListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				logger.info("Starting continuous acquistion");
+				// am stands for ArpesMonitor. So this starts the ARPES monitor.
 				JythonServerFacade.getInstance().runCommand("am.start()");
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// Do nothing
 			}
 		};
 		startButton.addSelectionListener(startListener);
@@ -129,15 +130,12 @@ public class ContinuousModeControllerComposite extends Composite {
 		updatePassEnergyCombo();
 
 		// Add listener to update analyser pass energy when changed
-		SelectionListener passEnergyListener = new SelectionListener() {
+		SelectionAdapter passEnergyListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Changing analyser pass energy to " + passEnergyCombo.getText());
-				JythonServerFacade.getInstance().runCommand("analyser.setPassEnergy(" + passEnergyCombo.getText() + ")");
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// Do nothing
+				JythonServerFacade.getInstance()
+						.runCommand("analyser.setPassEnergy(" + passEnergyCombo.getText() + ")");
 			}
 		};
 		passEnergyCombo.addSelectionListener(passEnergyListener);
@@ -147,14 +145,12 @@ public class ContinuousModeControllerComposite extends Composite {
 		stopButton.setLayoutData(new GridData(100, SWT.DEFAULT));
 		stopButton.setText("Stop");
 		stopButton.setToolTipText("Stop acquiring and zero supplies");
-		SelectionListener stopListener = new SelectionListener() {
+		SelectionAdapter stopListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//am stands for ArpesMonitor. So this stops the ARPES monitor.
+				logger.info("Stopping continuous acquistion");
+				// am stands for ArpesMonitor. So this stops the ARPES monitor.
 				JythonServerFacade.getInstance().runCommand("am.stop()");
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		};
 		stopButton.addSelectionListener(stopListener);
@@ -174,13 +170,11 @@ public class ContinuousModeControllerComposite extends Composite {
 		shutterButton.setText("Close Shutter");
 		shutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		shutterButton.setLayoutData(new GridData(100, SWT.DEFAULT));
-		SelectionListener shutterButtonListener = new SelectionListener() {
+		SelectionAdapter shutterButtonListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				logger.info("Closing beamline shutter");
 				InterfaceProvider.getCommandRunner().runCommand("hr_shutter(1)");
-			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		};
 		shutterButton.addSelectionListener(shutterButtonListener);
@@ -190,23 +184,23 @@ public class ContinuousModeControllerComposite extends Composite {
 		translationNpcGroup.setText("Sample Translations");
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).wrap(true).applyTo(translationNpcGroup);
 
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable)(Finder.getInstance().find("sax")));
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable)(Finder.getInstance().find("say")));
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable)(Finder.getInstance().find("saz")));
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable)(Finder.getInstance().find("salong")));
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable)(Finder.getInstance().find("saperp")));
+		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("sax")));
+		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("say")));
+		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("saz")));
+		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("salong")));
+		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("saperp")));
 
 		// Sample Rotations
 		Group rotationNpcGroup = new Group(this, SWT.DEFAULT);
 		rotationNpcGroup.setText("Sample Rotations");
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).applyTo(rotationNpcGroup);
 
-		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable)(Finder.getInstance().find("satilt")));
-		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable)(Finder.getInstance().find("sapolar")));
-		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable)(Finder.getInstance().find("saazimuth")));
+		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("satilt")));
+		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("sapolar")));
+		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("saazimuth")));
 
 		// Add an observer to the psu_mode scannable to automatically detect changes in EPICS and update the GUI
-		Scannable psuModeScannable = (Scannable) (Finder.getInstance().find("psu_mode"));
+		final Scannable psuModeScannable = (Scannable) (Finder.getInstance().find("psu_mode"));
 		final IObserver psuModeObserver = new IObserver() {
 			@Override
 			public void update(Object source, Object arg) {
@@ -222,9 +216,62 @@ public class ContinuousModeControllerComposite extends Composite {
 
 		// Connect observer to scannable.
 		psuModeScannable.addIObserver(psuModeObserver);
+
+		// This is used to update this view when its shown ensure its in sync with EPICS
+		EclipseUtils.getPage().addPartListener(new IPartListener2() {
+
+			@Override
+			public void partVisible(IWorkbenchPartReference partRef) {
+				// Use this to update the view
+				logger.debug("Refreshing continuous mode view");
+				if (!lensMode.isDisposed()) {
+					// Update the lens mode
+					String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
+					lensMode.select(Arrays.asList(lensMode.getItems()).indexOf(activeLensMode));
+					// Update the pass energy
+					updatePassEnergyCombo();
+				}
+			}
+
+			@Override
+			public void partActivated(IWorkbenchPartReference partRef) {
+				// Do nothing
+			}
+
+			@Override
+			public void partBroughtToTop(IWorkbenchPartReference partRef) {
+				// Do nothing
+			}
+
+			@Override
+			public void partClosed(IWorkbenchPartReference partRef) {
+				// Remove the observers
+				psuModeScannable.deleteIObserver(psuModeObserver);
+			}
+
+			@Override
+			public void partDeactivated(IWorkbenchPartReference partRef) {
+				// Do nothing
+			}
+
+			@Override
+			public void partOpened(IWorkbenchPartReference partRef) {
+				// Do nothing
+			}
+
+			@Override
+			public void partHidden(IWorkbenchPartReference partRef) {
+				// Do nothing
+			}
+
+			@Override
+			public void partInputChanged(IWorkbenchPartReference partRef) {
+				// Do nothing
+			}
+		});
 	}
 
-	public void update(Object arg){
+	public void update(Object arg) {
 		if (arg instanceof MotorStatus) {
 			running = MotorStatus.BUSY.equals(arg);
 			Display.getDefault().asyncExec(new Runnable() {
@@ -240,7 +287,7 @@ public class ContinuousModeControllerComposite extends Composite {
 	}
 
 	// This is used to check if the view is disposed (Might not be the best approach??)
-	public Button getStartButton(){
+	public Button getStartButton() {
 		return startButton;
 	}
 
@@ -250,8 +297,10 @@ public class ContinuousModeControllerComposite extends Composite {
 		// Get the available pass energies depending on the PSU mode
 		Short[] passEnergiesShortArray;
 		if (psuMode.equalsIgnoreCase("High Pass (XPS)")) {
+			logger.debug("Matched psu mode: High Pass (XPS)");
 			passEnergiesShortArray = capabilities.getPassEnergiesHigh();
 		} else if (psuMode.equalsIgnoreCase("Low Pass (UPS)")) {
+			logger.debug("Matched psu mode: Low Pass (UPS)");
 			passEnergiesShortArray = capabilities.getPassEnergiesLow();
 		} else { // In this case mode wasn't matched give all pass energies EPICS knows about and error
 			logger.error("Failed to match psu_mode! Not all pass energies avaliable are valid!");
@@ -265,10 +314,13 @@ public class ContinuousModeControllerComposite extends Composite {
 		}
 
 		// Set the new pass energies
+		logger.debug("Setting items in pass energy combo box");
 		passEnergyCombo.setItems(passEnergiesStringArray);
 
 		// Automatically select the current pass energy if available in current PSU mode
+		logger.debug("Selecting currently active pass energy in combo box");
 		String activePassEnergy = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
 		passEnergyCombo.select(Arrays.asList(passEnergiesStringArray).indexOf(activePassEnergy));
 	}
+
 }
