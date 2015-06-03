@@ -84,23 +84,29 @@ gridxy=ScannableGroup()
 gridxy.setName("gridxy")
 gridxy.setGroupMembers([mfstage_x, mfstage_y])
 gridxy.configure()
-ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
-ncdgridscan.snap()
+try:
+	ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
+	ncdgridscan.snap()
+except:
+	print "Could not configure ncdgridscan"
 
-from setup import metadatatweaks
-getTitle = metadatatweaks.getTitle
-alias("getTitle")
-setTitle = metadatatweaks.setTitle
-alias("setTitle")
-getSubdirectory = metadatatweaks.getSubdirectory
-alias("getSubdirectory")
-setSubdirectory = metadatatweaks.setSubdirectory
-alias("setSubdirectory")
-getVisit = metadatatweaks.getVisit
-alias("getVisit")
-setVisit = metadatatweaks.setVisit
-alias("setVisit")
-sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
+try:
+	from setup import metadatatweaks
+	getTitle = metadatatweaks.getTitle
+	alias("getTitle")
+	setTitle = metadatatweaks.setTitle
+	alias("setTitle")
+	getSubdirectory = metadatatweaks.getSubdirectory
+	alias("getSubdirectory")
+	setSubdirectory = metadatatweaks.setSubdirectory
+	alias("setSubdirectory")
+	getVisit = metadatatweaks.getVisit
+	alias("getVisit")
+	setVisit = metadatatweaks.setVisit
+	alias("setVisit")
+	sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
+except:
+	print "Could not set up metadatatweaks"
 
 #run("BeamlineScripts/master.py")
 run(setupScriptDir +  "atten.py")
@@ -117,4 +123,5 @@ print "importing bimorph"
 import bimorph
 #print "creating sampleCam and adding to ncdDetectors"
 #execfile(gdaScriptDir + "sampleCam.py")
+#run(setupScriptDir + "ZebraDetectors.py")
 print "==================================================================="
