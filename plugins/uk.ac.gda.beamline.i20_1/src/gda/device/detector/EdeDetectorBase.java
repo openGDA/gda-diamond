@@ -20,6 +20,7 @@ package gda.device.detector;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.NumTracker;
+import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
@@ -40,7 +41,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -190,10 +190,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		NXDetectorData thisFrame = new NXDetectorData(this);
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { getMaxPixel() },
-				NexusFile.NX_FLOAT64, energies, 1, 1, "eV", false);
-		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { getMaxPixel() },
-				NexusFile.NX_FLOAT64, correctedData, "eV", 1);
+		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new NexusGroupData(energies), 1, 1, "eV", false);
+		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new NexusGroupData(correctedData), "eV", 1);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
