@@ -1,24 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-           
-	<description>
-		There are 3 ways of configure EPICS access:
-		1. use Java content objects provided by epics-x.x.x.jar to specify
-		'deviceName' property;
-		e.g. <!-- property name="deviceName" value="pilad.cam_ADBase"/ -->
-		2. set pvProvider property which in turn uses XMLPVProvider bean to
-		specify 'deviceName' property;
-		e.g. <!-- property name="pvProvider"> <bean 
-			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
-			value="pilad.cam_ADBase" /> </bean> </property -->
-		3. set base PV name property with field or sub-element being coded in
-		Java classes.
-		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" / -->
-	</description>
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="area" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
@@ -32,7 +15,7 @@
 				<property name="analyser" ref="analyser" />
 			</bean>
 		</property>
-	</bean>		
+	</bean>
 	<bean id="array2" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:ARR2:" />
 		<property name="pluginBase">
@@ -41,53 +24,53 @@
 				<property name="analyser" ref="analyser" />
 			</bean>
 		</property>
-	</bean>	
-	
-	<bean id="mjpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+	</bean>
+
+	<bean id="mjpeg"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:MPG:" />
-				<property name="pluginBase">
+		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL05I-EA-DET-01:MPG:" />
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:STATS:" />
-						<property name="pluginBase">
+		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL05I-EA-DET-01:STAT:" />
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:PROC:" />
-						<property name="pluginBase">
+		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL05I-EA-DET-01:PROC:" />
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="controller" class="uk.ac.gda.devices.vgscienta.VGScientaController">
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
 	</bean>
-	
-	<bean id="analyser_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+
+	<bean id="analyser_roi_provider"
+		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
 		<property name="viewName" value="Detector Plot" />
 		<property name="maximumActiveRois" value="1" />
 	</bean>
-	
+
 	<bean id="analyser" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyser">
 		<property name="cpsRoiProvider" ref="analyser_roi_provider" />
 		<property name="controller" ref="controller" />
 		<property name="adBase" ref="area" />
 		<property name="ndProc" ref="proc" />
 		<property name="ndArray" ref="array2" />
-		<!-- <property name="ndStats" ref="stats" /> -->
-		<!-- <property name="ndFile" ref="filebase" /> -->
-		<property name="local" value="false" />
+		<property name="local" value="true" />
 		<property name="capabilities" ref="AnalyserCapabilities" />
 		<property name="fixedModeRegion">
 			<list>
@@ -114,51 +97,52 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/analyser" />
 		<property name="service" ref="analyser" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
 	</bean>
-	
+
 	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:CENTRE_ENERGY" />
-	</bean>	
-	
+	</bean>
+
 	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
 
-	<import resource="analyser_lens_mapping.xml"/>
-	<bean id="AnalyserCapabilities"	class="uk.ac.gda.beamline.i05_1.analyser.I05_1AnalyserCapabilties">
+	<import resource="analyser_lens_mapping.xml" />
+	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05_1.analyser.I05_1AnalyserCapabilties">
 		<description>
-			This class is used to hold the specific capabilities of the analyser. it contains a map of
+			This class is used to hold the specific capabilities of the analyser. It contains a map of
 			lens modes and an array to map pixel position to angle for each.
 		</description>
-		
+
 		<property name="lens2angles">
 			<map>
-				<entry key="Transmission" value-ref="transmissionArray"/>
-				<entry key="A14_08" value-ref="a14_08Array"/>
-				<entry key="A7_08" value-ref="a7_08Array"/>
-				<entry key="A30_08" value-ref="a30_08Array"/>
-				<entry key="DA30_01" value-ref="da30_01Array"/>
-				<entry key="DA30_08" value-ref="da30_08Array"/>
-				<entry key="DA14_01" value-ref="da14_01Array"/>
-				<entry key="DA14_08" value-ref="da14_08Array"/>
-				<entry key="DA7_08" value-ref="da7_08Array"/>
-				<entry key="DA30Q_01" value-ref="da30q_01Array"/>
-				<entry key="DA30Q_08" value-ref="da30q_08Array"/>
-				<entry key="A14_01" value-ref="a14_01Array"/>
-				<entry key="A30_01" value-ref="a30_01Array"/>
+				<entry key="Transmission" value-ref="transmissionArray" />
+				<entry key="A14_08" value-ref="a14_08Array" />
+				<entry key="A7_08" value-ref="a7_08Array" />
+				<entry key="A30_08" value-ref="a30_08Array" />
+				<entry key="DA30_01" value-ref="da30_01Array" />
+				<entry key="DA30_08" value-ref="da30_08Array" />
+				<entry key="DA14_01" value-ref="da14_01Array" />
+				<entry key="DA14_08" value-ref="da14_08Array" />
+				<entry key="DA7_08" value-ref="da7_08Array" />
+				<entry key="DA30Q_01" value-ref="da30q_01Array" />
+				<entry key="DA30Q_08" value-ref="da30q_08Array" />
+				<entry key="A14_01" value-ref="a14_01Array" />
+				<entry key="A30_01" value-ref="a30_01Array" />
 			</map>
 		</property>
 		<property name="energyStepPerPixel" value="0.086088032" />
-		<property name="detectorEnergyWidthInPixels" value="1064"/>
+		<property name="detectorEnergyWidthInPixels" value="1064" />
 	</bean>
-	
+
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Detector Plot" />
@@ -179,15 +163,16 @@
 		<property name="arrayPV" value="BL05I-EA-DET-01:CAM:IMAGE" />
 		<property name="frameNumberPV" value="BL05I-EA-DET-01:CAM:CURRENT_POINT_RBV" />
 	</bean>
-	
+
 	<bean id="sweepupdater" class="uk.ac.gda.devices.vgscienta.SweepUpdater">
 		<property name="currentSweepPV" value="BL05I-EA-DET-01:CAM:CURRENT_POINT_RBV" />
-		<property name="maxSweepPV" value="BL05I-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV"/>
+		<property name="maxSweepPV" value="BL05I-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV" />
+		<property name="percentagePV" value="BL05I-EA-DET-01:CAM:PROGRESS_RBV" />
 		<property name="local" value="false" />
 	</bean>
-	
+
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05I-EA-DET-01:CAM:ELEMENT_SET"></property>
 	</bean>
-	
+
 </beans>
