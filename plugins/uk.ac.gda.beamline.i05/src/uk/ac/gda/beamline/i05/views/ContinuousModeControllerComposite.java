@@ -53,7 +53,7 @@ import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 public class ContinuousModeControllerComposite extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerComposite.class);
-	private Combo lensMode;
+	private Combo lensModeCombo;
 	private Combo passEnergyCombo;
 	private Button startButton;
 	private Button stopButton;
@@ -80,21 +80,21 @@ public class ContinuousModeControllerComposite extends Composite {
 		lensModeLabel.setText("Lens Mode");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).grab(false, true).applyTo(lensModeLabel);
 
-		lensMode = new Combo(analyserGroup, SWT.NONE);
-		GridDataFactory.swtDefaults().grab(true, false).applyTo(lensMode);
+		lensModeCombo = new Combo(analyserGroup, SWT.NONE);
+		GridDataFactory.swtDefaults().grab(true, false).applyTo(lensModeCombo);
 		// Setup lens modes and select currently selected one
-		lensMode.setItems(capabilities.getLensModes());
+		lensModeCombo.setItems(capabilities.getLensModes());
 		String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
-		lensMode.select(Arrays.asList(lensMode.getItems()).indexOf(activeLensMode));
+		lensModeCombo.select(Arrays.asList(lensModeCombo.getItems()).indexOf(activeLensMode));
 
 		SelectionAdapter lensModeListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				logger.info("Changing analyser lens mode to " + lensMode.getText());
-				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensMode.getText() + "\")");
+				logger.info("Changing analyser lens mode to " + lensModeCombo.getText());
+				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensModeCombo.getText() + "\")");
 			}
 		};
-		lensMode.addSelectionListener(lensModeListener);
+		lensModeCombo.addSelectionListener(lensModeListener);
 
 		// Centre energy
 		NudgePositionerComposite centre_energyNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE,
@@ -103,6 +103,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		// Acquire time
 		NudgePositionerComposite acquire_timeNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE,
 				(Scannable) (Finder.getInstance().find("acquire_time")), null, false);
+		acquire_timeNpc.setIncrement(0.5);
 		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquire_timeNpc);
 
 		// Analyser Start Button
@@ -161,7 +162,8 @@ public class ContinuousModeControllerComposite extends Composite {
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(beamlineGroup);
 
 		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("energy")));
-		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("exit_slit")));
+		NudgePositionerComposite exitSltNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("exit_slit")));
+		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount 
 		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("s2_ysize")));
 		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("s2_xsize")));
 
@@ -224,10 +226,10 @@ public class ContinuousModeControllerComposite extends Composite {
 			public void partVisible(IWorkbenchPartReference partRef) {
 				// Use this to update the view
 				logger.debug("Refreshing continuous mode view");
-				if (!lensMode.isDisposed()) {
+				if (!lensModeCombo.isDisposed()) {
 					// Update the lens mode
 					String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
-					lensMode.select(Arrays.asList(lensMode.getItems()).indexOf(activeLensMode));
+					lensModeCombo.select(Arrays.asList(lensModeCombo.getItems()).indexOf(activeLensMode));
 					// Update the pass energy
 					updatePassEnergyCombo();
 				}
@@ -277,10 +279,15 @@ public class ContinuousModeControllerComposite extends Composite {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
+					// When running=true disable start and make selected (pressed)
 					startButton.setEnabled(!running);
 					startButton.setSelection(running);
+					// When running=true enable start and make unselected
 					stopButton.setEnabled(running);
 					stopButton.setSelection(!running);
+					// When running=true disable lens mode and pass energy changes
+					lensModeCombo.setEnabled(!running);
+					passEnergyCombo.setEnabled(!running);
 				}
 			});
 		}
