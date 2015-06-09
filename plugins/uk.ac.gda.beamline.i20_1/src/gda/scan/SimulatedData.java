@@ -19,6 +19,7 @@
 package gda.scan;
 
 import gda.configuration.properties.LocalProperties;
+import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.NXDetectorData;
@@ -31,7 +32,6 @@ import java.io.File;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.nexusformat.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,7 +95,7 @@ public class SimulatedData {
 
 		for(int i = 0; i < numberOfFrames; i++) {
 			NXDetectorData thisFrame = new NXDetectorData(theDetector);
-			thisFrame.addAxis(theDetector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { XhDetector.MAX_PIXEL }, NexusFile.NX_FLOAT64, simulatedEnergies, 1, 1, "eV", false);
+			thisFrame.addAxis(theDetector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new NexusGroupData(simulatedEnergies), 1, 1, "eV", false);
 			double[] simulatedData = null;
 			if (positionType == EdePositionType.OUTBEAM) {
 				if (scanType == EdeScanType.LIGHT) {
@@ -117,7 +117,7 @@ public class SimulatedData {
 				}
 			}
 
-			thisFrame.addData(theDetector.getName(), EdeDataConstants.DATA_COLUMN_NAME, new int[] { XhDetector.MAX_PIXEL }, NexusFile.NX_FLOAT64, simulatedData, "eV", 1);
+			thisFrame.addData(theDetector.getName(), EdeDataConstants.DATA_COLUMN_NAME, new NexusGroupData(simulatedData), "eV", 1);
 			for (String name : thisFrame.getExtraNames()) {
 				thisFrame.setPlottableValue(name, 0.0);
 			}
