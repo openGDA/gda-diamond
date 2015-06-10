@@ -26,10 +26,7 @@ collid=sys.argv[2]
 state=sys.argv[3]
 messagefilename=sys.argv[4]
 
-if redana == "analysis":
-	client.service.setDataAnalysisStatus(collid, state, messagefilename)
-else:
-	client.service.setDataReductionStatus(collid, state, messagefilename)
+client.service.setDataReductionStatus(collid, state, messagefilename)
 
 #client.service.setDataAnalysisStatus("1985", "COMPLETE", "filename")
 #client.service.setDataAnalysisStatus(collid, state, messagefilename)
