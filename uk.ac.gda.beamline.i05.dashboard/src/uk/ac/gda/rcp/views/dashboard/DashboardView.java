@@ -261,18 +261,22 @@ public final class DashboardView extends ViewPart {
 		
 		if (updater == null || !updater.isAlive()) {
 			updater = new Thread(new Runnable() {
-				
+
 				@Override
 				public void run() {
-					boolean keeprunning = true;
-					while(keeprunning) {
-						try {
-							keeprunning = true;
-							refresh();
-							Thread.sleep(sleeptime*1000-100);
-						} catch (Exception e) {
-							logger.warn("exception caugth in Dashboard Update Thread", e);
-						}
+					while(true) { // Loop to refresh the dashboard
+							// Check if the view is disposed if it is end the thread
+							if (serverViewer.getControl().isDisposed()) {
+								logger.info("Dashboard disposed. Stopping dashboard update thread");
+								break; // break out of the while loop
+							}
+							refresh(); // Refresh all the dashboard values
+							try {
+								Thread.sleep(sleeptime*1000-100);
+							} catch (InterruptedException e) {
+								logger.info("Dashboard update thread interupted. Stopping dashboard update thread", e);
+								break; // break out of the while loop
+							}
 					}
 				}
 			});
