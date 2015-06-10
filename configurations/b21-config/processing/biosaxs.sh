@@ -35,18 +35,15 @@ if test -d $VISIT ; then
 	if test -w $VISIT ; then
 		REDUCTIONOUTPUTFILE=${VISIT}/processed/${RESTOFPATH}.reduced.nxs
 		mkdir -p $(dirname $REDUCTIONOUTPUTFILE)
-		ANALYSISOUTPUT=${VISIT}/processed/${RESTOFPATH}.analysis
 	else 
 		REDUCTIONOUTPUTFILE=${VISIT}/processing/${RESTOFPATH}.reduced.nxs
 		mkdir -p $(dirname $REDUCTIONOUTPUTFILE)
 		REDUCTIONOUTPUTFILE=
-		ANALYSISOUTPUT=${VISIT}/processing/${RESTOFPATH}.analysis
 	fi
 	TMPDIR=${VISIT}/tmp/${RESTOFPATH}.$$
 else
 	echo running reduction outside of a visit
 	TMPDIR=${DATAFILE}.$$.reduction
-	ANALYSISOUTPUT=${DATAFILE}.$$.analysis
 fi
 
 mkdir -p $TMPDIR
@@ -119,10 +116,6 @@ fi
 # tell ispyb reduction worked and result is in \$REDUCEDFILE
 $ISPYBUPDATE reduction $DATACOLLID COMPLETE \$REDUCEDFILE
 
-mkdir $ANALYSISOUTPUT
-$ISPYBUPDATE analysis $DATACOLLID STARTED \"\"
-python $EDNAPYSCRIPT --filename \$REDUCEDFILE --detector detector --dataCollectionId $DATACOLLID --outputFolderName $ANALYSISOUTPUT --threads 4 
-$ISPYBUPDATE analysis $DATACOLLID COMPLETE $ANALYSISOUTPUT
 EOF
 
 #bash $SCRIPT > ${SCRIPT}.stdout 2> ${SCRIPT}.errout
