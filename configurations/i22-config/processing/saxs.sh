@@ -35,20 +35,17 @@ if test -d $VISIT ; then
 	if test -w $VISIT ; then
 		REDUCTIONOUTPUTFILE=${VISIT}/processed/${RESTOFPATH}.reduced.nxs
 		mkdir -p $(dirname $REDUCTIONOUTPUTFILE)
-		ANALYSISOUTPUT=${VISIT}/processed/${RESTOFPATH}.analysis
 		UNSUBOUTPUT=${VISIT}/processed/${RESTOFPATH}.unsub
 	else 
 		REDUCTIONOUTPUTFILE=${VISIT}/processing/${RESTOFPATH}.reduced.nxs
 		mkdir -p $(dirname $REDUCTIONOUTPUTFILE)
 		REDUCTIONOUTPUTFILE=
-		ANALYSISOUTPUT=${VISIT}/processing/${RESTOFPATH}.analysis
 		UNSUBOUTPUT=${VISIT}/processing/${RESTOFPATH}.unsub
 	fi
 	TMPDIR=${VISIT}/tmp/${RESTOFPATH}.$$
 else
 	echo running reduction outside of a visit
 	TMPDIR=${DATAFILE}.$$.reduction
-	ANALYSISOUTPUT=${DATAFILE}.$$.analysis
 	UNSUBOUTPUT=${DATAFILE}.$$.unsub
 fi
 
