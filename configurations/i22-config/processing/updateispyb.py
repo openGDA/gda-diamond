@@ -28,11 +28,6 @@ messagefilename=sys.argv[4]
 
 client.service.setDataReductionStatus(collid, state, messagefilename)
 
-#client.service.setDataAnalysisStatus("1985", "COMPLETE", "filename")
-#client.service.setDataAnalysisStatus(collid, state, messagefilename)
-#client.service.setDataReductionStatus(dataCollectionId = "2033", status = "FAILED", filenameOrMessage = "failed message")
-#client.service.setDataReductionStatus(2033, "COMPLETE", "/dls/b21/data/2013/sm999-9/b21-14.nxs")
-
 addr = (controlserver,udpport)
 UDPSock = socket(AF_INET,SOCK_DGRAM)
 UDPSock.sendto(prefix+":"+collid,addr)
