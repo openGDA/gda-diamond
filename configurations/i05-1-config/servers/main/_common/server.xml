@@ -31,7 +31,7 @@
 	</bean>
 
 	<bean id="twodplot" class="gda.data.scan.TwoDPlotListener">
-		<property name="plotPanel" value="Plot 2D" />
+		<property name="plotPanel" value="2D Scan Plot" />
 	</bean>
 
 	<import resource="datawriter.xml" />
