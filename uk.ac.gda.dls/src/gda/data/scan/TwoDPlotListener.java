@@ -60,6 +60,7 @@ public class TwoDPlotListener extends DataWriterExtenderBase {
 				yaxis = new DoubleDataset(dimensions[1]);
 				yaxis.setName(dataPoint.getScannableHeader()[1]);
 				ds = new DoubleDataset(dimensions[1], dimensions[0]);
+				ds.fill(Double.NaN); // Initialise dataset with NaN so auto histogramming will work.
 			}
 
 			if (dimensions.length != 2)
