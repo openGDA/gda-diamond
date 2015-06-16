@@ -83,7 +83,7 @@ sed "s,enableBackground>.*</enableBackground,enableBackground>false</enableBackg
 fi
 NCDREDXML=${TMPDIR}/ncd_reduction.xml
 
-# do not run ispybupdate or analysis if datacollectionid is not set
+# do not run ispybupdate if datacollectionid is not set
 if test -n "$DATACOLLID" ; then
 	: 
 else 
