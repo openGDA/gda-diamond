@@ -15,7 +15,6 @@
 
 	<!-- diagnostics -->
 	<import resource="d3.xml" />
-	<import resource="d6.xml" />
 	<import resource="d7.xml" />
 	<import resource="dj7.xml" />
 	<import resource="d9.xml" />
