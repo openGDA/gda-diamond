@@ -12,6 +12,15 @@
 		<property name="motor" ref="PGMENERGY" />
 	</bean>
 
+	<bean id="PGMCFF" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL24B-MO-PGM-01:CFF" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgm_cff" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="PGMCFF" />
+	</bean>
+
 	<bean id="PGMGPITCH" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-MO-PGM-01:GRATING:PITCH" />
 		<property name="local" value="true" />
