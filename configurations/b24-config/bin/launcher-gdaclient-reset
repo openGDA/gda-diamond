@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# The launcher seems not to pass args as expected so we need a seperate file
+gdaclient --reset
+
+
+# Block to help launcher start background process
+sleep 5
