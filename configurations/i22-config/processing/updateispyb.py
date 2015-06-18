@@ -26,7 +26,11 @@ collid=sys.argv[2]
 state=sys.argv[3]
 messagefilename=sys.argv[4]
 
-client.service.setDataReductionStatus(collid, state, messagefilename)
+if redana == "reduction":
+	client.service.setDataReductionStatus(collid, state, messagefilename)
+else:
+	print "unexpected status to update. analysis is no longer supported"
+	sys.exit(1)
 
 addr = (controlserver,udpport)
 UDPSock = socket(AF_INET,SOCK_DGRAM)
