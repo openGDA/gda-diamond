@@ -5,7 +5,7 @@ from suds.client import Client
 from suds.transport.http import HttpAuthenticated
 from socket import *
 
-host = "cs04r-sc-vserv-49"
+host = "ispybb.diamond.ac.uk"
 # this needs to be set to the machine running GDA server
 # since it is evaluated on the cluster, "localhost" WILL NOT WORK
 controlserver = "b21-control.diamond.ac.uk"
