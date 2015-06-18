@@ -12,7 +12,7 @@
 		<property name="clientFileAnnouncer" ref="sockpuppet" />
 	</bean>
 	<bean id="twodplot" class="gda.data.scan.TwoDPlotListener">
-		<property name="plotPanel" value="Plot 2D" />
+		<property name="plotPanel" value="2D Scan Plot" />
 	</bean>
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DataWriterFactory" />
