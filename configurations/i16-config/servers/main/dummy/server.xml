@@ -16,6 +16,8 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
 
 	<import resource="motor/atten.xml" />

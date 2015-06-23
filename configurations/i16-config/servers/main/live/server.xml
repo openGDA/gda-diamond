@@ -19,6 +19,8 @@
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
 
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+
 	<import resource="epics/motor/atten.xml" />
 	<import resource="epics/motor/diag.xml" />
 	<import resource="epics/motor/id.xml" />
@@ -34,7 +36,7 @@
 	<import resource="epics/motor/s6.xml" />
 	<import resource="epics/motor/sixc.xml" />
 	<import resource="epics/motor/sixcbase.xml" />
-	<import resource="transient/kbmbase.xml" />
+	<!--<import resource="transient/kbmbase.xml" />-->
 	
 	<import resource="epics/motor/sixcsample.xml" />
 
