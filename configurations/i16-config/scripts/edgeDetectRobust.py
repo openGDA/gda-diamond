@@ -1,14 +1,16 @@
 #Gareth 11/06/2010
 #dir(gda.analysis.functions)
-
+import scisoftpy as dnp
 from gda.analysis.io import *
-from gda.analysis.functions import *
+#from uk.ac.gda.diamond.analysis.io import *
 from math import exp
 from gda.data import NumTracker
 from gda.data import PathConstructor
-from gda.analysis.functions import AFunction
 from math import exp
 from gda.analysis import ScanFileHolder, Plotter
+#from uk.ac.gda.diamond.analysis import ScanFileHolder, Plotter
+
+#TODO: Replace legacy stuff with dnp
 
 numTracker = NumTracker("scanbase_numtracker")
 def edgeDetectRobust(relativefilenumber,axis1,axis2):
@@ -24,13 +26,13 @@ def edgeDetectRobust(relativefilenumber,axis1,axis2):
 	data.loadSRS(file)
 	xdata=data.getAxis(axis1)
 	ydata=data.getAxis(axis2)
-	ydiffdata=ydata.diff(1)
-	maxyindex=ydiffdata.maxPos()[0]
-	minyindex=ydiffdata.minPos()[0]
-	maxpos=xdata[maxyindex]
-	minpos=xdata[minyindex]
+	ydiffdata = dnp.diff(ydata)
+	maxyindex=ydiffdata.argmax()
+	minyindex=ydiffdata.argmin()
+	maxpos=xdata.getData()[maxyindex]
+	minpos=xdata.getData()[minyindex]
 	Plotter.plot('Data Vector',xdata,ydata)
-	Plotter.plotOver('Data Vector',xdata,ydiffdata)
+	Plotter.plotOver('Data Vector',xdata,ydiffdata._jdataset())
 	peakproximitytolerance=0.01
 	intercepts=data.getInterpolatedX(xdata,ydata,ydata.min()+((ydata.max()-ydata.min())/2.),peakproximitytolerance)
 	if minpos > maxpos:
