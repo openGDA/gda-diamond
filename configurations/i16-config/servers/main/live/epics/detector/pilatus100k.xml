@@ -76,6 +76,7 @@
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="blocking" value="false" />
+		<property name="returnPathRelativeToDatadir" value="true" />
 	</bean>
 
 	<bean id="pilatus1_hdf5filewriter_for_scans"

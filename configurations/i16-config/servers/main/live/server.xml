@@ -111,6 +111,7 @@
 	<!-- live only -->
 
 	<import resource="metadata.xml" />
+	<import resource="../common/nxmetadata.xml" />
 
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
@@ -119,6 +120,14 @@
 
 	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
 		<property name="deviceName" value="Beamline" />
+	</bean>
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DefaultDataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<corba:export namespace="i16server" />

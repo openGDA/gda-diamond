@@ -779,6 +779,7 @@ pil2ms = DetectorWithShutter(pil2m, x1)
 pil100kdet = pilatus1
 _pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
 
+#pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
 pil100k = NxProcessingDetectorWrapper('pil100k',
 		pilatus1,
 		pilatus1_hardware_triggered,
@@ -1085,6 +1086,9 @@ try:
 	else:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
 
+	addedInSpring = [sixckappa]
+	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]
+
 	from gdascripts.scannable.metadata import _is_scannable
 
 	if USE_NEXUS_METADATA_COMMANDS:
@@ -1123,6 +1127,10 @@ except NameError, e:
 	print "Error trying to setup the metadata, metadata will not be properly written to files. Namespace error was: ",str(e)
 	print "!*"*40
 	print "!*"*40
+
+###Default Scannables###
+for s in [kphi, kap, kth, kmu, kdelta, kgam]:
+	add_default(s)
 
 
 ###############################################################################
@@ -1374,6 +1382,8 @@ run('pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
 run("startup_pie725")
+
+run("datawriting/i16_nexus")
 
 print "======================================================================"
 print "Local Station Script completed"
