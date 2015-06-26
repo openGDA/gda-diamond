@@ -559,6 +559,32 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
 
+try:    
+    print "Adding checkbeamcv device (add to cvscan to get checkbeam functionality)"
+
+    from gda.device.scannable import PassthroughScannableDecorator
+    
+    class ZiePassthroughScannableDecorator(PassthroughScannableDecorator):
+
+        def __init__(self, delegate):
+            PassthroughScannableDecorator.__init__(self, delegate)
+    
+        def getInputNames(self): 
+            return []
+    
+        def getExtraNames(self): 
+            return []
+    
+        def getOutputFormat(self):
+            return []
+    
+        def getPosition(self):
+            return None
+
+    checkbeamcv = ZiePassthroughScannableDecorator(checkbeam)
+except:
+    localStation_exception(sys.exc_info(), "creating checkbeamcv object")
+
 try:
     from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
     gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
