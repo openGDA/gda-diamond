@@ -72,7 +72,7 @@
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
 <!-- 		<property name="template" value="${gda.data.terminal.logger.dir}/gdaterminal.log" /> -->
-		<property name="template" value="${gda.data.scan.datawriter.datadir}/spool/gdaterminal.log" />
+		<property name="template" value="/dls/i11-1/data/$year$/$visit$/spool/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
 		<property name="local" value="true" />
 	</bean>
