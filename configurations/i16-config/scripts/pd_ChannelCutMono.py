@@ -14,10 +14,10 @@ class ChanCutMonoClass(EnergyFromIDandDCM):
 	self.moveDiffWhenNotMovingMirrors=False		set this to True to move diffractometer to compensate for inverted beam movement
 	self.mirrormag=-0.666				ratio of vertical movement of focus to source (correct for normal focus)
 	'''
-	def __init__(self,NoWarning=0):
+	def __init__(self,name,NoWarning=0):
+		self.name = name
 		self.NoWarning=NoWarning
 		self.enpd=energy2
-		self.setName(self.enpd.getName())
 		self.setInputNames(self.enpd.getInputNames())
 		self.setExtraNames(self.enpd.getExtraNames())
 		self.setOutputFormat(self.enpd.getOutputFormat())

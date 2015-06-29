@@ -22,10 +22,10 @@ import beamline_info as BLi
 
 print "   creating energy scannables to control dcm"
 run("pd_dcm")
-en=EnergyFromBraggPD('Energy',BLi) # NOT USED
+en=EnergyFromBraggPD('en',BLi) # NOT USED
 #enf=EnergyFromBraggFixedoffsetPD('energy',BLi)
-en=EnergyFromBraggwithHarmonicPD('Energy',BLi,dcmharmonic)  #dcmharmonic is a persistant number from offset shelf
-enf = EnergyFromBraggFixedoffsetwithHarmonicPD('energy',BLi,dcmharmonic) # GLOBALS: bragg, perp FOR THE REAL DCM, TH F IS for fixed beam height
+en=EnergyFromBraggwithHarmonicPD('en',BLi,dcmharmonic)  #dcmharmonic is a persistant number from offset shelf
+enf = EnergyFromBraggFixedoffsetwithHarmonicPD('enf',BLi,dcmharmonic) # GLOBALS: bragg, perp FOR THE REAL DCM, TH F IS for fixed beam height
 
 
 ### Undulator
@@ -35,7 +35,7 @@ id = Undulator2('Undulator',uharmonic,idgap,idgap_offset,en,GBHfile='/dls_sw/i16
 #u27 = Undulator('U27-I16',idgap,idgap_offset,'/dls_sw/i16/var/U27_GBH.dat')
 #uenergy = EnergyFromUndulator('Undulator Energy',u27)
 uenergy = EnergyFromUndulator2('Uenergy',id)
-energy2 = EnergyFromIDandDCM('Energy',uenergy,enf) # could rename
+energy2 = EnergyFromIDandDCM('energy2',uenergy,enf) # could rename
 
 def calcgap(energy=None,H=None):
 	return id.calcGap(energy,H)
@@ -52,7 +52,7 @@ def ucalibrate(newenergy=None,H=None):
 ### Mono
 print "Creating ChanCutMono scannable: cc/energy"
 run("pd_ChannelCutMono") #--> ChanCutMonoClass
-cc=ChanCutMonoClass()
+cc=ChanCutMonoClass('energy')
 energy=cc
 enf.fixedoffsetmode=0
 

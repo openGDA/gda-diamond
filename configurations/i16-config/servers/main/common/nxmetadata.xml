@@ -17,7 +17,7 @@
 						</property>
 					</bean>
 				</entry>
-				<entry key="Energy">
+				<entry key="en">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
