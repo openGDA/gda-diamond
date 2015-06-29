@@ -275,7 +275,7 @@
 	<bean id="pixium" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium"/>
 		<property name="prefix" value="BL11J-EA-DET-10:CAM:"/>
-		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
+		<property name="shutterPVName" value="BL11J-EA-SHTR-01:SHUTTER"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
 		<property name="fastshutter" ref="fastshutter1"/>
