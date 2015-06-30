@@ -37,10 +37,6 @@ execfile(gdascripts + "/utils.py");
 print "Creating beamline specific devices...";
 
 import metadatatweaks
-getTitle = metadatatweaks.getTitle
-alias("getTitle")
-setTitle = metadatatweaks.setTitle
-alias("setTitle")
 getSubdirectory = metadatatweaks.getSubdirectory
 alias("getSubdirectory")
 setSubdirectory = metadatatweaks.setSubdirectory

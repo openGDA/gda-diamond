@@ -3,12 +3,6 @@ from gda.data.metadata import GDAMetadataProvider
 import gda.device.scannable.ScannableBase
 from gda.factory import Finder
 
-def setTitle(title):
-    GDAMetadataProvider.getInstance().setMetadataValue("title", title)
-
-def getTitle():
-    return GDAMetadataProvider.getInstance().getMetadataValue("title")
-
 def setSubdirectory(title):
     GDAMetadataProvider.getInstance().setMetadataValue("subdirectory", title)
 
