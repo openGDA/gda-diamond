@@ -64,8 +64,46 @@ SENSOR_THICKNESS_UNITS = "sensorThicknessUnits"
 SENSOR_TYPE = "sensorType"
 SENSOR_DESCRIPTION = "sensorDescription"
 
+TRANSFORMATION_NAME = "transformationName"
+TRANSFORMATION_TYPE = "transformationType"
+TRANSFORMATION_VECTOR = "transformationVector"
+TRANSFORMATION_OFFSET = "transformationOffset"
+TRANSFORMATION_SIZE = "transformationSize"
+TRANSFORMATION_UNITS = "transformationUnits"
+TRANSFORMATION_OFFSET_UNITS = "transformationOffsetUnits"
+
+TRANSFORMATION_ROTATION = "rotation"
+TRANSFORMATION_TRANSLATION = "translation"
+
 #We make all the attributes an array here since we have to add them as arrays to the nexus file
 #Strings are already arrays (we pass them as byte arrays)
+
+#list of transforamtions
+#element n+1 will depend on element n
+#element 0 will depend on delta
+DETECTOR_TRANSFORMATIONS = {
+        "pilatus1" : [
+            {
+                TRANSFORMATION_NAME : 'origin_offset',
+                TRANSFORMATION_TYPE : TRANSFORMATION_TRANSLATION,
+                TRANSFORMATION_VECTOR : [50.40, -17.96, 525.95],
+                TRANSFORMATION_OFFSET : [0, 0, 0],
+                TRANSFORMATION_SIZE : [1],
+                TRANSFORMATION_UNITS : 'mm',
+                TRANSFORMATION_OFFSET_UNITS : 'mm',
+            },
+            #{
+            #    TRANSFORMATION_NAME : 'phi',
+            #    TRANSFORMATION_TYPE : TRANSFORMATION_ROTATION,
+            #    TRANSFORMATION_VECTOR : [0, 0, 1],
+            #    TRANSFORMATION_OFFSET : [0, 0, 0],
+            #    TRANSFORMATION_SIZE : [0.1],
+            #    TRANSFORMATION_UNITS : "deg",
+            #    TRANSFORMATION_OFFSET_UNITS : 'mm',
+            #}
+        ]
+    }
+
 DETECTOR_MODULES = {
         "simad" : {
             DATA_ORIGIN : [0, 0],
@@ -82,6 +120,22 @@ DETECTOR_MODULES = {
             OFFSET_OFFSET: [0],
             OFFSET_VECTOR : [1, 0, 0],
             OFFSET_UNITS : 'mm'
+        },
+        "pilatus1" : {
+            DATA_ORIGIN : [0, 0],
+            DATA_SIZE : [487, 195],
+            FAST_PIXEL_DIRECTION : [0.7191, -0.01268, -0.6948],
+            FAST_PIXEL_SIZE : [0.000172],
+            FAST_PIXEL_OFFSET : [0],
+            FAST_PIXEL_UNITS : 'm',
+            SLOW_PIXEL_DIRECTION : [0.01198, 0.9999, -0.005853],
+            SLOW_PIXEL_SIZE : [0.000172],
+            SLOW_PIXEL_UNITS : 'm',
+            SLOW_PIXEL_OFFSET : [0],
+            OFFSET : [0],
+            OFFSET_OFFSET : [0],
+            OFFSET_VECTOR : [1, 0, 0],
+            OFFSET_UNITS : 'mm'
         }
     }
 
@@ -93,13 +147,22 @@ DETECTOR_PROPERTIES = {
             SENSOR_THICKNESS_UNITS : "micron",
             SENSOR_TYPE : "Pixel",
             SENSOR_DESCRIPTION : "Simulated Detector"
+        },
+        "pilatus1" : {
+            SENSOR_SATURATION_VALUE : [1000000],
+            SENSOR_MATERIAL : "Sillicon",
+            SENSOR_THICKNESS : [320],
+            SENSOR_THICKNESS_UNITS : "micron",
+            SENSOR_TYPE : "Pixel",
+            SENSOR_DESCRIPTION : "Pilatus 100k (properties are dubious)"
         }
     }
 
 DETECTOR_MODULES["simd"] = DETECTOR_MODULES["simad"]
 DETECTOR_PROPERTIES["simd"] = DETECTOR_PROPERTIES["simad"]
-DETECTOR_MODULES["pil100k"] = DETECTOR_MODULES["simad"]
-DETECTOR_PROPERTIES["pil100k"] = DETECTOR_PROPERTIES["simad"]
+DETECTOR_MODULES["pil100k"] = DETECTOR_MODULES["pilatus1"]
+DETECTOR_PROPERTIES["pil100k"] = DETECTOR_PROPERTIES["pilatus1"]
+DETECTOR_TRANSFORMATIONS["pil100k"] = DETECTOR_TRANSFORMATIONS['pilatus1']
 
 
 class I16NexusExtender(DataWriterExtenderBase):
@@ -146,11 +209,11 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.closedata()
 
     #We assume a single module per detector - in reality there may be more (but not for I16, even their pil2m)
-    def writeDetectorModule(self, nFile, detName, dependsOn):
+    def writeDetectorModule(self, nFile, detName):
         if not DETECTOR_MODULES.has_key(detName):
             return
         detModule = DETECTOR_MODULES[detName]
-        moduleDependsOn = "/entry1/instrument/%s/module/module_offset" % detName
+        moduleDependsOn = "/entry1/instrument/%s/transformations/origin_offset" % detName
         moduleDependsOn = moduleDependsOn.__str__() #unicode != str and we need raw bytes
         nFile.makegroup("module", "NXdetector_module")
         nFile.opengroup("module", "NXdetector_module")
@@ -232,7 +295,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.putdata( array(detModule[OFFSET], 'd') )
         nFile.putattr(
                 "depends_on",
-                array(dependsOn, 'b'),
+                array(moduleDependsOn, 'b'),
                 NexusFile.NX_CHAR
                 )
         nFile.putattr(
@@ -258,6 +321,55 @@ class I16NexusExtender(DataWriterExtenderBase):
                 )
         nFile.closedata()
 
+        nFile.closegroup()
+
+    def writeDetectorTransformations(self, nFile, detName, depends_on):
+        if not DETECTOR_TRANSFORMATIONS.has_key(detName):
+            return
+        transformations = DETECTOR_TRANSFORMATIONS[detName]
+        nFile.makegroup("transformations", "NXtransformations")
+        nFile.opengroup("transformations", "NXtransformations")
+        #depends_on = "/entry1/instrument/transformations/delta"
+        depends_on = depends_on.__str__()
+        for transformation in transformations:
+            nFile.makedata(transformation[TRANSFORMATION_NAME], NexusFile.NX_FLOAT64, 1, array([1], 'i'))
+            nFile.opendata(transformation[TRANSFORMATION_NAME])
+            nFile.putdata(array(transformation[TRANSFORMATION_SIZE], 'd'))
+            nFile.putattr(
+                    "transformation_type",
+                    array(transformation[TRANSFORMATION_TYPE], 'b'),
+                    NexusFile.NX_CHAR
+                    )
+            nFile.putattr(
+                    "vector",
+                    array(transformation[TRANSFORMATION_VECTOR], 'd'),
+                    array([3], 'i'),
+                    NexusFile.NX_FLOAT64
+                    )
+            nFile.putattr(
+                    "offset",
+                    array(transformation[TRANSFORMATION_OFFSET], 'd'),
+                    array([3], 'i'),
+                    NexusFile.NX_FLOAT64
+                    )
+            nFile.putattr(
+                    "units",
+                    array(transformation[TRANSFORMATION_UNITS], 'b'),
+                    NexusFile.NX_CHAR
+                    )
+            nFile.putattr(
+                    "offset_units",
+                    array(transformation[TRANSFORMATION_OFFSET_UNITS], 'b'),
+                    NexusFile.NX_CHAR
+                    )
+            nFile.putattr(
+                    "depends_on",
+                    array(depends_on, 'b'),
+                    NexusFile.NX_CHAR
+                    )
+            nFile.closedata()
+            depends_on = "/entry1/instrument/" + detName + "/transformations/" + transformation[TRANSFORMATION_NAME]
+            depends_on = depends_on.__str__()
         nFile.closegroup()
 
     def writeDetectorProperties(self, nFile, detName):
@@ -302,8 +414,9 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.opendata("depends_on")
         nFile.putdata( array(dependsOn, 'b') )
         nFile.closedata()
-        self.writeDetectorModule(nFile, detName, dependsOn)
+        self.writeDetectorModule(nFile, detName)
         self.writeDetectorProperties(nFile, detName)
+        self.writeDetectorTransformations(nFile, detName, dependsOn)
         nFile.closegroup()
 
     def writeTifPaths(self, nFile, detName, filePath):
@@ -411,7 +524,7 @@ class I16NexusExtender(DataWriterExtenderBase):
             nFile.opengroup("entry1", "NXentry")
             self.writeSample(nFile, SAMPLE_NAME[:], "/entry1/sample/transformations/phi")
             self.writeTitle(nFile, NEXUS_TITLE[:])
-            self.writeDynamicDetectors(nFile, self.scanDataPoint.getDetectors(), "/entry1/instrument/transformations/offsetdelta")
+            self.writeDynamicDetectors(nFile, self.scanDataPoint.getDetectors(), "/entry1/instrument/transformations/delta")
             self.writeFeatures(nFile, [GDA_SCAN, NXMX, SAMPLE_GEOMETRY])
             self.writeDefinition(nFile, "NXmx")
             self.writeIncidentWavelength(nFile)
