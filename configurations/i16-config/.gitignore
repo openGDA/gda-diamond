@@ -1,5 +1,36 @@
-# ignore a jythonCache directory anywhere in the project
-jythonCache/
+### Temporary files ###
+*.bak
+*.swp
+*.tmp
+*.*~
+
+### Java ###
 *.class
-*~
-var/
+hs_err_pid*
+
+### Python / Jython ###
+__pycache__/
+*.py[cod]
+jythonCache/
+cachedir/
+
+### Build output ###
+.springBeans
+/bin/
+/classes/
+/src/corba/
+
+### JUnit testing ###
+/test-reports
+/test-scratch
+
+### Security files ###
+*ssh.key
+password
+passwords
+
+### Various OS, etc. files ###
+*.lnk
+desktop.ini
+.nfs[:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:]*
+.svn/
