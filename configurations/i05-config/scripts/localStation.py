@@ -44,10 +44,6 @@ gauge07=DisplayEpicsPVClass("gauge07","BL05I-VA-GAUGE-07:P","","%.3e")
 gauge09=DisplayEpicsPVClass("gauge09","BL05I-VA-GAUGE-09:P","","%.3e")
 
 import metadatatweaks
-getTitle = metadatatweaks.getTitle
-alias("getTitle")
-setTitle = metadatatweaks.setTitle
-alias("setTitle")
 getSubdirectory = metadatatweaks.getSubdirectory
 alias("getSubdirectory")
 setSubdirectory = metadatatweaks.setSubdirectory

@@ -4,17 +4,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-	<!-- <import resource="devices/s1.xml" /> <import resource="devices/s2.xml" 
-		/> <import resource="devices/s3.xml" /> <import resource="devices/s4.xml" 
-		/> <import resource="devices/dcm.xml" /> <import resource="devices/d1.xml" 
-		/> <import resource="devices/d2.xml" /> -->
-		
+
 	<import resource="rawid.xml" />
 	<import resource="id.xml" />
 	<import resource="scientaslit.xml" />
 	<import resource="gonio.xml" />
 	<import resource="pgm.xml" />
-	
+	<import resource="../analyser.xml" />
+	<import resource="../combinedgonio.xml" />
+
 	<bean class="gda.device.scannable.DummyMultiElementScannable" id="cryostat">
 		<property name="inputNames">
 			<list>

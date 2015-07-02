@@ -115,6 +115,10 @@ public class ContinuousModeControllerComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Starting continuous acquistion");
+				// Need to reset lens mode and pass energy as they may have changed from the values
+				// Shown in this GUI so resend the settings
+				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensModeCombo.getText() + "\")");
+				JythonServerFacade.getInstance().runCommand("analyser.setPassEnergy(" + passEnergyCombo.getText() + ")");
 				// am stands for ArpesMonitor. So this starts the ARPES monitor.
 				JythonServerFacade.getInstance().runCommand("am.start()");
 			}
@@ -218,59 +222,6 @@ public class ContinuousModeControllerComposite extends Composite {
 
 		// Connect observer to scannable.
 		psuModeScannable.addIObserver(psuModeObserver);
-
-		// This is used to update this view when its shown ensure its in sync with EPICS
-		EclipseUtils.getPage().addPartListener(new IPartListener2() {
-
-			@Override
-			public void partVisible(IWorkbenchPartReference partRef) {
-				// Use this to update the view
-				logger.debug("Refreshing continuous mode view");
-				if (!lensModeCombo.isDisposed()) {
-					// Update the lens mode
-					String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
-					lensModeCombo.select(Arrays.asList(lensModeCombo.getItems()).indexOf(activeLensMode));
-					// Update the pass energy
-					updatePassEnergyCombo();
-				}
-			}
-
-			@Override
-			public void partActivated(IWorkbenchPartReference partRef) {
-				// Do nothing
-			}
-
-			@Override
-			public void partBroughtToTop(IWorkbenchPartReference partRef) {
-				// Do nothing
-			}
-
-			@Override
-			public void partClosed(IWorkbenchPartReference partRef) {
-				// Remove the observers
-				psuModeScannable.deleteIObserver(psuModeObserver);
-			}
-
-			@Override
-			public void partDeactivated(IWorkbenchPartReference partRef) {
-				// Do nothing
-			}
-
-			@Override
-			public void partOpened(IWorkbenchPartReference partRef) {
-				// Do nothing
-			}
-
-			@Override
-			public void partHidden(IWorkbenchPartReference partRef) {
-				// Do nothing
-			}
-
-			@Override
-			public void partInputChanged(IWorkbenchPartReference partRef) {
-				// Do nothing
-			}
-		});
 	}
 
 	public void update(Object arg) {

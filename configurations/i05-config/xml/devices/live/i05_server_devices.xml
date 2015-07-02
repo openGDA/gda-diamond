@@ -33,6 +33,7 @@
 	<!-- sample manipulator -->
 	<import resource="gonio.xml" />
 	<import resource="temperature.xml" />
+	<import resource="../combinedgonio.xml" />
 
 	<!-- insertion device -->
 	<import resource="rawid.xml" />
@@ -44,5 +45,6 @@
 	<!-- analyser -->
 	<import resource="scientaslit.xml" />
 	<import resource="cameras.xml" />
+	<import resource="../analyser.xml" />
 
 </beans>
