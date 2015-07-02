@@ -5,6 +5,9 @@ from scipy import optimize
 import scisoftpy as dnp
 import sys
 from collections import OrderedDict
+import xml.etree.ElementTree as ET
+
+#TODO: Extend configuration to other detectors
 
 def cs(degrees):
     r = np.deg2rad(degrees)
@@ -133,8 +136,72 @@ def print_output(parameters, fast, slow, normal, d0):
     print "\nDetector Origin Position:"
     print d0
 
-def write_xml(fast, slow, d0):
-    pass
+# in-place prettyprint formatter
+def indent_tree(elem, level=0):
+    indent = "\t"
+    i = "\n" + level * indent
+    if len(elem):
+        if not elem.text or not elem.text.strip():
+            elem.text = i + indent
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+        for elem in elem:
+            indent_tree(elem, level+1)
+        if not elem.tail or not elem.tail.strip():
+            elem.tail = i
+    else:
+        if level and (not elem.tail or not elem.tail.strip()):
+            elem.tail = i
+
+def generate_xml(fast, slow, d0, pixel_size):
+    format_string = '%.9f'
+    root = ET.Element('geometry')
+    det_node = ET.SubElement(root, 'detector')
+    det_node.attrib['name'] = 'pilatus1'
+    fast_node = ET.SubElement(det_node, 'axis')
+    fast_node.attrib['name'] = 'fast'
+    slow_node = ET.SubElement(det_node, 'axis')
+    slow_node.attrib['name'] = 'slow'
+    position_node = ET.SubElement(det_node, 'position')
+    position_node.attrib['name'] = 'origin'
+
+    fast_vector_node = ET.SubElement(fast_node, 'vector')
+    fast_vector_node.append(ET.Element('element'))
+    fast_vector_node.append(ET.Element('element'))
+    fast_vector_node.append(ET.Element('element'))
+    fast_vector_node.getchildren()[0].text = format_string % fast[0]
+    fast_vector_node.getchildren()[1].text = format_string % fast[1]
+    fast_vector_node.getchildren()[2].text = format_string % fast[2]
+    slow_vector_node = ET.SubElement(slow_node, 'vector')
+    slow_vector_node.append(ET.Element('element'))
+    slow_vector_node.append(ET.Element('element'))
+    slow_vector_node.append(ET.Element('element'))
+    slow_vector_node.getchildren()[0].text = format_string % slow[0]
+    slow_vector_node.getchildren()[1].text = format_string % slow[1]
+    slow_vector_node.getchildren()[2].text = format_string % slow[2]
+    position_vector_node = ET.SubElement(position_node, 'vector')
+    position_vector_node.append(ET.Element('element'))
+    position_vector_node.append(ET.Element('element'))
+    position_vector_node.append(ET.Element('element'))
+    position_vector_node.getchildren()[0].text = format_string % d0[0]
+    position_vector_node.getchildren()[1].text = format_string % d0[1]
+    position_vector_node.getchildren()[2].text = format_string % d0[2]
+
+    position_node.append(ET.Element("size"))
+    position_node.getchildren()[1].text = "1"
+    position_node.append(ET.Element("units"))
+    position_node.getchildren()[2].text = "mm"
+    fast_node.append(ET.Element("size"))
+    fast_node.getchildren()[1].text = "1"
+    fast_node.append(ET.Element("units"))
+    fast_node.getchildren()[2].text = str(pixel_size)
+    slow_node.append(ET.Element("size"))
+    slow_node.getchildren()[1].text = str(pixel_size)
+    slow_node.append(ET.Element("units"))
+    slow_node.getchildren()[2].text = "mm"
+
+    indent_tree(root)
+    return ET.ElementTree(root)
 
 def main( argv ):
     if len(argv) < 2:
@@ -166,6 +233,8 @@ def main( argv ):
 
     detector_origin_position = [params['x_pos'], params['y_pos'], params['z_pos']]
     print_output(params, fast, slow, normal, detector_origin_position)
+    xml_tree = generate_xml(fast, slow, detector_origin_position, pixel_size)
+    xml_tree.write('geometry.xml')
 
 if __name__ == "__main__":
     main( sys.argv )
