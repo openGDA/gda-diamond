@@ -9,4 +9,9 @@
 	<bean id="bstp1y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11J-MO-BSTP-01:Y"/>
 	</bean>
+	<bean id="bstp1i" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL11J-DI-BSTP-01"/>
+		<property name="enableValueMonitoring" value="false"/>
+		<property name="settableACDC" value="false"/>
+	</bean>
 </beans>
