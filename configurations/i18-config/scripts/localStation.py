@@ -35,21 +35,20 @@ finder = Finder.getInstance()
 
 test = DummyScannable("test")
 
+topupMonitor = TopupChecker()
+topupMonitor.setName("topupMonitor")
+topupMonitor.setTolerance(1.0)
+topupMonitor.setWaittime(1)
+topupMonitor.setTimeout(600)
+topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
+
+beamMonitor = I18BeamMonitor(energy)
+beamMonitor.setName("beamMonitor")
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
-    topupMonitor = TopupChecker()
-    topupMonitor.setName("topupMonitor")
-    topupMonitor.setTolerance(1.0)
-    topupMonitor.setWaittime(1)
-    topupMonitor.setTimeout(600)
     topupMonitor.setMachineModeMonitor(machineModeMonitor)
     topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
-    topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
-    topupMonitor.configure()
-
-    beamMonitor = I18BeamMonitor(energy)
-    beamMonitor.setName("beamMonitor")
     beamMonitor.setMachineModeMonitor(machineModeMonitor)
     beamMonitor.configure()
     traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
@@ -138,7 +137,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
 else:
     detectorPreparer.addMonitors(None, None, None)
 
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01)
+qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01, topupMonitor, beamMonitor)
 xanes = xas
  
 # ''' Normal running conditions'''
