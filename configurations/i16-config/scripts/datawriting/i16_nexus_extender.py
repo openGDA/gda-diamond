@@ -104,6 +104,8 @@ DETECTOR_TRANSFORMATIONS = {
         ]
     }
 
+#TODO: Read information from geometry.xml
+
 DETECTOR_MODULES = {
         "simad" : {
             DATA_ORIGIN : [0, 0],
@@ -218,12 +220,12 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.makegroup("module", "NXdetector_module")
         nFile.opengroup("module", "NXdetector_module")
 
-        nFile.makedata("data_origin", NexusFile.NX_INT64, 1, array([2], 'i'))
+        nFile.makedata("data_origin", NexusFile.NX_INT32, 1, array([2], 'i'))
         nFile.opendata("data_origin")
         nFile.putdata( array(detModule[DATA_ORIGIN], 'i') )
         nFile.closedata()
 
-        nFile.makedata("data_size", NexusFile.NX_INT64, 1, array([2], 'i'))
+        nFile.makedata("data_size", NexusFile.NX_INT32, 1, array([2], 'i'))
         nFile.opendata("data_size")
         nFile.putdata( array(detModule[DATA_SIZE], 'i') )
         nFile.closedata()

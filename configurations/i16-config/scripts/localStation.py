@@ -1086,7 +1086,7 @@ try:
 	else:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
 
-	addedInSpring = [sixckappa]
+	addedInSpring = [sixckappa] + [delta_axis_offset]
 	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]
 
 	from gdascripts.scannable.metadata import _is_scannable
@@ -1129,7 +1129,7 @@ except NameError, e:
 	print "!*"*40
 
 ###Default Scannables###
-for s in [kphi, kap, kth, kmu, kdelta, kgam]:
+for s in [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]:
 	add_default(s)
 
 
