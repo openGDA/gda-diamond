@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I20 EDE" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="8.40.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I20 EDE" id="uk.ac.gda.beamline.i20_1.product" application="uk.ac.gda.client.application" version="8.41.XAS" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -26,9 +26,11 @@
 -Xmx1024m
 -XX:PermSize=128m 
 -XX:MaxPermSize=256m
--XX:+DisableExplicitGC</vmArgs>
+-XX:+DisableExplicitGC
+      </vmArgs>
       <vmArgsMac>-XstartOnFirstThread
-			-Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+			-Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>

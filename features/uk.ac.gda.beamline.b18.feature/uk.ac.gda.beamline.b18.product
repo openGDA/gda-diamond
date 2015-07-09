@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA B18 Beamline" id="uk.ac.gda.beamline.b18.product" application="uk.ac.gda.client.application" version="8.40.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA B18 Beamline" id="uk.ac.gda.beamline.b18.product" application="uk.ac.gda.client.application" version="8.41.XAS" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -11,7 +11,8 @@
    </configIni>
 
    <launcherArgs>
-      <programArgs>-nosplash</programArgs>
+      <programArgs>-nosplash
+      </programArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Declipse.pluginCustomization=/dls_sw/b18/software/gda/workspace_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18/plugin_customization.ini
@@ -27,8 +28,10 @@
 -Xms512m
 -Xmx1024m
 -XX:MaxPermSize=1024m
--XX:+DisableExplicitGC</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>

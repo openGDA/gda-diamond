@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I20 Beamline" id="uk.ac.gda.beamline.i20.product" version="8.40.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I20 Beamline" id="uk.ac.gda.beamline.i20.product" version="8.41.XAS" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -32,8 +32,10 @@
 -XX:+HeapDumpOnOutOfMemoryError 
 -XX:HeapDumpPath=/dls_sw/i20/logs/gdaclient.hprof
 -Xdebug
--Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
