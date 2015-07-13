@@ -11,14 +11,6 @@ y=SingleInputDummy("y")
 z=SingleInputDummy("z")
 xyz = gda.device.scannable.scannablegroup.ScannableGroup( 'xyz', [x, y, z] )
 
-import nexusMetadata
-NMD = nexusMetadata.NexusMetaData()
-xyzMetaPaths = [ 'instrument:NXinstrument/XYZ:NXcollection/x',
-                'instrument:NXinstrument/XYZ:NXcollection/y',
-                'instrument:NXinstrument/XYZ:NXcollection/z' ]
-xyzUnits = [ 'mm', 'mm', 'mm' ]
-NMD.addScannablePaths( xyz, xyzMetaPaths, xyzUnits )
-
 from gda.configuration.properties import LocalProperties
 
 

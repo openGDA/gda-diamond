@@ -25,11 +25,8 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<!-- Temporarily use dummy devices -->
-	<import resource="../dummy/device/all.xml"/>
-	<!-- 
 	<import resource="device/all.xml"/>
-	 -->
+
 	<import resource="../_common/server.xml"/>
 
 	<import resource="metadata.xml"/>

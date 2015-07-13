@@ -7,5 +7,8 @@
 	<import resource="B24-.xml"/>
 	 -->
 
-	<import resource="B24-FEM.xml"/>
+	<import resource="fem.xml" />
+	<import resource="eslit.xml" />
+	<import resource="diagnostics.xml" />
+	<import resource="pgm.xml" />
 </beans>
