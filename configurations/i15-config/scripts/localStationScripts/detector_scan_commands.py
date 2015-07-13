@@ -4,9 +4,7 @@ from gda.scan import ConcurrentScan, ConstantVelocityScanLine
 from gdascripts.pd.dummy_pds import DummyPD
 from localStationScripts.shutterCommands import openEHShutter, closeEHShutter
 from gda.device.scannable import ScannableBase
-from gda.device.scannable import ScannableMotionBase
 from gdascripts.parameters import beamline_parameters
-from gda.device.detector import NXDetector
 from gdascripts.utils import caget, caput
 from time import sleep
 
@@ -57,7 +55,7 @@ class DiodeController(ScannableBase):
 	def rawIsBusy(self):
 		return False
 
-"""
+""" Never implemented since switch to Geobrick
 def simpleScan(axis, start, stop, step, detector, exposureTime,
 		noOfExpPerPos=1, fileName="scan_test",
 		pause=False, d1out=True, d2out=True):
@@ -112,7 +110,9 @@ def simpleScanUnsync(axis, start, stop, step, detector, exposureTime,
 	scan = ConcurrentScan([DiodeController(d1out, d2out), 1, 1, 1,
 		wrappedDetector, start, stop-step, step])
 	scan.runScan()
+"""
 
+""" Pre geobrick
 def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		fileName="rock_scan_test", d1out=True, d2out=True):
 	wrappedDetector = _getWrappedDetector(
@@ -169,7 +169,7 @@ def rockScan(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTim
 	print "Moving %s back to %r" % (axis.name, centre)
 	axis.moveTo(centre)
 
-"""
+""" Pre geobrick
 def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 		fileName="rock_scan_test", d1out=True, d2out=True, fixedVelocity=False):
 	wrappedDetector = _getWrappedDetector(
@@ -272,7 +272,7 @@ def rockScanUnsyncEpicsRocker(axis, centre, rockSize, noOfRocksPerExposure, dete
 	print "Moving %s back to %r" % (axis.name, centre)
 	axis.scannable.moveTo(centre) # Go back to centre
 
-"""
+""" Pre geobrick
 def expose(detector, exposureTime=1, noOfExposures=1,
 		fileName="expose_test", d1out=True, d2out=True):
 	wrappedDetector = _getWrappedDetector(None, 1, 1, 1,
@@ -378,7 +378,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 						   zebraFastShutter, exposureTime ])
 	scan.runScan()
 
-def darkExpose(detector, exposureTime=1, 
+def _darkExpose(detector, exposureTime=1, 
 		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
 	_configureDetector(detector, exposureTime, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
@@ -417,7 +417,7 @@ def _darkSubtractionPVs(detector):
 		return {'array':"BL15I-EA-DET-01:PROC3:", 'live':"BL15I-EA-DET-01:PROC4:"}
 	else:
 		return None
-"""
+""" Pre geobrick
 def darkExpose(detector, exposureTime=1, noOfExposures=1,
 		fileName="dark_expose_test", d1out=True, d2out=True):
 	wrappedDetector = _getWrappedDetector(axis=None,
