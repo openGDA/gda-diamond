@@ -1,7 +1,7 @@
 from gdascripts.parameters import beamline_parameters
 from gda.scan import ConcurrentScan, ConstantVelocityScanLine
 from gdascripts.pd.dummy_pds import DummyPD
-from localStationScripts.detector_scan_commands import DiodeController, _configureDetector, _configureConstantVelocityMove
+from localStationScripts.detector_scan_commands import DiodeController, _configureDetector, _configureConstantVelocityMove, darkExpose
 from org.slf4j import LoggerFactory
 
 # Help definitions
@@ -55,6 +55,17 @@ def exposeN(exposeTime, exposeNumber, fileName):
 
 exposeN.__doc__ += _exposeHelp + _exposeNHelp
 
+def exposeDark(exposeTime, fileName):
+	"""
+	Multiple static exposures
+	"""
+	verification = verifyParameters(exposeTime=exposeTime, fileName=fileName)
+	if len(verification)>0:
+		return verification
+	
+	darkExpose(_exposeDetector(), exposeTime, fileName)
+
+exposeDark.__doc__ += _exposeHelp
 
 # Line scans
 
