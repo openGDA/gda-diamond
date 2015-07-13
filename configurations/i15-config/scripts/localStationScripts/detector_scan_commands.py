@@ -182,6 +182,7 @@ def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 	scan.runScan()
 """
 
+""" Requires disabled expose command
 def rockScanUnsync(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
 		sampleSuffix="rockScanUnsync_test", d1out=True, d2out=True):
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
@@ -271,6 +272,7 @@ def rockScanUnsyncEpicsRocker(axis, centre, rockSize, noOfRocksPerExposure, dete
 	
 	print "Moving %s back to %r" % (axis.name, centre)
 	axis.scannable.moveTo(centre) # Go back to centre
+"""
 
 """ Pre geobrick
 def expose(detector, exposureTime=1, noOfExposures=1,
@@ -361,6 +363,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 
 	return hardwareTriggeredNXDetector
 
+""" Replaced with new user_commands expose
 def expose(detector, exposureTime=1, noOfExposures=1,
 		sampleSuffix="expose_test", d1out=True, d2out=True):
 	
@@ -377,6 +380,7 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 						   detector, exposureTime,
 						   zebraFastShutter, exposureTime ])
 	scan.runScan()
+"""
 
 def _darkExpose(detector, exposureTime=1, 
 		sampleSuffix="expose_test", d1out=True, d2out=True):

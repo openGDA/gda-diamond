@@ -34,7 +34,6 @@ _gridHelp = """
 
 # Static exposure
 
-'''
 def expose(exposeTime, fileName):
 	"""
 	Static exposure
@@ -42,7 +41,6 @@ def expose(exposeTime, fileName):
 	return exposeN(exposeTime, 1, fileName)
 
 expose.__doc__ += _exposeHelp
-'''
 
 def exposeN(exposeTime, exposeNumber, fileName):
 	"""
