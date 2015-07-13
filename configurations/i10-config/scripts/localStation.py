@@ -552,12 +552,38 @@ try:
     from gda.device.scannable.scannablegroup import ScannableGroup
     
     checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
-    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', rc, 30, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=30) #@UndefinedVariable
+    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 30, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=30) #@UndefinedVariable
     checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
     checkbeam.configure()
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
+
+try:    
+    print "Adding checkbeamcv device (add to cvscan to get checkbeam functionality)"
+
+    from gda.device.scannable import PassthroughScannableDecorator
+    
+    class ZiePassthroughScannableDecorator(PassthroughScannableDecorator):
+
+        def __init__(self, delegate):
+            PassthroughScannableDecorator.__init__(self, delegate)
+    
+        def getInputNames(self): 
+            return []
+    
+        def getExtraNames(self): 
+            return []
+    
+        def getOutputFormat(self):
+            return []
+    
+        def getPosition(self):
+            return None
+
+    checkbeamcv = ZiePassthroughScannableDecorator(checkbeam)
+except:
+    localStation_exception(sys.exc_info(), "creating checkbeamcv object")
 
 try:
     from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
