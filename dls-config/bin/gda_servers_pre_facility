@@ -41,12 +41,12 @@ bashlog info "gda_servers_pre_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
 export OBJECT_SERVER_STARTUP_FILE=${GDA_VAR}/object_server_startup_server_main
 bashlog info "gda_servers_pre_facility" "set \${OBJECT_SERVER_STARTUP_FILE}=${OBJECT_SERVER_STARTUP_FILE}"
 
+if [ -n "${BEAMLINE}" ]; then
+    # This is the normal way the control machine name is constructed at Diamond; set CONTROL_MACHINE_NAME in gdastart_servers_pre_instance is necessary
+    export CONTROL_MACHINE_NAME=${BEAMLINE}-control.diamond.ac.uk
+fi
 if [ "$GDA_MODE" = "live" ]; then
     export CONTROL_MACHINE_USER=gda2
-    if [ -n "${BEAMLINE}" ]; then
-        # This is the normal way the control machine name is constructed at Diamond; set CONTROL_MACHINE_NAME in gdastart_servers_pre_instance is necessary
-        export CONTROL_MACHINE_NAME=${BEAMLINE}-control.diamond.ac.uk
-    fi
     export CONTROL_MACHINE_SSHKEY_LOC=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/${BEAMLINE}ssh.key
     if [ ! -f "${CONTROL_MACHINE_SSHKEY_LOC}" ]; then
         unset CONTROL_MACHINE_SSHKEY_LOC
