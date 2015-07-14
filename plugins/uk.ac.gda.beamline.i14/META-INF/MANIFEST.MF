@@ -24,7 +24,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.navigator.resources;bundle-version="3.4.400",
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: uk.ac.gda.beamline.i14;
   uses:="org.eclipse.jface.resource,
    org.eclipse.ui,
