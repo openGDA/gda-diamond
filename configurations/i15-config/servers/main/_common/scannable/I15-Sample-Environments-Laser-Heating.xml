@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="laserboardx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="laserboardx_motor" />
+	</bean>
+
+	<bean id="laserboardy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="laserboardy_motor" />
+	</bean>
+
+	<bean id="laserboardz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="laserboardz_motor" />
+	</bean>
+
+	<bean id="xobjus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xobjus_motor" />
+	</bean>
+
+	<bean id="xobjds" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xobjds_motor" />
+	</bean>
+
+	<bean id="yobjus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="yobjus_motor" />
+	</bean>
+
+	<bean id="yobjds" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="yobjds_motor" />
+	</bean>
+
+	<bean id="armus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="armus_motor" />
+	</bean>
+
+	<bean id="armds" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="armds_motor" />
+	</bean>
+
+	<bean id="focus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="focus_motor" />
+	</bean>
+
+	<bean id="focds" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="focds_motor" />
+	</bean>
+
+	<bean id="laserboard" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="laserboardx" />
+				<ref bean="laserboardy" />
+				<ref bean="laserboardz" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="laser" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xobjus" />
+				<ref bean="xobjds" />
+				<ref bean="yobjus" />
+				<ref bean="yobjds" />
+				<ref bean="armus" />
+				<ref bean="armds" />
+				<ref bean="focus" />
+				<ref bean="focds" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="laserboardx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-HLMTN-01:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="laserboardy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-HLMTN-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="laserboardz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-HLMTN-01:Z" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="xobjus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:XOBJ:US" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="xobjds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:XOBJ:DS" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="yobjus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:YOBJ:US" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="yobjds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:YOBJ:DS" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="armus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:ARM:US" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="armds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:ARM:DS" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="focus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:FOC:US" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="focds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:FOC:DS" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="laserpowerus" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL15I-EA-LASER-01:OUTPUTPOWER" />
+	</bean>
+
+	<bean id="laserpowerds" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL15I-EA-LASER-02:OUTPUTPOWER" />
+	</bean>
+</beans>
