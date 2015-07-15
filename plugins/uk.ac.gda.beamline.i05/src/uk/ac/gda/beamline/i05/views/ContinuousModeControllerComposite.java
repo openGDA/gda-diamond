@@ -18,14 +18,6 @@
 
 package uk.ac.gda.beamline.i05.views;
 
-import gda.device.MotorStatus;
-import gda.device.Scannable;
-import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
-import gda.observable.IObserver;
-import gda.rcp.views.NudgePositionerComposite;
-
 import java.util.Arrays;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -41,13 +33,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.IPartListener2;
-import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.common.rcp.util.EclipseUtils;
+import gda.device.MotorStatus;
+import gda.device.Scannable;
+import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServerFacade;
+import gda.observable.IObserver;
+import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class ContinuousModeControllerComposite extends Composite {
@@ -167,7 +163,7 @@ public class ContinuousModeControllerComposite extends Composite {
 
 		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("energy")));
 		NudgePositionerComposite exitSltNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("exit_slit")));
-		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount 
+		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount
 		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("s2_ysize")));
 		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("s2_xsize")));
 

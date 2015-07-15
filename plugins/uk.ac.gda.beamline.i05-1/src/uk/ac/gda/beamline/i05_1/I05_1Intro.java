@@ -18,10 +18,6 @@
 
 package uk.ac.gda.beamline.i05_1;
 
-import gda.data.PathConstructor;
-import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -42,18 +38,21 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.PathConstructor;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
 import uk.ac.gda.util.io.FileUtils;
 
 public class I05_1Intro extends IntroPart {
 	private static final Logger logger = LoggerFactory.getLogger(I05_1Intro.class);
-	
+
 	@Override
 	public void standbyStateChanged(boolean standby) {
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
-		
+
 		// This is to fix ARPES-253. Create a preference store and then set aspectRatio to false this will make
 		// 2D plots fill the available space by default.
 		IPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, "org.dawnsci.plotting");
@@ -61,7 +60,7 @@ public class I05_1Intro extends IntroPart {
 
 		logger.info("Creating perspectives");
 		for (String id : new String[] {
-				"uk.ac.gda.client.scripting.JythonPerspective",	
+				"uk.ac.gda.client.scripting.JythonPerspective",
 				"uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective",
 				"uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective"
 				}) {

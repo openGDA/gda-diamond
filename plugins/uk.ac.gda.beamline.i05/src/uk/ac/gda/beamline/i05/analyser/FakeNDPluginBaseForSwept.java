@@ -21,12 +21,12 @@ package uk.ac.gda.beamline.i05.analyser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.devices.vgscienta.VGScientaAnalyser;
 import gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl;
+import uk.ac.gda.devices.vgscienta.VGScientaAnalyser;
 
 /**
  * This is a kludge for https://trac.diamond.ac.uk/beam/ticket/8210
- * Basically the data on array plugin gets set to the wrong array size, 
+ * Basically the data on array plugin gets set to the wrong array size,
  * although the area detector has PVs with the right array size
  * This is an off by one rounding problem
  */
@@ -34,7 +34,7 @@ public class FakeNDPluginBaseForSwept extends NDPluginBaseImpl {
 	static final Logger logger = LoggerFactory.getLogger(FakeNDPluginBaseForSwept.class);
 
 	VGScientaAnalyser analyser;
-	
+
 	public VGScientaAnalyser getAnalyser() {
 		return analyser;
 	}
@@ -58,12 +58,12 @@ public class FakeNDPluginBaseForSwept extends NDPluginBaseImpl {
 		}
 		return arraySize0;
 	}
-	
+
 	@Override
 	public int getArraySize1_RBV() throws Exception {
 		return super.getArraySize1_RBV();
 	}
-	
+
 	@Override
 	public int getArraySize2_RBV() throws Exception {
 		return super.getArraySize2_RBV();

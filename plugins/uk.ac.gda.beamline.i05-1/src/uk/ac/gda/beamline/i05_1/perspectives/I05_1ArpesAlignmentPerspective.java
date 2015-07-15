@@ -27,7 +27,7 @@ public class I05_1ArpesAlignmentPerspective implements IPerspectiveFactory {
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		layout.setEditorAreaVisible(false);
-		
+
 		{
 			IFolderLayout folderLayout = layout.createFolder("folder_3", IPageLayout.RIGHT, 0.62f, IPageLayout.ID_EDITOR_AREA);
 			folderLayout.addView("uk.ac.gda.client.arpes.sumview");

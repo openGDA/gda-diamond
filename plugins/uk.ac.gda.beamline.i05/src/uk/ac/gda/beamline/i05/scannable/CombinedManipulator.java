@@ -18,6 +18,10 @@
 
 package uk.ac.gda.beamline.i05.scannable;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableBase;
@@ -27,10 +31,6 @@ import gda.factory.FactoryException;
 import gda.factory.corba.util.CorbaAdapterClass;
 import gda.factory.corba.util.CorbaImplClass;
 import gda.observable.IObserver;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
 
 /**
  *
@@ -42,13 +42,13 @@ public class CombinedManipulator extends ScannableBase implements IObserver {
 	private List<Scannable> scannables = new Vector<Scannable>();
 	private CombinedCaculator calculator;
 	private IObserver iobserver = new IObserver() {
-		
+
 		@Override
 		public void update(Object source, Object arg) {
 			updateEvent(source, arg);
 		}
 	};
-	
+
 	/**
 	 * @return The calculator in use
 	 */
@@ -82,15 +82,15 @@ public class CombinedManipulator extends ScannableBase implements IObserver {
 	public void configure() throws FactoryException {
 		setInputNames(new String[] {getName()});
 		setupExtraNames();
-		
+
 		// Setup observers to pass through events of the "real" scannables
 		// This allow the detection of this scannable starting to move when
-		// one of its "real" scannables moves.	
+		// one of its "real" scannables moves.
 		for (Scannable s : scannables) {
 			s.addIObserver(iobserver);
 		}
 	}
-			
+
 	private void setupExtraNames() {
 		Vector<String> en = new Vector<String>();
 		Vector<String> of = new Vector<String>();
@@ -114,28 +114,28 @@ public class CombinedManipulator extends ScannableBase implements IObserver {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void asynchronousMoveTo(Object position) throws DeviceException {
 		Double doublePosition;
-		
+
 		if (position instanceof Number) {
 			doublePosition = ((Number) position).doubleValue();
 		} else {
 			doublePosition = Double.valueOf(position.toString());
 		}
-		
+
 		List<Double> demands = calculator.getDemands(doublePosition, getPositions());
-		
+
 		Iterator<Double> demandsIterator = demands.iterator();
 		Iterator<Scannable> scannablesIterator = scannables.iterator();
-		
+
 		// Move each of the scannables to their demanded position.
 		while (demandsIterator.hasNext()) {
 			scannablesIterator.next().asynchronousMoveTo(demandsIterator.next());
 		}
 	}
-	
+
 	Vector<Double> getPositions() throws DeviceException {
 		Vector<Double> pos = new Vector<Double>();
 		for (Scannable s : scannables) {
@@ -143,7 +143,7 @@ public class CombinedManipulator extends ScannableBase implements IObserver {
 		}
 		return pos;
 	}
-	
+
 	@Override
 	public Object getPosition() throws DeviceException {
 		Vector<Double> pos = getPositions();

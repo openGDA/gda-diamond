@@ -29,22 +29,22 @@ public class salongCalculator extends saperpCalculator implements CombinedCacula
 		Double sax = values.get(0);
 		Double say = values.get(1);
 		Double salong = say * Math.cos(Math.toRadians(angle)) - sax * Math.sin(Math.toRadians(angle));
-		
+
 		return salong;
 	}
 
 	@Override
 	public List<Double> getDemands(Double value, List<Double> values) {
-		
+
 		Double sax = values.get(0);
 		Double say = values.get(1);
-		
+
 		Double saperp = say * Math.sin(Math.toRadians(angle)) + sax * Math.cos(Math.toRadians(angle));
 		Double salong = value;
 
 		sax = -1 * salong * Math.sin(Math.toRadians(angle)) + saperp * Math.cos(Math.toRadians(angle));
 		say = salong * Math.cos(Math.toRadians(angle)) + saperp * Math.sin(Math.toRadians(angle));
-		
+
 		return Arrays.asList(new Double[] {sax, say});
 	}
 }

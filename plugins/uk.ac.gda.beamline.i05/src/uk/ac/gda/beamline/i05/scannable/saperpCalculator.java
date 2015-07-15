@@ -24,7 +24,7 @@ import java.util.List;
 public class saperpCalculator implements CombinedCaculator {
 
 	public static double angle = 50.0;
-	
+
 	@Override
 	public Double getRBV(List<Double> values) {
 
@@ -37,16 +37,16 @@ public class saperpCalculator implements CombinedCaculator {
 
 	@Override
 	public List<Double> getDemands(Double value, List<Double> values) {
-		
+
 		Double sax = values.get(0);
 		Double say = values.get(1);
-		
+
 		Double saperp = value;
 		Double salong = say * Math.cos(Math.toRadians(angle)) - sax * Math.sin(Math.toRadians(angle));
 
 		sax = -1 * salong * Math.sin(Math.toRadians(angle)) + saperp * Math.cos(Math.toRadians(angle));
 		say = salong * Math.cos(Math.toRadians(angle)) + saperp * Math.sin(Math.toRadians(angle));
-		
+
 		return Arrays.asList(new Double[] {sax, say});
 	}
 }

@@ -21,7 +21,7 @@ package uk.ac.gda.beamline.i05.scannable;
 import java.util.List;
 
 public interface CombinedCaculator {
-	
+
 	/**
 	 * @param value The demanded value of the combined scannable
 	 * @param vector The current positions of the real scannables
@@ -29,8 +29,8 @@ public interface CombinedCaculator {
 	 * the demanded position
 	 */
 	public List<Double> getDemands(Double value, List<Double> vector);
-	
-	
+
+
 	/**
 	 * @param values A list of the real scannables positions
 	 * @return The calculated position of the combined scannable

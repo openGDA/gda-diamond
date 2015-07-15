@@ -18,6 +18,11 @@
 
 package uk.ac.gda.beamline.i05_1.analyser;
 
+import java.util.Vector;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.epics.connection.EpicsController;
 import gda.factory.Configurable;
 import gda.factory.FactoryException;
@@ -25,12 +30,6 @@ import gov.aps.jca.Channel;
 import gov.aps.jca.dbr.DBR_Enum;
 import gov.aps.jca.event.MonitorEvent;
 import gov.aps.jca.event.MonitorListener;
-
-import java.util.Vector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.devices.vgscienta.EntranceSlitInformationProvider;
 
 public class I05_1EntranceSlit implements EntranceSlitInformationProvider, Configurable, MonitorListener{
@@ -45,7 +44,7 @@ public class I05_1EntranceSlit implements EntranceSlitInformationProvider, Confi
 	private String label= "unknown";
 	private String direction= "unknown";
 	private Vector<String> positions = new Vector<String>(12);
-	
+
 	@Override
 	public void configure() throws FactoryException {
 		epicsController = EpicsController.getInstance();
@@ -71,13 +70,13 @@ public class I05_1EntranceSlit implements EntranceSlitInformationProvider, Confi
 				epicsController.destroy(thisStringChannel);
 				positions.add(positionName);
 			}
-			
+
 			epicsController.setMonitor(epicsController.createChannel(labelPV), this);
 		} catch (Exception e) {
 			throw new FactoryException("error setting up entract slit monitoring", e);
 		}
 	}
-	
+
 	@Override
 	public Number getRawValue() {
 		return rawValue;

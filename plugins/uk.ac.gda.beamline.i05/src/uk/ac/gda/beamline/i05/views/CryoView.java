@@ -18,10 +18,6 @@
 
 package uk.ac.gda.beamline.i05.views;
 
-import gda.device.Scannable;
-import gda.factory.Finder;
-import gda.rcp.views.MotorPositionViewerComposite;
-
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
@@ -29,6 +25,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.wb.swt.ResourceManager;
+
+import gda.device.Scannable;
+import gda.factory.Finder;
+import gda.rcp.views.MotorPositionViewerComposite;
 
 public class CryoView extends ViewPart {
 
@@ -86,11 +86,11 @@ public class CryoView extends ViewPart {
 //			MotorPositionViewerComposite lblSampletemp = new MotorPositionViewerComposite(comp, SWT.RIGHT, (Scannable) (Finder.getInstance().find("sample_temp")), true, "photonEnergy", 4, null, true, true);
 //			lblSampletemp.setBounds(590, 61, 120, 24);
 //		}
-		
+
 		Label lblNewLabel = new Label(comp, SWT.BACKGROUND);
 		lblNewLabel.setImage(ResourceManager.getPluginImage("uk.ac.gda.beamline.i05", "icons/cryo.png"));
 		lblNewLabel.setBounds(0, 0, 720, 750);
-		
+
 
 		createActions();
 		initializeToolBar();

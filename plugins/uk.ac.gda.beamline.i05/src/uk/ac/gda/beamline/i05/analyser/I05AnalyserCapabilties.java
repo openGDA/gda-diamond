@@ -840,7 +840,7 @@ public class I05AnalyserCapabilties implements AnalyserCapabilties {
 	public String[] getLensModes() {
 		return lens2angles.keySet().toArray(new String[0]);
 	}
-	
+
 	@Override
 	public String[] getPsuModes() {
 		return new String[] { "Low Pass", "High Pass" };

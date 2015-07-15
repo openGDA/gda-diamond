@@ -1,27 +1,26 @@
 package uk.ac.gda.beamline.i05.views;
 
-import gda.device.Device;
-import gda.factory.Finder;
-import gda.observable.IObserver;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
+import gda.device.Device;
+import gda.factory.Finder;
+import gda.observable.IObserver;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class ContinuousModeControllerView extends ViewPart implements IObserver {
-	
+
 	private Device analyser;
 	private Device psu;
 	private AnalyserCapabilties capabilities;
-	
+
 	public ContinuousModeControllerView() {
 	}
 
 	private ContinuousModeControllerComposite continuousModeControllerComposite;
-	
+
 	@Override
-	public void createPartControl(Composite parent) {	
+	public void createPartControl(Composite parent) {
 		capabilities = (AnalyserCapabilties) Finder.getInstance().listAllLocalObjects(AnalyserCapabilties.class.getCanonicalName()).get(0);
 		analyser = (Device) Finder.getInstance().find("analyser");
 		if (analyser != null) {
@@ -30,7 +29,7 @@ public class ContinuousModeControllerView extends ViewPart implements IObserver 
 		psu = (Device) Finder.getInstance().find("psu_mode");
 		if (psu != null) {
 			psu.addIObserver(this);
-		}		
+		}
 		continuousModeControllerComposite = new ContinuousModeControllerComposite(parent, capabilities);
 	}
 

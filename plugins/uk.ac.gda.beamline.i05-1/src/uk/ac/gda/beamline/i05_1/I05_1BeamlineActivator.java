@@ -30,7 +30,7 @@ public class I05_1BeamlineActivator extends AbstractUIPlugin {
 	private static I05_1BeamlineActivator plugin;
 
 	public static final String EXIT_SLIT_SIZE_SCANNABLE = "exit_slit";
-	
+
 	public I05_1BeamlineActivator() {
 	}
 

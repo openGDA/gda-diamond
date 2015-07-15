@@ -18,10 +18,6 @@
 
 package uk.ac.gda.beamline.i05;
 
-import gda.data.PathConstructor;
-import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -42,6 +38,9 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.PathConstructor;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
 import uk.ac.gda.util.io.FileUtils;
 
 public class I05Intro extends IntroPart {
