@@ -26,13 +26,13 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class DashboardPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	public static final String ID = "uk.ac.gda.rcp.views.dasboard.dashboardPreferences";
-	
+
 	public DashboardPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("Preferences for the polling dashboard view such as the update frequency.");
 	}
-	
+
 	@Override
 	protected void createFieldEditors() {
 		final IntegerFieldEditor formatFieldEditor = new IntegerFieldEditor(DashboardView.FREQUENCY_LABEL, "Update frequency in seconds", getFieldEditorParent());

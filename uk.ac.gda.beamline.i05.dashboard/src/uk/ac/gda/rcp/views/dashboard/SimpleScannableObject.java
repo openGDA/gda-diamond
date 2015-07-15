@@ -21,7 +21,7 @@ package uk.ac.gda.rcp.views.dashboard;
 import gda.jython.JythonServerFacade;
 
 public class SimpleScannableObject {
-	
+
 	private String scannableName, toolTip;
 	private String lastPosition;
 
@@ -31,7 +31,7 @@ public class SimpleScannableObject {
 	public SimpleScannableObject(String name) {
 		this.setScannableName(name);
 	}
-	
+
 	public String getScannableName() {
 		return scannableName;
 	}
@@ -47,19 +47,19 @@ public class SimpleScannableObject {
 	public void setToolTip(String toolTip) {
 		this.toolTip = toolTip;
 	}
-	
+
 	public String getFormattedLastPosition() {
 		if (lastPosition == null)
 			refresh();
 		return lastPosition;
 	}
-	
+
 	public void refresh() {
 		try {
 			lastPosition = JythonServerFacade.getInstance().evaluateCommand("gda.device.scannable.ScannableUtils.getFormattedCurrentPosition("
 				+ scannableName + ")");
 		} catch (Exception e) {
-			
+
 		}
 	}
 }

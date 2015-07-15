@@ -253,12 +253,12 @@ public final class DashboardView extends ViewPart {
 			public void propertyChange(PropertyChangeEvent event) {
 				if (event.getProperty().equals(FREQUENCY_LABEL)) {
 					updateSleepTime();
-				} 
+				}
 			}
 		});
-	
+
 		updateSleepTime();
-		
+
 		if (updater == null || !updater.isAlive()) {
 			updater = new Thread(new Runnable() {
 
@@ -288,7 +288,7 @@ public final class DashboardView extends ViewPart {
 		int delay = Activator.getDefault().getPreferenceStore().getInt(FREQUENCY_LABEL);
 		sleeptime = delay == 0 ? 2 : delay;
 	}
-	
+
 	private void createRightClickMenu() {
 		final MenuManager menuManager = new MenuManager();
 		serverViewer.getControl().setMenu(menuManager.createContextMenu(serverViewer.getControl()));
@@ -365,7 +365,7 @@ public final class DashboardView extends ViewPart {
 
 	/**
 	 * Called to refresh all the values in the table.
-	 * 
+	 *
 	 * @param moveAmount
 	 */
 	public void move(final int moveAmount) {
@@ -387,13 +387,13 @@ public final class DashboardView extends ViewPart {
 	public void refresh() {
 		if (serverViewer.getControl().isDisposed())
 			return;
-		
+
 		try {
 			for (SimpleScannableObject sso : data) {
 				sso.refresh();
 			}
 			Display.getDefault().syncExec(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					if (!serverViewer.isCellEditorActive())

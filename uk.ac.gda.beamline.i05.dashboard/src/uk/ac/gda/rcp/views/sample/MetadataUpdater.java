@@ -18,6 +18,22 @@
 
 package uk.ac.gda.rcp.views.sample;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.data.PathConstructor;
 import gda.data.metadata.GDAMetadataProvider;
 import gda.data.metadata.Metadata;
@@ -38,24 +54,7 @@ import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanDataPoint;
 import gda.scan.ScanEvent;
 import uk.ac.gda.devices.vgscienta.FlexibleFrameDetector;
-import uk.ac.gda.devices.vgscienta.FrameUpdate;
 import uk.ac.gda.devices.vgscienta.SweptProgress;
-
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.StringTokenizer;
-import java.util.Vector;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Text;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A system status display panel updater, this contains all the logic, so the GUI class be edited by graphical SWT

@@ -34,13 +34,13 @@ public class AddScannableHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		
+
 		// Get current dashboard view.
 		DashboardView dashboard = (DashboardView)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
 		if (dashboard==null) return Boolean.FALSE;
-		
+
 		dashboard.addScannableObject(new SimpleScannableObject());
-		
+
 		return Boolean.TRUE;
 	}
 }
