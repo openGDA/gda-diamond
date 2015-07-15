@@ -18,20 +18,19 @@
 
 package uk.ac.gda.beamline.i08.perspectives;
 
-import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 public class ExperimentPerspective implements IPerspectiveFactory {
 
 	static final String ID = "uk.ac.gda.microscopy.ExperimentPerspective";
-	
+
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		// Get the editor area.
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
-		
+
 		// Top left: Resource Navigator view and Bookmarks view placeholder
 //		IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, 0.25f,	editorArea);
 //		topLeft.addView(IPageLayout.ID_RES_NAV);
