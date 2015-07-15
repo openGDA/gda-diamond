@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.core,
  uk.ac.gda.devices.vgscienta;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Diamond Light Source
 Import-Package: org.eclipse.ui.intro.config,
  org.slf4j;version="[1.7.6,1.7.7)",
