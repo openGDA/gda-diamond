@@ -35,18 +35,18 @@ public class I20PreparersTestUtils {
 		scanBean.setElement("Cu");
 		scanBean.setEdge("K");
 		scanBean.setFinalEnergy(7010.0);
-		
+
 		List<Region> regions = new ArrayList<Region>();
 		Region region1 = new Region();
 		region1.setEnergy(7000.0);
 		region1.setStep(2.0);
 		region1.setTime(2.5);
 		regions.add(region1);
-		
+
 		scanBean.setRegions(regions);
 		return scanBean;
 	}
-	
+
 	protected static IonChamberParameters makeIonChamberParameters(String name) {
 		IonChamberParameters ionParams = new IonChamberParameters();
 		ionParams.setChangeSensitivity(true);
@@ -64,7 +64,7 @@ public class I20PreparersTestUtils {
 
 		return ionParams;
 	}
-	
+
 	protected static FluorescenceParameters createSiFluoParameters() {
 		FluorescenceParameters fluoParams = new FluorescenceParameters();
 		fluoParams.setCollectDiffractionImages(false);
@@ -76,14 +76,14 @@ public class I20PreparersTestUtils {
 		fluoParams.setDetectorType(FluorescenceParameters.SILICON_DET_TYPE);
 		return fluoParams;
 	}
-	
-	
+
+
 	protected static FluorescenceParameters createGeFluoParameters() {
 		FluorescenceParameters fluoParams = createSiFluoParameters();
 		fluoParams.setDetectorType(FluorescenceParameters.GERMANIUM_DET_TYPE);
 		return fluoParams;
 	}
-	
+
 	protected static TransmissionParameters createTransmissionParameters() {
 		TransmissionParameters transParams = new TransmissionParameters();
 		transParams.setCollectDiffractionImages(false);

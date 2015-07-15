@@ -19,11 +19,6 @@
 package uk.ac.gda.server.exafs.scan;
 
 import static org.junit.Assert.assertTrue;
-import gda.device.EnumPositioner;
-import gda.device.Scannable;
-import gda.device.scannable.DummyScannable;
-import gda.device.scannable.Lakeshore340Scannable;
-import gda.gui.RCPController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +28,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.device.EnumPositioner;
+import gda.device.Scannable;
+import gda.device.scannable.DummyScannable;
+import gda.device.scannable.Lakeshore340Scannable;
+import gda.gui.RCPController;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
@@ -207,10 +207,10 @@ public class I20SamplePreparerTest {
 		sample1.setFinePosition(2.1);
 		sample1.setSample_name(name);
 		sample1.setSampleDescription(desc);
-		
+
 		List<CryostatSampleDetails> samples = new ArrayList<CryostatSampleDetails>();
 		samples.add(sample1);
-		
+
 		CryostatParameters cryoParams = new CryostatParameters();
 		cryoParams.setLoopChoice(CryostatProperties.LOOP_OPTION[0]);
 		cryoParams.setTemperature("350.0");
@@ -223,7 +223,7 @@ public class I20SamplePreparerTest {
 		I20SampleParameters samParams = new I20SampleParameters();
 		samParams.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[2]);
 		samParams.setCryostatParameters(cryoParams);
-		
+
 		thePreparer.configure(null, samParams);
 
 		SampleEnvironmentIterator theIterator = thePreparer.createIterator("Xanes");
@@ -254,10 +254,10 @@ public class I20SamplePreparerTest {
 		sample1.setFinePosition(2.1);
 		sample1.setSample_name(name);
 		sample1.setSampleDescription(desc);
-		
+
 		List<CryostatSampleDetails> samples = new ArrayList<CryostatSampleDetails>();
 		samples.add(sample1);
-		
+
 		CryostatParameters cryoParams = new CryostatParameters();
 		cryoParams.setLoopChoice(CryostatProperties.LOOP_OPTION[0]);
 		cryoParams.setTemperature("350.0, 400.0, 410");
@@ -270,7 +270,7 @@ public class I20SamplePreparerTest {
 		I20SampleParameters samParams = new I20SampleParameters();
 		samParams.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[2]);
 		samParams.setCryostatParameters(cryoParams);
-		
+
 		thePreparer.configure(null, samParams);
 
 		SampleEnvironmentIterator theIterator = thePreparer.createIterator("Xanes");
@@ -288,12 +288,12 @@ public class I20SamplePreparerTest {
 		Mockito.verifyZeroInteractions(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll,
 				sample_pitch);
 		Mockito.verify(cryostat).asynchronousMoveTo(350.0);
-		
+
 		theIterator.next();
 		Mockito.verifyZeroInteractions(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll,
 				sample_pitch);
 		Mockito.verify(cryostat).asynchronousMoveTo(400.0);
-		
+
 		theIterator.next();
 		Mockito.verifyZeroInteractions(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll,
 				sample_pitch);
@@ -302,7 +302,7 @@ public class I20SamplePreparerTest {
 
 	@Test
 	public void testI20CryostatIteratorRange() throws Exception {
-		
+
 		String name = "one cryo name";
 		String desc = "one cryo desc";
 
@@ -312,10 +312,10 @@ public class I20SamplePreparerTest {
 		sample1.setFinePosition(2.1);
 		sample1.setSample_name(name);
 		sample1.setSampleDescription(desc);
-		
+
 		List<CryostatSampleDetails> samples = new ArrayList<CryostatSampleDetails>();
 		samples.add(sample1);
-		
+
 		CryostatParameters cryoParams = new CryostatParameters();
 		cryoParams.setLoopChoice(CryostatProperties.LOOP_OPTION[0]);
 		cryoParams.setTemperature("350.0;400.0; 25.0");
@@ -328,7 +328,7 @@ public class I20SamplePreparerTest {
 		I20SampleParameters samParams = new I20SampleParameters();
 		samParams.setSampleEnvironment(I20SampleParameters.SAMPLE_ENV[2]);
 		samParams.setCryostatParameters(cryoParams);
-		
+
 		thePreparer.configure(null, samParams);
 
 		SampleEnvironmentIterator theIterator = thePreparer.createIterator("Xanes");
@@ -346,12 +346,12 @@ public class I20SamplePreparerTest {
 		Mockito.verifyZeroInteractions(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll,
 				sample_pitch);
 		Mockito.verify(cryostat).asynchronousMoveTo(350.0);
-		
+
 		theIterator.next();
 		Mockito.verifyZeroInteractions(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll,
 				sample_pitch);
 		Mockito.verify(cryostat).asynchronousMoveTo(375.0);
-		
+
 		theIterator.next();
 		Mockito.verifyZeroInteractions(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll,
 				sample_pitch);

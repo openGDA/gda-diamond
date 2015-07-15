@@ -18,19 +18,19 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.device.detector.DetectorData;
-import gda.device.detector.EdeDetector;
-import gda.scan.EdeScan;
-import gda.scan.EnergyDispersiveExafsScan;
-import gda.scan.ScanDataPoint;
-import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
-
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.device.detector.DetectorData;
+import gda.device.detector.EdeDetector;
+import gda.scan.EdeScan;
+import gda.scan.EnergyDispersiveExafsScan;
+import gda.scan.ScanDataPoint;
+import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 
 public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter {
 

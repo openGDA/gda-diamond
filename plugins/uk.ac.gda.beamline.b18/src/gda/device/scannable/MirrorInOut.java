@@ -35,7 +35,7 @@ public class MirrorInOut extends ScannableBase implements Scannable {
 	@Override
 	public Object rawGetPosition() {
 		this.inputNames = new String[]{getName()};
-		
+
 		try {
 			pos = mirror.getPosition();
 		} catch (NumberFormatException e) {

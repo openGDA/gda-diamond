@@ -18,16 +18,6 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import gda.device.Scannable;
-import gda.device.detector.BufferedDetector;
-import gda.device.detector.NXDetector;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xspress.Xspress2Detector;
-import gda.device.scannable.DummyScannable;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServer;
-import gda.jython.JythonServerFacade;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -37,6 +27,15 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.device.Scannable;
+import gda.device.detector.BufferedDetector;
+import gda.device.detector.NXDetector;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.xspress.Xspress2Detector;
+import gda.device.scannable.DummyScannable;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServer;
+import gda.jython.JythonServerFacade;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;

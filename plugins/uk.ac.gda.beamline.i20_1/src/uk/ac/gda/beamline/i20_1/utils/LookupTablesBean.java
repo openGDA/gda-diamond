@@ -18,18 +18,18 @@
 
 package uk.ac.gda.beamline.i20_1.utils;
 
-import gda.factory.Configurable;
-import gda.factory.FactoryException;
-import gda.factory.Findable;
-import gda.util.QuantityFactory;
-import gda.util.converters.LookupTableConverterHolder;
-
 import java.util.HashMap;
 
 import org.jscience.physics.quantities.Quantity;
 import org.jscience.physics.units.Unit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.factory.Configurable;
+import gda.factory.FactoryException;
+import gda.factory.Findable;
+import gda.util.QuantityFactory;
+import gda.util.converters.LookupTableConverterHolder;
 
 /**
  * Holds an array of lookup tables to map a series of hardware positions to a single value, such as beamline energy.

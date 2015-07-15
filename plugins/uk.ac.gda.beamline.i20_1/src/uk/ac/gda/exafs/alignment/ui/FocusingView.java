@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.Scannable;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -44,6 +42,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.Scannable;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;

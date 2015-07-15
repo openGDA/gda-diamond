@@ -35,7 +35,7 @@ public class AlignmentStageScannableTest {
 		AlignmentStageScannable.AlignmentStageDevice.eye.getLocation().setxPosition(1.0);
 		AlignmentStageScannable.AlignmentStageDevice.eye.save(configuration);
 		configuration.save(tempFile.toFile());
-		
+
 		tempFile = Files.createTempFile(null, null);
 		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.setxPosition(6.0);
 		AlignmentStageScannable.FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.setyPosition(6.0);

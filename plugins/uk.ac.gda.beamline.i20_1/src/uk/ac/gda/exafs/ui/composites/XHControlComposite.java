@@ -18,24 +18,6 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import gda.device.DeviceException;
-import gda.device.detector.EdeDetector;
-import gda.device.detector.NXDetectorData;
-import gda.device.detector.frelon.EdeFrelon;
-import gda.device.detector.frelon.FrelonCcdDetectorData;
-import gda.device.detector.xstrip.XhDetector;
-import gda.device.frelon.Frelon.ROIMode;
-import gda.device.frelon.Frelon.SPB2Config;
-import gda.device.lima.LimaCCD.AccTimeMode;
-import gda.device.lima.LimaCCD.AcqMode;
-import gda.device.lima.LimaCCD.AcqTriggerMode;
-import gda.device.lima.LimaROIInt;
-import gda.device.lima.impl.LimaROIIntImpl;
-import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
-import gda.jython.JythonServerStatus;
-import gda.observable.IObserver;
-
 import java.beans.PropertyChangeListener;
 import java.util.Date;
 
@@ -64,6 +46,25 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.swtdesigner.ResourceManager;
+
+import gda.device.DeviceException;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.NXDetectorData;
+import gda.device.detector.frelon.EdeFrelon;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
+import gda.device.detector.xstrip.XhDetector;
+import gda.device.frelon.Frelon.ROIMode;
+import gda.device.frelon.Frelon.SPB2Config;
+import gda.device.lima.LimaCCD.AccTimeMode;
+import gda.device.lima.LimaCCD.AcqMode;
+import gda.device.lima.LimaCCD.AcqTriggerMode;
+import gda.device.lima.LimaROIInt;
+import gda.device.lima.impl.LimaROIIntImpl;
+import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerStatus;
+import gda.observable.IObserver;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -76,8 +77,6 @@ import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.ui.components.NumberEditorControl;
-
-import com.swtdesigner.ResourceManager;
 
 public class XHControlComposite extends Composite implements IObserver {
 

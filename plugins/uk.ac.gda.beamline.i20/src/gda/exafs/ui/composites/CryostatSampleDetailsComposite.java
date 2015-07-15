@@ -18,8 +18,6 @@
 
 package gda.exafs.ui.composites;
 
-import gda.jython.JythonServerFacade;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -42,6 +40,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
+import gda.jython.JythonServerFacade;
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.common.rcp.util.GridUtils;
 
@@ -112,7 +111,7 @@ public class CryostatSampleDetailsComposite extends I20SampleParametersComposite
 		cryostick.setDecimalPlaces(2);
 		cryostick.setLayoutData(new RowData(100, 25));
 		cryostick.setFieldOveride("cryostick");
-		
+
 		Label lblSamy = new Label(motorPositionsGroup, SWT.NONE);
 		lblSamy.setText("cryostick_pos");
 		cryostick_pos = new ScaleBox(motorPositionsGroup, SWT.NONE);
@@ -120,12 +119,12 @@ public class CryostatSampleDetailsComposite extends I20SampleParametersComposite
 		cryostick_pos.setDecimalPlaces(2);
 		cryostick_pos.setLayoutData(new RowData(100, 25));
 
-		
+
 		try {
 			setMotorLimits("cryostick_pos", cryostick_pos);
 		} catch (Exception e) {
 		}
-		
+
 		layout();
 	}
 
@@ -153,7 +152,7 @@ public class CryostatSampleDetailsComposite extends I20SampleParametersComposite
 		box.setMaximum(bdUpperLimit.doubleValue());
 		box.setFieldOveride(motorName);
 	}
-	
+
 	public ScaleBox getPosition() {
 		return cryostick;
 	}

@@ -22,8 +22,8 @@ import java.net.URL;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import uk.ac.gda.util.beans.xml.XMLRichBean;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
+import uk.ac.gda.util.beans.xml.XMLRichBean;
 
 /**
  * Additional options for users on the EDE branchline.

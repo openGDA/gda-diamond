@@ -53,4 +53,3 @@ public class I20SampleParametersEditor extends ExperimentBeanMultiPageEditor {
 
 }
 
-	

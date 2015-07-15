@@ -18,6 +18,9 @@
 
 package gda.scan.ede;
 
+import java.util.List;
+import java.util.Map;
+
 import gda.device.DeviceException;
 import gda.device.scannable.TopupChecker;
 import gda.scan.EdeScan;
@@ -26,10 +29,6 @@ import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
 import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
-
-import java.util.List;
-import java.util.Map;
-
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 

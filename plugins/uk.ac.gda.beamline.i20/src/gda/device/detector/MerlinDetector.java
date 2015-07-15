@@ -24,19 +24,19 @@ import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
 public class MerlinDetector extends DetectorBase{
-	
+
 	private CAClient caClient;
 	private NXDetector merlinController;
 	private String totalCountsPV;
-	
+
 	public MerlinDetector(){
 		caClient = new CAClient();
 	}
-	
+
 	public void setMerlinController(NXDetector merlinController){
 		this.merlinController = merlinController;
 	}
-	
+
 	@Override
 	public void collectData() throws DeviceException {
 		merlinController.collectData();
@@ -65,7 +65,7 @@ public class MerlinDetector extends DetectorBase{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public void setCollectionTime(double collectionTime) throws DeviceException {
 		merlinController.setCollectionTime(collectionTime);

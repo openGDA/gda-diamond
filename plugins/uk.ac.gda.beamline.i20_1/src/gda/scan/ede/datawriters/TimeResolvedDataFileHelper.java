@@ -18,12 +18,6 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.scan.ede.EdeScanType;
-import gda.scan.ede.datawriters.EdeDataConstants.ItMetadata;
-import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
-import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
-import gda.scan.ede.position.EdePositionType;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,6 +39,11 @@ import org.eclipse.dawnsci.hdf5.nexus.NexusUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.scan.ede.EdeScanType;
+import gda.scan.ede.datawriters.EdeDataConstants.ItMetadata;
+import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
+import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
+import gda.scan.ede.position.EdePositionType;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 

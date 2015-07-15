@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Label;
 
 public class PositionerLabelComposite extends Composite {
 	private TextWrapper label;
-	
+
 	public PositionerLabelComposite(Composite parent, int style) {
 		super(parent, style);
 		GridLayout gridLayout = new GridLayout();
@@ -49,5 +49,5 @@ public class PositionerLabelComposite extends Composite {
 			selectedBean.setLabel(labelValue);
 		}
 	}
-	
+
 }

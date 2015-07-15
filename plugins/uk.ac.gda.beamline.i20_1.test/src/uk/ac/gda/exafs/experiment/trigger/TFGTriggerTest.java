@@ -18,34 +18,34 @@
 
 package uk.ac.gda.exafs.experiment.trigger;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class TFGTriggerTest {
-//TODO taking out this test as it is test the wrong thing and cannot cover script run yet. 
+//TODO taking out this test as it is test the wrong thing and cannot cover script run yet.
 	@Ignore("taking out this test as it is test the wrong thing and cannot cover script run yet.")
 	@Test
 	public void testGetTfgSetupGrupsCommandParameters() throws Exception {
 
 		TFGTrigger tfgTrigger = new TFGTrigger();
-		
+
 		tfgTrigger.getDetectorDataCollection().setTriggerDelay(4.0d);
 		tfgTrigger.getDetectorDataCollection().setTriggerPulseLength(0.1d);
 		tfgTrigger.getDetectorDataCollection().setNumberOfFrames(20);
 		tfgTrigger.getDetectorDataCollection().setCollectionDuration(10.0d);
-		
+
 		TriggerableObject testObj = tfgTrigger.createNewSampleEnvEntry();
 		testObj.setTriggerDelay(0.5d);
 		testObj.setTriggerPulseLength(0.1d);
 		tfgTrigger.getSampleEnvironment().add(testObj);
-		
+
 		testObj = tfgTrigger.createNewSampleEnvEntry();
 		testObj.setTriggerDelay(0.8d);
 		testObj.setTriggerPulseLength(20d);
 		tfgTrigger.getSampleEnvironment().add(testObj);
-		
+
 		String command = tfgTrigger.getTfgSetupGrupsCommandParameters(1, false);
 //		System.out.print(command);
 		assertTrue(command.equals("tfg setup-groups\n" +

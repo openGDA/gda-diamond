@@ -71,42 +71,42 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 		composite = new Composite(this, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 		composite.setLayout(new GridLayout(2, false));
-				
+
 		Label lblSamname = new Label(composite, SWT.NONE);
 		lblSamname.setText("Filename");
 		GridDataFactory.swtDefaults().applyTo(lblSamname);
-		
+
 		sample_name = new TextWrapper(composite, SWT.NONE);
 		sample_name.setTextType(TEXT_TYPE.FILENAME);
 		GridDataFactory.fillDefaults().applyTo(sample_name);
-				
+
 		Label lblSamdesc = new Label(composite, SWT.NONE);
 		lblSamdesc.setText("Sample description");
 		GridDataFactory.fillDefaults().applyTo(lblSamdesc);
-				
+
 		sample_description = new TextWrapper(composite, SWT.WRAP | SWT.V_SCROLL | SWT.MULTI | SWT.BORDER);
 		sample_description.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		
+
 		Label lblNumOfRep = new Label(composite, SWT.NONE);
 		lblNumOfRep.setText("Number of repetitions");
 		lblNumOfRep.setToolTipText("Number of repetitions over this sample");
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(lblNumOfRep);
-		
+
 		numberOfRepetitions = new SpinnerWrapper(composite, SWT.NONE);
 		numberOfRepetitions.setValue(1);
 		numberOfRepetitions.setToolTipText("Number of repetitions over this sample");
 		GridDataFactory.fillDefaults().applyTo(numberOfRepetitions);
-		
+
 		Group motorPositionsGroup = new Group(this, SWT.NONE);
 		motorPositionsGroup.setText("Motor positions");
 		motorPositionsGroup.setLayout(new GridLayout(2, false));
-		
+
 		leftScannablesComposite = new Composite(motorPositionsGroup, SWT.NONE);
 		leftScannablesComposite.setLayout(new GridLayout(3, false));
-		
+
 		Label lblSamx = new Label(leftScannablesComposite, SWT.NONE);
 		lblSamx.setText("Sample x");
-		
+
 		sample_x = new ScaleBox(leftScannablesComposite, SWT.NONE);
 		sample_x.setUnit("mm");
 		sample_x.setDecimalPlaces(2);
@@ -114,7 +114,7 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 		sample_x.setMaximum(14.1);
 		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_x);
 		btnSamX = new BooleanWrapper(leftScannablesComposite, SWT.CHECK);
-		
+
 		Label lblSamy = new Label(leftScannablesComposite, SWT.NONE);
 		lblSamy.setText("Sample y");
 		sample_y = new ScaleBox(leftScannablesComposite, SWT.NONE);
@@ -124,7 +124,7 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 		sample_y.setMaximum(90.1);
 		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_y);
 		btnSamY = new BooleanWrapper(leftScannablesComposite, SWT.CHECK);
-		
+
 		Label lblSamz = new Label(leftScannablesComposite, SWT.NONE);
 		lblSamz.setText("Sample z");
 		sample_z = new ScaleBox(leftScannablesComposite, SWT.NONE);
@@ -134,11 +134,11 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 		sample_z.setMaximum(14.1);
 		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_z);
 		btnSamZ = new BooleanWrapper(leftScannablesComposite, SWT.CHECK);
-		
+
 		rightScannablesComposite = new Composite(motorPositionsGroup, SWT.NONE);
 		rightScannablesComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		rightScannablesComposite.setLayout(new GridLayout(3, false));
-		
+
 		Label lblSamrot = new Label(rightScannablesComposite, SWT.NONE);
 		lblSamrot.setText("Sample rotation");
 		sample_rotation = new ScaleBox(rightScannablesComposite, SWT.NONE);
@@ -148,7 +148,7 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 		sample_rotation.setMaximum(53);
 		GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_rotation);
 		btnRot = new BooleanWrapper(rightScannablesComposite, SWT.CHECK);
-		
+
 		if (ScanObjectManager.isXESOnlyMode()) {
 			Label lblSamfinerot = new Label(rightScannablesComposite, SWT.NONE);
 			lblSamfinerot.setText("Sample fine rotation");
@@ -159,7 +159,7 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 			sample_finerotation.setMaximum(180);
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_finerotation);
 			btnFineRot = new BooleanWrapper(rightScannablesComposite, SWT.CHECK);
-		} 
+		}
 		else {
 			Label lblSamroll = new Label(rightScannablesComposite, SWT.NONE);
 			lblSamroll.setText("Sample roll");
@@ -170,7 +170,7 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 			sample_roll.setMaximum(12.2);
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_roll);
 			btnRoll = new BooleanWrapper(rightScannablesComposite, SWT.CHECK);
-			
+
 			Label lblSampitch = new Label(rightScannablesComposite, SWT.NONE);
 			lblSampitch.setText("Sample pitch");
 			sample_pitch = new ScaleBox(rightScannablesComposite, SWT.NONE);
@@ -181,11 +181,11 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 			GridDataFactory.fillDefaults().hint(100, 0).applyTo(sample_pitch);
 			btnPitch = new BooleanWrapper(rightScannablesComposite, SWT.CHECK);
 		}
-		
+
 		btnGetLiveValues = new Button(motorPositionsGroup, SWT.None);
 		btnGetLiveValues.setText("Fetch");
 		btnGetLiveValues.setToolTipText("Fill text boxes with current motor positions");
-		
+
 		btnGetLiveValues.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -205,7 +205,7 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 				widgetSelected(arg0);
 			}
 		});
-			
+
 		this.layout();
 	}
 

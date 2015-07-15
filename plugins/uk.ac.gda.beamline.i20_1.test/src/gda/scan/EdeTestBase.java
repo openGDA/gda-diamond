@@ -18,12 +18,12 @@
 
 package gda.scan;
 
-import uk.ac.gda.test.util.MockFinderHelper;
 import gda.device.MotorException;
 import gda.device.enumpositioner.DummyPositioner;
 import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
+import uk.ac.gda.test.util.MockFinderHelper;
 
 public class EdeTestBase extends MockFinderHelper {
 	public static ScannableMotor createMotor(String name) throws MotorException, FactoryException {
@@ -36,7 +36,7 @@ public class EdeTestBase extends MockFinderHelper {
 		xScannable.configure();
 		return xScannable;
 	}
-	
+
 	protected DummyPositioner createShutter2(){
 		DummyPositioner shutter2 = new DummyPositioner();
 		shutter2.setName("Shutter");

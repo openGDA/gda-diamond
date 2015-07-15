@@ -18,11 +18,10 @@
 
 package gda.scan.ede;
 
-import gda.device.DeviceException;
-
 import java.util.List;
 import java.util.Map;
 
+import gda.device.DeviceException;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 

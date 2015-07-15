@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.jython.Jython;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -39,6 +37,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.jython.Jython;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;

@@ -18,6 +18,11 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -28,12 +33,6 @@ import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServer;
 import gda.util.converters.AutoRenameableConverter;
-
-import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
@@ -112,7 +111,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 
 			setupHarmonic();
 		}
-		
+
 		scanStart = new Date();
 	}
 
@@ -177,7 +176,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 
 	public void setUseWithGapEnergy() {
 		energyInUse = energyWithGap;
-		
+
 	}
 
 	public void setUseNoGapEnergy() {

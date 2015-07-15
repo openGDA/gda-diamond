@@ -18,14 +18,14 @@
 
 package gda.scan.ede.position;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class EdeScanMotorPositions implements EdeScanPosition {
 	private final EdePositionType type;

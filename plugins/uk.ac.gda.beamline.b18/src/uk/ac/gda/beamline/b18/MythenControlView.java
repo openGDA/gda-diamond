@@ -18,12 +18,6 @@
 
 package uk.ac.gda.beamline.b18;
 
-import gda.data.NumTracker;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.jython.JythonServerFacade;
-import gda.observable.IObservable;
-import gda.observable.IObserver;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
@@ -52,6 +46,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.NumTracker;
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.jython.JythonServerFacade;
+import gda.observable.IObservable;
+import gda.observable.IObserver;
 import uk.ac.diamond.scisoft.analysis.PlotServer;
 import uk.ac.diamond.scisoft.analysis.PlotServerProvider;
 import uk.ac.diamond.scisoft.analysis.plotclient.IUpdateNotificationListener;
@@ -118,7 +117,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	ProgressBar progress;
 	AsciiDataWriterConfiguration configuration;
 	Label rawFileLocationLabel;
-	
+
 	/**
 	 * @return plot UI
 	 */
@@ -140,7 +139,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	/**
 	 * Constructor which must be called by 3rd party extension to extension point
 	 * "uk.ac.diamond.scisoft.analysis.rcp.plotView"
-	 * 
+	 *
 	 * @param id
 	 */
 	public MythenControlView(String id) {
@@ -198,7 +197,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 
 		gridData.heightHint = 500;
 		gridData.widthHint = 500;
-		
+
 		Composite controls = new Composite(composite, SWT.NONE);
 		controls.setLayout(new GridLayout(4, false));
 
@@ -222,7 +221,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 				} catch (IOException e2) {
 					logger.error("Could not create NumTracker to track scan file numbers", e2);
 				}
-				
+
 				createMythen();
 				String header = JythonServerFacade
 						.getInstance()
@@ -234,7 +233,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 				acquireCommand = "ma.acquire(" + timeVal + ")";
 				JythonServerFacade.getInstance().runCommand(acquireCommand);
 				btnSet.setEnabled(false);
-				
+
 				int i = 0;
 				while (i<100) {
 					try {
@@ -245,13 +244,13 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 					progress.setSelection(i);
 					i++;
 				}
-				
+
 				progress.setSelection(100);
 				plot();
 				acquired = true;
 				btnSet.setEnabled(true);
 				progress.setSelection(0);
-				
+
 				String rawFileLocation = "Raw Mythen Data ="
 					+ JythonServerFacade.getInstance().evaluateCommand("ma.getRawFileName()");
 				rawFileLocationLabel.setText(rawFileLocation);
@@ -362,7 +361,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 	 * Allow another observer to see plot data.
 	 * <p>
 	 * A data observer gets an update with a data bean.
-	 * 
+	 *
 	 * @param observer
 	 */
 	public void addDataObserver(IObserver observer) {
@@ -371,7 +370,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 
 	/**
 	 * Remove a data observer
-	 * 
+	 *
 	 * @param observer
 	 */
 	public void deleteDataObserver(IObserver observer) {
@@ -416,7 +415,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 
 	/**
 	 * Push GUI information back to plot server
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
@@ -429,7 +428,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 
 	/**
 	 * Remove GUI information from plot server
-	 * 
+	 *
 	 * @param key
 	 */
 	@Override

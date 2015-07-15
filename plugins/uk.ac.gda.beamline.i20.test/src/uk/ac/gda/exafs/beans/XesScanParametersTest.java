@@ -20,8 +20,6 @@ package uk.ac.gda.exafs.beans;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import gda.exafs.validation.I20Validator;
-import gda.util.TestUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +30,8 @@ import org.eclipse.core.runtime.content.IContentDescriber;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import gda.exafs.validation.I20Validator;
+import gda.util.TestUtils;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
@@ -39,7 +39,7 @@ import uk.ac.gda.exafs.ui.describers.XesScanParametersDescriber;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class XesScanParametersTest {
-	
+
 	final static String testScratchDirectoryName =
 		TestUtils.generateDirectorynameFromClassname(XesScanParametersTest.class.getCanonicalName());
 
@@ -51,7 +51,7 @@ public class XesScanParametersTest {
 	public static void writeToXML(XesScanParameters params, String filename) throws Exception {
 		XMLHelpers.writeToXML(XesScanParameters.mappingURL, params, filename);
 	}
-	
+
 	public static DetectorParameters createDetectorsFromXML(String filename) throws Exception {
 		return (DetectorParameters) XMLHelpers.createFromXML(DetectorParameters.mappingURL, DetectorParameters.class,
 				DetectorParameters.schemaUrl, filename);
@@ -60,12 +60,12 @@ public class XesScanParametersTest {
 	public static void writeDetectorsToXML(DetectorParameters sampleParameters, String filename) throws Exception {
 		XMLHelpers.writeToXML(DetectorParameters.mappingURL, sampleParameters, filename);
 	}
-	
+
 	@BeforeClass
 	public static void beforeClass() throws Exception{
 		TestUtils.makeScratchDirectory(testScratchDirectoryName);
-	}	
-	
+	}
+
 	@Test
 	public void testDescriber() {
 		try {
@@ -77,23 +77,23 @@ public class XesScanParametersTest {
 		}
 	}
 
-	
+
 	/**
 	 * Got broken at one point so have simple test for it.
 	 */
 	@Test
 	public void testCreateFromXMLWithClass() throws Exception {
 		final File testFile = new File("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/XES_Parameters.xml");
-		final XesScanParameters s = (XesScanParameters)XMLHelpers.createFromXML(XesScanParameters.mappingURL, 
-									XesScanParameters.class, 
-									XesScanParameters.schemaURL, 
+		final XesScanParameters s = (XesScanParameters)XMLHelpers.createFromXML(XesScanParameters.mappingURL,
+									XesScanParameters.class,
+									XesScanParameters.schemaURL,
 									testFile);
 		System.out.println(s);
 	}
 
 	/**
 	 * Test method for {@link uk.ac.gda.beans.exafs.XasScanParameters#createFromXML(java.lang.String)}.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test
 	public void testCreateFromXML()  throws Exception{
@@ -108,7 +108,7 @@ public class XesScanParametersTest {
 		sp.setAdditionalCrystal1(false);
 		sp.setAdditionalCrystal2(false);
 		sp.setAdditionalCrystal3(false);
-		
+
 		XesScanParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/XES_Parameters.xml");
 		DetectorParameters d = createDetectorsFromXML("testfiles/uk/ac/gda/exafs/beans/XesScanParametersTest/DetectorParameters_withXES.xml");
 		List<InvalidBeanMessage> errors = new I20Validator().validateXesScanParameters(s,d);
@@ -122,7 +122,7 @@ public class XesScanParametersTest {
 
 	/**
 	 * Test method for {@link uk.ac.gda.beans.exafs.XasScanParameters#writeToXML(uk.ac.gda.beans.exafs.XasScanParameters, java.lang.String)}.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test
 	public void testWriteToXML()  throws Exception{
@@ -137,7 +137,7 @@ public class XesScanParametersTest {
 		sp.setAdditionalCrystal1(false);
 		sp.setAdditionalCrystal2(false);
 		sp.setAdditionalCrystal3(false);
-		
+
 		try {
 			writeToXML(sp, testScratchDirectoryName + "XesScanParameters_written.xml");
 		} catch (Exception e) {

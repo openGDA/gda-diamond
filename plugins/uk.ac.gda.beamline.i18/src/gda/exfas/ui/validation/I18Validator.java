@@ -18,12 +18,11 @@
 
 package gda.exfas.ui.validation;
 
-import gda.exafs.scan.ExafsValidator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gda.exafs.scan.ExafsValidator;
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.QEXAFSParameters;
@@ -68,7 +67,7 @@ public class I18Validator extends ExafsValidator {
 	private List<InvalidBeanMessage> validateIScanParameters(IScanParameters scanParams) {
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 		if (scanParams instanceof XasScanParameters) {
-			// for I18 will need our own logic for this	
+			// for I18 will need our own logic for this
 //			errors.addAll(validateXasScanParameters((XasScanParameters) scanParams, MINENERGY, MAXENERGY));
 		} else if (scanParams instanceof XanesScanParameters) {
 			errors.addAll(validateXanesScanParameters((XanesScanParameters) scanParams));
@@ -121,7 +120,7 @@ public class I18Validator extends ExafsValidator {
 		if (s == null) {
 			return Collections.emptyList();
 		}
-		
+
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 
 		if (s.getName() == null) {
@@ -139,7 +138,7 @@ public class I18Validator extends ExafsValidator {
 		}
 
 		// TODO add some other validation here?
-		
+
 		return errors;
 	}
 

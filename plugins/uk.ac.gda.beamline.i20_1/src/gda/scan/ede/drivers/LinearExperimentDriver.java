@@ -18,15 +18,14 @@
 
 package gda.scan.ede.drivers;
 
+import java.util.Arrays;
+import java.util.Vector;
+
 import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Finder;
 import gda.scan.ede.TimeResolvedExperiment;
-
-import java.util.Arrays;
-import java.util.Vector;
-
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 

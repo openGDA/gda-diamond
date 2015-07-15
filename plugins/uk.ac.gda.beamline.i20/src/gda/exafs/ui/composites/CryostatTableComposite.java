@@ -138,17 +138,17 @@ public class CryostatTableComposite extends I20SampleParametersComposite {
 		controlMode.setItems(CryostatProperties.CONTROL_MODE);
 		controlMode.select(0);
 		controlMode.addValueListener(new ValueListener() {
-			
+
 			@Override
 			public void valueChangePerformed(ValueEvent e) {
 				manualOutput.setEnabled(controlMode.getSelectionIndex() == 0);
 			}
-			
+
 			@Override
 			public String getValueListenerName() {
 				return "grey out manual output listener";
 			}
-			
+
 		});
 		Label pLabel = new Label(advanced, SWT.RIGHT);
 		pLabel.setText("P");
@@ -229,9 +229,9 @@ public class CryostatTableComposite extends I20SampleParametersComposite {
 	public ScaleBox getD() {
 		return d;
 	}
-	
+
 	public VerticalListEditor getSamples() {
 		return sampleDetails;
 	}
-	
+
 }

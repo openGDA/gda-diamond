@@ -18,18 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import gda.factory.Findable;
-import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
-import gda.jython.JythonServerStatus;
-import gda.jython.scriptcontroller.Scriptcontroller;
-import gda.observable.IObserver;
-import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.EdeExperimentProgressBean;
-import gda.scan.ede.TimeResolvedExperiment;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -49,6 +37,25 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+
+import de.jaret.util.date.IntervalImpl;
+import de.jaret.util.date.JaretDate;
+import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
+import de.jaret.util.ui.timebars.model.DefaultRowHeader;
+import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
+import gda.factory.Findable;
+import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
+import gda.jython.JythonServerStatus;
+import gda.jython.scriptcontroller.Scriptcontroller;
+import gda.observable.IObserver;
+import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.EdeExperimentProgressBean;
+import gda.scan.ede.TimeResolvedExperiment;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
@@ -59,15 +66,6 @@ import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPosti
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
-
-import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
-
-import de.jaret.util.date.IntervalImpl;
-import de.jaret.util.date.JaretDate;
-import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
-import de.jaret.util.ui.timebars.model.DefaultRowHeader;
-import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 
 public class TimeResolvedExperimentModel extends ObservableModel {
 

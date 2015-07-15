@@ -19,13 +19,13 @@
 package uk.ac.gda.exafs.beans.b18;
 
 import static org.junit.Assert.fail;
-import gda.exafs.validation.B18Validator;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.junit.Test;
 
+import gda.exafs.validation.B18Validator;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.exafs.b18.XYThetaStageParameters;
@@ -36,8 +36,8 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  * class to hold sample parameters
  */
 public class B18SampleParametersTest {
-	
-	
+
+
 	public static B18SampleParameters createFromXML(String filename) throws Exception {
 		return (B18SampleParameters) XMLHelpers.createFromXML(B18SampleParameters.mappingURL, B18SampleParameters.class, B18SampleParameters.schemaURL,
 				filename);
@@ -61,7 +61,7 @@ public class B18SampleParametersTest {
 
 	/**
 	 * test for xml file with furnace parameters
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test
 	public void testCreateFromXML_withFurnace()  throws Exception{
@@ -80,11 +80,11 @@ public class B18SampleParametersTest {
 		validate(s);
 		testEquals(expectedValue, s);
 	}
-	
-	
+
+
 	/**
 	 * test for xml file with sample stage parameters
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test
 	public void testCreateFromXML_withSmallStage()  throws Exception{
@@ -104,7 +104,7 @@ public class B18SampleParametersTest {
 		validate(s);
 		testEquals(expectedValue, s);
 	}
-	
+
 	private void testEquals(B18SampleParameters expectedValue, B18SampleParameters s) {
 		if (!expectedValue.equals(s)) {
 			fail("Values read are incorrect - " + s.toString());

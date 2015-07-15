@@ -18,9 +18,9 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.util.exafs.AbsorptionEdge;
-
 import java.io.Serializable;
+
+import gda.util.exafs.AbsorptionEdge;
 
 public class AlignmentParametersBean implements Serializable {
 

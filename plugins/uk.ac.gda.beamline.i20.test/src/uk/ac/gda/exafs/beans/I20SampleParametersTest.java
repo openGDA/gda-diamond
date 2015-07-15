@@ -20,8 +20,6 @@ package uk.ac.gda.exafs.beans;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import gda.exafs.validation.I20Validator;
-import gda.util.TestUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,6 +32,8 @@ import org.eclipse.core.runtime.content.IContentDescriber;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import gda.exafs.validation.I20Validator;
+import gda.util.TestUtils;
 import uk.ac.gda.beans.exafs.ElementPosition;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
@@ -54,8 +54,8 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
 public class I20SampleParametersTest {
 	final static String testScratchDirectoryName =
 		TestUtils.generateDirectorynameFromClassname(I20SampleParametersTest.class.getCanonicalName());
-	
-	
+
+
 	public static I20SampleParameters createFromXML(String filename) throws Exception {
 		return (I20SampleParameters) XMLHelpers.createFromXML(I20SampleParameters.mappingURL, I20SampleParameters.class, I20SampleParameters.schemaURL,
 				filename);
@@ -81,7 +81,7 @@ public class I20SampleParametersTest {
 		}
 	}
 
-	
+
 	/**
 	 * test for file not existing
 	 */
@@ -99,11 +99,11 @@ public class I20SampleParametersTest {
 
 	/**
 	 * test for xml file with cryostat parameters
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test
 	public void testCreateFromXML_withCryostat()  throws Exception{
-		
+
 		I20SampleParameters expectedValue = new I20SampleParameters();
 		expectedValue.setName("Cytochrome");
 		expectedValue.addDescription("Cytochrome preparation #7");
@@ -123,7 +123,7 @@ public class I20SampleParametersTest {
 		cps.setP(1d);
 		cps.setI(1d);
 		cps.setD(1d);
-		
+
 		CryostatSampleDetails sample1 = new CryostatSampleDetails();
 		sample1.setPosition(1.0);
 		sample1.setFinePosition(0.1);
@@ -131,12 +131,12 @@ public class I20SampleParametersTest {
 		sample1.setSampleDescription("My First Sample");
 		sample1.setNumberOfRepetitions(2);
 		cps.addSample(sample1);
-		
+
 		expectedValue.setCryostatParameters(cps);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withCryostat.xml");
 	}
-	
+
 	private void isValidAndMatchesFile(I20SampleParameters expectedValue, String filename) throws Exception{
 		I20SampleParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/" + filename);
 		List<InvalidBeanMessage> errors = new I20Validator().validateI20SampleParameters(s);
@@ -146,12 +146,12 @@ public class I20SampleParametersTest {
 		if (!expectedValue.equals(s)) {
 			fail("Values read are incorrect - " + s.toString());
 		}
-		
+
 	}
 
 	/**
 	 * test for xml file with furnace parameters
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void testCreateFromXML_withFurnace()  throws Exception{
 		I20SampleParameters expectedValue = new I20SampleParameters();
@@ -174,7 +174,7 @@ public class I20SampleParametersTest {
 
 	/**
 	 * test for xml file with sample stage parameters
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Test
 	public void testCreateFromXML_withSampleStage()  throws Exception{
@@ -218,10 +218,10 @@ public class I20SampleParametersTest {
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withSampleStage.xml");
 	}
 
-	
+
 	/**
 	 * test for xml file with sample stage parameters
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void testCreateFromXML_withMicroreactor()  throws Exception{
 
@@ -239,19 +239,19 @@ public class I20SampleParametersTest {
 		expectedValue.setMicroreactorParameters(micro);
 
 		isValidAndMatchesFile(expectedValue,"SampleParameters_withMicroreactor.xml");
-		
+
 		I20SampleParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/SampleParameters_withMicroreactor.xml");
 		Integer[] massesFromFile = s.getMicroreactorParameters().getIntegerMasses();
 		assertEquals(2, massesFromFile.length);
 		assertEquals(2, massesFromFile[0].intValue());
 		assertEquals(32, massesFromFile[1].intValue());
-		
+
 	}
 
-	
+
 	/**
 	 * test for xml file with custom parameters
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public void testCreateFromXML_withCustom()  throws Exception{
 
@@ -288,7 +288,7 @@ public class I20SampleParametersTest {
 		fps.setY(4.7);
 		fps.setZ(2.5);
 		sp.setFurnaceParameters(fps);
-		
+
 		try {
 			writeToXML(sp, testScratchDirectoryName + "SampleParameters_written.xml");
 		} catch (Exception e) {

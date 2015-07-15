@@ -27,16 +27,16 @@ import gov.aps.jca.TimeoutException;
 public class Eurotherm extends ScannableBase implements Scannable {
 
 	private CAClient ca_client = new CAClient();
-	
+
 	private String setpoint_pv;
 	private String readback_pv;
 	private String upper_limit_pv;
-	
+
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;
 	}
-	
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		try {
@@ -47,7 +47,7 @@ public class Eurotherm extends ScannableBase implements Scannable {
 			throw new DeviceException(getName() +" exception in rawAsynchronousMoveTo", e);
 		}
 	}
-	
+
 	@Override
 	public Object rawGetPosition() throws DeviceException {
 		try {
@@ -75,7 +75,7 @@ public class Eurotherm extends ScannableBase implements Scannable {
 		readback_pv = readbackPv;
 	}
 
-	public String getUpperLimit() throws CAException, TimeoutException, InterruptedException{ 
+	public String getUpperLimit() throws CAException, TimeoutException, InterruptedException{
 		return ca_client.caget(upper_limit_pv);
 	}
 
@@ -88,6 +88,6 @@ public class Eurotherm extends ScannableBase implements Scannable {
 	}
 
 
-	
-	
+
+
 }

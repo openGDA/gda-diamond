@@ -26,11 +26,11 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultRenderer;
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
 public class CollectionModelRenderer extends DefaultRenderer {
 

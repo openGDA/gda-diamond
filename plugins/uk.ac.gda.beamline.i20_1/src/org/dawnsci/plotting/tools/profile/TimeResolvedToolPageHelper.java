@@ -18,9 +18,6 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
-import gda.scan.ede.datawriters.TimeResolvedDataFileHelper;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,6 +44,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
+import gda.scan.ede.datawriters.TimeResolvedDataFileHelper;
 
 public class TimeResolvedToolPageHelper {
 

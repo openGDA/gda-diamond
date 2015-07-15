@@ -25,19 +25,19 @@ import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
 public class StanfordScannable extends ScannableBase implements Scannable{
-	
+
 	private CAClient ca_client = new CAClient();
-	
+
 	private String base_pv;
-	
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
-		
+
 		//"pA/V"
 		//"nA/V"
 		//"\u03BCA/V"
 		//"1 mA/V");
-		
+
 		//"1 "
 		//"2 "
 		//"5 "
@@ -47,11 +47,11 @@ public class StanfordScannable extends ScannableBase implements Scannable{
 		//"100 "
 		//"200 "
 		//"500 "
-		
+
 		String sensitivity = String.valueOf(position);
 		String value = sensitivity.substring(0, sensitivity.indexOf(" "));
 		String unit = sensitivity.substring(sensitivity.indexOf(" ")+1);
-		
+
 		try {
 			ca_client.caput(base_pv+"SENS:SEL1", value);
 			ca_client.caput(base_pv+"SENS:SEL2", unit);
@@ -61,7 +61,7 @@ public class StanfordScannable extends ScannableBase implements Scannable{
 			throw new DeviceException(getName() +" exception in rawAsynchronousMoveTo", e);
 		}
 	}
-	
+
 	@Override
 	public Object rawGetPosition() throws DeviceException {
 		this.inputNames = new String[]{getName()};
@@ -73,47 +73,47 @@ public class StanfordScannable extends ScannableBase implements Scannable{
 			throw new DeviceException(getName() +" exception in rawGetPosition", e);
 		}
 	}
-	
+
 	public int getSensitivity() throws NumberFormatException, CAException, TimeoutException, InterruptedException{
 		return Integer.parseInt(ca_client.caget(base_pv+"SENS:SEL1"));
 	}
-	
+
 	public int getUnit() throws NumberFormatException, CAException, TimeoutException, InterruptedException{
 		return Integer.parseInt(ca_client.caget(base_pv+"SENS:SEL2"));
 	}
-	
+
 	public int isOn() throws NumberFormatException, CAException, TimeoutException, InterruptedException{
 		return Integer.parseInt(ca_client.caget(base_pv+"IOON"));
 	}
-	
+
 	public int getOffset() throws NumberFormatException, CAException, TimeoutException, InterruptedException{
 		return Integer.parseInt(ca_client.caget(base_pv+"IOLV:SEL1"));
 	}
-	
+
 	public int getOffsetUnit() throws NumberFormatException, CAException, TimeoutException, InterruptedException{
 		return Integer.parseInt(ca_client.caget(base_pv+"IOLV:SEL2"));
 	}
-	
+
 	public void setSensitivity(int sensitivity) throws CAException, InterruptedException{
 		ca_client.caput(base_pv+"SENS:SEL1",sensitivity );
 	}
-	
+
 	public void setUnit(int unit) throws CAException, InterruptedException{
 		ca_client.caput(base_pv+"SENS:SEL2",unit );
 	}
-	
+
 	public void setOn(int on) throws CAException, InterruptedException{
 		ca_client.caput(base_pv+"IOON",on );
 	}
-	
+
 	public void setOffset(int offset) throws CAException, InterruptedException{
 		ca_client.caput(base_pv+"IOLV:SEL1",offset );
 	}
-	
+
 	public void setOffsetUnit(int unit) throws CAException, InterruptedException{
 		ca_client.caput(base_pv+"IOLV:SEL2",unit );
 	}
-	
+
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;

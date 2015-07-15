@@ -90,7 +90,7 @@ public class DummySampleWheel extends ScannableBase implements Scannable {
 		private String name;
 		private double pos;
 
-		public Filter(String name, double pos) {	
+		public Filter(String name, double pos) {
 			//name = "Filter " + (int) Math.ceil(Math.random()*100);
 			this.name=name;
 			this.pos=pos;
@@ -111,7 +111,7 @@ public class DummySampleWheel extends ScannableBase implements Scannable {
 		public void setName(String name){
 			this.name = name;
 		}
-		
+
 		public String getName() {
 			return name;
 		}
@@ -119,7 +119,7 @@ public class DummySampleWheel extends ScannableBase implements Scannable {
 		public double getPos() {
 			return pos;
 		}
-		
+
 		public void setPos(double pos){
 			this.pos = pos;
 		}

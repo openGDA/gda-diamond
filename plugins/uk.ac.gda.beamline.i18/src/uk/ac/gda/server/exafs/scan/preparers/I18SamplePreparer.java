@@ -18,7 +18,7 @@ public class I18SamplePreparer implements SampleEnvironmentPreparer {
 	private final EnumPositioner d7a;
 	private final EnumPositioner d7b;
 	private final Scannable kb_vfm_x;
-	
+
 	private I18SampleParameters parameters;
 	private IScanParameters scanParameters;
 

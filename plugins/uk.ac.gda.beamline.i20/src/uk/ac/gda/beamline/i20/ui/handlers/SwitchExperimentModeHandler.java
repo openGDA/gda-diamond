@@ -55,7 +55,7 @@ public class SwitchExperimentModeHandler extends AbstractHandler {
 				} else {
 					ScanObjectManager.setXESOnlyMode(true);
 				}
-				
+
 				// close all editors when changing mode
 				IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				IEditorReference[] openEdRefs = activePage.getEditorReferences();
@@ -66,7 +66,7 @@ public class SwitchExperimentModeHandler extends AbstractHandler {
 						+ "\n\nImportant: ALL scans need to be switched to the new mode\nor deleted from the Experiment Explorer.\n\nThe options in the editors will now have changed for the new mode.";
 				MessageDialog
 						.openInformation(Display.getCurrent().getActiveShell(), "Experiment mode changed", message);
-				
+
 //				SynopticControl.switchSynoptic();
 			}
 		});

@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.detector.Roi;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
@@ -46,6 +44,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
+import gda.device.detector.Roi;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.DetectorModel;

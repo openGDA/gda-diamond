@@ -32,16 +32,16 @@ public class Ln2Scannable extends ScannableBase implements Scannable {
 	private double angleCalibration=0;
 	private int heightIndex;
 	private int angleIndex;
-	
+
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return cryo.isBusy();
 	}
-	
+
 	public void moveTo(int heightIndex, int angleIndex) throws DeviceException {
-		
+
 		height = heightCalibration + (heightIndex-1)*17.0;
-		
+
 		if(cylinderType.equals("trans")){
 			angle = angleCalibration + ((angleIndex-1)*16.36);
 		}
@@ -51,28 +51,28 @@ public class Ln2Scannable extends ScannableBase implements Scannable {
 			else
 				angle = angleCalibration + 180.0 + ((angleIndex-5)*22.5);
 		}
-		
+
 		double[] newPosition = new double[2];
 		newPosition[0]=height;
 		newPosition[1]=angle;
 		cryo.asynchronousMoveTo(newPosition);
-		
-		JythonServerFacade.getInstance().print("Moving cryo");
-		
 
-		
+		JythonServerFacade.getInstance().print("Moving cryo");
+
+
+
 		while(cryo.isBusy()){
 			Thread.yield();
 		}
-		
+
 		double heightReadback =(Double)cryo.getGroupMember("cryox").getPosition();
 		double angleReadback =(Double)cryo.getGroupMember("cryorot").getPosition();
-		
+
 		JythonServerFacade.getInstance().print("Move complete: "+heightReadback+", "+angleReadback);
-		
-		
+
+
 	}
-	
+
 	@Override
 	public Object rawGetPosition() throws DeviceException {
 		int[] indices = new int[2];
@@ -80,7 +80,7 @@ public class Ln2Scannable extends ScannableBase implements Scannable {
 		indices[0]=angleIndex;
 		return indices;
 	}
-	
+
 	public String getCylinderType() {
 		return cylinderType;
 	}

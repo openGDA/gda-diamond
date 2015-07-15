@@ -18,10 +18,9 @@
 
 package gda.scan.ede.timeestimators;
 
-import gda.scan.ede.position.EdeScanPosition;
-
 import java.util.List;
 
+import gda.scan.ede.position.EdeScanPosition;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -30,7 +29,7 @@ public abstract class TimeEstimatorBase implements EdeTimeEstimate {
 	/**
 	 * Sum all the integration time of all the delays and integrations, assuming no external delays from external
 	 * triggers.
-	 * 
+	 *
 	 * @param scanParameters
 	 * @return time in seconds
 	 */
@@ -56,7 +55,7 @@ public abstract class TimeEstimatorBase implements EdeTimeEstimate {
 	/**
 	 * Sum of the integration time of one frame from each timing group with no delays and no triggers. These are the
 	 * integrations which would be performed to collect dark, I0 or Iref data to normalise the It data.
-	 * 
+	 *
 	 * @param scanParameters
 	 * @return time in seconds
 	 */
@@ -78,7 +77,7 @@ public abstract class TimeEstimatorBase implements EdeTimeEstimate {
 	/**
 	 * Not simply the duration of the actual movement, but includes overhead of communicating to the motors via the
 	 * control system.
-	 * 
+	 *
 	 * @param startPosition
 	 * @param endPosition
 	 * @return time in seconds

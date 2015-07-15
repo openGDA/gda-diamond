@@ -18,15 +18,6 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import gda.factory.Finder;
-import gda.jython.IScanDataPointObserver;
-import gda.jython.InterfaceProvider;
-import gda.observable.IObservable;
-import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.EdeExperimentProgressBean;
-import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
-import gda.scan.ede.EdeScanProgressBean;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +27,14 @@ import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.swt.widgets.Display;
 
+import gda.factory.Finder;
+import gda.jython.IScanDataPointObserver;
+import gda.jython.InterfaceProvider;
+import gda.observable.IObservable;
+import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.EdeExperimentProgressBean;
+import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
+import gda.scan.ede.EdeScanProgressBean;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.exafs.data.DetectorModel;
 

@@ -18,13 +18,12 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.device.Scannable;
-import gda.factory.Finder;
-
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gda.device.Scannable;
+import gda.factory.Finder;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
 import uk.ac.gda.common.rcp.PreferenceDataStore;
 

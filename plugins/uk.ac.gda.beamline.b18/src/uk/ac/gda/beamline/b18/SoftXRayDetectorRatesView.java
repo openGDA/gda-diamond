@@ -18,11 +18,6 @@
 
 package uk.ac.gda.beamline.b18;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.detector.NXDetectorData;
-import gda.factory.Finder;
-
 import java.util.Vector;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
@@ -39,6 +34,10 @@ import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.NXDetectorData;
+import gda.factory.Finder;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.DataSetPlotter;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlottingMode;
 
@@ -54,7 +53,7 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 	Scannable gmsd;
 	Scannable xmapMca;
 	private DataSetPlotter myPlotter;
-	
+
 	@Override
 	public void createPartControl(Composite parent) {
 		Group grpCurrentCountRates = new Group(parent, SWT.BORDER);
@@ -72,7 +71,7 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 
 		gmsd = (Scannable) Finder.getInstance().find("gmsd");
 		xmapMca = (Scannable) Finder.getInstance().find("xmapMca");
-		
+
 		final TableColumn[] columns = new TableColumn[titles.length];
 		for (int i = 0; i < titles.length; i++) {
 			columns[i] = new TableColumn(table, SWT.NONE);
@@ -85,14 +84,14 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 		for (int i = 0; i < titles.length; i++) {
 			table.getColumn(i).pack();
 		}
-		
+
 		myPlotter = new DataSetPlotter(PlottingMode.ONED, grpCurrentCountRates, true);
 		myPlotter.getComposite().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		myPlotter.setXAxisLabel("Soft x ray");
 
 		myPlotter.updateAllAppearance();
 		myPlotter.refresh(false);
-		
+
 		keepOnTrucking = true;
 		updateThread = uk.ac.gda.util.ThreadManager.getThread(this);
 		updateThread.start();
@@ -100,24 +99,24 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 
 	@Override
 	public void setFocus() {
-		
+
 	}
-	
+
 	public void setI0Drain(double val) {
 		String txt = String.format(formats[0], val);
 		table.getItem(0).setText(0, txt);
 	}
-	
+
 	public void setSampleDrain(double val) {
 		String txt = String.format(formats[1], val);
 		table.getItem(0).setText(1, txt);
 	}
-	
+
 	public void setSamOverIoDrain(double val) {
 		String txt = String.format(formats[2], val);
 		table.getItem(0).setText(2, txt);
 	}
-	
+
 	public void setElement0(double val) {
 		String txt = String.format(formats[3], val);
 		table.getItem(0).setText(3, txt);
@@ -127,17 +126,17 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 		String txt = String.format(formats[4], val);
 		table.getItem(0).setText(4, txt);
 	}
-	
+
 	public void setElement2(double val) {
 		String txt = String.format(formats[5], val);
 		table.getItem(0).setText(5, txt);
 	}
-	
+
 	public void setElement3(double val) {
 		String txt = String.format(formats[6], val);
 		table.getItem(0).setText(6, txt);
 	}
-	
+
 	@Override
 	public void run() {
 		while (keepOnTrucking) {
@@ -155,26 +154,26 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 					return;
 				}
 			} else {
-				
+
 				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 					@Override
 					public void run() {
 						try {
-							
-							
+
+
 							double[] gmsdPositions = (double[]) gmsd.getPosition();
-							
+
 							double i0Drain = gmsdPositions[0];
 							double sampleDrain = gmsdPositions[1];
 							double sampleDrainOveri0Drain = sampleDrain/i0Drain;
-							
+
 							NXDetectorData xmapMcaPositionsNexus =  (NXDetectorData) xmapMca.getPosition();
 							Double[] xmapMcaPositions = xmapMcaPositionsNexus.getDoubleVals();
 							double element0 = xmapMcaPositions[0];
 							double element1 = xmapMcaPositions[2];
 							double element2 = xmapMcaPositions[4];
 							double element3 = xmapMcaPositions[6];
-							
+
 							double[] values = new double[7];
 							values[0] = i0Drain;
 							values[1] = sampleDrain;
@@ -183,7 +182,7 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 							values[4] = element1;
 							values[5] = element2;
 							values[6] = element3;
-							
+
 							setI0Drain(values[0]);
 							setSampleDrain(values[1]);
 							setSamOverIoDrain(values[2]);
@@ -191,7 +190,7 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 							setElement1(values[4]);
 							setElement2(values[5]);
 							setElement3(values[6]);
-							
+
 							Vector<DoubleDataset> dataSets = new Vector<DoubleDataset>();
 							dataSets.add(new DoubleDataset(values));
 							myPlotter.replaceAllPlots(dataSets);
@@ -204,8 +203,8 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 						} catch (PlotException e) {
 							e.printStackTrace();
 						}
-						
-						
+
+
 					}
 				});
 
@@ -255,14 +254,14 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 	@Override
 	public void partVisible(IWorkbenchPartReference partRef) {
 	}
-	
+
 	@Override
 	public void dispose() {
 		keepOnTrucking = false;
 		amVisible = false;
 		super.dispose();
 	}
-	
+
 	public void setRunMonitoring(boolean runMonitoring) {
 		this.runMonitoring = runMonitoring;
 	}

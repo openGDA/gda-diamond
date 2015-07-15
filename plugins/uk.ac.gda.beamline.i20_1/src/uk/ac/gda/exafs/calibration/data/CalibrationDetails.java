@@ -23,10 +23,10 @@ import java.io.Serializable;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.Precision;
 
-import uk.ac.gda.beans.ObservableModel;
-
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
+
+import uk.ac.gda.beans.ObservableModel;
 
 public class CalibrationDetails extends ObservableModel implements Serializable {
 

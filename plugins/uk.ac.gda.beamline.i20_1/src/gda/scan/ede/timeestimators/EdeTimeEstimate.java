@@ -26,7 +26,7 @@ public interface EdeTimeEstimate {
 	/**
 	 * An estimate of the total actual time for running the experiment, to include overheads such as moving motors,
 	 * programming the TFG and writing the derived ascii files.
-	 * 
+	 *
 	 * @return - time, in seconds
 	 */
 	Double getTotalDuration();
@@ -35,7 +35,7 @@ public interface EdeTimeEstimate {
 	 * An estimate of the total time to run the central part of the scan where the It data is collected. This includes
 	 * programmed delays but does not account for the time to wait for external hardware to send signals to continue
 	 * data collection.
-	 * 
+	 *
 	 * @return - time, in seconds
 	 */
 	Double getItDuration();
@@ -43,14 +43,14 @@ public interface EdeTimeEstimate {
 
 	/**
 	 * An estimate of the time to perform darks and initial I0 and Iref scans.
-	 * 
+	 *
 	 * @return - time, in seconds
 	 */
 	Double getBeforeItDuration();
 
 	/**
 	 * An estimate of the time to perform the I0 and Iref scans at the end of the experiment
-	 * 
+	 *
 	 * @return - time, in seconds
 	 */
 	Double getAfterItDuration();

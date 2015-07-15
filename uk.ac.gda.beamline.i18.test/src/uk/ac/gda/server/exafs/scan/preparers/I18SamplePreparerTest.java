@@ -20,17 +20,17 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import gda.device.EnumPositioner;
-import gda.device.scannable.ScannableMotor;
-import gda.gui.RCPController;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.device.EnumPositioner;
+import gda.device.scannable.ScannableMotor;
+import gda.gui.RCPController;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServerFacade;
 import uk.ac.gda.beans.exafs.i18.AttenuatorParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.exafs.i18.SampleStageParameters;
@@ -55,11 +55,11 @@ public class I18SamplePreparerTest {
 
 		rcpController = PowerMockito.mock(RCPController.class);
 		Mockito.when(rcpController.getName()).thenReturn("rcpController");
-		
+
 		mocked_sc_MicroFocusSampleX = createMockScannableMotor("mocked_sc_MicroFocusSampleX");
 		mocked_sc_MicroFocusSampleY = createMockScannableMotor("mocked_sc_MicroFocusSampleY");
 		mocked_sc_sample_z = createMockScannableMotor("mocked_sc_sample_z");
-		
+
 		d7a = PowerMockito.mock(EnumPositioner.class);
 		Mockito.when(d7a.getName()).thenReturn("d7a");
 		d7b = PowerMockito.mock(EnumPositioner.class);
@@ -70,7 +70,7 @@ public class I18SamplePreparerTest {
 		preparer = new I18SamplePreparer(rcpController, mocked_sc_MicroFocusSampleX, mocked_sc_MicroFocusSampleY, mocked_sc_sample_z,
 				d7a, d7b, mocked_kb_vfm_x);
 	}
-	
+
 	private ScannableMotor createMockScannableMotor(String string) {
 		ScannableMotor newMock = PowerMockito.mock(ScannableMotor.class);
 		Mockito.when(newMock.getName()).thenReturn(string);
@@ -87,7 +87,7 @@ public class I18SamplePreparerTest {
 			sampleStageParameters.setX(1.);
 			sampleStageParameters.setY(2.);
 			sampleStageParameters.setZ(3.);
-			
+
 			AttenuatorParameters atn1Parameters = new AttenuatorParameters();
 			atn1Parameters.setSelectedPosition("first");
 
@@ -120,7 +120,7 @@ public class I18SamplePreparerTest {
 			Mockito.verify(d7a).moveTo("first");
 			Mockito.verify(d7b).moveTo("second");
 			Mockito.verifyZeroInteractions(mocked_kb_vfm_x);
-			
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

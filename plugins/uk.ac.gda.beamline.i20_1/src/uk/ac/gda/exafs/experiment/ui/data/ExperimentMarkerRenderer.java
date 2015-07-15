@@ -23,10 +23,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import de.jaret.util.ui.timebars.TimeBarMarker;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultTimeBarMarkerRenderer;
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 
 public class ExperimentMarkerRenderer extends DefaultTimeBarMarkerRenderer {
 	// This class should be created when display is ready :-)

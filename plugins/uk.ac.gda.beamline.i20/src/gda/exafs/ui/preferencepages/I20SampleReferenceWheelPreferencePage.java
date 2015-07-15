@@ -18,10 +18,6 @@
 
 package gda.exafs.ui.preferencepages;
 
-import gda.device.EditableEnumPositioner;
-import gda.device.EnumPositioner;
-import gda.factory.Finder;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.common.richbeans.beans.BeanUI;
 import org.dawnsci.common.richbeans.components.selector.BeanSelectionEvent;
@@ -39,6 +35,9 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.EditableEnumPositioner;
+import gda.device.EnumPositioner;
+import gda.factory.Finder;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.exafs.ExafsActivator;
 
@@ -67,14 +66,14 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 		elementPositions.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		elementPositions.setNameField("label");
 		elementPositions.setEditorClass(PositionerLabelBean.class);
-		
+
 		final PositionerLabelComposite positionerLabelComposite = new PositionerLabelComposite(elementPositions, SWT.NONE);
 		elementPositions.setEditorUI(positionerLabelComposite);
 		elementPositions.setTemplateName("label");
 		elementPositions.setColumnWidths(new int[] { 150 });
 		elementPositions.setListWidth(400);
 		elementPositions.on();
-		
+
 		elementPositions.addBeanSelectionListener(new BeanSelectionListener() {
 			@Override
 			public void selectionChanged(BeanSelectionEvent evt) {

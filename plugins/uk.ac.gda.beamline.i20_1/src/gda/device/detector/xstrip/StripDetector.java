@@ -77,6 +77,7 @@ public interface StripDetector extends EdeDetector {
 	 * @return read a range of frames
 	 * @throws DeviceException
 	 */
+	@Override
 	public NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
 
 	/**
@@ -154,6 +155,7 @@ public interface StripDetector extends EdeDetector {
 	 * @return details of the experiment progress using an enhanced progress bean object
 	 * @throws DeviceException
 	 */
+	@Override
 	public DetectorStatus fetchStatus() throws DeviceException;
 
 	/**

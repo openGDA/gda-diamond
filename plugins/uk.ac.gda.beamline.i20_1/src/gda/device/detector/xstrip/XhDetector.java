@@ -18,19 +18,18 @@
 
 package gda.device.detector.xstrip;
 
-import gda.device.DeviceException;
-import gda.device.detector.DAServer;
-import gda.device.detector.DetectorData;
-import gda.device.detector.DetectorStatus;
-import gda.device.detector.EdeDetector;
-import gda.device.detector.EdeDetectorBase;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.detector.DAServer;
+import gda.device.detector.DetectorData;
+import gda.device.detector.DetectorStatus;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.EdeDetectorBase;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 

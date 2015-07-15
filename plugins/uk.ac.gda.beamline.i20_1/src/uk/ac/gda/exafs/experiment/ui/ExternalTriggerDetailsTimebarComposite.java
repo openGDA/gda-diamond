@@ -31,10 +31,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
-import uk.ac.gda.client.ResourceComposite;
-import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
-import uk.ac.gda.exafs.experiment.ui.data.ExternalTriggerSetting;
 import de.jaret.util.date.IntervalImpl;
 import de.jaret.util.ui.timebars.TimeBarRowSorter;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
@@ -44,6 +40,10 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.model.TimeBarRow;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultGapRenderer;
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
+import uk.ac.gda.client.ResourceComposite;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
+import uk.ac.gda.exafs.experiment.ui.data.ExternalTriggerSetting;
 
 public class ExternalTriggerDetailsTimebarComposite extends ResourceComposite {
 

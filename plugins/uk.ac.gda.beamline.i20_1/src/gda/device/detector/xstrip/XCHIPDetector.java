@@ -18,11 +18,11 @@
 
 package gda.device.detector.xstrip;
 
-import gda.device.DeviceException;
-
 import java.util.HashMap;
 
 import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+
+import gda.device.DeviceException;
 
 /**
  * Sub-interface for functionality specifically relating the XH and XStrip detectors.
@@ -40,20 +40,21 @@ public interface XCHIPDetector extends StripDetector {
 	 * <p>
 	 * As the rules for this are complicated and potentially variable depending on settings inside da.server, the logic
 	 * is held within da.server and so this value must be fetched from da.server every time.
-	 * 
+	 *
 	 * @param frameTime
 	 * @param scanTime
 	 * @param numberOfFrames
 	 * @return int the number of scans which would fit into the given frame
 	 * @throws DeviceException
 	 */
+	@Override
 	int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames) throws DeviceException;
 
 	/**
 	 * Fetches the logged temperatures since the last time startTemperatureLogging called.
 	 * <p>
 	 * time is in epoch seconds.
-	 * 
+	 *
 	 * @return an array of Datasets: time, temp for sensor1, temp for sensor 2 etc.
 	 * @throws DeviceException
 	 */
@@ -65,7 +66,7 @@ public interface XCHIPDetector extends StripDetector {
 
 	/**
 	 * This will be a file of format LocalProperties.getVarDir() + getName() + "_temperatures_" + today's date + ".log";
-	 * 
+	 *
 	 * @return String - full path to the current fiel being written to.
 	 */
 	public String getTemperatureLogFile();

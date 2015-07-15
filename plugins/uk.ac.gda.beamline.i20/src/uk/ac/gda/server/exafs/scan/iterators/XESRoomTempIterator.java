@@ -18,13 +18,12 @@
 
 package uk.ac.gda.server.exafs.scan.iterators;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 

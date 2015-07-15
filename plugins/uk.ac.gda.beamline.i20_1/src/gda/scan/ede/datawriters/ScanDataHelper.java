@@ -18,15 +18,15 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.data.nexus.extractor.NexusExtractor;
-import gda.data.nexus.extractor.NexusGroupData;
-import gda.device.detector.NXDetectorData;
-import gda.scan.ScanDataPoint;
-
 import java.util.Arrays;
 import java.util.Vector;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+
+import gda.data.nexus.extractor.NexusExtractor;
+import gda.data.nexus.extractor.NexusGroupData;
+import gda.device.detector.NXDetectorData;
+import gda.scan.ScanDataPoint;
 
 public class ScanDataHelper {
 	public static DoubleDataset extractDetectorDataFromSDP(String detectorName, ScanDataPoint sdp) {

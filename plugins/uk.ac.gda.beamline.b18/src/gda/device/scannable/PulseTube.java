@@ -58,7 +58,7 @@ public class PulseTube extends DetectorBase implements Scannable {
 	public void asynchronousMoveTo(Object collectionTime) throws DeviceException {
 		setTarget(Double.parseDouble(collectionTime.toString()));
 	}
-	
+
 	public void setTarget(double val) {
 		try {
 			ca_client.caput(target_pv + ":SET", val);

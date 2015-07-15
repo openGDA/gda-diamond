@@ -18,9 +18,6 @@
 
 package gda.device.scannable;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -32,6 +29,9 @@ import javax.management.timer.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+
 public class XspressFillMonitor extends ScannableBase implements Scannable {
 
 	private static final Logger logger = LoggerFactory.getLogger(XspressFillMonitor.class);
@@ -41,12 +41,12 @@ public class XspressFillMonitor extends ScannableBase implements Scannable {
 	private int startTimeHours = 9;
 
 	private int startTimeMinutes = 15;
-	
+
 	private Date startPauseTime;
 	private Date endPauseTime;
 
 	/**
-		 * 
+		 *
 		 */
 	public XspressFillMonitor() {
 		this.inputNames = new String[0];
@@ -65,41 +65,41 @@ public class XspressFillMonitor extends ScannableBase implements Scannable {
 	}
 
 	protected void pauseIfShould() throws Exception {
-		
+
 		Date now = new Date();
-		
+
 		boolean firstTime = true;
 		while (shouldPause(now)){
-			
+
 			if (firstTime){
 				logger.info("pausing data collection until " + endPauseTime.toString()+ " as the xspress Ge detector is being automatically refilled with LN");
 				firstTime = false;
 			}
-			
+
 			Thread.sleep(5000);
 			now = new Date();
 		}
-		
+
 		logger.info("resuming data collection");
 	}
 
 	protected boolean shouldPause(Date now) throws ParseException {
-		
+
 		if (endPauseTime == null || startPauseTime == null){
 			calculatePauseTimes(now);
 		}
-		
+
 		return endPauseTime.getTime() > now.getTime() && now.getTime() > startPauseTime.getTime();
 	}
 
 	protected void calculatePauseTimes(Date now) throws ParseException {
 		DateFormat nowFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String today = nowFormat.format(now);
-		
+
 		DecimalFormat myFormatter = new DecimalFormat("##");
 		String startTimeHoursString = myFormatter.format(startTimeHours);
 		String startTimeMinutesString = myFormatter.format(startTimeMinutes);
-		
+
 		DateFormat startPauseFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		startPauseTime = startPauseFormat.parse(today + " " + startTimeHoursString +":"+ startTimeMinutesString);
 		endPauseTime = new Date(startPauseTime.getTime() + (Timer.ONE_SECOND * waitTime));
@@ -107,7 +107,7 @@ public class XspressFillMonitor extends ScannableBase implements Scannable {
 
 	@Override
 	public void asynchronousMoveTo(Object position) throws DeviceException {
-		// 
+		//
 	}
 
 	@Override

@@ -18,11 +18,6 @@
 
 package uk.ac.gda.exafs.ui.data;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.scannable.ScannableStatus;
-import gda.observable.IObserver;
-
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.WritableList;
@@ -37,6 +32,10 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.scannable.ScannableStatus;
+import gda.observable.IObserver;
 import uk.ac.gda.client.UIHelper;
 
 public class ScannableMotorMoveObserver implements IObserver {

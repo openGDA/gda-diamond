@@ -18,10 +18,6 @@
 
 package gda.device.detector.xstrip;
 
-import gda.data.PathConstructor;
-import gda.device.DeviceException;
-import gda.device.detector.DAServer;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +27,9 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.PathConstructor;
+import gda.device.DeviceException;
+import gda.device.detector.DAServer;
 import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 
 

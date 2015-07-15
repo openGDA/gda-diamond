@@ -19,22 +19,6 @@
 package gda.scan;
 
 import static org.junit.Assert.assertEquals;
-import gda.TestHelpers;
-import gda.configuration.properties.LocalProperties;
-import gda.data.nexus.NexusUtils;
-import gda.device.detector.xstrip.DummyXStripDAServer;
-import gda.device.detector.xstrip.StepScanXHDetector;
-import gda.device.detector.xstrip.XhDetector;
-import gda.device.enumpositioner.DummyPositioner;
-import gda.device.monitor.DummyMonitor;
-import gda.device.scannable.ScannableMotor;
-import gda.factory.Findable;
-import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.EdeScanType;
-import gda.scan.ede.SingleSpectrumScan;
-import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
-import gda.scan.ede.position.EdePositionType;
-import gda.scan.ede.position.ExplicitScanPositions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -56,6 +40,22 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
+import gda.TestHelpers;
+import gda.configuration.properties.LocalProperties;
+import gda.data.nexus.NexusUtils;
+import gda.device.detector.xstrip.DummyXStripDAServer;
+import gda.device.detector.xstrip.StepScanXHDetector;
+import gda.device.detector.xstrip.XhDetector;
+import gda.device.enumpositioner.DummyPositioner;
+import gda.device.monitor.DummyMonitor;
+import gda.device.scannable.ScannableMotor;
+import gda.factory.Findable;
+import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.EdeScanType;
+import gda.scan.ede.SingleSpectrumScan;
+import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
+import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.ExplicitScanPositions;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -259,7 +259,7 @@ public class EdeScanTest extends EdeTestBase {
 //		String filename = theExperiment.runExperiment();
 //
 //		int numberExpectedSpectra = 25;
-//		
+//
 //		testNumberColumnsInEDEFile(filename, 9);
 //		testNumberLinesInEDEFile(filename, MCA_WIDTH * numberExpectedSpectra);
 //		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
@@ -277,12 +277,12 @@ public class EdeScanTest extends EdeTestBase {
 	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
 		NexusFile file = NexusUtils.openNexusFileReadOnly(nexusFilename);
 		GroupNode g = file.getGroup("/entry1", false);
-		
+
 		// cyclic?
 		if (numberRepetitions > 1){
 			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT+"_averaged",numberExpectedSpectra, false);
 			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0+"_averaged",numberExpectedSpectra, false);
-			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0+"_averaged",numberExpectedSpectra, false);	
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0+"_averaged",numberExpectedSpectra, false);
 			numberExpectedSpectra *= numberRepetitions;
 			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, true);
 			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, true);
@@ -290,11 +290,11 @@ public class EdeScanTest extends EdeTestBase {
 		} else {
 			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT,numberExpectedSpectra, false);
 			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_FINAL_I0,numberExpectedSpectra, false);
-			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, false);			
+			assertLinearData(file, g, EdeTimeResolvedExperimentDataWriter.NXDATA_LN_I0_IT_WITH_AVERAGED_I0,numberExpectedSpectra, false);
 		}
 		file.close();
 	}
-	
+
 	private void assertLinearData(NexusFile file, GroupNode g, String dataName, int numberSpectra, boolean testForCycles) throws NexusException{
 		GroupNode gd = file.getGroup(g, dataName, null, false);
 		assertDimensions(file, gd, "data", new int[] { numberSpectra, MCA_WIDTH });

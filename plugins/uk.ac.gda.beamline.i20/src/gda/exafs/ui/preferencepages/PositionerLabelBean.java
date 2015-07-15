@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 public class PositionerLabelBean implements Serializable{
 	public String label = "";
-	
+
 	public PositionerLabelBean() {
 	}
 
@@ -37,7 +37,7 @@ public class PositionerLabelBean implements Serializable{
 	public void setLabel(String name) {
 		this.label = name;
 	}
-	
+
 	public String getName(){
 		return label;
 	}

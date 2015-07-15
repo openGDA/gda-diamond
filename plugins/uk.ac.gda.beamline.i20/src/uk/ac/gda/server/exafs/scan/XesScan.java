@@ -18,14 +18,13 @@
 
 package uk.ac.gda.server.exafs.scan;
 
-import gda.device.Scannable;
-import gda.device.scannable.TwoDScanPlotter;
-import gda.jython.scriptcontroller.logging.LoggingScriptController;
-
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 
+import gda.device.Scannable;
+import gda.device.scannable.TwoDScanPlotter;
+import gda.jython.scriptcontroller.logging.LoggingScriptController;
 import uk.ac.gda.beans.exafs.IDetectorConfigurationParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
@@ -100,18 +99,18 @@ public class XesScan extends XasScanBase implements XasScan {
 		int innerScanType = xesScanParameters.getScanType();
 
 		if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
-			
+
 			xes_args = new Object[] { xes_energy, xesScanParameters.getXesInitialEnergy(),
 					xesScanParameters.getXesFinalEnergy(), xesScanParameters.getXesStepSize(), mono_energy,
 					xesScanParameters.getMonoEnergy() };
 		} else if (innerScanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
-			
+
 			Object[] ef_args = new Object[] { xes_energy, xesScanParameters.getXesInitialEnergy(),
 					xesScanParameters.getXesFinalEnergy(), xesScanParameters.getXesStepSize() };
 			Object[] e0_args = new Object[] { mono_energy, xesScanParameters.getMonoInitialEnergy(),
 					xesScanParameters.getMonoFinalEnergy(), xesScanParameters.getMonoStepSize() };
 			if (xesScanParameters.getLoopChoice() == XesScanParameters.LOOPOPTIONS[0]) {
-				
+
 				xes_args = ArrayUtils.addAll(ef_args, e0_args);
 				twodplotter.setZ_colName("FFI1");
 				twodplotter.setXArgs(xesScanParameters.getXesInitialEnergy(), xesScanParameters.getXesFinalEnergy(),
@@ -119,7 +118,7 @@ public class XesScan extends XasScanBase implements XasScan {
 				twodplotter.setYArgs(xesScanParameters.getMonoInitialEnergy(), xesScanParameters.getMonoFinalEnergy(),
 						xesScanParameters.getMonoStepSize());
 			} else { // innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO
-				
+
 				xes_args = ArrayUtils.addAll(e0_args, ef_args);
 				twodplotter.setZ_colName("FFI1");
 				twodplotter.setYArgs(xesScanParameters.getXesInitialEnergy(), xesScanParameters.getXesFinalEnergy(),

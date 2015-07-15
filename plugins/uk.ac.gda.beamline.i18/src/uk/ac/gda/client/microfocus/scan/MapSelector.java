@@ -18,14 +18,13 @@
 
 package uk.ac.gda.client.microfocus.scan;
 
-import gda.device.scannable.ContinuouslyScannable;
-import gda.device.scannable.RealPositionReader;
-import gda.jython.InterfaceProvider;
-
 import org.python.core.PyInteger;
 import org.python.core.PyObject;
 import org.python.core.PySequence;
 
+import gda.device.scannable.ContinuouslyScannable;
+import gda.device.scannable.RealPositionReader;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.client.microfocus.scan.datawriter.MicroFocusWriterExtender;
 import uk.ac.gda.server.exafs.scan.preparers.I18BeamlinePreparer;

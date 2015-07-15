@@ -18,10 +18,6 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.jython.InterfaceProvider;
-import gda.util.exafs.AbsorptionEdge;
-import gda.util.exafs.Element;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
@@ -33,6 +29,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import gda.jython.InterfaceProvider;
+import gda.util.exafs.AbsorptionEdge;
+import gda.util.exafs.Element;
 import uk.ac.gda.beans.ObservableModel;
 
 public class AlignmentParametersModel extends ObservableModel implements Serializable {

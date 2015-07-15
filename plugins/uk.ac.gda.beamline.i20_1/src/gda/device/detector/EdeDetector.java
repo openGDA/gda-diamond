@@ -18,11 +18,10 @@
 
 package gda.device.detector;
 
-import gda.data.nexus.tree.NexusTreeProvider;
-import gda.device.DeviceException;
-
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
+import gda.data.nexus.tree.NexusTreeProvider;
+import gda.device.DeviceException;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public interface EdeDetector extends NexusDetector {

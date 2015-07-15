@@ -25,7 +25,7 @@ import gda.epics.CAClient;
 public class PulseTubeMeta extends ScannableBase implements Scannable {
 
 	private CAClient ca_client = new CAClient();
-	
+
 	private String readback_pv = "BL18B-EA-TEMPC-03:STEMP";
 
 	@Override
@@ -33,7 +33,7 @@ public class PulseTubeMeta extends ScannableBase implements Scannable {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public Object rawGetPosition() throws DeviceException {
 		try {
@@ -46,6 +46,6 @@ public class PulseTubeMeta extends ScannableBase implements Scannable {
 	}
 
 
-	
-	
+
+
 }

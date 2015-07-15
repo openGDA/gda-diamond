@@ -18,12 +18,11 @@
 
 package uk.ac.gda.exafs.ui.perspectives;
 
-import gda.rcp.views.JythonTerminalView;
-
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
 import uk.ac.gda.exafs.experiment.ui.CyclicExperimentView;
 import uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionView;

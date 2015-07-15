@@ -18,16 +18,15 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.jython.InterfaceProvider;
-
 import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.exafs.b18.LN2CryoStageParameters;
@@ -42,7 +41,7 @@ import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 	private static final Logger logger = LoggerFactory.getLogger(B18SampleEnvironmentIterator.class);
-	
+
 	private B18SampleParameters parameters;
 
 	private Scannable sxcryo_scannable;
@@ -83,7 +82,7 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 	@Override
 	public void next() throws DeviceException, InterruptedException {
-		
+
 		boolean enabled = parameters.getSampleWheelParameters().isWheelEnabled();
 		if (enabled) {
 			control_sample_wheel(parameters.getSampleWheelParameters());
@@ -124,7 +123,7 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	public List<String> getNextSampleDescriptions() {
 		return parameters.getDescriptions();
 	}
-	
+
 	private Scannable[] control_furnace(FurnaceParameters furnace_bean) throws InterruptedException, DeviceException {
 		log("furnace is the temperature controller");
 		double temperature = furnace_bean.getTemperature();
@@ -173,11 +172,11 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 		}
 		// }
 	}
-	
+
 	private boolean temperatureInRequiredRange(double min, double max, double temp_readback) {
 		return temp_readback > min && temp_readback < max;
 	}
-	
+
 	private boolean stillWaiting(double wait_time_in_s, long start_of_wait) {
 		long now = new Date().getTime();
 		return (start_of_wait + (wait_time_in_s*1000)) > now;
@@ -295,7 +294,7 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 		}
 		return buf.toString();
 	}
-	
+
 	private void control_xytheta_stage(XYThetaStageParameters bean) throws DeviceException {
 		double[] targetPosition = new double[] { bean.getX(), bean.getY(), bean.getTheta() };
 		log("moving xythetastage (" + xytheta_scannable.getName() + ") to " + doubleArrayToString(targetPosition));

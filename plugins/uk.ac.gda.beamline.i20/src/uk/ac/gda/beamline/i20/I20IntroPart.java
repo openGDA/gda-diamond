@@ -18,8 +18,6 @@
 
 package uk.ac.gda.beamline.i20;
 
-import gda.configuration.properties.LocalProperties;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,6 +42,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.part.IntroPart;
 
+import gda.configuration.properties.LocalProperties;
 import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 

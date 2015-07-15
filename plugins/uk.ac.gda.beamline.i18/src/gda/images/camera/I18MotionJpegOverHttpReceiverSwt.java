@@ -18,13 +18,13 @@
 
 package gda.images.camera;
 
-import gda.epics.LazyPVFactory;
-import gda.epics.PV;
-
 import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.epics.LazyPVFactory;
+import gda.epics.PV;
 
 public class I18MotionJpegOverHttpReceiverSwt extends MotionJpegOverHttpReceiverSwt {
 

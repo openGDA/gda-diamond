@@ -24,19 +24,19 @@ public class DummyStanfordScannable extends ScannableBase implements Scannable{
 	String value;
 	String unit;
 	String sensitivity;
-	
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position){
 		sensitivity = String.valueOf(position);
 		value = sensitivity.substring(0, sensitivity.indexOf(" "));
 		unit = sensitivity.substring(sensitivity.indexOf(" ")+1);
 	}
-	
+
 	@Override
 	public Object rawGetPosition(){
 		return value + " " + unit;
 	}
-	
+
 	@Override
 	public boolean isBusy(){
 		return false;

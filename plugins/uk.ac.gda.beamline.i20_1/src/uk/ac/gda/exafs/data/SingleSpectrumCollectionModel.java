@@ -18,17 +18,6 @@
 
 package uk.ac.gda.exafs.data;
 
-import gda.device.scannable.AlignmentStageScannable;
-import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
-import gda.jython.JythonServerStatus;
-import gda.observable.IObservable;
-import gda.observable.IObserver;
-import gda.scan.ede.EdeExperiment;
-import gda.util.exafs.Element;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -41,6 +30,18 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.annotations.Expose;
+
+import gda.device.scannable.AlignmentStageScannable;
+import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
+import gda.jython.JythonServerStatus;
+import gda.observable.IObservable;
+import gda.observable.IObserver;
+import gda.scan.ede.EdeExperiment;
+import gda.util.exafs.Element;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
@@ -48,8 +49,6 @@ import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
-
-import com.google.gson.annotations.Expose;
 
 public class SingleSpectrumCollectionModel extends ObservableModel {
 

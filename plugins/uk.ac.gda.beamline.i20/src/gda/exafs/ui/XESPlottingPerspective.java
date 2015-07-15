@@ -18,12 +18,11 @@
 
 package gda.exafs.ui;
 
-import gda.rcp.views.JythonTerminalView;
-
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+import gda.rcp.views.JythonTerminalView;
 import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 import uk.ac.gda.client.CommandQueueViewFactory;
 

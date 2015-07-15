@@ -31,11 +31,11 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.annotations.Expose;
+
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
-
-import com.google.gson.annotations.Expose;
 
 public class TFGTrigger extends ObservableModel implements Serializable {
 	private static final Logger logger=LoggerFactory.getLogger(TFGTrigger.class);

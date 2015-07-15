@@ -18,12 +18,11 @@
 
 package gda.exafs.validation;
 
-import gda.exafs.scan.ExafsValidator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gda.exafs.scan.ExafsValidator;
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.QEXAFSParameters;
@@ -142,7 +141,7 @@ public class B18Validator extends ExafsValidator {
 		if (s == null) {
 			return Collections.emptyList();
 		}
-		
+
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 		if (!s.isShouldValidate()) {
 			return errors;
@@ -171,11 +170,11 @@ public class B18Validator extends ExafsValidator {
 			checkBounds("Time", f.getTime(), 0d, 400d, errors, message);
 
 		}
-		
+
 		if (bean != null) {
 			setFileName(errors, bean.getSampleFileName());
 		}
-		
+
 		return errors;
 	}
 }

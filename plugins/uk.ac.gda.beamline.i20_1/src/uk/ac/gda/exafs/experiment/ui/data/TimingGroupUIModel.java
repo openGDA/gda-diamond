@@ -18,9 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import gda.device.DeviceException;
-import gda.device.detector.EdeDetector;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
@@ -32,14 +29,15 @@ import org.eclipse.core.runtime.IStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
-
 import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
+import gda.device.DeviceException;
+import gda.device.detector.EdeDetector;
+import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
 public class TimingGroupUIModel extends TimeIntervalDataModel {
 

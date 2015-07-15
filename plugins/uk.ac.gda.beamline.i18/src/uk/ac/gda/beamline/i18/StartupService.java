@@ -18,9 +18,9 @@
 
 package uk.ac.gda.beamline.i18;
 
-import gda.configuration.properties.LocalProperties;
-
 import org.eclipse.ui.IStartup;
+
+import gda.configuration.properties.LocalProperties;
 
 /**
  * Setting up the data prior to other views connecting to it.

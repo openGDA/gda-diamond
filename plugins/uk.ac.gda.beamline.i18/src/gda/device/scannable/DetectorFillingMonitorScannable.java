@@ -18,10 +18,10 @@
 
 package gda.device.scannable;
 
+import java.util.Calendar;
+
 import gda.device.DeviceException;
 import gda.jython.commands.ScannableCommands;
-
-import java.util.Calendar;
 
 public class DetectorFillingMonitorScannable extends BeamlineConditionMonitorBase {
 

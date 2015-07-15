@@ -18,16 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.device.Scannable;
-import gda.device.detector.EdeDetector;
-import gda.factory.Findable;
-import gda.factory.Finder;
-import gda.observable.IObserver;
-import gda.util.exafs.AbsorptionEdge;
-import gda.util.exafs.Element;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
@@ -83,6 +73,15 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.device.Scannable;
+import gda.device.detector.EdeDetector;
+import gda.factory.Findable;
+import gda.factory.Finder;
+import gda.observable.IObserver;
+import gda.util.exafs.AbsorptionEdge;
+import gda.util.exafs.Element;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;

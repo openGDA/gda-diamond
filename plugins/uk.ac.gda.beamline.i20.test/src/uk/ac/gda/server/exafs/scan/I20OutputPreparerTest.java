@@ -19,14 +19,6 @@
 package uk.ac.gda.server.exafs.scan;
 
 import static org.junit.Assert.assertTrue;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.device.Detector;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
-import gda.scan.ScanPlotSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +28,14 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.device.Detector;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.xmap.Xmap;
+import gda.device.detector.xspress.Xspress2Detector;
+import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
@@ -59,14 +59,14 @@ public class I20OutputPreparerTest {
 
 	@Before
 	public void setup() {
-		
-//		// mock the metashop and add it to the Finder. Yuck, but then we can see calls to it. 
+
+//		// mock the metashop and add it to the Finder. Yuck, but then we can see calls to it.
 //		metashop = Mockito.mock(NXMetaDataProvider.class);
 //		Mockito.when(metashop.getName()).thenReturn("metashop");
 //		ObjectFactory factory = new ObjectFactory();
 //		factory.addFindable(metashop);
 //		Finder.getInstance().addFactory(factory);
-		
+
 		datawriterconfig = PowerMockito.mock(AsciiDataWriterConfiguration.class);
 		datawriterconfig_xes = PowerMockito.mock(AsciiDataWriterConfiguration.class);
 
@@ -145,11 +145,11 @@ public class I20OutputPreparerTest {
 		XanesScanParameters scanBean = I20PreparersTestUtils.createXanesBean();
 		AsciiDataWriterConfiguration configFromXanes = thePreparer.getAsciiDataWriterConfig(scanBean);
 		assertTrue(configFromXanes == datawriterconfig);
-		
+
 		XasScanParameters xasScan = new XasScanParameters();
 		AsciiDataWriterConfiguration configFromXas = thePreparer.getAsciiDataWriterConfig(xasScan);
 		assertTrue(configFromXas == datawriterconfig);
-		
+
 		XesScanParameters xesScan = new XesScanParameters();
 		AsciiDataWriterConfiguration configFromXes = thePreparer.getAsciiDataWriterConfig(xesScan);
 		assertTrue(configFromXes == datawriterconfig_xes);
@@ -171,12 +171,12 @@ public class I20OutputPreparerTest {
 		detBean.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
 
 		thePreparer.configure(outputBean, scanBean, detBean);
-		
+
 		ScanPlotSettings sps = thePreparer.getPlotSettings();
-		
+
 		assertTrue(sps != null);
 
-		
+
 		I20OutputParameters outputBean2 = new I20OutputParameters();
 		outputBean2.setXspressOnlyShowFF(false);
 		outputBean2.setXspressSaveRawSpectrum(false);
@@ -184,9 +184,9 @@ public class I20OutputPreparerTest {
 		outputBean2.setVortexSaveRawSpectrum(false);
 
 		thePreparer.configure(outputBean2, scanBean, detBean);
-		
+
 		ScanPlotSettings sps2 = thePreparer.getPlotSettings();
-		
+
 		assertTrue(sps2 != null);
 
 	}
@@ -207,9 +207,9 @@ public class I20OutputPreparerTest {
 		detBean.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
 
 		thePreparer.configure(outputBean, scanBean, detBean);
-		
+
 		ScanPlotSettings sps = thePreparer.getPlotSettings();
-		
+
 		assertTrue(sps == null);
 
 
@@ -219,9 +219,9 @@ public class I20OutputPreparerTest {
 		detBean2.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
 
 		thePreparer.configure(outputBean, scanBean, detBean2);
-		
+
 		ScanPlotSettings sps2 = thePreparer.getPlotSettings();
-		
+
 		assertTrue(sps2 == null);
 
 		TransmissionParameters transParams = I20PreparersTestUtils.createTransmissionParameters();
@@ -230,11 +230,11 @@ public class I20OutputPreparerTest {
 		detBean3.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
 
 		thePreparer.configure(outputBean, scanBean, detBean2);
-		
+
 		ScanPlotSettings sps3 = thePreparer.getPlotSettings();
-		
+
 		assertTrue(sps3 == null);
-	
+
 	}
 
 }

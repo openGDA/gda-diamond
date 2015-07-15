@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import gda.device.detector.Roi;
-
 import org.dawnsci.common.richbeans.components.scalebox.IntegerBox;
 import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
 import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
@@ -28,6 +26,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+
+import gda.device.detector.Roi;
 
 /**
  * may not need - do not commit yet!

@@ -18,15 +18,15 @@
 
 package org.dawnsci.plotting.tools.profile.model;
 
-import gda.scan.ede.datawriters.EdeDataConstants.ItMetadata;
-import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
-import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
+
+import gda.scan.ede.datawriters.EdeDataConstants.ItMetadata;
+import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
+import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 
 public class TimeResolvedDataNode {
 

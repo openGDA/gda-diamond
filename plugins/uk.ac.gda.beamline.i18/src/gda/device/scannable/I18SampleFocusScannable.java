@@ -38,23 +38,23 @@ public class I18SampleFocusScannable extends ScannableMotionUnitsBase {
 
 	public I18SampleFocusScannable() {
 	}
-	
+
 	@Override
 	public void asynchronousMoveTo(Object externalPosition) throws DeviceException {
-		
+
 		double targetZ = ScannableUtils.objectToArray(externalPosition)[0];
 
 		double currentXPosition = (double) xScannable.getPosition();  // assume x is always a single value motor
 		double currentZPosition = (double) zScannable.getPosition();  // assume z is always a single value motor
-		
+
 		double deltaZ = targetZ - currentZPosition;
-		
+
 		double deltaX = deltaZ * 0.707;
 		if (reverseXDirection){
 			deltaX *= -1;
 		}
 		double targetX = currentXPosition + deltaX;
-		
+
 		xScannable.asynchronousMoveTo(targetX);
 		zScannable.asynchronousMoveTo(targetZ);
 	}

@@ -1,15 +1,15 @@
 package uk.ac.gda.test.util;
 import java.util.Map;
 
-import gda.factory.Findable;
-import gda.factory.Finder;
-
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import gda.factory.Findable;
+import gda.factory.Finder;
 
 /*-
  * Copyright © 2013 Diamond Light Source Ltd.
@@ -41,7 +41,7 @@ public class MockFinderHelper {
 		PowerMockito.mockStatic(Finder.class);
 		Mockito.when(Finder.getInstance()).thenReturn(mockedFinder);
 	}
-	
+
 	public void setupMockForFinder(Findable mockedFindable) {
 		Finder mockedFinder = Mockito.mock(Finder.class);
 		Mockito.when(mockedFinder.find(Matchers.anyString())).thenReturn(mockedFindable);

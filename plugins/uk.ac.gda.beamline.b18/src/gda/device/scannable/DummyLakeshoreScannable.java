@@ -29,7 +29,7 @@ public class DummyLakeshoreScannable extends ScannableBase implements Scannable 
 	double Temp;
 	private int tempSelect = -1;
 
-	
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		Temp = Double.parseDouble(String.valueOf(tempSelect));

@@ -18,10 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
-import gda.device.scannable.AlignmentStageScannable.Location;
-
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -47,6 +43,9 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.scannable.AlignmentStageScannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.device.scannable.AlignmentStageScannable.Location;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.ui.EDECalibrationSection;
 import uk.ac.gda.exafs.data.ClientConfig;

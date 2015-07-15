@@ -17,6 +17,9 @@
  */
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -25,10 +28,6 @@ import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.TopupChecker;
 import gda.util.Element;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;

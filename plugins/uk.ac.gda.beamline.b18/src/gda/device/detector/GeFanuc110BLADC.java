@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
 import gda.epics.CAClient;
-import gda.epics.EpicsException;
 import gda.epics.connection.EpicsChannelManager;
 import gda.epics.connection.EpicsController;
 import gda.factory.FactoryException;
@@ -51,7 +50,7 @@ public class GeFanuc110BLADC extends DetectorBase {
 	String readStatus_pv;
 	String fifoEmpty_pv;
 	String data_pv;
-	
+
 	private EpicsChannelManager channelManager;
 	private Channel dataChnl;
 	private EpicsController controller;
@@ -62,8 +61,8 @@ public class GeFanuc110BLADC extends DetectorBase {
 
 	@Override
 	public void configure() throws FactoryException {
-	
-		
+
+
 		try {
 			controller = EpicsController.getInstance();
 			channelManager = new EpicsChannelManager();
@@ -74,8 +73,8 @@ public class GeFanuc110BLADC extends DetectorBase {
 		}
 		super.configure();
 	}
-	
-	
+
+
 	@Override
 	public void collectData() throws DeviceException {
 		// 1. Set the sampling rate. (CLOCKRATE)
@@ -122,7 +121,7 @@ public class GeFanuc110BLADC extends DetectorBase {
 		// 7. Read the RUNTIMEPROBLEM_RBV_PV and make sure it is not on.
 		// 8. Read the ADC card status (READSTATUS). Make sure STATUSFIFOEMPTY_RBV is on.
 		// 9. Readout the data arrays.
-		
+
 		try {
 			int runtimeDataProblem = Integer.parseInt(ca_client.caget(runtimeDataProblem_pv).toString());
 			ca_client.caput(readStatus_pv, 1);
@@ -303,6 +302,6 @@ public class GeFanuc110BLADC extends DetectorBase {
 	public void setData_pv(String data_pv) {
 		this.data_pv = data_pv;
 	}
-	
-	
+
+
 }

@@ -18,11 +18,11 @@
 
 package gda.scan.ede.position;
 
+import java.io.Serializable;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.factory.Finder;
-
-import java.io.Serializable;
 
 /**
  * Bean to hold the motor positions which would move the sample in or out of beam.

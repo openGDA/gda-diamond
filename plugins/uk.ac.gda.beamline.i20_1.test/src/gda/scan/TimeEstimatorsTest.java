@@ -18,6 +18,9 @@
 
 package gda.scan;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import gda.device.MotorException;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.FactoryException;
@@ -25,9 +28,6 @@ import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.ExplicitScanPositions;
 import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 import gda.scan.ede.timeestimators.SingleExperimentTimeEstimator;
-
-import org.junit.Test;
-
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -35,7 +35,7 @@ public class TimeEstimatorsTest {
 
 	@Test
 	public void testSingleExperimentEstimator() throws MotorException, FactoryException {
-		
+
 		EdeScanParameters itParams = new EdeScanParameters();
 		TimingGroup group2 = new TimingGroup();
 		group2.setLabel("group1");
@@ -52,11 +52,11 @@ public class TimeEstimatorsTest {
 				yScannable);
 
 		SingleExperimentTimeEstimator est = new SingleExperimentTimeEstimator(itParams, outBeam, inBeam);
-		
+
 		Double tot = est.getTotalDuration();
 		Double end = est.getAfterItDuration();
 		Double it = est.getItDuration();
-		
+
 		assertEquals(6.08,tot,0.1);
 		assertEquals(2.04,end,0.1);
 		assertEquals(0.02,it,0.1);
@@ -65,7 +65,7 @@ public class TimeEstimatorsTest {
 
 	@Test
 	public void testLinearExperimentEstimator() throws MotorException, FactoryException {
-		
+
 		EdeScanParameters itParams = new EdeScanParameters();
 		TimingGroup group2 = new TimingGroup();
 		group2.setLabel("group1");
@@ -82,12 +82,12 @@ public class TimeEstimatorsTest {
 				yScannable);
 
 		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, itParams, itParams, outBeam, inBeam, null);
-		
+
 		Double tot = est.getTotalDuration();
 		Double before = est.getBeforeItDuration();
 		Double end = est.getAfterItDuration();
 		Double it = est.getItDuration();
-		
+
 		assertEquals(6.08,tot,0.1);
 		assertEquals(2.04,end,0.1);
 		assertEquals(0.02,it,0.1);
@@ -97,7 +97,7 @@ public class TimeEstimatorsTest {
 	@Test
 	public void testLinearExperimentEstimator_withIref() throws MotorException, FactoryException {
 		// FIXME Rewrite the test
-		
+
 		EdeScanParameters itParams = new EdeScanParameters();
 		TimingGroup group2 = new TimingGroup();
 		group2.setLabel("group1");
@@ -116,20 +116,20 @@ public class TimeEstimatorsTest {
 				yScannable);
 
 		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, itParams, itParams, outBeam, inBeam, irefPosition);
-		
+
 		Double tot = est.getTotalDuration();
 		Double end = est.getAfterItDuration();
 		Double it = est.getItDuration();
-		
+
 		assertEquals(6.08,tot,0.1);
 		assertEquals(2.04,end,0.1);
 		assertEquals(0.02,it,0.1);
 
 	}
-	
+
 	@Test
 	public void testLinearExperimentEstimator_multipleGroups() throws MotorException, FactoryException {
-		
+
 		EdeScanParameters itParams = new EdeScanParameters();
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
@@ -145,7 +145,7 @@ public class TimeEstimatorsTest {
 		group2.setTimePerFrame(0.02);
 		itParams.addGroup(group2);
 
-		
+
 		ScannableMotor xScannable = EdeTestBase.createMotor("xScannable");
 		ScannableMotor yScannable = EdeTestBase.createMotor("yScannable");
 
@@ -156,11 +156,11 @@ public class TimeEstimatorsTest {
 				yScannable);
 
 		LinearExperimentTimeEstimator est = new LinearExperimentTimeEstimator(itParams, itParams, itParams, outBeam, inBeam, irefPosition);
-		
+
 		Double tot = est.getTotalDuration();
 		Double end = est.getAfterItDuration();
 		Double it = est.getItDuration();
-		
+
 		assertEquals(20.10,tot,0.1); //
 		assertEquals(3.02,end,0.1); // 2 * (1+0.02) + 2
 		assertEquals(10.02,it,0.1); // 10 + 0.02

@@ -27,14 +27,14 @@ import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
+import de.jaret.util.ui.timebars.TimeBarMarker;
+import de.jaret.util.ui.timebars.TimeBarViewerInterface;
+import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentMarkerRenderer;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
-import de.jaret.util.ui.timebars.TimeBarMarker;
-import de.jaret.util.ui.timebars.TimeBarViewerInterface;
-import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
 public class CyclicExperimentTimeBarComposite extends ResourceComposite {
 

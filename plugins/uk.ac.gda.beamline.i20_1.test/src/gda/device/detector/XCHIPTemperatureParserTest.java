@@ -28,13 +28,13 @@ import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 public class XCHIPTemperatureParserTest {
 
 	public static final String FOLDER_PATH = "testfiles/gda/device/detector/";
-	
+
 	@Test
 	public void testReadTemperatureFile() {
 		XCHIPTemperatureLogParser parser = new XCHIPTemperatureLogParser(FOLDER_PATH + "xchip_detectors.log");
-		
+
 		IDataset[][] tempLog = parser.getTemperatures();
-		
+
 		assertEquals(2, tempLog.length);
 		assertEquals(4, tempLog[0].length);
 		assertEquals(3,tempLog[0][0].getShape()[0]);

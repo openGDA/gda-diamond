@@ -22,7 +22,7 @@ import gda.device.Scannable;
 
 public class XesScanFactory extends XasScanFactory {
 
-	
+
 	private Scannable analyserAngle;
 	private Scannable xes_energy;
 	private XesScan xesScan;
@@ -51,7 +51,7 @@ public class XesScanFactory extends XasScanFactory {
 		xesScan.setDatawriterconfig(datawriterconfig);
 		xesScan.setMetashop(metashop);
 		xesScan.setIncludeSampleNameInNexusName(true);
-		
+
 		return xesScan;
 	}
 
@@ -70,8 +70,8 @@ public class XesScanFactory extends XasScanFactory {
 	public void setXes_energy(Scannable xes_energy) {
 		this.xes_energy = xes_energy;
 	}
-	
-	
-	
-	
+
+
+
+
 }

@@ -18,9 +18,6 @@
 
 package gda.device.detector.xstrip;
 
-import gda.device.Detector;
-import gda.device.detector.DummyDAServer;
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -30,6 +27,9 @@ import java.util.Vector;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.device.Detector;
+import gda.device.detector.DummyDAServer;
 
 /**
  * Extension for DummyDAServer which exclusively handles XH/xstrip commands

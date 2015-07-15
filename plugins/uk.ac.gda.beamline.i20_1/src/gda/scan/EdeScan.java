@@ -19,6 +19,14 @@
 package gda.scan;
 
 import static gda.jython.InterfaceProvider.getJythonServerNotifer;
+
+import java.util.List;
+import java.util.Vector;
+
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -35,14 +43,6 @@ import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdeScanPosition;
-
-import java.util.List;
-import java.util.Vector;
-
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 

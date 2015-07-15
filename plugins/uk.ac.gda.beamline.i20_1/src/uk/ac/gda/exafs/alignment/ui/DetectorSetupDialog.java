@@ -18,14 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.DeviceException;
-import gda.device.detector.DetectorData;
-import gda.device.detector.EdeDetector;
-import gda.device.detector.frelon.EdeFrelon;
-import gda.device.detector.xstrip.XCHIPDetector;
-import gda.device.detector.xstrip.XhDetector;
-import gda.device.detector.xstrip.XhDetectorData;
-
 import java.util.Arrays;
 import java.util.Map;
 
@@ -72,6 +64,13 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.detector.DetectorData;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.frelon.EdeFrelon;
+import gda.device.detector.xstrip.XCHIPDetector;
+import gda.device.detector.xstrip.XhDetector;
+import gda.device.detector.xstrip.XhDetectorData;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;

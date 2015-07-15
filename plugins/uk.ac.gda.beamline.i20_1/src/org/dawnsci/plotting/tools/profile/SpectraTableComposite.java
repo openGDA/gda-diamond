@@ -71,12 +71,12 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.swtdesigner.ResourceManager;
+
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
 import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationWizard;
-
-import com.swtdesigner.ResourceManager;
 
 public class SpectraTableComposite extends ObservableResourceComposite {
 

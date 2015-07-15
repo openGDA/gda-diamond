@@ -18,14 +18,6 @@
 
 package gda.exafs.ui;
 
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.exafs.ui.composites.CryostatTableComposite;
-import gda.exafs.ui.composites.RoomTemperatureComposite;
-import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
-import gda.factory.Finder;
-import gda.observable.IObserver;
-
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +55,13 @@ import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.slf4j.Logger;
 
+import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.exafs.ui.composites.CryostatTableComposite;
+import gda.exafs.ui.composites.RoomTemperatureComposite;
+import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
+import gda.factory.Finder;
+import gda.observable.IObserver;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
@@ -155,21 +154,21 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				final Composite refWheel = new Composite(refWheelExpander, SWT.NONE);
 				GridLayoutFactory.fillDefaults().numColumns(2).applyTo(refWheel);
 				GridDataFactory.swtDefaults().applyTo(refWheel);
-				
+
 				useSampleWheel = new BooleanWrapper(refWheel, SWT.NONE);
 				GridDataFactory.swtDefaults().span(2, 1).applyTo(useSampleWheel);
 				useSampleWheel.setText("Set reference sample");
 				useSampleWheel.setValue(true);
 				useSampleWheel.setToolTipText("Check the box to set the reference sample when running this experiment");
 				useSampleWheel.addValueListener(new ValueListener() {
-					
+
 					@Override
 					public void valueChangePerformed(ValueEvent e) {
 						Boolean boxTicked = (Boolean) e.getValue();
 						elementLabel.setEnabled(boxTicked);
 						sampleWheelPosition.setEnabled(boxTicked);
 					}
-					
+
 					@Override
 					public String getValueListenerName() {
 						return null;
@@ -192,7 +191,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				sampleWheelPosition.setItems(positions);
 				sampleWheelPosition.setNotifyType(NOTIFY_TYPE.ALWAYS);
 				sampleWheelPosition.setEnabled(true);
-				
+
 				refWheelExpander.setClient(refWheel);
 				refWheelExpander.setExpanded(false);
 				refWheelExpander.addExpansionListener(new ExpansionAdapter() {
@@ -209,13 +208,13 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 			}
 			if (bean != null && bean.getUseSampleWheel())
 				refWheelExpander.setExpanded(true);
-		}		
+		}
 	}
 
 	private void createSampleEnvironmentGroup(final Composite composite) {
 		final ExpandableComposite sampleEnvExpander = new ExpandableComposite(composite, ExpandableComposite.TWISTIE
 				| ExpandableComposite.COMPACT | SWT.BORDER);
-		
+
 		sampleEnvExpander.setText("Sample Environment");
 
 		final Composite sampleEnvGroup = new Composite(sampleEnvExpander, SWT.NONE);
@@ -225,12 +224,12 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 		cmbSampleEnv = new ComboWrapper(sampleEnvGroup, SWT.READ_ONLY);
 		cmbSampleEnv.select(0);
-		
+
 		if (ScanObjectManager.isXESOnlyMode())
 			cmbSampleEnv.setItems(I20SampleParameters.SAMPLE_ENV_XES);
 		else
 			cmbSampleEnv.setItems(I20SampleParameters.SAMPLE_ENV);
-		
+
 		final GridData gd_tempType = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		cmbSampleEnv.setLayoutData(gd_tempType);
 
@@ -248,7 +247,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		sampleStageListEditor.setEditorClass(SampleStageParameters.class);
 		sampleStageListEditor.setFieldName("sampleposition");
 		sampleStageListEditor.setNameField("sample_name");
-		
+
 		final RoomTemperatureComposite roomTemperatureComposite = new RoomTemperatureComposite(sampleStageListEditor, SWT.NONE);
 		GridDataFactory.swtDefaults().grab(true, false).applyTo(roomTemperatureComposite);
 		sampleStageListEditor.setEditorUI(roomTemperatureComposite);
@@ -264,7 +263,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 			cryostatComposite = new CryostatTableComposite(complexTypesTemp, SWT.NONE);
 			cryostatComposite.setEditorClass(CryostatParameters.class);
 		}
-		
+
 		sampleEnvExpander.setClient(sampleEnvGroup);
 		sampleEnvExpander.setExpanded(false);
 		sampleEnvExpander.addExpansionListener(new ExpansionAdapter() {
@@ -279,7 +278,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				scrolledComposite.setMinSize(mainComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			}
 		});
-		
+
 		if (bean != null && !bean.getSampleEnvironment().equals(I20SampleParameters.SAMPLE_ENV[0]))
 			sampleEnvExpander.setExpanded(true);
 	}
@@ -297,7 +296,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 		Label sampleNameLabel = new Label(sampleDetails, SWT.NONE);
 		sampleNameLabel.setText("File Name");
-		
+
 		name = new TextWrapper(sampleDetails, SWT.BORDER | SWT.SINGLE);
 		name.setTextType(TEXT_TYPE.FILENAME);
 		name.setTextLimit(50);
@@ -428,5 +427,5 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	public String _testGetElementName() {
 		return sampleWheelPosition.getItem(sampleWheelPosition.getSelectionIndex());
 	}
-	
+
 }

@@ -24,9 +24,6 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.printing.Printer;
 
-import uk.ac.gda.exafs.experiment.trigger.DetectorDataCollection;
-import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
-import uk.ac.gda.exafs.experiment.ui.ExternalTriggerDetailsTimebarComposite.TFGTriggerEvent;
 import de.jaret.util.date.Interval;
 import de.jaret.util.swt.SwtGraphicsHelper;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
@@ -34,10 +31,13 @@ import de.jaret.util.ui.timebars.TimeBarViewerInterface;
 import de.jaret.util.ui.timebars.swt.renderer.RendererBase;
 import de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer;
 import de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2;
+import uk.ac.gda.exafs.experiment.trigger.DetectorDataCollection;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
+import uk.ac.gda.exafs.experiment.ui.ExternalTriggerDetailsTimebarComposite.TFGTriggerEvent;
 
 /**
  * Renderer rendering a point in time as a simple diamod and a label (using extended painting area).
- * 
+ *
  * @author Peter Kliem
  * @version $Id: FancyEventRenderer.java 565 2007-09-16 13:25:48Z olk $
  */
@@ -57,7 +57,7 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 
 	/**
 	 * Create renderer for printing.
-	 * 
+	 *
 	 * @param printer printer device
 	 */
 	public ExternalTriggerEventRenderer(Printer printer) {
@@ -67,7 +67,7 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 
 	/**
 	 * Construct renderer for screen use.
-	 * 
+	 *
 	 */
 	public ExternalTriggerEventRenderer() {
 		super(null);
@@ -141,7 +141,7 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 
 	/**
 	 * Drawing method for default rendering.
-	 * 
+	 *
 	 * @param gc GC
 	 * @param drawingArea drawingArea
 	 * @param delegate delegate
@@ -212,7 +212,7 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 
 	/**
 	 * Calculate the drawing area for the marking symbol.
-	 * 
+	 *
 	 * @param drawingArea drawing area as given for the time
 	 * @return Rectangle for drawing the main symbol
 	 */

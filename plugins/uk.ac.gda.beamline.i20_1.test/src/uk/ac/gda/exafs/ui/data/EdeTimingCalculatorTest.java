@@ -57,15 +57,15 @@ public class EdeTimingCalculatorTest {
 
 		// test calculator
 		assertEquals(4, times.length);
-		
+
 		assertEquals(12048,times[0].getData().length);
-		
+
 		assertEquals(15,times[2].getData().length);
-		
+
 		assertEquals(15,times[3].getData().length);
-		
+
 		assertEquals(times[0].getData().length,times[1].getData().length);
-		
+
 		assertTrue(arrayAlwaysIncreasing(times[0].getData()));
 		assertTrue(arrayAlwaysIncreasing(times[2].getData()));
 		assertTrue(arrayAlwaysIncreasing(times[3].getData()));

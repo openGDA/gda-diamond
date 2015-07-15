@@ -18,12 +18,12 @@
 
 package gda.device.scannable;
 
-import gda.device.DeviceException;
-
 import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.device.DeviceException;
 
 public class Lakeshore340StatusRunner implements Runnable {
 	private static final int updatePeriodinMilliSec = 1000;
@@ -55,10 +55,10 @@ public class Lakeshore340StatusRunner implements Runnable {
 					if (secsSinceChange > lakeshore.getWaitTime()){
 						lakeshore.setMoving(false);
 						setStableTemperature(true);
-					} 
+					}
 					else
 						setStableTemperature(false);
-				} 
+				}
 				else
 					setStableTemperature(false);
 				Thread.sleep(updatePeriodinMilliSec);

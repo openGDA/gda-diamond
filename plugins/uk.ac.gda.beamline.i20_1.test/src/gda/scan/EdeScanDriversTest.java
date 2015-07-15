@@ -18,6 +18,16 @@
 
 package gda.scan;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
@@ -32,17 +42,6 @@ import gda.factory.Finder;
 import gda.factory.ObjectFactory;
 import gda.scan.ede.drivers.LinearExperimentDriver;
 import gda.scan.ede.drivers.SingleSpectrumDriver;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
-
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 @PowerMockIgnore({"javax.management.*", "javax.xml.parsers.*", "org.apache.xerces.*" ,"com.sun.org.apache.xerces.internal.jaxp.*", "ch.qos.logback.*", "org.slf4j.*"})
@@ -56,7 +55,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 	private static ScannableMotor fastShutter_yMotor;
 	private static AlignmentStageScannable alignment_stage;
 	private static DummyMonitor topupMonitor;
-	
+
 	private static Map<String, Double> sampleStageMotorInPositions = new HashMap<String, Double>();
 	private static Map<String, Double> sampleStageMotorOutPositions = new HashMap<String, Double>();
 
@@ -75,7 +74,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 		sample_y = createMotor("sample_y");
 		fastShutter_xMotor = createMotor("fastShutter_xMotor");
 		fastShutter_yMotor = createMotor("fastShutter_yMotor");
-		
+
 		sampleStageMotorInPositions.put(sample_x.getName(), 0.0);
 		sampleStageMotorInPositions.put(sample_y.getName(), 0.0);
 		sampleStageMotorOutPositions.put(sample_x.getName(), 1.0);
@@ -164,14 +163,14 @@ public class EdeScanDriversTest extends EdeTestBase {
 		System.out.println(filename);
 
 	}
-	
+
 	// Ignored because LinearExperimentDriver is deprecated
 	@Ignore @Test
 	public void testDriveLinearSpectrumScan_motorpositions() throws Exception {
 		setup("testDriveLinearSpectrumScan_motorpositions");
-		
+
 		Vector<TimingGroup> groups = new Vector<TimingGroup>();
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(10);

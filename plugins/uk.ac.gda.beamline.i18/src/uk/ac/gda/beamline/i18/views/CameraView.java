@@ -18,15 +18,6 @@
 
 package uk.ac.gda.beamline.i18.views;
 
-import gda.configuration.properties.LocalProperties;
-import gda.data.PathConstructor;
-import gda.epics.CAClient;
-import gda.factory.FactoryException;
-import gda.images.camera.I18MotionJpegOverHttpReceiverSwt;
-import gda.images.camera.ImageListener;
-import gda.images.camera.VideoReceiver;
-import gov.aps.jca.CAException;
-
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.action.Action;
@@ -42,6 +33,14 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.configuration.properties.LocalProperties;
+import gda.data.PathConstructor;
+import gda.epics.CAClient;
+import gda.factory.FactoryException;
+import gda.images.camera.I18MotionJpegOverHttpReceiverSwt;
+import gda.images.camera.ImageListener;
+import gda.images.camera.VideoReceiver;
+import gov.aps.jca.CAException;
 import uk.ac.gda.beamline.i18.I18BeamlineActivator;
 import uk.ac.gda.client.microfocus.views.BeamCentreFigure;
 import uk.ac.gda.client.viewer.ImageViewer;

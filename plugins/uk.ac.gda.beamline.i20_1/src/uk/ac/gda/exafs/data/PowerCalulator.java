@@ -19,12 +19,6 @@
 package uk.ac.gda.exafs.data;
 
 
-import gda.analysis.datastructure.DataVector;
-import gda.analysis.numerical.integration.Integrate;
-import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,6 +28,11 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gda.analysis.datastructure.DataVector;
+import gda.analysis.numerical.integration.Integrate;
+import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
+import gda.device.Scannable;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 
 public class PowerCalulator {

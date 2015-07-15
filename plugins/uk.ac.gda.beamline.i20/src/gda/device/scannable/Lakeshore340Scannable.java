@@ -18,13 +18,12 @@
 
 package gda.device.scannable;
 
-import gda.device.DeviceException;
-import gda.factory.FactoryException;
-
 import java.io.IOException;
 
 import org.apache.commons.lang.ArrayUtils;
 
+import gda.device.DeviceException;
+import gda.factory.FactoryException;
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 import uk.ac.gda.util.ThreadManager;
 
@@ -38,7 +37,7 @@ public class Lakeshore340Scannable extends ScannableBase{
 	private Lakeshore340StatusRunner statusRunner;
 	private Thread statusThread;
 	private ILakeshore340 controller;
-	
+
 	public ILakeshore340 getController() {
 		return controller;
 	}
@@ -90,7 +89,7 @@ public class Lakeshore340Scannable extends ScannableBase{
 	public boolean isBusy() throws DeviceException {
 		return statusThread.isAlive() && isMoving;
 	}
-	
+
 	@Override
 	public void stop() throws DeviceException {
 		statusRunner.keepRunning = false;
@@ -201,7 +200,7 @@ public class Lakeshore340Scannable extends ScannableBase{
 	public void setWaitTime(int waitTime) {
 		this.waitTime = waitTime;
 	}
-	
+
 	public String getRangeString() throws IOException {
 		int index = (int) Math.round(controller.getRange());
 		return CryostatProperties.HEATER_RANGE[index];
@@ -219,5 +218,5 @@ public class Lakeshore340Scannable extends ScannableBase{
 	public boolean isMoving() {
 		return isMoving;
 	}
-	
+
 }

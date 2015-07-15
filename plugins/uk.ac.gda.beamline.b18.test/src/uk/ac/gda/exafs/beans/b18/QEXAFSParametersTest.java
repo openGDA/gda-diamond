@@ -20,7 +20,6 @@ package uk.ac.gda.exafs.beans.b18;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import gda.exafs.validation.B18Validator;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +30,7 @@ import java.util.List;
 import org.eclipse.core.runtime.content.IContentDescriber;
 import org.junit.Test;
 
+import gda.exafs.validation.B18Validator;
 import uk.ac.gda.beans.exafs.QEXAFSParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.exafs.ui.describers.QEXAFSParametersDescriber;

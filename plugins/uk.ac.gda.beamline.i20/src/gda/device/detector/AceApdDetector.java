@@ -18,13 +18,13 @@
 
 package gda.device.detector;
 
+import java.io.IOException;
+
 import gda.device.DeviceException;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.epics.LazyPVFactory;
 import gda.epics.PV;
 import gda.factory.FactoryException;
-
-import java.io.IOException;
 
 /**
  * For I20 only. Control of the ACE APD detector, with VETO control and readout via the Xspress2 scaler channels.

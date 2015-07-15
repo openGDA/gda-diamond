@@ -18,13 +18,6 @@
 
 package gda.device.scannable;
 
-import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.device.EnumPositionerStatus;
-import gda.device.MotorStatus;
-import gda.factory.FactoryException;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -35,9 +28,15 @@ import org.python.core.PyString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.beans.ObservableModel;
-
 import com.google.gson.Gson;
+
+import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.device.EnumPositionerStatus;
+import gda.device.MotorStatus;
+import gda.factory.FactoryException;
+import uk.ac.gda.beans.ObservableModel;
 
 public class AlignmentStageScannable extends ScannableBase implements EnumPositioner, AlignmentStage {
 
@@ -290,7 +289,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 
 	/**
 	 * Reload the positions from the file.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void loadConfiguration() throws IOException {

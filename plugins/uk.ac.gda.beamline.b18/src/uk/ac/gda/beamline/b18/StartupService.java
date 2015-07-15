@@ -18,19 +18,19 @@
 
 package uk.ac.gda.beamline.b18;
 
-import gda.configuration.properties.LocalProperties;
-
 import org.eclipse.ui.IStartup;
+
+import gda.configuration.properties.LocalProperties;
 
 /**
  * Setting up the data prior to other views connecting to it.
  */
 public class StartupService implements IStartup {
 
-	
+
 	@Override
 	public void earlyStartup() {
-		
+
 		if (!LocalProperties.get("gda.factory.factoryName","").equals("b18")) return;
 
 	}

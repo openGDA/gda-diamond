@@ -18,6 +18,9 @@
 
 package gda.device.detector.frelon;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.esrf.Tango.DevFailed;
 import gda.device.Detector;
 import gda.device.DeviceException;
@@ -32,9 +35,6 @@ import gda.device.lima.LimaCCD.AcqStatus;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.lima.LimaCCD.ImageType;
 import gda.factory.FactoryException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class EdeFrelon extends EdeDetectorBase {
 

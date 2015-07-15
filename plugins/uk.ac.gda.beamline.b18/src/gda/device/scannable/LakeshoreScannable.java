@@ -18,11 +18,11 @@
 
 package gda.device.scannable;
 
+import java.util.List;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.epics.CAClient;
-
-import java.util.List;
 
 public class LakeshoreScannable extends ScannableBase implements Scannable {
 
@@ -87,7 +87,7 @@ public class LakeshoreScannable extends ScannableBase implements Scannable {
 				output = ca_client.caget(temp2Pv);
 			else if(tempSelect==3)
 				output = ca_client.caget(temp3Pv);
-					   
+
 			return Double.parseDouble(output);
 		} catch (Exception e) {
 			if( e instanceof DeviceException)
@@ -156,5 +156,5 @@ public class LakeshoreScannable extends ScannableBase implements Scannable {
 	public void setTempSelect(int tempSelect) {
 		this.tempSelect = tempSelect;
 	}
-	
+
 }

@@ -31,7 +31,7 @@ public class I20BeamlineActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static I20BeamlineActivator plugin;
-	
+
 	/**
 	 * The constructor
 	 */

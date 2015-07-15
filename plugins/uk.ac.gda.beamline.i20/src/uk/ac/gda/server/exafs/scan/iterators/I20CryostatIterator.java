@@ -18,15 +18,14 @@
 
 package uk.ac.gda.server.exafs.scan.iterators;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
@@ -79,7 +78,7 @@ public class I20CryostatIterator implements SampleEnvironmentIterator {
 				}
 			}
 		}
-		
+
 		entriesIterator = entries.iterator();
 	}
 
@@ -126,7 +125,7 @@ public class I20CryostatIterator implements SampleEnvironmentIterator {
 //		logger.info(msg);
 //		InterfaceProvider.getTerminalPrinter().print(msg);
 //	}
-	
+
 	private class I20CryostatIteratorEntry{
 		CryostatSampleDetails details;
 		Double temperature;
@@ -167,7 +166,7 @@ public class I20CryostatIterator implements SampleEnvironmentIterator {
 				return false;
 			return true;
 		}
-		
+
 		private I20CryostatIterator getOuterType() {
 			return I20CryostatIterator.this;
 		}

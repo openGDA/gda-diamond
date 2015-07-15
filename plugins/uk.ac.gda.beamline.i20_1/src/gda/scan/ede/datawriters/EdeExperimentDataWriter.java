@@ -18,6 +18,12 @@
 
 package gda.scan.ede.datawriters;
 
+import java.util.ArrayList;
+
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.data.scan.datawriter.AsciiMetadataConfig;
 import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
@@ -26,13 +32,6 @@ import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
-
-import java.util.ArrayList;
-
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;

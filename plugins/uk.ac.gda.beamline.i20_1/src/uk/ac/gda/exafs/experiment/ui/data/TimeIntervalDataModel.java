@@ -18,13 +18,12 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
-import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
-import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
-
 import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.IntervalImpl;
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
+import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 
 public abstract class TimeIntervalDataModel extends IntervalImpl {
 

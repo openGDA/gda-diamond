@@ -18,10 +18,10 @@
 
 package gda.scan.ede;
 
+import java.io.Serializable;
+
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.position.EdePositionType;
-
-import java.io.Serializable;
 
 /**
  * Message bean holding the current progress and latest spectra from an EDEScan.

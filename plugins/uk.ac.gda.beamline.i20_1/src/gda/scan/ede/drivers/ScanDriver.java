@@ -18,12 +18,12 @@
 
 package gda.scan.ede.drivers;
 
+import java.util.Map;
+
 import gda.device.DeviceException;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
-
-import java.util.Map;
 
 public abstract class ScanDriver {
 
@@ -52,7 +52,7 @@ public abstract class ScanDriver {
 	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
 	 * positions.
 	 * @throws DeviceException
-	 * 
+	 *
 	 */
 	public void setInBeamPosition(Map<String, Double> scanableMotorPositions) throws DeviceException {
 		inbeamPosition = setPosition(EdePositionType.INBEAM, scanableMotorPositions);
@@ -62,7 +62,7 @@ public abstract class ScanDriver {
 	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
 	 * positions.
 	 * @throws DeviceException
-	 * 
+	 *
 	 */
 	public void setOutBeamPosition(Map<String, Double> scanableMotorPositions) throws DeviceException {
 		outbeamPosition = setPosition(EdePositionType.OUTBEAM, scanableMotorPositions);
@@ -72,7 +72,7 @@ public abstract class ScanDriver {
 	 * Takes either the motor positions as doubles or a String and null, where the String is one of the alignment stage
 	 * positions.
 	 * @throws DeviceException
-	 * 
+	 *
 	 */
 	public void setReferencePosition(Map<String, Double> scanableMotorPositions) throws DeviceException {
 		referencePosition = setPosition(EdePositionType.REFERENCE, scanableMotorPositions);

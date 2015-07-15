@@ -24,17 +24,17 @@ import gda.device.Scannable;
 public class TestingEurotherm extends ScannableBase implements Scannable {
 
 	double temp;
-	
+
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;
 	}
-	
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		temp = (Double)position;
 	}
-	
+
 	@Override
 	public Object rawGetPosition() {
 		return temp;
@@ -49,6 +49,6 @@ public class TestingEurotherm extends ScannableBase implements Scannable {
 	}
 
 
-	
-	
+
+
 }

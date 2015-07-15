@@ -18,15 +18,14 @@
 
 package gda.scan.ede;
 
+import java.util.Map;
+
 import gda.device.DeviceException;
 import gda.scan.EdeScan;
 import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeSingleSpectrumAsciiFileWriter;
-
-import java.util.Map;
-
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 /**

@@ -18,16 +18,16 @@
 
 package gda.device.detector;
 
-import gda.device.DeviceException;
-import gda.factory.FactoryException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.factory.FactoryException;
+
 public class TimeResolvedTFGDetector extends DetectorBase{
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedTFGDetector.class);
-	
+
 	private DAServer daServer;
 	private double laserTriggerTime;
 	private double laserDelay;
@@ -36,7 +36,7 @@ public class TimeResolvedTFGDetector extends DetectorBase{
 	private double settleTime;
 	private int cycles;
 	private int ttlSocket;
-	
+
 	@Override
 	public void configure(){
 		try {
@@ -45,11 +45,11 @@ public class TimeResolvedTFGDetector extends DetectorBase{
 			logger.error("Error configuring daServer", e);
 		}
 	}
-	
+
 	private void switchOnExtTrigger() throws DeviceException {
 		daServer.sendCommand("tfg setup-trig start ttl" + ttlSocket);
 	}
-	
+
 	private void setTimeFrames() throws DeviceException {
 		StringBuffer buffer = new StringBuffer();
 		double livePause = (ttlSocket + 8); //
@@ -61,7 +61,7 @@ public class TimeResolvedTFGDetector extends DetectorBase{
 		buffer.append("-1 0 0 0 0 0 0");
 		daServer.sendCommand(buffer.toString());
 	}
-	
+
 	@Override
 	public void collectData() throws DeviceException {
 		switchOnExtTrigger();

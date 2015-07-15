@@ -18,6 +18,13 @@
 
 package gda.scan;
 
+import java.io.File;
+
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.configuration.properties.LocalProperties;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.NexusTreeProvider;
@@ -27,14 +34,6 @@ import gda.device.detector.xstrip.XhDetector;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.position.EdePositionType;
-
-import java.io.File;
-
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
 

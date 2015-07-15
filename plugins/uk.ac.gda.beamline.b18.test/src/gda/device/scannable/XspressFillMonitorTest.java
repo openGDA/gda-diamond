@@ -18,7 +18,9 @@
 
 package gda.device.scannable;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,11 +34,11 @@ public class XspressFillMonitorTest {
 	@Test
 	public void testAtScanStart() {
 		XspressFillMonitor monitor = new XspressFillMonitor();
-		
+
 		monitor.setWaitTime(600);
 		monitor.setStartTimeHours(9);
 		monitor.setStartTimeMinutes(15);
-		
+
 		DateFormat startPauseFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date nineTwentyAM;
 		Date sevenInTheEvening;
@@ -47,13 +49,13 @@ public class XspressFillMonitorTest {
 			assertTrue(monitor.shouldPause(nineTwentyAM));
 			assertFalse(monitor.shouldPause(sevenInTheEvening));
 
-		
+
 		} catch (ParseException e) {
 			fail("test is wrong!");
 			return;
 		}
-		
-		
+
+
 	}
 
 }

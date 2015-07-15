@@ -18,15 +18,15 @@
 
 package gda.device.scannable;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.factory.FactoryException;
-import gda.jython.JythonServerFacade;
-
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.factory.FactoryException;
+import gda.jython.JythonServerFacade;
 
 public class GasInjectionScannable extends ScannableBase implements Scannable {
 
@@ -96,7 +96,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 				// this is the ABORT option in the Control combo box in the EDM screen
 				control_select.moveTo(1);
 			}
-			
+
 			String ionc = "";
 			if (ion_chamber.equals("0"))
 				ionc = "I0";
@@ -174,7 +174,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 		gas_fill2_period_val = Double.parseDouble(parameters.get(5));
 		gas_select_val = Integer.parseInt(parameters.get(6));
 		gas_fill1_pressure_val = Double.parseDouble(parameters.get(2));
-		
+
 		// set ion chamber
 		isAborted();
 		ion_chamber_select.moveTo(Integer.parseInt(ion_chamber));
@@ -211,7 +211,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 			throw new DeviceException("Gas Purge and Fill interrupted.");
 		}
 	}
-	
+
 	private void isAborted() throws DeviceException {
 		if (abortPurgeAndFillSequence) {
 			throw new DeviceException("Gas Purge and Fill aborted.");
@@ -280,14 +280,14 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 				if (gas_select_val != -1) {
 					base_pressure_val = Double.parseDouble(base_pressure.getPosition().toString());
 					gas_fill1_pressure.moveTo(gas_fill1_pressure_val + base_pressure_val);
-	
+
 					log("Filling gas 1");
 					control_select.moveTo(3);
 					checkForAbort();
 					gas_fill_start.moveTo(1);// fill 1
 					checkForAbort();
 					waitUntilIdle(fillTimeout);
-	
+
 					log("Purge 2");
 					control_select.moveTo(4);
 					checkForAbort();
@@ -585,6 +585,6 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	public void setHvStatusScannable(Scannable hvStatusScannable) {
 		this.hvStatusScannable = hvStatusScannable;
 	}
-	
-	
+
+
 }

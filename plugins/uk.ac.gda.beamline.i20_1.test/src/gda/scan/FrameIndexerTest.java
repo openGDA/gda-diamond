@@ -18,24 +18,24 @@
 
 package gda.scan;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import gda.device.DeviceException;
 import gda.device.detector.DetectorScanInfo;
 import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.scannable.FrameIndexer;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdePositionType;
-
-import org.junit.Test;
-
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class FrameIndexerTest {
 	@Test
 	public void testStaticMethod() {
-		
+
 		// FIXME This is commented out because it is not a proper test!
 
 //		Integer[] test1 = FrameIndexer.generateIndex(EdeScanType.LIGHT, EdePositionType.INBEAM, 1, 2, 3);
@@ -138,7 +138,7 @@ public class FrameIndexerTest {
 			group1.setNumberOfScansPerFrame(1);
 			params.addGroup(group1);
 		}
-		
+
 //		"Light", "It", "Repetition", "Group", "Frame"
 		FrameIndexer indexer = new FrameIndexer(EdeScanType.DARK, EdePositionType.OUTBEAM, 0);
 

@@ -18,9 +18,9 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import uk.ac.gda.client.UIObservableModel;
-
 import com.google.gson.annotations.Expose;
+
+import uk.ac.gda.client.UIObservableModel;
 
 public class ExperimentDataModel extends UIObservableModel {
 	public static final String I0_INTEGRATION_TIME_PROP_NAME = "i0IntegrationTime";

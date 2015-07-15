@@ -18,6 +18,13 @@
 
 package gda.device.detector.frelon;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+import com.google.gson.Gson;
+
 import gda.device.detector.DetectorData;
 import gda.device.detector.EdeDetectorBase;
 import gda.device.frelon.Frelon;
@@ -31,13 +38,6 @@ import gda.device.lima.LimaCCD.AcqMode;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.lima.LimaROIInt;
 import gda.device.lima.impl.LimaROIIntImpl;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
-
-import com.google.gson.Gson;
 /**
  * object to hold detector's configuration data.
  * Only the writable attributes in {@link LimaCCD} and {@link Frelon} need to be cached here.

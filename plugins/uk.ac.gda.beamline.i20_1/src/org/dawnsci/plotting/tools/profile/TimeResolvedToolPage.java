@@ -18,8 +18,6 @@
 
 package org.dawnsci.plotting.tools.profile;
 
-import gda.scan.ede.datawriters.TimeResolvedDataFileHelper;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -71,10 +69,11 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
+import com.swtdesigner.ResourceManager;
+
+import gda.scan.ede.datawriters.TimeResolvedDataFileHelper;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
-
-import com.swtdesigner.ResourceManager;
 
 public class TimeResolvedToolPage extends AbstractToolPage implements IRegionListener, ITraceListener {
 

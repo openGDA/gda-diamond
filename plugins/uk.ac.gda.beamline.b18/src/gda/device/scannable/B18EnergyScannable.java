@@ -18,6 +18,11 @@
 
 package gda.device.scannable;
 
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.DeviceException;
 import gda.device.MotorException;
 import gda.epics.connection.EpicsChannelManager;
@@ -29,12 +34,6 @@ import gda.jython.JythonServerFacade;
 import gov.aps.jca.CAException;
 import gov.aps.jca.Channel;
 import gov.aps.jca.TimeoutException;
-
-import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.util.ThreadManager;
 
 /**
@@ -121,7 +120,7 @@ public class B18EnergyScannable extends ScannableMotor implements Initialization
 
 	/**
 	 * Modified version of ScannableMotor.rawAsynchronousMoveTo()
-	 * 
+	 *
 	 * @param internalPosition
 	 * @throws DeviceException
 	 */

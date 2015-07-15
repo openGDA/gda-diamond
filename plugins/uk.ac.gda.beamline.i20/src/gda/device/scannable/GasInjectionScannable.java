@@ -18,16 +18,16 @@
 
 package gda.device.scannable;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.epics.CAClient;
 import gda.factory.FactoryException;
 import gov.aps.jca.CAException;
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GasInjectionScannable extends ScannableBase implements Scannable {
 	private Scannable purge_pressure;
@@ -62,12 +62,12 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	public boolean isBusy() {
 		return false;
 	}
-	
+
 	public void log(String msg){
 		logger.info(msg);
 		System.out.println(msg);
 	}
-	
+
 	@Override
 	public void configure() throws FactoryException {
 		super.configure();
@@ -95,7 +95,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 			}
 			configurePurgeAndFill(parameters);
 			performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
-		} 
+		}
 		else {
 			log("Voltage is too high to fill gas");
 
@@ -125,10 +125,10 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 						configurePurgeAndFill(parameters);
 						performFill((int) (purge_period_val + gas_fill1_period_val + gas_fill2_period_val));
 					}
-				} 
+				}
 				else
 					log("Cannot fill gas because pressure is too high");
-			} 
+			}
 			else
 				log("Cannot change voltage unless gas filling is idle");
 		}
@@ -317,7 +317,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 		positions[7] = getFillStatus();
 		return positions;
 	}
-	
+
 	public void abort(){
 		CAClient ca_client = new CAClient();
 		try {
@@ -328,11 +328,11 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 			logger.error("Could not abort gas filling", e);
 		}
 	}
-	
+
 	public void setAbortPV(String pv){
 		abortPV = pv;
 	}
-	
+
 
 	public Scannable getPurge_pressure() {
 		return purge_pressure;
@@ -469,5 +469,5 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	public void setBase_pressure(Scannable basePressure) {
 		base_pressure = basePressure;
 	}
-	
+
 }

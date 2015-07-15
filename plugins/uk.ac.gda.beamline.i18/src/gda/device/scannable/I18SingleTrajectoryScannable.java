@@ -25,24 +25,24 @@ import gda.scan.EpicsTrajectoryScanController;
  * I18 specific EpicsSingleTrajectoryScannable which checks the beam after moving to the start of a line, but before starting the acquisition.
  */
 public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable {
-	
+
 	I18BeamMonitor beamMonitor;
 	TopupChecker topupMonitor;
-	
+
 	@Override
 	public void prepareForContinuousMove() throws DeviceException {
 		// force rebuild of trajectory for bi-di maps
 		trajectoryBuildDone = false;
 		super.prepareForContinuousMove();
-		
+
 		EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000);
-		
-		// just before the data collection begins, test the beam and topup. 
+
+		// just before the data collection begins, test the beam and topup.
 		if (beamMonitor != null){
 			beamMonitor.setPauseBeforePoint(true);
 			beamMonitor.atPointStart();
 		}
-		
+
 		if (topupMonitor != null){
 			topupMonitor.setPauseBeforePoint(true);
 			topupMonitor.atPointStart();
@@ -55,7 +55,7 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 
 	/**
 	 * Set to null to turn off this check
-	 * 
+	 *
 	 * @param beamMonitor
 	 */
 	public void setBeamMonitor(I18BeamMonitor beamMonitor) {
@@ -68,7 +68,7 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 
 	/**
 	 * Set to null to turn off this check
-	 * 
+	 *
 	 * @param topupMonitor
 	 */
 	public void setTopupMonitor(TopupChecker topupMonitor) {

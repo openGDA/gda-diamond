@@ -47,14 +47,14 @@ public class B18BeamlinePreparer implements BeamlinePreparer {
 	@Override
 	public void prepareForExperiment() throws Exception {
 		// move to initial energy??
-		
+
 		// start the cirrus??
 
 	}
 
 	@Override
 	public void completeExperiment() throws Exception {
-		// 
+		//
 	}
 
 }

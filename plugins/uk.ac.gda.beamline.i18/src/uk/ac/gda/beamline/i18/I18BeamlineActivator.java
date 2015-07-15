@@ -67,7 +67,7 @@ public class I18BeamlineActivator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 * 
+	 *
 	 * @return the shared instance
 	 */
 	public static I18BeamlineActivator getDefault() {
@@ -76,7 +76,7 @@ public class I18BeamlineActivator extends AbstractUIPlugin {
 
 	/**
 	 * Returns an image descriptor for the image file at the given plug-in relative path
-	 * 
+	 *
 	 * @param path
 	 *            the path
 	 * @return the image descriptor

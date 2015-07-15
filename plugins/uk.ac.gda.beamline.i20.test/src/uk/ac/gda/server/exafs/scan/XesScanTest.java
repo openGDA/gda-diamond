@@ -20,24 +20,6 @@ package uk.ac.gda.server.exafs.scan;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import gda.configuration.properties.LocalProperties;
-import gda.data.metadata.NXMetaDataProvider;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xmap.Xmap;
-import gda.device.scannable.DummyScannable;
-import gda.device.scannable.ScannableMotor;
-import gda.device.scannable.TwoDScanPlotter;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServer;
-import gda.jython.JythonServerFacade;
-import gda.jython.batoncontrol.ClientDetails;
-import gda.jython.commands.ScannableCommands;
-import gda.jython.scriptcontroller.logging.LoggingScriptController;
-import gda.scan.ConcurrentScan;
-import gda.scan.ScanPlotSettings;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -61,6 +43,24 @@ import org.powermock.api.support.membermodification.strategy.MethodStubStrategy;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.NXMetaDataProvider;
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.xmap.Xmap;
+import gda.device.scannable.DummyScannable;
+import gda.device.scannable.ScannableMotor;
+import gda.device.scannable.TwoDScanPlotter;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServer;
+import gda.jython.JythonServerFacade;
+import gda.jython.batoncontrol.ClientDetails;
+import gda.jython.commands.ScannableCommands;
+import gda.jython.scriptcontroller.logging.LoggingScriptController;
+import gda.scan.ConcurrentScan;
+import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
@@ -511,7 +511,7 @@ public class XesScanTest {
 		assertTrue(scanArgs[5].equals(new Double(11000.0)));
 		assertTrue(scanArgs[6].equals(new Double(12000.0)));
 		assertTrue(scanArgs[7].equals(new Double(100.0)));
-		
+
 		assertTrue(scanArgs[8] instanceof TwoDScanPlotter);
 	}
 
@@ -550,7 +550,7 @@ public class XesScanTest {
 		assertTrue(scanArgs[5].equals(new Double(6000.0)));
 		assertTrue(scanArgs[6].equals(new Double(7000.0)));
 		assertTrue(scanArgs[7].equals(new Double(200.0)));
-		
+
 		assertTrue(scanArgs[8] instanceof TwoDScanPlotter);
 	}
 

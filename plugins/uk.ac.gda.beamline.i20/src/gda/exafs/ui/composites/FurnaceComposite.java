@@ -121,5 +121,5 @@ public class FurnaceComposite extends FieldBeanComposite {
 	public ScaleBox getTime() {
 		return time;
 	}
-	
+
 }

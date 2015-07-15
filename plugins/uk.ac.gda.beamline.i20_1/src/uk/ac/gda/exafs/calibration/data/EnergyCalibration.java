@@ -20,9 +20,9 @@ package uk.ac.gda.exafs.calibration.data;
 
 import org.apache.commons.io.FilenameUtils;
 
-import uk.ac.gda.beans.ObservableModel;
-
 import com.google.gson.annotations.Expose;
+
+import uk.ac.gda.beans.ObservableModel;
 
 public class EnergyCalibration extends ObservableModel {
 	public static final String MANUAL_PROP_NAME = "manual";

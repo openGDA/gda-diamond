@@ -31,7 +31,7 @@ public class B18BeamlineActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static B18BeamlineActivator plugin;
-	
+
 	/**
 	 * The constructor
 	 */

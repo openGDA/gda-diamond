@@ -20,9 +20,9 @@ package uk.ac.gda.exafs.experiment.trigger;
 
 import java.io.Serializable;
 
-import uk.ac.gda.beans.ObservableModel;
-
 import com.google.gson.annotations.Expose;
+
+import uk.ac.gda.beans.ObservableModel;
 
 public class TriggerableObject extends ObservableModel implements Serializable, Comparable<TriggerableObject>{
 

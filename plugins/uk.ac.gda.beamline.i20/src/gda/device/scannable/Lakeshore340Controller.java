@@ -18,12 +18,11 @@
 
 package gda.device.scannable;
 
+import java.io.IOException;
+
 import gda.epics.LazyPVFactory;
 import gda.epics.PV;
 import gda.epics.ReadOnlyPV;
-
-import java.io.IOException;
-
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 
 public class Lakeshore340Controller implements ILakeshore340{
@@ -68,7 +67,7 @@ public class Lakeshore340Controller implements ILakeshore340{
 		tempReadback2PV = LazyPVFactory.newReadOnlyDoublePV(getPvName() + "KRDG2");
 		tempReadback3PV = LazyPVFactory.newReadOnlyDoublePV(getPvName() + "KRDG3");
 	}
-	
+
 	@Override
 	public Double getTempReadback(int index) throws IOException {
 		if (index == 0)
@@ -110,7 +109,7 @@ public class Lakeshore340Controller implements ILakeshore340{
 	public Double getRange() throws IOException {
 		return rangeReadbackPV.get();
 	}
-	
+
 	@Override
 	public String getRangeString() throws IOException {
 		int index = (int) Math.round(getRange());
@@ -126,7 +125,7 @@ public class Lakeshore340Controller implements ILakeshore340{
 	public Double getControlmode() throws IOException {
 		return controlmodeReadbackPV.get();
 	}
-	
+
 	@Override
 	public void setManualOutput(Double manualOutput) throws IOException {
 		this.manualOutputControlPV.putWait(manualOutput);
@@ -166,10 +165,10 @@ public class Lakeshore340Controller implements ILakeshore340{
 	public Double getdValue() throws IOException {
 		return dValueReadbackPV.get();
 	}
-	
+
 	@Override
 	public void setSetpointControl(double setpointControl) throws IOException{
 		setpointControlPV.putWait(setpointControl);
 	}
-	
+
 }

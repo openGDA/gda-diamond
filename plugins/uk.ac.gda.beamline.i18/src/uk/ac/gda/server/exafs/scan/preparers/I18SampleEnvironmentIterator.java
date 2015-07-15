@@ -18,17 +18,16 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.device.Scannable;
-import gda.gui.RCPController;
-import gda.jython.InterfaceProvider;
-
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.device.Scannable;
+import gda.gui.RCPController;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.AttenuatorParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;

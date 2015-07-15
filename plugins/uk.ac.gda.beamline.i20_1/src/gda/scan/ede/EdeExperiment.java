@@ -18,6 +18,18 @@
 
 package gda.scan.ede;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.gson.Gson;
+
 import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
 import gda.data.scan.datawriter.NexusFileMetadata;
 import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
@@ -44,24 +56,11 @@ import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
-
-import com.google.gson.Gson;
 
 /**
  * Base class for all EDE experiment classes.

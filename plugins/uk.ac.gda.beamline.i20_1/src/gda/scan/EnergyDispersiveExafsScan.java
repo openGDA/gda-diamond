@@ -18,14 +18,13 @@
 
 package gda.scan;
 
-import gda.device.detector.EdeDetector;
-import gda.observable.IObserver;
-import gda.scan.ede.EdeScanType;
-
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
+import gda.device.detector.EdeDetector;
+import gda.observable.IObserver;
+import gda.scan.ede.EdeScanType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public interface EnergyDispersiveExafsScan extends Scan {

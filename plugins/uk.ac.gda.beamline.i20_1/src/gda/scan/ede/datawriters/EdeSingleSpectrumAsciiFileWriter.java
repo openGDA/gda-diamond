@@ -18,15 +18,15 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.device.detector.EdeDetector;
-import gda.scan.EnergyDispersiveExafsScan;
-
 import java.io.File;
 import java.io.FileWriter;
 
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+
+import gda.device.detector.EdeDetector;
+import gda.scan.EnergyDispersiveExafsScan;
 
 public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 

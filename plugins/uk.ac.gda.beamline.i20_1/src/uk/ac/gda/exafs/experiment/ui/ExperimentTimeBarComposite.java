@@ -31,6 +31,14 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scale;
 
+import de.jaret.util.date.Interval;
+import de.jaret.util.date.JaretDate;
+import de.jaret.util.ui.timebars.TimeBarMarker;
+import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
+import de.jaret.util.ui.timebars.TimeBarViewerInterface;
+import de.jaret.util.ui.timebars.model.ITimeBarChangeListener;
+import de.jaret.util.ui.timebars.model.TimeBarRow;
+import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
@@ -41,14 +49,6 @@ import uk.ac.gda.exafs.experiment.ui.data.TimeIntervalDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupsScaleRenderer;
-import de.jaret.util.date.Interval;
-import de.jaret.util.date.JaretDate;
-import de.jaret.util.ui.timebars.TimeBarMarker;
-import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
-import de.jaret.util.ui.timebars.TimeBarViewerInterface;
-import de.jaret.util.ui.timebars.model.ITimeBarChangeListener;
-import de.jaret.util.ui.timebars.model.TimeBarRow;
-import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 
 public class ExperimentTimeBarComposite extends ResourceComposite {
 

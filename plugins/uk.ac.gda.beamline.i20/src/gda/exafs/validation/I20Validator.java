@@ -18,13 +18,12 @@
 
 package gda.exafs.validation;
 
-import gda.data.PathConstructor;
-import gda.exafs.scan.ExafsValidator;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gda.data.PathConstructor;
+import gda.exafs.scan.ExafsValidator;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
@@ -108,15 +107,15 @@ public class I20Validator extends ExafsValidator {
 	public List<InvalidBeanMessage> validateI20SampleParameters(I20SampleParameters s) {
 
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
-		
+
 		//none
 		if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[0])){
 			if (s.getName().startsWith(DEFAULT_SAMPLE_NAME) || s.getName().isEmpty()){
 				errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
 			} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())){
-				errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));				
+				errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 			}
-		} 
+		}
 		// room temp
 		else if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[1])){
 			List<SampleStageParameters> ssp = s.getRoomTemperatureParameters();

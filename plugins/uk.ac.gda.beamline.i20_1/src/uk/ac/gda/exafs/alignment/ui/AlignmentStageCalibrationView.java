@@ -18,10 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.Scannable;
-import gda.device.scannable.AlignmentStage;
-import gda.device.scannable.AlignmentStageScannable;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -40,6 +36,9 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.Scannable;
+import gda.device.scannable.AlignmentStage;
+import gda.device.scannable.AlignmentStageScannable;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;

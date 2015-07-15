@@ -19,17 +19,6 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.fail;
-import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.mythen.MythenDetectorImpl;
-import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
-import gda.device.scannable.DummyScannable;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServer;
-import gda.jython.JythonServerFacade;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -42,6 +31,17 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.mythen.MythenDetectorImpl;
+import gda.device.detector.xmap.Xmap;
+import gda.device.detector.xspress.Xspress2Detector;
+import gda.device.scannable.DummyScannable;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServer;
+import gda.jython.JythonServerFacade;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
@@ -72,7 +72,7 @@ public class B18DetectorPreparerTest {
 		JythonServerFacade jythonserverfacade = Mockito.mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
 		InterfaceProvider.setAuthorisationHolderForTesting(jythonserverfacade);
-		
+
 		JythonServer jythonserver = Mockito.mock(JythonServer.class);
 		InterfaceProvider.setDefaultScannableProviderForTesting(jythonserver);
 		InterfaceProvider.setCurrentScanInformationHolderForTesting(jythonserver);
@@ -81,7 +81,7 @@ public class B18DetectorPreparerTest {
 
 		mythen_scannable = (MythenDetectorImpl) createMock(MythenDetectorImpl.class, "mythen_scannable");
 		Mockito.when(mythen_scannable.readout()).thenReturn("/scratch/test/xml/path/0001.dat");
-		
+
 		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		vortexConfig = (Xmap) createMock(Xmap.class, "vortexConfig");
 		xspress3Config = (Xspress3Detector) createMock(Xspress3Detector.class, "xspress3Config");
@@ -89,7 +89,7 @@ public class B18DetectorPreparerTest {
 
 		energy_scannable = createMockScannable("energy_scannable");
 		Mockito.when(energy_scannable.getPosition()).thenReturn(10000.0);
-		
+
 		sensitivities = new Scannable[3];
 		sensitivities[0] = createMockScannable("I0_sensitivity");
 		sensitivities[1] = createMockScannable("It_sensitivity");
@@ -143,23 +143,23 @@ public class B18DetectorPreparerTest {
 			transParams.setMythenEnergy(10000.0);
 			transParams.setMythenTime(1.2);
 			transParams.setCollectDiffractionImages(true);
-			
+
 			DetectorParameters detParams = new DetectorParameters();
 			detParams.setTransmissionParameters(transParams);
 			detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
-			
+
 			OutputParameters outParams = new OutputParameters();
 			outParams.setNexusDirectory("nexus");
 			outParams.setAsciiDirectory("ascii");
-			
+
 			LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT,"DummyDataWriter");
-			
+
 			thePreparer.configure(null, detParams, outParams, "/scratch/test/xml/path");
-			
+
 			Mockito.verify(energy_scannable).moveTo(10000.0);
 			Mockito.verify(mythen_scannable).setCollectionTime(1.2);
 			Mockito.verify(mythen_scannable).setSubDirectory("path");
-			
+
 			Mockito.verify(mythen_scannable).collectData();
 			Mockito.verify(mythen_scannable).readout();
 		} catch (Exception e) {
@@ -177,32 +177,32 @@ public class B18DetectorPreparerTest {
 			for (IonChamberParameters params : ionParamsSet){
 				fluoParams.addIonChamberParameter(params);
 			}
-			
+
 			fluoParams.setConfigFileName("Fluo_config.xml");
 			fluoParams.setDetectorType("Germanium");
-			
+
 			DetectorParameters detParams = new DetectorParameters();
 			detParams.setFluorescenceParameters(fluoParams);
 			detParams.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
-			
+
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
-			
+
 			Mockito.verify(xspressSystem).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
 			Mockito.verify(xspressSystem).configure();
 			Mockito.verifyZeroInteractions(vortexConfig);
 			Mockito.verifyZeroInteractions(xspress3Config);
-			
+
 			fluoParams.setDetectorType("Xspress3");
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
 			Mockito.verify(xspress3Config).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
 			Mockito.verify(xspress3Config).configure();
 			Mockito.verifyZeroInteractions(vortexConfig);
-			
+
 			fluoParams.setDetectorType("Silicon");
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
 			Mockito.verify(vortexConfig).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
 			Mockito.verify(vortexConfig).configure();
-			
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -215,13 +215,13 @@ public class B18DetectorPreparerTest {
 			region.setEnergy(7000.0);
 			region.setStep(3.0);
 			region.setTime(1.0);
-			
+
 			XanesScanParameters xanesParams = new XanesScanParameters();
 			xanesParams.setEdge("K");
 			xanesParams.setElement("Fe");
 			xanesParams.addRegion(region);
 			xanesParams.setFinalEnergy(7021.0);
-	
+
 			Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
 
 			TransmissionParameters transParams = new TransmissionParameters();
@@ -229,21 +229,21 @@ public class B18DetectorPreparerTest {
 			for (IonChamberParameters params : ionParamsSet){
 				transParams.addIonChamberParameter(params);
 			}
-			
+
 			DetectorParameters detParams = new DetectorParameters();
 			detParams.setTransmissionParameters(transParams);
 			detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
 
 			thePreparer.configure(xanesParams, detParams, null, "/scratch/test/xml/path");
 			thePreparer.beforeEachRepetition();
-			
+
 			Mockito.verify(ionchambers).setTimes(new Double[]{1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0});
-			
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	private Set<IonChamberParameters> makeIonChamberParameters(){
 		IonChamberParameters ionParams = new IonChamberParameters();
 		ionParams.setChangeSensitivity(true);
@@ -262,13 +262,13 @@ public class B18DetectorPreparerTest {
 		IonChamberParameters ionParamsOff = new IonChamberParameters();
 		ionParamsOff.setChangeSensitivity(false);
 		ionParamsOff.setAutoFillGas(false);
-		
+
 		LinkedHashSet<IonChamberParameters> set = new LinkedHashSet<IonChamberParameters>();
 		set.add(ionParams);
 		set.add(ionParamsOff);
-		
+
 		return set;
-		
+
 	}
 
 	@Test
@@ -281,13 +281,13 @@ public class B18DetectorPreparerTest {
 			for (IonChamberParameters params : ionParamsSet){
 				transParams.addIonChamberParameter(params);
 			}
-			
+
 			DetectorParameters detParams = new DetectorParameters();
 			detParams.setTransmissionParameters(transParams);
 			detParams.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
-			
+
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path");
-			
+
 			Mockito.verify(sensitivities[0]).moveTo("1");
 			Mockito.verify(sensitivity_units[0]).moveTo("nA/V");
 			Mockito.verify(offsets[0]).moveTo("1");
@@ -300,11 +300,11 @@ public class B18DetectorPreparerTest {
 			Mockito.verifyZeroInteractions(sensitivity_units[2]);
 			Mockito.verifyZeroInteractions(offsets[2]);
 			Mockito.verifyZeroInteractions(offsets_units[2]);
-			
+
 			Mockito.verify(ionc_gas_injector_scannables.get(0)).moveTo(new Object[]{"25.0","120.0",99630.0,200.0,1100.0,200.0,"-1","false"});
 			Mockito.verifyZeroInteractions(ionc_gas_injector_scannables.get(1));
 			Mockito.verifyZeroInteractions(ionc_gas_injector_scannables.get(2));
-			
+
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

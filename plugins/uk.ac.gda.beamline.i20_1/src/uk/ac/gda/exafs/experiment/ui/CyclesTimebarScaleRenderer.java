@@ -23,15 +23,15 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.printing.Printer;
 
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
-import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentDataModel;
-import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
-import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 import de.jaret.util.ui.timebars.swt.renderer.RendererBase;
 import de.jaret.util.ui.timebars.swt.renderer.TimeScaleRenderer;
+import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentDataModel;
+import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 
 public class CyclesTimebarScaleRenderer extends RendererBase implements TimeScaleRenderer {
 

@@ -20,15 +20,15 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import gda.device.scannable.ScannableMotor;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.device.scannable.ScannableMotor;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServerFacade;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.exafs.b18.LN2CryoStageParameters;
@@ -67,7 +67,7 @@ public class B18SamplePreparerTest {
 				mocked_lakeshore_scannable, mocked_furnace_scannable, mocked_pulsetube_scannable,
 				mocked_samplewheel_scannable, mocked_user_scannable);
 	}
-	
+
 	private ScannableMotor createMockScannableMotor(String string) {
 		ScannableMotor newMock = PowerMockito.mock(ScannableMotor.class);
 		Mockito.when(newMock.getName()).thenReturn(string);
@@ -173,7 +173,7 @@ public class B18SamplePreparerTest {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testSampleWheel(){
 		try {
@@ -185,7 +185,7 @@ public class B18SamplePreparerTest {
 			sampleWheelParameters.setWheelEnabled(true);
 			sampleWheelParameters.setManual(true);
 			sampleWheelParameters.setDemand(10.0);
-			
+
 			B18SampleParameters parameters = new B18SampleParameters();
 			parameters.setName(sampleName);
 			parameters.setDescription1(description1);
@@ -206,12 +206,12 @@ public class B18SamplePreparerTest {
 			assertEquals(description2, iterator.getNextSampleDescriptions().get(1));
 
 			iterator.next();
-			
+
 			Mockito.verify(mocked_samplewheel_scannable).moveTo(10.0);
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		
+
 	}
 
 
@@ -226,7 +226,7 @@ public class B18SamplePreparerTest {
 			stageParams.setTemperature(200);
 			stageParams.setTolerance(1.5);
 			stageParams.setTime(0.1);
-			
+
 			// used inside the iterator to get current temperature from the furnace
 			Mockito.when(mocked_furnace_scannable.getPosition()).thenReturn(new Double(200.0));
 
@@ -249,12 +249,12 @@ public class B18SamplePreparerTest {
 			assertEquals(description2, iterator.getNextSampleDescriptions().get(1));
 
 			iterator.next();
-			
+
 			Mockito.verify(mocked_furnace_scannable).moveTo(200.0);
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
 	}
-	
-	
+
+
 }

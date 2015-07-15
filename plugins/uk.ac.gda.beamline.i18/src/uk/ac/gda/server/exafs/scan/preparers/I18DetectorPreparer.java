@@ -1,5 +1,7 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.List;
+
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -14,9 +16,6 @@ import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
 import gda.jython.commands.ScannableCommands;
-
-import java.util.List;
-
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;

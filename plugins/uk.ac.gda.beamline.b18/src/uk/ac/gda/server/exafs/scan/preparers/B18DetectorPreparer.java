@@ -1,5 +1,9 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.DataWriter;
 import gda.data.scan.datawriter.DataWriterFactory;
@@ -16,11 +20,6 @@ import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
 import gda.scan.StaticScan;
-
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
-
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IExperimentDetectorParameters;

@@ -23,13 +23,13 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.model.TimeBarModel;
+import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 
 public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 

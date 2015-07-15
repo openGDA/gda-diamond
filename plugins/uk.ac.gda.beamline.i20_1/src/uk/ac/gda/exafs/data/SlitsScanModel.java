@@ -18,19 +18,18 @@
 
 package uk.ac.gda.exafs.data;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import com.google.gson.annotations.Expose;
+
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
 import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
-
-import com.google.gson.annotations.Expose;
 
 public class SlitsScanModel extends ObservableModel implements IObserver {
 

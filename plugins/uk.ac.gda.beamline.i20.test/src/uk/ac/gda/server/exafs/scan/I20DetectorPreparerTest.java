@@ -18,14 +18,6 @@
 
 package uk.ac.gda.server.exafs.scan;
 
-import gda.device.Detector;
-import gda.device.Scannable;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
-import gda.device.scannable.DummyScannable;
-import gda.device.scannable.TopupChecker;
-
 import java.util.List;
 
 import org.junit.Before;
@@ -33,6 +25,13 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.device.Detector;
+import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.xmap.Xmap;
+import gda.device.detector.xspress.Xspress2Detector;
+import gda.device.scannable.DummyScannable;
+import gda.device.scannable.TopupChecker;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;

@@ -17,6 +17,12 @@
  */
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.device.Detector;
@@ -25,13 +31,6 @@ import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.scan.ScanPlotSettings;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
-
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
@@ -115,7 +114,7 @@ public class I20OutputPreparer implements OutputPreparer {
 		// This class talks directly to the shared metadata system, through the Finder.
 		// Create a new objects whose defaults are based on the current scan type
 		meta = new Metadata(getAsciiDataWriterConfig(this.scanParameters));
-		
+
 		// remove everything outside of this list
 		meta.removeNexusMetadataList(getXasNexusMetadataList());
 		meta.removeNexusMetadataList(getXesNexusMetadataList());
@@ -194,7 +193,7 @@ public class I20OutputPreparer implements OutputPreparer {
 	}
 
 	protected String[] createAxesList() {
-		
+
 		DetectorGroup fluoDetGroup = null;
 		List<DetectorGroup> listDetectorGroups = detectorBean.getDetectorGroups();
 		for (DetectorGroup detGroup : listDetectorGroups) {
@@ -207,7 +206,7 @@ public class I20OutputPreparer implements OutputPreparer {
 		if (fluoDetGroup == null)
 			// the XML is inconsistent
 			return new String[]{};
-		
+
 		HashMap<String, Detector> detectorsMap = createDetectorsMap();
 
 		String[] axes = new String[0];
@@ -218,12 +217,12 @@ public class I20OutputPreparer implements OutputPreparer {
 				axes = (String[]) ArrayUtils.addAll(axes, extraNames);
 			}
 		}
-		
+
 		List<SignalParameters> extraColumns = outputParameters.getSignalList();
 		for (SignalParameters column : extraColumns) {
 			axes = (String[]) ArrayUtils.add(axes, column.getLabel());
 		}
-		
+
 		return axes;
 	}
 

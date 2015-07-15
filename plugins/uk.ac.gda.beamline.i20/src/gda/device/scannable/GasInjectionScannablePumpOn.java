@@ -18,16 +18,16 @@
 
 package gda.device.scannable;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.epics.CAClient;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
-
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GasInjectionScannablePumpOn extends ScannableBase implements Scannable {
 	private static final Logger logger = LoggerFactory.getLogger(GasInjectionScannablePumpOn.class);
@@ -65,7 +65,7 @@ public class GasInjectionScannablePumpOn extends ScannableBase implements Scanna
 	public String readbackPV;
 	public String demandPV;
 	public String startRampPV;
-	
+
 	public String chamberName;
 
 	@Override
@@ -374,5 +374,5 @@ public class GasInjectionScannablePumpOn extends ScannableBase implements Scanna
 	public void setChamberName(String chamberName) {
 		this.chamberName = chamberName;
 	}
-	
+
 }

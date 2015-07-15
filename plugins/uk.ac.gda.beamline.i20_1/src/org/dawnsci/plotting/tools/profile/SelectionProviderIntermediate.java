@@ -53,7 +53,7 @@ public class SelectionProviderIntermediate implements IPostSelectionProvider {
 	/**
 	 * Sets a new selection provider to delegate to. Selection listeners
 	 * registered with the previous delegate are removed before.
-	 * 
+	 *
 	 * @param newDelegate new selection provider
 	 */
 	public void setSelectionProviderDelegate(ISelectionProvider newDelegate) {

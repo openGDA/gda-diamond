@@ -27,7 +27,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 public class StopHandler extends AbstractHandler implements IHandler {
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {		
+	public Object execute(ExecutionEvent event) throws ExecutionException {
 		if(HandlerUtil.getActivePart(event).getClass().equals(SoftXRayDetectorRatesView.class)){
 			((SoftXRayDetectorRatesView)HandlerUtil.getActivePart(event)).setRunMonitoring(false);
 		}

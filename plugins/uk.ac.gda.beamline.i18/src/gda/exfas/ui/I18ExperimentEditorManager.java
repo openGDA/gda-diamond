@@ -40,7 +40,7 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
 public class I18ExperimentEditorManager extends ExperimentEditorManager implements IExperimentEditorManager {
 
 	private static final Logger logger = LoggerFactory.getLogger(I18ExperimentEditorManager.class);
-	
+
 	@Override
 	protected Map<String, IFile> orderMapOfTypes(IExperimentObject ob, Map<String, IFile> mapOfTypesToFiles,
 			Collection<IExperimentBeanDescription> allBeanDescriptions) {
@@ -55,7 +55,7 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 			logger.error("TODO put description of error here", e);
 		}*/
 		//return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
-				
+
 		String[] typesInOrder = ExperimentFactory.getManager(ob).getOrderedColumnBeanTypes();
 
 		HashMap<String, IFile> orderedMap = new HashMap<String, IFile>();
@@ -68,7 +68,7 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 				// for (String type : mapOfTypesToFiles.keySet()) {
 				if (type.equalsIgnoreCase(desc.getBeanType()) && type.equals("Sample")) {
 					try {
-						IScanParameters theScan = ((ScanObject) ob).getScanParameters();						
+						IScanParameters theScan = ((ScanObject) ob).getScanParameters();
 							IFile file = mapOfTypesToFiles.get(type);
 							I18SampleParameters samParameters = ((I18SampleParameters)((ScanObject) ob).getSampleParameters());
 							if ((theScan instanceof MicroFocusScanParameters))

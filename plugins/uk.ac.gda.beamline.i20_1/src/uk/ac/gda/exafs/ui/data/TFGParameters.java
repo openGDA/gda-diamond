@@ -22,8 +22,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.Vector;
 
-import uk.ac.gda.util.beans.xml.XMLRichBean;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
+import uk.ac.gda.util.beans.xml.XMLRichBean;
 
 public class TFGParameters implements XMLRichBean {
 

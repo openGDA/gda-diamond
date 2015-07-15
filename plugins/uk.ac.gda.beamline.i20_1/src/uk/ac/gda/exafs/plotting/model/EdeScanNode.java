@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import gda.scan.ede.EdeExperimentProgressBean;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +25,7 @@ import java.util.Map;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
+import gda.scan.ede.EdeExperimentProgressBean;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.client.plotting.model.ScanNode;
 

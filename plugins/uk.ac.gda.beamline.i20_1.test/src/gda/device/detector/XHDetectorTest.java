@@ -19,18 +19,18 @@
 package gda.device.detector;
 
 import static org.junit.Assert.assertEquals;
-import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
-import gda.device.detector.xstrip.DummyXStripDAServer;
-import gda.device.detector.xstrip.XhDetector;
-import gda.factory.FactoryException;
-import gda.util.TestUtils;
 
 import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
+import gda.device.detector.xstrip.DummyXStripDAServer;
+import gda.device.detector.xstrip.XhDetector;
+import gda.factory.FactoryException;
+import gda.util.TestUtils;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -61,7 +61,7 @@ public class XHDetectorTest {
 
 		EdeScanParameters scan = new EdeScanParameters();
 		scan.setUseFrameTime(true);
-		
+
 		TimingGroup group1 = new TimingGroup();
 		group1.setLabel("group1");
 		group1.setNumberOfFrames(1);

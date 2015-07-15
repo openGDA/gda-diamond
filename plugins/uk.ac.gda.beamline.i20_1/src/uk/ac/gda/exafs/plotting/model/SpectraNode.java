@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import gda.rcp.GDAClientActivator;
-
 import java.util.ArrayList;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -28,6 +26,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
+import gda.rcp.GDAClientActivator;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.client.plotting.model.ScanNode;

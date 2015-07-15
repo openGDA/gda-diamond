@@ -18,6 +18,9 @@
 
 package gda.scan;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
@@ -27,10 +30,6 @@ import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdeScanPosition;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
