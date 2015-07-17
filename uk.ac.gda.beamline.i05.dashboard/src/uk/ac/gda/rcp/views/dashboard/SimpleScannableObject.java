@@ -24,6 +24,7 @@ public class SimpleScannableObject {
 
 	private String scannableName, toolTip;
 	private String lastPosition;
+	private boolean valid = false;
 
 	public SimpleScannableObject() {
 	}
@@ -38,6 +39,7 @@ public class SimpleScannableObject {
 
 	public void setScannableName(String scannableName) {
 		this.scannableName = scannableName;
+		valid = true;
 	}
 
 	public String getToolTip() {
@@ -55,11 +57,20 @@ public class SimpleScannableObject {
 	}
 
 	public void refresh() {
+		if (!valid) {
+			//don't keep trying (and logging) when server can't be contacted
+			return;
+		}
 		try {
 			lastPosition = JythonServerFacade.getInstance().evaluateCommand("gda.device.scannable.ScannableUtils.getFormattedCurrentPosition("
 				+ scannableName + ")");
 		} catch (Exception e) {
 
+		}
+		if (lastPosition == null) {
+			//if it failed this time - don't try again
+			lastPosition = "not available";
+			valid = false;
 		}
 	}
 }
