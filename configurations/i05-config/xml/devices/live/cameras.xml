@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
 	<description>
 		There are 3 ways of configure EPICS access:
 		1. use Java content objects provided by epics-x.x.x.jar to specify
@@ -30,14 +32,14 @@
 			</bean>
 		</property>
 	</bean>	
-	
+
 	<bean id="esi1" class="gda.device.detector.addetector.ADCameraDetector">
 		<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:" />
 		<property name="areaDetector" ref="esi1_ad" />
 		<property name="array" ref="esi1_array" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="esi2_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:CAM:" />
 		<property name="initialDataType" value="UInt8" />
@@ -51,11 +53,12 @@
 			</bean>
 		</property>
 	</bean>	
-	
+
 	<bean id="esi2" class="gda.device.detector.addetector.ADCameraDetector">
 		<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:" />
 		<property name="areaDetector" ref="esi2_ad" />
 		<property name="array" ref="esi2_array" />
 		<property name="local" value="true" />
 	</bean>
+
 </beans>

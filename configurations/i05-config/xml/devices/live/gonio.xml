@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="sax_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-EA-SM-01:SAX" />
@@ -72,4 +73,5 @@
 		</property>
 		<property name="local" value="false" />
 	</bean>
+
 </beans>

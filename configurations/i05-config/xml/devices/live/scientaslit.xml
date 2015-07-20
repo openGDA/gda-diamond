@@ -1,20 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-        <bean id="scientaslit" class="uk.ac.gda.beamline.i05.analyser.I05EntranceSlit">
-                <property name="labelPV" value="BL05I-EA-SLITS-01:POS" />
-                <property name="direction" value="vertical" />
-        </bean>
+	<bean id="scientaslit" class="uk.ac.gda.beamline.i05.analyser.I05EntranceSlit">
+		<property name="labelPV" value="BL05I-EA-SLITS-01:POS" />
+		<property name="direction" value="vertical" />
+	</bean>
 
-        <bean id="analyser_slit" class="gda.device.scannable.EpicsScannable">
-                <property name="pvName" value="BL05I-EA-SLITS-01:POS" />
-                <property name="getAsString" value="true" />
-                <property name="extraNames">
-                        <list><value>analyser_slit</value></list>
-                </property>
-                <property name="hasUnits" value="false" />
-        </bean>
+	<bean id="analyser_slit" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL05I-EA-SLITS-01:POS" />
+		<property name="getAsString" value="true" />
+		<property name="extraNames">
+			<list>
+				<value>analyser_slit</value>
+			</list>
+		</property>
+		<property name="hasUnits" value="false" />
+	</bean>
 
 </beans>
