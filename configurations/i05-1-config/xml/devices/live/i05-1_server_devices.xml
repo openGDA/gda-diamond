@@ -14,7 +14,6 @@
 
 	<!-- diagnostics -->
 	<import resource="d3.xml" />
-	<import resource="d6.xml" />
 	<import resource="dj7.xml" />
 	
 	<!-- mirrors -->

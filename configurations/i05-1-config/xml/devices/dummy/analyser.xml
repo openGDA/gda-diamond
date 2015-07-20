@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="area" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
@@ -16,6 +17,7 @@
 			</bean>
 		</property>
 	</bean>
+
 	<bean id="array2" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:ARR2:" />
 		<property name="pluginBase">

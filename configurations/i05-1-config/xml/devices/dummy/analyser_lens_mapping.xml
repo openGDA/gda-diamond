@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<util:list id="transmissionArray">
 		<value>-3.55833</value>
@@ -4016,7 +4018,7 @@
 		<value>24.66114</value>
 		<value>24.71061</value>
 	</util:list>
-	
+
 	<util:list id="da30_01Array">
 		<value>-25.41663</value>
 		<value>-25.36575</value>
@@ -10034,7 +10036,7 @@
 		<value>25.36575</value>
 		<value>25.41663</value>
 	</util:list>
-	
+
 	<util:list id="da30q_08Array">
 		<value>-27.37175</value>
 		<value>-27.31696</value>
@@ -12040,7 +12042,7 @@
 		<value>11.83735</value>
 		<value>11.86109</value>
 	</util:list>
-	
+
 	<util:list id="a30_01Array">
 		<value>-22.80980</value>
 		<value>-22.76413</value>

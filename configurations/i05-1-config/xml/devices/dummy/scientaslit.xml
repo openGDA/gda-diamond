@@ -1,20 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-        <bean id="scientaslit" class="uk.ac.gda.devices.vgscienta.ManualEntranceSlit">
-                <property name="direction" value="vertical" />
-                <property name="label" value="manual slit values for testing" />
-                <property name="rawValue" value="666" />
-                <property name="shape" value="curved" />
-                <property name="sizeInMM" value="0.01" />
-        </bean>
-	 	<bean
-			class="gda.device.scannable.DummyUnitsScannable" id="analyser_slit">
-			<property name="name" value="analyser_slit" />
-			<property name="inputNames"><list><value>analyser_slit</value></list></property>
-			<property name="outputFormat"><list><value>%5.5g</value></list></property>
-			<property name="protectionLevel" value="3" />
-		</bean>
+	<bean id="scientaslit" class="uk.ac.gda.devices.vgscienta.ManualEntranceSlit">
+		<property name="direction" value="vertical" />
+		<property name="label" value="manual slit values for testing" />
+		<property name="rawValue" value="666" />
+		<property name="shape" value="curved" />
+		<property name="sizeInMM" value="0.01" />
+	</bean>
+
+	<bean id="analyser_slit" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="name" value="analyser_slit" />
+		<property name="inputNames">
+			<list>
+				<value>analyser_slit</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3" />
+	</bean>
+
 </beans>
