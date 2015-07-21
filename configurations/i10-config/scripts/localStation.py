@@ -295,7 +295,7 @@ from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
     import TwodGaussianPeak
 
 ######## Setting up the I10 Pimte camera ###############
-pimte_installed = False
+pimte_installed = True
 
 if pimte_installed:
     try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf

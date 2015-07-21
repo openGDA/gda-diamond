@@ -13,20 +13,12 @@
 				</property>
 			</bean>
 		</property>
-		<!-- Using pv//pimte//BL10I-EA-PIXIS-01@ in plugin.xml:
+		<!-- Using pv//pimte//BL10I-EA-PIMTE-01@//pimteSuffixService in plugin.xml:
 		 -->
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
 		<!-- Note concrete class in service property vvv, but Interface ^^^ in class property -->
 		<property name="service">
-			<bean class="uk.ac.gda.epics.adviewer.SimpleADPVSuffixes">
-				<property name="arraySuffix" value="IMAGE1:" />
-				<property name="arrayROISuffix" value="ROI1:" />
-				<property name="mpgSuffix" value="MJPG1:" />
-				<property name="mpgProcSuffix" value="PROC1:" />
-				<!-- 
-				<property name="statSuffix" value="????:" />
-				 -->
-			</bean>
+			<bean class="uk.ac.gda.epics.adviewer.DLSADPVSuffixes" />
 		</property>
 	</bean>
 </beans>
