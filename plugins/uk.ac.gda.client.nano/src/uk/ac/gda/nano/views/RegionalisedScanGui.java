@@ -337,6 +337,7 @@ public class RegionalisedScanGui {
 		gridData.horizontalSpan =1;
 		validate.setLayoutData(gridData);
 		validate.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				commandText.setText(getScanCommand());
 				
@@ -364,6 +365,7 @@ public class RegionalisedScanGui {
 //		gridData.horizontalIndent = 10;
 		scanButton.setLayoutData(gridData);
 		scanButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				runScan();
 				
@@ -391,6 +393,7 @@ public class RegionalisedScanGui {
 //		gridData.horizontalIndent = 10;
 		stopButton.setLayoutData(gridData);
 		stopButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				stopScan();
 				
@@ -407,6 +410,7 @@ public class RegionalisedScanGui {
 //		gridData.horizontalIndent = 10;
 		pauseButton.setLayoutData(gridData);
 		pauseButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				if (pauseButton.getText().equalsIgnoreCase("Pause")){
 					pauseScan();

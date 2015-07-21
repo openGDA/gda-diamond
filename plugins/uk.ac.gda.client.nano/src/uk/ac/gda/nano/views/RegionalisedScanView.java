@@ -122,6 +122,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
+	@Override
 	public void setFocus() {
 		guiBase.setFocus();
 	}
