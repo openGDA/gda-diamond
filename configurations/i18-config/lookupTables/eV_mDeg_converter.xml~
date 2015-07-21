@@ -1,6 +1,6 @@
 <JEPQuantityConverter>
-<ExpressionStoT>((asin(3*1977.58/X))*(180.0/(4.0*atan(1.0))))*1000.0</ExpressionStoT>
-<ExpressionTtoS>3*1977.58/sin((X/1000.0)/(180.0/(4.0*atan(1.0))))</ExpressionTtoS>
+<ExpressionStoT>((asin(1*1977.58/X))*(180.0/(4.0*atan(1.0))))*1000.0</ExpressionStoT>
+<ExpressionTtoS>1*1977.58/sin((X/1000.0)/(180.0/(4.0*atan(1.0))))</ExpressionTtoS>
 <AcceptableSourceUnits>eV</AcceptableSourceUnits>
 <AcceptableTargetUnits>mDeg</AcceptableTargetUnits>
 <SourceMinIsTargetMax>false</SourceMinIsTargetMax>
