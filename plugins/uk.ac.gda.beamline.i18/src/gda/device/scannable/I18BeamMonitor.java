@@ -134,7 +134,9 @@ public class I18BeamMonitor extends BeamlineConditionMonitorBase implements Init
 	protected boolean portShutterOpen() {
 		try {
 			String value = controller.cagetString(portShutter);
-			return value.equals("Open");
+			// Port shutter values can be Open, Closed or Fault
+			// Beamline staff want scans to continue if the shutter has Fault status so we just check for Closed
+			return !(value.equals("Closed"));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return true;
