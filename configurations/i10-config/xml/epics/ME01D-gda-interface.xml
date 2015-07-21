@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2013-2/gdaApp/src/genericBeamlineSchema.xsd">
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2014-1/gdaApp/src/genericBeamlineSchema.xsd">
 	<simpleMotor desc="Polarisation analyser 2theta rotation motor" name="POLAN.TWOTHETA">
 		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-MO-POLAN-01:TWOTHETA" ro="false" type="motor"/>
 	</simpleMotor>

@@ -85,7 +85,6 @@
 				<ref bean="pgmgenc1" />
 				<ref bean="pgmgenc2" />
 				<ref bean="pgmgenc3" />
-				<ref bean="pgmgenc4" />
 			</list>
 		</property>
 		<property name="local" value="true"/>
