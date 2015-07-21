@@ -62,7 +62,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     detectorFillingMonitor.setDuration(25.0)
     detectorFillingMonitor.configure()
 
-    trajBeamMonitor = LineRepeatingBeamMonitor(beamMonitor)
+    trajBeamMonitor = LineRepeatingBeamMonitor(energy)
     trajBeamMonitor.setName("trajBeamMonitor")
     trajBeamMonitor.configure()
     trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
@@ -100,6 +100,7 @@ outputPreparer =   I18OutputPreparer(datawriterconfig)
 
 
 # user mode on the live beamline, use energy
+# Need to check this! In low alpha, the gap can't be moved so should probably remove mode 'Special' from this list
 if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
     xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, auto_mDeg_idGap_mm_converter)
 # else use energy_nogap
