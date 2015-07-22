@@ -18,13 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.device.enumpositioner.DummyPositioner;
-import gda.factory.FactoryException;
-import gda.observable.IObserver;
-import gda.rcp.views.CompositeFactory;
-
 import java.util.Arrays;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -43,10 +36,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
+import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.device.enumpositioner.DummyPositioner;
+import gda.factory.FactoryException;
+import gda.observable.IObserver;
+import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 import uk.ac.gda.ui.utils.SWTUtils;
-
 
 public class EnumPositionerCompositeFactory implements CompositeFactory, InitializingBean {
 
@@ -70,6 +68,7 @@ public class EnumPositionerCompositeFactory implements CompositeFactory, Initial
 	public void setPositioner(EnumPositioner positioner) {
 		this.positioner = positioner;
 	}
+
 	public Integer getLabelWidth() {
 		return labelWidth;
 	}
@@ -78,18 +77,14 @@ public class EnumPositionerCompositeFactory implements CompositeFactory, Initial
 		return contentWidth;
 	}
 
-
 	public void setContentWidth(Integer contentWidth) {
 		this.contentWidth = contentWidth;
 	}
-
 
 	public void setLabelWidth(Integer labelWidth) {
 		this.labelWidth = labelWidth;
 	}
 
-
-	
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		return new EnumPositionerComposite(parent, style, positioner, label, labelWidth, contentWidth);
@@ -108,14 +103,14 @@ public class EnumPositionerCompositeFactory implements CompositeFactory, Initial
 			} catch (FactoryException e1) {
 				// TODO Auto-generated catch block
 			}
-		
+
 		dummy.setPositions(new String[]{"position1", "position2", "position3"});
 		try {
 			dummy.moveTo(1);
 		} catch (DeviceException e) {
 			System.out.println("Can not move dummy to position 1");
 		}
-		
+
 		final EnumPositionerComposite comp = new EnumPositionerComposite(shell, SWT.NONE, dummy, "", new Integer(100), new Integer(200));
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
@@ -131,7 +126,6 @@ public class EnumPositionerCompositeFactory implements CompositeFactory, Initial
 
 	}
 }
-
 
 class EnumPositionerComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(EnumPositionerComposite.class);
@@ -152,21 +146,21 @@ class EnumPositionerComposite extends Composite {
 		this.positioner = positioner;
 		this.labelWidth=labelWidth;
 		this.contentWidth=contentWidth;
-		
+
 		formats = positioner.getOutputFormat();
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
 //		GridDataFactory.fillDefaults().align(GridData.FILL, SWT.FILL).applyTo(this);
-		
+
 //		Label lbl = new Label(this, SWT.RIGHT |SWT.WRAP | SWT.BORDER);
 		Label lbl = new Label(this, SWT.RIGHT |SWT.WRAP);
 		lbl.setText(StringUtils.hasLength(label) ? label : positioner.getName());
-		
+
         GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		if(labelWidth != null)
 			labelGridData.widthHint = labelWidth.intValue();
         lbl.setLayoutData(labelGridData);
-		
+
 		try {
 		positions = this.positioner.getPositions();
 		} catch (DeviceException e) {
@@ -175,30 +169,31 @@ class EnumPositionerComposite extends Composite {
 
 		pcom = new Combo(this, SWT.SINGLE|SWT.BORDER|SWT.CENTER|SWT.READ_ONLY);
 		pcom.setItems(positions);
-		
+
 //		pcom.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		GridData textGridData = new GridData(GridData.FILL_HORIZONTAL);
 		textGridData.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
 		if(contentWidth != null)
 			textGridData.widthHint = contentWidth.intValue();
 		pcom.setLayoutData(textGridData);
-		
+
 		pcom.addSelectionListener(new SelectionAdapter() {
-		      public void widgetSelected(SelectionEvent e) {
-		    	  valueChanged((Combo)e.widget);
-		        }
-		      });
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				valueChanged((Combo) e.widget);
+			}
+		});
 
 		setComboRunnable = new Runnable() {
 			@Override
 			public void run() {
-				if(selectionIndex != -1){
+				if (selectionIndex != -1) {
 					pcom.select(selectionIndex);
 				}
 				EclipseWidgetUtils.forceLayoutOfTopParent(EnumPositionerComposite.this);
 			}
 		};
-		
+
 		observer = new IObserver() {
 			@Override
 			public void update(Object source, Object arg) {
@@ -206,9 +201,9 @@ class EnumPositionerComposite extends Composite {
 				displayValue();
 			}
 		};
-		
+
 		displayValue();
-		
+
 		positioner.addIObserver(observer);
 	}
 
@@ -220,7 +215,7 @@ class EnumPositionerComposite extends Composite {
 			selectionIndex=-1;
 			logger.error("Error getting position for " + positioner.getName(), e);
 		}
-		
+
 		if(!isDisposed()){
 			display.asyncExec(setComboRunnable);
 		}
@@ -228,7 +223,7 @@ class EnumPositionerComposite extends Composite {
 
 	/**
 	   * To change the positioner position when the input text fields changes.
-	   * 
+	   *
 	   * @param c
 	   *            the event source
 	   */
@@ -246,13 +241,12 @@ class EnumPositionerComposite extends Composite {
 	      } catch (DeviceException e) {
 			logger.error("EnumPositioner device " + positioner.getName() + " move failed", e);
 		}
-	    
+
 	  }
-	
+
 	@Override
 	public void dispose() {
 		positioner.deleteIObserver(observer);
 		super.dispose();
 	}
-
 }

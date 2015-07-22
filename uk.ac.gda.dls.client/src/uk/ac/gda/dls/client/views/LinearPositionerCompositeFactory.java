@@ -18,15 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.device.DeviceException;
-import gda.device.ScannableMotion;
-import gda.device.scannable.DummyScannable;
-import gda.factory.FactoryException;
-import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
-import gda.observable.IObserver;
-import gda.rcp.views.CompositeFactory;
-
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -44,10 +35,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
+import gda.device.DeviceException;
+import gda.device.ScannableMotion;
+import gda.device.scannable.DummyScannable;
+import gda.factory.FactoryException;
+import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.observable.IObserver;
+import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 import uk.ac.gda.ui.utils.SWTUtils;
-
 
 public class LinearPositionerCompositeFactory implements CompositeFactory, InitializingBean {
 
@@ -57,7 +55,7 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 	private Integer contentWidth;
 	private Integer lowScale;
 	private Integer highScale;
-	
+
 	public String getLabel() {
 		return label;
 	}
@@ -73,7 +71,7 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 	public void setPositioner(ScannableMotion positioner) {
 		this.positioner = positioner;
 	}
-	
+
 	public Integer getLabelWidth() {
 		return labelWidth;
 	}
@@ -93,7 +91,7 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 	public Integer getLowScale() {
 		return lowScale;
 	}
-	
+
 	public Integer getHighScale() {
 		return highScale;
 	}
@@ -101,10 +99,11 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 	public void setLowScale(Integer lowScale) {
 		this.lowScale = lowScale;
 	}
+
 	public void setHighScale(Integer highScale) {
 		this.highScale = highScale;
 	}
-	
+
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		return new LinearPositionerComposite(parent, style, positioner, label, labelWidth, contentWidth, lowScale, highScale);
@@ -123,14 +122,14 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 			} catch (FactoryException e1) {
 				// TODO Auto-generated catch block
 			}
-		
+
 		try {
 			dummy.moveTo(33);
 //			dummy.moveTo(1);
 		} catch (DeviceException e) {
 			System.out.println("Can not move dummy to position 1");
 		}
-		
+
 		final LinearPositionerComposite comp = new LinearPositionerComposite(shell, SWT.NONE, dummy, "", new Integer(100), new Integer(200), new Integer(0), new Integer(60));
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
@@ -146,7 +145,6 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 
 	}
 }
-
 
 class LinearPositionerComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(LinearPositionerComposite.class);
@@ -170,40 +168,41 @@ class LinearPositionerComposite extends Composite {
 		this.positioner = positioner;
 		this.labelWidth=labelWidth;
 		this.contentWidth=contentWidth;
-		
+
 		formats = positioner.getOutputFormat();
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
 //		GridDataFactory.fillDefaults().align(GridData.FILL, SWT.FILL).applyTo(this);
-		
+
 //		Label lbl = new Label(this, SWT.RIGHT |SWT.WRAP | SWT.BORDER);
 		Label lbl = new Label(this, SWT.RIGHT |SWT.WRAP);
 		lbl.setText(StringUtils.hasLength(label) ? label : positioner.getName());
-		
+
         GridData labelGridData = new GridData(GridData.HORIZONTAL_ALIGN_END);
 		if(labelWidth != null)
 			labelGridData.widthHint = labelWidth.intValue();
         lbl.setLayoutData(labelGridData);
-		
+
 		scale = new Scale (this, SWT.BORDER|SWT.HORIZONTAL);
 		Rectangle clientArea = this.getClientArea ();
 		scale.setBounds (clientArea.x, clientArea.y, 200, 64);
 		scale.setMaximum(highScale);
 		scale.setMinimum(lowScale);
 //		scale.setPageIncrement(1);
-		
+
 //		pcom.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		GridData textGridData = new GridData(GridData.FILL_HORIZONTAL);
 		textGridData.horizontalAlignment = GridData.HORIZONTAL_ALIGN_BEGINNING;
 		if(contentWidth != null)
 			textGridData.widthHint = contentWidth.intValue();
 		scale.setLayoutData(textGridData);
-		
+
 		scale.addSelectionListener(new SelectionAdapter() {
-		      public void widgetSelected(SelectionEvent e) {
-		    	  valueChanged((Scale)e.widget);
-		        }
-		      });
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				valueChanged((Scale) e.widget);
+			}
+		});
 
 		setSlideRunnable = new Runnable() {
 			@Override
@@ -212,7 +211,7 @@ class LinearPositionerComposite extends Composite {
 				EclipseWidgetUtils.forceLayoutOfTopParent(LinearPositionerComposite.this);
 			}
 		};
-		
+
 		observer = new IObserver() {
 			@Override
 			public void update(Object source, Object arg) {
@@ -220,9 +219,9 @@ class LinearPositionerComposite extends Composite {
 				displayValue();
 			}
 		};
-		
+
 		displayValue();
-		
+
 		positioner.addIObserver(observer);
 	}
 
@@ -233,7 +232,7 @@ class LinearPositionerComposite extends Composite {
 			selectionValue=0;
 			logger.error("Error getting position for " + positioner.getName(), e);
 		}
-		
+
 		if(!isDisposed()){
 			display.asyncExec(setSlideRunnable);
 		}
@@ -241,7 +240,7 @@ class LinearPositionerComposite extends Composite {
 
 	/**
 	   * To change the positioner position when the input text fields changes.
-	   * 
+	   *
 	   * @param c
 	   *            the event source
 	   */
@@ -260,25 +259,23 @@ class LinearPositionerComposite extends Composite {
 	      } catch (DeviceException e) {
 			logger.error("LinearPositioner device " + positioner.getName() + " move failed", e);
 		}
-	    
+
 	  }
-	
+
 	private void moveTo(String deviceName, double value){
 		if( InterfaceProvider.getScanStatusHolder().getScanStatus() != Jython.IDLE){
 			logger.warn("Can not run scan because there is a scan running or paused");
 			return;
 		}
-		
+
 		String commandText=deviceName + ".moveTo(" + value +")";
 		InterfaceProvider.getCommandRunner().runCommand(commandText);
 		logger.info("Command sent: " + commandText);
 	}
 
-	
 	@Override
 	public void dispose() {
 		positioner.deleteIObserver(observer);
 		super.dispose();
 	}
-
 }
