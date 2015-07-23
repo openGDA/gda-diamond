@@ -19,7 +19,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources;bundle-version="3.7.100",
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: uk.ac.gda.beamline.i13j
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
