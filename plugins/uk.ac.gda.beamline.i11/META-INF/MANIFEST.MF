@@ -33,7 +33,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.commons.io;bundle-version="2.4.0",
  uk.ac.gda.beamline.synoptics
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i11,
  uk.ac.gda.beamline.i11.views
