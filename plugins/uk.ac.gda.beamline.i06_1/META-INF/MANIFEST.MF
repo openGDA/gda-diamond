@@ -6,5 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.gda.beamline.i06.Activator
 Require-Bundle: uk.ac.gda.beamline.i06;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Diamond Light Source
