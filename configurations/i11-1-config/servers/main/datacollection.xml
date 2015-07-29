@@ -32,7 +32,7 @@
 				<ref bean="ss3"/>
 				<ref bean="ss4"/>
 				<ref bean="ss5"/>
-				<ref bean="ss6"/>
+<!-- 				<ref bean="ss6"/> -->
 			</list>
 		</property>
 	</bean>
