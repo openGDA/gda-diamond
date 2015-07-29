@@ -18,7 +18,7 @@
 			</list>
 		</property>
 		<property name="engagePosition" value="0.0"/>
-		<property name="parkPosition" value="-400.0"/>
+		<property name="parkPosition" value="-407.0"/>
 		<property name="positionTolerance" value="0.001"/>
 		<property name="zPosition" value="1660.0"/>
 	</bean>
