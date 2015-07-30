@@ -45,9 +45,9 @@ run(setupScriptDir +  "TopupCountdown.py")
 #run(setupScriptDir +  "gainpds.py")
 #run(setupScriptDir +  "microfocus.py")
 
-#from linkam import Linkam
+#from sampleEnvironment.linkam import Linkam
 #linkam=Linkam("linkam","BL22I-EA-TEMPC-01")
-#from linkamrampmaster4000 import LinkamRampMaster4000
+#from sampleEnvironment.linkamrampmaster4000 import LinkamRampMaster4000
 #lrm4k=LinkamRampMaster4000("lrm4k",linkam)
 
 from setup.installStandardScansWithProcessing import *
