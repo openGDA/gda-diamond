@@ -70,8 +70,8 @@ public class MerlinDetector extends DetectorBase{
 	public void setCollectionTime(double collectionTime) throws DeviceException {
 		merlinController.setCollectionTime(collectionTime);
 		try {
-			caClient.caput("BL20I-EA-DET-05:MERLIN1:AcquireTime", collectionTime);
-			caClient.caput("BL20I-EA-DET-05:MERLIN1:AcquirePeriod", 0);
+			caClient.caput("BL20I-EA-DET-05:CAM:AcquireTime", collectionTime);
+			caClient.caput("BL20I-EA-DET-05:CAM:AcquirePeriod", 0);
 		} catch (CAException e) {
 		} catch (InterruptedException e) {
 		}

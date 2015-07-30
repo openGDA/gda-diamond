@@ -23,6 +23,11 @@
         <detector>xmapMca</detector>
         <detector>I1</detector>
     </detectorGroup>
+    <detectorGroup>
+        <name>XES_medipix</name>
+        <detector>medipix</detector>
+        <detector>I1</detector>
+    </detectorGroup>
     <experimentType>Transmission</experimentType>    
     <transmission>
         <detectorType>transmission</detectorType>

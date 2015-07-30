@@ -90,6 +90,7 @@
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="3" />
 		<property name="darkCurrentRequired" value="true" />
+		<property name="livePort" value="1" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
@@ -117,6 +118,7 @@
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="1" />
 		<property name="firstDataChannel" value="3" />
+		<property name="livePort" value="1" />
 		<property name="outputFormat">
 			<list>
 				<value>%.4f</value>
