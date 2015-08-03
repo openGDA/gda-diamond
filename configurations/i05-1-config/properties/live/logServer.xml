@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+
 <configuration debug="true"> <!-- Add debug="true" in here to log logback configuration -->
 
     <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
