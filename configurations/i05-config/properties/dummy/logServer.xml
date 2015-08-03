@@ -6,15 +6,10 @@
 	<!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
 	<!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
 
+	<!-- Load the common logging config -->
 	<!-- include file is relative to the application directory -->
-
-	<!-- ServerDebugFILE LogServer -->
 	<include file="${gda.config}/properties/_common/logServer.xml" />
 
-	<root>
-		<level value="INFO" />
-		<appender-ref ref="LogServer" />
-		<appender-ref ref="ServerDebugFILE" />
-	</root>
+	<!-- Only add stuff here which only applies to dummy -->
 
 </configuration>

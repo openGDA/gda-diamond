@@ -29,4 +29,10 @@
 		<!-- 02/12/2014 KrisB - The Log Panel currently can't take a pattern option -->
 	</appender>
 
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="LogServer" />
+		<appender-ref ref="ServerDebugFILE" />
+	</root>
+
 </included>
