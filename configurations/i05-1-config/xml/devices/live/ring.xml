@@ -1,12 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-        <bean id="ringcurrent" class="uk.ac.gda.arpes.scannable.NonLocalEpicsScannable">
-                <property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
-                <property name="useNameAsExtraName" value="true" />
-                <property name="local" value="false" />
-        </bean>
+	<bean id="ringcurrent" class="uk.ac.gda.arpes.scannable.NonLocalEpicsScannable">
+		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="local" value="false" />
+	</bean>
 
 </beans>
