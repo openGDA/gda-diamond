@@ -89,18 +89,18 @@ class BeamEnergy(ScannableMotionBase):
 #            if self.gap=="igap" and (gap<5.1 or gap>9.1):
 #                raise ValueError("Required Hard X-Ray ID gap is out side allowable bound (5.1, 9.1)!")
             if self.gap=="jgap" and gap<16:
-                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (>=16)!")
+                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (> 16 mm)!")
         elif (self.getName() == "jenergy" and self.getPolarisation()=="H"):
-            if (Ep<0.15 or Ep > 1.0):
-                raise ValueError("Demanding energy must lie between 0.15 and 1.0 eV!")
-            gap=4.68956 + 155.42742*Ep - 472.63852*Ep**2 + 1055.44757*Ep**3 - 1494.50872*Ep**4 + 1290.6552*Ep**5 - 616.22919*Ep**6 + 125.16795*Ep**7
-            if self.gap=="jgap" and (gap<20.26 or gap>48.01):
-                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 34)!")
+            if (Ep<0.104 or Ep > 1.2):
+                raise ValueError("Demanding energy must lie between 0.105 and 1.2 keV!")
+            gap=2.56288 + 186.99257*Ep - 653.74749*Ep**2 + 1589.71628*Ep**3 - 2375.03513*Ep**4 + 2110.75282*Ep**5 - 1019.61741*Ep**6 + 206.70745*Ep**7
+            if self.gap=="jgap" and (gap<16 or gap>60):
+                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 60)!")
         elif self.getName() == "jenergy" and self.getPolarisation()=="V":
             if (Ep<0.22 or Ep > 1.0):
                 raise ValueError("Demanding energy must lie between 0.22 and 1.0 eV!")
-            gap = 5.4468 + 71.55277*Ep - 130.21658*Ep**2 + 170.93365*Ep**3 - 118.58842*Ep**4 + 34.99142*Ep**5
-            if self.gap=="jgap" and (gap<16.44 or gap>34.13):
+            gap = 5.33595 + 72.53678*Ep - 133.96826*Ep**2 + 179.99229*Ep**3 - 128.83048*Ep**4 + 39.34346*Ep**5
+            if self.gap=="jgap" and (gap<16.01 or gap>35):
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 34)!")
         else:
             raise ValueError("Unsupported scannable or polarisation mode")
