@@ -12,10 +12,10 @@
 	</bean>
 
 <!--ID Energy including lookup with calibration of plane grating monochromator/ ID gap -->
-	<!-- <bean id="IDEnergy" class="gda.device.scannable.ScannableMotor">
+	 <bean id="IDEnergy" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="idenergy_motor" />
-	</bean> -->
+	</bean>
 
 <!--Frontend: Customized Aperture -->	
 	<bean id="bda_x" class="gda.device.scannable.ScannableMotor">
@@ -248,7 +248,7 @@
 		</property>
 	</bean> -->
 	
-	<bean id="pgmEnergyIDgap_converter" class="gda.util.converters.JEPConverterHolder">
+	<!-- <bean id="pgmEnergyIDgap_converter" class="gda.util.converters.JEPConverterHolder">
 		<constructor-arg value="pgmEnergyIDgap_converter" />
 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/energyIDgapConverter.xml" />
 	</bean>
@@ -272,7 +272,7 @@
 				<value>%.4f</value>
 			</list>
 		</property>
-	</bean> 
+	</bean>  -->
 	
 </beans>
 

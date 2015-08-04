@@ -92,6 +92,13 @@
 		<property name="BinY" value="4" />
 	</bean>
 
+	<bean id="andor_base_proc"  class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="basePVName" value="BL08I-EA-DET-01:PROC:" />
+	</bean>
+	<bean id="andor_adproc"  class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL08I-EA-DET-01:PROC:" />
+		<property name="pluginBase" ref= "andor_base_proc" />
+	</bean>
 	
 <!-- HDF5 file writers -->
 	 <bean id="andor_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">

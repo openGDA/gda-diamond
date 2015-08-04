@@ -56,6 +56,6 @@
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement> -->
-    <saveRawSpectrum>false</saveRawSpectrum>
+    <saveRawSpectrum>true</saveRawSpectrum>
     <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>
