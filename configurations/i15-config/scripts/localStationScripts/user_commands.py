@@ -457,7 +457,7 @@ def _rockScanParams(detector, exposeTime, exposeNumber, fileName, rockMotor, roc
 	if rockNumber <> 1:
 		rockscanMotor = jythonNameMap['dkphi_rockscan']
 		msg = "rockNumber > 1 so performing unsynchronised rockscan using %s. Moving to start position %r" % (rockscanMotor.name, rockCentre-rockAngle)
-		logger.error(msg)
+		logger.info(msg)
 		print "-"*80
 		print msg
 		print "-"*80
