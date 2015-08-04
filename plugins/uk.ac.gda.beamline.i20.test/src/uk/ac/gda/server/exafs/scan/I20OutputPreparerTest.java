@@ -19,6 +19,14 @@
 package uk.ac.gda.server.exafs.scan;
 
 import static org.junit.Assert.assertTrue;
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.device.Detector;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.xmap.Xmap;
+import gda.device.detector.xspress.Xspress2Detector;
+import gda.scan.ScanPlotSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +36,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.device.Detector;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
-import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
@@ -106,7 +106,7 @@ public class I20OutputPreparerTest {
 		detBean.setTransmissionParameters(transParams);
 		detBean.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
 
-		thePreparer.configure(outputBean, scanBean, detBean);
+		thePreparer.configure(outputBean, scanBean, detBean, null);
 
 		Mockito.verify(ionchambers).setOutputLogValues(true);
 		Mockito.verify(xspressSystem).setOnlyDisplayFF(true);
@@ -131,7 +131,7 @@ public class I20OutputPreparerTest {
 		detBean.setTransmissionParameters(transParams);
 		detBean.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
 
-		thePreparer.configure(outputBean, scanBean, detBean);
+		thePreparer.configure(outputBean, scanBean, detBean, null);
 
 		Mockito.verify(ionchambers).setOutputLogValues(true);
 		Mockito.verify(xspressSystem).setOnlyDisplayFF(false);
@@ -170,7 +170,7 @@ public class I20OutputPreparerTest {
 		detBean.setFluorescenceParameters(fluoParams);
 		detBean.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
 
-		thePreparer.configure(outputBean, scanBean, detBean);
+		thePreparer.configure(outputBean, scanBean, detBean, null);
 
 		ScanPlotSettings sps = thePreparer.getPlotSettings();
 
@@ -183,7 +183,7 @@ public class I20OutputPreparerTest {
 		outputBean2.setXspressShowDTRawValues(false);
 		outputBean2.setVortexSaveRawSpectrum(false);
 
-		thePreparer.configure(outputBean2, scanBean, detBean);
+		thePreparer.configure(outputBean2, scanBean, detBean, null);
 
 		ScanPlotSettings sps2 = thePreparer.getPlotSettings();
 
@@ -206,7 +206,7 @@ public class I20OutputPreparerTest {
 		detBean.setFluorescenceParameters(fluoParams);
 		detBean.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
 
-		thePreparer.configure(outputBean, scanBean, detBean);
+		thePreparer.configure(outputBean, scanBean, detBean, null);
 
 		ScanPlotSettings sps = thePreparer.getPlotSettings();
 
@@ -218,7 +218,7 @@ public class I20OutputPreparerTest {
 		detBean2.setFluorescenceParameters(fluoParams2);
 		detBean2.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
 
-		thePreparer.configure(outputBean, scanBean, detBean2);
+		thePreparer.configure(outputBean, scanBean, detBean2, null);
 
 		ScanPlotSettings sps2 = thePreparer.getPlotSettings();
 
@@ -229,7 +229,7 @@ public class I20OutputPreparerTest {
 		detBean3.setTransmissionParameters(transParams);
 		detBean3.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
 
-		thePreparer.configure(outputBean, scanBean, detBean2);
+		thePreparer.configure(outputBean, scanBean, detBean2, null);
 
 		ScanPlotSettings sps3 = thePreparer.getPlotSettings();
 
