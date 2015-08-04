@@ -6,14 +6,14 @@ Created on 3 Dec 2014
 from utils.dRangeUtil import drange
 from scan.concurrentAnalyserScan import pathscan
 
-jenergy.moveTo(0.456)
+#jenergy.moveTo(0.25)
 
-nsteps=40
-xstart=2.2
-xend=1.8
+nsteps=8
+xstart=2.1
+xend=1.9
 
-zstart=2
-zend=2.4
+zstart=2.498
+zend=2.84
 
 dx=(xstart-xend)/nsteps
 dz=(zstart-zend)/nsteps
@@ -31,8 +31,9 @@ for l in path:
 scanpath=tuple(scanpath)
 print "scan path: ", scanpath
 
-#analyserpathscan((smpmx,smpmz), scanpath, smpmy, -552.75, -549.5, 0.05, ew4000, "user.seq")
-pathscan((smpmx,smpmz), scanpath,smpmy, -550.8, -550.4, 0.01, smpmiamp39)
+analyserscan((smpmx,smpmz), scanpath, smpmy, -552.18, -551.66, 0.05, ew4000, "user.seq")
+#pathscan((smpmx,smpmz), scanpath,smpmy, -550.8, -550.4, 0.01, smpmiamp39)
+#pathscan((x,z), scanpath,y, -550.8, -550.4, 0.01, smpmiamp39)
 
 #pos fsi1 'In'
 
