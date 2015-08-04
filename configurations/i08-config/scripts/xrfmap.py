@@ -5,6 +5,7 @@ from gdascripts.scan.trajscans import setDefaultScannables
 from gda.epics import CAClient
 import time
 from plotters import Plotter
+from gda.jython.commands.ScannableCommands import add_default
 
 class XRFMap(RasterScan):
      
@@ -19,11 +20,27 @@ class XRFMap(RasterScan):
         self.setROI2(0.5, 1)
         self.setROI3(1, 1.5)
         self.setROI4(1.5, 2)
+        self.setROI5(0, 0)
+        self.setROI6(0, 0)
+        self.setROI7(1, 1.5)
+        self.setROI8(1.5, 2)
         self.roi1_plotter = Plotter("roi1_plotter",'roi1_total',"ROI1")
         self.roi2_plotter = Plotter("roi2_plotter",'roi2_total',"ROI2")
         self.roi3_plotter = Plotter("roi3_plotter",'roi3_total',"ROI3")
-        self.roi4_plotter = Plotter("roi4_plotter",'roi4_total',"ROI4")        
-        add_default self.roi1_plotter.getPlotter() self.roi2_plotter.getPlotter() self.roi3_plotter.getPlotter() self.roi4_plotter.getPlotter()
+        self.roi4_plotter = Plotter("roi4_plotter",'roi4_total',"ROI4")  
+        self.roi5_plotter = Plotter("roi5_plotter",'roi5_total',"ROI5")
+        self.roi6_plotter = Plotter("roi6_plotter",'roi6_total',"ROI6")
+        self.roi7_plotter = Plotter("roi7_plotter",'roi7_total',"ROI7")
+        self.roi8_plotter = Plotter("roi8_plotter",'roi8_total',"ROI8")
+
+        add_default(self.roi1_plotter.getPlotter())
+        add_default(self.roi2_plotter.getPlotter())
+        add_default(self.roi3_plotter.getPlotter())
+        add_default(self.roi4_plotter.getPlotter())
+        add_default(self.roi5_plotter.getPlotter())
+        add_default(self.roi6_plotter.getPlotter())
+        add_default(self.roi7_plotter.getPlotter())
+        add_default(self.roi8_plotter.getPlotter())
         
     def __call__(self, *args):
 
@@ -83,6 +100,18 @@ class XRFMap(RasterScan):
     def setROI4 (self,startEnergy,stopEnergy):
         self.vortex.xmaproistats4.setRoi(self.ROIstart(startEnergy),0,self.ROIsize(startEnergy, stopEnergy),1,"roi4")
         
+    def setROI5 (self,startEnergy,stopEnergy):
+        self.vortex.xmaproistats5.setRoi(self.ROIstart(startEnergy),0,self.ROIsize(startEnergy, stopEnergy),1,"roi5")
+
+    def setROI6 (self,startEnergy,stopEnergy):
+        self.vortex.xmaproistats6.setRoi(self.ROIstart(startEnergy),0,self.ROIsize(startEnergy, stopEnergy),1,"roi6")
+
+    def setROI7 (self,startEnergy,stopEnergy):
+        self.vortex.xmaproistats7.setRoi(self.ROIstart(startEnergy),0,self.ROIsize(startEnergy, stopEnergy),1,"roi7")
+ 
+    def setROI8 (self,startEnergy,stopEnergy):
+        self.vortex.xmaproistats8.setRoi(self.ROIstart(startEnergy),0,self.ROIsize(startEnergy, stopEnergy),1,"roi8")
+
     def getEnergyBinWidth(self):
         return float(CAClient().get("BL08I-EA-DET-02:DXP1:MCABinWidth_RBV"))
     
@@ -96,6 +125,10 @@ class XRFMap(RasterScan):
         self.roi2_plotter.setAxis(Xsize,Ysize)
         self.roi3_plotter.setAxis(Xsize,Ysize)
         self.roi4_plotter.setAxis(Xsize,Ysize)
+        self.roi5_plotter.setAxis(Xsize,Ysize)
+        self.roi6_plotter.setAxis(Xsize,Ysize)
+        self.roi7_plotter.setAxis(Xsize,Ysize)
+        self.roi8_plotter.setAxis(Xsize,Ysize)
         
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX

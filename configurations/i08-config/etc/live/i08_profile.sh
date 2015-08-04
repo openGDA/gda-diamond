@@ -1,5 +1,5 @@
 # i08 beamline profile
-#This script is sourced from /dls_sw/b24/etc/i08_profile.sh
+#This script is sourced from /dls_sw/i08/etc/i08_profile.sh
 #KrisB 17/09/14 - Commenting out $BEAMLINE as always set on beamline workstations via /etc/profile.d/beamline.sh
 
 

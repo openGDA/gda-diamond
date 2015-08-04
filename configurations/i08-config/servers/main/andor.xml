@@ -55,10 +55,16 @@
 					<property name="roi2Name" value="quadrant2" />
 					<property name="roi3Name" value="quadrant3" />
 					<property name="roi4Name" value="quadrant4" />
-				</bean>  
+				</bean>
+				 <ref bean="andor_darkandflatfields_proc" /> 
 			</list>
 		</property>
 	</bean> 
+
+	<bean id="andor_darkandflatfields_proc"
+		class="gda.device.detector.nxdetector.andor.proc.FlatAndDarkFieldPlugin">
+		<constructor-arg ref="andor_adproc" />
+	</bean>
 
 	<!-- underscore as it should be wrapped in the scanwrapper -->
 	<bean id="_andorrastor" class="gda.device.detector.HardwareTriggeredNXDetector">
@@ -81,6 +87,7 @@
 					<property name="roi3Name" value="quadrant3" />
 					<property name="roi4Name" value="quadrant4" />
 				</bean>   
+				<ref bean="andor_darkandflatfields_proc" />
 			</list>
 		</property>
 	</bean>

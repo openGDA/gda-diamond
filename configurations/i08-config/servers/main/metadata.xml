@@ -438,22 +438,52 @@
 				<value>s2_yminus</value>
 				<value>s2_yplus</value>
 				<value>s2_ztranslation</value>
-				<value>andorAccumulatePeriod</value>
-				<value>andorShutterMode</value>
-				<value>andorExtShutterTrigger</value>
-				<value>andorPreampGain</value>
-				<value>andorADCSpeed</value>
-				<value>andorVerticalShiftSpeed</value>
-				<value>andorVerticalShiftAmplitude</value>
-				<value>andorEMCCDGain</value> 
-				<value>andorCoolerTemperature</value>
-				<value>andorCoolerControl</value> 
-				<value>andorBinningSizeX</value> 
-				<value>andorBinningSizeY</value> 
 			</set>
 		</property>
 	</bean> 
 	
+	<!--Metas to be recorded for specific detector  -->
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadataScannablesPerDetector" />
+		<property name="arguments">
+			<map>
+				<entry key="andor">
+					<set>
+						<value>andorAccumulatePeriod</value>
+						<value>andorShutterMode</value>
+						<value>andorExtShutterTrigger</value>
+						<value>andorPreampGain</value>
+						<value>andorADCSpeed</value>
+						<value>andorVerticalShiftSpeed</value>
+						<value>andorVerticalShiftAmplitude</value>
+						<value>andorEMCCDGain</value>
+						<value>andorCoolerTemperature</value>
+						<value>andorCoolerControl</value>
+						<value>andorBinningSizeX</value>
+						<value>andorBinningSizeY</value>
+                    </set>
+				</entry>
+				<entry key="_andorrastor">
+					<set>
+						<value>andorAccumulatePeriod</value>
+						<value>andorShutterMode</value>
+						<value>andorExtShutterTrigger</value>
+						<value>andorPreampGain</value>
+						<value>andorADCSpeed</value>
+						<value>andorVerticalShiftSpeed</value>
+						<value>andorVerticalShiftAmplitude</value>
+						<value>andorEMCCDGain</value>
+						<value>andorCoolerTemperature</value>
+						<value>andorCoolerControl</value>
+						<value>andorBinningSizeX</value>
+						<value>andorBinningSizeY</value>
+					</set>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" />
 
 </beans>
