@@ -44,6 +44,8 @@
 				<pathelement location="${workspace.git.loc}/gda-devices-mythen.git/uk.ac.gda.devices.mythen/bin" />
 				<pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/bin" />
 				<pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/jars/*" />
+				<pathelement location="${workspace.git.loc}/dawn-eclipse.git/org.eclipse.richbeans.api/bin" />
+				<pathelement location="${workspace.git.loc}/dawn-eclipse.git/org.eclipse.richbeans.xml/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.hdf5/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.api/bin" />
 				<pathelement location="${workspace.git.loc}/dawn-ui.git/org.dawnsci.common.widgets/bin" />
