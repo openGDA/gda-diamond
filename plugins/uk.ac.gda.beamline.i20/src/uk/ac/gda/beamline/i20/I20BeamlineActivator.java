@@ -20,6 +20,7 @@ package uk.ac.gda.beamline.i20;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -57,6 +58,17 @@ public class I20BeamlineActivator extends AbstractUIPlugin {
 	 */
 	public static I20BeamlineActivator getDefault() {
 		return plugin;
+	}
+
+	/**
+	 * Method to get a service.
+	 *
+	 * @param serviceClass
+	 * @return any loaded OSGi service which the bundle can see.
+	 */
+	public static Object getService(Class<?> serviceClass) {
+		ServiceReference<?> ref = plugin.getBundle().getBundleContext().getServiceReference(serviceClass);
+		return plugin.getBundle().getBundleContext().getService(ref);
 	}
 
 }

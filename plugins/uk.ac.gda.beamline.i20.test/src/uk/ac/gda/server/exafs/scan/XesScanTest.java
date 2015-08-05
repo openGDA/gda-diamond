@@ -47,7 +47,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.aspectj.util.Reflection;
-import org.dawnsci.common.richbeans.beans.BeansFactory;
+import org.eclipse.richbeans.api.beans.BeansFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -18,16 +18,16 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import org.dawnsci.common.richbeans.components.scalebox.IntegerBox;
-import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
-import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
+import gda.device.detector.Roi;
+
+import org.eclipse.richbeans.widgets.scalebox.IntegerBox;
+import org.eclipse.richbeans.widgets.scalebox.ScaleBox;
+import org.eclipse.richbeans.widgets.wrappers.TextWrapper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-
-import gda.device.detector.Roi;
 
 /**
  * may not need - do not commit yet!

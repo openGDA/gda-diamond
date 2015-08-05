@@ -18,12 +18,17 @@
 
 package gda.exafs.ui.preferencepages;
 
+import gda.device.EditableEnumPositioner;
+import gda.device.EnumPositioner;
+import gda.factory.Finder;
+
 import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.common.richbeans.beans.BeanUI;
-import org.dawnsci.common.richbeans.components.selector.BeanSelectionEvent;
-import org.dawnsci.common.richbeans.components.selector.BeanSelectionListener;
-import org.dawnsci.common.richbeans.components.selector.VerticalListEditor;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.richbeans.api.reflection.IBeanController;
+import org.eclipse.richbeans.api.reflection.IBeanService;
+import org.eclipse.richbeans.widgets.selector.BeanSelectionEvent;
+import org.eclipse.richbeans.widgets.selector.BeanSelectionListener;
+import org.eclipse.richbeans.widgets.selector.VerticalListEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -35,9 +40,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.EditableEnumPositioner;
-import gda.device.EnumPositioner;
-import gda.factory.Finder;
+import uk.ac.gda.beamline.i20.I20BeamlineActivator;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.exafs.ExafsActivator;
 
@@ -135,7 +138,10 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 	public boolean performOk() {
 		try {
 			final PositionerLabels elements = new PositionerLabels();
-			BeanUI.uiToBean(this, elements);
+
+			IBeanService service = (IBeanService) I20BeamlineActivator.getService(IBeanService.class);
+			IBeanController control = service.createController(this, elements);
+			control.uiToBean();
 			String[] labels = new String[] {};
 
 			for (PositionerLabelBean bean : elements.getLabels()) {
@@ -178,7 +184,9 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 				elements.addLabel(new PositionerLabelBean(label));
 			}
 
-			BeanUI.beanToUI(elements, this);
+			IBeanService service = (IBeanService) I20BeamlineActivator.getService(IBeanService.class);
+			IBeanController control = service.createController(this, elements);
+			control.beanToUI();
 		} catch (Exception e) {
 			logger.error("Cannot get defaults.", e);
 		}

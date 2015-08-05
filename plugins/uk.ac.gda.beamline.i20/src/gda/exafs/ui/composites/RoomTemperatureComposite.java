@@ -18,15 +18,14 @@
 
 package gda.exafs.ui.composites;
 
-import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
-import org.dawnsci.common.richbeans.components.selector.ListEditor;
-import org.dawnsci.common.richbeans.components.selector.ListEditorUI;
-import org.dawnsci.common.richbeans.components.wrappers.BooleanWrapper;
-import org.dawnsci.common.richbeans.components.wrappers.SpinnerWrapper;
-import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
-import org.dawnsci.common.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.richbeans.widgets.scalebox.ScaleBox;
+import org.eclipse.richbeans.widgets.selector.ListEditor;
+import org.eclipse.richbeans.widgets.selector.ListEditorUI;
+import org.eclipse.richbeans.widgets.wrappers.BooleanWrapper;
+import org.eclipse.richbeans.widgets.wrappers.SpinnerWrapper;
+import org.eclipse.richbeans.widgets.wrappers.TextWrapper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -77,7 +76,7 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 		GridDataFactory.swtDefaults().applyTo(lblSamname);
 
 		sample_name = new TextWrapper(composite, SWT.NONE);
-		sample_name.setTextType(TEXT_TYPE.FILENAME);
+		sample_name.setTextType(org.eclipse.richbeans.widgets.wrappers.TextWrapper.TEXT_TYPE.FILENAME);
 		GridDataFactory.fillDefaults().applyTo(sample_name);
 
 		Label lblSamdesc = new Label(composite, SWT.NONE);

@@ -18,17 +18,19 @@
 
 package gda.exafs.ui.composites;
 
+import gda.jython.JythonServerFacade;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import org.dawnsci.common.richbeans.components.scalebox.ScaleBox;
-import org.dawnsci.common.richbeans.components.selector.ListEditor;
-import org.dawnsci.common.richbeans.components.selector.ListEditorUI;
-import org.dawnsci.common.richbeans.components.wrappers.SpinnerWrapper;
-import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
-import org.dawnsci.common.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.richbeans.widgets.scalebox.ScaleBox;
+import org.eclipse.richbeans.widgets.selector.ListEditor;
+import org.eclipse.richbeans.widgets.selector.ListEditorUI;
+import org.eclipse.richbeans.widgets.wrappers.SpinnerWrapper;
+import org.eclipse.richbeans.widgets.wrappers.TextWrapper;
+import org.eclipse.richbeans.widgets.wrappers.TextWrapper.TEXT_TYPE;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -40,7 +42,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
-import gda.jython.JythonServerFacade;
 import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.common.rcp.util.GridUtils;
 
