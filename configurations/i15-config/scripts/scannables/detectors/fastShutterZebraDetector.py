@@ -85,18 +85,26 @@ class FastShutterZebraDetector(DetectorBase, HardwareTriggeredDetector, Detector
         """ Returns the current collecting state of the device. BUSY if the
             detector has not finished the requested operation(s), IDLE if in
             an completely idle state and STANDBY if temporarily suspended. """
-        return self.IDLE # On I15 the fast shutter detector will always
-        # be run alongside another detector so we can get away with
-        # fastShutterDetector always returning IDLE, as other detectors
-        # or motors will control whether we move to the next point.
+        num_cap = int(float(self.pvs['PC_NUM_CAP'].caget()))
+        num_down = int(float(self.pvs['PC_NUM_DOWN'].caget()))
+        array_acq = int(float(self.pvs['ARRAY_ACQ'].caget()))
+        if self.verbose:
+            simpleLog("%s:%s() started... ARRAY_ACQ=%r, PC_NUM_CAP=%r, PC_NUM_DOWN=%r" % (
+                self.name, self.pfuncname(), array_acq, num_cap, num_down))
+        # num_cap and num_down react much more quickly than array_acq, but may
+        # not be equal if a previous scan failed, so check for both.
+        return self.IDLE if array_acq == 0 or num_cap == num_down else self.BUSY
 
     def readout(self):
         """ Returns the latest data collected. The size of the Object returned
             must be consistent with the values returned by getDataDimensions
             and getExtraNames. """
+        pc_div3_last = float(self.pvs['PC_DIV3_LAST'].caget())
         if self.verbose:
             simpleLog("%s:%s() started... collectionTime=%r" % (self.name, self.pfuncname(), self.collectionTime))
-        return float(self.pvs['PC_DIV3_LAST'].caget())/1000.
+            simpleLog("%s:%s() ARRAY_ACQ=%r, PC_NUM_CAP=%r, PC_NUM_DOWN=%r, PC_DIV3_LAST=%r" % (self.name, self.pfuncname(),
+                self.pvs['ARRAY_ACQ'].caget(), self.pvs['PC_NUM_CAP'].caget(), self.pvs['PC_NUM_DOWN'].caget(), pc_div3_last))
+        return pc_div3_last/1000.
         # Hard coded to 1000 as we are using a 1KHz clock for the pulses.
 
 #    def waitWhileBusy(self):
