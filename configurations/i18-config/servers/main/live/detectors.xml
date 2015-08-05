@@ -33,7 +33,16 @@
 			value="${gda.config}/templates/Xspress_Parameters.xml" />
 		<property name="dtcConfigFileName"
 			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
+		<property name="sumAllElementData" value = "true"/>
 	</bean>
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspress2system" />
+		<property name="service" ref="xspress2system" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+	</bean>
+	
 
 	<!-- Time Frame Generator -->
 	<bean id="tfg" class="gda.device.timer.Etfg">
@@ -126,59 +135,25 @@
 		<property name="slave" value="true" />
 	</bean>
 
-<!-- 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap"> -->
-<!-- 		<property name="controller" ref="xmapcontroller" /> -->
-
-<!-- 		<property name="eventProcessingTimes"> -->
-<!-- 			<list>	 -->
-<!-- 				<value>1.7867731067630825e-08</value> -->
-<!-- 				<value>2.1322543748867164e-08</value> -->
-<!-- 				<value>2.1412068256345848e-08</value> -->
-<!-- 				<value>2.5302404673324592e-08</value> -->
-
-<!-- 				<value>8.9e-07</value> -->
-<!-- 				<value>8.9e-07</value> -->
-<!-- 				<value>8.6e-07</value> -->
-<!-- 				<value>9.0e-07</value> -->
-<!-- 				<value>8.7e-07</value> -->
-<!-- 				<value>9.1e-07</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-
-<!-- 		<property name="slave" value="false" /> -->
-<!-- 		<property name="configFileName" -->
-<!-- 			value="${gda.config}/templates/Vortex_Parameters.xml" /> -->
-<!-- 		<property name="tfg" ref="tfg" /> -->
-<!-- 		<property name="sumAllElementData" value="true" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap"> -->
-<!-- 		<property name="xmap" ref="xmapMca" /> -->
-<!-- 		<property name="local" value="True" /> -->
-<!-- 		<property name="timer" ref="tfg" /> -->
-<!-- 		<property name="slave" value="true" /> -->
-<!-- 		<property name="collectionModePV" value="BL18I-EA-DET-04:CollectMode" /> -->
-<!-- 	</bean> -->
 	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
+		<property name="daserver" ref="daserver" />
 		<property name="local" value="true" />
+		<property name="inputNames">
+			<list>
+			</list>
+		</property>
 	</bean>
-<!-- 	<bean id="raster_xmap" class="gda.device.detector.xmap.XmapBufferedDetector"> -->
-<!-- 		<property name="xmap" ref="xmapMca" /> -->
-<!-- 		<property name="controller" ref="edxdcontroller"> -->
-<!-- 		</property> -->
-<!-- 		<property name="daServer" ref="daserver" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 		<property name="capturepv" value="BL18I-EA-DET-04:HDF:Capture" /> -->
-<!-- 	</bean> -->
 
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
-				<value>liveTime</value>
+				<value>time</value>
 				<value>I0</value>
 				<value>It</value>
 				<value>Iother</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
 			</list>
 		</property>
 		<property name="scaler" ref="CalMemory" />
@@ -186,12 +161,14 @@
 		<property name="daserver" ref="daserver" />
 		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
+		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="3" />
 		<property name="ttlSocket" value="1" />
 		<property name="outputFormat">
 			<list>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
 				<value>%6.4g</value>
 				<value>%6.4g</value>
 				<value>%9d</value>
@@ -250,13 +227,6 @@
 		<property name="counterTimer" ref="counterTimer01" />
 		<property name="i0_channel" value="1" />
 	</bean>
-
-<!-- 	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0"> -->
-<!-- 		<property name="xmap" ref="xmapMca" /> -->
-<!-- 		<property name="counterTimer" ref="counterTimer01" /> -->
-<!-- 		<property name="i0_channel" value="1" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
 
 	<bean id="I0_keithley" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL18I-EA-IAMP-02:Gain" />
