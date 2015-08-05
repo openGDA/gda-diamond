@@ -18,24 +18,32 @@
 
 package gda.exafs.ui;
 
+import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.exafs.ui.composites.CryostatTableComposite;
+import gda.exafs.ui.composites.RoomTemperatureComposite;
+import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
+import gda.factory.Finder;
+import gda.observable.IObserver;
+
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
-import org.dawnsci.common.richbeans.components.FieldComposite.NOTIFY_TYPE;
-import org.dawnsci.common.richbeans.components.selector.BeanSelectionEvent;
-import org.dawnsci.common.richbeans.components.selector.BeanSelectionListener;
-import org.dawnsci.common.richbeans.components.selector.VerticalListEditor;
-import org.dawnsci.common.richbeans.components.wrappers.BooleanWrapper;
-import org.dawnsci.common.richbeans.components.wrappers.ComboWrapper;
-import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
-import org.dawnsci.common.richbeans.components.wrappers.TextWrapper.TEXT_TYPE;
-import org.dawnsci.common.richbeans.event.ValueAdapter;
-import org.dawnsci.common.richbeans.event.ValueEvent;
-import org.dawnsci.common.richbeans.event.ValueListener;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.preference.PreferenceDialog;
+import org.eclipse.richbeans.api.event.ValueAdapter;
+import org.eclipse.richbeans.api.event.ValueEvent;
+import org.eclipse.richbeans.api.event.ValueListener;
+import org.eclipse.richbeans.widgets.FieldComposite.NOTIFY_TYPE;
+import org.eclipse.richbeans.widgets.selector.BeanSelectionEvent;
+import org.eclipse.richbeans.widgets.selector.BeanSelectionListener;
+import org.eclipse.richbeans.widgets.selector.VerticalListEditor;
+import org.eclipse.richbeans.widgets.wrappers.BooleanWrapper;
+import org.eclipse.richbeans.widgets.wrappers.ComboWrapper;
+import org.eclipse.richbeans.widgets.wrappers.TextWrapper;
+import org.eclipse.richbeans.widgets.wrappers.TextWrapper.TEXT_TYPE;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
@@ -55,13 +63,6 @@ import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.slf4j.Logger;
 
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.exafs.ui.composites.CryostatTableComposite;
-import gda.exafs.ui.composites.RoomTemperatureComposite;
-import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
-import gda.factory.Finder;
-import gda.observable.IObserver;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
@@ -161,7 +162,6 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				useSampleWheel.setValue(true);
 				useSampleWheel.setToolTipText("Check the box to set the reference sample when running this experiment");
 				useSampleWheel.addValueListener(new ValueListener() {
-
 					@Override
 					public void valueChangePerformed(ValueEvent e) {
 						Boolean boxTicked = (Boolean) e.getValue();
@@ -171,7 +171,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 
 					@Override
 					public String getValueListenerName() {
-						return null;
+						return "useSampleWheel listener";
 					}
 				});
 

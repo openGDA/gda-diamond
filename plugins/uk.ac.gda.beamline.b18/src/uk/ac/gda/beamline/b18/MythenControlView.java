@@ -18,6 +18,12 @@
 
 package uk.ac.gda.beamline.b18;
 
+import gda.data.NumTracker;
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.jython.JythonServerFacade;
+import gda.observable.IObservable;
+import gda.observable.IObserver;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
@@ -30,7 +36,7 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.dawnsci.common.richbeans.components.wrappers.TextWrapper;
+import org.eclipse.richbeans.widgets.wrappers.TextWrapper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -46,11 +52,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.data.NumTracker;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.jython.JythonServerFacade;
-import gda.observable.IObservable;
-import gda.observable.IObserver;
 import uk.ac.diamond.scisoft.analysis.PlotServer;
 import uk.ac.diamond.scisoft.analysis.PlotServerProvider;
 import uk.ac.diamond.scisoft.analysis.plotclient.IUpdateNotificationListener;
