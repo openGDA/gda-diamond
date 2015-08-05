@@ -1,13 +1,11 @@
 from gda.configuration.properties import LocalProperties
 from gda.scan import ConstantVelocityRasterScan
-from gdascripts.scan import rasterscans
 from gdascripts.scan.rasterscans import RasterScan
-from gdascripts.scan.trajscans import setDefaultScannables
 from gda.epics import CAClient
 import time
 import math
 from plotters import Plotter
-from gda.factory import Finder
+from gda.jython.commands.ScannableCommands import add_default
 
 class AndorMap(RasterScan):
      
@@ -18,12 +16,15 @@ class AndorMap(RasterScan):
         self.rowScannable = rowScannable
         self.columnScannable = columnScannable
         self.andor = andor
+        self.ROISetup()
         # setup the Andor trigger to internal for snapshots by default
-        andor.getCollectionStrategy().getAdBase().setTriggerMode(0)
+        self.andor.getCollectionStrategy().getAdBase().setTriggerMode(0)
         self.horizontal_plotter = Plotter("horizontal_plotter",'Horizontal',"Horizontal Gradient")
         self.vertical_plotter = Plotter("vertical_plotter",'Vertical',"Vertical Gradient")
         self.transmission_plotter = Plotter("transmission_plotter",'transmission_total',"Transmission")   
-        add_default self.horizontal_plotter.getPlotter() self.vertical_plotter.getPlotter() self.transmission_plotter.getPlotter()  
+        add_default(self.horizontal_plotter.getPlotter())
+        add_default(self.vertical_plotter.getPlotter())
+        add_default(self.transmission_plotter.getPlotter())
          
          
     def __call__(self, *args):
@@ -65,22 +66,22 @@ class AndorMap(RasterScan):
     
 #configure the ROIs for both the step and raster andor objects
     def ROISetup(self):
-        Xsize = andor.getCollectionStrategy().getAdBase().getArraySizeX_RBV()
-        Ysize = andor.getCollectionStrategy().getAdBase().getArraySizeY_RBV()        
+        Xsize = self.andor.getCollectionStrategy().getAdBase().getArraySizeX_RBV()
+        Ysize = self.andor.getCollectionStrategy().getAdBase().getArraySizeY_RBV()
         XmidSize = Xsize/2
         YmidSize = Ysize/2
         
         print "Setting up Regions of Interest for andor and _andorrastor objects..."
-        andor.roistats1.setRoi(0,0,XmidSize,YmidSize,"quadrant1")
-        andor.roistats2.setRoi(0,YmidSize,XmidSize,YmidSize,"quadrant2")
-        andor.roistats3.setRoi(XmidSize,0,XmidSize,YmidSize,"quadrant3")
-        andor.roistats4.setRoi(XmidSize,YmidSize,XmidSize,YmidSize,"quadrant4")
-        andor.roistats5.setRoi(0,0,Xsize,Ysize,"transmission")
+        self.andor.roistats1.setRoi(0,0,XmidSize,YmidSize,"quadrant1")
+        self.andor.roistats2.setRoi(0,YmidSize,XmidSize,YmidSize,"quadrant2")
+        self.andor.roistats3.setRoi(XmidSize,0,XmidSize,YmidSize,"quadrant3")
+        self.andor.roistats4.setRoi(XmidSize,YmidSize,XmidSize,YmidSize,"quadrant4")
+        self.andor.roistats5.setRoi(0,0,Xsize,Ysize,"transmission")
       
     def OptimizeChunk(self):
-        Xsize = andor.getCollectionStrategy().getAdBase().getArraySizeX_RBV()
-        Ysize = andor.getCollectionStrategy().getAdBase().getArraySizeY_RBV() 
-        dataType = andor.getCollectionStrategy().getAdBase().getDataType()
+        Xsize = self.andor.getCollectionStrategy().getAdBase().getArraySizeX_RBV()
+        Ysize = self.andor.getCollectionStrategy().getAdBase().getArraySizeY_RBV()
+        dataType = self.andor.getCollectionStrategy().getAdBase().getDataType()
         # Each chunk is 1 MByte
         chunkSize = (1024**2)
         #pixel size in bytes
@@ -88,14 +89,14 @@ class AndorMap(RasterScan):
         print "pixelSize:",pixelSize
         framesPerChunk = (chunkSize)/(Xsize*Ysize*pixelSize)
         print "framesperChunk:",framesPerChunk
-        andor.getAdditionalPluginList()[0].setFramesChunks(framesPerChunk)
+        self.andor.getAdditionalPluginList()[0].setFramesChunks(framesPerChunk)
         
     def OpenAndorShutter(self):
         if (LocalProperties.get("gda.mode") == 'live'):
             CAClient().put("BL08I-EA-DET-01:CAM:AndorShutterMode","1")
      
     def PrepareForCollection(self,Xsize,Ysize):   
-        andor.getCollectionStrategy().getAdBase().stopAcquiring()
+        self.andor.getCollectionStrategy().getAdBase().stopAcquiring()
         time.sleep(1)
         self.OpenAndorShutter()
         self.ROISetup()
@@ -110,6 +111,11 @@ class AndorMap(RasterScan):
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
 # row = stxmDummy.stxmDummyY
-andormap = AndorMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor)
-alias andormap
-print "Command andormap(mapSize) created for arming the Andor detector before running STXM maps"
+#stxmDummy = Finder.getInstance().find("stxmDummy")
+#col = stxmDummy.stxmDummyX
+#row = stxmDummy.stxmDummyY
+#_andorrastor = Finder.getInstance().find("_andorrastor")
+#andormap = AndorMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor)
+#andormap = AndorMap(col,row,_andorrastor)
+#alias("andormap")
+#print "Command andormap(mapSize) created for arming the Andor detector before running STXM maps"

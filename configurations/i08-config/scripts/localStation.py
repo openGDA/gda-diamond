@@ -6,13 +6,19 @@ from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase, CoupledScannable
 from gda.device.monitor import EpicsMonitor
 from gdascripts.parameters.beamline_parameters import JythonNameSpaceMapping
+from gda.device.detector.nxdetector.andor.proc import FlatAndDarkFieldPlugin
+from gda.device.detector.nxdetector.andor.proc.FlatAndDarkFieldPlugin import ScanType
+from andormap import AndorMap
+from andormapWithCorrection import AndorMapWithCorrection
+from scanForImageCorrection import ScanForImageCorrection
 #from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 
 print "Initialisation Started";
 
 
 from gda.device import Scannable
-from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
+from gda.jython.commands.GeneralCommands import ls_names, vararg_alias,run
+from gda.jython.commands.ScannableCommands import add_default
 
 def ls_scannables():
     ls_names(Scannable)
@@ -64,9 +70,15 @@ from idEnergy import my_energy_class1
 # set up the Andor Area Detector ROIs etc for hardware-driven mapping
 #run "AndorConfiguration"
 # create the command to run STXM mpas which involve andor
+andormap = AndorMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor)
+#andormap = AndorMap(col,row,_andorrastor)
+alias("andormap")
+print "Command andormap(mapSize) created for arming the Andor detector before running STXM maps"
+#To obtain the corrected images just use the collection strategy for step scan
+scanForImageCorrection = ScanForImageCorrection(andor)
+andormapWithCorrection = AndorMapWithCorrection(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor,scanForImageCorrection)
+alias("andormapWithCorrection")
 
-run "andormap"
 run "xrfmap"
 
-#
 print "Initialisation Complete";

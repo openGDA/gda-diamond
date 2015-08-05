@@ -6,12 +6,13 @@
         <cs:dependency name="uk.ac.gda.beamline.i08" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i08.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.xmap.epics" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls.client" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.video" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.video.mjpeg" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.video.views" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.devices.xmap.epics" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.andor" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
