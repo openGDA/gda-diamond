@@ -12,89 +12,90 @@
 	 <property name="unitString" value="mm"/>
 	 </bean>
 
-	 <bean id="bda_x_motor" class="gda.device.motor.DummyMotor" />
-	
-	 <bean id="bda_y_motor" class="gda.device.motor.DummyMotor" />
-	
-	 <bean id="m1_x_motor" class="gda.device.motor.DummyMotor" />
-	
-	 <bean id="m1_pitch_motor" class="gda.device.motor.DummyMotor" />
-	 
-	 <bean id="m1_y_motor" class="gda.device.motor.DummyMotor" />
-	 
-	 <bean id="m1_roll_motor" class="gda.device.motor.DummyMotor" />
-	
+	<bean id="idenergy_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="bda_x_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="bda_y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="m1_x_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="m1_pitch_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="m1_y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="m1_roll_motor" class="gda.device.motor.DummyMotor" />
+
 	<bean id="m1_yaw_motor" class="gda.device.motor.DummyMotor" />
-	
-	 <bean id="s1_xsize_motor" class="gda.device.motor.DummyMotor" />
-	 
+
+	<bean id="s1_xsize_motor" class="gda.device.motor.DummyMotor" />
+
 	<bean id="s1_xcentre_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s1_xminus_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s1_xplus_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s1_ysize_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s1_ycentre_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s1_yminus_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s1_yplus_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="grating_pitch_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="grating_x_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m2_x_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m3_x_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m3_pitch_motor" class="gda.device.motor.DummyMotor" />
-	 
+
 	<bean id="m3_yaw_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m3_roll_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="m3_y_motor" class="gda.device.motor.DummyMotor" />
-	 
 
 	<bean id="m4_x_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m4_pitch_motor" class="gda.device.motor.DummyMotor" />
-	 
+
 	<bean id="m4_y_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m4_yaw_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m4_roll_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m4_ellipticity_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="m4_curvature_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s2_xsize_motor" class="gda.device.motor.DummyMotor" />
-	 
+
 	<bean id="s2_xcentre_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s2_xminus_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s2_xplus_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s2_ysize_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s2_ycentre_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s2_yminus_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s2_yplus_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="s2_ztranslation_motor" class="gda.device.motor.DummyMotor" />
 
 </beans>

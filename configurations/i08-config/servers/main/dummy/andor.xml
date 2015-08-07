@@ -9,21 +9,30 @@
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 	
 <!-- Andor Camera Detector -->
-	
+
 	<bean id="andor_adbase_pvProvider"
 		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
 		<property name="prefix" value="BL08I-TS-DET-01:CAM:" />
 	</bean>
-	
-	<bean id="andor_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+
+	<bean id="andor_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="pvProvider" ref="andor_adbase_pvProvider" />
 		<property name="BinX" value="4" />
 		<property name="BinY" value="4" />
 	</bean>
 
-	
+	<bean id="andor_base_proc"
+		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+		<property name="basePVName" value="BL08I-TS-DET-01:PROC:" />
+	</bean>
+
+	<bean id="andor_adproc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL08I-TS-DET-01:PROC:" />
+		<property name="pluginBase" ref="andor_base_proc" />
+	</bean>
+
 <!-- HDF5 file writers -->
-	 <bean id="andor_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+	<bean id="andor_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL08I-TS-DET-01:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
@@ -31,9 +40,10 @@
 	<bean id="andor_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="andor_ndfilehdf5_base" />
 	</bean>
-	
+
 <!-- Define ROIs -->
-	<bean id="roistats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	<bean id="roistats1"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats1" />
 		<property name="baseRoiPVName" value="BL08I-TS-DET-01:ROI1:" />
 		<property name="baseStatsPVName" value="BL08I-TS-DET-01:STAT1:" />
@@ -41,8 +51,9 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 	</bean>
-	
-	<bean id="roistats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+
+	<bean id="roistats2"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats2" />
 		<property name="baseRoiPVName" value="BL08I-TS-DET-01:ROI2:" />
 		<property name="baseStatsPVName" value="BL08I-TS-DET-01:STAT2:" />
@@ -50,8 +61,9 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 	</bean>
-				
-	<bean id="roistats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+
+	<bean id="roistats3"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats3" />
 		<property name="baseRoiPVName" value="BL08I-TS-DET-01:ROI3:" />
 		<property name="baseStatsPVName" value="BL08I-TS-DET-01:STAT3:" />
@@ -59,8 +71,9 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 	</bean>
-				
-	<bean id="roistats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+
+	<bean id="roistats4"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats4" />
 		<property name="baseRoiPVName" value="BL08I-TS-DET-01:ROI4:" />
 		<property name="baseStatsPVName" value="BL08I-TS-DET-01:STAT4:" />
@@ -68,8 +81,9 @@
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 	</bean>
-	
-	<bean id="roistats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+
+	<bean id="roistats5"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats5" />
 		<property name="baseRoiPVName" value="BL08I-TS-DET-01:ROI5:" />
 		<property name="baseStatsPVName" value="BL08I-TS-DET-01:STAT5:" />
