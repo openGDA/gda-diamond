@@ -13,5 +13,6 @@
         <cs:dependency name="uk.ac.gda.video" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.video.mjpeg" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.video.views" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.andor" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
