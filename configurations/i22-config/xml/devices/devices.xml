@@ -31,6 +31,9 @@
 <import resource="bco.xml" />
 <import resource="user.xml" />
 
+<!-- comment out when removed from beamline -->
+<import resource="gonio.xml" />
+
 <!--
 <import resource="keyence.xml" />
 <import resource="bsaxs-axes.xml" />
