@@ -14,6 +14,7 @@
 				<entry key="Diamond 3" value="3.000"/>
 			</map>
 		</property>
+		<property name="startPositionName" value="Direct"/>
 	</bean>
 	<bean id="hd1temp1" class="gda.device.monitor.DummyMonitor">
 	</bean>
