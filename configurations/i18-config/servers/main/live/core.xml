@@ -76,7 +76,7 @@
 	</bean>
 	
 	 <!--  We need to define which classes are responsible for beans in the BeanFactory -->
-	<bean class="org.dawnsci.common.richbeans.beans.BeansFactory">
+	<bean class="org.eclipse.richbeans.api.beans.BeansFactory">
 	    <property name="classList">
 	        <list>
 	           <value>uk.ac.gda.beans.exafs.XasScanParameters</value>

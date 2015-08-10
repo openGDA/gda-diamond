@@ -53,7 +53,7 @@
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
-	<bean class="org.dawnsci.common.richbeans.beans.BeansFactory">
+	<bean class="org.eclipse.richbeans.api.beans.BeansFactory">
 		<property name="classList">
 			<util:list>
 				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
