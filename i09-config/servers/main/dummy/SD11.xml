@@ -3,19 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="sd8y_motor" class="gda.device.motor.DummyMotor">
+	<bean id="sd11y_motor" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
 	</bean>
-	<bean id="sd8aposn" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
-		<property name="values">
-			<map>
-				<entry key="Direct" value="0.0000"/>
-				<entry key="Flu Screen" value="45.0000"/>
-			</map>
-		</property>
-	</bean>
-	<bean id="sd8iamp18" class="gda.device.currentamplifier.DummyCurrentAmplifier">
-	</bean>
+
 </beans>
