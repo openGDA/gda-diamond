@@ -19,12 +19,11 @@ class AndorMap(RasterScan):
         self.ROISetup()
         # setup the Andor trigger to internal for snapshots by default
         self.andor.getCollectionStrategy().getAdBase().setTriggerMode(0)
-        self.horizontal_plotter = Plotter("horizontal_plotter",'Horizontal',"Horizontal Gradient")
-        self.vertical_plotter = Plotter("vertical_plotter",'Vertical',"Vertical Gradient")
-        self.transmission_plotter = Plotter("transmission_plotter",'transmission_total',"Transmission")
-        add_default(self.horizontal_plotter.getPlotter())
-        add_default(self.vertical_plotter.getPlotter())
-        add_default(self.transmission_plotter.getPlotter())
+        self.plotterList = [Plotter("horizontal_plotter",'Horizontal',"Horizontal Gradient")]
+        self.plotterList.append(Plotter("vertical_plotter",'Vertical',"Vertical Gradient"))
+        self.plotterList.append(Plotter("transmission_plotter",'transmission_total',"Transmission"))
+        for plotter in self.plotterList:
+            add_default(plotter.getPlotter())
 
     def __call__(self, *args):
 
@@ -35,30 +34,13 @@ class AndorMap(RasterScan):
         elif len(args) == 2:
             self.Xsize  = int(args[0])
             self.Ysize = int(args[1])
-        # not implemented still waiting for SLS feedback
-        #else :
-         #   self.map_size = CAClient().get("BL08I-EA-DET-01:HDF5:ExtraDimSizeX_RBV")
-          #  print "Map size will be",str(self.map_size)
+
         self.PrepareForCollection(self.Xsize, self.Ysize)
         self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1]
         RasterScan.__call__(self,self.scanargs)
      
     def _createScan(self, args):
-
-        # TODO create/ configure a scannable which will oberve data points and broadcast out transmission/phase-contrast to plotting system
-        # TODO get scan size from Epics PVs to replace self.map_size
-        # TODO check Epics PV holding STXM status as a safety check
-
-        #rasterscan row 1 20 1 col 1 20 1 _andorrastor .1 'col'
-#         args = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor]
-        #self.ROISetup()
         myscan = ConstantVelocityRasterScan(self.scanargs)
-
-        # TODO set a PV to tell stxm the scan number
-        #scanNumber = scan.getScanNumber()
-
-        # TODO tell the stxm the scan number, or the file prefix at this point
-
         return myscan
 
 #configure the ROIs for both the step and raster andor objects
@@ -101,9 +83,8 @@ class AndorMap(RasterScan):
         self.resetPlotters(Xsize, Ysize)
 
     def resetPlotters(self, Xsize, Ysize):
-        self.vertical_plotter.setAxis(Xsize,Ysize)
-        self.horizontal_plotter.setAxis(Xsize,Ysize)
-        self.transmission_plotter.setAxis(Xsize,Ysize)
+        for plotter in self.plotterList:
+            plotter.setAxis(Xsize,Ysize)
 
 # then create the scan wrapper for map scans
 #_andorrastor = Finder.getInstance().find("_andorrastor")

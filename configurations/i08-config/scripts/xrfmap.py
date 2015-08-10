@@ -24,23 +24,17 @@ class XRFMap(RasterScan):
         self.setROI6(0, 0)
         self.setROI7(1, 1.5)
         self.setROI8(1.5, 2)
-        self.roi1_plotter = Plotter("roi1_plotter",'roi1_total',"ROI1")
-        self.roi2_plotter = Plotter("roi2_plotter",'roi2_total',"ROI2")
-        self.roi3_plotter = Plotter("roi3_plotter",'roi3_total',"ROI3")
-        self.roi4_plotter = Plotter("roi4_plotter",'roi4_total',"ROI4")
-        self.roi5_plotter = Plotter("roi5_plotter",'roi5_total',"ROI5")
-        self.roi6_plotter = Plotter("roi6_plotter",'roi6_total',"ROI6")
-        self.roi7_plotter = Plotter("roi7_plotter",'roi7_total',"ROI7")
-        self.roi8_plotter = Plotter("roi8_plotter",'roi8_total',"ROI8")
+        self.plotterList = [Plotter("roi1_plotter",'roi1_total',"ROI1")]
+        self.plotterList.append(Plotter("roi2_plotter",'roi2_total',"ROI2"))
+        self.plotterList.append(Plotter("roi3_plotter",'roi3_total',"ROI3"))
+        self.plotterList.append(Plotter("roi4_plotter",'roi4_total',"ROI4"))
+        self.plotterList.append(Plotter("roi5_plotter",'roi5_total',"ROI5"))
+        self.plotterList.append(Plotter("roi6_plotter",'roi6_total',"ROI6"))
+        self.plotterList.append(Plotter("roi7_plotter",'roi7_total',"ROI7"))
+        self.plotterList.append(Plotter("roi8_plotter",'roi8_total',"ROI8"))
 
-        add_default(self.roi1_plotter.getPlotter())
-        add_default(self.roi2_plotter.getPlotter())
-        add_default(self.roi3_plotter.getPlotter())
-        add_default(self.roi4_plotter.getPlotter())
-        add_default(self.roi5_plotter.getPlotter())
-        add_default(self.roi6_plotter.getPlotter())
-        add_default(self.roi7_plotter.getPlotter())
-        add_default(self.roi8_plotter.getPlotter())
+        for plotter in self.plotterList:
+            add_default(plotter.getPlotter())
         
     def __call__(self, *args):
 
@@ -62,23 +56,7 @@ class XRFMap(RasterScan):
         RasterScan.__call__(self,self.scanargs)
      
     def _createScan(self, args):
-
-        # TODO create/ configure a scannable which will oberve data points and broadcast out transmission/phase-contrast to plotting system
-
-        # TODO get scan size from Epics PVs to replace self.map_size
-
-        # TODO check Epics PV holding STXM status as a safety check
-
-        #rasterscan row 1 20 1 col 1 20 1 _andorrastor .1 'col'
-#         args = [self.rowScannable, 1, float(self.map_size), 1, self.columnScannable, 1, float(self.map_size), 1, self.andor]
-        #self.ROISetup()
         myscan = ConstantVelocityRasterScan(self.scanargs)
-
-        # TODO set a PV to tell stxm the scan number
-        #scanNumber = scan.getScanNumber()
-
-        # TODO tell the stxm the scan number, or the file prefix at this point
-
         return myscan
 
     def ROIstart(self,startEnergy):
@@ -121,14 +99,8 @@ class XRFMap(RasterScan):
         CAClient().put("BL08I-EA-DET-02:DXP1:MaxEnergy",str(maxEnergy))
 
     def resetPlotters(self,Xsize, Ysize):
-        self.roi1_plotter.setAxis(Xsize,Ysize)
-        self.roi2_plotter.setAxis(Xsize,Ysize)
-        self.roi3_plotter.setAxis(Xsize,Ysize)
-        self.roi4_plotter.setAxis(Xsize,Ysize)
-        self.roi5_plotter.setAxis(Xsize,Ysize)
-        self.roi6_plotter.setAxis(Xsize,Ysize)
-        self.roi7_plotter.setAxis(Xsize,Ysize)
-        self.roi8_plotter.setAxis(Xsize,Ysize)
+        for plotter in self.plotterList:
+            plotter.setAxis(Xsize,Ysize)
 
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
