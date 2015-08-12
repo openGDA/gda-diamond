@@ -1,4 +1,5 @@
 import sys
+import re
 from gdascripts.messages import handle_messages
 from gda.device.scannable import ScannableBase
 from gda.device import DeviceException
@@ -86,14 +87,27 @@ class leem_readonly(ScannableBase):
         self.setInputNames([name]);
         self.command=command
         self.leem2000=leem2000
+        # find number at beginning of the string, be it integer, float, or scientific notation
+        self.trimRegexPattern = re.compile(r'^([-+]?\d+\.?\d*([Ee][-+]?\d*)?)') 
 
     def isBusy(self):
         return False
 
     def getPosition(self):
-        return self.leem2000.send(self.command)
+        ro_val = self.leem2000.send(self.command)
+        return self.trimToNumeric(ro_val)    # trim off UTF-8 string postfixed to the value
 
     def asynchronousMoveTo(self,new_position):
         raise Exception(self.name + " is readonly")
 
+    def trimToNumeric(self, posVal):
+        if self.command=='prl':
+            matchNumeric = self.trimRegexPattern.search(posVal)
+            if matchNumeric:
+                resVal = matchNumeric.group(0)
+            else:
+                resVal = ''
+        else:
+                resVal = posVal
+        return resVal
 
