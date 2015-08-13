@@ -13,7 +13,9 @@
 	</bean>
 
 	<bean id="localscriptproject" class="gda.jython.ScriptProject">
-		<property name="path" value="/dls_sw/i05-1/scripts/" />
+		<!-- This is deliberately pointed to i05 not i05-1 so that both endstations 
+			can share scripts. See ticket ARPES-361 -->
+		<property name="path" value="/dls_sw/i05/scripts/" />
 		<property name="name" value="Scripts: User" />
 		<property name="type" value="USER" />
 	</bean>
