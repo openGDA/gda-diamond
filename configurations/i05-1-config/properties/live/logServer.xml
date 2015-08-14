@@ -3,17 +3,13 @@
 
 <configuration debug="true"> <!-- Add debug="true" in here to log logback configuration -->
 
-    <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
-    <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
+	<!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
+	<!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
 
-    <!-- include file is relative to the application directory -->
+	<!-- Load the common logging config -->
+	<!-- include file is relative to the application directory -->
+	<include file="${gda.config}/properties/_common/logServer.xml" />
 
-    <!-- ServerDebugFILE LogServer -->
-    <include file="${gda.config}/properties/_common/logServer.xml"/>
+	<!-- Only add stuff here which only applies to live -->
 
-    <root>
-        <level value="INFO"/>
-        <appender-ref ref="LogServer" />
-        <appender-ref ref="ServerDebugFILE"/>
-     </root>
 </configuration>
