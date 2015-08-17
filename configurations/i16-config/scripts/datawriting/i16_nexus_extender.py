@@ -392,7 +392,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.makedata("sensor_thickness", NexusFile.NX_FLOAT64, 1, array([1], 'i'))
         nFile.opendata("sensor_thickness")
         nFile.putdata( array(properties[SENSOR_THICKNESS], 'd') )
-        nFile.putattr("units", array(properties[SENSOR_THICKNESS_UNITS], 'b'), array([1], 'i'), NexusFile.NX_FLOAT64)
+        nFile.putattr("units", array(properties[SENSOR_THICKNESS_UNITS], 'b'), array([1], 'i'), NexusFile.NX_CHAR)
         nFile.closedata()
 
 
