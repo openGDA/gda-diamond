@@ -10,7 +10,16 @@
     <bean id="sd_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="sd_x_motor" />
         <property name="local" value="true" />
-        <property name="protectionLevel" value="3" />
+        <property name="protectionLevel" value="2" />
+    </bean>
+   <bean id="sd_y_motor" class="gda.device.motor.EpicsMotor">
+       <property name="pvName" value="BL22I-EA-DET-02:Y" />
+       <property name="local" value="true" />
+    </bean>
+    <bean id="sd_y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="sd_y_motor" />
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="2" />
     </bean>
     <bean id="sp_x_motor" class="gda.device.motor.EpicsMotor">
         <property name="pvName" value="BL22I-EA-SAXSP-01:X" />
