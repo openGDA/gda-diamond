@@ -1038,8 +1038,8 @@ run('startup_pie725')
 
 #print "!!!! Renaming pcoedgepeak2d --> peak2d for bimorph scripts !!!!"
 #exec('peak2d = pcoedgepeak2d')
-print "!!!! Using pcoedgepeak2d for peak2d for bimorph scripts !!!!"
+#print "!!!! Using pcoedgepeak2d for peak2d for bimorph scripts !!!!"
 
-peak2d=pcoedgepeak2d
-max2d=pcoedgemax2d
-intensity2d=pcoedgeintensity2d
+#peak2d=pcoedgepeak2d
+#max2d=pcoedgemax2d
+#intensity2d=pcoedgeintensity2d
