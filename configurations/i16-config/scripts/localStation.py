@@ -1383,8 +1383,17 @@ run('pd_function')	#to make PD's that return a variable
 
 run("startup_pie725")
 
-run("datawriting/i16_nexus")
+'''
+from mtscripts.scannable.ContinouslyRockingScannable import ContinuouslyRockingScannable
+kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)
+kphirock.verbose = False
 
+chirock = ContinuouslyRockingScannable('chirock', scannable = chi)
+chirock.verbose = False
+
+etarock = ContinuouslyRockingScannable('etarock', scannable = eta)
+etarock.verbose = False
+'''
 print "======================================================================"
 print "Local Station Script completed"
 print "======================================================================"
