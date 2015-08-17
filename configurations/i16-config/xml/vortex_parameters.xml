@@ -8,24 +8,14 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>TiKa</name>
-            <windowStart>3400</windowStart>
-            <windowEnd>3850</windowEnd>
+            <name>OsL3</name>
+            <windowStart>1000</windowStart>
+            <windowEnd>1100</windowEnd>
         </ROI>
         <ROI>
-            <name>Mn</name>
-            <windowStart>4650</windowStart>
-            <windowEnd>5000</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Fe1</name>
-            <windowStart>5000</windowStart>
-            <windowEnd>5400</windowEnd>
-        </ROI>
-        <ROI>
-            <name>Fe2</name>
-            <windowStart>5500</windowStart>
-            <windowEnd>5900</windowEnd>
+            <name>Background</name>
+            <windowStart>1100</windowStart>
+            <windowEnd>1200</windowEnd>
         </ROI>
         <gain>2.0</gain>
         <peakingTime>1.04</peakingTime>

@@ -153,7 +153,7 @@ if installation.isLive():
 	print "setting up th2th and thp2thp scannables"
 	run("pd_thetatth")
 
-	th2th=thetatth("th2th",eta,delta,eta_offset,delta_offset,help="Example scan: scan th2th [0.1 0.2] [0.2 0.4] [0.01 0.02] t 0.1")
+	th2th=thetatth("th2th",eta,delta,eta_offset,delta_offset,help="Example scan: scan th2th [0.1 0.2] [0.2 0.4] [0.01 0.02] t 0.1\n Can offset angles using eta_offset,delta_offset")
 	thp2thp=thetatth("thp2thp",thp,tthp,thp_offset,tthp_offset)
 	phi_gam=thetatth("phi_gam",phi,gam,phi_offset,gam_offset,help="Example scan: scan th2th [-0.1 0.2] [-0.2 0.4] [-0.01 0.02] t 0.1 \n Remember Phi and Gam move in opposite directions"); phi_gam.setInputNames(["phi","gam"]); #remember phi  and gam move in opposite directions
 
