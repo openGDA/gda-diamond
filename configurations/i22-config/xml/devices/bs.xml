@@ -233,6 +233,8 @@
 		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
+				<ref bean="bs1diode"/>
+				<ref bean="bs1diodegain"/>
 				<ref bean="bs1_x"/>
 				<ref bean="bs1_y"/>
 				<ref bean="bs1_cs_x"/>
@@ -248,6 +250,8 @@
 		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
+				<ref bean="bs2diode"/>
+				<ref bean="bs2diodegain"/>
 				<ref bean="bs2_x"/>
 				<ref bean="bs2_y"/>
 				<ref bean="bs2_cs_x"/>
@@ -263,13 +267,37 @@
 		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
+				<ref bean="bs3diode"/>
+				<ref bean="bs3diodegain"/>
 				<ref bean="bs3_x"/>
 				<ref bean="bs3_y"/>
+				<ref bean="bs3_roll"/>
 				<ref bean="bs3_cs_x"/>
 				<ref bean="bs3_cs_y"/>
+				<ref bean="bs3_cs_roll"/>
 				<ref bean="bs3_x_temp"/>
 				<ref bean="bs3_y_temp"/>
 				<ref bean="bs3_roll_temp"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="bs" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="bs1_x"/>
+				<ref bean="bs1_y"/>
+				<ref bean="bs1diode"/>
+				<ref bean="bs1diodegain"/>
+				<ref bean="bs2_x"/>
+				<ref bean="bs2_y"/>
+				<ref bean="bs2diode"/>
+				<ref bean="bs2diodegain"/>
+				<ref bean="bs3_x"/>
+				<ref bean="bs3_y"/>
+				<ref bean="bs3_roll"/>
+				<ref bean="bs3diode"/>
+				<ref bean="bs3diodegain"/>
 			</list>
 		</property>
 	</bean>

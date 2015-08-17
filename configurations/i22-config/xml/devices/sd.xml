@@ -55,4 +55,15 @@
         <property name="local" value="true" />
         <property name="protectionLevel" value="3" />
     </bean>
+
+    <bean id="sd" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="sd_x" />
+                <ref bean="sd_y" />
+            </list>
+        </property>
+        <property name="local" value="true" />
+        <property name="protectionLevel" value="3" />
+    </bean>
 </beans>
