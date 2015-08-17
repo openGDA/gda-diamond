@@ -65,6 +65,8 @@
 		<property name="level" value="100" />
 	</bean>
 
+	<import resource="slits.xml" />
+
 	<import resource="server_dummies.xml" />
 
 	<import resource="server_epics.xml" />
