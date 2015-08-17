@@ -224,6 +224,10 @@
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
+				<bean id="visit" class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="visit" />
+					<property name="value" value="" />
+				</bean>
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="instrument" />
 					<property name="propertyName" value="gda.instrument" />
