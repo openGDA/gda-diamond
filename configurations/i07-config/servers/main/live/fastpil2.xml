@@ -47,7 +47,7 @@
 
 	<bean id="fastpil2_proc" class="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin">
 		<constructor-arg value="proc2" />
-		<property name="inputPort" value="pilatus2.roi" />
+		<property name="inputPort" value="pilatus2.CAM" />
 		<property name="blocking" value="false" />
 		<property name="enableLowClip" value="true" />
 		<property name="lowClip" value="0" />
