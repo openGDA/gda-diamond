@@ -2,14 +2,14 @@
 from gda.observable import IObserver
 
 class DetGuard(IObserver):
-    def __init__(self, detsys, shutter):
+    def __init__(self, detsys, *shutters):
         self.detsys = detsys
         self.limits = {}
         self.checks = {"peak" : (lambda x: x.maxCounts/x.countingTime),
-		  "peakcounts" : (lambda x: x.maxCounts),
+                  "peakcounts" : (lambda x: x.maxCounts),
                   "sum" : (lambda x: x.integratedCounts/x.countingTime) }
         self.severities = {"hard" : self.hardAction, "soft" : self.softAction }
-	self.shutter = shutter
+        self.shutters = shutters
         self.detsys.addIObserver(self)
         
     def update(self, observed, message):
@@ -29,10 +29,10 @@ class DetGuard(IObserver):
         
     def hardAction(self, message):
         print "ERROR: count rate on detector %s intolerable, closing shutter" % message
-	self.shutter("Close")
-	#elog
+        for shutter in self.shutters:
+            shutter("Close")
 
-detguard=DetGuard(ncddetectors, eh_shutter)
+detguard=DetGuard(ncddetectors, eh_shutter, det_shutter)
 
 detguard.limits["Rapid2Dpeaksoft"]=0.75*1000000
 detguard.limits["Rapid2Dpeakhard"]=1000000
