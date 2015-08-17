@@ -723,6 +723,11 @@ ipppeak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
 ippmax2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
 ippintensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
 
+ipp2peak2d = DetectorDataProcessorWithRoi('ipp2peak2d', ipp2, [TwodGaussianPeak()])
+ipp2max2d = DetectorDataProcessorWithRoi('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
+ipp2intensity2d = DetectorDataProcessorWithRoi('ipp2intensity2d', ipp2, [PixelIntensity()])
+
+
 
 #ipp = ProcessingDetectorWrapper('ipp', ippws4, [p_peak], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
 #ipp_plot_only = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
