@@ -140,7 +140,14 @@ if USE_CRYO_GEOMETRY:
 
 alias("jobs")
 
-USE_NEXUS_METADATA_COMMANDS = True
+USE_NEXUS = True
+if USE_NEXUS:
+	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+else:
+	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
+
+
+USE_NEXUS_METADATA_COMMANDS = True and USE_NEXUS
 
 if USE_NEXUS_METADATA_COMMANDS:
 	
@@ -1383,6 +1390,14 @@ run('pd_function')	#to make PD's that return a variable
 
 run("startup_pie725")
 
+if USE_NEXUS:
+	run("datawriting/i16_nexus")
+else:
+	#clear extenders possible configured already
+	writerMap = Finder.getInstance().getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
+	ddwf = writerMap.get("DefaultDataWriterFactory")
+	for dwe in ddwf.getDataWriterExtenders():
+		ddwf.removeDataWriterExtender(dwe)
 '''
 from mtscripts.scannable.ContinouslyRockingScannable import ContinuouslyRockingScannable
 kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)
