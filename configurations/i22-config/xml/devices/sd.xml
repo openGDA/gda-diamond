@@ -45,6 +45,10 @@
 		<property name="controlPv" value="BL22I-EA-DET-02:SHTR:CON" />
 	</bean>
 
+	<bean id="det_shutter_drain" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL22I-EA-DET-02:SHTR:I" />
+	</bean>
+
     <bean id="sp" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
