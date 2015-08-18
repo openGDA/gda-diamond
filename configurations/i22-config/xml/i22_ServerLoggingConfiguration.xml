@@ -7,44 +7,20 @@
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
-    <logger name="gda">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="gda.oe.dofs.DOF">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.temperature.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.jython.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.oe.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.monitor.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.oe.positioners.Positioner">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.data.nexus.extractor.NexusExtractor">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="gda.data.nexus.NexusFileWrapper">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="uk.ac.gda.server.ncd.detector.DAServer">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="org.apache.http">
-        <level value="INFO"/>
-    </logger>
+
+    <logger name="gda" level="DEBUG"/>
+    <logger name="gda.oe.dofs.DOF" level="INFO"/>
+    <logger name="gda.device.corba.impl" level="INFO"/>
+    <logger name="gda.device.temperature.corba.impl" level="INFO"/>
+    <logger name="gda.jython.corba.impl" level="INFO"/>
+    <logger name="gda.oe.corba.impl" level="INFO"/>
+    <logger name="gda.device.monitor.corba.impl" level="INFO"/>
+    <logger name="gda.oe.positioners.Positioner" level="INFO"/>
+    <logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO"/>
+    <logger name="org.apache.http" level="INFO"/>
+    <logger name="ncsa.hdf.object" level="INFO" />
     <root>
-        <level value="ALL"/>
+        <level value="DEBUG"/>
         <appender-ref ref="SOCKET"/>
     </root>
     <consolePlugin />
