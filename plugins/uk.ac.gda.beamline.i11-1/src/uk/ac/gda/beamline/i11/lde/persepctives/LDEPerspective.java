@@ -8,6 +8,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.progress.IProgressConstants;
+import org.opengda.lde.ui.views.ChildrenTableView;
 import org.opengda.lde.ui.views.LiveImageView;
 import org.opengda.lde.ui.views.ReducedDataPlotView;
 import org.opengda.lde.ui.views.SampleGroupView;
@@ -33,8 +34,9 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private static final String DETECTOR_PLOT_FOLDER = "detectorPlotFolder";
 	private static final String DETECTOR_FOLDER = "detectorFolder";
 	private static final String SCAN_PLOT_FOLDER="scanPlotFolder";
+	private static final String PROPERTIES_FOLDER="propertiesFolder";
 	
-	private static final String SAMPLE_GROUP_VIEW_ID = SampleGroupView.ID;
+	private static final String CHILDREN_TABLE_VIEW_ID = ChildrenTableView.ID;
 	private static final String PIXIUM_IMAGE_VIEW_ID = LiveImageView.ID;
 	private static final String PIXIUM_PLOT_VIEW_ID = ReducedDataPlotView.ID;
 	private static final String DETECTOR_PLOT_VIEW_ID = DetectorFilePlotView.ID;
@@ -52,7 +54,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 
 	private void defineActions(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
-		layout.setEditorAreaVisible(false);
+		layout.setEditorAreaVisible(true);
 		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.4, editorArea);
 		statusFolder.addView(STATUS_VIEW_ID);
 
@@ -60,11 +62,14 @@ public class LDEPerspective implements IPerspectiveFactory {
         topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
         topLeft.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
         
-        IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.LEFT, (float)0.9, editorArea); //$NON-NLS-1$
-        sampleTableFolder.addView(SAMPLE_GROUP_VIEW_ID);
+        IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.BOTTOM, (float)0.5, editorArea); //$NON-NLS-1$
+        sampleTableFolder.addView(CHILDREN_TABLE_VIEW_ID);
         
-        IFolderLayout statusPlotFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.75, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
-        statusPlotFolder.addView(DETECTOR_VIEW_ID);
+        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.RIGHT, (float)0.7, editorArea);
+        propertiesFolder.addView(IPageLayout.ID_PROP_SHEET);
+        
+        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.5, PROPERTIES_FOLDER); //$NON-NLS-1$
+        detectorFolder.addView(DETECTOR_VIEW_ID);
 
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.TOP, (float)0.75, STATUS_FOLDER); //$NON-NLS-1$
         detectorPlotFolder.addView(PIXIUM_IMAGE_VIEW_ID);
@@ -87,7 +92,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 
         layout.addPerspectiveShortcut(JythonPerspective.ID);
         
-        layout.addShowViewShortcut(SAMPLE_GROUP_VIEW_ID);
+        layout.addShowViewShortcut(CHILDREN_TABLE_VIEW_ID);
         layout.addShowViewShortcut(PIXIUM_IMAGE_VIEW_ID);
         layout.addShowViewShortcut(PIXIUM_PLOT_VIEW_ID);
         layout.addShowViewShortcut(DETECTOR_PLOT_VIEW_ID);
