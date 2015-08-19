@@ -12,7 +12,7 @@ energyList = [dcm1energy];
 
 dcmList = [dcm1bragg,dcm1lambda,dcm1offset,dcm1xtalchange,dcm1xtal1roll,dcm1xtal2roll,dcm1xtal2pitch,dcm1sep, dcm1xtal1roll,dcm1xtal1roll_lvdt,dcm1xtal2pitch,dcm1xtal2pitch_lvdt,dcm1xtal2roll,dcm1xtal2roll_lvdt,dcm1xtalchange];
 
-slitList = [dets1xcentre,dets1xsize,dets1ycentre,dets1ysize,dets2xcentre,dets2xsize,dets2ycentre,dets2ysize,mbs1xcentre,mbs1xsize,mbs1ycentre,mbs1ysize,mbs2xcentre,mbs2xsize,mbs2ycentre,mbs2ysize,mbs3xcentre,mbs3xsize,mbs3ycentre,mbs3ysize,s1xcentre,s1xsize,s1ycentre,s1ysize,ts1xcentre,ts1xsize,ts1ycentre,ts1ysize,ts1height];
+slitList = [dets1xcentre,dets1xsize,dets1ycentre,dets1ysize,dets2xcentre,dets2xsize,dets2ycentre,dets2ysize,mbs1xcentre,mbs1xsize,mbs1ycentre,mbs1ysize,mbs2xcentre,mbs2xsize,mbs2ycentre,mbs2ysize,mbs3xcentre,mbs3xsize,mbs3ycentre,mbs3ysize,s1xcentre,s1xsize,s1ycentre,s1ysize,jj1xpos, jj1xsize, jj1ypos, jj1ysize, jj2xpos, jj2xsize, jj2ypos, jj2ysize]
 
 diffList = [diff1x, diff1y, diff1z, diff1basex, diff1basey, diff1basepitch, diff1cchi, diff1cphi, diff1vomega, diff1valpha, diff1vdelta, diff1vgamma, diff1homega, diff1halpha];
 diffDetList = [diff1detdist,diff1dets1rot,diff1dets2rot,diff1detselect, diff1prot];

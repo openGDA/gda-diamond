@@ -347,29 +347,32 @@ if installation.isLive():
 
 	from scannable.epics.anc150axis import createAnc150Axis
 
-	attorot1  = createAnc150Axis("attorot1",  "BL16B-EA-ATTO-03:PIEZO3:", 0.25)
-	attorot2  = createAnc150Axis("attorot2",  "BL16B-EA-ATTO-04:PIEZO3:", 0.25)
-	attotilt1 = createAnc150Axis("attotilt1", "BL16B-EA-ATTO-01:PIEZO1:", 0.25)
-	attotilt2 = createAnc150Axis("attotilt2", "BL16B-EA-ATTO-02:PIEZO1:", 0.25)
-	attox1    = createAnc150Axis("attox1",    "BL16B-EA-ATTO-01:PIEZO2:", 0.25)
-	attox2    = createAnc150Axis("attox2",    "BL16B-EA-ATTO-02:PIEZO2:", 0.25)
-	attox3    = createAnc150Axis("attox3",    "BL16B-EA-ATTO-03:PIEZO1:", 0.25)
-	attoz1    = createAnc150Axis("attoz1",    "BL16B-EA-ATTO-03:PIEZO2:", 0.25)
-	attoz2    = createAnc150Axis("attoz2",    "BL16B-EA-ATTO-04:PIEZO2:", 0.25)
-	attoy1    = createAnc150Axis("attoy1",    "BL16B-EA-ATTO-01:PIEZO3:", 0.25)
-	attoy2    = createAnc150Axis("attoy2",    "BL16B-EA-ATTO-02:PIEZO3:", 0.25)
+	try:
+		attorot1  = createAnc150Axis("attorot1",  "BL16B-EA-ATTO-03:PIEZO3:", 0.25)
+		attorot2  = createAnc150Axis("attorot2",  "BL16B-EA-ATTO-04:PIEZO3:", 0.25)
+		attotilt1 = createAnc150Axis("attotilt1", "BL16B-EA-ATTO-01:PIEZO1:", 0.25)
+		attotilt2 = createAnc150Axis("attotilt2", "BL16B-EA-ATTO-02:PIEZO1:", 0.25)
+		attox1    = createAnc150Axis("attox1",    "BL16B-EA-ATTO-01:PIEZO2:", 0.25)
+		attox2    = createAnc150Axis("attox2",    "BL16B-EA-ATTO-02:PIEZO2:", 0.25)
+		attox3    = createAnc150Axis("attox3",    "BL16B-EA-ATTO-03:PIEZO1:", 0.25)
+		attoz1    = createAnc150Axis("attoz1",    "BL16B-EA-ATTO-03:PIEZO2:", 0.25)
+		attoz2    = createAnc150Axis("attoz2",    "BL16B-EA-ATTO-04:PIEZO2:", 0.25)
+		attoy1    = createAnc150Axis("attoy1",    "BL16B-EA-ATTO-01:PIEZO3:", 0.25)
+		attoy2    = createAnc150Axis("attoy2",    "BL16B-EA-ATTO-02:PIEZO3:", 0.25)
 
-	attorot1.setFrequency(625)
-	attorot2.setFrequency(625)
-	attotilt1.setFrequency(1000)
-	attotilt2.setFrequency(1000)
-	attox1.setFrequency(1000)
-	attox2.setFrequency(1000)
-	attox3.setFrequency(1000)
-	attoz1.setFrequency(1000)
-	attoz2.setFrequency(1000)
-	attoy1.setFrequency(2000)
-	attoy2.setFrequency(2000)
+		attorot1.setFrequency(625)
+		attorot2.setFrequency(625)
+		attotilt1.setFrequency(1000)
+		attotilt2.setFrequency(1000)
+		attox1.setFrequency(1000)
+		attox2.setFrequency(1000)
+		attox3.setFrequency(1000)
+		attoz1.setFrequency(1000)
+		attoz2.setFrequency(1000)
+		attoy1.setFrequency(2000)
+		attoy2.setFrequency(2000)
+	except:
+		print "* Failed to initialise atto devices *"
 else:
 	print "* Not installing atto devices (as not live installation) *"
 
@@ -720,6 +723,11 @@ ipppeak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
 ippmax2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
 ippintensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
 
+ipp2peak2d = DetectorDataProcessorWithRoi('ipp2peak2d', ipp2, [TwodGaussianPeak()])
+ipp2max2d = DetectorDataProcessorWithRoi('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
+ipp2intensity2d = DetectorDataProcessorWithRoi('ipp2intensity2d', ipp2, [PixelIntensity()])
+
+
 
 #ipp = ProcessingDetectorWrapper('ipp', ippws4, [p_peak], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
 #ipp_plot_only = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
@@ -1030,8 +1038,8 @@ run('startup_pie725')
 
 #print "!!!! Renaming pcoedgepeak2d --> peak2d for bimorph scripts !!!!"
 #exec('peak2d = pcoedgepeak2d')
-print "!!!! Using pcoedgepeak2d for peak2d for bimorph scripts !!!!"
+#print "!!!! Using pcoedgepeak2d for peak2d for bimorph scripts !!!!"
 
-peak2d=pcoedgepeak2d
-max2d=pcoedgemax2d
-intensity2d=pcoedgeintensity2d
+#peak2d=pcoedgepeak2d
+#max2d=pcoedgemax2d
+#intensity2d=pcoedgeintensity2d
