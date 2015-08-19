@@ -402,7 +402,7 @@ try:
 		alias("homeToMinus57")
 		alias("minus57ToMinus122")
 		alias("expose")
-		alias("darkExpose")
+		#alias("darkExpose")
 		alias("rockScan")
 		alias("rockScanUnsync")
 		#alias("resetCCDScanNumber")

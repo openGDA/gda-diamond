@@ -1,7 +1,7 @@
 from gdascripts.parameters import beamline_parameters
 from gda.scan import ConcurrentScan, ConstantVelocityScanLine
 from gdascripts.pd.dummy_pds import DummyPD
-from localStationScripts.detector_scan_commands import DiodeController, _configureDetector, _configureConstantVelocityMove
+from localStationScripts.detector_scan_commands import DiodeController, _configureDetector, _configureConstantVelocityMove, _darkExpose
 from org.slf4j import LoggerFactory
 
 # Help definitions
@@ -34,7 +34,6 @@ _gridHelp = """
 
 # Static exposure
 
-'''
 def expose(exposeTime, fileName):
 	"""
 	Static exposure
@@ -42,7 +41,6 @@ def expose(exposeTime, fileName):
 	return exposeN(exposeTime, 1, fileName)
 
 expose.__doc__ += _exposeHelp
-'''
 
 def exposeN(exposeTime, exposeNumber, fileName):
 	"""
@@ -55,6 +53,17 @@ def exposeN(exposeTime, exposeNumber, fileName):
 
 exposeN.__doc__ += _exposeHelp + _exposeNHelp
 
+def exposeDark(exposeTime, fileName):
+	"""
+	Multiple static exposures
+	"""
+	verification = verifyParameters(exposeTime=exposeTime, fileName=fileName)
+	if len(verification)>0:
+		return verification
+	
+	_darkExpose(_exposeDetector(), exposeTime, fileName)
+
+exposeDark.__doc__ += _exposeHelp
 
 # Line scans
 
@@ -448,7 +457,7 @@ def _rockScanParams(detector, exposeTime, exposeNumber, fileName, rockMotor, roc
 	if rockNumber <> 1:
 		rockscanMotor = jythonNameMap['dkphi_rockscan']
 		msg = "rockNumber > 1 so performing unsynchronised rockscan using %s. Moving to start position %r" % (rockscanMotor.name, rockCentre-rockAngle)
-		logger.error(msg)
+		logger.info(msg)
 		print "-"*80
 		print msg
 		print "-"*80
