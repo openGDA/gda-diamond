@@ -140,7 +140,14 @@ if USE_CRYO_GEOMETRY:
 
 alias("jobs")
 
-USE_NEXUS_METADATA_COMMANDS = True
+USE_NEXUS = True
+if USE_NEXUS:
+	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+else:
+	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
+
+
+USE_NEXUS_METADATA_COMMANDS = True and USE_NEXUS
 
 if USE_NEXUS_METADATA_COMMANDS:
 	
@@ -779,6 +786,7 @@ pil2ms = DetectorWithShutter(pil2m, x1)
 pil100kdet = pilatus1
 _pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
 
+#pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
 pil100k = NxProcessingDetectorWrapper('pil100k',
 		pilatus1,
 		pilatus1_hardware_triggered,
@@ -1085,6 +1093,9 @@ try:
 	else:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
 
+	addedInSpring = [sixckappa] + [delta_axis_offset]
+	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]
+
 	from gdascripts.scannable.metadata import _is_scannable
 
 	if USE_NEXUS_METADATA_COMMANDS:
@@ -1123,6 +1134,10 @@ except NameError, e:
 	print "Error trying to setup the metadata, metadata will not be properly written to files. Namespace error was: ",str(e)
 	print "!*"*40
 	print "!*"*40
+
+###Default Scannables###
+for s in [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]:
+	add_default(s)
 
 
 ###############################################################################
@@ -1197,10 +1212,11 @@ def open_valves():
 #ci=236.0; cj=107.0	#11/03/14
 #ci=240.0; cj=108.0	#11/03/14
 #ci=243.0; cj=106.0	#09/04/14
-ci=257.0; cj=109.0	#24/06/14
-ci=247.0; cj=106.0	#01/12/14
-ci=245.0; cj=107.0	#10/12/14
-ci=244.0; cj=110.0	#13/01/15
+#ci=257.0; cj=109.0	#24/06/14
+#ci=247.0; cj=106.0	#01/12/14
+#ci=245.0; cj=107.0	#10/12/14
+#ci=244.0; cj=110.0	#13/01/15
+ci=242.0; cj=108.0	#23/06/15
 maxi=486; maxj=194
 
 #small centred
@@ -1374,6 +1390,25 @@ run('pd_function')	#to make PD's that return a variable
 
 run("startup_pie725")
 
+if USE_NEXUS:
+	run("datawriting/i16_nexus")
+else:
+	#clear extenders possible configured already
+	writerMap = Finder.getInstance().getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
+	ddwf = writerMap.get("DefaultDataWriterFactory")
+	for dwe in ddwf.getDataWriterExtenders():
+		ddwf.removeDataWriterExtender(dwe)
+'''
+from mtscripts.scannable.ContinouslyRockingScannable import ContinuouslyRockingScannable
+kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)
+kphirock.verbose = False
+
+chirock = ContinuouslyRockingScannable('chirock', scannable = chi)
+chirock.verbose = False
+
+etarock = ContinuouslyRockingScannable('etarock', scannable = eta)
+etarock.verbose = False
+'''
 print "======================================================================"
 print "Local Station Script completed"
 print "======================================================================"

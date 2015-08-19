@@ -16,6 +16,8 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
+	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
 
 	<import resource="motor/atten.xml" />
@@ -67,6 +69,16 @@
 
 	<!-- dummy only -->
 <!-- 	<import resource="../live/epics/detector/pilatus100k.xml" /> -->
+
+	<import resource="../common/nxmetadata.xml" />
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DefaultDataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+			</list>
+		</property>
+	</bean>
 
 	<corba:export namespace="i16server" />
 

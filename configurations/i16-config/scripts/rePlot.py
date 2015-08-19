@@ -1,7 +1,6 @@
 #Gareth 11/06/2010
 #dir(gda.analysis.functions)
 from gda.analysis.io import *
-from gda.analysis.functions import *
 import math
 from gda.data import NumTracker
 from gda.data import PathConstructor

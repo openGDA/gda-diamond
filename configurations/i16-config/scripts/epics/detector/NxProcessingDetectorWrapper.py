@@ -2,6 +2,7 @@ import gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
 from scisoftpy.external import create_function
 from gda.configuration.properties import LocalProperties
+from gda.device import DeviceException
 
 class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetectorWrapper):
 
@@ -42,6 +43,7 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
                 array_monitor_for_hardware_triggering )
 
         self.linkFunction = create_function("detectorLinkInserter", "nexusHDFLink", dls_module=True)
+        self.lastReadout = None
 
 
     def atScanEnd(self):
@@ -62,4 +64,19 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
         detectorPath = "/entry/instrument/detector/data"
         print "Creating HDF Links"
         self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
+
+    def getExtraNames(self):
+        return ['count_time'] + SwitchableHardwareTriggerableProcessingDetectorWrapper.getExtraNames(self)[1:]
+
+    def _readout(self):
+        #we need "something" from _readout even if a scan is canceled (used to get the filepath)
+        #this is perhaps really terrible and could hide problems
+        try:
+            out = SwitchableHardwareTriggerableProcessingDetectorWrapper._readout(self)
+            self.lastReadout = out
+            return out
+        except DeviceException:
+            if self.lastReadout == None:
+                raise #this is getting silly
+            return self.lastReadout
 
