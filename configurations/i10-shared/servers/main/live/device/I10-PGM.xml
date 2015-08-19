@@ -95,9 +95,4 @@
 		<property name="deviceName" value="PGM.GRTENC3" />
 		<property name="local" value="true"/>
 	</bean>
-	
-	<bean id="pgmgenc4" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="PGM.GRTENC4" />
-		<property name="local" value="true"/>
-	</bean>
 </beans>

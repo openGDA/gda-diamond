@@ -35,5 +35,4 @@
 	<bean id="pgmgenc1" class="gda.device.monitor.DummyEpicsMonitor" />
 	<bean id="pgmgenc2" class="gda.device.monitor.DummyEpicsMonitor" />
 	<bean id="pgmgenc3" class="gda.device.monitor.DummyEpicsMonitor" />
-	<bean id="pgmgenc4" class="gda.device.monitor.DummyEpicsMonitor" />
 </beans>
