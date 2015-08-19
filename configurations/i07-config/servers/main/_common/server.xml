@@ -68,4 +68,6 @@
         </property>
     </bean>
 
+    <import resource="slits.xml" />
+
 </beans>

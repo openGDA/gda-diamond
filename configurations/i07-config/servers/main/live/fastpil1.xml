@@ -56,6 +56,25 @@
 		<constructor-arg ref="pilatus1_adbase" />
 	</bean>
 
+	<bean id="fastpil1_ndprocess" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL07I-EA-PILAT-01:PROC:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL07I-EA-PILAT-01:PROC:" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="fastpil1_proc" class="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin">
+		<constructor-arg value="proc1" />
+		<property name="inputPort" value="pilatus1.CAM" />
+		<property name="blocking" value="false" />
+		<property name="enableLowClip" value="true" />
+		<property name="lowClip" value="0" />
+		<property name="dataType" value="AUTOMATIC" />
+		<property name="ndProcess" ref="fastpil1_ndprocess" />
+	</bean>
+
 	<bean id="fastpil1" class="gda.device.detector.NXDetector">
 		<property name="name" value="fastpil1" />
 		<property name="collectionStrategy" ref="fastpil1_nxcollectionstrategy" />
@@ -63,13 +82,14 @@
 			<list>
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<ref bean="fastpil1_nxfilewriter_for_scans" />
+				<ref bean="fastpil1_proc" />
 				<bean
 					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 					<property name="pluginName" value="roistats1" />
 					<property name="baseRoiPVName" value="BL07I-EA-PILAT-01:ROI1:" />
 					<property name="baseStatsPVName" value="BL07I-EA-PILAT-01:STAT1:" />
 					<property name="roiInputNdArrayPort" value="pilatus1.proc" />
-					<property name="enabledBasicStats" value="MinValue,MaxValue,MaxX,MaxY,Total" />
+					<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 					<property name="roiProvider">
 						<bean
 							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">

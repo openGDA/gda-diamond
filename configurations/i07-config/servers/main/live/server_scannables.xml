@@ -773,80 +773,7 @@
         <property name="protectionLevel" value="0" />
         <property name="local" value="true"/>
     </bean>
-    
-    <!-- Tube Slits 1 (TS1) -->
-    <bean id="ts1hall" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXPos_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="ts1ring" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXNeg_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="ts1top" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYPos_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="ts1bottom" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYNeg_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="ts1xsize" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXSize_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="ts1xcentre" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorXCentre_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="ts1ysize" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYSize_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="ts1ycentre" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYCentre_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="ts1height" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorHeight_TS1" />
-        <property name="protectionLevel" value="0" />
-        <property name="initialUserUnits" value="mm" />
-        <property name="hardwareUnitString" value="mm" />
-    </bean>
-    <bean id="TS1" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="groupMembers">
-            <list>
-                <ref bean="ts1hall" />
-                <ref bean="ts1ring" />
-                <ref bean="ts1top" />
-                <ref bean="ts1bottom" />
-                <ref bean="ts1xsize" />
-                <ref bean="ts1xcentre" />
-                <ref bean="ts1ysize" />
-                <ref bean="ts1ycentre" />
-                <ref bean="ts1height" />
-            </list>
-        </property>
-        <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-    </bean>
-    
+
     <!-- Diffractometer 1 (DIFF1) -->
     <!-- X, Y, Z -->
     <bean id="diff1x" class="gda.device.scannable.ScannableMotor">
@@ -1588,16 +1515,6 @@
                 <!-- Filter Set Table -->
                 <ref bean="tab1x" />
                 <ref bean="tab1y" />
-                
-                <!-- Tube Slit 1 -->
-                <ref bean="ts1hall" />
-                <ref bean="ts1ring" />
-                <ref bean="ts1top" />
-                <ref bean="ts1bottom" />
-                <ref bean="ts1xsize" />
-                <ref bean="ts1xcentre" />
-                <ref bean="ts1ysize" />
-                <ref bean="ts1ycentre" />
                 
                 <!-- Diffractometer 1 (DIFF1) -->
                 <ref bean="diff1x" />

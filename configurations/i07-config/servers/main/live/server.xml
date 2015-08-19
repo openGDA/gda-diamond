@@ -65,6 +65,8 @@
 		<property name="level" value="100" />
 	</bean>
 
+	<import resource="slits.xml" />
+
 	<import resource="server_dummies.xml" />
 
 	<import resource="server_epics.xml" />
@@ -78,6 +80,7 @@
 	<!-- Pilatus using the AreaDetector Interface -->
 
 	<import resource="fastpil1.xml" />
+	<import resource="fastpil2.xml" />
 	<import resource="fastpil3.xml" />
 
 	<import resource="pilatus1_824.xml" />
