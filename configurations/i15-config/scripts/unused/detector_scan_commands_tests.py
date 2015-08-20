@@ -46,7 +46,7 @@ class ScanCommandsTests(unittest.TestCase):
 				'<appender name="DebugFILE" class="ch.qos.logback.core.FileAppender">' + \
 						'<File>' +  outputPath +"/log.txt" + '</File>'+ \
 						'<layout class="ch.qos.logback.classic.PatternLayout">' + \
-							'<pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%ex</pattern>' + \
+							'<pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%rEx</pattern>' + \
 						'</layout>' + \
 					'</appender>' + \
 				'<logger name="gda"><level value="DEBUG"/></logger>' + \
