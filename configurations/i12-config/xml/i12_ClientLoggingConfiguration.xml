@@ -7,7 +7,7 @@
     </turboFilter>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level [%thread] %logger - %message %ex %n</Pattern>
+            <Pattern>%date %-5level [%thread] %logger - %message %rEx %n</Pattern>
         </layout>
     </appender>
     <!-- log to the central LogServer -->
@@ -24,7 +24,7 @@
             <FileNamePattern>${gda.users}/logs/gda_client.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level %logger - %m %ex %n</pattern>
+            <pattern>%d %-5level %logger - %m %rEx %n</pattern>
         </layout>
     </appender>
     -->
