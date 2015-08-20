@@ -24,6 +24,11 @@
         <detector>I1</detector>
         <detector>FFI1</detector>
     </detectorGroup>
+    <detectorGroup>
+        <name>XES_medipix</name>
+        <detector>medipix</detector>
+        <detector>I1</detector>
+    </detectorGroup>
     <experimentType>XES</experimentType>    
     <transmission>
         <detectorType>transmission</detectorType>

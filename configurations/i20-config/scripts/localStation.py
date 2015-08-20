@@ -172,42 +172,6 @@ if LocalProperties.get("gda.mode") == "live":
     run "vortexLiveTime"
     #testVortexWiredCorrectly()
     calibrate_mono = mono_calibration.calibrate_mono()
-    
-    print "-------------------------------MEDIPIX INIT---------------------------------------"
-    try:
-        
-        #visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
-        from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
-        from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor, DetectorDataProcessorWithRoi, HardwareTriggerableDetectorDataProcessor
-        from gda.analysis.io import  PilatusTiffLoader
-        from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
-        medipix = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix',
-                                                                        _medipix,
-                                                                        None,
-                                                                        _medipix_for_snaps,
-                                                                        [],
-                                                                        panel_name='Medipix',
-                                                                        panel_name_rcp='Plot 1',
-                                                                        iFileLoader=PilatusTiffLoader,
-                                                                        fileLoadTimout=60,
-                                                                        printNfsTimes=False,
-                                                                        returnPathAsImageNumberOnly=True)
-        medipix.disable_operation_outside_scans = False # True
-        # medipix_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix_threshold_kev', 'BL16I-EA-DET-02:Merlin:ThresholdEnergy0', 'BL16B-EA-DET-02:Merlin:ThresholdEnergy0_RBV', 10)
-        #pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
-        #pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-        #pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
-        #pil100k.printNfsTimes = True
-        
-        
-        medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
-    
-    except gda.factory.FactoryException:
-        print " *** Could not connect to pilatus (FactoryException)"
-    except     java.lang.IllegalStateException:
-        print " *** Could not connect to pilatus (IllegalStateException)"
-    print "-------------------------------MEDIPIX INIT COMPLETE---------------------------------------"
-
 else :
     if material() == None:
         material('Si')

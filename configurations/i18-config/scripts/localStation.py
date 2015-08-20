@@ -134,7 +134,7 @@ if (LocalProperties.get("gda.mode") != 'live'):
     traj1PositionReader = None
     traj3PositionReader = None
 
-mapFactory = MapFactory();
+qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01, topupMonitor, beamMonitor)
 mapFactory.setBeamlinePreparer(beamlinePreparer);
 mapFactory.setDetectorPreparer(detectorPreparer);
 mapFactory.setSamplePreparer(samplePreparer);
@@ -223,4 +223,4 @@ print "****************************************"
 
 
 from gda.scan import EpicsTrajectoryScanController
-EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(2000)
+EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000)

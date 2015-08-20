@@ -172,7 +172,6 @@
 		<property name="controller" ref="xspress3Controller" />
 		<property name="readDataFromFile" value="false" />
 	</bean>
-	
 
 	<bean id="qexafs_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
@@ -190,7 +189,8 @@
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0Detector">
 		<property name="xspress3" ref="xspress3" />
 		<property name="counterTimer" ref="counterTimer01" />
-		<property name="i0_channel" value="1" />
+		<!-- i0_channel must match the i0 channel definition index in the counterTimer -->
+		<property name="i0_channel" value="0" />
 	</bean>
 
 	<bean id="qexafs_FFI0_xspress3"

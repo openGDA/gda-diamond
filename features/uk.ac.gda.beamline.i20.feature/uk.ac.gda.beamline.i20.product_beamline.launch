@@ -14,7 +14,7 @@
 <stringAttribute key="featureDefaultLocation" value="workspace"/>
 <stringAttribute key="featurePluginResolution" value="workspace"/>
 <booleanAttribute key="includeOptional" value="true"/>
-<stringAttribute key="location" value="/scratch/i20"/>
+<stringAttribute key="location" value="${workspace_loc}/../runtime-uk.ac.gda.beamline.i20.product"/>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="LD_LIBRARY_PATH" value="${project_loc:uk.ac.gda.nexus/lib/${target.os}-${target.arch}"/>
 </mapAttribute>
