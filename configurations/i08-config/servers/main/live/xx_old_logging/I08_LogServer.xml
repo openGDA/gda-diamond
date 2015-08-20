@@ -12,7 +12,7 @@
     
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level [%t] [%logger] - %message %n %ex</Pattern>
+            <Pattern>%date %-5level [%t] [%logger] - %message %n %rEx</Pattern>
         </layout>
     </appender>
     <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
@@ -46,7 +46,7 @@
             <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.zip</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level [%logger] %ex - %m%n</pattern>
+            <pattern>%d %-5level [%logger] %rEx - %m%n</pattern>
         </layout>
     </appender>
     <logger name="gda">
