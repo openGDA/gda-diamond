@@ -11,7 +11,7 @@
     </appender>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern>
+            <Pattern>%date %-5level %logger{36} - %m %rEx%n</Pattern>
         </layout>
     </appender>    
     <logger name="gda">
