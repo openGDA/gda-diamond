@@ -4,7 +4,10 @@
 . /usr/share/Modules/init/bash
 
 echo "Loading correct Java version..."
+
 . /dls_sw/i20/software/gda_git/gda-diamond.git/dls-config/bin/loadjava.sh
+
+
 echo $JAVA_HOME
 
 umask 0002

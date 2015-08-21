@@ -11,7 +11,8 @@
    </configIni>
 
    <launcherArgs>
-      <programArgs>-nosplash</programArgs>
+      <programArgs>-nosplash
+      </programArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Declipse.pluginCustomization=/dls_sw/b18/software/gda/workspace_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18/plugin_customization.ini
@@ -27,8 +28,10 @@
 -Xms512m
 -Xmx1024m
 -XX:MaxPermSize=1024m
--XX:+DisableExplicitGC</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>

@@ -106,6 +106,8 @@
 		<constructor-arg>
 			<ref bean="tfg" />
 		</constructor-arg>
+		
+		<property name="numberOfChannels" value="4"/>
 	</bean>
 
 	<!-- 27/02 KrisB - Section below is causing errors -->
