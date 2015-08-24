@@ -141,8 +141,10 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		this.setItNumberOfAccumulations(singleSpectrumData.getItNumberOfAccumulations());
 
 		// TODO For now just load sample_x and sample_y by default
-		SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {SampleStageMotors.scannables[0], SampleStageMotors.scannables[1]});
+		SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {//SampleStageMotors.scannables[0], SampleStageMotors.scannables[1]
+		});
 	}
+
 
 	private void saveSingleSpectrumData() {
 		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, this);

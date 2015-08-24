@@ -205,7 +205,8 @@ public abstract class EdeExperiment implements IObserver {
 			newGroup.setNumberOfFrames(1);
 			newGroup.setTimePerScan(accumulationTime);
 			if(commonNumberOfAccumulcations == null) {
-				newGroup.setNumberOfScansPerFrame(theDetector.getNumberScansInFrame(itGroup.getTimePerFrame(), itGroup.getTimePerScan(), newGroup.getNumberOfFrames()));
+				// newGroup.setNumberOfScansPerFrame(theDetector.getNumberScansInFrame(itGroup.getTimePerFrame(), itGroup.getTimePerScan(), newGroup.getNumberOfFrames()));
+				newGroup.setNumberOfScansPerFrame( itGroup.getNumberOfScansPerFrame() );
 			} else {
 				newGroup.setNumberOfScansPerFrame(commonNumberOfAccumulcations);
 			}
@@ -306,13 +307,13 @@ public abstract class EdeExperiment implements IObserver {
 			dataWriter.setNexusFileNameTemplate(template);
 
 			List<ScanBase> allScans = addAllScans();
-			MultiScan theScan = new MultiScan(allScans);
-			theScan.setDataWriter(dataWriter);
-			theScan.setScanPlotSettings(plotNothing);
+			setMultiScan(new MultiScan(allScans));
+			getMultiScan().setDataWriter(dataWriter);
+			getMultiScan().setScanPlotSettings(plotNothing);
 
 			logger.debug("Starting multiscan...");
-			theScan.runScan();
-			return theScan.getDataWriter().getCurrentFileName();
+			getMultiScan().runScan();
+			return getMultiScan().getDataWriter().getCurrentFileName();
 		} finally {
 			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
 		}
@@ -452,6 +453,8 @@ public abstract class EdeExperiment implements IObserver {
 	private DoubleDataset lastDarkRefData = null;
 	private DoubleDataset lastIRefFinalData = null;
 	private DoubleDataset lastI0FinalData = null;
+
+	private MultiScan multiScan;
 	@Override
 	public void update(Object source, Object arg) {
 		if (controller != null && arg instanceof EdeScanProgressBean) {
@@ -529,6 +532,14 @@ public abstract class EdeExperiment implements IObserver {
 				}
 			}
 		}
+	}
+
+	public MultiScan getMultiScan() {
+		return multiScan;
+	}
+
+	public void setMultiScan(MultiScan multiScan) {
+		this.multiScan = multiScan;
 	}
 
 }

@@ -20,7 +20,7 @@
 -Dgda.propertiesFile=/scratch/gda_i20_ede/config/properties/live/java.properties
 -Djacorb.config.dir=/scratch/gda_i20_ede/config/jacorb/live
 -Dgov.aps.jca.JCALibrary.properties=/scratch/gda_i20_ede/config/jca/live/JCALibrary.properties
--Dgda.mode=live
+-Dgda.mode=dummy
 -Dgda.client.jython.automatic.interpreter=1
 -Xms128m
 -Xmx1024m

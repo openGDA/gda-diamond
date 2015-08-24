@@ -53,10 +53,10 @@ public class FrelonCcdDetectorData extends DetectorData {
 	private InputChannels inputChannel=InputChannels.I3_4;
 	private boolean ev2CorrectionActive=false;
 	private ROIMode roiMode=ROIMode.KINETIC;
-	private int yStartPixel = 1927; //CCD line begin in Frelon GUI, or roi_bin_offset in line
+	private int ccdBeginLine= 1984; //CCD line begin in Frelon GUI, or roi_bin_offset in line
 	private SPB2Config spb2Config=SPB2Config.SPEED; //hardware pixel rate configuration: Speed or Precision
 	// Lima parameters
-	private int hotizontalBinValue=1; // 1, 2, 4, 8.
+	private int horizontalBinValue=1; // 1, 2, 4, 8.
 	private int verticalBinValue = 1; // vert.binning i.e. image_bin Y component
 	private AcqMode acqMode=AcqMode.SINGLE;
 	private int numberOfImages=2; // minimum 2 spectra as the 1st one usually crap need to be dropped in the future.
@@ -95,12 +95,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public void setRoiMode(ROIMode roiMode) {
 		this.roiMode = roiMode;
 	}
-	public int getRoiBinOffset() {
-		return yStartPixel;
-	}
-	public void setRoiBinOffset(int yStartPixel) {
-		this.yStartPixel = yStartPixel;
-	}
+
 	public SPB2Config getSpb2Config() {
 		return spb2Config;
 	}
@@ -156,21 +151,21 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public void setAccumulationTimeMode(AccTimeMode accumulationTimeMode) {
 		this.accumulationTimeMode = accumulationTimeMode;
 	}
-	public int getHotizontalBinValue() {
-		return hotizontalBinValue;
+	public int getHorizontalBinValue() {
+		return horizontalBinValue;
 	}
 
-	public void setHotizontalBinValue(int binValue) {
-		if (hotizontalBinValue>HORIZONRAL_BIN_SIZE_LIMIT) {
+	public void setHorizontalBinValue(int binValue) {
+		if (horizontalBinValue>HORIZONRAL_BIN_SIZE_LIMIT) {
 			throw new IllegalArgumentException("The limit of horizontal binning size is "+HORIZONRAL_BIN_SIZE_LIMIT+" pixels.");
 		}
 		List<Integer> allowedValues= Arrays.asList(1,2,4,8);
-		if (allowedValues.contains(hotizontalBinValue)) {
-			hotizontalBinValue = binValue;
+		if (allowedValues.contains(horizontalBinValue)) {
+			horizontalBinValue = binValue;
 		} else {
 			throw new IllegalArgumentException("The horizontal binning can only be one of "+allowedValues.toArray(new Integer[] {})+" pixels.");
 		}
-		int xLength=MAX_PIXEL/hotizontalBinValue;
+		int xLength=MAX_PIXEL/horizontalBinValue;
 		areaOfInterest.setBeginX(0);
 		areaOfInterest.setLengthX(xLength);
 	}
@@ -207,5 +202,11 @@ public class FrelonCcdDetectorData extends DetectorData {
 	 */
 	public void setAreaOfInterest(LimaROIIntImpl areaOfInterest) {
 		this.areaOfInterest = areaOfInterest;
+	}
+	public int getCcdBeginLine() {
+		return ccdBeginLine;
+	}
+	public void setCcdBeginLine(int ccdBeginLine) {
+		this.ccdBeginLine = ccdBeginLine;
 	}
 }

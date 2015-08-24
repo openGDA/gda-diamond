@@ -271,7 +271,7 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	@Override
-	protected void configureDetectorForCollection() throws DeviceException {
+	public void configureDetectorForCollection() throws DeviceException {
 		// read nextScan attribute and convert into daserver commands...
 
 		addOutSignals();
@@ -617,7 +617,7 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	@Override
-	public void synchronizWithDetectorData() {
+	public void fetchDetectorSettings() {
 		// TODO Auto-generated method stub
 		//No-op
 	}
@@ -639,6 +639,30 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 			numFrames += timingGroup.getNumberOfFrames();
 		}
 		return numFrames;
+	}
+
+
+	@Override
+	public int getNumberScansInFrame() {
+		// This detector does not require number of scans in a frame information as it is configured via internal TFG
+		return 0;
+	}
+
+	@Override
+	public void setNumberScansInFrame( int num ) {
+	}
+
+	@Override
+	public void configureDetectorForTimingGroup(TimingGroup group) throws DeviceException {
+		throw new UnsupportedOperationException("This detector processes timing groups in configureDetectorForCollection()");
+
+	}
+
+
+	@Override
+	public void configureDetectorForROI(int verticalBinning, int ccdLineBegin) throws DeviceException {
+		throw new UnsupportedOperationException("This detector does not support vertival binning and offset.");
+
 	}
 
 }

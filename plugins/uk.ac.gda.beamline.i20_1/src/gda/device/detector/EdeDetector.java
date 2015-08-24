@@ -27,6 +27,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public interface EdeDetector extends NexusDetector {
 	public static final String CALIBRATION_PROP_KEY = "calibration";
@@ -57,7 +58,7 @@ public interface EdeDetector extends NexusDetector {
 	/**
 	 * to pull detector setting from detector server to synchronise the {@link DetectorData} object
 	 */
-	void synchronizWithDetectorData();
+	void fetchDetectorSettings();
 
 	boolean isDropFirstFrame();
 	/**
@@ -116,4 +117,13 @@ public interface EdeDetector extends NexusDetector {
 	public Integer[] getExcludedPixels();
 
 	public int getRoiFor(int elementIndex);
+
+	public int getNumberScansInFrame();
+
+	public void setNumberScansInFrame( int numScansInFrame );
+
+	public void configureDetectorForTimingGroup(TimingGroup group) throws DeviceException;
+
+	public void configureDetectorForROI(int verticalBinning, int ccdLineBegin) throws DeviceException;
+
 }

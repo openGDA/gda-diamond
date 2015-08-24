@@ -238,12 +238,13 @@ public class FocusingView extends ViewPart {
 			MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None,  motor.getScannableSetup().getScannableWrapper(), true);
 			motorPositionEditorControl.setLayoutData(controlGridData);
 		}
-		Label lblSampleZ = toolkit.createLabel(parent, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
-		lblSampleZ.setLayoutData(labelGridData);
-		Scannable scannable = ScannableSetup.SAMPLE_Z_POSITION.getScannable();
-		scannable.addIObserver(moveObserver);
-		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None,  ScannableSetup.SAMPLE_Z_POSITION.getScannableWrapper(), true);
-		motorPositionEditorControl.setLayoutData(controlGridData);
+		//TODO take the following out and ensure the for loop above covered Sample_Z motor
+//		Label lblSampleZ = toolkit.createLabel(parent, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
+//		lblSampleZ.setLayoutData(labelGridData);
+//		Scannable scannable = ScannableSetup.SAMPLE_Z_POSITION.getScannable();
+//		scannable.addIObserver(moveObserver);
+//		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None,  ScannableSetup.SAMPLE_Z_POSITION.getScannableWrapper(), true);
+//		motorPositionEditorControl.setLayoutData(controlGridData);
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import gda.device.Scannable;
 import gda.device.detector.DAServer;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.frelon.EdeFrelon;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
@@ -75,15 +76,87 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		daServerForTriggeringWithTFG = Finder.getInstance().find("daserverForTfg");
 	}
 
+	public void doCollectionFrelon() throws Exception {
+		// load the detector parameters
+		validate();
+		logger.debug(toString() + " loading detector parameters...");
+		theDetector.prepareDetectorwithScanParameters(scanParameters);
+
+		triggeringParameters.setDetector(theDetector);
+		// prepareTFG(shouldWaitForTopup);
+		// move into the it position
+		moveSampleIntoPosition();
+
+		// start the detector running (it waits for a pulse from the eTFG)
+		logger.debug(toString() + " starting detector running...");
+		InterfaceProvider.getTerminalPrinter().print(
+				"Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+
+		// Store orig. trigger mode setting
+		EdeFrelon detector=((EdeFrelon)theDetector);
+		AcqTriggerMode acqTriggerMode = detector.getLimaCcd().getAcqTriggerMode();
+
+		// Set external trigger mode - this object is used to set Frelon trigger mode in configureDetectorForTimingGroup
+		FrelonCcdDetectorData detectorSettings = (FrelonCcdDetectorData) detector.getDetectorData();
+		detectorSettings.setTriggerMode(AcqTriggerMode.EXTERNAL_TRIGGER);
+
+		// Multiple timing groups
+		for (Integer i = 0; i < scanParameters.getGroups().size(); i++) {
+			if (Thread.currentThread().isInterrupted()) {
+				break;
+			}
+			currentTimingGroup=scanParameters.getGroups().get(i);
+
+			// set scans per frame on detector so TFG scans per frame is correct...
+			int scansPerFrame = currentTimingGroup.getNumberOfScansPerFrame();
+			int numberOfFrames = scanParameters.getTotalNumberOfFrames()+1;
+
+			theDetector.setNumberScansInFrame( scansPerFrame );
+			triggeringParameters.getDetectorDataCollection().setNumberOfFrames(numberOfFrames);
+
+			theDetector.configureDetectorForTimingGroup(currentTimingGroup);
+
+			// theDetector.setNumberScansInFrame( detectorSettings.getNumberOfImages() );
+			prepareTFG(shouldWaitForTopup);
+
+			theDetector.collectData();
+
+			// start the eTFG running
+			startTFG();
+
+			Thread.sleep(250);
+
+			// poll tfg and fetch data
+			pollDetectorAndFetchData();
+		}
+		detector.getLimaCcd().setAcqTriggerMode(acqTriggerMode);
+		detectorSettings.setTriggerMode(acqTriggerMode);
+
+	}
+
 	@Override
 	public void doCollection() throws Exception {
+		if (theDetector.getName().equalsIgnoreCase("frelon")) {
+			doCollectionFrelon();
+		}
+		else {
+			doCollectionOld();
+		}
+
+
+	}
+
+	//	@Override
+	public void doCollectionOld() throws Exception {
 		// load the detector parameters
 		int numberOfRepititionsDone=0;
 		validate();
 		logger.debug(toString() + " loading detector parameters...");
 		theDetector.prepareDetectorwithScanParameters(scanParameters);
-		triggeringParameters.setDetector(theDetector);
 		// derive the eTFG parameters and load them
+
+		triggeringParameters.setDetector(theDetector);
+		triggeringParameters.getDetectorDataCollection().setNumberOfFrames(scanParameters.getTotalNumberOfFrames());
 		prepareTFG(shouldWaitForTopup);
 		// move into the it position
 		moveSampleIntoPosition();
@@ -93,7 +166,9 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		InterfaceProvider.getTerminalPrinter().print(
 				"Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		if (theDetector.getName().equalsIgnoreCase("frelon")) {
+
 			EdeFrelon detector=((EdeFrelon)theDetector);
+
 			AcqTriggerMode acqTriggerMode = detector.getLimaCcd().getAcqTriggerMode();
 			detector.getLimaCcd().setAcqTriggerMode(AcqTriggerMode.EXTERNAL_TRIGGER);
 			while (numberOfRepititionsDone<scanParameters.getNumberOfRepetitions()) {
@@ -109,6 +184,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 				numberOfRepititionsDone++;
 			}
 			detector.getLimaCcd().setAcqTriggerMode(acqTriggerMode);
+
 		} else {
 			theDetector.collectData();
 
@@ -125,7 +201,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 	private void prepareTFG(boolean shouldStartOnTopupSignal) throws DeviceException {
 		int numberOfRepetitions = scanParameters.getNumberOfRepetitions();
-		triggeringParameters.getDetectorDataCollection().setNumberOfFrames(scanParameters.getTotalNumberOfFrames());
+		// triggeringParameters.getDetectorDataCollection().setNumberOfFrames(scanParameters.getTotalNumberOfFrames());
 		String command = triggeringParameters.getTfgSetupGrupsCommandParameters(numberOfRepetitions, shouldStartOnTopupSignal);
 
 		// send buffer to daserver

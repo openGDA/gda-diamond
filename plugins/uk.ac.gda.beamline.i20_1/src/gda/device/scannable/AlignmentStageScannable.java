@@ -23,6 +23,7 @@ import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.EnumPositionerStatus;
 import gda.device.MotorStatus;
+import gda.device.Scannable;
 import gda.factory.FactoryException;
 
 import java.io.File;
@@ -43,7 +44,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 
 	private static final Logger logger = LoggerFactory.getLogger(AlignmentStageScannable.class);
 	private static final String CONFIGURATION_FILE_SUFFIX = "_alignmentConfiguration.xml";
-	private static final AlignmentStageDevice PRIMARY_DEVICE = AlignmentStageDevice.slits;
+	//	private static final AlignmentStageDevice PRIMARY_DEVICE = AlignmentStageDevice.slits;
 	private static final Gson GSON = new Gson();
 
 	public static class Location extends ObservableModel {
@@ -94,7 +95,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	}
 
 	public static enum AlignmentStageDevice {
-		slits, // Horizontal slits
+		slits(false), // Horizontal slits
 		eye, // x-ray eye
 		foil, // Reference foil
 		hole, // Hole, to be used on conjunction with a fast shutter in a separate location
@@ -106,9 +107,15 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 			return location;
 		}
 
+		private AlignmentStageDevice( boolean isRelative ) {
+			location = new Location();
+			location.setRelative( isRelative );
+		}
+
 		private AlignmentStageDevice() {
 			location = new Location();
-			location.setRelative((this != PRIMARY_DEVICE));
+			location.setRelative( true );
+			// location.setRelative((this != PRIMARY_DEVICE));
 		}
 
 		public void save(PropertiesConfiguration configuration) {
@@ -124,26 +131,40 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		}
 
 		public void moveLocation(
-				ScannableMotor xMotor,
-				ScannableMotor yMotor,
-				ScannableMotor fastShutter_xMotor,
-				ScannableMotor fastShutter_yMotor) throws DeviceException {
+				Scannable xMotor,
+				Scannable yMotor,
+				Scannable fastShutter_xMotor,
+				Scannable fastShutter_yMotor) throws DeviceException {
+
+			//				ScannableMotor xMotor,
+			//				ScannableMotor yMotor,
+			//				ScannableMotor fastShutter_xMotor,
+			//				ScannableMotor fastShutter_yMotor) throws DeviceException {
+			// Just move to given position. imh
+			xMotor.asynchronousMoveTo(location.xPosition);
+			yMotor.asynchronousMoveTo(location.yPosition);
+			/*
 			if (this == PRIMARY_DEVICE) {
 				xMotor.asynchronousMoveTo(location.xPosition);
 				yMotor.asynchronousMoveTo(location.yPosition);
-			} else {
+			}
+			else {
 				xMotor.asynchronousMoveTo(location.xPosition + PRIMARY_DEVICE.location.xPosition);
 				yMotor.asynchronousMoveTo(location.yPosition + PRIMARY_DEVICE.location.yPosition);
 			}
 			if (this == AlignmentStageDevice.hole) {
 				fastShutter_xMotor.asynchronousMoveTo(FastShutter.FIRST_SHUTTER_INSTANCE.outLocation.xPosition);
 				fastShutter_yMotor.asynchronousMoveTo(FastShutter.FIRST_SHUTTER_INSTANCE.outLocation.yPosition);
-			} else if (this == AlignmentStageDevice.shutter) {
+
+			} else
+			 */
+			if (this == AlignmentStageDevice.shutter) {
 				fastShutter_xMotor.asynchronousMoveTo(FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.xPosition);
 				fastShutter_yMotor.asynchronousMoveTo(FastShutter.FIRST_SHUTTER_INSTANCE.inLocation.yPosition);
 			}
 		}
 	}
+	private static final AlignmentStageDevice PRIMARY_DEVICE = AlignmentStageDevice.slits;
 
 	// motors
 	private final ScannableMotor xMotor;
@@ -259,6 +280,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		}
 	}
 
+	@Override
 	public void saveDeviceFromCurrentMotorPositions(Object positionName) throws ConfigurationException,
 	DeviceException, IOException {
 		if (checkPositionValid(positionName) == null) {
@@ -290,7 +312,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 
 	/**
 	 * Reload the positions from the file.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void loadConfiguration() throws IOException {

@@ -712,10 +712,17 @@ public class TimeResolvedDataFileHelper {
 		int k = 0;
 		int l = 0;
 		RangeData avgRange = null;
+		boolean requireTimeZero=true;
 		double time = 0.0d;
 		int totalSpectraUptoCurrentGroup = timingGroupMetaData[currentGroupIndex].getNoOfFrames();
+		if (getDetectorNodeName().equals("frelon")) {
+			requireTimeZero=false;
+		}
 		for (int i = 0; i < totalSpectra; i++) {
-			timeAxisData.set(time, k++);
+			if (requireTimeZero) {
+				timeAxisData.set(time, k++);
+			}
+
 			if (avgSpectraList != null && j < avgSpectraList.length) {
 				avgRange = avgSpectraList[j];
 				if (avgRange.getStartIndex() == i) {
@@ -731,11 +738,16 @@ public class TimeResolvedDataFileHelper {
 				}
 			}
 			time += timingGroupMetaData[currentGroupIndex].getTimePerSpectrum();
-			groupAxisData.set(currentGroupIndex, l++);
+
+			if ( !requireTimeZero ) {
+				timeAxisData.set(time, k++);
+			}
+
 			if (i == totalSpectraUptoCurrentGroup) {
 				currentGroupIndex++;
 				totalSpectraUptoCurrentGroup += timingGroupMetaData[currentGroupIndex].getNoOfFrames();
 			}
+			groupAxisData.set(currentGroupIndex, l++);
 		}
 	}
 

@@ -82,7 +82,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	 */
 	@Override
 	public String writeDataFile(EdeDetector detector) throws Exception {
-		validateData(detector);
+		//		validateData(detector);
 		TimeResolvedDataFileHelper timeResolvedNexusFileHelper = new TimeResolvedDataFileHelper(nexusfileName);
 
 		// Writing out meta data

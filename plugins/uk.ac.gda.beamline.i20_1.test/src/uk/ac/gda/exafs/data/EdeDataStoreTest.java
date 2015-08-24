@@ -83,7 +83,7 @@ public class EdeDataStoreTest {
 			Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
 			TimingGroupUIModel[] test = gson.fromJson(readConfiguration.getString("test"), TimingGroupUIModel[].class);
 			assertTrue(test.length == 1);
-			assertTrue(test[0].getEndTime() == 2000.0);
+			assertTrue(test[0].getEndTime() == 1000.0);
 		} catch (ConfigurationException e) {
 			assertFalse(true);
 		}

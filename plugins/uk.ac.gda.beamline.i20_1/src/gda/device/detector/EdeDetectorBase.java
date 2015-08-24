@@ -79,6 +79,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		configureDetectorForCollection();
 	}
 
+	protected abstract void configureDetectorForCollection() throws DeviceException;
+
 	private void updateExtraNames(Roi[] rois) {
 		int numROI = rois.length;
 		extraNames = new String[numROI + 1];
@@ -112,13 +114,6 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	@Override
 	public abstract int getNumberScansInFrame(double frameTime, double scanTime, int numberOfFrames)
 			throws DeviceException;
-
-	/**
-	 * configure the timing group and send them to TFG2 server.
-	 *
-	 * @throws DeviceException
-	 */
-	protected abstract void configureDetectorForCollection() throws DeviceException;
 
 	/**
 	 * fetch detector status from hardware.

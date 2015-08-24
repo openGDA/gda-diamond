@@ -18,6 +18,10 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
+import gda.jython.IJythonServerStatusObserver;
+import gda.jython.InterfaceProvider;
+import gda.scan.ScanEvent;
+
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -34,6 +38,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -86,6 +91,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
+		InterfaceProvider.getScanDataPointProvider().addScanEventObserver(serverObserver);
 	}
 
 	protected void createSections(final SashForm parentComposite) {
@@ -228,6 +234,42 @@ public class TimeResolvedExperimentView extends ViewPart {
 		//Sample stage motors
 
 		sampleMotorsComposite = new SampleStageMotorsComposite(parent, SWT.None, toolkit, true);
+	}
+
+	final IJythonServerStatusObserver serverObserver = new IJythonServerStatusObserver() {
+		@Override
+		public void update(Object theObserved, final Object changeCode) {
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					if (changeCode instanceof ScanEvent) {
+						updateStartStopButtons((ScanEvent)changeCode);
+					}
+				}
+			});
+		}
+	};
+
+	private void updateStartStopButtons(ScanEvent changeCode) {
+		switch (changeCode.getLatestStatus()) {
+		case COMPLETED_AFTER_FAILURE:
+		case COMPLETED_AFTER_STOP:
+		case COMPLETED_EARLY:
+		case NOTSTARTED:
+		case FINISHING_EARLY:
+		case TIDYING_UP_AFTER_FAILURE:
+		case TIDYING_UP_AFTER_STOP:
+		case COMPLETED_OKAY:
+			getModel().setScanning(false);
+			break;
+		case PAUSED:
+		case RUNNING:
+			getModel().setScanning(true);
+			break;
+		default:
+			getModel().setScanning(false);
+			break;
+		}
 	}
 
 	private void createGroupSection(Composite parent) {

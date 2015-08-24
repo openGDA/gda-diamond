@@ -44,6 +44,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.Window;
@@ -97,6 +98,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	// private NumberEditorControl spectrumDelayValueText;
 
 	private NumberEditorControl integrationTimeValueText;
+	private NumberEditorControl accumulationReadoutTimeValueText;
+	private NumberEditorControl realTimePerSpectrumValueText;
 	private NumberEditorControl timePerSpectrumValueText;
 	private NumberEditorControl noOfAccumulationValueText;
 	private NumberEditorControl delayBeforeFristSpectrumValueText;
@@ -239,12 +242,24 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				} else {
 					groupSection.setVisible(false);
 					((GridData) groupSection.getLayoutData()).exclude = true;
+
+					// TODO select row in table
+					int index = model.getIndexOfSelectedRow();
+					selectTimingGroupTableRow( index );
 				}
 				UIHelper.revalidateLayout(groupSection);
 			}
 		});
 		model.addPropertyChangeListener(unitChangeListener);
 	}
+
+	private void selectTimingGroupTableRow( int index ) {
+		Object element = groupsTableViewer.getElementAt( index );
+		if ( element != null ) {
+			groupsTableViewer.setSelection(new StructuredSelection( element ),true);
+		}
+	}
+
 
 	private void createExperimentDetails(Composite sectionComposite) throws Exception {
 		Composite expTimeComposite = new Composite(sectionComposite, SWT.NONE);
@@ -354,10 +369,19 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		endTimeValueFixedFlag.setToolTipText("Fix end time value");
 		endTimeValueFixedFlag.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
 
+
+
 		label = toolkit.createLabel(groupDetailsSectionComposite, "Time per spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		timePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		//  TOOD corrected time per spectra. imh
+		label = toolkit.createLabel(groupDetailsSectionComposite, "Real time per spectrum", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		realTimePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
+		realTimePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		realTimePerSpectrumValueText.setToolTipText("The actual time per spectrum Detector can deliver for your given accumulation parameters");
 
 		label = toolkit.createLabel(groupDetailsSectionComposite, "No. of spectra", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -374,6 +398,11 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		integrationTimeValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		label = toolkit.createLabel(groupTriggerSectionComposite, "Accumulation readout time", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		accumulationReadoutTimeValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+		accumulationReadoutTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		label = toolkit.createLabel(groupTriggerSectionComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -474,6 +503,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			}
 		});
 		groupsTableViewer.setInput(model.getGroupList());
+		// TODO Select item at top of table
+		//groupsTableViewer.setSelection(new StructuredSelection(groupsTableViewer.getElementAt(0)),true);
 
 		Composite buttonComposit = new Composite(timmingGroupsComposite, SWT.NONE);
 		buttonComposit.setLayout(new GridLayout());
@@ -491,6 +522,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					TimingGroupWizardModel groupModel = ((TimingGroupsSetupPage) wizardDialog.getCurrentPage()).getTimingGroupWizardModel();
 					if (groupModel.getItTime() > 0) {
 						model.setupExperiment(groupModel.getUnit(), groupModel.getItTime(), groupModel.getNoOfGroups());
+						selectTimingGroupTableRow( 0 );
 					}
 				}
 			}
@@ -674,6 +706,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			endTimeValueText.setModel(group, TimeIntervalDataModel.END_TIME_PROP_NAME);
 			endTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			//			endTimeValueText.setEditable(false);
 			endTimeValueText.setValidators(null, group.getEndTimeValidator());
 			endTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 			groupBindings.add(dataBindingCtx.bindValue(
@@ -681,6 +714,11 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
+
+
+
+
+
 
 			timePerSpectrumValueText.setModel(group, TimingGroupUIModel.TIME_PER_SPECTRUM_PROP_NAME);
 			timePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
@@ -691,6 +729,20 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
+
+
+
+			realTimePerSpectrumValueText.setModel(group, TimingGroupUIModel.REAL_TIME_PER_SPECTRUM_PROP_NAME);
+			realTimePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+			realTimePerSpectrumValueText.setEditable(false);
+			realTimePerSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			groupBindings.add(dataBindingCtx.bindValue(
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(realTimePerSpectrumValueText),
+					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
+					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+					unitConverter));
+
+
 
 			noOfSpectrumValueText.setModel(group, TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME);
 			noOfSpectrumValueText.setValidators(null, group.getNoOfSpectrumValidator());
@@ -724,6 +776,37 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				}
 			});
 			integrationTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+
+			accumulationReadoutTimeValueText.setModel(group, TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME);
+			accumulationReadoutTimeValueText.setEditable(true);
+			accumulationReadoutTimeValueText.setConverters(new IConverter() {
+				@Override
+				public Object getFromType() {
+					return double.class;
+				}
+				@Override
+				public Object getToType() {
+					return double.class;
+				}
+				@Override
+				public Object convert(Object fromObject) {
+					return ExperimentUnit.MILLI_SEC.convertFromDefaultUnit((double) fromObject);
+				}
+			}, new IConverter() {
+				@Override
+				public Object getFromType() {
+					return String.class;
+				}
+				@Override
+				public Object getToType() {
+					return String.class;
+				}
+				@Override
+				public Object convert(Object fromObject) {
+					return Double.toString(ExperimentUnit.MILLI_SEC.convertToDefaultUnit(Double.parseDouble((String) fromObject)));
+				}
+			});
+			accumulationReadoutTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
 
 			noOfAccumulationValueText.setModel(group, TimingGroupUIModel.NO_OF_ACCUMULATION_PROP_NAME);
 			noOfAccumulationValueText.setEditable(false);

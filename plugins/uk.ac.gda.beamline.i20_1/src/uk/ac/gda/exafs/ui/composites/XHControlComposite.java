@@ -23,11 +23,7 @@ import gda.data.nexus.extractor.NexusGroupData;
 import gda.device.DeviceException;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.NXDetectorData;
-import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
-import gda.device.lima.LimaCCD.AccTimeMode;
-import gda.device.lima.LimaCCD.AcqMode;
-import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
@@ -38,10 +34,19 @@ import java.beans.PropertyChangeListener;
 import java.util.Date;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -103,8 +108,8 @@ public class XHControlComposite extends Composite implements IObserver {
 	private NumberEditorControl txtNumScansPerFrame;
 	private NumberEditorControl txtLiveTime;
 	private NumberEditorControl txtRefreshPeriod;
-	private NumberEditorControl txtVertBinning;
-
+	//	private NumberEditorControl txtVertBinning;
+	private ComboViewer comboVertBinning;
 	private final DoubleDataset strips;
 	private ILineTrace lineTrace;
 	private final EdeDetector detector;
@@ -112,8 +117,10 @@ public class XHControlComposite extends Composite implements IObserver {
 	private NumberEditorControl txtCcdLineBegin;
 
 	private ToolItem configDetector;
+	private ToolItem fetchDetector;
 
 	private FrelonCcdDetectorData detectorData;
+	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 	private boolean firstTime;
 
@@ -173,8 +180,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		public int getCcdLineBegin() {
 			return ccdLineBegin;
 		}
-		public void setCcdLineBegin(int roiBinOffset) {
-			firePropertyChange(CCD_LINE_BEGIN_PROP_NAME, ccdLineBegin, ccdLineBegin = roiBinOffset);
+		public void setCcdLineBegin(int ccdLineBegin) {
+			firePropertyChange(CCD_LINE_BEGIN_PROP_NAME, this.ccdLineBegin, this.ccdLineBegin = ccdLineBegin);
 		}
 	}
 
@@ -202,27 +209,46 @@ public class XHControlComposite extends Composite implements IObserver {
 	private void createUI() {
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		buildSections();
+		initialiseUIComponents();
+	}
+
+	private void initialiseUIComponents() {
+		comboVertBinning.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				StructuredSelection selection = (StructuredSelection) event.getSelection();
+				detectorControlModel.setVerticalBinning(Integer.parseInt(selection.getFirstElement().toString()));
+				txtCcdLineBegin.setRange(0, FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning());
+				if (detectorControlModel.getCcdLineBegin()>FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning()) {
+					detectorControlModel.setCcdLineBegin(FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning());
+				}
+			}
+		});
+
+		pullDetectorSettings();
 	}
 
 	public void updateView(EdeDetector ededetector) {
-		// TODO Auto-generated method stub
-		if (ededetector instanceof EdeFrelon) {
+		if (ededetector.getName().equals("frelon")) {
 			detectorData=(FrelonCcdDetectorData) detector.getDetectorData();
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					txtVertBinning.setEnabled(true);
+					comboVertBinning.getCombo().setEnabled(true);
 					txtCcdLineBegin.setEnabled(true);
 					configDetector.setEnabled(true);
+					fetchDetector.setEnabled(true);
 				}
 			});
 		} else {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					txtVertBinning.setEnabled(false);
+					comboVertBinning.getCombo().setEnabled(false);
 					txtCcdLineBegin.setEnabled(false);
 					configDetector.setEnabled(false);
+					fetchDetector.setEnabled(false);
 				}
 			});
 		}
@@ -272,19 +298,29 @@ public class XHControlComposite extends Composite implements IObserver {
 			}
 		});
 		detectorControlModel.setVerticalBinning(storedVerticalBinning);
-		//TODO replace the following with a combo having a fixed list
-		txtVertBinning = new NumberEditorControl(frelonSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.VERTICAL_BINNING_PROP_NAME, true);
-		txtVertBinning.setUnit(UnitSetup.PIXEL.getText());
-		txtVertBinning.setRange(1, FrelonCcdDetectorData.VERTICAL_BIN_SIZE_LIMIT);
-		txtVertBinning.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+		comboVertBinning = new ComboViewer(frelonSectionComposite, SWT.READ_ONLY);
+		comboVertBinning.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		comboVertBinning.setContentProvider(new ArrayContentProvider());
+		comboVertBinning.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return String.valueOf(element);
+			}
+		});
+		comboVertBinning.setInput(new Integer[] {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024});
+		comboVertBinning.setSelection(new StructuredSelection(storedVerticalBinning));
+
+		dataBindingCtx.bindValue(
+				ViewersObservables.observeSingleSelection(comboVertBinning),
+				BeanProperties.value(DetectorControlModel.VERTICAL_BINNING_PROP_NAME).observe(detectorControlModel));
 		// ROI BIN Offset
 		lbl = toolkit.createLabel(frelonSectionComposite, "CCD Line Begin", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		int ccdLineBegin = Activator.getDefault().getPreferenceStore().getInt(I20_1PreferenceInitializer.CCDLINEBEGIN);
-		if (ccdLineBegin != 0) {
-			ccdLineBegin = 0;
+		if (ccdLineBegin > FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning()) {
+			ccdLineBegin = FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning();
 		}
 		detectorControlModel.addPropertyChangeListener(DetectorControlModel.CCD_LINE_BEGIN_PROP_NAME, new PropertyChangeListener() {
 			@Override
@@ -292,21 +328,39 @@ public class XHControlComposite extends Composite implements IObserver {
 				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.CCDLINEBEGIN, (int) evt.getNewValue());
 			}
 		});
-		detectorControlModel.setNumberOfAccumulations(ccdLineBegin);
+		detectorControlModel.setCcdLineBegin(ccdLineBegin);
+		((FrelonCcdDetectorData)DetectorModel.INSTANCE.getCurrentDetector().getDetectorData()).setCcdBeginLine(ccdLineBegin);
+
 		txtCcdLineBegin = new NumberEditorControl(frelonSectionComposite, SWT.None, detectorControlModel, DetectorControlModel.CCD_LINE_BEGIN_PROP_NAME, true);
-		txtCcdLineBegin.setRange(0, FrelonCcdDetectorData.MAX_PIXEL-1);
+		txtCcdLineBegin.setRange(0, FrelonCcdDetectorData.MAX_PIXEL-detectorControlModel.getVerticalBinning());
 		txtCcdLineBegin.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);
 		configDetector = new ToolItem(motorSectionTbar, SWT.NULL);
 		configDetector.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
-				"/icons/arrow_refresh.png").createImage());
+				"/icons/control_play_blue.png").createImage());
 		configDetector.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				configureFrelondetector(detectorControlModel.getVerticalBinning(), detectorControlModel.getCcdLineBegin());
+				try {
+					DetectorModel.INSTANCE.getCurrentDetector().configureDetectorForROI(detectorControlModel.getVerticalBinning(),detectorControlModel.getCcdLineBegin());
+				} catch (DeviceException e) {
+					logger.error(e.getMessage(), e);
+				}
 			}
 		});
+		configDetector.setToolTipText("Send to detector");
+		fetchDetector = new ToolItem(motorSectionTbar, SWT.NULL);
+		fetchDetector.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+				"/icons/arrow_refresh.png").createImage());
+		fetchDetector.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				pullDetectorSettings();
+			}
+
+		});
+		fetchDetector.setToolTipText("Read from detector");
 		section.setTextClient(motorSectionTbar);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
@@ -314,9 +368,16 @@ public class XHControlComposite extends Composite implements IObserver {
 		section.setSeparatorControl(sectionSeparator);
 	}
 
+	private void pullDetectorSettings() {
+		EdeDetector currentDetector = DetectorModel.INSTANCE.getCurrentDetector();
+		currentDetector.fetchDetectorSettings();
+		detectorControlModel.setCcdLineBegin(((FrelonCcdDetectorData)currentDetector.getDetectorData()).getCcdBeginLine());
+		detectorControlModel.setVerticalBinning(((FrelonCcdDetectorData)currentDetector.getDetectorData()).getVerticalBinValue());
+	}
+
 	private void configureFrelondetector(int verticalBinning, int ccdLineBegin) {
 		detectorData.setVerticalBinValue(verticalBinning);
-		detectorData.setRoiBinOffset(ccdLineBegin);
+		detectorData.setCcdBeginLine(ccdLineBegin);
 	}
 
 	@SuppressWarnings("static-access")
@@ -504,23 +565,26 @@ public class XHControlComposite extends Composite implements IObserver {
 		group1.setNumberOfScansPerFrame(scansPerFrame);
 		group1.setTimePerScan(collectionPeriod/1000);
 		group1.setTimePerFrame(collectionPeriod/1000*scansPerFrame);
-		if (firstTime) {
-			if (detector instanceof EdeFrelon) {
-				detectorData = (FrelonCcdDetectorData) detector.getDetectorData();
-				detectorData.setTriggerMode(AcqTriggerMode.INTERNAL_TRIGGER);
-				if (continueLiveLoop) {
-					// live
-					detectorData.setAcqMode(AcqMode.SINGLE);
-					// detectorData.setExposureTime(collectionPeriod);
-				} else { // snapshot
-					detectorData.setAcqMode(AcqMode.ACCUMULATION);
-					detectorData.setAccumulationTimeMode(AccTimeMode.LIVE);
-				}
-			}
-			firstTime=false;
-		}
+		//		if (firstTime) {
+		//			if (detector.getName().equals("frelon")) {
+		//				detectorData = (FrelonCcdDetectorData) detector.getDetectorData();
+		//				detectorData.setTriggerMode(AcqTriggerMode.INTERNAL_TRIGGER);
+		//				if (continueLiveLoop) {
+		//					// live
+		//					detectorData.setAcqMode(AcqMode.SINGLE);
+		//					// detectorData.setExposureTime(collectionPeriod);
+		//				} else { // snapshot
+		//					detectorData.setAcqMode(AcqMode.ACCUMULATION);
+		//					detectorData.setAccumulationTimeMode(AccTimeMode.LIVE);
+		//				}
+		//			}
+		//			firstTime=false;
+		//		}
 		simpleParams.addGroup(group1);
 		detector.prepareDetectorwithScanParameters(simpleParams);
+		if (detector.getName().equals("frelon")) {
+			detector.configureDetectorForTimingGroup(simpleParams.getGroups().get(0));
+		}
 		detector.collectData();
 		detector.waitWhileBusy();
 	}

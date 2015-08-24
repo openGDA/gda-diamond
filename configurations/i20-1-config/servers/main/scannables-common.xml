@@ -4,8 +4,8 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="alignment_stage" class="gda.device.scannable.AlignmentStageScannable">
-		<constructor-arg ref="sample_x" />
-		<constructor-arg ref="sample_y" />
+		<constructor-arg ref="alignment_x" />
+		<constructor-arg ref="alignment_y" />
 		<constructor-arg ref="fast_shutter_x" />
 		<constructor-arg ref="fast_shutter_y" />
 	</bean>
