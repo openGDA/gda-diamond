@@ -3,13 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="cccy_motor" class="gda.device.motor.DummyMotor">
-		<property name="fastSpeed" value="400" />
-		<property name="mediumSpeed" value="200" />
-		<property name="slowSpeed" value="100" />
-	</bean>
-
-	<bean id="cccx_motor" class="gda.device.motor.DummyMotor">
+	<bean id="sd9y_motor" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
