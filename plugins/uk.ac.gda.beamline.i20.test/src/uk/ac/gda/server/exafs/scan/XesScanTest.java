@@ -99,7 +99,7 @@ public class XesScanTest {
 	private XesScan xesScan;
 	private ConcurrentScan mockScan;
 	private ScanPlotSettings mockPlotSettings;
-	private final String experimentalFullPath = "/scratch/test/xml/path";
+	private final String experimentalFullPath = "/scratch/test/xml/path/";
 
 	@Before
 	public void setup() throws DeviceException {
