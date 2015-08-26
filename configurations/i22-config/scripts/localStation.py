@@ -12,6 +12,8 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep
 from gda.jython.commands.GeneralCommands import alias
 
+from maskUtils import setMask, clearMask, currentMask
+
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = "/dls/i22/software/gda/config/scripts/"
 gdascripts = "/dls/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
