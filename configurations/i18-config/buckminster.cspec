@@ -10,12 +10,13 @@
         <cs:dependency name="uk.ac.gda.beamline.i18" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i18.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.client" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.xspress2" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.xspress3" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.exafs.api" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.oe" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.server.exafs.epics" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.devices.xspress2" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.xspress3.epics" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
