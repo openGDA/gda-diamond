@@ -44,9 +44,9 @@ if [[ $? -ne 0 ]]; then
    echo module failed - assuming python is already on the path
 fi
 JAVA_OPTS="-Xms128m -Xmx2024m -XX:MaxPermSize=128m"; export JAVA_OPTS
-if [ -f "/dls_sw/dasc/jrebel/5.2/jrebel.jar" ]; then
-	JAVA_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties $JAVA_OPTS"; export JAVA_OPTS
-fi
+#if [ -f "/dls_sw/dasc/jrebel/5.2/jrebel.jar" ]; then
+#	JAVA_OPTS="-javaagent:/dls_sw/dasc/jrebel/5.2/jrebel.jar -Drebel.properties=/dls_sw/dasc/jrebel/5.2/jrebel.properties $JAVA_OPTS"; export JAVA_OPTS
+#fi
 
 GDA_CORE=$1
 GDA_CONFIG=$2
