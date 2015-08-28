@@ -108,6 +108,9 @@ try:
 except:
 	print "Could not set up metadatatweaks"
 
+import bslUtils
+bslUtils.createBslFiles(False)
+
 #run("BeamlineScripts/master.py")
 run(setupScriptDir +  "atten.py")
 run(setupScriptDir +  "rate.py")
