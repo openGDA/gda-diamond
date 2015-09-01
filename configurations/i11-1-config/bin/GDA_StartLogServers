@@ -3,7 +3,7 @@
 
 if [ -f "/etc/profile.d/modules.sh" ]; then
 	. /etc/profile.d/modules.sh	
-	module load java/gda
+	module load java/gda844
 else
 	echo "cannot scd ..ource /etc/profile.d/modules.sh"	
 	exit 1
