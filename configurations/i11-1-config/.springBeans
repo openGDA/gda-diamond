@@ -21,8 +21,6 @@
 		<config>servers/main/dummy/BPM3.xml</config>
 		<config>servers/main/live/BPM3.xml</config>
 		<config>servers/main/simulation/BPM3.xml</config>
-		<config>clients/main/dummy/client.xml</config>
-		<config>clients/main/live/client.xml</config>
 		<config>clients/rcp/dummy/client.xml</config>
 		<config>clients/rcp/live/client.xml</config>
 		<config>clients/clients-common.xml</config>
@@ -138,7 +136,6 @@
 		<config>servers/main/dummy/MACMotors.xml</config>
 		<config>servers/main/simulation/MACMotors.xml</config>
 		<config>servers/main/main_common.xml</config>
-		<config>clients/main/main-common.xml</config>
 		<config>servers/main/Mar345.xml</config>
 		<config>servers/main/dummy/Mar345.xml</config>
 		<config>servers/main/live/Mar345.xml</config>
@@ -240,7 +237,6 @@
 		<config>servers/main/BeamMonitor1.xml</config>
 		<config>servers/main/live/BSTP1.xml</config>
 		<config>servers/main/BSTP1.xml</config>
-		<config>clients/localhost/live/client.xml</config>
 		<config>servers/main/live/D1.xml</config>
 		<config>servers/main/live/D2.xml</config>
 		<config>servers/main/live/D3.xml</config>
@@ -259,7 +255,6 @@
 		<config>servers/main/live/LS.xml</config>
 		<config>servers/main/LS1.xml</config>
 		<config>servers/main/LS2.xml</config>
-		<config>clients/localhost/main-common.xml</config>
 		<config>servers/main/live/MS1.xml</config>
 		<config>servers/main/MS1.xml</config>
 		<config>servers/main/MS2.xml</config>
@@ -301,8 +296,6 @@
 			<incomplete>false</incomplete>
 			<configs>
 				<config>clients/clients-common.xml</config>
-				<config>clients/main/live/client.xml</config>
-				<config>clients/main/main-common.xml</config>
 				<config>clients/rcp/live/client.xml</config>
 				<config>clients/rcp/rcp-common.xml</config>
 				<config>clients/rcp/commandQueueProcessor.xml</config>
