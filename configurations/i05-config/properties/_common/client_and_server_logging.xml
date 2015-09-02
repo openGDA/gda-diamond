@@ -16,14 +16,12 @@
 		<IncludeCallerData>true</IncludeCallerData>
 	</appender>
 
-	<root>
-		<level value="INFO" />
-		<appender-ref ref="SOCKET" />
-	</root>
+	<!-- Configure the levels of specific loggers -->
+	<logger name="gda.device.motor.DummyMotor" level="INFO"/>
 
-	<!-- ARPES-340 Log the commands typed in the Jython console -->
-	<logger name="gda.jython.GDAJythonInterpreter">
+	<root>
 		<level value="DEBUG" />
-	</logger>
+ 		<appender-ref ref="SOCKET" /> <!-- to logserver -->
+	</root>
 
 </included>
