@@ -187,18 +187,30 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
 
 def reportJythonNamespaceMapping():
     jns=beamline_parameters.JythonNameSpaceMapping()
-    objectOfInterest = {}
-    objectOfInterest['tomography_theta'] = jns.tomography_theta
-    objectOfInterest['tomography_shutter'] = jns.tomography_shutter
-    objectOfInterest['tomography_translation'] = jns.tomography_translation
-    objectOfInterest['tomography_detector'] = jns.tomography_detector
-    objectOfInterest['tomography_beammonitor'] = jns.tomography_beammonitor
-  
-    for key, val in objectOfInterest.iteritems():
-        print key + ' = ' + str(val)
-    msg = "\n These mappings can be changed by editing a file named live_jythonNamespaceMapping, "
-    msg += "\n located in i13i-config/scripts (this can be done by beamline staff)."
+    objectOfInterestSTEP = {}
+    objectOfInterestSTEP['tomography_theta'] = jns.tomography_theta
+    objectOfInterestSTEP['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterestSTEP['tomography_translation'] = jns.tomography_translation
+    objectOfInterestSTEP['tomography_detector'] = jns.tomography_detector
+    objectOfInterestSTEP['tomography_beammonitor'] = jns.tomography_beammonitor
+
+    msg = "\n These mappings can be changed by editing a file named jythonNamespaceMapping, "
+    msg += "\n located in Scripts: Config/src (this can be done by beamline staff).\n"
+
+    print "****** STEP-SCAN PRIMARY SETTINGS ******"
+    idx=1
+    for key, val in objectOfInterestSTEP.iteritems():
+        name = "object undefined!"
+        if val is not None:
+            name = str(val.getName())
+        print "%i. %s = %s" %(idx, key, name)
+        idx += 1
     print msg
+
+
+def reportTomo():
+    return reportJythonNamespaceMapping()
+
 
 from gda.device.scannable import SimpleScannable
 image_key_dark=2
@@ -279,13 +291,13 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=.1, imagesPerDark=1, i
     flatD=flat-dark
     t=imageD/flatD
 #    t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
-    t._jdataset().name=lsdp.getScanIdentifier() + " (image-dark)/(flat-dark)"
+    t._jdataset().name=str(lsdp.getScanIdentifier()) + " (image-dark)/(flat-dark)"
     hdfData = Hdf5HelperData(t.shape, t._jdataset().buffer)
     locs = HDF5HelperLocations("entry1")
     locs.add(tomography_detector.getName())
     Hdf5Helper.getInstance().writeToFileSimple(hdfData, lsdp.currentFilename,locs , "normalisedImage")
-    rcp=Finder.getInstance().find("RCPController")
-    rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
+#    rcp=Finder.getInstance().find("RCPController")
+#    rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
     dnp.plot.image(t, name="Normalised Image")
     #turn camera back on
     return True
@@ -468,7 +480,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 perform a simple tomography scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[]):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[], **kwargs):
     """
     Function to collect a tomogram
  	Arguments:
@@ -489,51 +501,70 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         darkFieldInterval=int(darkFieldInterval)
         flatFieldInterval=int(flatFieldInterval)
         
+        objSTEP = []
+        objSTEP.append('tomography_theta')
+        objSTEP.append('tomography_shutter')
+        objSTEP.append('tomography_translation')
+        objSTEP.append('tomography_detector')           # note this is a positional arg, so can'be supplied in kwargs!
+        objSTEP.append('tomography_beammonitor')
+        objSTEP.append('tomography_time')
+        objSTEP.append('sample_stage')
+        
+        if kwargs is not None and len(kwargs)>0:
+            print "*** Found %i kwargs: " %(len(kwargs)) , kwargs
+            #print kwargs, len(kwargs)
+        else:
+            print("*** kwargs not found")
+        
+        # use kwargs value to set obj or set it to None
+        for k in objSTEP:
+            if (kwargs is not None) and kwargs.has_key(k) and (kwargs[k] is not None):
+                exec("%s=Finder.getInstance().find(\"%s\")" %(kwargs[k].getName(), kwargs[k].getName()))
+                exec(k + "=%s" %(kwargs[k].getName()))
+            else:
+                #if k != 'tomography_detector':
+                #    print k
+                #    exec(k + "=" + "None")
+                try:
+                    eval(k)
+                    #print k
+                except:
+                    exec(k + "=" + "None")
+        
         jns=beamline_parameters.JythonNameSpaceMapping()
 #        tomodet=jns.tomodet
 #        if tomodet is None:
 #	        raise "tomodet is not defined in Jython namespace"
 
-        tomography_theta=jns.tomography_theta
-        if tomography_theta is None:
-            raise "tomography_theta is not defined in Jython namespace"
-        tomography_shutter=jns.tomography_shutter
-        if tomography_shutter is None:
-            raise "tomography_shutter is not defined in Jython namespace"
-        tomography_translation=jns.tomography_translation
-        if tomography_translation is None:
-            raise "tomography_translation is not defined in Jython namespace"
+        # use jns values
+        for k in objSTEP:
+            if eval(k +" is None"):
+                exec(k + "=" + "jns."+k)
+            #else:
+            #    print "keeping kwargs value for %s" %(k)
         
+        # final sanity test
+        print "*** This tomoScan is set to use:" 
+        for k in objSTEP:
+            if eval("%s is None" %(k)):
+                msg = k + " is not defined"
+                raise msg
+            else:
+                print "%s = %s" %(k, eval("%s.getName()" %(k)))
+        return
 
-        if tomography_detector is None:
-	        tomography_detector=jns.tomography_detector
-        if tomography_detector is None:
-            raise "tomography_detector is not defined in Jython namespace"
-
-#        tomography_optimizer=jns.tomography_optimizer
-#        if tomography_optimizer is None:
-#            raise "tomography_optimizer is not defined in Jython namespace"
-
-        tomography_time=jns.tomography_time
-        if tomography_time is None:
-            raise "tomography_time is not defined in Jython namespace"
-        
-        tomography_beammonitor=jns.tomography_beammonitor
-        if tomography_beammonitor is None:
-            raise "tomography_beammonitor is not defined in Jython namespace"
+#        if tomography_detector is None:
+#	        tomography_detector=jns.tomography_detector
+#        if tomography_detector is None:
+#            raise "tomography_detector is not defined in Jython namespace"
 
         meta_add = jns.meta_add
         if meta_add is None:
             raise "meta_add is not defined in Jython namespace"
 
-
 #        camera_stage = jns.cs1
 #        if camera_stage is None:
 #            raise "camera_stage is not defined in Jython namespace"
-
-        sample_stage = jns.sample_stage
-        if sample_stage is None:
-            raise "sample_stage is not defined in Jython namespace"
 
 #        meta_add( camera_stage)
         meta_add( sample_stage)
@@ -550,7 +581,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         image_key.setInputNames(["image_key"])
         image_key.setName("image_key")
         image_key.configure()
-
+        
         tomoScanDevice = make_tomoScanDevice(tomography_theta, tomography_shutter, 
                                              tomography_translation, image_key, index)
 
@@ -618,9 +649,6 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
 
         
         #we need ionc_i for the NXTomoEntry
-        tomography_beammonitor = jns.tomography_beammonitor
-        if tomography_beammonitor is None:
-            raise "tomography_beammonitor is not defined in Jython namespace"
         if min_i > 0.:
             import gdascripts.scannable.beamokay
             beamok=gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok", tomography_beammonitor, min_i)
@@ -628,8 +656,8 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             
         for scannable in additionalScannables:
             scan_args.append(scannable)
-            
-        scanObject=createConcurrentScan(scan_args)
+        
+        scanObject=createConcurrentScan(scan_args); #return
         if addNXEntry:
             addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name, tomography_beammonitor.name)
         tomography_detector.stop()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.4.0.201310051539-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.6.0.201407080615-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -126,7 +126,12 @@
 		<config>devices/dummy/phase_ring_motors.xml</config>
 		<config>devices/dummy/pinhole_motors.xml</config>
 		<config>devices/dummy/zone_plate_motors.xml</config>
+		<config>devices/epics/translation_stage_motors.xml</config>
+		<config>devices/translation_stage.xml</config>
+		<config>devices/epics/pco_binning.xml</config>
 	</configs>
+	<autoconfigs>
+	</autoconfigs>
 	<configSets>
 	</configSets>
 </beansProjectDescription>

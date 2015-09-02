@@ -102,25 +102,9 @@ public class I13MJPEGViewComposite extends Composite {
 //		c.setLayout(new GridLayout(1, false));
 		fillDefaults.applyTo(c);
 
-		if (cf == null) {
-			StageCompositeFactory scf = new StageCompositeFactory();
-			StageCompositeDefinition[] stageCompositeDefinitions = new StageCompositeDefinition[1];
-			StageCompositeDefinition definition = new StageCompositeDefinition();
-			stageCompositeDefinitions[0] = definition;
-			DummyUnitsScannable scannable = new DummyUnitsScannable("test", 0.0, "mm", "mm");
-			scannable.configure();
-			definition.setScannable(scannable);
-			definition.setStepSize(.1);
-			scf.setStageCompositeDefinitions(stageCompositeDefinitions);
-			TabFolderCompositeFactory tabs = new TabFolderCompositeFactory();
-			TabCompositeFactoryImpl tab = new TabCompositeFactoryImpl();
-			tab.setCompositeFactory(scf);
-			tab.setLabel("tab");
-			tabs.setFactories(new TabCompositeFactory[] { tab });
-			tabs.afterPropertiesSet();
-			cf = tabs;
+		if (cf != null) {
+			cf.createComposite(c, SWT.NONE);
 		}
-		cf.createComposite(c, SWT.NONE);
 
 		
 		Composite rhs = new Composite(top, SWT.NONE);
@@ -383,9 +367,20 @@ public class I13MJPEGViewComposite extends Composite {
 		}
 		adControllerImpl = (I13ADControllerImpl) adController;
 		i13MJPegViewInitialiser = new I13MJPegViewInitialiser(adControllerImpl, mJPeg, mjPegView, this);
-		lensComposite.setEnumPositioner(adControllerImpl.getLensEnum());
-		binningXComposite.setEnumPositioner(adControllerImpl.getBinningXEnum());
-		binningYComposite.setEnumPositioner(adControllerImpl.getBinningYEnum());
+		if( adControllerImpl.getLensEnum() != null){
+			lensComposite.setEnumPositioner(adControllerImpl.getLensEnum());
+		} else {
+			lensComposite.setVisible(false);
+		}
+		
+		if( adControllerImpl.getBinningXEnum() != null){
+			binningXComposite.setEnumPositioner(adControllerImpl.getBinningXEnum());
+			binningYComposite.setEnumPositioner(adControllerImpl.getBinningYEnum());
+		}
+		else {
+			binningXComposite.setVisible(false);
+			binningYComposite.setVisible(false);
+		}
 		
 		
 		if( adControllerImpl.getSampleCentringXMotor()==null){

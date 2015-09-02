@@ -500,7 +500,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 perform a simple tomography scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[]):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[], **kwargs):
     """
     Function to collect a tomogram
  	Arguments:
@@ -517,9 +517,29 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
     """
+    print "hello"
     try:
         darkFieldInterval=int(darkFieldInterval)
         flatFieldInterval=int(flatFieldInterval)
+        
+        objectOfInterestSTEP = []
+        objectOfInterestSTEP.append('tomodet')
+        objectOfInterestSTEP.append('tomography_theta')
+        objectOfInterestSTEP.append('tomography_shutter')
+        objectOfInterestSTEP.append('tomography_translation')
+        objectOfInterestSTEP.append('tomography_detector')
+        objectOfInterestSTEP.append('tomography_beammonitor')
+        objectOfInterestSTEP.append('tomography_time')
+        objectOfInterestSTEP.append('camera_stage')
+        objectOfInterestSTEP.append('sample_stage')
+        
+        for k in objectOfInterestSTEP:
+            exec(k + "=" + "-1")
+        
+        for k in objectOfInterestSTEP:
+            print "k = " + eval(k)
+        
+        return
         
         jns=beamline_parameters.JythonNameSpaceMapping()
         tomodet=jns.tomodet

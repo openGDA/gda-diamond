@@ -55,7 +55,7 @@
 	</bean>
 
 	<bean id="d2_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL13J-DI-PHDGN-02:HDF:" />
+		<property name="prefix" value="BL13J-DI-PHDGN-02:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 

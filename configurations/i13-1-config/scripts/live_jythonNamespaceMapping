@@ -1,21 +1,23 @@
 #This file is used by beamline_parameters.jythonNamespaceMapping
 
-sample_stage=t1
+#sample_stage=t1_x
+sample_stage=t1_sx
 #tomography_translation is the motor used to move the sample out of the beam (x)
 #Possible values:
 #ss1_X  - normal sample table
 #hex_x  - hexapod sample table
 #ss1_X_dummy - a dummy motor used for testing
 #ss1_samplez - only use if going from -90 to 90. otherwise use ss1_x which is a virtual motor that takes acount of rotation
-tomography_translation=t1_x
+tomography_translation=t1_sx
 #tomography_translation=ss1_X
-
+#tomography_translation=t1_x
 #tomography_theta is the motor used to rotate the sample
 #Possible values:
 # ss1_rot - normal goniometer
 # p2r_rot - p2r
 #ss1_rot_dummy - a dummy motor used for testing
-tomography_theta=t1_theta
+#tomography_theta=t1_theta
+tomography_theta=ss1_rot_dummy
 
 
 #tomography_optimizer is the device that checks if the beam current is of high enough value

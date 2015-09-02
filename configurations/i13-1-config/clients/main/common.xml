@@ -10,7 +10,8 @@
 
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="../../common_beans/common.xml"/>
-	<corba:import namespace="i13-1" names="plot_server, dcm_energy, dcm_bragg" />
+	<!-- <corba:import namespace="i13-1" names="plot_server, dcm_energy, dcm_bragg" /> -->
+	<corba:import namespace="i13-1" names="plot_server" />
 
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
@@ -133,7 +134,7 @@
 								<property name="minPeriodMS" value="1000" />
 								<property name="decimalPlaces" value="2" />
 							</bean>
-							<bean
+<!-- 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="dcm_bragg" />
 								<property name="label" value="Bragg" />
@@ -141,14 +142,14 @@
 								<property name="minPeriodMS" value="1000" />
 								<property name="decimalPlaces" value="4" />
 							</bean>
-
-							<bean class="gda.rcp.views.MotorPositionViewerCompositeFactory">
+ -->
+<!-- 							<bean class="gda.rcp.views.MotorPositionViewerCompositeFactory">
 								<property name="scannable" ref="dcm_energy" />
 								<property name="label" value="Energy" />
 								<property name="restoreValueWhenFocusLost" value="true" />
 								<property name="commandFormat" value="bl.setFromScript(%5.5g)" />
 								<property name="hideLabel" value="false" />
-							</bean>
+							</bean> -->
 
 
 						</list>
@@ -270,14 +271,14 @@
 								<constructor-arg value="d4" />
 								<constructor-arg value="d4" />
 								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13J-DI-PHDGN-04:"/>
+								<constructor-arg value="BL13J-DI-PHDGN-05:"/>
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d5" />
 								<constructor-arg value="d5" />
 								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL13J-DI-PHDGN-05:"/>
+								<constructor-arg value="BL13J-DI-PHDGN-06:"/>
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
@@ -318,6 +319,11 @@
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="ME07M-EA-DET-01:"/>
 								<constructor-arg value="pcoType"/>
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
+								<constructor-arg value="PCO - Tomography" />
+								<constructor-arg value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
+								<constructor-arg value=""/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="Merlin" />
