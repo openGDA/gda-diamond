@@ -16,14 +16,14 @@ from gdascripts.scan import gdascans
 from gda.jython.commands.GeneralCommands import alias
 
 print "Setting up scan data processor, scan_processor"
+
 ge=GaussianEdge()
 ge.smoothwidth=5
 ge.plotPanel = "Edge Fit Plot"
-ge.plotPanel = None
 
 gpab = GaussianPeakAndBackground()
 gpab.plotPanel = "Peak Fit Plot"
-gpab.plotPanel = None
+
 scan_processor = ScanDataProcessor( [MaxPositionAndValue(), MinPositionAndValue(), gpab, ge ], globals() )
 
 go = scan_processor.go
