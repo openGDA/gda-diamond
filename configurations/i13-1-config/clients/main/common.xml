@@ -24,7 +24,7 @@
 		<property name="service" ref="plot_server" />
 	</bean>
 	
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<!-- <bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
 		<property name="service">
 			<bean class="uk.ac.gda.epics.adviewer.SimpleADPVSuffixes">
@@ -40,7 +40,7 @@
 				</property>
 			</bean>
 		</property>
-	</bean>
+	</bean> -->
 
 
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">

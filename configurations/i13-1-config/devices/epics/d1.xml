@@ -87,7 +87,8 @@
 	</bean>
 
 	<bean id="d1_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-DI-PHDGN-01:FFMPEG:" />
+		<!-- <property name="prefix" value="BL13J-DI-PHDGN-01:FFMPEG:" /> -->
+		<property name="prefix" value="BL13J-DI-PHDGN-01:MJPEG:" />
 	</bean>
 
 	<bean id="d1_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
