@@ -4,6 +4,7 @@ import time
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
+from gda.jython.commands import GeneralCommands
 class ExperimentShutterEnumPositioner(ScannableBase):
 	"""
 	Class to handle 
@@ -53,6 +54,13 @@ def isLive():
 	mode = LocalProperties.get("gda.mode")
 	return mode =="live" or mode =="live_localhost"
 
+# create 'interruptable()' to facilitate making for-loops interruptable in GDA: need to call this fn in the 1st or the last line of a for-loop
+def interruptable():
+	"""
+	Fn to facilitate making for-loops interruptable in GDA: need to call this fn in the 1st or the last line of a for-loop
+	"""
+	GeneralCommands.pause()
+
 try:
 	from gda.device import Scannable
 	from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
@@ -64,7 +72,13 @@ try:
 	from gda.factory import Finder
 	from gda.configuration.properties import LocalProperties
 
-
+	from i13i_utilities import wd, cfn, nfn, pwd, nwd
+	alias("wd")
+	alias("cfn")
+	alias("nfn")
+	alias("pwd")
+	alias("nwd")
+	
 #	from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 	import i13i
 	
@@ -80,7 +94,7 @@ try:
 	from gda.scan.RepeatScan import create_repscan, repscan
 	vararg_alias("repscan")
 
-	from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm
+	from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm
 	alias("setTitle")
 	alias("meta_add")
 	alias("meta_ll")
@@ -110,13 +124,13 @@ try:
 			
 			#if you change these you need to change the values in cameraScaleProviders
 			#edited by J. Vila-Comamala to match new objective lens configuration 25.04.2014
-			position1="10X Pink"
-			position2="4X Pink"
-			position3="2X Pink"
-			position4="1X25 Pink"
-			position5="10X Mono"
-			position6="4X Mono"
-			position7="2X Mono"
+			position1="Empty"
+			position2="Empty"
+			position3="Empty"
+			position4="Empty"
+			position5="10x Pink"
+			position6="4x Pink"
+			position7="2x Pink"
 
 			caput("BL13I-EA-TURR-01:DEMAND.ZRST",position1)
 			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", position1)
@@ -142,7 +156,7 @@ try:
 		handle_messages.log(None, "Error creating pvScannables", exceptionType, exception, traceback, False)
 			
 	#make scannablegroup for driving sample stage
-#	from gda.device.scannable.scannablegroup import ScannableGroup
+	from gda.device.scannable.scannablegroup import ScannableGroup
 #	t1_xy = ScannableGroup()
 #	t1_xy.addGroupMember(t1_sx)
 #	t1_xy.addGroupMember(t1_sy)
@@ -197,7 +211,7 @@ try:
 	from tomographyScan import reportJythonNamespaceMapping, reportTomo
 	alias("reportJythonNamespaceMapping")
 	alias("reportTomo")
-	tomography_additional_scannables=[p2r_force, p2r_y] #[]
+	tomography_additional_scannables=[] #=[p2r_force, p2r_y]
 	#for fast flyscans
 	if isLive():
 		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="d:\\i13\\data"
@@ -238,13 +252,25 @@ try:
 	caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
 	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
 		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
+		flyScanDetectorNoChunking.readOutTime=0.21
 	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
 		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
+		flyScanDetectorNoChunking.readOutTime=0.011
 	
 # Ensure rot speed is set in case GDA has crashed during fly scan.
 	ss1_rot.motor.speed=45
+	# set up tiff plug-in for saving images to NetApp 
+	caput("BL13I-EA-DET-01:TIFF:CreateDirectory", 1)
+	caput("BL13I-EA-DET-01:TIFF:TempSuffix", ".tmp")
 	if isLive():
 		run("localStationUser.py")
+		
+	#createPVScannable( "smar_y", "BL13I-MO-SMAR-02:Y.VAL")
+	#createPVScannable( "smar_x", "BL13I-MO-SMAR-02:X.VAL")
+	import tomographyXGIScan
+	from tomographyXGIScan import tomoXGIScan
+	import tomographyXGIScan2d
+	from tomographyXGIScan2d import tomoXGIScan2d
 
 except:
 	exceptionType, exception, traceback = sys.exc_info()

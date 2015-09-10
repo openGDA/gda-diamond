@@ -33,6 +33,11 @@
 		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.hexapod}"/>
 	</bean>
+	<bean id="hex_rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-HEX-01:SAMPLEROT"/>
+		<property name="local" value="true" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
 
 
 </beans>	

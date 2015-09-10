@@ -77,6 +77,7 @@
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="title" />
 				</bean>
+				<ref bean="subdirectory" />
 			</list>
 		</property>
 	</bean>
@@ -169,6 +170,8 @@
 	<import resource="../../devices/camera_stage.xml" />
 	<import resource="../../devices/pco1.xml" />
 	<import resource="../../devices/sample_stage_hexapod.xml"/>
+	<import resource="../../devices/smaract_stage.xml"/>
+	<import resource="../../devices/newport_stage.xml"/>
 	<import resource="../../devices/pinhole.xml" />
 	<import resource="../../devices/zone_plate.xml" />
 	<import resource="../../devices/phase_ring.xml" />
@@ -230,7 +233,10 @@
 		<property name="service" ref="RCPController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
 	</bean>
-
+	
+	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
+		<property name="defaultSubdirectory" value="raw" />
+	</bean>
 
 	<import resource="jythonServerFacade.xml" />
 

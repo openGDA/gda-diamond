@@ -71,6 +71,8 @@
  -->	<import resource="../../../devices/dummy/table_motors.xml" />
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
 	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>	
+	<import resource="../../../devices/dummy/smaract_motors.xml"/>
+	<import resource="../../../devices/dummy/newport_motors.xml"/>	
 
 	<import resource="../../../devices/dummy/condenser_motors.xml" />
 	<import resource="../../../devices/dummy/central_stop_motors.xml" />

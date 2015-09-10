@@ -32,6 +32,10 @@
 		<property name="motor" ref="hex_z_motor" />
 		<property name="configureAtStartup" value="${use.hexapod}"/>
 	</bean>
+	<bean id="hex_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hex_rot_motor" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
 	<bean id="hex" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -76,5 +80,9 @@
 		<property name="service" ref="hex_z" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
-
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/hex_rot" />
+		<property name="service" ref="hex_rot" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
 </beans>
