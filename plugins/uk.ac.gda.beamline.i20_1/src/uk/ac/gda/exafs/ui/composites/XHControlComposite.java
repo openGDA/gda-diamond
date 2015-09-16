@@ -31,6 +31,7 @@ import gda.observable.IObserver;
 import gda.scan.ede.datawriters.EdeDataConstants;
 
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -48,8 +49,11 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -95,10 +99,10 @@ public class XHControlComposite extends Composite implements IObserver {
 	double[] allValues;
 	double[][] regionValues;
 
-	private ToolItem start;
-	private ToolItem stop;
-	private ToolItem snapshot;
-	private ToolItem snapshotAndSave;
+	private ToolItem startLiveModeButton;
+	private ToolItem stopLiveModeButton;
+	private ToolItem takeSnapShotButton;
+	private ToolItem takeSnapShotAndSaveButton;
 
 	private Thread liveLoop;
 	private final FormToolkit toolkit;
@@ -107,6 +111,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	private NumberEditorControl txtSnapTime;
 	private NumberEditorControl txtNumScansPerFrame;
 	private NumberEditorControl txtLiveTime;
+	private NumberEditorControl txtLiveNumScansPerFrame;
 	private NumberEditorControl txtRefreshPeriod;
 	//	private NumberEditorControl txtVertBinning;
 	private ComboViewer comboVertBinning;
@@ -124,6 +129,12 @@ public class XHControlComposite extends Composite implements IObserver {
 
 	private boolean firstTime;
 
+	private double[] countsForI0;
+	private Button showLiveI0ItCheckbox;
+	protected boolean liveModeIsRunning;
+
+
+
 	//	private static StripDetector getDetector(){
 	//		return DetectorModel.INSTANCE.getCurrentDetector();
 	//	}
@@ -134,6 +145,12 @@ public class XHControlComposite extends Composite implements IObserver {
 
 		public static final String LIVE_MODE_REFRESH_PERIOD_PROP_NAME = "refreshPeriod";
 		private double refreshPeriod;
+
+		private static final String LIVE_NUMBER_OF_ACCUMULATIONS_PROP_NAME = "liveNumberOfAccumulations";
+		private int liveNumberOfAccumulations;
+
+		private static final String LIVE_MODE_SHOW_I0IT = "liveModeShowI0It";
+		private boolean liveModeShowI0It;
 
 		public static final String SNAPSHOT_INTEGRATION_TIME_PROP_NAME = "snapshotIntegrationTime";
 		private double snapshotIntegrationTime;
@@ -153,6 +170,21 @@ public class XHControlComposite extends Composite implements IObserver {
 		public void setLiveIntegrationTime(double liveIntegrationTime) {
 			firePropertyChange(LIVE_INTEGRATION_TIME_PROP_NAME, this.liveIntegrationTime, this.liveIntegrationTime = liveIntegrationTime);
 		}
+
+		public int getLiveNumberOfAccumulations() {
+			return liveNumberOfAccumulations;
+		}
+		public void setLiveNumberOfAccumulations(int numberOfAccumulations) {
+			firePropertyChange(LIVE_NUMBER_OF_ACCUMULATIONS_PROP_NAME, liveNumberOfAccumulations, liveNumberOfAccumulations = numberOfAccumulations);
+		}
+
+		public boolean getLiveModeShowI0It() {
+			return liveModeShowI0It;
+		}
+		public void setLiveModeShowI0It(boolean showI0It) {
+			firePropertyChange(LIVE_MODE_SHOW_I0IT, liveModeShowI0It, liveModeShowI0It = showI0It);
+		}
+
 		public double getRefreshPeriod() {
 			return refreshPeriod;
 		}
@@ -262,7 +294,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		layout1.numColumns = 3;
 		form.getBody().setLayout(layout1);
 		try {
-			createTimesGroup(form.getBody());
+			createLiveModeGroup(form.getBody());
 			createSnapShotGroup(form.getBody());
 			createFrelonBinAndOffsetGroup(form.getBody());
 		} catch (Exception e) {
@@ -434,10 +466,11 @@ public class XHControlComposite extends Composite implements IObserver {
 		txtNumScansPerFrame.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);
-		snapshot = new ToolItem(motorSectionTbar, SWT.NULL);
-		snapshot.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+		takeSnapShotButton = new ToolItem(motorSectionTbar, SWT.NULL);
+		takeSnapShotButton.setToolTipText("Take snapshot");
+		takeSnapShotButton.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/camera.png").createImage());
-		snapshot.addListener(SWT.Selection, new Listener() {
+		takeSnapShotButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				try {
@@ -449,10 +482,11 @@ public class XHControlComposite extends Composite implements IObserver {
 				}
 			}
 		});
-		snapshotAndSave = new ToolItem(motorSectionTbar, SWT.NULL);
-		snapshotAndSave.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+		takeSnapShotAndSaveButton = new ToolItem(motorSectionTbar, SWT.NULL);
+		takeSnapShotAndSaveButton.setToolTipText("Take snapshot and save to file");
+		takeSnapShotAndSaveButton.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/camera_edit.png").createImage());
-		snapshotAndSave.addListener(SWT.Selection, new Listener() {
+		takeSnapShotAndSaveButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				try {
@@ -464,6 +498,7 @@ public class XHControlComposite extends Composite implements IObserver {
 				}
 			}
 		});
+
 		section.setTextClient(motorSectionTbar);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
@@ -472,7 +507,65 @@ public class XHControlComposite extends Composite implements IObserver {
 	}
 
 	@SuppressWarnings("static-access")
-	private void createTimesGroup(Composite parentForm) throws Exception {
+	private void createLiveModeGroup(Composite parentForm) throws Exception {
+
+		// ... Setup listener for model changes and get initial values from preference store
+
+		// Live mode integration time
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_INTEGRATION_TIME_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(java.beans.PropertyChangeEvent evt) {
+				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODETIME, (double) evt.getNewValue());
+			}
+		});
+		Double storedLiveTime = Activator.getDefault().getPreferenceStore()
+				.getDouble(I20_1PreferenceInitializer.LIVEMODETIME);
+		if (storedLiveTime == 0.0) {
+			storedLiveTime = 1.0;
+		}
+		detectorControlModel.setLiveIntegrationTime(storedLiveTime);
+
+		// Live mode refresh period
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_MODE_REFRESH_PERIOD_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(java.beans.PropertyChangeEvent evt) {
+				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.REFRESHRATE, (double) evt.getNewValue());
+			}
+		});
+		double refreshPeroid = Activator.getDefault().getPreferenceStore()
+				.getDouble(I20_1PreferenceInitializer.REFRESHRATE);
+		if (refreshPeroid == 0.0) {
+			refreshPeroid = 1.0;
+		}
+		detectorControlModel.setRefreshPeriod(refreshPeroid);
+
+		// Live mode num accumulations.
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_NUMBER_OF_ACCUMULATIONS_PROP_NAME, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(java.beans.PropertyChangeEvent evt) {
+				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODESCANSPERFRAME, (int) evt.getNewValue());
+			}
+		});
+		int storedLiveNumAccumulations = Activator.getDefault().getPreferenceStore()
+				.getInt(I20_1PreferenceInitializer.LIVEMODESCANSPERFRAME);
+		if (storedLiveNumAccumulations < 1) {
+			storedLiveNumAccumulations = 1;
+		}
+		detectorControlModel.setLiveNumberOfAccumulations(storedLiveNumAccumulations);
+
+		// Live mode 'show I0It'.
+		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_MODE_SHOW_I0IT, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(java.beans.PropertyChangeEvent evt) {
+				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODESHOWI0IT, (boolean) evt.getNewValue());
+			}
+		});
+		boolean storedLiveI0It = Activator.getDefault().getPreferenceStore().getBoolean(I20_1PreferenceInitializer.LIVEMODESHOWI0IT);
+		detectorControlModel.setLiveModeShowI0It(storedLiveI0It);
+
+
+		// ... Setup the widgets and initialise using values from preference store
+
 		final Section section = toolkit.createSection(parentForm, Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		toolkit.paintBordersFor(section);
 		section.setText("Live mode time settings");
@@ -483,69 +576,84 @@ public class XHControlComposite extends Composite implements IObserver {
 		bendSelectionComposite.setLayout(new GridLayout(2, false));
 		section.setClient(bendSelectionComposite);
 
+		// Live mode accumulation time
 		Label lbl = toolkit.createLabel(bendSelectionComposite, "Accumulation time", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		Double storedLiveTime = Activator.getDefault().getPreferenceStore()
-				.getDouble(I20_1PreferenceInitializer.LIVEMODETIME);
-		if (storedLiveTime == 0.0) {
-			storedLiveTime = 1.0;
-		}
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_INTEGRATION_TIME_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(java.beans.PropertyChangeEvent evt) {
-				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.LIVEMODETIME, (double) evt.getNewValue());
-			}
-		});
-		detectorControlModel.setLiveIntegrationTime(storedLiveTime);
 		txtLiveTime = new NumberEditorControl(bendSelectionComposite, SWT.None, detectorControlModel, DetectorControlModel.LIVE_INTEGRATION_TIME_PROP_NAME, true);
 		txtLiveTime.setUnit(UnitSetup.MILLI_SEC.getText());
 		txtLiveTime.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		txtLiveTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+		// Live mode number of accumulations widgets. imh 14/9/2015
+		lbl = toolkit.createLabel(bendSelectionComposite, "Number of accumulations", SWT.NONE);
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		txtLiveNumScansPerFrame = new NumberEditorControl(bendSelectionComposite, SWT.None, detectorControlModel, DetectorControlModel.LIVE_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
+		txtLiveNumScansPerFrame.setRange(1, SingleSpectrumCollectionModel.MAX_NO_OF_ACCUMULATIONS);
+		txtLiveNumScansPerFrame.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
 		// Live mode refresh period
 		lbl =  toolkit.createLabel(bendSelectionComposite, "Refresh period", SWT.NONE);
 		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		double refreshPeroid = Activator.getDefault().getPreferenceStore()
-				.getDouble(I20_1PreferenceInitializer.REFRESHRATE);
-		if (refreshPeroid == 0.0) {
-			refreshPeroid = 1.0;
-		}
-		detectorControlModel.addPropertyChangeListener(DetectorControlModel.LIVE_MODE_REFRESH_PERIOD_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(java.beans.PropertyChangeEvent evt) {
-				Activator.getDefault().getPreferenceStore().setValue(I20_1PreferenceInitializer.REFRESHRATE, (double) evt.getNewValue());
-			}
-		});
-		detectorControlModel.setRefreshPeriod(refreshPeroid);
 		txtRefreshPeriod = new NumberEditorControl(bendSelectionComposite, SWT.None, detectorControlModel, DetectorControlModel.LIVE_MODE_REFRESH_PERIOD_PROP_NAME, true);
 		txtRefreshPeriod.setUnit(UnitSetup.SEC.getText());
 		txtRefreshPeriod.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		txtRefreshPeriod.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
+		// Show live I0It checkbox widget.
+		lbl =  toolkit.createLabel(bendSelectionComposite, "Live ln(I0/It) mode", SWT.NONE);
+		lbl.setToolTipText("Enable/disable live ln(I0/It) mode.\n(Take a snapshot to set the data used for I0)");
+		lbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+		showLiveI0ItCheckbox = toolkit.createButton(bendSelectionComposite, "", SWT.CHECK);
+		showLiveI0ItCheckbox.setToolTipText("Take a snapshot to enable live ln(I0/It) mode");
+		showLiveI0ItCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		showLiveI0ItCheckbox.setEnabled(false); // intitially disabled, will be enabled after snaphot has been taken
+
+		// Setup listener used to update model when I0It checkbox is (de)selected
+		SelectionListener listener = new SelectionListener() {
+			@Override
+			public void widgetSelected( SelectionEvent e ) {
+				boolean isChecked =  showLiveI0ItCheckbox.getSelection();
+				detectorControlModel.setLiveModeShowI0It(isChecked);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		};
+		showLiveI0ItCheckbox.addSelectionListener(listener);
+		showLiveI0ItCheckbox.setSelection(storedLiveI0It);
+		liveModeIsRunning = false;
+
+		// 'Start' live mode button
 		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);
-		start = new ToolItem(motorSectionTbar, SWT.NULL);
-		start.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+		startLiveModeButton = new ToolItem(motorSectionTbar, SWT.NULL);
+		startLiveModeButton.setToolTipText("Start live mode");
+		startLiveModeButton.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/control_play_blue.png").createImage());
-		start.addListener(SWT.Selection, new Listener() {
+		startLiveModeButton.addListener(SWT.Selection, new Listener() {
+
 			@Override
 			public void handleEvent(Event event) {
 				firstTime=true;
+				liveModeIsRunning = true;
 				startCollectingRates();
 			}
 		});
 
-		stop = new ToolItem(motorSectionTbar, SWT.NULL);
-		stop.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
+		// 'Stop' live mode button
+		stopLiveModeButton = new ToolItem(motorSectionTbar, SWT.NULL);
+		stopLiveModeButton.setToolTipText("Stop live mode");
+		stopLiveModeButton.setImage(ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/control_stop_blue.png").createImage());
-		stop.addListener(SWT.Selection, new Listener() {
+		stopLiveModeButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				stopCollectingRates();
 			}
 		});
-		stop.setEnabled(false);
+		stopLiveModeButton.setEnabled(false);
 		section.setTextClient(motorSectionTbar);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(section);
@@ -573,7 +681,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		//					// live
 		//					detectorData.setAcqMode(AcqMode.SINGLE);
 		//					// detectorData.setExposureTime(collectionPeriod);
-		//				} else { // snapshot
+		//				} else { // takeSnapShotAndSaveButton
 		//					detectorData.setAcqMode(AcqMode.ACCUMULATION);
 		//					detectorData.setAccumulationTimeMode(AccTimeMode.LIVE);
 		//				}
@@ -618,6 +726,27 @@ public class XHControlComposite extends Composite implements IObserver {
 		}
 
 		if (counts != null) {
+			// Make copy of data for using with live I0/It view (only if if not currently in 'live' mode).
+			if ( !liveModeIsRunning ) {
+				countsForI0 = Arrays.copyOf( counts,  counts.length );
+				// Enable live ln(I0/It) mode button once I0 data has been collected
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						showLiveI0ItCheckbox.setEnabled(true);
+					}
+				} );
+			}
+
+			// If live mode is running and show live I0It is selected, convert 'counts' to ln( I0/It )
+			if ( liveModeIsRunning && detectorControlModel.getLiveModeShowI0It() &&
+					countsForI0 != null && countsForI0.length == counts.length ) {
+				for( int i = 0; i<counts.length; i++) {
+					double logI0It = Math.log(countsForI0[i]) - Math.log(counts[i]);
+					counts[i] = logI0It;
+				}
+			}
+
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
@@ -647,10 +776,10 @@ public class XHControlComposite extends Composite implements IObserver {
 		if (liveLoop == null || !liveLoop.isAlive()) {
 			continueLiveLoop = true;
 			liveLoop = null;
-			start.setEnabled(false);
-			stop.setEnabled(true);
-			snapshot.setEnabled(false);
-			snapshotAndSave.setEnabled(false);
+			startLiveModeButton.setEnabled(false);
+			stopLiveModeButton.setEnabled(true);
+			takeSnapShotButton.setEnabled(false);
+			takeSnapShotAndSaveButton.setEnabled(false);
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				@Override
 				public void run() {
@@ -671,7 +800,7 @@ public class XHControlComposite extends Composite implements IObserver {
 							Date snapshotTime = new Date();
 
 							String collectionPeriod_ms = DataHelper.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
-							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), 1,
+							final Double[] results = collectAndPlotSnapshot(false, detectorControlModel.getLiveIntegrationTime(), detectorControlModel.getLiveNumberOfAccumulations(),
 									"Live reading (" + collectionPeriod_ms + " ms integration, every " + detectorControlModel.getRefreshPeriod()
 									+ " s)");
 
@@ -709,12 +838,40 @@ public class XHControlComposite extends Composite implements IObserver {
 		}
 	}
 
+
+
 	public void stopCollectingRates() {
-		continueLiveLoop = false;
-		start.setEnabled(true);
-		stop.setEnabled(false);
-		snapshot.setEnabled(true);
-		snapshotAndSave.setEnabled(true);
+		// Wait for collection thread to finish and update start/stop button status.
+		// This is done in a separate thread so GUI doesn't lock up while waiting for collection to finish.
+		Thread stopActionsThread = uk.ac.gda.util.ThreadManager.getThread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					continueLiveLoop = false;
+
+					// Wait for collection thread to finish current acquisition
+					liveLoop.join();
+
+					liveModeIsRunning = false;
+
+					// Get GUI thread and update button status
+					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+						@Override
+						public void run() {
+							startLiveModeButton.setEnabled(true);
+							stopLiveModeButton.setEnabled(false);
+							takeSnapShotButton.setEnabled(true);
+							takeSnapShotAndSaveButton.setEnabled(true);
+						}
+					});
+				}
+				catch( InterruptedException e) {
+					logger.error( "Exception in stopCollectingRates : ",e );
+				}
+			}
+		});
+		stopActionsThread.start();
+
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -733,13 +890,13 @@ public class XHControlComposite extends Composite implements IObserver {
 			boolean canContinue = true;
 			if (status.scanStatus != Jython.IDLE || status.scriptStatus != Jython.IDLE) {
 				canContinue = false;
-				stopCollectingRates();
 			}
-			start.setEnabled(canContinue);
-			stop.setEnabled(canContinue);
-			snapshot.setEnabled(canContinue);
-			snapshotAndSave.setEnabled(canContinue);
+			startLiveModeButton.setEnabled(canContinue);
+			stopLiveModeButton.setEnabled(canContinue);
+			takeSnapShotButton.setEnabled(canContinue);
+			takeSnapShotAndSaveButton.setEnabled(canContinue);
 		}
 	}
 
 }
+
