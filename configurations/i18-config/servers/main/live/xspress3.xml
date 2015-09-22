@@ -39,14 +39,14 @@
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
 		<property name="xspress3Detector" ref="xspress3" />
 	</bean>
+
 	<bean id="xspress3CollectionStrategy"
 		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
 		<constructor-arg ref="qexafs_xspress3" />
 	</bean> 
-	
-	<!-- underscore as it should be wrapped in the scanwrapper -->
+
 	<bean id="qexafsXspress3" class="gda.device.detector.HardwareTriggeredNXDetector">
-		<property name="name" value="qexafs_xspress3" />
+		<property name="name" value="qexafsXspress3" />
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
 		<property name="collectionStrategy" ref="xspress3CollectionStrategy" />		
 	</bean>	 
@@ -55,7 +55,7 @@
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
 		<property name="qexafsXspress" ref="qexafs_xspress3" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="i0_channel" value="1" />
+		<property name="i0_channel" value="0" />
 	</bean>
 	
 	
