@@ -138,7 +138,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
 else:
     detectorPreparer.addMonitors(None, None, None)
 
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01, topupMonitor, beamMonitor)
+qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, zebraBraggEnergy, qexafs_counterTimer01)
 xanes = xas
  
 # ''' Normal running conditions'''
