@@ -19,8 +19,7 @@
 			</FileNamePattern>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}]
-				%logger - %m%n%rEx</pattern>
+			<pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%rEx</pattern>
 		</layout>
 	</appender>
 
