@@ -17,9 +17,7 @@
 			<FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
 		</rollingPolicy>
 		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d %-5level
-				["logserver.xml"%property{HOSTNAME}/%property{GDA_SOURCE}/%property{JVMNAME}]
-				%logger - %m%n%rEx</pattern>
+			<pattern>%d %-5level [%property{HOSTNAME}/%property{GDA_SOURCE}] %logger - %m%n%rEx</pattern>
 		</layout>
 	</appender>
 
