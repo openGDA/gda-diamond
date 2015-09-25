@@ -21,13 +21,13 @@
 		<constructor-arg index="0" value="idgap" />
 		<constructor-arg index="1" value="7" />
 	</bean>
-	<bean id="timeToRefill" class="gda.device.scannable.DummyTopupScannable">
-		<property name="outputFormat">
-			<list>
-				<value>%4.4g</value>
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="timeToRefill" class="gda.device.scannable.DummyTopupScannable"> -->
+<!-- 		<property name="outputFormat"> -->
+<!-- 			<list> -->
+<!-- 				<value>%4.4g</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable">
 		<constructor-arg index="0" value="ringcurrent" />
 		<constructor-arg index="1" value="300" />
