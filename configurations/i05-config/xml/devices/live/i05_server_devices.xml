@@ -45,5 +45,8 @@
 	<import resource="scientaslit.xml" />
 	<import resource="cameras.xml" />
 	<import resource="../analyser.xml" />
+	
+	<!-- vacuum gauges -->
+	<import resource="pressure_gauges.xml"/>
 
 </beans>
