@@ -24,6 +24,8 @@
 	<import resource="ID.xml" />
 	<import resource="DCM.xml" />
 	<import resource="DummyMotors.xml" />
+	<import resource="ES2.xml"/>
+	<import resource="ES3.xml"/>
 	<import resource="BFM.xml" />
 	<import resource="ExperimentHutchShutter.xml"/>
 	<import resource="GBC1.xml" />
@@ -42,6 +44,7 @@
 	<import resource="HM2.xml" />
 	<import resource="MachineStatus.xml"/>
 	<import resource="PGM.xml" />
+	<import resource="RFDMotors.xml"/>
 	<import resource="SD1.xml" />
 	<import resource="SD2.xml" />
 	<import resource="SD3.xml" />
@@ -50,16 +53,22 @@
 	<import resource="SD6.xml" />
 	<import resource="SD7.xml"/>
 	<import resource="SD8.xml"/>
+	<import resource="SD9.xml"/>
+	<import resource="SD10.xml"/>
+	<import resource="SD11.xml"/>
 	<import resource="SM1.xml" />
 	<import resource="SM3.xml" />
 	<import resource="SM4.xml"/>
 	<import resource="SM5.xml"/>
+	<import resource="SM6.xml"/>
 	<import resource="SS1.xml" />
 	<import resource="SS2.xml" />
 	<import resource="SS3.xml" />
 	<import resource="SS4.xml" />
+	<import resource="SS7.xml" />
 	<import resource="ChannelCutCrystal.xml" />
 	<import resource="SMPM.xml" />
+	<import resource="FastShutter.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

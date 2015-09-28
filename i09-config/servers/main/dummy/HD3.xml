@@ -19,6 +19,7 @@
 				<entry key="Full Beam Diode" value="-60.0000"/>
 			</map>
 		</property>
+		<property name="startPositionName" value="Direct"/>
 	</bean>
 	<!-- <bean id="hd3cam" class="gda.device.diagnosis.AravisCamera"> -->
 	<!-- <property name="deviceName" value="HD3.CAM_aravisCamera"/> -->

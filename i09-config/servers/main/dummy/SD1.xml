@@ -12,6 +12,7 @@
 				<entry key="In" value="25.0000"/>
 			</map>
 		</property>
+		<property name="startPositionName" value="Out"/>
 	</bean>
 
 </beans>

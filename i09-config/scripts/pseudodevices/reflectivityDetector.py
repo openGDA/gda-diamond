@@ -4,7 +4,7 @@ Created on 27 Nov 2013
 @author: fy65
 '''
 #from gda.device.scannable.scannablegroup import ScannableGroup
-from gda.factory import Finder
+#from gda.factory import Finder
 
 SAMPLEDETECTORDISTANCE=163.6731 # mm smpmz = 2.86
 #SLITXOFFSET=10.85 #mm 1 mm slit
@@ -12,7 +12,7 @@ SLITXOFFSET=-11.7 #mm 2.7 mm slit
 SLITZOFFSET=2.75 #mm
 TTHOFFSET=3.0 #-2.9131 #degree
 SINEBARLENGTH=12.5 #mm
-XTDIRECTBEAM=-179.61 #mm 2.7 mm slit 
+XTDIRECTBEAM=-180.12 #mm 2.7 mm slit 
 #XTDIRECTBEAM=-157.1 #mm -136.847
 #XTDIRECTBEAM=-135.878 #mm -136.847
 

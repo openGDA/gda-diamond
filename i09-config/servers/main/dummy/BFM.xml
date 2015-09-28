@@ -18,6 +18,6 @@
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
 	</bean>
-	<bean id="bfmiamp21" class="gda.device.currentamplifier.DummyCurrentAmplifier">
+	<bean id="bfmiamp19" class="gda.device.currentamplifier.DummyCurrentAmplifier">
 	</bean>
 </beans>

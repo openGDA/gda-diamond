@@ -3,10 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="hm3iamp8" class="gda.device.currentamplifier.DummyCurrentAmplifier">
+	<bean id="hm3iamp20" class="gda.device.currentamplifier.DummyCurrentAmplifier">
 	</bean>
-	<bean id="hm3iamp9" class="gda.device.currentamplifier.DummyCurrentAmplifier">
-	</bean>
+
 	<bean id="hm3y_motor" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />
 		<property name="mediumSpeed" value="200" />

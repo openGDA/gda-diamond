@@ -47,12 +47,12 @@
 								<property name="label" value="Ring Current" />
 								<property name="units" value="mA" />
 							</bean>
-							<bean
-								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="timeToRefill" />
-								<property name="label" value="Time to refill" />
-								<property name="units" value="s" />
-							</bean>
+<!-- 							<bean -->
+<!-- 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory"> -->
+<!-- 								<property name="scannable" ref="timeToRefill" /> -->
+<!-- 								<property name="label" value="Time to refill" /> -->
+<!-- 								<property name="units" value="s" /> -->
+<!-- 							</bean> -->
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="idGap" />

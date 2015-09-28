@@ -22,6 +22,7 @@
 				<entry key="Photodiode" value="133.4000"/>
 			</map>
 		</property>
+		<property name="startPositionName" value="Direct"/>
 	</bean>
 	<!-- <bean id="hd2cam" class="gda.device.diagnosis.AravisCamera"> -->
 	<!-- <property name="deviceName" value="HD2.CAM_aravisCamera"/> -->
