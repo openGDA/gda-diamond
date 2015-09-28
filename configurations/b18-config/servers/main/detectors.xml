@@ -200,4 +200,11 @@
 		<property name="i0_channel" value="1" />
 	</bean>
 
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspress2system" />
+		<property name="service" ref="xspress2system" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+	</bean>
+
 </beans>
