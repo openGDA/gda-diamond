@@ -11,6 +11,4 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  uk.ac.diamond.org.powermock;bundle-version="[1.5.1,1.5.2)",
  org.mockito.mockito-core;bundle-version="[1.9.5,2.0.0)",
  javassist;bundle-version="[3.20.0,3.21.0)",
- uk.ac.gda.devices.xspress2
-Import-Package: gda.device.detector.xmap,
- uk.ac.gda.server.exafs.scan.preparers
+ org.objenesis;bundle-version="[2.1.0,3.0.0)"
