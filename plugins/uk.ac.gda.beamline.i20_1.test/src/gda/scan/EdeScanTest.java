@@ -59,6 +59,7 @@ import gda.scan.ede.position.ExplicitScanPositions;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
+@Ignore("2015/09/29 All tests in the class are currently ignored, so just ignore the entire class")
 @PowerMockIgnore({"javax.management.*", "javax.xml.parsers.*", "com.sun.org.apache.xerces.internal.jaxp.*", "ch.qos.logback.*", "org.slf4j.*"})
 public class EdeScanTest extends EdeTestBase {
 

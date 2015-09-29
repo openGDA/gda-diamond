@@ -23,9 +23,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore("taking out this test as it is test the wrong thing and cannot cover script run yet.")
 public class TFGTriggerTest {
-//TODO taking out this test as it is test the wrong thing and cannot cover script run yet.
-	@Ignore("taking out this test as it is test the wrong thing and cannot cover script run yet.")
 	@Test
 	public void testGetTfgSetupGrupsCommandParameters() throws Exception {
 
