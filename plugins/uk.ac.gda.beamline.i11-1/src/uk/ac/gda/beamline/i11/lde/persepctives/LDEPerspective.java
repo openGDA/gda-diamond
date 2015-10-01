@@ -1,7 +1,5 @@
 package uk.ac.gda.beamline.i11.lde.persepctives;
 
-import gda.rcp.views.JythonTerminalView;
-
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -11,17 +9,16 @@ import org.eclipse.ui.progress.IProgressConstants;
 import org.opengda.lde.ui.views.ChildrenTableView;
 import org.opengda.lde.ui.views.LiveImageView;
 import org.opengda.lde.ui.views.ReducedDataPlotView;
-import org.opengda.lde.ui.views.SampleGroupView;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
+import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 import uk.ac.gda.epics.client.pixium.views.PixiumView;
-import uk.ac.gda.epics.client.views.StatusView;
 
 public class LDEPerspective implements IPerspectiveFactory {
 
@@ -55,20 +52,20 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private void defineActions(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(true);
-		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.4, editorArea);
+		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.5, editorArea);
 		statusFolder.addView(STATUS_VIEW_ID);
 
-		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.13, editorArea); //$NON-NLS-1$
+		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.10, editorArea); //$NON-NLS-1$
         topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
         topLeft.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
-        
-        IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.BOTTOM, (float)0.5, editorArea); //$NON-NLS-1$
+
+        IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.RIGHT, (float)0.20, editorArea); //$NON-NLS-1$
         sampleTableFolder.addView(CHILDREN_TABLE_VIEW_ID);
         
-        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.RIGHT, (float)0.7, editorArea);
+        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.BOTTOM, (float)0.6, editorArea);
         propertiesFolder.addView(IPageLayout.ID_PROP_SHEET);
         
-        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.5, PROPERTIES_FOLDER); //$NON-NLS-1$
+        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.75, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
         detectorFolder.addView(DETECTOR_VIEW_ID);
 
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.TOP, (float)0.75, STATUS_FOLDER); //$NON-NLS-1$
@@ -81,7 +78,7 @@ public class LDEPerspective implements IPerspectiveFactory {
         
         IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.RIGHT, (float)0.5, SCAN_PLOT_FOLDER); //$NON-NLS-1$
         terminalfolder.addView(JythonTerminalView.ID);
-        terminalfolder.addPlaceholder(IPageLayout.ID_PROBLEM_VIEW);
+        terminalfolder.addView(IPageLayout.ID_PROBLEM_VIEW);
         terminalfolder.addPlaceholder(NewSearchUI.SEARCH_VIEW_ID);
         terminalfolder.addPlaceholder(IConsoleConstants.ID_CONSOLE_VIEW);
         terminalfolder.addPlaceholder(IPageLayout.ID_BOOKMARKS);

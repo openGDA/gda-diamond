@@ -5,7 +5,7 @@
 
 	
 	<bean id="resUtil" class="org.opengda.lde.utils.LDEResourceUtil">
-		<property name="fileName" value="samples.lde" />
+		<property name="fileName" value="newsamples.lde" />
 	</bean>
 	
 	<bean id="datacollection" class="org.opengda.lde.experiments.DataCollection">
