@@ -48,6 +48,11 @@
          <property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
          <property name="refreshStubOnConnectFailure" value="true" />
      </bean> 
+	 <bean id="xspress2system" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+         <property name="serviceUrl" value="${gda.rmi.prefix}xspress2system" />
+         <property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+         <property name="refreshStubOnConnectFailure" value="true" />
+     </bean> 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="gda.commandqueue.Processor" />
 		<property name="service" ref="commandQueueProcessor" />
