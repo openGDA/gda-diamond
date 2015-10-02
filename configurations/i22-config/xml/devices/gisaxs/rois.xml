@@ -2,18 +2,26 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-	<bean id="roi1_minx" class="gda.device.epicsdevice.EpicsDouble">
+<!--device/scannable/EpicsScannable-->
+	<bean id="roi1_minx" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI1:MinX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi1_sizex" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi1_sizex" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI1:SizeX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi1_miny" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi1_miny" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI1:MinY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi1_sizey" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi1_sizey" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI1:SizeY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
 	
 	<bean id="roi1" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -26,7 +34,7 @@
 				<ref bean="roi1_sizey" />
 			</list>
 		</property>
-		<property name="extraNames">
+<!--		<property name="extraNames">
 			<list>
 				<value>minx</value>
 				<value>sizex</value>
@@ -41,20 +49,28 @@
 				<value>%5.5g</value>
 				<value>%5.5g</value>
 			</list>
-		</property>
+		</property>-->
 	</bean>
 	
-	<bean id="roi2_minx" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi2_minx" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI2:MinX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi2_sizex" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi2_sizex" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI2:SizeX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi2_miny" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi2_miny" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI2:MinY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi2_sizey" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi2_sizey" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI2:SizeY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
 	
 	<bean id="roi2" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -69,17 +85,25 @@
 		</property>
 	</bean>
 	
-	<bean id="roi3_minx" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi3_minx" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI3:MinX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi3_sizex" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi3_sizex" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI3:SizeX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi3_miny" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi3_miny" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI3:MinY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi3_sizey" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi3_sizey" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI3:SizeY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
 	
 	<bean id="roi3" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -94,17 +118,25 @@
 		</property>
 	</bean>
 	
-	<bean id="roi4_minx" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi4_minx" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI4:MinX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi4_sizex" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi4_sizex" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI4:SizeX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi4_miny" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi4_miny" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI4:MinY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi4_sizey" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi4_sizey" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI4:SizeY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
 	
 	<bean id="roi4" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -119,17 +151,25 @@
 		</property>
 	</bean>
 	
-	<bean id="roi5_minx" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi5_minx" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI5:MinX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi5_sizex" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi5_sizex" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI5:SizeX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi5_miny" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi5_miny" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI5:MinY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi5_sizey" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi5_sizey" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI5:SizeY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
 	
 	<bean id="roi5" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -144,17 +184,25 @@
 		</property>
 	</bean>
 	
-	<bean id="roi6_minx" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi6_minx" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI6:MinX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi6_sizex" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi6_sizex" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI6:SizeX" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi6_miny" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi6_miny" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI6:MinY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
-	<bean id="roi6_sizey" class="gda.device.epicsdevice.EpicsDouble">
+	<bean id="roi6_sizey" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL22I-EA-PILAT-01:ROI6:SizeY" />
+		<property name="hasUnits" value="false" />
+		<property name="useNameAsInputName" value="true" />
 	</bean>
 	
 	<bean id="roi6" class="gda.device.scannable.scannablegroup.ScannableGroup">

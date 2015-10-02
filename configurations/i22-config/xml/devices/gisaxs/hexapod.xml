@@ -57,7 +57,7 @@
 				<property name="local" value="true" />
         </bean>
 
-		<bean id="hexapod_pos" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<bean id="hexapod_pos" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 			<property name="local" value="true"/>
 			<property name="groupMembers">
 				<list>
@@ -69,6 +69,7 @@
 					<ref bean="hexapod_yaw"/>
 				</list>
 			</property>
+            <property name="deferredControlPoint" ref="hexapod_defer" />
 		</bean>
 
         <bean id="hexapod_defer" class="gda.device.controlpoint.EpicsControlPoint">
@@ -82,7 +83,7 @@
                 <property name="pvNameGetPoint" value="BL22I-MO-HEX-01:ROTMODE" />
                 <property name="local" value="true" />
         </bean>
-        
+
         <bean id="hexapod_l1temp" class="gda.device.monitor.EpicsMonitor">
         	<property name="deviceName" value="Leg 1 temp"/>
         	<property name="unit" value="celsius"/>
@@ -113,8 +114,8 @@
         	<property name="unit" value="celsius"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:L6TEMP"/>
         </bean>
-        
-        <bean id="hexapod_temps" class="gda.device.scannable.scannablegroup.ScannableGroup">	
+
+        <bean id="hexapod_temps" class="gda.device.scannable.scannablegroup.ScannableGroup">
 			<property name="local" value="true" />
             <property name="groupMembers">
                     <list>
@@ -127,7 +128,7 @@
                     </list>
             </property>
         </bean>
-                        
+
         <bean id="hexapod_l1raw" class="gda.device.monitor.EpicsMonitor">
         	<property name="unit" value="mm"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:LEG1.RBV"></property>
@@ -157,8 +158,8 @@
         	<property name="unit" value="mm"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:LEG6.RBV"></property>
         </bean>
-        
-        <bean id="hexapod_rawpos" class="gda.device.scannable.scannablegroup.ScannableGroup">	
+
+        <bean id="hexapod_rawpos" class="gda.device.scannable.scannablegroup.ScannableGroup">
 			<property name="local" value="true" />
             <property name="groupMembers">
                 <list>
@@ -171,38 +172,38 @@
                    </list>
                </property>
         </bean>
-            
+
         <bean id="hexapod_x_p_in_m" class="gda.device.monitor.EpicsMonitor">
         	<property name="unit" value="mm"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:MACHXPOS"/>
         </bean>
-        
+
         <bean id="hexapod_y_p_in_m" class="gda.device.monitor.EpicsMonitor">
         	<property name="unit" value="mm"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:MACHYPOS"/>
         </bean>
-        
+
         <bean id="hexapod_z_p_in_m" class="gda.device.monitor.EpicsMonitor">
         	<property name="unit" value="mm"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:MACHZPOS"/>
         </bean>
-        
+
         <bean id="hexapod_pitch_p_in_m" class="gda.device.monitor.EpicsMonitor">
         	<property name="unit" value="degrees"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:MACHPITCHPOS"/>
         </bean>
-        
+
         <bean id="hexapod_roll_p_in_m" class="gda.device.monitor.EpicsMonitor">
         	<property name="unit" value="degrees"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:MACHROLLPOS"/>
         </bean>
-        
+
         <bean id="hexapod_yaw_p_in_m" class="gda.device.monitor.EpicsMonitor">
         	<property name="unit" value="degrees"/>
         	<property name="pvName" value="BL22I-MO-HEX-01:MACHYAWPOS"/>
         </bean>
-        
-        <bean id="hexapod_p_in_m" class="gda.device.scannable.scannablegroup.ScannableGroup">	
+
+        <bean id="hexapod_p_in_m" class="gda.device.scannable.scannablegroup.ScannableGroup">
 			<property name="local" value="true" />
             <property name="groupMembers">
                 <list>
@@ -215,32 +216,38 @@
                 </list>
             </property>
         </bean>
-                
-		<bean id="hexapod_x_useroffset" class="gda.device.epicsdevice.EpicsDouble">
+
+		<bean id="hexapod_x_useroffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:USERXOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_y_useroffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_y_useroffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:USERYOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_z_useroffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_z_useroffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:USERZOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_pitch_useroffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_pitch_useroffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:USERPITCHOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_roll_useroffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_roll_useroffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:USERROLLOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_yaw_useroffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_yaw_useroffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:USERYAWOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
-		
-		<bean id="hexapod_useroffset" class="gda.device.scannable.scannablegroup.ScannableGroup">	
+
+		<bean id="hexapod_useroffset" class="gda.device.scannable.scannablegroup.ScannableGroup">
 			<property name="local" value="true" />
             <property name="groupMembers">
                 <list>
@@ -254,31 +261,37 @@
             </property>
         </bean>
 
-		<bean id="hexapod_x_objectoffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_x_objectoffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:OBJECTXOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_y_objectoffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_y_objectoffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:OBJECTYOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_z_objectoffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_z_objectoffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:OBJECTZOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_pitch_objectoffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_pitch_objectoffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:OBJECTPITCHOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_roll_objectoffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_roll_objectoffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:OBJECTROLLOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
 
-		<bean id="hexapod_yaw_objectoffset" class="gda.device.epicsdevice.EpicsDouble">
+		<bean id="hexapod_yaw_objectoffset" class="gda.device.scannable.EpicsScannable">
 			<property name="pvName" value="BL22I-MO-HEX-01:OBJECTYAWOFF"/>
+			<property name="useNameAsInputName" value="true" />
 		</bean>
-		
-		<bean id="hexapod_objectoffset" class="gda.device.scannable.scannablegroup.ScannableGroup">	
+
+		<bean id="hexapod_objectoffset" class="gda.device.scannable.scannablegroup.ScannableGroup">
 			<property name="local" value="true" />
             <property name="groupMembers">
                 <list>
@@ -292,7 +305,33 @@
             </property>
         </bean>
 
-        <bean id="hexapod" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">	
+		<bean id="hexapod_x_ou_offset" class="gda.device.scannable.EpicsScannable">
+			<property name="pvName" value="BL22I-MO-HEX-01:OUXOFF"/>
+			<property name="useNameAsInputName" value="true" />
+		</bean>
+
+		<bean id="hexapod_y_ou_offset" class="gda.device.scannable.EpicsScannable">
+			<property name="pvName" value="BL22I-MO-HEX-01:OUYOFF"/>
+			<property name="useNameAsInputName" value="true" />
+		</bean>
+
+		<bean id="hexapod_z_ou_offset" class="gda.device.scannable.EpicsScannable">
+			<property name="pvName" value="BL22I-MO-HEX-01:OUZOFF"/>
+			<property name="useNameAsInputName" value="true" />
+		</bean>
+
+		<bean id="hexapod_ou_offset" class="gda.device.scannable.scannablegroup.ScannableGroup">
+			<property name="local" value="true" />
+            <property name="groupMembers">
+                <list>
+                	<ref bean="hexapod_x_ou_offset"/>
+                	<ref bean="hexapod_y_ou_offset"/>
+                	<ref bean="hexapod_z_ou_offset"/>
+                </list>
+            </property>
+        </bean>
+
+        <bean id="hexapod" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="local" value="true" />
                 <property name="groupMembers">
                         <list>
@@ -308,6 +347,7 @@
                                 <ref bean="hexapod_useroffset"/>
                                 <ref bean="hexapod_objectoffset"/>
                                 <ref bean="hexapod_p_in_m"/>
+                                <ref bean="hexapod_ou_offset"/>
                                 <!--<ref bean="hexapod_l1temp"/>
                                 <ref bean="hexapod_l2temp"/>
                                 <ref bean="hexapod_l3temp"/>
@@ -341,6 +381,5 @@
                                 -->
                         </list>
                 </property>
-                <property name="deferredControlPoint" ref="hexapod_defer" />
         </bean>
 </beans>
