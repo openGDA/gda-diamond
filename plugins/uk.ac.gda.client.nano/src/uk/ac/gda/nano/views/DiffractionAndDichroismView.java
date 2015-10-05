@@ -18,33 +18,24 @@
 
 package uk.ac.gda.nano.views;
 
-import java.io.File;
-import java.util.List;
-
-import gda.configuration.properties.LocalProperties;
 import gda.factory.Findable;
 import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
 import gda.rcp.GDAClientActivator;
 import gda.rcp.views.CompositeFactory;
-import gda.rcp.views.CompositeFactoryView;
-import gda.rcp.views.FindableExecutableExtension;
 import gda.rcp.views.FindableGroupCompositeFactory;
 import gda.rcp.views.JythonTerminalView;
+
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
