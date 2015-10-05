@@ -18,12 +18,8 @@
 
 package uk.ac.gda.beamline.i13i;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
-
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +33,12 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 	double pixelsPerMMInY=100;
 /*	double cameraStagePixelsPerMMInX=50;
 	double cameraStagePixelsPerMMInY=12.5;
-*/	
+*/
 	DisplayScaleProvider currentProvider=this;
-	
+
 //	Scannable keyScannable;
 //	Map<String , DisplayScaleProvider> providers;
-	
+
 	@Override
 	public void addIObserver(IObserver anIObserver) {
 		obsComp.addIObserver(anIObserver);
@@ -55,7 +51,7 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 	public void deleteIObservers() {
 		obsComp.deleteIObservers();
 	}
-	
+
 	@Override
 	public double getPixelsPerMMInX() {
 		return pixelsPerMMInX;
@@ -70,7 +66,8 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 	public void setPixelsPerMMInY(double pixelsPerMMInY) {
 		this.pixelsPerMMInY = pixelsPerMMInY;
 	}
-	void getProvider() throws DeviceException{
+
+	void getProvider() {
 /*		if( keyScannable != null && providers != null){
 			String key = ((String[])keyScannable.getPosition())[0];
 			currentProvider= providers.get(key);
@@ -83,7 +80,7 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 		getProvider();
 /*		if(keyScannable != null){
 			keyScannable.addIObserver(new IObserver() {
-				
+
 				@Override
 				public void update(Object source, Object arg) {
 					try {
@@ -95,9 +92,9 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 				}
 			});
 		}*/
-		
-		
+
+
 	}
-	
+
 
 }

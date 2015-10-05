@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.diamond.scisoft.analysis.rcp.AnalysisRCPActivator;
 import uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl;
 import uk.ac.gda.beamline.i13i.ADViewerImpl.I13MJPEGViewComposite;
 import uk.ac.gda.epics.adviewer.composites.MJPeg;
