@@ -18,10 +18,6 @@
 
 package gda.device.detector.phantom.corba.impl;
 
-import java.io.Serializable;
-
-import org.omg.CORBA.Any;
-
 import gda.device.DeviceException;
 import gda.device.corba.CorbaDeviceException;
 import gda.device.corba.impl.DeviceImpl;

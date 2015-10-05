@@ -18,7 +18,6 @@
 
 package uk.ac.gda.beamline.i12;
 
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 

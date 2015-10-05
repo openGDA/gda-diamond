@@ -18,11 +18,12 @@
 
 package uk.ac.gda.beamline.i12;
 
+import gda.observable.IObservable;
+import gda.observable.IObserver;
+
 import java.net.MalformedURLException;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PartInitException;
@@ -30,9 +31,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ISetSelectionTarget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import gda.observable.IObservable;
-import gda.observable.IObserver;
 
 public class HelpListener {
 
