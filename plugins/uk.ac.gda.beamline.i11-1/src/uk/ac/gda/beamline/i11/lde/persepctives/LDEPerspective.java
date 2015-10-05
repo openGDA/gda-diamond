@@ -20,7 +20,6 @@ import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
 import uk.ac.gda.epics.client.pixium.views.PixiumView;
-import uk.ac.gda.epics.client.views.StatusView;
 
 public class LDEPerspective implements IPerspectiveFactory {
 
