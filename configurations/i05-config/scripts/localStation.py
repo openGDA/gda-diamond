@@ -12,6 +12,7 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep, localtime
 from gda.jython.commands.GeneralCommands import alias
 from gdascripts.pd.time_pds import actualTimeClass
+from gdascripts.scannable.timerelated import TimeSinceScanStart
 
 # Get the location of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.config")+"/scripts/"
@@ -26,7 +27,11 @@ class actTimeInInt(actualTimeClass):  # specialise to make displayed time semi-h
       t = localtime(time.time())      # t = localtime(super(actualTimeClass, self).rawGetPosition())
       tInInt = ((((((t[0]*100+t[1])*100+t[2])*pad+t[3])*100+t[4])*pad)+t[5])
       return tInInt                   # actual wall clock date & time
-actTime = actTimeInInt("actTime")       
+actTime = actTimeInInt("actTime")
+
+# Make time scannable 
+# Example: scan timeScannable 0 3600 30 analyser - Make a scan starting now, for 1 hour, recording the analyser every 30 secs
+timeScannable = TimeSinceScanStart('timeScannable')
 
 execfile(gdascripts + "/pd/dummy_pds.py");
 
