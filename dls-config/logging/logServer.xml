@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration monitorInterval="10"> <!-- Add debug="true" in here to log the logging configuration -->
+<configuration monitorInterval="10" debug="true"> <!-- Add debug="true" in here to log the logging configuration -->
 
 	<!-- The logServer.xml file defines which messages are sent to the logging system appenders by the log server. -->
 	<!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
@@ -39,7 +39,7 @@
 	</root>
 
 	<root>
-		<level value="INFO" />
+		<level value="ALL" />
 		<appender-ref ref="RemoteLoggerListener" />
 	</root>
 
