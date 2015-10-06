@@ -1,0 +1,2 @@
+export CONTROL_MACHINE_PUBKEY="ssh-rsa ...=="
+bashlog debug "gda_servers_pre_instance(live)" "exported CONTROL_MACHINE_PUBKEY=${CONTROL_MACHINE_PUBKEY:0:12}..."
