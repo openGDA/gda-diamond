@@ -31,9 +31,14 @@ def makeLinks(scanNumber, lastImage, firstImage=2, visit="mt5811-1", year="2012"
 			print "Fn makeLinks is attempting to create dir: %s"%outdir
 	for i in range(firstImage, lastImage+1):
 		#filename=detector+`scanNumber`+("-%05d.tif"%(i-firstImage))
-		filename_src=detector+`scanNumber`+("-%05d.tif"%i)
-		filename_dst=detector+`scanNumber`+("-%05d.tif"%(i-firstImage))
-		fileToLinkTo="/dls/i13/data/"+`year`+"/"+visit+"/"+`scanNumber`+"/"+detector+"/"+filename_src
+		#filename_src=detector+`scanNumber`+("-%05d.tif"%i)
+		filename_src=("%05d.tif"%i)
+		#filename_dst=detector+`scanNumber`+("-%05d.tif"%(i-firstImage))
+		filename_dst=("p_%05d.tif"%(i-firstImage))
+		#fileToLinkTo="/dls/i13/data/"+`year`+"/"+visit+"/"+`scanNumber`+"/"+detector+"/"+filename_src
+		dirname=`scanNumber`+"-"+detector+"-files"
+		#fileToLinkTo="/dls/i13/data/"+`year`+"/"+visit+"/"+"raw"+"/"+`scanNumber`+"/"+filename_src
+		fileToLinkTo="/dls/i13/data/"+`year`+"/"+visit+"/"+"raw"+"/"+dirname+"/"+filename_src
 		if not os.path.exists(fileToLinkTo):
 			raise Exception("File cannot be linked to as it does not exist:"+`fileToLinkTo`)
 		if not outdir is None:

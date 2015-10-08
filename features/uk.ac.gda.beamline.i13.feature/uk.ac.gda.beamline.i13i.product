@@ -33,7 +33,9 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Xms256m
 -Xmx2024m
 -XX:MaxPermSize=256m
--XX:+DisableExplicitGC</vmArgs>
+-XX:+DisableExplicitGC
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 

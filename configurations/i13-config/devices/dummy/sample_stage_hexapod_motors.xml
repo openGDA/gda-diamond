@@ -8,7 +8,8 @@
 	<bean id="hex_rz_motor" class="gda.device.motor.DummyMotor"/>	
 	<bean id="hex_x_motor" class="gda.device.motor.DummyMotor"/>	
 	<bean id="hex_y_motor" class="gda.device.motor.DummyMotor"/>	
-	<bean id="hex_z_motor" class="gda.device.motor.DummyMotor"/>	
+	<bean id="hex_z_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="hex_rot_motor" class="gda.device.motor.DummyMotor"/>	
 
 
 </beans>	

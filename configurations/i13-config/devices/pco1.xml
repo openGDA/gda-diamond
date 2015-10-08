@@ -89,6 +89,19 @@
 		<property name="shutterPVName" value="BL13I-EA-FSHTR-01:CONTROL"/>
 	</bean>
 	
+	<bean id="pco1_tfg_contauto" class="gda.device.detector.addetector.triggering.PCOTFGTriggerContinuousAutoMode">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg ref="tfg" />
+		<property name="exposeTriggerOutVal" value="64"/>
+		<property name="noLongerBusyTriggerInVal" value="39"/>
+		<property name="noLongerBusyTriggerSetupCommand" value="tfg setup-trig start adc5 alternate 1"/>
+		<property name="adcMode" value="0"/>
+		<property name="useShutterPV" value="false"/>
+		<property name="shutterSleep" value="100"/>
+		<property name="shutterPVName" value="BL13I-EA-FSHTR-01:CONTROL"/>
+	</bean>
+	
 	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
 		<property name="fileNameTemplate" value="pco1"/>
@@ -230,6 +243,18 @@
 		</property>
 	</bean>	
 
+	<bean id="pco1_hw_hdf_nochunk_radio" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_hw_hdf_nochunking"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_tfg_contauto" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter_nochunking" />
+				<ref bean="pco1_cameraroi"/>
+			</list>
+		</property>
+	</bean>	
+	
 <!-- 	<bean id="pco1_multi_hdf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_multi_hdf"/>
 		<property name="addCollectTimeMs" value="true"/>
