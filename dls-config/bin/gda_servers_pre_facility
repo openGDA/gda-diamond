@@ -25,7 +25,7 @@ if [[ "${GDA_MODE}" == "live" ]]; then
     # GDA_VAR will point to something like /dls_sw/<beamline>/software/gda_versions/var/
     export GDA_VAR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../var)
 else
-    export GDA_VAR=${GDA_WORKSPACE_PARENT}/var
+    export GDA_VAR=${GDA_WORKSPACE_PARENT}/gda_var_non_live
 fi
 bashlog info "gda_servers_pre_facility" "set \${GDA_VAR}=${GDA_VAR}"
 
@@ -34,7 +34,7 @@ if [ "${GDA_MODE}" == "live" ]; then
     # GDA_LOGS_DIR will point to something like /dls_sw/<beamline>/logs/
     export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../../logs)
 else
-    export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/logs
+    export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/gda_logs_non_live
 fi
 bashlog info "gda_servers_pre_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
 
