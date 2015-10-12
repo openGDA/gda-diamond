@@ -18,10 +18,27 @@
 	<bean id="merlin_stat" class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-04:STAT:" />
 	</bean>
+	
+	<bean id="merlin_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:STAT1:" />
+	</bean>
+	
+		<bean id="merlin_stat2" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:STAT2:" />
+	</bean>
+	
 	<bean id="merlin_roi" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-04:ROI:" />
 	</bean>
 
+	<bean id="merlin_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:ROI1:" />
+	</bean>
+	
+	<bean id="merlin_roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:ROI2:" />
+	</bean>
+	
 	<bean id="merlin_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
 		<property name="prefix" value="BL13J-EA-DET-04:MJPG:" />
 	</bean>

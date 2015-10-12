@@ -9,8 +9,9 @@
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i13j.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.client.excalibur.site" componentType="eclipse.feature"/>
-        <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.excalibur" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
+        <cs:dependency name="diffcalc" componentType="buckminster"/>
     </cs:dependencies>
 </cs:cspec>

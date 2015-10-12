@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="d5_x_motor" class="gda.device.motor.DummyMotor"/>
+	
+	<bean id="d5_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+	<property name="dims" value="1000,1000"/>
+	<property name="datatype" value="UINT32"/>
+	</bean>
+	<bean id="d5_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
+
+	<bean id="d5_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
+	<property name="pluginBase" ref="d5_pluginBase"/>
+	</bean>
+
+
+	<bean id="d5_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+	<property name="pluginBase" ref="d5_pluginBase"/>
+	</bean>
+
+	<bean id="d5_cam_nx_array"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+		<constructor-arg ref="d5_arr" />
+	</bean>
+	
+	<bean id="_d5_cam_nx" class="gda.device.detector.NXDetector">
+		<property name="name" value="d5_cam_nx"/>
+		<property name="collectionStrategy">
+			<bean
+				class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+				<constructor-arg ref="d5_cam_base" />
+				<constructor-arg value=".0" />
+			</bean>
+		</property>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d5_cam_nx_array" />
+			</list>
+		</property>
+	</bean>
+</beans>

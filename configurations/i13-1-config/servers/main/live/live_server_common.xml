@@ -76,7 +76,10 @@
 	<import resource="../../../devices/epics/d4.xml"/>
 	<import resource="../../../devices/d4.xml" />
 
-	<import resource="../../../devices/epics/dcm_motors.xml"/>
+	<import resource="../../../devices/epics/d5.xml"/>
+	<import resource="../../../devices/d5.xml" />
+
+<!-- 	<import resource="../../../devices/epics/dcm_motors.xml"/> -->
 
 	<import resource="../../../devices/epics/s4_motors.xml"/>
 

@@ -70,9 +70,13 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
-from i13j_utilities import csn, nsn
+from i13j_utilities import cfn, csn, nfn, nsn, pwd, nwd
+alias("cfn")
 alias("csn")
+alias("nfn")
 alias("nsn")
+alias("pwd")
+alias("nwd")
 
 from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm
 alias("setTitle")
@@ -122,11 +126,17 @@ if not LocalProperties.check("gda.dummy.mode"):
 		print e
 		print "Continuing anyway..."
 
+import gdascripts.scannable.beamokay
+beamok=gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
 
 from gda.device.scannable import TwoDScanPlotter
 t1_sxy_plotter = TwoDScanPlotter()
 t1_sxy_plotter.setName("t1_sxy_plotter")
 t1_sxy_plotter.setZ_colName("total")
+# added adp 6th March 2015
+t1_sxz_plotter = TwoDScanPlotter()
+t1_sxz_plotter.setName("t1_sxyz_plotter")
+t1_sxz_plotter.setZ_colName("total")
 #we should the ability to not count hot pixels however they are specified.
 
 
@@ -222,6 +232,8 @@ import integrate_mpx_scan
 from gdascripts.scannable.beamokay import WaitWhileScannableBelowThresholdMonitorOnly
 #comment out when not connected - 
 #beammonitor=WaitWhileScannableBelowThresholdMonitorOnly("beammonitor", d4_i, 1,1,1)
+#beamok=WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
+
 
 ix.setInputNames(["ix"])
 iy.setInputNames(["iy"])
@@ -346,7 +358,54 @@ createPVScannable( "afg_chan1_ampl", "BL13J-EA-FNGEN-01:CHAN1:AMPLITUDE", hasUni
 createPVScannable( "afg_chan1_state", "BL13J-EA-FNGEN-01:CHAN1:OUTPUT:STATE", hasUnits=False, getAsString=True)
 # pos afg_chan1_state "On"
 
+import alignmentGui
+tomodet = alignmentGui.TomoDet()
+
+import tomographyScan
+from tomographyScan import reportTomo, showNormalisedImage
+alias("reportTomo")
+alias("showNormalisedImage")
+
+print "stxm_det - begin"
+import stxm_det
+from stxm_det import *
+#stxm_merlin_sw_hdf = stxm_det(name="stxm_merlin_sw_hdf", det=merlin_sw_hdf)
+print "stxm_det - end"
+
+from trigger import trigz2
+
 run("localStationUser.py")
 
+import time
+def fastshutter_test(posn, itersleep=1, niter=30):
+	failed = True
+	if posn=="Open" or posn=="Close" or posn=="Closed":
+		_posn_out_dct = {"Open": "Open", "Close": "Closed", "Closed": "Closed"}
+		pos expt_fastshutter posn
+		cnt = 0
+		failed = True
+		while failed and (cnt < niter):
+			posn_out=expt_fastshutter.getPosition()
+			if posn_out==_posn_out_dct[posn]:
+				failed = False
+				print "Shutter found in the desired position %s on count %i" %(_posn_out_dct[posn], cnt)
+			else:
+				cnt += 1
+				time.sleep(itersleep)
+				print " %i zzz..." %(cnt)
+	else:
+		print("Unsupported shutter position: %s" %(posn))
+	return (not failed)
+
+def fastshutter_ntests(ntests, testsleep=1, itersleep=1, niter=30):
+	_posn_toggle_dct = {"Open": "Closed", "Close": "Open", "Closed": "Open"}
+	for i in range(ntests):
+		posn_curr=expt_fastshutter.getPosition()
+		success = fastshutter_test(_posn_toggle_dct[posn_curr], itersleep, niter)
+		if not success:
+			print "Tests failed while changing shutter position from %s to %s on test %i (of %i)" %(posn_curr, _posn_toggle_dct[posn_curr], (i+1), ntests)
+			break
+		time.sleep(testsleep)
+	print("Finished shutter tests on test %i - bye!" %(i+1))
 #8/4/2014 pie725 not present
 #run("startup_pie725")

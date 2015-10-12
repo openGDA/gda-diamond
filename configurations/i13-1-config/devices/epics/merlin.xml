@@ -18,6 +18,10 @@
 				<entry key="merlin_arr" value-ref="merlin_arr" />
 				<entry key="merlin_ffmpeg" value-ref="merlin_ffmpeg" />
 				<entry key="merlin_roi" value-ref="merlin_roi" />
+				<entry key="merlin_roi1" value-ref="merlin_roi1" />
+				<entry key="merlin_roi2" value-ref="merlin_roi2" />
+				<entry key="merlin_stat1" value-ref="merlin_stat1" />
+				<entry key="merlin_stat2" value-ref="merlin_stat2" />
 				<entry key="merlin_proc" value-ref="merlin_proc" />
 				<entry key="merlin_ndhdf5file" value-ref="merlin_ndhdf5file" />
 				<entry key="merlin_ndfiletif" value-ref="merlin_ndfiletif" />
@@ -27,7 +31,15 @@
 	</bean>
 
 
+<!-- 	<bean id="merlin_basicStat1"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<constructor-arg ref="merlin_stat1" />
+	</bean>
 
+	<bean id="merlin_basicStat2"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+		<constructor-arg ref="merlin_stat2" />
+	</bean> -->
 
 	<bean id="merlin_singleExposurePco"
 		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
