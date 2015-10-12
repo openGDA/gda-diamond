@@ -35,8 +35,10 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -XX:MaxPermSize=256m
 -XX:+DisableExplicitGC
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -81,7 +83,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
    <features>
       <feature id="uk.ac.gda.beamline.i13j.feature"/>
-      <feature id="uk.ac.gda.beamline.i13i.feature" version="8.40.0.qualifier"/>
    </features>
 
 
