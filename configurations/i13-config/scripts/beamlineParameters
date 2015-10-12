@@ -1,2 +1,2 @@
-in_beam_x_STANDARD = -3.1
-
+tomography_sample_x_step=25
+sample_x_number_of_points=1

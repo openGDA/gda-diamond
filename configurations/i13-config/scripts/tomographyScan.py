@@ -26,8 +26,7 @@ from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFr
 from gda.data.scan.datawriter import *
 
 from gda.commandqueue import JythonScriptProgressProvider
-from gda.commandqueue import JythonCommandCommandProvider
-finder = Finder.getInstance()
+
 
 def updateProgress( percent, msg):
     JythonScriptProgressProvider.sendProgress( percent, msg)
@@ -61,12 +60,13 @@ class EnumPositionerDelegateScannable(ScannableBase):
             return 1 
         return 0
 
-def make_tomoScanDevice(tomography_theta, tomography_shutter, tomography_translation, 
+def make_tomoScanDevice(tomography_theta, tomography_shutter, tomography_translation, tomography_sample_x,
                         image_key, tomography_imageIndex ):
     tomoScanDevice = ScannableGroup()
     tomoScanDevice.addGroupMember(tomography_theta)
     tomoScanDevice.addGroupMember(EnumPositionerDelegateScannable("tomography_shutter", tomography_shutter))
     tomoScanDevice.addGroupMember(tomography_translation)
+    tomoScanDevice.addGroupMember(tomography_sample_x)
     tomoScanDevice.addGroupMember(image_key)
     tomoScanDevice.addGroupMember(tomography_imageIndex)
     tomoScanDevice.setName("tomoScanDevice")
@@ -121,7 +121,7 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
    
     # detector dependent items
-    if tomography_detector_name == "pco1_hw_hdf" or tomography_detector_name == "pco1_hw_hdf_nochunking":
+    if tomography_detector_name == "pco1_hw_hdf":
         # external file
         instrument_detector_data_target = "!entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
@@ -188,9 +188,6 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
 
 def reportJythonNamespaceMapping():
     jns=beamline_parameters.JythonNameSpaceMapping()
-    objectOfInterest = {}
-    objectOfInterest['tomography_normalisedImage_detector']=jns.tomography_normalisedImage_detector
-    
     objectOfInterestSTEP = {}
     objectOfInterestSTEP['tomography_theta'] = jns.tomography_theta
     objectOfInterestSTEP['tomography_shutter'] = jns.tomography_shutter
@@ -199,35 +196,15 @@ def reportJythonNamespaceMapping():
     objectOfInterestSTEP['tomography_beammonitor'] = jns.tomography_beammonitor
 
     objectOfInterestFLY = {}
-    objectOfInterestFLY['tomography_theta'] = jns.tomography_theta
     objectOfInterestFLY['tomography_flyscan_theta'] = jns.tomography_flyscan_theta
     objectOfInterestFLY['tomography_shutter'] = jns.tomography_shutter
     objectOfInterestFLY['tomography_translation'] = jns.tomography_translation
     objectOfInterestFLY['tomography_flyscan_det'] = jns.tomography_flyscan_det
     objectOfInterestFLY['tomography_flyscan_flat_dark_det'] = jns.tomography_flyscan_flat_dark_det
-    
-    objectOfInterestXGI = {}
-    objectOfInterestXGI['tomography_detector'] = jns.tomography_detector
-    objectOfInterestXGI['tomography_theta'] = jns.tomography_theta
-    objectOfInterestXGI['tomography_translation'] = jns.tomography_translation
-    objectOfInterestXGI['tomography_shutter'] = jns.tomography_shutter
-    objectOfInterestXGI['tomography_grating_translation'] = jns.tomography_grating_translation
-    objectOfInterestXGI['tomography_grating_translation_outer'] = jns.tomography_grating_translation_outer
-    objectOfInterestXGI['tomography_grating_translation_inner'] = jns.tomography_grating_translation_inner
-    
-    msg = "\n Any of these mappings can be changed by editing a file named live_jythonNamespaceMapping, "
+
+    msg = "\n These mappings can be changed by editing a file named live_jythonNamespaceMapping, "
     msg += "\n located in i13i-config/scripts (this can be done by beamline staff).\n"
 
-    print "****** NORMALISED IMAGE SETTINGS ******"
-    idx=1
-    for key, val in objectOfInterest.iteritems():
-        name = "object undefined!"
-        if val is not None:
-            name = str(val.getName())
-        print `idx` + "."+ key + ' = ' + name
-        idx += 1
-    print "\n"
-    
     print "****** STEP-SCAN PRIMARY SETTINGS ******"
     idx=1
     for key, val in objectOfInterestSTEP.iteritems():
@@ -236,7 +213,7 @@ def reportJythonNamespaceMapping():
             name = str(val.getName())
         print `idx` + "."+ key + ' = ' + name
         idx += 1
-    print "\n"
+    print msg
 
     print "****** FLY-SCAN PRIMARY SETTINGS ******"
     idx=1
@@ -246,18 +223,8 @@ def reportJythonNamespaceMapping():
             name = str(val.getName())
         print `idx` + "."+ key + ' = ' + name
         idx += 1
-    print "\n"
-
-    print "****** XGI-SCAN PRIMARY SETTINGS ******"
-    idx=1
-    for key, val in objectOfInterestXGI.iteritems():
-        name = "object undefined!"
-        if val is not None:
-            name = str(val.getName())
-        print `idx` + "."+ key + ' = ' + name
-        idx += 1
     print msg
-    
+
 def reportTomo():
     return reportJythonNamespaceMapping()
 
@@ -267,17 +234,17 @@ image_key_flat=1 # also known as bright
 image_key_project=0 # also known as sample
 
 def showNormalisedImage(outOfBeamPosition, exposureTime=None, imagesPerDark=1, imagesPerFlat=1, getDataOnly=False):
-	try:
-		showNormalisedImageEx(outOfBeamPosition, exposureTime=exposureTime, imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, getDataOnly=getDataOnly)
-	except :
-		exceptionType, exception, traceback = sys.exc_info()
-		handle_messages.log(None, "Error in showNormalisedImage", exceptionType, exception, traceback, False)
+    try:
+        showNormalisedImageEx(outOfBeamPosition, exposureTime=exposureTime, imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, getDataOnly=getDataOnly)
+    except :
+        exceptionType, exception, traceback = sys.exc_info()
+        handle_messages.log(None, "Error in showNormalisedImage", exceptionType, exception, traceback, False)
 
 def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1, imagesPerFlat=1, getDataOnly=False):
     jns=beamline_parameters.JythonNameSpaceMapping()
     tomodet=jns.tomodet
     if tomodet is None:
-	    raise "tomodet is not defined in Jython namespace"
+        raise "tomodet is not defined in Jython namespace"
     if exposureTime is not None:
         exposureTime = float(exposureTime)
     else:
@@ -304,6 +271,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     detName=tomography_detector.getName()
     #wait for the image file to arrive from the detector system
 #    time.sleep(5)
+    updateProgress(80, "Scan complete - waiting for data to arrive")
     found=False 
     attempt=0
     while not found and attempt<11: 
@@ -336,6 +304,8 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     if not found:
         raise "Unable to analyse data as it has not arrived from detector in time"
 
+    updateProgress(80, "Starting analysis - results will be shown in the window labelled Normalised Image...")
+
     imageD=image-dark
     flatD=flat-dark
     t=imageD/flatD
@@ -348,6 +318,8 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     rcp=Finder.getInstance().find("RCPController")
     rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
     dnp.plot.image(t, name="Normalised Image")
+    updateProgress(100, "Done")
+
     #turn camera back on
     return True
 
@@ -376,24 +348,13 @@ class PreScanRunnable(Runnable):
         self.image_key.moveTo(self.image_key_value)
         updateProgress(self.percentage, self.msg)
 
-class PostScanRunnable(Runnable):
-    def __init__(self, msg, percentage, shutter, shutterPosition):
-        self.msg = msg
-        self.percentage = percentage
-        self.shutter=shutter
-        self.shutterPosition = shutterPosition
-        
-    def run(self):
-        updateProgress(self.percentage, self.msg)
-        updateProgress(self.percentage, "Move shutter")
-        self.shutter.moveTo(self.shutterPosition)
-        updateProgress(self.percentage, self.msg)
+
 
 """
-perform a continuous tomography scan
+perform a continuous tomogrpahy scan
 """
 def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=True):
     """
     Function to collect a tomogram
      Arguments:
@@ -417,7 +378,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     try:
         tomodet=jns.tomodet
         if tomodet is None:
-	        raise "tomodet is not defined in Jython namespace"
+            raise "tomodet is not defined in Jython namespace"
 
         tomography_theta=jns.tomography_theta
         if tomography_theta is None:
@@ -508,19 +469,14 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 
         if imagesPerDark > 0:
             darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-            multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Taking darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, tomography_theta, start), None))
+            multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Taking darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, tomography_theta, start)))
         if imagesPerFlat > 0:
             flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-            multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Taking flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, tomography_theta, start), PostScanRunnable("Closing shutter after taking flats",10, tomography_shutter, "Close") if closeShutterAfterFlats else None))
+            multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Taking flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, tomography_theta, start)))
         
         scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
 #        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Taking projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, tomography_theta, start), None))
-        if extraFlatsAtEnd:
-            if imagesPerFlat > 0:
-                flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-                multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Taking flats at end",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, tomography_theta, start), PostScanRunnable("Closing shutter after taking flats",10, tomography_shutter, "Close") if closeShutterAfterFlats else None))
-        
+        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Taking projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, tomography_theta, start)))
 #        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections backwards",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
@@ -529,18 +485,11 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         tomography_shutter.moveTo("Close")
             
 #        time.sleep(2)
-        if extraFlatsAtEnd:
-            print("Moving sample to in-beam position after taking flats at the end of scan")
-            tomography_translation.moveTo(inBeamPosition)
         #turn camera back on
         tomography_flyscan_flat_dark_det.name = savename
         if setupForAlignment:
             tomodet.setupForAlignment()
         updateProgress(100, "Scan complete")
-        if autoAnalyse:
-            lsdp=jns.lastScanDataPoint()
-            OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
-
         return multiScanObj;
     except :
         exceptionType, exception, traceback = sys.exc_info()
@@ -548,7 +497,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         tomography_flyscan_flat_dark_det.name = savename
         if setupForAlignment:
             tomodet.setupForAlignment()
-        handle_messages.log(None, "Error in tomoFlyScan", exceptionType, exception, traceback, True)
+        handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, True)
 
 
 
@@ -560,7 +509,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
               imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[]):
     """
     Function to collect a tomogram
- 	Arguments:
+     Arguments:
     inBeamPosition - position of X drive to move sample into the beam to take a projection
     outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
     exposureTime - exposure time in seconds ( default = 1)
@@ -581,7 +530,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         jns=beamline_parameters.JythonNameSpaceMapping()
         tomodet=jns.tomodet
         if tomodet is None:
-	        raise "tomodet is not defined in Jython namespace"
+            raise "tomodet is not defined in Jython namespace"
 
         tomography_theta=jns.tomography_theta
         if tomography_theta is None:
@@ -595,10 +544,22 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         
 
         if tomography_detector is None:
-	        tomography_detector=jns.tomography_detector
+            tomography_detector=jns.tomography_detector
         if tomography_detector is None:
             raise "tomography_detector is not defined in Jython namespace"
 
+        params = beamline_parameters.Parameters()
+        sample_x_positions=[]
+        sample_x_step = float(params["tomography_sample_x_step"])
+        sample_x_number_of_points = int(params["sample_x_number_of_points"])
+        sample_x_number_of_images_eitherside=(sample_x_number_of_points-1)/2
+        tomography_sample_x=jns.tomography_sample_x
+        if tomography_sample_x is None:
+            raise "tomography_sample_x is not defined in Jython namespace"
+        sample_x_centre = tomography_sample_x()
+        for i in range(-sample_x_number_of_images_eitherside,sample_x_number_of_images_eitherside+1,1):
+            sample_x_positions.append(sample_x_centre + i*sample_x_step )
+        print sample_x_positions
 #        tomography_optimizer=jns.tomography_optimizer
 #        if tomography_optimizer is None:
 #            raise "tomography_optimizer is not defined in Jython namespace"
@@ -641,7 +602,9 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         image_key.configure()
 
         tomoScanDevice = make_tomoScanDevice(tomography_theta, tomography_shutter, 
-                                             tomography_translation, image_key, index)
+                                          tomography_translation, tomography_sample_x, image_key, index)
+                 
+
 
 #        return tomoScanDevice
         #generate list of positions
@@ -661,44 +624,46 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         tomoScanDevice.tomography_shutter.moveTo(shutterClosed) 
         index=0
         for i in range(imagesPerDark):
-            scan_points.append((theta_pos, shutterClosed, inBeamPosition, image_key_dark,index )) #dark
+            scan_points.append((theta_pos, shutterClosed, inBeamPosition, sample_x_centre, image_key_dark,index )) #dark
             index = index + 1
                     
         for i in range(imagesPerFlat):
-            scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, image_key_flat, index )) #flat
+            scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, sample_x_centre, image_key_flat, index )) #flat
             index = index + 1        
-        scan_points.append((theta_pos,shutterOpen, inBeamPosition, image_key_project, index )) #first
-        index = index + 1        
+        for sample_x_pos in sample_x_positions:
+            scan_points.append((theta_pos, shutterOpen, inBeamPosition, sample_x_pos, image_key_project, index ))#main image
+            index = index + 1
         imageSinceDark=0
         imageSinceFlat=0
         for i in range(numberSteps):
             theta_pos = theta_points[i+1]
-            scan_points.append((theta_pos, shutterOpen, inBeamPosition, image_key_project, index ))#main image
-            index = index + 1        
+            for sample_x_pos in sample_x_positions:
+                scan_points.append((theta_pos, shutterOpen, inBeamPosition, sample_x_pos, image_key_project, index ))#main image
+                index = index + 1
             
             
             imageSinceFlat = imageSinceFlat + 1
             if imageSinceFlat == flatFieldInterval and flatFieldInterval != 0:
                 for i in range(imagesPerFlat):
-                    scan_points.append((theta_pos, shutterOpen, outOfBeamPosition,  image_key_flat, index ))
+                    scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, sample_x_centre,  image_key_flat, index ))
                     index = index + 1        
                     imageSinceFlat=0
             
             imageSinceDark = imageSinceDark + 1
             if imageSinceDark == darkFieldInterval and darkFieldInterval != 0:
                 for i in range(imagesPerDark):
-                    scan_points.append((theta_pos, shutterClosed, inBeamPosition, image_key_dark, index ))
+                    scan_points.append((theta_pos, shutterClosed, inBeamPosition,sample_x_centre,  image_key_dark, index ))
                     index = index + 1        
                     imageSinceDark=0
 
         #add dark and flat only if not done in last steps
         if imageSinceFlat != 0:
             for i in range(imagesPerFlat):
-                scan_points.append((theta_pos, shutterOpen, outOfBeamPosition,  image_key_flat, index )) #flat
+                scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, sample_x_centre,  image_key_flat, index )) #flat
                 index = index + 1
         if imageSinceDark != 0:
             for i in range(imagesPerDark):
-                scan_points.append((theta_pos, shutterClosed, inBeamPosition,  image_key_dark, index )) #dark
+                scan_points.append((theta_pos, shutterClosed, inBeamPosition,  sample_x_centre, image_key_dark, index )) #dark
                 index = index + 1        
                 
         positionProvider = tomoScan_positions( start, stop, step, darkFieldInterval, imagesPerDark, flatFieldInterval, imagesPerFlat, \
@@ -726,7 +691,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
         
         #Close the fast shutter to prevent warming of sample
-        tomography_shutter.moveTo( "Close")	
+        tomography_shutter.moveTo( "Close")    
         #turn camera back on
         tomodet.setupForAlignment()
         
@@ -744,7 +709,7 @@ def updateProgress( percent, msg):
     
 from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
 from java.io import FileInputStream
-from gdascripts.metadata.metadata_commands import setTitle, getTitle
+from gdascripts.metadata.metadata_commands import setTitle
 def ProcessScanParameters(scanParameterModelXML):
     print scanParameterModelXML
     scanXMLProcessor = ScanXMLProcessor();
@@ -838,109 +803,3 @@ def standardtomoScan():
     if positions[0] != 180. or positions[4] != 40.:
         print "Error - points are not correct :" + `positions`
     return sc
-
-def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPosition, exposureTime=1., start=-90., stop=90., step=0.1, darkFieldInterval=0., flatFieldInterval=0., imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False):
-    """
-    Desc:
-    Fn to submit a given number of identical tomoFlyScans to the queue for automatic execution with optional wait time between any two consecutive scans
-        Note(s):
-        (1) shutter is automatically closed before any wait and then opened after it 
-        (2) shutter is automatically opened after the entire batch has finished
-    
-    Arg(s):
-    nScans = total number of identical scans to be executed in this batch
-        Note(s):
-        (1) nScans=1 is admissible
-    batchTitle = description of the sample or this batch of scans to be recorded in each Nexus scan file (each scan gets a unique post-fix ID appended to its batch title) 
-    interWaitSec = interval of time to wait between two consecutive scans (NB. no wait is performed after the last scan (but note that some time will be spent anyway on
-        moving to the start angle before the next scan is able to proceed)
-        Note(s): 
-        (1) interWaitSec=0 is admissible 
-        (2) if interWaitSec is None, no waiting is performed between scans (but note that some time will be spent anyway on moving to the start angle before the next scan is able to proceed)
-        (3) there is no waiting after the last scan of the batch 
-    """
-    #tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-    #          imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False)
-    thisfn = qFlyScanBatch.__name__
-
-    _args = []  # to store pairs (arg_name, arg_value) for executing tomoFlyScan
-    _args.append(("inBeamPosition", inBeamPosition))
-    _args.append(("outOfBeamPosition", outOfBeamPosition))
-    _args.append(("exposureTime", exposureTime))
-    _args.append(("start", start))
-    _args.append(("stop", stop))
-    _args.append(("step", step))
-    _args.append(("darkFieldInterval", darkFieldInterval))
-    _args.append(("flatFieldInterval", flatFieldInterval))
-    _args.append(("imagesPerDark", imagesPerDark))
-    _args.append(("imagesPerFlat", imagesPerFlat))
-    _args.append(("min_i", min_i))
-    _args.append(("setupForAlignment", setupForAlignment))
-    _args.append(("autoAnalyse", autoAnalyse))
-    _args.append(("closeShutterAfterFlats", closeShutterAfterFlats))
-    _args.append(("extraFlatsAtEnd", extraFlatsAtEnd))
-
-    def mysleep(secsToWait, v=True):
-        if v:
-            print "Waiting for %i sec..." %(secsToWait)  
-        sleep(secsToWait)
-        if v:
-            print "Finished waiting for %i sec" %(secsToWait)
-    
-    jns=beamline_parameters.JythonNameSpaceMapping()
-    tomography_shutter = jns.tomography_shutter
-    if tomography_shutter is None:
-        raise "tomography_shutter is not defined in Jython namespace"
-    shutter_close_cmd = "%s.moveTo(\"%s\")" %(tomography_shutter.getName(), "Close")
-    shutter_open_cmd = "%s.moveTo(\"%s\")" %(tomography_shutter.getName(), "Open")
-    
-    cqp = finder.find("commandQueueProcessor")
-    
-    if (batchTitle is None) or len(batchTitle)==0:
-        batchTitle = thisfn
-    
-    title_saved = getTitle()
-    if (title_saved is None) or len(title_saved)==0:
-        title_saved = "undefined"
-    
-    scan_cmd = ",".join(["%s=%s" %(p[0], str(p[1])) for p in _args])
-    #scan_cmd = "tomoFlyScan(" + scan_cmd + ")"
-    scan_cmd = "tomographyScan.tomoFlyScan(" + scan_cmd + ")"
-    #print "scan_cmd = %s" %(scan_cmd)
-    
-    for i in range(nScans):
-        title_tmp = batchTitle + "_%s/%s" %(i+1, nScans)
-        #print "scan %i (of %i): scan_cmd = %s, title = %s" %(i+1, nScans, scan_cmd, title_tmp)
-
-        set_title_cmd = "setTitle(\"%s\")" %(title_tmp)
-        #print "scan %i (of %i): set_title_cmd = %s, title = %s" %(i+1, nScans, set_title_cmd, title_tmp)
-        cmd_tmp = set_title_cmd + ";" + scan_cmd
-        #print "scan %i (of %i): cmd_tmp = %s, title = %s" %(i+1, nScans, cmd_tmp, title_tmp)
-        #cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, title_tmp, None))
-        sleep_cmd = None
-        if (not (interWaitSec is None)) and interWaitSec > 0 and i < (nScans-1):
-            sleep_cmd = "time.sleep(%f)" %(interWaitSec)
-            #print "scan %i (of %i): sleep_cmd = %s, title = %s" %(i+1, nScans, sleep_cmd, title_tmp)
-            #cmd_tmp = cmd_tmp + ";" + sleep_cmd
-            #cqp.addToTail(JythonCommandCommandProvider(sleep_cmd, sleep_cmd, None))
-        #print "scan %i (of %i): cmd_tmp = %s, title = %s" %(i+1, nScans, cmd_tmp, title_tmp)
-        if sleep_cmd is not None:
-            sleep_cmd = shutter_close_cmd + ";" + sleep_cmd + ";" + shutter_open_cmd
-            cmd_tmp = cmd_tmp + ";" + sleep_cmd
-        print "scan %i (of %i): cmd_tmp = %s, title = %s" %(i+1, nScans, cmd_tmp, title_tmp)
-        cmd_desc_tmp = set_title_cmd + "; " + "tomoFlyScan(...)" + ("; " + sleep_cmd if sleep_cmd is not None else '')
-        #print "scan %i (of %i): cmd_desc_tmp = %s, title = %s" %(i+1, nScans, cmd_desc_tmp, title_tmp)
-        #cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, title_tmp, None))
-        cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, cmd_desc_tmp, None)) 
-    
-    # after all scans
-    set_title_saved_cmd = "setTitle(\"%s\")" %(title_saved)
-    #print "set_title_saved_cmd = %s" %(set_title_saved_cmd)
-    batch_end_cmd = shutter_close_cmd + ";" + set_title_saved_cmd
-    print "batch_end_cmd = %s" %(batch_end_cmd)
-    cqp.addToTail(JythonCommandCommandProvider(batch_end_cmd, batch_end_cmd, None))
-    #shuttr_close_cmd = "%s.moveTo(\"%s\")" %(tomography_shutter.getName(), "Close")
-    #print "shuttr_close_cmd = %s" %(shuttr_close_cmd)
-    #tmp = "time.sleep(5);expt_fastshutter.moveTo(\"Close\")"
-    #cqp.addToTail(JythonCommandCommandProvider(tmp, tmp, None))
-    

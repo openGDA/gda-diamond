@@ -48,7 +48,7 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     
     
 5. To perform a tomogram:
-	>tomographyScan.tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+    >tomographyScan.tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
               imagesPerDark=20, imagesPerFlat=20, min_i=-1.):
     
    where:
@@ -64,9 +64,15 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     imagesPerFlat - number of images to be taken for each flat
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
+   At each rotation angle a number of images will be taken for different sample_x motor positions
+   For now these are controlled by values in /dls_sw/i13/software/gda/config/scripts/beamlineParameters:
+       tomography_sample_x_step=25
+       sample_x_number_of_points=1    
+   and the sample_x motor is defined in /dls_sw/i13/software/gda/config/scripts/live_jythonnamespacemapping:
+       tomography_sample_x=ss1_x
 
 5a To perform a tomogram using flyscan
-	>tomographyScan.tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
+    >tomographyScan.tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
               imagesPerDark=20, imagesPerFlat=20, min_i=-1)
     inBeamPosition - position of X drive to move sample into the beam to take a projection
     outOfBeamPosition - position of X drive to move sample out of the beam to take a flat field image
@@ -81,8 +87,8 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
 6. To perform a raster_scan
-	>help raster_scan.scan
-	
+    >help raster_scan.scan
+    
 7.  To save data to a unarchived folder 
     > LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
     NB Set it back to the default afterwards:
@@ -110,5 +116,6 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     
 12. To use the fast shutter in a normal repscan of pco1_hw_hdf ( not a tomography scan) use the command:
     pco1_hw_hdf.collectionStrategy.useShutterPV=True
+    
     
 """
