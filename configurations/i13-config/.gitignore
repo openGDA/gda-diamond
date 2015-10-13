@@ -1,3 +1,4 @@
 *.class
 *.py~
+*.xml~
 .springBeans

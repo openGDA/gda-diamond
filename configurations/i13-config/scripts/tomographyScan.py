@@ -190,6 +190,8 @@ def reportJythonNamespaceMapping():
     jns=beamline_parameters.JythonNameSpaceMapping()
     objectOfInterest = {}
     objectOfInterest['tomography_normalisedImage_detector']=jns.tomography_normalisedImage_detector
+    objectOfInterest['tomography_theta'] = jns.tomography_theta
+    objectOfInterest['tomography_translation'] = jns.tomography_translation
     
     objectOfInterestSTEP = {}
     objectOfInterestSTEP['tomography_theta'] = jns.tomography_theta

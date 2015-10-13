@@ -256,6 +256,7 @@ try:
 	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
 		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 		flyScanDetectorNoChunking.readOutTime=0.011
+		p2r_flyScanFlatDarkDetector.getCollectionStrategy().setReadoutTime(0.011)
 	
 # Ensure rot speed is set in case GDA has crashed during fly scan.
 	ss1_rot.motor.speed=45
