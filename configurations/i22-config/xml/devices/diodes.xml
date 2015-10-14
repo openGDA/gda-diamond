@@ -19,6 +19,7 @@
 	<bean id="d10d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE1:GAIN" />
 		<property name="fixed" value="true" />
+		<property name="inputNames"><list><value>d10d1gain</value></list></property>
 		<property name="gaintosando">
 			<map>
 				<entry key="0">
@@ -105,6 +106,7 @@
 	<bean id="d10d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE2:GAIN" />
 		<property name="fixed" value="true" />
+		<property name="inputNames"><list><value>d10d2gain</value></list></property>
 		<property name="gaintosando">
 			<map>
 				<entry key="0">
@@ -191,6 +193,7 @@
 	<bean id="bs1diodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:GAIN" />
 		<property name="fixed" value="true" />
+		<property name="inputNames"><list><value>bs1diodegain</value></list></property>
 		<property name="gaintosando">
 			<map>
 				<entry key="0">
@@ -277,6 +280,7 @@
 	<bean id="bs2diodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:GAIN" />
 		<property name="fixed" value="true" />
+		<property name="inputNames"><list><value>bs2diodegain</value></list></property>
 		<property name="gaintosando">
 			<map>
 				<entry key="0">
@@ -363,6 +367,7 @@
 	<bean id="bs3diodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:GAIN" />
 		<property name="fixed" value="true" />
+		<property name="inputNames"><list><value>bs3diodegain</value></list></property>
 		<property name="gaintosando">
 			<map>
 				<entry key="0">
