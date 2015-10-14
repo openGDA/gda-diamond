@@ -254,6 +254,8 @@
 				<ref bean="bs2diodegain"/>
 				<ref bean="bs2_x"/>
 				<ref bean="bs2_y"/>
+				<ref bean="bs2_pitch"/>
+				<ref bean="bs2_yaw"/>
 				<ref bean="bs2_cs_x"/>
 				<ref bean="bs2_cs_y"/>
 				<ref bean="bs2_abs_x"/>
@@ -271,6 +273,8 @@
 				<ref bean="bs3diodegain"/>
 				<ref bean="bs3_x"/>
 				<ref bean="bs3_y"/>
+				<ref bean="bs3_pitch"/>
+				<ref bean="bs3_yaw"/>
 				<ref bean="bs3_roll"/>
 				<ref bean="bs3_cs_x"/>
 				<ref bean="bs3_cs_y"/>
