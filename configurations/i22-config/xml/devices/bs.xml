@@ -101,7 +101,7 @@
     <bean id="bs1_cs_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs1_cs_x_motor" />
         <property name="local" value="true" />
-        <property name="protectionLevel" value="3" />
+        <property name="protectionLevel" value="2" />
     </bean>
     <bean id="bs2_cs_x_motor" class="gda.device.motor.EpicsMotor">
         <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:CSX" />
@@ -137,7 +137,7 @@
     <bean id="bs2_yaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_yaw_motor" />
         <property name="local" value="true" />
-        <property name="protectionLevel" value="3" />
+        <property name="protectionLevel" value="2" />
     </bean>
     <bean id="bs3_yaw_motor" class="gda.device.motor.EpicsMotor">
         <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:YAW" />
@@ -146,7 +146,7 @@
     <bean id="bs3_yaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_yaw_motor" />
         <property name="local" value="true" />
-        <property name="protectionLevel" value="3" />
+        <property name="protectionLevel" value="2" />
     </bean>
     <bean id="bs1_abs_x_motor" class="gda.device.motor.EpicsMotor">
         <property name="pvName" value="BL22I-EA-SAXSP-01:BS1:XABS" />
@@ -164,7 +164,7 @@
     <bean id="bs1_cs_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs1_cs_y_motor" />
         <property name="local" value="true" />
-        <property name="protectionLevel" value="3" />
+        <property name="protectionLevel" value="2" />
     </bean>
     <bean id="bs2_cs_y_motor" class="gda.device.motor.EpicsMotor">
         <property name="pvName" value="BL22I-EA-SAXSP-01:BS2:CSY" />
@@ -200,7 +200,7 @@
     <bean id="bs2_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_pitch_motor" />
         <property name="local" value="true" />
-        <property name="protectionLevel" value="3" />
+        <property name="protectionLevel" value="2" />
     </bean>
     <bean id="bs3_pitch_motor" class="gda.device.motor.EpicsMotor">
         <property name="pvName" value="BL22I-EA-SAXSP-01:BS3:PITCH" />
@@ -209,7 +209,7 @@
     <bean id="bs3_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_pitch_motor" />
         <property name="local" value="true" />
-        <property name="protectionLevel" value="3" />
+        <property name="protectionLevel" value="2" />
     </bean>
     <bean id="bs1_abs_y_motor" class="gda.device.motor.EpicsMotor">
         <property name="pvName" value="BL22I-EA-SAXSP-01:BS1:YABS" />
