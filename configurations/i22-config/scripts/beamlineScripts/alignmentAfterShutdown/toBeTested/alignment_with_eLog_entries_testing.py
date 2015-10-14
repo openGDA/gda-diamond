@@ -3,7 +3,6 @@ import time
 from gda.util import ElogEntry
 from gda.configuration.properties import LocalProperties
 
-imagepath = '/dls/i22/data/2014/cm4977-2/images/'
 elog = Elog("Beam Alignment", "i22user", LocalProperties.get(LocalProperties.GDA_DEF_VISIT), "BLI22", "BLI22")
 
 s1xc = s1_xcentre.getPosition()

@@ -28,7 +28,7 @@ file.close()
 for x in dnp.linspace(1.14992,1.004898,10,True):
     energyPos = (12.3985/6.2695)/sin(acos((1/x)))
     print energyPos
-    pos bkeV energyPos
+    pos energy energyPos
     pos calibrated_ID energyPos
     braggAngle = bragg.getPosition()
     braggInRad = radians(braggAngle)
@@ -36,7 +36,7 @@ for x in dnp.linspace(1.14992,1.004898,10,True):
     
     pos d3filter "Inline Diode"
     pos finepitch 0
-    pos pitch -26
+    pos pitch 0
     pos finepitch -150
     sleep(2)
     scan finepitch -150 150 1 d3d2
@@ -44,7 +44,7 @@ for x in dnp.linspace(1.14992,1.004898,10,True):
     scan perp 12.0 15.0 0.05 d3d2
     go maxval
     pos finepitch 0
-    pos pitch -26
+    pos pitch 0
     pos finepitch -150
     sleep(2)
     scan finepitch -150 150 1 d3d2

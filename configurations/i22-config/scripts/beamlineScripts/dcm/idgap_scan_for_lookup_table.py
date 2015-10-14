@@ -8,20 +8,19 @@ from gda.data import PathConstructor
 i22NumTracker = NumTracker("i22");
 i22NumTracker.getCurrentFileNumber()
 
-for e in dnp.arange(10.0, 21.0, 0.4):
-	pos bkeV e
-	pos calibrated_perp e
+for e in dnp.arange(21.2, 23.5, 0.4):
+	pos energy e
 	pos finepitch 0
-	pos pitch -75
+	pos pitch 0
 	setTitle("Pitch scan for bkeV = "+str(e))
-	scan finepitch -100 100 0.5 d6d1
-	pos finepitch -100
+	scan finepitch -150 150 0.5 d4d1
+	pos finepitch -150
 	go maxval
 	
 	pos idgap_mm 5
 	sleep(1)
 	setTitle("idgap scan for bkeV = "+str(e))
-	scan idgap_mm 5 10 0.005 d6d1
+	scan idgap_mm 5 10 0.005 d4d1
 	position = maxval.result.maxpos
 	
 	# save the data back out

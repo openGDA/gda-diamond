@@ -15,12 +15,12 @@ class Elog:
     
     def addPeak(self, caption):
         path = "/tmp/peakFit-%d.png" % self.peakCount
-        self._addPlot("Peak Fit Plot", caption, path)
+        self._addPlot("peakFit", caption, path)
         self.peakCount += 1
 
     def addEdge(self, caption):
         path = "/tmp/edgeFit-%d.png" % self.edgeCount
-        self._addPlot("Edge Fit Plot", caption, path)
+        self._addPlot("edgeFit", caption, path)
         self.edgeCount += 1
         
     def _addPlot(self, plotname, caption, path=None):
@@ -41,12 +41,12 @@ if __name__ == "__main__":
     elog = Elog("Beam Alignment", "i22user", LocalProperties.get(LocalProperties.GDA_DEF_VISIT), "BLI22", "BLI22")
 #     elog = Elog( TITLE, USER, VISIT, LOG, GROUP)
     
-    scan(showtime, 1,7,1,bsdiode)
-    elog.addText("scan(t, 1,10,1,bsdiode)")
+    scan(showtime, 1,7,1,bs3diode)
+    elog.addText("scan(t, 1,10,1,bs3diode)")
     elog.addPeak("Peak fit caption")
     elog.addEdge("Edge fit caption")
-    scan(showtime, 1,7,1,bsdiode)
-    elog.addText("scan(t, 1,10,1,bsdiode)")
+    scan(showtime, 1,7,1,bs3diode)
+    elog.addText("scan(t, 1,10,1,bs3diode)")
     elog.addPeak("Peak fit caption2")
     elog.addEdge("Edge fit caption2")
     elog.post("/tmp/logFile.html")
