@@ -24,10 +24,11 @@ class BraggInkeV(gda.device.scannable.PseudoDevice,gda.observable.IObserver):
 		self.intercept = -0.0083482            # November 2013
 		self.slope = 1.0002945               # September 2014 - Direct calibration of EXAFS features in Bragg angle
 		self.intercept = -0.02577            # September 2014 - Direct calibration of EXAFS features in Bragg angle
-			
+		self.slope = 1.0013725				# Jun 2015 - Direct calibration of EXAFS in Bragg
+		self.intercept = -0.03556			# Jun 2015 - Direct calibration of EXAFS in Bragg
 		'''
-		self.slope = 1.0013725
-		self.intercept = -0.03556
+		self.slope = 1.00
+		self.intercept = 0.0
 		self.bragg.addIObserver(self)
 
 	def update(self, observed, change):
@@ -121,7 +122,7 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
 		harmonics.append(Harmonic(13, 13.5, 15.0, 0.0003369, -0.02115, 0.79635, -2.48642) )
 		harmonics.append(Harmonic(15, 15.0, 17.0, 0.0001630, -0.01305, 0.64662, -2.27659) )
 		harmonics.append(Harmonic(17, 17.0, 19.0,         0, -0.00379, 0.44713, -1.46301) )
-		harmonics.append(Harmonic(19, 19.0, 21.0,         0, -0.00237, 0.37332, -1.19618) )
+		harmonics.append(Harmonic(19, 19.0, 23.5,         0, -0.00237, 0.37332, -1.19618) )
 		self.harmonics = harmonics
 
 	def isBusy(self):
