@@ -8,6 +8,7 @@
     <button text="Hotsaxs View" command="/dls_sw/i22/bin/HotSaxsView"/>
     <button text="rdesktop HPLC" command="/dls_sw/i22/software/gda/bin/hplcpc"/>
     <button text="rdesktop biosaxs" command="/dls_sw/i22/software/gda/bin/biosaxspc"/>
+    <button text="bimorph script" command="/dls_sw/i22/epics/scripts/fixbimorphs.py"/>
   </group>
     <button text="I22 EPICS Synoptic" command="from_configure_ioc.sh" args="$PORT BL22I-gui" icon="I22__SCM.png"/>
     <button text="Start GDA Servers" command="/dls_sw/i22/software/gda/bin/interminal-gdaservers" icon="sgda.png"/>
