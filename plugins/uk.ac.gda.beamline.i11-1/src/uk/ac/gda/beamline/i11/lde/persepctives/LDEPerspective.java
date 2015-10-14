@@ -59,13 +59,13 @@ public class LDEPerspective implements IPerspectiveFactory {
         topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
         topLeft.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
 
-        IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.RIGHT, (float)0.20, editorArea); //$NON-NLS-1$
+        IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.BOTTOM, (float)0.60, editorArea); //$NON-NLS-1$
         sampleTableFolder.addView(CHILDREN_TABLE_VIEW_ID);
         
-        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.BOTTOM, (float)0.6, editorArea);
+        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.RIGHT, (float)0.5, editorArea);
         propertiesFolder.addView(IPageLayout.ID_PROP_SHEET);
         
-        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.75, SAMPLE_TABLE_FOLDER); //$NON-NLS-1$
+        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.63, PROPERTIES_FOLDER); //$NON-NLS-1$
         detectorFolder.addView(DETECTOR_VIEW_ID);
 
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.TOP, (float)0.75, STATUS_FOLDER); //$NON-NLS-1$

@@ -32,7 +32,8 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.epics.client,
  uk.ac.gda.beamline.synoptics;bundle-version="1.0.0",
  org.dawnsci.plotting.system;bundle-version="1.2.0",
- org.eclipse.dawnsci.plotting.api;bundle-version="1.2.0"
+ org.eclipse.dawnsci.plotting.api;bundle-version="1.2.0",
+ org.opengda.lde.model.editor
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Diamond Light Source
@@ -40,5 +41,6 @@ Export-Package: uk.ac.gda.beamline.i11.lde,
  uk.ac.gda.beamline.i11.lde.views
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: org.dawnsci.plotting.jreality,
+ org.eclipse.core.filesystem,
  org.eclipse.draw2d,
  org.slf4j;version="1.5.6"

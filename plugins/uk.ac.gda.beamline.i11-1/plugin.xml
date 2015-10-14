@@ -83,5 +83,11 @@
             name="LDE">
       </perspective>
    </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i11.lde.OpenDeafultLdeFile">
+      </startup>
+   </extension>
 
 </plugin>
