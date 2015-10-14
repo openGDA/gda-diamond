@@ -55,9 +55,10 @@ lrm4k=LinkamRampMaster4000("lrm4k",linkam)
 from setup.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 
-from ncdutils import DetectorMeta
+from ncdutils import DetectorMeta, DetectorMetaWithPv
 waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
-saxs_distance = DetectorMeta("saxs_distance", ncddetectors, "SAXS", "distance", "m")
+saxs_distance = DetectorMetaWithPv("saxs_distance", ncddetectors, "SAXS", "distance", "m", pv=('BL22I-EA-SAXSP-01:', 'CAMERA'))
+saxs_distance.pv_conversion = 1000
 saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
 saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
 saxs_abs_cal = DetectorMeta("saxs_abs_cal", ncddetectors, "SAXS", "scaling_factor")
@@ -126,6 +127,7 @@ string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
 gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLI22", "BLI22-RUNL", None)
 print "importing bimorph"
 import bimorph
+
 #print "creating sampleCam and adding to ncdDetectors"
 #execfile(gdaScriptDir + "sampleCam.py")
 #run(setupScriptDir + "ZebraDetectors.py")
