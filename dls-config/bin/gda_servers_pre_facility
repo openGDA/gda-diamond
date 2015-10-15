@@ -1,5 +1,5 @@
 # Setup specific to this facility, that is done before the servers are started
-bashlog info "gda_servers_pre_facility" "Entered"
+bashlog debug "gda_servers_pre_facility" "Entered"
 
 
 # Check that the user actually wants the servers restarted.
@@ -27,7 +27,7 @@ if [[ "${GDA_MODE}" == "live" ]]; then
 else
     export GDA_VAR=${GDA_WORKSPACE_PARENT}/gda_var_non_live
 fi
-bashlog info "gda_servers_pre_facility" "set \${GDA_VAR}=${GDA_VAR}"
+bashlog debug "gda_servers_pre_facility" "set \${GDA_VAR}=${GDA_VAR}"
 
 # Define GDA_LOGS_DIR
 if [ "${GDA_MODE}" == "live" ]; then
@@ -36,19 +36,25 @@ if [ "${GDA_MODE}" == "live" ]; then
 else
     export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/gda_logs_non_live
 fi
-bashlog info "gda_servers_pre_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
+bashlog debug "gda_servers_pre_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
 
 export OBJECT_SERVER_STARTUP_FILE=${GDA_VAR}/object_server_startup_server_main
-bashlog info "gda_servers_pre_facility" "set \${OBJECT_SERVER_STARTUP_FILE}=${OBJECT_SERVER_STARTUP_FILE}"
+bashlog debug "gda_servers_pre_facility" "set \${OBJECT_SERVER_STARTUP_FILE}=${OBJECT_SERVER_STARTUP_FILE}"
 
 if [ -n "${BEAMLINE}" ]; then
-    # This is the normal way the control machine name is constructed at Diamond; set CONTROL_MACHINE_NAME in gdastart_servers_pre_instance is necessary
+    # This is the normal way the control machine name is constructed at Diamond
+    #Set CONTROL_MACHINE_NAME in gdastart_servers_pre_instance if non-standard
     export CONTROL_MACHINE_NAME=${BEAMLINE}-control.diamond.ac.uk
 fi
 if [ "$GDA_MODE" = "live" ]; then
     export CONTROL_MACHINE_USER=gda2
-    export CONTROL_MACHINE_SSHKEY_LOC=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/${BEAMLINE}ssh.key
+    export CONTROL_MACHINE_SSHKEY_LOC=${GDA_VAR}/.ssh/${BEAMLINE}-ssh.key
     if [ ! -f "${CONTROL_MACHINE_SSHKEY_LOC}" ]; then
+        bashlog warn "gda_servers_pre_facility" "Unable to find $CONTROL_MACHINE_SSHKEY_LOC, checking in config"
+        export CONTROL_MACHINE_SSHKEY_LOC=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/${BEAMLINE}ssh.key
+    fi
+    if [ ! -f "${CONTROL_MACHINE_SSHKEY_LOC}" ]; then
+        bashlog warn "gda_servers_pre_facility" "Unable to find $CONTROL_MACHINE_SSHKEY_LOC, remote start will not be possible."
         unset CONTROL_MACHINE_SSHKEY_LOC
     fi
 fi
