@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration monitorInterval="10">
 
+	<!-- This file is not part of the standard configuration and should not be used by any beamline which is not already using it. -->
+
 	<define scope="context" name="JVMNAME"
 		class="gda.util.logging.JvmNamePropertyDefiner" />
 
