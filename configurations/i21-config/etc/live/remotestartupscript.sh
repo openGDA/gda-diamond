@@ -17,5 +17,4 @@ if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then
     ${here_dir}/gda  --${SSH_ORIGINAL_COMMAND} --mode=live servers
 else
     ${here_dir}/gda --restart --mode=live servers
-fi 
-
+fi
