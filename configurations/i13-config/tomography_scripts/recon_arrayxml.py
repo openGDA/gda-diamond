@@ -378,7 +378,9 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 
 		self.out.write ("\nSpawning the reconstruction job ...\n")
 		
-		args=["qsub"]
+		#qsub_cmd = "qsub"
+		qsub_cmd="/dls_sw/apps/sge/common_scripts/qsub_tomo_recon"
+		args=[qsub_cmd]
 		if self.qsub_project!=None:
 			#add qsub project
 			args+=[ "-P", self.qsub_project]
@@ -406,7 +408,8 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 		#args+=[ "-pe", "smp", "4"]
 		#nodesID = "tesla"
 		nodesID = "tesla64"
-		args+=[ "-l", nodesID, "-pe", "smp", "6"]
+		#args+=[ "-l", nodesID, "-pe", "smp", "6"]
+		args+=[ "-l", nodesID, "-l", "gpus=1", "-pe", "smp", "4"]
 		args+=[ "-t", "%i-%i"%(self.firstchunk, self.nchunks)]
 
 		#script

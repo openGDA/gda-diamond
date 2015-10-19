@@ -75,6 +75,7 @@
 				</bean>
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="title" />
+					<property name="value" value="undefined" />
 				</bean>
 				<ref bean="subdirectory" />
 			</list>
