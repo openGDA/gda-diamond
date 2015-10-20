@@ -7,6 +7,7 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.opengda.lde.ui.views.ChildrenTableView;
+import org.opengda.lde.ui.views.DataCollectionStatus;
 import org.opengda.lde.ui.views.LiveImageView;
 import org.opengda.lde.ui.views.ReducedDataPlotView;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
@@ -32,6 +33,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private static final String DETECTOR_FOLDER = "detectorFolder";
 	private static final String SCAN_PLOT_FOLDER="scanPlotFolder";
 	private static final String PROPERTIES_FOLDER="propertiesFolder";
+	private static final String DATA_COLLECTION_STATUS_FOLDER="dataCollectionStatusFolder";
 	
 	private static final String CHILDREN_TABLE_VIEW_ID = ChildrenTableView.ID;
 	private static final String PIXIUM_IMAGE_VIEW_ID = LiveImageView.ID;
@@ -41,6 +43,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private static final String GDA_NAVIGATOR_VIEW_ID = "uk.ac.gda.client.navigator";
 	private static final String STATUS_VIEW_ID = "uk.ac.gda.beamline.i11.lde.views.statusView";
 	private static final String DETECTOR_VIEW_ID = PixiumView.ID;
+	private static final String DATA_COLLECTION_STATUS_VIEW_ID = DataCollectionStatus.ID;
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -62,11 +65,14 @@ public class LDEPerspective implements IPerspectiveFactory {
         IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.BOTTOM, (float)0.60, editorArea); //$NON-NLS-1$
         sampleTableFolder.addView(CHILDREN_TABLE_VIEW_ID);
         
-        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.RIGHT, (float)0.5, editorArea);
+        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.RIGHT, (float)0.15, editorArea);
         propertiesFolder.addView(IPageLayout.ID_PROP_SHEET);
         
-        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.63, PROPERTIES_FOLDER); //$NON-NLS-1$
+        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.2, PROPERTIES_FOLDER); //$NON-NLS-1$
         detectorFolder.addView(DETECTOR_VIEW_ID);
+
+        IFolderLayout dataCollectionStatusFolder=layout.createFolder(DATA_COLLECTION_STATUS_FOLDER, IPageLayout.RIGHT, (float)0.3, DETECTOR_FOLDER); //$NON-NLS-1$
+        dataCollectionStatusFolder.addView(DATA_COLLECTION_STATUS_VIEW_ID);
 
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.TOP, (float)0.75, STATUS_FOLDER); //$NON-NLS-1$
         detectorPlotFolder.addView(PIXIUM_IMAGE_VIEW_ID);
