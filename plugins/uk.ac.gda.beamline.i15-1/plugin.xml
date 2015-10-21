@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Diamond Light Source Beamline I15-1">
+         <property
+               name="appName"
+               value="Diamond Light Source Beamline I15-1">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i15.I15ScanPerspective"
+            id="uk.ac.gda.beamline.I15ScanPerspective"
+            name="I15-1 Scan Perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Area Detectors">
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Perkin Elmer (pe) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//pe//BL15J-EA-DET-01@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Perkin Elmer (pe) Live (MJPeg) View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//pe//BL15J-EA-DET-01@">
+               </parameter>
+            </command>
+
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>
