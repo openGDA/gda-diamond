@@ -204,7 +204,7 @@
 		<property name="serviceName" value="gda/xspress2system" />
 		<property name="service" ref="xspress2system" />
 		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
 	</bean>
 
 </beans>
