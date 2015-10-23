@@ -55,7 +55,7 @@
          </property>
          <property
                name="aboutText"
-               value="GDA for High Resolution Powder Diffraction Beamline&#x0A;&#x0A;Version: 8.36&#x0A;Build id: Monday, 18 November 2013 15:05&#x0A;&#x0A;Copyright © 2009 Diamond Light Source Ltd. All rights reserved.&#x0A;Visit http://www.opengda.org&#x0A;&#x0A;This product includes software developed by the&#x0A;Eclipse http://www.eclipse.org/&#x0A;Apache Software Foundation http://apache.org/&#x0A;Spring http://projects.spring.io/spring-framework/&#x0A;Quality Open Software http://logback.qos.ch/; http://www.slf4j.org/&#x0A;PyDev http://pydev.org/">
+               value="GDA for I11-1 Long Duration Experiments Station&#x0A;&#x0A;Version: 8.44&#x0A;Build Date: Thu 22 Oct 2015&#x0A;&#x0A;Copyright © 2009 2015 Diamond Light Source Ltd. &#x0A;All rights reserved.&#x0A;Visit http://www.opengda.org">
          </property>
          <property
                name="startupForegroundColor"

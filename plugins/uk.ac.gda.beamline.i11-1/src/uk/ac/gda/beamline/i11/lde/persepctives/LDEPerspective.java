@@ -10,6 +10,7 @@ import org.opengda.lde.ui.views.ChildrenTableView;
 import org.opengda.lde.ui.views.DataCollectionStatus;
 import org.opengda.lde.ui.views.LiveImageView;
 import org.opengda.lde.ui.views.ReducedDataPlotView;
+import org.opengda.lde.ui.views.SampleGroupView;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
@@ -44,6 +45,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 	private static final String STATUS_VIEW_ID = "uk.ac.gda.beamline.i11.lde.views.statusView";
 	private static final String DETECTOR_VIEW_ID = PixiumView.ID;
 	private static final String DATA_COLLECTION_STATUS_VIEW_ID = DataCollectionStatus.ID;
+	private static final String SERVER_SAMPLES_VIEW_ID=SampleGroupView.ID;
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -64,6 +66,7 @@ public class LDEPerspective implements IPerspectiveFactory {
 
         IFolderLayout sampleTableFolder=layout.createFolder(SAMPLE_TABLE_FOLDER, IPageLayout.BOTTOM, (float)0.60, editorArea); //$NON-NLS-1$
         sampleTableFolder.addView(CHILDREN_TABLE_VIEW_ID);
+        sampleTableFolder.addView(SERVER_SAMPLES_VIEW_ID);
         
         IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.RIGHT, (float)0.15, editorArea);
         propertiesFolder.addView(IPageLayout.ID_PROP_SHEET);
@@ -94,7 +97,7 @@ public class LDEPerspective implements IPerspectiveFactory {
         //IFolderLayout sideStatusFolder = layout.createFolder("statusFolder", IPageLayout.RIGHT, 0.5f, Scan_PLOT_FOLDER);
 
         layout.addPerspectiveShortcut(JythonPerspective.ID);
-        
+        layout.addShowViewShortcut(SERVER_SAMPLES_VIEW_ID);
         layout.addShowViewShortcut(CHILDREN_TABLE_VIEW_ID);
         layout.addShowViewShortcut(PIXIUM_IMAGE_VIEW_ID);
         layout.addShowViewShortcut(PIXIUM_PLOT_VIEW_ID);
