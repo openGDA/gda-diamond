@@ -43,8 +43,17 @@
 		<property name="qexafsScaler" ref="raster_counterTimer01" />
 		<property name="i0_channel" value="1" />
 	</bean>
+	<bean id="raster_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
+		<property name="xspress3Detector" ref="xspress3" />
+	</bean>
 	
-	
+	<bean id="raster_FFI0_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
+		<property name="qexafsXspress" ref="raster_xspress3" />
+		<property name="qexafsScaler" ref="raster_counterTimer01" />
+		<property name="i0_channel" value="1" />
+	</bean>
 	
 <!-- 	HardwareTriggeredDetector classes for two-way faster raster -->
 

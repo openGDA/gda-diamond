@@ -134,7 +134,9 @@ if (LocalProperties.get("gda.mode") != 'live'):
     traj1PositionReader = None
     traj3PositionReader = None
 
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01, topupMonitor, beamMonitor)
+#qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01, topupMonitor, beamMonitor)
+
+mapFactory = MapFactory();
 mapFactory.setBeamlinePreparer(beamlinePreparer);
 mapFactory.setDetectorPreparer(detectorPreparer);
 mapFactory.setSamplePreparer(samplePreparer);
