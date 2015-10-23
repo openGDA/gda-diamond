@@ -1,4 +1,7 @@
 package uk.ac.gda.test.util;
+import gda.factory.Findable;
+import gda.factory.Finder;
+
 import java.util.Map;
 
 import org.junit.runner.RunWith;
@@ -7,9 +10,6 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import gda.factory.Findable;
-import gda.factory.Finder;
 
 /*-
  * Copyright © 2013 Diamond Light Source Ltd.
@@ -29,8 +29,12 @@ import gda.factory.Finder;
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @deprecated See {@link Finder} for a better way of unit testing classes which use the Finder
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Finder.class)
+@Deprecated
 public class MockFinderHelper {
 
 	public void setupMockForFinder(Map<String, Findable> mockedFindables) {
