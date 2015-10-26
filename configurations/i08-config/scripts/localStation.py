@@ -2,10 +2,12 @@ from gda.configuration.properties import LocalProperties
 from andormap import AndorMap
 from andormapWithCorrection import AndorMapWithCorrection
 from scanForImageCorrection import ScanForImageCorrection
+from gda.factory import Finder
+from energyStepScan import EnergyStepScan
 
 print "Initialisation Started";
 from gda.device import Scannable
-from gda.jython.commands.GeneralCommands import ls_names, run
+from gda.jython.commands.GeneralCommands import ls_names, run, alias
 
 def ls_scannables():
     ls_names(Scannable)
@@ -14,8 +16,6 @@ def ls_scannables():
 from ScannableInvertedValue import PositionInvertedValue
 photoDiode1Inverted = PositionInvertedValue("photoDiode1Inverted","photoDiode1")
 
-
-from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm
 alias("setTitle")
 alias("meta_add")
 alias("meta_ll")
@@ -36,6 +36,12 @@ actualTime=actualTimeClass("actualTime")
 #    add_default beamMonitor
 #    add_default topupMonitor
 
+finder = Finder.getInstance()
+stxmDummy = finder.find("stxmDummy")
+_andorrastor = finder.find("_andorrastor")
+andor = finder.find("andor")
+IDEnergy = finder.find("IDEnergy")
+xmapMca = finder.find("xmapMca")
 # create the command to run STXM mpas which involve andor
 andormap = AndorMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor)
 
@@ -48,6 +54,9 @@ andormapWithCorrection = AndorMapWithCorrection(stxmDummy.stxmDummyY,stxmDummy.s
 alias("andormapWithCorrection")
 
 if (LocalProperties.get("gda.mode") == 'live'): 
-    run "xrfmap"
+    run("xrfmap")
+
+energyStepScan = EnergyStepScan(IDEnergy,xmapMca)
+alias("energyStepScan")
 
 print "Initialisation Complete";

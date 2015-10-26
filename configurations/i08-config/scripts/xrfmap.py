@@ -1,11 +1,10 @@
 from gda.scan import ConstantVelocityRasterScan
-from gdascripts.scan import rasterscans
 from gdascripts.scan.rasterscans import RasterScan
-from gdascripts.scan.trajscans import setDefaultScannables
 from gda.epics import CAClient
 import time
 from plotters import Plotter
 from gda.jython.commands.ScannableCommands import add_default
+from gda.factory import Finder
 
 class XRFMap(RasterScan):
      
@@ -16,6 +15,8 @@ class XRFMap(RasterScan):
         self.columnScannable = columnScannable
         self.andor = andor
         self.vortex = vortex
+        finder = Finder.getInstance()
+        self.andormap = finder.find("andormap")
         self.setROI1(0, 0.5)
         self.setROI2(0.5, 1)
         self.setROI3(1, 1.5)
@@ -49,7 +50,7 @@ class XRFMap(RasterScan):
         self.resetPlotters(self.Xsize, self.Ysize)
         if self.andor != None:
             self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1, self.vortex,0.1]   
-            andormap.PrepareForCollection(self.Xsize, self.Ysize)
+            self.andormap.PrepareForCollection(self.Xsize, self.Ysize)
         else:
             self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.vortex, 0.1]       
          
@@ -105,6 +106,10 @@ class XRFMap(RasterScan):
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
 # row = stxmDummy.stxmDummyY
+finder = Finder.getInstance()
+stxmDummy = finder.find("stxmDummy")
+_andorrastor = finder.find("_andorrastor")
+_xmap = finder.find("_xmap")
 xrfmap = XRFMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor,_xmap)
 #xrfmap = XRFMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,None,_xmap)
 print "Command xrfmap(mapSize) created for arming the XRF (Vortex) detector before running STXM maps"
