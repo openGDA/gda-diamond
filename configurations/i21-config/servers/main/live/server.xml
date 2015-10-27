@@ -23,6 +23,7 @@
 			</list>
 		</property>
 	</bean>
+	
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
@@ -57,7 +58,7 @@
 
 <!-- do not remove anything below here -->
 	<import resource="jythonServerFacade.xml" />
-	<corba:export namespace="gda" />
+	<corba:export namespace="${gda.factory.factoryName}" />
 
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
