@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="eV_mDeg_converter" class="gda.util.converters.JEPConverterHolder">
+	<bean id="eV_mDeg_converter" class="gda.util.converters.JEPConverterHolder">
 		<constructor-arg value="eV_mDeg_converter" />
 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/eV_mDeg_converter.xml" />
 	</bean>
@@ -104,14 +104,14 @@
 	<bean id="harmonic1" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic1" />
 		<constructor-arg value="harmonic1_converter" />
-		<constructor-arg value="56187" />
+		<constructor-arg value="51000" />
 		<constructor-arg value="70000" />
 	</bean>
 	<bean id="harmonic3" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic3" />
 		<constructor-arg value="harmonic3_converter" />
 		<constructor-arg value="24801" />
-		<constructor-arg value="56186" />
+		<constructor-arg value="50999" />
 	</bean>
 	<bean id="harmonic5" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic5" />

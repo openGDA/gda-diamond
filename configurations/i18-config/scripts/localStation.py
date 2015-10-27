@@ -58,12 +58,6 @@ detectorFillingMonitor.setStartTime(9)
 detectorFillingMonitor.setDuration(25.0)
 detectorFillingMonitor.configure()
 
-add_default topupMonitor
-add_default beamMonitor
-
-#     archiver = IcatXMLCreator()
-#     archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
-
 # else:
 #     traj1xmap = finder.find("traj1xmap")
 #     traj3xmap = finder.find("traj3xmap")
@@ -76,6 +70,18 @@ add_default beamMonitor
 #     detectorFillingMonitor.setName("detectorFillingMonitor")
 #     trajBeamMonitor = DummyMonitor()
 #     trajBeamMonitor.setName("trajBeamMonitor")
+trajBeamMonitor = LineRepeatingBeamMonitor(energy)
+trajBeamMonitor.setName("trajBeamMonitor")
+trajBeamMonitor.configure()
+trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
+trajBeamMonitor.setLevel(1)
+
+add_default topupMonitor
+add_default beamMonitor
+# don't add detectorFillingMonitor as a default
+
+archiver = IcatXMLCreator()
+archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
 
 rcpController =                finder.find("RCPController")
