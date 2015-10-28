@@ -84,8 +84,7 @@ public class OpenDeafultLdeFile implements IStartup {
 								logger.error("Failed to open default LDE file: " + sampleFile.getLocationURI().getPath(), e);
 							}
 							}
-						}
-						
+						}						
 					}
 					
 					// TODO BLXI-321 for some unknown reason, the default perspective does not show views in correct
