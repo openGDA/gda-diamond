@@ -4,6 +4,7 @@ from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
 from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan, XasScanFactory
 from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap, FasterRasterMap, MapFactory
+#from gda.device.scannable import LineRepeatingBeamMonitor
 
 from gda.configuration.properties import LocalProperties
 #from gda.data import PathConstructor
@@ -70,18 +71,21 @@ detectorFillingMonitor.configure()
 #     detectorFillingMonitor.setName("detectorFillingMonitor")
 #     trajBeamMonitor = DummyMonitor()
 #     trajBeamMonitor.setName("trajBeamMonitor")
-trajBeamMonitor = LineRepeatingBeamMonitor(energy)
-trajBeamMonitor.setName("trajBeamMonitor")
-trajBeamMonitor.configure()
-trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
-trajBeamMonitor.setLevel(1)
+
+#Comment and check with I18 if it is used
+#trajBeamMonitor = LineRepeatingBeamMonitor(energy)
+#trajBeamMonitor.setName("trajBeamMonitor")
+#trajBeamMonitor.configure()
+#trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
+#trajBeamMonitor.setLevel(1)
 
 add_default topupMonitor
 add_default beamMonitor
 # don't add detectorFillingMonitor as a default
 
-archiver = IcatXMLCreator()
-archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
+#check with IT if necessary
+#archiver = IcatXMLCreator()
+#archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
 
 
 rcpController =                finder.find("RCPController")
