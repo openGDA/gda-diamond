@@ -78,7 +78,7 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
 	<bean id="xspress2system" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/xspress2system" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+		<property name="serviceInterface" value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
