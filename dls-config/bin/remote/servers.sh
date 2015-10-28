@@ -1,4 +1,4 @@
-# runs the servers locally
+# runs the servers locally. This script is not used in Config v1.0 onwards
 
 #identify install folder and JAVA_HOME
 export GDAFOLDER=/dls_sw/$BEAMLINE/software/gda

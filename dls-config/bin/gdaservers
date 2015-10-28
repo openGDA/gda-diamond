@@ -1,4 +1,5 @@
 #!/bin/bash
+#This script is not used in Config v1.0 onwards
 # starts logpanel, servers and namemanager
 
 

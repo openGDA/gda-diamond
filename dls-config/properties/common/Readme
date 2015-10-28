@@ -1,0 +1,2 @@
+This folder is not part of the standard configuration and should not be used by any beamline which is not already using it.
+The standard configuration uses _common instead.

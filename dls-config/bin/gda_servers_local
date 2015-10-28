@@ -1,5 +1,5 @@
 #!/bin/bash 
-
+# This script is not used in Config v1.0 onwards
 # Command to start the GDA servers on current PC
 
 DLS_CONFIG_BIN=$(readlink -f $(dirname $0))
