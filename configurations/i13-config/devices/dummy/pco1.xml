@@ -1,0 +1,93 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value="-0.1" />
+	</bean>
+
+	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
+				<entry key="pco1_arr" value-ref="pco1_arr" />
+				<entry key="pco1_ffmpeg1" value-ref="pco1_ffmpeg1" />
+				<entry key="pco1_roi1" value-ref="pco1_roi1" />
+				<entry key="pco1_proc1" value-ref="pco1_proc1" />
+				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file" />
+				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif" />
+				<entry key="pco1_stat" value-ref="pco1_stat" />
+				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="flyScanCollectionStrategy" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
+		<constructor-arg name="classToBeMocked"
+			value="gda.device.detector.nxdetector.NXCollectionStrategyPlugin" />
+		<constructor-arg name="properties">
+			<map>
+				<entry key="getName" value="flyScanCollectionStrategy" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="flyScanFlatDarkCollectionStrategy" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
+		<constructor-arg name="classToBeMocked"
+			value="gda.device.detector.nxdetector.NXCollectionStrategyPlugin" />
+		<constructor-arg name="properties">
+			<map>
+				<entry key="getName" value="flyScanFlatDarkCollectionStrategy" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="pco1_hdf5_filewriter" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
+		<constructor-arg name="classToBeMocked"
+			value="gda.device.detector.nxdetector.NXPlugin" />
+		<constructor-arg name="properties">
+			<map>
+				<entry key="getName" value="pco1_hdf5_filewriter" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="pco1_hdf5_filewriter_nochunking" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
+		<constructor-arg name="classToBeMocked"
+			value="gda.device.detector.nxdetector.NXPlugin" />
+		<constructor-arg name="properties">
+			<map>
+				<entry key="getName" value="pco1_hdf5_filewriter_nochunking" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="pco1_tif_writer" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
+		<constructor-arg name="classToBeMocked"
+			value="gda.device.detector.nxdetector.NXPlugin" />
+		<constructor-arg name="properties">
+			<map>
+				<entry key="getName" value="pco1_tif_writer" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="pco1_hw_tif" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
+		<constructor-arg name="classToBeMocked"
+			value="gda.device.detector.NXDetector" />
+		<constructor-arg name="properties">
+			<map>
+				<entry key="getName" value="pco1_hw_tif" />
+			</map>
+		</constructor-arg>
+	</bean>	
+
+</beans>

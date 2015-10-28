@@ -64,8 +64,6 @@
 
 	<!-- End of internal Building/ Start of external Building -->
 	<import resource="../../../devices/epics/optics_hutch4_shutter.xml" />
-	<import resource="../../../devices/optics_hutch4_shutter.xml" />
-	
 	<import resource="../../../devices/epics/s3_motors.xml" />
 	<import resource="../../../devices/epics/absorbers3.xml" />
 	<import resource="../../../devices/epics/dcm_motors.xml" />
@@ -82,6 +80,7 @@
 	<import resource="../../../devices/epics/table_motors.xml" />
 	<import resource="../../../devices/epics/camera_stage_motors.xml" />
 
+	<import resource="../../../devices/live/pco1.xml" />
 	<import resource="../../../devices/epics/pco1_ndplugins.xml" />
 	<import resource="../../../devices/epics/lens.xml" />
 	<import resource="../../../devices/epics/pco_binning.xml" />
@@ -90,9 +89,6 @@
 	<import resource="../../../devices/epics/float1.xml" />
 	<import resource="../../../devices/epics/float2.xml" />
 	<import resource="../../../devices/epics/float3.xml" />
-	<import resource="../../../devices/float1.xml" />
-	<import resource="../../../devices/float2.xml" />
-	<import resource="../../../devices/float3.xml" />
 	
 	<import resource="../../../devices/epics/pinhole_motors.xml" />
 	<import resource="../../../devices/epics/zone_plate_motors.xml" />

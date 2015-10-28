@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="d2_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+		<property name="dims" value="1000,1000"/>
+		<property name="datatype" value="UINT32"/>
+	</bean>
+
+	<bean id="d2_pos" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="Direct" value="0.0000"/>
+				<entry key="Flu Screen" value="-27.0000"/>
+				<entry key="Gold Foil 1" value="-40.0000"/>
+				<entry key="Gold Foil 2" value="-60.0000"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="Direct"/>
+	</bean>
+
+	<bean id="d2_x_motor" class="gda.device.motor.DummyMotor"/>
+
+ 	<bean id="d2_i" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="d2_i"/>
+	</bean>
+
+ 	<bean id="d2_gain" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="d2_gain"/>
+	</bean>
+
+ 	<bean id="d2_coupling" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="d2_coupling"/>
+	</bean>
+
+ 	<bean id="d2_window_temp" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="d2_window_temp"/>
+	</bean>
+
+	<bean id="d2_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
+
+	<bean id="d2_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
+		<property name="pluginBase" ref="d2_pluginBase"/>
+	</bean>
+
+	<bean id="d2_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+		<property name="pluginBase" ref="d2_pluginBase"/>
+	</bean>
+
+	<bean id="d2_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessSimulator">
+		<property name="pluginBase" ref="d2_pluginBase"/>
+	</bean>
+
+	<bean id="d2_roi" class="gda.device.detector.areadetector.v17.impl.NDROISimulator">
+		<property name="pluginBase" ref="d2_pluginBase"/>
+	</bean>
+
+	<bean id="d2_ffmpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamSimulator">
+		<property name="pluginBase" ref="d2_pluginBase"/>
+	</bean>
+
+	<bean id="d2_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d2_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="d2_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="I13I-AD-SIM-01:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+</beans>	

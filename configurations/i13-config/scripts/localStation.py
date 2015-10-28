@@ -247,26 +247,27 @@ try:
 	# 8/4/14 EPG We no longer have the copy plugins 
 #	if isLive():
 #		setupPCOCopy()
-		
-	pco1_hw_tif.pluginList[1].waitForFileArrival=False
-	pco1_tif.pluginList[1].waitForFileArrival=False
 	
-	#reverse the camera image so that the image is as looking upstream
-	caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
-	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
-		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
-		flyScanDetectorNoChunking.readOutTime=0.21
-	if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-		caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
-		flyScanDetectorNoChunking.readOutTime=0.011
-		p2r_flyScanFlatDarkDetector.getCollectionStrategy().setReadoutTime(0.011)
-	
-# Ensure rot speed is set in case GDA has crashed during fly scan.
-	ss1_rot.motor.speed=45
-	# set up tiff plug-in for saving images to NetApp 
-	caput("BL13I-EA-DET-01:TIFF:CreateDirectory", 1)
-	caput("BL13I-EA-DET-01:TIFF:TempSuffix", ".tmp")
 	if isLive():
+		pco1_hw_tif.pluginList[1].waitForFileArrival=False
+		pco1_tif.pluginList[1].waitForFileArrival=False
+	
+		#reverse the camera image so that the image is as looking upstream
+		caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
+		if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
+			caput("BL13I-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
+			flyScanDetectorNoChunking.readOutTime=0.21
+		if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+			caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
+			flyScanDetectorNoChunking.readOutTime=0.011
+			p2r_flyScanFlatDarkDetector.getCollectionStrategy().setReadoutTime(0.011)
+	
+		# Ensure rot speed is set in case GDA has crashed during fly scan.
+		ss1_rot.motor.speed=45
+		# set up tiff plug-in for saving images to NetApp 
+		caput("BL13I-EA-DET-01:TIFF:CreateDirectory", 1)
+		caput("BL13I-EA-DET-01:TIFF:TempSuffix", ".tmp")
+
 		run("localStationUser.py")
 		
 	#createPVScannable( "smar_y", "BL13I-MO-SMAR-02:Y.VAL")

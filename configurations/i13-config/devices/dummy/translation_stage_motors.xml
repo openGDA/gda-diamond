@@ -3,11 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- Needed by the tomoAlignment system -->
-
-	<!-- Define all the motors -->
-	<bean id="translate_x_motor" class="gda.device.motor.DummyMotor">
-	</bean>
-	
+	<bean id="translate_x_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

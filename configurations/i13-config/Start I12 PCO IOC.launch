@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
-<mapAttribute key="org.eclipse.debug.core.environmentVariables">
-<mapEntry key="EPICS_CA_MAX_ARRAY_BYTES" value="400000"/>
-</mapAttribute>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="/scratch/work/ioc/BL12I/BL12I-EA-IOC-07/bin/linux-x86/stBL12I-EA-IOC-07.sh"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="6064"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="/scratch/work/ioc/BL12I/BL12I-EA-IOC-07"/>
-</launchConfiguration>

@@ -19,6 +19,7 @@
 	</bean>
 	
 	<import resource="../../common_beans/common.xml"/>
+
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
@@ -143,6 +144,7 @@
 			</list>
 		</property>
 	</bean>
+
 	<import resource="../../devices/abstract_nxplugins.xml"/>
 	<import resource="../../devices/simpleScannables.xml" />
 	<import resource="../../devices/cameraViewPartScannables.xml" />
@@ -160,6 +162,7 @@
 
 	
 	<!-- End of internal Building/ Start of external Building -->
+	<import resource="../../devices/optics_hutch4_shutter.xml" />
 	<import resource="../../devices/s3.xml" />
 	<import resource="../../devices/dcm.xml" />
 	<import resource="../../devices/s4.xml" />
@@ -167,15 +170,20 @@
 	<import resource="../../devices/sample_stage.xml" />
 	<import resource="../../devices/table.xml" />
 	<import resource="../../devices/camera_stage.xml" />
-	<import resource="../../devices/pco1.xml" />
 	<import resource="../../devices/sample_stage_hexapod.xml"/>
 	<import resource="../../devices/smaract_stage.xml"/>
 	<import resource="../../devices/newport_stage.xml"/>
 	<import resource="../../devices/pinhole.xml" />
 	<import resource="../../devices/zone_plate.xml" />
 	<import resource="../../devices/phase_ring.xml" />
-	<import resource="../../devices/translation_stage.xml" />	
+	<import resource="../../devices/translation_stage.xml" />
+	
+	<import resource="../../devices/float1.xml" />
+	<import resource="../../devices/float2.xml" />
+	<import resource="../../devices/float3.xml" />
 
+	<import resource="../../devices/zebra.xml" />
+	<import resource="../../devices/p2r.xml" />
 
 
 	<!--  dummy motors for testing tomoscan  -->

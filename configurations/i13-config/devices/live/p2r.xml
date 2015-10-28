@@ -4,53 +4,10 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="p2r_telnet" class="gda.io.socket.SocketBidiAsciiCommunicator">
-	<property name="address" value="172.23.113.129"/>
-	<!-- <property name="address" value="172.23.113.113"/> -->
-	<!-- <property name="address" value="172.23.113.16"/> -->
-	<property name="port" value="23"/>
+		<property name="address" value="172.23.113.129"/>
+		<!-- <property name="address" value="172.23.113.113"/> -->
+		<!-- <property name="address" value="172.23.113.16"/> -->
+		<property name="port" value="23"/>
 	</bean>
-	<bean id="p2r_rot_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
-	<property name="bidiAsciiCommunicator" ref="p2r_telnet"/>
-	<property name="prefix" value="R"/>
-	<property name="position_index" value="1"/>
-	<property name="speed_index" value="4"/>
-	</bean>
-	<bean id="p2r_rot_motor" class="gda.device.motor.simplemotor.SimpleMotor">
-	<property name="name" value="p2r_rot_motor"></property>
-	<property name="smc" ref="p2r_rot_motor_controller"></property>
-	</bean>
-	<bean id="p2r_y_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
-	<property name="bidiAsciiCommunicator" ref="p2r_telnet"/>
-	<property name="prefix" value="D"/>
-	<property name="position_index" value="0"/>
-	<property name="speed_index" value="3"/>
-	</bean>
-	<bean id="p2r_y_motor" class="gda.device.motor.simplemotor.SimpleMotor">
-	<property name="name" value="p2r_y_motor"></property>
-	<property name="smc" ref="p2r_y_motor_controller"></property>
-	</bean>
-	<bean id="p2r_force_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
-	<property name="bidiAsciiCommunicator" ref="p2r_telnet"/>
-	<property name="prefix" value="F"/>
-	<property name="position_index" value="2"/>
-	<property name="speed_index" value="2"/>
-	</bean>
-	<bean id="p2r_force_motor" class="gda.device.motor.simplemotor.SimpleMotor">
-	<property name="name" value="p2r_force_motor"></property>
-	<property name="smc" ref="p2r_force_motor_controller"></property>
-	</bean>
-	<bean id="p2r_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="p2r_rot_motor" />
-		<property name="userUnits" value="deg"/>
-	</bean>
-	<bean id="p2r_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="p2r_y_motor" />
-		<property name="userUnits" value="mm"/>
-	</bean>
-	<bean id="p2r_force" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="p2r_force_motor" />
-		<property name="userUnits" value="N"/>
-	</bean>
-
 	
 </beans>	
