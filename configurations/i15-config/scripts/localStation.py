@@ -516,7 +516,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	if False:
+	if True:
 		try:
 			print "Installing atto devices from epics BL15I-EA-ATTO..."
 			
