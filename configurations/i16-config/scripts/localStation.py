@@ -1136,8 +1136,8 @@ except NameError, e:
 	print "!*"*40
 
 ###Default Scannables###
-for s in [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]:
-	add_default(s)
+for _x in [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]:
+	add_default(_x)
 
 
 ###############################################################################
