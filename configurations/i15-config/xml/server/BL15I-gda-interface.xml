@@ -387,6 +387,9 @@
 	<simplePv desc="Digital output" name="PATCH14.X7">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="Digital output" pv="BL15I-EA-PATCH-14:X7" ro="false" type="pv"/>
 	</simplePv>
+	<simplePv desc="Fast shutter state" name="FS.FASTSTATE">
+		<RECORD IOC="BL15I-MO-IOC-01" desc="Fast shutter state" pv="BL15I-EA-FSHTR-01:FASTSTATE" ro="true" type="pv"/>
+	</simplePv>
 	<simplePv desc="" name="d1.sum">
 		<RECORD IOC="BL15I-MO-IOC-01" desc="" pv="BL15I-DI-PHDGN-01:DIODESUM" ro="true" type="pv"/>
 	</simplePv>
@@ -849,6 +852,18 @@
 	<simpleMotor desc="S1 Horizontal -ve Motor" name="S1.XMINUS">
 		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:X:MINUS" ro="false" type="motor"/>
 	</simpleMotor>
+	<simpleMotor desc="JS1 Vertical +ve Motor" name="JS1.YPLUS">
+		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:Y:PLUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="JS1 Vertical -ve Motor" name="JS1.YMINUS">
+		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:Y:MINUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="JS1 Horizontal +ve Motor" name="JS1.XPLUS">
+		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:X:PLUS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="JS1 Horizontal -ve Motor" name="JS1.XMINUS">
+		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:X:MINUS" ro="false" type="motor"/>
+	</simpleMotor>
 	<simpleMotor desc="S1 X Size (compound)" name="S1.XSIZE">
 		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:X:SIZE" ro="false" type="motor"/>
 	</simpleMotor>
@@ -861,11 +876,17 @@
 	<simpleMotor desc="S1 Y Centre (compound)" name="S1.YCENTRE">
 		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:Y:CENTER" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="W2.X" name="W2.X">
-		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-OP-WIND-02:DCAM:X" ro="false" type="motor"/>
+	<simpleMotor desc="JS1 X Size (compound)" name="JS1.XSIZE">
+		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:X:SIZE" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="W2.Y" name="W2.Y">
-		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-OP-WIND-02:DCAM:Y" ro="false" type="motor"/>
+	<simpleMotor desc="JS1 X Centre (compound)" name="JS1.XCENTRE">
+		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:X:CENTER" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="JS1 Y Size (compound)" name="JS1.YSIZE">
+		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:Y:SIZE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="JS1 Y Centre (compound)" name="JS1.YCENTRE">
+		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-AL-SLITS-01:Y:CENTER" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleMotor desc="QBPM1 Drive X Translation" name="QD1.X">
 		<RECORD IOC="BL15I-MO-IOC-10" desc="Motor" pv="BL15I-DI-QBPM-01:X" ro="false" type="motor"/>
@@ -903,15 +924,6 @@
 	<simplePv desc="FM TEMPERATURE 02" name="FM.T2">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-MP-FABSB-01:TEMP2" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO1 Incoming Water Temp" name="HO1.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-01:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO1 Intermediate Water Temp" name="HO1.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-01:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO1 Outgoing Water Temp" name="HO1.T3">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-01:TEMP3" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="S1 TEMPERATURE 01" name="S1.AT1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-AL-SLITS-01:A:TEMP1" ro="true" type="pv"/>
 	</simplePv>
@@ -924,26 +936,26 @@
 	<simplePv desc="S1 TEMPERATURE 04" name="S1.BT2">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-AL-SLITS-01:B:TEMP2" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO2 Incoming Water Temp" name="HO2.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-02:TEMP1" ro="true" type="pv"/>
+	<simplePv desc="S1 TEMPERATURE 01" name="J.S1.AT1">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-AL-SLITS-01:A:TEMP1" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO2 Intermediate Water Temp" name="HO2.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-02:TEMP2" ro="true" type="pv"/>
+	<simplePv desc="S1 TEMPERATURE 02" name="J.S1.AT2">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-AL-SLITS-01:A:TEMP2" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO2 Outgoing Water Temp" name="HO2.T3">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-02:TEMP3" ro="true" type="pv"/>
+	<simplePv desc="S1 TEMPERATURE 03" name="J.S1.BT1">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-AL-SLITS-01:B:TEMP1" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="AB2 TEMPERATURE 1" name="AB2.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-02:TEMP1" ro="true" type="pv"/>
+	<simplePv desc="S1 TEMPERATURE 04" name="J.S1.BT2">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-AL-SLITS-01:B:TEMP2" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="AB2 TEMPERATURE 2" name="AB2.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-02:TEMP2" ro="true" type="pv"/>
+	<simplePv desc="F1 TEMPERATURE 1" name="F1.T1">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-01:TEMP1" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO3 Incoming Water Temp" name="HO3.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-03:TEMP1" ro="true" type="pv"/>
+	<simplePv desc="F1 TEMPERATURE 2" name="F1.T2">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-01:TEMP2" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO3 Outgoing Water Temp" name="HO3.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-03:TEMP2" ro="true" type="pv"/>
+	<simplePv desc="F1 TEMPERATURE 3" name="F1.T3">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-ATTN-01:TEMP3" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="DCM 2nd Xtal Clamp" name="DCM.X2T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-DCM-01:XTAL2:TEMP1" ro="true" type="pv"/>
@@ -1017,56 +1029,50 @@
 	<simplePv desc="DCM 1st Xtal Cage Support" name="DCM.X1T4">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-DCM-01:XTAL1:TEMP4" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="DCM Cryocooler N2 flow" name="DCM.CRYIN">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-DCM-01:CRYO:FLOW" ro="true" type="pv"/>
+	<simplePv desc="" name="LAUE.T1">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP1" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="DCM Cryocooler N2 return" name="DCM.CRYOUT">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-DCM-01:CRYO:RETURN" ro="true" type="pv"/>
+	<simplePv desc="" name="LAUE.T2">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="LAUE.T3">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="LAUE.T4">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP4" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="LAUE.T5">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP5" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="LAUE.T6">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP6" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="LAUE.T7">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP7" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="LAUE.T8">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP8" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="LAUE.T9">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15J-OP-DCM-01:TEMP9" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="AB3 TEMPERATURE 1" name="AB3.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP1" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-02:TEMP1" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="AB3 TEMPERATURE 2" name="AB3.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP2" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-02:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="AB3 TEMPERATURE 3" name="AB3.T3">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP3" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-02:TEMP3" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="AB3 Temperature 4" name="AB3.T4">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP4" ro="true" type="pv"/>
+	<simplePv desc="AB3 TEMPERATURE 4" name="AB3.T4">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-02:TEMP4" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="AB3 Temperature 5" name="AB3.T5">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP5" ro="true" type="pv"/>
+	<simplePv desc="W2 TEMPERATURE 1" name="S6.T1">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-AL-SLITS-06:TEMP1" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="AB3 Temperature 6" name="AB3.T6">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP6" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="AB3 Temperature 7" name="AB3.T7">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP7" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="AB3 Temperature 8" name="AB3.T8">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP8" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="AB3 Temperature 9" name="AB3.T9">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-03:TEMP9" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W2 TEMPERATURE 1" name="W2.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-02:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W2 TEMPERATURE 2" name="W2.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-02:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO4 Incoming Water Temp" name="HO4.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-04:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO4 Intermediate Water Temp" name="HO4.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-04:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO4 Intermediate Water Temp" name="HO4.T3">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-04:TEMP3" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO4 Outgoing Water Temp" name="HO4.T4">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-04:TEMP4" ro="true" type="pv"/>
+	<simplePv desc="W2 TEMPERATURE 2" name="S6.T2">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-AL-SLITS-06:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="M1 Upstream Bend Motor Temp" name="M1.B1T">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-VFM-01:BEND1:TEMP" ro="true" type="pv"/>
@@ -1080,30 +1086,6 @@
 	<simplePv desc="M1 Mirror Temp" name="M1.MIRRT">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-VFM-01:MIRROR:TEMP" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO5 Mask Cooling Input Temp" name="HO5.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO5 Mask Cooling Output Temp" name="HO5.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO5 Inboard Cooling Input Temp" name="HO5.T3">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP3" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO5 Inboard Cooling Output Temp" name="HO5.T4">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP4" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO5 Outboard Cooling Input Temp" name="HO5.T5">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP5" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO5 Outboard Cooling Output Temp" name="HO5.T6">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP6" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO5 Intermediate Water Temp" name="HO5.T7">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP7" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO5 Outgoing Water Temp" name="HO5.T8">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-05:TEMP8" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="SHTR2 TEMPERATURE 1" name="SHTR2.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-PS-SHTR-01:TEMP1" ro="true" type="pv"/>
 	</simplePv>
@@ -1112,54 +1094,6 @@
 	</simplePv>
 	<simplePv desc="SHTR2 TEMPERATURE 3" name="SHTR2.T3">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-PS-SHTR-01:TEMP3" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="SHTR2 Incoming Water Temp" name="SHTR2.FLWT1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-PS-SHTR-01:FLOW:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="SHTR2 Outgoing Water Temp" name="SHTR2.FLWT2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-PS-SHTR-01:FLOW:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W4 TEMPERATURE 1" name="W4.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-04:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W4 TEMPERATURE 2" name="W4.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-04:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="T2 Upstream Trans Motor Temp" name="T2.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-MO-TABLE-02:X2:TEMP" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W5 TEMPERATURE 1" name="W5.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-05:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="W5 TEMPERATURE 2" name="W5.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-05:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Mask Cooling Input Temp" name="HO7.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Mask Cooling Output Temp" name="HO7.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Inboard Cooling Input Temp" name="HO7.T3">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP3" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Inboard Cooling Output Temp" name="HO7.T4">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP4" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Outboard Cooling Input Temp" name="HO7.T5">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP5" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Outboard Cooling Output Temp" name="HO7.T6">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP6" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Incoming Water Temp" name="HO7.T7">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP7" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Intermediate Water Temp" name="HO7.T8">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP8" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO7 Outgoing Water Temp" name="HO7.T9">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-07:TEMP9" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="M2 Upstream Bend Motor Temp" name="M2.B1T">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-HFM-01:BEND1:TEMP" ro="true" type="pv"/>
@@ -1174,7 +1108,13 @@
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-HFM-01:MASK:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="M2 SPARE TEMPERATURE 1" name="M2.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-HFM-01:TEMP1" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-HFM-01:GA:FIN" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="W6 TEMPERATURE 1" name="W6.T1">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-06:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="W6 TEMPERATURE 2" name="W6.T2">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-06:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="S3 TEMPERATURE 1" name="S3.AT1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-AL-SLITS-03:A:TEMP1" ro="true" type="pv"/>
@@ -1188,18 +1128,6 @@
 	<simplePv desc="S3 TEMPERATURE 4" name="S3.BT2">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-AL-SLITS-03:B:TEMP2" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="HO8 Flow A Incoming Temp" name="HO8.FLW8T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-08:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO8 Flow A Outgoing Temp" name="HO8.FLW8T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-08:TEMP2" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO8 Flow B Incoming Temp" name="HO8.FLW9T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-08:TEMP3" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="HO8 Flow B Outgoing Temp" name="HO8.FLW9T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-08:TEMP4" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="SHTR3 TEMPERATURE 1" name="SHTR3.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-PS-SHTR-02:TEMP1" ro="true" type="pv"/>
 	</simplePv>
@@ -1209,12 +1137,6 @@
 	<simplePv desc="SHTR3 TEMPERATURE 3" name="SHTR3.T3">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-PS-SHTR-02:TEMP3" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="SHTR3 Incoming Water Temp" name="SHTR3.FLWT1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-PS-SHTR-02:FLOW:TEMP1" ro="true" type="pv"/>
-	</simplePv>
-	<simplePv desc="SHTR3 Outgoing Water Temp" name="SHTR3.FLWT2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-PS-SHTR-02:FLOW:TEMP2" ro="true" type="pv"/>
-	</simplePv>
 	<simplePv desc="W7 TEMPERATURE 1" name="W7.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-07:TEMP1" ro="true" type="pv"/>
 	</simplePv>
@@ -1222,10 +1144,10 @@
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-OP-WIND-07:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="HO9 Incoming Water Temp" name="HO9.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-09:TEMP1" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-08:TEMP1" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="HO9 Outgoing Water Temp" name="HO9.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-09:TEMP2" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-08:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="AB5 TEMPERATURE 1" name="AB5.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-05:TEMP1" ro="true" type="pv"/>
@@ -1234,10 +1156,10 @@
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-RS-ABSB-05:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="HO10 Incoming Water Temp" name="HO10.T1">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-10:TEMP1" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-09:TEMP1" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="HO10 Outgoing Water Temp" name="HO10.T2">
-		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-10:TEMP2" ro="true" type="pv"/>
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-HO-FLOW-09:TEMP2" ro="true" type="pv"/>
 	</simplePv>
 	<simplePv desc="" name="PATCH50.T1">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-50:TEMP1" ro="true" type="pv"/>
@@ -1256,6 +1178,24 @@
 	</simplePv>
 	<simplePv desc="" name="PATCH51.T3">
 		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-51:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH52.T1">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-52:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH52.T2">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-52:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH52.T3">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-52:TEMP3" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH53.T1">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-53:TEMP1" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH53.T2">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-53:TEMP2" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="PATCH53.T3">
+		<RECORD IOC="BL15I-VA-IOC-01" desc="Temperature" pv="BL15I-EA-PATCH-53:TEMP3" ro="true" type="pv"/>
 	</simplePv>
 	<pneumaticCallback desc="" name="FM.FABSB">
 		<CONTROL IOC="BL15I-VA-IOC-01" desc="CONTROL" pv="BL15I-MP-FABSB-01:CON" ro="false" type="mbbinary"/>
@@ -1311,6 +1251,9 @@
 	<simpleMbbinary desc="Current status for IOC BL15I-MO-IOC-11:PSC" name="BL15I-MO-IOC-11:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-MO-IOC-11:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
+	<simpleMbbinary desc="Current status for IOC BL15I-MO-IOC-12:PSC" name="BL15I-MO-IOC-12:PSC">
+		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-MO-IOC-12:PSC:STATUS" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
 	<simpleMbbinary desc="Current status for IOC BL15I-DI-IOC-01:PSC" name="BL15I-DI-IOC-01:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-DI-IOC-01:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
@@ -1323,14 +1266,11 @@
 	<simpleMbbinary desc="Current status for IOC BL15I-DI-IOC-04:PSC" name="BL15I-DI-IOC-04:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-DI-IOC-04:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
+	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-05:PSC" name="BL15I-EA-IOC-05:PSC">
+		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-05:PSC:STATUS" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
 	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-09:PSC" name="BL15I-EA-IOC-09:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-09:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-15:PSC" name="BL15I-EA-IOC-15:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-15:PSC:STATUS" ro="true" type="mbbinary"/>
-	</simpleMbbinary>
-	<simpleMbbinary desc="Current status for IOC BL15I-EA-IOC-16:PSC" name="BL15I-EA-IOC-16:PSC">
-		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-EA-IOC-16:PSC:STATUS" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
 	<simpleMbbinary desc="Current status for IOC BL15I-CG-IOC-01:PSC" name="BL15I-CG-IOC-01:PSC">
 		<RECORD IOC="BL15I-CS-IOC-05" desc="PV" pv="BL15I-CG-IOC-01:PSC:STATUS" ro="true" type="mbbinary"/>
@@ -1499,18 +1439,75 @@
 	<simplePv desc="Perkin-Elmer" name="PE1.2THETASTEPSIZE">
 		<RECORD IOC="BL15I-EA-IOC-04" desc="RECORD" pv="BL15I-EA-PELM-01:2THETASTEPSIZE" ro="false" type="pv"/>
 	</simplePv>
-	<simplePv desc="" name="laser1.OutputPower_RBV">
+	<simplePv desc="" name="laser1.OUTPUTPOWER_RBV">
 		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-01:OUTPUTPOWER_RBV" ro="true" type="pv"/>
 	</simplePv>
-	<simplePv desc="" name="laser1.OutputPower">
+	<simplePv desc="" name="laser1.OUTPUTPOWER">
 		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-01:OUTPUTPOWER" ro="false" type="pv"/>
 	</simplePv>
-	<simpleMbbinary desc="" name="laser1.TargetingLaser_RBV">
+	<simpleMbbinary desc="" name="laser1.TARGETINGLASER_RBV">
 		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-01:TARGETINGLASER_RBV" ro="true" type="mbbinary"/>
 	</simpleMbbinary>
-	<simpleMbbinary desc="" name="laser1.TargetingLaser">
+	<simpleMbbinary desc="" name="laser1.TARGETINGLASER">
 		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-01:TARGETINGLASER" ro="false" type="mbbinary"/>
 	</simpleMbbinary>
+	<simplePv desc="" name="laser2.OUTPUTPOWER_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-02:OUTPUTPOWER_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laser2.OUTPUTPOWER">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-02:OUTPUTPOWER" ro="false" type="pv"/>
+	</simplePv>
+	<simpleMbbinary desc="" name="laser2.TARGETINGLASER_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-02:TARGETINGLASER_RBV" ro="true" type="mbbinary"/>
+	</simpleMbbinary>
+	<simpleMbbinary desc="" name="laser2.TARGETINGLASER">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LASER-02:TARGETINGLASER" ro="false" type="mbbinary"/>
+	</simpleMbbinary>
+	<simplePv desc="" name="laserRamp.STARTPOWER1_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:STARTPOWER1_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.STARTPOWER1">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:STARTPOWER1" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.TARGETPOWER1_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:TARGETPOWER1_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.TARGETPOWER1">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:TARGETPOWER1" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.STARTPOWER2_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:STARTPOWER2_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.STARTPOWER2">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:STARTPOWER2" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.TARGETPOWER2_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:TARGETPOWER2_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.TARGETPOWER2">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:TARGETPOWER2" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.PERIOD_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:PERIOD_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.PERIOD">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:PERIOD" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.NUMBEROFSTEPS_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:NUMBEROFSTEPS_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.NUMBEROFSTEPS">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:NUMBEROFSTEPS" ro="false" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.TIMECOUNTER_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:TIMECOUNTER_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.POWER1_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:POWER1_RBV" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="" name="laserRamp.POWER2_RBV">
+		<RECORD IOC="BL15I-EA-IOC-10" desc="" pv="BL15I-EA-LRAMP-01:POWER2_RBV" ro="true" type="pv"/>
+	</simplePv>
 	<eurotherm2k desc="Cyberstar Blower" name="ENV.BLOW1">
 		<PVRBV IOC="BL15I-EA-IOC-12" desc="temperature readback" pv="BL15I-EA-BLOW-01:LOOP1:PV:RBV" ro="true" type="pv"/>
 		<SP IOC="BL15I-EA-IOC-12" desc="setpoint" pv="BL15I-EA-BLOW-01:LOOP1:SP" ro="false" type="pv"/>
@@ -1615,6 +1612,30 @@
 	<simplePv desc="Cryo Level" name="CLEVEL">
 		<RECORD IOC="BL15I-EA-IOC-17" desc="Fill level" pv="BL15I-CG-CJET-01:ILM:LEVEL" ro="true" type="pv"/>
 	</simplePv>
+	<simpleMotor desc="B16 Brick2 Axis 1" name="BRICK2.MOT1">
+		<RECORD IOC="BL15I-EA-IOC-22" desc="Motor" pv="BL15I-MO-BGEO-02:MOT1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="B16 Brick2 Axis 2" name="BRICK2.MOT2">
+		<RECORD IOC="BL15I-EA-IOC-22" desc="Motor" pv="BL15I-MO-BGEO-02:MOT2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="B16 Brick2 Axis 3" name="BRICK2.MOT3">
+		<RECORD IOC="BL15I-EA-IOC-22" desc="Motor" pv="BL15I-MO-BGEO-02:MOT3" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="B16 Brick2 Axis 4" name="BRICK2.MOT4">
+		<RECORD IOC="BL15I-EA-IOC-22" desc="Motor" pv="BL15I-MO-BGEO-02:MOT4" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="B16 Brick2 Axis 5" name="BRICK2.MOT5">
+		<RECORD IOC="BL15I-EA-IOC-22" desc="Motor" pv="BL15I-MO-BGEO-02:MOT5" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="B16 Brick2 Axis 6" name="BRICK2.MOT6">
+		<RECORD IOC="BL15I-EA-IOC-22" desc="Motor" pv="BL15I-MO-BGEO-02:MOT6" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="B16 Brick2 Axis 7" name="BRICK2.MOT7">
+		<RECORD IOC="BL15I-EA-IOC-22" desc="Motor" pv="BL15I-MO-BGEO-02:MOT7" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="B16 Brick2 Axis 8" name="BRICK2.MOT8">
+		<RECORD IOC="BL15I-EA-IOC-22" desc="Motor" pv="BL15I-MO-BGEO-02:MOT8" ro="false" type="motor"/>
+	</simpleMotor>
 	<ADBase desc="gige1.cam ADBase class instance" name="gige1.cam_ADBase">
 		<PortName_RBV IOC="BL15I-DI-IOC-01" desc="Readback for PortName" pv="BL15I-DI-GIGE-01:CAM:PortName_RBV" ro="true" type="pv"/>
 		<Manufacturer_RBV IOC="BL15I-DI-IOC-01" desc="Readback for Manufacturer" pv="BL15I-DI-GIGE-01:CAM:Manufacturer_RBV" ro="true" type="pv"/>
@@ -3953,10 +3974,97 @@
 		<Temperature IOC="BL15I-DI-IOC-04" desc="Set Temperature" pv="BL15I-DI-GIGE-04:CAM:Temperature" ro="false" type="pv"/>
 		<Temperature_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Temperature" pv="BL15I-DI-GIGE-04:CAM:Temperature_RBV" ro="true" type="pv"/>
 	</ADBase>
+	<ADBase desc="gige5.cam ADBase class instance" name="gige5.cam_ADBase">
+		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-05:CAM:PortName_RBV" ro="true" type="pv"/>
+		<Manufacturer_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Manufacturer" pv="BL15I-DI-GIGE-05:CAM:Manufacturer_RBV" ro="true" type="pv"/>
+		<Model_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Model" pv="BL15I-DI-GIGE-05:CAM:Model_RBV" ro="true" type="pv"/>
+		<MaxSizeX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MaxSizeX" pv="BL15I-DI-GIGE-05:CAM:MaxSizeX_RBV" ro="true" type="pv"/>
+		<MaxSizeY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MaxSizeY" pv="BL15I-DI-GIGE-05:CAM:MaxSizeY_RBV" ro="true" type="pv"/>
+		<DataType IOC="BL15I-DI-IOC-04" desc="Set DataType" pv="BL15I-DI-GIGE-05:CAM:DataType" ro="false" type="mbbinary"/>
+		<DataType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataType" pv="BL15I-DI-GIGE-05:CAM:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode IOC="BL15I-DI-IOC-04" desc="Set ColorMode" pv="BL15I-DI-GIGE-05:CAM:ColorMode" ro="false" type="mbbinary"/>
+		<ColorMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ColorMode" pv="BL15I-DI-GIGE-05:CAM:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BinX IOC="BL15I-DI-IOC-04" desc="Set BinX" pv="BL15I-DI-GIGE-05:CAM:BinX" ro="false" type="pv"/>
+		<BinX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BinX" pv="BL15I-DI-GIGE-05:CAM:BinX_RBV" ro="true" type="pv"/>
+		<BinY IOC="BL15I-DI-IOC-04" desc="Set BinY" pv="BL15I-DI-GIGE-05:CAM:BinY" ro="false" type="pv"/>
+		<BinY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BinY" pv="BL15I-DI-GIGE-05:CAM:BinY_RBV" ro="true" type="pv"/>
+		<MinX IOC="BL15I-DI-IOC-04" desc="Set MinX" pv="BL15I-DI-GIGE-05:CAM:MinX" ro="false" type="pv"/>
+		<MinX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinX" pv="BL15I-DI-GIGE-05:CAM:MinX_RBV" ro="true" type="pv"/>
+		<MinY IOC="BL15I-DI-IOC-04" desc="Set MinY" pv="BL15I-DI-GIGE-05:CAM:MinY" ro="false" type="pv"/>
+		<MinY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinY" pv="BL15I-DI-GIGE-05:CAM:MinY_RBV" ro="true" type="pv"/>
+		<SizeX IOC="BL15I-DI-IOC-04" desc="Set SizeX" pv="BL15I-DI-GIGE-05:CAM:SizeX" ro="false" type="pv"/>
+		<SizeX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX" pv="BL15I-DI-GIGE-05:CAM:SizeX_RBV" ro="true" type="pv"/>
+		<SizeY IOC="BL15I-DI-IOC-04" desc="Set SizeY" pv="BL15I-DI-GIGE-05:CAM:SizeY" ro="false" type="pv"/>
+		<SizeY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY" pv="BL15I-DI-GIGE-05:CAM:SizeY_RBV" ro="true" type="pv"/>
+		<ReverseX IOC="BL15I-DI-IOC-04" desc="Set ReverseX" pv="BL15I-DI-GIGE-05:CAM:ReverseX" ro="false" type="binary"/>
+		<ReverseX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ReverseX" pv="BL15I-DI-GIGE-05:CAM:ReverseX_RBV" ro="true" type="binary"/>
+		<ReverseY IOC="BL15I-DI-IOC-04" desc="Set ReverseY" pv="BL15I-DI-GIGE-05:CAM:ReverseY" ro="false" type="binary"/>
+		<ReverseY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ReverseY" pv="BL15I-DI-GIGE-05:CAM:ReverseY_RBV" ro="true" type="binary"/>
+		<ArraySizeX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySizeX" pv="BL15I-DI-GIGE-05:CAM:ArraySizeX_RBV" ro="true" type="pv"/>
+		<ArraySizeY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySizeY" pv="BL15I-DI-GIGE-05:CAM:ArraySizeY_RBV" ro="true" type="pv"/>
+		<ArraySizeZ_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySizeZ" pv="BL15I-DI-GIGE-05:CAM:ArraySizeZ_RBV" ro="true" type="pv"/>
+		<ArraySize_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize" pv="BL15I-DI-GIGE-05:CAM:ArraySize_RBV" ro="true" type="pv"/>
+		<AcquireTime IOC="BL15I-DI-IOC-04" desc="Set AcquireTime" pv="BL15I-DI-GIGE-05:CAM:AcquireTime" ro="false" type="pv"/>
+		<AcquireTime_RBV IOC="BL15I-DI-IOC-04" desc="Readback for AcquireTime" pv="BL15I-DI-GIGE-05:CAM:AcquireTime_RBV" ro="true" type="pv"/>
+		<AcquirePeriod IOC="BL15I-DI-IOC-04" desc="Set AcquirePeriod" pv="BL15I-DI-GIGE-05:CAM:AcquirePeriod" ro="false" type="pv"/>
+		<AcquirePeriod_RBV IOC="BL15I-DI-IOC-04" desc="Readback for AcquirePeriod" pv="BL15I-DI-GIGE-05:CAM:AcquirePeriod_RBV" ro="true" type="pv"/>
+		<TimeRemaining_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeRemaining" pv="BL15I-DI-GIGE-05:CAM:TimeRemaining_RBV" ro="true" type="pv"/>
+		<Gain IOC="BL15I-DI-IOC-04" desc="Set Gain" pv="BL15I-DI-GIGE-05:CAM:Gain" ro="false" type="pv"/>
+		<Gain_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Gain" pv="BL15I-DI-GIGE-05:CAM:Gain_RBV" ro="true" type="pv"/>
+		<FrameType IOC="BL15I-DI-IOC-04" desc="Set FrameType" pv="BL15I-DI-GIGE-05:CAM:FrameType" ro="false" type="mbbinary"/>
+		<FrameType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FrameType" pv="BL15I-DI-GIGE-05:CAM:FrameType_RBV" ro="true" type="mbbinary"/>
+		<ImageMode IOC="BL15I-DI-IOC-04" desc="Set ImageMode" pv="BL15I-DI-GIGE-05:CAM:ImageMode" ro="false" type="mbbinary"/>
+		<ImageMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ImageMode" pv="BL15I-DI-GIGE-05:CAM:ImageMode_RBV" ro="true" type="mbbinary"/>
+		<TriggerMode IOC="BL15I-DI-IOC-04" desc="Set TriggerMode" pv="BL15I-DI-GIGE-05:CAM:TriggerMode" ro="false" type="mbbinary"/>
+		<TriggerMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TriggerMode" pv="BL15I-DI-GIGE-05:CAM:TriggerMode_RBV" ro="true" type="mbbinary"/>
+		<NumExposures IOC="BL15I-DI-IOC-04" desc="Set NumExposures" pv="BL15I-DI-GIGE-05:CAM:NumExposures" ro="false" type="pv"/>
+		<NumExposures_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NumExposures" pv="BL15I-DI-GIGE-05:CAM:NumExposures_RBV" ro="true" type="pv"/>
+		<NumExposuresCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NumExposuresCounter" pv="BL15I-DI-GIGE-05:CAM:NumExposuresCounter_RBV" ro="true" type="pv"/>
+		<NumImages IOC="BL15I-DI-IOC-04" desc="Set NumImages" pv="BL15I-DI-GIGE-05:CAM:NumImages" ro="false" type="pv"/>
+		<NumImages_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NumImages" pv="BL15I-DI-GIGE-05:CAM:NumImages_RBV" ro="true" type="pv"/>
+		<NumImagesCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NumImagesCounter" pv="BL15I-DI-GIGE-05:CAM:NumImagesCounter_RBV" ro="true" type="pv"/>
+		<Acquire IOC="BL15I-DI-IOC-04" desc="Set Acquire" pv="BL15I-DI-GIGE-05:CAM:Acquire" ro="false" type="pv"/>
+		<Acquire_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Acquire" pv="BL15I-DI-GIGE-05:CAM:Acquire_RBV" ro="true" type="binary"/>
+		<ArrayCounter IOC="BL15I-DI-IOC-04" desc="Set ArrayCounter" pv="BL15I-DI-GIGE-05:CAM:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCounter" pv="BL15I-DI-GIGE-05:CAM:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayRate" pv="BL15I-DI-GIGE-05:CAM:ArrayRate_RBV" ro="true" type="pv"/>
+		<DetectorState_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DetectorState" pv="BL15I-DI-GIGE-05:CAM:DetectorState_RBV" ro="true" type="mbbinary"/>
+		<ArrayCallbacks IOC="BL15I-DI-IOC-04" desc="Set ArrayCallbacks" pv="BL15I-DI-GIGE-05:CAM:ArrayCallbacks" ro="false" type="binary"/>
+		<ArrayCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCallbacks" pv="BL15I-DI-GIGE-05:CAM:ArrayCallbacks_RBV" ro="true" type="binary"/>
+		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-05:CAM:NDAttributesFile" ro="false" type="array"/>
+		<StatusMessage_RBV IOC="BL15I-DI-IOC-04" desc="Readback for StatusMessage" pv="BL15I-DI-GIGE-05:CAM:StatusMessage_RBV" ro="true" type="array"/>
+		<StringToServer_RBV IOC="BL15I-DI-IOC-04" desc="Readback for StringToServer" pv="BL15I-DI-GIGE-05:CAM:StringToServer_RBV" ro="true" type="array"/>
+		<StringFromServer_RBV IOC="BL15I-DI-IOC-04" desc="Readback for StringFromServer" pv="BL15I-DI-GIGE-05:CAM:StringFromServer_RBV" ro="true" type="array"/>
+		<ReadStatus IOC="BL15I-DI-IOC-04" desc="Force read of Status" pv="BL15I-DI-GIGE-05:CAM:ReadStatus" ro="false" type="binary"/>
+		<ShutterMode IOC="BL15I-DI-IOC-04" desc="Set ShutterMode" pv="BL15I-DI-GIGE-05:CAM:ShutterMode" ro="false" type="mbbinary"/>
+		<ShutterMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ShutterMode" pv="BL15I-DI-GIGE-05:CAM:ShutterMode_RBV" ro="true" type="mbbinary"/>
+		<ShutterControl IOC="BL15I-DI-IOC-04" desc="Set ShutterControl" pv="BL15I-DI-GIGE-05:CAM:ShutterControl" ro="false" type="binary"/>
+		<ShutterControl_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ShutterControl" pv="BL15I-DI-GIGE-05:CAM:ShutterControl_RBV" ro="true" type="binary"/>
+		<ShutterStatus_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ShutterStatus" pv="BL15I-DI-GIGE-05:CAM:ShutterStatus_RBV" ro="true" type="binary"/>
+		<ShutterOpenDelay IOC="BL15I-DI-IOC-04" desc="Set ShutterOpenDelay" pv="BL15I-DI-GIGE-05:CAM:ShutterOpenDelay" ro="false" type="pv"/>
+		<ShutterOpenDelay_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ShutterOpenDelay" pv="BL15I-DI-GIGE-05:CAM:ShutterOpenDelay_RBV" ro="true" type="pv"/>
+		<ShutterCloseDelay IOC="BL15I-DI-IOC-04" desc="Set ShutterCloseDelay" pv="BL15I-DI-GIGE-05:CAM:ShutterCloseDelay" ro="false" type="pv"/>
+		<ShutterCloseDelay_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ShutterCloseDelay" pv="BL15I-DI-GIGE-05:CAM:ShutterCloseDelay_RBV" ro="true" type="pv"/>
+		<ShutterOpenEPICSPV IOC="BL15I-DI-IOC-04" desc="PV to write ShutterOpenEPICSCmd to" pv="BL15I-DI-GIGE-05:CAM:ShutterOpenEPICS.OUT" ro="false" type="pv"/>
+		<ShutterOpenEPICSCmd IOC="BL15I-DI-IOC-04" desc="Open command to be sent to ShutterOpenEPICS" pv="BL15I-DI-GIGE-05:CAM:ShutterOpenEPICS" ro="false" type="pv"/>
+		<ShutterCloseEPICSPV IOC="BL15I-DI-IOC-04" desc="PV to write ShutterCloseEPICSCmd to" pv="BL15I-DI-GIGE-05:CAM:ShutterCloseEPICS.OUT" ro="false" type="pv"/>
+		<ShutterCloseEPICSCmd IOC="BL15I-DI-IOC-04" desc="Close command to be sent to ShutterCloseEPICSPV" pv="BL15I-DI-GIGE-05:CAM:ShutterCloseEPICS.OCAL" ro="false" type="pv"/>
+		<ShutterStatusEPICS_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ShutterStatusEPICS" pv="BL15I-DI-GIGE-05:CAM:ShutterStatusEPICS_RBV" ro="true" type="mbbinary"/>
+		<ShutterStatusEPICSPV IOC="BL15I-DI-IOC-04" desc="PV to read ShutterStatusEPICS_RBV from. Must be a &quot;CP&quot; link" pv="BL15I-DI-GIGE-05:CAM:ShutterStatusEPICS_RBV.INP" ro="false" type="pv"/>
+		<ShutterStatusEPICSCloseVal IOC="BL15I-DI-IOC-04" desc="Value of ShutterStatusEPICSPV when shutter is closed" pv="BL15I-DI-GIGE-05:CAM:ShutterStatusEPICS_RBV.ZRVL" ro="false" type="pv"/>
+		<ShutterStatusEPICSOpenVal IOC="BL15I-DI-IOC-04" desc="Value of ShutterStatusEPICSPV when shutter is open" pv="BL15I-DI-GIGE-05:CAM:ShutterStatusEPICS_RBV.ONVL" ro="false" type="pv"/>
+		<Temperature IOC="BL15I-DI-IOC-04" desc="Set Temperature" pv="BL15I-DI-GIGE-05:CAM:Temperature" ro="false" type="pv"/>
+		<Temperature_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Temperature" pv="BL15I-DI-GIGE-05:CAM:Temperature_RBV" ro="true" type="pv"/>
+	</ADBase>
 	<aravisCamera desc="gige4.cam aravisCamera class instance" name="gige4.cam_aravisCamera">
 		<COMPLETED_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Frames Completed" pv="BL15I-DI-GIGE-04:CAM:COMPLETED_RBV" ro="true" type="pv"/>
 		<FAILURES_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Frame Failures" pv="BL15I-DI-GIGE-04:CAM:FAILURES_RBV" ro="true" type="pv"/>
 		<UNDERRUNS_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Frame Underruns" pv="BL15I-DI-GIGE-04:CAM:UNDERRUNS_RBV" ro="true" type="pv"/>
+	</aravisCamera>
+	<aravisCamera desc="gige5.cam aravisCamera class instance" name="gige5.cam_aravisCamera">
+		<COMPLETED_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Frames Completed" pv="BL15I-DI-GIGE-05:CAM:COMPLETED_RBV" ro="true" type="pv"/>
+		<FAILURES_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Frame Failures" pv="BL15I-DI-GIGE-05:CAM:FAILURES_RBV" ro="true" type="pv"/>
+		<UNDERRUNS_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Frame Underruns" pv="BL15I-DI-GIGE-05:CAM:UNDERRUNS_RBV" ro="true" type="pv"/>
 	</aravisCamera>
 	<NDPluginBase desc="gige4.arr NDPluginBase class instance" name="gige4.arr_NDPluginBase">
 		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-04:ARR:PortName_RBV" ro="true" type="pv"/>
@@ -4161,8 +4269,214 @@
 		<TimeStamp_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeStamp" pv="BL15I-DI-GIGE-04:ROI:TimeStamp_RBV" ro="true" type="pv"/>
 		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-04:ROI:NDAttributesFile" ro="false" type="array"/>
 	</NDPluginBase>
+	<NDPluginBase desc="gige5.arr NDPluginBase class instance" name="gige5.arr_NDPluginBase">
+		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-05:ARR:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PluginType" pv="BL15I-DI-GIGE-05:ARR:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort IOC="BL15I-DI-IOC-04" desc="Set NDArrayPort" pv="BL15I-DI-GIGE-05:ARR:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayPort" pv="BL15I-DI-GIGE-05:ARR:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress IOC="BL15I-DI-IOC-04" desc="Set NDArrayAddress" pv="BL15I-DI-GIGE-05:ARR:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayAddress" pv="BL15I-DI-GIGE-05:ARR:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks IOC="BL15I-DI-IOC-04" desc="Set EnableCallbacks" pv="BL15I-DI-GIGE-05:ARR:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableCallbacks" pv="BL15I-DI-GIGE-05:ARR:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime IOC="BL15I-DI-IOC-04" desc="Set MinCallbackTime" pv="BL15I-DI-GIGE-05:ARR:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinCallbackTime" pv="BL15I-DI-GIGE-05:ARR:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks IOC="BL15I-DI-IOC-04" desc="Set BlockingCallbacks" pv="BL15I-DI-GIGE-05:ARR:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BlockingCallbacks" pv="BL15I-DI-GIGE-05:ARR:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter IOC="BL15I-DI-IOC-04" desc="Set ArrayCounter" pv="BL15I-DI-GIGE-05:ARR:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCounter" pv="BL15I-DI-GIGE-05:ARR:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayRate" pv="BL15I-DI-GIGE-05:ARR:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays IOC="BL15I-DI-IOC-04" desc="Set DroppedArrays" pv="BL15I-DI-GIGE-05:ARR:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DroppedArrays" pv="BL15I-DI-GIGE-05:ARR:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDimensions" pv="BL15I-DI-GIGE-05:ARR:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize0" pv="BL15I-DI-GIGE-05:ARR:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize1" pv="BL15I-DI-GIGE-05:ARR:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize2" pv="BL15I-DI-GIGE-05:ARR:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataType" pv="BL15I-DI-GIGE-05:ARR:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ColorMode" pv="BL15I-DI-GIGE-05:ARR:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BayerPattern" pv="BL15I-DI-GIGE-05:ARR:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV IOC="BL15I-DI-IOC-04" desc="Readback for UniqueId" pv="BL15I-DI-GIGE-05:ARR:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeStamp" pv="BL15I-DI-GIGE-05:ARR:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-05:ARR:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
+	<NDPluginBase desc="gige5.proc NDPluginBase class instance" name="gige5.proc_NDPluginBase">
+		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-05:PROC:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PluginType" pv="BL15I-DI-GIGE-05:PROC:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort IOC="BL15I-DI-IOC-04" desc="Set NDArrayPort" pv="BL15I-DI-GIGE-05:PROC:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayPort" pv="BL15I-DI-GIGE-05:PROC:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress IOC="BL15I-DI-IOC-04" desc="Set NDArrayAddress" pv="BL15I-DI-GIGE-05:PROC:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayAddress" pv="BL15I-DI-GIGE-05:PROC:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks IOC="BL15I-DI-IOC-04" desc="Set EnableCallbacks" pv="BL15I-DI-GIGE-05:PROC:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableCallbacks" pv="BL15I-DI-GIGE-05:PROC:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime IOC="BL15I-DI-IOC-04" desc="Set MinCallbackTime" pv="BL15I-DI-GIGE-05:PROC:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinCallbackTime" pv="BL15I-DI-GIGE-05:PROC:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks IOC="BL15I-DI-IOC-04" desc="Set BlockingCallbacks" pv="BL15I-DI-GIGE-05:PROC:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BlockingCallbacks" pv="BL15I-DI-GIGE-05:PROC:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter IOC="BL15I-DI-IOC-04" desc="Set ArrayCounter" pv="BL15I-DI-GIGE-05:PROC:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCounter" pv="BL15I-DI-GIGE-05:PROC:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayRate" pv="BL15I-DI-GIGE-05:PROC:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays IOC="BL15I-DI-IOC-04" desc="Set DroppedArrays" pv="BL15I-DI-GIGE-05:PROC:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DroppedArrays" pv="BL15I-DI-GIGE-05:PROC:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDimensions" pv="BL15I-DI-GIGE-05:PROC:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize0" pv="BL15I-DI-GIGE-05:PROC:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize1" pv="BL15I-DI-GIGE-05:PROC:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize2" pv="BL15I-DI-GIGE-05:PROC:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataType" pv="BL15I-DI-GIGE-05:PROC:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ColorMode" pv="BL15I-DI-GIGE-05:PROC:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BayerPattern" pv="BL15I-DI-GIGE-05:PROC:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV IOC="BL15I-DI-IOC-04" desc="Readback for UniqueId" pv="BL15I-DI-GIGE-05:PROC:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeStamp" pv="BL15I-DI-GIGE-05:PROC:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-05:PROC:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
+	<NDPluginBase desc="gige5.stat NDPluginBase class instance" name="gige5.stat_NDPluginBase">
+		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-05:STAT:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PluginType" pv="BL15I-DI-GIGE-05:STAT:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort IOC="BL15I-DI-IOC-04" desc="Set NDArrayPort" pv="BL15I-DI-GIGE-05:STAT:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayPort" pv="BL15I-DI-GIGE-05:STAT:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress IOC="BL15I-DI-IOC-04" desc="Set NDArrayAddress" pv="BL15I-DI-GIGE-05:STAT:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayAddress" pv="BL15I-DI-GIGE-05:STAT:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks IOC="BL15I-DI-IOC-04" desc="Set EnableCallbacks" pv="BL15I-DI-GIGE-05:STAT:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableCallbacks" pv="BL15I-DI-GIGE-05:STAT:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime IOC="BL15I-DI-IOC-04" desc="Set MinCallbackTime" pv="BL15I-DI-GIGE-05:STAT:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinCallbackTime" pv="BL15I-DI-GIGE-05:STAT:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks IOC="BL15I-DI-IOC-04" desc="Set BlockingCallbacks" pv="BL15I-DI-GIGE-05:STAT:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BlockingCallbacks" pv="BL15I-DI-GIGE-05:STAT:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter IOC="BL15I-DI-IOC-04" desc="Set ArrayCounter" pv="BL15I-DI-GIGE-05:STAT:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCounter" pv="BL15I-DI-GIGE-05:STAT:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayRate" pv="BL15I-DI-GIGE-05:STAT:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays IOC="BL15I-DI-IOC-04" desc="Set DroppedArrays" pv="BL15I-DI-GIGE-05:STAT:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DroppedArrays" pv="BL15I-DI-GIGE-05:STAT:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDimensions" pv="BL15I-DI-GIGE-05:STAT:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize0" pv="BL15I-DI-GIGE-05:STAT:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize1" pv="BL15I-DI-GIGE-05:STAT:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize2" pv="BL15I-DI-GIGE-05:STAT:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataType" pv="BL15I-DI-GIGE-05:STAT:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ColorMode" pv="BL15I-DI-GIGE-05:STAT:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BayerPattern" pv="BL15I-DI-GIGE-05:STAT:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV IOC="BL15I-DI-IOC-04" desc="Readback for UniqueId" pv="BL15I-DI-GIGE-05:STAT:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeStamp" pv="BL15I-DI-GIGE-05:STAT:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-05:STAT:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
+	<NDPluginBase desc="gige5.tiff NDPluginBase class instance" name="gige5.tiff_NDPluginBase">
+		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-05:TIFF:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PluginType" pv="BL15I-DI-GIGE-05:TIFF:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort IOC="BL15I-DI-IOC-04" desc="Set NDArrayPort" pv="BL15I-DI-GIGE-05:TIFF:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayPort" pv="BL15I-DI-GIGE-05:TIFF:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress IOC="BL15I-DI-IOC-04" desc="Set NDArrayAddress" pv="BL15I-DI-GIGE-05:TIFF:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayAddress" pv="BL15I-DI-GIGE-05:TIFF:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks IOC="BL15I-DI-IOC-04" desc="Set EnableCallbacks" pv="BL15I-DI-GIGE-05:TIFF:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableCallbacks" pv="BL15I-DI-GIGE-05:TIFF:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime IOC="BL15I-DI-IOC-04" desc="Set MinCallbackTime" pv="BL15I-DI-GIGE-05:TIFF:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinCallbackTime" pv="BL15I-DI-GIGE-05:TIFF:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks IOC="BL15I-DI-IOC-04" desc="Set BlockingCallbacks" pv="BL15I-DI-GIGE-05:TIFF:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BlockingCallbacks" pv="BL15I-DI-GIGE-05:TIFF:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter IOC="BL15I-DI-IOC-04" desc="Set ArrayCounter" pv="BL15I-DI-GIGE-05:TIFF:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCounter" pv="BL15I-DI-GIGE-05:TIFF:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayRate" pv="BL15I-DI-GIGE-05:TIFF:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays IOC="BL15I-DI-IOC-04" desc="Set DroppedArrays" pv="BL15I-DI-GIGE-05:TIFF:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DroppedArrays" pv="BL15I-DI-GIGE-05:TIFF:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDimensions" pv="BL15I-DI-GIGE-05:TIFF:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize0" pv="BL15I-DI-GIGE-05:TIFF:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize1" pv="BL15I-DI-GIGE-05:TIFF:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize2" pv="BL15I-DI-GIGE-05:TIFF:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataType" pv="BL15I-DI-GIGE-05:TIFF:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ColorMode" pv="BL15I-DI-GIGE-05:TIFF:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BayerPattern" pv="BL15I-DI-GIGE-05:TIFF:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV IOC="BL15I-DI-IOC-04" desc="Readback for UniqueId" pv="BL15I-DI-GIGE-05:TIFF:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeStamp" pv="BL15I-DI-GIGE-05:TIFF:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-05:TIFF:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
+	<NDPluginBase desc="gige5.draw NDPluginBase class instance" name="gige5.draw_NDPluginBase">
+		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-05:DRAW:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PluginType" pv="BL15I-DI-GIGE-05:DRAW:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort IOC="BL15I-DI-IOC-04" desc="Set NDArrayPort" pv="BL15I-DI-GIGE-05:DRAW:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayPort" pv="BL15I-DI-GIGE-05:DRAW:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress IOC="BL15I-DI-IOC-04" desc="Set NDArrayAddress" pv="BL15I-DI-GIGE-05:DRAW:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayAddress" pv="BL15I-DI-GIGE-05:DRAW:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks IOC="BL15I-DI-IOC-04" desc="Set EnableCallbacks" pv="BL15I-DI-GIGE-05:DRAW:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableCallbacks" pv="BL15I-DI-GIGE-05:DRAW:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime IOC="BL15I-DI-IOC-04" desc="Set MinCallbackTime" pv="BL15I-DI-GIGE-05:DRAW:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinCallbackTime" pv="BL15I-DI-GIGE-05:DRAW:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks IOC="BL15I-DI-IOC-04" desc="Set BlockingCallbacks" pv="BL15I-DI-GIGE-05:DRAW:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BlockingCallbacks" pv="BL15I-DI-GIGE-05:DRAW:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter IOC="BL15I-DI-IOC-04" desc="Set ArrayCounter" pv="BL15I-DI-GIGE-05:DRAW:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCounter" pv="BL15I-DI-GIGE-05:DRAW:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayRate" pv="BL15I-DI-GIGE-05:DRAW:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays IOC="BL15I-DI-IOC-04" desc="Set DroppedArrays" pv="BL15I-DI-GIGE-05:DRAW:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DroppedArrays" pv="BL15I-DI-GIGE-05:DRAW:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDimensions" pv="BL15I-DI-GIGE-05:DRAW:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize0" pv="BL15I-DI-GIGE-05:DRAW:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize1" pv="BL15I-DI-GIGE-05:DRAW:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize2" pv="BL15I-DI-GIGE-05:DRAW:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataType" pv="BL15I-DI-GIGE-05:DRAW:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ColorMode" pv="BL15I-DI-GIGE-05:DRAW:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BayerPattern" pv="BL15I-DI-GIGE-05:DRAW:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV IOC="BL15I-DI-IOC-04" desc="Readback for UniqueId" pv="BL15I-DI-GIGE-05:DRAW:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeStamp" pv="BL15I-DI-GIGE-05:DRAW:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-05:DRAW:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
+	<NDPluginBase desc="gige5.ffmpeg NDPluginBase class instance" name="gige5.ffmpeg_NDPluginBase">
+		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-05:FFMPEG:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PluginType" pv="BL15I-DI-GIGE-05:FFMPEG:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort IOC="BL15I-DI-IOC-04" desc="Set NDArrayPort" pv="BL15I-DI-GIGE-05:FFMPEG:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayPort" pv="BL15I-DI-GIGE-05:FFMPEG:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress IOC="BL15I-DI-IOC-04" desc="Set NDArrayAddress" pv="BL15I-DI-GIGE-05:FFMPEG:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayAddress" pv="BL15I-DI-GIGE-05:FFMPEG:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks IOC="BL15I-DI-IOC-04" desc="Set EnableCallbacks" pv="BL15I-DI-GIGE-05:FFMPEG:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableCallbacks" pv="BL15I-DI-GIGE-05:FFMPEG:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime IOC="BL15I-DI-IOC-04" desc="Set MinCallbackTime" pv="BL15I-DI-GIGE-05:FFMPEG:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinCallbackTime" pv="BL15I-DI-GIGE-05:FFMPEG:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks IOC="BL15I-DI-IOC-04" desc="Set BlockingCallbacks" pv="BL15I-DI-GIGE-05:FFMPEG:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BlockingCallbacks" pv="BL15I-DI-GIGE-05:FFMPEG:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter IOC="BL15I-DI-IOC-04" desc="Set ArrayCounter" pv="BL15I-DI-GIGE-05:FFMPEG:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCounter" pv="BL15I-DI-GIGE-05:FFMPEG:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayRate" pv="BL15I-DI-GIGE-05:FFMPEG:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays IOC="BL15I-DI-IOC-04" desc="Set DroppedArrays" pv="BL15I-DI-GIGE-05:FFMPEG:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DroppedArrays" pv="BL15I-DI-GIGE-05:FFMPEG:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDimensions" pv="BL15I-DI-GIGE-05:FFMPEG:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize0" pv="BL15I-DI-GIGE-05:FFMPEG:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize1" pv="BL15I-DI-GIGE-05:FFMPEG:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize2" pv="BL15I-DI-GIGE-05:FFMPEG:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataType" pv="BL15I-DI-GIGE-05:FFMPEG:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ColorMode" pv="BL15I-DI-GIGE-05:FFMPEG:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BayerPattern" pv="BL15I-DI-GIGE-05:FFMPEG:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV IOC="BL15I-DI-IOC-04" desc="Readback for UniqueId" pv="BL15I-DI-GIGE-05:FFMPEG:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeStamp" pv="BL15I-DI-GIGE-05:FFMPEG:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-05:FFMPEG:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
+	<NDPluginBase desc="gige5.roi NDPluginBase class instance" name="gige5.roi_NDPluginBase">
+		<PortName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PortName" pv="BL15I-DI-GIGE-05:ROI:PortName_RBV" ro="true" type="pv"/>
+		<PluginType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PluginType" pv="BL15I-DI-GIGE-05:ROI:PluginType_RBV" ro="true" type="pv"/>
+		<NDArrayPort IOC="BL15I-DI-IOC-04" desc="Set NDArrayPort" pv="BL15I-DI-GIGE-05:ROI:NDArrayPort" ro="false" type="pv"/>
+		<NDArrayPort_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayPort" pv="BL15I-DI-GIGE-05:ROI:NDArrayPort_RBV" ro="true" type="pv"/>
+		<NDArrayAddress IOC="BL15I-DI-IOC-04" desc="Set NDArrayAddress" pv="BL15I-DI-GIGE-05:ROI:NDArrayAddress" ro="false" type="pv"/>
+		<NDArrayAddress_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDArrayAddress" pv="BL15I-DI-GIGE-05:ROI:NDArrayAddress_RBV" ro="true" type="pv"/>
+		<EnableCallbacks IOC="BL15I-DI-IOC-04" desc="Set EnableCallbacks" pv="BL15I-DI-GIGE-05:ROI:EnableCallbacks" ro="false" type="binary"/>
+		<EnableCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableCallbacks" pv="BL15I-DI-GIGE-05:ROI:EnableCallbacks_RBV" ro="true" type="binary"/>
+		<MinCallbackTime IOC="BL15I-DI-IOC-04" desc="Set MinCallbackTime" pv="BL15I-DI-GIGE-05:ROI:MinCallbackTime" ro="false" type="pv"/>
+		<MinCallbackTime_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinCallbackTime" pv="BL15I-DI-GIGE-05:ROI:MinCallbackTime_RBV" ro="true" type="pv"/>
+		<BlockingCallbacks IOC="BL15I-DI-IOC-04" desc="Set BlockingCallbacks" pv="BL15I-DI-GIGE-05:ROI:BlockingCallbacks" ro="false" type="binary"/>
+		<BlockingCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BlockingCallbacks" pv="BL15I-DI-GIGE-05:ROI:BlockingCallbacks_RBV" ro="true" type="binary"/>
+		<ArrayCounter IOC="BL15I-DI-IOC-04" desc="Set ArrayCounter" pv="BL15I-DI-GIGE-05:ROI:ArrayCounter" ro="false" type="pv"/>
+		<ArrayCounter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayCounter" pv="BL15I-DI-GIGE-05:ROI:ArrayCounter_RBV" ro="true" type="pv"/>
+		<ArrayRate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArrayRate" pv="BL15I-DI-GIGE-05:ROI:ArrayRate_RBV" ro="true" type="pv"/>
+		<DroppedArrays IOC="BL15I-DI-IOC-04" desc="Set DroppedArrays" pv="BL15I-DI-GIGE-05:ROI:DroppedArrays" ro="false" type="pv"/>
+		<DroppedArrays_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DroppedArrays" pv="BL15I-DI-GIGE-05:ROI:DroppedArrays_RBV" ro="true" type="pv"/>
+		<NDimensions_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NDimensions" pv="BL15I-DI-GIGE-05:ROI:NDimensions_RBV" ro="true" type="pv"/>
+		<ArraySize0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize0" pv="BL15I-DI-GIGE-05:ROI:ArraySize0_RBV" ro="true" type="pv"/>
+		<ArraySize1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize1" pv="BL15I-DI-GIGE-05:ROI:ArraySize1_RBV" ro="true" type="pv"/>
+		<ArraySize2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySize2" pv="BL15I-DI-GIGE-05:ROI:ArraySize2_RBV" ro="true" type="pv"/>
+		<DataType_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataType" pv="BL15I-DI-GIGE-05:ROI:DataType_RBV" ro="true" type="mbbinary"/>
+		<ColorMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ColorMode" pv="BL15I-DI-GIGE-05:ROI:ColorMode_RBV" ro="true" type="mbbinary"/>
+		<BayerPattern_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BayerPattern" pv="BL15I-DI-GIGE-05:ROI:BayerPattern_RBV" ro="true" type="mbbinary"/>
+		<UniqueId_RBV IOC="BL15I-DI-IOC-04" desc="Readback for UniqueId" pv="BL15I-DI-GIGE-05:ROI:UniqueId_RBV" ro="true" type="pv"/>
+		<TimeStamp_RBV IOC="BL15I-DI-IOC-04" desc="Readback for TimeStamp" pv="BL15I-DI-GIGE-05:ROI:TimeStamp_RBV" ro="true" type="pv"/>
+		<NDAttributesFile IOC="BL15I-DI-IOC-04" desc="Set NDAttributesFile" pv="BL15I-DI-GIGE-05:ROI:NDAttributesFile" ro="false" type="array"/>
+	</NDPluginBase>
 	<NDStdArrays desc="gige4.arr NDStdArrays class instance" name="gige4.arr_NDStdArrays">
 		<ArrayData IOC="BL15I-DI-IOC-04" desc="Set ArrayData" pv="BL15I-DI-GIGE-04:ARR:ArrayData" ro="false" type="array"/>
+	</NDStdArrays>
+	<NDStdArrays desc="gige5.arr NDStdArrays class instance" name="gige5.arr_NDStdArrays">
+		<ArrayData IOC="BL15I-DI-IOC-04" desc="Set ArrayData" pv="BL15I-DI-GIGE-05:ARR:ArrayData" ro="false" type="array"/>
 	</NDStdArrays>
 	<NDProcess desc="gige4.proc NDProcess class instance" name="gige4.proc_NDProcess">
 		<DataTypeOut IOC="BL15I-DI-IOC-04" desc="Set DataTypeOut" pv="BL15I-DI-GIGE-04:PROC:DataTypeOut" ro="false" type="mbbinary"/>
@@ -4244,6 +4558,86 @@
 		<RecursiveAveDiffSeq IOC="BL15I-DI-IOC-04" desc="Set RecursiveAveDiffSeq" pv="BL15I-DI-GIGE-04:PROC:RecursiveAveDiffSeq" ro="false" type="pv"/>
 		<CopyToFilterSeq IOC="BL15I-DI-IOC-04" desc="Set CopyToFilterSeq" pv="BL15I-DI-GIGE-04:PROC:CopyToFilterSeq" ro="false" type="pv"/>
 	</NDProcess>
+	<NDProcess desc="gige5.proc NDProcess class instance" name="gige5.proc_NDProcess">
+		<DataTypeOut IOC="BL15I-DI-IOC-04" desc="Set DataTypeOut" pv="BL15I-DI-GIGE-05:PROC:DataTypeOut" ro="false" type="mbbinary"/>
+		<DataTypeOut_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataTypeOut" pv="BL15I-DI-GIGE-05:PROC:DataTypeOut_RBV" ro="true" type="mbbinary"/>
+		<SaveBackground IOC="BL15I-DI-IOC-04" desc="Set SaveBackground" pv="BL15I-DI-GIGE-05:PROC:SaveBackground" ro="false" type="binary"/>
+		<SaveBackground_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SaveBackground" pv="BL15I-DI-GIGE-05:PROC:SaveBackground_RBV" ro="true" type="binary"/>
+		<EnableBackground IOC="BL15I-DI-IOC-04" desc="Set EnableBackground" pv="BL15I-DI-GIGE-05:PROC:EnableBackground" ro="false" type="binary"/>
+		<EnableBackground_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableBackground" pv="BL15I-DI-GIGE-05:PROC:EnableBackground_RBV" ro="true" type="binary"/>
+		<ValidBackground_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ValidBackground" pv="BL15I-DI-GIGE-05:PROC:ValidBackground_RBV" ro="true" type="binary"/>
+		<SaveFlatField IOC="BL15I-DI-IOC-04" desc="Set SaveFlatField" pv="BL15I-DI-GIGE-05:PROC:SaveFlatField" ro="false" type="binary"/>
+		<SaveFlatField_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SaveFlatField" pv="BL15I-DI-GIGE-05:PROC:SaveFlatField_RBV" ro="true" type="binary"/>
+		<EnableFlatField IOC="BL15I-DI-IOC-04" desc="Set EnableFlatField" pv="BL15I-DI-GIGE-05:PROC:EnableFlatField" ro="false" type="binary"/>
+		<EnableFlatField_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableFlatField" pv="BL15I-DI-GIGE-05:PROC:EnableFlatField_RBV" ro="true" type="binary"/>
+		<ValidFlatField_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ValidFlatField" pv="BL15I-DI-GIGE-05:PROC:ValidFlatField_RBV" ro="true" type="binary"/>
+		<ScaleFlatField IOC="BL15I-DI-IOC-04" desc="Set ScaleFlatField" pv="BL15I-DI-GIGE-05:PROC:ScaleFlatField" ro="false" type="pv"/>
+		<ScaleFlatField_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ScaleFlatField" pv="BL15I-DI-GIGE-05:PROC:ScaleFlatField_RBV" ro="true" type="pv"/>
+		<EnableOffsetScale IOC="BL15I-DI-IOC-04" desc="Set EnableOffsetScale" pv="BL15I-DI-GIGE-05:PROC:EnableOffsetScale" ro="false" type="binary"/>
+		<AutoOffsetScale IOC="BL15I-DI-IOC-04" desc="Trigger an automatic calculation of Offset Scale LowClip HighClip" pv="BL15I-DI-GIGE-05:PROC:AutoOffsetScale" ro="false" type="pv"/>
+		<EnableOffsetScale_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableOffsetScale" pv="BL15I-DI-GIGE-05:PROC:EnableOffsetScale_RBV" ro="true" type="binary"/>
+		<Offset IOC="BL15I-DI-IOC-04" desc="Set Offset" pv="BL15I-DI-GIGE-05:PROC:Offset" ro="false" type="pv"/>
+		<Offset_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Offset" pv="BL15I-DI-GIGE-05:PROC:Offset_RBV" ro="true" type="pv"/>
+		<Scale IOC="BL15I-DI-IOC-04" desc="Set Scale" pv="BL15I-DI-GIGE-05:PROC:Scale" ro="false" type="pv"/>
+		<Scale_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Scale" pv="BL15I-DI-GIGE-05:PROC:Scale_RBV" ro="true" type="pv"/>
+		<EnableLowClip IOC="BL15I-DI-IOC-04" desc="Set EnableLowClip" pv="BL15I-DI-GIGE-05:PROC:EnableLowClip" ro="false" type="binary"/>
+		<EnableLowClip_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableLowClip" pv="BL15I-DI-GIGE-05:PROC:EnableLowClip_RBV" ro="true" type="binary"/>
+		<LowClip IOC="BL15I-DI-IOC-04" desc="Set LowClip" pv="BL15I-DI-GIGE-05:PROC:LowClip" ro="false" type="pv"/>
+		<LowClip_RBV IOC="BL15I-DI-IOC-04" desc="Readback for LowClip" pv="BL15I-DI-GIGE-05:PROC:LowClip_RBV" ro="true" type="pv"/>
+		<EnableHighClip IOC="BL15I-DI-IOC-04" desc="Set EnableHighClip" pv="BL15I-DI-GIGE-05:PROC:EnableHighClip" ro="false" type="binary"/>
+		<EnableHighClip_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableHighClip" pv="BL15I-DI-GIGE-05:PROC:EnableHighClip_RBV" ro="true" type="binary"/>
+		<HighClip IOC="BL15I-DI-IOC-04" desc="Set HighClip" pv="BL15I-DI-GIGE-05:PROC:HighClip" ro="false" type="pv"/>
+		<HighClip_RBV IOC="BL15I-DI-IOC-04" desc="Readback for HighClip" pv="BL15I-DI-GIGE-05:PROC:HighClip_RBV" ro="true" type="pv"/>
+		<EnableFilter IOC="BL15I-DI-IOC-04" desc="Set EnableFilter" pv="BL15I-DI-GIGE-05:PROC:EnableFilter" ro="false" type="binary"/>
+		<EnableFilter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableFilter" pv="BL15I-DI-GIGE-05:PROC:EnableFilter_RBV" ro="true" type="binary"/>
+		<ResetFilter IOC="BL15I-DI-IOC-04" desc="Set ResetFilter" pv="BL15I-DI-GIGE-05:PROC:ResetFilter" ro="false" type="binary"/>
+		<ResetFilter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ResetFilter" pv="BL15I-DI-GIGE-05:PROC:ResetFilter_RBV" ro="true" type="binary"/>
+		<AutoResetFilter IOC="BL15I-DI-IOC-04" desc="Enable filter auto reset on every Nth frame" pv="BL15I-DI-GIGE-05:PROC:AutoResetFilter" ro="false" type="binary"/>
+		<AutoResetFilter_RBV IOC="BL15I-DI-IOC-04" desc="Readback auto reset filter feature" pv="BL15I-DI-GIGE-05:PROC:AutoResetFilter_RBV" ro="true" type="binary"/>
+		<FilterCallbacks IOC="BL15I-DI-IOC-04" desc="Select when to output filter result" pv="BL15I-DI-GIGE-05:PROC:FilterCallbacks" ro="false" type="binary"/>
+		<FilterCallbacks_RBV IOC="BL15I-DI-IOC-04" desc="Readback status of output filter result feature" pv="BL15I-DI-GIGE-05:PROC:FilterCallbacks_RBV" ro="true" type="binary"/>
+		<NumFilter IOC="BL15I-DI-IOC-04" desc="Set number of arrays to process in filter" pv="BL15I-DI-GIGE-05:PROC:NumFilter" ro="false" type="pv"/>
+		<NumFilter_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NumFilter" pv="BL15I-DI-GIGE-05:PROC:NumFilter_RBV" ro="true" type="pv"/>
+		<NumFilterRecip IOC="BL15I-DI-IOC-04" desc="Set NumFilterRecip" pv="BL15I-DI-GIGE-05:PROC:NumFilterRecip" ro="false" type="pv"/>
+		<NumFiltered_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NumFiltered" pv="BL15I-DI-GIGE-05:PROC:NumFiltered_RBV" ro="true" type="pv"/>
+		<OOffset IOC="BL15I-DI-IOC-04" desc="Set OOffset" pv="BL15I-DI-GIGE-05:PROC:OOffset" ro="false" type="pv"/>
+		<OOffset_RBV IOC="BL15I-DI-IOC-04" desc="Readback for OOffset" pv="BL15I-DI-GIGE-05:PROC:OOffset_RBV" ro="true" type="pv"/>
+		<OScale IOC="BL15I-DI-IOC-04" desc="Set OScale" pv="BL15I-DI-GIGE-05:PROC:OScale" ro="false" type="pv"/>
+		<OScale_RBV IOC="BL15I-DI-IOC-04" desc="Readback for OScale" pv="BL15I-DI-GIGE-05:PROC:OScale_RBV" ro="true" type="pv"/>
+		<OC1 IOC="BL15I-DI-IOC-04" desc="Set OC1" pv="BL15I-DI-GIGE-05:PROC:OC1" ro="false" type="pv"/>
+		<OC1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for OC1" pv="BL15I-DI-GIGE-05:PROC:OC1_RBV" ro="true" type="pv"/>
+		<OC2 IOC="BL15I-DI-IOC-04" desc="Set OC2" pv="BL15I-DI-GIGE-05:PROC:OC2" ro="false" type="pv"/>
+		<OC2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for OC2" pv="BL15I-DI-GIGE-05:PROC:OC2_RBV" ro="true" type="pv"/>
+		<OC3 IOC="BL15I-DI-IOC-04" desc="Set OC3" pv="BL15I-DI-GIGE-05:PROC:OC3" ro="false" type="pv"/>
+		<OC3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for OC3" pv="BL15I-DI-GIGE-05:PROC:OC3_RBV" ro="true" type="pv"/>
+		<OC4 IOC="BL15I-DI-IOC-04" desc="Set OC4" pv="BL15I-DI-GIGE-05:PROC:OC4" ro="false" type="pv"/>
+		<OC4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for OC4" pv="BL15I-DI-GIGE-05:PROC:OC4_RBV" ro="true" type="pv"/>
+		<FOffset IOC="BL15I-DI-IOC-04" desc="Set FOffset" pv="BL15I-DI-GIGE-05:PROC:FOffset" ro="false" type="pv"/>
+		<FOffset_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FOffset" pv="BL15I-DI-GIGE-05:PROC:FOffset_RBV" ro="true" type="pv"/>
+		<FScale IOC="BL15I-DI-IOC-04" desc="Set FScale" pv="BL15I-DI-GIGE-05:PROC:FScale" ro="false" type="pv"/>
+		<FScale_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FScale" pv="BL15I-DI-GIGE-05:PROC:FScale_RBV" ro="true" type="pv"/>
+		<FC1 IOC="BL15I-DI-IOC-04" desc="Set FC1" pv="BL15I-DI-GIGE-05:PROC:FC1" ro="false" type="pv"/>
+		<FC1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FC1" pv="BL15I-DI-GIGE-05:PROC:FC1_RBV" ro="true" type="pv"/>
+		<FC2 IOC="BL15I-DI-IOC-04" desc="Set FC2" pv="BL15I-DI-GIGE-05:PROC:FC2" ro="false" type="pv"/>
+		<FC2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FC2" pv="BL15I-DI-GIGE-05:PROC:FC2_RBV" ro="true" type="pv"/>
+		<FC3 IOC="BL15I-DI-IOC-04" desc="Set FC3" pv="BL15I-DI-GIGE-05:PROC:FC3" ro="false" type="pv"/>
+		<FC3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FC3" pv="BL15I-DI-GIGE-05:PROC:FC3_RBV" ro="true" type="pv"/>
+		<FC4 IOC="BL15I-DI-IOC-04" desc="Set FC4" pv="BL15I-DI-GIGE-05:PROC:FC4" ro="false" type="pv"/>
+		<FC4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FC4" pv="BL15I-DI-GIGE-05:PROC:FC4_RBV" ro="true" type="pv"/>
+		<ROffset IOC="BL15I-DI-IOC-04" desc="Set ROffset" pv="BL15I-DI-GIGE-05:PROC:ROffset" ro="false" type="pv"/>
+		<ROffset_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ROffset" pv="BL15I-DI-GIGE-05:PROC:ROffset_RBV" ro="true" type="pv"/>
+		<RC1 IOC="BL15I-DI-IOC-04" desc="Set RC1" pv="BL15I-DI-GIGE-05:PROC:RC1" ro="false" type="pv"/>
+		<RC1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for RC1" pv="BL15I-DI-GIGE-05:PROC:RC1_RBV" ro="true" type="pv"/>
+		<RC2 IOC="BL15I-DI-IOC-04" desc="Set RC2" pv="BL15I-DI-GIGE-05:PROC:RC2" ro="false" type="pv"/>
+		<RC2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for RC2" pv="BL15I-DI-GIGE-05:PROC:RC2_RBV" ro="true" type="pv"/>
+		<FilterType IOC="BL15I-DI-IOC-04" desc="Set FilterType" pv="BL15I-DI-GIGE-05:PROC:FilterType" ro="false" type="mbbinary"/>
+		<FilterTypeSeq IOC="BL15I-DI-IOC-04" desc="Set FilterTypeSeq" pv="BL15I-DI-GIGE-05:PROC:FilterTypeSeq" ro="false" type="pv"/>
+		<RecursiveAveSeq IOC="BL15I-DI-IOC-04" desc="Set RecursiveAveSeq" pv="BL15I-DI-GIGE-05:PROC:RecursiveAveSeq" ro="false" type="pv"/>
+		<RecursiveSumSeq IOC="BL15I-DI-IOC-04" desc="Set RecursiveSumSeq" pv="BL15I-DI-GIGE-05:PROC:AverageSeq" ro="false" type="pv"/>
+		<DifferenceSeq IOC="BL15I-DI-IOC-04" desc="Set DifferenceSeq" pv="BL15I-DI-GIGE-05:PROC:DifferenceSeq" ro="false" type="pv"/>
+		<RecursiveAveDiffSeq IOC="BL15I-DI-IOC-04" desc="Set RecursiveAveDiffSeq" pv="BL15I-DI-GIGE-05:PROC:RecursiveAveDiffSeq" ro="false" type="pv"/>
+		<CopyToFilterSeq IOC="BL15I-DI-IOC-04" desc="Set CopyToFilterSeq" pv="BL15I-DI-GIGE-05:PROC:CopyToFilterSeq" ro="false" type="pv"/>
+	</NDProcess>
 	<NDStats desc="gige4.stat NDStats class instance" name="gige4.stat_NDStats">
 		<ComputeStatistics IOC="BL15I-DI-IOC-04" desc="Set ComputeStatistics" pv="BL15I-DI-GIGE-04:STAT:ComputeStatistics" ro="false" type="binary"/>
 		<ComputeStatistics_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ComputeStatistics" pv="BL15I-DI-GIGE-04:STAT:ComputeStatistics_RBV" ro="true" type="binary"/>
@@ -4318,6 +4712,80 @@
 		<MaxSizeY IOC="BL15I-DI-IOC-04" desc="Set MaxSizeY" pv="BL15I-DI-GIGE-04:STAT:MaxSizeY" ro="false" type="pv"/>
 		<SetYHOPR IOC="BL15I-DI-IOC-04" desc="Set SetYHOPR" pv="BL15I-DI-GIGE-04:STAT:SetYHOPR" ro="false" type="pv"/>
 	</NDStats>
+	<NDStats desc="gige5.stat NDStats class instance" name="gige5.stat_NDStats">
+		<ComputeStatistics IOC="BL15I-DI-IOC-04" desc="Set ComputeStatistics" pv="BL15I-DI-GIGE-05:STAT:ComputeStatistics" ro="false" type="binary"/>
+		<ComputeStatistics_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ComputeStatistics" pv="BL15I-DI-GIGE-05:STAT:ComputeStatistics_RBV" ro="true" type="binary"/>
+		<BgdWidth IOC="BL15I-DI-IOC-04" desc="Set BgdWidth" pv="BL15I-DI-GIGE-05:STAT:BgdWidth" ro="false" type="pv"/>
+		<BgdWidth_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BgdWidth" pv="BL15I-DI-GIGE-05:STAT:BgdWidth_RBV" ro="true" type="pv"/>
+		<MinValue_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinValue" pv="BL15I-DI-GIGE-05:STAT:MinValue_RBV" ro="true" type="pv"/>
+		<MaxValue_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MaxValue" pv="BL15I-DI-GIGE-05:STAT:MaxValue_RBV" ro="true" type="pv"/>
+		<MeanValue_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MeanValue" pv="BL15I-DI-GIGE-05:STAT:MeanValue_RBV" ro="true" type="pv"/>
+		<Sigma_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Sigma" pv="BL15I-DI-GIGE-05:STAT:Sigma_RBV" ro="true" type="pv"/>
+		<Total_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Total" pv="BL15I-DI-GIGE-05:STAT:Total_RBV" ro="true" type="pv"/>
+		<Net_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Net" pv="BL15I-DI-GIGE-05:STAT:Net_RBV" ro="true" type="pv"/>
+		<MinX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinX" pv="BL15I-DI-GIGE-05:STAT:MinX_RBV" ro="true" type="pv"/>
+		<MinY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinY" pv="BL15I-DI-GIGE-05:STAT:MinY_RBV" ro="true" type="pv"/>
+		<MaxX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MaxX" pv="BL15I-DI-GIGE-05:STAT:MaxX_RBV" ro="true" type="pv"/>
+		<MaxY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MaxY" pv="BL15I-DI-GIGE-05:STAT:MaxY_RBV" ro="true" type="pv"/>
+		<ComputeCentroid IOC="BL15I-DI-IOC-04" desc="Set ComputeCentroid" pv="BL15I-DI-GIGE-05:STAT:ComputeCentroid" ro="false" type="binary"/>
+		<ComputeCentroid_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ComputeCentroid" pv="BL15I-DI-GIGE-05:STAT:ComputeCentroid_RBV" ro="true" type="binary"/>
+		<CentroidThreshold IOC="BL15I-DI-IOC-04" desc="Set CentroidThreshold" pv="BL15I-DI-GIGE-05:STAT:CentroidThreshold" ro="false" type="pv"/>
+		<CentroidThreshold_RBV IOC="BL15I-DI-IOC-04" desc="Readback for CentroidThreshold" pv="BL15I-DI-GIGE-05:STAT:CentroidThreshold_RBV" ro="true" type="pv"/>
+		<CentroidX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for CentroidX" pv="BL15I-DI-GIGE-05:STAT:CentroidX_RBV" ro="true" type="pv"/>
+		<CentroidY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for CentroidY" pv="BL15I-DI-GIGE-05:STAT:CentroidY_RBV" ro="true" type="pv"/>
+		<SigmaX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SigmaX" pv="BL15I-DI-GIGE-05:STAT:SigmaX_RBV" ro="true" type="pv"/>
+		<SigmaY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SigmaY" pv="BL15I-DI-GIGE-05:STAT:SigmaY_RBV" ro="true" type="pv"/>
+		<SigmaXY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SigmaXY" pv="BL15I-DI-GIGE-05:STAT:SigmaXY_RBV" ro="true" type="pv"/>
+		<TSControl IOC="BL15I-DI-IOC-04" desc="Control time series capture of statistics" pv="BL15I-DI-GIGE-05:STAT:TSControl" ro="false" type="mbbinary"/>
+		<TSNumPoints IOC="BL15I-DI-IOC-04" desc="Set the number of points to capture in time series arrays" pv="BL15I-DI-GIGE-05:STAT:TSNumPoints" ro="false" type="pv"/>
+		<TSCurrentPoint IOC="BL15I-DI-IOC-04" desc="Number of points currently captured in time series arrays" pv="BL15I-DI-GIGE-05:STAT:TSCurrentPoint" ro="true" type="pv"/>
+		<TSAcquiring IOC="BL15I-DI-IOC-04" desc="Time series acquire status" pv="BL15I-DI-GIGE-05:STAT:TSAcquiring" ro="true" type="binary"/>
+		<TSMinValue IOC="BL15I-DI-IOC-04" desc="Time series minimum value" pv="BL15I-DI-GIGE-05:STAT:TSMinValue" ro="true" type="array"/>
+		<TSMinX IOC="BL15I-DI-IOC-04" desc="Time series X position of minimum value" pv="BL15I-DI-GIGE-05:STAT:TSMinX" ro="true" type="array"/>
+		<TSMinY IOC="BL15I-DI-IOC-04" desc="Time series Y position of minimum value" pv="BL15I-DI-GIGE-05:STAT:TSMinY" ro="true" type="array"/>
+		<TSMaxValue IOC="BL15I-DI-IOC-04" desc="Time series maximum value" pv="BL15I-DI-GIGE-05:STAT:TSMaxValue" ro="true" type="array"/>
+		<TSMaxX IOC="BL15I-DI-IOC-04" desc="Time series X position of maximum value" pv="BL15I-DI-GIGE-05:STAT:TSMaxX" ro="true" type="array"/>
+		<TSMaxY IOC="BL15I-DI-IOC-04" desc="Time series Y position of maximum value" pv="BL15I-DI-GIGE-05:STAT:TSMaxY" ro="true" type="array"/>
+		<TSMeanValue IOC="BL15I-DI-IOC-04" desc="Time series mean value" pv="BL15I-DI-GIGE-05:STAT:TSMeanValue" ro="true" type="array"/>
+		<TSSigma IOC="BL15I-DI-IOC-04" desc="Time series sigma" pv="BL15I-DI-GIGE-05:STAT:TSSigma" ro="true" type="array"/>
+		<TSTotal IOC="BL15I-DI-IOC-04" desc="Time series total sum" pv="BL15I-DI-GIGE-05:STAT:TSTotal" ro="true" type="array"/>
+		<TSNet IOC="BL15I-DI-IOC-04" desc="Time series net sum" pv="BL15I-DI-GIGE-05:STAT:TSNet" ro="true" type="array"/>
+		<TSCentroidX IOC="BL15I-DI-IOC-04" desc="Time series centroid X position" pv="BL15I-DI-GIGE-05:STAT:TSCentroidX" ro="true" type="array"/>
+		<TSCentroidY IOC="BL15I-DI-IOC-04" desc="Time series centroid Y position" pv="BL15I-DI-GIGE-05:STAT:TSCentroidY" ro="true" type="array"/>
+		<TSSigmaX IOC="BL15I-DI-IOC-04" desc="Time series sigma X" pv="BL15I-DI-GIGE-05:STAT:TSSigmaX" ro="true" type="array"/>
+		<TSSigmaY IOC="BL15I-DI-IOC-04" desc="Time series sigma Y" pv="BL15I-DI-GIGE-05:STAT:TSSigmaY" ro="true" type="array"/>
+		<TSSigmaXY IOC="BL15I-DI-IOC-04" desc="Time series sigma XY" pv="BL15I-DI-GIGE-05:STAT:TSSigmaXY" ro="true" type="array"/>
+		<ComputeProfiles IOC="BL15I-DI-IOC-04" desc="Set ComputeProfiles" pv="BL15I-DI-GIGE-05:STAT:ComputeProfiles" ro="false" type="binary"/>
+		<ComputeProfiles_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ComputeProfiles" pv="BL15I-DI-GIGE-05:STAT:ComputeProfiles_RBV" ro="true" type="binary"/>
+		<ProfileSizeX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileSizeX" pv="BL15I-DI-GIGE-05:STAT:ProfileSizeX_RBV" ro="true" type="pv"/>
+		<ProfileSizeY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileSizeY" pv="BL15I-DI-GIGE-05:STAT:ProfileSizeY_RBV" ro="true" type="pv"/>
+		<CursorX IOC="BL15I-DI-IOC-04" desc="Set CursorX" pv="BL15I-DI-GIGE-05:STAT:CursorX" ro="false" type="pv"/>
+		<CursorX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for CursorX" pv="BL15I-DI-GIGE-05:STAT:CursorX_RBV" ro="true" type="pv"/>
+		<CursorY IOC="BL15I-DI-IOC-04" desc="Set CursorY" pv="BL15I-DI-GIGE-05:STAT:CursorY" ro="false" type="pv"/>
+		<CursorY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for CursorY" pv="BL15I-DI-GIGE-05:STAT:CursorY_RBV" ro="true" type="pv"/>
+		<ProfileAverageX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileAverageX" pv="BL15I-DI-GIGE-05:STAT:ProfileAverageX_RBV" ro="true" type="array"/>
+		<ProfileAverageY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileAverageY" pv="BL15I-DI-GIGE-05:STAT:ProfileAverageY_RBV" ro="true" type="array"/>
+		<ProfileThresholdX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileThresholdX" pv="BL15I-DI-GIGE-05:STAT:ProfileThresholdX_RBV" ro="true" type="array"/>
+		<ProfileThresholdY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileThresholdY" pv="BL15I-DI-GIGE-05:STAT:ProfileThresholdY_RBV" ro="true" type="array"/>
+		<ProfileCentroidX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileCentroidX" pv="BL15I-DI-GIGE-05:STAT:ProfileCentroidX_RBV" ro="true" type="array"/>
+		<ProfileCentroidY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileCentroidY" pv="BL15I-DI-GIGE-05:STAT:ProfileCentroidY_RBV" ro="true" type="array"/>
+		<ProfileCursorX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileCursorX" pv="BL15I-DI-GIGE-05:STAT:ProfileCursorX_RBV" ro="true" type="array"/>
+		<ProfileCursorY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ProfileCursorY" pv="BL15I-DI-GIGE-05:STAT:ProfileCursorY_RBV" ro="true" type="array"/>
+		<ComputeHistogram IOC="BL15I-DI-IOC-04" desc="Set ComputeHistogram" pv="BL15I-DI-GIGE-05:STAT:ComputeHistogram" ro="false" type="binary"/>
+		<ComputeHistogram_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ComputeHistogram" pv="BL15I-DI-GIGE-05:STAT:ComputeHistogram_RBV" ro="true" type="binary"/>
+		<HistSize IOC="BL15I-DI-IOC-04" desc="Set HistSize" pv="BL15I-DI-GIGE-05:STAT:HistSize" ro="false" type="pv"/>
+		<HistSize_RBV IOC="BL15I-DI-IOC-04" desc="Readback for HistSize" pv="BL15I-DI-GIGE-05:STAT:HistSize_RBV" ro="true" type="pv"/>
+		<HistMin IOC="BL15I-DI-IOC-04" desc="Set HistMin" pv="BL15I-DI-GIGE-05:STAT:HistMin" ro="false" type="pv"/>
+		<HistMin_RBV IOC="BL15I-DI-IOC-04" desc="Readback for HistMin" pv="BL15I-DI-GIGE-05:STAT:HistMin_RBV" ro="true" type="pv"/>
+		<HistMax IOC="BL15I-DI-IOC-04" desc="Set HistMax" pv="BL15I-DI-GIGE-05:STAT:HistMax" ro="false" type="pv"/>
+		<HistMax_RBV IOC="BL15I-DI-IOC-04" desc="Readback for HistMax" pv="BL15I-DI-GIGE-05:STAT:HistMax_RBV" ro="true" type="pv"/>
+		<HistEntropy_RBV IOC="BL15I-DI-IOC-04" desc="Readback for HistEntropy" pv="BL15I-DI-GIGE-05:STAT:HistEntropy_RBV" ro="true" type="pv"/>
+		<Histogram_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Histogram" pv="BL15I-DI-GIGE-05:STAT:Histogram_RBV" ro="true" type="array"/>
+		<MaxSizeX IOC="BL15I-DI-IOC-04" desc="Set MaxSizeX" pv="BL15I-DI-GIGE-05:STAT:MaxSizeX" ro="false" type="pv"/>
+		<SetXHOPR IOC="BL15I-DI-IOC-04" desc="Set SetXHOPR" pv="BL15I-DI-GIGE-05:STAT:SetXHOPR" ro="false" type="pv"/>
+		<MaxSizeY IOC="BL15I-DI-IOC-04" desc="Set MaxSizeY" pv="BL15I-DI-GIGE-05:STAT:MaxSizeY" ro="false" type="pv"/>
+		<SetYHOPR IOC="BL15I-DI-IOC-04" desc="Set SetYHOPR" pv="BL15I-DI-GIGE-05:STAT:SetYHOPR" ro="false" type="pv"/>
+	</NDStats>
 	<NDROI desc="gige4.roi NDROI class instance" name="gige4.roi_NDROI">
 		<Label IOC="BL15I-DI-IOC-04" desc="Set Label" pv="BL15I-DI-GIGE-04:ROI:Name" ro="false" type="pv"/>
 		<Label_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Label" pv="BL15I-DI-GIGE-04:ROI:Name_RBV" ro="true" type="pv"/>
@@ -4364,6 +4832,52 @@
 		<DataTypeOut IOC="BL15I-DI-IOC-04" desc="Set DataTypeOut" pv="BL15I-DI-GIGE-04:ROI:DataTypeOut" ro="false" type="mbbinary"/>
 		<DataTypeOut_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataTypeOut" pv="BL15I-DI-GIGE-04:ROI:DataTypeOut_RBV" ro="true" type="mbbinary"/>
 	</NDROI>
+	<NDROI desc="gige5.roi NDROI class instance" name="gige5.roi_NDROI">
+		<Label IOC="BL15I-DI-IOC-04" desc="Set Label" pv="BL15I-DI-GIGE-05:ROI:Name" ro="false" type="pv"/>
+		<Label_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Label" pv="BL15I-DI-GIGE-05:ROI:Name_RBV" ro="true" type="pv"/>
+		<BinX IOC="BL15I-DI-IOC-04" desc="Set BinX" pv="BL15I-DI-GIGE-05:ROI:BinX" ro="false" type="pv"/>
+		<BinX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BinX" pv="BL15I-DI-GIGE-05:ROI:BinX_RBV" ro="true" type="pv"/>
+		<BinY IOC="BL15I-DI-IOC-04" desc="Set BinY" pv="BL15I-DI-GIGE-05:ROI:BinY" ro="false" type="pv"/>
+		<BinY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BinY" pv="BL15I-DI-GIGE-05:ROI:BinY_RBV" ro="true" type="pv"/>
+		<BinZ IOC="BL15I-DI-IOC-04" desc="Set BinZ" pv="BL15I-DI-GIGE-05:ROI:BinZ" ro="false" type="pv"/>
+		<BinZ_RBV IOC="BL15I-DI-IOC-04" desc="Readback for BinZ" pv="BL15I-DI-GIGE-05:ROI:BinZ_RBV" ro="true" type="pv"/>
+		<MinX IOC="BL15I-DI-IOC-04" desc="Set MinX" pv="BL15I-DI-GIGE-05:ROI:MinX" ro="false" type="pv"/>
+		<MinX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinX" pv="BL15I-DI-GIGE-05:ROI:MinX_RBV" ro="true" type="pv"/>
+		<MinY IOC="BL15I-DI-IOC-04" desc="Set MinY" pv="BL15I-DI-GIGE-05:ROI:MinY" ro="false" type="pv"/>
+		<MinY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinY" pv="BL15I-DI-GIGE-05:ROI:MinY_RBV" ro="true" type="pv"/>
+		<MinZ IOC="BL15I-DI-IOC-04" desc="Set MinZ" pv="BL15I-DI-GIGE-05:ROI:MinZ" ro="false" type="pv"/>
+		<MinZ_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MinZ" pv="BL15I-DI-GIGE-05:ROI:MinZ_RBV" ro="true" type="pv"/>
+		<SizeX IOC="BL15I-DI-IOC-04" desc="Set SizeX" pv="BL15I-DI-GIGE-05:ROI:SizeX" ro="false" type="pv"/>
+		<SizeX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX" pv="BL15I-DI-GIGE-05:ROI:SizeX_RBV" ro="true" type="pv"/>
+		<SizeY IOC="BL15I-DI-IOC-04" desc="Set SizeY" pv="BL15I-DI-GIGE-05:ROI:SizeY" ro="false" type="pv"/>
+		<SizeY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY" pv="BL15I-DI-GIGE-05:ROI:SizeY_RBV" ro="true" type="pv"/>
+		<SizeZ IOC="BL15I-DI-IOC-04" desc="Set SizeZ" pv="BL15I-DI-GIGE-05:ROI:SizeZ" ro="false" type="pv"/>
+		<SizeZ_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeZ" pv="BL15I-DI-GIGE-05:ROI:SizeZ_RBV" ro="true" type="pv"/>
+		<MaxSizeX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MaxSizeX" pv="BL15I-DI-GIGE-05:ROI:MaxSizeX_RBV" ro="true" type="pv"/>
+		<MaxSizeY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MaxSizeY" pv="BL15I-DI-GIGE-05:ROI:MaxSizeY_RBV" ro="true" type="pv"/>
+		<MaxSizeZ_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MaxSizeZ" pv="BL15I-DI-GIGE-05:ROI:MaxSizeZ_RBV" ro="true" type="pv"/>
+		<ReverseX IOC="BL15I-DI-IOC-04" desc="Set ReverseX" pv="BL15I-DI-GIGE-05:ROI:ReverseX" ro="false" type="binary"/>
+		<ReverseX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ReverseX" pv="BL15I-DI-GIGE-05:ROI:ReverseX_RBV" ro="true" type="binary"/>
+		<ReverseY IOC="BL15I-DI-IOC-04" desc="Set ReverseY" pv="BL15I-DI-GIGE-05:ROI:ReverseY" ro="false" type="binary"/>
+		<ReverseY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ReverseY" pv="BL15I-DI-GIGE-05:ROI:ReverseY_RBV" ro="true" type="binary"/>
+		<ReverseZ IOC="BL15I-DI-IOC-04" desc="Set ReverseZ" pv="BL15I-DI-GIGE-05:ROI:ReverseZ" ro="false" type="binary"/>
+		<ReverseZ_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ReverseZ" pv="BL15I-DI-GIGE-05:ROI:ReverseZ_RBV" ro="true" type="binary"/>
+		<ArraySizeX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySizeX" pv="BL15I-DI-GIGE-05:ROI:ArraySizeX_RBV" ro="true" type="pv"/>
+		<ArraySizeY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySizeY" pv="BL15I-DI-GIGE-05:ROI:ArraySizeY_RBV" ro="true" type="pv"/>
+		<ArraySizeZ_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ArraySizeZ" pv="BL15I-DI-GIGE-05:ROI:ArraySizeZ_RBV" ro="true" type="pv"/>
+		<EnableX IOC="BL15I-DI-IOC-04" desc="Set EnableX" pv="BL15I-DI-GIGE-05:ROI:EnableX" ro="false" type="binary"/>
+		<EnableX_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableX" pv="BL15I-DI-GIGE-05:ROI:EnableX_RBV" ro="true" type="binary"/>
+		<EnableY IOC="BL15I-DI-IOC-04" desc="Set EnableY" pv="BL15I-DI-GIGE-05:ROI:EnableY" ro="false" type="binary"/>
+		<EnableY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableY" pv="BL15I-DI-GIGE-05:ROI:EnableY_RBV" ro="true" type="binary"/>
+		<EnableZ IOC="BL15I-DI-IOC-04" desc="Set EnableZ" pv="BL15I-DI-GIGE-05:ROI:EnableZ" ro="false" type="binary"/>
+		<EnableZ_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableZ" pv="BL15I-DI-GIGE-05:ROI:EnableZ_RBV" ro="true" type="binary"/>
+		<EnableScale IOC="BL15I-DI-IOC-04" desc="Set EnableScale" pv="BL15I-DI-GIGE-05:ROI:EnableScale" ro="false" type="binary"/>
+		<EnableScale_RBV IOC="BL15I-DI-IOC-04" desc="Readback for EnableScale" pv="BL15I-DI-GIGE-05:ROI:EnableScale_RBV" ro="true" type="binary"/>
+		<Scale IOC="BL15I-DI-IOC-04" desc="Set Scale" pv="BL15I-DI-GIGE-05:ROI:Scale" ro="false" type="pv"/>
+		<Scale_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Scale" pv="BL15I-DI-GIGE-05:ROI:Scale_RBV" ro="true" type="pv"/>
+		<DataTypeOut IOC="BL15I-DI-IOC-04" desc="Set DataTypeOut" pv="BL15I-DI-GIGE-05:ROI:DataTypeOut" ro="false" type="mbbinary"/>
+		<DataTypeOut_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DataTypeOut" pv="BL15I-DI-GIGE-05:ROI:DataTypeOut_RBV" ro="true" type="mbbinary"/>
+	</NDROI>
 	<NDFile desc="gige4.tiff NDFile class instance" name="gige4.tiff_NDFile">
 		<FilePath IOC="BL15I-DI-IOC-04" desc="Set FilePath" pv="BL15I-DI-GIGE-04:TIFF:FilePath" ro="false" type="array"/>
 		<FilePath_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FilePath" pv="BL15I-DI-GIGE-04:TIFF:FilePath_RBV" ro="true" type="array"/>
@@ -4395,7 +4909,39 @@
 		<WriteStatus IOC="BL15I-DI-IOC-04" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-04:TIFF:WriteStatus" ro="true" type="binary"/>
 		<WriteMessage IOC="BL15I-DI-IOC-04" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-04:TIFF:WriteMessage" ro="true" type="array"/>
 	</NDFile>
+	<NDFile desc="gige5.tiff NDFile class instance" name="gige5.tiff_NDFile">
+		<FilePath IOC="BL15I-DI-IOC-04" desc="Set FilePath" pv="BL15I-DI-GIGE-05:TIFF:FilePath" ro="false" type="array"/>
+		<FilePath_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FilePath" pv="BL15I-DI-GIGE-05:TIFF:FilePath_RBV" ro="true" type="array"/>
+		<FilePathExists IOC="BL15I-DI-IOC-04" desc="Report whether the entered file path exists" pv="BL15I-DI-GIGE-05:TIFF:FilePathExists_RBV" ro="true" type="binary"/>
+		<FileName IOC="BL15I-DI-IOC-04" desc="Set FileName" pv="BL15I-DI-GIGE-05:TIFF:FileName" ro="false" type="array"/>
+		<FileName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FileName" pv="BL15I-DI-GIGE-05:TIFF:FileName_RBV" ro="true" type="array"/>
+		<FileNumber IOC="BL15I-DI-IOC-04" desc="Set FileNumber" pv="BL15I-DI-GIGE-05:TIFF:FileNumber" ro="false" type="pv"/>
+		<FileNumber_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FileNumber" pv="BL15I-DI-GIGE-05:TIFF:FileNumber_RBV" ro="true" type="pv"/>
+		<AutoIncrement IOC="BL15I-DI-IOC-04" desc="Set AutoIncrement" pv="BL15I-DI-GIGE-05:TIFF:AutoIncrement" ro="false" type="binary"/>
+		<AutoIncrement_RBV IOC="BL15I-DI-IOC-04" desc="Readback for AutoIncrement" pv="BL15I-DI-GIGE-05:TIFF:AutoIncrement_RBV" ro="true" type="binary"/>
+		<FileTemplate IOC="BL15I-DI-IOC-04" desc="Set FileTemplate" pv="BL15I-DI-GIGE-05:TIFF:FileTemplate" ro="false" type="array"/>
+		<FileTemplate_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FileTemplate" pv="BL15I-DI-GIGE-05:TIFF:FileTemplate_RBV" ro="true" type="array"/>
+		<FullFileName_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FullFileName" pv="BL15I-DI-GIGE-05:TIFF:FullFileName_RBV" ro="true" type="array"/>
+		<AutoSave IOC="BL15I-DI-IOC-04" desc="Set AutoSave" pv="BL15I-DI-GIGE-05:TIFF:AutoSave" ro="false" type="binary"/>
+		<AutoSave_RBV IOC="BL15I-DI-IOC-04" desc="Readback for AutoSave" pv="BL15I-DI-GIGE-05:TIFF:AutoSave_RBV" ro="true" type="binary"/>
+		<WriteFile IOC="BL15I-DI-IOC-04" desc="Set WriteFile" pv="BL15I-DI-GIGE-05:TIFF:WriteFile" ro="false" type="pv"/>
+		<WriteFile_RBV IOC="BL15I-DI-IOC-04" desc="Readback for WriteFile" pv="BL15I-DI-GIGE-05:TIFF:WriteFile_RBV" ro="true" type="binary"/>
+		<ReadFile IOC="BL15I-DI-IOC-04" desc="Set ReadFile" pv="BL15I-DI-GIGE-05:TIFF:ReadFile" ro="false" type="pv"/>
+		<ReadFile_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ReadFile" pv="BL15I-DI-GIGE-05:TIFF:ReadFile_RBV" ro="true" type="binary"/>
+		<FileFormat IOC="BL15I-DI-IOC-04" desc="Set FileFormat" pv="BL15I-DI-GIGE-05:TIFF:FileFormat" ro="false" type="mbbinary"/>
+		<FileFormat_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FileFormat" pv="BL15I-DI-GIGE-05:TIFF:FileFormat_RBV" ro="true" type="mbbinary"/>
+		<FileWriteMode IOC="BL15I-DI-IOC-04" desc="Set FileWriteMode" pv="BL15I-DI-GIGE-05:TIFF:FileWriteMode" ro="false" type="mbbinary"/>
+		<FileWriteMode_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FileWriteMode" pv="BL15I-DI-GIGE-05:TIFF:FileWriteMode_RBV" ro="true" type="mbbinary"/>
+		<Capture IOC="BL15I-DI-IOC-04" desc="Set Capture" pv="BL15I-DI-GIGE-05:TIFF:Capture" ro="false" type="pv"/>
+		<Capture_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Capture" pv="BL15I-DI-GIGE-05:TIFF:Capture_RBV" ro="true" type="binary"/>
+		<NumCapture IOC="BL15I-DI-IOC-04" desc="Set NumCapture" pv="BL15I-DI-GIGE-05:TIFF:NumCapture" ro="false" type="pv"/>
+		<NumCapture_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NumCapture" pv="BL15I-DI-GIGE-05:TIFF:NumCapture_RBV" ro="true" type="pv"/>
+		<NumCaptured_RBV IOC="BL15I-DI-IOC-04" desc="Readback for NumCaptured" pv="BL15I-DI-GIGE-05:TIFF:NumCaptured_RBV" ro="true" type="pv"/>
+		<WriteStatus IOC="BL15I-DI-IOC-04" desc="Status of file open and write operations" pv="BL15I-DI-GIGE-05:TIFF:WriteStatus" ro="true" type="binary"/>
+		<WriteMessage IOC="BL15I-DI-IOC-04" desc="Error message regarding any file operation failure" pv="BL15I-DI-GIGE-05:TIFF:WriteMessage" ro="true" type="array"/>
+	</NDFile>
 	<NDFileTIFF desc="gige4.tiff NDFileTIFF class instance" name="gige4.tiff_NDFileTIFF"/>
+	<NDFileTIFF desc="gige5.tiff NDFileTIFF class instance" name="gige5.tiff_NDFileTIFF"/>
 	<NDOverlay desc="gige4.draw NDOverlay class instance" name="gige4.draw_NDOverlay">
 		<Name0 IOC="BL15I-DI-IOC-04" desc="Set Name0" pv="BL15I-DI-GIGE-04:DRAW:1:Name" ro="false" type="pv"/>
 		<Name_RBV0 IOC="BL15I-DI-IOC-04" desc="Readback for Name0" pv="BL15I-DI-GIGE-04:DRAW:1:Name_RBV" ro="true" type="pv"/>
@@ -4606,6 +5152,216 @@
 		<Blue7 IOC="BL15I-DI-IOC-04" desc="Set Blue7" pv="BL15I-DI-GIGE-04:DRAW:8:Blue" ro="false" type="pv"/>
 		<Blue7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue7" pv="BL15I-DI-GIGE-04:DRAW:8:Blue_RBV" ro="true" type="pv"/>
 	</NDOverlay>
+	<NDOverlay desc="gige5.draw NDOverlay class instance" name="gige5.draw_NDOverlay">
+		<Name0 IOC="BL15I-DI-IOC-04" desc="Set Name0" pv="BL15I-DI-GIGE-05:DRAW:1:Name" ro="false" type="pv"/>
+		<Name_RBV0 IOC="BL15I-DI-IOC-04" desc="Readback for Name0" pv="BL15I-DI-GIGE-05:DRAW:1:Name_RBV" ro="true" type="pv"/>
+		<Use0 IOC="BL15I-DI-IOC-04" desc="Set Use0" pv="BL15I-DI-GIGE-05:DRAW:1:Use" ro="false" type="binary"/>
+		<Use0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Use0" pv="BL15I-DI-GIGE-05:DRAW:1:Use_RBV" ro="true" type="binary"/>
+		<PositionXLink0 IOC="BL15I-DI-IOC-04" desc="Set PositionXLink0" pv="BL15I-DI-GIGE-05:DRAW:1:PositionXLink" ro="false" type="pv"/>
+		<PositionX0 IOC="BL15I-DI-IOC-04" desc="Set PositionX0" pv="BL15I-DI-GIGE-05:DRAW:1:PositionX" ro="false" type="pv"/>
+		<PositionX0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionX0" pv="BL15I-DI-GIGE-05:DRAW:1:PositionX_RBV" ro="true" type="pv"/>
+		<PositionYLink0 IOC="BL15I-DI-IOC-04" desc="Set PositionYLink0" pv="BL15I-DI-GIGE-05:DRAW:1:PositionYLink" ro="false" type="pv"/>
+		<PositionY0 IOC="BL15I-DI-IOC-04" desc="Set PositionY0" pv="BL15I-DI-GIGE-05:DRAW:1:PositionY" ro="false" type="pv"/>
+		<PositionY0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionY0" pv="BL15I-DI-GIGE-05:DRAW:1:PositionY_RBV" ro="true" type="pv"/>
+		<SizeXLink0 IOC="BL15I-DI-IOC-04" desc="Set SizeXLink0" pv="BL15I-DI-GIGE-05:DRAW:1:SizeXLink" ro="false" type="pv"/>
+		<SizeX0 IOC="BL15I-DI-IOC-04" desc="Set SizeX0" pv="BL15I-DI-GIGE-05:DRAW:1:SizeX" ro="false" type="pv"/>
+		<SizeX0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX0" pv="BL15I-DI-GIGE-05:DRAW:1:SizeX_RBV" ro="true" type="pv"/>
+		<SizeYLink0 IOC="BL15I-DI-IOC-04" desc="Set SizeYLink0" pv="BL15I-DI-GIGE-05:DRAW:1:SizeYLink" ro="false" type="pv"/>
+		<SizeY0 IOC="BL15I-DI-IOC-04" desc="Set SizeY0" pv="BL15I-DI-GIGE-05:DRAW:1:SizeY" ro="false" type="pv"/>
+		<SizeY0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY0" pv="BL15I-DI-GIGE-05:DRAW:1:SizeY_RBV" ro="true" type="pv"/>
+		<Shape0 IOC="BL15I-DI-IOC-04" desc="Set Shape0" pv="BL15I-DI-GIGE-05:DRAW:1:Shape" ro="false" type="mbbinary"/>
+		<Shape0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Shape0" pv="BL15I-DI-GIGE-05:DRAW:1:Shape_RBV" ro="true" type="mbbinary"/>
+		<DrawMode0 IOC="BL15I-DI-IOC-04" desc="Set DrawMode0" pv="BL15I-DI-GIGE-05:DRAW:1:DrawMode" ro="false" type="mbbinary"/>
+		<DrawMode0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DrawMode0" pv="BL15I-DI-GIGE-05:DRAW:1:DrawMode_RBV" ro="true" type="mbbinary"/>
+		<Red0 IOC="BL15I-DI-IOC-04" desc="Set Red0" pv="BL15I-DI-GIGE-05:DRAW:1:Red" ro="false" type="pv"/>
+		<Red0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Red0" pv="BL15I-DI-GIGE-05:DRAW:1:Red_RBV" ro="true" type="pv"/>
+		<Green0 IOC="BL15I-DI-IOC-04" desc="Set Green0" pv="BL15I-DI-GIGE-05:DRAW:1:Green" ro="false" type="pv"/>
+		<Green0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Green0" pv="BL15I-DI-GIGE-05:DRAW:1:Green_RBV" ro="true" type="pv"/>
+		<Blue0 IOC="BL15I-DI-IOC-04" desc="Set Blue0" pv="BL15I-DI-GIGE-05:DRAW:1:Blue" ro="false" type="pv"/>
+		<Blue0_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue0" pv="BL15I-DI-GIGE-05:DRAW:1:Blue_RBV" ro="true" type="pv"/>
+		<Name1 IOC="BL15I-DI-IOC-04" desc="Set Name1" pv="BL15I-DI-GIGE-05:DRAW:2:Name" ro="false" type="pv"/>
+		<Name_RBV1 IOC="BL15I-DI-IOC-04" desc="Readback for Name1" pv="BL15I-DI-GIGE-05:DRAW:2:Name_RBV" ro="true" type="pv"/>
+		<Use1 IOC="BL15I-DI-IOC-04" desc="Set Use1" pv="BL15I-DI-GIGE-05:DRAW:2:Use" ro="false" type="binary"/>
+		<Use1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Use1" pv="BL15I-DI-GIGE-05:DRAW:2:Use_RBV" ro="true" type="binary"/>
+		<PositionXLink1 IOC="BL15I-DI-IOC-04" desc="Set PositionXLink1" pv="BL15I-DI-GIGE-05:DRAW:2:PositionXLink" ro="false" type="pv"/>
+		<PositionX1 IOC="BL15I-DI-IOC-04" desc="Set PositionX1" pv="BL15I-DI-GIGE-05:DRAW:2:PositionX" ro="false" type="pv"/>
+		<PositionX1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionX1" pv="BL15I-DI-GIGE-05:DRAW:2:PositionX_RBV" ro="true" type="pv"/>
+		<PositionYLink1 IOC="BL15I-DI-IOC-04" desc="Set PositionYLink1" pv="BL15I-DI-GIGE-05:DRAW:2:PositionYLink" ro="false" type="pv"/>
+		<PositionY1 IOC="BL15I-DI-IOC-04" desc="Set PositionY1" pv="BL15I-DI-GIGE-05:DRAW:2:PositionY" ro="false" type="pv"/>
+		<PositionY1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionY1" pv="BL15I-DI-GIGE-05:DRAW:2:PositionY_RBV" ro="true" type="pv"/>
+		<SizeXLink1 IOC="BL15I-DI-IOC-04" desc="Set SizeXLink1" pv="BL15I-DI-GIGE-05:DRAW:2:SizeXLink" ro="false" type="pv"/>
+		<SizeX1 IOC="BL15I-DI-IOC-04" desc="Set SizeX1" pv="BL15I-DI-GIGE-05:DRAW:2:SizeX" ro="false" type="pv"/>
+		<SizeX1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX1" pv="BL15I-DI-GIGE-05:DRAW:2:SizeX_RBV" ro="true" type="pv"/>
+		<SizeYLink1 IOC="BL15I-DI-IOC-04" desc="Set SizeYLink1" pv="BL15I-DI-GIGE-05:DRAW:2:SizeYLink" ro="false" type="pv"/>
+		<SizeY1 IOC="BL15I-DI-IOC-04" desc="Set SizeY1" pv="BL15I-DI-GIGE-05:DRAW:2:SizeY" ro="false" type="pv"/>
+		<SizeY1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY1" pv="BL15I-DI-GIGE-05:DRAW:2:SizeY_RBV" ro="true" type="pv"/>
+		<Shape1 IOC="BL15I-DI-IOC-04" desc="Set Shape1" pv="BL15I-DI-GIGE-05:DRAW:2:Shape" ro="false" type="mbbinary"/>
+		<Shape1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Shape1" pv="BL15I-DI-GIGE-05:DRAW:2:Shape_RBV" ro="true" type="mbbinary"/>
+		<DrawMode1 IOC="BL15I-DI-IOC-04" desc="Set DrawMode1" pv="BL15I-DI-GIGE-05:DRAW:2:DrawMode" ro="false" type="mbbinary"/>
+		<DrawMode1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DrawMode1" pv="BL15I-DI-GIGE-05:DRAW:2:DrawMode_RBV" ro="true" type="mbbinary"/>
+		<Red1 IOC="BL15I-DI-IOC-04" desc="Set Red1" pv="BL15I-DI-GIGE-05:DRAW:2:Red" ro="false" type="pv"/>
+		<Red1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Red1" pv="BL15I-DI-GIGE-05:DRAW:2:Red_RBV" ro="true" type="pv"/>
+		<Green1 IOC="BL15I-DI-IOC-04" desc="Set Green1" pv="BL15I-DI-GIGE-05:DRAW:2:Green" ro="false" type="pv"/>
+		<Green1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Green1" pv="BL15I-DI-GIGE-05:DRAW:2:Green_RBV" ro="true" type="pv"/>
+		<Blue1 IOC="BL15I-DI-IOC-04" desc="Set Blue1" pv="BL15I-DI-GIGE-05:DRAW:2:Blue" ro="false" type="pv"/>
+		<Blue1_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue1" pv="BL15I-DI-GIGE-05:DRAW:2:Blue_RBV" ro="true" type="pv"/>
+		<Name2 IOC="BL15I-DI-IOC-04" desc="Set Name2" pv="BL15I-DI-GIGE-05:DRAW:3:Name" ro="false" type="pv"/>
+		<Name_RBV2 IOC="BL15I-DI-IOC-04" desc="Readback for Name2" pv="BL15I-DI-GIGE-05:DRAW:3:Name_RBV" ro="true" type="pv"/>
+		<Use2 IOC="BL15I-DI-IOC-04" desc="Set Use2" pv="BL15I-DI-GIGE-05:DRAW:3:Use" ro="false" type="binary"/>
+		<Use2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Use2" pv="BL15I-DI-GIGE-05:DRAW:3:Use_RBV" ro="true" type="binary"/>
+		<PositionXLink2 IOC="BL15I-DI-IOC-04" desc="Set PositionXLink2" pv="BL15I-DI-GIGE-05:DRAW:3:PositionXLink" ro="false" type="pv"/>
+		<PositionX2 IOC="BL15I-DI-IOC-04" desc="Set PositionX2" pv="BL15I-DI-GIGE-05:DRAW:3:PositionX" ro="false" type="pv"/>
+		<PositionX2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionX2" pv="BL15I-DI-GIGE-05:DRAW:3:PositionX_RBV" ro="true" type="pv"/>
+		<PositionYLink2 IOC="BL15I-DI-IOC-04" desc="Set PositionYLink2" pv="BL15I-DI-GIGE-05:DRAW:3:PositionYLink" ro="false" type="pv"/>
+		<PositionY2 IOC="BL15I-DI-IOC-04" desc="Set PositionY2" pv="BL15I-DI-GIGE-05:DRAW:3:PositionY" ro="false" type="pv"/>
+		<PositionY2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionY2" pv="BL15I-DI-GIGE-05:DRAW:3:PositionY_RBV" ro="true" type="pv"/>
+		<SizeXLink2 IOC="BL15I-DI-IOC-04" desc="Set SizeXLink2" pv="BL15I-DI-GIGE-05:DRAW:3:SizeXLink" ro="false" type="pv"/>
+		<SizeX2 IOC="BL15I-DI-IOC-04" desc="Set SizeX2" pv="BL15I-DI-GIGE-05:DRAW:3:SizeX" ro="false" type="pv"/>
+		<SizeX2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX2" pv="BL15I-DI-GIGE-05:DRAW:3:SizeX_RBV" ro="true" type="pv"/>
+		<SizeYLink2 IOC="BL15I-DI-IOC-04" desc="Set SizeYLink2" pv="BL15I-DI-GIGE-05:DRAW:3:SizeYLink" ro="false" type="pv"/>
+		<SizeY2 IOC="BL15I-DI-IOC-04" desc="Set SizeY2" pv="BL15I-DI-GIGE-05:DRAW:3:SizeY" ro="false" type="pv"/>
+		<SizeY2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY2" pv="BL15I-DI-GIGE-05:DRAW:3:SizeY_RBV" ro="true" type="pv"/>
+		<Shape2 IOC="BL15I-DI-IOC-04" desc="Set Shape2" pv="BL15I-DI-GIGE-05:DRAW:3:Shape" ro="false" type="mbbinary"/>
+		<Shape2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Shape2" pv="BL15I-DI-GIGE-05:DRAW:3:Shape_RBV" ro="true" type="mbbinary"/>
+		<DrawMode2 IOC="BL15I-DI-IOC-04" desc="Set DrawMode2" pv="BL15I-DI-GIGE-05:DRAW:3:DrawMode" ro="false" type="mbbinary"/>
+		<DrawMode2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DrawMode2" pv="BL15I-DI-GIGE-05:DRAW:3:DrawMode_RBV" ro="true" type="mbbinary"/>
+		<Red2 IOC="BL15I-DI-IOC-04" desc="Set Red2" pv="BL15I-DI-GIGE-05:DRAW:3:Red" ro="false" type="pv"/>
+		<Red2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Red2" pv="BL15I-DI-GIGE-05:DRAW:3:Red_RBV" ro="true" type="pv"/>
+		<Green2 IOC="BL15I-DI-IOC-04" desc="Set Green2" pv="BL15I-DI-GIGE-05:DRAW:3:Green" ro="false" type="pv"/>
+		<Green2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Green2" pv="BL15I-DI-GIGE-05:DRAW:3:Green_RBV" ro="true" type="pv"/>
+		<Blue2 IOC="BL15I-DI-IOC-04" desc="Set Blue2" pv="BL15I-DI-GIGE-05:DRAW:3:Blue" ro="false" type="pv"/>
+		<Blue2_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue2" pv="BL15I-DI-GIGE-05:DRAW:3:Blue_RBV" ro="true" type="pv"/>
+		<Name3 IOC="BL15I-DI-IOC-04" desc="Set Name3" pv="BL15I-DI-GIGE-05:DRAW:4:Name" ro="false" type="pv"/>
+		<Name_RBV3 IOC="BL15I-DI-IOC-04" desc="Readback for Name3" pv="BL15I-DI-GIGE-05:DRAW:4:Name_RBV" ro="true" type="pv"/>
+		<Use3 IOC="BL15I-DI-IOC-04" desc="Set Use3" pv="BL15I-DI-GIGE-05:DRAW:4:Use" ro="false" type="binary"/>
+		<Use3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Use3" pv="BL15I-DI-GIGE-05:DRAW:4:Use_RBV" ro="true" type="binary"/>
+		<PositionXLink3 IOC="BL15I-DI-IOC-04" desc="Set PositionXLink3" pv="BL15I-DI-GIGE-05:DRAW:4:PositionXLink" ro="false" type="pv"/>
+		<PositionX3 IOC="BL15I-DI-IOC-04" desc="Set PositionX3" pv="BL15I-DI-GIGE-05:DRAW:4:PositionX" ro="false" type="pv"/>
+		<PositionX3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionX3" pv="BL15I-DI-GIGE-05:DRAW:4:PositionX_RBV" ro="true" type="pv"/>
+		<PositionYLink3 IOC="BL15I-DI-IOC-04" desc="Set PositionYLink3" pv="BL15I-DI-GIGE-05:DRAW:4:PositionYLink" ro="false" type="pv"/>
+		<PositionY3 IOC="BL15I-DI-IOC-04" desc="Set PositionY3" pv="BL15I-DI-GIGE-05:DRAW:4:PositionY" ro="false" type="pv"/>
+		<PositionY3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionY3" pv="BL15I-DI-GIGE-05:DRAW:4:PositionY_RBV" ro="true" type="pv"/>
+		<SizeXLink3 IOC="BL15I-DI-IOC-04" desc="Set SizeXLink3" pv="BL15I-DI-GIGE-05:DRAW:4:SizeXLink" ro="false" type="pv"/>
+		<SizeX3 IOC="BL15I-DI-IOC-04" desc="Set SizeX3" pv="BL15I-DI-GIGE-05:DRAW:4:SizeX" ro="false" type="pv"/>
+		<SizeX3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX3" pv="BL15I-DI-GIGE-05:DRAW:4:SizeX_RBV" ro="true" type="pv"/>
+		<SizeYLink3 IOC="BL15I-DI-IOC-04" desc="Set SizeYLink3" pv="BL15I-DI-GIGE-05:DRAW:4:SizeYLink" ro="false" type="pv"/>
+		<SizeY3 IOC="BL15I-DI-IOC-04" desc="Set SizeY3" pv="BL15I-DI-GIGE-05:DRAW:4:SizeY" ro="false" type="pv"/>
+		<SizeY3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY3" pv="BL15I-DI-GIGE-05:DRAW:4:SizeY_RBV" ro="true" type="pv"/>
+		<Shape3 IOC="BL15I-DI-IOC-04" desc="Set Shape3" pv="BL15I-DI-GIGE-05:DRAW:4:Shape" ro="false" type="mbbinary"/>
+		<Shape3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Shape3" pv="BL15I-DI-GIGE-05:DRAW:4:Shape_RBV" ro="true" type="mbbinary"/>
+		<DrawMode3 IOC="BL15I-DI-IOC-04" desc="Set DrawMode3" pv="BL15I-DI-GIGE-05:DRAW:4:DrawMode" ro="false" type="mbbinary"/>
+		<DrawMode3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DrawMode3" pv="BL15I-DI-GIGE-05:DRAW:4:DrawMode_RBV" ro="true" type="mbbinary"/>
+		<Red3 IOC="BL15I-DI-IOC-04" desc="Set Red3" pv="BL15I-DI-GIGE-05:DRAW:4:Red" ro="false" type="pv"/>
+		<Red3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Red3" pv="BL15I-DI-GIGE-05:DRAW:4:Red_RBV" ro="true" type="pv"/>
+		<Green3 IOC="BL15I-DI-IOC-04" desc="Set Green3" pv="BL15I-DI-GIGE-05:DRAW:4:Green" ro="false" type="pv"/>
+		<Green3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Green3" pv="BL15I-DI-GIGE-05:DRAW:4:Green_RBV" ro="true" type="pv"/>
+		<Blue3 IOC="BL15I-DI-IOC-04" desc="Set Blue3" pv="BL15I-DI-GIGE-05:DRAW:4:Blue" ro="false" type="pv"/>
+		<Blue3_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue3" pv="BL15I-DI-GIGE-05:DRAW:4:Blue_RBV" ro="true" type="pv"/>
+		<Name4 IOC="BL15I-DI-IOC-04" desc="Set Name4" pv="BL15I-DI-GIGE-05:DRAW:5:Name" ro="false" type="pv"/>
+		<Name_RBV4 IOC="BL15I-DI-IOC-04" desc="Readback for Name4" pv="BL15I-DI-GIGE-05:DRAW:5:Name_RBV" ro="true" type="pv"/>
+		<Use4 IOC="BL15I-DI-IOC-04" desc="Set Use4" pv="BL15I-DI-GIGE-05:DRAW:5:Use" ro="false" type="binary"/>
+		<Use4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Use4" pv="BL15I-DI-GIGE-05:DRAW:5:Use_RBV" ro="true" type="binary"/>
+		<PositionXLink4 IOC="BL15I-DI-IOC-04" desc="Set PositionXLink4" pv="BL15I-DI-GIGE-05:DRAW:5:PositionXLink" ro="false" type="pv"/>
+		<PositionX4 IOC="BL15I-DI-IOC-04" desc="Set PositionX4" pv="BL15I-DI-GIGE-05:DRAW:5:PositionX" ro="false" type="pv"/>
+		<PositionX4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionX4" pv="BL15I-DI-GIGE-05:DRAW:5:PositionX_RBV" ro="true" type="pv"/>
+		<PositionYLink4 IOC="BL15I-DI-IOC-04" desc="Set PositionYLink4" pv="BL15I-DI-GIGE-05:DRAW:5:PositionYLink" ro="false" type="pv"/>
+		<PositionY4 IOC="BL15I-DI-IOC-04" desc="Set PositionY4" pv="BL15I-DI-GIGE-05:DRAW:5:PositionY" ro="false" type="pv"/>
+		<PositionY4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionY4" pv="BL15I-DI-GIGE-05:DRAW:5:PositionY_RBV" ro="true" type="pv"/>
+		<SizeXLink4 IOC="BL15I-DI-IOC-04" desc="Set SizeXLink4" pv="BL15I-DI-GIGE-05:DRAW:5:SizeXLink" ro="false" type="pv"/>
+		<SizeX4 IOC="BL15I-DI-IOC-04" desc="Set SizeX4" pv="BL15I-DI-GIGE-05:DRAW:5:SizeX" ro="false" type="pv"/>
+		<SizeX4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX4" pv="BL15I-DI-GIGE-05:DRAW:5:SizeX_RBV" ro="true" type="pv"/>
+		<SizeYLink4 IOC="BL15I-DI-IOC-04" desc="Set SizeYLink4" pv="BL15I-DI-GIGE-05:DRAW:5:SizeYLink" ro="false" type="pv"/>
+		<SizeY4 IOC="BL15I-DI-IOC-04" desc="Set SizeY4" pv="BL15I-DI-GIGE-05:DRAW:5:SizeY" ro="false" type="pv"/>
+		<SizeY4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY4" pv="BL15I-DI-GIGE-05:DRAW:5:SizeY_RBV" ro="true" type="pv"/>
+		<Shape4 IOC="BL15I-DI-IOC-04" desc="Set Shape4" pv="BL15I-DI-GIGE-05:DRAW:5:Shape" ro="false" type="mbbinary"/>
+		<Shape4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Shape4" pv="BL15I-DI-GIGE-05:DRAW:5:Shape_RBV" ro="true" type="mbbinary"/>
+		<DrawMode4 IOC="BL15I-DI-IOC-04" desc="Set DrawMode4" pv="BL15I-DI-GIGE-05:DRAW:5:DrawMode" ro="false" type="mbbinary"/>
+		<DrawMode4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DrawMode4" pv="BL15I-DI-GIGE-05:DRAW:5:DrawMode_RBV" ro="true" type="mbbinary"/>
+		<Red4 IOC="BL15I-DI-IOC-04" desc="Set Red4" pv="BL15I-DI-GIGE-05:DRAW:5:Red" ro="false" type="pv"/>
+		<Red4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Red4" pv="BL15I-DI-GIGE-05:DRAW:5:Red_RBV" ro="true" type="pv"/>
+		<Green4 IOC="BL15I-DI-IOC-04" desc="Set Green4" pv="BL15I-DI-GIGE-05:DRAW:5:Green" ro="false" type="pv"/>
+		<Green4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Green4" pv="BL15I-DI-GIGE-05:DRAW:5:Green_RBV" ro="true" type="pv"/>
+		<Blue4 IOC="BL15I-DI-IOC-04" desc="Set Blue4" pv="BL15I-DI-GIGE-05:DRAW:5:Blue" ro="false" type="pv"/>
+		<Blue4_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue4" pv="BL15I-DI-GIGE-05:DRAW:5:Blue_RBV" ro="true" type="pv"/>
+		<Name5 IOC="BL15I-DI-IOC-04" desc="Set Name5" pv="BL15I-DI-GIGE-05:DRAW:6:Name" ro="false" type="pv"/>
+		<Name_RBV5 IOC="BL15I-DI-IOC-04" desc="Readback for Name5" pv="BL15I-DI-GIGE-05:DRAW:6:Name_RBV" ro="true" type="pv"/>
+		<Use5 IOC="BL15I-DI-IOC-04" desc="Set Use5" pv="BL15I-DI-GIGE-05:DRAW:6:Use" ro="false" type="binary"/>
+		<Use5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Use5" pv="BL15I-DI-GIGE-05:DRAW:6:Use_RBV" ro="true" type="binary"/>
+		<PositionXLink5 IOC="BL15I-DI-IOC-04" desc="Set PositionXLink5" pv="BL15I-DI-GIGE-05:DRAW:6:PositionXLink" ro="false" type="pv"/>
+		<PositionX5 IOC="BL15I-DI-IOC-04" desc="Set PositionX5" pv="BL15I-DI-GIGE-05:DRAW:6:PositionX" ro="false" type="pv"/>
+		<PositionX5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionX5" pv="BL15I-DI-GIGE-05:DRAW:6:PositionX_RBV" ro="true" type="pv"/>
+		<PositionYLink5 IOC="BL15I-DI-IOC-04" desc="Set PositionYLink5" pv="BL15I-DI-GIGE-05:DRAW:6:PositionYLink" ro="false" type="pv"/>
+		<PositionY5 IOC="BL15I-DI-IOC-04" desc="Set PositionY5" pv="BL15I-DI-GIGE-05:DRAW:6:PositionY" ro="false" type="pv"/>
+		<PositionY5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionY5" pv="BL15I-DI-GIGE-05:DRAW:6:PositionY_RBV" ro="true" type="pv"/>
+		<SizeXLink5 IOC="BL15I-DI-IOC-04" desc="Set SizeXLink5" pv="BL15I-DI-GIGE-05:DRAW:6:SizeXLink" ro="false" type="pv"/>
+		<SizeX5 IOC="BL15I-DI-IOC-04" desc="Set SizeX5" pv="BL15I-DI-GIGE-05:DRAW:6:SizeX" ro="false" type="pv"/>
+		<SizeX5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX5" pv="BL15I-DI-GIGE-05:DRAW:6:SizeX_RBV" ro="true" type="pv"/>
+		<SizeYLink5 IOC="BL15I-DI-IOC-04" desc="Set SizeYLink5" pv="BL15I-DI-GIGE-05:DRAW:6:SizeYLink" ro="false" type="pv"/>
+		<SizeY5 IOC="BL15I-DI-IOC-04" desc="Set SizeY5" pv="BL15I-DI-GIGE-05:DRAW:6:SizeY" ro="false" type="pv"/>
+		<SizeY5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY5" pv="BL15I-DI-GIGE-05:DRAW:6:SizeY_RBV" ro="true" type="pv"/>
+		<Shape5 IOC="BL15I-DI-IOC-04" desc="Set Shape5" pv="BL15I-DI-GIGE-05:DRAW:6:Shape" ro="false" type="mbbinary"/>
+		<Shape5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Shape5" pv="BL15I-DI-GIGE-05:DRAW:6:Shape_RBV" ro="true" type="mbbinary"/>
+		<DrawMode5 IOC="BL15I-DI-IOC-04" desc="Set DrawMode5" pv="BL15I-DI-GIGE-05:DRAW:6:DrawMode" ro="false" type="mbbinary"/>
+		<DrawMode5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DrawMode5" pv="BL15I-DI-GIGE-05:DRAW:6:DrawMode_RBV" ro="true" type="mbbinary"/>
+		<Red5 IOC="BL15I-DI-IOC-04" desc="Set Red5" pv="BL15I-DI-GIGE-05:DRAW:6:Red" ro="false" type="pv"/>
+		<Red5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Red5" pv="BL15I-DI-GIGE-05:DRAW:6:Red_RBV" ro="true" type="pv"/>
+		<Green5 IOC="BL15I-DI-IOC-04" desc="Set Green5" pv="BL15I-DI-GIGE-05:DRAW:6:Green" ro="false" type="pv"/>
+		<Green5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Green5" pv="BL15I-DI-GIGE-05:DRAW:6:Green_RBV" ro="true" type="pv"/>
+		<Blue5 IOC="BL15I-DI-IOC-04" desc="Set Blue5" pv="BL15I-DI-GIGE-05:DRAW:6:Blue" ro="false" type="pv"/>
+		<Blue5_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue5" pv="BL15I-DI-GIGE-05:DRAW:6:Blue_RBV" ro="true" type="pv"/>
+		<Name6 IOC="BL15I-DI-IOC-04" desc="Set Name6" pv="BL15I-DI-GIGE-05:DRAW:7:Name" ro="false" type="pv"/>
+		<Name_RBV6 IOC="BL15I-DI-IOC-04" desc="Readback for Name6" pv="BL15I-DI-GIGE-05:DRAW:7:Name_RBV" ro="true" type="pv"/>
+		<Use6 IOC="BL15I-DI-IOC-04" desc="Set Use6" pv="BL15I-DI-GIGE-05:DRAW:7:Use" ro="false" type="binary"/>
+		<Use6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Use6" pv="BL15I-DI-GIGE-05:DRAW:7:Use_RBV" ro="true" type="binary"/>
+		<PositionXLink6 IOC="BL15I-DI-IOC-04" desc="Set PositionXLink6" pv="BL15I-DI-GIGE-05:DRAW:7:PositionXLink" ro="false" type="pv"/>
+		<PositionX6 IOC="BL15I-DI-IOC-04" desc="Set PositionX6" pv="BL15I-DI-GIGE-05:DRAW:7:PositionX" ro="false" type="pv"/>
+		<PositionX6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionX6" pv="BL15I-DI-GIGE-05:DRAW:7:PositionX_RBV" ro="true" type="pv"/>
+		<PositionYLink6 IOC="BL15I-DI-IOC-04" desc="Set PositionYLink6" pv="BL15I-DI-GIGE-05:DRAW:7:PositionYLink" ro="false" type="pv"/>
+		<PositionY6 IOC="BL15I-DI-IOC-04" desc="Set PositionY6" pv="BL15I-DI-GIGE-05:DRAW:7:PositionY" ro="false" type="pv"/>
+		<PositionY6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionY6" pv="BL15I-DI-GIGE-05:DRAW:7:PositionY_RBV" ro="true" type="pv"/>
+		<SizeXLink6 IOC="BL15I-DI-IOC-04" desc="Set SizeXLink6" pv="BL15I-DI-GIGE-05:DRAW:7:SizeXLink" ro="false" type="pv"/>
+		<SizeX6 IOC="BL15I-DI-IOC-04" desc="Set SizeX6" pv="BL15I-DI-GIGE-05:DRAW:7:SizeX" ro="false" type="pv"/>
+		<SizeX6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX6" pv="BL15I-DI-GIGE-05:DRAW:7:SizeX_RBV" ro="true" type="pv"/>
+		<SizeYLink6 IOC="BL15I-DI-IOC-04" desc="Set SizeYLink6" pv="BL15I-DI-GIGE-05:DRAW:7:SizeYLink" ro="false" type="pv"/>
+		<SizeY6 IOC="BL15I-DI-IOC-04" desc="Set SizeY6" pv="BL15I-DI-GIGE-05:DRAW:7:SizeY" ro="false" type="pv"/>
+		<SizeY6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY6" pv="BL15I-DI-GIGE-05:DRAW:7:SizeY_RBV" ro="true" type="pv"/>
+		<Shape6 IOC="BL15I-DI-IOC-04" desc="Set Shape6" pv="BL15I-DI-GIGE-05:DRAW:7:Shape" ro="false" type="mbbinary"/>
+		<Shape6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Shape6" pv="BL15I-DI-GIGE-05:DRAW:7:Shape_RBV" ro="true" type="mbbinary"/>
+		<DrawMode6 IOC="BL15I-DI-IOC-04" desc="Set DrawMode6" pv="BL15I-DI-GIGE-05:DRAW:7:DrawMode" ro="false" type="mbbinary"/>
+		<DrawMode6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DrawMode6" pv="BL15I-DI-GIGE-05:DRAW:7:DrawMode_RBV" ro="true" type="mbbinary"/>
+		<Red6 IOC="BL15I-DI-IOC-04" desc="Set Red6" pv="BL15I-DI-GIGE-05:DRAW:7:Red" ro="false" type="pv"/>
+		<Red6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Red6" pv="BL15I-DI-GIGE-05:DRAW:7:Red_RBV" ro="true" type="pv"/>
+		<Green6 IOC="BL15I-DI-IOC-04" desc="Set Green6" pv="BL15I-DI-GIGE-05:DRAW:7:Green" ro="false" type="pv"/>
+		<Green6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Green6" pv="BL15I-DI-GIGE-05:DRAW:7:Green_RBV" ro="true" type="pv"/>
+		<Blue6 IOC="BL15I-DI-IOC-04" desc="Set Blue6" pv="BL15I-DI-GIGE-05:DRAW:7:Blue" ro="false" type="pv"/>
+		<Blue6_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue6" pv="BL15I-DI-GIGE-05:DRAW:7:Blue_RBV" ro="true" type="pv"/>
+		<Name7 IOC="BL15I-DI-IOC-04" desc="Set Name7" pv="BL15I-DI-GIGE-05:DRAW:8:Name" ro="false" type="pv"/>
+		<Name_RBV7 IOC="BL15I-DI-IOC-04" desc="Readback for Name7" pv="BL15I-DI-GIGE-05:DRAW:8:Name_RBV" ro="true" type="pv"/>
+		<Use7 IOC="BL15I-DI-IOC-04" desc="Set Use7" pv="BL15I-DI-GIGE-05:DRAW:8:Use" ro="false" type="binary"/>
+		<Use7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Use7" pv="BL15I-DI-GIGE-05:DRAW:8:Use_RBV" ro="true" type="binary"/>
+		<PositionXLink7 IOC="BL15I-DI-IOC-04" desc="Set PositionXLink7" pv="BL15I-DI-GIGE-05:DRAW:8:PositionXLink" ro="false" type="pv"/>
+		<PositionX7 IOC="BL15I-DI-IOC-04" desc="Set PositionX7" pv="BL15I-DI-GIGE-05:DRAW:8:PositionX" ro="false" type="pv"/>
+		<PositionX7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionX7" pv="BL15I-DI-GIGE-05:DRAW:8:PositionX_RBV" ro="true" type="pv"/>
+		<PositionYLink7 IOC="BL15I-DI-IOC-04" desc="Set PositionYLink7" pv="BL15I-DI-GIGE-05:DRAW:8:PositionYLink" ro="false" type="pv"/>
+		<PositionY7 IOC="BL15I-DI-IOC-04" desc="Set PositionY7" pv="BL15I-DI-GIGE-05:DRAW:8:PositionY" ro="false" type="pv"/>
+		<PositionY7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for PositionY7" pv="BL15I-DI-GIGE-05:DRAW:8:PositionY_RBV" ro="true" type="pv"/>
+		<SizeXLink7 IOC="BL15I-DI-IOC-04" desc="Set SizeXLink7" pv="BL15I-DI-GIGE-05:DRAW:8:SizeXLink" ro="false" type="pv"/>
+		<SizeX7 IOC="BL15I-DI-IOC-04" desc="Set SizeX7" pv="BL15I-DI-GIGE-05:DRAW:8:SizeX" ro="false" type="pv"/>
+		<SizeX7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeX7" pv="BL15I-DI-GIGE-05:DRAW:8:SizeX_RBV" ro="true" type="pv"/>
+		<SizeYLink7 IOC="BL15I-DI-IOC-04" desc="Set SizeYLink7" pv="BL15I-DI-GIGE-05:DRAW:8:SizeYLink" ro="false" type="pv"/>
+		<SizeY7 IOC="BL15I-DI-IOC-04" desc="Set SizeY7" pv="BL15I-DI-GIGE-05:DRAW:8:SizeY" ro="false" type="pv"/>
+		<SizeY7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for SizeY7" pv="BL15I-DI-GIGE-05:DRAW:8:SizeY_RBV" ro="true" type="pv"/>
+		<Shape7 IOC="BL15I-DI-IOC-04" desc="Set Shape7" pv="BL15I-DI-GIGE-05:DRAW:8:Shape" ro="false" type="mbbinary"/>
+		<Shape7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Shape7" pv="BL15I-DI-GIGE-05:DRAW:8:Shape_RBV" ro="true" type="mbbinary"/>
+		<DrawMode7 IOC="BL15I-DI-IOC-04" desc="Set DrawMode7" pv="BL15I-DI-GIGE-05:DRAW:8:DrawMode" ro="false" type="mbbinary"/>
+		<DrawMode7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for DrawMode7" pv="BL15I-DI-GIGE-05:DRAW:8:DrawMode_RBV" ro="true" type="mbbinary"/>
+		<Red7 IOC="BL15I-DI-IOC-04" desc="Set Red7" pv="BL15I-DI-GIGE-05:DRAW:8:Red" ro="false" type="pv"/>
+		<Red7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Red7" pv="BL15I-DI-GIGE-05:DRAW:8:Red_RBV" ro="true" type="pv"/>
+		<Green7 IOC="BL15I-DI-IOC-04" desc="Set Green7" pv="BL15I-DI-GIGE-05:DRAW:8:Green" ro="false" type="pv"/>
+		<Green7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Green7" pv="BL15I-DI-GIGE-05:DRAW:8:Green_RBV" ro="true" type="pv"/>
+		<Blue7 IOC="BL15I-DI-IOC-04" desc="Set Blue7" pv="BL15I-DI-GIGE-05:DRAW:8:Blue" ro="false" type="pv"/>
+		<Blue7_RBV IOC="BL15I-DI-IOC-04" desc="Readback for Blue7" pv="BL15I-DI-GIGE-05:DRAW:8:Blue_RBV" ro="true" type="pv"/>
+	</NDOverlay>
 	<ffmpegStream desc="gige4.ffmpeg ffmpegStream class instance" name="gige4.ffmpeg_ffmpegStream">
 		<QUALITY IOC="BL15I-DI-IOC-04" desc="Set QUALITY" pv="BL15I-DI-GIGE-04:FFMPEG:QUALITY" ro="false" type="pv"/>
 		<QUALITY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for QUALITY" pv="BL15I-DI-GIGE-04:FFMPEG:QUALITY_RBV" ro="true" type="pv"/>
@@ -4622,5 +5378,22 @@
 		<CLIENTS_RBV IOC="BL15I-DI-IOC-04" desc="Readback for CLIENTS" pv="BL15I-DI-GIGE-04:FFMPEG:CLIENTS_RBV" ro="true" type="pv"/>
 		<JPG_URL_RBV IOC="BL15I-DI-IOC-04" desc="Readback for JPG URL" pv="BL15I-DI-GIGE-04:FFMPEG:JPG_URL_RBV" ro="true" type="pv"/>
 		<MJPG_URL_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MJPG URL" pv="BL15I-DI-GIGE-04:FFMPEG:MJPG_URL_RBV" ro="true" type="pv"/>
+	</ffmpegStream>
+	<ffmpegStream desc="gige5.ffmpeg ffmpegStream class instance" name="gige5.ffmpeg_ffmpegStream">
+		<QUALITY IOC="BL15I-DI-IOC-04" desc="Set QUALITY" pv="BL15I-DI-GIGE-05:FFMPEG:QUALITY" ro="false" type="pv"/>
+		<QUALITY_RBV IOC="BL15I-DI-IOC-04" desc="Readback for QUALITY" pv="BL15I-DI-GIGE-05:FFMPEG:QUALITY_RBV" ro="true" type="pv"/>
+		<MAXW IOC="BL15I-DI-IOC-04" desc="Set MAXW" pv="BL15I-DI-GIGE-05:FFMPEG:MAXW" ro="false" type="pv"/>
+		<MAXW_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MAXW" pv="BL15I-DI-GIGE-05:FFMPEG:MAXW_RBV" ro="true" type="pv"/>
+		<MAXH IOC="BL15I-DI-IOC-04" desc="Set MAXH" pv="BL15I-DI-GIGE-05:FFMPEG:MAXH" ro="false" type="pv"/>
+		<MAXH_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MAXH" pv="BL15I-DI-GIGE-05:FFMPEG:MAXH_RBV" ro="true" type="pv"/>
+		<FALSE_COL IOC="BL15I-DI-IOC-04" desc="Set FALSE_COL" pv="BL15I-DI-GIGE-05:FFMPEG:FALSE_COL" ro="false" type="binary"/>
+		<FALSE_COL_RBV IOC="BL15I-DI-IOC-04" desc="Readback for FALSE_COL" pv="BL15I-DI-GIGE-05:FFMPEG:FALSE_COL_RBV" ro="true" type="binary"/>
+		<ALWAYS_ON IOC="BL15I-DI-IOC-04" desc="Set ALWAYS_ON" pv="BL15I-DI-GIGE-05:FFMPEG:ALWAYS_ON" ro="false" type="binary"/>
+		<ALWAYS_ON_RBV IOC="BL15I-DI-IOC-04" desc="Readback for ALWAYS_ON" pv="BL15I-DI-GIGE-05:FFMPEG:ALWAYS_ON_RBV" ro="true" type="binary"/>
+		<HTTP_PORT_RBV IOC="BL15I-DI-IOC-04" desc="Readback for HTTP_PORT" pv="BL15I-DI-GIGE-05:FFMPEG:HTTP_PORT_RBV" ro="true" type="pv"/>
+		<HOST_RBV IOC="BL15I-DI-IOC-04" desc="Readback for HOST" pv="BL15I-DI-GIGE-05:FFMPEG:HOST_RBV" ro="true" type="pv"/>
+		<CLIENTS_RBV IOC="BL15I-DI-IOC-04" desc="Readback for CLIENTS" pv="BL15I-DI-GIGE-05:FFMPEG:CLIENTS_RBV" ro="true" type="pv"/>
+		<JPG_URL_RBV IOC="BL15I-DI-IOC-04" desc="Readback for JPG URL" pv="BL15I-DI-GIGE-05:FFMPEG:JPG_URL_RBV" ro="true" type="pv"/>
+		<MJPG_URL_RBV IOC="BL15I-DI-IOC-04" desc="Readback for MJPG URL" pv="BL15I-DI-GIGE-05:FFMPEG:MJPG_URL_RBV" ro="true" type="pv"/>
 	</ffmpegStream>
 </devices>
