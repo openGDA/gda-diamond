@@ -481,6 +481,11 @@ def _rockScanParams(detector, exposeTime, exposeNumber, fileName, rockMotor, roc
 													 sampleSuffix=fileName, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis=rockMotor)
 
+	logger.info("_rockScanParams: [%r, %r, %r, %r,  %r,  %r, %r]" % (
+								  continuouslyScannableViaController.name, rockCentre, rockCentre, abs(2*rockAngle),
+								  continuousMoveController.name,
+								  hardwareTriggeredNXDetector.name, exposeTime,
+								))
 	# TODO: We should probably also check that lineMotor and rockMotor aren't both the same!'
 	sc1=ConstantVelocityScanLine([continuouslyScannableViaController, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController,

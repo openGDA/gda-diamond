@@ -7,6 +7,7 @@ from gda.device.scannable import ScannableBase
 from gdascripts.parameters import beamline_parameters
 from gdascripts.utils import caget, caput
 from time import sleep
+from org.slf4j import LoggerFactory
 
 # If the functions or defaults values below change, please update the user wiki
 # page: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Exposures%20and%20scans%20using%20mar%2C%20ccd%2C%20Pilatus%2C%20etc.
@@ -291,7 +292,10 @@ def expose(detector, exposureTime=1, noOfExposures=1,
 
 def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-	
+	LoggerFactory.getLogger("detector_scan_commands.py").trace(
+		"configureDetector(detector=%r, exposureTime=%r, noOfExposures=%r, sampleSuffix=%r, dark=%r)" % (
+							detector, exposureTime, noOfExposures, sampleSuffix, dark))
+
 	supportedDetectors = {'mar':    jythonNameMap.marHWT
 						, 'marHWT': detector
 						, 'pe':     detector
@@ -356,10 +360,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	if darkSubtractionPVs:
 		darkSubtractionArray = caget(darkSubtractionPVs['array']+"EnableBackground_RBV")
 		darkSubtractionLive =  caget(darkSubtractionPVs['live'] +"EnableBackground_RBV")
-		darkSubtraction = darkSubtractionArray + " on array and " + darkSubtractionLive + " on live"
-	else:
-		darkSubtraction = "not used"
-	print "Dark subtraction " + darkSubtraction + " for detector " + hardwareTriggeredNXDetector.name
+		print "Dark subtraction %r on array and %r on live for detector %s " % (
+			darkSubtractionArray, darkSubtractionLive, hardwareTriggeredNXDetector.name)
 
 	return hardwareTriggeredNXDetector
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Expects a parameter line that can be passed on to the gda python script
-export GDA_DEBUG=TRUE
+#export GDA_DEBUG=TRUE
 
 here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 set -o nounset  # Turn on nounset
