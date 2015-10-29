@@ -48,11 +48,18 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 		perp2rot_axis	= jythonNameMap.cryox
 		focus_axis		= jythonNameMap.cryoz
 		focus_axis_inverted = True
+	
+	elif rotation_axis == jythonNameMap.sphi:
+		perp2rot_axis	= jythonNameMap.ssx
+		focus_axis		= jythonNameMap.ssz
+		if  rotation_centre==None:
+			rotation_centre=0
+			print "No rotation_centre specified, assuming 0."
+		#focus_axis_inverted = True
 	else:
 		print "not supported by centre()"
 		print "Please specify rotation_axis as dkphi, dktheta or cryorot."
 		return
-	
 	if rotation_centre==None:
 		print "has no default rotation_centre."
 		print "Please specify rotation_centre for this axis. See 'help centre'"
