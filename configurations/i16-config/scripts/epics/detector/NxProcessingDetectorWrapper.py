@@ -62,6 +62,9 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
         datadirectory = LocalProperties.get("gda.data.scan.datawriter.datadir")
         nexusFileName = "%s/%d.nxs" % (datadirectory, ndfile.getFileNumber_RBV())
         detectorPath = "/entry/instrument/detector/data"
+        detectorFileName = detectorFileName.replace(datadirectory, "")
+        if detectorFileName[0] == '/':
+            detectorFileName = detectorFileName.split('/', 1)[1]
         print "Creating HDF Links"
         self.linkFunction(nexusFileName, detectorFileName, nexusPaths, detectorPath)
 

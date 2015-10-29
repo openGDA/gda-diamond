@@ -31,7 +31,7 @@
 						<property name="paths"
 							value="instrument:NXinstrument/transformations:NXtransformations/offsetdelta" />
 						<property name="depends_on"
-							value="entry1/instrument/transformations/gamma" />
+							value="entry1/instrument/transformations/delta" />
 						<property name="transformation" value="rotation" />
 						<property name="units" value="deg" />
 						<property name="vector">
@@ -48,7 +48,7 @@
 						<property name="paths"
 							value="instrument:NXinstrument/transformations:NXtransformations/delta" />
 						<property name="depends_on"
-							value="entry1/instrument/transformations/offsetdelta" />
+							value="entry1/instrument/transformations/gamma" />
 						<property name="transformation" value="rotation" />
 						<property name="units" value="deg" />
 						<property name="vector">
@@ -101,7 +101,7 @@
 						<property name="units" value="deg" />
 						<property name="vector">
 							<list><list>
-								<value>-0.76604443</value><value>0.64278761</value><value>0</value>
+								<value>0</value><value>0.64278761</value><value>-0.76604443</value>
 							</list></list>
 						</property>
 					</bean>

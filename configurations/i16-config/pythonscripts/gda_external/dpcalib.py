@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import numpy as np
 from scipy import linalg
 import scipy as sp
@@ -6,6 +8,7 @@ import scisoftpy as dnp
 import sys
 from collections import OrderedDict
 import xml.etree.ElementTree as ET
+import time
 
 #TODO: Extend configuration to other detectors
 
@@ -26,13 +29,10 @@ def rotate_z(degrees):
     return np.array([[c, -s, 0], [s, c, 0], [0, 0, 1]])
 
 
-# define y vertical upwards, z along beam, thus x is "away from storage ring"
-# => rotate_delta(d) = rotate_x(-d), rotate_gamma = rotate_y
-
 # detector is mounted on delta arm which is horizontal at delta=0
 # it has orientation given by Euler angles (a,b,c) as O = R_x(a) R_y'(b) R_z''(c) - an
 # intrinsic rotation - for z being detector normal (away from sample) and
-# and detector origin at (p_x, p_y, p_z)
+# detector origin at (p_x, p_y, p_z)
 
 
 pixel_size = 0.172
@@ -46,7 +46,7 @@ def orient_detector(params, delta=0, gamma=0):
     # orientation matrix is inverse of transformation from lab to detector frame
     O = np.dot(rotate_x(a), np.dot(rotate_y(b), rotate_z(c))).T
 #     R = np.dot(rotate_x(-delta), rotate_y(gamma))
-    R = np.dot(rotate_y(delta), rotate_x(gamma)) # this is for x-dir up
+    R = np.dot(rotate_x(gamma), rotate_y(delta)) # this is for x-dir up
     return np.dot(R, O), R
 
 def direct_beam(params, delta, gamma):
@@ -102,7 +102,9 @@ sample_data = [(261, 57), (230, 57), (198, 56), (167, 55), (134, 54), (102, 54),
 
 
 def extract_axes(datfile):
+    deltaoffsets = datfile["delta_axis_offset"]
     deltas = datfile["delta"]
+    deltas = deltas - deltaoffsets
     gammas = datfile["gam"]
     return {"delta" : deltas, "gamma" : gammas}
 
@@ -121,7 +123,7 @@ def extract_pixel_peaks(image_paths):
             image.argmax() / fast_axis_length) )
     return peaks
 
-def print_output(parameters, fast, slow, normal, d0):
+def print_output(parameters, fast, slow, normal, d0, fitted_params, deltas, gammas, data):
     print "\nX is up (gamma axis), Y is toward the ring (delta axis), Z is along the beam."
     print "\nFitted Parameters:"
     for item in parameters.items():
@@ -135,6 +137,12 @@ def print_output(parameters, fast, slow, normal, d0):
     print normal
     print "\nDetector Origin Position:"
     print d0
+
+    print "\nPixel Diff"
+    print pixels_diff(fitted_params, deltas, gammas, data)
+
+    print "\nData"
+    print data
 
 # in-place prettyprint formatter
 def indent_tree(elem, level=0):
@@ -153,7 +161,7 @@ def indent_tree(elem, level=0):
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
 
-def generate_xml(fast, slow, d0, pixel_size):
+def generate_xml(fast, slow, d0, pixel_size, timestamp, scannumber):
     format_string = '%.9f'
     root = ET.Element('geometry')
     det_node = ET.SubElement(root, 'detector')
@@ -164,6 +172,12 @@ def generate_xml(fast, slow, d0, pixel_size):
     slow_node.attrib['name'] = 'slow'
     position_node = ET.SubElement(det_node, 'position')
     position_node.attrib['name'] = 'origin'
+
+    date_node = ET.SubElement(det_node, 'time')
+    date_node.text = timestamp
+    scan_node = ET.SubElement(det_node, 'scan')
+    scan_node.text = "%d" % scannumber
+
 
     fast_vector_node = ET.SubElement(fast_node, 'vector')
     fast_vector_node.append(ET.Element('element'))
@@ -192,9 +206,9 @@ def generate_xml(fast, slow, d0, pixel_size):
     position_node.append(ET.Element("units"))
     position_node.getchildren()[2].text = "mm"
     fast_node.append(ET.Element("size"))
-    fast_node.getchildren()[1].text = "1"
+    fast_node.getchildren()[1].text = str(pixel_size)
     fast_node.append(ET.Element("units"))
-    fast_node.getchildren()[2].text = str(pixel_size)
+    fast_node.getchildren()[2].text = "mm"
     slow_node.append(ET.Element("size"))
     slow_node.getchildren()[1].text = str(pixel_size)
     slow_node.append(ET.Element("units"))
@@ -212,11 +226,13 @@ def main( argv ):
     print "\nProcessing data file " + datfilepath
     print "data file directory " + datadir
     datfile = dnp.io.load(datfilepath, warn=False)
+    scannumber = datfile.metadata['SRSRUN']
+    timestring = datfile.metadata['date']
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.strptime(timestring))
     axes = extract_axes(datfile)
     deltas = axes["delta"]
     gammas = axes["gamma"]
     data = extract_pixel_peaks(extract_image_paths(datfile, datadir))
-
 
     params = OrderedDict([('x_rot', 0.5), ('y_rot', -45), ('z_rot', 0),
                           ('x_pos', 18), ('y_pos', 50), ('z_pos', 500)])
@@ -232,8 +248,8 @@ def main( argv ):
     normal = orientation_matrix.T[2]
 
     detector_origin_position = [params['x_pos'], params['y_pos'], params['z_pos']]
-    print_output(params, fast, slow, normal, detector_origin_position)
-    xml_tree = generate_xml(fast, slow, detector_origin_position, pixel_size)
+    print_output(params, fast, slow, normal, detector_origin_position, fitted_params[0], deltas, gammas, data)
+    xml_tree = generate_xml(fast, slow, detector_origin_position, pixel_size, timestamp, scannumber)
     xml_tree.write('geometry.xml')
 
 if __name__ == "__main__":
