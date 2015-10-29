@@ -401,14 +401,6 @@ try:
 		alias("minusToHome")
 		alias("homeToMinus57")
 		alias("minus57ToMinus122")
-		alias("expose")
-		#alias("darkExpose")
-		alias("rockScan")
-		alias("rockScanUnsync")
-		#alias("resetCCDScanNumber")
-		#alias("incrementMarScanNumber")
-		#alias("resetMarScanNumber")
-		#alias("resetPilatusScanNumber")
 	except:
 		localStation_exception(sys.exc_info(), "setting up aliases")
 

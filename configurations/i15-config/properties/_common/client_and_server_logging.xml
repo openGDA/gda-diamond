@@ -19,5 +19,5 @@
 	<logger name="uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotWindowManager">
         <level value="OFF"/>
     </logger>
-    
+
 </included>
