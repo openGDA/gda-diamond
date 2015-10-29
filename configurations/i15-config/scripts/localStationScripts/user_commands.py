@@ -19,7 +19,7 @@ _lineHelp = """
 	"""
 	
 _rockHelp = """
-	rockMotor is assumed (default) to be dkphi, rockCentre is assumed (default) to be 58.0.
+	exposeRockMotor is assumed (default) to be dkphi, rockCentre is assumed (default) to be 58.0.
 	"""
 
 _rockNHelp = """
@@ -32,6 +32,8 @@ _gridHelp = """
 	"""
 
 
+aliasList=[]
+
 # Static exposure
 
 def expose(exposeTime, fileName):
@@ -41,6 +43,8 @@ def expose(exposeTime, fileName):
 	return exposeN(exposeTime, 1, fileName)
 
 expose.__doc__ += _exposeHelp
+aliasList.append("expose")
+
 
 def exposeN(exposeTime, exposeNumber, fileName):
 	"""
@@ -52,6 +56,8 @@ def exposeN(exposeTime, exposeNumber, fileName):
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName)
 
 exposeN.__doc__ += _exposeHelp + _exposeNHelp
+aliasList.append("exposeN")
+
 
 def exposeDark(exposeTime, fileName):
 	"""
@@ -64,6 +70,8 @@ def exposeDark(exposeTime, fileName):
 	_darkExpose(_exposeDetector(), exposeTime, fileName)
 
 exposeDark.__doc__ += _exposeHelp
+aliasList.append("exposeDark")
+
 
 # Line scans
 
@@ -74,7 +82,7 @@ def exposeLineAbs(exposeTime, lineMotor, AbsoluteStartPos, AbsoluteEndPos, stepN
 	return exposeNLineAbs(exposeTime, 1, lineMotor, AbsoluteStartPos, AbsoluteEndPos, stepNumber, fileName)
 
 exposeLineAbs.__doc__ += _exposeHelp + _lineHelp
-
+aliasList.append("exposeLineAbs")
 
 def exposeLineStep(exposeTime, lineMotor, stepSize, stepNumber, fileName):
 	"""
@@ -83,6 +91,7 @@ def exposeLineStep(exposeTime, lineMotor, stepSize, stepNumber, fileName):
 	return exposeNLineStep(exposeTime, 1, lineMotor, stepSize, stepNumber, fileName)
 
 exposeLineStep.__doc__ += _exposeHelp + _lineHelp
+aliasList.append("exposeLineStep")
 
 
 def exposeNLineAbs(exposeTime, exposeNumber, lineMotor, AbsoluteStartPos, AbsoluteEndPos, stepNumber, fileName):
@@ -96,6 +105,7 @@ def exposeNLineAbs(exposeTime, exposeNumber, lineMotor, AbsoluteStartPos, Absolu
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStepNumber=stepNumber)
 
 exposeNLineAbs.__doc__ += _exposeHelp + _exposeNHelp + _lineHelp
+aliasList.append("exposeNLineAbs")
 
 
 def exposeNLineStep(exposeTime, exposeNumber, lineMotor, stepSize, stepNumber, fileName):
@@ -112,6 +122,7 @@ def exposeNLineStep(exposeTime, exposeNumber, lineMotor, stepSize, stepNumber, f
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStep=stepSize, horizStepNumber=stepNumber)
 
 exposeNLineStep.__doc__ += _exposeHelp + _exposeNHelp + _lineHelp
+aliasList.append("exposeNLineStep")
 
 
 # Grid scans
@@ -123,6 +134,7 @@ def exposeGridAbs(exposeTime, AbsoluteHorizStart, AbsoluteHorizEnd, horizStepNum
 	return exposeNGridAbs(exposeTime, 1, AbsoluteHorizStart, AbsoluteHorizEnd, horizStepNumber, AbsoluteVertStart, AbsoluteVertEnd, vertStepNumber, fileName)
 
 exposeGridAbs.__doc__ += _exposeHelp + _gridHelp
+aliasList.append("exposeGridAbs")
 
 
 def exposeGridStep(exposeTime, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName):
@@ -132,6 +144,7 @@ def exposeGridStep(exposeTime, horizStep, horizStepNumber, vertStep, vertStepNum
 	return exposeNGridStep(exposeTime, 1, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName)
 
 exposeGridStep.__doc__ += _exposeHelp + _gridHelp
+aliasList.append("exposeGridStep")
 
 
 def exposeNGridAbs(exposeTime, exposeNumber, AbsoluteHorizStart, AbsoluteHorizEnd, horizStepNumber, AbsoluteVertStart, AbsoluteVertEnd, vertStepNumber, fileName):
@@ -145,6 +158,7 @@ def exposeNGridAbs(exposeTime, exposeNumber, AbsoluteHorizStart, AbsoluteHorizEn
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStepNumber=vertStepNumber)
 
 exposeNGridAbs.__doc__ += _exposeHelp + _exposeNHelp + _gridHelp
+aliasList.append("exposeNGridAbs")
 
 
 def exposeNGridStep(exposeTime, exposeNumber, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName):
@@ -161,6 +175,7 @@ def exposeNGridStep(exposeTime, exposeNumber, horizStep, horizStepNumber, vertSt
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStep=horizStep, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStep=vertStep,   vertStepNumber=vertStepNumber)
 
 exposeNGridStep.__doc__ += _exposeHelp + _exposeNHelp + _gridHelp
+aliasList.append("exposeNGridStep")
 
 
 # Rocking during exposure:
@@ -172,6 +187,7 @@ def exposeRock(exposeTime, rockAngle, fileName):
 	return exposeRockN(exposeTime, rockAngle, 1, fileName)
 
 exposeRock.__doc__ += _exposeHelp + _rockHelp
+aliasList.append("exposeRock")
 
 
 def exposeRockN(exposeTime, rockAngle, rockNumber, fileName):
@@ -181,6 +197,7 @@ def exposeRockN(exposeTime, rockAngle, rockNumber, fileName):
 	return exposeNRockN(exposeTime, 1, rockAngle, rockNumber, fileName)
 
 exposeRockN.__doc__ += _exposeHelp + _rockHelp + _rockNHelp
+aliasList.append("exposeRockN")
 
 
 def exposeNRockN(exposeTime, exposeNumber, rockAngle, rockNumber, fileName):
@@ -194,6 +211,7 @@ def exposeNRockN(exposeTime, exposeNumber, rockAngle, rockNumber, fileName):
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber)
 
 exposeNRockN.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp
+aliasList.append("exposeNRockN")
 
 
 # Combining exposure, line or grid scans, and rocking
@@ -205,6 +223,7 @@ def exposeRockLineAbs(exposeTime, rockAngle, lineMotor, AbsoluteStartPos, Absolu
 	return exposeNRockLineAbs(exposeTime, 1, rockAngle, lineMotor, AbsoluteStartPos, AbsoluteEndPos, stepNumber, fileName)
 
 exposeRockLineAbs.__doc__ += _exposeHelp + _rockHelp + _lineHelp
+aliasList.append("exposeRockLineAbs")
 
 
 def exposeRockLineStep(exposeTime, rockAngle, lineMotor, stepSize, stepNumber, fileName):
@@ -214,6 +233,7 @@ def exposeRockLineStep(exposeTime, rockAngle, lineMotor, stepSize, stepNumber, f
 	return exposeNRockLineStep(exposeTime, 1, rockAngle, lineMotor, stepSize, stepNumber, fileName)
 
 exposeRockLineStep.__doc__ += _exposeHelp + _rockHelp + _lineHelp
+aliasList.append("exposeRockLineStep")
 
 
 def exposeRockGridAbs(exposeTime, rockAngle, AbsoluteHorizStart, AbsoluteHorizEnd, horizStepNumber, AbsoluteVertStart, AbsoluteVertEnd, vertStepNumber, fileName):
@@ -223,6 +243,7 @@ def exposeRockGridAbs(exposeTime, rockAngle, AbsoluteHorizStart, AbsoluteHorizEn
 	return exposeNRockGridAbs(exposeTime, 1, rockAngle, AbsoluteHorizStart, AbsoluteHorizEnd, horizStepNumber, AbsoluteVertStart, AbsoluteVertEnd, vertStepNumber, fileName)
 
 exposeRockGridAbs.__doc__ += _exposeHelp + _rockHelp + _gridHelp
+aliasList.append("exposeRockGridAbs")
 
 
 def exposeRockGridStep(exposeTime, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName):
@@ -232,6 +253,7 @@ def exposeRockGridStep(exposeTime, rockAngle, horizStep, horizStepNumber, vertSt
 	return exposeNRockGridStep(exposeTime, 1, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName)
 
 exposeRockGridStep.__doc__ += _exposeHelp + _rockHelp + _gridHelp
+aliasList.append("exposeRockGridStep")
 
 
 def exposeNRockLineAbs(exposeTime, exposeNumber, rockAngle, lineMotor, AbsoluteStartPos, AbsoluteEndPos, stepNumber, fileName):
@@ -250,6 +272,7 @@ def exposeNRockLineStep(exposeTime, exposeNumber, rockAngle, lineMotor, stepSize
 	return exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, 1, lineMotor, stepSize, stepNumber, fileName)
 
 exposeNRockLineStep.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _lineHelp
+aliasList.append("exposeNRockLineStep")
 
 
 def exposeNRockGridAbs(exposeTime, exposeNumber, rockAngle, AbsoluteHorizStart, AbsoluteHorizEnd, horizStepNumber, AbsoluteVertStart, AbsoluteVertEnd, vertStepNumber, fileName):
@@ -259,6 +282,7 @@ def exposeNRockGridAbs(exposeTime, exposeNumber, rockAngle, AbsoluteHorizStart, 
 	return exposeNRockNGridAbs(exposeTime, exposeNumber, rockAngle, 1, AbsoluteHorizStart, AbsoluteHorizEnd, horizStepNumber, AbsoluteVertStart, AbsoluteVertEnd, vertStepNumber, fileName)
 
 exposeNRockGridAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _gridHelp
+aliasList.append("exposeNRockGridAbs")
 
 
 def exposeNRockGridStep(exposeTime, exposeNumber, rockAngle, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName):
@@ -268,6 +292,7 @@ def exposeNRockGridStep(exposeTime, exposeNumber, rockAngle, horizStep, horizSte
 	return exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, 1, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName)
 
 exposeNRockGridStep.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _gridHelp
+aliasList.append("exposeNRockGridStep")
 
 
 def exposeNRockNLineAbs(exposeTime, exposeNumber, rockAngle, rockNumber, lineMotor, AbsoluteStartPos, AbsoluteEndPos, stepNumber, fileName):
@@ -281,6 +306,7 @@ def exposeNRockNLineAbs(exposeTime, exposeNumber, rockAngle, rockNumber, lineMot
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber, horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStepNumber=stepNumber)
 
 exposeNRockNLineAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp + _lineHelp
+aliasList.append("exposeNRockNLineAbs")
 
 
 def exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, rockNumber, lineMotor, stepSize, stepNumber, fileName):
@@ -298,6 +324,7 @@ def exposeNRockNLineStep(exposeTime, exposeNumber, rockAngle, rockNumber, lineMo
 			horizMotor=lineMotor, AbsoluteHorizStart=AbsoluteStartPos, AbsoluteHorizEnd=AbsoluteEndPos, horizStep=stepSize, horizStepNumber=stepNumber)
 
 exposeNRockNLineStep.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp + _lineHelp
+aliasList.append("exposeNRockNLineStep")
 
 
 def exposeNRockNGridAbs(exposeTime, exposeNumber, rockAngle, rockNumber, AbsoluteHorizStart, AbsoluteHorizEnd, horizStepNumber, AbsoluteVertStart, AbsoluteVertEnd, vertStepNumber, fileName):
@@ -311,6 +338,7 @@ def exposeNRockNGridAbs(exposeTime, exposeNumber, rockAngle, rockNumber, Absolut
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStepNumber=vertStepNumber,)
 
 exposeNRockNGridAbs.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp + _gridHelp
+aliasList.append("exposeNRockNGridAbs")
 
 
 def exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, rockNumber, horizStep, horizStepNumber, vertStep, vertStepNumber, fileName):
@@ -327,6 +355,7 @@ def exposeNRockNGridStep(exposeTime, exposeNumber, rockAngle, rockNumber, horizS
 	_exposeN(exposeTime=exposeTime, exposeNumber=exposeNumber, fileName=fileName, rockMotor=_rockMotor(), rockAngle=rockAngle, rockNumber=rockNumber, horizMotor=_horizMotor(), AbsoluteHorizStart=AbsoluteHorizStart, AbsoluteHorizEnd=AbsoluteHorizEnd, horizStep=horizStep, horizStepNumber=horizStepNumber, vertMotor=_vertMotor(),   AbsoluteVertStart=AbsoluteVertStart,   AbsoluteVertEnd=AbsoluteVertEnd,   vertStep=vertStep,   vertStepNumber=vertStepNumber)
 
 exposeNRockNGridStep.__doc__ += _exposeHelp + _exposeNHelp + _rockHelp + _rockNHelp + _gridHelp
+aliasList.append("exposeNRockNGridStep")
 
 
 # User input verification functions
@@ -560,3 +589,7 @@ def _exposeN(exposeTime, exposeNumber, fileName, rockMotor=None, rockAngle=None,
 	if rockMotor != None:
 		print "Moving %s back to %r" % (rockMotor.name, rockCentre)
 		rockMotor.moveTo(rockCentre)
+
+def exposeAliases(alias):
+	for command in aliasList:
+		alias(command)

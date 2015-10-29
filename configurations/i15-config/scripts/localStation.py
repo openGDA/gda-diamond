@@ -401,6 +401,7 @@ try:
 		alias("minusToHome")
 		alias("homeToMinus57")
 		alias("minus57ToMinus122")
+		exposeAliases(alias) # expose*
 	except:
 		localStation_exception(sys.exc_info(), "setting up aliases")
 
