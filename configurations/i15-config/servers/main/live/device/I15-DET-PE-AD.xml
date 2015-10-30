@@ -103,8 +103,6 @@
 
 	<!-- NXDetector collection strategies -->
 
-	<!-- We need to make a PE collection strategy which understands about PE states -->
-
 	<!-- MultipleExposureSoftwareTriggerAutoMode(ADBase adBase, double maxExposureTime) -->
 
 	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy"
@@ -115,36 +113,76 @@
 		<!-- We need a way here to tell file writers that they need to take their image from this ndProcess if defined? -->
 		<property name="filterEnabledAfterCollection" value="True" />
 	</bean>
-	<!-- This really needs to be a MultipleExposureAutoModeDecorator around a SoftwareTrigger Collection Strategy 
-		 so that we can also decorate HardwareTrigger and EpicsTrigger with the same decorator for the same behaviour. -->
 
 	<!-- Should now apply UnsynchronisedExternalShutterDecorator to MultipleExposureSoftwareTriggerAutoMode -->
 	<!-- which should itself apply MultipleExposureAutoModeDecorator around a SoftwareTrigger Collection Strategy -->
 	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" 
-			class="gda.device.detector.addetector.triggering.UnsynchronisedExternalShutterDecorator">
+			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
 		<property name="decoratee" ref="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
 		<property name="collectionExtensionTimeS" value="10" />
 	</bean>
 
-	<!-- MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
-	<!-- 
-	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" 
-		  class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter">
-		<constructor-arg ref="peAD_config_base" />
-		<constructor-arg value="-1" />
-		<constructor-arg value="10" />
-		<property name="ndProcess" ref="peAD_summary_proc2" />
-		<property name="readAcquireTimeFromHardware" value="True" />
-		<property name="procDataTypeOut" value="4" />
+	<!-- We need to make a PE collection strategy which understands about PE states -->
+
+	<!-- Create collection strategy by composition -->
+	<bean id="pe_UnsynchronisedExternalShutterAutoSummingProcessImageModeCollectionStrategy" 
+			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
+		<property name="collectionExtensionTimeS" value="10" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
+				<property name="ndProcess" ref="peAD_summary_proc2" />
+				<property name="processDataTypeOut" value="4" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+								<property name="decoratee">
+									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="peAD_config_base" />
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
-	 -->
 	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
-	     dkphi set to minimumAccelerationDistance=0.004-->
-	<!-- A value of 4 in procDataTypeOut set the proc output to Int32, it default to 5 which is UInt32
-		 although having the wrong value for this doesn't cause problems for the tiff write, it does cause
+	     dkphi set to minimumAccelerationDistance=0.004 -->
+	<!-- A value of 4 in processDataTypeOut set the proc output to Int32, it defaults to 5 which is UInt32.
+		 Although having the wrong value for this doesn't cause problems for the tiff writer, it does cause
 		 twos complement signed data to be written to the HDF5 annotated as UInt32, i.e. small -ve values
 		 are seen as huge positive values. -->
-	
+
+	<!-- Create collection strategy by composition -->
+	<bean id="pe_Continuous" 
+			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
+		<property name="collectionExtensionTimeS" value="10" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.AutoSummingProcessDecorator">
+				<property name="ndProcess" ref="peAD_summary_proc2" />
+				<property name="processDataTypeOut" value="4" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.ContinuousAcquisition">
+								<property name="adBase" ref="peAD_config_base" />
+								<property name="ndFile" ref="pe_NDFileTiff"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
+	     dkphi set to minimumAccelerationDistance=0.004 -->
+	<!-- A value of 4 in processDataTypeOut set the proc output to Int32, it defaults to 5 which is UInt32.
+		 Although having the wrong value for this doesn't cause problems for the tiff writer, it does cause
+		 twos complement signed data to be written to the HDF5 annotated as UInt32, i.e. small -ve values
+		 are seen as huge positive values. -->
+
 
 	<!-- NXDetector file writers -->
 
@@ -195,10 +233,10 @@
 	<bean id="pe" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="pe"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<!-- If switching to this, don't forget to switch the ndArrayPortVal properties above
-		<property name="collectionStrategy" ref="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
-		 -->
+		<!-- 
 		<property name="collectionStrategy" ref="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" />
+		 -->
+		<property name="collectionStrategy" ref="pe_UnsynchronisedExternalShutterAutoSummingProcessImageModeCollectionStrategy" />
 
 		<property name="additionalPluginList">
 			<list>

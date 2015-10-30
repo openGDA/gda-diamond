@@ -40,20 +40,29 @@
 	</bean>
 	 -->
 
-	<!-- Should now apply UnsynchronisedExternalShutterDecorator to SingleExposureStandard -->
+	<!-- Create collection strategy by composition -->
 	<!-- 
-	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
-			class="gda.device.detector.addetector.triggering.UnsynchronisedExternalShutterDecorator">
-		<property name="decoratee" ref="mar_SingleExposureStandardCollectionStrategy" />
-		<property name="collectionExtensionTimeS" value="10" />
-	</bean>
 	 -->
-
-	<!-- public SingleExposureUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
-	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposureUnsynchronisedExternalShutter">
-		<constructor-arg ref="marAD_config_base" />
-		<constructor-arg value="-1" />
-		<constructor-arg value="10" />
+	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
+			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
+		<property name="collectionExtensionTimeS" value="10" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+								<property name="decoratee">
+									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="marAD_config_base" />
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
 	     dkphi set to minimumAccelerationDistance=0.004 -->

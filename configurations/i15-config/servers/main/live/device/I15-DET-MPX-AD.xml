@@ -90,7 +90,7 @@
 	</bean>
 
 	<!-- We also need a Merlin specific colour mode -->
-	<bean id="mpx_MerlinColourModeCollectionStrategy" class="gda.device.detector.addetector.triggering.MerlinColourModeDecorator">
+	<bean id="mpx_MerlinColourModeCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.MerlinColourModeDecorator">
 		<property name="imagesPerCollectionMultiplier" value="8" />
 		<property name="decoratee" ref="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
 	</bean>
