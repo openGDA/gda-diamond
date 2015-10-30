@@ -311,6 +311,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 						, 'mpxthrHWT':detector
 						, 'pil3':    jythonNameMap.pil3HWT
 						, 'pil3HWT': detector
+						, 'atlas':   detector
+						, 'atlasOverflow': detector
 						}
 	
 	# Since the interface changed, check that noOfExposures is numeric
@@ -322,21 +324,27 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	else:
 		raise Exception('Detector %r not in the list of supported detectors: %r' % (detector.name, supportedDetectors.keys()))
 	
+	# Configure single file filewriters first
+	
 	filePathTemplate="$datadir$/"
-	fileNameTemplate="$scan$-%s-%s-" % (detector.name, sampleSuffix)
+	fileNameTemplate="$scan$-%s-%s" % (detector.name, sampleSuffix)
 	fileTemplate="%s%s"
 	
-	detector.hdfwriter.setFileTemplate(fileTemplate+".hdf5")
-	detector.hdfwriter.setFilePathTemplate(filePathTemplate)
-	detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
+	if 'hdfwriter' in [p.getName() for p in detector.getPluginList()]:
+		detector.hdfwriter.setFileTemplate(fileTemplate+".hdf5")
+		detector.hdfwriter.setFilePathTemplate(filePathTemplate)
+		detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
+		
+	# Then configure multi-file filewriters
 	
-	
-	if noOfExposures != 1 or detector.getCollectionStrategy().getNumberImagesPerCollection(exposureTime) > 1:
-		filePathTemplate="$datadir$/$scan$-%s-files-%s-" % (detector.name, sampleSuffix)
+	collectionStrategy = detector.getCollectionStrategy()
+	#                     VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV Why? that makes no sense!
+	if noOfExposures != 1 or collectionStrategy.getNumberImagesPerCollection(exposureTime) > 1:
+		filePathTemplate="$datadir$/$scan$-%s-files-%s/" % (detector.name, sampleSuffix)
 		fileNameTemplate=""
 		fileTemplate="%s%s%05d"	# One image per file
 	
-	if detector.name == 'mar':
+	if 'marwriter' in [p.getName() for p in detector.getPluginList()]:
 		# Since the mar doesn't like underscores and replaces all characters after the underscore with a three
 		# digit sequence number, we have to strip out the sample suffix (as it might contain an underscore) and
 		# set the sequence number to the expected sequence number.
@@ -348,17 +356,20 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 		detector.marwriter.setFileTemplate(fileTemplate)
 		detector.marwriter.setFilePathTemplate(filePathTemplate)
 		detector.marwriter.setFileNameTemplate(fileNameTemplate)
-		#fileTemplatePv = detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FileTemplate')
-		#filePathPv =     detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FilePath')
-		#fileNamePv =     detector.getPlugin('driver').getAdBase().getPvProvider().getPV('FileName')
-		## This assumes mar is using a PvProvider rather than a basePv.
-		#caput(fileTemplatePv, fileTemplate)
-		#caput(filePathPv,     filePathTemplate)
-		#caput(fileNamePv,     fileNameTemplate)
-	else:
+	
+	if 'tifwriter' in [p.getName() for p in detector.getPluginList()]:
 		detector.tifwriter.setFileTemplate(fileTemplate+".tif")
 		detector.tifwriter.setFilePathTemplate(filePathTemplate)
 		detector.tifwriter.setFileNameTemplate(fileNameTemplate)
+	
+	from gda.device.detector.odccd.collectionstrategy import ODCCDSingleExposure
+	if isinstance(collectionStrategy, ODCCDSingleExposure):
+		filePathTemplate="$datadir$/_$scan$-%s-files-%s/" % (detector.name, sampleSuffix) # Atlas directories cannot start with a number.
+		collectionStrategy.setFileTemplate(fileTemplate+".img")
+		collectionStrategy.setFilePathTemplate(filePathTemplate)
+		collectionStrategy.setFileNameTemplate("_" + fileNameTemplate) # Atlas filenames cannot start with a number.
+	elif detector.name == 'atlas':
+		print "'ODCCD' not in Plugin List!"
 	
 	darkSubtractionPVs=_darkSubtractionPVs(hardwareTriggeredNXDetector)
 	if darkSubtractionPVs:
