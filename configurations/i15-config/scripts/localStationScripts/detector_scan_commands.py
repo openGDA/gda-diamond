@@ -126,16 +126,20 @@ def rockScan(axis, centre, rockSize, noOfRocks, detector, exposureTime,
 	scan.runScan()
 """
 
-def _configureConstantVelocityMove(axis):
-	supportedMotors = ('dkphi',)
+def _configureConstantVelocityMove(axis, detector):
+	supportedMotors = ('dkphi', 'dkappa', 'dktheta')
 	if not (axis.name in supportedMotors):
 		raise Exception('Motor %r not in the list of supported motors: %r' % (axis.name, supportedMotors))
-	
+
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
-	
+	continuousMoveController = detector.getHardwareTriggerProvider()
+
 	if axis.name == "dkphi":
 		continuouslyScannableViaController = jythonNameMap.dkphiZebraScannableMotor
-		continuousMoveController = jythonNameMap.zebraContinuousMoveController
+	elif axis.name == "dkappa":
+		continuouslyScannableViaController = jythonNameMap.dkappaZebraScannableMotor
+	elif axis.name == "dktheta":
+		continuouslyScannableViaController = jythonNameMap.dkthetaZebraScannableMotor
 	else:
 		raise Exception('Error configuring motor %r' % (axis.name))
 	
@@ -149,7 +153,7 @@ def rockScan(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTim
 		raise Exception("noOfRocksPerExposure=%r is not supported. Only noOfRocksPerExposure=1 is currently supported, if you want multiple rocks with each in a different exposure, set noOfExposures. If you want multiple rocks in the same image, use rockScanUnsync" % noOfRocksPerExposure)
 	
 	hardwareTriggeredNXDetector = _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark=False)
-	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis)
+	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(axis, hardwareTriggeredNXDetector)
 	
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	detectorShield = jythonNameMap.ds
