@@ -3,24 +3,24 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="sh2dx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sh2dx_motor" />
+	<bean id="shd2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="shd2x_motor" />
 	</bean>
 
-	<bean id="sh2dy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sh2dy_motor" />
+	<bean id="shd2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="shd2y_motor" />
 	</bean>
 
-	<bean id="sh2dz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sh2dz_motor" />
+	<bean id="shd2z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="shd2z_motor" />
 	</bean>
 
 	<bean id="SHD2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="sh2dx" />
-				<ref bean="sh2dy" />
-				<ref bean="sh2dz" />
+				<ref bean="shd2x" />
+				<ref bean="shd2y" />
+				<ref bean="shd2z" />
 			</list>
 		</property>
 	</bean>

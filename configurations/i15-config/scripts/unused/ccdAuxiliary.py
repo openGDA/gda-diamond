@@ -1,4 +1,3 @@
-'''
 import time
 from time import sleep
 import glob
@@ -244,5 +243,3 @@ def checkFileExistsWithTimeout(folder, f, timeout):
 		pause()                     # ensures script can be stopped promptly
 
 	return False
-
-'''

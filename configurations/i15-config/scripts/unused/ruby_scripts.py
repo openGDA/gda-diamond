@@ -1,4 +1,3 @@
-'''
 from time import sleep
 import sys
 import struct
@@ -665,4 +664,3 @@ class Atlas(ISCCD):
 		self.runCommand('call setup_node "/ppcdirpnp/data/Image"')
 		simpleLog ("IS told to clear error by deleting the last failed image "+
 			"acquisition.")
-'''

@@ -1,6 +1,5 @@
 #Auxiliary MAR Scripts:
 
-'''
 import time
 import shutil
 import sys
@@ -194,4 +193,3 @@ def closeMarShield():
 	except:
 		typ, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Problem closing mar shield - ", typ, exception, traceback)
-'''

@@ -115,8 +115,6 @@
 		<property name="deviceName" value="PRCNT1.I" />
 	</bean>
 
-	<bean id="ODCCD" class="gda.device.detector.odccd.ODCCDController" />
-
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
 		<property name="arguments">

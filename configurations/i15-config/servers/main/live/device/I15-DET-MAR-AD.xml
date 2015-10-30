@@ -40,27 +40,36 @@
 	</bean>
 	 -->
 
-	<!-- Should now apply UnsynchronisedExternalShutterDecorator to SingleExposureStandard -->
+	<!-- Create collection strategy by composition -->
 	<!-- 
-	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
-			class="gda.device.detector.addetector.triggering.UnsynchronisedExternalShutterDecorator">
-		<property name="decoratee" ref="mar_SingleExposureStandardCollectionStrategy" />
-		<property name="collectionExtensionTimeS" value="10" />
-	</bean>
 	 -->
-
-	<!-- public SingleExposureUnsynchronisedExternalShutter(ADBase adBase, double readoutTimeS, double collectionExtensionTimeS) -->
-	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposureUnsynchronisedExternalShutter">
-		<constructor-arg ref="marAD_config_base" />
-		<constructor-arg value="-1" />
-		<constructor-arg value="10" />
+	<bean id="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" 
+			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
+		<property name="collectionExtensionTimeS" value="10" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+								<property name="decoratee">
+									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+										<property name="adBase" ref="marAD_config_base" />
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 	<!-- A value of collectionExtensionTimeS=10 should allow a collection time of up to 250 seconds with
-	     dkphi set to minimumAccelerationDistance=0.004-->
+	     dkphi set to minimumAccelerationDistance=0.004 -->
 
 	<!-- NXDetector file writers -->
 
-	<bean id="mar_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+	<bean id="mar_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="mar_NDFileHDF5" />
 		<property name="fileTemplate" value="%s%s%05d.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -72,13 +81,13 @@
 		<property name="lazyOpen" value="true" />
 	</bean>
 
-	<bean id="mar_tiff_SingleImagePerFileWriter" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+	<bean id="mar_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="mar" />
 		<property name="ndFile" ref="mar_NDFileTiff" />
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
-	<bean id="mar_mar_SingleImagePerFileWriter" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+	<bean id="mar_mar_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="mar" />
 		<property name="name" value="marwriter" />
 		<property name="ndFile" ref="mar_NDFileMar" />
