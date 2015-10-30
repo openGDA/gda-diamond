@@ -149,7 +149,7 @@
 	<!-- NXDetector file writers -->
 
 	<bean id="pe_hdf5_MultipleImagesPerHDF5FileWriter"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pe_NDFileHDF5" />
 		<property name="fileTemplate" value="%s%s%05d.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -173,8 +173,7 @@
 
 	<!-- SingleImagePerFileWriter(String detectorName)
 	 -->
-	<bean id="pe_tiff_SingleImagePerFileWriter"
-			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+	<bean id="pe_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pe" />
 		<property name="ndFile" ref="pe_NDFileTiff" />
 		<property name="keyNameForMetadataPathTemplate" value="pe_path_template" />
