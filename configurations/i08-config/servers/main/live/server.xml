@@ -12,5 +12,4 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/checkBeamScannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
-
 </beans>

@@ -3,12 +3,25 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
  
-    <import resource="../_common/client.xml" />
-
+ 	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+  
 	<bean id="xmap" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/xmap" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}xmap" />
 		<property name="serviceInterface"
 			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	
+	<import resource="../_common/client.xml" />
+	
 </beans>

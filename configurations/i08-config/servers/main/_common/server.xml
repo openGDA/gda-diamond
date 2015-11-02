@@ -14,6 +14,8 @@
 			<list value-type="java.lang.String">
 				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
 				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -22,7 +24,7 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	
-<!-- 	live only files -->
+<!-- 	mode specific files -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" /> 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" /> 
@@ -31,16 +33,16 @@
  	<import resource="file:${gda.config}/servers/main/${gda.mode}/xmap_detector.xml" />	
 		
 <!-- 	shared files -->
-	<import resource="file:${gda.config}/servers/main/andor.xml" /> 
-	<import resource="file:${gda.config}/servers/main/metadata.xml" /> 
- 	<import resource="file:${gda.config}/servers/main/opticsScannables.xml" /> 
-	<import resource="file:${gda.config}/servers/main/stxmScannables.xml" /> 
+	<import resource="file:${gda.config}/servers/main/_common/andor.xml" /> 
+	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" /> 
+ 	<import resource="file:${gda.config}/servers/main/_common/opticsScannables.xml" /> 
+	<import resource="file:${gda.config}/servers/main/_common/stxmScannables.xml" /> 
 	
 <!-- 	Command Server at the end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-	<corba:export namespace="I08" />
+	<corba:export namespace="${gda.factory.factoryName}" />
 	
 </beans>

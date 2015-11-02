@@ -4,7 +4,8 @@
     <!--  the include statement in the following java.properties file is not read so you need to reference both -->
     <property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
     <property file="${gda.config}/properties/_common/common_instance_java.properties" />
-
+    <property file="${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties" />
+    <property file="${gda.facility.dir}/properties/_common/common_facility_java.properties" />
     <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
     <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
 
@@ -23,5 +24,4 @@
         <!-- 02/12/2014 KrisB - The Log Panel currently can't take a pattern option -->
     </appender>
     
-
 </included>

@@ -106,10 +106,7 @@ class XRFMap(RasterScan):
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
 # row = stxmDummy.stxmDummyY
-finder = Finder.getInstance()
-stxmDummy = finder.find("stxmDummy")
-_andorrastor = finder.find("_andorrastor")
-_xmap = finder.find("_xmap")
-xrfmap = XRFMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor,_xmap)
+
+xrfmap = XRFMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor,_xmap)  # @UndefinedVariable
 #xrfmap = XRFMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,None,_xmap)
 print "Command xrfmap(mapSize) created for arming the XRF (Vortex) detector before running STXM maps"
