@@ -14,7 +14,7 @@ export GDA_NO_PROMPT=true
 export GDA_IN_REMOTE_STARTUP=true
 
 if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then 
-    ${here_dir}/../../bin/gda  --${SSH_ORIGINAL_COMMAND} --mode=live servers
+    ${here_dir}/gda  --${SSH_ORIGINAL_COMMAND} --mode=live servers
 else
-    ${here_dir}/../../bin/gda --restart --mode=live servers
+    ${here_dir}/gda --restart --mode=live servers
 fi
