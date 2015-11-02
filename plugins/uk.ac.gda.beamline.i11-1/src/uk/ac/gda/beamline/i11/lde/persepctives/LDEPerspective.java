@@ -68,13 +68,13 @@ public class LDEPerspective implements IPerspectiveFactory {
         sampleTableFolder.addView(CHILDREN_TABLE_VIEW_ID);
         sampleTableFolder.addView(SERVER_SAMPLES_VIEW_ID);
         
-        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.RIGHT, (float)0.15, editorArea);
+        IFolderLayout propertiesFolder=layout.createFolder(PROPERTIES_FOLDER, IPageLayout.RIGHT, (float)0.20, editorArea);
         propertiesFolder.addView(IPageLayout.ID_PROP_SHEET);
         
-        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.24, PROPERTIES_FOLDER); //$NON-NLS-1$
+        IFolderLayout detectorFolder=layout.createFolder(DETECTOR_FOLDER, IPageLayout.RIGHT, (float)0.35, PROPERTIES_FOLDER); //$NON-NLS-1$
         detectorFolder.addView(DETECTOR_VIEW_ID);
 
-        IFolderLayout dataCollectionStatusFolder=layout.createFolder(DATA_COLLECTION_STATUS_FOLDER, IPageLayout.RIGHT, (float)0.37, DETECTOR_FOLDER); //$NON-NLS-1$
+        IFolderLayout dataCollectionStatusFolder=layout.createFolder(DATA_COLLECTION_STATUS_FOLDER, IPageLayout.RIGHT, (float)0.35, DETECTOR_FOLDER); //$NON-NLS-1$
         dataCollectionStatusFolder.addView(DATA_COLLECTION_STATUS_VIEW_ID);
 
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.TOP, (float)0.75, STATUS_FOLDER); //$NON-NLS-1$
