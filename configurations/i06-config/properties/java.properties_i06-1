@@ -33,7 +33,7 @@ gda.server.logging.port = 6798
 gda.logPanel.logging.port = 6797
 #gda.logPanel.logging.port=6012
 
-gda.defVisit = cm12155-3
+gda.defVisit = cm12155-4
 
 #{gda.data} not getting resolved when pulling in java_common.properties
 gda.data.scan.datawriter.datadir    = /dls/i06-1/data/$year$/$visit$
