@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s2obX" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s2obX_motor" />
+	</bean>
+
+	<bean id="s2ibX" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s2ibX_motor" />
+	</bean>
+
+	<bean id="s2topY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s2topY_motor" />
+	</bean>
+
+	<bean id="s2botY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s2botY_motor" />
+	</bean>
+
+	<bean id="s2cenX" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s2cenX_motor" />
+	</bean>
+
+	<bean id="s2cenY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s2cenY_motor" />
+	</bean>
+
+	<bean id="s2gapX" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s2gapX_motor" />
+	</bean>
+
+	<bean id="s2gapY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s2gapY_motor" />
+	</bean>
+
+	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s2obX" />
+				<ref bean="s2ibX" />
+				<ref bean="s2topY" />
+				<ref bean="s2botY" />
+				<ref bean="s2cenX" />
+				<ref bean="s2cenY" />
+				<ref bean="s2gapX" />
+				<ref bean="s2gapY" />
+			</list>
+		</property>
+	</bean>
+</beans>
