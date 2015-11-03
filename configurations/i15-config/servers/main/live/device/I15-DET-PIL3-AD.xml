@@ -45,7 +45,7 @@
 
 	<!-- NXDetector file writers -->
 
-	<bean id="pil3_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+	<bean id="pil3_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pil3_NDFileHDF5" />
 		<property name="fileTemplate" value="%s%s%05d.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -57,7 +57,7 @@
 		<property name="lazyOpen" value="true" />
 	</bean>
 
-	<bean id="pil3_tiff_SingleImagePerFileWriter" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+	<bean id="pil3_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pil3" />
 		<property name="ndFile" ref="pil3_NDFileTiff" />
 		<property name="pathErrorSuppressed" value="true" />

@@ -401,14 +401,7 @@ try:
 		alias("minusToHome")
 		alias("homeToMinus57")
 		alias("minus57ToMinus122")
-		alias("expose")
-		#alias("darkExpose")
-		alias("rockScan")
-		alias("rockScanUnsync")
-		#alias("resetCCDScanNumber")
-		#alias("incrementMarScanNumber")
-		#alias("resetMarScanNumber")
-		#alias("resetPilatusScanNumber")
+		exposeAliases(alias) # expose*
 	except:
 		localStation_exception(sys.exc_info(), "setting up aliases")
 
@@ -524,7 +517,7 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	if False:
+	if True:
 		try:
 			print "Installing atto devices from epics BL15I-EA-ATTO..."
 			

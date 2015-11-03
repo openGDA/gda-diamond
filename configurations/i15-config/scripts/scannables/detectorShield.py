@@ -67,6 +67,10 @@ class DetectorShield(ScannableBase):
             simpleLog("Detector Shield Closing after stop...")
 
     def isBusy(self):
+        # Note that if the detector shield fails to fully open or close, this
+        #      will silently stay busy until manual intervention corrects it.
+        #      Since this should never be busy for more than around 10 seconds,
+        #      we should report it's state periodically.
         state = int(self.pvManager['STA'].caget())
         if self.verbose and state != self.state:
             simpleLog("%s:%s() state transitioned from %r to %r" % (self.name, self.pfuncname(), self.state, state))
