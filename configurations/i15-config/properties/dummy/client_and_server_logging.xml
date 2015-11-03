@@ -8,12 +8,13 @@
         <level value="ALL"/>
         <appender-ref ref="SOCKET"/>
     </root>
-    
-<!--     <logger name="gda.factory">
+
+<!-- 
+    <logger name="gda.factory">
         <level value="INFO"/>
     </logger>
-   
-       <logger name="gda.device.corba.impl">
+
+    <logger name="gda.device.corba.impl">
         <level value="INFO"/>
     </logger>
 
@@ -39,7 +40,7 @@
 
     <logger name="gda.epics.LazyPVFactory">
         <level value="DEBUG"/>
-    </logger> -->
-   
-   
+    </logger>
+ -->
+
 </configuration>

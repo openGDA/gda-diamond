@@ -6,15 +6,16 @@
 
     <!-- include file is relative to the application directory -->
 
-    <!-- ServerDebugFILE LogServer -->
+    <!-- ServerDebugFILE RemoteLoggerListener -->
     <include file="${gda.config}/properties/_common/logServer.xml"/>
 
-    <!-- Console  -->
-    <!-- include file="${gda.config}/servers/log/_common/logSharedWithClients.xml"/-->
+    <root>
+        <level value="ALL"/>
+        <appender-ref ref="ServerDebugFILE"/>
+     </root>
 
     <root>
-        <level value="INFO"/>
-        <appender-ref ref="LogServer" />
-        <appender-ref ref="ServerDebugFILE"/>
+        <level value="DEBUG"/>
+        <appender-ref ref="RemoteLoggerListener" />
      </root>
 </configuration>

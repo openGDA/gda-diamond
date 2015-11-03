@@ -29,5 +29,21 @@
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
 		<property name="scurveTimeToVelocity" value=".25"/> <!-- From ACCL -->
 		<!-- <property name="pcEnc" value="0"/> --> <!-- Default 0=Enc1? -->
-	</bean>	
+	</bean>
+
+	<bean id="dkappaZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="Dr1kappaMotor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".25"/> <!-- From ACCL -->
+		<property name="pcEnc" value="1"/> <!-- Default 0=Enc1? -->
+	</bean>
+
+	<bean id="dkthetaZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="Dr1kthetaMotor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".25"/> <!-- From ACCL -->
+		<property name="pcEnc" value="2"/> <!-- Default 0=Enc1? -->
+	</bean>
 </beans>
