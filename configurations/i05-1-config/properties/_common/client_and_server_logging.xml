@@ -16,19 +16,21 @@
 		<IncludeCallerData>true</IncludeCallerData>
 	</appender>
 
-	<root>
-		<level value="INFO" />
-		<appender-ref ref="SOCKET" />
-	</root>
+	<!-- Configure the levels of specific loggers -->
+	<logger name="gda.device.motor.DummyMotor" level="INFO"/>
+	<logger name="gda.device.motor.EpicsMotor" level="INFO"/>
+	<logger name="gda.device.motor.MoveEventQueue" level="INFO"/>
+	<!-- This suppresses lots of warnings about chunking from the user see GDA-6192 -->
+	<logger name="org.eclipse.dawnsci.hdf5.nexus.NexusFile" level="ERROR"/>
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO"/>
+	<logger name="uk.ac.gda.rcp.views.sample.MetadataUpdater" level="INFO"/>
+	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO"/>
+	<logger name="uk.ac.gda.devices.vgscienta.SweepUpdater" level="INFO"/>
+	<logger name="gda.device.corba.impl.DeviceAdapter" level="INFO"/>
 
-	<!-- ARPES-340 Log the commands typed in the Jython console -->
-	<logger name="gda.jython.GDAJythonInterpreter">
+	<root>
 		<level value="DEBUG" />
-	</logger>
-	
-	<!-- Output dump properties messages -->
-	<logger name="gda.configuration.properties.JakartaPropertiesConfig">
-		<level value="DEBUG" />
-	</logger>
+ 		<appender-ref ref="SOCKET" /> <!-- to logserver -->
+	</root>
 
 </included>
