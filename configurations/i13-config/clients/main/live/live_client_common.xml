@@ -12,7 +12,7 @@
 		<constructor-arg value="${gda.epics.interface.xml}" />
 	</bean>
 	
-	<import resource="../common.xml" />
+	<import resource="../_common/client.xml" />
 	
 	<import resource="cameraview.xml" />
 	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>

@@ -25,20 +25,13 @@
 		</property>
 	</bean>
 
-
 	<gda:rmi-export
 		service="plot_server"
 		serviceName="gda/plotserver"
 		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
 
-
-
-
-
-
-
-
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
@@ -278,9 +271,7 @@
 	</bean>
 
 
-
 	<import resource="jythonServerFacade.xml" />
 	<corba:export namespace="${gda.factory.factoryName}" />
-
 
 </beans>

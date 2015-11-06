@@ -39,9 +39,7 @@
 	<!--for an 'empty' configuration, remove the imports below, and the other xml files and directories inside the xml/server directory-->
 
 
-
-
-<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
@@ -116,19 +114,14 @@
 	<import resource="../../../devices/dummy/phase_ring_motors.xml" />
 
 	
-	<bean id="fastshutter" class="gda.device.scannable.SimpleScannable"/> 
+	<bean id="fastshutter" class="gda.device.scannable.DummyScannable"/> 
 
 	<import resource="../../../devices/dummy/p2r.xml"/>	
 	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>
  	<import resource="../../../devices/dummy/smaract_motors.xml"/>
  	<import resource="../../../devices/dummy/newport_motors.xml"/>
 
-	<!-- <import resource="../common.xml" /> -->
-	
 	<import resource="../../../devices/dummy/tfg2.xml"/>	
-
-
-
 
 
 <!-- do not remove anything below here -->

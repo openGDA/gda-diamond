@@ -25,9 +25,6 @@
 		</property>
 	</bean>
 	
-
-	
-
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<!--  object to provide recording of metadata in Nexus files -->

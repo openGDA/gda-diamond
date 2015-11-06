@@ -15,6 +15,6 @@
 		http://www.diamond.ac.uk/schema/gda/corba
 		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" />
-    <import resource="../_common/client.xml"/>
+	<import resource="live_client_common.xml" />
+    
 </beans>
