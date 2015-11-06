@@ -1,0 +1,82 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="merlin_ad_pluginBase"
+		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+		<property name="dims" value="1000,1000" />
+		<property name="datatype" value="UINT32" />
+	</bean>
+
+	<bean id="merlin_cam_base"
+		class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator">
+		<property name="model" value="PCOEdge" />
+	</bean>
+
+	<bean id="merlin_arr"
+		class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_stat"
+		class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_stat1"
+		class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_stat2"
+		class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_roi"
+		class="gda.device.detector.areadetector.v17.impl.NDROISimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_roi1"
+		class="gda.device.detector.areadetector.v17.impl.NDROISimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_roi2"
+		class="gda.device.detector.areadetector.v17.impl.NDROISimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_ffmpeg"
+		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamSimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+		<property name="mjpg_url" value="DummySwtVideoReceiver" />
+	</bean>
+
+	<bean id="merlin_ndfilehdf5_base"
+		class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
+		<property name="file" ref="merlin_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="merlin_ndfiletif"
+		class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+	<bean id="merlin_proc"
+		class="gda.device.detector.areadetector.v17.impl.NDProcessSimulator">
+		<property name="pluginBase" ref="merlin_ad_pluginBase" />
+	</bean>
+
+</beans>	

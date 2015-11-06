@@ -5,11 +5,10 @@ from gda.jython import InterfaceProvider
 import gda.factory.FactoryException
 import time
 
-	
-#try:
 from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
 from gda.device.scannable import ScannableBase
+
 class ExperimentShutterEnumPositioner(ScannableBase):
 	"""
 	Class to handle 
@@ -106,6 +105,9 @@ except NameError:
 	print "Continuing anyway..."
 #createPVScannable( "d1_total", "BL13J-DI-PHDGN-01:STAT:Total_RBV")
 
+import gdascripts.scannable.beamokay
+beamok = False
+
 if not LocalProperties.check("gda.dummy.mode"):
 	try:
 #		createPVScannable( "fs1", "BL13J-EA-FSHTR-01:CONTROL", hasUnits=False)
@@ -126,8 +128,7 @@ if not LocalProperties.check("gda.dummy.mode"):
 		print e
 		print "Continuing anyway..."
 
-import gdascripts.scannable.beamokay
-beamok=gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
+		beamok = gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
 
 from gda.device.scannable import TwoDScanPlotter
 t1_sxy_plotter = TwoDScanPlotter()
@@ -190,23 +191,24 @@ imageROI3 = finder.find("imageROI3")
 imageStats.profileY=False
 imageStats.profileX=False
 
-import roi_operations
-mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
-mpx_roi_average_diff = roi_operations.roi_diff("mpx_roi_average_diff","mpx_roi_average_diff",mpx_wrap, "mpx", "image_data.average", "image_data.average2")
+if not LocalProperties.check("gda.dummy.mode"):
+	import roi_operations
+	mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
+	mpx_roi_average_diff = roi_operations.roi_diff("mpx_roi_average_diff","mpx_roi_average_diff",mpx_wrap, "mpx", "image_data.average", "image_data.average2")
+	
+	#create objects in namespace
+	try:
+		mpx_controller = mpx.getMaxiPix2MultiFrameDetector()
+		mpx_threshold = mpx_controller.energyThreshold
+		mpx_limaCCD = mpx_controller.getLimaCCD()
+		mpx_maxipix = mpx_controller.getMaxiPix2()
+		mpx_reset_configure()
+	except gda.factory.FactoryException, e:
+		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring mpx detector"
+		print e
+		print "Continuing anyway..."
 
-#create objects in namespace
-try:
-	mpx_controller = mpx.getMaxiPix2MultiFrameDetector()
-	mpx_threshold = mpx_controller.energyThreshold
-	mpx_limaCCD = mpx_controller.getLimaCCD()
-	mpx_maxipix = mpx_controller.getMaxiPix2()
-	mpx_reset_configure()
-except gda.factory.FactoryException, e:
-	print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring mpx detector"
-	print e
-	print "Continuing anyway..."
 import file_converter
-
 import mpx_external_scan_monitor
 import mll
 import integrate_mpx_scan
@@ -347,16 +349,18 @@ import excalibur_config
 #bm_topup = TopupCountdown("bm_topup")
 
 #	caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
-if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
-	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
-if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
 
-
-createPVScannable( "afg_chan1_ampl", "BL13J-EA-FNGEN-01:CHAN1:AMPLITUDE", hasUnits=False)
-# pos afg_chan1_ampl 2.
-createPVScannable( "afg_chan1_state", "BL13J-EA-FNGEN-01:CHAN1:OUTPUT:STATE", hasUnits=False, getAsString=True)
-# pos afg_chan1_state "On"
+if not LocalProperties.check("gda.dummy.mode"):
+	if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
+		caput("BL13J-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
+	if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+		caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
+	
+	
+	createPVScannable( "afg_chan1_ampl", "BL13J-EA-FNGEN-01:CHAN1:AMPLITUDE", hasUnits=False)
+	# pos afg_chan1_ampl 2.
+	createPVScannable( "afg_chan1_state", "BL13J-EA-FNGEN-01:CHAN1:OUTPUT:STATE", hasUnits=False, getAsString=True)
+	# pos afg_chan1_state "On"
 
 import alignmentGui
 tomodet = alignmentGui.TomoDet()
@@ -374,7 +378,8 @@ print "stxm_det - end"
 
 from trigger import trigz2
 
-run("localStationUser.py")
+if not LocalProperties.check("gda.dummy.mode"):
+	run("localStationUser.py")
 
 import time
 def fastshutter_test(posn, itersleep=1, niter=30):

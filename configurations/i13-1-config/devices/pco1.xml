@@ -1,17 +1,56 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
+	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
+				<entry key="pco1_arr" value-ref="pco1_arr" />
+				<entry key="pco1_ffmpeg" value-ref="pco1_ffmpeg" />
+				<entry key="pco1_roi" value-ref="pco1_roi" />
+				<entry key="pco1_proc" value-ref="pco1_proc" />
+				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file" />
+				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif" />
+				<entry key="pco1_stat" value-ref="pco1_stat" />
+				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco" />
+				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger" />
+				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger" />
+			</util:map>
+		</property>
+	</bean>
 
-	
+	<bean id="pco1_autoContinuousTrigger"
+		class="gda.device.detector.addetector.triggering.PCOAutoContinuous">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<property name="adcMode" value="0" />
+	</bean>
 
+	<bean id="pco1_singleExposurePcoSoftwareTrigger"
+		class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value="-.03" />
+	</bean>
 
-	<bean id="pco1_tif_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+	<bean id="pco1_singleExposurePco"
+		class="gda.device.detector.addetector.triggering.SingleExposurePco">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value="-.03" />
+	</bean>
+
+	<bean id="pco1_tif_processors"
+		class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
 		<property name="processors">
 			<list>
 				<ref bean="cam_ad_filename_processor" />
@@ -33,7 +72,4 @@
 		<property name="mergeWithDetectorData" value="true"/>
 	</bean>	 -->
 	
-	
-
 </beans>
-

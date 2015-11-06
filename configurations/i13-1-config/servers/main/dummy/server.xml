@@ -35,21 +35,32 @@
 		<property name="dummyMode" value="true"></property>
 	</bean>	
 
+	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
+	<import resource="../../../devices/dummy/tfg2.xml"/>
 	
 	<import resource="../../../devices/dummy/undulator.xml"/>
 	<import resource="../../../devices/dummy/front_end.xml"/>
+
 <!-- start of internal building -->
 
 	<import resource="../../../devices/dummy/s1_motors.xml"/>
 	<import resource="../../../devices/dummy/filter_motors.xml"/>
 	
+	<import resource="../../../devices/dummy/gas_bremsstrahlung1.xml"/>
+	
 	<import resource="../../../devices/dummy/m1.xml"/>
+
+	<import resource="../../../devices/dummy/d1.xml"/>
 
 	<import resource="../../../devices/dummy/absorbers1.xml"/>
 
-	<import resource="../../../devices/dummy/s2_motors.xml"/>
+	<import resource="../../../devices/dummy/d2.xml"/>
 
 	<import resource="../../../devices/dummy/absorbers2.xml"/>
+
+	<import resource="../../../devices/dummy/s2_motors.xml"/>
+
+	<import resource="../../../devices/dummy/d3.xml"/>
 
 	<import resource="../../../devices/dummy/absorbers3.xml"/>	
 
@@ -63,8 +74,11 @@
 
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
 
+	<import resource="../../../devices/dummy/d4.xml"/>
+	<import resource="../../../devices/dummy/d5.xml"/>
+
 	<import resource="../../../devices/dummy/s4_motors.xml"/>
-	<import resource="../../../devices/dummy/dcm_motors.xml"/>
+	
 	<import resource="../../../devices/dummy/s5_motors.xml"/>
 	<import resource="../../../devices/dummy/m2_motors.xml"/>
 	<import resource="../../../devices/dummy/pin_motors.xml"/>
@@ -80,6 +94,9 @@
 	<import resource="../../../devices/dummy/g1_motors.xml"/>
 	<import resource="../../../devices/dummy/ion_chamber.xml" />	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
+	<import resource="../../../devices/dummy/float1.xml"/>
+	<import resource="../../../devices/dummy/float2.xml"/>
+	<import resource="../../../devices/dummy/float3.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 
@@ -87,14 +104,9 @@
 		<property name="positions" value="Open, Closed"/>
 	</bean>
 
-	<import resource="../../../devices/dummy/scope1_motors.xml"/>
-
-	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
-	
 	<import resource="../../../devices/dummy/pco1.xml"/>
-	
-	<import resource="../../../devices/dummy/detector_stage_t2_motors.xml"/>
-	
+	<import resource="../../../devices/dummy/merlin.xml"/>
+
 	<import resource="../common.xml"/>	
 	
 </beans>
