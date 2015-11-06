@@ -1,25 +1,39 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
+	<import resource="../../../devices/dummy/ion_chamber.xml" />
 
-	<context:property-placeholder properties-ref="propertyConfigurer" />
+    <bean id="idGap" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="idGap"/>
+	</bean>
+    
+    <bean id="timeToRefill" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="timeToRefill"/>
+	</bean>
+    
+    <bean id="ringCurrent" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="ringCurrent"/>
+	</bean>
+    
+    <bean id="pco_binx_rbv" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="pco_binx_rbv"/>
+	</bean>
+    
+    <bean id="pco_biny_rbv" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="pco_biny_rbv"/>
+	</bean>
+    
+    <bean id="expt_sht_stat" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="expt_sht_stat"/>
+	</bean>
+    
+    <bean id="fast_shtr_stat" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="fast_shtr_stat"/>
+	</bean>
+    
+    <import resource="../_common/client.xml"/>
 
-
-
-	<import resource="../common.xml" />
-	
-	<import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
-<!-- 	<import resource="../../../devices/zebra/pco1_ndplugins.xml"/>
- -->	
-	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable" />
-	<bean id="idGap" class="gda.device.scannable.DummyScannable"/>
-	<bean id="timeToRefill" class="gda.device.scannable.DummyScannable"/>
-
-	<import resource="../../../devices/dummy/ion_chamber.xml" />	
 </beans>

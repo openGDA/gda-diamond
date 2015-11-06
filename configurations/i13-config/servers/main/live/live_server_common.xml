@@ -49,17 +49,9 @@
 	<import resource="../../../devices/epics/d4.xml" />
 	<import resource="../../../devices/epics/d5.xml" />
 
-	<import resource="../../../devices/d1.xml" />
-	<import resource="../../../devices/d2.xml" />
-	<import resource="../../../devices/d3.xml" />
-	<import resource="../../../devices/d4.xml" />
-	<import resource="../../../devices/d5.xml" />
-
-
 	<import resource="../../../devices/epics/absorbers1.xml" />
 	<import resource="../../../devices/epics/absorbers2.xml" />
 	<import resource="../../../devices/epics/s2_motors.xml" />
-	<import resource="../../../devices/s2.xml" />
 
 
 	<!-- End of internal Building/ Start of external Building -->

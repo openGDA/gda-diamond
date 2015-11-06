@@ -1,16 +1,47 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba
+	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.diamond.ac.uk/schema/gda/gda
+	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd" >
 
-	<context:property-placeholder properties-ref="propertyConfigurer" />
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+	
 
-	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<!--  object to provide recording of metadata in Nexus files -->
+
+	<!-- Replaces ScanDataStore -->
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="gda/ScanDataPointServer" />
+		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
+		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+	</bean>
+
+	<!--for an 'empty' configuration, remove the imports below, and the other xml files and directories inside the xml/server directory-->
+
+
+
+
+<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
@@ -47,17 +78,9 @@
 	<import resource="../../../devices/dummy/d4.xml" />
 	<import resource="../../../devices/dummy/d5.xml" />
 
-	<import resource="../../../devices/d1.xml" />
-	<import resource="../../../devices/d2.xml" />
-	<import resource="../../../devices/d3.xml" />
-	<import resource="../../../devices/d4.xml" />
-	<import resource="../../../devices/d5.xml" />
-
-
 	<import resource="../../../devices/dummy/absorbers1.xml" />
 	<import resource="../../../devices/dummy/absorbers2.xml" />
 	<import resource="../../../devices/dummy/s2_motors.xml" />
-	<import resource="../../../devices/s2.xml" />
 
 
 	<!-- End of internal Building/ Start of external Building -->
@@ -100,8 +123,15 @@
  	<import resource="../../../devices/dummy/smaract_motors.xml"/>
  	<import resource="../../../devices/dummy/newport_motors.xml"/>
 
-	<import resource="../common.xml" />
+	<!-- <import resource="../common.xml" /> -->
 	
 	<import resource="../../../devices/dummy/tfg2.xml"/>	
+
+
+
+
+
+<!-- do not remove anything below here -->
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>
