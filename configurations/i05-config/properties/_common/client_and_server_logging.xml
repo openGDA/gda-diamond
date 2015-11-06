@@ -18,6 +18,15 @@
 
 	<!-- Configure the levels of specific loggers -->
 	<logger name="gda.device.motor.DummyMotor" level="INFO"/>
+	<logger name="gda.device.motor.EpicsMotor" level="INFO"/>
+	<logger name="gda.device.motor.MoveEventQueue" level="INFO"/>
+	<!-- This suppresses lots of warnings about chunking from the user see GDA-6192 -->
+	<logger name="org.eclipse.dawnsci.hdf5.nexus.NexusFile" level="ERROR"/>
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO"/>
+	<logger name="uk.ac.gda.rcp.views.sample.MetadataUpdater" level="INFO"/>
+	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO"/>
+	<logger name="uk.ac.gda.devices.vgscienta.SweepUpdater" level="INFO"/>
+	<logger name="gda.device.corba.impl.DeviceAdapter" level="INFO"/>
 
 	<root>
 		<level value="DEBUG" />
