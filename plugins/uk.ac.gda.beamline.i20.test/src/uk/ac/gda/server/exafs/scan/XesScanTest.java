@@ -47,7 +47,6 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.aspectj.util.Reflection;
-import org.eclipse.richbeans.reflection.BeansFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -74,6 +73,7 @@ import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
+import uk.ac.gda.util.beans.BeansFactory;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 @RunWith(PowerMockRunner.class)
