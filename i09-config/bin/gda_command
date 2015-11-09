@@ -14,11 +14,11 @@ fi
 
 if [ -z $GDA_SIMULATION ] ; then
 
-	/dls_sw/tools/bin/python2.5  $root/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=$config -v $@
+	python  $root/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=$config -v $@
 
 else
 	export GDA_DATADIR=/scratch/data
-	/dls_sw/tools/bin/python2.5  ${root}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=${config}  \
+	python  ${root}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=${config}  \
 	--profile=main --mode=dummy --lib_subdir=Linux-i386 $@
 
 fi
