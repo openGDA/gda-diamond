@@ -37,7 +37,7 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	
-	<bean class="org.eclipse.richbeans.api.beans.BeansFactory">
+	<bean class="org.eclipse.richbeans.reflection.BeansFactory">
 	    <property name="classList">
 	        <util:list>
 	           <value>uk.ac.gda.beans.exafs.XasScanParameters</value>
