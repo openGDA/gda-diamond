@@ -11,7 +11,7 @@
 
 
     <root>
-        <level value="INFO"/>
+        <level value="DEBUG"/>
         <appender-ref ref="LogServer" />
         <appender-ref ref="ServerDebugFILE"/>
      </root>

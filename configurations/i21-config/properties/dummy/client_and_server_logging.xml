@@ -5,7 +5,7 @@
 <include file="${gda.config}/properties/_common/client_and_server_logging.xml"/>
 
     <root>
-        <level value="INFO"/>
+        <level value="DEBUG"/>
         <appender-ref ref="SOCKET"/>
     </root>
     
