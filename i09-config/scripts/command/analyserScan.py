@@ -22,7 +22,7 @@ from types import TupleType, ListType, FloatType, IntType
 from gda.device.scannable.scannablegroup import ScannableGroup
 #from localStation import setSubdirectory
 
-ENABLEZEROSUPPLIES=True
+ENABLEZEROSUPPLIES=False
 PRINTTIME=False
 zeroScannable=DummyScannable("zeroScannable")
 
