@@ -232,12 +232,17 @@ lakeshoreC1=DisplayEpicsPVClass("lakeshoreC1", "BL09L-VA-LAKE-01:KRDG1","K","%f"
 lakeshoreC2=DisplayEpicsPVClass("lakeshoreC2", "BL09L-VA-LAKE-01:KRDG2","K","%f")
 lakeshoreC3=DisplayEpicsPVClass("lakeshoreC3", "BL09L-VA-LAKE-01:KRDG3","K","%f")
 
+# Import and setup function to create mathmatical scannables
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
-print "Create a 'ratioi20toi19' scannable for the ratio of hm3iamp20 to bfmiamp19."
-from functions.ratioscannable import ratioi20toi19  # @UnusedImport
-print "Create a 'dri20toi19' scannable for the derivative of hm3iamp20 to bfmiamp19."
-from functions.derivativescannable import dri20toi19  # @UnusedImport
+
+# These scannables have been removed as I believe they are not used
+#print "Create a 'ratioi20toi19' scannable for the ratio of hm3iamp20 to bfmiamp19."
+#from functions.ratioscannable import ratioi20toi19  # @UnusedImport
+#print "Create a 'dri20toi19' scannable for the derivative of hm3iamp20 to bfmiamp19."
+#from functions.derivativescannable import dri20toi19  # @UnusedImport
+
+
 ##### new objects must be added above this line ###############
 def enablefeedbackdcmfroll():
     caput("BL09I-EA-FDBK-01:ENABLE",0)
