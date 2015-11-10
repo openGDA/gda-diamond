@@ -173,14 +173,13 @@ findpeak=FindScanPeak
 findcentroid=FindScanCentroid 
 
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-for processor in scan_processor.processors:
-    scan_processor.processors.remove(processor)
-peakdata=ExtractPeakParameters()
-scan_processor.processors.append(peakdata)
-gdascripts.scan.concurrentScanWrapper.PRINTTIME = False
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 scan_processor.rootNamespaceDict=globals()
-#scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
+
+# peakdata is a custom scan processor for i09 removed temporary as it seems buggy.
+#peakdata=ExtractPeakParameters()
+#scan_processor.processors.append(peakdata)
+
+# Additional processors maybe added if required
 #scan_processor.processors.append(Lcen())
 #scan_processor.processors.append(Rcen())
 
