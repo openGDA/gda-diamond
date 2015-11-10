@@ -1,4 +1,4 @@
-Config=6
+Config=5
 
 # Configuration 1: 2.5 keV focused
 if Config==1:
@@ -9,10 +9,9 @@ if Config==1:
     pos hs2ycentre 15.7
     pos dcmfpitch 5
     pos dcmfroll 5
-    pos dcmpitch 0.03
-    pos dcmpitch 0.0517
-    pos dcmroll -0.06
-    pos dcmroll -0.041
+    pos dcmpitch 0.0521
+    pos dcmroll -0.07
+    pos dcmroll -0.0385
     hd3iamp4.setGain("10^4 low noise")
     hd4iamp6.setGain("10^4 low noise")
     pos hm1pitch -0.41
@@ -104,20 +103,18 @@ if Config==2:
 # Configuration 3: Si(333) channel cut focused @ 5.9479 keV
 if Config==3:
     pos igap 7.621
-    ienergy.setOrder(5)
     pos dcmenergy 5.9466
     pos dcmoffset 16+1.99
     pos hs2ycentre 15.7+1.99
     pos dcmfpitch 5
     pos dcmfroll 5
-    pos dcmpitch 0.03
-    pos dcmpitch 0.0517
-    pos dcmroll -0.06
-    pos dcmroll -0.041
+    pos dcmpitch 0.0521
+    pos dcmroll -0.07
+    pos dcmroll -0.0385
     hd3iamp4.setGain("10^4 low noise")
     hd4iamp6.setGain("10^4 low noise")
     pos hm1pitch -0.51
-    pos hm1x 2
+    pos hm1x 1.2
     pos hd3x -20.595
     pos hs1xgap 1.5
     rscan dcmfpitch -3 3 0.1 hd3iamp4
@@ -216,56 +213,82 @@ if Config==4:
 
 # Configuration 5: Si(044) channel cut focused @ 8.1417 keV
 if Config==5:    
-    pos cccx -5
-    pos igap 7.46
-    pos dcmenergy 8.1391
-    pos dcmoffset 16
-    pos hs2ycentre 15.7
-    pos dcmfpitch 5
-    pos dcmfroll 5
-    pos dcmpitch 0.0510
-    pos dcmroll -0.0430
+    cccx.asynchronousMoveTo(-5)
+    igap.asynchronousMoveTo(7.47)
+    dcmenergy.asynchronousMoveTo( 8.1385)
+    dcmoffset.asynchronousMoveTo( 16)
+    hs2ycentre.asynchronousMoveTo( 15.7)
+    dcmfpitch.asynchronousMoveTo( 5)
+    dcmfroll.asynchronousMoveTo( 5)
+    while cccx.isBusy() or igap.isBusy() or dcmenergy.isBusy() or dcmoffset.isBusy() or hs2ycentre.isBusy():
+        sleep(0.1)
+    dcmroll.moveTo ( -0.06)    
+    dcmroll.moveTo ( -0.041)   #( -0.0185)   
+    dcmpitch.moveTo( 0.04)
+    dcmpitch.moveTo( 0.0517)   # (0.0458)  
+    print 'First part done!'
+    
+    print 'Remove hm1'
     hd3iamp4.setGain("10^4 low noise")
     hd4iamp6.setGain("10^4 low noise")
-    pos hm1pitch 0
-    pos hm1x 2.5
-    pos hd3x -20.975
-    pos hs1xgap 1.5
+    hm1pitch.asynchronousMoveTo( 0)
+    hm1x.asynchronousMoveTo(2.7)
+    hd3x.asynchronousMoveTo( -20.975)
+    hs1xgap.asynchronousMoveTo( 1.5)
+    while hm1pitch.isBusy() or hm1x.isBusy() or hd3x.isBusy() or hs1xgap.isBusy():
+        sleep(0.1)    
+    print 'Ready for dcmfpitch scan'
     rscan dcmfpitch -3 3 0.1 hd3iamp4
-    pos dcmfpitch peakdata.cfwhm
-    pos hd3x -1
-    pos hd4x -23.558
-    pos hs1xgap 0.1
+    dcmfpitch.asynchronousMoveTo(peakdata.cfwhm)
+    hd3x.asynchronousMoveTo( -1)
+    hd4x.asynchronousMoveTo( -23.558)
+    hs1xgap.asynchronousMoveTo( 0.1)
+    while dcmfpitch.isBusy() or hd3x.isBusy() or hd4x.isBusy() or hs1xgap.isBusy():
+        sleep(0.1)    
+    print 'Ready for dcmfroll scan'
     rscan dcmfroll -2 2.5 0.05 hd4iamp6
-    pos dcmfroll peakdata.cfwhm
-    pos hd4x -1
-    pos hs1xgap 1.5
-
-    pos dcmoffset 21.75
-    pos hs2ycentre 21.5
+    dcmfroll.asynchronousMoveTo( peakdata.cfwhm)
+    hd4x.asynchronousMoveTo( -1)
+    hs1xgap.asynchronousMoveTo(1.5)
+    dcmoffset.asynchronousMoveTo( 22.3)
+    hs2ycentre.asynchronousMoveTo( 22)
+    while dcmoffset.isBusy() or hs2ycentre.isBusy() or hd4x.isBusy() or hs1xgap.isBusy():
+        sleep(0.1)    
+    print 'hs1 moved back, dcmoffset changed'   
 # HM1
-    pos hm1y -92.3
-    pos hm1x 0.475
-    pos hm1pitch 2.836
-    pos hm1yaw 0.3
-    pos hm1roll 0.02
-
+    print 'start moving hm1'
+    hm1y.asynchronousMoveTo( -91.745)
+    hm1x.asynchronousMoveTo( 0.475)
+    hm1pitch.asynchronousMoveTo( 2.836)
+    hm1yaw.asynchronousMoveTo( 0.3)
+    hm1roll.asynchronousMoveTo( 0.02)
+    while hm1y.isBusy() or hm1x.isBusy() or hm1yaw.isBusy() or hm1roll.isBusy():
+        sleep(0.1)    
+    print 'hm1 in position' 
 # HM2
-    pos hm2y 9.85
-    pos hm2x -1.6522
-    pos hm2pitch 3.116
-
+    print 'start moving hm2'
+    hm2y.asynchronousMoveTo( 10.4)
+    hm2x.asynchronousMoveTo( -1.6522)
+    hm2pitch.asynchronousMoveTo( 3.116)
+    while hm2y.isBusy() or hm2pitch.isBusy():
+        sleep(0.1)    
+    print 'hm2 in position' 
 # CCC
-    pos cccy -10.5
-    pos cccx 4.51
-
+    print 'start moving ccc'
+    cccy.asynchronousMoveTo( -10.5)
+    cccx.asynchronousMoveTo( 4.35)
+    while cccy.isBusy() or cccx.isBusy():
+        sleep(0.1)    
+    print 'ccc in position' 
 # HM3
-    pos hm3y 4.8915
-    pos hm3x 0.940
-    pos hm3pitch -0.4
-    pos hm3mainbender 121000
-    pos hm3elipticalbender 1190
-
+    hm3y.asynchronousMoveTo( 4.8915)
+    hm3x.asynchronousMoveTo( 1.4)
+    hm3pitch.asynchronousMoveTo( -0.4)
+    hm3mainbender.asynchronousMoveTo( 121000)
+    hm3elipticalbender.asynchronousMoveTo( 1190)
+    while hm3y.isBusy() or hm3x.isBusy():
+        sleep(0.1)    
+    print 'hm3 in position'
 # Configuration 6: 2.5 keV defocused in both directions
 if Config==6:
     pos igap 15.415
@@ -275,10 +298,9 @@ if Config==6:
     pos hs2ycentre 15.7
     pos dcmfpitch 5
     pos dcmfroll 5
-    pos dcmpitch 0.03
-    pos dcmpitch 0.0517
-    pos dcmroll -0.06
-    pos dcmroll -0.041
+    pos dcmpitch 0.0521
+    pos dcmroll -0.07
+    pos dcmroll -0.0385
     hd3iamp4.setGain("10^4 low noise")
     hd4iamp6.setGain("10^4 low noise")
     pos hm1pitch -0.41
@@ -366,63 +388,3 @@ if Config==7:
     pos hm3x 1.5636
     pos hm3mainbender 121000
     pos hm3elipticalbender 1190
-# switch from j to k branch    
-if Config==8:  
-    try:
-        pgmenergy.asynchronousMoveTo(600)
-        jgap.asynchronousMoveTo(36.9)   
-        ss7xgap.asynchronousMoveTo(0.25)
-        ss7ygap.asynchronousMoveTo(0.25)
-        photon_move = 1
-    except:
-        print "********** warning ****************"
-        print "photon energy / undulator gap cannot be moved"
-        photon_move = 0            
-    pos sm3y 21.640
-    pos sm3pitch -27754.2
-    pos sm3yaw 0.2693
-    pos sm3x -1.6484
-    pos sm3z 0
-    pos sm3roll 0
-    if photon_move == 1:
-        try:
-            sm6iamp27=DisplayEpicsPVClass("sm6iamp27","BL09K-MO-SM-06:IAMP27:I","V","%.5e")
-        except:
-            print "sm6iamp27 already exists"
-        rscan sm3fpitch 3 7 0.01 sm6iamp27
-        pos sm3fpitch peakdata.cfwhm
-        pos sm3fpitch 5.4
-        ss7xgap.asynchronousMoveTo(3)
-        pos ss7ygap 0.02
-        print "********** Beam is now in the k branch (sm3fpitch optimised) ***************"
-    else:
-        pos sm3fpitch 5.4
-        print "********** Beam is now in the k branch (sm3fpitch NOT optimised) ***************"
-
-
-# switch from k branch to j branch  
-if Config == 9:
-    try:
-        jenergy.asynchronousMoveTo(0.6)
-        photon_move = 1
-        ss4xgap.asynchronousMoveTo(0.25)
-        ss4ygap.asynchronousMoveTo(0.25)
-    except:
-        print "********** warning ****************"
-        print "photon energy / undulator gap cannot be moved"
-        photon_move = 0    
-    pos sm3y -19.438
-    pos sm3pitch -26773.8
-    pos sm3yaw 1750.2
-    pos sm3x -1.6220
-    pos sm3z 0
-    pos sm3roll 0.14740
-    if photon_move == 1:
-        rscan sm3fpitch 3 7 0.01 sm5amp8 0.1
-        pos sm3fpitch peakdata.cfwhm
-        ss4xgap.asynchronousMoveTo(3)
-        pos ss4ygap 0.02
-        print "****** Beam is now in J branch (sm3fpitch optimised) ***************"
-    else:
-        pos sm3fpitch 5.4
-        print "****** Beam is now in J branch (sm3fpitch NOT optimised) ***************"                    
