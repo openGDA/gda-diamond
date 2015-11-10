@@ -24,8 +24,8 @@ import gda.factory.Finder;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.richbeans.api.reflection.IBeanController;
-import org.eclipse.richbeans.api.reflection.IBeanService;
+import org.eclipse.richbeans.api.binding.IBeanController;
+import org.eclipse.richbeans.api.binding.IBeanService;
 import org.eclipse.richbeans.widgets.selector.BeanSelectionEvent;
 import org.eclipse.richbeans.widgets.selector.BeanSelectionListener;
 import org.eclipse.richbeans.widgets.selector.VerticalListEditor;
