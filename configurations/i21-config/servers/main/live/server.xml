@@ -12,29 +12,11 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd" >
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
-	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
-
-	<!--  object to provide recording of metadata in Nexus files -->
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
-		<property name="name" value="metashop"/>
-	</bean>
-
-	<!-- Replaces ScanDataStore -->
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-	</bean>
-
-	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase"/>
-
-	<import resource="commandQueueProcessor.xml"/>
-
-	<!-- Temporarily, just include dummy resources -->
-	<import resource="devices/dummy.xml"/>
+<!-- 
+	<import resource="devices/all.xml"/>
+	<import resource="scannable/all.xml"/>
+ -->
 
 <!-- do not remove anything below here -->
 	
