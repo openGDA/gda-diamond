@@ -18,12 +18,6 @@
 
 package uk.ac.gda.beamline.b18;
 
-import gda.data.NumTracker;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.jython.JythonServerFacade;
-import gda.observable.IObservable;
-import gda.observable.IObserver;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
@@ -52,6 +46,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.NumTracker;
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.jython.JythonServerFacade;
+import gda.observable.IObservable;
+import gda.observable.IObserver;
 import uk.ac.diamond.scisoft.analysis.PlotServer;
 import uk.ac.diamond.scisoft.analysis.PlotServerProvider;
 import uk.ac.diamond.scisoft.analysis.plotclient.IUpdateNotificationListener;
@@ -190,7 +189,7 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		final GuiBean bean = getGUIInfo();
 		plotWindow = new PlotWindow(composite, this, getViewSite().getActionBars(), this, plotViewName);
 		plotWindow.setNotifyListener(this);
-		plotWindow.updatePlotMode(bean, false);
+		plotWindow.updatePlotMode(bean);
 
 		composite.setLayout(new GridLayout(1, false));
 
@@ -453,8 +452,8 @@ public class MythenControlView extends ViewPart implements IObserver, IObservabl
 		return plotViewName;
 	}
 
-	public void updatePlotMode(GuiPlotMode mode) {
-		plotWindow.updatePlotMode(mode, true);
+	public void updatePlotMode(final GuiPlotMode mode) {
+		plotWindow.updatePlotMode(mode);
 	}
 
 	public void processPlotUpdate(DataBean dBean) {
