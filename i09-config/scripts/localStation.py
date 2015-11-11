@@ -204,6 +204,8 @@ print "Create an 'dummyenergy' scannable which can be used for test energy scan 
 dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
 print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
 jenergy=BeamEnergy("jenergy", gap='jgap',dcm="pgmenergy",undulatorperiod=60,lut="JIDCalibrationTable.txt")
+# James - This is a way to get access to the jidphase object in Jython 
+jidphase = finder.find('jidphase')
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
