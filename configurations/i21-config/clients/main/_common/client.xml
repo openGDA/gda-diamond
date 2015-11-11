@@ -24,8 +24,6 @@
 		<property name="service" ref="plot_server" />
 	</bean>
 
-	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
-
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
@@ -34,5 +32,14 @@
 	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	
+	<import resource="commandQueueProcessor.xml"/>
+	<import resource="plot_server.xml" />
+	
+	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
+		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 	
 </beans>
