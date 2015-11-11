@@ -122,7 +122,7 @@
 	
 	<import resource="../../devices/live/maxipix.xml" />
 
-	<import resource="../common.xml"/>	
+	<import resource="../_common/server.xml"/>	
 
 <!--Not present 
 	<import resource="../../../devices/epics/s3_motors.xml"/>

@@ -11,7 +11,7 @@
 	<import resource="pco.xml"/>
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 
-	<import resource="../common.xml" />
+	<import resource="../_common/client.xml" />
 	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
 	<property name="pvName" value="SR13J-MO-SERVC-01:CURRGAPD"/>
 	<property name="useNameAsExtraName" value="true"/>
