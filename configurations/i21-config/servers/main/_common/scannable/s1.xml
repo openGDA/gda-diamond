@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="s1xcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1xcenterMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	
+	<bean id="s1xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1xsizeMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	
+	<bean id="s1ycenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1ycenterMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	
+	<bean id="s1ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1ysizeMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1xcenter" />
+				<ref bean="s1xsize" />
+				<ref bean="s1ycenter" />
+				<ref bean="s1ysize" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>	
+
+</beans>

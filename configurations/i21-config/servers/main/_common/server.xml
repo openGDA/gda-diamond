@@ -26,10 +26,8 @@
 		service="plot_server"
 		serviceName="gda/plotserver"
 		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
-
-	<import resource="jythonServerFacade.xml" />
 	
-		<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
@@ -47,12 +45,13 @@
 	</bean>
 
 	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase"/>
-
+	
+	<import resource="jythonServerFacade.xml" />
 	<import resource="commandQueueProcessor.xml"/>
+
+	<import resource="devices/_all.xml"/>
+	<import resource="scannable/_all.xml"/>
 	
 	<corba:export namespace="${gda.factory.factoryName}" />
-	
-	<import resource="devices/all.xml"/>
-	<import resource="scannable/all.xml"/>
 	
 </beans>
