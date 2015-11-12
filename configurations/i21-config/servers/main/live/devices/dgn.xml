@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="diago01mp" class="gda.spring.EpicsEnumPositionerFactoryBean">
+		<property name="pvName" value="BL21I-DI-DIAGO-01:MP:DMOV" />
+		<property name="local" value="true" />
+	</bean>
+	
+</beans>

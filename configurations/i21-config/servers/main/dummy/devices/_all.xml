@@ -5,5 +5,8 @@
 
 	<!-- slits -->
 	<import resource="s1_motors.xml" />
+	
+	<!-- diagnostics -->
+	<import resource="dgn.xml" />
 
 </beans>
