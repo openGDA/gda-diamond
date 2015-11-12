@@ -49,7 +49,7 @@ import uk.ac.gda.beans.exafs.OutputParameters;
 import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
-import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
+import uk.ac.gda.devices.detector.xspress3.Xspress3;
 
 public class B18DetectorPreparerTest {
 
@@ -62,7 +62,7 @@ public class B18DetectorPreparerTest {
 	private MythenDetectorImpl mythen_scannable;
 	private Xspress2Detector xspressSystem;
 	private Xmap vortexConfig;
-	private Xspress3Detector xspress3Config;
+	private Xspress3 xspress3Config;
 	private TfgScalerWithFrames ionchambers;
 	private B18DetectorPreparer thePreparer;
 
@@ -84,7 +84,7 @@ public class B18DetectorPreparerTest {
 
 		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		vortexConfig = (Xmap) createMock(Xmap.class, "vortexConfig");
-		xspress3Config = (Xspress3Detector) createMock(Xspress3Detector.class, "xspress3Config");
+		xspress3Config = (Xspress3) createMock(Xspress3.class, "xspress3Config");
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 
 		energy_scannable = createMockScannable("energy_scannable");
@@ -195,7 +195,7 @@ public class B18DetectorPreparerTest {
 			fluoParams.setDetectorType("Xspress3");
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
 			Mockito.verify(xspress3Config).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
-			Mockito.verify(xspress3Config).configure();
+			Mockito.verify(xspress3Config).loadConfigurationFromFile();
 			Mockito.verifyZeroInteractions(vortexConfig);
 
 			fluoParams.setDetectorType("Silicon");

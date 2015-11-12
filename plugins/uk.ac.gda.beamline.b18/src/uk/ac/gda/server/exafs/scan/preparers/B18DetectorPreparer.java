@@ -1,9 +1,5 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
-
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.DataWriter;
 import gda.data.scan.datawriter.DataWriterFactory;
@@ -20,6 +16,11 @@ import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
 import gda.scan.StaticScan;
+
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IExperimentDetectorParameters;
@@ -29,7 +30,7 @@ import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
-import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
+import uk.ac.gda.devices.detector.xspress3.Xspress3;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class B18DetectorPreparer implements QexafsDetectorPreparer {
@@ -43,7 +44,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private List<Scannable> ionc_gas_injector_scannables;
 	private Xspress2Detector xspressSystem;
 	private Xmap vortexConfig;
-	private Xspress3Detector xspress3Config;
+	private Xspress3 xspress3Config;
 	private IScanParameters scanBean;
 	private TfgScalerWithFrames ionchambers;
 	private IDetectorParameters detectorBean;
@@ -55,7 +56,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	public B18DetectorPreparer(Scannable energy_scannable, MythenDetectorImpl mythen_scannable,
 			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
 			List<Scannable> ionc_gas_injector_scannables, TfgScalerWithFrames ionchambers,
-			Xspress2Detector xspressSystem, Xmap vortexConfig, Xspress3Detector xspress3Config) {
+			Xspress2Detector xspressSystem, Xmap vortexConfig, Xspress3 xspress3Config) {
 		this.energy_scannable = energy_scannable;
 		this.mythen_scannable = mythen_scannable;
 		this.sensitivities = sensitivities;
@@ -91,7 +92,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 				vortexConfig.configure();
 			} else if (detType == "Xspress3") {
 				xspress3Config.setConfigFileName(xmlFileName);
-				xspress3Config.configure();
+				xspress3Config.loadConfigurationFromFile();
 			}
 			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
 		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
