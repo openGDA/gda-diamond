@@ -33,6 +33,7 @@
     <logger name="gda.oe.corba.impl">
         <level value="INFO"/>
     </logger>
+    <logger name="org.eclipse.dawnsci.hdf5.nexus.NexusFile" level="ERROR"/>
     
     <root>
         <level value="ALL"/>
