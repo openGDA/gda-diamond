@@ -10,4 +10,5 @@
 	<import resource="I15-1-JS3.xml"/>
 	<import resource="I15-1-JS4.xml"/>
 	<import resource="I15-1-JS5.xml"/>
+	<import resource="I15-1-JSAM.xml"/>
 </beans>
