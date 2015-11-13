@@ -11,7 +11,8 @@
 	<import resource="pgm.xml" />
 	<import resource="../analyser.xml" />
 	<import resource="../combinedgonio.xml" />
-	<import resource="dummyMotor.xml"/>
+	<import resource="dummyMotor.xml" />
+	<import resource="pressure_gauges.xml" />
 
 	<bean class="gda.device.scannable.DummyMultiElementScannable" id="cryostat">
 		<property name="inputNames">
