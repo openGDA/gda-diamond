@@ -5,8 +5,16 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+	<!-- DGN Stick Positioner -->
 	<bean id="diago01mp" class="gda.spring.EpicsEnumPositionerFactoryBean">
-		<property name="pvName" value="BL21I-DI-DIAGO-01:MP:DMOV" />
+		<property name="pvBase" value="BL21I-DI-DIAGO-01:MP" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Camera acquire status (switch acquisition on & off) -->
+	<bean id="dcam01acquire" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="dcam01acquire" />
+		<property name="pvName" value="BL21I-DI-DCAM-01:CAM:Acquire" />
 		<property name="local" value="true" />
 	</bean>
 	
