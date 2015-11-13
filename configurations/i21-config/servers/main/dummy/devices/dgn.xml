@@ -22,5 +22,10 @@
 	<bean id="dcam01acquire" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="dcam01acquire" />
 	</bean>
-	
+
+	<!-- Camera stats total intensity -->
+	<bean id="dcam01statTotal" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="dcam01statTotal" />
+	</bean>
+
 </beans>
