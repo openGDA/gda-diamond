@@ -19,13 +19,26 @@
 	</bean>
 	
 	<!-- Camera acquire status (switch acquisition on & off) -->
-	<bean id="dcam01acquire" class="gda.device.scannable.DummyScannable">
+ 	<bean id="dcam01acquire" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="dcam01acquire" />
 	</bean>
 
 	<!-- Camera stats total intensity -->
-	<bean id="dcam01statTotal" class="gda.device.scannable.DummyScannable">
+ 	<bean id="dcam01statTotal" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="dcam01statTotal" />
 	</bean>
-
+	
+	<!-- To run with ADSIM, uncomment the beans below (changing pvName as appropriate) -->
+	<!-- and comment out the corresponding dummy beans above -->
+<!-- 	<bean id="dcam01acquire" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="dcam01acquire" />
+		<property name="pvName" value="ws165-AD-SIM-01:CAM:Acquire" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="dcam01statTotal" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="ws165-AD-SIM-01:STAT:Total_RBV" />
+		<property name="local" value="true" />
+	</bean>
+ -->
 </beans>
