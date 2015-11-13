@@ -8,5 +8,8 @@
 
 	<!-- diagnostics -->
 	<import resource="dgn.xml" />
+	
+	<!-- pressure gauges -->
+	<import resource="pressureGauges.xml"/>
 
 </beans>
