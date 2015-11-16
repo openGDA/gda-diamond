@@ -11,11 +11,29 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<!-- Camera acquire status (switch acquisition on & off) -->
-	<bean id="dcam01acquire" class="gda.device.scannable.SimplePVScannable">
-		<property name="pvName" value="BL21I-DI-DCAM-01:CAM:Acquire" />
+
+	<!-- Area detector camera -->
+	<bean id="dcam01ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL21I-DI-DCAM-01:CAM:" />
+		<property name="initialDataType" value="UInt8" />
+	</bean>
+
+	<bean id="dcam01array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL21I-DI-DCAM-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-DI-DCAM-01:ARR:" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dcam01" class="gda.device.detector.addetector.ADCameraDetector">
+		<property name="basePVName" value="BL21I-DI-DCAM-01:" />
+		<property name="areaDetector" ref="dcam01ad" />
+		<property name="array" ref="dcam01array" />
 		<property name="local" value="true" />
 	</bean>
+
 
 	<!-- Camera stats total intensity -->
 	<bean id="dcam01statTotal" class="gda.device.scannable.SimplePVScannable">
