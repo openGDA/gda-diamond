@@ -3,6 +3,10 @@
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+
+	<!-- front end -->
+	<import resource="frontEnd.xml" />
+
 	<!-- slits -->
 	<import resource="s1_motors.xml" />
 
