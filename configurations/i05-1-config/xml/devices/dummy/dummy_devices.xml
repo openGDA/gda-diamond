@@ -9,7 +9,7 @@
 	<import resource="scientaslit.xml" />
 
 	<!-- sample environment -->
-	<import resource="manipulator.xml" />
+	<import resource="sample_stage.xml" />
 	<import resource="cryostat.xml"/>
 
 	<!-- slits -->
