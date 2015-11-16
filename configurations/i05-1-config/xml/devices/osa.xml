@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="osax" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="osax_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="osay" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="osay_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="osaz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="osaz_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="osa" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="osax" />
+				<ref bean="osay" />
+				<ref bean="osaz" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

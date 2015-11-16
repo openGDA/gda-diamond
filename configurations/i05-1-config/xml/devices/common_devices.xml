@@ -8,6 +8,7 @@
 	<import resource="sample_stage.xml" />
 	<import resource="sj6.xml" />
 	<import resource="zone_plate.xml" />
+	<import resource="osa.xml" />
 
 	<!-- Import the mode specific devices -->
 	<import resource="${gda.mode}/${gda.mode}_devices.xml" />

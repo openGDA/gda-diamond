@@ -39,5 +39,6 @@
 	<import resource="analyser.xml"/>
 	<import resource="sample_stage.xml"/>
 	<import resource="zone_plate.xml"/>
+	<import resource="osa.xml"/>
 	
 </beans>
