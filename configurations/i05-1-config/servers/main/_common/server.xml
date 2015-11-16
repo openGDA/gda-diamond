@@ -52,7 +52,7 @@
 	</bean>
 
 	<import resource="datawriter.xml" />
-	<import resource="../../../xml/devices/${gda.mode}/i05-1_server_devices.xml" />
+	<import resource="../../../xml/devices/common_devices.xml" />
 	<import resource="gda_metadata.xml" />
 	<import resource="jython_server.xml" />
 

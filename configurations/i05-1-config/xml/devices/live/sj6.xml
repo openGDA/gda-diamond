@@ -8,17 +8,9 @@
 		<property name="pvName" value="BL05J-AL-SLITS-01:XGAP" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="sj6_xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sj6_xcentre_motor" />
-		<property name="local" value="true" />
-	</bean>
 
 	<bean id="sj6_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-AL-SLITS-01:YGAP" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="sj6_ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sj6_ycentre_motor" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -26,39 +18,14 @@
 		<property name="pvName" value="BL05J-AL-SLITS-01:XSIZE" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="sj6_xsize" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sj6_xsize_motor" />
-		<property name="local" value="true" />
-	</bean>
 
 	<bean id="sj6_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-AL-SLITS-01:YSIZE" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="exit_slit" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sj6_ysize_motor" />
-		<property name="local" value="false" />
-	</bean>
 
 	<bean id="sj6_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-AL-SLITS-01:Z" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="sj6_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sj6_z_motor" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="sj6" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="sj6_xcentre" />
-				<ref bean="sj6_ycentre" />
-				<ref bean="sj6_xsize" />
-				<ref bean="exit_slit" />
-				<ref bean="sj6_z" />
-			</list>
-		</property>
 		<property name="local" value="true" />
 	</bean>
 

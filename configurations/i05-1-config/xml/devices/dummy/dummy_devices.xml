@@ -14,7 +14,7 @@
 
 	<!-- slits -->
 	<import resource="s2.xml"/>
-	<import resource="s6.xml"/>
+	<import resource="sj6.xml"/>
 
 	<!-- plain grating monocromator -->
 	<import resource="pgm.xml" />
