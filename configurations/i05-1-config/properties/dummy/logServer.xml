@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
 
-<configuration debug="true"> <!-- Add debug="true" in here to log logback configuration -->
+<!-- Add debug="true" into the configuration here to log logback configuration -->
+<!-- scan="true" scanPeriod="10 seconds" enable dynamic updating of logging config -->
+<configuration scan="true" scanPeriod="10 seconds">
 
 	<!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
 	<!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
