@@ -5,9 +5,12 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="vaGauge01" class="gda.device.scannable.SimplePVScannable">
-		<property name="pvName" value="BL21I-VA-GAUGE-01:P" />
+	<bean id="vaGauge01" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-GAUGE-01:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
 		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
 	</bean>
 
 </beans>
