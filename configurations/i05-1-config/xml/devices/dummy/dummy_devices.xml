@@ -22,5 +22,7 @@
 	<!-- insertion device -->
 	<import resource="rawid.xml" />
 	<import resource="id.xml" />
+	
+	<import resource="zone_plate.xml" />
 
 </beans>
