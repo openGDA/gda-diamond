@@ -11,17 +11,19 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.install.workspace.loc=/scratch/gda_i20_ede/workspace
--Dgda.install.git.loc=/scratch/gda_i20_ede/workspace_git
--Dgda.config=/scratch/gda_i20_ede/config
--Djava.library.path=/scratch/gda_i20_ede/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
--Dgda.propertiesFile=/scratch/gda_i20_ede/config/properties/live/java.properties
--Djacorb.config.dir=/scratch/gda_i20_ede/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/scratch/gda_i20_ede/config/jca/live/JCALibrary.properties
+      <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
+-Dgda.facility.dir=${project_loc:uk.ac.gda.dls/}/../dls-config
+-Dgda.core.dir=${project_loc:uk.ac.gda.core/}/core-config
+-Dgda.config=${project_loc:i20-1-config}
+-Djava.library.path=${project_loc:uk.ac.gda.nexus)/lib/linux-x86_64
+-Dgda.propertiesFile=${project_loc:i20-1-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:i20-1-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i20-1-config}/properties/dummyJCALibrary.properties
 -Dgda.mode=dummy
 -Dgda.client.jython.automatic.interpreter=1
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Xms128m
 -Xmx1024m
 -XX:PermSize=128m 

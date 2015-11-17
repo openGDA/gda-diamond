@@ -35,6 +35,12 @@
 <!-- <bean id="twotheta_mm_motor" class="gda.device.motor.DummyMotor"/>  -->
 	<bean id="counterbalance_motor" class="gda.device.motor.DummyMotor"/>
 
+<!--  Dummy air controls added. imh 16/11/2015 -->
+	<bean id="stage3_z_air" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	<bean id="sample_z_air" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	<bean id="det_z_air" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	<bean id="twotheta_air" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+
 
 	<import resource="file:${gda.config}/servers/main/eh_motors_common.xml" />
 
