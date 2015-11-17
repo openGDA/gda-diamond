@@ -43,5 +43,6 @@
 	<import resource="osa.xml"/>
 	<import resource="analyser_rotation.xml"/>
 	<import resource="nano_es_femto.xml"/>
+	<import resource="mcp.xml"/>
 	
 </beans>
