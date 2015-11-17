@@ -9,8 +9,10 @@
 	<bean id="csBeam01" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Closed</value>
 				<value>Open</value>
+				<value>Closed</value>
+				<value>Abort</value>
+				<value>Unknown</value>
 			</list>
 		</property>
 	</bean>
