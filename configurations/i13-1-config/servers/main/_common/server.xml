@@ -11,6 +11,7 @@
 
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
@@ -18,7 +19,17 @@
 		<property name="name" value="metashop"/>
 	</bean>
 	
-	<import resource="../../../common_beans/common.xml"/>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
@@ -150,53 +161,53 @@
 		</property>
 	</bean>
 
-	<import resource="../../devices/_common/simpleScannables.xml" />
+	<import resource="../../../devices/_common/simpleScannables.xml" />
 
 	<!-- Start of real device list -->
 
-	<import resource="../../devices/_common/undulator.xml" />
-	<import resource="../../devices/_common/front_end.xml" />
+	<import resource="../../../devices/_common/undulator.xml" />
+	<import resource="../../../devices/_common/front_end.xml" />
 
-	<import resource="../../devices/_common/s1.xml" />
+	<import resource="../../../devices/_common/s1.xml" />
 
-	<import resource="../../devices/_common/filters.xml" />
+	<import resource="../../../devices/_common/filters.xml" />
 
-	<import resource="../../devices/_common/m1.xml" />
+	<import resource="../../../devices/_common/m1.xml" />
 
-	<import resource="../../devices/_common/s2.xml" />
+	<import resource="../../../devices/_common/s2.xml" />
 
-	<import resource="../../devices/_common/d1.xml" />
-	<import resource="../../devices/_common/d2.xml" />
-	<import resource="../../devices/_common/d3.xml" />
-	<import resource="../../devices/_common/d4.xml" />
-	<import resource="../../devices/_common/d5.xml" />
+	<import resource="../../../devices/_common/d1.xml" />
+	<import resource="../../../devices/_common/d2.xml" />
+	<import resource="../../../devices/_common/d3.xml" />
+	<import resource="../../../devices/_common/d4.xml" />
+	<import resource="../../../devices/_common/d5.xml" />
 
-	<import resource="../../devices/_common/float1.xml" />
-	<import resource="../../devices/_common/float2.xml" />
-	<import resource="../../devices/_common/float3.xml" />
+	<import resource="../../../devices/_common/float1.xml" />
+	<import resource="../../../devices/_common/float2.xml" />
+	<import resource="../../../devices/_common/float3.xml" />
 
-	<import resource="../../devices/_common/robots.xml" />
+	<import resource="../../../devices/_common/robots.xml" />
 
-	<import resource="../../devices/_common/optics_hutch4_shutter.xml" />
+	<import resource="../../../devices/_common/optics_hutch4_shutter.xml" />
 
 	<!-- end of internal building/ start of external building -->
-	<import resource="../../devices/_common/qcm.xml" />
+	<import resource="../../../devices/_common/qcm.xml" />
 	
-	<import resource="../../devices/_common/s4.xml" />
-	<import resource="../../devices/_common/s5.xml" />
+	<import resource="../../../devices/_common/s4.xml" />
+	<import resource="../../../devices/_common/s5.xml" />
 
-	<import resource="../../devices/_common/m2.xml"/>
-	<import resource="../../devices/_common/pin.xml"/>
- 	<import resource="../../devices/_common/diff.xml"/>
-	<import resource="../../devices/_common/s6.xml" />
-	<!-- <import resource="../../devices/_common/dcm.xml" /> -->
+	<import resource="../../../devices/_common/m2.xml"/>
+	<import resource="../../../devices/_common/pin.xml"/>
+ 	<import resource="../../../devices/_common/diff.xml"/>
+	<import resource="../../../devices/_common/s6.xml" />
+	<!-- <import resource="../../../devices/_common/dcm.xml" /> -->
 
-	<import resource="../../devices/_common/sample_stage_t1.xml" />
-	<import resource="../../devices/_common/g1.xml" />
-	<import resource="../../devices/_common/sample_stage_camera.xml" />
-	<import resource="../../devices/_common/s7.xml" />
+	<import resource="../../../devices/_common/sample_stage_t1.xml" />
+	<import resource="../../../devices/_common/g1.xml" />
+	<import resource="../../../devices/_common/sample_stage_camera.xml" />
+	<import resource="../../../devices/_common/s7.xml" />
 
-	<!-- <import resource="../../devices/_common/scope1.xml" /> -->
+	<!-- <import resource="../../../devices/_common/scope1.xml" /> -->
 
 	<!--  dummy motors for testing tomoscan  -->
 	<bean id="ss1_rot_dummy_motor" class="gda.device.motor.DummyMotor">
@@ -215,21 +226,21 @@
 		<property name="motor" ref="ss1_X_dummy_motor" />
 	</bean>
 
-	<import resource="../../devices/_common/dummyAD.xml" />
+	<import resource="../../../devices/_common/dummyAD.xml" />
 
 <!-- Not present: -->
-<!-- 	<import resource="../../devices/_common/s3.xml" />
-	<import resource="../../devices/_common/diff1.xml" />
-	<import resource="../../devices/_common/scope1.xml" />
-	<import resource="../../devices/_common/t1.xml" />
-	<import resource="../../devices/_common/z1.xml" /> 
+<!-- 	<import resource="../../../devices/_common/s3.xml" />
+	<import resource="../../../devices/_common/diff1.xml" />
+	<import resource="../../../devices/_common/scope1.xml" />
+	<import resource="../../../devices/_common/t1.xml" />
+	<import resource="../../../devices/_common/z1.xml" /> 
  -->
 
-	<import resource="../../devices/_common/pco1.xml" />
-	<import resource="../../devices/_common/merlin.xml" />
+	<import resource="../../../devices/_common/pco1.xml" />
+	<import resource="../../../devices/_common/merlin.xml" />
 
 	<!-- This is no longer present - T2 now contains beamstop but not the detector xyz motors -->
-	<!-- <import resource="../../devices/_common/detector_stage_t2.xml" /> -->
+	<!-- <import resource="../../../devices/_common/detector_stage_t2.xml" /> -->
 
 	<!-- end of device list -->
 
@@ -272,7 +283,7 @@
 	    </property>
 	</bean>		
  -->	
-	<!-- <import resource="../../devices/_common/mll.xml"/> -->
+	<!-- <import resource="../../../devices/_common/mll.xml"/> -->
 		
 	<import resource="jythonServerFacade.xml" />
 
@@ -286,5 +297,5 @@
 		<property name="serviceInterface" value="gda.gui.RCPController" />
 	</bean>
 
-	<corba:export namespace="i13-1" />
+	<corba:export namespace="${gda.factory.factoryName}" />
 </beans>
