@@ -209,6 +209,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 					break;
 				}
 				currentTimingGroup=scanParameters.getGroups().get(i);
+				((EdeFrelon) theDetector).setDropFirstFrame(true);
 				theDetector.configureDetectorForTimingGroup(currentTimingGroup);
 				theDetector.collectData();
 				Thread.sleep(250);

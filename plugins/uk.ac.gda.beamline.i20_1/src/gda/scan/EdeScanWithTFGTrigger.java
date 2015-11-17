@@ -109,9 +109,21 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 			// set scans per frame on detector so TFG scans per frame is correct...
 			int scansPerFrame = currentTimingGroup.getNumberOfScansPerFrame();
-			int numberOfFrames = scanParameters.getTotalNumberOfFrames()+1;
+			// int numberOfFrames = scanParameters.getTotalNumberOfFrames()+1;
+
+			// Number of frames is now incremented in EdeFrelon.configureDetectorForTimingGroup
+			// dropFirstFrame flag is set to 'true' (true by default)
+			int numberOfFrames = scanParameters.getTotalNumberOfFrames();
 
 			theDetector.setNumberScansInFrame( scansPerFrame );
+
+			// i.e. Only drop first frame for non It collection (helps with TFG timing calculations).
+			if ( numberOfFrames > 1 ) {
+				( (EdeFrelon) theDetector).setDropFirstFrame( false );
+			} else {
+				( (EdeFrelon) theDetector).setDropFirstFrame( true );
+			}
+
 			triggeringParameters.getDetectorDataCollection().setNumberOfFrames(numberOfFrames);
 
 			theDetector.configureDetectorForTimingGroup(currentTimingGroup);
@@ -202,7 +214,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	private void prepareTFG(boolean shouldStartOnTopupSignal) throws DeviceException {
 		int numberOfRepetitions = scanParameters.getNumberOfRepetitions();
 		// triggeringParameters.getDetectorDataCollection().setNumberOfFrames(scanParameters.getTotalNumberOfFrames());
-		String command = triggeringParameters.getTfgSetupGrupsCommandParameters(numberOfRepetitions, shouldStartOnTopupSignal);
+		String command = triggeringParameters.getTfgSetupGroupCommandParameters(numberOfRepetitions, shouldStartOnTopupSignal);
 
 		// send buffer to daserver
 		daServerForTriggeringWithTFG.sendCommand(command);
