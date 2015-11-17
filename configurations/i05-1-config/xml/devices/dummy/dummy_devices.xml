@@ -25,5 +25,6 @@
 	
 	<import resource="zone_plate.xml" />
 	<import resource="osa.xml" />
+	<import resource="analyser_rotation.xml"/>
 
 </beans>
