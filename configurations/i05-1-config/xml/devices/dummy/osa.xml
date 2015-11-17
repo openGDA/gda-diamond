@@ -5,14 +5,17 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="osax_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="osay_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="osaz_motor" class="gda.device.motor.DummyMotor">
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
