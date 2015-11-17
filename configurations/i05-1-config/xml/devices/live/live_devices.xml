@@ -42,5 +42,6 @@
 	<import resource="zone_plate.xml"/>
 	<import resource="osa.xml"/>
 	<import resource="analyser_rotation.xml"/>
+	<import resource="nano_es_femto.xml"/>
 	
 </beans>
