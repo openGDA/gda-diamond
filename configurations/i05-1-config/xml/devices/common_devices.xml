@@ -11,6 +11,7 @@
 	<import resource="sj9.xml" />
 	<import resource="zone_plate.xml" />
 	<import resource="osa.xml" />
+	<import resource="mj7j8.xml" />
 
 	<!-- Import the mode specific devices -->
 	<import resource="${gda.mode}/${gda.mode}_devices.xml" />
