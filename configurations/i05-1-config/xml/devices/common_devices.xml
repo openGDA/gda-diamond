@@ -5,6 +5,7 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- The files which define the scannables common to dummy and live-->
+	<import resource="analyser_rotation.xml" />
 	<import resource="sample_stage.xml" />
 	<import resource="sj6.xml" />
 	<import resource="zone_plate.xml" />
