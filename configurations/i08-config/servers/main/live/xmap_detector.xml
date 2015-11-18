@@ -237,33 +237,9 @@
 		<property name="aquisitionTimeOn" value="true" />
 	</bean>
 
-	<!-- <bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
-		<property name="edxdControllerName" value="edxdcontroller" />
-		<property name="local" value="true" />
-	</bean> -->
-
-<!-- 	TODO try this on Friday, if it does not work then need to get the HardwareTriggeredWithOnlineDataReductionXmap class working -->
-
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdController" ref="edxdcontrollerStepScan" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
-		<property name="controller" ref="xmapcontroller" />
-
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list,
-			one value for each element -->
-		 <property name="eventProcessingTimes">
-			<list>
-				<value>1.7867731067630825e-08</value>
-			</list>
-		</property>
-		<property name="saveRawSpectrum" value="true" />
-		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/templates/Xia_parameters.xml" />
-		<property name="sumAllElementData" value="true" />
-	</bean>
-
-</beans> 
+</beans>

@@ -3,11 +3,11 @@ from gdascripts.scan.rasterscans import RasterScan
 from gda.epics import CAClient
 import time
 from plotters import Plotter
-from gda.jython.commands.ScannableCommands import add_default
+from gda.jython.commands.ScannableCommands import add_default, remove_default
 from gda.factory import Finder
 
 class XRFMap(RasterScan):
-     
+
     def __init__(self,rowScannable,columnScannable,andor,vortex):
         RasterScan.__init__(self)
         self.map_size = 50 # default
@@ -15,16 +15,14 @@ class XRFMap(RasterScan):
         self.columnScannable = columnScannable
         self.andor = andor
         self.vortex = vortex
-        finder = Finder.getInstance()
-        self.andormap = finder.find("andormap")
-        self.setROI1(0, 0.5)
-        self.setROI2(0.5, 1)
-        self.setROI3(1, 1.5)
-        self.setROI4(1.5, 2)
+        self.setROI1(0.25, 0.35)
+        self.setROI2(0.37, 0.42)
+        self.setROI3(0.45, 0.57)
+        self.setROI4(0.65, 0.75)
         self.setROI5(0, 0)
         self.setROI6(0, 0)
-        self.setROI7(1, 1.5)
-        self.setROI8(1.5, 2)
+        self.setROI7(0, 0)
+        self.setROI8(0, 0)
         self.plotterList = [Plotter("roi1_plotter",'roi1_total',"ROI1")]
         self.plotterList.append(Plotter("roi2_plotter",'roi2_total',"ROI2"))
         self.plotterList.append(Plotter("roi3_plotter",'roi3_total',"ROI3"))
@@ -36,7 +34,7 @@ class XRFMap(RasterScan):
 
         for plotter in self.plotterList:
             add_default(plotter.getPlotter())
-        
+
     def __call__(self, *args):
 
         # if one arg, then use that as the map size, else ignore any and all args
@@ -46,16 +44,15 @@ class XRFMap(RasterScan):
         elif len(args) == 2:
             self.Xsize  = int(args[0])
             self.Ysize = int(args[1])
-        
+        self.vortex.getCollectionStrategy().getXmap().getCollectionMode().setPixelsPerBuffer(1);
         self.resetPlotters(self.Xsize, self.Ysize)
         if self.andor != None:
-            self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1, self.vortex,0.1]   
-            self.andormap.PrepareForCollection(self.Xsize, self.Ysize)
+            self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1, self.vortex,0.1]
+            andormap.PrepareForCollection(self.Xsize, self.Ysize)
         else:
-            self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.vortex, 0.1]       
-         
+            self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.vortex, 0.1]
         RasterScan.__call__(self,self.scanargs)
-     
+
     def _createScan(self, args):
         myscan = ConstantVelocityRasterScan(self.scanargs)
         return myscan
@@ -94,8 +91,8 @@ class XRFMap(RasterScan):
     def getEnergyBinWidth(self):
         return float(CAClient().get("BL08I-EA-DET-02:DXP1:MCABinWidth_RBV"))
 
-    def setBinSpectrumSize(self,binSize): 
-        maxEnergy = 4.096       
+    def setBinSpectrumSize(self,binSize):
+        maxEnergy = 4.096
         CAClient().put("BL08I-EA-DET-02:MCA1.NUSE",str(binSize))
         CAClient().put("BL08I-EA-DET-02:DXP1:MaxEnergy",str(maxEnergy))
 

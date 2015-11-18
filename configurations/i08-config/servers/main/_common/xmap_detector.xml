@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean id="xmapFluorescenceDetector" class="gda.device.detector.nxdetector.xmap.fluorescencedetector.XmapFluorescenceDetector">
+		<constructor-arg index="0" value="1" />
+		<property name="name" value="xmapFluorescenceDetector" />
+		<property name="nxdetectorInterface" ref="_xmap" />
+		<property name="edxdInterface" ref="xmapMca" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xmap" />
+		<property name="service" ref="xmapFluorescenceDetector" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+	</bean>
+
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmapcontroller" />
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list,
+			one value for each element -->
+		 <property name="eventProcessingTimes">
+			<list>
+				<value>1.7867731067630825e-08</value>
+			</list>
+		</property>
+		<property name="saveRawSpectrum" value="true" />
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Xia_parameters.xml" />
+		<property name="sumAllElementData" value="true" />
+	</bean>
+
+</beans>
