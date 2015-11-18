@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 public class EnergyTimePlotComposite extends Composite {
 	private final TimeEnergyShiftingModel timeEnergyShiftingModel;
-	private IPlottingSystem plottingSystem;
+	private IPlottingSystem<Composite> plottingSystem;
 	private final ToolPageModel toolPageModel;
 	protected static final Logger logger = LoggerFactory.getLogger(EnergyTimePlotComposite.class);
 

@@ -295,7 +295,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		return group;
 	}
 
-	private void createPlottingComposite(Group group, final CalibrationEnergyData calibrationDataModel, final IPlottingSystem plottingSystem) {
+	private void createPlottingComposite(Group group, final CalibrationEnergyData calibrationDataModel, final IPlottingSystem<Composite> plottingSystem) {
 		Composite plotParent = new Composite(group, SWT.None);
 		plotParent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		plotParent.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
