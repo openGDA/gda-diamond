@@ -23,5 +23,18 @@
 	<bean id="smazimuth_motor" class="gda.device.motor.DummyMotor">
 		<property name="local" value="true" />
 	</bean>
+	
+	<!-- The sample stage rotation angles -->
+	<bean id="smalpha" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="deg"/>
+	</bean>
+	
+	<bean id="smbeta" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="deg"/>
+	</bean>
+	
+	<bean id="smgamma" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="userUnits" value="deg"/>
+	</bean>
 
 </beans>
