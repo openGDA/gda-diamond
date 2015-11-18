@@ -45,5 +45,6 @@
 	<import resource="nano_es_femto.xml"/>
 	<import resource="mcp.xml"/>
 	<import resource="microscope.xml"/>
+	<import resource="cryostat.xml"/>
 	
 </beans>
