@@ -6,10 +6,22 @@
 
 
     <!-- Front End Beam Permit -->
-	<bean id="csBeam01" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+<!-- 	<bean id="csBeam01" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="FE21I-CS-BEAM-01" />
 		<property name="controlPv" value="FE21I-CS-BEAM-01:BLCON" />
 		<property name="local" value="true"/>
+	</bean> -->
+
+	<!-- Temporary dummy object until we are allowed to control the real front end -->
+	<bean id="csBeam01" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Closed</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
 	</bean>
 
 </beans>
