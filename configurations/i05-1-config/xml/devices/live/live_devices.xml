@@ -11,6 +11,7 @@
 	<import resource="s3.xml" />
 	<import resource="s5.xml" />
 	<import resource="sj6.xml" />
+	<import resource="sj9.xml" />
 
 	<!-- diagnostics -->
 	<import resource="d3.xml" />
