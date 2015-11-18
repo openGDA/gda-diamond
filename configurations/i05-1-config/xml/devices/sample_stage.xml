@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="smx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smx_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="smy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smy_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="smz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smz_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="smpolar" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpolar_motor" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="smazimuth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smazimuth_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="smx" />
+				<ref bean="smy" />
+				<ref bean="smz" />
+				<ref bean="smpolar" />
+				<ref bean="smazimuth" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>
