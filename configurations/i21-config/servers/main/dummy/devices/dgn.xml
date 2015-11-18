@@ -48,7 +48,6 @@
 	<!-- Camera stats total intensity -->
 	<bean id="dcam01statTotal" class="gda.device.scannable.DummyMultiElementScannable">
 		<property name="name" value="dcam01statTotal" />
-		<!-- <property name="currentPosition" value="3.142" /> -->
 		<property name="protectionLevel" value="3" />
 		<property name="extraNames">
 			<list>
