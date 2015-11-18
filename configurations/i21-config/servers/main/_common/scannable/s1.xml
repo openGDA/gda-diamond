@@ -4,8 +4,8 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="s1xcenter" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1xcenterMotor" />
+	<bean id="s1xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1xcentreMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 	
@@ -14,8 +14,8 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 	
-	<bean id="s1ycenter" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1ycenterMotor" />
+	<bean id="s1ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1ycentreMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 	
@@ -27,9 +27,9 @@
 	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="s1xcenter" />
+				<ref bean="s1xcentre" />
 				<ref bean="s1xsize" />
-				<ref bean="s1ycenter" />
+				<ref bean="s1ycentre" />
 				<ref bean="s1ysize" />
 			</list>
 		</property>
