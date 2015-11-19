@@ -21,6 +21,8 @@ package uk.ac.gda.beamline.i05.scannable;
 import java.util.Arrays;
 import java.util.List;
 
+import uk.ac.gda.arpes.scannable.CombinedCaculator;
+
 public class saperpCalculator implements CombinedCaculator {
 
 	public static double angle = 50.0;
