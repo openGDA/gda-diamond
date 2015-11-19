@@ -144,4 +144,8 @@
 
 <!--  not present	<import resource="file:/dls_sw/i13-1/software/gda_versions/gda_8_26/workspace_git/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/all.xml"/>
 -->
+
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
+
 </beans>

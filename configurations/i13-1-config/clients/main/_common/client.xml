@@ -25,7 +25,7 @@
 
 	<import resource="commandQueueProcessor.xml" />
 
-	<corba:import namespace="i13-1" names="plot_server" />
+	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
 
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
@@ -69,7 +69,7 @@
 	</bean>
 
 
-	<!-- <corba:import namespace="i13-1" names="beamline_health" /> -->
+	<!-- <corba:import namespace="${gda.factory.factoryName}" names="beamline_health" /> -->
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
