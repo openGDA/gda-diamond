@@ -9,12 +9,6 @@
 		<property name="mode" value="1"/>
 	</bean>
 
-	<bean id="p2rSM1" class="gda.device.zebra.ZebraScannableMotor">
-		<property name="motor" ref="p2r_rot_motor"/>
-		<property name="zebraConstantVelocityMoveController" ref="p2rcvmc"/>
-		<property name="scurveTimeToVelocity" value="3.0"/>
-	</bean>	
-
 	<bean id="p2r_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="p2r_flyScanDetector"/>
 		<property name="readOutTime" value=".01"/><!--  500ms for pco 4000 10 ms for pco Edge-->

@@ -7,8 +7,8 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-	
-	
+
+
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -17,36 +17,30 @@
 				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
 				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
 				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
-	
 			</list>
 		</property>
 	</bean>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+ 	<corba:import namespace="${gda.factory.factoryName}"
+		names="dcm_energy, dcm_bragg, eh_shtr, fs" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
-	
+	<import resource="../../../common_beans/common.xml" />
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="plot_server.xml" />
-<!--	<import resource="mvc_example_model.xml"/> -->
 
-		
-<!-- 	<bean id="MyLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}MyLoggingScriptController" /> -->
-<!-- 		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="MyOtherLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}MyOtherLoggingScriptController" /> -->
-<!-- 		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
+		<property name="service" ref="plot_server" />
+	</bean>
+
+	<bean id="helpHandler" class="uk.ac.gda.client.HelpHandlerImpl">
+		<property name="filePath" value="${gda.var}/helpHandler.txt" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.client.HelpHandler" />
+		<property name="service" ref="helpHandler" />
+	</bean>
+
 
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
@@ -55,80 +49,12 @@
 	</bean>
 
 
-<!--for an 'empty' configuration, remove the objects below-->
-
-<!-- 	<bean id="sampleDevicesLookup" -->
-<!-- 		class="uk.ac.gda.client.device.collection.DeviceCollectionMapping"> -->
-<!-- 		<property name="id" value="gda.example.views.samplealignment" /> -->
-<!-- 		<property name="collection" ref="sampleDevices" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="sampleDevices" -->
-<!-- 		class="uk.ac.gda.example.device.collection.SampleAlignmentDeviceCollection"> -->
-<!-- 		<property name="scannable" ref="simpleScannable1" /> -->
-<!-- 		<property name="scannablemotorunits" ref="testLinearSMX" /> -->
-<!-- 	</bean> -->
-
-	<bean id="simpleScannable1" class="gda.device.scannable.SimpleScannable">
-		<property name="currentPosition">
-			<bean class="java.lang.Double">
-				<constructor-arg type="double" value="1.2" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="testLinearMotorX" class="gda.device.motor.DummyMotor">
-		<property name="name" value="testLinearMotorX" />
-	</bean>
-
-	<bean id="testLinearSMX" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="testLinearSMX" />
-		<property name="protectionLevel" value="2" />
-		<property name="motorName" value="testLinearMotorX" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-
- 	<corba:import namespace="${gda.factory.factoryName}"
-		names="dcm_energy, dcm_bragg, eh_shtr, fs" />
-
-	<corba:import namespace="${gda.factory.factoryName}"
-		names="rotationAxisXScannable, cameraXYScannable, lens, binning_x, binning_y" />
-
-
-	<import resource="../../../devices/_common/cameraScaleProviders.xml" />
-
-<!-- 	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
-		<property name="service">
-			<bean class="uk.ac.gda.epics.adviewer.SimpleADPVSuffixes">
-				<property name="mpgSuffix" value="FFMPEG:" />
-			</bean>
-		</property>
-		<property name="properties">
-			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-				<property name="map">
-					<map>
-						<entry key="SERVICE_NAME" value="diagnosticCameraType" />
-					</map>
-				</property>
-			</bean>
-		</property>
-	</bean> -->
-
-	<bean id="helpHandler" class="uk.ac.gda.client.HelpHandlerImpl">
-		<property name="filePath" value="${gda.var}/helpHandler.txt" />
-	</bean>
-
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.client.HelpHandler" />
-		<property name="service" ref="helpHandler" />
-	</bean>
-
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
 
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />
@@ -136,11 +62,15 @@
 			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
 	<bean id="imageFileDisplayer" class="uk.ac.gda.dls.client.views.ImageFileDisplayer">
 		<property name="viewName" value="Detector Image" />
 		<property name="viewID" value="uk.ac.gda.beamline.i13i.DetectorPlot" />
 	</bean>
+
+ 	<corba:import namespace="${gda.factory.factoryName}"
+		names="rotationAxisXScannable, cameraXYScannable, lens, binning_x, binning_y" />
+
+	<import resource="../../../devices/_common/cameraScaleProviders.xml" />
 
 	<bean id="i13ADController"
 		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
@@ -159,6 +89,8 @@
 		<property name="lensEnum" ref="lens" />
 		<property name="binningXEnum" ref="binning_x" />
 		<property name="binningYEnum" ref="binning_y" />
+		<!-- <property name="regionSizeXEnum" ref="region_size_x"/> <property name="regionSizeYEnum" 
+			ref="region_size_y"/> -->
 		<property name="stagesCompositeFactory" ref="stages" />
 		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
 		<property name="cameraXYScannable" ref="cameraXYScannable" />
@@ -181,7 +113,6 @@
 			</map>
 		</property>
 	</bean>
-	
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
 		<property name="service" ref="i13ADController" />
@@ -411,13 +342,6 @@
 								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
 								<constructor-arg value="" />
 							</bean>
-							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Simulation" />
-								<constructor-arg value="Simulation" />
-								<constructor-arg value="MPEG"/>
-								<constructor-arg value="BL99I-EA-DET-01:"/>
-								<constructor-arg value=""/>
-							</bean>
 						</list>
 					</property>
 				</bean>
@@ -473,6 +397,8 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+
+
 	<bean id="cs1_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}cs1_x" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
@@ -509,6 +435,7 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
 
 	<bean id="hex_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}hex_x" />
@@ -566,6 +493,7 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	<!-- <bean id="smar_ry" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
 	<bean id="smar_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<!-- <property name="serviceUrl" value="${gda.rmi.prefix}smar_ry" /> -->
 		<property name="serviceUrl" value="${gda.rmi.prefix}smar_rot" />
@@ -593,6 +521,7 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	
 
 	<bean id="translate_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}translate_x" />
@@ -601,22 +530,17 @@
 	</bean>
 
 
-<!-- <bean id="p2r_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_rot" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="p2r_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_y" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="p2r_force" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_force" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
- -->
+	<!-- <bean id="p2r_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> 
+		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_rot" /> <property 
+		name="serviceInterface" value="gda.device.ScannableMotionUnits" /> <property 
+		name="refreshStubOnConnectFailure" value="true" /> </bean> <bean id="p2r_y" 
+		class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> <property name="serviceUrl" 
+		value="${gda.rmi.prefix}p2r_y" /> <property name="serviceInterface" value="gda.device.ScannableMotionUnits" 
+		/> <property name="refreshStubOnConnectFailure" value="true" /> </bean> <bean 
+		id="p2r_force" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> 
+		<property name="serviceUrl" value="${gda.rmi.prefix}p2r_force" /> <property 
+		name="serviceInterface" value="gda.device.ScannableMotionUnits" /> <property 
+		name="refreshStubOnConnectFailure" value="true" /> </bean> -->
 
 	<bean id="sampleCentring" class="gda.rcp.views.StageCompositeFactory">
 		<property name="stageCompositeDefinitions">
@@ -744,36 +668,20 @@
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Base" />
 				</bean>
+				<!-- <bean class="gda.rcp.views.TabCompositeFactoryImpl"> <property name="compositeFactory"> 
+					<bean class="gda.rcp.views.StageCompositeFactory"> <property name="stageCompositeDefinitions"> 
+					<util:list value-type="gda.rcp.views.StageCompositeDefinition"> <bean class="gda.rcp.views.StageCompositeDefinition"> 
+					<property name="scannable" ref="p2r_y" /> <property name="stepSize" value=".1" 
+					/> </bean> <bean class="gda.rcp.views.StageCompositeDefinition"> <property 
+					name="scannable" ref="p2r_force" /> <property name="stepSize" value=".1" 
+					/> </bean> <bean class="gda.rcp.views.StageCompositeDefinition"> <property 
+					name="scannable" ref="p2r_rot" /> <property name="smallStep" value="30" /> 
+					<property name="bigStep" value="90" /> <property name="useSteps" value="true" 
+					/> </bean> </util:list> </property> <property name="labelWidth" value="80" 
+					/> </bean> </property> <property name="imagePluginId" value="uk.ac.gda.beamline.i13i" 
+					/> <property name="imageFilePath" value="icons/samplebasestage.gif" /> <property 
+					name="label" value="P2R" /> </bean> -->
 
-<!-- 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
-					<property name="compositeFactory">
-						<bean class="gda.rcp.views.StageCompositeFactory">
-							<property name="stageCompositeDefinitions">
-								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="p2r_y" />
-										<property name="stepSize" value=".1" />
-									</bean>
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="p2r_force" />
-										<property name="stepSize" value=".1" />
-									</bean>
-									<bean class="gda.rcp.views.StageCompositeDefinition">
-										<property name="scannable" ref="p2r_rot" />
-										<property name="smallStep" value="30" />
-										<property name="bigStep" value="90" />
-										<property name="useSteps" value="true" />
-									</bean>
-								</util:list>
-							</property>
-							<property name="labelWidth" value="80" />
-						</bean>
-					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
-					<property name="imageFilePath" value="icons/samplebasestage.gif" />
-					<property name="label" value="P2R" />
-				</bean>
- -->
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="enabled" value="${use.hexapod}" />
 					<property name="compositeFactory">
@@ -891,6 +799,7 @@
 		</property>
 	</bean>
 
+	<!-- <import resource="tomoAlignmentViewHolder.xml"/ -->
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
@@ -898,24 +807,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-            <property name="locations">
-                <list>
-                <value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
-				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
-                </list>
-            </property>
-            <property name="ignoreResourceNotFound" value="false"/>
-        </bean>
-
-
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-
-
-
-
-
 
 </beans>

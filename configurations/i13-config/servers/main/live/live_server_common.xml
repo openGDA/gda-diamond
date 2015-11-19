@@ -40,7 +40,6 @@
 
 	<import resource="../../../devices/epics/s1_motors.xml" />
 	<import resource="../../../devices/epics/filter_motors.xml" />
-	<!-- <import resource="../../../devices/epics/gas_bremsstrahlung1.xml"/> -->
 	<import resource="../../../devices/epics/m1.xml" />
 	
 	<import resource="../../../devices/epics/d1.xml" />
@@ -97,6 +96,10 @@
 	<import resource="../../../devices/epics/sample_stage_hexapod_motors.xml"/>
  	<import resource="../../../devices/epics/smaract_motors.xml"/>
  	<import resource="../../../devices/epics/newport_motors.xml"/>
-	<import resource="../common.xml" />
+ 	
+	<import resource="../_common/server.xml" />
+
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
 
 </beans>

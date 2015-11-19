@@ -27,27 +27,22 @@
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<!--  object to provide recording of metadata in Nexus files -->
+	<import resource="live_server_common.xml" />
+	<import resource="../../../devices/live/tfg2.xml"/>
 
-	<!-- Replaces ScanDataStore -->
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrar" />
+		<property name="directory"
+			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
 	</bean>
 
-	<!--for an 'empty' configuration, remove the imports below, and the other xml files and directories inside the xml/server directory-->
-<!-- 	<import resource="demonstration.xml" /> -->
-	<import resource="jack.xml" />
-	<import resource="jaw.xml" />
-	<import resource="detectors.xml" />
-	<import resource="LoggingScriptController.xml" />
-	<import resource="scriptcontroller.xml" />
-	<import resource="../mvc_example_model.xml"/>
-	<import resource="devices/mapping_motors.xml"/>
-
-<!-- do not remove anything below here -->
-	
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="FileRegistrar" />
+			</list>
+		</property>
+	</bean>
 
 </beans>
