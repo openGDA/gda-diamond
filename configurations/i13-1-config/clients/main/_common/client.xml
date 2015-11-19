@@ -24,6 +24,7 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="commandQueueProcessor.xml" />
+	<import resource="../../../common_beans/common.xml"/>
 
 	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
 

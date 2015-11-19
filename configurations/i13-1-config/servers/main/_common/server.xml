@@ -11,6 +11,7 @@
 
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<import resource="../../../common_beans/common.xml"/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
