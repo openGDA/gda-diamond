@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="smvert" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="smx" />
+				<ref bean="smy" />
+				<ref bean="smazimuth" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.beamline.i05_1.calculator.SmVertCalculator" />
+		</property>
+	</bean>
+
+
+	<bean id="smbeam" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="smvert" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>
