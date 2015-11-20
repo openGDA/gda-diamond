@@ -20,12 +20,14 @@
 	</bean>
 
 	<bean id="smpolar_motor" class="gda.device.motor.DummyMotor">
-	<property name="unitString" value="deg" />
+		<property name="unitString" value="deg" />
+		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="smazimuth_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="deg" />
+		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
 	
