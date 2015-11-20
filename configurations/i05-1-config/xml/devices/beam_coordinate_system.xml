@@ -17,7 +17,7 @@
 		</property>
 	</bean>
 	
-		<bean id="smhor" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+	<bean id="smhor" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
 		<property name="scannables">
 			<list>
 				<ref bean="smx" />
@@ -30,12 +30,25 @@
 		</property>
 	</bean>
 
+	<bean id="smlong" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="smz" />
+				<ref bean="smhor" />
+				<ref bean="smpolar" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.beamline.i05_1.calculator.SmLongCalculator" />
+		</property>
+	</bean>
 
 	<bean id="smvirtual" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="smvert" />
 				<ref bean="smhor" />
+				<ref bean="smlong" />
 			</list>
 		</property>
 		<property name="local" value="true" />
