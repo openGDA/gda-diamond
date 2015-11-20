@@ -46,19 +46,10 @@
  -->
 
 	<!-- Camera stats total intensity -->
-	<bean id="dcam01statTotal" class="gda.device.scannable.DummyMultiElementScannable">
-		<property name="name" value="dcam01statTotal" />
-		<property name="protectionLevel" value="3" />
-		<property name="extraNames">
-			<list>
-				<value>dcam01statTotal</value>
-			</list>
-		</property>
-		<property name="outputFormat">
-			<list>
-				<value>%5.5g</value>
-			</list>
-		</property>
+	<bean id="dcam01statTotal" class="gda.device.scannable.DummyScannableVaryingValue">
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="2000" />
+		<property name="increment" value="153.234" />
 	</bean>
 	
 	<!-- To run with ADSIM, use the bean below, changing pvName as appropriate -->
