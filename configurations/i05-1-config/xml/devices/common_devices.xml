@@ -13,6 +13,7 @@
 	<import resource="osa.xml" />
 	<import resource="mj7j8.xml" />
 	<import resource="beam_coordinate_system.xml" />
+	<import resource="raw_sample_stage.xml"/>
 
 	<!-- Import the mode specific devices -->
 	<import resource="${gda.mode}/${gda.mode}_devices.xml" />

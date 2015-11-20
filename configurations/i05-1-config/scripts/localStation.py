@@ -20,17 +20,8 @@ gdascripts = LocalProperties.get("gda.install.git.loc") + "/gda-core.git/uk.ac.g
 execfile(gdaScriptDir + "/installStandardScansWithProcessing.py");
 
 execfile(gdascripts + "/pd/epics_pds.py");
-
-execfile(gdascripts + "/pd/time_pds.py");
-class actTimeInInt(actualTimeClass):  # specialise to make displayed time semi-human-readable
-   def rawGetPosition(self):
-      pad = 10000
-      t = localtime(time.time())  # t = localtime(super(actualTimeClass, self).rawGetPosition())
-      tInInt = ((((((t[0] * 100 + t[1]) * 100 + t[2]) * pad + t[3]) * 100 + t[4]) * pad) + t[5])
-      return tInInt  # actual wall clock date & time
-actTime = actTimeInInt("actTime")       
-
 execfile(gdascripts + "/pd/dummy_pds.py");
+execfile(gdascripts + "/pd/time_pds.py");
 
 execfile(gdascripts + "/utils.py");
 
@@ -54,10 +45,9 @@ centre_energy.setName("centre_energy")
 centre_energy.setInputNames(["centre_energy"])
 
 # Enable callbacks on ARR1 to allow updating of detector plot
-caput("BL05J-EA-DET-01:ARR1:EnableCallbacks",1)
+caput("BL05J-EA-DET-01:ARR:EnableCallbacks",1)
 
 import arpes
-import pathscanTable as pst
 
 print "==================================================================="
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests

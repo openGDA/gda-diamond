@@ -5,7 +5,7 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="femto_nano_es_current" class="gda.device.currentamplifier.CalibratedAmplifier">
-		<property name="scalingAndOffset" ref="dj9gain" />
+		<property name="scalingAndOffset" ref="femto_nano_es_gain" />
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL05J-EA-SM-01:DET:I" />
@@ -13,7 +13,7 @@
 	</bean>
 
 	<bean id="femto_nano_es_average" class="gda.device.currentamplifier.CalibratedAmplifier">
-		<property name="scalingAndOffset" ref="dj9gain" />
+		<property name="scalingAndOffset" ref="femto_nano_es_gain" />
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL05J-EA-SM-01:DET:IAV" />
