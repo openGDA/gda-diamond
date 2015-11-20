@@ -16,12 +16,26 @@
 			<bean class="uk.ac.gda.beamline.i05_1.calculator.SmVertCalculator" />
 		</property>
 	</bean>
+	
+		<bean id="smhor" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="smx" />
+				<ref bean="smy" />
+				<ref bean="smazimuth" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.beamline.i05_1.calculator.SmHorCalculator" />
+		</property>
+	</bean>
 
 
-	<bean id="smbeam" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="smvirtual" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="smvert" />
+				<ref bean="smhor" />
 			</list>
 		</property>
 		<property name="local" value="true" />
