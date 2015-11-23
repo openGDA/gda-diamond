@@ -18,16 +18,17 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.gui.RCPController;
 import gda.jython.InterfaceProvider;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.AttenuatorParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
@@ -40,9 +41,9 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	private static final Logger logger = LoggerFactory.getLogger(I18SampleEnvironmentIterator.class);
 
 	private final RCPController rcpController;
-	private final Scannable sc_MicroFocusSampleX;
-	private final Scannable sc_MicroFocusSampleY;
-	private final Scannable sc_sample_z;
+	private final Scannable stage_x;
+	private final Scannable stage_y;
+	private final Scannable stage_z;
 	private final EnumPositioner d7a;
 	private final EnumPositioner d7b;
 	private final Scannable kb_vfm_x;
@@ -51,14 +52,14 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	private IScanParameters scanParameters;
 
 	public I18SampleEnvironmentIterator(IScanParameters scanParameters, I18SampleParameters parameters,
-			RCPController rcpController, Scannable sc_MicroFocusSampleX, Scannable sc_MicroFocusSampleY,
-			Scannable sc_sample_z, EnumPositioner D7A, EnumPositioner D7B, Scannable kb_vfm_x) {
+ RCPController rcpController, Scannable stage_x,
+			Scannable stage_y, Scannable stage_z, EnumPositioner D7A, EnumPositioner D7B, Scannable kb_vfm_x) {
 		this.scanParameters = scanParameters;
 		this.parameters = parameters;
 		this.rcpController = rcpController;
-		this.sc_MicroFocusSampleX = sc_MicroFocusSampleX;
-		this.sc_MicroFocusSampleY = sc_MicroFocusSampleY;
-		this.sc_sample_z = sc_sample_z;
+		this.stage_x = stage_x;
+		this.stage_y = stage_y;
+		this.stage_z = stage_z;
 		d7a = D7A;
 		d7b = D7B;
 		this.kb_vfm_x = kb_vfm_x;
@@ -79,11 +80,11 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 			SampleStageParameters stage = parameters.getSampleStageParameters();
 			log("Moving stage x to:" + stage.getX());
-			sc_MicroFocusSampleX.moveTo(stage.getX());
+			stage_x.moveTo(stage.getX());
 			log("Moving stage y to:" + stage.getY());
-			sc_MicroFocusSampleY.moveTo(stage.getY());
+			stage_y.moveTo(stage.getY());
 			log("Moving stage z to:" + stage.getZ());
-			sc_sample_z.moveTo(stage.getZ());
+			stage_z.moveTo(stage.getZ());
 		}
 
 		AttenuatorParameters att1 = parameters.getAttenuatorParameter1();

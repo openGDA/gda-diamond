@@ -9,7 +9,6 @@ from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap, Fa
 from gda.configuration.properties import LocalProperties
 #from gda.data import PathConstructor
 #from gda.data.fileregistrar import IcatXMLCreator
-from gda.device.monitor import DummyMonitor
 from gda.device.scannable import DummyScannable
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import I18BeamMonitor
@@ -17,7 +16,9 @@ from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.factory import Finder
 #from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
 #from cid_photodiode import CidPhotoDiode
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm
+from stageSelector import StageSelector
+from gda.jython.commands.GeneralCommands import alias, vararg_alias
+from gda.jython.commands.ScannableCommands import add_default
 #from gda.data.scan.datawriter import NexusDataWriter
 
 #from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
@@ -101,7 +102,11 @@ elementListScriptController =  finder.find("elementListScriptController")
 
 gains = [i0_keithley_gain, it_keithley_gain]
 detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3, raster_counterTimer01, raster_xspress, QexafsFFI0, raster_xspress3,raster_FFI0_xspress3, buffered_cid, None)
-samplePreparer   = I18SamplePreparer(rcpController, sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z, D7A, D7B, kb_vfm_x)
+
+samplePreparer   = I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x)
+samplePreparer.setStage1(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z)
+samplePreparer.setStage3(table_x, table_y, table_z)
+samplePreparer.setStage(1)
 outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter)
 
@@ -111,7 +116,7 @@ if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'Us
 else:
     energy_scannable_for_scans = energy_nogap
     beamlinePreparer.setUseNoGapEnergy()
-    
+
 # while testing in low-alpha only
 energy_scannable_for_scans = energy_nogap
     
@@ -132,12 +137,13 @@ theFactory.setEnergyScannable(energy_scannable_for_scans);
 theFactory.setMetashop(Finder.getInstance().find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
-theFactory.setQexafsEnergyScannable(qexafs_energy);
+theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy);
+theFactory.setQexafsNXDetectorList([qexafsCounterTimer01,qexafsXspress3,qexafsXspress3FFI0])  # @UndefinedVariable
 theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
 xanes = xas
-qexafs = theFactory.createQexafsScan()
+qexafs = theFactory.createQexafsConstantVelocityScan()
 
 
 if (LocalProperties.get("gda.mode") != 'live'):
@@ -202,6 +208,11 @@ alias("meta_rm")
 if (LocalProperties.get("gda.mode") == 'live'):
     photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/")
 
+
+selectStage = StageSelector(samplePreparer,map)
+alias("selectStage")
+selectStage(1)
+
 print "Initialization Complete";
 
 print "****************************************"
@@ -214,9 +225,9 @@ print "and to switch back:"
 print " map.disableFasterRaster()"
 print ""
 print "To switch to use table 3 (large stage) for rastering:"
-print " map.setStage(3)"
+print " selectStage(3)"
 print "To switch back to table 1 (small stage) for rastering:"
-print " map.setStage(1)"
+print " selectStage(1)"
 print ""
 print "To disable/enable use of the ID Gap:"
 print " map.disableUseIDGap()"
@@ -226,10 +237,8 @@ print "To disable/enable output of real positions in raster maps:"
 print " map.disableRealPositions()"
 print " map.enableRealPositions()"
 print ""
-print "To change the y axis used in maps to fine theta (but could be any motor):"
-print " non_raster_map.setyScan(sc_sample_thetafine)"
-print " raster_map.setyScan(sc_sample_thetafine)"
-print " raster_map_return_write.setyScan(sc_sample_thetafine)"
+print "To change the y axis used in maps to fine theta (but could be any motor) using stage1 (for tomography measurements):"
+print " map.setStage1Y(sc_sample_thetafine)"
 print " map.setStage(1)"
 print "****************************************"
 
