@@ -1388,6 +1388,12 @@ run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
+print "==========================="
+print "Setting up continuous scans"
+run("setup_cvscan")
+print "Continuous scans setup"
+print "==========================="
+
 run("startup_pie725")
 
 if USE_NEXUS:
