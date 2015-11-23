@@ -48,8 +48,8 @@
 
 
 	<bean id="xps2DeferFlag" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameSetPoint" value="BL16I-MO-XPS-02:DEFER" />
-		<property name="pvNameGetPoint" value="BL16I-MO-XPS-02:DEFER" />
+		<property name="pvNameSetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFER_MOVES" />
+		<property name="pvNameGetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFER_MOVES" />
 		<property name="local" value="true" />
 	</bean>
 	

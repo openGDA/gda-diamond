@@ -106,6 +106,8 @@
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
+		<property name="deferOnValue" value="2" />
+
 	</bean>
 
 	<bean id="dummy_chi" class="gda.device.motor.DummyMotor" >
@@ -170,6 +172,8 @@
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
+		<property name="deferOnValue" value="2" />
+
 	</bean>
 	
 	
@@ -190,6 +194,8 @@
 		<property name="deferredControlPoint" ref="xps2DeferFlag" />
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
+
+		<property name="deferOnValue" value="2" />
 
 	</bean>
 
