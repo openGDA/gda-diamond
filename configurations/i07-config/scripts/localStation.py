@@ -105,6 +105,8 @@ try_execfile("BeamlineI07/useAreaDetectorPilatus1.py")
 #try_execfile("BeamlineI07/useEpicsPilatus2M.py")
 try_execfile("BeamlineI07/useAreaDetectorPilatus2.py")
 
+try_execfile("BeamlineI07/dcdRoi.py")
+
 try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
 
 try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
