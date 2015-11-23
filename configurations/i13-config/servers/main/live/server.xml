@@ -45,4 +45,7 @@
 		</property>
 	</bean>
 
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
+
 </beans>
