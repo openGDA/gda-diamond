@@ -9,6 +9,8 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
+	<context:property-placeholder properties-ref="propertyConfigurer" />	
+
 	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable" />
 	<bean id="idGap" class="gda.device.scannable.DummyScannable"/>
 	<bean id="timeToRefill" class="gda.device.scannable.DummyScannable"/>

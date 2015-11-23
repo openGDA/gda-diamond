@@ -20,8 +20,7 @@
 		<property name="name" value="metashop"/>
 	</bean>
 	
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list value-type="java.lang.String">
 				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
@@ -287,8 +286,6 @@
 	<!-- <import resource="../../../devices/_common/mll.xml"/> -->
 		
 	<import resource="jythonServerFacade.xml" />
-
-	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
 
 	<bean id="RCPController" class="gda.gui.RCPControllerImpl" />
 

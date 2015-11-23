@@ -56,7 +56,6 @@
 	</bean>
 
 
-	<!-- <corba:import namespace="${gda.factory.factoryName}" names="beamline_health" /> -->
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
