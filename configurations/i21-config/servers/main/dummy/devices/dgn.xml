@@ -46,9 +46,9 @@
  -->
 
 	<!-- Camera stats total intensity -->
-	<bean id="dcam01statTotal" class="gda.device.scannable.DummyScannableVaryingValue">
-		<property name="lowerLimit" value="0" />
-		<property name="upperLimit" value="2000" />
+	<bean id="dcam01statTotal" class="gda.device.scannable.DummyScannable">
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="2000" />
 		<property name="increment" value="153.234" />
 	</bean>
 	
