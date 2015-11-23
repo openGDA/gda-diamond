@@ -1466,4 +1466,14 @@
 		<property name="recordName" value="BL07I-OP-DCD-02:MP" />
 	</bean>    
 
+    <bean id="MotorSyringe_left" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:MOTOR" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="MotorSyringe_right" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:MOTOR" />
+        <property name="local" value="true" />
+    </bean>
+
 </beans>
