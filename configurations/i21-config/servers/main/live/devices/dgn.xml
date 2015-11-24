@@ -6,9 +6,8 @@
 
 
 	<!-- DGN Stick Positioner -->
-	<bean id="diago01mp" class="gda.spring.EpicsEnumPositionerFactoryBean">
-		<property name="pvBase" value="BL21I-DI-DIAGO-01:MP" />
-		<property name="local" value="true" />
+	<bean id="diago01mp" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL21I-DI-DIAGO-01:MP" />
 	</bean>
 
 
