@@ -1,38 +1,35 @@
 import java, sys
+import installation
+import gdascripts.scan.concurrentScanWrapper
 
 from gdascripts.messages.handle_messages import simpleLog, log
+from gdascripts.scannable.dummy import SingleInputDummy
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 
 global run
 
-localStation_exceptions = []
+scan_processor.rootNamespaceDict=globals()
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
-def localStation_exception(exc_info, msg):
-    typ, exception, traceback = exc_info
-    simpleLog("! Failure %s !" % msg)
-    localStation_exceptions.append("    %s" % msg)
-    log(None, "Error %s -  " % msg , typ, exception, traceback, False)
+print "Adding dummy devices x,y and z"
+x=SingleInputDummy("x")
+y=SingleInputDummy("y")
+z=SingleInputDummy("z")
 
-try:
-    simpleLog("================ INITIALISING I21 GDA ================")
+print "Adding timer devices t, dt, and w, clock"
+from gdascripts.scannable.timerelated import t, dt, w, clock, epoch #@UnusedImport
 
-except:
-    localStation_exception(sys.exc_info(), "in localStation")
+if installation.isLive():
+    print "Running in live mode"
+else:
+    print "Running in dummy mode"
 
+simpleLog("================ INITIALISING I21 GDA ================")
 
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
-try:
-    run("localStationUser")
-    print "localStationUser.py completed."
-except java.io.FileNotFoundException, e:
-    print "No localStationUser.py found in user scripts directory"
-except:
-    localStation_exception(sys.exc_info(), "running localStationUser user script")
 
-if len(localStation_exceptions) > 0:
-    simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
-
-for localStationException in localStation_exceptions:
-    simpleLog(localStationException)
+run("localStationUser")
+print "localStationUser.py completed."
 
 simpleLog("===================== GDA ONLINE =====================")
