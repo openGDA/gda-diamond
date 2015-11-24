@@ -44,7 +44,7 @@ class Degass:
         self.Integrator=0
         self.Derivator=0
 
-    def atSiltEnd(self):
+    def atSlitEnd(self):
         position = self.slit.getPosition()
         if self.runpos:
             if position >= self.slitmax:
@@ -55,7 +55,7 @@ class Degass:
         return False
     
     def run(self):
-        while not self.atSiltEnd() and not self.abort:
+        while not self.atSlitEnd() and not self.abort:
             if self.runpos:
                 inc self.slit self.update()
             else:
