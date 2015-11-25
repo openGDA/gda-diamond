@@ -9,7 +9,7 @@
 
 
 	<!-- D1 Stick Positioner -->
-	<bean id="phdgn01mp" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="d1" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
 				<value>In</value>

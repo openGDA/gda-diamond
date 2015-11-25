@@ -6,37 +6,37 @@
 
 
 	<!-- DGN Stick Positioner -->
-	<bean id="diago01mp" class="gda.device.enumpositioner.EpicsPositionerCallback">
+	<bean id="dgn" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL21I-DI-DIAGO-01:MP" />
 	</bean>
 
 
 	<!-- Area detector camera -->
-	<bean id="dcam01ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL21I-DI-DCAM-01:CAM:" />
+	<bean id="dgncamAD" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL21I-DI-DCAM-00:CAM:" />
 		<property name="initialDataType" value="UInt8" />
 	</bean>
 
-	<bean id="dcam01array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL21I-DI-DCAM-01:ARR:" />
+	<bean id="dgncamArray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL21I-DI-DCAM-00:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL21I-DI-DCAM-01:ARR:" />
+				<property name="basePVName" value="BL21I-DI-DCAM-00:ARR:" />
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="dcam01" class="gda.device.detector.addetector.ADCameraDetector">
-		<property name="basePVName" value="BL21I-DI-DCAM-01:" />
-		<property name="areaDetector" ref="dcam01ad" />
-		<property name="array" ref="dcam01array" />
+	<bean id="dgncam" class="gda.device.detector.addetector.ADCameraDetector">
+		<property name="basePVName" value="BL21I-DI-DCAM-00:" />
+		<property name="areaDetector" ref="dgncamAD" />
+		<property name="array" ref="dgncamArray" />
 		<property name="local" value="true" />
 	</bean>
 
 
 	<!-- Camera stats total intensity -->
-	<bean id="dcam01statTotal" class="gda.device.scannable.SimplePVScannable">
-		<property name="pvName" value="BL21I-DI-DCAM-01:STAT:Total_RBV" />
+	<bean id="dgncamStatTotal" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL21I-DI-DCAM-00:STAT:Total_RBV" />
 		<property name="local" value="true" />
 	</bean>
 	
