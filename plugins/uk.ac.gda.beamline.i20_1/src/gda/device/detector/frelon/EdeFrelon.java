@@ -329,7 +329,13 @@ public class EdeFrelon extends EdeDetectorBase {
 		int numberOfAccumulation = currentTimingGroup.getNumberOfScansPerFrame();
 		Integer numberOfImages = currentTimingGroup.getNumberOfFrames();
 		//collect one more spectrum as the 1st one is crap.
-		numberOfImages++;
+
+		// Only add extra frame if first one is set to be 'dropped'.
+		// Frames are set to be *not* dropped when doing EdeScanWithTFG - to help try and avoid timing ambiguity. imh 28/9/2015
+		if ( isDropFirstFrame() == true ) {
+			numberOfImages++;
+		}
+
 		//update detector data object
 		frelonCcdDetectorData.setNumberOfImages(numberOfImages);
 		if (numberOfAccumulation>1) {
