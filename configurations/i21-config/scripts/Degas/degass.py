@@ -2,6 +2,28 @@ import time
 
 # NB This script has not yet been tested on i21
 
+# With the code it's possible to create an object from a slit and a vacuum gauge that can then be run:
+#  
+# ds1xring = Degass(s1_xring,  5.000,  gauge03, 2.5e-8, P=5e7, I=10000)
+#  
+# ds1xring.run()
+#  
+# where the creation parameters are:
+# slit:             s1_xring
+# slit maximum:     5.000
+# gauge:            gauge03
+# gauge maximum:    2.5e-8
+# P:                default = 2.0
+# I:                default = 0.1
+# D:                default = 0.3
+# Derivator         default = 0.0
+# Integrator        default = 0.0
+# Integrator_max    default = 500
+# Integrator_min    default = -500
+#
+# ds1xring.run() moves the slit and then reports the slit and gas gauge positions
+# after an update calculation to compute something called “PID” (using Derivator and Integrator)
+
 class Degass:
     def __init__(self, slit, slitmax, gauge, gaugemax, P=2.0, I=0.1, D=0.3, Derivator=0.0, Integrator=0.0, Integrator_max=500, Integrator_min=-500):
         self.slit = slit
