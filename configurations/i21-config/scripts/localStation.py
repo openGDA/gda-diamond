@@ -6,6 +6,8 @@ from gdascripts.messages.handle_messages import simpleLog, log
 from gdascripts.scannable.dummy import SingleInputDummy
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 
+from degas.degas_slit import DegasSlit
+
 global run
 
 scan_processor.rootNamespaceDict=globals()
