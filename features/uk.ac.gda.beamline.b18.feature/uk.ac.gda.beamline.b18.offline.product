@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA B18 Beamline" uid="uk.ac.gda.beamline.b18.product" id="uk.ac.gda.beamline.b18.product" application="uk.ac.gda.client.application" version="8.50.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA B18 Beamline Dummy Client" uid="uk.ac.gda.beamline.b18.offline.product" id="uk.ac.gda.beamline.b18.product" application="uk.ac.gda.client.application" version="8.50.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -14,14 +14,20 @@
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Declipse.pluginCustomization=/dls_sw/b18/software/gda/workspace_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18/plugin_customization.ini
--Dgda.mode=live
--Dgda.install.workspace.loc=/dls_sw/b18/software/gda
--Dgda.install.git.loc=/dls_sw/b18/software/gda/workspace_git
--Dgda.config=/dls_sw/b18/software/gda/config
--Djava.library.path=/dls_sw/b18/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64:/dls_sw/b18/software/gda/workspace_git/dawn-third.git/ncsa.hdf/lib/linux-x86_64:/dls_sw/b18/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64
--Dgda.propertiesFile=/dls_sw/b18/software/gda/config/properties/live/java.properties
--Djacorb.config.dir=/dls_sw/b18/software/gda/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/b18/software/gda/config/jca/live/JCALibrary.properties
+-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${project_loc:uk.ac.gda.core}/../..
+-Dgda.config=${project_loc:b18-config}
+-Djava.library.path=${project_loc:uk.ac.gda.nexus}/lib/linux-x86_64
+-Declipse.pluginCustomization=${project_loc:uk.ac.gda.beamline.b18}/plugin_customization.ini
+-Dgda.propertiesFile=${project_loc:b18-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:b18-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:b18-config}/properties/dummy/JCALibrary.properties
+-Dgda.mode=dummy
+-Dgda.client.jython.automatic.interpreter=1
+-Dgda.instance.dir=${project_loc:b18-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:uk.ac.gda.core}
+-Dgda.logs.dir=${workspace_loc}/../logs
 -Xms512m
 -Xmx1024m
 -XX:MaxPermSize=1024m
@@ -35,7 +41,7 @@
 
    <splash
       location="uk.ac.gda.client" />
-   <launcher name="gda-b18">
+   <launcher name="gda-b18-dummy">
       <solaris/>
       <win useIco="false">
          <bmp/>

@@ -57,7 +57,7 @@ theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
 xanes = xas
-qeaxfs = theFactory.createQexafsScan()
+qexafs = theFactory.createQexafsScan()
 vararg_alias("xas")
 vararg_alias("xanes")
 vararg_alias("qexafs")
