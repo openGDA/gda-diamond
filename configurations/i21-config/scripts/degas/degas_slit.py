@@ -24,7 +24,6 @@ class DegasSlit:
 
         print "Closing front-end shutter"
         self.front_end_shutter.moveTo('Closed')
-        sleep(1)
 
         print "Moving out slits we do not want to condition"
         [slit.moveTo(0) for slit in self.slits_to_move_out]
@@ -34,7 +33,6 @@ class DegasSlit:
 
         print "Opening front end shutter"
         self.front_end_shutter.moveTo('Open')
-        sleep(1)
 
         self.report()
         
@@ -48,11 +46,9 @@ class DegasSlit:
                 if (gaugePos > self.gaugemax and shutterPos == 'Open'):
                     print "Closing front end shutter"
                     self.front_end_shutter.moveTo('Closed')
-                    sleep(1)
                 elif (gaugePos < self.gaugemin and shutterPos == 'Closed'):
                     print "Opening front end shutter"
                     self.front_end_shutter.moveTo('Open')
-                    sleep(1)
                     
                 # Wait a second before checking again
                 sleep(1)
@@ -63,11 +59,9 @@ class DegasSlit:
         finally:
             print "Closing front-end shutter"
             self.front_end_shutter.moveTo('Closed')
-            sleep(1)
             
             print "Moving out slit to condition"
             self.slit_to_move_in.moveTo(0)
-            sleep(1)
 
             self.report()
 
