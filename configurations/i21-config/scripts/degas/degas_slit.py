@@ -28,11 +28,9 @@ class DegasSlit:
 
         print "Moving out slits we do not want to condition"
         [slit.moveTo(0) for slit in self.slits_to_move_out]
-        sleep(1)
 
         print "Moving in slit to condition"
         self.slit_to_move_in.moveTo(500)
-        sleep(1)
 
         print "Opening front end shutter"
         self.front_end_shutter.moveTo('Open')
