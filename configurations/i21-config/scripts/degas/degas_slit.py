@@ -10,9 +10,7 @@ from time import sleep
 from gda.jython import ScriptBase
 
 class DegasSlit:
-    def __init__(self, slit_to_move_in, slits_to_move_out, front_end_shutter, gauge, gaugemin = 5e-9, gaugemax = 2.5e-8):
-        self.slit_to_move_in = slit_to_move_in
-        self.slits_to_move_out = slits_to_move_out
+    def __init__(self, front_end_shutter, gauge, gaugemin = 5e-9, gaugemax = 2.5e-8):
         self.front_end_shutter = front_end_shutter
         self.gauge = gauge
         self.gaugemin = gaugemin
@@ -20,20 +18,6 @@ class DegasSlit:
 
 
     def run(self):
-        self.report()
-
-        print "Closing front-end shutter"
-        self.front_end_shutter.moveTo('Closed')
-
-        print "Moving out slits we do not want to condition"
-        [slit.moveTo(0) for slit in self.slits_to_move_out]
-
-        print "Moving in slit to condition"
-        self.slit_to_move_in.moveTo(500)
-
-        print "Opening front end shutter"
-        self.front_end_shutter.moveTo('Open')
-
         self.report()
         
         try:
@@ -57,19 +41,11 @@ class DegasSlit:
             print "Closing down"
 
         finally:
-            print "Closing front-end shutter"
-            self.front_end_shutter.moveTo('Closed')
-            
-            print "Moving out slit to condition"
-            self.slit_to_move_in.moveTo(0)
-
             self.report()
 
         
     def report(self):
         print "--------------- DegasSlit ------------------------"
-        print "slit_to_move_in = ", self.slit_to_move_in
-        print "slits_to_move_out = ", self.slits_to_move_out
         print "front_end_shutter = ", self.front_end_shutter
         print "gauge = ", self.gauge
         print "gaugemin = ", self.gaugemin
