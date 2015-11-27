@@ -19,7 +19,6 @@
 				<value>Open</value>
 				<value>Closed</value>
 				<value>Abort</value>
-				<value>Unknown</value>
 			</list>
 		</property>
 	</bean>
