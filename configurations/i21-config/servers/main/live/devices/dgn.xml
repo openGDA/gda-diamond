@@ -10,6 +10,12 @@
 		<property name="recordName" value="BL21I-DI-DIAGO-01:MP" />
 	</bean>
 
+	<!-- Stick motor -->
+	<bean id="dgnmotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-DI-DIAGO-01:POS" />
+		<property name="local" value="true" />
+	</bean>
+
 
 	<!-- Area detector camera -->
 	<bean id="dgncamAD" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">

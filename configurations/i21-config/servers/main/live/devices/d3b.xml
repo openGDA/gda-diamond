@@ -9,5 +9,11 @@
 	<bean id="d3b" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL21I-DI-PHDGB-03:MP" />
 	</bean>
+
+	<!-- Stick motor -->
+	<bean id="d3bmotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-DI-PHDGB-03:POS" />
+		<property name="local" value="true" />
+	</bean>
 	
 </beans>

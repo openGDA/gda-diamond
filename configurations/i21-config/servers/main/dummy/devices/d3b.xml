@@ -18,4 +18,12 @@
 		</property>
 	</bean>
 
+	<!-- Stick motor -->
+	<bean id="d3bmotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+
 </beans>

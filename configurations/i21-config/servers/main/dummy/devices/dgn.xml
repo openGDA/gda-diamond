@@ -18,6 +18,14 @@
 		</property>
 	</bean>
 
+	<!-- Stick motor -->
+	<bean id="dgnmotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+
 
 	<!-- Area detector camera -->
 	<!-- There is currently no dummy equivalent of ADCameraDetector, so use the beans below -->
