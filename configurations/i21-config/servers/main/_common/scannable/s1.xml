@@ -4,33 +4,33 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="s1xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1xcentreMotor" />
+	<bean id="s1hcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1hcentreMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 	
-	<bean id="s1xsize" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1xsizeMotor" />
+	<bean id="s1hsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1hsizeMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 	
-	<bean id="s1ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1ycentreMotor" />
+	<bean id="s1vcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1vcentreMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 	
-	<bean id="s1ysize" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1ysizeMotor" />
+	<bean id="s1vsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1vsizeMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
 	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="s1xcentre" />
-				<ref bean="s1xsize" />
-				<ref bean="s1ycentre" />
-				<ref bean="s1ysize" />
+				<ref bean="s1hcentre" />
+				<ref bean="s1hsize" />
+				<ref bean="s1vcentre" />
+				<ref bean="s1vsize" />
 			</list>
 		</property>
 		<property name="local" value="true" />

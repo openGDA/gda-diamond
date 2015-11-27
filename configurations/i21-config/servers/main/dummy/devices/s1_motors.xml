@@ -4,28 +4,28 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="s1xcentreMotor" class="gda.device.motor.DummyMotor">
+	<bean id="s1hcentreMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1xsizeMotor" class="gda.device.motor.DummyMotor">
+	<bean id="s1hsizeMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1ycentreMotor" class="gda.device.motor.DummyMotor">
+	<bean id="s1vcentreMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1ysizeMotor" class="gda.device.motor.DummyMotor">
+	<bean id="s1vsizeMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
