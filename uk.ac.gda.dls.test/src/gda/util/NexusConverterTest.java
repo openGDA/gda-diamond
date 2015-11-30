@@ -18,10 +18,11 @@
 
 package gda.util;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -47,23 +48,21 @@ public class NexusConverterTest {
 	 */
 	@Test
 	public void testConvert1() throws Exception {
-		try {
-			final File nexus = new File("testfiles/gda/util/NexusConverterTest/i20_4720.nxs");
-			final File ascii = new File(new File(testScratchDirectoryName) , "i20_4720.dat");
-			NexusConverter.convert(nexus, ascii);
-		} catch (Exception expected) {
-			return;
-		}
-		throw new Exception("Invalid file did not produce error.");
+		final File nexus = new File("testfiles/gda/util/NexusConverterTest/i20_4720.nxs");
+		final File ascii = new File(new File(testScratchDirectoryName), "i20_4720.dat");
+		NexusConverter.convert(nexus, ascii);
+		// TODO: test the contents of the file
+		assertTrue(new File(testScratchDirectoryName + File.separator + "i20_4720.dat").exists());
 	}
 	/**
 	 * test for file existence
 	 */
 	@Test
-	@Ignore("2012/09/18 - crashes in native code on RH5-64")
 	public void testConvert2() throws Exception {
 		final File nexus = new File("testfiles/gda/util/NexusConverterTest/i20_4723.nxs");
 		final File ascii = new File(new File(testScratchDirectoryName) , "i20_4723.dat");
 		NexusConverter.convert(nexus, ascii);
+		// TODO: test the contents of the file
+		assertTrue(new File(testScratchDirectoryName + File.separator + "i20_4723.dat").exists());
 	}
 }
