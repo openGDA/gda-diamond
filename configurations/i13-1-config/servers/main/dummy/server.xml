@@ -8,8 +8,20 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder properties-ref="propertyConfigurer" />	
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+
     <bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 	
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
@@ -35,21 +47,32 @@
 		<property name="dummyMode" value="true"></property>
 	</bean>	
 
+	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
+	<import resource="../../../devices/dummy/tfg2.xml"/>
 	
 	<import resource="../../../devices/dummy/undulator.xml"/>
 	<import resource="../../../devices/dummy/front_end.xml"/>
+
 <!-- start of internal building -->
 
 	<import resource="../../../devices/dummy/s1_motors.xml"/>
 	<import resource="../../../devices/dummy/filter_motors.xml"/>
 	
+	<import resource="../../../devices/dummy/gas_bremsstrahlung1.xml"/>
+	
 	<import resource="../../../devices/dummy/m1.xml"/>
+
+	<import resource="../../../devices/dummy/d1.xml"/>
 
 	<import resource="../../../devices/dummy/absorbers1.xml"/>
 
-	<import resource="../../../devices/dummy/s2_motors.xml"/>
+	<import resource="../../../devices/dummy/d2.xml"/>
 
 	<import resource="../../../devices/dummy/absorbers2.xml"/>
+
+	<import resource="../../../devices/dummy/s2_motors.xml"/>
+
+	<import resource="../../../devices/dummy/d3.xml"/>
 
 	<import resource="../../../devices/dummy/absorbers3.xml"/>	
 
@@ -63,8 +86,11 @@
 
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
 
+	<import resource="../../../devices/dummy/d4.xml"/>
+	<import resource="../../../devices/dummy/d5.xml"/>
+
 	<import resource="../../../devices/dummy/s4_motors.xml"/>
-	<import resource="../../../devices/dummy/dcm_motors.xml"/>
+	
 	<import resource="../../../devices/dummy/s5_motors.xml"/>
 	<import resource="../../../devices/dummy/m2_motors.xml"/>
 	<import resource="../../../devices/dummy/pin_motors.xml"/>
@@ -80,6 +106,9 @@
 	<import resource="../../../devices/dummy/g1_motors.xml"/>
 	<import resource="../../../devices/dummy/ion_chamber.xml" />	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
+	<import resource="../../../devices/dummy/float1.xml"/>
+	<import resource="../../../devices/dummy/float2.xml"/>
+	<import resource="../../../devices/dummy/float3.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 
@@ -87,14 +116,9 @@
 		<property name="positions" value="Open, Closed"/>
 	</bean>
 
-	<import resource="../../../devices/dummy/scope1_motors.xml"/>
-
-	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
-	
 	<import resource="../../../devices/dummy/pco1.xml"/>
-	
-	<import resource="../../../devices/dummy/detector_stage_t2_motors.xml"/>
-	
-	<import resource="../common.xml"/>	
+	<import resource="../../../devices/dummy/merlin.xml"/>
+
+	<import resource="../_common/server.xml"/>	
 	
 </beans>

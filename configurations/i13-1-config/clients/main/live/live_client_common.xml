@@ -10,20 +10,20 @@
 
 	<import resource="pco.xml"/>
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
+	<import resource="../_common/client.xml" />
 
-	<import resource="../common.xml" />
 	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
-	<property name="pvName" value="SR13J-MO-SERVC-01:CURRGAPD"/>
-	<property name="useNameAsExtraName" value="true"/>
-	</bean>	
+		<property name="pvName" value="SR13J-MO-SERVC-01:CURRGAPD" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
 	<bean id="timeToRefill" class="gda.device.scannable.EpicsScannable">
-	<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"/>
-	<property name="useNameAsExtraName" value="true"/>
-	<property name="outputFormat">
-		<list>
-			<value>%4.4g</value>
-		</list>
-	</property>
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.4g</value>
+			</list>
+		</property>
 	</bean>	
 	<bean id="ringCurrent" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL"/>

@@ -33,13 +33,10 @@ import uk.ac.gda.epics.adviewer.ADControllerImpl;
 
 public class I13ADControllerImpl extends  ADControllerImpl implements InitializingBean {
 
-	private int cameraImageWidthMax;
-
-	private int cameraImageHeightMax;
-
-	
 	private static final Logger logger = LoggerFactory.getLogger(I13ADControllerImpl.class);
 
+	private int cameraImageWidthMax;
+	private int cameraImageHeightMax;
 
 	@Override
 	public void setExposure(double d) {
@@ -50,21 +47,16 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 				throw new Exception("Error executing command '" + cmd + "'");
 		} catch (Exception e) {
 			logger.error("Error setting exposure time", e);
-		}		
+		}
 	}
-
-
 
 	private EnumPositioner lensEnum;
 
 	private EnumPositioner binningXEnum;
 	private EnumPositioner binningYEnum;
 
-	private EnumPositioner regionSizeXEnum;
-	private EnumPositioner regionSizeYEnum;
-	
-
-
+	// private EnumPositioner regionSizeXEnum;
+	// private EnumPositioner regionSizeYEnum;
 
 	public EnumPositioner getLensEnum() {
 		return lensEnum;
@@ -110,10 +102,9 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	public void afterPropertiesSet() throws Exception {
 		super.afterPropertiesSet();
 		if (getSetExposureTimeCmd() == null)
-			throw new IllegalArgumentException("setExposureTimeCmd == null");		
-		
-	}
+			throw new IllegalArgumentException("setExposureTimeCmd == null");
 
+	}
 
 	private Scannable rotationAxisXScannable;
 	private DisplayScaleProvider displayScaleProvider;
@@ -189,7 +180,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		this.imagePlotId = imagePlotId;
 	}
 
-	
+
 	public DisplayScaleProvider getCameraScaleProvider() {
 		return cameraScaleProvider;
 	}
@@ -221,8 +212,8 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	public void setStagesCompositeFactory(CompositeFactory stagesCompositeFactory) {
 		this.stagesCompositeFactory = stagesCompositeFactory;
 	}
-	
-	
+
+
 	/**
 	 * @return The maximum width of an image that the camera driver can deliver. The actual image width could be smaller
 	 *         due to setting a region of interest or binning.
@@ -246,6 +237,4 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	public void setCameraImageHeightMax(int cameraImageHeightMax) {
 		this.cameraImageHeightMax = cameraImageHeightMax;
 	}
-
-
 }

@@ -10,45 +10,6 @@
 
 	<import resource="pco1_ndplugins.xml"/>
 	
-
-	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
-		<property name="map">
-			<util:map>
-				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
-				<entry key="pco1_arr" value-ref="pco1_arr" />
-				<entry key="pco1_ffmpeg" value-ref="pco1_ffmpeg" />
-				<entry key="pco1_roi" value-ref="pco1_roi" />
-				<entry key="pco1_proc" value-ref="pco1_proc" />
-				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file" />
-				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif" />
-				<entry key="pco1_stat" value-ref="pco1_stat"/>				
-				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco" />
-<!-- 				<entry key="pco1_multipleExposurePco" value-ref="pco1_multipleExposurePco" />
- -->				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger" />
-				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
-			</util:map>
-		</property>
-	</bean>
-
-
-	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.PCOAutoContinuous">
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg ref="adDriverPco1" />
-		<property name="adcMode" value="0"/>		
-	</bean>
-
-	<bean id="pco1_singleExposurePcoSoftwareTrigger"
-		class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg ref="adDriverPco1" />
-		<constructor-arg value="-.03" />
-	</bean>
-	<bean id="pco1_singleExposurePco"
-		class="gda.device.detector.addetector.triggering.SingleExposurePco">
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg ref="adDriverPco1" />
-		<constructor-arg value="-.03" />
-	</bean>
 	<!-- <bean id="pco1_multipleExposurePco" class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode"> 
 		<constructor-arg ref="pco1_cam_base" /> <constructor-arg value=".04" /> </bean> -->
 
@@ -60,7 +21,6 @@
 		<property name="ndProcess" ref="pco1_proc1" />
 		<property name="exposureTime" value="2." />
 	</bean> -->
-
 
 	<bean id="_pco1_tif" class="gda.device.detector.NXDetector">
 		<property name="name" value="_pco1_tif" />

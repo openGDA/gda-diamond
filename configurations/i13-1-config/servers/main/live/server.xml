@@ -8,12 +8,24 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder properties-ref="propertyConfigurer" />	
 
-	<import resource="../../../devices/live/maxipix_tango.xml"/>
-	<import resource="../../../devices/live/tfg2.xml"/>
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="../../../devices/live/maxipix_tango.xml" />
+	<import resource="../../../devices/live/tfg2.xml" />
 	<import resource="../../../devices/diffractometer.xml" />
 	<import resource="live_server_common.xml" />
-	
-	
+
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
+
 </beans>

@@ -3,7 +3,7 @@ import sys
 from gdascripts.messages import handle_messages
 from gdascripts.parameters import beamline_parameters
 from gda.jython import InterfaceProvider
-from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget
+from epics_scripts.pv_scannable_utils import caput
 
 class TomoDet():
     def __getController(self, name):
@@ -25,7 +25,7 @@ class TomoDet():
         return
 
     def getCurrentExposureTime(self):
-		return self.pco1_cam_base.getAcquireTime_RBV()
+        return self.pco1_cam_base.getAcquireTime_RBV()
 
     def setupStream(self, acqTime=None, procScaleFactor= None):
         """

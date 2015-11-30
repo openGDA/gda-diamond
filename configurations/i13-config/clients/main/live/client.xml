@@ -8,8 +8,9 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+
 	<context:property-placeholder properties-ref="propertyConfigurer" />
 
-
 	<import resource="live_client_common.xml" />
+
 </beans>

@@ -10,6 +10,17 @@
 
 
 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+	
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	<import resource="GDAMetadata.xml" />
 	
@@ -46,20 +57,16 @@
 	<import resource="../../../devices/epics/m1.xml"/>
 
 	<import resource="../../../devices/epics/d1.xml"/>
-	<import resource="../../../devices/d1.xml" />
-
 	
 	<import resource="../../../devices/epics/absorbers1.xml"/>
 
 	<import resource="../../../devices/epics/d2.xml"/>
-	<import resource="../../../devices/d2.xml" />
 
 	<import resource="../../../devices/epics/absorbers2.xml"/>
 	
 	<import resource="../../../devices/epics/s2_motors.xml"/>
 
 	<import resource="../../../devices/epics/d3.xml"/>
-	<import resource="../../../devices/d3.xml" />
 
 	<import resource="../../../devices/epics/absorbers3.xml"/>
 
@@ -74,10 +81,7 @@
 	<import resource="../../../devices/epics/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/epics/d4.xml"/>
-	<import resource="../../../devices/d4.xml" />
-
 	<import resource="../../../devices/epics/d5.xml"/>
-	<import resource="../../../devices/d5.xml" />
 
 <!-- 	<import resource="../../../devices/epics/dcm_motors.xml"/> -->
 
@@ -101,9 +105,6 @@
 	<import resource="../../../devices/epics/float1.xml"/>
 	<import resource="../../../devices/epics/float2.xml"/>
 	<import resource="../../../devices/epics/float3.xml"/>
-	<import resource="../../../devices/float1.xml" />
-	<import resource="../../../devices/float2.xml" />
-	<import resource="../../../devices/float3.xml" />
 	
 	<import resource="../../../devices/epics/s7_motors.xml"/>
 
@@ -122,14 +123,17 @@
 	
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 	<import resource="../../../devices/epics/excalibur.xml"/>
-
-	<import resource="../../../devices/vortex.xml"/>
+	
+	<import resource="../../../devices/live/vortex.xml"/>
 <!-- 	<import resource="../../../devices/diamond_crl.xml"/>
  -->
 
 	<!-- piezo raster scan device  - must be included for maxipix -->
-	<import resource="../../../devices/pie725_raster.xml"/>
-	<import resource="../common.xml"/>	
+	<import resource="../../../devices/live/pie725_raster.xml"/>
+	
+	<import resource="../../devices/live/maxipix.xml" />
+
+	<import resource="../_common/server.xml"/>	
 
 <!--Not present 
 	<import resource="../../../devices/epics/s3_motors.xml"/>
@@ -140,4 +144,8 @@
 
 <!--  not present	<import resource="file:/dls_sw/i13-1/software/gda_versions/gda_8_26/workspace_git/gda-mt.git/configurations/mt-config/servers/main/live/moveable/me07m/all.xml"/>
 -->
+
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
+
 </beans>

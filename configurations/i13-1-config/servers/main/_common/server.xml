@@ -1,0 +1,300 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<import resource="../../../common_beans/common.xml"/>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop"/>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
+
+	<import resource="commandQueueProcessor.xml" />
+	<!-- <import resource="beamlineEnergyController.xml" /> -->
+	<bean id="plot_server"
+		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+	<!-- Replaces ScanDataStore -->
+	<!-- <bean id="ScanDataPointServer" class="gda.scan.ScanDataPointServer" /> -->
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="gda/ScanDataPointServer" />
+		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
+		<!-- <property name="service" ref="ScanDataPointServer" /> -->
+		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+	</bean>
+
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
+		<property name="enable" value="true" />
+		<property name="profileX" value="true"/>
+		<property name="profileY" value="true"/>
+	</bean>
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<property name="plotName" value="Image Plot 1" />
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
+		<property name="enable" value="true" />
+	</bean>
+
+	<bean id="imageFitter2" class="gda.device.detector.nexusprocessor.DataSetFitter">
+		<property name="enable" value="false" />
+		<property name="prefix" value="2."/>
+	</bean>
+	<bean id="imageStats2" class="gda.device.detector.nexusprocessor.DatasetStats" >
+		<property name="enable" value="true" />
+		<property name="totalName" value="total2"/>
+		<property name="averageName" value="average2"/>
+	</bean>
+	<bean id="imagePlotter2" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<property name="enable" value="false" />
+		<property name="plotName" value="Image Plot 2"/>
+	</bean>
+
+	<bean id="imageROI2" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
+		<property name="enable" value="true" />
+	</bean>
+	
+	<bean id="imageFitter3" class="gda.device.detector.nexusprocessor.DataSetFitter">
+		<property name="enable" value="false" />
+		<property name="prefix" value="3."/>
+	</bean>
+	<bean id="imageStats3" class="gda.device.detector.nexusprocessor.DatasetStats" >
+		<property name="enable" value="true" />
+		<property name="totalName" value="total3"/>
+		<property name="averageName" value="average3"/>
+	</bean>
+	<bean id="imagePlotter3" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<property name="enable" value="false" />
+		<property name="plotName" value="Image Plot 3"/>
+	</bean>
+
+	<bean id="imageROI3" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
+		<property name="enable" value="true" />
+	</bean>
+
+	<util:list id="imageProcessors"
+		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		<ref bean="imageFitter" />
+		<ref bean="imageStats" />
+		<ref bean="imagePlotter" />
+	</util:list>
+
+	<util:list id="imageProcessors2"
+		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		<ref bean="imageFitter2" />
+		<ref bean="imageStats2" />
+		<ref bean="imagePlotter2" />
+	</util:list>
+
+	<util:list id="imageProcessors3"
+		value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		<ref bean="imageFitter3" />
+		<ref bean="imageStats3" />
+		<ref bean="imagePlotter3" />
+	</util:list>
+
+	<bean id="cam_ad_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
+	</bean>
+
+	<bean id="cam_ad_filename_processor" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
+	</bean>
+	<bean id="cam_ad_filename_processor2" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors2"/>
+		<constructor-arg ref="imageROI2"/>
+	</bean>
+	<bean id="cam_ad_filename_processor3" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors3"/>
+		<constructor-arg ref="imageROI3"/>
+	</bean>
+
+	<bean id="cam_ad_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="cam_ad_processor" />
+			</list>
+		</property>
+	</bean>
+
+	<import resource="../../../devices/_common/simpleScannables.xml" />
+
+	<!-- Start of real device list -->
+
+	<import resource="../../../devices/_common/undulator.xml" />
+	<import resource="../../../devices/_common/front_end.xml" />
+
+	<import resource="../../../devices/_common/s1.xml" />
+
+	<import resource="../../../devices/_common/filters.xml" />
+
+	<import resource="../../../devices/_common/m1.xml" />
+
+	<import resource="../../../devices/_common/s2.xml" />
+
+	<import resource="../../../devices/_common/d1.xml" />
+	<import resource="../../../devices/_common/d2.xml" />
+	<import resource="../../../devices/_common/d3.xml" />
+	<import resource="../../../devices/_common/d4.xml" />
+	<import resource="../../../devices/_common/d5.xml" />
+
+	<import resource="../../../devices/_common/float1.xml" />
+	<import resource="../../../devices/_common/float2.xml" />
+	<import resource="../../../devices/_common/float3.xml" />
+
+	<import resource="../../../devices/_common/robots.xml" />
+
+	<import resource="../../../devices/_common/optics_hutch4_shutter.xml" />
+
+	<!-- end of internal building/ start of external building -->
+	<import resource="../../../devices/_common/qcm.xml" />
+	
+	<import resource="../../../devices/_common/s4.xml" />
+	<import resource="../../../devices/_common/s5.xml" />
+
+	<import resource="../../../devices/_common/m2.xml"/>
+	<import resource="../../../devices/_common/pin.xml"/>
+ 	<import resource="../../../devices/_common/diff.xml"/>
+	<import resource="../../../devices/_common/s6.xml" />
+	<!-- <import resource="../../../devices/_common/dcm.xml" /> -->
+
+	<import resource="../../../devices/_common/sample_stage_t1.xml" />
+	<import resource="../../../devices/_common/g1.xml" />
+	<import resource="../../../devices/_common/sample_stage_camera.xml" />
+	<import resource="../../../devices/_common/s7.xml" />
+
+	<!-- <import resource="../../../devices/_common/scope1.xml" /> -->
+
+	<!--  dummy motors for testing tomoscan  -->
+	<bean id="ss1_rot_dummy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
+	<bean id="ss1_rot_dummy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_rot_dummy_motor" />
+	</bean>
+	<bean id="eh_shtr_dummy" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="Open, Close, Reset" />
+	</bean>
+	<bean id="ss1_X_dummy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
+	<bean id="ss1_X_dummy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_X_dummy_motor" />
+	</bean>
+
+	<import resource="../../../devices/_common/dummyAD.xml" />
+
+<!-- Not present: -->
+<!-- 	<import resource="../../../devices/_common/s3.xml" />
+	<import resource="../../../devices/_common/diff1.xml" />
+	<import resource="../../../devices/_common/scope1.xml" />
+	<import resource="../../../devices/_common/t1.xml" />
+	<import resource="../../../devices/_common/z1.xml" /> 
+ -->
+
+	<import resource="../../../devices/_common/pco1.xml" />
+	<import resource="../../../devices/_common/merlin.xml" />
+
+	<!-- This is no longer present - T2 now contains beamstop but not the detector xyz motors -->
+	<!-- <import resource="../../../devices/_common/detector_stage_t2.xml" /> -->
+
+	<!-- end of device list -->
+
+	<bean id="highestExistingFileMonitor"
+		class="gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor" />
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/highestExistingFileMonitor" />
+		<property name="service" ref="highestExistingFileMonitor" />
+		<property name="serviceInterface"
+			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
+	</bean>
+
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrar" />
+		<property name="directory"
+			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
+	</bean>
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="FileRegistrar" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- See uk.ac.gda.exafs.ui.detector.DetectorEditor.EXAFS_SCRIPT_OBSERVER-->
+	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<!-- See gda.rcp.views.dashboard.SimpleScannableObject.DASHBOARD_OBSERVER -->
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+		
+<!--     <bean class="uk.ac.gda.beans.BeansFactory">
+	    <property name="classList">
+	        <util:list>
+	           <value>uk.ac.gda.beans.vortex.VortexParameters</value>
+	        </util:list>
+	    </property>
+	</bean>		
+ -->	
+	<!-- <import resource="../../../devices/_common/mll.xml"/> -->
+		
+	<import resource="jythonServerFacade.xml" />
+
+	<bean id="RCPController" class="gda.gui.RCPControllerImpl" />
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/rcpController" />
+		<property name="service" ref="RCPController" />
+		<property name="serviceInterface" value="gda.gui.RCPController" />
+	</bean>
+
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
+</beans>
