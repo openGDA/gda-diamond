@@ -2,9 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<bean id="spin" class="org.opengda.lde.scannables.Spinner">
-		<property name="onOffPV" value="BL11J-EA-MCL-02:DO1"/>
-		<property name="voltagePV" value="BL11J-EA-MCL-02:AO1"/>
+	<bean id="spin" class="gda.device.spin.Spin">
+		<property name="enablePV" value="BL11J-EA-MCL-02:DISABLE"/>
+		<property name="speedPV" value="BL11J-EA-MCL-02:SPEED"/>
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/spin" />
