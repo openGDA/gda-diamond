@@ -368,7 +368,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			groupToExpend.setEndTime(group.getEndTime());
 			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getDataStoreKey(), groupList);
 
-
 		}
 	}
 
@@ -613,7 +612,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		this.firePropertyChange(CURRENT_SCANNING_SPECTRUM_PROP_NAME, currentScanningSpectrum, currentScanningSpectrum = value);
 	}
 
-	private void updateCollectionDuration() {
+	public void updateCollectionDuration() {
 		double experimentDuration = 0.0;
 		int totalSpectra = 0;
 		for (Object loadedGroup : groupList) {

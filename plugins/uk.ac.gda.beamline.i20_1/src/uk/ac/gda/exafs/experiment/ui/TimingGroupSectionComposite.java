@@ -352,7 +352,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		startTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		startTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-
 		label = toolkit.createLabel(groupDetailsSectionComposite, "End time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
@@ -368,8 +367,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		endTimeValueFixedFlag.setImage(pin);
 		endTimeValueFixedFlag.setToolTipText("Fix end time value");
 		endTimeValueFixedFlag.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
-
-
 
 		label = toolkit.createLabel(groupDetailsSectionComposite, "Time per spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -533,6 +530,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		butExternalTrigger.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
+				model.updateCollectionDuration(); // Make sure total number of spectra in data collection is consistent with group settings
 				WizardDialog wizardDialog = new WizardDialog(TimingGroupSectionComposite.this.getShell(),
 						new ExternalTriggerDetailsWizard(model.getExternalTriggerSetting()));
 				wizardDialog.setPageSize(1024, 768);
@@ -623,7 +621,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		return groupsTableViewer;
 	}
 
-
 	// This is for label
 	private static class ModelToTargetConverter implements IConverter {
 		private final TimingGroupUIModel group;
@@ -663,7 +660,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			return String.class;
 		}
 	}
-
 
 	private void showGroupDetails(final Section groupSection, IStructuredSelection structuredSelection) {
 		TimingGroupUIModel group = (TimingGroupUIModel) structuredSelection.getFirstElement();
@@ -715,11 +711,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-
-
-
-
-
 			timePerSpectrumValueText.setModel(group, TimingGroupUIModel.TIME_PER_SPECTRUM_PROP_NAME);
 			timePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			timePerSpectrumValueText.setValidators(null, group.getTimePerSpectrumValidator());
@@ -730,8 +721,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-
-
 			realTimePerSpectrumValueText.setModel(group, TimingGroupUIModel.REAL_TIME_PER_SPECTRUM_PROP_NAME);
 			realTimePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
 			realTimePerSpectrumValueText.setEditable(false);
@@ -741,8 +730,6 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
-
-
 
 			noOfSpectrumValueText.setModel(group, TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME);
 			noOfSpectrumValueText.setValidators(null, group.getNoOfSpectrumValidator());

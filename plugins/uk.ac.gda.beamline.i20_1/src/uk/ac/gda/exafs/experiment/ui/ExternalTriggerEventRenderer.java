@@ -37,7 +37,7 @@ import de.jaret.util.ui.timebars.swt.renderer.TimeBarRenderer2;
 
 /**
  * Renderer rendering a point in time as a simple diamod and a label (using extended painting area).
- * 
+ *
  * @author Peter Kliem
  * @version $Id: FancyEventRenderer.java 565 2007-09-16 13:25:48Z olk $
  */
@@ -54,6 +54,7 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 
 	/** cache for the delegate supplying the orientation information. */
 	protected TimeBarViewerDelegate _delegate;
+	private TriggerableObject userSelectedTrigger;
 
 	/**
 	 * Create renderer for printing.
@@ -156,6 +157,7 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 		TFGTriggerEvent event = (TFGTriggerEvent) interval;
 		TriggerableObject triggerable = event.getTriggerableObject();
 
+
 		boolean horizontal = delegate.getOrientation() == TimeBarViewerInterface.Orientation.HORIZONTAL;
 		Rectangle da = getDrawingRect(drawingArea, horizontal);
 
@@ -174,6 +176,23 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 		}
 		gc.fillRectangle(drawingArea);
 
+		// Plot white lines on top of data collection regions to show duration of each spectrum.
+		if ( triggerable instanceof DetectorDataCollection) {
+			int origWidth = gc.getLineWidth();
+			Color origForegroundColour = gc.getForeground();
+			gc.setLineWidth(2);
+			gc.setForeground(gc.getDevice().getSystemColor(SWT.COLOR_WHITE));
+			DetectorDataCollection detDataCollection = (DetectorDataCollection) triggerable;
+			int pixelsPerFrame = drawingArea.width/detDataCollection.getNumberOfFrames();
+			for(int i = 1; i<detDataCollection.getNumberOfFrames(); i++ )
+			{
+				int xPos = drawingArea.x + i*pixelsPerFrame;
+				gc.drawLine(xPos, drawingArea.y, xPos, drawingArea.y+drawingArea.height );
+			}
+			gc.setForeground(origForegroundColour);
+			gc.setLineWidth(0);
+		}
+		gc.setLineWidth(0);
 		// draw the diamond
 		gc.setBackground(gc.getDevice().getSystemColor(SWT.COLOR_GRAY));
 		//		if (event.getColor() != null && event.getColor().equals("red")) {
@@ -191,6 +210,7 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 			gc.setBackground(gc.getDevice().getSystemColor(SWT.COLOR_BLUE));
 			gc.setAlpha(60);
 			gc.fillPolygon(points);
+			gc.fillRectangle(drawingArea);
 			gc.setAlpha(255);
 		}
 		gc.setBackground(bg);
@@ -238,8 +258,11 @@ public class ExternalTriggerEventRenderer extends RendererBase implements TimeBa
 	public boolean contains(TimeBarViewerDelegate delegate, Interval interval, Rectangle drawingArea, int x, int y,
 			boolean overlapping) {
 		boolean horizontal = delegate.getOrientation() == TimeBarViewerInterface.Orientation.HORIZONTAL;
-		Rectangle da = getDrawingRect(drawingArea, horizontal);
-		return da.contains(drawingArea.x + x, drawingArea.y + y);
+		//Rectangle da = getDrawingRect(drawingArea, horizontal);
+		int minSize = 2;
+		int width = drawingArea.width + 2*minSize;
+		Rectangle newRect = new Rectangle( drawingArea.x-2, drawingArea.y, width, drawingArea.height );
+		return newRect.contains(newRect.x + x, newRect.y + y);
 	}
 
 	@Override
