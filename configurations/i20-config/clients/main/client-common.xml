@@ -42,7 +42,7 @@
 	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>
 
 	<bean class="uk.ac.gda.util.beans.BeansFactory">
-		<property name="classList">
+		<property name="classes">
 			<util:list>
 				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
 				<value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
