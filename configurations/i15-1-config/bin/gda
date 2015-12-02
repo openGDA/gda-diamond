@@ -14,6 +14,7 @@ export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/
 export GDA_FACILITY_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-diamond.git/dls-config
 export GDA_CORE_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-core.git/core-config
 
+export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/clients/main/_common/pluginCustomization.ini"
 export GDA_CLIENT=$GDA_WORKSPACE_PARENT/client/gda-i15-1
 
 # Define a display name for use in messages
