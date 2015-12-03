@@ -10,6 +10,7 @@
 		<property name="lowerPhaseScannable" ref="rawid_lowerphase" />
 		<property name="lowerPhaseDemandPV" value="SR05I-MO-SERVC-01:BLPLSET" />
 		<property name="upperPhaseDemandPV" value="SR05I-MO-SERVC-01:BLPUSET" />
+		<property name="phaseTolerance" value="0.01" />
 		<property name="local" value="true" />
 		<property name="exclusionZone">
 			<list>
