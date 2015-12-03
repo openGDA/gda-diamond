@@ -63,9 +63,9 @@ class VersaStatClientClass(object):
 		#To connect to the instrument
 		bs=self.server.Connect(sn);
 		if bs is True:
-			print "Connect to VersaSTAT sucessfully."
+			print "Connected to VersaSTAT sucessfully."
 		else:
-			print "Connection fails."
+			print "Connection failed."
 		
 	def info(self):
 		if self.server is None:
