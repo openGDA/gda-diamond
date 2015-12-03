@@ -251,6 +251,8 @@ versa.setup();
 
 versa2 = VersaStatMonitorClass("versa2", "versaStatClient");
 
+versa.setOutputFormat([u'%12.8f', u'%15.11f'])
+versa2.setOutputFormat([u'%12.8f', u'%15.11f'])
 
 #delete all:
 #exec("[versaStatClient, versa, versa2] = [None, None, None]");
