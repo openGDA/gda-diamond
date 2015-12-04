@@ -13,4 +13,7 @@
 	<import resource="d3a.xml" />
 	<import resource="d3b.xml" />
 
+	<!-- pressure gauges -->
+	<import resource="pressureGauges.xml"/>
+
 </beans>

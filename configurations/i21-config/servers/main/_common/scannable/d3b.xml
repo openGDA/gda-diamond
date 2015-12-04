@@ -9,4 +9,14 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
+ 	<bean id="d3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d3bpos" />
+				<ref bean="d3bstick" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
  </beans>

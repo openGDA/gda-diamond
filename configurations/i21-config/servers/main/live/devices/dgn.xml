@@ -6,7 +6,7 @@
 
 
 	<!-- DGN Stick Positioner -->
-	<bean id="dgn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+	<bean id="dgnpos" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL21I-DI-DIAGO-01:MP" />
 	</bean>
 

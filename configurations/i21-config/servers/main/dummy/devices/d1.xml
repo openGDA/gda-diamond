@@ -9,7 +9,7 @@
 
 
 	<!-- D1 Stick Positioner -->
-	<bean id="d1" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="d1pos" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
 				<value>In</value>
@@ -24,6 +24,18 @@
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
+	</bean>
+
+
+	<!-- Area detector camera -->
+ 	<bean id="d1cam" class="gda.device.scannable.DummyScannable" />
+
+
+	<!-- Camera stats total intensity -->
+	<bean id="d1camStatTotal" class="gda.device.scannable.DummyScannable">
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="2000" />
+		<property name="increment" value="153.234" />
 	</bean>
 
 </beans>

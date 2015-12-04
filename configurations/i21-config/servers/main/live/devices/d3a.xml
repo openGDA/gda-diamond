@@ -6,7 +6,7 @@
 
 
 	<!-- D3A Stick Positioner -->
-	<bean id="d3a" class="gda.device.enumpositioner.EpicsPositionerCallback">
+	<bean id="d3apos" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL21I-DI-PHDGA-03:MP" />
 	</bean>
 

@@ -8,5 +8,17 @@
 		<property name="motor" ref="dgnmotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
+	
+ 	<bean id="dgn" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dgnpos" />
+				<ref bean="dgnstick" />
+				<ref bean="dgncam" />
+				<ref bean="dgncamStatTotal" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
 
  </beans>

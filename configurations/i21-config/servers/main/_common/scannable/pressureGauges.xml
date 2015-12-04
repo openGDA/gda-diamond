@@ -4,21 +4,17 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="d2stick" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d2motor" />
-		<property name="userUnits" value="mm" />
-	</bean>
-
- 	<bean id="d2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+ 	<bean id="gauges" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="d2pos" />
-				<ref bean="d2stick" />
-				<ref bean="d2cam" />
-				<ref bean="d2camStatTotal" />
+				<ref bean="gauge01" />
+				<ref bean="gauge02" />
+				<ref bean="gauge03" />
+				<ref bean="gauge04" />
 			</list>
 		</property>
 		<property name="local" value="true" />
 	</bean>
 
  </beans>
+ 

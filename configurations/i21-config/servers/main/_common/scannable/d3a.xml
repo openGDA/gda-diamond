@@ -9,4 +9,16 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
+ 	<bean id="d3a" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d3apos" />
+				<ref bean="d3astick" />
+				<ref bean="d3acam" />
+				<ref bean="d3acamStatTotal" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
  </beans>

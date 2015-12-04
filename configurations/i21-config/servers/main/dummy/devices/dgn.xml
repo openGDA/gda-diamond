@@ -9,7 +9,7 @@
 
 
 	<!-- DGN Stick Positioner -->
-	<bean id="dgn" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="dgnpos" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
 				<value>In</value>
@@ -52,6 +52,8 @@
 		<property name="local" value="true" />
 	</bean>
  -->
+ 	<bean id="dgncam" class="gda.device.scannable.DummyScannable" />
+ 
 
 	<!-- Camera stats total intensity -->
 	<bean id="dgncamStatTotal" class="gda.device.scannable.DummyScannable">
