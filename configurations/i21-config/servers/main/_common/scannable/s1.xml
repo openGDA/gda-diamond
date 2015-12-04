@@ -18,9 +18,29 @@
 		<property name="motor" ref="s1vcentreMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
-	
+
 	<bean id="s1vsize" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s1vsizeMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s1offside" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1offsideMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s1nearside" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1nearsideMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s1upper" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1upperMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s1lower" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1lowerMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
@@ -31,6 +51,10 @@
 				<ref bean="s1hsize" />
 				<ref bean="s1vcentre" />
 				<ref bean="s1vsize" />
+				<ref bean="s1offside" />
+				<ref bean="s1nearside" />
+				<ref bean="s1upper" />
+				<ref bean="s1lower" />
 			</list>
 		</property>
 		<property name="local" value="true" />
