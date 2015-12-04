@@ -5,6 +5,7 @@ import gdascripts.scan.concurrentScanWrapper
 from gdascripts.messages.handle_messages import simpleLog, log
 from gdascripts.scannable.dummy import SingleInputDummy
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+from gda.device.scannable.scannablegroup import ScannableGroup
 
 from degas.degas_slit import DegasSlit
 
@@ -14,12 +15,13 @@ scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 
 print "Adding dummy devices x,y and z"
-x=SingleInputDummy("x")
-y=SingleInputDummy("y")
-z=SingleInputDummy("z")
+dummies = ScannableGroup()
+dummies.setName("dummies")
+for item in [SingleInputDummy("x"), SingleInputDummy("y"), SingleInputDummy("z")]:
+    dummies.addGroupMember(item)
 
 print "Adding timer devices t, dt, and w, clock"
-from gdascripts.scannable.timerelated import t, dt, w, clock, epoch #@UnusedImport
+from gdascripts.scannable.timerelated import timerelated #@UnusedImport
 
 if installation.isLive():
     print "Running in live mode"
