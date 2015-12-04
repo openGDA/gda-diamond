@@ -27,6 +27,7 @@
         <cs:dependency name="i18-config" componentType="buckminster"/>
         <cs:dependency name="i20-1-config" componentType="buckminster"/>
         <cs:dependency name="i20-config" componentType="buckminster"/>
+        <cs:dependency name="i21-config" componentType="buckminster"/>
         <cs:dependency name="i22-config" componentType="buckminster"/>
         <cs:dependency name="id18-config" componentType="buckminster"/>
         <cs:dependency name="lab11-config" componentType="buckminster"/>
