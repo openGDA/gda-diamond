@@ -24,22 +24,23 @@ from time import sleep
 from gda.jython import ScriptBase
 
 class DegasSlit:
-    def __init__(self, blade, startPos, endPos, direction, gauge):
+    def __init__(self, blade, startPos, endPos, direction, gauge, frontend):
         self.blade = blade
-        self.startPos = startPos
-        self.endPos = endPos
+        self.startPos = float(startPos)
+        self.endPos = float(endPos)
         self.setDirection(direction)
         self.gauge = gauge
+        self.frontend = frontend
         
         # Pressure bounds: see above
         self.lowerBound = 1e-8
         self.upperBound = 5e-8
         
         # Frequency of monitoring pressure (seconds)
-        self.monitorFreq = 1
+        self.monitorFreq = 0.1
         
         # Minimum number of monitoring cycles between steps
-        self.minCycles = 10 
+        self.minCycles = 100
         
         # Step size (mm)
         self.stepSize = 0.1
@@ -55,16 +56,18 @@ class DegasSlit:
 
 
     def run(self):
+        self.report()
+
+        print "moving to start position"
         self.blade.moveTo(self.startPos)
         cyclesBeforeMove = 0
         finished = False
 
-        self.report()
         
         try:
             while (finished == False):
                 pressure = self.gauge.getPosition()
-                print self.blade, self.gauge
+#                 print self.blade, self.gauge
                 
                 if (pressure > self.upperBound):
                     # Pressure is too high: move blade out and wait for pressure to drop
@@ -72,7 +75,7 @@ class DegasSlit:
                     self.blade.moveTo(self.startPos)
                     self.stepSize = self.stepSize / 2.0
                     while (self.gauge.getPosition() > self.lowerBound):
-                        print "waiting for pressure to drop"
+#                         print "waiting for pressure to drop"
                         print self.blade, self.gauge
                         sleep(self.monitorFreq)
                     cyclesBeforeMove = 0
@@ -84,7 +87,7 @@ class DegasSlit:
                         print "process finished"
                         finished = True 
                     elif (cyclesBeforeMove > 0):
-                        print "pressure low but we cannot move yet: cyclesBeforeMove ", cyclesBeforeMove
+#                         print "pressure low but we cannot move yet: cyclesBeforeMove ", cyclesBeforeMove
                         cyclesBeforeMove = cyclesBeforeMove - 1
                     else:
                         newPos = self.blade.getPosition() + (self.stepSize * self.direction)
@@ -93,7 +96,7 @@ class DegasSlit:
                         cyclesBeforeMove = self.minCycles
 
                 else:
-                    print "stay steady"
+#                     print "stay steady"
                     cyclesBeforeMove = cyclesBeforeMove - 1
 
                     
@@ -104,7 +107,8 @@ class DegasSlit:
             print "Process terminated by user"
 
         finally:
-            self.blade.moveTo(self.startPos)
+            self.blade.asynchronousMoveTo(self.startPos)
+            self.frontend.moveTo('Close')
             self.report()
 
         
@@ -119,3 +123,4 @@ class DegasSlit:
         print "upperBound = ", self.upperBound
         print "stepSize = ", self.stepSize
         print "--------------------------------------------------"
+        print ""
