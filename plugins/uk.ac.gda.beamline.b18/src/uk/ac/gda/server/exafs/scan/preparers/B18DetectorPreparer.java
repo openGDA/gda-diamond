@@ -84,13 +84,13 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			}
 			String detType = fluoresenceParameters.getDetectorType();
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
-			if (detType == "Germanium") {
+			if (detType.equals("Germanium")) {
 				xspressSystem.setConfigFileName(xmlFileName);
 				xspressSystem.configure();
-			} else if (detType == "Silicon") {
+			} else if (detType.equals("Silicon")) {
 				vortexConfig.setConfigFileName(xmlFileName);
 				vortexConfig.configure();
-			} else if (detType == "Xspress3") {
+			} else if (detType.equals("Xspress3")) {
 				xspress3Config.setConfigFileName(xmlFileName);
 				xspress3Config.loadConfigurationFromFile();
 			}
@@ -146,13 +146,13 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			String gas_select = ion_chamber.getGasType();
 			String gas_select_val = "-1";
 			String gas_report_string = "He";
-			if (gas_select == "Kr") {
+			if (gas_select.equals("Kr")) {
 				gas_select_val = "0";
 				gas_report_string = "He + Kr";
-			} else if (gas_select == "N") {
+			} else if (gas_select.equals("N")) {
 				gas_select_val = "1";
 				gas_report_string = "He + N2";
-			} else if (gas_select == "Ar") {
+			} else if (gas_select.equals("Ar")) {
 				gas_select_val = "2";
 				gas_report_string = "He + Ar";
 			}
@@ -168,7 +168,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	protected void setup_amp_sensitivity(IonChamberParameters ionChamberParams, int index) throws Exception {
 		if (ionChamberParams.getChangeSensitivity()) {
-			if (ionChamberParams.getGain() == null || ionChamberParams.getGain() == "") {
+			if (ionChamberParams.getGain() == null || ionChamberParams.getGain().equals("")) {
 				return;
 			}
 			String[] gainStringParts = ionChamberParams.getGain().split(" ");

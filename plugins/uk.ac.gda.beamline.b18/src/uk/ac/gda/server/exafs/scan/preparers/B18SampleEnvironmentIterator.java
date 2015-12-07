@@ -18,15 +18,16 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.jython.InterfaceProvider;
+
 import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.exafs.b18.LN2CryoStageParameters;
@@ -323,10 +324,10 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 			double height = bean.getCalibHeight() + (sampleNumberA - 1) * 17.0;
 			double angleOffset = bean.getCalibAngle();
 			double angle = 0;
-			if (cylinderType == "trans") {
+			if (cylinderType.equals("trans")) {
 				log("moving ln2 cryo transmission to " + sampleNumberA + ", " + sampleNumberB);
 				angle = angleOffset + ((sampleNumberB - 1) * 16.36);
-			} else if (cylinderType == "fluo") {
+			} else if (cylinderType.equals("fluo")) {
 				log("moving ln2 cryo fluoresence to " + sampleNumberA + ", " + sampleNumberB);
 				if (sampleNumberB < 5) {
 					angle = angleOffset + ((sampleNumberB - 1) * 22.5);

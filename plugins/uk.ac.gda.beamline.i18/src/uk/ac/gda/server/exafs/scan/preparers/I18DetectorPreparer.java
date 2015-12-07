@@ -166,7 +166,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 
 	protected void setup_amp_sensitivity(IonChamberParameters ionChamberParams, int index) throws Exception {
 		if (ionChamberParams.getChangeSensitivity()) {
-			if (ionChamberParams.getGain() == null || ionChamberParams.getGain() == "") {
+			if (ionChamberParams.getGain() == null || ionChamberParams.getGain().equals("")) {
 				return;
 			}
 
