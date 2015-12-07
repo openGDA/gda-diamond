@@ -76,7 +76,7 @@ class DegasSlit:
                     self.stepSize = self.stepSize / 2.0
                     while (self.gauge.getPosition() > self.lowerBound):
 #                         print "waiting for pressure to drop"
-                        print self.blade, self.gauge
+#                         print self.blade, self.gauge
                         sleep(self.monitorFreq)
                     cyclesBeforeMove = 0
                         
@@ -96,8 +96,10 @@ class DegasSlit:
                         cyclesBeforeMove = self.minCycles
 
                 else:
+                    # pressure is within the working band: do nothing
 #                     print "stay steady"
-                    cyclesBeforeMove = cyclesBeforeMove - 1
+                    if (cyclesBeforeMove > 0):
+                        cyclesBeforeMove = cyclesBeforeMove - 1
 
                     
                 # Wait before checking again
