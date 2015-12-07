@@ -10,7 +10,7 @@
 		<property name="positions">
 			<list>
 				<value>Open</value>
-				<value>Closed</value>
+				<value>Close</value>
 				<value>Abort</value>
 			</list>
 		</property>
