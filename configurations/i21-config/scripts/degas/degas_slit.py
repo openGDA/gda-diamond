@@ -17,6 +17,7 @@
 #               Any positive number will be treated as meaning that the position should be incremented,
 #               any negative number that it should be decremented.
 #    gauge:     the pressure gauge to monitor
+#    frontend:  the front end shutter
 #------------------------------------------------------------------------------------------------------------------
 
 from exceptions import KeyboardInterrupt
