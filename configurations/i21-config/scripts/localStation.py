@@ -17,8 +17,7 @@ gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 print "Adding dummy devices x,y and z"
 dummies = ScannableGroup()
 dummies.setName("dummies")
-for item in [SingleInputDummy("x"), SingleInputDummy("y"), SingleInputDummy("z")]:
-    dummies.addGroupMember(item)
+dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInputDummy("z")])
 
 print "Adding timer devices t, dt, and w, clock"
 from gdascripts.scannable.timerelated import timerelated #@UnusedImport
