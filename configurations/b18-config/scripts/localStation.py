@@ -11,12 +11,12 @@ from gda.device.scannable import MonoCoolScannable
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from gda.jython.scriptcontroller.logging import LoggingScriptController
-from gda.scan import ScanBase#this is required for skip current repetition to work BLXVIIIB-99
+from gda.scan import ScanBase  # this is required for skip current repetition to work BLXVIIIB-99
 from gda.device.monitor import EpicsMonitor
-#from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
+# from gda.data.scan.datawriter import NexusExtraMetadataDataWriter
 from gda.data.scan.datawriter import NexusDataWriter
 from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig, Xspress3Config
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
+from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
@@ -25,7 +25,7 @@ ExafsScriptObserver = Finder.getInstance().find("ExafsScriptObserver")
 
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
-LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 
 
 xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
@@ -33,10 +33,10 @@ vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
 xspress3Config = Xspress3Config(xspress3, ExafsScriptObserver)
 
 
-sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity]
-sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units]
-offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset]
-offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units]
+sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity, iref_stanford_sensitivity]
+sensitivity_units = [i0_stanford_sensitivity_units, it_stanford_sensitivity_units, iref_stanford_sensitivity_units]
+offsets = [i0_stanford_offset, it_stanford_offset, iref_stanford_offset]
+offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanford_offset_units]
 
 
 from gda.jython.commands.ScannableCommands import cv as cvscan
@@ -55,8 +55,8 @@ beamMonitor = BeamMonitor()
 beamMonitor.setName("beamMonitor")
 if (LocalProperties.get("gda.mode") == 'live'):
     beamMonitor.setMachineModeMonitor(machineModeMonitor)
-beamMonitor.setShutterPVs(["FE18B-PS-SHTR-01:STA","FE18B-PS-SHTR-01:STA"])  # there are two shutters, it looks like only shutter 1 is operated!
-beamMonitor.setPauseBeforeScan(True)     # for qexafs, test FE and machine current at the start of each scan
+beamMonitor.setShutterPVs(["FE18B-PS-SHTR-01:STA", "FE18B-PS-SHTR-01:STA"])  # there are two shutters, it looks like only shutter 1 is operated!
+beamMonitor.setPauseBeforeScan(True)  # for qexafs, test FE and machine current at the start of each scan
 beamMonitor.configure()
 
 monoCooler = MonoCoolScannable()
@@ -69,7 +69,7 @@ monoCooler.configure()
 
 from gdascripts.pd.time_pds import showtimeClass
 showtime = showtimeClass("showtime")
-showtime.setLevel(4) # so it is operated before anything else in a scan
+showtime.setLevel(4)  # so it is operated before anything else in a scan
 
 if (LocalProperties.get("gda.mode") == 'live'):
     sample_temperature = EpicsMonitor()
@@ -82,18 +82,26 @@ if (LocalProperties.get("gda.mode") == 'live'):
     blower_temperature.setExtraNames(["blower_temperature"])
     blower_temperature.setPvName("ME08G-EA-GIR-01:TCTRL1:PV:RBV")
     
-    add_default topupMonitor
-    add_default beamMonitor
+    add_default(topupMonitor)
+    add_default(beamMonitor)
     
-    run "userStartupScript"
+    run("userStartupScript")
 else :
-    energy(7000) # start the simulation with an energy in a useful range
-    
-detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig, xspress3Config)
-samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
+    energy(7000)  # start the simulation with an energy in a useful range
+
+# TODO move this to Spring config?
+from uk.ac.gda.beamline.b18.scannable import SimpleEpicsTemperatureController
+generic_cryostat = SimpleEpicsTemperatureController()
+generic_cryostat.setName("generic_cryostat")
+generic_cryostat.setSetPointPVName("BL18B-EA-TEMPC-06:TTEMP")  # currently OxInst ITC4 Cryojet
+generic_cryostat.setReadBackPVName("BL18B-EA-TEMPC-06:STEMP")
+generic_cryostat.configure()
+
+detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units , offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig, xspress3Config)
+samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, generic_cryostat, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig)
 xas = XasScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, energy, counterTimer01, False, False, False, False, True)
-qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01,topupMonitor, beamMonitor)
+qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01, topupMonitor, beamMonitor)
 xanes = xas
 
 alias("xas")
