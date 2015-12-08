@@ -21,7 +21,7 @@
 #------------------------------------------------------------------------------------------------------------------
 
 from exceptions import KeyboardInterrupt
-from time import sleep
+from time import sleep, gmtime, strftime
 from gda.jython import ScriptBase
 
 class DegasSlit:
@@ -59,7 +59,7 @@ class DegasSlit:
     def run(self):
         self.report()
 
-        print "moving to start position"
+        self.printMessage("moving to start position")
         self.blade.moveTo(self.startPos)
         cyclesBeforeMove = 0
         finished = False
@@ -72,7 +72,7 @@ class DegasSlit:
                 
                 if (pressure > self.upperBound):
                     # Pressure is too high: move blade out and wait for pressure to drop
-                    print "pressure too high: resetting blade"
+                    self.printMessage("pressure too high: resetting blade")
                     self.blade.moveTo(self.startPos)
                     self.stepSize = self.stepSize / 2.0
                     while (self.gauge.getPosition() > self.lowerBound):
@@ -85,14 +85,14 @@ class DegasSlit:
                     # Pressure is low: advance the blade, unless we have recently done this,
                     # or the blade is at its maximum position
                     if (self.blade.getPosition() >= self.endPos):
-                        print "process finished"
+                        self.printMessage("process finished")
                         finished = True 
                     elif (cyclesBeforeMove > 0):
 #                         print "pressure low but we cannot move yet: cyclesBeforeMove ", cyclesBeforeMove
                         cyclesBeforeMove = cyclesBeforeMove - 1
                     else:
-                        newPos = self.blade.getPosition() + (self.stepSize * self.direction)
-                        print "moving blade to ", newPos
+                        newPos = round(self.blade.getPosition() + (self.stepSize * self.direction), 2)
+                        self.printMessage("moving blade to " + str(newPos))
                         self.blade.moveTo(newPos)
                         cyclesBeforeMove = self.minCycles
 
@@ -107,15 +107,20 @@ class DegasSlit:
                 sleep(self.monitorFreq)
             
         except KeyboardInterrupt:
-            print "Process terminated by user"
+            self.printMessage("process terminated by user")
 
         finally:
             self.blade.asynchronousMoveTo(self.startPos)
             self.frontend.moveTo('Close')
             self.report()
 
-        
+
+    def printMessage(self, message):
+        print strftime("%Y-%m-%d %H:%M:%S", gmtime()), message
+
+
     def report(self):
+        print ""
         print "--------------- DegasSlit ------------------------"
         print "blade = ", self.blade
         print "startPos = ", self.startPos
