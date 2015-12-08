@@ -138,6 +138,12 @@
 						</property>
 					</bean>
 				</entry>
+				<entry key="lc_pressure">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="sample:NXsample/lc_pressure" />
+						<property name="units" value="mbar" />
+					</bean>
+				</entry>
 				<entry key="sample_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -306,6 +312,7 @@
 				<value>s2_ysize</value>
 				<value>s2_xsize</value>
 				<value>pgm_cff</value>
+				<value>lc_pressure</value>
 			</set>
 		</property>
 	</bean>
