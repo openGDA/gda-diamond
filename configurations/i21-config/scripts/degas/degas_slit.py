@@ -128,6 +128,9 @@ class DegasSlit:
             
         except KeyboardInterrupt:
             self.printMessage("script terminated by user")
+            
+        except:
+            self.printMessage("script terminated by exception" + str(sys.exc_info()[0]))
 
         finally:
             self.blade.asynchronousMoveTo(self.initialPosition)
