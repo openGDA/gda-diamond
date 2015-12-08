@@ -1,23 +1,27 @@
 #------------------------------------------------------------------------------------------------------------------
 # Script to degas a single slit
 #
-# Move a single slit blade into the beam stepwise, waiting for the pressure
-# to drop below <lowerBound> before advancing it by the next step.
+# Move a single slit blade gradually into the beam, by an amount
+# calculated using a PID formula (see https://en.wikipedia.org/wiki/PID_controller)
 #
-# If the pressure exceeds <upperBound>, retract the blade completely,
-# wait for the pressure to drop, halve the step size, then advance it as before.
-# Ideally, we should set the initial step size so that this never happens.
+# If the pressure exceeds <maxPressure>, return the blade to its starting position
+# and terminate the script. Ideally, we should set the parameters so that this never happens.
+#
+# The script assumes that the blade has been positioned manually at a suitable starting position
+# and it will return the slit to this position when it terminates. 
 #
 # Constructor arguments:
-#    blade:     the blade to move
-#    startPos:  starting position for the blade.
-#               This should be such that the edge is (just) outside the beam.
-#    endPos:    end position for the blade i.e. when it is fully in the beam
-#    direction: the direction which takes the blade towards the centre of the beam.
-#               Any positive number will be treated as meaning that the position should be incremented,
-#               any negative number that it should be decremented.
-#    gauge:     the pressure gauge to monitor
-#    frontend:  the front end shutter
+#    blade:          the blade to move
+#    bladeMax:       end position for the blade i.e. when it is fully in the beam
+#    gauge:          the pressure gauge to monitor
+#    frontend:       the front end shutter
+#
+#    targetPressure: the gas pressure we are aiming for
+#    maxPressure:    the maxmum gas pressure we allow before terminating the script
+#
+#    P, I, D:    coefficients for the proportional, integral and derivative terms respectively
+#    Integrator: initial value for the integral of error values
+#    Integrator_max, Integrator_min: maximum & minimum values we allow for Integrator 
 #------------------------------------------------------------------------------------------------------------------
 
 from exceptions import KeyboardInterrupt
@@ -25,92 +29,108 @@ from time import sleep, gmtime, strftime
 from gda.jython import ScriptBase
 
 class DegasSlit:
-    def __init__(self, blade, startPos, endPos, direction, gauge, frontend):
+    def __init__(self, blade, bladeMax, gauge, frontend, targetPressure = 2e-8, maxPressure = 5e-8, P = 2.0, I = 0.1, D = 0.3, Integrator = 0.0, Integrator_max = 500, Integrator_min = -500):
         self.blade = blade
-        self.startPos = float(startPos)
-        self.endPos = float(endPos)
-        self.setDirection(direction)
+        self.bladeMax = float(bladeMax)
         self.gauge = gauge
         self.frontend = frontend
+
+        self.targetPressure = targetPressure
+        self.maxPressure = maxPressure
         
-        # Pressure bounds: see above
-        self.lowerBound = 1e-8
-        self.upperBound = 5e-8
+        self.Kp = P
+        self.Ki = I
+        self.Kd = D
+        self.Derivator = 0
+        self.Integrator = Integrator
+        self.Integrator_max = Integrator_max
+        self.Integrator_min = Integrator_min
+        
+        # Deduce direction of slit travel from current and end positions
+        self.initialPosition = self.blade.getPosition()
+        if (self.bladeMax > self.initialPosition):
+            self.direction = 1
+        else:
+            self.direction = -1
         
         # Frequency of monitoring pressure (seconds)
         self.monitorFreq = 0.1
         
-        # Minimum number of monitoring cycles between steps
+        # Minimum number of monitoring cycles before moving blade
         self.minCycles = 100
         
-        # Step size (mm)
-        self.stepSize = 0.1
+        # Pressure below which we assume no significant outgassing is taking place 
+        self.minPressure = 1e-8
 
 
-    def setDirection(self, direction):
-        if (direction == 0):
-            raise RuntimeError("direction must not be zero")
-        elif (direction > 0):
-            self.direction = 1
+    # Check whether the blade is at its maximum position, taking account
+    # of its direction of travel.
+    def atBladeMax(self):
+        position = self.blade.getPosition()
+        if (self.direction > 0):
+            if (position >= self.bladeMax):
+                return True
         else:
-            self.direction = -1
+            if (position <= self.bladeMax):
+                return True
+        return False
+    
+    
+    # Update slit position, based on current & target pressures
+    def updatePosition(self, pressure):
+        error = self.targetPressure - pressure
 
+        self.P_value = self.Kp * error
+
+        self.D_value = self.Kd * ( error - self.Derivator)
+        self.Derivator = error
+
+        self.Integrator = self.Integrator + error
+        if self.Integrator > self.Integrator_max:
+            self.Integrator = self.Integrator_max
+        elif self.Integrator < self.Integrator_min:
+            self.Integrator = self.Integrator_min
+        self.I_value = self.Integrator * self.Ki
+
+        PID = self.P_value + self.I_value + self.D_value
+
+        currentPosition = self.blade.getPosition()
+        newPosition = round(currentPosition + (PID * self.direction), 2)
+        self.printMessage("pressure " + str(pressure) + ", moving blade to " + str(newPosition))
+        self.blade.moveTo(newPosition)
+        
 
     def run(self):
         self.report()
-
-        self.printMessage("moving to start position")
-        self.blade.moveTo(self.startPos)
         cyclesBeforeMove = 0
         finished = False
-
         
         try:
             while (finished == False):
                 pressure = self.gauge.getPosition()
-#                 print self.blade, self.gauge
                 
-                if (pressure > self.upperBound):
-                    # Pressure is too high: move blade out and wait for pressure to drop
-                    self.printMessage("pressure too high: resetting blade")
-                    self.blade.moveTo(self.startPos)
-                    self.stepSize = self.stepSize / 2.0
-                    while (self.gauge.getPosition() > self.lowerBound):
-#                         print "waiting for pressure to drop"
-#                         print self.blade, self.gauge
-                        sleep(self.monitorFreq)
-                    cyclesBeforeMove = 0
+                if (pressure > self.maxPressure):
+                    self.printMessage("pressure too high: terminating script")
+                    finished = True
                         
-                elif (pressure < self.lowerBound):
-                    # Pressure is low: advance the blade, unless we have recently done this,
-                    # or the blade is at its maximum position
-                    if (self.blade.getPosition() >= self.endPos):
-                        self.printMessage("process finished")
-                        finished = True 
-                    elif (cyclesBeforeMove > 0):
-#                         print "pressure low but we cannot move yet: cyclesBeforeMove ", cyclesBeforeMove
-                        cyclesBeforeMove = cyclesBeforeMove - 1
-                    else:
-                        newPos = round(self.blade.getPosition() + (self.stepSize * self.direction), 2)
-                        self.printMessage("moving blade to " + str(newPos))
-                        self.blade.moveTo(newPos)
-                        cyclesBeforeMove = self.minCycles
-
-                else:
-                    # pressure is within the working band: do nothing
-#                     print "stay steady"
-                    if (cyclesBeforeMove > 0):
-                        cyclesBeforeMove = cyclesBeforeMove - 1
-
+                elif (pressure < self.minPressure and self.atBladeMax()):
+                    self.printMessage("outgassing finished: terminating script")
+                    finished = True
                     
-                # Wait before checking again
+                elif (cyclesBeforeMove > 0):
+                    cyclesBeforeMove = cyclesBeforeMove - 1
+                    
+                else:
+                    self.updatePosition(pressure)
+                    cyclesBeforeMove = self.minCycles - 1
+                    
                 sleep(self.monitorFreq)
             
         except KeyboardInterrupt:
-            self.printMessage("process terminated by user")
+            self.printMessage("script terminated by user")
 
         finally:
-            self.blade.asynchronousMoveTo(self.startPos)
+            self.blade.asynchronousMoveTo(self.initialPosition)
             self.frontend.moveTo('Close')
             self.report()
 
@@ -123,12 +143,15 @@ class DegasSlit:
         print ""
         print "--------------- DegasSlit ------------------------"
         print "blade = ", self.blade
-        print "startPos = ", self.startPos
-        print "endPos = ", self.endPos
+        print "initialPosition = ", self.initialPosition
+        print "bladeMax = ", self.bladeMax
         print "direction = ", self.direction
         print "gauge = ", self.gauge
-        print "lowerBound = ", self.lowerBound
-        print "upperBound = ", self.upperBound
-        print "stepSize = ", self.stepSize
+        print "frontend = ", self.frontend
+        print "targetPressure = ", self.targetPressure
+        print "maxPressure = ", self.maxPressure
+        print "Kp = ", self.Kp
+        print "Ki = ", self.Ki
+        print "Kd = ", self.Kd
         print "--------------------------------------------------"
         print ""
