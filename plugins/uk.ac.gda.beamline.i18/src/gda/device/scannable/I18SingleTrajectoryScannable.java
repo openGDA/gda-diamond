@@ -28,11 +28,20 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 
 	I18BeamMonitor beamMonitor;
 	TopupChecker topupMonitor;
+	private boolean isBidirectional;
+
+	public I18SingleTrajectoryScannable() {
+		super();
+		this.isBidirectional = false;
+	}
 
 	@Override
 	public void prepareForContinuousMove() throws DeviceException {
-		// force rebuild of trajectory for bi-di maps
-		trajectoryBuildDone = false;
+
+		// force rebuild of trajectory for bi-di maps only otherwise this adds extra time in Continuous scan
+		// only added in GDA 8.44 but not present in GDA 8.50
+		if (isBidirectional == true)
+			trajectoryBuildDone = false;
 		super.prepareForContinuousMove();
 
 		EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000);
@@ -48,7 +57,7 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 			topupMonitor.atPointStart();
 		}
 	}
-	
+
 	@Override
 	public void continuousMoveComplete() throws DeviceException {
 //		rawAsynchronousMoveTo(continuousParameters.getStartPosition());
@@ -79,5 +88,13 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 	 */
 	public void setTopupMonitor(TopupChecker topupMonitor) {
 		this.topupMonitor = topupMonitor;
+	}
+
+	public boolean isBidirectional() {
+		return isBidirectional;
+	}
+
+	public void setBidirectional(boolean isBidirectional) {
+		this.isBidirectional = isBidirectional;
 	}
 }
