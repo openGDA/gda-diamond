@@ -6,7 +6,7 @@
 
 
  	<bean id="gauge01" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-VA-GAUGE-01:P"/>
+		<property name="pvName" value="BL21I-VA-IMG-01:P"/>
 		<property name="unit" value="mbar"/>
 		<property name="poll" value="true"/>
 		<property name="local" value="true" />
@@ -14,7 +14,7 @@
 	</bean>
 
  	<bean id="gauge02" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-VA-GAUGE-02:P"/>
+		<property name="pvName" value="BL21I-VA-IMG-02:P"/>
 		<property name="unit" value="mbar"/>
 		<property name="poll" value="true"/>
 		<property name="local" value="true" />
@@ -22,7 +22,7 @@
 	</bean>
 
  	<bean id="gauge03" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-VA-GAUGE-03:P"/>
+		<property name="pvName" value="BL21I-VA-IMG-03:P"/>
 		<property name="unit" value="mbar"/>
 		<property name="poll" value="true"/>
 		<property name="local" value="true" />
@@ -30,7 +30,7 @@
 	</bean>
 
  	<bean id="gauge04" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-VA-GAUGE-04:P"/>
+		<property name="pvName" value="BL21I-VA-IMG-04:P"/>
 		<property name="unit" value="mbar"/>
 		<property name="poll" value="true"/>
 		<property name="local" value="true" />
