@@ -96,6 +96,7 @@ class DegasSlit:
 
         currentPosition = self.blade.getPosition()
         newPosition = round(currentPosition + (PID * self.direction), 2)
+        newPosition = min(newPosition, self.bladeMax)
         self.printMessage("pressure " + str(pressure) + ", moving blade to " + str(newPosition))
         self.blade.moveTo(newPosition)
         
