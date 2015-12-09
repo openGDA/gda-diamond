@@ -20,17 +20,17 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import gda.device.EnumPositioner;
+import gda.device.scannable.ScannableMotor;
+import gda.gui.RCPController;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServerFacade;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
-import gda.device.EnumPositioner;
-import gda.device.scannable.ScannableMotor;
-import gda.gui.RCPController;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
 import uk.ac.gda.beans.exafs.i18.AttenuatorParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.exafs.i18.SampleStageParameters;
@@ -42,6 +42,9 @@ public class I18SamplePreparerTest {
 	private ScannableMotor mocked_sc_MicroFocusSampleX;
 	private ScannableMotor mocked_sc_MicroFocusSampleY;
 	private ScannableMotor mocked_sc_sample_z;
+	private ScannableMotor mocked_table_x;
+	private ScannableMotor mocked_table_y;
+	private ScannableMotor mocked_table_z;
 	private ScannableMotor mocked_kb_vfm_x;
 	private EnumPositioner d7a;
 	private EnumPositioner d7b;
@@ -60,6 +63,10 @@ public class I18SamplePreparerTest {
 		mocked_sc_MicroFocusSampleY = createMockScannableMotor("mocked_sc_MicroFocusSampleY");
 		mocked_sc_sample_z = createMockScannableMotor("mocked_sc_sample_z");
 
+		mocked_table_x = createMockScannableMotor("mocked_sc_MicroFocusSampleX");
+		mocked_table_y = createMockScannableMotor("mocked_sc_MicroFocusSampleY");
+		mocked_table_z = createMockScannableMotor("mocked_sc_sample_z");
+
 		d7a = PowerMockito.mock(EnumPositioner.class);
 		Mockito.when(d7a.getName()).thenReturn("d7a");
 		d7b = PowerMockito.mock(EnumPositioner.class);
@@ -67,8 +74,9 @@ public class I18SamplePreparerTest {
 
 		mocked_kb_vfm_x = createMockScannableMotor("mocked_kb_vfm_x");
 
-		preparer = new I18SamplePreparer(rcpController, mocked_sc_MicroFocusSampleX, mocked_sc_MicroFocusSampleY, mocked_sc_sample_z,
-				d7a, d7b, mocked_kb_vfm_x);
+		preparer = new I18SamplePreparer(rcpController, d7a, d7b, mocked_kb_vfm_x);
+		preparer.setStage1(mocked_sc_MicroFocusSampleX, mocked_sc_MicroFocusSampleY, mocked_sc_sample_z);
+		preparer.setStage3(mocked_table_x, mocked_table_y, mocked_table_z);
 	}
 
 	private ScannableMotor createMockScannableMotor(String string) {
@@ -78,7 +86,7 @@ public class I18SamplePreparerTest {
 	}
 
 	@Test
-	public void testSampleStageWithoutVFM() {
+	public void testSampleStageWithoutVFMAndWithStage1() {
 		try {
 			String sampleName = "sample1";
 			String description1 = "This is my first sample";
@@ -103,7 +111,7 @@ public class I18SamplePreparerTest {
 			parameters.setVfmxActive(false);
 
 			preparer.configure(null, parameters);
-
+			preparer.setStage(1);
 			SampleEnvironmentIterator iterator = preparer.createIterator(null);
 
 			assertEquals(1, iterator.getNumberOfRepeats());
