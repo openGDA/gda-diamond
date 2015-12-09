@@ -8,6 +8,15 @@ if [ $# -ne 1 ] ; then
 fi
 bashlog debug "gda_setup_consolelog_facility" "Parameters: $@"
 
+# Define GDA_LOGS_DIR
+if [ "${GDA_MODE}" == "live" ]; then
+    # GDA_LOGS_DIR will point to something like /dls_sw/<beamline>/logs/
+    export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../../logs)
+else
+    export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/logs
+fi
+bashlog debug "gda_setup_consolelog_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
+
 export GDA_LOG_FILE=${GDA_LOGS_DIR}/$LOGNAME/${LOGNAME}_`date +%F-%T`.txt
 consolelogfile_dir=$(dirname ${GDA_LOG_FILE})
 consolelogfile_name=$(basename ${GDA_LOG_FILE})

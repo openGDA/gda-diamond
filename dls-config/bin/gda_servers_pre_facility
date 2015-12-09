@@ -29,15 +29,6 @@ else
 fi
 bashlog debug "gda_servers_pre_facility" "set \${GDA_VAR}=${GDA_VAR}"
 
-# Define GDA_LOGS_DIR
-if [ "${GDA_MODE}" == "live" ]; then
-    # GDA_LOGS_DIR will point to something like /dls_sw/<beamline>/logs/
-    export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../gda_logs)
-else
-    export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/gda_logs_non_live
-fi
-bashlog debug "gda_servers_pre_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
-
 export OBJECT_SERVER_STARTUP_FILE=${GDA_VAR}/object_server_startup_server_main
 bashlog debug "gda_servers_pre_facility" "set \${OBJECT_SERVER_STARTUP_FILE}=${OBJECT_SERVER_STARTUP_FILE}"
 
@@ -48,7 +39,7 @@ if [ -n "${BEAMLINE}" ]; then
 fi
 if [ "$GDA_MODE" = "live" ]; then
     export CONTROL_MACHINE_USER=gda2
-    export CONTROL_MACHINE_SSHKEY_LOC=${GDA_VAR}/.ssh/${BEAMLINE}ssh.key
+    export CONTROL_MACHINE_SSHKEY_LOC=${GDA_VAR}/.ssh/${BEAMLINE}-ssh.key
     if [ ! -f "${CONTROL_MACHINE_SSHKEY_LOC}" ]; then
         bashlog warn "gda_servers_pre_facility" "Unable to find $CONTROL_MACHINE_SSHKEY_LOC, checking in config"
         export CONTROL_MACHINE_SSHKEY_LOC=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/${BEAMLINE}ssh.key

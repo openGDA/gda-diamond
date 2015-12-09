@@ -4,11 +4,3 @@
 module load global/http_proxy
 . ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/loadjava.sh
 
-# Define GDA_LOGS_DIR
-if [ "${GDA_MODE}" == "live" ]; then
-  # GDA_LOGS_DIR will point to something like /dls_sw/<beamline>/logs/
-  export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../gda_logs)
-else
-  export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/gda_logs_non_live
-fi
-echo GDA_LOGS_DIR = $GDA_LOGS_DIR
