@@ -18,12 +18,13 @@
 
 package gda.util;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,24 +45,28 @@ public class NexusConverterTest {
 	}
 
 	/**
-	 * test for file existence
+	 * Test conversion fails when given corrupted nexus file
+	 *
+	 * The nexus file under test has had its End Of Allocation marker corrupted, indicating the file
+	 * is larger than it really is.
 	 */
-	@Ignore("2015/12/8 - this seems to required the SWMR read flag to be set to read past the super block whereas the next test does not!!!")
-	// Passed problem up to the HDF group
 	@Test
-	public void testConvert1() throws Exception {
-		final File nexus = new File("testfiles/gda/util/NexusConverterTest/i20_4720.nxs");
-		final File ascii = new File(new File(testScratchDirectoryName), "i20_4720.dat");
-		NexusConverter.convert(nexus, ascii);
-		// TODO: test the contents of the file
-		assertTrue(new File(testScratchDirectoryName + File.separator + "i20_4720.dat").exists());
+	public void testConversionFailureWithCorruptedNexus() {
+		final File nexus = new File("testfiles/gda/util/NexusConverterTest/corrupted_superblock.nxs");
+		final File ascii = new File(new File(testScratchDirectoryName), "corrupted_superblock.dat");
+		try {
+			NexusConverter.convert(nexus, ascii);
+			fail("Conversion should fail when given a corrupted nexus file.");
+		} catch (Exception e) {
+			assertFalse(ascii.exists());
+		}
 	}
 
 	/**
 	 * test for file existence
 	 */
 	@Test
-	public void testConvert2() throws Exception {
+	public void testConversion() throws Exception {
 		final File nexus = new File("testfiles/gda/util/NexusConverterTest/i20_4723.nxs");
 		final File ascii = new File(new File(testScratchDirectoryName) , "i20_4723.dat");
 		NexusConverter.convert(nexus, ascii);
