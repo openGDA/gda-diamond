@@ -142,10 +142,6 @@
          version="0.0.0"/>
 
    <includes
-         id="uk.ac.gda.beamline.i24.site"
-         version="0.0.0"/>
-
-   <includes
          id="uk.ac.gda.beamline.lab11.site"
          version="0.0.0"/>
 
@@ -241,6 +237,13 @@
 
    <plugin
          id="uk.ac.gda.integrationtest"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.devices.andor"
          download-size="0"
          install-size="0"
          version="0.0.0"

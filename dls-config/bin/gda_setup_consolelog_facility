@@ -3,10 +3,19 @@ LOGNAME=gda_$1_output
 bashlog debug "gda_setup_consolelog_facility" "Entered"
 
 if [ $# -ne 1 ] ; then
-  echo Only one parameter accepted by $0: $@
+  bashlog error "gda_setup_consolelog_facility" "Only one parameter accepted by $0: $@"
   exit 1 
 fi
-echo parameter 1 is $1
+bashlog debug "gda_setup_consolelog_facility" "Parameters: $@"
+
+# Define GDA_LOGS_DIR
+if [ "${GDA_MODE}" == "live" ]; then
+    # GDA_LOGS_DIR will point to something like /dls_sw/<beamline>/logs/
+    export GDA_LOGS_DIR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../../logs)
+else
+    export GDA_LOGS_DIR=${GDA_WORKSPACE_PARENT}/logs
+fi
+bashlog debug "gda_setup_consolelog_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
 
 export GDA_LOG_FILE=${GDA_LOGS_DIR}/$LOGNAME/${LOGNAME}_`date +%F-%T`.txt
 consolelogfile_dir=$(dirname ${GDA_LOG_FILE})
@@ -17,6 +26,8 @@ if [[ ! -d "${consolelogfile_dir}" ]]; then
     bashlog info "gda_setup_consolelog_facility" "issuing: mkdir -pv -m 777 ${consolelogfile_dir}"
     mkdir -pv -m 777 ${consolelogfile_dir}/
 fi
+
+bashlog debug "gda_setup_consolelog_facility" "Writing console log to $GDA_LOG_FILE"
 touch $GDA_LOG_FILE
 [ -h $GDA_LOGS_DIR/$LOGNAME.txt ] && rm $GDA_LOGS_DIR/$LOGNAME.txt
 ln -s $GDA_LOG_FILE $GDA_LOGS_DIR/$LOGNAME.txt

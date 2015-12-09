@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration monitorInterval="10" debug="true"> <!-- Add debug="true" in here to log the logging configuration -->
 
+	<!-- This file is not part of the standard configuration and should not be used by any beamline which is not already using it. -->
+
 	<!-- The logServer.xml file defines which messages are sent to the logging system appenders by the log server. -->
 	<!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
 
