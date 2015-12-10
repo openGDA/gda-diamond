@@ -3,9 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="topup" class="gda.device.monitor.DummyMonitor">
-		<property name="constantValue" value="600.0" />
-	</bean>
+
 	<bean id="topupChecker" class="gda.device.scannable.TopupChecker">
 		<property name="scannableToBeMonitored" ref="topup" />
 		<property name="tolerance" value="10" />

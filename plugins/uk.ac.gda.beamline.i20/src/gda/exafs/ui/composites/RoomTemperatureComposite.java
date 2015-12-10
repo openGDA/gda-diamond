@@ -265,9 +265,9 @@ public class RoomTemperatureComposite extends I20SampleParametersComposite imple
 			selectedBean.setSample_y((Double) sample_y.getValue());
 		//if(sample_z!=null)
 			selectedBean.setSample_z((Double) sample_z.getValue());
-		//if(sample_roll!=null)
+		if (sample_roll != null)
 			selectedBean.setSample_roll((Double) sample_roll.getValue());
-		//if(sample_pitch!=null)
+		if (sample_pitch != null)
 			selectedBean.setSample_pitch((Double) sample_pitch.getValue());
 		//if(sample_name!=null)
 			selectedBean.setSample_name(sample_name.getText());

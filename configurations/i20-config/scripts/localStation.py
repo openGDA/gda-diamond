@@ -23,7 +23,7 @@ from gda.device.scannable import DummyScannable
 from gda.device.scannable import TwoDScanPlotter
 from gda.jython import JythonServerFacade
 from gda.scan import ScanBase
-from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory
+from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory, XasScanFactory
 from uk.ac.gda.server.exafs.scan.preparers import I20DetectorPreparer, I20OutputPreparer, I20SamplePreparer, I20BeamlinePreparer
 
 
@@ -97,11 +97,11 @@ theFactory.setSamplePreparer(samplePreparer);
 theFactory.setOutputPreparer(outputPreparer);
 theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
-theFactory.setEnergyScannable(energy_scannable_for_scans);
+theFactory.setEnergyScannable(bragg1);
 theFactory.setMetashop(Finder.getInstance().find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
-theFactory.setQexafsDetectorPreparer(detectorPreparer);
-theFactory.setQexafsEnergyScannable(qexafs_energy);
+#theFactory.setQexafsDetectorPreparer(detectorPreparer);
+#theFactory.setQexafsEnergyScannable(qexafs_energy);
 theFactory.setScanName("energyScan")
 
 xas = theFactory.createEnergyScan();
