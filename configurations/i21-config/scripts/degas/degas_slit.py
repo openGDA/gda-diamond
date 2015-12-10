@@ -135,12 +135,18 @@ class DegasSlit:
             self.printMessage("script terminated by user")
             
         except:
-            self.printMessage("script terminated by exception" + str(sys.exc_info()[0]))
+            self.printMessage("script terminated by exception: " + str(sys.exc_info()[0]))
 
         finally:
-            self.blade.asynchronousMoveTo(self.initialPosition)
-            self.frontend.moveTo('Close')
-            self.report()
+            try:
+                self.printMessage("moving blade back to initial position")
+                self.blade.asynchronousMoveTo(self.initialPosition)
+            except:
+                self.printMessage("exception moving blade: " + str(sys.exc_info()[0]))
+            finally:
+                self.printMessage("closing front end")
+                self.frontend.moveTo('Close')
+                self.report()
 
 
     def printMessage(self, message):
