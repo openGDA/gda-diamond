@@ -2,10 +2,11 @@
 # Script to degas a single slit
 #
 # Move a single slit blade gradually into the beam, by an amount
-# calculated using a PID formula (see https://en.wikipedia.org/wiki/PID_controller)
+# calculated using a PID formula (see en.wikipedia.org/wiki/PID_controller)
 #
-# If the pressure exceeds <maxPressure>, return the blade to its starting position
-# and terminate the script. Ideally, we should set the parameters so that this never happens.
+# If the pressure exceeds <maxPressure>, return the blade to its starting position, close
+# the front end and terminate the script.
+# Ideally, we should set the parameters so that this never happens.
 #
 # The script assumes that the blade has been positioned manually at a suitable starting position
 # and it will return the slit to this position when it terminates. 
@@ -15,36 +16,46 @@
 #    bladeMax:       end position for the blade i.e. when it is fully in the beam
 #    gauge:          the pressure gauge to monitor
 #    frontend:       the front end shutter
-#
-#    targetPressure: the gas pressure we are aiming for
-#    maxPressure:    the maxmum gas pressure we allow before terminating the script
-#
-#    P, I, D:    coefficients for the proportional, integral and derivative terms respectively
-#    Integrator: initial value for the integral of error values
-#    Integrator_max, Integrator_min: maximum & minimum values we allow for Integrator 
 #------------------------------------------------------------------------------------------------------------------
 
+import sys
 from exceptions import KeyboardInterrupt
 from time import sleep, gmtime, strftime
 from gda.jython import ScriptBase
 
 class DegasSlit:
-    def __init__(self, blade, bladeMax, gauge, frontend, targetPressure = 2e-8, maxPressure = 5e-8, P = 2.0, I = 0.1, D = 0.3, Integrator = 0.0, Integrator_max = 500, Integrator_min = -500):
+    def __init__(self, blade, bladeMax, gauge, frontend):
         self.blade = blade
         self.bladeMax = float(bladeMax)
         self.gauge = gauge
         self.frontend = frontend
 
-        self.targetPressure = targetPressure
-        self.maxPressure = maxPressure
+        # The following values have been set by experimentation on i21
+        # Please be careful if you intend to change them
         
-        self.Kp = P
-        self.Ki = I
-        self.Kd = D
+        # Gas pressure we are aiming for
+        self.targetPressure = 2e-8
+        
+        # Pressure deadband: if the pressure is only slightly above or below the
+        # target pressure, don't move the blade
+        self.pressureDeadband = 0.2e-8
+        
+        # Maximum gas pressure we allow before terminating the script and closing the front end
+        self.maxPressure = 5e-8
+        
+        # PID factors
+        self.Kp = 5e7
+        self.Ki = 10000
+        self.Kd = 0.3
         self.Derivator = 0
-        self.Integrator = Integrator
-        self.Integrator_max = Integrator_max
-        self.Integrator_min = Integrator_min
+        self.Integrator = 0
+        self.Integrator_max = 500
+        self.Integrator_min = -500
+        
+        # Limit the distance that the blade can move into the slit in one movement.
+        # This is designed to prevent sudden pressure as the beam reaches an unconditioned part of the blade.
+        # There is no limit on movement out of the beam.
+        self.maxForwardMovement = 0.05  # mm 
         
         # Deduce direction of slit travel from current and end positions
         self.initialPosition = self.blade.getPosition()
@@ -80,22 +91,30 @@ class DegasSlit:
     def updatePosition(self, pressure):
         error = self.targetPressure - pressure
 
-        self.P_value = self.Kp * error
-
-        self.D_value = self.Kd * ( error - self.Derivator)
         self.Derivator = error
-
         self.Integrator = self.Integrator + error
-        if self.Integrator > self.Integrator_max:
-            self.Integrator = self.Integrator_max
-        elif self.Integrator < self.Integrator_min:
-            self.Integrator = self.Integrator_min
-        self.I_value = self.Integrator * self.Ki
+        self.Integrator = min(self.Integrator, self.Integrator_max)
+        self.Integrator = max(self.Integrator, self.Integrator_min)
+        
+        # Don't move if pressure is within the deadband
+        if (abs(error) < self.pressureDeadband):
+            self.printMessage("pressure " + str(pressure) + ", not moving blade")
+            return
 
+        # Calculate PID
+        self.P_value = self.Kp * error
+        self.D_value = self.Kd * (error - self.Derivator)
+        self.I_value = self.Integrator * self.Ki
         PID = self.P_value + self.I_value + self.D_value
+        
+        # Limit the forward (into beam) movement
+        if (PID > 0):
+            PID = min(PID, self.maxForwardMovement) 
 
         currentPosition = self.blade.getPosition()
-        newPosition = round(currentPosition + (PID * self.direction), 2)
+        newPosition = round(currentPosition + (PID * self.direction), 3)
+    
+        # Don't try to move the blade beyond its maximum (fully closed) position 
         if (self.direction > 0):
             newPosition = min(newPosition, self.bladeMax)
         else:
