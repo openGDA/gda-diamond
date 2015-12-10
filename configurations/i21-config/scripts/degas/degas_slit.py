@@ -34,7 +34,7 @@ class DegasSlit:
         # Please be careful if you intend to change them
         
         # Gas pressure we are aiming for
-        self.targetPressure = 2e-8
+        self.targetPressure = 3e-8
         
         # Pressure deadband: if the pressure is only slightly above or below the
         # target pressure, don't move the blade
