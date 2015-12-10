@@ -73,7 +73,7 @@ import com.google.gson.Gson;
  */
 public abstract class EdeExperiment implements IObserver {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
+	protected static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
 
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
@@ -348,9 +348,33 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract EdeExperimentDataWriter createFileWritter();
 
-	protected abstract double getTimeRequiredBeforeItCollection();
-	protected abstract double getTimeRequiredForItCollection();
-	protected abstract double getTimeRequiredAfterItCollection();
+	// protected abstract double getTimeRequiredBeforeItCollection();
+	// protected abstract double getTimeRequiredForItCollection();
+	// protected abstract double getTimeRequiredAfterItCollection();
+
+	protected double getTimeRequiredBeforeItCollection() {
+		//Time to move from current motor position to I0 position
+		double timeForI0Move = i0Position.getTimeToMove();
+
+		//Time to move from I0 to It position
+		double timeForItMove = ( (EdeScanMotorPositions) itPosition).getTimeToMove( (EdeScanMotorPositions)i0Position );
+
+		double timeForI0Spectrum = i0ScanParameters.getTotalTime(); // total time for single I0 spectrum
+		return timeForI0Spectrum*6 + timeForI0Move + timeForItMove;
+	}
+
+	protected double getTimeRequiredForItCollection() {
+		int numFrames = itScanParameters.getTotalNumberOfFrames();
+		double totalTime = itScanParameters.getTotalTime();
+		return totalTime * getRepetitions();
+	}
+
+	protected double getTimeRequiredAfterItCollection() {
+		// Time for move from It to I0 position
+		double timeForI0Move = ( (EdeScanMotorPositions) i0Position).getTimeToMove( (EdeScanMotorPositions)itPosition );
+		double timePerSpectrum = i0ScanParameters.getTotalTime()/i0ScanParameters.getTotalNumberOfFrames();
+		return timePerSpectrum*2 + timeForI0Move;
+	}
 
 	protected double getTimeRequiredForFullExperiment() {
 		return getTimeRequiredBeforeItCollection() + getTimeRequiredForItCollection() + getTimeRequiredAfterItCollection();
@@ -402,7 +426,9 @@ public abstract class EdeExperiment implements IObserver {
 		logger.info(message);
 	}
 
-	protected TopupChecker createTopupChecker(Double timeRequired) {
+	protected TopupChecker createTopupChecker(Double realTimeRequired) {
+		double timeRequired = Math.min( TOP_UP_TIME-30,  realTimeRequired ); //otherwise if realTimeRequired>TOP_UP_TIME checker runs forever...
+
 		TopupChecker topupchecker = new TopupChecker();
 		topupchecker.setName("EDE_scan_topup_checker");
 		topupchecker.setScannableToBeMonitored(topup);
@@ -412,26 +438,35 @@ public abstract class EdeExperiment implements IObserver {
 		topupchecker.setTolerance(0);
 		topupchecker.setPauseBeforeScan(true);
 		topupchecker.setPauseBeforePoint(false);
+
+		// Set machine mode monitor object for topup object so it works correctly.
+		Scannable machineModeMonitor = Finder.getInstance().find( "machineModeMonitor" );
+		if ( machineModeMonitor != null ) {
+			topupchecker.setMachineModeMonitor(machineModeMonitor);
+		}
+		// Copy values for waittime and tolerance from machine topupChecker to this new topupchecker.
+		TopupChecker topupCheckerMachine = (TopupChecker) Finder.getInstance().find( "topupChecker" );
+		if ( topupCheckerMachine != null ) {
+			topupchecker.setTolerance( topupCheckerMachine.getTolerance() );
+			topupchecker.setWaittime( topupCheckerMachine.getWaittime() );
+		}
 		return topupchecker;
 	}
 
 	protected TopupChecker createTopupCheckerForStartOfExperiment(double nextTopupTime) throws Exception {
-		double predictedExperimentTime = getTimeRequiredForFullExperiment();
-		if (predictedExperimentTime < nextTopupTime) {
+		// double predictedExperimentTime = getTimeRequiredForFullExperiment();
+		double timeForPreItScans = getTimeRequiredBeforeItCollection();
+		if (timeForPreItScans < nextTopupTime) {
 			// Don't wait for topup
 			return null;
 		}
 
-		if (predictedExperimentTime < TOP_UP_TIME) {
-			// Wait for toptup
-			return createTopupChecker(predictedExperimentTime);
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups. 
+		if (timeForPreItScans >= TOP_UP_TIME) {
+			logger.info("Time required for before It collection ("+timeForPreItScans+") secs is too large to fit within a topup");
 		}
 
-		if (getTimeRequiredBeforeItCollection() >= TOP_UP_TIME) {
-			throw new Exception("Time required for before It collection is too large to fit within a topup");
-		}
-
-		return createTopupChecker(getTimeRequiredBeforeItCollection());
+		return createTopupChecker(timeForPreItScans);
 	}
 
 	protected double getNextTopupTime() throws DeviceException {

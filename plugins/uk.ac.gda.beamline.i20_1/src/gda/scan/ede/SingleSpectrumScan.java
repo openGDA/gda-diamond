@@ -164,25 +164,31 @@ public class SingleSpectrumScan extends EdeExperiment {
 
 	@Override
 	protected boolean shouldWaitForTopup(int repIndex, double timeToTopupInSec) {
-		// TODO Auto-generated method stub
-		return false;
+		double timeRequired = getTimeRequiredForItCollection();
+
+		if ( timeRequired < timeToTopupInSec || timeRequired < TOP_UP_TIME) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-	@Override
-	protected double getTimeRequiredBeforeItCollection() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected double getTimeRequiredForItCollection() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected double getTimeRequiredAfterItCollection() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	// These functions are now implemented in parent class (EdeExperiment)
+	//	@Override
+	//	protected double getTimeRequiredBeforeItCollection() {
+	//		// TODO Auto-generated method stub
+	//		return 0;
+	//	}
+	//
+	//	@Override
+	//	protected double getTimeRequiredForItCollection() {
+	//		// TODO Auto-generated method stub
+	//		return 0;
+	//	}
+	//
+	//	@Override
+	//	protected double getTimeRequiredAfterItCollection() {
+	//		// TODO Auto-generated method stub
+	//		return 0;
 }
+

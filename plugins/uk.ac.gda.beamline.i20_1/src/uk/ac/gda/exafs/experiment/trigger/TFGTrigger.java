@@ -161,7 +161,9 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		tfgCommand.append("\n");
 		if (shouldStartOnTopupSignal) {
 			//ttl0 - TTL Trigger LEMO0 is used for waiting topup signal
-			tfgCommand.append(String.format("1 %f 0 0 0 8 0\n", MIN_DEAD_TIME));
+			// tfgCommand.append(String.format("1 %f 0 0 0 8 0\n", MIN_DEAD_TIME));
+			// trigger on falling edge of port 0 (OR with 32 for falling edge) = 8|32 = 40
+			tfgCommand.append(String.format("1 %f 0 0 0 %d 0\n", MIN_DEAD_TIME, 40 ));
 		}
 		double iTcollectionEndTime = detectorDataCollection.getTotalDelay();
 		double iTcollectionStartTime = detectorDataCollection.getTriggerDelay();
