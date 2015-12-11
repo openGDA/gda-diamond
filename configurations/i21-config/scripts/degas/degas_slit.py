@@ -34,6 +34,7 @@ class DegasSlit:
         self.gauge = gauge
         self.frontend = frontend
         self.ringCurrent = ringCurrent
+        self.minPressure = minPressure
 
         # The following values have been set by experimentation on i21
         # Please be careful if you intend to change them
@@ -74,9 +75,6 @@ class DegasSlit:
         
         # Minimum number of monitoring cycles before moving blade
         self.minCycles = 100
-        
-        # Pressure below which we assume no significant outgassing is taking place 
-        self.minPressure = minPressure
         
         # Ring current below which we assume there is no beam (mA)
         self.minRingCurrent = 50
@@ -199,6 +197,7 @@ class DegasSlit:
         print self.frontend
         print "targetPressure : ", self.targetPressure
         print "maxPressure : ", self.maxPressure
+        print "minPressure : ", self.minPressure
         print "Kp : ", self.Kp
         print "Ki : ", self.Ki
         print "Kd : ", self.Kd
