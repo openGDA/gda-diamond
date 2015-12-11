@@ -2,20 +2,24 @@
 # Script to degas a single slit
 #
 # Move a single slit blade gradually into the beam, by an amount
-# calculated using a PID formula (see en.wikipedia.org/wiki/PID_controller)
+# calculated using a PID formula (see en.wikipedia.org/wiki/PID_controller).
+# However, to avoid pressure spikes, the speed of moving into the beam
+# is limited to <maxForwardMovement>.
 #
 # If the pressure exceeds <maxPressure>, return the blade to its starting position, close
 # the front end and terminate the script.
 # Ideally, we should set the parameters so that this never happens.
 #
-# The script assumes that the blade has been positioned manually at a suitable starting position
-# and it will return the slit to this position when it terminates. 
+# The script assumes that the front end is open and that the blade has been
+# positioned manually at a suitable starting position. When it terminates, it will
+# close the front end and return the slit to the starting position. 
 #
 # Constructor arguments:
 #    blade:          the blade to move
 #    bladeMax:       end position for the blade i.e. when it is fully in the beam
 #    gauge:          the pressure gauge to monitor
 #    frontend:       the front end shutter
+#    minPressure:    the pressure below which we assume no significant outgassing is taking place 
 #------------------------------------------------------------------------------------------------------------------
 
 import sys
@@ -24,7 +28,7 @@ from time import sleep, gmtime, strftime
 from gda.jython import ScriptBase
 
 class DegasSlit:
-    def __init__(self, blade, bladeMax, gauge, frontend):
+    def __init__(self, blade, bladeMax, gauge, frontend, minPressure = 5e-9):
         self.blade = blade
         self.bladeMax = float(bladeMax)
         self.gauge = gauge
@@ -71,7 +75,7 @@ class DegasSlit:
         self.minCycles = 100
         
         # Pressure below which we assume no significant outgassing is taking place 
-        self.minPressure = 1e-8
+        self.minPressure = minPressure
 
 
     # Check whether the blade is at its maximum position, taking account
