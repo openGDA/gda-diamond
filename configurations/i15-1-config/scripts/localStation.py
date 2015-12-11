@@ -3,6 +3,9 @@ import java, sys
 from gdascripts.messages.handle_messages import simpleLog, log
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gdascripts.pd.time_pds import waittimeClass2
+from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+
 global run
 
 localStation_exceptions = []
