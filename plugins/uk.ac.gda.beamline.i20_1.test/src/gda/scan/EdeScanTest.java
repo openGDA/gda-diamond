@@ -19,21 +19,6 @@
 package gda.scan;
 
 import static org.junit.Assert.assertEquals;
-import gda.TestHelpers;
-import gda.configuration.properties.LocalProperties;
-import gda.device.detector.xstrip.DummyXStripDAServer;
-import gda.device.detector.xstrip.StepScanXHDetector;
-import gda.device.detector.xstrip.XhDetector;
-import gda.device.enumpositioner.DummyPositioner;
-import gda.device.monitor.DummyMonitor;
-import gda.device.scannable.ScannableMotor;
-import gda.factory.Findable;
-import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.EdeScanType;
-import gda.scan.ede.SingleSpectrumScan;
-import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
-import gda.scan.ede.position.EdePositionType;
-import gda.scan.ede.position.ExplicitScanPositions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,13 +34,28 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.hdf5.nexus.NexusException;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFile;
-import org.eclipse.dawnsci.nexus.NexusUtils;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
+import gda.TestHelpers;
+import gda.configuration.properties.LocalProperties;
+import gda.device.detector.xstrip.DummyXStripDAServer;
+import gda.device.detector.xstrip.StepScanXHDetector;
+import gda.device.detector.xstrip.XhDetector;
+import gda.device.enumpositioner.DummyPositioner;
+import gda.device.monitor.DummyMonitor;
+import gda.device.scannable.ScannableMotor;
+import gda.factory.Findable;
+import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.EdeScanType;
+import gda.scan.ede.SingleSpectrumScan;
+import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
+import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.ExplicitScanPositions;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -276,7 +276,7 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	private void testNexusStructure(String  nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
-		NexusFile file = NexusUtils.openNexusFileReadOnly(nexusFilename);
+		NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename);
 		GroupNode g = file.getGroup("/entry1", false);
 
 		// cyclic?
