@@ -17,6 +17,7 @@ try:
     simpleLog("================ INITIALISING I15-1 GDA ================")
     w = waittimeClass2('w')
 
+    ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
     d1 = DisplayEpicsPVClass("d1", "BL15J-EA-IAMP-02:CHA:PEAK", "mV", "%f")
     d2 = DisplayEpicsPVClass("d2", "BL15J-EA-IAMP-02:CHB:PEAK", "mV", "%f")
 
