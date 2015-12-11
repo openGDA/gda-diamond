@@ -1,4 +1,4 @@
-import java, sys
+import java, sys, time
 
 from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
@@ -19,7 +19,7 @@ def localStation_exception(exc_info, msg):
     log(None, "Error %s -  " % msg , typ, exception, traceback, False)
 
 try:
-    simpleLog("================ INITIALISING I15-1 GDA ================")
+    simpleLog("%s ================ INITIALISING I15-1 GDA ================" % time.strftime("%Y-%m-%d %H:%M"))
 
     scan_processor.processors.append(GaussianEdge())
     scan_processor.processors.append(Lcen())
@@ -60,4 +60,4 @@ if len(localStation_exceptions) > 0:
 for localStationException in localStation_exceptions:
     simpleLog(localStationException)
 
-simpleLog("===================== GDA ONLINE =====================")
+simpleLog("%s ================ GDA I15-1 ONLINE ================" % time.strftime("%Y-%m-%d %H:%M"))
