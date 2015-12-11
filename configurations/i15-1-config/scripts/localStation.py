@@ -1,7 +1,7 @@
 import java, sys
 
 from gdascripts.messages.handle_messages import simpleLog, log
-
+from gdascripts.pd.time_pds import waittimeClass2
 global run
 
 localStation_exceptions = []
@@ -14,6 +14,7 @@ def localStation_exception(exc_info, msg):
 
 try:
     simpleLog("================ INITIALISING I15-1 GDA ================")
+    w = waittimeClass2('w')
 
 except:
     localStation_exception(sys.exc_info(), "in localStation")
