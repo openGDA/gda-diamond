@@ -127,9 +127,12 @@ class DegasSlit:
             newPosition = min(newPosition, self.bladeMax)
         else:
             newPosition = max(newPosition, self.bladeMax)
-            
-        self.printMessage("pressure " + str(pressure) + ", moving blade to " + str(newPosition))
-        self.blade.moveTo(newPosition)
+        
+        if (newPosition == currentPosition):
+            self.printMessage("pressure " + str(pressure) + ", not moving blade (at max position)")
+        else:
+            self.printMessage("pressure " + str(pressure) + ", moving blade to " + str(newPosition))
+            self.blade.moveTo(newPosition)
         
 
     def run(self):
@@ -188,17 +191,17 @@ class DegasSlit:
     def report(self):
         print ""
         print "--------------- DegasSlit ------------------------"
-        print "blade = ", self.blade
-        print "initialPosition = ", self.initialPosition
-        print "bladeMax = ", self.bladeMax
-        print "direction = ", self.direction
-        print "gauge = ", self.gauge
-        print "frontend = ", self.frontend
-        print "targetPressure = ", self.targetPressure
-        print "maxPressure = ", self.maxPressure
-        print "Kp = ", self.Kp
-        print "Ki = ", self.Ki
-        print "Kd = ", self.Kd
-        print "ringCurrent = ", self.ringCurrent
+        print self.blade
+        print "initialPosition : ", self.initialPosition
+        print "bladeMax : ", self.bladeMax
+        print "direction : ", self.direction
+        print self.gauge
+        print self.frontend
+        print "targetPressure : ", self.targetPressure
+        print "maxPressure : ", self.maxPressure
+        print "Kp : ", self.Kp
+        print "Ki : ", self.Ki
+        print "Kd : ", self.Kd
+        print self.ringCurrent
         print "--------------------------------------------------"
         print ""
