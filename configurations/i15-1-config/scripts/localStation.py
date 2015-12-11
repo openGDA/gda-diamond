@@ -1,5 +1,7 @@
 import java, sys
 
+from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge
+from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
 from gdascripts.messages.handle_messages import simpleLog, log
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gdascripts.pd.time_pds import waittimeClass2
@@ -18,6 +20,11 @@ def localStation_exception(exc_info, msg):
 
 try:
     simpleLog("================ INITIALISING I15-1 GDA ================")
+
+    scan_processor.processors.append(GaussianEdge())
+    scan_processor.processors.append(Lcen())
+    scan_processor.processors.append(Rcen())
+
     w = waittimeClass2('w')
 
     ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
