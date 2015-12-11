@@ -45,6 +45,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 	private NXDetector hardwareTriggeredCmos;
 	private Xspress3 xspress3;
 	private Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3;
+	private boolean isBuffered_cid;
 
 	public I18DetectorPreparer(Scannable[] gains, TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem,
 			Xspress3 xspress3, BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress,
@@ -62,6 +63,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 		this.qexafs_FFI0_xspress3 = qexafs_FFI0_xspress3;
 		this.buffered_cid = buffered_cid;
 		this.hardwareTriggeredCmos = hardwareTriggeredCmos;
+		// by default should be false as not used with users, only beamline staff
+		this.isBuffered_cid = false;
 	}
 
 	@Override
@@ -148,7 +151,10 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 		// else Fluo
 		String det_type = detectorBean.getFluorescenceParameters().getDetectorType();
 		if (det_type.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
-			return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xspress3, qexafs_FFI0_xspress3 };
+			if (isBuffered_cid)
+				return new BufferedDetector[] { qexafs_counterTimer01, buffered_cid, qexafs_xspress3, qexafs_FFI0_xspress3 };
+			else
+				return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3 };
 		}// else Ge
 		return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress };
 	}
@@ -166,7 +172,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 
 	protected void setup_amp_sensitivity(IonChamberParameters ionChamberParams, int index) throws Exception {
 		if (ionChamberParams.getChangeSensitivity()) {
-			if (ionChamberParams.getGain() == null || ionChamberParams.getGain() == "") {
+			if (ionChamberParams.getGain() == null || ionChamberParams.getGain().equals("")) {
 				return;
 			}
 
@@ -202,6 +208,14 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer, RasterMapDet
 		}
 
 		return null;
+	}
+
+	public boolean isBuffered_cid() {
+		return isBuffered_cid;
+	}
+
+	public void setBuffered_cid(boolean isBuffered_cid) {
+		this.isBuffered_cid = isBuffered_cid;
 	}
 
 }

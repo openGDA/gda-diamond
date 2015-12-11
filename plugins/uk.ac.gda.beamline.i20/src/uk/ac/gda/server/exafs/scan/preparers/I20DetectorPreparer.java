@@ -17,9 +17,6 @@
  */
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -28,6 +25,10 @@ import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.TopupChecker;
 import gda.util.Element;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -191,7 +192,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			if (xasParams.getEdgeTime() > maxTime) {
 				maxTime = xasParams.getEdgeTime();
 			}
-			if (xasParams.getExafsTimeType() == "Constant Time") {
+			if (xasParams.getExafsTimeType().equals("Constant Time")) {
 				if (xasParams.getExafsTime() > maxTime) {
 					maxTime = xasParams.getExafsTime();
 				}
@@ -243,23 +244,23 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	}
 
 	private double _getEmissionEnergy(Element elementObj, String edge) {
-		if (edge == "K") {
+		if (edge.equals("K")) {
 			return elementObj.getEmissionEnergy("Ka1");
-		} else if (edge == "L1") {
+		} else if (edge.equals("L1")) {
 			return elementObj.getEmissionEnergy("La1");
-		} else if (edge == "L2") {
+		} else if (edge.equals("L2")) {
 			return elementObj.getEmissionEnergy("La1");
-		} else if (edge == "L3") {
+		} else if (edge.equals("L3")) {
 			return elementObj.getEmissionEnergy("La1");
-		} else if (edge == "M1") {
+		} else if (edge.equals("M1")) {
 			return elementObj.getEmissionEnergy("Ma1");
-		} else if (edge == "M2") {
+		} else if (edge.equals("M2")) {
 			return elementObj.getEmissionEnergy("Ma1");
-		} else if (edge == "M3") {
+		} else if (edge.equals("M3")) {
 			return elementObj.getEmissionEnergy("Ma1");
-		} else if (edge == "M4") {
+		} else if (edge.equals("M4")) {
 			return elementObj.getEmissionEnergy("Ma1");
-		} else if (edge == "M5") {
+		} else if (edge.equals("M5")) {
 			return elementObj.getEmissionEnergy("Ma1");
 		} else {
 			return elementObj.getEmissionEnergy("Ka1");

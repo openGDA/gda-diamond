@@ -35,6 +35,8 @@
 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	
-	
+
+	<import resource="medipix_device.xml" />
+	<import resource="../medipix.xml" />
+
 </beans>
