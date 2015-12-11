@@ -28,11 +28,12 @@ from time import sleep, gmtime, strftime
 from gda.jython import ScriptBase
 
 class DegasSlit:
-    def __init__(self, blade, bladeMax, gauge, frontend, minPressure = 5e-9):
+    def __init__(self, blade, bladeMax, gauge, frontend, ringCurrent, minPressure = 5e-9):
         self.blade = blade
         self.bladeMax = float(bladeMax)
         self.gauge = gauge
         self.frontend = frontend
+        self.ringCurrent = ringCurrent
 
         # The following values have been set by experimentation on i21
         # Please be careful if you intend to change them
@@ -76,6 +77,9 @@ class DegasSlit:
         
         # Pressure below which we assume no significant outgassing is taking place 
         self.minPressure = minPressure
+        
+        # Ring current below which we assume there is no beam (mA)
+        self.minRingCurrent = 50
 
 
     # Check whether the blade is at its maximum position, taking account
@@ -136,8 +140,13 @@ class DegasSlit:
         try:
             while (finished == False):
                 pressure = self.gauge.getPosition()
+                ringCurrent = self.ringCurrent.getPosition()
                 
-                if (pressure > self.maxPressure):
+                if (ringCurrent < self.minRingCurrent):
+                    self.printMessage("ring current too low: terminating script")
+                    finished = True
+                    
+                elif (pressure > self.maxPressure):
                     self.printMessage("pressure too high: terminating script")
                     finished = True
                         
@@ -190,5 +199,6 @@ class DegasSlit:
         print "Kp = ", self.Kp
         print "Ki = ", self.Ki
         print "Kd = ", self.Kd
+        print "ringCurrent = ", self.ringCurrent
         print "--------------------------------------------------"
         print ""
