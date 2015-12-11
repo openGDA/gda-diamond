@@ -15,5 +15,9 @@
 
 	<!-- pressure gauges -->
 	<import resource="pressureGauges.xml"/>
+	
+	<!-- ring -->
+	<import resource="ring.xml" />
+	
 
 </beans>
