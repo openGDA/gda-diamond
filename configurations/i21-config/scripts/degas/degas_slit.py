@@ -10,6 +10,8 @@
 # the front end and terminate the script.
 # Ideally, we should set the parameters so that this never happens.
 #
+# If the ring current goes below <minRingCurrent>, assume the beam is off and wait for it to recover.
+#
 # The script assumes that the front end is open and that the blade has been
 # positioned manually at a suitable starting position. When it terminates, it will
 # close the front end and return the slit to the starting position. 
@@ -74,10 +76,13 @@ class DegasSlit:
         self.monitorFreq = 0.1
         
         # Minimum number of monitoring cycles before moving blade
-        self.minCycles = 100
+        self.minBladeMoveCycles = 100
         
         # Ring current below which we assume there is no beam (mA)
         self.minRingCurrent = 50
+        
+        # Number of cycles between reporting ring current too low
+        self.ringCurrentReportCycles = 100
 
 
     # Check whether the blade is at its maximum position, taking account
@@ -136,6 +141,7 @@ class DegasSlit:
     def run(self):
         self.report()
         cyclesBeforeMove = 0
+        cyclesBeforeRingCurrentReport = 0
         finished = False
         
         try:
@@ -144,8 +150,11 @@ class DegasSlit:
                 ringCurrent = self.ringCurrent.getPosition()
                 
                 if (ringCurrent < self.minRingCurrent):
-                    self.printMessage("ring current too low: terminating script")
-                    finished = True
+                    if (cyclesBeforeRingCurrentReport > 0):
+                        cyclesBeforeRingCurrentReport = cyclesBeforeRingCurrentReport - 1
+                    else:
+                        self.printMessage("ring current " + str(ringCurrent) + " mA too low: waiting")
+                        cyclesBeforeRingCurrentReport = self.ringCurrentReportCycles - 1
                     
                 elif (pressure > self.maxPressure):
                     self.printMessage("pressure too high: terminating script")
@@ -160,7 +169,7 @@ class DegasSlit:
                     
                 else:
                     self.updatePosition(pressure)
-                    cyclesBeforeMove = self.minCycles - 1
+                    cyclesBeforeMove = self.minBladeMoveCycles - 1
                     
                 sleep(self.monitorFreq)
             
