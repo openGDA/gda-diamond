@@ -11,7 +11,7 @@
 	<bean id="array1" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL05J-EA-DET-01:ARR1:" />
 		<property name="pluginBase">
-			<bean class="uk.ac.gda.beamline.i05_1.analyser.FakeNDPluginBaseForSwept">
+			<bean class="uk.ac.gda.devices.vgscienta.i05_1.FakeNDPluginBaseForSwept">
 				<property name="basePVName" value="BL05J-EA-DET-01:ARR2:" />
 				<property name="analyser" ref="analyser" />
 			</bean>
@@ -21,7 +21,7 @@
 	<bean id="array2" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL05J-EA-DET-01:ARR2:" />
 		<property name="pluginBase">
-			<bean class="uk.ac.gda.beamline.i05_1.analyser.FakeNDPluginBaseForSwept">
+			<bean class="uk.ac.gda.devices.vgscienta.i05_1.FakeNDPluginBaseForSwept">
 				<property name="basePVName" value="BL05J-EA-DET-01:ARR2:" />
 				<property name="analyser" ref="analyser" />
 			</bean>
@@ -119,7 +119,7 @@
 
 	<import resource="analyser_lens_mapping.xml" />
 	<bean id="AnalyserCapabilities"
-		class="uk.ac.gda.beamline.i05_1.analyser.I05_1AnalyserCapabilties">
+		class="uk.ac.gda.devices.vgscienta.i05_1.I05_1AnalyserCapabilties">
 		<description>
 			This class is used to hold the specific capabilities of	the analyser. It contains a map of
 			lens modes and an array to map pixel position to angle for each.
