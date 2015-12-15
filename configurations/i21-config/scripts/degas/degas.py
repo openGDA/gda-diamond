@@ -1,24 +1,24 @@
 #------------------------------------------------------------------------------------------------------------------
-# Script to degas a single slit
+# Script to degas a device
 #
-# Move a single slit blade gradually into the beam, by an amount
-# calculated using a PID formula (see en.wikipedia.org/wiki/PID_controller).
+# Move a device (e.g. single slit blade, diagnostic stick) gradually into the beam,
+# by an amount calculated using a PID formula (see en.wikipedia.org/wiki/PID_controller).
 # However, to avoid pressure spikes, the speed of moving into the beam
 # is limited to <maxForwardMovement>.
 #
-# If the pressure exceeds <maxPressure>, return the blade to its starting position, close
+# If the pressure exceeds <maxPressure>, return the device to its starting position, close
 # the front end and terminate the script.
 # Ideally, we should set the parameters so that this never happens.
 #
 # If the ring current goes below <minRingCurrent>, assume the beam is off and wait for it to recover.
 #
-# The script assumes that the front end is open and that the blade has been
+# The script assumes that the front end is open and that the device has been
 # positioned manually at a suitable starting position. When it terminates, it will
-# close the front end and return the slit to the starting position. 
+# close the front end and return the device to the starting position. 
 #
 # Constructor arguments:
-#    blade:          the blade to move
-#    bladeMax:       end position for the blade i.e. when it is fully in the beam
+#    motor:          the motor that moves the device
+#    motorMax:       end position for the motor i.e. when the device is fully in the beam
 #    gauge:          the pressure gauge to monitor
 #    frontend:       the front end shutter
 #    minPressure:    the pressure below which we assume no significant outgassing is taking place 
@@ -29,10 +29,10 @@ from exceptions import KeyboardInterrupt
 from time import sleep, gmtime, strftime
 from gda.jython import ScriptBase
 
-class DegasSlit:
-    def __init__(self, blade, bladeMax, gauge, frontend, ringCurrent, minPressure = 5e-9):
-        self.blade = blade
-        self.bladeMax = float(bladeMax)
+class Degas:
+    def __init__(self, motor, motorMax, gauge, frontend, ringCurrent, minPressure = 5e-9):
+        self.motor = motor
+        self.motorMax = float(motorMax)
         self.gauge = gauge
         self.frontend = frontend
         self.ringCurrent = ringCurrent
@@ -45,7 +45,7 @@ class DegasSlit:
         self.targetPressure = 3e-8
         
         # Pressure deadband: if the pressure is only slightly above or below the
-        # target pressure, don't move the blade
+        # target pressure, don't move the device
         self.pressureDeadband = 0.2e-8
         
         # Maximum gas pressure we allow before terminating the script and closing the front end
@@ -60,14 +60,14 @@ class DegasSlit:
         self.Integrator_max = 500
         self.Integrator_min = -500
         
-        # Limit the distance that the blade can move into the slit in one movement.
-        # This is designed to prevent sudden pressure as the beam reaches an unconditioned part of the blade.
+        # Limit the distance that the device can move into the beam in one movement.
+        # This is designed to prevent sudden pressure as the beam reaches an unconditioned part of the device.
         # There is no limit on movement out of the beam.
         self.maxForwardMovement = 0.05  # mm 
         
-        # Deduce direction of slit travel from current and end positions
-        self.initialPosition = self.blade.getPosition()
-        if (self.bladeMax > self.initialPosition):
+        # Deduce direction of travel from current and end positions
+        self.initialPosition = self.motor.getPosition()
+        if (self.motorMax > self.initialPosition):
             self.direction = 1
         else:
             self.direction = -1
@@ -75,7 +75,7 @@ class DegasSlit:
         # Frequency of monitoring pressure (seconds)
         self.monitorFreq = 0.1
         
-        # Minimum number of monitoring cycles before moving blade
+        # Minimum number of monitoring cycles before moving
         self.minBladeMoveCycles = 100
         
         # Ring current below which we assume there is no beam (mA)
@@ -85,20 +85,20 @@ class DegasSlit:
         self.ringCurrentReportCycles = 100
 
 
-    # Check whether the blade is at its maximum position, taking account
+    # Check whether the device is at its maximum position, taking account
     # of its direction of travel.
     def atBladeMax(self):
-        position = self.blade.getPosition()
+        position = self.motor.getPosition()
         if (self.direction > 0):
-            if (position >= self.bladeMax):
+            if (position >= self.motorMax):
                 return True
         else:
-            if (position <= self.bladeMax):
+            if (position <= self.motorMax):
                 return True
         return False
     
     
-    # Update slit position, based on current & target pressures
+    # Update position, based on current & target pressures
     def updatePosition(self, pressure):
         error = self.targetPressure - pressure
 
@@ -109,7 +109,7 @@ class DegasSlit:
         
         # Don't move if pressure is within the deadband
         if (abs(error) < self.pressureDeadband):
-            self.printMessage("pressure " + str(pressure) + ", not moving blade")
+            self.printMessage("pressure " + str(pressure) + ", not moving device")
             return
 
         # Calculate PID
@@ -122,20 +122,20 @@ class DegasSlit:
         if (PID > 0):
             PID = min(PID, self.maxForwardMovement) 
 
-        currentPosition = self.blade.getPosition()
+        currentPosition = self.motor.getPosition()
         newPosition = round(currentPosition + (PID * self.direction), 3)
     
-        # Don't try to move the blade beyond its maximum (fully closed) position 
+        # Don't try to move the device beyond its maximum (fully in beam) position 
         if (self.direction > 0):
-            newPosition = min(newPosition, self.bladeMax)
+            newPosition = min(newPosition, self.motorMax)
         else:
-            newPosition = max(newPosition, self.bladeMax)
+            newPosition = max(newPosition, self.motorMax)
         
         if (newPosition == currentPosition):
-            self.printMessage("pressure " + str(pressure) + ", not moving blade (at max position)")
+            self.printMessage("pressure " + str(pressure) + ", not moving device (at max position)")
         else:
-            self.printMessage("pressure " + str(pressure) + ", moving blade to " + str(newPosition))
-            self.blade.moveTo(newPosition)
+            self.printMessage("pressure " + str(pressure) + ", moving device to " + str(newPosition))
+            self.motor.moveTo(newPosition)
         
 
     def run(self):
@@ -181,10 +181,10 @@ class DegasSlit:
 
         finally:
             try:
-                self.printMessage("moving blade back to initial position")
-                self.blade.asynchronousMoveTo(self.initialPosition)
+                self.printMessage("moving device back to initial position")
+                self.motor.asynchronousMoveTo(self.initialPosition)
             except:
-                self.printMessage("exception moving blade: " + str(sys.exc_info()[0]))
+                self.printMessage("exception moving device: " + str(sys.exc_info()[0]))
             finally:
                 self.printMessage("closing front end")
                 self.frontend.moveTo('Close')
@@ -198,9 +198,9 @@ class DegasSlit:
     def report(self):
         print ""
         print "--------------- DegasSlit ------------------------"
-        print self.blade
+        print self.motor
         print "initialPosition : ", self.initialPosition
-        print "bladeMax : ", self.bladeMax
+        print "motorMax : ", self.motorMax
         print "direction : ", self.direction
         print self.gauge
         print self.frontend
