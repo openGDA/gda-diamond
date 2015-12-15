@@ -7,6 +7,7 @@ from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gdascripts.pd.time_pds import waittimeClass2
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
+from gdascripts.utils import caget, caput # @UnusedImport
 
 global run
 
