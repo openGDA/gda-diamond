@@ -13,7 +13,7 @@
 			</list>
 		</property>
 		<property name="calculator">
-			<bean class="uk.ac.gda.beamline.i05_1.calculator.SmVertCalculator" />
+			<bean class="uk.ac.gda.arpes.calculator.SmVertCalculator" />
 		</property>
 	</bean>
 	
@@ -26,7 +26,7 @@
 			</list>
 		</property>
 		<property name="calculator">
-			<bean class="uk.ac.gda.beamline.i05_1.calculator.SmHorCalculator" />
+			<bean class="uk.ac.gda.arpes.calculator.SmHorCalculator" />
 		</property>
 	</bean>
 
@@ -39,7 +39,7 @@
 			</list>
 		</property>
 		<property name="calculator">
-			<bean class="uk.ac.gda.beamline.i05_1.calculator.SmLongCalculator" />
+			<bean class="uk.ac.gda.arpes.calculator.SmLongCalculator" />
 		</property>
 	</bean>
 	
@@ -52,7 +52,7 @@
 			</list>
 		</property>
 		<property name="calculator">
-			<bean class="uk.ac.gda.beamline.i05_1.calculator.SmPerpCalculator" />
+			<bean class="uk.ac.gda.arpes.calculator.SmPerpCalculator" />
 		</property>
 	</bean>
 
