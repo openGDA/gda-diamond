@@ -9,6 +9,8 @@
 
 	<!-- slits -->
 	<import resource="s1_motors.xml" />
+	<import resource="s2_femtos.xml" />
+	<import resource="s2_motors.xml" />
 
 	<!-- diagnostics -->
 	<import resource="dgn.xml" />

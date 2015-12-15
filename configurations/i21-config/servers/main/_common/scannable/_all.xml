@@ -5,6 +5,7 @@
 
 	<!-- slits -->
 	<import resource="s1.xml"/>
+	<import resource="s2.xml"/>
 
 	<!-- diagnostic sticks -->
 	<import resource="dgn.xml" />

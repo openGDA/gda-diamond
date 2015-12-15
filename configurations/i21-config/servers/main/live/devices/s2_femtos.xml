@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="s2femto1Current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO1:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2femto1Gain" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO1:GAIN" />
+		<property name="local" value="true" />
+	</bean>
+
+
+	<bean id="s2femto2Current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO2:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2femto2Gain" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO2:GAIN" />
+		<property name="local" value="true" />
+	</bean>
+
+
+	<bean id="s2femto3Current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO3:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2femto3Gain" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO3:GAIN" />
+		<property name="local" value="true" />
+	</bean>
+
+
+	<bean id="s2femto4Current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO4:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2femto4Gain" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO4:GAIN" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

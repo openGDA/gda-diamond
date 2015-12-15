@@ -9,14 +9,16 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
- 	<bean id="d3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="d3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d3bpos" />
 				<ref bean="d3bstick" />
+				<ref bean="d3bfemtoCurrent" />
+				<ref bean="d3bfemtoGain" />
 			</list>
 		</property>
 		<property name="local" value="true" />
 	</bean>
 
- </beans>
+</beans>

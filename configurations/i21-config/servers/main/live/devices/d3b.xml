@@ -15,5 +15,18 @@
 		<property name="pvName" value="BL21I-DI-PHDGB-03:POS" />
 		<property name="local" value="true" />
 	</bean>
+
+	<!-- Femto -->
+	<bean id="d3bfemtoCurrent" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-DI-PHGDB-03:FEMTO1:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="d3bfemtoGain" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL21I-DI-PHGDB-03:FEMTO1:GAIN" />
+		<property name="local" value="true" />
+	</bean>
 	
 </beans>
