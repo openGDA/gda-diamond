@@ -27,18 +27,10 @@
 	</bean>
 
 	<!-- Femto -->
-	<bean id="d3bfemtoCurrent" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="uA" />
+	<bean id="d3bfemto" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
 		<property name="value">
 			<value type="double">0.235</value>
-		</property>
-	</bean>
-
-	<bean id="d3bfemtoGain" class="gda.device.scannable.SimpleScannable">
-		<property name="currentPosition">
-			<bean class="java.lang.Double">
-				<constructor-arg value="10e6" />
-			</bean>
 		</property>
 	</bean>
 

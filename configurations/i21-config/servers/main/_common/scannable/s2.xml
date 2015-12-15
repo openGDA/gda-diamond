@@ -55,14 +55,10 @@
 				<ref bean="s2nearside" />
 				<ref bean="s2upper" />
 				<ref bean="s2lower" />
-				<ref bean="s2femto1Current" />
-				<ref bean="s2femto1Gain" />
-				<ref bean="s2femto2Current" />
-				<ref bean="s2femto2Gain" />
-				<ref bean="s2femto3Current" />
-				<ref bean="s2femto3Gain" />
-				<ref bean="s2femto4Current" />
-				<ref bean="s2femto4Gain" />
+				<ref bean="s2femto1" />
+				<ref bean="s2femto2" />
+				<ref bean="s2femto3" />
+				<ref bean="s2femto4" />
 			</list>
 		</property>
 		<property name="local" value="true" />
