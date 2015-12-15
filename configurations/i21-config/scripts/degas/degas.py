@@ -14,14 +14,26 @@
 #
 # The script assumes that the front end is open and that the device has been
 # positioned manually at a suitable starting position. When it terminates, it will
-# close the front end and return the device to the starting position. 
+# close the front end and return the device to the starting position.
+#
+# Pressures are in millibars, distances in millimetres
 #
 # Constructor arguments:
-#    motor:          the motor that moves the device
-#    motorMax:       end position for the motor i.e. when the device is fully in the beam
-#    gauge:          the pressure gauge to monitor
-#    frontend:       the front end shutter
-#    minPressure:    the pressure below which we assume no significant outgassing is taking place 
+#  mandatory:
+#    motor:              the motor that moves the device
+#    motorMax:           end position for the motor i.e. when the device is fully in the beam
+#    gauge:              the pressure gauge to monitor
+#    frontend:           the front end shutter
+#    ringCurrent:        monitor for ring current
+#
+#  optional:
+#    minPressure:        the pressure below which we assume no significant outgassing is taking place
+#    targetPressure:     optimum gas pressure for degassing
+#    pressureDeadband:   if the pressure is only slightly above or below the target pressure, don't move the device
+#    maxPressure:        maximum gas pressure we allow before terminating the script and closing the front end
+#    maxForwardMovement: limit the distance that the device can move into the beam in one movement
+#                        This is designed to prevent sudden pressure as the beam reaches an unconditioned part of the device.
+#                        There is no limit on movement out of the beam.
 #------------------------------------------------------------------------------------------------------------------
 
 import sys
@@ -30,27 +42,24 @@ from time import sleep, gmtime, strftime
 from gda.jython import ScriptBase
 
 class Degas:
-    def __init__(self, motor, motorMax, gauge, frontend, ringCurrent, minPressure = 5e-9):
+    def __init__(self, motor, motorMax, gauge, frontend, ringCurrent, 
+                 minPressure = 5e-9, targetPressure = 3e-8, pressureDeadband = 0.2e-8, maxPressure = 5e-8,
+                 maxForwardMovement = 0.05):
         self.motor = motor
         self.motorMax = float(motorMax)
         self.gauge = gauge
         self.frontend = frontend
         self.ringCurrent = ringCurrent
+
         self.minPressure = minPressure
+        self.targetPressure = targetPressure
+        self.pressureDeadband = pressureDeadband
+        self.maxPressure = maxPressure
+        self.maxForwardMovement = maxForwardMovement 
 
         # The following values have been set by experimentation on i21
         # Please be careful if you intend to change them
-        
-        # Gas pressure we are aiming for
-        self.targetPressure = 3e-8
-        
-        # Pressure deadband: if the pressure is only slightly above or below the
-        # target pressure, don't move the device
-        self.pressureDeadband = 0.2e-8
-        
-        # Maximum gas pressure we allow before terminating the script and closing the front end
-        self.maxPressure = 5e-8
-        
+
         # PID factors
         self.Kp = 5e7
         self.Ki = 10000
@@ -59,11 +68,6 @@ class Degas:
         self.Integrator = 0
         self.Integrator_max = 500
         self.Integrator_min = -500
-        
-        # Limit the distance that the device can move into the beam in one movement.
-        # This is designed to prevent sudden pressure as the beam reaches an unconditioned part of the device.
-        # There is no limit on movement out of the beam.
-        self.maxForwardMovement = 0.05  # mm 
         
         # Deduce direction of travel from current and end positions
         self.initialPosition = self.motor.getPosition()
@@ -197,19 +201,24 @@ class Degas:
 
     def report(self):
         print ""
-        print "--------------- DegasSlit ------------------------"
+        print "--------------- Degas ------------------------"
         print self.motor
         print "initialPosition : ", self.initialPosition
         print "motorMax : ", self.motorMax
+        print "maxForwardMovement : ", self.maxForwardMovement
         print "direction : ", self.direction
+        print ""
         print self.gauge
         print self.frontend
-        print "targetPressure : ", self.targetPressure
-        print "maxPressure : ", self.maxPressure
+        print self.ringCurrent
+        print ""
         print "minPressure : ", self.minPressure
+        print "targetPressure : ", self.targetPressure
+        print "pressureDeadband : ", self.pressureDeadband
+        print "maxPressure : ", self.maxPressure
+        print ""
         print "Kp : ", self.Kp
         print "Ki : ", self.Ki
         print "Kd : ", self.Kd
-        print self.ringCurrent
         print "--------------------------------------------------"
         print ""
