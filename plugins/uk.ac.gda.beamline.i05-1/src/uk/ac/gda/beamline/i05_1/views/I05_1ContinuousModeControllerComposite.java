@@ -18,6 +18,14 @@
 
 package uk.ac.gda.beamline.i05_1.views;
 
+import gda.device.MotorStatus;
+import gda.device.Scannable;
+import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServerFacade;
+import gda.observable.IObserver;
+import gda.rcp.views.NudgePositionerComposite;
+
 import java.util.Arrays;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -37,13 +45,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.MotorStatus;
-import gda.device.Scannable;
-import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
-import gda.observable.IObserver;
-import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class I05_1ContinuousModeControllerComposite extends Composite {
@@ -95,11 +96,17 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		lensMode.addSelectionListener(lensModeListener);
 
 		// Centre energy
-		NudgePositionerComposite centre_energyNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("raw_centre_energy")), "centre_energy", false);
-		GridDataFactory.swtDefaults().span(1, 2).applyTo(centre_energyNpc);
+		NudgePositionerComposite centre_energyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+		centre_energyNPC.setScannable((Scannable) Finder.getInstance().find("raw_centre_energy"));
+		centre_energyNPC.setDisplayName("centre_energy");
+		centre_energyNPC.hideStopButton();
+		GridDataFactory.swtDefaults().span(1, 2).applyTo(centre_energyNPC);
 		// Acquire time
-		NudgePositionerComposite acquire_timeNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("acquire_time")), null, false);
-		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquire_timeNpc);
+		NudgePositionerComposite acquire_timeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+		acquire_timeNPC.setScannable((Scannable) Finder.getInstance().find("acquire_time"));
+		acquire_timeNPC.hideStopButton();
+		acquire_timeNPC.setIncrement(0.5);
+		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquire_timeNPC);
 
 		// Analyser Start Button
 		startButton = new Button(analyserGroup, SWT.DEFAULT);
@@ -163,10 +170,15 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		beamlineGroup.setText("Beamline");
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(beamlineGroup);
 
-		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("energy")));
-		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("exit_slit")));
-		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("s2_ysize")));
-		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("s2_xsize")));
+		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		energyNPC.setScannable((Scannable) Finder.getInstance().find("energy"));
+		NudgePositionerComposite exitSltNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		exitSltNPC.setScannable((Scannable) Finder.getInstance().find("exit_slit"));
+		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount
+		NudgePositionerComposite s2_ysizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2_ysizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_ysize"));
+		NudgePositionerComposite s2_xsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2_xsizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_xsize"));
 
 		// Beamline shutter button
 		shutterButton = new Button(beamlineGroup, SWT.NONE);

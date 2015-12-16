@@ -94,14 +94,17 @@ public class ContinuousModeControllerComposite extends Composite {
 		lensModeCombo.addSelectionListener(lensModeListener);
 
 		// Centre energy
-		NudgePositionerComposite centre_energyNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE,
-				(Scannable) (Finder.getInstance().find("raw_centre_energy")), "centre_energy", false);
-		GridDataFactory.swtDefaults().span(1, 2).applyTo(centre_energyNpc);
+		NudgePositionerComposite centre_energyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+		centre_energyNPC.setScannable((Scannable) Finder.getInstance().find("raw_centre_energy"));
+		centre_energyNPC.setDisplayName("centre_energy");
+		centre_energyNPC.hideStopButton();
+		GridDataFactory.swtDefaults().span(1, 2).applyTo(centre_energyNPC);
 		// Acquire time
-		NudgePositionerComposite acquire_timeNpc = new NudgePositionerComposite(analyserGroup, SWT.NONE,
-				(Scannable) (Finder.getInstance().find("acquire_time")), null, false);
-		acquire_timeNpc.setIncrement(0.5);
-		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquire_timeNpc);
+		NudgePositionerComposite acquire_timeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+		acquire_timeNPC.setScannable((Scannable) Finder.getInstance().find("acquire_time"));
+		acquire_timeNPC.hideStopButton();
+		acquire_timeNPC.setIncrement(0.5);
+		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquire_timeNPC);
 
 		// Analyser Start Button
 		startButton = new Button(analyserGroup, SWT.DEFAULT);
@@ -162,11 +165,15 @@ public class ContinuousModeControllerComposite extends Composite {
 		beamlineGroup.setText("Beamline");
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(beamlineGroup);
 
-		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("energy")));
-		NudgePositionerComposite exitSltNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("exit_slit")));
+		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		energyNPC.setScannable((Scannable) Finder.getInstance().find("energy"));
+		NudgePositionerComposite exitSltNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		exitSltNPC.setScannable((Scannable) Finder.getInstance().find("exit_slit"));
 		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount
-		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("s2_ysize")));
-		new NudgePositionerComposite(beamlineGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("s2_xsize")));
+		NudgePositionerComposite s2_ysizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2_ysizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_ysize"));
+		NudgePositionerComposite s2_xsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2_xsizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_xsize"));
 
 		// Beamline shutter button
 		shutterButton = new Button(beamlineGroup, SWT.NONE);
@@ -187,19 +194,26 @@ public class ContinuousModeControllerComposite extends Composite {
 		translationNpcGroup.setText("Sample Translations");
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).wrap(true).applyTo(translationNpcGroup);
 
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("sax")));
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("say")));
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("saz")));
-		new NudgePositionerComposite(translationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("salong")));
+		NudgePositionerComposite saxNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
+		saxNPC.setScannable((Scannable) Finder.getInstance().find("sax"));
+		NudgePositionerComposite sayNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
+		sayNPC.setScannable((Scannable) Finder.getInstance().find("say"));
+		NudgePositionerComposite sazNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
+		sazNPC.setScannable((Scannable) Finder.getInstance().find("saz"));
+		NudgePositionerComposite salongNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
+		salongNPC.setScannable((Scannable) Finder.getInstance().find("salong"));
 
 		// Sample Rotations
 		Group rotationNpcGroup = new Group(this, SWT.DEFAULT);
 		rotationNpcGroup.setText("Sample Rotations");
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).applyTo(rotationNpcGroup);
 
-		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("satilt")));
-		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("sapolar")));
-		new NudgePositionerComposite(rotationNpcGroup, SWT.NONE, (Scannable) (Finder.getInstance().find("saazimuth")));
+		NudgePositionerComposite satiltNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
+		satiltNPC.setScannable((Scannable) Finder.getInstance().find("satilt"));
+		NudgePositionerComposite sapolarNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
+		sapolarNPC.setScannable((Scannable) Finder.getInstance().find("sapolar"));
+		NudgePositionerComposite saazimuthNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
+		saazimuthNPC.setScannable((Scannable) Finder.getInstance().find("saazimuth"));
 
 		// Add an observer to the psu_mode scannable to automatically detect changes in EPICS and update the GUI
 		final Scannable psuModeScannable = (Scannable) (Finder.getInstance().find("psu_mode"));
