@@ -4,6 +4,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
+	<!-- ring -->
+	<import resource="ring.xml" />
+
 	<!-- front end -->
 	<import resource="frontEnd.xml" />
 

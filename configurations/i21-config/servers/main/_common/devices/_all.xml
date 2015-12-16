@@ -3,4 +3,22 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<!-- slits -->
+	<import resource="s1.xml"/>
+	<import resource="s2.xml"/>
+
+	<!-- diagnostic sticks -->
+	<import resource="dgn.xml" />
+	<import resource="d1.xml" />
+	<import resource="d2.xml" />
+	<import resource="d3a.xml" />
+	<import resource="d3b.xml" />
+
+	<!-- pressure gauges -->
+	<import resource="pressureGauges.xml"/>
+	
+	<!-- ring -->
+	<import resource="ring.xml" />
+	
+
 </beans>

@@ -50,7 +50,6 @@
 	<import resource="commandQueueProcessor.xml"/>
 
 	<import resource="devices/_all.xml"/>
-	<import resource="scannable/_all.xml"/>
 	
 	<corba:export namespace="${gda.factory.factoryName}" />
 	
