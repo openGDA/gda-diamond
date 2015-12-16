@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+
 	<!-- slits -->
 	<import resource="s1.xml"/>
 	<import resource="s2.xml"/>
@@ -20,5 +21,7 @@
 	<!-- ring -->
 	<import resource="ring.xml" />
 	
-
+	<!-- abstract base beans -->	
+	<import resource="abstract_nxplugins.xml" />
+	
 </beans>

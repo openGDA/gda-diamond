@@ -24,5 +24,8 @@
 
 	<!-- pressure gauges -->
 	<import resource="pressureGauges.xml"/>
+	
+	<!-- objects that access an area detector simulator -->
+	<import resource="adSimulator.xml"/>
 
 </beans>
