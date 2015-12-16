@@ -135,6 +135,7 @@ if USE_CRYO_GEOMETRY:
 	sixckappa_cryo.setGroupMembers([cryophi, kap, kth, kmu, kdelta, kgam])
 	sixckappa_cryo.setName("sixckappa_cryo")
 	sixckappa_cryo.deferredControlPoint = sixckappa.getDeferredControlPoint()
+	sixckappa_cryo.deferOnValue = sixckappa.deferOnValue
 	sixckappa_cryo.configure()
 
 
@@ -356,6 +357,9 @@ if USE_CRYO_GEOMETRY:
 	euler.setName("euler")
 	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
 	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
+	euler.deferOnValue = sixckappa.deferOnValue
+	euler.numberAxesToMoveControlPoint = sixckappa.getNumberAxesToMoveControlPoint()
+	euler.didDeferedMoveStartControlPoint = sixckappa.getDidDeferedMoveStartControlPoint()
 	euler.configure()
 	phi = euler.phi
 	chi = euler.chi 
@@ -366,10 +370,6 @@ if USE_CRYO_GEOMETRY:
 	
 else:
 	run("startup_diffractometer_euler")
-
-if USE_CRYO_GEOMETRY:
-	chi.setOffset(-90)
-	chi.setUpperGdaLimits(8)
 
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
@@ -1099,6 +1099,10 @@ try:
 	from gdascripts.scannable.metadata import _is_scannable
 
 	if USE_NEXUS_METADATA_COMMANDS:
+		try:
+			meta_clear_alldynamical()
+		except:
+			pass
 		for item in toadd:
 			print "Adding metadata:", item.name
 			print item
@@ -1136,7 +1140,10 @@ except NameError, e:
 	print "!*"*40
 
 ###Default Scannables###
-for _x in [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]:
+default_scannable_list = [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]
+if USE_CRYO_GEOMETRY:
+	default_scannable_list.append(cryophi)
+for _x in default_scannable_list:
 	add_default(_x)
 
 
@@ -1396,14 +1403,16 @@ print "==========================="
 
 run("startup_pie725")
 
-if USE_NEXUS:
+if USE_NEXUS and not USE_DIFFCALC:
 	run("datawriting/i16_nexus")
+	pass
 else:
 	#clear extenders possible configured already
 	writerMap = Finder.getInstance().getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
 	ddwf = writerMap.get("DefaultDataWriterFactory")
 	for dwe in ddwf.getDataWriterExtenders():
 		ddwf.removeDataWriterExtender(dwe)
+	pass
 '''
 from mtscripts.scannable.ContinouslyRockingScannable import ContinuouslyRockingScannable
 kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)

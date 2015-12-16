@@ -10,6 +10,8 @@ import org.eclipse.dawnsci.analysis.dataset.impl.LinearAlgebra as LA
 from org.eclipse.dawnsci.analysis.dataset.impl import LongDataset
 import traceback
 
+USE_CRYO_GEOMETRY = False
+
 #Copied from Python documentation since Jython does have this yet (added to Python in 2.6)
 def cartesian_product(*args, **kwds):
     pools = map(tuple, args) * kwds.get('repeat', 1)
@@ -442,12 +444,19 @@ class I16NexusExtender(DataWriterExtenderBase):
             entry = nFile.getGroup("/entry1", False)
             metadataGroup = nFile.getGroup("/entry1/before_scan", False)
             self.writeTitle(nFile, entry, NEXUS_TITLE)
-            crystalInfo = self.parseCrystalInfo(nFile, metadataGroup)
+            if False and USE_DIFFCALC:
+                ubMat = hkl._diffcalc.ub._ubcalc.UB.tolist()
+                xtal = hkl._diffcalc.ub._ubcalc._state.crystal
+                latParams = [ xtal._a1, xtal._a2, xtal._a3, xtal._alpha1, xtal._alpha2, xtal._alpha3 ]
+                crystalInfo = (latParams, ubMat)
+            else:
+                crystalInfo = self.parseCrystalInfo(nFile, metadataGroup)
             sample = nFile.getGroup("/entry1/sample", False)
             self.writeCrystalInfo(nFile, sample, crystalInfo[0], crystalInfo[1])
             beam = nFile.getGroup("/entry1/sample/beam", False)
             self.writeIncidentWavelength(nFile, beam)
-            self.writeSample(nFile, sample, SAMPLE_NAME, "/entry1/sample/transformations/phi")
+            sampleDependsOn = "/entry1/sample/transformations/" + ("cryophi" if USE_CRYO_GEOMETRY else "phi")
+            self.writeSample(nFile, sample, SAMPLE_NAME, sampleDependsOn)
             instrument = nFile.getGroup("/entry1/instrument", False)
             self.writeDynamicDetectors(nFile, instrument, self.scanDataPoint.getDetectors(), "/entry1/instrument/transformations/offsetdelta")
             self.writeDefinition(nFile, entry, "NXmx")
