@@ -29,13 +29,13 @@ def setenvironment():
    except :
       oldpath = ""
    if ( "64bit" == platform.architecture()[0] ) :
-      newpath="/dls_sw/apps/sge/UGE8.1.7/bin/lx-amd64/:/bin:/usr/bin:%s" % oldpath
+      newpath="/dls_sw/apps/sge/UGE8.3.1/bin/lx-amd64/:/bin:/usr/bin:%s" % oldpath
    else:
-      newpath="/dls_sw/apps/sge/UGE8.1.7/bin/lx-amd64/:/bin:/usr/bin:%s" % oldpath
+      newpath="/dls_sw/apps/sge/UGE8.3.1/bin/lx-amd64/:/bin:/usr/bin:%s" % oldpath
    qenviron["SGE_CELL"]="DLS_SCIENCE"
-   qenviron["SGE_EXECD_PORT"]="60021"
-   qenviron["SGE_QMASTER_PORT"]="60020"
-   qenviron["SGE_ROOT"]="/dls_sw/apps/sge/UGE8.1.7"
+   qenviron["SGE_EXECD_PORT"]="60031"
+   qenviron["SGE_QMASTER_PORT"]="60030"
+   qenviron["SGE_ROOT"]="/dls_sw/apps/sge/UGE8.3.1"
    qenviron["PATH"]=newpath
    
 def printusage():

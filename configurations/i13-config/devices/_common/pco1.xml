@@ -61,6 +61,12 @@
 		<constructor-arg value=".03" />
 	</bean>
 	<bean id="flyScanFlatDarkCollectionStrategy" parent="pco1_singleExposurePco"/>
+	
+	<!-- <bean id="pco1_rec" class="gda.device.detector.addetector.triggering.PCORecorder">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value=".04" />
+	</bean> -->
 
 	<!-- Connect 
 	a.phase shifted TTL from function generator to Trigger Out (from camera).
@@ -254,6 +260,33 @@
 			</list>
 		</property>
 	</bean>	
+	
+	
+	<!-- <bean id="pco1_tif_rec" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_tif_rec"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_rec" />
+		<property name="additionalPluginList">
+			<list>
+ 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_ndfiletif" />
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="waitForFileArrival" value="true"/>
+				<property name="pathErrorSuppressed" value="true"></property>
+				
+			</bean>
+
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+				<constructor-arg ref="pco1_arr"/>
+			</bean>
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+				<constructor-arg ref="pco1_stat"/>
+			</bean>
+			
+			</list>
+		</property>
+	</bean>	 -->
 	
 <!-- 	<bean id="pco1_multi_hdf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_multi_hdf"/>

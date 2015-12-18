@@ -18,6 +18,7 @@ tomography_translation=hex_x
 #tomography_translation=ss1_X_dummy
 #tomography_translation=translate_x
 #tomography_translation=newport_3
+#tomography_translation=hex_x
 
 #tomography_theta is the motor used to rotate the sample
 #Possible values:
@@ -41,7 +42,7 @@ tomography_optimizer=beam_optimizer
 #pco1_hw_hdf_nochunking - uses tfg trigger, saves all images to 1 hdf file with chunking set to maximize write speed 
 #pco1_sw - for long exposures of the pcoEdge, set accumulationMode : pco1_sw.collectionStrategy.accumlationMode=True, pco1_sw.collectionStrategy.acc_expo_time=1
 tomography_detector=pco1_hw_hdf_nochunking
-#tomography_detector=pco1_hw_tif
+#tomography_detector=pco1_hw_tif 
 
 #tomography_normalisedImage_detector is the detector used to take normalised images
 #Possible values:
@@ -57,6 +58,7 @@ tomography_normalisedImage_detector=pco1_sw
 #expt_fastshutter - the fast shutter , or when the shutter is being controlled by the detector and pco1_hw_tif.collectionStrategy.useShutterPV=False
 #tomography_shutter=expt_fastshutter
 tomography_shutter=eh_shtr
+#tomography_shutter=eh_shtr_dummy
 
 #make sure pco1_tif.collectionStrategy.shutterDarkScannable is set to this 
 
