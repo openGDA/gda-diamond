@@ -173,14 +173,13 @@ findpeak=FindScanPeak
 findcentroid=FindScanCentroid 
 
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-for processor in scan_processor.processors:
-    scan_processor.processors.remove(processor)
-peakdata=ExtractPeakParameters()
-scan_processor.processors.append(peakdata)
-gdascripts.scan.concurrentScanWrapper.PRINTTIME = False
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 scan_processor.rootNamespaceDict=globals()
-#scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
+
+# peakdata is a custom scan processor for i09 removed temporary as it seems buggy.
+#peakdata=ExtractPeakParameters()
+#scan_processor.processors.append(peakdata)
+
+# Additional processors maybe added if required
 #scan_processor.processors.append(Lcen())
 #scan_processor.processors.append(Rcen())
 
@@ -205,6 +204,8 @@ print "Create an 'dummyenergy' scannable which can be used for test energy scan 
 dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
 print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
 jenergy=BeamEnergy("jenergy", gap='jgap',dcm="pgmenergy",undulatorperiod=60,lut="JIDCalibrationTable.txt")
+# James - This is a way to get access to the jidphase object in Jython 
+jidphase = finder.find('jidphase')
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -226,18 +227,23 @@ alias("analyserscan_v1")
 alias("analyserscancheck")
 print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
 #from pseudodevices.shutter import EpicsShutterClass, psi2,psj2  # @UnusedImport
-nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-HD-01:STAT:Total_RBV","","%d")
+nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-ES-03:STAT:Total_RBV","","%d")
 lakeshoreC0=DisplayEpicsPVClass("lakeshoreC0", "BL09L-VA-LAKE-01:KRDG0","K","%f")
 lakeshoreC1=DisplayEpicsPVClass("lakeshoreC1", "BL09L-VA-LAKE-01:KRDG1","K","%f")
 lakeshoreC2=DisplayEpicsPVClass("lakeshoreC2", "BL09L-VA-LAKE-01:KRDG2","K","%f")
 lakeshoreC3=DisplayEpicsPVClass("lakeshoreC3", "BL09L-VA-LAKE-01:KRDG3","K","%f")
 
+# Import and setup function to create mathmatical scannables
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
-print "Create a 'ratioi20toi19' scannable for the ratio of hm3iamp20 to bfmiamp19."
-from functions.ratioscannable import ratioi20toi19  # @UnusedImport
-print "Create a 'dri20toi19' scannable for the derivative of hm3iamp20 to bfmiamp19."
-from functions.derivativescannable import dri20toi19  # @UnusedImport
+
+# These scannables have been removed as I believe they are not used
+#print "Create a 'ratioi20toi19' scannable for the ratio of hm3iamp20 to bfmiamp19."
+#from functions.ratioscannable import ratioi20toi19  # @UnusedImport
+#print "Create a 'dri20toi19' scannable for the derivative of hm3iamp20 to bfmiamp19."
+#from functions.derivativescannable import dri20toi19  # @UnusedImport
+
+
 ##### new objects must be added above this line ###############
 def enablefeedbackdcmfroll():
     caput("BL09I-EA-FDBK-01:ENABLE",0)

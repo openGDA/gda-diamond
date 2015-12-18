@@ -33,5 +33,10 @@
 	<bean id="jidvelocity" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="SR09J-MO-SERVC-01:BLGSETVEL" />
 	</bean>
+	
+	<!-- Phase control for j ID -->
+	<bean id="jidphase" class="gda.device.insertiondevice.IDPhaseController">
+		<property name="basePVName" value="SR09J-MO-SERVC-01" />
+	</bean>
 
 </beans>
