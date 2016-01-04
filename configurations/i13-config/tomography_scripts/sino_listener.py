@@ -189,15 +189,19 @@ class SinoListener():
 		p.wait()
 		( out, err ) = p.communicate()
 		self.out.write ( "return value was %s\n" % p.returncode )
-		id=out.split()[2].strip()
-		#id=id.split('.')[0]
-		#print id
-		self.jobID.append(id.split('.')[0])
-		
 		if len(out)>0:
-			self.out.write ( out + "\n" )
-		if len( err ) > 0:
-			self.err.write ( err + "\n" )
+			self.out.write ("out = %s\n"%out)
+		if len(err)>0:
+			self.err.write ("err = %s\n"%err)
+		try:
+			id=out.split()[2].strip()
+			#id=id.split('.')[0]
+			#print id
+			self.jobID.append(id.split('.')[0])
+		except:
+			msg="Error extracting job id - this is likely to cause problems!"
+			self.err.write (msg+"\n")
+	
 
 	def monitorQueueJobs(self, nSec=5, totWait=60*45):
 		jobStateIdx=4
@@ -474,15 +478,15 @@ fi
 		else:
 			qenviron = os.environ
 		qenviron["SGE_CELL"]="DLS_SCIENCE"
-   		qenviron["SGE_EXECD_PORT"]="60021"
-   		qenviron["SGE_QMASTER_PORT"]="60020"
-   		qenviron["SGE_ROOT"]="/dls_sw/apps/sge/UGE8.1.7"
+   		qenviron["SGE_EXECD_PORT"]="60031"
+   		qenviron["SGE_QMASTER_PORT"]="60030"
+   		qenviron["SGE_ROOT"]="/dls_sw/apps/sge/UGE8.3.1"
 		oldpath = ""
 		try :
 			oldpath = qenviron["PATH"]
 		except :
 			oldpath = ""
-		qenviron["PATH"] = "/dls_sw/apps/sge/UGE8.1.7/bin/lx-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
+		qenviron["PATH"] = "/dls_sw/apps/sge/UGE8.3.1/bin/lx-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
 		print "qenviron[PATH] = " + qenviron["PATH"]
 		self.out.write ( "Spawning the sinogram job ...\n" )
 		args = ["qsub"]
@@ -562,15 +566,15 @@ fi
 		else:
 			qenviron = os.environ
 		qenviron["SGE_CELL"] = "DLS_SCIENCE"
-		qenviron["SGE_EXECD_PORT"] = "60021"
-		qenviron["SGE_QMASTER_PORT"] = "60020"
-		qenviron["SGE_ROOT"] = "/dls_sw/apps/sge/UGE8.1.7"
+		qenviron["SGE_EXECD_PORT"] = "60031"
+		qenviron["SGE_QMASTER_PORT"] = "60030"
+		qenviron["SGE_ROOT"] = "/dls_sw/apps/sge/UGE8.3.1"
 		oldpath = ""
 		try :
 			oldpath = qenviron["PATH"]
 		except :
 			oldpath = ""
-		qenviron["PATH"] = "/dls_sw/apps/sge/UGE8.1.7/bin/lx-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
+		qenviron["PATH"] = "/dls_sw/apps/sge/UGE8.3.1/bin/lx-" + self.getArch() + ":/bin:/usr/bin:" + oldpath
 
 		self.out.write ( "Spawning the sinogram finishing job ... " )
 		finishname = "f_%s" % self.jobname
