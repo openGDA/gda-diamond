@@ -6,12 +6,16 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
 
-	<context:property-placeholder
-		location="file:${gda.config}/properties/beamline.properties,
-		file:${gda.config}/logging/dummy/log.properties,
-		file:${gda.config}/epics/dummy/epics.properties,
-		file:${gda.config}/properties/dummy/java.properties,
-		file:${gda.config}/properties/gda.properties" />
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
 
 	<import resource="../main-common.xml" />
 
