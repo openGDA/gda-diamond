@@ -5,7 +5,6 @@
 
 	<bean id="sd3iamp12" class="gda.device.currentamplifier.DummyCurrentAmplifier">
 	</bean>
-	
 	<bean id="sd3y_motor" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />
 		<property name="mediumSpeed" value="200" />
@@ -21,5 +20,6 @@
 				<entry key="Gold Foil 2" value="-60.0000"/>
 			</map>
 		</property>
+		<property name="startPositionName" value="Direct"/>
 	</bean>
 </beans>
