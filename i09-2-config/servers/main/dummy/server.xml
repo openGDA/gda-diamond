@@ -23,10 +23,8 @@
 
 	<import resource="GDAMetadata.xml"/>
 	<import resource="ID.xml" />
-	<import resource="DCM.xml" />
 	<import resource="DummyMotors.xml" />
 	<import resource="BFM.xml" />
-	<import resource="ExperimentHutchShutter.xml"/>
 	<import resource="GBC1.xml" />
 	<import resource="GBC2.xml" />
 	<import resource="GBC3.xml" />
@@ -53,7 +51,6 @@
 	<import resource="SS3.xml" />
 	<import resource="SS4.xml" />
 	<import resource="SS7.xml" />
-	<import resource="ChannelCutCrystal.xml" />
 	<import resource="SMPM.xml" />
 
 	<import resource="../main_common.xml" />
