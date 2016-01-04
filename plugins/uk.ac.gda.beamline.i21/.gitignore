@@ -1,42 +1,3 @@
-### Temporary files ###                                                  
-*.bak                                                                    
-*.swp                                                                    
-*.tmp                                                                    
-*.*~                                                                     
-
-### Java ###
-*.class     
-hs_err_pid* 
-
-### Python / Jython ###
-__pycache__/           
-*.py[cod]              
-jythonCache/           
-cachedir/              
-
-### Build output ###
-.springBeans        
-/bin/               
-/classes/           
-/src/corba/         
-
-### JUnit testing ###
-/test-reports        
-/test-scratch        
-
-### Security files ###
-*ssh.key              
-password              
-passwords             
-
-### Various OS, etc. files ###
-*.lnk                         
-desktop.ini
-.nfs[:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:]*
-.svn/
-[hiv57657@ws165 uk.ac.gda.client]$ pwd
-/dls_sw/i21/software/gda_versions/gda_8.49a/workspace_git/gda-core.git/uk.ac.gda.client
-[hiv57657@ws165 uk.ac.gda.client]$  cat .gitignore
 ### Temporary files ###
 *.bak
 *.swp
@@ -46,6 +7,7 @@ desktop.ini
 ### Java ###
 *.class
 hs_err_pid*
+derby.log
 
 ### Python / Jython ###
 __pycache__/
@@ -70,6 +32,10 @@ passwords
 
 ### Various OS, etc. files ###
 *.lnk
-desktop.ini
+.DS_Store
+[Dd]esktop.ini
 .nfs[:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:][:xdigit:]*
 .svn/
+Thumbs.db
+$RECYCLE.BIN/
+.Trash-*

@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i21
