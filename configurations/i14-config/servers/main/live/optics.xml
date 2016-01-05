@@ -61,4 +61,36 @@
 		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
 	</bean>
 
+	<!-- M1 (mirror): -->
+	<bean id="m1_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-01:X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-01:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- M2 (mirror): -->
+	<bean id="m2_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-02:X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="m2_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-02:Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="m2_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-02:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="m2_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-02:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+
 </beans>
