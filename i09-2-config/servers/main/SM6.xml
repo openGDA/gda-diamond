@@ -22,7 +22,6 @@
 		<property name="motor" ref="sm6yaw_motor" />
 	</bean>
 
-
 	<bean id="sm6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

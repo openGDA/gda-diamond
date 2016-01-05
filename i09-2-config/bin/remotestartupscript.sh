@@ -1,20 +1,5 @@
 #!/bin/bash
-# This file used by remove server to start GDA servers and forward all messages to gda_output.txt. It must source the beamline profile.
+# This script is only invoked when user gda2 ssh's to the control machine. It is run by an entry in gda's ~/.ssh/authorized_keys
+/dls_sw/i09-2/software/gda/config/etc/live/remotestartupscript.sh
 
-
-umask 002
-
-export BEAMLINE=i09-2
-
-
-. /dls_sw/$BEAMLINE/etc/${BEAMLINE}_profile.sh
-
-# when remote server restart on a different date, a new gda_out file is logged, 
-# i.e. GDA session logs (for the same date restart a single log file is used)
-export LOGFILE=/dls_sw/$BEAMLINE/logs/gda_output_`date +%F-%T`.txt
-echo Running /dls_sw/$BEAMLINE/software/gda/config/bin/GDA_StartServers to output to $LOGFILE
-touch $LOGFILE
-rm /dls_sw/$BEAMLINE/logs/gda_output.txt
-ln -s $LOGFILE /dls_sw/$BEAMLINE/logs/gda_output.txt
-
-/dls_sw/$BEAMLINE/software/gda/config/bin/GDA_StartServers >> /dls_sw/$BEAMLINE/logs/gda_output.txt 2>&1 &
+# the /localhome/gda2/.ssh/authorized_keys on i09-2-control file needs updating in cf_engine to call the above script directly and then delete this script

@@ -37,6 +37,7 @@
 				<entry key="1200 lines/mm" value="30.0000"/>
 			</map>
 		</property>
+		<property name="startPositionName" value="300 lines/mm"/>
 	</bean>
 	<bean id="pgmmirrorselect" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
@@ -46,6 +47,7 @@
 				<entry key="Myrrh" value="30.0000"/>
 			</map>
 		</property>
+		<property name="startPositionName" value="Gold"/>
 	</bean>
 
 	<bean id="pgmtemp1" class="gda.device.monitor.DummyMonitor">

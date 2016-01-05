@@ -19,6 +19,7 @@
 				<entry key="Flu Screen" value="22.0000"/>
 			</map>
 		</property>
+		<property name="startPositionName" value="Direct"/>
 	</bean>
 
 </beans>
