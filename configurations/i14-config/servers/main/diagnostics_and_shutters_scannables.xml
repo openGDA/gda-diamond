@@ -5,9 +5,27 @@
 
 	<!--The scannables associated to optics are listed in the same order as in EPICs synoptics -->
 
+	<!-- D1 -->
 	<bean id="d1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="d1_x_motor" />
+	</bean>
+
+	<!-- D3 -->
+	<bean id="d3_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="d3_x_motor" />
+	</bean>
+
+	<!-- D4 -->
+	<bean id="d4_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="d4_x_motor" />
+	</bean>
+
+	<bean id="d4_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="d4_y_motor" />
 	</bean>
 
 </beans>
