@@ -3,8 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list value-type="java.lang.String">
 				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
@@ -47,13 +46,13 @@
 	</bean>
 
 	<bean id="RCPController" class="gda.gui.RCPControllerImpl" />
-	
+
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/rcpController" />
 		<property name="service" ref="RCPController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
 	</bean>
-	
+
 	<bean id="plot_server"
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 
@@ -62,10 +61,10 @@
 
 	<bean id="ExafsController" class="gda.jython.scriptcontroller.ScriptControllerBase">
 	</bean>
-	
+
 	<bean id="MicroFocusController" class="gda.jython.scriptcontroller.ScriptControllerBase">
 	</bean>
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
-	
+
 </beans>

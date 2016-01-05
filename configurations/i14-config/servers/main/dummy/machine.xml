@@ -4,8 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-           
-           
+
 <!--machine and front end -->
 
 	<!-- <bean id="absorber" class="gda.device.monitor.DummyEpicsMonitor">
@@ -15,4 +14,5 @@
 	<bean id="topup" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="300" />
 	</bean> -->
+
 </beans>

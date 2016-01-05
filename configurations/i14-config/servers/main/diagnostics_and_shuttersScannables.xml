@@ -2,12 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-           
-<!--The scannables associated to optics are listed in the same order as in EPICs synoptics  -->
 
-	 <bean id="d1_x" class="gda.device.scannable.ScannableMotor">
+	<!--The scannables associated to optics are listed in the same order as in EPICs synoptics -->
+
+	<bean id="d1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="d1_x_motor" />
-	</bean>	
+	</bean>
+
 </beans>
 
