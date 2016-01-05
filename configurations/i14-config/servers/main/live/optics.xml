@@ -6,6 +6,61 @@
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 <!--The motors associated to optics are listed in the same order as in EPICs synoptics  -->
-
 	
+	<!--  S1 (white beam slits) coordinate system motors: -->
+	 <bean id="s1_xcenter_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-01:X:CENTER" />
+		<property name="local" value="true" />
+	</bean>
+	 <bean id="s1_xsize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-01:X:SIZE" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s1_ycenter_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-01:Y:CENTER" />
+		<property name="local" value="true" />	
+	</bean>
+	<bean id="s1_ysize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-01:Y:SIZE" />
+		<property name="local" value="true" />	
+	</bean>
+	
+	<!-- S1 (white beam slits) real motors: -->
+	<bean id="s1_xup_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-01:XUP" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s1_yup_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-01:YUP" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s1_xdown_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-01:XDOWN" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="s1_ydown_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-01:YDOWN" />
+		<property name="local" value="true" />
+	</bean>	
+	
+	<!-- A1 (attenuator, sometimes called F1): -->
+	<bean id="attn1_stick1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-MO-ATTN-01:STICK1" />
+		<property name="local" value="true" />
+	</bean>	
+	<bean id="attn1_stick2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-MO-ATTN-01:STICK2" />
+		<property name="local" value="true" />
+	</bean>	
+	<bean id="attn1_stick1_position" class="gda.device.enumpositioner.EpicsPositioner">
+         <property name="recordName" value="BL14I-MO-ATTN-01:MP1" />
+         <property name="acceptNewMoveToPositionWhileMoving" value="true" /> 
+    </bean>
+    <bean id="attn1_stick2_position" class="gda.device.enumpositioner.EpicsPositioner">
+         <property name="recordName" value="BL14I-MO-ATTN-01:MP2" />
+         <property name="acceptNewMoveToPositionWhileMoving" value="true" /> 
+    </bean>
+	
+	
+		
 </beans>
