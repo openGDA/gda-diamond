@@ -21,9 +21,9 @@ package uk.ac.gda.beamline.i05.scannable;
 import java.util.Arrays;
 import java.util.List;
 
-import uk.ac.gda.arpes.scannable.CombinedCaculator;
+import uk.ac.gda.api.virtualaxis.IVirtualAxisCombinedCalculator;
 
-public class salongCalculator extends saperpCalculator implements CombinedCaculator {
+public class salongCalculator extends saperpCalculator implements IVirtualAxisCombinedCalculator {
 
 	@Override
 	public Double getRBV(List<Double> values) {

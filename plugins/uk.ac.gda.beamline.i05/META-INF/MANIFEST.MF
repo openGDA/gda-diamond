@@ -38,8 +38,7 @@ Import-Package: org.eclipse.core.filesystem,
  org.springframework.beans.factory.xml;version="3.0.4",
  org.springframework.context;version="3.0.4",
  org.springframework.core;version="3.0.4",
- org.springframework.util;version="3.0.4",
- uk.ac.gda.arpes.scannable
+ org.springframework.util;version="3.0.4"
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework, 
  uk.ac.gda.api,
  uk.ac.gda.core
