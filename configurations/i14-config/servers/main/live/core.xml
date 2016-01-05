@@ -3,8 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list value-type="java.lang.String">
 				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
@@ -16,7 +15,6 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<bean id="command_server" class="gda.jython.JythonServer">
-
 		<property name="jythonScriptPaths">
 			<bean class="gda.jython.ScriptPaths">
 				<property name="projects">
