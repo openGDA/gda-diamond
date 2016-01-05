@@ -7,6 +7,12 @@
 
 	<!--The motors associated to optics are listed in the same order as in EPICs synoptics -->
 
+	<!-- ID gap -->
+	<bean id="id_gap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR14I-MO-SERVC-01:BLGAPMTR" />
+		<property name="local" value="true" />
+	</bean>
+
 	<!-- S1 (white beam slits) coordinate system motors: -->
 	<bean id="s1_x_centre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:X:CENTER" />
@@ -90,6 +96,24 @@
 	</bean>
 	<bean id="m2_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-02:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- DCM (monochromator): -->
+	<bean id="dcm_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-DCM-01:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-DCM-01:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-DCM-01:GAP" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-DCM-01:BRAGG" />
 		<property name="local" value="true" />
 	</bean>
 

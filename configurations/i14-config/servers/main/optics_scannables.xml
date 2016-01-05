@@ -5,6 +5,12 @@
 
 	<!--The scannables associated to optics are listed in the same order as in EPICs synoptics -->
 
+	<!-- ID gap -->
+	<bean id="id_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="id_gap_motor" />
+	</bean>
+
 	<!-- S1 (white beam slits) coordinate system motors: -->
 	<bean id="s1_x_centre" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
@@ -82,6 +88,20 @@
 	<bean id="m2_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m2_roll_motor" />
+	</bean>
+
+	<!-- DCM (monochromator): -->
+	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_pitch_motor" />
+	</bean>
+	<bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_roll_motor" />
+	</bean>
+	<bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_perp_motor" />
+	</bean>
+	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_bragg_motor" />
 	</bean>
 
 </beans>
