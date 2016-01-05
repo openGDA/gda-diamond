@@ -5,39 +5,39 @@
            
 <!--The scannables associated to optics are listed in the same order as in EPICs synoptics  -->
 <!--  S1 (white beam slits) coordinate system motors: -->
-	 <bean id="s1_xcenter" class="gda.device.scannable.ScannableMotor">
+	 <bean id="s1_x_centre" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s1_xcenter_motor" />
+		<property name="motor" ref="s1_x_centre_motor" />
 	</bean>
-	<bean id="s1_xsize" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_x_size" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s1_xsize_motor" />	
+		<property name="motor" ref="s1_x_size_motor" />	
 	</bean>
-	<bean id="s1_ycenter" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_y_centre" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s1_ycenter_motor" />	
+		<property name="motor" ref="s1_y_centre_motor" />	
 	</bean>
-	<bean id="s1_ysize" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_y_size" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s1_ysize_motor" />	
+		<property name="motor" ref="s1_y_size_motor" />	
 	</bean>
 	
 	<!-- S1 (white beam slits) real motors: -->
-	<bean id="s1_xup" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_x_up" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s1_xup_motor" />	
+		<property name="motor" ref="s1_x_up_motor" />	
 	</bean>
-	<bean id="s1_yup" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_y_up" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s1_yup_motor" />	
+		<property name="motor" ref="s1_y_up_motor" />	
 	</bean>
-	<bean id="s1_xdown" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_x_down" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s1_xdown_motor" />	
+		<property name="motor" ref="s1_x_down_motor" />	
 	</bean>
-	<bean id="s1_ydown" class="gda.device.scannable.ScannableMotor">
+	<bean id="s1_y_down" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="s1_ydown_motor" />	
+		<property name="motor" ref="s1_y_down_motor" />	
 	</bean>
 		
 	
