@@ -21,7 +21,7 @@
          </property>
          <property
                name="aboutText"
-               value="GDA for DLS SISA I09.&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
+               value="GDA for DLS SISA I09-2.&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
          </property>
          <property
                name="startupForegroundColor"
