@@ -136,7 +136,6 @@
 						</property>
 					</bean>
 				</entry>
-				<!--
 				<entry key="cryophi">
 					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
 						<property name="paths"
@@ -151,7 +150,6 @@
 						</property>
 					</bean>
 				</entry>
-				-->
 				<entry key="x">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"

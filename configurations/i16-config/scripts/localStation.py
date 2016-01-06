@@ -9,6 +9,7 @@ LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
 import installation
 
+USE_NEXUS = True
 if installation.isDummy():
 	USE_DIFFCALC = True 
 	USE_CRYO_GEOMETRY = True
@@ -141,7 +142,6 @@ if USE_CRYO_GEOMETRY:
 
 alias("jobs")
 
-USE_NEXUS = True
 if USE_NEXUS:
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 else:

@@ -9,8 +9,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory as DF
 import org.eclipse.dawnsci.analysis.dataset.impl.LinearAlgebra as LA
 from org.eclipse.dawnsci.analysis.dataset.impl import LongDataset
 import traceback
-
-USE_CRYO_GEOMETRY = False
+import math
 
 #Copied from Python documentation since Jython does have this yet (added to Python in 2.6)
 def cartesian_product(*args, **kwds):
@@ -36,7 +35,15 @@ def title(title = None):
         NEXUS_TITLE = title
     return NEXUS_TITLE
 
+def set_diffcalc_instance(diffcalc):
+    global DIFFCALC
+    DIFFCALC = diffcalc
 
+def use_cryo(cryo):
+    global USE_CRYO_GEOMETRY
+    USE_CRYO_GEOMETRY = cryo
+
+RAD_TO_DEG = 180 / math.pi
 EVOLT_TO_JOULE = 1.60217657e-19
 PLANCK = 6.62606957e-34
 LIGHTSPEED = 299792458.
@@ -444,15 +451,23 @@ class I16NexusExtender(DataWriterExtenderBase):
             entry = nFile.getGroup("/entry1", False)
             metadataGroup = nFile.getGroup("/entry1/before_scan", False)
             self.writeTitle(nFile, entry, NEXUS_TITLE)
-            if False and USE_DIFFCALC:
-                ubMat = hkl._diffcalc.ub._ubcalc.UB.tolist()
-                xtal = hkl._diffcalc.ub._ubcalc._state.crystal
-                latParams = [ xtal._a1, xtal._a2, xtal._a3, xtal._alpha1, xtal._alpha2, xtal._alpha3 ]
-                crystalInfo = (latParams, ubMat)
+            if DIFFCALC is not None:
+                if DIFFCALC.ub._ubcalc._state.name is None:
+                    print "** Require UB calculation to write sample information. **"
+                    print "** Nexus file will not contain sample information. **"
+                    crystalInfo = None
+                else:
+                    ubMat = DIFFCALC.ub._ubcalc.UB.tolist()
+                    xtal = DIFFCALC.ub._ubcalc._state.crystal
+                    #diffcalc gives lattice parameters in radians
+                    latParams = [ xtal._a1, xtal._a2, xtal._a3,
+                            xtal._alpha1 * RAD_TO_DEG, xtal._alpha2 * RAD_TO_DEG, xtal._alpha3 * RAD_TO_DEG ]
+                    crystalInfo = (latParams, ubMat)
             else:
                 crystalInfo = self.parseCrystalInfo(nFile, metadataGroup)
             sample = nFile.getGroup("/entry1/sample", False)
-            self.writeCrystalInfo(nFile, sample, crystalInfo[0], crystalInfo[1])
+            if crystalInfo is not None:
+                self.writeCrystalInfo(nFile, sample, crystalInfo[0], crystalInfo[1])
             beam = nFile.getGroup("/entry1/sample/beam", False)
             self.writeIncidentWavelength(nFile, beam)
             sampleDependsOn = "/entry1/sample/transformations/" + ("cryophi" if USE_CRYO_GEOMETRY else "phi")
