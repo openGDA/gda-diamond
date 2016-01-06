@@ -18,32 +18,60 @@
 
 
 	<!-- Area detector camera -->
-	<bean id="d2camAD" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL21I-DI-DCAM-02:CAM:" />
-		<property name="initialDataType" value="UInt8" />
+	<bean id="d2CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL21I-DI-DCAM-02:CAM:" />
 	</bean>
 
-	<bean id="d2camArray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL21I-DI-DCAM-02:ARR:" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL21I-DI-DCAM-02:ARR:" />
+	<bean id="d2CollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="d2CamBase" />
+		<constructor-arg value="-1" />
+	</bean>
+	
+	<bean id="d2RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-02:ROI1:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-02:STAT1:" />
+		<property name="roiInputNdArrayPort" value="D2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi">
+					<bean class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
+						<constructor-arg value="0" />
+						<constructor-arg value="0" />
+						<constructor-arg value="1280" />
+						<constructor-arg value="960" />
+						<constructor-arg value="roi1" />
+					</bean>
+				</property>
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="d2cam" class="gda.device.detector.addetector.ADCameraDetector">
-		<property name="basePVName" value="BL21I-DI-DCAM-02:" />
-		<property name="areaDetector" ref="d2camAD" />
-		<property name="array" ref="d2camArray" />
-		<property name="local" value="true" />
+	<bean id="d2Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="d2"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL21I-DI-DCAM-02:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
-
-	<!-- Camera stats total intensity -->
-	<bean id="d2camStatTotal" class="gda.device.scannable.SimplePVScannable">
-		<property name="pvName" value="BL21I-DI-DCAM-02:STAT:Total_RBV" />
-		<property name="local" value="true" />
+ 	<bean id="d2cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d2cam" />
+		<property name="collectionStrategy" ref="d2CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d2RoiStats" />
+				<ref bean="d2Hdf5Filewriter" />
+			</list>
+		</property>
 	</bean>
 
 </beans>

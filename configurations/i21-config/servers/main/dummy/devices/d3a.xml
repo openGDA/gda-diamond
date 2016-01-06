@@ -28,14 +28,25 @@
 
 
 	<!-- Area detector camera -->
- 	<bean id="d3acam" class="gda.device.scannable.DummyScannable" />
+	<!-- To use this, you will have to start an area detector simulator -->
+	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
+ 	<bean id="d3acam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d3acam" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="simRoiStats" />
+				<ref bean="simHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
 
-
-	<!-- Camera stats total intensity -->
-	<bean id="d3acamStatTotal" class="gda.device.scannable.DummyScannable">
-		<property name="lowerGdaLimits" value="0" />
-		<property name="upperGdaLimits" value="2000" />
-		<property name="increment" value="153.234" />
+	<!-- Femto -->
+	<bean id="d3afemto" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.235</value>
+		</property>
 	</bean>
 
 </beans>

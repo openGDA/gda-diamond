@@ -4,18 +4,19 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
+	<!-- Diagnostic stick -->
 	<bean id="d2stick" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d2motor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
+	<!-- Group d2-related objects -->	
  	<bean id="d2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d2pos" />
 				<ref bean="d2stick" />
 				<ref bean="d2cam" />
-				<ref bean="d2camStatTotal" />
 			</list>
 		</property>
 		<property name="local" value="true" />
