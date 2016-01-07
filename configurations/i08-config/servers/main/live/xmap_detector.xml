@@ -3,88 +3,51 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-	<!-- XIA Fluorescence Detector -->
-
-	<!-- <bean id="raw_xmap_hdf5filewriter"
-		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
-		<property name="file">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
-				<property name="initialAutoIncrement" value="0" />
-				<property name="initialAutoSave" value="0" />
-				<property name="initialWriteMode" value="0" />
-				<property name="initialNumCapture" value="1" />
-				<property name="initialFileName" value="helloworld" />
-				<property name="initialFileTemplate" value="%s%s-%d.h5" />
-				<property name="pluginBase">
-					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL08I-EA-DET-02:HDF:" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	
-	 -->
-<!-- HDF5 file writers -->
-
- <!-- <bean id="xmap_UnixToWindowsFilePathConverter" class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-		<property name="unixSubString" value="/dls/i08" />
-		<property name="windowsSubString" value="X:" />
-		<property name="backSlash" value="false" /> 
-	</bean>
- -->
 	 <bean id="xmap_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL08I-EA-DET-02:HDF:" />
-		<property name="resetToInitialValues" value="false" />
-		
-		<!-- <property name="filePathConverter" ref="xmap_UnixToWindowsFilePathConverter" />  -->
 	</bean>
 
 	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" />
-	</bean>	
-	
+	</bean>
+
 	<!-- NXDetector file writers -->
 
 	<bean id="xmap_hdf5filewriter_for_scans"
 		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="xmap_ndfilehdf5" />
 		<property name="fileNameTemplate" value="xmap" />
-		<!-- <property name="filePathTemplate" value="X:/data/2014/cm4958-4" /> -->
 		<property name="filePathTemplate" value="$datadir$/" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
 		<property name="fileNumberAtScanStart" value="-1" />
-		<property name="setFileNameAndNumber" value="true" /> 
+		<property name="setFileNameAndNumber" value="true" />
 		<property name="storeAttr" value="true" />
-		<property name="ndArrayPortVal" value="DET2.xbuf" />
+		<property name="ndArrayPortVal" value="DET2.roi.roi9" />
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks 
 			is 64 -->
-		<property name="FramesChunks" value="1" />	
-		<property name="setChunking" value="false" />	
+		<property name="FramesChunks" value="1" />
+		<property name="setChunking" value="false" />
 		<property name="writeErrorStatusSupported" value="true" />
 	</bean>
-	
-	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.XmapMappingModeEpicsLayer">
-		<constructor-arg index="0" value="BL08I-EA-DET-02:" />
+
+	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.XmapMappingModeEpicsLayerImpl">
+		<constructor-arg value="BL08I-EA-DET-02:" />
 		<property name="PixelsPerBuffer" value="10" />
-	</bean>  
-	
-	<bean id="edxdcontroller" class="gda.device.detector.nxdetector.xmap.controller.XmapAcquisitionBaseEpicsLayer">
-		<constructor-arg index="0" value="BL08I-EA-DET-02:" />
-		<constructor-arg index="1" ref="xmapMapping" />		
 	</bean>
-	
+
+	<bean id="edxdcontroller" class="gda.device.detector.nxdetector.xmap.controller.XmapAcquisitionBaseEpicsLayerImpl">
+		<constructor-arg index="0" value="BL08I-EA-DET-02:" />
+		<constructor-arg index="1" ref="xmapMapping" />
+	</bean>
+
 	<!-- <bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="epicsDeviceName" value="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="local" value="true" />
 		<property name="numberOfElements" value="1" />
 	</bean>  -->
- 	
+
 	<!-- <bean id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm"
 		class="gda.device.detector.xmap.XmapHardwareTriggeredCollectionStrategy">
 		<constructor-arg ref="edxdcontroller" />
@@ -105,11 +68,11 @@
 	 <bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPVs">
 		<constructor-arg index="0" value="BL08I-EA-DET-02:XBUF:" />
 	</bean>
-	
+
 	<bean id="xbuffer" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPlugin">
 		<constructor-arg ref= "xbufferpv"/>
 	</bean>
-	
+
 <!-- Define ROIs -->
 	<bean id="xmaproistats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="xmaproistats1" />
@@ -120,7 +83,7 @@
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
 	</bean>
-	
+
 	<bean id="xmaproistats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="xmaproistats2" />
 		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI2:" />
@@ -128,9 +91,8 @@
 		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
 	</bean>
-				
+
 	<bean id="xmaproistats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="xmaproistats3" />
 		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI3:" />
@@ -138,9 +100,8 @@
 		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
 	</bean>
-				
+	
 	<bean id="xmaproistats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="xmaproistats4" />
 		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI4:" />
@@ -148,7 +109,6 @@
 		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
 	</bean>
 
 	<bean id="xmaproistats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -158,7 +118,6 @@
 		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
 	</bean>
 
 	<bean id="xmaproistats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -178,7 +137,6 @@
 		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
 	</bean>
 
 	<bean id="xmaproistats8" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -188,7 +146,6 @@
 		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
 	</bean>
 
 	<!-- underscore as it should be wrapped in the scanwrapper -->
@@ -199,7 +156,7 @@
 			ref="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="xmap_hdf5filewriter_for_scans" /> 
+				<ref bean="xmap_hdf5filewriter_for_scans" />
 				<ref bean="xbuffer" />
 				<ref bean="xmaproistats1" />
 				<ref bean="xmaproistats2" />
