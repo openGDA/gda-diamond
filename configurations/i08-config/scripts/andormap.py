@@ -6,6 +6,7 @@ import time
 import math
 from plotters import Plotter
 from gda.jython.commands.ScannableCommands import add_default
+from gda.device.detector.addetector.triggering.HardwareTriggeredAndor import AndorTriggerMode
 
 class AndorMap(RasterScan):
 
@@ -34,11 +35,10 @@ class AndorMap(RasterScan):
         elif len(args) == 2:
             self.Xsize  = int(args[0])
             self.Ysize = int(args[1])
-
         self.PrepareForCollection(self.Xsize, self.Ysize)
         self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1]
         RasterScan.__call__(self,self.scanargs)
-     
+
     def _createScan(self, args):
         myscan = ConstantVelocityRasterScan(self.scanargs)
         return myscan
@@ -85,6 +85,8 @@ class AndorMap(RasterScan):
     def resetPlotters(self, Xsize, Ysize):
         for plotter in self.plotterList:
             plotter.setAxis(Xsize,Ysize)
+            #refresh the plot every 1.2 s to avoid accumulation of points in the queue
+            plotter.getPlotter().setRate(1200)
 
 # then create the scan wrapper for map scans
 #_andorrastor = Finder.getInstance().find("_andorrastor")
