@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s5cenX_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-05:X:CENTER" />
+	</bean>
+
+	<bean id="s5cenY_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-05:Y:CENTER" />
+	</bean>
+
+	<bean id="s5gapX_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-05:X:SIZE" />
+	</bean>
+
+	<bean id="s5gapY_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-05:Y:SIZE" />
+	</bean>
+</beans>
