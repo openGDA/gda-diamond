@@ -42,7 +42,7 @@
 	</bean>
 
 	<bean id="sequenceviewfactory"
-		class="org.opengda.detector.electronanalyser.client.viewfactories.SequenceViewFactory">
+		class="org.opengda.detector.electronanalyser.client.viewfactories.SimpleSequenceViewFactory">
 		<property name="viewPartName" value="Sequence Editor" />
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="camera" ref="analysercamera"/>

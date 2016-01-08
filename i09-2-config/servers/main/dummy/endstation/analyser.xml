@@ -143,6 +143,8 @@
 		<property name="basePVName" value="TEST-SPECS-01:" />
 	</bean>
 	
+	<bean id="SequenceFileObserver" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
+		
 <!-- 	<bean id="analyserCapability" class="org.opengda.detector.electronanalyser.server.AnalyserCapabilities" /> -->
 	
 	<bean id="analyser.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
