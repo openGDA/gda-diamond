@@ -61,7 +61,7 @@
 		</property>
 	</bean>
 
-	<import resource="commandQueueProcessor.xml" />
+<!-- 	<import resource="commandQueueProcessor.xml" /> -->
 	<import resource="CommandServer.xml" />
 
 	<bean id="highestExistingFileMonitor"

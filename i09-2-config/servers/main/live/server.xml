@@ -50,6 +50,8 @@
 	<import resource="SS7.xml" />
 <!-- 	<import resource="FastShutter.xml" /> -->	
 	<import resource="topup.xml" />
+	
+	<import resource="endstation/endstation.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>
