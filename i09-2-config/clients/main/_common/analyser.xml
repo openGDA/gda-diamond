@@ -57,6 +57,13 @@
 <!-- 		<property name="regionValidator" ref="regionvalidator"/> -->
 	</bean>
 	
+	<bean id="regionviewfactory" class="org.opengda.detector.electronanalyser.client.viewfactories.SimpleRegionViewFactory">
+		<property name="viewPartName" value="Region Editor" />
+		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
+		<property name="camera" ref="analysercamera"/>
+		<property name="analyser" ref="analyser"/>
+	</bean>
+	
 	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
 		<property name="fileName" value="user.seq" />
 		<property name="sourceSelectable" value="false"/>
