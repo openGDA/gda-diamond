@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="smvert" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+	<bean id="smvert" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
 				<ref bean="smx" />
@@ -17,7 +17,7 @@
 		</property>
 	</bean>
 	
-	<bean id="smhor" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+	<bean id="smhor" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
 				<ref bean="smx" />
@@ -30,7 +30,7 @@
 		</property>
 	</bean>
 
-	<bean id="smlong" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+	<bean id="smlong" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
 				<ref bean="smz" />
@@ -43,7 +43,7 @@
 		</property>
 	</bean>
 	
-	<bean id="smperp" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+	<bean id="smperp" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
 				<ref bean="smz" />

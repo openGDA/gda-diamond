@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="salong" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+	<bean id="salong" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
 				<ref bean="sax" />
@@ -16,7 +16,7 @@
 		</property>
 	</bean>
 
-	<bean id="saperp" class="uk.ac.gda.arpes.scannable.CombinedManipulator">
+	<bean id="saperp" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
 				<ref bean="sax" />
