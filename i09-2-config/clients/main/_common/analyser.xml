@@ -3,11 +3,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<description>Import the analyser using RMI</description>
+		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
+		<property name="serviceInterface" value="org.opengda.detector.electronanalyser.server.IVGScientaAnalyser" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 	<bean id="imageviewfactory" class="org.opengda.detector.electronanalyser.client.viewfactories.ImageViewFactory">
 		<property name="viewPartName" value="Image" />
 		<property name="analyser" ref="analyser" />
 		<property name="arrayPV" value="TEST-SPECS-01:IMAGE"/>
-		<property name="updatePV" value="TEST-SPECS-01:CURRENT_POINT_RBV" />
 	</bean>
 
 	<bean id="spectrumviewfactory" class="org.opengda.detector.electronanalyser.client.viewfactories.SpectrumViewFactory">
@@ -41,18 +47,17 @@
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
 		<property name="camera" ref="analysercamera"/>
 		<property name="location" value="Diamond I09"/>
-		<property name="user" value="si8449-1"/>
-		<property name="user" value="${gda.defVisit}"/>
+<!-- 		<property name="user" value="si8449-1"/> -->
+<!-- 		<property name="user" value="${gda.defVisit}"/> -->
 		<property name="analyser" ref="analyser"/>
 		<property name="analyserStatePV" value="ELECTRON-ANALYSER-01:TEST:DetectorState_RBV"/>
 		<property name="analyserTotalTimeRemainingPV" value="ELECTRON-ANALYSER-01:TEST:TOTAL_TIME_LEFT_RBV"/>
-		<property name="hardShutterPV" value="BL09I-EA-FSHTR-01:CTRL"/>
-		<property name="softShutterPV" value="BL09J-EA-FSHTR-01:CTRL"/>
-		<property name="regionValidator" ref="regionvalidator"/>
+<!-- 		<property name="hardShutterPV" value="BL09I-EA-FSHTR-01:CTRL"/> -->
+<!-- 		<property name="softShutterPV" value="BL09J-EA-FSHTR-01:CTRL"/> -->
+<!-- 		<property name="regionValidator" ref="regionvalidator"/> -->
 	</bean>
 	
 	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
-		<property name="fileName" value="D:/scratch/i09/data/Test123/My.seq" />
 		<property name="fileName" value="user.seq" />
 		<property name="sourceSelectable" value="false"/>
 		<property name="XRaySourceEnergyLimit" value="2100"/>
