@@ -18,6 +18,5 @@
         <cs:dependency name="uk.ac.gda.common" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls.client" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.diamond.daq.devices.specs.phoibos" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
