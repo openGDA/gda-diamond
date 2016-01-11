@@ -90,6 +90,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private ExpandableComposite refWheelExpander;
 	private Group sampleDetails;
 	private GridData sampleDetailsGridData;
+	ExpandableComposite sampleEnvExpander;
 
 	public I20SampleParametersUIEditor(String path, URL mappingURL, DirtyContainer dirtyContainer, Object bean) {
 		super(path, mappingURL, dirtyContainer, bean);
@@ -115,6 +116,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
+		createSampleCombo(composite);
 		createSampleDetailsGroup(composite);
 		createSampleEnvironmentGroup(composite);
 		if (!ScanObjectManager.isXESOnlyMode())
@@ -211,18 +213,16 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		}
 	}
 
-	private void createSampleEnvironmentGroup(final Composite composite) {
-		final ExpandableComposite sampleEnvExpander = new ExpandableComposite(composite, ExpandableComposite.TWISTIE
-				| ExpandableComposite.COMPACT | SWT.BORDER);
+	private void createSampleCombo(final Composite composite) {
+		Group sampleEnvSelectionGroup = new Group(composite, SWT.NONE);
+		sampleEnvSelectionGroup.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		sampleEnvSelectionGroup.setText("Sample Environment Type");
 
-		sampleEnvExpander.setText("Sample Environment");
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 2;
+		sampleEnvSelectionGroup.setLayout(gridLayout);
 
-		final Composite sampleEnvGroup = new Composite(sampleEnvExpander, SWT.NONE);
-		GridData gd_tempControl = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		sampleEnvGroup.setLayoutData(gd_tempControl);
-		GridLayoutFactory.fillDefaults().applyTo(sampleEnvGroup);
-
-		cmbSampleEnv = new ComboWrapper(sampleEnvGroup, SWT.READ_ONLY);
+		cmbSampleEnv = new ComboWrapper(sampleEnvSelectionGroup, SWT.READ_ONLY);
 		cmbSampleEnv.select(0);
 
 		if (ScanObjectManager.isXESOnlyMode())
@@ -230,8 +230,23 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		else
 			cmbSampleEnv.setItems(I20SampleParameters.SAMPLE_ENV);
 
-		final GridData gd_tempType = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		cmbSampleEnv.setLayoutData(gd_tempType);
+		cmbSampleEnv.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+	}
+
+	/**
+	 * Create combo box to control sample environment to use (refactored from createSampleEnvironmentGroup)
+	 * @author Iain Hall
+	 * @since 6/1/2016
+	 */
+	private void createSampleEnvironmentGroup(final Composite composite) {
+
+		sampleEnvExpander = new ExpandableComposite(composite, ExpandableComposite.COMPACT | SWT.BORDER);
+		sampleEnvExpander.setText("Sample Environment");
+
+		final Composite sampleEnvGroup = new Composite(sampleEnvExpander, SWT.NONE);
+		GridData gd_tempControl = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		sampleEnvGroup.setLayoutData(gd_tempControl);
+		GridLayoutFactory.fillDefaults().applyTo(sampleEnvGroup);
 
 		complexTypesTemp = new Composite(sampleEnvGroup, SWT.NONE);
 		stackLayoutTemp = new StackLayout();
@@ -344,6 +359,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		Composite control = null;
 		sampleDetails.setVisible(true);
 		sampleDetailsGridData.exclude = false;
+		boolean showSampleEnvironmentDetails = false;
 		if (ScanObjectManager.isXESOnlyMode()) {
 			switch (index) {
 			case 0:
@@ -351,8 +367,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			case 1:
 				control = sampleStageListEditor;
-				sampleDetails.setVisible(false);
-				sampleDetailsGridData.exclude = true;
+				showSampleEnvironmentDetails = true;
 				break;
 			default:
 				break;
@@ -366,13 +381,11 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			case 1:
 				control = sampleStageListEditor;
-				sampleDetails.setVisible(false);
-				sampleDetailsGridData.exclude = true;
+				showSampleEnvironmentDetails = true;
 				break;
 			case 2:
 				control = cryostatComposite;
-				sampleDetails.setVisible(false);
-				sampleDetailsGridData.exclude = true;
+				showSampleEnvironmentDetails = true;
 				val = getCryostatParameters().getValue();
 				if (val == null)
 					bean.getCryostatParameters();
@@ -387,6 +400,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 				break;
 			}
 		}
+		sampleEnvExpander.setVisible(showSampleEnvironmentDetails);
 		stackLayoutTemp.topControl = control;
 		complexTypesTemp.layout();
 		mainComp.layout();
