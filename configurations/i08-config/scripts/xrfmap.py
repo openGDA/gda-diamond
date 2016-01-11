@@ -5,7 +5,10 @@ import time
 from plotters import Plotter
 from gda.jython.commands.ScannableCommands import add_default, remove_default
 from gda.factory import Finder
+from gda.device.detector.addetector.triggering.HardwareTriggeredAndor import AndorTriggerMode
 
+# For this map 2 detectors are used: Andor and Xmap.
+# TODO: Move jython scripts to Java 
 class XRFMap(RasterScan):
 
     def __init__(self,rowScannable,columnScannable,andor,vortex):
@@ -31,6 +34,10 @@ class XRFMap(RasterScan):
         self.plotterList.append(Plotter("roi6_plotter",'roi6_total',"ROI6"))
         self.plotterList.append(Plotter("roi7_plotter",'roi7_total',"ROI7"))
         self.plotterList.append(Plotter("roi8_plotter",'roi8_total',"ROI8"))
+        self.collectionTime =0.1
+        #default for the mode trigger is EXTERNAL_EXPOSURE
+        self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL_EXPOSURE)
+        self.isTriggerModeExternal = False
 
         for plotter in self.plotterList:
             add_default(plotter.getPlotter())
@@ -44,13 +51,18 @@ class XRFMap(RasterScan):
         elif len(args) == 2:
             self.Xsize  = int(args[0])
             self.Ysize = int(args[1])
-        self.vortex.getCollectionStrategy().getXmap().getCollectionMode().setPixelsPerBuffer(1);
+        #self.vortex.getCollectionStrategy().getXmap().getCollectionMode().setPixelsPerBuffer(1);
         self.resetPlotters(self.Xsize, self.Ysize)
         if self.andor != None:
-            self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, 0.1, self.vortex,0.1]
+            self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, self.collectionTime, self.vortex,self.collectionTime]
             andormap.PrepareForCollection(self.Xsize, self.Ysize)
         else:
             self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.vortex, 0.1]
+        #To avoid problems with the aborting check which trigger mode is used before the scan as by default the triggerMode is EXTERNAL_EXPOSURE 
+        if (self.isTriggerModeExternal == True):
+            self.setAndorExternalTriggerMode(self.collectionTime)
+        else:
+            self.setAndorExternal_ExposureTriggerMode()
         RasterScan.__call__(self,self.scanargs)
 
     def _createScan(self, args):
@@ -99,6 +111,19 @@ class XRFMap(RasterScan):
     def resetPlotters(self,Xsize, Ysize):
         for plotter in self.plotterList:
             plotter.setAxis(Xsize,Ysize)
+            # plot all points here as there is a buffer in EPICs and then all points in the buffer is sent to GDA
+            plotter.getPlotter().setRate(0)
+
+    # the setup of the trigger mode is done here because the xrfmap always use andor + xmap
+    # using both detectors sometimes the Andor camera saturates due to the long exposure time required by Xmap
+    def setAndorExternalTriggerMode(self,acquisitionTime):
+        self.isTriggerModeExternal = True
+        self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL)
+        self.collectionTime = acquisitionTime
+
+    def setAndorExternal_ExposureTriggerMode(self):
+        self.isTriggerModeExternal = False
+        self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL_EXPOSURE)
 
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
