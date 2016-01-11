@@ -22,9 +22,16 @@
 		<property name="prefix" value="BL21I-DI-DCAM-00:CAM:" />
 	</bean>
 
-	<bean id="dgnCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="dgnCamBase" />
-		<constructor-arg value="-1" />
+	<bean id="dgnCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="adBase" ref="dgnCamBase" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 	
 	<bean id="dgnRoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
