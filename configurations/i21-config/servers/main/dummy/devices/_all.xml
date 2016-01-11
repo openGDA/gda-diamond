@@ -30,4 +30,8 @@
 	<!-- objects that access an area detector simulator -->
 	<import resource="adSimulator.xml"/>
 
+	<!-- mirrors -->
+	<import resource="m1.xml" />
+	<import resource="m2.xml" />
+
 </beans>

@@ -24,5 +24,9 @@
 	
 	<!-- abstract base beans -->	
 	<import resource="abstract_nxplugins.xml" />
+
+	<!-- mirrors -->
+	<import resource="m1.xml" />
+	<import resource="m2.xml" />
 	
 </beans>
