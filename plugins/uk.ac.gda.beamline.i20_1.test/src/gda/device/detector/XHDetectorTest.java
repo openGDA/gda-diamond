@@ -29,6 +29,7 @@ import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.XhDetector;
+import gda.device.detector.xstrip.XhDetectorData;
 import gda.factory.FactoryException;
 import gda.util.TestUtils;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -50,8 +51,10 @@ public class XHDetectorTest {
 		daserver = new DummyXStripDAServer();
 
 		xh = new XhDetector();
+		xh.setName("xh");
 		xh.setDaServer(daserver);
 		xh.setDetectorName("xh0");
+		xh.setDetectorData(new XhDetectorData());
 		xh.configure();
 	}
 

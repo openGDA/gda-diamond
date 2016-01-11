@@ -96,6 +96,11 @@ public class TimeResolvedDataFileHelper {
 	private DoubleDataset iReffCorrecteddata = null;
 	private DoubleDataset iReffNormalisedData = null;
 	private DoubleDataset iRefiNormalisedData = null;
+	private String detectorName4Node;
+
+	public String getDetectorName4Node() {
+		return detectorName4Node;
+	}
 
 	public TimeResolvedDataFileHelper(String nexusfileName) {
 		this.nexusfileName = nexusfileName;
@@ -506,9 +511,8 @@ public class TimeResolvedDataFileHelper {
 		return NEXUS_ROOT_ENTRY_NAME + getDetectorNodeName() + "/";
 	}
 
-	// FIXME
 	private String getDetectorNodeName() {
-		return "xstrip";
+		return getDetectorName4Node();
 	}
 
 	private static class Index {
@@ -558,6 +562,7 @@ public class TimeResolvedDataFileHelper {
 		int frameIndex = -1;
 
 		for (int i = 0; i < rawDataset.getShape()[0]; i++) {
+			logger.info("Raw Dataset number: {}; Scan Type (0:DARK, 1:LIGHT): {}; Position Type (0:OUTBEAM, 1:INBEAM, 2:OUTBEAM_REFERENCE, 3:REFERENCE): {}.",i,beamInOutDataset.get(i), itDataset.get(i));
 			if (beamInOutDataset.get(i) == EdeScanType.DARK.getValue()) {
 				if (itDataset.get(i) == EdePositionType.OUTBEAM.getValue()) { // I0
 					if (i0darkDataSetIndex == null) {
@@ -603,6 +608,7 @@ public class TimeResolvedDataFileHelper {
 						cycleIndexValue = cycleDataset.get(i);
 						cycleCount++;
 					}
+
 					// TODO Refactor to make it clear
 					// Deriving number of timingGroups and number of spectrum per group using i0iDataSet,
 					// assuming the there is one spectrum per group was collected for I0,
@@ -619,6 +625,7 @@ public class TimeResolvedDataFileHelper {
 							timingGroups[frameIndex] = (int) frameDataset.get(i) + 1;
 						}
 					}
+
 				} else if (itDataset.get(i) == EdePositionType.REFERENCE.getValue()) {
 					if (itRawDataSetIndex == null) {
 						if (iRefidataSetIndex == null) {
@@ -632,7 +639,6 @@ public class TimeResolvedDataFileHelper {
 						} else {
 							iReffdataSetIndex.end = i;
 						}
-
 					}
 				} else if (itDataset.get(i) == EdePositionType.OUTBEAM_REFERENCE.getValue()) {
 					if (i0ForIRefDataSetIndex == null) {
@@ -705,10 +711,17 @@ public class TimeResolvedDataFileHelper {
 		int k = 0;
 		int l = 0;
 		RangeData avgRange = null;
+		boolean requireTimeZero=true;
 		double time = 0.0d;
 		int totalSpectraUptoCurrentGroup = timingGroupMetaData[currentGroupIndex].getNoOfFrames();
+		if (getDetectorNodeName().equals("frelon")) {
+			requireTimeZero=false;
+		}
 		for (int i = 0; i < totalSpectra; i++) {
-			timeAxisData.set(time, k++);
+			if (requireTimeZero) {
+				timeAxisData.set(time, k++);
+			}
+
 			if (avgSpectraList != null && j < avgSpectraList.length) {
 				avgRange = avgSpectraList[j];
 				if (avgRange.getStartIndex() == i) {
@@ -724,11 +737,16 @@ public class TimeResolvedDataFileHelper {
 				}
 			}
 			time += timingGroupMetaData[currentGroupIndex].getTimePerSpectrum();
-			groupAxisData.set(currentGroupIndex, l++);
+
+			if ( !requireTimeZero ) {
+				timeAxisData.set(time, k++);
+			}
+
 			if (i == totalSpectraUptoCurrentGroup) {
 				currentGroupIndex++;
 				totalSpectraUptoCurrentGroup += timingGroupMetaData[currentGroupIndex].getNoOfFrames();
 			}
+			groupAxisData.set(currentGroupIndex, l++);
 		}
 	}
 
@@ -914,5 +932,10 @@ public class TimeResolvedDataFileHelper {
 		finally {
 			file.close();
 		}
+	}
+
+	public void setDetectorName4Node(String name) {
+		detectorName4Node=name;
+
 	}
 }

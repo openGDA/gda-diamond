@@ -18,23 +18,6 @@
 
 package gda.device.detector;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.FileWriter;
-
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.plotting.tools.profile.DataFileHelper;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
-
-import gda.configuration.properties.LocalProperties;
 import gda.data.NumTracker;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.NexusTreeProvider;
@@ -45,40 +28,42 @@ import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
 import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.datawriters.ScanDataHelper;
+
+import java.io.File;
+import java.io.FileWriter;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.dawnsci.plotting.tools.profile.DataFileHelper;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public abstract class EdeDetectorBase extends DetectorBase implements EdeDetector {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeDetectorBase.class);
-	private static final int INITIAL_NO_OF_ROIS = 4;
-	protected static final Gson GSON = new Gson();
-	private static final String PROP_FILE_EXTENSION = ".properties";
-	private static final String DETECTOR_DATA = "detectorData";
 
 	protected DetectorData detectorData;
 	protected EdeScanParameters currentScanParameter;
+	protected EdeDetector currentDetector;
+	protected boolean dropFirstFrame=false;
+	private CalibrationDetails calibration;
+	private Integer[] excludedPixels = new Integer[]{}; //list of dead pixel locations
+	private int lowerChannel; // lower bound for ROI in energy
+	private int upperChannel; //Upper bound for ROI in energy
 
 	private Integer[] pixels;
+	private boolean energyCalibrationSet;
+	private Roi[] rois=new Roi[EdeDetector.INITIAL_NO_OF_ROIS];
 
 	@Override
 	public void configure() throws FactoryException {
 		createPixelData();
-		loadDetectorData();
-		if (detectorData == null) {
-			detectorData = createDetectorData();
-			detectorData.setNumberRois(INITIAL_NO_OF_ROIS);
-			saveDetectorData();
-		}
-		detectorData.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				saveDetectorData();
-				if (evt.getPropertyName().equals(DetectorData.ROIS_PROP_NAME)) {
-					updateExtraNames((Roi[]) evt.getNewValue());
-				}
-			}
-		});
+		setNumberRois(INITIAL_NO_OF_ROIS);
+		updateExtraNames(getRois());
 	}
 
 	private void createPixelData() {
@@ -94,6 +79,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		configureDetectorForCollection();
 	}
 
+	protected abstract void configureDetectorForCollection() throws DeviceException;
+
 	private void updateExtraNames(Roi[] rois) {
 		int numROI = rois.length;
 		extraNames = new String[numROI + 1];
@@ -105,41 +92,6 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			extraNames[i + 1] = rois[i].getName();
 			outputFormat[i + 2] = "%8.3f";
 		}
-	}
-
-	protected abstract DetectorData createDetectorData();
-	protected abstract void createDetectorDataFromJson(String property);
-
-	private void loadDetectorData() {
-		PropertiesConfiguration store;
-		try {
-			store = new PropertiesConfiguration(getPropertyFileName());
-			store.load();
-			Object property = store.getProperty(DETECTOR_DATA);
-			if (property != null && property instanceof String) {
-				createDetectorDataFromJson((String) property);
-			}
-		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
-		}
-
-	}
-
-	private void saveDetectorData() {
-		PropertiesConfiguration store;
-		try {
-			store = new PropertiesConfiguration(getPropertyFileName());
-			store.setProperty(DETECTOR_DATA, GSON.toJson(detectorData));
-			store.save();
-		} catch (ConfigurationException e) {
-			logger.error("Unable to store connected state", e);
-		}
-	}
-
-	private String getPropertyFileName() {
-		String propertiesFileName = LocalProperties.getVarDir() + getName() + PROP_FILE_EXTENSION;
-		return propertiesFileName;
 	}
 
 	/**
@@ -164,13 +116,6 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			throws DeviceException;
 
 	/**
-	 * configure the timing group and send them to TFG2 server.
-	 *
-	 * @throws DeviceException
-	 */
-	protected abstract void configureDetectorForCollection() throws DeviceException;
-
-	/**
 	 * fetch detector status from hardware.
 	 *
 	 * @return {@link DetectorStatus}
@@ -185,7 +130,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	protected NXDetectorData createNXDetectorData(int[] elements) {
-		double[] correctedData = performCorrections(elements, true)[0];
+		//TODO sort out excluded string correction
+		double[] correctedData = performCorrections(elements, false)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
 		double[] energies = this.getEnergyForChannels();
 
@@ -203,18 +149,17 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		return thisFrame;
 	}
 
-	private double[][] performCorrections(int[] rawData, boolean checkForExcludedStrips) {
+	protected double[][] performCorrections(int[] rawData, boolean checkForExcludedStrips) {
 		int frameCount = rawData.length / getMaxPixel();
 		double[][] out = new double[frameCount][getMaxPixel()];
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int stripIndex = 0; stripIndex < getMaxPixel(); stripIndex++) {
 				if (checkForExcludedStrips) {
 					// simply set excluded strips to be zero
-					if (ArrayUtils.contains(detectorData.getExcludedPixels(), stripIndex)) {
+					if (ArrayUtils.contains(getExcludedPixels(), stripIndex)) {
 						out[frame][stripIndex] = 0.0;
-					} else if (!currentScanParameter.getIncludeCountsOutsideROIs()
-							&& (stripIndex < detectorData.getLowerChannel() || stripIndex > detectorData
-									.getUpperChannel())) {
+					} else if (currentScanParameter!=null && !currentScanParameter.getIncludeCountsOutsideROIs()
+							&& (stripIndex < getLowerChannel() || stripIndex > getUpperChannel())) {
 						out[frame][stripIndex] = 0.0;
 					} else {
 						out[frame][stripIndex] = rawData[(frame * getMaxPixel()) + stripIndex];
@@ -228,9 +173,9 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	private double[] getExtraValues(int[] elements) {
-		double[] extras = new double[detectorData.getRois().length + 1];
+		double[] extras = new double[getRois().length + 1];
 		for (int elementNum = 0; elementNum < getMaxPixel(); elementNum++) {
-			int roi = detectorData.getRoiFor(elementNum);
+			int roi = getRoiFor(elementNum);
 			if (roi >= 0) {
 				extras[0] += elements[elementNum];
 				extras[roi + 1] += elements[elementNum];
@@ -254,7 +199,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	private double getEnergyForChannel(int channel) {
-		CalibrationDetails calibration = detectorData.getEnergyCalibration();
+		CalibrationDetails calibration = getEnergyCalibration();
 		if (calibration == null) {
 			return channel;
 		}
@@ -319,7 +264,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		Integer[] pixelData = getPixels();
 		double[] pixelDataArray = new double[pixelData.length];
 		for (int i = 0; i < pixelData.length; i++) {
-			pixelDataArray[i] = pixelDataArray[i];
+			pixelDataArray[i] = pixelData[i];
 		}
 		return new DoubleDataset(pixelDataArray);
 	}
@@ -336,7 +281,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	@Override
 	public NexusTreeProvider readout() throws DeviceException {
 		// TODO read data from detector
-		return readFrames(0, 0)[0];
+		return readFrames(1,1)[0];
 	}
 
 	/**
@@ -369,7 +314,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 */
 	protected abstract int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException;
 
-	private int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
+	protected int[][] unpackRawDataToFrames(int[] scalerData, int numFrames) {
 
 		int[][] unpacked = new int[numFrames][getMaxPixel()];
 		int iterator = 0;
@@ -382,4 +327,123 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		}
 		return unpacked;
 	}
+
+	public void setDetectorData(DetectorData detectorData) {
+		this.detectorData = detectorData;
+	}
+
+	@Override
+	public boolean isDropFirstFrame() {
+		return dropFirstFrame;
+	}
+
+	public void setDropFirstFrame(boolean dropFirstFrame) {
+		this.dropFirstFrame = dropFirstFrame;
+	}
+
+	@Override
+	public CalibrationDetails getEnergyCalibration() {
+		return calibration;
+	}
+
+	@Override
+	public void setEnergyCalibration(CalibrationDetails energyCalibration) {
+		calibration = energyCalibration;
+		setEnergyCalibrationSet(true);
+		this.notifyIObservers(this, CALIBRATION_PROP_KEY);
+	}
+
+	@Override
+	public boolean isEnergyCalibrationSet() {
+		return energyCalibrationSet;
+	}
+
+	public void setEnergyCalibrationSet(boolean energyCalibrationSet) {
+		this.energyCalibrationSet = energyCalibrationSet;
+	}
+
+	@Override
+	public Roi[] getRois() {
+		return rois;
+	}
+
+	@Override
+	public void setRois(Roi[] rois) {
+		this.rois = rois;
+		updateExtraNames(rois);
+		this.notifyIObservers(this, EdeDetector.ROIS_PROP_NAME);
+	}
+
+	@Override
+	public int getNumberOfRois() {
+		return rois.length;
+	}
+
+	@Override
+	public void setNumberRois(int numberOfRois) {
+		Roi[] rois = createRois(numberOfRois);
+		setRois(rois);
+	}
+
+	private Roi[] createRois(int numberOfRois) {
+		Roi[] rois = new Roi[numberOfRois];
+		int useableRegion = upperChannel - (lowerChannel - 1); // Inclusive of the first
+		int increment = useableRegion / numberOfRois;
+		int start = lowerChannel;
+		for (int i = 0; i < numberOfRois; i++) {
+			Roi roi = new Roi();
+			roi.setName("ROI_" + (i + 1));
+			roi.setLowerLevel(start);
+			roi.setUpperLevel(start + increment - 1);
+			rois[i] = roi;
+			start = start + increment;
+		}
+		if (rois[rois.length - 1].getUpperLevel() < upperChannel) {
+			rois[rois.length - 1].setUpperLevel(upperChannel);
+		}
+		return rois;
+	}
+
+	@Override
+	public int getLowerChannel() {
+		return lowerChannel;
+	}
+
+	@Override
+	public void setLowerChannel(int lowerChannel) {
+		this.lowerChannel = lowerChannel;
+		setNumberRois(getNumberOfRois());
+	}
+
+	@Override
+	public int getUpperChannel() {
+		return upperChannel;
+	}
+
+	@Override
+	public void setUpperChannel(int upperChannel) {
+		this.upperChannel = upperChannel;
+		setNumberRois(getNumberOfRois());
+	}
+
+	@Override
+	public Integer[] getExcludedPixels() {
+		return excludedPixels;
+	}
+
+	@Override
+	public void setExcludedPixels(Integer[] excludedPixels) {
+		this.excludedPixels = excludedPixels;
+	}
+
+	@Override
+	public int getRoiFor(int elementIndex) {
+		for (int i = 0; i < getRois().length; i++) {
+			if (getRois()[i].isInsideRio(elementIndex)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 }

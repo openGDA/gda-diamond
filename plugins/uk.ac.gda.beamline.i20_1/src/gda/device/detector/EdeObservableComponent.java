@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2014 Diamond Light Source Ltd.
+ * Copyright © 2015 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -18,20 +18,10 @@
 
 package gda.device.detector;
 
+import gda.observable.ObservableComponent;
+
 import java.io.Serializable;
 
-import uk.ac.gda.beans.ObservableModel;
-
-public class DetectorData extends ObservableModel implements Serializable {
-
-	private String name;
-
-	public void setName(String name) {
-		this.name=name;
-	}
-
-	public String getName() {
-		return name;
-	}
+public class EdeObservableComponent extends ObservableComponent implements Serializable {
 
 }

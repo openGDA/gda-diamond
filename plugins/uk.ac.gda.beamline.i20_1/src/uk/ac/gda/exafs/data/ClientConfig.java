@@ -138,6 +138,8 @@ public class ClientConfig {
 
 		ALIGNMENT_STAGE_X_POSITION("Alignment stage x", "alignment_x", UnitSetup.MILLI_METER),
 		ALIGNMENT_STAGE_Y_POSITION("Alignment stage y", "alignment_y", UnitSetup.MILLI_METER),
+		FAST_SHUTTER_X_POSITION("Fast shutter x", "fast_shutter_x", UnitSetup.MILLI_METER), // imh
+		FAST_SHUTTER_Y_POSITION("Fast shutter y", "fast_shutter_y", UnitSetup.MILLI_METER), // imh
 		ALIGNMENT_STAGE("Alignment stage", "alignment_stage", UnitSetup.SELECTION);
 
 		public static final int MAX_POWER_IN_WATT = 100;

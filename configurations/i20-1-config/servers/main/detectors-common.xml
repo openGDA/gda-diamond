@@ -3,27 +3,41 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean id="xhDetectorData" class="gda.device.detector.xstrip.XhDetectorData">
+	</bean>
 	<bean id="xh" class="gda.device.detector.xstrip.XhDetector">
 		<property name="detectorName" value="xh0"/>
 		<property name="daServer" ref="DAServer"/>
+		<property name="detectorData" ref="xhDetectorData"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
+		<property name="upperChannel" value="1023"/>
+		<property name="lowerChannel" value="0"/>
 	</bean>
 
  
 	<bean id="xstrip" class="gda.device.detector.xstrip.XhDetector">
 		<property name="detectorName" value="xh0"/>
 		<property name="daServer" ref="DAServer"/>
+		<property name="detectorData" ref="xhDetectorData"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
+		<property name="upperChannel" value="1023"/>
+		<property name="lowerChannel" value="0"/>
 	</bean>
 
-	<bean id="ssxh" class="gda.device.detector.xstrip.StepScanXHDetector">
-		<property name="xh" ref="xh"/>
+	<bean id="ssxh" class="gda.device.detector.StepScanEdeDetector">
+		<property name="detector" ref="xh"/>
 	</bean>
 	
-	<bean id="ssxstrip" class="gda.device.detector.xstrip.StepScanXHDetector">
-		<property name="xh" ref="xstrip"/>
+	<bean id="ssxstrip" class="gda.device.detector.StepScanEdeDetector">
+		<property name="detector" ref="xstrip"/>
 	</bean>
 
+<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
+<!-- 		<property name="serviceName" value="gda/xhDetectorData" /> -->
+<!-- 		<property name="service" ref="xhDetectorData" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
+<!-- 	</bean> -->
+	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xh" />
 		<property name="service" ref="xh" />

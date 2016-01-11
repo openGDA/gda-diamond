@@ -90,6 +90,7 @@ public interface StripDetector extends EdeDetector {
 	 *
 	 * @return the array of regions
 	 */
+	@Override
 	public Roi[] getRois();
 
 	/**
@@ -97,6 +98,7 @@ public interface StripDetector extends EdeDetector {
 	 *
 	 * @param rois
 	 */
+	@Override
 	public void setRois(Roi[] rois);
 
 	/**
@@ -104,19 +106,24 @@ public interface StripDetector extends EdeDetector {
 	 *
 	 * @param numberOfRois
 	 */
+	@Override
 	public void setNumberRois(int numberOfRois);
 
+	@Override
 	public void setLowerChannel(int channel);
 
+	@Override
 	public int getLowerChannel();
 
+	@Override
 	public void setUpperChannel(int channel);
 
+	@Override
 	public int getUpperChannel();
 
 	/**
-	 * Sets the bias voltage. If the given value is 0.0 then the bias will be switched off. If non-zero then the bias
-	 * will be swicthed on if necessary and then applied.
+	 * Sets the bias voltage. If the given value is 0.0 then the bias will be switched off. If non-zero then the bias will be switched on if necessary and then
+	 * applied.
 	 *
 	 * @throws DeviceException
 	 */

@@ -36,6 +36,7 @@ public class TriggerableObject extends ObservableModel implements Serializable, 
 		USR_OUT_6(6, "USR OUT 6"),
 		USR_OUT_7(7, "USR OUT 7");
 
+		private static final int numPorts = 8;
 		private final String portName;
 		private final int usrPort;
 
@@ -49,6 +50,14 @@ public class TriggerableObject extends ObservableModel implements Serializable, 
 		}
 		public int getUsrPort() {
 			return (int) Math.pow(2, usrPort);
+		}
+		// Added imh 17/9/2015
+		public int getUsrPortNumber() {
+			return usrPort;
+		}
+		// Added imh 21/9/2015
+		public static int getTotalNumPorts() {
+			return numPorts;
 		}
 	}
 
@@ -70,6 +79,19 @@ public class TriggerableObject extends ObservableModel implements Serializable, 
 
 	public static final String TOTAL_DURATION_PROP_NAME = "totalDuration";
 	public static final String TOTAL_DELAY_PROP_NAME = "totalDelay";
+
+	//Constructor added. imh 25/9/2015
+	public TriggerableObject(  ) {
+		triggerDelay = 0;
+		triggerPulseLength = 0.0;
+		triggerOutputPort = TriggerOutputPort.USR_OUT_0;
+	}
+
+	public TriggerableObject( double triggerDelay, double triggerPulseLength, TriggerOutputPort triggerOutputPort ) {
+		this.triggerDelay = triggerDelay;
+		this.triggerPulseLength = triggerPulseLength;
+		this.triggerOutputPort = triggerOutputPort;
+	}
 
 	public double getTriggerDelay() {
 		return triggerDelay;

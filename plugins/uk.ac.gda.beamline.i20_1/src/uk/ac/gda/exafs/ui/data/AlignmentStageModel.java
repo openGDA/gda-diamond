@@ -20,32 +20,44 @@ package uk.ac.gda.exafs.ui.data;
 
 import uk.ac.gda.beans.ObservableModel;
 
+import com.google.gson.annotations.Expose;
+
 public class AlignmentStageModel extends ObservableModel {
 	public static final AlignmentStageModel INSTANCE = new AlignmentStageModel();
 
 	public static final String X_X_EYE_PROP_NAME = "xXeye";
+	@Expose
 	private double xXeye;
 	public static final String Y_X_EYE_PROP_NAME = "yXeye";
+	@Expose
 	private double yXeye;
 
 	public static final String X_SLITS_PROP_NAME = "xSlits";
+	@Expose
 	private double xSlits;
 	public static final String Y_SLITS_PROP_NAME = "ySlits";
+	@Expose
 	private double ySlits;
 
 	public static final String X_FOILS_PROP_NAME = "xFoils";
+	@Expose
 	private double xFoils;
 	public static final String Y_FOILS_PROP_NAME = "yFoils";
+	@Expose
 	private double yFoils;
 
 	public static final String X_HOLE_PROP_NAME = "xHole";
+	@Expose
 	private double xHole;
 	public static final String Y_HOLE_PROP_NAME = "yHole";
+	@Expose
 	private double yHole;
 
 	public static final String X_SHUTTER_PROP_NAME = "xShutter";
+	@Expose
 	private double xShutter;
 	public static final String Y_SHUTTER_PROP_NAME = "yShutter";
+	@Expose
 	private double yShutter;
 
 	public double getxXeye() {

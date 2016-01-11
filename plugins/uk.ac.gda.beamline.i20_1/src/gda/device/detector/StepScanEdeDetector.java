@@ -16,39 +16,41 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.detector.xstrip;
+package gda.device.detector;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorBase;
 import gda.device.detector.NexusDetector;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 /**
- * Drive an XHDetector object so it can be used in 'regular' step scans. For ad hoc scans during commissioning /
+ * Drive an {@link EdeDetector} object so it can be used in 'regular' step scans. For ad hoc scans during commissioning /
  * beamline alignment.
  */
-public class StepScanXHDetector extends DetectorBase implements NexusDetector {
+public class StepScanEdeDetector extends DetectorBase implements NexusDetector {
 
-	private XhDetector xh;
+	private EdeDetector detector;
 	private int numberScansPerFrame = 1;
 
 	@Override
 	public void collectData() throws DeviceException {
-		//		EdeScanParameters myscan = new EdeScanParameters();
-		//		TimingGroup group1 = new TimingGroup();
-		//		group1.setLabel("group1");
-		//		group1.setNumberOfFrames(1);
-		//		// for this class accept time in ms not s, as per the normal Detector interface
-		//		group1.setTimePerScan(getCollectionTime() / 1000.0);
-		//		group1.setNumberOfScansPerFrame(numberScansPerFrame);
-		//		myscan.addGroup(group1);
-		//		xh.loadParameters(myscan);
-		//		xh.collectData();
+		EdeScanParameters myscan = new EdeScanParameters();
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(1);
+		// for this class accept time in ms not s, as per the normal Detector interface
+		group1.setTimePerScan(getCollectionTime() / 1000.0);
+		group1.setNumberOfScansPerFrame(numberScansPerFrame);
+		myscan.addGroup(group1);
+		detector.prepareDetectorwithScanParameters(myscan);
+		detector.collectData();
 	}
 
 	@Override
 	public int getStatus() throws DeviceException {
-		return xh.getStatus();
+		return detector.getStatus();
 	}
 
 	@Override
@@ -58,30 +60,30 @@ public class StepScanXHDetector extends DetectorBase implements NexusDetector {
 
 	@Override
 	public NexusTreeProvider readout() throws DeviceException {
-		return xh.readout();
+		return detector.readout();
 	}
 
-	public XhDetector getXh() {
-		return xh;
+	public EdeDetector getDetector() {
+		return detector;
 	}
 
-	public void setXh(XhDetector xh) {
-		this.xh = xh;
+	public void setDetector(EdeDetector xh) {
+		detector = xh;
 	}
 
 	@Override
 	public String[] getExtraNames() {
-		return xh.getExtraNames();
+		return detector.getExtraNames();
 	}
 
 	@Override
 	public String[] getInputNames() {
-		return xh.getInputNames();
+		return detector.getInputNames();
 	}
 
 	@Override
 	public String[] getOutputFormat() {
-		return xh.getOutputFormat();
+		return detector.getOutputFormat();
 	}
 
 	public int getNumberScansPerFrame() {

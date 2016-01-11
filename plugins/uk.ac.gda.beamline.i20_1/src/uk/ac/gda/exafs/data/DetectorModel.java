@@ -58,6 +58,8 @@ public class DetectorModel extends ObservableModel {
 
 	private final EnergyCalibrationSetObserver energyCalibrationSetObserver = new EnergyCalibrationSetObserver();
 
+	private final ROIsSetObserver roisSetObserver=new ROIsSetObserver();
+
 	public EnergyCalibrationSetObserver getEnergyCalibrationSetObserver() {
 		return energyCalibrationSetObserver;
 	}
@@ -93,27 +95,26 @@ public class DetectorModel extends ObservableModel {
 			if (detector != null && detector instanceof EdeDetector) {
 				EdeDetector ededetector = (EdeDetector) detector;
 				availableDetectors.add(ededetector);
-				setCurrentDetector(ededetector);
-				//				break;
 			}
 		}
+		setCurrentDetector(availableDetectors.get(availableDetectors.size()-1));
 	}
 
 	public void reloadROIs() {
 		rois.clear();
-		for (Roi roi : currentDetector.getDetectorData().getRois()) {
+		for (Roi roi : currentDetector.getRois()) {
 			rois.add(roi);
 		}
 	}
 
 	public void addRIO() {
-		currentDetector.getDetectorData().setNumberRois(rois.size() + 1);
+		currentDetector.setNumberRois(rois.size() + 1);
 		reloadROIs();
 	}
 
 	public void removeRIO() {
 		if (rois.size() > 1) {
-			currentDetector.getDetectorData().setNumberRois(rois.size() - 1);
+			currentDetector.setNumberRois(rois.size() - 1);
 			reloadROIs();
 		}
 	}
@@ -122,8 +123,8 @@ public class DetectorModel extends ObservableModel {
 		if (currentDetector == null) {
 			throw new DetectorUnavailableException();
 		}
-		int currentValue = currentDetector.getDetectorData().getUpperChannel();
-		currentDetector.getDetectorData().setUpperChannel(value);
+		int currentValue = currentDetector.getUpperChannel();
+		currentDetector.setUpperChannel(value);
 		this.firePropertyChange(UPPER_CHANNEL_PROP_NAME, currentValue, value);
 		this.reloadROIs();
 	}
@@ -132,8 +133,8 @@ public class DetectorModel extends ObservableModel {
 		if (currentDetector == null) {
 			throw new DetectorUnavailableException();
 		}
-		int currentValue = currentDetector.getDetectorData().getLowerChannel();
-		currentDetector.getDetectorData().setLowerChannel(value);
+		int currentValue = currentDetector.getLowerChannel();
+		currentDetector.setLowerChannel(value);
 		this.firePropertyChange(LOWER_CHANNEL_PROP_NAME, currentValue, value);
 		this.reloadROIs();
 	}
@@ -142,14 +143,14 @@ public class DetectorModel extends ObservableModel {
 		if (currentDetector == null) {
 			throw new DetectorUnavailableException();
 		}
-		return currentDetector.getDetectorData().getUpperChannel();
+		return currentDetector.getUpperChannel();
 	}
 
 	public int getLowerChannel() throws DetectorUnavailableException {
 		if (currentDetector == null) {
 			throw new DetectorUnavailableException();
 		}
-		return currentDetector.getDetectorData().getLowerChannel();
+		return currentDetector.getLowerChannel();
 	}
 
 	public EdeDetector getCurrentDetector() {
@@ -162,12 +163,17 @@ public class DetectorModel extends ObservableModel {
 	}
 
 	public void setCurrentDetector(EdeDetector detector) {
+		if (currentDetector!=null) {
+			currentDetector.deleteIObserver(energyCalibrationSetObserver);
+			currentDetector.deleteIObserver(roisSetObserver);
+		}
 		excludedStripsCache = null;
 		firePropertyChange(CURRENT_DETECTOR_SETUP_PROP_NAME, currentDetector, currentDetector = detector);
 		firePropertyChange(DETECTOR_CONNECTED_PROP_NAME, false, true);
-		firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, currentDetector.getDetectorData().getLowerChannel());
-		firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, currentDetector.getDetectorData().getUpperChannel());
+		firePropertyChange(LOWER_CHANNEL_PROP_NAME, null, currentDetector.getLowerChannel());
+		firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, currentDetector.getUpperChannel());
 		currentDetector.addIObserver(energyCalibrationSetObserver);
+		currentDetector.addIObserver(roisSetObserver);
 	}
 
 	public boolean isDetectorConnected() {
@@ -178,26 +184,9 @@ public class DetectorModel extends ObservableModel {
 		return availableDetectors;
 	}
 
-	//	public boolean isVoltageInRange(double value) {
-	//		return (currentDetector.getMinBias() <= value & value <= currentDetector.getMaxBias());
-	//	}
-	//
-	//	public double getBias() throws DeviceException {
-	//		if (biasCache == null) {
-	//			biasCache = new Double(currentDetector.getBias());
-	//		}
-	//		return biasCache.doubleValue();
-	//	}
-	//
-	//	public void setBias(double bias) throws DeviceException {
-	//		currentDetector.setBias(bias);
-	//		firePropertyChange(BIAS_PROP_NAME, null, bias);
-	//		biasCache = null;
-	//	}
-
 	public void setExcludedStrips(Integer[] excludedStrips) {
-		Integer[] currentExcludedStrips = currentDetector.getDetectorData().getExcludedPixels();
-		currentDetector.getDetectorData().setExcludedPixels(excludedStrips);
+		Integer[] currentExcludedStrips = currentDetector.getExcludedPixels();
+		currentDetector.setExcludedPixels(excludedStrips);
 		firePropertyChange(CURRENT_DETECTOR_EXCLUDED_STRIPS_PROP_NAME, currentExcludedStrips, excludedStrips);
 		excludedStripsCache = null;
 	}
@@ -206,7 +195,7 @@ public class DetectorModel extends ObservableModel {
 	public Integer[] getExcludedStrips() {
 		// TODO Find out why we need cache
 		if (excludedStripsCache == null) {
-			excludedStripsCache = currentDetector.getDetectorData().getExcludedPixels();
+			excludedStripsCache = currentDetector.getExcludedPixels();
 		}
 		System.out.println("getExcludedStrips called " + excludedStripsCache + " for " + currentDetector.getName());
 		return excludedStripsCache;
@@ -219,6 +208,10 @@ public class DetectorModel extends ObservableModel {
 
 	public WritableList getRois() {
 		return rois;
+	}
+
+	public ROIsSetObserver getRoisSetObserver() {
+		return roisSetObserver;
 	}
 
 	private static enum DetectorSetup {
@@ -239,13 +232,13 @@ public class DetectorModel extends ObservableModel {
 		public static final String ENERGY_CALIBRATION_PROP_NAME = "energyCalibration";
 		@Override
 		public void update(final Object source, Object arg) {
-			if (arg.equals(StripDetector.CALIBRATION_PROP_KEY)) {
+			if (arg.equals(EdeDetector.CALIBRATION_PROP_KEY)) {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
 						String value = "";
-						if (((EdeDetector) source).getDetectorData().isEnergyCalibrationSet()) {
-							value = ((EdeDetector) source).getDetectorData().getEnergyCalibration().getFormattedPolinormal();
+						if (((EdeDetector) source).isEnergyCalibrationSet()) {
+							value = ((EdeDetector) source).getEnergyCalibration().getFormattedPolinormal();
 							EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
 						}
 					}
@@ -254,10 +247,40 @@ public class DetectorModel extends ObservableModel {
 		}
 
 		public String getEnergyCalibration() {
-			if (DetectorModel.INSTANCE.getCurrentDetector() != null &&  DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().isEnergyCalibrationSet()) {
-				return DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().getEnergyCalibration().getFormattedPolinormal();
+			if (DetectorModel.INSTANCE.getCurrentDetector() != null &&  DetectorModel.INSTANCE.getCurrentDetector().isEnergyCalibrationSet()) {
+				return DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getFormattedPolinormal();
 			}
 			return "";
 		}
 	}
+	public static class ROIsSetObserver extends ObservableModel implements IObserver {
+		public static final String ROIS_PROP_NAME = EdeDetector.ROIS_PROP_NAME;
+		List<Roi> roisModel = new ArrayList<Roi>();
+		WritableList rois = new WritableList(roisModel, Roi.class);
+		@Override
+		public void update(final Object source, Object arg) {
+			if (arg.equals(EdeDetector.ROIS_PROP_NAME)) {
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						rois.clear();
+						for (Roi roi : ((EdeDetector) source).getRois()) {
+							rois.add(roi);
+						}
+						ROIsSetObserver.this.firePropertyChange(ROIsSetObserver.ROIS_PROP_NAME, null, rois);
+					}
+				});
+			}
+		}
+
+		public WritableList getRois() {
+			if (rois.isEmpty()) {
+				for (Roi roi : DetectorModel.INSTANCE.getCurrentDetector().getRois()) {
+					rois.add(roi);
+				}
+			}
+			return rois;
+		}
+	}
+
 }

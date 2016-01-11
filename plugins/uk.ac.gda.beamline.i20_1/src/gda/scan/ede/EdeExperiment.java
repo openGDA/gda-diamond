@@ -72,7 +72,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  */
 public abstract class EdeExperiment implements IObserver {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
+	protected static final Logger logger = LoggerFactory.getLogger(EdeExperiment.class);
 
 	/**
 	 * The name of the ScriptController object which is sent progress information and normalised spectra by experiments
@@ -204,11 +204,12 @@ public abstract class EdeExperiment implements IObserver {
 			newGroup.setNumberOfFrames(1);
 			newGroup.setTimePerScan(accumulationTime);
 			if(commonNumberOfAccumulcations == null) {
-				newGroup.setNumberOfScansPerFrame(theDetector.getNumberScansInFrame(itGroup.getTimePerFrame(), itGroup.getTimePerScan(), newGroup.getNumberOfFrames()));
+				// newGroup.setNumberOfScansPerFrame(theDetector.getNumberScansInFrame(itGroup.getTimePerFrame(), itGroup.getTimePerScan(), newGroup.getNumberOfFrames()));
+				newGroup.setNumberOfScansPerFrame( itGroup.getNumberOfScansPerFrame() );
 			} else {
 				newGroup.setNumberOfScansPerFrame(commonNumberOfAccumulcations);
 			}
-			newGroup.setTimePerFrame(itGroup.getTimePerFrame());
+			newGroup.setTimePerFrame(accumulationTime*newGroup.getNumberOfScansPerFrame());
 			newGroup.setDelayBetweenFrames(0);
 			parameters.addGroup(newGroup);
 		}
@@ -273,6 +274,7 @@ public abstract class EdeExperiment implements IObserver {
 			logger.error("Error running experiment", e);
 			throw e;
 		} finally {
+			theDetector.stop();
 			if (beamLightShutter!= null) {
 				logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
 				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
@@ -304,13 +306,13 @@ public abstract class EdeExperiment implements IObserver {
 			dataWriter.setNexusFileNameTemplate(template);
 
 			List<ScanBase> allScans = addAllScans();
-			MultiScan theScan = new MultiScan(allScans);
-			theScan.setDataWriter(dataWriter);
-			theScan.setScanPlotSettings(plotNothing);
+			setMultiScan(new MultiScan(allScans));
+			getMultiScan().setDataWriter(dataWriter);
+			getMultiScan().setScanPlotSettings(plotNothing);
 
 			logger.debug("Starting multiscan...");
-			theScan.runScan();
-			return theScan.getDataWriter().getCurrentFileName();
+			getMultiScan().runScan();
+			return getMultiScan().getDataWriter().getCurrentFileName();
 		} finally {
 			NexusExtraMetadataDataWriter.removeAllMetadataEntries();
 		}
@@ -334,7 +336,7 @@ public abstract class EdeExperiment implements IObserver {
 		try {
 			writer = createFileWritter();
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
-			writer.writeDataFile();
+			writer.writeDataFile(theDetector);
 			logToJythonTerminal("Scan data written to file.");
 			return writer.getAsciiFilename();
 		} catch(Exception ex) {
@@ -345,9 +347,33 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract EdeExperimentDataWriter createFileWritter();
 
-	protected abstract double getTimeRequiredBeforeItCollection();
-	protected abstract double getTimeRequiredForItCollection();
-	protected abstract double getTimeRequiredAfterItCollection();
+	// protected abstract double getTimeRequiredBeforeItCollection();
+	// protected abstract double getTimeRequiredForItCollection();
+	// protected abstract double getTimeRequiredAfterItCollection();
+
+	protected double getTimeRequiredBeforeItCollection() {
+		//Time to move from current motor position to I0 position
+		double timeForI0Move = i0Position.getTimeToMove();
+
+		//Time to move from I0 to It position
+		double timeForItMove = ( (EdeScanMotorPositions) itPosition).getTimeToMove( (EdeScanMotorPositions)i0Position );
+
+		double timeForI0Spectrum = i0ScanParameters.getTotalTime(); // total time for single I0 spectrum
+		return timeForI0Spectrum*6 + timeForI0Move + timeForItMove;
+	}
+
+	protected double getTimeRequiredForItCollection() {
+		int numFrames = itScanParameters.getTotalNumberOfFrames();
+		double totalTime = itScanParameters.getTotalTime();
+		return totalTime * getRepetitions();
+	}
+
+	protected double getTimeRequiredAfterItCollection() {
+		// Time for move from It to I0 position
+		double timeForI0Move = ( (EdeScanMotorPositions) i0Position).getTimeToMove( (EdeScanMotorPositions)itPosition );
+		double timePerSpectrum = i0ScanParameters.getTotalTime()/i0ScanParameters.getTotalNumberOfFrames();
+		return timePerSpectrum*2 + timeForI0Move;
+	}
 
 	protected double getTimeRequiredForFullExperiment() {
 		return getTimeRequiredBeforeItCollection() + getTimeRequiredForItCollection() + getTimeRequiredAfterItCollection();
@@ -399,7 +425,9 @@ public abstract class EdeExperiment implements IObserver {
 		logger.info(message);
 	}
 
-	protected TopupChecker createTopupChecker(Double timeRequired) {
+	protected TopupChecker createTopupChecker(Double realTimeRequired) {
+		double timeRequired = Math.min( TOP_UP_TIME-30,  realTimeRequired ); //otherwise if realTimeRequired>TOP_UP_TIME checker runs forever...
+
 		TopupChecker topupchecker = new TopupChecker();
 		topupchecker.setName("EDE_scan_topup_checker");
 		topupchecker.setScannableToBeMonitored(topup);
@@ -409,26 +437,35 @@ public abstract class EdeExperiment implements IObserver {
 		topupchecker.setTolerance(0);
 		topupchecker.setPauseBeforeScan(true);
 		topupchecker.setPauseBeforePoint(false);
+
+		// Set machine mode monitor object for topup object so it works correctly.
+		Scannable machineModeMonitor = Finder.getInstance().find( "machineModeMonitor" );
+		if ( machineModeMonitor != null ) {
+			topupchecker.setMachineModeMonitor(machineModeMonitor);
+		}
+		// Copy values for waittime and tolerance from machine topupChecker to this new topupchecker.
+		TopupChecker topupCheckerMachine = (TopupChecker) Finder.getInstance().find( "topupChecker" );
+		if ( topupCheckerMachine != null ) {
+			topupchecker.setTolerance( topupCheckerMachine.getTolerance() );
+			topupchecker.setWaittime( topupCheckerMachine.getWaittime() );
+		}
 		return topupchecker;
 	}
 
 	protected TopupChecker createTopupCheckerForStartOfExperiment(double nextTopupTime) throws Exception {
-		double predictedExperimentTime = getTimeRequiredForFullExperiment();
-		if (predictedExperimentTime < nextTopupTime) {
+		// double predictedExperimentTime = getTimeRequiredForFullExperiment();
+		double timeForPreItScans = getTimeRequiredBeforeItCollection();
+		if (timeForPreItScans < nextTopupTime) {
 			// Don't wait for topup
 			return null;
 		}
 
-		if (predictedExperimentTime < TOP_UP_TIME) {
-			// Wait for toptup
-			return createTopupChecker(predictedExperimentTime);
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups. 
+		if (timeForPreItScans >= TOP_UP_TIME) {
+			logger.info("Time required for before It collection ("+timeForPreItScans+") secs is too large to fit within a topup");
 		}
 
-		if (getTimeRequiredBeforeItCollection() >= TOP_UP_TIME) {
-			throw new Exception("Time required for before It collection is too large to fit within a topup");
-		}
-
-		return createTopupChecker(getTimeRequiredBeforeItCollection());
+		return createTopupChecker(timeForPreItScans);
 	}
 
 	protected double getNextTopupTime() throws DeviceException {
@@ -450,13 +487,15 @@ public abstract class EdeExperiment implements IObserver {
 	private DoubleDataset lastDarkRefData = null;
 	private DoubleDataset lastIRefFinalData = null;
 	private DoubleDataset lastI0FinalData = null;
+
+	private MultiScan multiScan;
 	@Override
 	public void update(Object source, Object arg) {
 		if (controller != null && arg instanceof EdeScanProgressBean) {
 			EdeScanProgressBean progress = (EdeScanProgressBean) arg;
 			if (source.equals(i0DarkScan)) {
 				lastEnergyData = ScanDataHelper.extractDetectorEnergyFromSDP(theDetector.getName(), i0DarkScan.getData().get(0));
-				if (!theDetector.getDetectorData().isEnergyCalibrationSet()) {
+				if (!theDetector.isEnergyCalibrationSet()) {
 					lastEnergyData.setName("Strip");
 				}
 				lastI0DarkData = i0DarkScan.extractLastDetectorDataSet();
@@ -527,6 +566,14 @@ public abstract class EdeExperiment implements IObserver {
 				}
 			}
 		}
+	}
+
+	public MultiScan getMultiScan() {
+		return multiScan;
+	}
+
+	public void setMultiScan(MultiScan multiScan) {
+		this.multiScan = multiScan;
 	}
 
 }

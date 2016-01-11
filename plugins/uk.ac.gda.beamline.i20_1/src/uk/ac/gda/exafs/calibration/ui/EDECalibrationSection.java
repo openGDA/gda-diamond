@@ -54,7 +54,7 @@ public class EDECalibrationSection extends ResourceComposite {
 
 	private static final Logger logger = LoggerFactory.getLogger(EDECalibrationSection.class);
 
-	public static final String REF_DATA_PATH = LocalProperties.getConfigDir() + "edeRefData";
+	public static final String REF_DATA_PATH = LocalProperties.getVarDir() + "edeRefData";
 	public static final String REF_DATA_EXT = ".dat";
 
 	private final FormToolkit toolkit;
@@ -127,7 +127,7 @@ public class EDECalibrationSection extends ResourceComposite {
 					wizardDialog.setPageSize(1024, 768);
 					if (wizardDialog.open() == Window.OK) {
 						if (calibrationModel.getCalibrationDetails().getCalibrationResult() != null) {
-							DetectorModel.INSTANCE.getCurrentDetector().getDetectorData().setEnergyCalibration(calibrationModel.getCalibrationDetails());
+							DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibrationModel.getCalibrationDetails());
 						}
 					}
 				} catch (Exception e) {

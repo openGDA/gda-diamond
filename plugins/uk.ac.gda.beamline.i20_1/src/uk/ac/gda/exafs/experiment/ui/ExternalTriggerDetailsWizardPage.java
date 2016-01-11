@@ -55,6 +55,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.exafs.experiment.trigger.DetectorDataCollection;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
@@ -106,7 +107,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 
 		sampleEnvironmentTableViewer = new TableViewer(tableContainer, SWT.BORDER | SWT.MULTI);
 		sampleEnvironmentTableViewer.getTable().setHeaderVisible(true);
-		TableViewerColumn viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE);
+		TableViewerColumn viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE, 0);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Name");
 		viewerNumberColumn.setEditingSupport(new EditingSupport(sampleEnvironmentTableViewer) {
@@ -128,7 +129,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			}
 		});
 
-		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE);
+		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE, 1);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Delay after Topup");
 		viewerNumberColumn.setEditingSupport(new EditingSupport(sampleEnvironmentTableViewer) {
@@ -150,7 +151,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			}
 		});
 
-		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE);
+		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE, 2);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Pulse width");
 		viewerNumberColumn.setEditingSupport(new EditingSupport(sampleEnvironmentTableViewer) {
@@ -172,7 +173,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			}
 		});
 
-		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE);
+		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE, 3);
 		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
 		viewerNumberColumn.getColumn().setText("Output port");
 		viewerNumberColumn.setEditingSupport(new EditingSupport(sampleEnvironmentTableViewer) {
@@ -202,6 +203,11 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 				return true;
 			}
 		});
+
+		// Add another column to show timing of trigger relative to spectra start time.
+		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE, 4);
+		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
+		viewerNumberColumn.getColumn().setText("Time relative to spectra");
 
 		Composite tableContainerAddRemove = new Composite(container, SWT.NULL);
 		gridData = new GridData(SWT.END, SWT.FILL, false, true);
@@ -306,6 +312,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 				case 1: return Double.toString(obj.getTriggerDelay()) + " " + TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText();
 				case 2: return Double.toString(obj.getTriggerPulseLength())  + " " + TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText();
 				case 3: return obj.getTriggerOutputPort().getPortName();
+				case 4: return getRelativeTimeStringForTrigger(obj);
 				default : return "Unknown";
 				}
 			}
@@ -328,8 +335,33 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 						return ((TriggerOutputPort) value).getPortName();
 					}
 				});
-
-
 	}
 
+	/**
+	 * Return String showing time of trigger relative to start of spectra accumulation.
+	 * @since 30/9/2015
+	 * @author Iain Hall
+	 */
+	private String getRelativeTimeStringForTrigger( TriggerableObject trigger ) {
+		DetectorDataCollection collection = externalTriggerSetting.getTfgTrigger().getDetectorDataCollection();
+
+		int numFrames = collection.getNumberOfFrames();
+		double timePerFrame = collection.getTotalDuration()/numFrames;
+		double timeRelativeToCollectionStart = trigger.getTriggerDelay() - collection.getTriggerDelay();
+
+		int frameNumber = (int)Math.floor( timeRelativeToCollectionStart/timePerFrame );
+
+		if ( frameNumber < 0 ) {
+			return "Before data collection";
+		} else if ( frameNumber > numFrames-1 ) {
+			return "After data collection";
+		}
+
+		double timeRelativeToFrameStart = timeRelativeToCollectionStart-frameNumber*timePerFrame;
+
+		String timeStr = String.format("%5g",  timeRelativeToFrameStart );
+
+		String str = "Spectra " + (frameNumber+1) + " + " + timeStr + " s";
+		return str;
+	}
 }

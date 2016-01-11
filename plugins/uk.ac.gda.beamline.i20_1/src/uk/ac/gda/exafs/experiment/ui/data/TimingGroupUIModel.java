@@ -53,6 +53,18 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	@Expose
 	private double timePerSpectrum;
 
+	public static final String REAL_TIME_PER_SPECTRUM_PROP_NAME = "realTimePerSpectrum";
+	@Expose
+	private double realTimePerSpectrum;
+
+	public double getRealTimePerSpectrum() {
+		return realTimePerSpectrum;
+	}
+
+	public void setRealTimePerSpectrum(double realTimePerSpectrum) {
+		firePropertyChange( REAL_TIME_PER_SPECTRUM_PROP_NAME, this.realTimePerSpectrum,  this.realTimePerSpectrum = realTimePerSpectrum );
+	}
+
 	public static final String DELAY_BETWEEN_SPECTRUM_PROP_NAME = "delayBetweenSpectrum";
 	@Expose
 	private double delayBetweenSpectrum;
@@ -61,21 +73,25 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	@Expose
 	private double integrationTime;
 
+	public static final String ACCUMULATION_READOUT_TIME_PROP_NAME = "accumulationReadoutTime";
+	@Expose
+	private double accumulationReadoutTime;
+
 	public static final String NO_OF_ACCUMULATION_PROP_NAME = "noOfAccumulations";
 	@Expose
 	private int noOfAccumulations;
 
-	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExernalTrigger";
+	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExternalTrigger";
 	@Expose
-	private boolean useExernalTrigger;
+	private boolean useExternalTrigger;
 
-	public static final String EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME = "exernalTriggerAvailable";
+	public static final String EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME = "externalTriggerAvailable";
 	@Expose
-	private boolean exernalTriggerAvailable;
+	private boolean externalTriggerAvailable;
 
-	public static final String EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME = "exernalTriggerInputLemoNumber";
+	public static final String EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME = "externalTriggerInputLemoNumber";
 	@Expose
-	private InputTriggerLemoNumbers exernalTriggerInputLemoNumber = InputTriggerLemoNumbers.ZERO;
+	private InputTriggerLemoNumbers externalTriggerInputLemoNumber = InputTriggerLemoNumbers.ZERO;
 
 	public static final String END_TIME_IS_LOCKED = "endTimeIsLocked";
 	@Expose
@@ -148,8 +164,10 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				String sourcePropName = evt.getPropertyName();
-				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME) | sourcePropName.equals(NO_OF_SPECTRUM_PROP_NAME)) {
+				if (sourcePropName.equals(TIME_PER_SPECTRUM_PROP_NAME) | sourcePropName.equals(INTEGRATION_TIME_PROP_NAME) | sourcePropName.equals(ACCUMULATION_READOUT_TIME_PROP_NAME)) {
 					TimingGroupUIModel.this.updateMaxAccumulationForDetector();
+				} else if (sourcePropName.equals(REAL_TIME_PER_SPECTRUM_PROP_NAME)) {
+
 				}
 			}
 		});
@@ -240,8 +258,8 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public void setNumberOfSpectrum(int numberOfSpectrum) {
-		double newTimePerSpectrum = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertToNearestFrame(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
-		updateTimePerSpectrum(newTimePerSpectrum);
+		//		double newTimePerSpectrum = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertToNearestFrame(this.getAvailableDurationAfterDelay() / numberOfSpectrum);
+		//		updateTimePerSpectrum(newTimePerSpectrum);
 		adjustEndTimeForNumberOfSpectrum(numberOfSpectrum);
 		this.adjustSpectra(numberOfSpectrum);
 	}
@@ -261,16 +279,25 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		this.firePropertyChange(INTEGRATION_TIME_PROP_NAME, this.integrationTime, this.integrationTime = integrationTime);
 	}
 
+	public void setAccumulationReadoutTime(double readoutTime) throws IllegalArgumentException {
+		this.firePropertyChange(ACCUMULATION_READOUT_TIME_PROP_NAME, accumulationReadoutTime, accumulationReadoutTime = readoutTime);
+	}
+
+	public double getAccumulationReadoutTime() {
+		return accumulationReadoutTime;
+	}
 	public double getTimePerSpectrum() {
 		return timePerSpectrum;
 	}
 
-	public void setTimePerSpectrum(double timePerSpectrum) throws Exception {
+	public void setTimePerSpectrum(double timePerSpectrum){
 		updateTimePerSpectrum(timePerSpectrum);
-		setSpectrumAndAdjustEndTime(timePerSpectrum);
-		if (integrationTime > timePerSpectrum) {
-			this.setIntegrationTime(timePerSpectrum);
-		}
+		// TODO imh
+		this.setTimes( this.getStartTime(), timePerSpectrum * getNumberOfSpectrum() );
+		// setSpectrumAndAdjustEndTime(timePerSpectrum);
+		//if (integrationTime > timePerSpectrum) {
+		//	this.setIntegrationTime(timePerSpectrum);
+		//}
 	}
 
 	public ExperimentUnit getUnit() {
@@ -312,28 +339,28 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		this.firePropertyChange(NO_OF_ACCUMULATION_PROP_NAME, noOfAccumulations, noOfAccumulations = value);
 	}
 
-	public boolean isUseExernalTrigger() {
-		return useExernalTrigger;
+	public boolean isUseExternalTrigger() {
+		return useExternalTrigger;
 	}
 
-	public void setUseExernalTrigger(boolean value) {
-		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExernalTrigger, useExernalTrigger = value);
+	public void setUseExternalTrigger(boolean value) {
+		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExternalTrigger, useExternalTrigger = value);
 	}
 
-	public boolean isExernalTriggerAvailable() {
-		return exernalTriggerAvailable;
+	public boolean isExternalTriggerAvailable() {
+		return externalTriggerAvailable;
 	}
 
-	public void setExernalTriggerAvailable(boolean exernalTriggerAvailable) {
-		this.firePropertyChange(EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME, this.exernalTriggerAvailable, this.exernalTriggerAvailable = exernalTriggerAvailable);
+	public void setExternalTriggerAvailable(boolean externalTriggerAvailable) {
+		this.firePropertyChange(EXTERNAL_TRIGGER_AVAILABLE_PROP_NAME, this.externalTriggerAvailable, this.externalTriggerAvailable = externalTriggerAvailable);
 	}
 
-	public InputTriggerLemoNumbers getExernalTriggerInputLemoNumber() {
-		return exernalTriggerInputLemoNumber;
+	public InputTriggerLemoNumbers getExternalTriggerInputLemoNumber() {
+		return externalTriggerInputLemoNumber;
 	}
 
-	public void setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers exernalTriggerInputLemoNumber) {
-		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.exernalTriggerInputLemoNumber, this.exernalTriggerInputLemoNumber = exernalTriggerInputLemoNumber);
+	public void setExternalTriggerInputLemoNumber(InputTriggerLemoNumbers externalTriggerInputLemoNumber) {
+		this.firePropertyChange(EXTERNAL_TRIGGER_INPUT_LEMO_NUMBER_PROP_NAME, this.externalTriggerInputLemoNumber, this.externalTriggerInputLemoNumber = externalTriggerInputLemoNumber);
 	}
 
 	public TimeResolvedExperimentModel getParent() {
@@ -350,14 +377,24 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	private void updateMaxAccumulationForDetector() {
 		try {
-			double timePerSpectrum = getTimePerSpectrum();
-			double integrationTime = getIntegrationTime();
+			double timePerSpectrum = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getTimePerSpectrum(), ExperimentUnit.SEC);
+			double integrationTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getIntegrationTime(), ExperimentUnit.SEC);
+			double accumlationReadoutTime=ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getAccumulationReadoutTime(), ExperimentUnit.SEC);
+			if (timePerSpectrum>65.535 || timePerSpectrum<1E-6) {
+				//TODO need to remove this
+				return;
+			}
+			double freqlonTimePerSpectrum=integrationTime*timePerSpectrum/(integrationTime+accumlationReadoutTime);
 			int noOfSpectra = getNumberOfSpectrum();
 			if (integrationTime > 0 & timePerSpectrum > 0) {
 				EdeDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
-				int numberScansInFrame = detector.getNumberScansInFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(timePerSpectrum, ExperimentUnit.SEC), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(integrationTime, ExperimentUnit.SEC), noOfSpectra);
+				int numberScansInFrame = detector.getNumberScansInFrame(freqlonTimePerSpectrum, integrationTime, noOfSpectra);
 				setNoOfAccumulations(numberScansInFrame);
+
+
+				setRealTimePerSpectrum( ExperimentUnit.SEC.convertTo(numberScansInFrame * ( integrationTime + accumlationReadoutTime ), ExperimentUnit.NANO_SEC ) );
 			}
+
 		} catch (DeviceException e) {
 			logger.warn("Unable to update max accumulations");
 			setNoOfAccumulations(INVALID_NO_OF_ACCUMULATION);
@@ -373,7 +410,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	}
 
 	public int getExternalTrigLemoNumber() {
-		return exernalTriggerInputLemoNumber.getLemoNumber();
+		return externalTriggerInputLemoNumber.getLemoNumber();
 	}
 
 	public IValidator getEndTimeValidator() {
