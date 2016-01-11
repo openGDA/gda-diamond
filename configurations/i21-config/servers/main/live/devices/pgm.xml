@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- PGM control -->
+	<bean id="pgmEnergyMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-PGM-01:ENERGY" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmCffMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-PGM-01:CFF" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmMirrorSelect" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL21I-OP-PGM-01:MIRRORSELECT" />
+	</bean>
+
+	<bean id="pgmGratingSelect" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL21I-OP-PGM-01:GRATINGSELECT" />
+	</bean>
+
+
+	<!-- real motors -->
+	<bean id="pgmMirrorPitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-PGM-01:MIR:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmGratingPitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-PGM-01:GRT:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmMirrorSelectMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-PGM-01:MIR:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmGratingSelectMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-PGM-01:GRT:X" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>
