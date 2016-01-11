@@ -9,8 +9,8 @@
 
 	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" />
-	</bean>
-
+	</bean>	
+	
 	<!-- NXDetector file writers -->
 
 	<bean id="xmap_hdf5filewriter_for_scans"
@@ -26,9 +26,11 @@
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks 
 			is 64 -->
-		<property name="FramesChunks" value="1" />
-		<property name="setChunking" value="false" />
+		<property name="FramesChunks" value="5" />
+		<property name="setChunking" value="true" />
 		<property name="writeErrorStatusSupported" value="true" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
 	</bean>
 
 	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.XmapMappingModeEpicsLayerImpl">
