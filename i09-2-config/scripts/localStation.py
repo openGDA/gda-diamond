@@ -213,15 +213,16 @@ print "-------------------------------------------------------------------------
 #from epics.motor.positionCompareMotorClass import PositionCompareMotorClass
 #pgmenergy=PositionCompareMotorClass("pgmenergy", "BL09I-ENERGY-MOTOR-01.VAL", "BL09I-ENERGY-MOTOR-01.RBV", "BL09I-ENERGY-MOTOR-01.STOP", 0.015, "mm", "%.4f")
 
-
-#lakeshoreC0=DisplayEpicsPVClass("lakeshoreC0", "BL09L-VA-LAKE-01:KRDG0","K","%f")
-#lakeshoreC1=DisplayEpicsPVClass("lakeshoreC1", "BL09L-VA-LAKE-01:KRDG1","K","%f")
-#lakeshoreC2=DisplayEpicsPVClass("lakeshoreC2", "BL09L-VA-LAKE-01:KRDG2","K","%f")
-#lakeshoreC3=DisplayEpicsPVClass("lakeshoreC3", "BL09L-VA-LAKE-01:KRDG3","K","%f")
-
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
-    
+
+print "Create an 'analyserscan' command for scanning the electron analyser."
+from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
+alias("zerosupplies")
+alias("analyserscan")
+alias("analyserscan_v1")
+alias("analyserscancheck")
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete." 
