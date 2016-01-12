@@ -1,0 +1,162 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="bpm1AD_cam" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:CAM:" />
+	</bean>
+
+	<bean id="bpm1AD_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:ARR:" />
+	</bean>
+
+	<bean id="bpm1AD_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:STAT:" />
+	</bean>
+
+	<bean id="bpm1AD_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:ROI:" />
+	</bean>
+
+	<bean id="bpm1AD_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:MJPG:" />
+	</bean>
+
+	<bean id="bpm1AD_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
+
+	<bean id="bpm1AD_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:ROI1:" />
+	</bean>
+
+	<bean id="bpm1AD__roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:ROI2:" />
+	</bean>
+
+	<bean id="bpm1AD__roi3" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:ROI3:" />
+	</bean>
+
+	<bean id="bpm1AD__roi4" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:ROI4:" />
+	</bean>
+
+	<bean id="bpm1AD_roi5" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:ROI5:" />
+	</bean>
+
+	<bean id="bpm1AD_roi6" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:ROI6:" />
+	</bean>
+
+	<bean id="bpm1AD_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:STAT1:" />
+	</bean>
+
+	<bean id="bpm1AD_stat2" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:STAT2:" />
+	</bean>
+
+	<bean id="bpm1AD_stat3" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:STAT3:" />
+	</bean>
+
+	<bean id="bpm1AD_stat4" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:STAT4:" />
+	</bean>
+
+	<bean id="bpm1AD_stat5" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:STAT5:" />
+	</bean>
+
+	<bean id="bpm1AD_stat6" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:STAT6:" />
+	</bean>
+
+	<bean id="bpm1_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15J-DI-BPM-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="bpm1_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL15J-DI-BPM-01:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="bpm1_SingleExposureStandardCollectionStrategy" 
+			class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="bpm1AD_cam" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="bpm1_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="bpm1_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$/$scan$" />
+		<property name="fileNameTemplate" value="bpm1" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+	<!-- This generates files of the form $datadir$/$scan$/bpm1.hdf5 -->
+
+	<!-- SingleImagePerFileWriter(String detectorName)
+	 -->
+	<bean id="bpm1_tiff_SingleImagePerFileWriter"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="bpm1_NDFileTiff" />
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$/bpm1" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="keyNameForMetadataPathTemplate" value="bpm1_path_template" />
+	</bean>
+	<!-- To generate files of the form $datadir$/$scan$-bpm1-files/%05d.tif :
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-bpm1-files" />
+		<property name="fileNameTemplate" value="" />
+	-->
+
+	<!-- NXDetectors -->
+
+	<bean id="bpm1" class="gda.device.detector.NXDetector">
+		<property name="name" value="bpm1" />
+		<property name="collectionStrategy" ref="bpm1_SingleExposureStandardCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="bpm1_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="bpm1_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
