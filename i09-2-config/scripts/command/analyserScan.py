@@ -18,9 +18,11 @@ import time
 from gda.device.scannable import DummyScannable
 from gdascripts.utils import caput
 from gda.device import Scannable
+from types import TupleType, ListType, FloatType, IntType
+from gda.device.scannable.scannablegroup import ScannableGroup
 #from localStation import setSubdirectory
 
-ENABLEZEROSUPPLIES=True
+ENABLEZEROSUPPLIES=False
 PRINTTIME=False
 zeroScannable=DummyScannable("zeroScannable")
 
@@ -97,7 +99,48 @@ def analyserscancheck(*args):
             else:
                 print "All regions in the sequence file "+filename+" are valid for the stop energy "+str(excitationEnergy_stop)+" in an energy scan."
 
+def allElementsAreScannable(arg):
+    for each in arg:
+        if not isinstance(each, Scannable):
+            return False
+    return True
+
+
+def allElementsAreListOfNumber(arg):
+    for each in arg:
+        if not type(each)==ListType:
+            return False
+        for item in each:
+            if not (type(item)==FloatType or type(item)==IntType):
+                return False
+    return True
+
+def allElementsAreNumber(arg):
+    for each in arg:
+        if not (type(each)==FloatType or type(each)==IntType):
+            return False
+    return True
+
+def allElementsAreTuplesOfNumbers(arg):
+    for each in arg:
+        print each, each.__class__
+        # Check its a tuple
+        if not (type(each)==TupleType):
+            return False
+        # Check all elements of the tuple are numbers
+        elif not allElementsAreNumber(each):
+            return False
+    return True
+
 def analyserscan(*args):
+    ''' a more generalised scan that extends standard GDA scan syntax to support 
+    1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group and 
+    2. its corresponding path tuple (e.g. tuple of position lists), if exist, and
+    3. EW4000 analyser detector that takes a reion sequence file name as input, if exist, and
+    4. syntax 'analyserscan ew4000 "user.seq ...' for analyser scan only
+    It parses input parameters described above before delegating to the standard GDA scan to do the actual data collection.
+    Thus it can be used anywhere the standard GDA 'scan' is used.
+    '''
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
     newargs=[]
@@ -109,7 +152,28 @@ def analyserscan(*args):
             newargs.append(0)
             newargs.append(0)
             newargs.append(1)
-        newargs.append(arg)
+            newargs.append(arg)
+        elif type(arg)==TupleType:
+            if allElementsAreScannable(arg):
+                #parsing (scannable1, scannable2,...) as scannable group
+                scannableGroup=ScannableGroup()
+                for each in arg:
+                    scannableGroup.addGroupMember(each)
+                scannableGroup.setName("pathgroup")
+                newargs.append(scannableGroup)
+            elif allElementsAreListOfNumber(arg):
+                #parsing scannable group's position lists
+                newargs.append(arg)
+            elif allElementsAreNumber(arg):
+                #parsing scannable group's position lists
+                newargs.append(arg)
+            elif allElementsAreTuplesOfNumbers(arg):
+                # THis case is to fix BLIX-206 when using a scannable group with a tuple of tuples of positions
+                newargs.append(arg)
+            else:
+                raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of tuples of numbers, or list of numbers are supported."
+        else:
+            newargs.append(arg)
         i=i+1
         if isinstance( arg,  EW4000 ):
             controller = Finder.getInstance().find("SequenceFileObserver")
@@ -161,41 +225,4 @@ def analyserscan_v1(*args):
     scan(newargs)
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
-def analyserscanenergyfirst(*args):
-    argsbeforeregions=[]
-    argsafterregions=[]
-    i=0;
-    while i< len(args):
-        arg = args[i]
-        argsbeforeregions.append(arg)
-        i=i+1
-        if isinstance( arg,  RegionScannable ):
-            controller = Finder.getInstance().find("SequenceFileObserver")
-            filename= os.path.join(PathConstructor.createFromDefaultProperty(),"xml",args[i])
-            #xmldir = PathConstructor.createFromDefaultProperty()+"xml"+os.sep;
-            #filename=xmldir+args[i];
-            if (OsUtil.isWindows()) :
-                os.path.join("D:", filename)
-                #FilenameUtil.setPrefix("D:")
-                #filename=FilenameUtil.convertSeparator(filename)
-            posProvider=RegionPositionProvider(filename)
-            controller.update(controller,SequenceFileChangeEvent(filename))
-            regionlist=[]
-            for index in range(posProvider.size()):
-                #print index
-                regionlist.append( posProvider.get(index) )
-                #scanargs[j].append( arg ) # to read the actual position
-            break
-    i=i+1
-    while i < len(args):
-        arg = args[i]
-        argsafterregions.append(arg)
-        i=i+1
 
-    for region in regionlist:
-        newargs=[]
-        newargs=argsbeforeregions + [RegionPositionProvider(region)] + argsafterregions
-        #print str(newargs)
-        print "performing scan for "+region.getName() +" data collection ..."
-        scan(newargs)
-        
