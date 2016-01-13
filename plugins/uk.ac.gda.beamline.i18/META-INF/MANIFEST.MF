@@ -37,11 +37,11 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.exafs.api;bundle-version="1.0.0",
  uk.ac.gda.devices.xspress3,
  org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
- org.eclipse.richbeans.api;bundle-version="1.0.0"
+ org.eclipse.richbeans.api;bundle-version="1.0.0",
+ uk.ac.diamond.daq.beamline.i18.controls;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: gda.device.scannable,
- gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
+Export-Package: gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
  gda.exfas.ui.validation;
   uses:="uk.ac.gda.beans.exafs.i18,
    uk.ac.gda.beans.exafs,

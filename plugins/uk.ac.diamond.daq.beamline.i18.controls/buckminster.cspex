@@ -4,7 +4,7 @@
 	xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0"
 	xmlns="http://www.eclipse.org/buckminster/CSpec-1.0">
 	<dependencies>
-		<dependency name="uk.ac.gda.beamline.i18.test" componentType="osgi.bundle"/>
+		<dependency name="uk.ac.diamond.daq.beamline.i18.controls.test" componentType="osgi.bundle"/>
 	</dependencies>
 	<generators>
 		<!-- Place your Generators here -->
