@@ -82,7 +82,7 @@
 	</bean>
 
 <!-- 	<bean id="ew4000_collectionstrategy" class="org.opengda.detector.electronanalyser.nxdetector.EW4000CollectionStrategy"> -->
-	<bean id="analyser_collectionstrategy" class="uk.ac.diamond.daq.devices.specs.phoibos.PhoibosCollectionStrategy">
+	<bean id="analyser_collectionstrategy" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosCollectionStrategy">
 		<property name="analyser" ref="analyser" />
 <!-- 		<property name="dcmenergy" ref="dcmenergy"/> -->
 		<property name="pgmenergy" ref="pgmenergy"/>
