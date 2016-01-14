@@ -22,16 +22,23 @@
 		<property name="prefix" value="BL21I-DI-DCAM-00:CAM:" />
 	</bean>
 
-	<bean id="dgnCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="dgnCamBase" />
-		<constructor-arg value="-1" />
+	<bean id="dgnCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="adBase" ref="dgnCamBase" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 	
 	<bean id="dgnRoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats" />
 		<property name="baseRoiPVName" value="BL21I-DI-DCAM-00:ROI1:" />
 		<property name="baseStatsPVName" value="BL21I-DI-DCAM-00:STAT1:" />
-		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="roiInputNdArrayPort" value="DGN.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">

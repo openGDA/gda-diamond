@@ -37,4 +37,36 @@
 		<property name="sensitivity" value="2.0"/>
 	</bean>
 
+ 	<bean id="gauge05" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-05:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge06" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-06:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge07" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-07:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge08" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-08:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
 </beans>

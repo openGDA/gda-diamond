@@ -11,6 +11,10 @@
 				<ref bean="gauge02" />
 				<ref bean="gauge03" />
 				<ref bean="gauge04" />
+				<ref bean="gauge05" />
+				<ref bean="gauge06" />
+				<ref bean="gauge07" />
+				<ref bean="gauge08" />
 			</list>
 		</property>
 		<property name="local" value="true" />

@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="s3hcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3hcentreMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	
+	<bean id="s3hsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3hsizeMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	
+	<bean id="s3vcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3vcentreMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s3vsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3vsizeMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s3offside" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3offsideMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s3nearside" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3nearsideMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s3upper" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3upperMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s3lower" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3lowerMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3hcentre" />
+				<ref bean="s3hsize" />
+				<ref bean="s3vcentre" />
+				<ref bean="s3vsize" />
+				<ref bean="s3offside" />
+				<ref bean="s3nearside" />
+				<ref bean="s3upper" />
+				<ref bean="s3lower" />
+				<ref bean="s3femto1" />
+				<ref bean="s3femto2" />
+				<ref bean="s3femto3" />
+				<ref bean="s3femto4" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>	
+
+</beans>
