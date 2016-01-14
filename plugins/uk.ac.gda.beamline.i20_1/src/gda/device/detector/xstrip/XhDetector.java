@@ -18,18 +18,19 @@
 
 package gda.device.detector.xstrip;
 
+import gda.device.DeviceException;
+import gda.device.detector.DAServer;
+import gda.device.detector.DetectorStatus;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.EdeDetectorBase;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.DeviceException;
-import gda.device.detector.DAServer;
-import gda.device.detector.DetectorData;
-import gda.device.detector.DetectorStatus;
-import gda.device.detector.EdeDetector;
-import gda.device.detector.EdeDetectorBase;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -78,11 +79,13 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 	// must be in configuration info
 	private String templateFileName;
+	private final XhDetectorTemperature detectorTemp;
 
 	public XhDetector() {
 		super();
 		// defaults which will be updated when number of sectors changed
 		inputNames = new String[] { "time" };
+		detectorTemp=new XhDetectorTemperature(daServer, "xh_temperatures");
 	}
 
 
@@ -268,7 +271,7 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	@Override
-	protected void configureDetectorForCollection() throws DeviceException {
+	public void configureDetectorForCollection() throws DeviceException {
 		// read nextScan attribute and convert into daserver commands...
 
 		addOutSignals();
@@ -561,7 +564,7 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	public void setBias(Double biasVoltage) throws DeviceException {
-		XhDetectorData xhDetectorData = (XhDetectorData) detectorData;
+		XhDetectorData xhDetectorData = (XhDetectorData) getDetectorData();
 		if (biasVoltage < xhDetectorData.getMinBias() | biasVoltage > xhDetectorData.getMaxBias()) {
 			throw new DeviceException("Bias voltage of " + biasVoltage + " is unacceptable.");
 		}
@@ -614,13 +617,52 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	}
 
 	@Override
-	protected DetectorData createDetectorData() {
-		return new XhDetectorData();
+	public void fetchDetectorSettings() {
+		// TODO Auto-generated method stub
+		//No-op
+	}
+
+	@Override
+	public HashMap<String, Double> getTemperatures() throws DeviceException {
+		return detectorTemp.getTemperatures();
 	}
 
 
 	@Override
-	protected void createDetectorDataFromJson(String property) {
-		detectorData=GSON.fromJson(property, XhDetectorData.class);
+	public int getNumberOfSpectra() throws DeviceException {
+		Integer numFrames=0;
+		for (Integer i = 0; i < currentScanParameter.getGroups().size(); i++) {
+
+			TimingGroup timingGroup = currentScanParameter.getGroups().get(i);
+
+			// basic times
+			numFrames += timingGroup.getNumberOfFrames();
+		}
+		return numFrames;
 	}
+
+
+	@Override
+	public int getNumberScansInFrame() {
+		// This detector does not require number of scans in a frame information as it is configured via internal TFG
+		return 0;
+	}
+
+	@Override
+	public void setNumberScansInFrame( int num ) {
+	}
+
+	@Override
+	public void configureDetectorForTimingGroup(TimingGroup group) throws DeviceException {
+		throw new UnsupportedOperationException("This detector processes timing groups in configureDetectorForCollection()");
+
+	}
+
+
+	@Override
+	public void configureDetectorForROI(int verticalBinning, int ccdLineBegin) throws DeviceException {
+		throw new UnsupportedOperationException("This detector does not support vertival binning and offset.");
+
+	}
+
 }

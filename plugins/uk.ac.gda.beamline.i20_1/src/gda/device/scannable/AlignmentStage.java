@@ -18,11 +18,18 @@
 
 package gda.device.scannable;
 
+import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.device.scannable.AlignmentStageScannable.FastShutter;
 
+import java.io.IOException;
+
+import org.apache.commons.configuration.ConfigurationException;
+
 public interface AlignmentStage extends Scannable {
 	public AlignmentStageDevice getAlignmentStageDevice(String name);
 	public FastShutter getFastShutter();
+	void saveDeviceFromCurrentMotorPositions(Object positionName) throws ConfigurationException, DeviceException,
+	IOException;
 }

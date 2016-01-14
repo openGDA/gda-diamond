@@ -29,6 +29,8 @@ public class I20_1PreferenceInitializer extends AbstractPreferenceInitializer {
 	public static final String VERTICALBINNING = "uk.ac.gda.beamline.i20_1.verticalbinning.preference";
 	public static final String CCDLINEBEGIN = "uk.ac.gda.beamline.i20_1.ccdlinebegin.preference";
 	public static String LIVEMODETIME = "uk.ac.gda.beamline.i20_1.livemodetime.preference";
+	public static final String LIVEMODESCANSPERFRAME = "uk.ac.gda.beamline.i20_1.livemodescansperframe.preference";
+	public static final String LIVEMODESHOWI0IT = "uk.ac.gda.beamline.i20_1.livemodeshowi0it.preference";
 
 	public I20_1PreferenceInitializer() {
 	}
@@ -42,6 +44,10 @@ public class I20_1PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(LIVEMODETIME, 1);
 		store.setDefault(VERTICALBINNING, 1);
 		store.setDefault(CCDLINEBEGIN, 0);
+		store.setDefault(LIVEMODESCANSPERFRAME, 1);
+		store.setDefault(LIVEMODESHOWI0IT, false);
+
 	}
 
 }
+

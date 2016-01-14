@@ -18,6 +18,11 @@
 
 package gda.device.detector.xstrip;
 
+import gda.data.PathConstructor;
+import gda.device.DeviceException;
+import gda.device.detector.DAServer;
+import gda.device.detector.DetectorTemperature;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,13 +32,10 @@ import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.data.PathConstructor;
-import gda.device.DeviceException;
-import gda.device.detector.DAServer;
 import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 
 
-public class XhDetectorTemperature {
+public class XhDetectorTemperature implements DetectorTemperature {
 
 	private static final Logger logger = LoggerFactory.getLogger(XhDetectorTemperature.class);
 
@@ -52,6 +54,7 @@ public class XhDetectorTemperature {
 		this.name = name;
 	}
 
+	@Override
 	public HashMap<String, Double> getTemperatures() throws DeviceException {
 		openTCSocket();
 
@@ -83,14 +86,17 @@ public class XhDetectorTemperature {
 		}
 	}
 
+	@Override
 	public IDataset[][] fetchTemperatureData() {
 		return new XCHIPTemperatureLogParser(temperatureLogFilename).getTemperatures();
 	}
 
+	@Override
 	public String getTemperatureLogFile() {
 		return temperatureLogFilename;
 	}
 
+	@Override
 	public void startTemperatureLogging() throws DeviceException {
 		// derive the filename
 		DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
@@ -108,6 +114,7 @@ public class XhDetectorTemperature {
 
 	}
 
+	@Override
 	public void stopTemperatureLogging() throws DeviceException {
 		// tell the detector to start temp logging to the filename
 		int result = (int) daServer.sendCommand("xstrip tc set \""+ name +"\" autoinc 0");

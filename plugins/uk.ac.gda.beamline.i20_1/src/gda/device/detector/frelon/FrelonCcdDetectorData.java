@@ -36,7 +36,6 @@ import gda.device.lima.LimaCCD;
 import gda.device.lima.LimaCCD.AccTimeMode;
 import gda.device.lima.LimaCCD.AcqMode;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
-import gda.device.lima.LimaROIInt;
 import gda.device.lima.impl.LimaROIIntImpl;
 /**
  * object to hold detector's configuration data.
@@ -47,26 +46,28 @@ import gda.device.lima.impl.LimaROIIntImpl;
  */
 public class FrelonCcdDetectorData extends DetectorData {
 	public static final int MAX_PIXEL = 2048;
-	public static final int VERTICAL_BIN_SIZE_LIMIT = 2048;
+	public static final int VERTICAL_BIN_SIZE_LIMIT = 1024;
 	public static final int HORIZONRAL_BIN_SIZE_LIMIT = 8;
 	//Frelon parameters
 	private ImageMode imageMode=ImageMode.FULL_FRAME;
 	private InputChannels inputChannel=InputChannels.I3_4;
 	private boolean ev2CorrectionActive=false;
 	private ROIMode roiMode=ROIMode.KINETIC;
-	private int yStartPixel = 0; //CCD line begin in Frelon GUI, or roi_bin_offset in line
+	private int ccdBeginLine= 1984; //CCD line begin in Frelon GUI, or roi_bin_offset in line
 	private SPB2Config spb2Config=SPB2Config.SPEED; //hardware pixel rate configuration: Speed or Precision
 	// Lima parameters
-	private int hotizontalBinValue=1; // 1, 2, 4, 8.
+	private int horizontalBinValue=1; // 1, 2, 4, 8.
 	private int verticalBinValue = 1; // vert.binning i.e. image_bin Y component
 	private AcqMode acqMode=AcqMode.SINGLE;
-	private int numberOfImages=1;
+	private int numberOfImages=2; // minimum 2 spectra as the 1st one usually crap need to be dropped in the future.
 	private AcqTriggerMode triggerMode=AcqTriggerMode.INTERNAL_TRIGGER;
 	private double latencyTime=0.0;
 	private double exposureTime=1.0;
 	private double accumulationMaximumExposureTime=0.1;
 	private AccTimeMode accumulationTimeMode=AccTimeMode.LIVE;
-	private LimaROIInt areaOfInterest=new LimaROIIntImpl(0, 0, 2048, 2048); // in units of binning sizes in x and y directions
+	// a hack below to using concrete class not interface LimaROTInt as Gson does not support interface without extra work on InstanceCreator.
+	//TODO register an InstanceCreator in Gson gson = new GsonBuilder().registerTypeAdapter(Animal.class, new InterfaceAdapter<Animal>()).create();
+	private LimaROIIntImpl areaOfInterest=new LimaROIIntImpl(0, 0, 2048, 2048); // in units of binning sizes in x and y directions
 
 	//Frelon attriutes
 	public ImageMode getImageMode() {
@@ -94,12 +95,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public void setRoiMode(ROIMode roiMode) {
 		this.roiMode = roiMode;
 	}
-	public int getRoiBinOffset() {
-		return yStartPixel;
-	}
-	public void setRoiBinOffset(int yStartPixel) {
-		this.yStartPixel = yStartPixel;
-	}
+
 	public SPB2Config getSpb2Config() {
 		return spb2Config;
 	}
@@ -155,21 +151,21 @@ public class FrelonCcdDetectorData extends DetectorData {
 	public void setAccumulationTimeMode(AccTimeMode accumulationTimeMode) {
 		this.accumulationTimeMode = accumulationTimeMode;
 	}
-	public int getHotizontalBinValue() {
-		return hotizontalBinValue;
+	public int getHorizontalBinValue() {
+		return horizontalBinValue;
 	}
 
-	public void setHotizontalBinValue(int binValue) {
-		if (hotizontalBinValue>HORIZONRAL_BIN_SIZE_LIMIT) {
+	public void setHorizontalBinValue(int binValue) {
+		if (horizontalBinValue>HORIZONRAL_BIN_SIZE_LIMIT) {
 			throw new IllegalArgumentException("The limit of horizontal binning size is "+HORIZONRAL_BIN_SIZE_LIMIT+" pixels.");
 		}
 		List<Integer> allowedValues= Arrays.asList(1,2,4,8);
-		if (allowedValues.contains(hotizontalBinValue)) {
-			hotizontalBinValue = binValue;
+		if (allowedValues.contains(horizontalBinValue)) {
+			horizontalBinValue = binValue;
 		} else {
 			throw new IllegalArgumentException("The horizontal binning can only be one of "+allowedValues.toArray(new Integer[] {})+" pixels.");
 		}
-		int xLength=MAX_PIXEL/hotizontalBinValue;
+		int xLength=MAX_PIXEL/horizontalBinValue;
 		areaOfInterest.setBeginX(0);
 		areaOfInterest.setLengthX(xLength);
 	}
@@ -196,7 +192,7 @@ public class FrelonCcdDetectorData extends DetectorData {
 	 * These data will be used to set to camera's image_roi attribute.
 	 * @return ROI
 	 */
-	public LimaROIInt getAreaOfInterest() {
+	public LimaROIIntImpl getAreaOfInterest() {
 		return areaOfInterest;
 	}
 	/**
@@ -204,10 +200,13 @@ public class FrelonCcdDetectorData extends DetectorData {
 	 * These data will be send to camera's image_roi attribute before acquisition
 	 * @param areaOfInterest
 	 */
-	public void setAreaOfInterest(LimaROIInt areaOfInterest) {
-		// set the limits for ROI in energy direction
-		setLowerChannel(areaOfInterest.getBeginX());
-		setUpperChannel(areaOfInterest.getLengthX()+areaOfInterest.getBeginX());
+	public void setAreaOfInterest(LimaROIIntImpl areaOfInterest) {
 		this.areaOfInterest = areaOfInterest;
+	}
+	public int getCcdBeginLine() {
+		return ccdBeginLine;
+	}
+	public void setCcdBeginLine(int ccdBeginLine) {
+		this.ccdBeginLine = ccdBeginLine;
 	}
 }

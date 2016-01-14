@@ -128,7 +128,7 @@ public class SimulatedData {
 	private static double[] createCorrectedSimulatedData(double[] simulatedData, EdeDetector theDetector) {
 		double[] correctedSimulatedData = new double[simulatedData.length];
 		for (int i = 0; i < simulatedData.length; i++) {
-			if (i >= theDetector.getDetectorData().getLowerChannel() && i <= theDetector.getDetectorData().getUpperChannel()) {
+			if (i >= theDetector.getLowerChannel() && i <= theDetector.getUpperChannel()) {
 				correctedSimulatedData[i] = simulatedData[i];
 			} else {
 				correctedSimulatedData[i] = 0.0;

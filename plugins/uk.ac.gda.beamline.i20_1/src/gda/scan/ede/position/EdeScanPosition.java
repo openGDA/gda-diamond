@@ -22,8 +22,12 @@ import gda.device.DeviceException;
 
 public interface EdeScanPosition {
 
+	/** Move all scan position motors from their current to final position */
 	public abstract void moveIntoPosition() throws DeviceException, InterruptedException;
 
 	public abstract EdePositionType getType();
+
+	/** Return estimate of the time needed to perform {@link #moveIntoPosition()} */
+	public abstract double getTimeToMove();
 
 }

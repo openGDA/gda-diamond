@@ -47,4 +47,9 @@ public class AlignmentStageScanPosition implements EdeScanPosition {
 		return type;
 	}
 
+	@Override
+	public double getTimeToMove() {
+		return 0;
+	}
+
 }

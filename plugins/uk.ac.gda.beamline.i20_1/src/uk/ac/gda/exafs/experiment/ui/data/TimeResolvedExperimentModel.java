@@ -70,6 +70,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 public class TimeResolvedExperimentModel extends ObservableModel {
 
 	private static final double INITIAL_INTEGRATION_TIME = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(0.001d);
+	private static final double INITIAL_ACCUMULATION_READOUT_TIME = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(0.536d);
 
 	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
 
@@ -236,16 +237,18 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		for (TimingGroupUIModel loadedGroup : savedGroups) {
 			TimingGroupUIModel timingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			timingGroup.setName(loadedGroup.getName());
-			timingGroup.setUseExernalTrigger(loadedGroup.isUseExernalTrigger());
-			timingGroup.setExernalTriggerAvailable(loadedGroup.isExernalTriggerAvailable());
-			timingGroup.setExernalTriggerInputLemoNumber(loadedGroup.getExernalTriggerInputLemoNumber());
+			timingGroup.setUseExternalTrigger(loadedGroup.isUseExternalTrigger());
+			timingGroup.setExternalTriggerAvailable(loadedGroup.isExternalTriggerAvailable());
+			timingGroup.setExternalTriggerInputLemoNumber(loadedGroup.getExternalTriggerInputLemoNumber());
 			double delay = 0.0;
 			if (loadedGroup.getDelay() > 0) {
 				delay = loadedGroup.getDelay();
 			}
 			// TODO Refactor this!
 			timingGroup.resetInitialTime(loadedGroup.getStartTime(), loadedGroup.getEndTime() - (delay + loadedGroup.getStartTime()), delay, loadedGroup.getTimePerSpectrum());
+			timingGroup.setRealTimePerSpectrum( loadedGroup.getRealTimePerSpectrum() );
 			timingGroup.setIntegrationTime(loadedGroup.getIntegrationTime());
+			timingGroup.setAccumulationReadoutTime(loadedGroup.getAccumulationReadoutTime());
 			if (loadedGroup.getDelayBetweenSpectrum() > 0) {
 				timingGroup.setDelayBetweenSpectrum(loadedGroup.getDelayBetweenSpectrum());
 			}
@@ -280,12 +283,18 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		double duration = groupToSplit.getDuration();
 		double endTime = groupToSplit.getEndTime();
 		double startTime = groupToSplit.getStartTime();
-		groupToSplit.resetInitialTime(startTime, duration / 2, 0, duration / 2);
+		double timePerSpectrum=groupToSplit.getTimePerSpectrum();
+		int numberOfSpectrum=groupToSplit.getNumberOfSpectrum();
+		groupToSplit.resetInitialTime(startTime, duration / 2, 0, timePerSpectrum);
+		groupToSplit.setNumberOfSpectrum(numberOfSpectrum/2);
 		TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 		newGroup.setName("Group " + (groupList.indexOf(groupToSplit) + 2));
-		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
+		newGroup.setTimePerSpectrum(groupToSplit.getTimePerSpectrum());
+		newGroup.setIntegrationTime(groupToSplit.getIntegrationTime());
+		newGroup.setAccumulationReadoutTime(groupToSplit.getAccumulationReadoutTime());
+		newGroup.setNumberOfSpectrum(numberOfSpectrum-groupToSplit.getNumberOfSpectrum());
 		addToInternalGroupList(newGroup, groupList.indexOf(groupToSplit) + 1);
-		newGroup.resetInitialTime(groupToSplit.getEndTime(), endTime - groupToSplit.getEndTime(), 0, endTime - groupToSplit.getEndTime());
+		newGroup.resetInitialTime(groupToSplit.getEndTime(), endTime - groupToSplit.getEndTime(), 0, timePerSpectrum);
 		for (int i = groupList.indexOf(groupToSplit) + 1; i < groupList.size(); i++) {
 			((TimingGroupUIModel) groupList.get(i)).setName("Group " + i);
 		}
@@ -297,8 +306,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
 		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
-		newGroup.setExernalTriggerAvailable(true);
-		newGroup.setExernalTriggerInputLemoNumber(InputTriggerLemoNumbers.ZERO);
+		newGroup.setAccumulationReadoutTime(INITIAL_ACCUMULATION_READOUT_TIME);
+		newGroup.setExternalTriggerAvailable(true);
+		newGroup.setExternalTriggerInputLemoNumber(InputTriggerLemoNumbers.ZERO);
 		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
@@ -306,13 +316,17 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private final PropertyChangeListener groupPropertyChangeListener = new PropertyChangeListener() {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
+			TimingGroupUIModel group = (TimingGroupUIModel) evt.getSource();
 			if (evt.getPropertyName().equals(TimeIntervalDataModel.END_TIME_PROP_NAME)) {
-				TimingGroupUIModel group = (TimingGroupUIModel) evt.getSource();
 				if (groupList.indexOf(evt.getSource()) < groupList.size() - 1) {
 					TimingGroupUIModel nextGroup = (TimingGroupUIModel) groupList.get(groupList.indexOf(evt.getSource()) + 1);
 					nextGroup.moveTo(group.getEndTime());
 				}
 				updateCollectionDuration();
+			} else if (evt.getPropertyName().equals(TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME) ){
+				group.setNumberOfSpectrum((int)evt.getNewValue());
+			} else if (evt.getPropertyName().equals(TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME) ){
+				group.setAccumulationReadoutTime((double)evt.getNewValue());
 			}
 			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.this.getDataStoreKey(), groupList);
 		}
@@ -333,12 +347,26 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		groupList.remove(group);
 	}
 
+	private int rowIndexOfGroup = 0;
+
+	public int getIndexOfSelectedRow() {
+		return rowIndexOfGroup;
+	}
 	public void removeGroup(TimingGroupUIModel group) throws Exception {
 		if (groupList.size() > 1 && groupList.indexOf(group) > 0) {
+
 			TimingGroupUIModel groupToExpend = (TimingGroupUIModel) groupList.get(groupList.indexOf(group) - 1);
+
+			// TODO index of group to remove.
+			rowIndexOfGroup = groupList.indexOf(group);
+			if ( rowIndexOfGroup > groupList.size()-2 ) {
+				rowIndexOfGroup--;
+			}
+
 			removeFromInternalGroupList(group);
 			groupToExpend.setEndTime(group.getEndTime());
 			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getDataStoreKey(), groupList);
+
 		}
 	}
 
@@ -472,13 +500,14 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			progressReportingJob.setUser(false);
 			currentNormalisedItData = null;
 			currentEnergyData = null;
+			//			TimeResolvedExperimentModel.this.setScanning(true);
 			try {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
 						// FIXME This scanning method needs to be improved
 						final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
-						TimeResolvedExperimentModel.this.setScanning(true);
+
 						for (Object object : groupList) {
 							TimingGroupUIModel uiTimingGroup = (TimingGroupUIModel) object;
 							TimingGroup timingGroup = new TimingGroup();
@@ -489,7 +518,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							// integration time is always in milli sec
 							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
-							timingGroup.setGroupTrig(uiTimingGroup.isUseExernalTrigger());
+							timingGroup.setGroupTrig(uiTimingGroup.isUseExternalTrigger());
 							// Set up lemo outs
 							setupLemoOuts(timingGroup);
 							timingGroups.add(timingGroup);
@@ -503,9 +532,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 			} catch (Exception e) {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
+			} finally {
+				monitor.done();
+				//				TimeResolvedExperimentModel.this.setScanning(false);
 			}
-			TimeResolvedExperimentModel.this.setScanning(false);
-			monitor.done();
 			return Status.OK_STATUS;
 		}
 
@@ -551,8 +581,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		});
 	}
 
-	protected void setScanning(final boolean value) {
-		Display.getDefault().syncExec(new Runnable() {
+	public void setScanning(final boolean value) {
+		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
 				firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
@@ -565,9 +595,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	public void doStop() {
-		if (this.isScanning()) {
-			JythonServerFacade.getInstance().requestFinishEarly();
-		}
+		String stopCommand=LINEAR_EXPERIMENT_OBJ+".getMultiScan().getCurrentRunningScan().setSmartstop(True);";
+		InterfaceProvider.getCommandRunner().runCommand(stopCommand);
+
+		//		if (this.isScanning()) {
+		//			JythonServerFacade.getInstance().requestFinishEarly();
+		//		}
 	}
 
 	public SpectrumModel getCurrentScanningSpectrum() {
@@ -578,7 +611,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		this.firePropertyChange(CURRENT_SCANNING_SPECTRUM_PROP_NAME, currentScanningSpectrum, currentScanningSpectrum = value);
 	}
 
-	private void updateCollectionDuration() {
+	public void updateCollectionDuration() {
 		double experimentDuration = 0.0;
 		int totalSpectra = 0;
 		for (Object loadedGroup : groupList) {
@@ -601,9 +634,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			if (i > 0) {
 				TimingGroupUIModel previous = (TimingGroupUIModel) groupList.get(i-1);
 				startTime = previous.getEndTime();
-				group.setExernalTriggerAvailable(false);
+				group.setExternalTriggerAvailable(false);
 			} else {
-				group.setExernalTriggerAvailable(true);
+				group.setExternalTriggerAvailable(true);
 			}
 			group.setName("Group " + i);
 			group.resetInitialTime(startTime, groupDuration, 0.0, groupDuration);
@@ -618,10 +651,14 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		timeIntervalData.setTimes(IT_COLLECTION_START_TIME, unit.convertToDefaultUnit(duration));
 		this.setUnit(unit);
 		groupList.clear();
+		double timePerGroup = timeIntervalData.getDuration() / noOfGroups;
 		for(int i = 0; i < noOfGroups; i++) {
 			TimingGroupUIModel newGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
 			newGroup.setName("Group " + groupList.size());
+			// TODO set time per spectrum
+			newGroup.setTimePerSpectrum(timePerGroup); // Initially there is only 1 spectrum per group
 			newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
+			newGroup.setAccumulationReadoutTime(INITIAL_ACCUMULATION_READOUT_TIME);
 			addToInternalGroupList(newGroup);
 		}
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());

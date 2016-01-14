@@ -173,4 +173,9 @@ public class ExplicitScanPositions implements Serializable, EdeScanPosition {
 		return true;
 	}
 
+	@Override
+	public double getTimeToMove() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

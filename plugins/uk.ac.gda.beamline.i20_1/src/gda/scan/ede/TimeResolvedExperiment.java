@@ -28,7 +28,6 @@ import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
-import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -190,12 +189,15 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			iRefScan.setProgressUpdater(this);
 		}
 
+		runItWithTriggerOptions=itScanParameters.getGroups().get(0).isGroupTrig();
+
 		if (runItWithTriggerOptions) {
 			itScans = new EdeScanWithTFGTrigger[repetitions];
 
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
+				// itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldItScanWaitForTopup(timeToTopup));
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
@@ -247,8 +249,9 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	}
 
 	private Double getTimeRequiredForFinalScans() {
-		LinearExperimentTimeEstimator estimator = new LinearExperimentTimeEstimator(i0ScanParameters, itScanParameters, iRefScanParameters, i0Position, itPosition, iRefPosition);
-		return estimator.getBeforeItDuration();
+		//LinearExperimentTimeEstimator estimator = new LinearExperimentTimeEstimator(i0ScanParameters, itScanParameters, iRefScanParameters, i0Position, itPosition, iRefPosition);
+		//return estimator.getBeforeItDuration();
+		return getTimeRequiredAfterItCollection();
 	}
 
 	@Override
@@ -272,28 +275,44 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		return true; // TODO always true, so remove from the interface??
 	}
 
-	@Override
-	protected double getTimeRequiredBeforeItCollection() {
-		// FIXME
-		return 0;
-	}
-
-	@Override
-	protected double getTimeRequiredForItCollection() {
-		return itTriggerOptions.getTotalTime() * numberOfRepetitions;
-	}
-
-	@Override
-	protected double getTimeRequiredAfterItCollection() {
-		// FIXME
-		return 0;
-	}
+	// These functions are now implemented in parent class (EdeExperiment)
+	//	@Override
+	//	protected double getTimeRequiredBeforeItCollection() {
+	//		//Time to move from current motor position to I0 position
+	//		double timeForI0Move = i0Position.getTimeToMove();
+	//		//Time to move from I0 to It position
+	//		double timeForItMove = ( (EdeScanMotorPositions) itPosition).getTimeToMove( (EdeScanMotorPositions)i0Position );
+	//		return itTriggerOptions.getTimePerSpectrum()*6 + timeForI0Move + timeForItMove;
+	//	}
+	//
+	//	@Override
+	//	protected double getTimeRequiredForItCollection() {
+	//		// itScanParameters.getTotalTime();
+	//		double totalTime = itScanParameters.getTotalNumberOfFrames();
+	//		return itTriggerOptions.getTotalTime() * numberOfRepetitions;
+	//	}
+	//	@Override
+	//	protected double getTimeRequiredAfterItCollection() {
+	//		// Time for move from It to I0 position
+	//		double timeForI0Move = ( (EdeScanMotorPositions) i0Position).getTimeToMove( (EdeScanMotorPositions)itPosition );
+	//
+	//		return itTriggerOptions.getTimePerSpectrum()*2 + timeForI0Move;
+	//	}
 
 	private int getCyclesForTopup() {
 		if (getTimeRequiredForItCollection() <= TOP_UP_TIME) {
 			return numberOfRepetitions;
 		}
 		return (int) (TOP_UP_TIME / itTriggerOptions.getTotalTime());
+	}
+
+
+	protected boolean shouldItScanWaitForTopup(double timeToTopupInSec) {
+		double timeRequired = getTimeRequiredForItCollection();
+		if ( timeRequired < timeToTopupInSec || timeRequired < TOP_UP_TIME) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

@@ -1,1 +1,1 @@
-gda --start logpanel
+gda --start logpanel $@

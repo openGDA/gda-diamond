@@ -20,11 +20,19 @@ package gda.device.detector;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
+import java.util.HashMap;
+
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
+import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public interface EdeDetector extends NexusDetector {
+	public static final String CALIBRATION_PROP_KEY = "calibration";
+	public static final int INITIAL_NO_OF_ROIS = 4;
+	public static final String ROIS_PROP_NAME = "rois";
+	public static final String EXCLUDED_PIXELS_PROP_NAME = "excludedStrips";
 
 	public abstract NexusTreeProvider[] readFrames(int startFrame, int finalFrame) throws DeviceException;
 
@@ -35,8 +43,9 @@ public interface EdeDetector extends NexusDetector {
 	public abstract double[] getEnergyForChannels();
 
 	public abstract Integer[] getPixels();
-
 	public abstract DetectorData getDetectorData();
+	public abstract int getNumberOfSpectra() throws DeviceException;
+	public abstract HashMap<String, Double> getTemperatures() throws DeviceException;
 
 	public abstract DetectorStatus fetchStatus() throws DeviceException;
 
@@ -45,5 +54,75 @@ public interface EdeDetector extends NexusDetector {
 	public abstract int getMaxPixel();
 
 	public abstract void prepareDetectorwithScanParameters(EdeScanParameters newParameters) throws DeviceException;
+	/**
+	 * to pull detector setting from detector server to synchronise the {@link DetectorData} object
+	 */
+	void fetchDetectorSettings();
+
+	boolean isDropFirstFrame();
+	/**
+	 * Returns the function used to convert channel number to energy. If not calibrated it should return a simple y = x
+	 * function.
+	 *
+	 * @return PolynomialFunction
+	 */
+	public CalibrationDetails getEnergyCalibration();
+
+	/**
+	 * Set the energy calibration. The detector object should persist this between GDA server restarts.
+	 *
+	 * @param calibrationDetails
+	 */
+	public void setEnergyCalibration(CalibrationDetails calibrationDetails);
+
+	boolean isEnergyCalibrationSet();
+	/**
+	 * Returns the regions in use, as defined by calls to setRois or setNumberRois
+	 *
+	 * @return the array of regions
+	 */
+	public Roi[] getRois();
+
+	/**
+	 * Ignoring the lower and upper channel properties, explicitly set the regions in use.
+	 *
+	 * @param rois
+	 */
+	public void setRois(Roi[] rois);
+
+	/**
+	 * Set evenly sized regions of interest, ignoring channels outside of the lower and upper channel limits.
+	 *
+	 * @param numberOfRois
+	 */
+	public void setNumberRois(int numberOfRois);
+	public int getNumberOfRois();
+	public void setLowerChannel(int channel);
+
+	public int getLowerChannel();
+
+	public void setUpperChannel(int channel);
+
+	public int getUpperChannel();
+	/**
+	 * The numbers of the strips which should be excluded when returning the data and creating region totals.
+	 * <p>
+	 * NB: these strips are still to be accounted for by the set/getChannelBiases methods.
+	 *
+	 * @param excludedStrips
+	 */
+	public void setExcludedPixels(Integer[] excludedStrips);
+
+	public Integer[] getExcludedPixels();
+
+	public int getRoiFor(int elementIndex);
+
+	public int getNumberScansInFrame();
+
+	public void setNumberScansInFrame( int numScansInFrame );
+
+	public void configureDetectorForTimingGroup(TimingGroup group) throws DeviceException;
+
+	public void configureDetectorForROI(int verticalBinning, int ccdLineBegin) throws DeviceException;
 
 }

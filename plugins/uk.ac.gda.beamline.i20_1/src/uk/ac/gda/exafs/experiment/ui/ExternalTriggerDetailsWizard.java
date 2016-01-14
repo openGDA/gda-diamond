@@ -45,7 +45,7 @@ public class ExternalTriggerDetailsWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
-		logger.debug("Command to send\n" + externalTriggerSetting.getTfgTrigger().getTfgSetupGrupsCommandParameters(1, false));
+		//		logger.debug("Command to send\n" + externalTriggerSetting.getTfgTrigger().getTfgSetupGrupsCommandParameters(1, false));
 		return true;
 	}
 }

@@ -31,6 +31,8 @@ public class SampleStageMotors extends ObservableModel {
 
 	static {
 		scannables = new ExperimentMotorPostion[] {
+				new ExperimentMotorPostion(ScannableSetup.ALIGNMENT_STAGE_X_POSITION),
+				new ExperimentMotorPostion(ScannableSetup.ALIGNMENT_STAGE_Y_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TABLEX_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_TABLEY_POSITION),
 				new ExperimentMotorPostion(ScannableSetup.SAMPLE_X_POSITION),
@@ -55,7 +57,7 @@ public class SampleStageMotors extends ObservableModel {
 
 	public static final String SELECTED_MOTORS_PROP_NAME = "selectedMotors";
 	private ExperimentMotorPostion[] selectedMotors = new ExperimentMotorPostion[]{
-			scannables[0], scannables[1]
+			//			scannables[0], scannables[1]
 	};
 
 	public ExperimentMotorPostion[] getSelectedMotors() {
