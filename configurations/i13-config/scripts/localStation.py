@@ -270,10 +270,11 @@ try:
 
 		run("localStationUser.py")
 		
-	#createPVScannable( "smar_y", "BL13I-MO-SMAR-02:Y.VAL")
-	#createPVScannable( "smar_x", "BL13I-MO-SMAR-02:X.VAL")
-	createPVScannable( "hex_samplex", "BL13I-MO-HEX-01:SAMPLEX.VAL")
-	createPVScannable( "hex_samplez", "BL13I-MO-HEX-01:SAMPLEZ.VAL")
+		#createPVScannable( "smar_y", "BL13I-MO-SMAR-02:Y.VAL")
+		#createPVScannable( "smar_x", "BL13I-MO-SMAR-02:X.VAL")
+		createPVScannable( "hex_samplex", "BL13I-MO-HEX-01:SAMPLEX.VAL")
+		createPVScannable( "hex_samplez", "BL13I-MO-HEX-01:SAMPLEZ.VAL")
+	
 	import tomographyXGIScan
 	from tomographyXGIScan import tomoXGIScan
 	import tomographyXGIScan2d
