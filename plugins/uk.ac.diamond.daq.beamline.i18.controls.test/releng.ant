@@ -1,4 +1,4 @@
-<project name="plugin-uk.ac.gda.beamline.i18.test" basedir=".">
+<project name="plugin-uk.ac.diamond.daq.beamline.i18.controls.test" basedir=".">
 
 	<dirname property="plugin.basedir" file="${ant.file}" />
 	<pathconvert property="workspace.loc" setonempty="false">
@@ -33,7 +33,7 @@
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.client/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.client.exafs/bin" />
-				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.client.microfocus/bin" />
+				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.diamond.daq.microfocus.api/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.devices.xspress2/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.devices.xmap/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.exafs.api/bin" />
