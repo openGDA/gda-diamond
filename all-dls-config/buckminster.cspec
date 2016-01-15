@@ -2,11 +2,7 @@
 <cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="all-dls-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="all-mt-config" componentType="buckminster"/>
-        <cs:dependency name="i02-config" componentType="buckminster"/>
-        <cs:dependency name="i03-config" componentType="buckminster"/>
-        <cs:dependency name="i04-1-config" componentType="buckminster"/>
-        <cs:dependency name="i04-config" componentType="buckminster"/>
-        <cs:dependency name="i23-config" componentType="buckminster"/>
+        <cs:dependency name="all-mx-config" componentType="buckminster"/>
         <cs:dependency name="b18-config" componentType="buckminster"/>
         <cs:dependency name="b21-config" componentType="buckminster"/>
         <cs:dependency name="bm26-config" componentType="buckminster"/>
