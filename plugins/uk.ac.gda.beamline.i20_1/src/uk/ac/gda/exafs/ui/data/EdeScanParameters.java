@@ -86,6 +86,7 @@ public class EdeScanParameters implements Serializable {
 		group1.setTimePerScan(integrationTimeInS);
 		group1.setDelayBetweenFrames(0);
 		group1.setNumberOfScansPerFrame(numberOfScans);
+		group1.setTimePerFrame(integrationTimeInS*numberOfScans);
 		params.addGroup(group1);
 		return params;
 	}

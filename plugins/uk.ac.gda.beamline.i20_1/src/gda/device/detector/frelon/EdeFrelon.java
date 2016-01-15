@@ -19,6 +19,7 @@
 package gda.device.detector.frelon;
 
 import fr.esrf.Tango.DevFailed;
+import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorStatus;
@@ -180,6 +181,11 @@ public class EdeFrelon extends EdeDetectorBase {
 		} catch (DevFailed e) {
 			logger.error("Fail to get lima ccd acq_trigger_mode", e);
 		}
+	}
+	@Override
+	public NexusTreeProvider readout() throws DeviceException {
+		// Override parent method - read 2nd frame (used for live mode). imh 15/20/2015
+		return readFrames(1,1)[0];
 	}
 
 	@Override
@@ -651,4 +657,22 @@ public class EdeFrelon extends EdeDetectorBase {
 		return currentTimingGroup;
 	}
 
+	// Implementation of beam orbit synchronization - not needed for Frelon.
+	@Override
+	public void setSynchroniseToBeamOrbit( boolean synchroniseToBeamOrbit ) {}
+
+	@Override
+	public boolean getSynchroniseToBeamOrbit() { return false; }
+
+	@Override
+	public void setSynchroniseBeamOrbitDelay( int synchroniseBeamOrbitDelay ) throws DeviceException {}
+
+	@Override
+	public int getSynchroniseBeamOrbitDelay() { return 0;  }
+
+	@Override
+	public void setOrbitWaitMethod( String methodString ) {}
+
+	@Override
+	public String getOrbitWaitMethod() { return ""; }
 }

@@ -6,22 +6,30 @@
 	<bean id="xhDetectorData" class="gda.device.detector.xstrip.XhDetectorData">
 	</bean>
 	<bean id="xh" class="gda.device.detector.xstrip.XhDetector">
+<!-- DAServer and detector name properties are now set using constructor args.	imh 16/10/2015 -->
+		<constructor-arg ref="DAServer" />
+    	<constructor-arg value="xh0"/>
 		<property name="detectorName" value="xh0"/>
-		<property name="daServer" ref="DAServer"/>
+<!-- 		<property name="daServer" ref="DAServer"/> -->
 		<property name="detectorData" ref="xhDetectorData"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
 		<property name="upperChannel" value="1023"/>
 		<property name="lowerChannel" value="0"/>
+		<property name="local" value="false"/>
 	</bean>
 
  
 	<bean id="xstrip" class="gda.device.detector.xstrip.XhDetector">
+<!-- DAServer and detector name properties are now set using constructor args.	imh 16/10/2015 -->
+		<constructor-arg ref="DAServer" />
+		<constructor-arg value="xh0"/>
 		<property name="detectorName" value="xh0"/>
-		<property name="daServer" ref="DAServer"/>
+<!-- 		<property name="daServer" ref="DAServer"/> -->
 		<property name="detectorData" ref="xhDetectorData"/>
 		<property name="templateFileName" value="${gda.config}/templates/EdeScan_Parameters.xml"></property>
 		<property name="upperChannel" value="1023"/>
 		<property name="lowerChannel" value="0"/>
+		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="ssxh" class="gda.device.detector.StepScanEdeDetector">

@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
+import gda.device.detector.frelon.FrelonCcdDetectorData;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -69,6 +71,7 @@ import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.experiment.ui.TimingGroupsSetupPage.TimingGroupWizardModel;
 import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
@@ -112,6 +115,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	private ComboViewer itUnitSelectionCombo;
 	private ComboViewer groupUnitSelectionCombo;
 
+	boolean showAccumulationReadoutControls, showRealTimePerSpectrum;
 
 	private final TimeResolvedExperimentModel model;
 
@@ -147,6 +151,16 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		this.model = model;
 		pin = ResourceManager.getImageDescriptor(XHControlComposite.class,
 				"/icons/lock.png").createImage();
+
+		// Set flags for whether to display Frelon specific textboxes for accumulation readout time and real time per spectra.
+		if ( DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData ) {
+			showRealTimePerSpectrum = true;
+			showAccumulationReadoutControls = true;
+		} else {
+			showRealTimePerSpectrum = false;
+			showAccumulationReadoutControls = false;
+		}
+
 		try {
 			setupUI();
 			bind();
@@ -373,12 +387,14 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		timePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		//  TOOD corrected time per spectra. imh
-		label = toolkit.createLabel(groupDetailsSectionComposite, "Real time per spectrum", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		realTimePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
-		realTimePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		realTimePerSpectrumValueText.setToolTipText("The actual time per spectrum Detector can deliver for your given accumulation parameters");
+		if ( showRealTimePerSpectrum ) {
+			// Show corrected (i.e. real) time per spectra the detector can provide.
+			label = toolkit.createLabel(groupDetailsSectionComposite, "Real time per spectrum", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			realTimePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
+			realTimePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+			realTimePerSpectrumValueText.setToolTipText("The actual time per spectrum Detector can deliver for your given accumulation parameters");
+		}
 
 		label = toolkit.createLabel(groupDetailsSectionComposite, "No. of spectra", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -396,10 +412,12 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		integrationTimeValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
 		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		label = toolkit.createLabel(groupTriggerSectionComposite, "Accumulation readout time", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		accumulationReadoutTimeValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
-		accumulationReadoutTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		if ( showAccumulationReadoutControls ) {
+			label = toolkit.createLabel(groupTriggerSectionComposite, "Accumulation readout time", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			accumulationReadoutTimeValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+			accumulationReadoutTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		}
 
 		label = toolkit.createLabel(groupTriggerSectionComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -563,6 +581,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		i0IntegrationTimeValueText = new NumberEditorControl(i0AcquisitionSectionComposite, SWT.None, model.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, false);
 		i0IntegrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		i0IntegrationTimeValueText.setUnit(model.getUnit().getWorkingUnit().getUnitText());
+		i0IntegrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 		i0NoOfaccumulationsComposite = toolkit.createComposite(i0AcquisitionSectionComposite);
 		i0NoOfaccumulationsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
@@ -721,15 +740,17 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-			realTimePerSpectrumValueText.setModel(group, TimingGroupUIModel.REAL_TIME_PER_SPECTRUM_PROP_NAME);
-			realTimePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
-			realTimePerSpectrumValueText.setEditable(false);
-			realTimePerSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			groupBindings.add(dataBindingCtx.bindValue(
-					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(realTimePerSpectrumValueText),
-					BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
-					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-					unitConverter));
+			if ( showRealTimePerSpectrum ) {
+				realTimePerSpectrumValueText.setModel(group, TimingGroupUIModel.REAL_TIME_PER_SPECTRUM_PROP_NAME);
+				realTimePerSpectrumValueText.setConverters(modelToTargetConverter, targetToModelConverter);
+				realTimePerSpectrumValueText.setEditable(false);
+				realTimePerSpectrumValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+				groupBindings.add(dataBindingCtx.bindValue(
+						BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(realTimePerSpectrumValueText),
+						BeanProperties.value(TimingGroupUIModel.UNIT_PROP_NAME).observe(group),
+						new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+						unitConverter));
+			}
 
 			noOfSpectrumValueText.setModel(group, TimingGroupUIModel.NO_OF_SPECTRUM_PROP_NAME);
 			noOfSpectrumValueText.setValidators(null, group.getNoOfSpectrumValidator());
@@ -763,37 +784,41 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 				}
 			});
 			integrationTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+			integrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 
-			accumulationReadoutTimeValueText.setModel(group, TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME);
-			accumulationReadoutTimeValueText.setEditable(true);
-			accumulationReadoutTimeValueText.setConverters(new IConverter() {
-				@Override
-				public Object getFromType() {
-					return double.class;
-				}
-				@Override
-				public Object getToType() {
-					return double.class;
-				}
-				@Override
-				public Object convert(Object fromObject) {
-					return ExperimentUnit.MILLI_SEC.convertFromDefaultUnit((double) fromObject);
-				}
-			}, new IConverter() {
-				@Override
-				public Object getFromType() {
-					return String.class;
-				}
-				@Override
-				public Object getToType() {
-					return String.class;
-				}
-				@Override
-				public Object convert(Object fromObject) {
-					return Double.toString(ExperimentUnit.MILLI_SEC.convertToDefaultUnit(Double.parseDouble((String) fromObject)));
-				}
-			});
-			accumulationReadoutTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+			if ( showAccumulationReadoutControls ) {
+				accumulationReadoutTimeValueText.setModel(group, TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME);
+				accumulationReadoutTimeValueText.setEditable(true);
+				accumulationReadoutTimeValueText.setConverters(new IConverter() {
+					@Override
+					public Object getFromType() {
+						return double.class;
+					}
+					@Override
+					public Object getToType() {
+						return double.class;
+					}
+					@Override
+					public Object convert(Object fromObject) {
+						return ExperimentUnit.MILLI_SEC.convertFromDefaultUnit((double) fromObject);
+					}
+				}, new IConverter() {
+					@Override
+					public Object getFromType() {
+						return String.class;
+					}
+					@Override
+					public Object getToType() {
+						return String.class;
+					}
+					@Override
+					public Object convert(Object fromObject) {
+						return Double.toString(ExperimentUnit.MILLI_SEC.convertToDefaultUnit(Double.parseDouble((String) fromObject)));
+					}
+				});
+				accumulationReadoutTimeValueText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
+				accumulationReadoutTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+			}
 
 			noOfAccumulationValueText.setModel(group, TimingGroupUIModel.NO_OF_ACCUMULATION_PROP_NAME);
 			noOfAccumulationValueText.setEditable(false);

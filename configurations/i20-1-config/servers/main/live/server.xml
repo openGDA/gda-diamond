@@ -35,15 +35,17 @@
 	<import resource="file:${gda.config}/servers/main/dataformat.xml" />
 
 
-<!--  Frelon camera-->
+<!--  Frelon camera - comment out when not being used -->
 	<import resource="frelon_tango.xml" />
 	<import resource="../frelon.xml" />
 
 <!-- for when this used live: -->
 
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.config}/xml/BL20J-gda-interface.xml" />
-	</bean>
+<!-- Apparently not used any more? imh 6/11/2015 -->
+<!-- 	<bean class="gda.configuration.epics.EpicsConfiguration"> -->
+<!-- 		<constructor-arg value="${gda.config}/xml/BL20J-gda-interface.xml" /> -->
+<!-- 	</bean> -->
+	
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
 		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i20-1-" />

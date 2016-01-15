@@ -90,6 +90,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 	private void bind() {
 		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 
+
 		Binding i0NoOfAccumulationCheckBinding = dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
 				BeanProperties.value(ExperimentDataModel.USE_NO_OF_ACCUMULATIONS_FOR_I0_PROP_NAME).observe(singleSpectrumDataModel.getExperimentDataModel()),
@@ -97,7 +98,9 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 					@Override
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus result = super.doSet(observableValue, value);
-						updateI0noOfAccuBinding(singleSpectrumDataModel, value);
+						// Same number of I0 and It accumulations is handled when setting up SingleSpectrum scan command, so binding here is redundant
+						// (and also behaving incorrectly now for some reason)... imh 7/12/2015
+						// updateI0noOfAccuBinding(singleSpectrumDataModel, value);
 						return result;
 					}
 				},
@@ -166,6 +169,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		gridData.widthHint = BOX_WIDTH;
 		i0IntegrationTimeValueText.setLayoutData(gridData);
 		i0IntegrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
+		i0IntegrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 		lnoOfAcculabel = toolkit.createLabel(i0Composite, "Number of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -194,6 +198,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		gridData.widthHint = BOX_WIDTH;
 		iRefIntegrationTimeValueText.setLayoutData(gridData);
 		iRefIntegrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
+		iRefIntegrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 
 		label = toolkit.createLabel(iRefDetailsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));

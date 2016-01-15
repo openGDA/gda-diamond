@@ -126,4 +126,15 @@ public interface EdeDetector extends NexusDetector {
 
 	public void configureDetectorForROI(int verticalBinning, int ccdLineBegin) throws DeviceException;
 
+	public abstract void setSynchroniseToBeamOrbit( boolean synchroniseToBeamOrbit ) ;
+
+	public abstract boolean getSynchroniseToBeamOrbit();
+
+	public abstract void setSynchroniseBeamOrbitDelay( int synchroniseBeamOrbitDelay ) throws DeviceException;
+
+	public abstract int getSynchroniseBeamOrbitDelay();
+
+	public abstract void setOrbitWaitMethod( String methodString );
+
+	public abstract String getOrbitWaitMethod();
 }

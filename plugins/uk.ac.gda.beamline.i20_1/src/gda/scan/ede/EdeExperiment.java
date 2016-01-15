@@ -104,7 +104,8 @@ public abstract class EdeExperiment implements IObserver {
 	protected EdeScan itLightScan;
 	protected EdeScan i0FinalScan;
 	protected EdeScan[] itScans;
-	protected final EdeScanParameters itScanParameters;
+	// protected final EdeScanParameters itScanParameters;
+	protected EdeScanParameters itScanParameters; //This should not be 'final' otherwise params used in scan are 'one behind' what has been asked for... imh 16/10/2015
 	protected final LinkedList<ScanBase> scansBeforeIt = new LinkedList<ScanBase>();
 	protected final LinkedList<ScanBase> scansForIt = new LinkedList<ScanBase>();
 	protected final LinkedList<ScanBase> scansAfterIt = new LinkedList<ScanBase>();

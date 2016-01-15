@@ -477,6 +477,7 @@ public class TimeResolvedDataFileHelper {
 		file.createLink(targetPath, EdeDataConstants.TIME_COLUMN_NAME, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIME_COLUMN_NAME);
 		file.createLink(targetPath, EdeDataConstants.TIMINGGROUP_COLUMN_NAME, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
 		file.createLink(targetPath, EdeDataConstants.ENERGY_COLUMN_NAME, this.getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME);
+		file.createLink(targetPath, EdeDataConstants.PIXEL_COLUMN_NAME, this.getDetectorDataPath() + EdeDataConstants.PIXEL_COLUMN_NAME);
 	}
 
 	private void addDatasetToNexus(IHierarchicalDataFile file, String dataName, String fullPath, DoubleDataset data, Map<String, String> attributes) throws Exception {

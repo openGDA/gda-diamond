@@ -381,14 +381,20 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	// TODO This is very messy!
 	protected String buildScanCommand() {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import TimeResolvedExperiment;");
+		// use %g format rather than %f for I0 and It integration times to avoid rounding to 0 for small values <1msec (i.e. requiring >6 decimal places). imh 7/12/2015
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%g ",
+				ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)) );
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
+			builder.append(String.format(", %d", this.getExperimentDataModel().getI0NumberOfAccumulations()));
+		}
+		/*if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f, %d",
 					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
 					this.getExperimentDataModel().getI0NumberOfAccumulations()));
 		} else {
 			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f",
 					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
-		}
+		}*/
 		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", \'%s\');",
 				TIMING_GROUPS_OBJ_NAME,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
@@ -416,7 +422,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			i0ForIRefNoOfAccumulations = irefNoOfAccumulations;
 		}
 		double irefIntegrationTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getIrefIntegrationTime(), ExperimentUnit.SEC);
-		builder.append(String.format(linearExperimentObj + ".setIRefParameters(mapToJava(%s), mapToJava(%s), %f, %d, %f, %d);",
+		builder.append(String.format(linearExperimentObj + ".setIRefParameters(mapToJava(%s), mapToJava(%s), %g, %d, %g, %d);",
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
 				irefIntegrationTime,
