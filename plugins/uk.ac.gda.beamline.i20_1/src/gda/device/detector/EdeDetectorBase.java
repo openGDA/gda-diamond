@@ -138,6 +138,14 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new NexusGroupData(energies), 1, 1, "eV", false);
 		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new NexusGroupData(correctedData), "eV", 1);
 
+		// Add pixel axis. imh 8/12/2015
+		int count = 0;
+		int[] pixels = new int[getMaxPixel()];
+		for( Integer val : this.getPixels() ) {
+			pixels[count++] = val;
+		}
+		thisFrame.addAxis(getName(), EdeDataConstants.PIXEL_COLUMN_NAME, new NexusGroupData(pixels), 1, 2, "pixel number", false);
+
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
 
@@ -221,6 +229,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 			NexusDataWriter writer = new NexusDataWriter();
 			writer.configureScanNumber(scanNumber);
+			writer.setNexusFileNameTemplate("nexus/%s.nxs");
 			writer.addData(sdp);
 
 			writeAsciiFile(sdp, writer.getCurrentFileName());
@@ -445,5 +454,23 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		}
 		return -1;
 	}
+
+	@Override
+	public abstract void setSynchroniseToBeamOrbit( boolean synchroniseToBeamOrbit ) ;
+
+	@Override
+	public abstract boolean getSynchroniseToBeamOrbit();
+
+	@Override
+	public abstract void setSynchroniseBeamOrbitDelay( int synchroniseBeamOrbitDelay ) throws DeviceException;
+
+	@Override
+	public abstract int getSynchroniseBeamOrbitDelay();
+
+	@Override
+	public abstract void setOrbitWaitMethod( String methodString );
+
+	@Override
+	public abstract String getOrbitWaitMethod();
 
 }

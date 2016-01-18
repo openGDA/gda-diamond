@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.data;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import gda.device.detector.xstrip.XhDetector;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class EdeDataStoreTest {
 				WritableList groupList = new WritableList(new ArrayList<TimingGroupUIModel>(), TimingGroupUIModel.class);
 				TimeResolvedExperimentModel testLinerExperimentModel = new TimeResolvedExperimentModel();
 				TimingGroupUIModel group = new TimingGroupUIModel(new DefaultTimeBarRowModel() , ExperimentUnit.SEC, testLinerExperimentModel);
+				group.setCurrentDetector( new XhDetector() );
 				group.setTimes(0.0d, 1000.0d);
 				try {
 					group.setNumberOfSpectrum(100);

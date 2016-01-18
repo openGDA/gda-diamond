@@ -31,6 +31,7 @@ public class EdeDataConstants {
 	public static final String FRAME_COLUMN_NAME = "frame";
 	public static final String STRIP_COLUMN_NAME = "strip";
 	public static final String ENERGY_COLUMN_NAME = "energy";
+	public static final String PIXEL_COLUMN_NAME = "pixel";
 	public static final String I0_CORR_COLUMN_NAME = "i0_corr";
 	public static final String I0_FINAL_CORR_COLUMN_NAME = "i0_final_corr";
 	public static final String IT_CORR_COLUMN_NAME = "it_corr";
@@ -60,6 +61,7 @@ public class EdeDataConstants {
 	public static final String SCANNABLES_CONFIG_DATA_NAME = "config";
 
 	public static final String ASCII_FILE_EXTENSION = "dat";
+	public static final String ASCII_METADATA_TIME_FORMAT = "%g";
 
 	public static class ItMetadata {
 		private final TimingGroupMetadata[] timingGroups;
@@ -151,9 +153,9 @@ public class EdeDataConstants {
 			StringBuilder metadataStr = new StringBuilder();
 			metadataStr.append(String.format("Group: %d\t", 0));
 			metadataStr.append(String.format("Number of spectra: %d\t", timingGroupMetadata.getNoOfFrames()));
-			metadataStr.append(String.format("Accumulation time: %.6fs\t", timingGroupMetadata.getAccumulationTime()));
-			metadataStr.append(String.format("Time per spectrum: %.6fs\t",  timingGroupMetadata.getTimePerSpectrum()));
-			metadataStr.append(String.format("Preceding delay: %.6f\t",timingGroupMetadata.getPreceedingTimeDelay()));
+			metadataStr.append(String.format("Accumulation time: "+ASCII_METADATA_TIME_FORMAT+"s\t", timingGroupMetadata.getAccumulationTime()));
+			metadataStr.append(String.format("Time per spectrum: "+ASCII_METADATA_TIME_FORMAT+"s\t",  timingGroupMetadata.getTimePerSpectrum()));
+			metadataStr.append(String.format("Preceding delay: "+ASCII_METADATA_TIME_FORMAT+"\t",timingGroupMetadata.getPreceedingTimeDelay()));
 			metadataStr.append(String.format("Number of accumulations: %d", timingGroupMetadata.getNoOfAccumulations()));
 			metadataStr.append("\n");
 			return metadataStr.toString();
@@ -165,9 +167,9 @@ public class EdeDataConstants {
 			for (int i = 0; i < noOfGroups; i++) {
 				metadataStr.append(String.format("Group: %d\t",                 data.getInt(i, 0)));
 				metadataStr.append(String.format("Number of spectra: %d\t",     data.getInt(i, 1)));
-				metadataStr.append(String.format("Accumulation time: %.6fs\t",  data.getDouble(i, 2)));
-				metadataStr.append(String.format("Time per spectrum: %.6fs\t",  data.getDouble(i, 3)));
-				metadataStr.append(String.format("Preceding delay: %.6f\t",     data.getDouble(i, 4)));
+				metadataStr.append(String.format("Accumulation time: "+ASCII_METADATA_TIME_FORMAT+"s\t",  data.getDouble(i, 2)));
+				metadataStr.append(String.format("Time per spectrum: "+ASCII_METADATA_TIME_FORMAT+"s\t",  data.getDouble(i, 3)));
+				metadataStr.append(String.format("Preceding delay: "+ASCII_METADATA_TIME_FORMAT+"\t",     data.getDouble(i, 4)));
 				metadataStr.append(String.format("Number of accumulations: %d", data.getInt(i, 5)));
 				metadataStr.append("\n");
 			}

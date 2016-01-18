@@ -241,10 +241,10 @@ public class XHControlComposite extends Composite implements IObserver {
 	private void createUI() {
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 		buildSections();
-		initialiseUIComponents();
+		// initialiseFrelonUIComponents(); // this is now done in buildSections (Frelon specific UI elements)
 	}
 
-	private void initialiseUIComponents() {
+	private void initialiseFrelonUIComponents() {
 		comboVertBinning.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			@Override
@@ -258,7 +258,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			}
 		});
 
-		pullDetectorSettings();
+		pullFrelonDetectorSettings();
 	}
 
 	public void updateView(EdeDetector ededetector) {
@@ -296,7 +296,13 @@ public class XHControlComposite extends Composite implements IObserver {
 		try {
 			createLiveModeGroup(form.getBody());
 			createSnapShotGroup(form.getBody());
-			createFrelonBinAndOffsetGroup(form.getBody());
+
+			// Setup frelon specific UI elements.
+			if ( DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData ) {
+				createFrelonBinAndOffsetGroup(form.getBody());
+				initialiseFrelonUIComponents();
+			}
+
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create sections", e.getMessage());
 			logger.error("Unable to create sections", e);
@@ -388,7 +394,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		fetchDetector.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				pullDetectorSettings();
+				pullFrelonDetectorSettings();
 			}
 
 		});
@@ -400,11 +406,12 @@ public class XHControlComposite extends Composite implements IObserver {
 		section.setSeparatorControl(sectionSeparator);
 	}
 
-	private void pullDetectorSettings() {
+	private void pullFrelonDetectorSettings() {
 		EdeDetector currentDetector = DetectorModel.INSTANCE.getCurrentDetector();
 		currentDetector.fetchDetectorSettings();
 		detectorControlModel.setCcdLineBegin(((FrelonCcdDetectorData)currentDetector.getDetectorData()).getCcdBeginLine());
 		detectorControlModel.setVerticalBinning(((FrelonCcdDetectorData)currentDetector.getDetectorData()).getVerticalBinValue());
+
 	}
 
 	private void configureFrelondetector(int verticalBinning, int ccdLineBegin) {

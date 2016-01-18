@@ -157,8 +157,9 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		} else {
 			noOfAccumulations = itNumberOfAccumulations;
 		}
+		// use %g format rather than %f for I0 and It integration times to avoid rounding to 0 for small values <1msec (i.e. requiring >6 decimal places).
 		builder.append(
-				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumScan(%f, %d, %f, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
+				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumScan(%g, %d, %g, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
 						ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC),
 						noOfAccumulations,
 						ExperimentUnit.MILLI_SEC.convertTo(itIntegrationTime, ExperimentUnit.SEC),

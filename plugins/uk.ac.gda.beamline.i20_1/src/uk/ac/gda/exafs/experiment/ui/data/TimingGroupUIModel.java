@@ -18,6 +18,10 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import gda.device.DeviceException;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
@@ -29,15 +33,14 @@ import org.eclipse.core.runtime.IStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
+
 import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
-import gda.device.DeviceException;
-import gda.device.detector.EdeDetector;
-import uk.ac.gda.exafs.data.DetectorModel;
-import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
 public class TimingGroupUIModel extends TimeIntervalDataModel {
 
@@ -104,6 +107,8 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	public static final int INVALID_NO_OF_ACCUMULATION = 0;
 
 	private int maxVisibleIntervals = 1000;
+
+	private EdeDetector currentDetector;
 
 	public List<?> getSpectrumList() {
 		return spectrumList;
@@ -375,24 +380,48 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		spectrumList.clear();
 	}
 
+	public EdeDetector getCurrentDetector() {
+		return currentDetector;
+	}
+
+	public void setCurrentDetector(EdeDetector currentDetector) {
+		this.currentDetector = currentDetector;
+	}
+
 	private void updateMaxAccumulationForDetector() {
 		try {
-			double timePerSpectrum = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getTimePerSpectrum(), ExperimentUnit.SEC);
+			double usertimePerSpectrum = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getTimePerSpectrum(), ExperimentUnit.SEC);
 			double integrationTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getIntegrationTime(), ExperimentUnit.SEC);
-			double accumlationReadoutTime=ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getAccumulationReadoutTime(), ExperimentUnit.SEC);
-			if (timePerSpectrum>65.535 || timePerSpectrum<1E-6) {
+			double frameTime = usertimePerSpectrum;
+			double accumlationReadoutTime = 0.0;
+
+			EdeDetector detector = currentDetector;
+			if (detector == null) {
+				detector = DetectorModel.INSTANCE.getCurrentDetector();
+			}
+			boolean isFrelonDetector = detector.getDetectorData() instanceof FrelonCcdDetectorData;
+
+			// Set Frelon specific frame time, accounting for accumulation readout time imh 15/10/2015
+			if (isFrelonDetector) {
+				accumlationReadoutTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(getAccumulationReadoutTime(), ExperimentUnit.SEC);
+				frameTime = integrationTime * usertimePerSpectrum / (integrationTime + accumlationReadoutTime);
+			}
+
+			if (frameTime > 65.535 || frameTime < 1E-6) {
 				//TODO need to remove this
 				return;
 			}
-			double freqlonTimePerSpectrum=integrationTime*timePerSpectrum/(integrationTime+accumlationReadoutTime);
+
 			int noOfSpectra = getNumberOfSpectrum();
-			if (integrationTime > 0 & timePerSpectrum > 0) {
-				EdeDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
-				int numberScansInFrame = detector.getNumberScansInFrame(freqlonTimePerSpectrum, integrationTime, noOfSpectra);
+			if (integrationTime > 0 & frameTime > 0) {
+				// EdeDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
+				int numberScansInFrame = detector.getNumberScansInFrame(frameTime, integrationTime, noOfSpectra);
 				setNoOfAccumulations(numberScansInFrame);
 
-
-				setRealTimePerSpectrum( ExperimentUnit.SEC.convertTo(numberScansInFrame * ( integrationTime + accumlationReadoutTime ), ExperimentUnit.NANO_SEC ) );
+				if (isFrelonDetector) {
+					setRealTimePerSpectrum(ExperimentUnit.SEC.convertTo(numberScansInFrame * (integrationTime + accumlationReadoutTime),
+							ExperimentUnit.NANO_SEC));
+				}
 			}
 
 		} catch (DeviceException e) {

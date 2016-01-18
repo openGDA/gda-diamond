@@ -31,3 +31,5 @@ if LocalProperties.get("gda.mode") == "live":
         add_default([shutterChecker])
 else:
     remove_default([absorberChecker])
+
+xstrip.start() #Call start so data and timing handles are set correctly. imh 16/12/2015

@@ -18,11 +18,13 @@
 
 package gda.device.detector.xstrip;
 
+import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.detector.DAServer;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
+import gda.jython.InterfaceProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,6 +83,27 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 	private String templateFileName;
 	private final XhDetectorTemperature detectorTemp;
 
+	private boolean synchroniseToBeamOrbit;
+	private int synchroniseBeamOrbitDelay = 0;
+	private OrbitWaitType orbitWaitMethod;
+
+	public enum OrbitWaitType {
+		ORBIT_GROUP("orbit-group"),
+		ORBIT_FRAME("orbit-frame"),
+		ORBIT_SCAN("orbit-scan"),
+		ORBIT_FRAME_ONLY("orbit-frame-only"),
+		ORBIT_SCAN_ONLY("orbit-scan-only");
+
+		private String orbitString;
+		OrbitWaitType(String orbitString ) {
+			this.orbitString = orbitString;
+		}
+
+		public String getString() {
+			return orbitString;
+		}
+	}
+
 	public XhDetector() {
 		super();
 		// defaults which will be updated when number of sectors changed
@@ -88,6 +111,14 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 		detectorTemp=new XhDetectorTemperature(daServer, "xh_temperatures");
 	}
 
+	// Added so that correct daServer and detector name (not null!) are passed to XHDetectorTemperature when bean is created. imh 16/10/2015
+	public XhDetector(DAServer daServer, String detectorName) {
+		super();
+		inputNames = new String[] { "time" };
+		this.daServer = daServer;
+		this.detectorName = detectorName;
+		detectorTemp = new XhDetectorTemperature(daServer, detectorName);
+	}
 
 	private void createNewTimingHandle() throws DeviceException {
 		Object obj;
@@ -122,6 +153,13 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 			}
 		}
 	}
+
+	@Override
+	public NexusTreeProvider readout() throws DeviceException {
+		// Read 1st frame from detector (used for live mode).
+		return readFrames(0,0)[0];
+	}
+
 
 	@Override
 	protected synchronized int[] readoutFrames(int startFrame, int finalFrame) throws DeviceException {
@@ -324,7 +362,22 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 					String scanPeriodInClockCycles = secondsToClockCyclesString(scanTimeInS + scanDelayInSeconds);
 					command += " scan-period " + scanPeriodInClockCycles;
 				}
+
+				// Synchronise to beam orbit. imh 11/12/2015
+				command += " orbit-frame orbit-mux 0 ";
+				/*
+				// Needs testing - should be ok...
+				if ( synchroniseToBeamOrbit ) {
+					String muxString = "0";
+					if ( synchroniseBeamOrbitDelay > 0 ) {
+						muxString = "1";
+					}
+					String orbitMethodString = orbitWaitMethod.getString();
+					command += " " + orbitMethodString + " orbit-mux "+muxString;
+				}
+				 */
 			}
+
 
 			if (i == currentScanParameter.getGroups().size() - 1) {
 				command = command.trim() + " last";
@@ -665,4 +718,64 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 	}
 
+	// Implementation of beam orbit synchronization. imh 11/12/2015
+	@Override
+	public void setSynchroniseToBeamOrbit( boolean synchroniseToBeamOrbit ) {
+		this.synchroniseToBeamOrbit = synchroniseToBeamOrbit;
+	}
+
+	@Override
+	public boolean getSynchroniseToBeamOrbit() {
+		return synchroniseToBeamOrbit;
+	}
+
+	@Override
+	public void setSynchroniseBeamOrbitDelay( int synchroniseBeamOrbitDelay ) throws DeviceException {
+		this.synchroniseBeamOrbitDelay = synchroniseBeamOrbitDelay;
+		String delayString = String.format("%d", synchroniseBeamOrbitDelay );
+		String command = "xstrip timing setup-orbit \"xh0\" " + delayString;
+
+		logger.info("Sending orbit delay command to XH: " + command);
+		Object result = daServer.sendCommand( command );
+
+		if (result.toString().compareTo("-1") == 0) {
+			throw new DeviceException(
+					"The given parameters were not accepted by da.server! Check frame and scan times.");
+		}
+	}
+
+	@Override
+	public int getSynchroniseBeamOrbitDelay() {
+		return synchroniseBeamOrbitDelay;
+	}
+
+	@Override
+	public void setOrbitWaitMethod( String methodString ) {
+		boolean found = false;
+		for( OrbitWaitType orbitType : OrbitWaitType.values() ) {
+			if ( methodString.trim().equals( orbitType.getString() ) ) {
+				orbitWaitMethod = orbitType;
+				found = true;
+			}
+		}
+		String message;
+		if ( found ) {
+			message = "Setting orbit wait mode to \'" + orbitWaitMethod.getString() + "\'";
+		} else {
+			message = "Orbit wait mode \'" + methodString + "\' not recognised";
+		}
+		InterfaceProvider.getTerminalPrinter().print(message);
+	}
+
+	@Override
+	public String getOrbitWaitMethod() {
+		return orbitWaitMethod.getString();
+	}
+
+	public void showOrbitWaitMethods() {
+		InterfaceProvider.getTerminalPrinter().print("Xh orbit methods :");
+		for( OrbitWaitType orbitType : OrbitWaitType.values() ) {
+			InterfaceProvider.getTerminalPrinter().print( orbitType.getString() );
+		}
+	}
 }
