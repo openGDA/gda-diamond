@@ -21,22 +21,22 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
-	
-	
-<!-- 	live only files -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" /> 
+
+	<!-- live only files -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" /> 
-	
-<!-- 	shared files -->
-	<import resource="file:${gda.config}/servers/main/metadata.xml" /> 
- 	<import resource="file:${gda.config}/servers/main/opticsScannables.xml" /> 
-	
-<!-- 	Command Server at the end -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" />
+
+	<!-- shared files -->
+	<import resource="file:${gda.config}/servers/main/metadata.xml" />
+	<import resource="file:${gda.config}/servers/main/optics_scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/diagnostics_and_shutters_scannables.xml" />
+
+	<!-- Command Server at the end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-	
+
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 	<corba:export namespace="I14" />
-	
+
 </beans>
