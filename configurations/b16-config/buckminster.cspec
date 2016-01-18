@@ -6,8 +6,9 @@
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.b16.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.xmap.epics" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>

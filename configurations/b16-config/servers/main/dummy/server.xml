@@ -54,6 +54,8 @@
 	<import resource="motor/test1.xml" />
 	<import resource="motor/test2.xml" />
 	<import resource="motor/test3.xml" />
+	<import resource="motor/granite_table.xml" />
+	<import resource="motor/micro_tomo.xml" />
 
 	<import resource="../common/scannable/motors.xml" />
 	
