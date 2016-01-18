@@ -1055,6 +1055,12 @@ try:
 except:
 	print "WARNING: Could not ensure xmapMca settings are correct"
 
+#Configure scan interrupters
+from scannable.scan_stopper import ScanStopper, ThresholdInterrupt
+ai2thresh = ThresholdInterrupt(ai2, 0.02)
+#ai2thresh.threshold = newThreshold
+ai2stop = ScanStopper('ai2stop', ai2thresh)
+
 #print "*" * 80
 #print "mt8886-2: Writing NeXus files and medpix to return images only"
 #print "*" * 80
