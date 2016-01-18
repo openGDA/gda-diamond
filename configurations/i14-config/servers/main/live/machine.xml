@@ -4,8 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-           
-           
+
 <!--machine and front end -->
 
 	<!-- <bean id="absorber" class="gda.device.monitor.EpicsMonitor">
@@ -18,4 +17,5 @@
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean> -->
+
 </beans>

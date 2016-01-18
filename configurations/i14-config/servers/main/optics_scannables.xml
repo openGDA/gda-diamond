@@ -1,0 +1,108 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--The scannables associated to optics are listed in the same order as in EPICs synoptics -->
+
+	<!-- ID gap -->
+	<bean id="id_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="id_gap_motor" />
+	</bean>
+
+	<!-- S1 (white beam slits) coordinate system motors: -->
+	<bean id="s1_x_centre" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s1_x_centre_motor" />
+	</bean>
+	<bean id="s1_x_size" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s1_x_size_motor" />
+	</bean>
+	<bean id="s1_y_centre" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s1_y_centre_motor" />
+	</bean>
+	<bean id="s1_y_size" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s1_y_size_motor" />
+	</bean>
+
+	<!-- S1 (white beam slits) real motors: -->
+	<bean id="s1_x_up" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s1_x_up_motor" />
+	</bean>
+	<bean id="s1_y_up" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s1_y_up_motor" />
+	</bean>
+	<bean id="s1_x_down" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s1_x_down_motor" />
+	</bean>
+	<bean id="s1_y_down" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="s1_y_down_motor" />
+	</bean>
+
+
+	<!-- A1 (attenuator, sometimes called F1): -->
+	<bean id="attn1_stick1" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="attn1_stick1_motor" />
+	</bean>
+	<bean id="attn1_stick2" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="attn1_stick2_motor" />
+	</bean>
+
+	<!-- M1 (mirror): -->
+	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m1_x_motor" />
+	</bean>
+	<bean id="m1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m1_y_motor" />
+	</bean>
+	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m1_pitch_motor" />
+	</bean>
+
+	<!-- M2 (mirror): -->
+	<bean id="m2_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m2_x_motor" />
+	</bean>
+	<bean id="m2_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m2_y_motor" />
+	</bean>
+	<bean id="m2_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m2_pitch_motor" />
+	</bean>
+	<bean id="m2_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m2_roll_motor" />
+	</bean>
+
+	<!-- DCM (monochromator): -->
+	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_pitch_motor" />
+	</bean>
+	<bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_roll_motor" />
+	</bean>
+	<bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_perp_motor" />
+	</bean>
+	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_bragg_motor" />
+	</bean>
+
+</beans>
+
