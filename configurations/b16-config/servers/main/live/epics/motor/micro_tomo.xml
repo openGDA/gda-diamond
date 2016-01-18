@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="TOMOHEIGHTMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-TOMO-01:HEIGHT" />
+		<property name="pvName" value="BL16B-MO-GTLIN-01:Y4" />
 		<property name="local" value="true" />
 	</bean>
 
