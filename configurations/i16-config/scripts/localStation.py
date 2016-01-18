@@ -343,7 +343,8 @@ scan_processor.processors.append(Rcen())
 
 # Create diffractometer base scannable
 print "Creating diffractometer base scannable base_z"
-base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
+#base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
+base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15
 
 if installation.isLive():
 	sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
@@ -1034,7 +1035,8 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 ###                           P/A detector angles                           ###
 ###############################################################################
 if installation.isLive():
-	tthp.apd = 1.75 #16/1/15 - changed from 1.75
+	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
+	tthp.apd = 3.25 #30/9/15
 	tthp.diode=56.4#2/10/11 - changed from 55.6
 	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
@@ -1224,7 +1226,9 @@ def open_valves():
 #ci=245.0; cj=107.0	#10/12/14
 #ci=244.0; cj=110.0	#13/01/15
 ci=242.0; cj=108.0	#23/06/15
-maxi=486; maxj=194
+#ci=240.0; cj=118.0	#23/06/15 #wrong gam offset
+ci=242.0; cj=110.0	#23/06/15
+maxi=486; maxj=194 #08/10/15
 
 #small centred
 roi1 = scroi=HardwareTriggerableDetectorDataProcessor('roi1', pil, [SumMaxPositionAndValue()])

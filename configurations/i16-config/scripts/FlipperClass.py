@@ -685,8 +685,8 @@ class FlipperClass11(PseudoDevice):
 		return 0
 
 	def asynchronousMoveTo(self,newpos):
-		#self.filenum=self.pil()[1]+1
-		self.filenum=int(str(self.pil()[1]))+1	#temp fix - delete
+		self.filenum=self.pil()[1]+1
+		#self.filenum=int(str(self.pil()[1]))+1	#temp fix - delete
 		self.energy = newpos[0]
 		self._offset=newpos[1]
 		self.counttime=newpos[2]
@@ -736,6 +736,7 @@ class FlipperClass11tmp(PseudoDevice):
 	firstnum=first pil file number
 	sequence=(+--+)*ncycles
 	extra: 'firstnum','ic1ratio'
+	filenum is not meaningfull unless using the pilatus
 	'''
 	def __init__(self,name,ppdev,pilatus,pilatus_roi):
 		self.setName(name)
@@ -759,8 +760,8 @@ class FlipperClass11tmp(PseudoDevice):
 		return 0
 
 	def asynchronousMoveTo(self,newpos):
-		#self.filenum=self.pil()[1]+1
-		self.filenum=int(str(self.pil()[1]))+1	#temp fix - delete
+		self.filenum=self.pil()[1]+1
+		#self.filenum=int(str(self.pil()[1]))+1	#temp fix - delete
 		self.energy = newpos[0]
 		self._offset=newpos[1]
 		self.counttime=newpos[2]
@@ -1312,3 +1313,10 @@ flipper12xm=FlipperClass12('flipper12xm',x19_anout,xm,xm)
 # ==== USE QPBM6, not QBPM8 =============
 '''
 #flipper4=FlipperClass4a('flipper4',ppa220)
+
+#ppa220centre=FlipperPPPQBPMClass('ppa220centre', ppa220, qbpm6, ic1)
+#flipper220=FlipperClass11('flipper220',ppa220,t,t)
+#example: pos xia1 1; scan ppa220centre [en() 0.022 -.002] [en() 0.022 .002] [0 0 0.0001]; pos xia1 0;
+
+
+

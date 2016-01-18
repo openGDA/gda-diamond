@@ -28,7 +28,7 @@ class PolarizationAnalyser(PseudoDevice):
 	def __init__(self,name,rotmotor,thmotor,tthmotor,zpmotor,offset1,offset2,offset3,offset4,offset5,offset6,offset7):
 		self.setName(name)
 		self.setInputNames(['rotp'])
-		self.setExtraNames(['thp','tthp'])
+		self.setExtraNames(['thpcor','tthp'])
 		self.setOutputFormat(["%4.4f","%4.4f","%4.4f"])
 
 		self.pol = rotmotor
@@ -161,7 +161,9 @@ class PolarizationAnalyser(PseudoDevice):
 
 	def asynchronousMoveTo(self,newpol):
 		"""Takes one real argument (the stokes value), moves the polarization analyser thp tthp and stokes """
-		newoff = cosd(newpol)**2*self.offset2()+sind(newpol)**2*self.offset3()
+		newoff=cosd(newpol)**2*self.offset2()+sind(newpol)**2*self.offset3()
+
+#		newoff = cosd(newpol)*self.offset2()+sind(newpol)*self.offset3()
  
 		wl = BLi.getWavelength()
 
@@ -179,7 +181,7 @@ class PolarizationAnalyser(PseudoDevice):
 
 	def calcPos(self,newpol):
 		"""Takes one real argument, calculates for the given stokes value the polarization analyser thp and tthp """
-		newoff = cosd(newpol)*self.offset2()+sind(newpol)*self.offset3()
+		newoff = cosd(newpol)**2*self.offset2()+sind(newpol)**2*self.offset3()
 		wl = BLi.getWavelength()
 		self.thbragg = 180/pi*asin(wl/(2*self.dspace))
 		newthp=self.thbragg+self.offset1()+newoff
