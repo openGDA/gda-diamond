@@ -154,6 +154,14 @@
 
 	<bean id="pilatus1_hardware_triggered" class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="pilatus1_hardware_triggered" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
+		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus1_nxfilewriter_for_hardware_triggering" />
+			</list>
+		</property>
+		<!--
 		<property name="hardwareTriggerProvider" ref="xpsTrajController" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering"/>
 		<property name="additionalPluginList">
@@ -162,6 +170,7 @@
 				<ref bean="pilatus1_force_callbacks" />
 			</list>
 		</property>
+	-->
 	</bean>
 
 	<bean id="pilatus1_for_snaps" class="gda.device.detector.NXDetector">
@@ -189,6 +198,53 @@
 			</map>
 		</property>
 	</bean>
-	
+
+	<bean id="zebrapil1" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="zebrapil1" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
+		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="zebrapil1_camserver_nxfilewriter_for_hardware_triggering" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="zebra1" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL16I-MO-DIFF-01:ZEB1:"/>
+	</bean>
+
+	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra1"/>
+		<property name="local" value="true" />
+		<property name="mode" value="1"/>
+		<property name="pcPulseGateNotTrigger" value="false"/>
+		<property name="minimumAccelerationDistance" value="0.008"/>
+	</bean>
+
+	<bean id="kphiZebra" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="sixcKphiMotor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
+	</bean>
+
+	<bean id="kthZebra" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="sixcKthMotor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
+	</bean>
+
+	<bean id="zebrapil1_camserver_nxfilewriter_for_hardware_triggering"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="zebrapil1" />
+		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
 
 </beans>

@@ -197,6 +197,11 @@ x17_anout=SingleEpicsPositionerSetAndGetOnlyClass('x17_anout','BL16I-EA-USER-01:
 x18_anout=SingleEpicsPositionerSetAndGetOnlyClass('x18_anout','BL16I-EA-USER-01:AO2','BL16I-EA-USER-01:AO2','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x18')
 x19_anout=SingleEpicsPositionerSetAndGetOnlyClass('x19_anout','BL16I-EA-USER-01:AO3','BL16I-EA-USER-01:AO3','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x19')
 x20_anout=SingleEpicsPositionerSetAndGetOnlyClass('x20_anout','BL16I-EA-USER-01:AO4','BL16I-EA-USER-01:AO4','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x20')
+x21_anout=SingleEpicsPositionerSetAndGetOnlyClass('x21_anout','BL16I-EA-USER-01:AO5','BL16I-EA-USER-01:AO5','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x21')
+x22_anout=SingleEpicsPositionerSetAndGetOnlyClass('x22_anout','BL16I-EA-USER-01:AO6','BL16I-EA-USER-01:AO6','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x22')
+x23_anout=SingleEpicsPositionerSetAndGetOnlyClass('x23_anout','BL16I-EA-USER-01:AO7','BL16I-EA-USER-01:AO7','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x23')
+x24_anout=SingleEpicsPositionerSetAndGetOnlyClass('x24_anout','BL16I-EA-USER-01:AO8','BL16I-EA-USER-01:AO8','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x24')
+
 
 p2mj1=SingleEpicsPositionerClass('p2mj1','BL16I-MO-P2TAB-01:Y1.VAL','BL16I-MO-P2TAB-01:Y1.RBV','BL16I-MO-P2TAB-01:Y1.DMOV','BL16I-MO-P2TAB-01:Y1.STOP','mm','%.3f')
 p2mj2=SingleEpicsPositionerClass('p2mj2','BL16I-MO-P2TAB-01:Y2.VAL','BL16I-MO-P2TAB-01:Y2.RBV','BL16I-MO-P2TAB-01:Y2.DMOV','BL16I-MO-P2TAB-01:Y2.STOP','mm','%.3f')
@@ -262,4 +267,6 @@ kbbvu=kbt5
 kbbvd=kbt6
 
 a1x=SingleEpicsPositionerSetAndGetOnlyClass('a1x','BL16I-EA-ANC-01:M3:POS','BL16I-EA-ANC-01:M3:POS','V','%5.2f',help='Attocube 1 x')
+
+x2posneg=epics_binary_pos_neg('x2_ttl_posneg','BL16I-EA-USER-01:BO2','BL16I-EA-USER-01:BO2','logical','%.0f',help='TTL out socket x2 in posneg mode')
 

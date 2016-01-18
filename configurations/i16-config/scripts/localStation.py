@@ -9,6 +9,7 @@ LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
 import installation
 
+USE_NEXUS = True
 if installation.isDummy():
 	USE_DIFFCALC = True 
 	USE_CRYO_GEOMETRY = True
@@ -135,12 +136,12 @@ if USE_CRYO_GEOMETRY:
 	sixckappa_cryo.setGroupMembers([cryophi, kap, kth, kmu, kdelta, kgam])
 	sixckappa_cryo.setName("sixckappa_cryo")
 	sixckappa_cryo.deferredControlPoint = sixckappa.getDeferredControlPoint()
+	sixckappa_cryo.deferOnValue = sixckappa.deferOnValue
 	sixckappa_cryo.configure()
 
 
 alias("jobs")
 
-USE_NEXUS = True
 if USE_NEXUS:
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 else:
@@ -342,7 +343,8 @@ scan_processor.processors.append(Rcen())
 
 # Create diffractometer base scannable
 print "Creating diffractometer base scannable base_z"
-base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
+#base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
+base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15
 
 if installation.isLive():
 	sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
@@ -356,6 +358,9 @@ if USE_CRYO_GEOMETRY:
 	euler.setName("euler")
 	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
 	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
+	euler.deferOnValue = sixckappa.deferOnValue
+	euler.numberAxesToMoveControlPoint = sixckappa.getNumberAxesToMoveControlPoint()
+	euler.didDeferedMoveStartControlPoint = sixckappa.getDidDeferedMoveStartControlPoint()
 	euler.configure()
 	phi = euler.phi
 	chi = euler.chi 
@@ -366,10 +371,6 @@ if USE_CRYO_GEOMETRY:
 	
 else:
 	run("startup_diffractometer_euler")
-
-if USE_CRYO_GEOMETRY:
-	chi.setOffset(-90)
-	chi.setUpperGdaLimits(8)
 
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
@@ -1034,7 +1035,8 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 ###                           P/A detector angles                           ###
 ###############################################################################
 if installation.isLive():
-	tthp.apd = 1.75 #16/1/15 - changed from 1.75
+	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
+	tthp.apd = 3.25 #30/9/15
 	tthp.diode=56.4#2/10/11 - changed from 55.6
 	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
@@ -1099,6 +1101,10 @@ try:
 	from gdascripts.scannable.metadata import _is_scannable
 
 	if USE_NEXUS_METADATA_COMMANDS:
+		try:
+			meta_clear_alldynamical()
+		except:
+			pass
 		for item in toadd:
 			print "Adding metadata:", item.name
 			print item
@@ -1136,8 +1142,11 @@ except NameError, e:
 	print "!*"*40
 
 ###Default Scannables###
-for s in [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]:
-	add_default(s)
+default_scannable_list = [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]
+if USE_CRYO_GEOMETRY:
+	default_scannable_list.append(cryophi)
+for _x in default_scannable_list:
+	add_default(_x)
 
 
 ###############################################################################
@@ -1217,7 +1226,9 @@ def open_valves():
 #ci=245.0; cj=107.0	#10/12/14
 #ci=244.0; cj=110.0	#13/01/15
 ci=242.0; cj=108.0	#23/06/15
-maxi=486; maxj=194
+#ci=240.0; cj=118.0	#23/06/15 #wrong gam offset
+ci=242.0; cj=110.0	#23/06/15
+maxi=486; maxj=194 #08/10/15
 
 #small centred
 roi1 = scroi=HardwareTriggerableDetectorDataProcessor('roi1', pil, [SumMaxPositionAndValue()])
@@ -1388,16 +1399,24 @@ run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
+print "==========================="
+print "Setting up continuous scans"
+run("setup_cvscan")
+print "Continuous scans setup"
+print "==========================="
+
 run("startup_pie725")
 
-if USE_NEXUS:
+if USE_NEXUS and not USE_DIFFCALC:
 	run("datawriting/i16_nexus")
+	pass
 else:
 	#clear extenders possible configured already
 	writerMap = Finder.getInstance().getFindablesOfType(gda.data.scan.datawriter.DefaultDataWriterFactory)
 	ddwf = writerMap.get("DefaultDataWriterFactory")
 	for dwe in ddwf.getDataWriterExtenders():
 		ddwf.removeDataWriterExtender(dwe)
+	pass
 '''
 from mtscripts.scannable.ContinouslyRockingScannable import ContinuouslyRockingScannable
 kphirock = ContinuouslyRockingScannable('kphirock', scannable = kphi)

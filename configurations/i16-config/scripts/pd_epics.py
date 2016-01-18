@@ -374,6 +374,39 @@ class Epics_Shutter(PseudoDevice):
 		return 0
 
 
+class epics_binary_pos_neg(SingleEpicsPositionerSetAndGetOnlyClass):
+	'''
+
+	'''
+	def bin_to_posneg(self, bin):
+		if bin:
+			posneg=+1
+		else:
+			posneg=-1
+		return posneg
+
+	def posneg_to_bin(self, posneg):
+		if posneg>0:
+			bin=True
+		else:
+			bin=False
+		return bin
+	
+	def getPosition(self):
+		try:
+			#print 'Returned position sring: '+self.outcli.caget()
+			return self.bin_to_posneg(float(self.outcli.caget()))
+		except:
+			print "Error returning position"
+			return 0
+
+	def asynchronousMoveTo(self,new_position):
+		try:
+			self.incli.caput(self.posneg_to_bin(new_position))
+			#sleep(self.sleeptime)
+		except:
+			print "error moving to position"
+
 
 
 

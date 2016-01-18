@@ -56,3 +56,50 @@ class Offset(PseudoDevice):
 
 	def isBusy(self):
 		return 0
+
+
+class OffsetDualScannable(PseudoDevice):
+	def __init__(self, name, scannablesToOffset = None):
+		self.name = name
+		self.inputNames = [name]
+		# <old shelf>
+		self.offsetShelf=ShelveIO.ShelveIO()
+		self.offsetShelf.path=ShelveIO.ShelvePath+'offset'
+		self.offsetShelf.setSettingsFileName('offset')
+		# <new shelf>
+		self.newshelf=LocalJythonShelfManager.open("offsets")
+		self.label=0
+
+		self.scannables = scannablesToOffset
+		if len(self.scannables) > 0:
+			self.applyOffsets()
+
+	def applyOffsets(self):
+		offset = self.getPosition()
+		for scannable in self.scannables:
+			scannable.setOffset(float(offset) if offset else None)
+
+	def asynchronousMoveTo(self,position):
+		self.label=1
+		# <old shelf >
+#		try:
+		self.offsetShelf.ChangeValue(str(self.getName()),position)
+#		except:
+#			print "Caught exception saving '%s' offset='%s' to old shelf (this is only a backup system)" % (self.getName(), position)
+		# < new shelf >
+		self.newshelf[self.getName()]=position
+		if self.scannables:
+			print `self.scannables` + " -->"
+			self.applyOffsets()
+			print `self.scannables`
+
+	def getPosition(self):
+		if installation.loadOldShelf():
+			# <old shelf >
+			return self.offsetShelf.getValue(self.getName())
+		else:
+			# <new shelf>
+			return self.newshelf.getValue(self.getName(), None) # None if not is dbase yet
+
+	def isBusy(self):
+		return 0
