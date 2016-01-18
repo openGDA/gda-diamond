@@ -76,6 +76,7 @@
 	<import resource="epics/detector/pcoedge.xml" />
 	<import resource="epics/detector/pco4000.xml" />
 
+	<!--<import resource="epics/detector/xmap_new.xml" />--><!-- transient -->
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="10000" />

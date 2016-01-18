@@ -59,4 +59,11 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 <!-- 	</bean> -->
 	
 
+	<bean id="xmapFluorescenceDetector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}xmapFluorescenceDetector" />
+		<property name="serviceInterface"
+				value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 </beans>
