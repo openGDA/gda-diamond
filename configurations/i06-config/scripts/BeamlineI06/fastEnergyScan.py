@@ -19,6 +19,7 @@ zacmode = FastEnergyScanIDModeClass("zacmode", fesController);
 #fesData = EpicsScandataDeviceClass("fesData", rootPV);
 fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio']);
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
+fastEnergy.filterByEnergy = False
 
 uuu=UtilFunctions();
 i06util=BeamlineFunctionClass();

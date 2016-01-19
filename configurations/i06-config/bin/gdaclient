@@ -18,7 +18,7 @@ VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/java.properties_$GDA_MODE   
 VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/properties/JCALibrary.properties_$GDA_MODE $VMARGS"
 VMARGS="-Dgda.data=/dls/$BEAMLINE $VMARGS"
 # VAR? like  ARGS="--vardir     $GDA_ROOT/../var $ARGS"
-
+VMARGS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=127.0.0.1:8001 $VMARGS"
 
 export GDA_CLIENT_VMARGS=$VMARGS
 #echo  GDA_CLIENT_VMARGS=$VMARGS

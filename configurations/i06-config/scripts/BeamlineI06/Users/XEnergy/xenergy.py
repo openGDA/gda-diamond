@@ -275,6 +275,27 @@ class XenergyClass(PseudoDevice):
         self.iambusy = self.id.xenergyIsBusy()
         return self.iambusy
 
+
+class XenergyClassWithGapOffsets(XenergyClass):
+    def __init__(self, name, ins_device, ugap_offset, dgap_offset):
+        XenergyClass.__init__(self, name, ins_device)
+        self.ugap_offset = ugap_offset
+        self.dgap_offset = dgap_offset
+
+    def asynchronousMoveTo(self, new_energy):
+        self.iambusy = True
+        self.id.setParameters(new_energy, self.id.xpol, self.id.xmode, self.id.offhar, self.id.detune)
+        self.id.calcIdPos(new_energy)
+        # Apply offsets
+        self.id.calcParams['ugap'] += self.ugap_offset
+        self.id.calcParams['dgap'] += self.dgap_offset
+        self.id.storeIdPos()
+        self.id.xenergyMove()
+        self.energy = new_energy
+        self.iambusy = False
+        return
+
+
 class XpolClass(PseudoDevice):
     def __init__(self,name,id):
         self.setName(name);
@@ -292,7 +313,7 @@ class XpolClass(PseudoDevice):
         return self.xpol
 
     def asynchronousMoveTo(self, newPol):
-    	#add a control line to check that the "newpol" is an allowed string!!!!!!!!!!!!
+        #add a control line to check that the "newpol" is an allowed string!!!!!!!!!!!!
         self.iambusy = True
         self.id.setParameters(self.id.energy, self.aliases[newPol], self.id.xmode, self.id.offhar, self.id.detune)
         self.id.calcIdPos(self.id.energy)
@@ -408,6 +429,7 @@ idu = 'idu'
 ins_device = UndulatorControlClass(ugap_unused=100., dgap_unused=100.)
 
 xenergy = XenergyClass("xenergy",ins_device)
+offxenergy = XenergyClassWithGapOffsets("offxenergy", ins_device, ugap_offset=1.3835, dgap_offset=0.0)
 
 xpol = XpolClass("xpol",ins_device)
 

@@ -26,14 +26,14 @@ gda.client.logging.port = 6799
 #gda.client.logging.port = 6011
 
 #The server port must match with the port number in SocketAppender element of the ServerLoggingConfiguration.xml; default 6000
-gda.server.logging.port = 6798
+gda.server.logging.port = 6788
 #gda.server.logging.port = 6010
 
 # port used by logPanel application to receive messages - normally from logserver; default 6002
 gda.logPanel.logging.port = 6797
 #gda.logPanel.logging.port=6012
 
-gda.defVisit = cm12155-5
+gda.defVisit = cm14456-5
 
 #{gda.data} not getting resolved when pulling in java_common.properties
 gda.data.scan.datawriter.datadir    = /dls/i06-1/data/$year$/$visit$

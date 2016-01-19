@@ -32,13 +32,13 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
 <!--      <perspectiveExtension targetID="uk.ac.diamond.gda.rcp.ExperimentPerspective" -->
-      <perspectiveExtension targetID="uk.ac.gda.nano.PeemPerspective">
+      <perspectiveExtension targetID="uk.ac.gda.beamline.i06.perspective.Peem">
          <view
                closeable="false"
-               id="uk.ac.gda.nano.views.terminalView"
+               id="org.eclipse.ui.navigator.ProjectExplorer"
                minimized="false"
                moveable="true"
-               ratio="0.95"
+               ratio="0.33"
                relationship="left"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
@@ -46,29 +46,20 @@
          </view>
          <view
                closeable="true"
-               id="uk.ac.gda.nano.views.RegionalisedScanView"
+               id="uk.ac.gda.exafs.ui.dashboardView"
                moveable="true"
                relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
                showTitle="true"
                visible="true">
          </view>
          <view
                closeable="true"
-               id="gda.dal.sdsview"
+               id="gda.rcp.views.baton.BatonView"
+               minimized="false"
                moveable="true"
                relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="gda.rcp.jythoneditorview"
-               moveable="true"
-               ratio="0.4"
-               relationship="right"
-               relative="uk.ac.gda.nano.views.terminalView"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
                showTitle="true"
                visible="true">
          </view>
@@ -79,7 +70,7 @@
                moveable="true"
                ratio="0.6"
                relationship="top"
-               relative="gda.rcp.jythoneditorview"
+               relative="org.eclipse.ui.editorss"
                showTitle="true"
                visible="true">
          </view>
@@ -102,12 +93,53 @@
                visible="true">
          </view>
          <view
+               closeable="false"
+               id="gda.rcp.jythonterminalview"
+               minimized="false"
+               moveable="true"
+               ratio="0.6"
+               relationship="top"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="uk.ac.gda.nano.views.RegionalisedScanView"
+               moveable="true"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="gda.dal.sdsview"
+               moveable="true"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"
+               showTitle="true"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="uk.ac.gda.beamline.i06.perspective.Experiment">
+         <view
+               closeable="false"
+               id="org.eclipse.ui.navigator.ProjectExplorer"
+               minimized="false"
+               moveable="true"
+               ratio="0.58"
+               relationship="left"
+               relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
                closeable="true"
                id="uk.ac.gda.exafs.ui.dashboardView"
                moveable="true"
-               ratio="0.60"
-               relationship="bottom"
-               relative="uk.ac.gda.nano.views.terminalView"
+               relationship="stack"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
                showTitle="true"
                visible="true">
          </view>
@@ -117,30 +149,29 @@
                minimized="false"
                moveable="true"
                relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
                showTitle="true"
                visible="true">
          </view>
          <view
                closeable="false"
-               id="org.eclipse.ui.console.ConsoleView"
+               id="uk.ac.gda.client.liveplotview"
                minimized="false"
                moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
-               showTitle="true"
-               visible="true">
-         </view>
-      </perspectiveExtension>
-      <perspectiveExtension targetID="uk.ac.gda.nano.ExperimentPerspective">
-         <view
-               closeable="false"
-               id="uk.ac.gda.nano.views.terminalView"
-               minimized="false"
-               moveable="true"
-               ratio="0.95"
-               relationship="left"
+               ratio="0.6"
+               relationship="top"
                relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="false"
+               id="gda.rcp.jythonterminalview"
+               minimized="false"
+               moveable="true"
+               ratio="0.6"
+               relationship="top"
+               relative="org.eclipse.ui.navigator.ProjectExplorer"
                showTitle="true"
                visible="true">
          </view>
@@ -149,7 +180,34 @@
                id="uk.ac.gda.nano.views.RegionalisedScanView"
                moveable="true"
                relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
+               relative="gda.rcp.jythonterminalview"
+               showTitle="true"
+               visible="true">
+         </view>         
+         <view
+               closeable="true"
+               id="uk.ac.gda.nano.views.SuperConductingMagnet"
+               moveable="true"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="uk.ac.gda.nano.views.DiffractionAndDichroismView"
+               moveable="true"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               closeable="true"
+               id="gda.dal.sdsview"
+               moveable="true"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"
                showTitle="true"
                visible="true">
          </view>
@@ -163,85 +221,7 @@
                showTitle="true"
                visible="true">
          </view>
--->         
-         <view
-               closeable="true"
-               id="uk.ac.gda.nano.views.SuperConductingMagnet"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="uk.ac.gda.nano.views.DiffractionAndDichroismView"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="gda.dal.sdsview"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="gda.rcp.jythoneditorview"
-               moveable="true"
-               ratio="0.4"
-               relationship="right"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="uk.ac.gda.client.liveplotview"
-               minimized="false"
-               moveable="true"
-               ratio="0.6"
-               relationship="top"
-               relative="gda.rcp.jythoneditorview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="uk.ac.gda.exafs.ui.dashboardView"
-               moveable="true"
-               ratio="0.60"
-               relationship="bottom"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="gda.rcp.views.baton.BatonView"
-               minimized="false"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="org.eclipse.ui.console.ConsoleView"
-               minimized="false"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
-               showTitle="true"
-               visible="true">
-         </view>
+-->
       </perspectiveExtension>
 
    </extension>
@@ -253,6 +233,19 @@
             name="I06 Terminal"
             restorable="true">
       </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i06.perspective.Peem"
+            id="uk.ac.gda.beamline.i06.perspective.Peem"
+            name="Peem Perspective">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.beamline.i06.perspective.Experiment"
+            id="uk.ac.gda.beamline.i06.perspective.Experiment"
+            name="Experiment Perspective">
+      </perspective>
    </extension>
 
    <!-- This won't work in 8.38, requires 8.40 or later

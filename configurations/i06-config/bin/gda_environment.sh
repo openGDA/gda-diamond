@@ -35,4 +35,4 @@ GDA_ROOT=/dls_sw/$BEAMLINE/software/gda
 GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/i06-config
 MT_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config
 
-export PATH=$GDA_CONFIG/bin:$MT_CONFIG/bin:/dls_sw/$BEAMLINE/bin:${PATH}
+export PATH=$GDA_CONFIG/bin:/dls_sw/$BEAMLINE/bin:${PATH}
