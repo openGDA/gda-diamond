@@ -5,7 +5,7 @@ notify-send -t 10000 "GDA Client is starting..."
 . /$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/bin/gda_environment.sh
 if [ -f "/etc/profile.d/modules.sh" ]; then
 	. /etc/profile.d/modules.sh	
-	module load java/gda
+	module load java/gda844
 else
 	echo "cannot source /etc/profile.d/modules.sh"	
 	exit 1

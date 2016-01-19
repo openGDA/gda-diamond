@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.6.3.201411271034-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.7.0.201506251244-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -21,8 +21,6 @@
 		<config>servers/main/dummy/BPM3.xml</config>
 		<config>servers/main/live/BPM3.xml</config>
 		<config>servers/main/simulation/BPM3.xml</config>
-		<config>clients/main/dummy/client.xml</config>
-		<config>clients/main/live/client.xml</config>
 		<config>clients/rcp/dummy/client.xml</config>
 		<config>clients/rcp/live/client.xml</config>
 		<config>clients/clients-common.xml</config>
@@ -138,7 +136,6 @@
 		<config>servers/main/dummy/MACMotors.xml</config>
 		<config>servers/main/simulation/MACMotors.xml</config>
 		<config>servers/main/main_common.xml</config>
-		<config>clients/main/main-common.xml</config>
 		<config>servers/main/Mar345.xml</config>
 		<config>servers/main/dummy/Mar345.xml</config>
 		<config>servers/main/live/Mar345.xml</config>
@@ -236,6 +233,59 @@
 		<config>servers/main/BeamMonitor2.xml</config>
 		<config>servers/main/live/Spinner.xml</config>
 		<config>clients/rcp/live/spinner.xml</config>
+		<config>clients/rcp/beamlineStatus.xml</config>
+		<config>servers/main/BeamMonitor1.xml</config>
+		<config>servers/main/live/BSTP1.xml</config>
+		<config>servers/main/BSTP1.xml</config>
+		<config>servers/main/live/D1.xml</config>
+		<config>servers/main/live/D2.xml</config>
+		<config>servers/main/live/D3.xml</config>
+		<config>servers/main/live/D4.xml</config>
+		<config>servers/main/live/D5.xml</config>
+		<config>servers/main/live/D6.xml</config>
+		<config>servers/main/datacollection.xml</config>
+		<config>servers/main/datareductionscannable.xml</config>
+		<config>servers/main/detectorArm.xml</config>
+		<config>servers/main/live/detectorArm.xml</config>
+		<config>servers/main/live/ES2Shutter.xml</config>
+		<config>servers/main/live/Ic5.xml</config>
+		<config>servers/main/live/Ic6.xml</config>
+		<config>servers/main/Ie2.xml</config>
+		<config>servers/main/live/IE2.xml</config>
+		<config>servers/main/live/LS.xml</config>
+		<config>servers/main/LS1.xml</config>
+		<config>servers/main/LS2.xml</config>
+		<config>servers/main/live/MS1.xml</config>
+		<config>servers/main/MS1.xml</config>
+		<config>servers/main/MS2.xml</config>
+		<config>servers/main/live/MS2.xml</config>
+		<config>servers/main/live/MS3.xml</config>
+		<config>servers/main/MS3.xml</config>
+		<config>servers/main/MS4.xml</config>
+		<config>servers/main/live/MS4.xml</config>
+		<config>servers/main/pixium.xml</config>
+		<config>clients/rcp/pixium.xml</config>
+		<config>servers/pixiumMetadata.xml</config>
+		<config>servers/main/S6.xml</config>
+		<config>servers/main/live/S7.xml</config>
+		<config>servers/main/S7.xml</config>
+		<config>clients/rcp/samplesView.xml</config>
+		<config>servers/main/SS1.xml</config>
+		<config>servers/main/live/SS1.xml</config>
+		<config>servers/main/live/SS2.xml</config>
+		<config>servers/main/SS2.xml</config>
+		<config>servers/main/live/SS3.xml</config>
+		<config>servers/main/SS3.xml</config>
+		<config>servers/main/live/SS4.xml</config>
+		<config>servers/main/SS4.xml</config>
+		<config>servers/main/SS5.xml</config>
+		<config>servers/main/live/SS5.xml</config>
+		<config>servers/main/live/SS6.xml</config>
+		<config>servers/main/SS6.xml</config>
+		<config>servers/main/topup.xml</config>
+		<config>servers/main/live/usermotors.xml</config>
+		<config>servers/main/usermotors.xml</config>
+		<config>servers/main/wavelength.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
@@ -246,8 +296,6 @@
 			<incomplete>false</incomplete>
 			<configs>
 				<config>clients/clients-common.xml</config>
-				<config>clients/main/live/client.xml</config>
-				<config>clients/main/main-common.xml</config>
 				<config>clients/rcp/live/client.xml</config>
 				<config>clients/rcp/rcp-common.xml</config>
 				<config>clients/rcp/commandQueueProcessor.xml</config>

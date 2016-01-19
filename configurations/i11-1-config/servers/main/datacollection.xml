@@ -1,11 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
 	
 	<bean id="resUtil" class="org.opengda.lde.utils.LDEResourceUtil">
-		<property name="fileName" value="samples.lde" />
+		<property name="fileName" value="newsamples.lde" />
 	</bean>
 	
 	<bean id="datacollection" class="org.opengda.lde.experiments.DataCollection">
@@ -20,20 +20,20 @@
 		<property name="datareduction" ref="datareduction"/>
 		<property name="pixium" ref="pixium_hdf"/>
 		<property name="stages">
-			<list>
-				<ref bean="ls1"/>
-				<ref bean="ls2"/>
-				<ref bean="ms1"/>
-				<ref bean="ms2"/>
-				<ref bean="ms3"/>
-				<ref bean="ms4"/>
-				<ref bean="ss1"/>
-				<ref bean="ss2"/>
-				<ref bean="ss3"/>
-				<ref bean="ss4"/>
-				<ref bean="ss5"/>
-				<ref bean="ss6"/>
-			</list>
+			<map>
+				<entry key="LS1" value-ref="ls1"/>
+				<entry key="LS2" value-ref="ls2"/>
+				<entry key="MS1" value-ref="ms1"/>
+				<entry key="MS2" value-ref="ms2"/>
+				<entry key="MS3" value-ref="ms3"/>
+				<entry key="MS4" value-ref="ms4"/>
+				<entry key="SS1" value-ref="ss1"/>
+				<entry key="SS2" value-ref="ss2"/>
+				<entry key="SS3" value-ref="ss3"/>
+				<entry key="SS4" value-ref="ss4"/>
+				<entry key="SS5" value-ref="ss5"/>
+<!-- 				<entry key="SS6" value-ref="ss6"/> -->
+			</map>
 		</property>
 	</bean>
 
