@@ -19,15 +19,8 @@ class EnergyScannablePoly(EnergyScannableBase):
         EnergyScannableBase.__init__(self, name, id_gap_scannable,
             id_rowphase1_scannable, id_rowphase2_scannable,
             id_rowphase3_scannable, id_rowphase4_scannable,
-            id_jawphase_scannable, pgm_energy_scannable)
-        
-        self.gap = gap
-        self.rowphase1 = rowphase1
-        self.rowphase2 = rowphase2
-        self.rowphase3 = rowphase3
-        self.rowphase4 = rowphase4
-        
-        self.jawphase_poly = jawphase_poly
+            id_jawphase_scannable, pgm_energy_scannable,
+            gap, rowphase1, rowphase2, rowphase3, rowphase4, jawphase_poly)
         
         # Do some minimal sanity checking on the _poly's. 
         assert(type(jawphase_poly)==type(Poly([])))
@@ -40,10 +33,5 @@ class EnergyScannablePoly(EnergyScannableBase):
             self.id_rowphase1.name, self.id_rowphase2.name,
             self.id_rowphase3.name, self.id_rowphase4.name,
             self.id_jawphase.name, self.pgm_energy.name,
-            self.gap, self.rowphase1, self.rowphase2,
-            self.rowphase3, self.rowphase4, self.jawphase_poly)
-
-    def getIdPosition(self, energy_eV):
-        return IdPosition(self.gap,
-            self.rowphase1, self.rowphase2, self.rowphase3, self.rowphase4,
-            self.jawphase_poly(energy_eV))
+            self.gap_from_energy, self.rowphase1_from_energy, self.rowphase2_from_energy,
+            self.rowphase3_from_energy, self.rowphase4_from_energy, self.jawphase_from_energy)

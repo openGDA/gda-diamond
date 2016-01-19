@@ -42,7 +42,8 @@ class EnergyScannableLinearArbitrary(EnergyScannableBase):
         EnergyScannableBase.__init__(self, name, id_gap_scannable,
             id_rowphase1_scannable, id_rowphase2_scannable,
             id_rowphase3_scannable, id_rowphase4_scannable,
-            id_jawphase_scannable, pgm_energy_scannable)
+            id_jawphase_scannable, pgm_energy_scannable,
+            gap_poly, rowphase1, rowphase2, rowphase3, rowphase4, jawphase_poly)
 
     def __repr__(self):
         format = "EnergyScannableLinearArbitrary(%r, %r, %r, %r, %r, %r, " + \
