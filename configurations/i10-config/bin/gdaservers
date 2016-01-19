@@ -27,11 +27,11 @@ echo
 
 if [ "$GDA_MODE" = "live" ]; then
 
-	KNOWN_HOST="i10-control.diamond.ac.uk,172.23.110.32 ssh-rsa"
-	KNOWN_HOST_KEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAnUb/TPXoErqFoh+5e+o7lmcN6buT3sVfXq2vlyPVXxWc02uk17uS3QJo5tNKMybXTyl22UF1sdfWCGoIhiHJyLQw1kqz8nyH4buL0Xm5qxrfXM7gyFzBdcLKKzpTQp5eYvf1lghDsenodF8k3oTX/NFxeVjXlwMUpG8+uBOslhrc9GhjR5FpqiowZenwK3o7a/kt1dS2hUqgYGoo0cNjLVcWZHZ4u4byBeIprLkdi/d2so2qsQ4q63AW1kHyPSkQGLtOTIAE3CAP5BJ/l/U3Al6ZaGLx+SJzQ+T79ugOnuAdvujhg7Ej+KxK1wQC5PABVT2mH08wwlFyGSbAycHnkw=="
+	CONTROL_MACHINE_NAME="i10-control.diamond.ac.uk,172.23.110.32 ssh-rsa"
+	CONTROL_MACHINE_PUBKEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAnUb/TPXoErqFoh+5e+o7lmcN6buT3sVfXq2vlyPVXxWc02uk17uS3QJo5tNKMybXTyl22UF1sdfWCGoIhiHJyLQw1kqz8nyH4buL0Xm5qxrfXM7gyFzBdcLKKzpTQp5eYvf1lghDsenodF8k3oTX/NFxeVjXlwMUpG8+uBOslhrc9GhjR5FpqiowZenwK3o7a/kt1dS2hUqgYGoo0cNjLVcWZHZ4u4byBeIprLkdi/d2so2qsQ4q63AW1kHyPSkQGLtOTIAE3CAP5BJ/l/U3Al6ZaGLx+SJzQ+T79ugOnuAdvujhg7Ej+KxK1wQC5PABVT2mH08wwlFyGSbAycHnkw=="
 	
 	ssh-keygen -R i15-control.diamond.ac.uk &> /dev/null
-	echo $KNOWN_HOST $KNOWN_HOST_KEY >> ~/.ssh/known_hosts
+	echo $CONTROL_MACHINE_NAME $CONTROL_MACHINE_PUBKEY >> ~/.ssh/known_hosts
 
 	ssh  -i /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk
 	OK=$?

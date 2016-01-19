@@ -26,11 +26,12 @@ class EnergyScannableLinearArbitraryAlTest(unittest.TestCase):
             idd_jawphase, pgm_energy, 'idd_lin_al_angle',
             angle_min_Deg=0., angle_max_Deg=180., angle_threshold_Deg=27., 
             energy_min_eV=1520., energy_max_eV=1620.,  
-            rowphase1=-17.22, rowphase2=0., rowphase3=17.22, rowphase4=0., 
             #gap = -26.026 + 0.037523 * energy_eV
-            gap_poly=Poly([-26.026, 0.037523], power0first=True),
+            gap_from_energy=Poly([-26.026, 0.037523], power0first=True),
+            rowphase1_from_energy=-17.22, rowphase2_from_energy=0.,
+            rowphase3_from_energy=17.22, rowphase4_from_energy=0.,
             #jawphase = ( alpha_real - 117. ) / 7.5
-            jawphase_poly=Poly([-117./7.5, 1./7.5], power0first=True))
+            jawphase_from_angle=Poly([-117./7.5, 1./7.5], power0first=True))
 
         idd_lin_al_angle = PolarisationAngleScannable('idd_lin_al_angle',
             idd_lin_al_energy)
@@ -73,9 +74,13 @@ class EnergyScannableLinearArbitraryAlTest(unittest.TestCase):
             pol_angle_scannable_name='idd_lin_al_angle', 
             angle_min_Deg=0., angle_max_Deg=180., angle_threshold_Deg=27., 
             energy_min_eV=1520., energy_max_eV=1620.,  
-            rowphase1=-17.22, rowphase2=0., rowphase3=17.22, rowphase4=0., 
-            gap_poly=Poly([-26.026, 0.037523], power0first=True),
-            jawphase_poly=Poly([-117./7.5, 1./7.5], power0first=True))
+            gap_from_energy=Poly([-26.026, 0.037523], power0first=True),
+            rowphase1_from_energy=-17.22, rowphase2_from_energy=0.,
+            rowphase3_from_energy=17.22, rowphase4_from_energy=0.,
+            jawphase_from_energy=None, gap_from_angle=None,
+            rowphase1_from_angle=None, rowphase2_from_angle=None,
+            rowphase3_from_angle=None, rowphase4_from_angle=None,
+            jawphase_from_angle=Poly([-117./7.5, 1./7.5], power0first=True))
 
         self.assertEquals(repr(self.idd_lin_al_energy), repr(ilae))
         
@@ -103,7 +108,7 @@ class EnergyScannableLinearArbitraryAlTest(unittest.TestCase):
         self.assertEquals(str(self.idd_lin_al_angle),  "idd_lin_al_angle=90.000000, idd_lin_al_energy=0.000000, idd_gap=1234.000000, idd_rowphase1=2345.000000, idd_rowphase2=3456.000000, idd_rowphase3=5678.000000, idd_rowphase4=6789.000000, idd_jawphase=7890.000000, pgm_energy=8901.000000, diff_energy=-8901.000000")
 
     def test__repr__LH(self):
-        self.assertEquals(repr(self.idd_lin_al_energy), "EnergyScannableLinearArbitrary(u'idd_lin_al_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', 0.0, 180.0, 27.0, 1520.0, 1620.0, -17.22, 0.0, 17.22, 0.0, Poly(coeffs=[0.037523, -26.026], power0first=False), Poly(coeffs=[0.133333333333, -15.6], power0first=False))")
+        self.assertEquals(repr(self.idd_lin_al_energy), "EnergyScannableLinearArbitrary(u'idd_lin_al_energy', 'idd_gap', 'idd_rowphase1', 'idd_rowphase2', 'idd_rowphase3', 'idd_rowphase4', 'idd_jawphase', 'pgm_energy', angle_min_Deg=0.0, angle_max_Deg=180.0, angle_threshold_Deg=27.0, energy_min_eV=1520.0, energy_max_eV=1620.0, gap_from_energy=Poly(coeffs=[0.037523, -26.026], power0first=False), rowphase1_from_energy=-17.22, rowphase2_from_energy=0.0, rowphase3_from_energy=17.22, rowphase4_from_energy=0.0, jawphase_from_energy=None, gap_from_angle=None, rowphase1_from_angle=None, rowphase2_from_angle=None, rowphase3_from_angle=None, rowphase4_from_angle=None, jawphase_from_angle=Poly(coeffs=[0.133333333333, -15.6], power0first=False))")
         self.assertEquals(repr(self.idd_lin_al_angle),  "PolarisationAngleScannable(u'idd_lin_al_angle', u'idd_lin_al_energy')")
 
     def testAsynchronousMoveToLin1(self):
