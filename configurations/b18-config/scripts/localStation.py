@@ -12,11 +12,11 @@ from gda.device.scannable import MonoCoolScannable
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from gda.jython.scriptcontroller.logging import LoggingScriptController
-from gda.scan import ScanBase#this is required for skip current repetition to work BLXVIIIB-99
+from gda.scan import ScanBase  #this is required for skip current repetition to work BLXVIIIB-99
 from gda.device.monitor import EpicsMonitor
 from gda.data.scan.datawriter import NexusDataWriter
 # from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig, Xspress3Config
-from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
+from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
 
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
@@ -25,12 +25,12 @@ commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
 
 datawriterconfig = Finder.getInstance().find("datawriterconfig")
 original_header = Finder.getInstance().find("datawriterconfig").getHeader()[:]
-LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 
-sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity,iref_stanford_sensitivity]
-sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units,iref_stanford_sensitivity_units]
-offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset]
-offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units]
+sensitivities = [i0_stanford_sensitivity, it_stanford_sensitivity, iref_stanford_sensitivity]
+sensitivity_units = [i0_stanford_sensitivity_units, it_stanford_sensitivity_units, iref_stanford_sensitivity_units]
+offsets = [i0_stanford_offset, it_stanford_offset, iref_stanford_offset]
+offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanford_offset_units]
 
 
 #if (LocalProperties.get("gda.mode") == 'live'):
@@ -86,8 +86,8 @@ beamMonitor = BeamMonitor()
 beamMonitor.setName("beamMonitor")
 if (LocalProperties.get("gda.mode") == 'live'):
     beamMonitor.setMachineModeMonitor(machineModeMonitor)
-beamMonitor.setShutterPVs(["FE18B-PS-SHTR-01:STA","FE18B-PS-SHTR-01:STA"])  # there are two shutters, it looks like only shutter 1 is operated!
-beamMonitor.setPauseBeforeScan(True)     # for qexafs, test FE and machine current at the start of each scan
+beamMonitor.setShutterPVs(["FE18B-PS-SHTR-01:STA", "FE18B-PS-SHTR-01:STA"])  # there are two shutters, it looks like only shutter 1 is operated!
+beamMonitor.setPauseBeforeScan(True)  # for qexafs, test FE and machine current at the start of each scan
 beamMonitor.configure()
 
 monoCooler = MonoCoolScannable()
@@ -113,13 +113,23 @@ if (LocalProperties.get("gda.mode") == 'live'):
     blower_temperature.setExtraNames(["blower_temperature"])
     blower_temperature.setPvName("ME08G-EA-GIR-01:TCTRL1:PV:RBV")
     
-    add_default topupMonitor
-    add_default beamMonitor
+    add_default(topupMonitor)
+    add_default(beamMonitor)
     
-    run "userStartupScript"
+    run("userStartupScript")
 else :
     print "Moving dummy DCM's to useful positions..."
     energy(7000) # start the simulation with an energy in a useful range
     qexafs_energy(7000)
     print "...moves done";
+
+# TODO move this to Spring config?
+from uk.ac.gda.beamline.b18.scannable import SimpleEpicsTemperatureController
+generic_cryostat = SimpleEpicsTemperatureController()
+generic_cryostat.setName("generic_cryostat")
+generic_cryostat.setSetPointPVName("BL18B-EA-TEMPC-06:TTEMP")  # currently OxInst ITC4 Cryojet
+generic_cryostat.setReadBackPVName("BL18B-EA-TEMPC-06:STEMP")
+generic_cryostat.configure()
+
+
 print "Initialization Complete";
