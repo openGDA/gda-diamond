@@ -7,18 +7,10 @@
 		<property name="controller" ref="analysercontroller" />
 		<property name="capabilities" ref="analyserCapabilities" />
 		<property name="adBase" ref="analyser.cam" />
-<!-- 		<property name="ndProc" ref="analyser.proc" /> -->
-		<property name="ndArray" ref="analyser.arr" />
-<!-- 		<property name="ndStats" ref="analyser.stat" /> -->
-<!-- 		<property name="computeCentroid" value="true" /> -->
-<!-- 		<property name="computeStats" value="true" /> -->
-<!-- 		<property name="ndFile" ref="analyser_filebase" /> -->
 		<property name="collectionStrategy" ref="analyser_simpleacquire" />
-<!-- 		<property name="fileWriter" ref="analyser_hdf_fileWriter" /> -->
 		<property name="readAcquisitionTime" value="true" />
-		<property name="readFilepath" value="true" />
 		<property name="readAcquisitionPeriod" value="false" />
-		<property name="readArray" value="true" />
+		<property name="readArray" value="false" />
 	</bean>
 	
 	<import resource="analyser_lens_mapping.xml" />
@@ -55,20 +47,7 @@
 	<bean id="analyser.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="TEST-SPECS-01:" />
 	</bean>
-	
-	<bean id="analyser.arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="TEST-SPECS-01:ARR:" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="TEST-SPECS-01:ARR:" />
-				<property name="initialArrayPort" value="CCD.CAM" />
-				<property name="initialArrayAddress" value="0" />
-				<property name="initialEnableCallbacks" value="1" />
-				<property name="initialBlockingCallbacks" value="false" />
-			</bean>
-		</property>
-	</bean>
-	
+
 	<bean id="analyser_simpleacquire" class="gda.device.detector.addetector.triggering.SimpleAcquire">
 		<constructor-arg ref="analyser.cam" />
 		<constructor-arg value="0.1" />
