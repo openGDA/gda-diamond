@@ -7,7 +7,7 @@ from gdascripts.scannable.dummy import SingleInputDummy
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 from gda.device.scannable.scannablegroup import ScannableGroup
 
-from degas.degas import Degas
+from gdascripts.degas.degas import Degas
 
 global run
 
