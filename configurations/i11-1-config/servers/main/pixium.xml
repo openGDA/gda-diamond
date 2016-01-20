@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
 	<!-- Set up EPICS Area Detector plugin tabs -->
 	<bean id="pixium.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
@@ -201,7 +201,7 @@
 	<bean id="pixium_hdf" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium_hdf"/>
 		<property name="prefix" value="BL11J-EA-DET-10:CAM:"/>
-		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
+		<property name="shutterPVName" value="BL11I-PS-SHTR-02:CON"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
 		<property name="fastshutter" ref="fastshutter1"/>
@@ -247,7 +247,7 @@
 	<bean id="pixium_tif" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium_tif"/>
 		<property name="prefix" value="BL11J-EA-DET-10:CAM:"/>
-		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
+		<property name="shutterPVName" value="BL11I-PS-SHTR-02:CON"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
 		<property name="fastshutter" ref="fastshutter1"/>
@@ -275,7 +275,7 @@
 	<bean id="pixium" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium"/>
 		<property name="prefix" value="BL11J-EA-DET-10:CAM:"/>
-		<property name="shutterPVName" value="BL11I-EA-SHTR-01:SHUTTER"/>
+		<property name="shutterPVName" value="BL11I-PS-SHTR-02:CON"/>
 		<property name="shutterIntForClose" value="1"/>
 		<property name="shutterIntForOpen" value="0"/>
 		<property name="fastshutter" ref="fastshutter1"/>

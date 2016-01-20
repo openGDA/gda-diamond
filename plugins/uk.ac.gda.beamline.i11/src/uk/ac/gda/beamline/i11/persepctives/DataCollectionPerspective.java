@@ -73,10 +73,10 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
         scanPlotFolder.addView(LivePlotView.ID);
 
         IFolderLayout detectorPlotFolder=layout.createFolder(DETECTOR_PLOT_FOLDER, IPageLayout.BOTTOM, (float)0.5, Scan_PLOT_FOLDER); //$NON-NLS-1$
-        detectorPlotFolder.addView(MYTHEN_PLOT_VIEW_ID);
         detectorPlotFolder.addView(MAC_PLOT_VIEW_ID);
+        detectorPlotFolder.addView(MYTHEN_PLOT_VIEW_ID);
         detectorPlotFolder.addView(DETECTOR_PLOT_VIEW_ID);
-        detectorPlotFolder.addView(DATA_PLOT_VIEW_ID);
+        detectorPlotFolder.addPlaceholder(DATA_PLOT_VIEW_ID);
 
         IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.BOTTOM, (float)0.6, editorArea); //$NON-NLS-1$
         terminalfolder.addView(JythonTerminalView.ID);
@@ -93,7 +93,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
         
         layout.addShowViewShortcut(MYTHEN_PLOT_VIEW_ID);
         layout.addShowViewShortcut(MAC_PLOT_VIEW_ID);
-        layout.addShowViewShortcut(DATA_PLOT_VIEW_ID);
+        layout.addShowViewShortcut(DETECTOR_PLOT_VIEW_ID);
         layout.addShowViewShortcut(LivePlotView.ID);
         layout.addShowViewShortcut(JythonTerminalView.ID);
         layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);

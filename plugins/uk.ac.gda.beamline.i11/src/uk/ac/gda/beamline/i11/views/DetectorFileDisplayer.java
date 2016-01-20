@@ -99,7 +99,7 @@ public class DetectorFileDisplayer implements FileProcessor, PlotConfigurable, I
 		}
 	}
 
-	private boolean isAlreadPlotted(String filename) {
+	private boolean isAlreadyPlotted(String filename) {
 		boolean plotted = false;
 		if (!dataFilesPlotted.isEmpty()) {
 			for (String name : dataFilesPlotted) {
@@ -115,7 +115,7 @@ public class DetectorFileDisplayer implements FileProcessor, PlotConfigurable, I
 		if (isNewPlot()) {
 			dataFilesPlotted.clear();
 		}
-		if (StringUtils.hasLength(filename) && !isAlreadPlotted(filename)) {
+		if (StringUtils.hasLength(filename) && !isAlreadyPlotted(filename)) {
 			IDataset xds = null, yds = null;
 			String name = FilenameUtils.getName(filename);
 			if (name.contains("mythen")) {

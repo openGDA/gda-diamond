@@ -6,20 +6,14 @@
    <aboutInfo>
       <image path="/uk.ac.gda.beamline.i11-1/icons/i11GDA.png"/>
       <text>
-         GDA for High Resolution Powder Diffraction Beamline
+         GDA for I11-1 Long Duration Experiments Station
 
-Version: 8.36
-Build id: Monday, 18 November 2013 15:05
+Version: 8.44
+Build Date: Thu 22 Oct 2015
 
-Copyright © 2009 Diamond Light Source Ltd. All rights reserved.
+Copyright © 2009 2015 Diamond Light Source Ltd. 
+All rights reserved.
 Visit http://www.opengda.org
-
-This product includes software developed by the
-Eclipse http://www.eclipse.org/
-Apache Software Foundation http://apache.org/
-Spring http://projects.spring.io/spring-framework/
-Quality Open Software http://logback.qos.ch/; http://www.slf4j.org/
-PyDev http://pydev.org/
       </text>
    </aboutInfo>
 
@@ -52,7 +46,8 @@ PyDev http://pydev.org/
 -XX:MaxPermSize=512m
 -XX:+UseG1GC
 -XX:+UnlockCommercialFeatures
--XX:+FlightRecorder</vmArgs>
+-XX:+FlightRecorder
+      </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
    </launcherArgs>
@@ -103,5 +98,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i11-1.feature"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
