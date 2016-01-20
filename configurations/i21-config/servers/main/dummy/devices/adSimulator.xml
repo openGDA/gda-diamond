@@ -16,10 +16,13 @@
 	</bean>
 
 	<bean id="simCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="restoreAcquireState" value="true" />
 						<property name="adBase" ref="simCamBase" />
 					</bean>
 				</property>
