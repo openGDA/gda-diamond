@@ -28,5 +28,7 @@
 	<import resource="osa.xml" />
 	<import resource="analyser_rotation.xml"/>
 	<import resource="mj7j8.xml" />
+	
+	<import resource="mcp.xml" />
 
 </beans>
