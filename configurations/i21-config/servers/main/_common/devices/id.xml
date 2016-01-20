@@ -7,8 +7,8 @@
 	<bean id="idgap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="idgapMotor" />
 		<property name="initialUserUnits" value="mm" />
-		<property name="upperGdaLimits" value="30.5" />
-		<property name="lowerGdaLimits" value="5.0" />
+		<property name="upperGdaLimits" value="200" />
+		<property name="lowerGdaLimits" value="20" />
 	</bean>
 	
 	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
