@@ -47,7 +47,7 @@
 	</bean>
 	
 	<import resource="analyser_lens_mapping.xml"/>
-	<bean id="AnalyserCapabilities"	class="uk.ac.gda.beamline.i05_1.analyser.I05_1AnalyserCapabilties">
+	<bean id="AnalyserCapabilities"	class="uk.ac.gda.devices.vgscienta.i05_1.I05_1AnalyserCapabilties">
 		<description>
 			This class is used to hold the specific capabilities of the analyser. it contains a map of
 			lens modes and an array to map pixel position to angle for each.
