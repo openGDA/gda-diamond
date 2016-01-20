@@ -2,6 +2,7 @@
 <launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
 <mapEntry key="BEAMLINE" value="i05-1"/>
+<mapEntry key="GDA_NO_PROMPT" value="true"/>
 </mapAttribute>
 <stringAttribute key="org.eclipse.debug.ui.ATTR_CAPTURE_IN_FILE" value="${workspace_loc}/i05_GDA_Server_log.txt"/>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
