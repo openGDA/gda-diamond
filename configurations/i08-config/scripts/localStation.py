@@ -48,6 +48,9 @@ alias("andormapWithCorrection")
 
 if (LocalProperties.get("gda.mode") == 'live'): 
     run("xrfmap")
+    LocalProperties.set("gda.scan.executeAtEnd","/dls_sw/i08/software/gda/config/scripts/I08_NeXus_Fix.sh")
+else:
+    LocalProperties.set("gda.scan.executeAtEnd",None)
 
 energyStepScan = EnergyStepScan(IDEnergy,xmapMca)  # @UndefinedVariable
 alias("energyStepScan")
