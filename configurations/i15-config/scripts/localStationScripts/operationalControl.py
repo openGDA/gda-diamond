@@ -142,7 +142,9 @@ def d3out():
 	"""
 	move diode 3 out and reset the brightness of the questar to zero
 	"""
-	moveMotorsTogether(d3x, 19, d3y, 25)
+	#TODO: read these from the motor limits?
+	#      moveMotorsTogether(d3x, math.floor(d3x.upperMotorLimit), d3y, math.floor(d3y.upperMotorLimit)) ?
+	moveMotorsTogether(d3x, 19, d3y, 13.5)
 
 def d4out():
 	"""
