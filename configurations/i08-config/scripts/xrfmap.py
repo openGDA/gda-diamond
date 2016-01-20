@@ -36,8 +36,12 @@ class XRFMap(RasterScan):
         self.plotterList.append(Plotter("roi8_plotter",'roi8_total',"ROI8"))
         self.collectionTime =0.1
         #default for the mode trigger is EXTERNAL_EXPOSURE
-        self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL_EXPOSURE)
+        if self.andor != None: 
+            self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL_EXPOSURE)
+        self.vortex.getCollectionStrategy().getXmap().getCollectionMode().setPixelsPerBuffer(1)
         self.isTriggerModeExternal = False
+        self.pixelsPerBuffer = 1
+        self.plotRate = 0
 
         for plotter in self.plotterList:
             add_default(plotter.getPlotter())
@@ -51,18 +55,17 @@ class XRFMap(RasterScan):
         elif len(args) == 2:
             self.Xsize  = int(args[0])
             self.Ysize = int(args[1])
-        #self.vortex.getCollectionStrategy().getXmap().getCollectionMode().setPixelsPerBuffer(1);
         self.resetPlotters(self.Xsize, self.Ysize)
+        if (self.isTriggerModeExternal == True):
+            self.prepareAndorExternalTriggerMode()
+            print "Acquition Period", self.collectionTime
+        else: 
+            self.setAndorExternal_ExposureTriggerMode()
         if self.andor != None:
             self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.andor, self.collectionTime, self.vortex,self.collectionTime]
             andormap.PrepareForCollection(self.Xsize, self.Ysize)
         else:
             self.scanargs = [self.rowScannable, 1, float(self.Ysize), 1, self.columnScannable, 1, float(self.Xsize), 1, self.vortex, 0.1]
-        #To avoid problems with the aborting check which trigger mode is used before the scan as by default the triggerMode is EXTERNAL_EXPOSURE 
-        if (self.isTriggerModeExternal == True):
-            self.setAndorExternalTriggerMode(self.collectionTime)
-        else:
-            self.setAndorExternal_ExposureTriggerMode()
         RasterScan.__call__(self,self.scanargs)
 
     def _createScan(self, args):
@@ -117,14 +120,44 @@ class XRFMap(RasterScan):
     # the setup of the trigger mode is done here because the xrfmap always use andor + xmap
     # using both detectors sometimes the Andor camera saturates due to the long exposure time required by Xmap
     def setAndorExternalTriggerMode(self,acquisitionTime):
-        self.isTriggerModeExternal = True
-        self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL)
-        self.collectionTime = acquisitionTime
+        if self.andor != None:
+            self.isTriggerModeExternal = True
+            self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL)
+            #12 ms is needed for the image processing in Andor, so here the (acq period - exposure) = 12 ms, so the collection time 
+            #corresponds to acquisitionTime - 12 ms
+            self.collectionTime = acquisitionTime - 0.012
+        
+    def prepareAndorExternalTriggerMode(self):
+        if self.andor != None:
+            self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL)
+            self.andor.getCollectionStrategy().getAdBase().setAcquireTime(self.collectionTime)
 
     def setAndorExternal_ExposureTriggerMode(self):
         self.isTriggerModeExternal = False
         self.andor.getCollectionStrategy().setTriggerMode(AndorTriggerMode.EXTERNAL_EXPOSURE)
+        
+    def setPixelsPerBuffer(self,pixelsPerBuffer):
+        self.pixelsPerBuffer = pixelsPerBuffer
+        self.vortex.getCollectionStrategy().getXmap().getCollectionMode().setPixelsPerBuffer(pixelsPerBuffer)
 
+    def getPixelsPerBuffer(self):
+        return self.pixelsPerBuffer
+    
+    # here define the plotRate in seconds to avoid confusion, the rate in the plotter is set in ms so needs to multiply by 1000
+    def setPlotRate(self,plotRate):
+        self.plotRate = plotRate *1000
+        
+    def getPlotRate(self):
+        return self.plotRate
+    
+    def help(self):
+        print "xrfmap.setPixelsPerBuffer(pixelsPerBuffer): set up Xmap buffer size in EPICs, pixels per buffer is an int between 1 and 50.\n"
+        print "xrfmap.getPixelsPerBuffer(): print the current value of Xmap pixels per Buffer in EPICs.\n"
+        print "xrfmap.setAndorExternal_ExposureTriggerMode(): set up Andor to use EXTERNAL_EXPOSURE trigger. By default EXTERNAL_EXPOSURE trigger mode is used.\n"
+        print "xrfmap.setAndorExternalTriggerMode(acquisitionPeriod): set up Andor to use External trigger. The acquisition period is in s.\n"
+       # print "xrfmap.setPlotRate(plotRate):set up the plot rate of gdaclient. The plotRate is in s and its default value is 0.\n"
+       # print "xrfmap.getPlotRate():get the value of the plot rate configured in the scan.\n"
+        
 # then create the scan wrapper for map scans
 # col = stxmDummy.stxmDummyX
 # row = stxmDummy.stxmDummyY
