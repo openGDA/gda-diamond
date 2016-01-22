@@ -458,6 +458,8 @@ class I16NexusExtender(DataWriterExtenderBase):
                     crystalInfo = None
                 else:
                     ubMat = DIFFCALC.ub._ubcalc.UB.tolist()
+                    #diffcalc's UB matrix is scaled up by 2*PI
+                    ubMat = [ [_u * 0.5/math.pi for _u in _r] for _r in ubMat ]
                     xtal = DIFFCALC.ub._ubcalc._state.crystal
                     #diffcalc gives lattice parameters in radians
                     latParams = [ xtal._a1, xtal._a2, xtal._a3,
