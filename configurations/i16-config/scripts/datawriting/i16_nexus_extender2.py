@@ -387,6 +387,17 @@ class I16NexusExtender(DataWriterExtenderBase):
             latticeVals[i] = nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0)
         return (latticeVals, orientationMatrix)
 
+    def extractTransmission(self, nFile, metadataGroup):
+        atten = nFile.getGroup(metadataGroup, "gains_atten", "NXcollection", False)
+        ds = nFile.getData(atten, "Transmission").getDataset().getSlice()
+        ds.name = "attenuator_transmission"
+        return ds
+
+    def writeTransmission(self, nFile, instrument, transmission):
+        attenGroup = nFile.getGroup(instrument, "attenuator", "NXattenuator", True)
+        nFile.createData(attenGroup, transmission)
+
+
     def writeCrystalInfo(self, nFile, group, latticeParams, ubMatrix):
         unit_cell = DF.createFromObject(latticeParams)
         unit_cell.name = "unit_cell"
@@ -478,6 +489,8 @@ class I16NexusExtender(DataWriterExtenderBase):
             self.writeDynamicDetectors(nFile, instrument, self.scanDataPoint.getDetectors(), "/entry1/instrument/transformations/offsetdelta")
             self.writeDefinition(nFile, entry, "NXmx")
             self.writeFeatures(nFile, entry, [GDA_SCAN, NXMX, SAMPLE_GEOMETRY])
+            transmission = self.extractTransmission(nFile, metadataGroup)
+            self.writeTransmission(nFile, instrument, transmission)
         finally:
             nFile.close()
 
