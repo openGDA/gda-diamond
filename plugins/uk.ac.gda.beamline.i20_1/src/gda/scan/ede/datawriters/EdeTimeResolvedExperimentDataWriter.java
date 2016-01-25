@@ -105,8 +105,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		}
 		timeResolvedNexusFileHelper.setDetectorName4Node(itScans[0].getDetector().getName());
 		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);
-
-		timeResolvedNexusFileHelper.updateWithNormalisedData(true);
+		timeResolvedNexusFileHelper.updateWithNormalisedData(true, false);
 
 		return itFilename;
 	}

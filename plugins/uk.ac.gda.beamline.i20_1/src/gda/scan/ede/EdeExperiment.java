@@ -270,6 +270,11 @@ public abstract class EdeExperiment implements IObserver {
 			clearScans();
 			addScansForExperiment();
 			nexusFilename = addToMultiScanAndRun();
+			if (beamLightShutter!= null) {
+				beamLightShutter.moveTo("Close");
+				logger.info("Close shutter called in EdeExperiment.runExperiment() at end of scan before writing ascii files");
+				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of scan, before writing ascii files.");
+			}
 			String asciiDataFile = writeToFiles();
 			return asciiDataFile;
 		} catch(Exception e) {
@@ -462,7 +467,7 @@ public abstract class EdeExperiment implements IObserver {
 			return null;
 		}
 
-		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups. 
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
 		if (timeForPreItScans >= TOP_UP_TIME) {
 			logger.info("Time required for before It collection ("+timeForPreItScans+") secs is too large to fit within a topup");
 		}
