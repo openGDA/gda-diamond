@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.core"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics"/>
-	<classpathentry kind="lib" path="/uk.ac.gda.core/classes/main/gda/spring/namespaces/corba"/>
-	<classpathentry kind="lib" path="/uk.ac.gda.core/classes/main/gda/spring/namespaces/gda"/>
-	<classpathentry kind="output" path="classes"/>
-</classpath>
