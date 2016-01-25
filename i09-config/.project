@@ -74,7 +74,6 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>net.sourceforge.shelled.core.nature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.mylyn.wikitext.ui.wikiTextNature</nature>
