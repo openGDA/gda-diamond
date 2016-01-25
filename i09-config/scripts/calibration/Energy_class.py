@@ -3,6 +3,7 @@ import gda.factory.Finder as Finder
 import sys
 #from gda.function.lookup import LookupTable
 import math
+from time import sleep
 from LookupTables import readLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
@@ -40,13 +41,25 @@ class BeamEnergy(ScannableMotionBase):
             self.order=1
         self.energy=self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
         self.polarisation='H'
+        if self.getName()=="jenergy":
+            self.jidphase = finder.find("jidphase")
     
     def setPolarisation(self, value):
         if self.getName()=="jenergy":
-            if value == "H" or value == "V":
+            if value == "H":
+                self.jidphase.hortizontal() 
+                self.polarisation=value
+            elif value == "V":
+                self.jidphase.vertical()
                 self.polarisation=value
             else:
                 raise ValueError("Input "+str(value)+" invalid. Valid values are 'H' or 'V'.")
+            # Wait for 30 secs while ID moves
+            sleep(30.0) 
+            # Move back to the current position ie the correct gap for the new polarisation
+            self.asynchronousMoveTo(self.getPosition()/1000)
+            while (self.isBusy()) :
+                sleep(0.5)
         else:
             print "No polaristion parameter for Hard X-ray ID"
     
