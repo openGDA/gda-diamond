@@ -14,12 +14,18 @@ class EnergyScannableEnum(EnergyScannableBase):
                  id_rowphase2_scannable, id_rowphase3_scannable,
                  id_rowphase4_scannable, id_jawphase_scannable, 
                  pgm_energy_scannable, energyPositions):
-        
+
         EnergyScannableBase.__init__(self, name, id_gap_scannable,
             id_rowphase1_scannable, id_rowphase2_scannable,
             id_rowphase3_scannable, id_rowphase4_scannable,
-            id_jawphase_scannable, pgm_energy_scannable)
-        
+            id_jawphase_scannable, pgm_energy_scannable,
+            dict((energy,position.gap)       for (energy,position) in energyPositions.items()),
+            dict((energy,position.rowphase1) for (energy,position) in energyPositions.items()),
+            dict((energy,position.rowphase2) for (energy,position) in energyPositions.items()),
+            dict((energy,position.rowphase3) for (energy,position) in energyPositions.items()),
+            dict((energy,position.rowphase4) for (energy,position) in energyPositions.items()),
+            dict((energy,position.jawphase)  for (energy,position) in energyPositions.items()))
+
         self.energyPositions = energyPositions
 
     def __repr__(self):
@@ -30,6 +36,3 @@ class EnergyScannableEnum(EnergyScannableBase):
             self.id_rowphase3.name, self.id_rowphase4.name,
             self.id_jawphase.name, self.pgm_energy.name,
             self.energyPositions)
-
-    def getIdPosition(self, energy_eV):
-        return self.energyPositions[energy_eV]
