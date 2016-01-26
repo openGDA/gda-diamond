@@ -26,5 +26,7 @@
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 
+	<!-- SingletonRegistrationPostProcessor not needed in dummy
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	 -->
 </beans>
