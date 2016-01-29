@@ -9,13 +9,13 @@
 	<import resource="s1.xml" />
 	<import resource="s2.xml" />
 	<import resource="s3.xml" />
-	<import resource="s5.xml" />
 	<import resource="sj6.xml" />
 	<import resource="sj9.xml" />
 
 	<!-- diagnostics -->
 	<import resource="d3.xml" />
 	<import resource="dj7.xml" />
+	<import resource="dj9.xml" />
 	
 	<!-- mirrors -->
 	<import resource="m1.xml" />
@@ -46,5 +46,6 @@
 	<import resource="mcp.xml"/>
 	<import resource="microscope.xml"/>
 	<import resource="cryostat.xml"/>
+	<import resource="raw_sample_stage.xml"/>
 	
 </beans>

@@ -23,7 +23,7 @@
 	<logger name="gda.device.motor.EpicsMotor" level="INFO"/>
 	<logger name="gda.device.motor.MoveEventQueue" level="INFO"/>
 	<!-- This suppresses lots of warnings about chunking from the user see GDA-6192 -->
-	<logger name="gda.data.nexus.hdf5.NexusFileHDF5" level="ERROR"/>
+	<logger name="org.eclipse.dawnsci.nexus.hdf5.NexusFileHDF5" level="ERROR"/>
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO"/>
 	<logger name="uk.ac.gda.rcp.views.sample.MetadataUpdater" level="INFO"/>
 	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO"/>

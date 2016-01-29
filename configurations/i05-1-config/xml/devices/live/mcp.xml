@@ -4,68 +4,29 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<description>
-	The MCP and camera placed behind the sample position for looking at the diffraction pattern produced by the zone plate
-	</description>
-
 	<bean id="mcp_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05J-DI-PHDGN-10:DCAM:CAM:" />
 		<property name="initialDataType" value="UInt8" />
 	</bean>
 
-	<bean id="mcp_collection_strategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="mcp_ad" /> <!-- ADBase -->
-		<constructor-arg value="0.05" /> <!-- Readout time -->
-	</bean>
-
-	<bean id="mcp_stats"
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
-		<constructor-arg>
-			<bean class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-				<property name="basePVName" value="BL05J-DI-PHDGN-10:DCAM:STAT:" />
-				<property name="pluginBase">
-					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL05J-DI-PHDGN-10:DCAM:STAT:" />
-						<property name="initialArrayPort" value="CCD.CAM" />
-						<property name="initialArrayAddress" value="0" />
-						<property name="initialEnableCallbacks" value="1" />
-						<property name="initialBlockingCallbacks" value="false" />
-					</bean>
-				</property>
-			</bean>
-		</constructor-arg>
-		<property name="computeStats" value="true" />
-	</bean>
-
-	<bean id="mcp_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl">
-			<bean class="gda.spring.V17NDFileFactoryBean">
-				<property name="prefix" value="BL05J-DI-PHDGN-10:DCAM:HDF5:" />
-				<property name="resetToInitialValues" value="false" />
+	<bean id="mcp_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL05J-DI-PHDGN-10:DCAM:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL05J-DI-PHDGN-10:DCAM:ARR:" />
 			</bean>
 		</property>
-	</bean>
+	</bean>	
 
-	<bean id="mcp_MultipleImagesPerHDF5FileWriter"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="mcp_NDFileHDF5" />
-		<property name="fileTemplate" value="%s%s.hdf5" />
-		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileNameTemplate" value="i05-1-$scan$-mcp" />
-		<property name="fileNumberAtScanStart" value="-1" />
-		<property name="setChunking" value="false" />
-		<property name="lazyOpen" value="true" />
+	<bean id="mcp" class="gda.device.detector.addetector.ADCameraDetector">
+		<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:" />
+		<property name="areaDetector" ref="mcp_ad" />
+		<property name="array" ref="mcp_array" />
+		<property name="local" value="true" />
 	</bean>
-
-	<bean id="mcp" class="gda.device.detector.NXDetector">
-		<property name="name" value="simAD" />
-		<property name="collectionStrategy" ref="mcp_collection_strategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="mcp_stats"/>
-				<ref bean="mcp_MultipleImagesPerHDF5FileWriter" />
-			</list>
-		</property>
+	
+	<bean id="mcp_total" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL05J-DI-PHDGN-10:DCAM:STAT:Total_RBV" />
 	</bean>
 
 </beans>
