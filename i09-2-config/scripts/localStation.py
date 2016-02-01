@@ -186,6 +186,11 @@ from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 
 
+# Create temporary devices for femtos this should be moved to Spring
+sd9iamp9=DisplayEpicsPVClass("sd9iamp9", "BL09K-MO-SD-09:IAMP9:I","V","%f")
+sd9iamp36=DisplayEpicsPVClass("sd9iamp36", "BL09K-MO-SD-09:IAMP36:I","V","%f")
+sd11iamp7=DisplayEpicsPVClass("sd11iamp7", "BL09K-MO-SD-11:IAMP7:I","V","%f")
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete." 
