@@ -120,6 +120,7 @@
 	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>
  	<import resource="../../../devices/dummy/smaract_motors.xml"/>
  	<import resource="../../../devices/dummy/newport_motors.xml"/>
+ 	<import resource="../../../devices/dummy/deben_motors.xml"/>
 
 	<import resource="../../../devices/dummy/tfg2.xml"/>	
 

@@ -110,5 +110,11 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     
 12. To use the fast shutter in a normal repscan of pco1_hw_hdf ( not a tomography scan) use the command:
     pco1_hw_hdf.collectionStrategy.useShutterPV=True
+
+13. Webcams: 
+    Up-Stream:		http://172.23.113.209/view/index.shtml
+    Middle:		http://172.23.113.210/view/index.shtml
+    Down Stream: 	http://172.23.113.211/view/index.shtml
+
     
 """
