@@ -110,6 +110,7 @@
  -->
  	<import resource="../../../devices/epics/smaract_motors.xml"/>
  	<import resource="../../../devices/epics/newport_motors.xml"/>
+ 	<import resource="../../../devices/epics/deben_motors.xml"/>
 	<import resource="../common.xml" />
 
 </beans>

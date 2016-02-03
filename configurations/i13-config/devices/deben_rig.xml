@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+	<bean id="deben_rot_top" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="deben_rot_top_motor" />
+	</bean>
+	
+	<bean id="deben_rot_bottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="deben_rot_bottom_motor" />
+	</bean>
+
+	<bean id="deben_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="deben_lin_motor" />
+	</bean>
+	
+	<!-- <bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/newport_2" />
+		<property name="service" ref="newport_2" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	 -->
+</beans>

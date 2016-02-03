@@ -179,7 +179,7 @@
 
 	<import resource="../../devices/zebra.xml" />
 	<import resource="../../devices/p2r.xml" />
-
+	<import resource="../../devices/deben_rig.xml"/>
 
 	<!--  dummy motors for testing tomoscan  -->
 	<bean id="ss1_rot_dummy_motor" class="gda.device.motor.DummyMotor">
