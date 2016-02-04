@@ -31,5 +31,8 @@
 	
 	<!-- PGM -->
 	<import resource="pgm.xml" />
+	
+	<!-- ID -->
+	<import resource="id.xml" />
 
 </beans>
