@@ -43,10 +43,12 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 	public void addIObserver(IObserver anIObserver) {
 		obsComp.addIObserver(anIObserver);
 	}
+
 	@Override
 	public void deleteIObserver(IObserver anIObserver) {
 		obsComp.deleteIObserver(anIObserver);
 	}
+
 	@Override
 	public void deleteIObservers() {
 		obsComp.deleteIObservers();
@@ -56,13 +58,16 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 	public double getPixelsPerMMInX() {
 		return pixelsPerMMInX;
 	}
+
 	public void setPixelsPerMMInX(double pixelsPerMMInX) {
 		this.pixelsPerMMInX = pixelsPerMMInX;
 	}
+
 	@Override
 	public double getPixelsPerMMInY() {
 		return pixelsPerMMInY;
 	}
+
 	public void setPixelsPerMMInY(double pixelsPerMMInY) {
 		this.pixelsPerMMInY = pixelsPerMMInY;
 	}
@@ -72,9 +77,10 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 			String key = ((String[])keyScannable.getPosition())[0];
 			currentProvider= providers.get(key);
 		}*/
-		if( currentProvider == null)
+		if (currentProvider == null)
 			currentProvider = this;
 	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		getProvider();
@@ -92,9 +98,5 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 				}
 			});
 		}*/
-
-
 	}
-
-
 }

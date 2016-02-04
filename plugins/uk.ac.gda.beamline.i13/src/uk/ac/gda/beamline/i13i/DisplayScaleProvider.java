@@ -21,7 +21,8 @@ package uk.ac.gda.beamline.i13i;
 import gda.device.DeviceException;
 import gda.observable.IObservable;
 
-public interface DisplayScaleProvider extends IObservable{
+public interface DisplayScaleProvider extends IObservable {
 	double getPixelsPerMMInX() throws DeviceException;
+
 	double getPixelsPerMMInY() throws DeviceException;
 }

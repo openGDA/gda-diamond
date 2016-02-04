@@ -118,7 +118,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 			@Override
 			public void imageStart(IImagePositionEvent event) {
-				
+
 			}
 
 			@Override
@@ -129,23 +129,20 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 					boolean changeCentre = MessageDialog.openQuestion(
 							PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 							"Change Beam Centre",
-							"Are you sure you wish to change the rotation axis to this position ("
-									+ Integer.toString(beamCentreX) + "," + Integer.toString(beamCentreY) + "?");
+							"Are you sure you wish to change the rotation axis to this position (" + Integer.toString(beamCentreX) + ","
+									+ Integer.toString(beamCentreY) + "?");
 					if (changeCentre) {
 						try {
 							final int[] clickCoordinates = event.getImagePosition();
 							final RealVector actualClickPoint = createVectorOf(clickCoordinates[0], clickCoordinates[1]);
 							ImageData imageData = I13MJPegViewInitialiser.this.mJPeg.getImageData();
 							final RealVector imageDataSize = createVectorOf(imageData.width, imageData.height);
-							final RealVector imageSize = createVectorOf((adControllerImpl).getFfmpegImageInWidth(),
-									adControllerImpl.getFfmpegImageInHeight());
+							final RealVector imageSize = createVectorOf((adControllerImpl).getFfmpegImageInWidth(), adControllerImpl.getFfmpegImageInHeight());
 
-							final RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(
-									imageDataSize);
+							final RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(imageDataSize);
 
 							// The image is reflected so we need to subtract from width
-							adControllerImpl.getRotationAxisXScannable().asynchronousMoveTo(
-									imageSize.getEntry(0) - clickPointInImage.getEntry(0));
+							adControllerImpl.getRotationAxisXScannable().asynchronousMoveTo(imageSize.getEntry(0) - clickPointInImage.getEntry(0));
 						} catch (Exception e) {
 							MJPegView.reportErrorToUserAndLog("Error setting rotationAxis", e);
 						}
@@ -159,25 +156,24 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 					boolean changeCentre = MessageDialog.openQuestion(
 							PlatformUI.getWorkbench().getDisplay().getActiveShell(),
 							"Change beam centre marker",
-							"Are you sure you wish to change the beam centre marker to this position ("
-									+ Integer.toString(beamCentreX) + "," + Integer.toString(beamCentreY) + "?");
+							"Are you sure you wish to change the beam centre marker to this position (" + Integer.toString(beamCentreX) + ","
+									+ Integer.toString(beamCentreY) + "?");
 					if (changeCentre) {
 						try {
 							final int[] clickCoordinates = event.getImagePosition();
 							final RealVector actualClickPoint = createVectorOf(clickCoordinates[0], clickCoordinates[1]);
 							ImageData imageData = I13MJPegViewInitialiser.this.mJPeg.getImageData();
 							final RealVector imageDataSize = createVectorOf(imageData.width, imageData.height);
-							final RealVector imageSize = createVectorOf(adControllerImpl.getFfmpegImageInWidth(),
-									adControllerImpl.getFfmpegImageInHeight());
+							final RealVector imageSize = createVectorOf(adControllerImpl.getFfmpegImageInWidth(), adControllerImpl.getFfmpegImageInHeight());
 
-							final RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(
-									imageDataSize);
+							final RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(imageDataSize);
 
 							// The image is reflected so we need to subtract from width
 							// we also want height from the bottom up so subtract from height
-							adControllerImpl.getCameraXYScannable().asynchronousMoveTo(
-									new double[] { imageSize.getEntry(0) - clickPointInImage.getEntry(0),
-											imageSize.getEntry(1) - clickPointInImage.getEntry(1) });
+							adControllerImpl.getCameraXYScannable()
+									.asynchronousMoveTo(
+											new double[] { imageSize.getEntry(0) - clickPointInImage.getEntry(0),
+													imageSize.getEntry(1) - clickPointInImage.getEntry(1) });
 						} catch (Exception e) {
 							MJPegView.reportErrorToUserAndLog("Error setting beam centre marker", e);
 						}
@@ -191,16 +187,14 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 						final RealVector actualClickPoint = createVectorOf(clickCoordinates[0], clickCoordinates[1]);
 						ImageData imageData = I13MJPegViewInitialiser.this.mJPeg.getImageData();
 						final RealVector imageDataSize = createVectorOf(imageData.width, imageData.height);
-						final RealVector imageSize = createVectorOf(adControllerImpl.getFfmpegImageInWidth(),
-								adControllerImpl.getFfmpegImageInHeight());
+						final RealVector imageSize = createVectorOf(adControllerImpl.getFfmpegImageInWidth(), adControllerImpl.getFfmpegImageInHeight());
 
 						RealVector clickPointInImage = actualClickPoint.ebeMultiply(imageSize).ebeDivide(imageDataSize);
 
 						// correct for left right reflection
 						// beam Centre is measure from bottom whilst clickPoint is from top
 						final RealVector clickPointInImageCorrected = imageSize.subtract(clickPointInImage);
-						double beamCenterX = ScannableUtils.getCurrentPositionArray(adControllerImpl
-								.getRotationAxisXScannable())[0];
+						double beamCenterX = ScannableUtils.getCurrentPositionArray(adControllerImpl.getRotationAxisXScannable())[0];
 /*						double beamCenterY = ScannableUtils.getCurrentPositionArray(adControllerImpl
 								.getCameraXYScannable())[1];
 						beamCenterX = adControllerImpl.getFfmpegImageInWidth()/2;
@@ -209,26 +203,22 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 						DisplayScaleProvider scale = adControllerImpl.getCameraScaleProvider();
 
-						if( vertMoveOnClickEnabled){
-							double moveInY = pixelOffset.getEntry(1) / (scale.getPixelsPerMMInY()/1000.);
+						if (vertMoveOnClickEnabled) {
+							double moveInY = pixelOffset.getEntry(1) / (scale.getPixelsPerMMInY() / 1000.);
 
 							ScannableMotionUnits sampleCentringYMotor = adControllerImpl.getSampleCentringYMotor();
-							sampleCentringYMotor.asynchronousMoveTo(ScannableUtils
-									.getCurrentPositionArray(sampleCentringYMotor)[0] + moveInY); 
-							
+							sampleCentringYMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringYMotor)[0] + moveInY);
 						}
-						if( horzMoveOnClickEnabled){
-							double moveInX = -pixelOffset.getEntry(0) / (scale.getPixelsPerMMInX()/1000.);
-	
-							ScannableMotionUnits sampleCentringXMotor = adControllerImpl.getSampleCentringXMotor(); 
-							sampleCentringXMotor.asynchronousMoveTo(ScannableUtils
-									.getCurrentPositionArray(sampleCentringXMotor)[0] + moveInX);
+						if (horzMoveOnClickEnabled) {
+							double moveInX = -pixelOffset.getEntry(0) / (scale.getPixelsPerMMInX() / 1000.);
+
+							ScannableMotionUnits sampleCentringXMotor = adControllerImpl.getSampleCentringXMotor();
+							sampleCentringXMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringXMotor)[0] + moveInX);
 						}
 					} catch (Exception e) {
 						MJPegView.reportErrorToUserAndLog("Error processing imageFinished", e);
 					}
 				}
-
 			}
 
 			@Override
@@ -407,7 +397,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		imageCenterAction.setChecked(checked);
 		imageCenterAction.run();
 	}
-*/	
+*/
 /*	void showRotationAxis(boolean show) throws Exception {
 		RectangleFigure rotationAxisFigure = getRotationAxisFigure();
 		if (rotationAxisFigure.getParent() == mJPeg.getTopFigure())
@@ -494,7 +484,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 	}
 */
 /*	private RectangleFigure getRotationAxisFigure() {
-		if (rotationAxisFigure == null) { 
+		if (rotationAxisFigure == null) {
 			rotationAxisFigure = new RectangleFigure();
 			rotationAxisFigure.setFill(true);
 			rotationAxisFigure.setSize(5, adControllerImpl.getCameraImageHeightMax());
@@ -514,29 +504,26 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 	private AxisDragFigure axisDragFigure;
 	private ROIDragFigure roiDragFigure;
 	protected Point location;
-	private Dimension roiSize=new Dimension(50,50);
-	private Point roiStart=new Point(10,10);
-	
-	
-	ImageFigure getAxisDragFigure(boolean x_axis){
-		if (axisDragFigure == null){
+	private Dimension roiSize = new Dimension(50, 50);
+	private Point roiStart = new Point(10, 10);
+
+	ImageFigure getAxisDragFigure(boolean x_axis) {
+		if (axisDragFigure == null) {
 			axisDragFigure = new AxisDragFigure(x_axis, this, mJPeg.getCanvas());
 			mJPeg.getTopFigure().add(axisDragFigure, new Rectangle(0, 0, -1, -1));
 		}
 		return axisDragFigure;
 	}
 
-	Figure getAxisROIFigure(){
-		if (roiDragFigure == null){
-			roiDragFigure = new ROIDragFigure(this, mJPeg.getCanvas() );
+	Figure getAxisROIFigure() {
+		if (roiDragFigure == null) {
+			roiDragFigure = new ROIDragFigure(this, mJPeg.getCanvas());
 			roiDragFigure.setSize(roiSize);
 			mJPeg.getTopFigure().add(roiDragFigure, new Rectangle(roiStart.x, roiStart.y, roiSize.width, roiSize.height));
 		}
 		return roiDragFigure;
 	}
-	
-	
-	
+
 /*	void showImageMarker(boolean show) throws Exception {
 		RectangleFigure imageMarkerFigureX = getImageMarkerFigureX();
 		if (imageMarkerFigureX.getParent() == mJPeg.getTopFigure())
@@ -633,21 +620,21 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		return MatrixUtils.createRealVector(data);
 	}
 
-	void  dispose(){
-		if( rotationAxisObserver != null ){
+	void dispose() {
+		if (rotationAxisObserver != null) {
 			adControllerImpl.getRotationAxisXScannable().deleteIObserver(rotationAxisObserver);
 			rotationAxisObserver = null;
 		}
-		if( cameraXYObserver != null ){
+		if (cameraXYObserver != null) {
 			adControllerImpl.getCameraXYScannable().deleteIObserver(cameraXYObserver);
 			cameraXYObserver = null;
 		}
-		
 	}
 
 	public void setVertMoveOnClick(boolean selection) {
 		vertMoveOnClickEnabled = selection;
 	}
+
 	public void setHorzMoveOnClick(boolean selection) {
 		horzMoveOnClickEnabled = selection;
 	}
@@ -664,13 +651,13 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 	}
 
 	public void handleDragAxisBtn(boolean x_axis) {
-		ImageFigure fig = getAxisDragFigure(x_axis); 
+		ImageFigure fig = getAxisDragFigure(x_axis);
 		ImageData imageData = mJPeg.getImageData();
 		Control canvas = mJPeg.getCanvas();
-		if( imageData != null && !canvas.isDisposed()){
-			//clone to allow modification of alpha
+		if (imageData != null && !canvas.isDisposed()) {
+			// clone to allow modification of alpha
 			ImageData clone = (ImageData) imageData.clone();
-			clone.alpha=0x80;
+			clone.alpha = 0x80;
 			Image image = new Image(canvas.getDisplay(), clone);
 			fig.setImage(image);
 		} else {
@@ -680,28 +667,26 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		Display.getDefault().getActiveShell().setCursor(cursorWait);
 	}
 
-	public void handleAxisDrag(boolean x_axis , int x) {
+	public void handleAxisDrag(boolean x_axis, int x) {
 		Display.getDefault().getActiveShell().setCursor(null);
 		mJPeg.getTopFigure().remove(axisDragFigure);
 		axisDragFigure.stop();
 
 		axisDragFigure = null;
 		i13mjpegViewComposite.updateStatus("");
-		Display.getDefault().getActiveShell().setCursor(null);		
+		Display.getDefault().getActiveShell().setCursor(null);
 		DisplayScaleProvider scale = adControllerImpl.getCameraScaleProvider();
 
 		double move;
 		try {
-			//in y move by -1 * move
-			move = x / ((x_axis ? scale.getPixelsPerMMInX() : -scale.getPixelsPerMMInY())/1000.);
+			// in y move by -1 * move
+			move = x / ((x_axis ? scale.getPixelsPerMMInX() : -scale.getPixelsPerMMInY()) / 1000.);
 			ScannableMotionUnits sampleCentringMotor = x_axis ? adControllerImpl.getSampleCentringXMotor() : adControllerImpl.getSampleCentringYMotor();
-			sampleCentringMotor.asynchronousMoveTo(ScannableUtils
-					.getCurrentPositionArray(sampleCentringMotor)[0] + move); 
+			sampleCentringMotor.asynchronousMoveTo(ScannableUtils.getCurrentPositionArray(sampleCentringMotor)[0] + move);
 		} catch (DeviceException e) {
 			logger.error("Error moving axis", e);
 		}
 
-			
 	}
 
 	public void handleAxisDragCancel(@SuppressWarnings("unused") boolean x_axis) {
@@ -709,11 +694,11 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		axisDragFigure.stop();
 		axisDragFigure = null;
 		i13mjpegViewComposite.updateStatus("");
-		Display.getDefault().getActiveShell().setCursor(null);		
+		Display.getDefault().getActiveShell().setCursor(null);
 	}
 
 	public void handleDragROIBtn() {
-		getAxisROIFigure(); 
+		getAxisROIFigure();
 		final Cursor cursorWait = new Cursor(Display.getDefault(), SWT.CURSOR_HAND);
 		Display.getDefault().getActiveShell().setCursor(cursorWait);
 	}
@@ -723,8 +708,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		roiDragFigure.stop();
 		roiDragFigure = null;
 		i13mjpegViewComposite.updateStatus("");
-		Display.getDefault().getActiveShell().setCursor(null);		
-		
+		Display.getDefault().getActiveShell().setCursor(null);
 	}
 
 	public void handleROIDrag() {
@@ -734,7 +718,6 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 		roiDragFigure = null;
 		i13mjpegViewComposite.updateStatus("");
-		Display.getDefault().getActiveShell().setCursor(null);		
-
+		Display.getDefault().getActiveShell().setCursor(null);
 	}
 }

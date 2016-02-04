@@ -43,7 +43,7 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		final String cmd = String.format(getSetExposureTimeCmd(), d);
 		try {
 			String result = InterfaceProvider.getCommandRunner().evaluateCommand(cmd);
-			if( result == null)
+			if (result == null)
 				throw new Exception("Error executing command '" + cmd + "'");
 		} catch (Exception e) {
 			logger.error("Error setting exposure time", e);
@@ -122,8 +122,6 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 
 	private CompositeFactory stagesCompositeFactory;
 
-
-
 	public Scannable getRotationAxisXScannable() {
 		return rotationAxisXScannable;
 	}
@@ -180,7 +178,6 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		this.imagePlotId = imagePlotId;
 	}
 
-
 	public DisplayScaleProvider getCameraScaleProvider() {
 		return cameraScaleProvider;
 	}
@@ -213,18 +210,17 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 		this.stagesCompositeFactory = stagesCompositeFactory;
 	}
 
-
 	/**
-	 * @return The maximum width of an image that the camera driver can deliver. The actual image width could be smaller
-	 *         due to setting a region of interest or binning.
+	 * @return The maximum width of an image that the camera driver can deliver. The actual image width could be smaller due to setting a region of interest or
+	 *         binning.
 	 */
 	public int getCameraImageWidthMax() {
 		return cameraImageWidthMax;
 	}
 
 	/**
-	 * @return The maximum height of an image that the camera driver can deliver. The actual image width could be
-	 *         smaller due to setting a region of interest or binning.
+	 * @return The maximum height of an image that the camera driver can deliver. The actual image width could be smaller due to setting a region of interest or
+	 *         binning.
 	 */
 	public int getCameraImageHeightMax() {
 		return cameraImageHeightMax;

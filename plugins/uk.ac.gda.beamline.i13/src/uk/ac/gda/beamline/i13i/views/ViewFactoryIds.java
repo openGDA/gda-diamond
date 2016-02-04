@@ -19,13 +19,13 @@
 package uk.ac.gda.beamline.i13i.views;
 
 public class ViewFactoryIds {
-	public static String StatusViewID="uk.ac.gda.beamline.i13i.views.StatusView";
+	public static String StatusViewID = "uk.ac.gda.beamline.i13i.views.StatusView";
 	public static String PCOImageProfileViewId = "uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView";
 	public static String PCOImageViewId = "uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView";
 	public static String PCOLiveViewId = "uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView";
-	public static String d1LiveView="uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView";
-	public static String d2LiveView="uk.ac.gda.beamline.i13i.d2AreaDetectorLiveView";
-	public static String d3LiveView="uk.ac.gda.beamline.i13i.d3AreaDetectorLiveView";
-	public static String d4LiveView="uk.ac.gda.beamline.i13i.41AreaDetectorLiveView";
-	public static String d5LiveView="uk.ac.gda.beamline.i13i.d5AreaDetectorLiveView";
+	public static String d1LiveView = "uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView";
+	public static String d2LiveView = "uk.ac.gda.beamline.i13i.d2AreaDetectorLiveView";
+	public static String d3LiveView = "uk.ac.gda.beamline.i13i.d3AreaDetectorLiveView";
+	public static String d4LiveView = "uk.ac.gda.beamline.i13i.41AreaDetectorLiveView";
+	public static String d5LiveView = "uk.ac.gda.beamline.i13i.d5AreaDetectorLiveView";
 }

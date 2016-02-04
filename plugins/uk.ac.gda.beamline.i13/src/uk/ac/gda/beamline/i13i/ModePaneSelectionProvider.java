@@ -27,11 +27,11 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 /**
  * Handles selection changes in the image viewer mode panel
  */
-public class ModePaneSelectionProvider extends EventManager implements ISelectionProvider{
-	
+public class ModePaneSelectionProvider extends EventManager implements ISelectionProvider {
+
 	ISelection selection;
 
-	@Override 
+	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {
 		addListenerObject(listener);
 	}
@@ -58,12 +58,9 @@ public class ModePaneSelectionProvider extends EventManager implements ISelectio
 	private void fireSelectionChanged() {
 		SelectionChangedEvent evt = new SelectionChangedEvent(this, getSelection());
 		Object[] listeners = getListeners();
-		for (int i=0; i<listeners.length; i++)
-		{
+		for (int i = 0; i < listeners.length; i++) {
 			ISelectionChangedListener listener = (ISelectionChangedListener) listeners[i];
 			listener.selectionChanged(evt);
 		}
-		
 	}
-
 }

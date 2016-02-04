@@ -37,6 +37,7 @@ public class ScriptingPerspective implements IPerspectiveFactory {
 	public ScriptingPerspective() {
 		super();
 	}
+
 	@Override
 	public void createInitialLayout(IPageLayout factory) {
 		this.factory = factory;
@@ -59,14 +60,13 @@ public class ScriptingPerspective implements IPerspectiveFactory {
 
 		IFolderLayout right = factory.createFolder("right", IPageLayout.RIGHT, (float) 0.50, factory.getEditorArea()); //$NON-NLS-1$
 		right.addView(LivePlotView.ID);
-		
+
 		IFolderLayout rightBottom = factory.createFolder("rightBottom", IPageLayout.BOTTOM, (float) 0.50, "right");
 		rightBottom.addView("uk.ac.gda.beamline.i13i.DetectorPlot");
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view");
 		rightBottom.addPlaceholder("data.dispenser.browser");
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view:data.dispenser.browser");
 		rightBottom.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotViewDP");
-		
 
 		IFolderLayout middleBottom = factory.createFolder("middleBottom", // NON-NLS-1
 				IPageLayout.BOTTOM, 0.30f, factory.getEditorArea());
@@ -83,5 +83,4 @@ public class ScriptingPerspective implements IPerspectiveFactory {
 		factory.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");// NON-NLS-1
 		factory.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");// NON-NLS-1
 	}
-
 }

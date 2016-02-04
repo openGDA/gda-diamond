@@ -52,8 +52,8 @@ public class EnumPositionerComposite extends Composite {
 	private Group group;
 	private Combo pcom;
 
-	public EnumPositionerComposite(Composite parent, int style, String title, final String confirmSelectionMsgTemplate, 
-			final String jobTitle, final String setCmd) {
+	public EnumPositionerComposite(Composite parent, int style, String title, final String confirmSelectionMsgTemplate, final String jobTitle,
+			final String setCmd) {
 		super(parent, style);
 		GridLayoutFactory fillDefaults = GridLayoutFactory.fillDefaults();
 		fillDefaults.applyTo(this);
@@ -62,33 +62,33 @@ public class EnumPositionerComposite extends Composite {
 		group.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
 		group.setText(title);
 		fillDefaults.applyTo(group);
-		
-		
+
 		pcom = new Combo(group, SWT.SINGLE | SWT.BORDER | SWT.CENTER | SWT.READ_ONLY);
 		pcom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				final String newVal = pcom.getText();
-				if( newVal.equals(currentPos))
+				if (newVal.equals(currentPos))
 					return;
 				pcom.setText(currentPos);
 				int open = SWT.YES;
-				if( confirmSelectionMsgTemplate != null){
+				if (confirmSelectionMsgTemplate != null) {
 					String msg = String.format(confirmSelectionMsgTemplate, newVal);
-					MessageBox box = new MessageBox(EnumPositionerComposite.this.getShell(),SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-//					box.setMessage("Are you sure you want to change the binning to '" + newVal +"'. The detector will respond when acquisition is restarted.");
+					MessageBox box = new MessageBox(EnumPositionerComposite.this.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+					// box.setMessage("Are you sure you want to change the binning to '" + newVal
+					// +"'. The detector will respond when acquisition is restarted.");
 					box.setMessage(msg);
 					open = box.open();
 				}
-				if(open == SWT.YES){
-					Job job = new Job(jobTitle){
+				if (open == SWT.YES) {
+					Job job = new Job(jobTitle) {
 
 						@Override
 						protected IStatus run(IProgressMonitor monitor) {
 							try {
-								if(setCmd != null ){
+								if (setCmd != null) {
 									InterfaceProvider.getCommandRunner().evaluateCommand(String.format(setCmd, newVal));
-								} else if( positioner != null){
+								} else if (positioner != null) {
 									positioner.moveTo(newVal);
 								}
 								return Status.OK_STATUS;
@@ -96,35 +96,35 @@ public class EnumPositionerComposite extends Composite {
 								logger.error("Error changing value", e);
 							}
 							return Status.OK_STATUS;
-						}};
+						}
+					};
 					job.schedule();
-				} 
+				}
 			}
 		});
 		GridDataFactory.fillDefaults().minSize(100, SWT.DEFAULT).applyTo(pcom);
-		pcom.setItems(new String[] {  });
+		pcom.setItems(new String[] {});
 		pcom.setVisible(true);
-		
+
 		addDisposeListener(new DisposeListener() {
-			
+
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
-				if( positioner != null && observer!=null)
+				if (positioner != null && observer != null)
 					positioner.deleteIObserver(observer);
 			}
 		});
-
 	}
 
-
-	private void updateDisplay(){
+	private void updateDisplay() {
 		observer.update(positioner, null);
 	}
-	public void setEnumPositioner(EnumPositioner s){
-		positioner =s;
+
+	public void setEnumPositioner(EnumPositioner s) {
+		positioner = s;
 		try {
 			pcom.removeAll();
-			for(String pos : positioner.getPositions()){
+			for (String pos : positioner.getPositions()) {
 				pcom.add(pos);
 			}
 		} catch (DeviceException e1) {
@@ -132,29 +132,26 @@ public class EnumPositionerComposite extends Composite {
 		}
 
 		observer = new IObserver() {
-
 			@Override
 			public void update(Object source, final Object arg) {
-					Display.getDefault().asyncExec(new Runnable() {
+				Display.getDefault().asyncExec(new Runnable() {
 
-						@Override
-						public void run() {
-							try {
-								currentPos = (String) positioner.getPosition();
-								pcom.setText(currentPos);
-								GridUtils.layout(group);
-							} catch (DeviceException e) {
-								logger.error("Error reading the lens position", e);
-							}
+					@Override
+					public void run() {
+						try {
+							currentPos = (String) positioner.getPosition();
+							pcom.setText(currentPos);
+							GridUtils.layout(group);
+						} catch (DeviceException e) {
+							logger.error("Error reading the lens position", e);
 						}
-					});
+					}
+				});
 			}
 		};
 		positioner.addIObserver(observer);
 		updateDisplay();
-
 	}
+
 	private String currentPos;
-
-
 }

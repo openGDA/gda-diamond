@@ -27,55 +27,49 @@ import gda.observable.IObserver;
 
 import org.springframework.beans.factory.InitializingBean;
 
-
-public class ScannableRotatingGonio extends ScannableMotionUnitsBase implements InitializingBean{
+public class ScannableRotatingGonio extends ScannableMotionUnitsBase implements InitializingBean {
 	ScannableMotionUnits rotScannableMotor;
 	ScannableMotionUnits xScannableMotor;
 	ScannableMotionUnits yScannableMotor;
-	double xScannableScale=1;
-	double xScannableOffset=0;
-	double yScannableScale=1;
-	double yScannableOffset=0;
-	double rotScannableScale=1;
-	double rotScannableOffset=0;
+	double xScannableScale = 1;
+	double xScannableOffset = 0;
+	double yScannableScale = 1;
+	double yScannableOffset = 0;
+	double rotScannableScale = 1;
+	double rotScannableOffset = 0;
 	boolean reportX = true;
-	
-	private IObserver motorObserver;
-	
 
-	
+	private IObserver motorObserver;
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if( rotScannableMotor == null)
+		if (rotScannableMotor == null)
 			throw new Exception("rot is null");
-		if( xScannableMotor == null)
+		if (xScannableMotor == null)
 			throw new Exception("x is null");
-		if( yScannableMotor == null)
+		if (yScannableMotor == null)
 			throw new Exception("y is null");
-		
 	}
-
 
 	@Override
 	public void configure() throws FactoryException {
-		try{
+		try {
 			motorObserver = new IObserver() {
-				
+
 				@Override
 				public void update(Object source, Object arg) {
 					notifyIObservers(this, arg);
 				}
 			};
-			rotScannableMotor.addIObserver( motorObserver);
-			xScannableMotor.addIObserver( motorObserver);
-			yScannableMotor.addIObserver( motorObserver);
+			rotScannableMotor.addIObserver(motorObserver);
+			xScannableMotor.addIObserver(motorObserver);
+			yScannableMotor.addIObserver(motorObserver);
 			unitsComponent.setHardwareUnitString(xScannableMotor.getUserUnits());
 			super.configure();
-		}catch(Exception e){
+		} catch (Exception e) {
 			throw new FactoryException("Error configuring " + getName(), e);
 		}
 	}
-
 
 	@Override
 	public void waitWhileBusy() throws DeviceException, InterruptedException {
@@ -84,17 +78,18 @@ public class ScannableRotatingGonio extends ScannableMotionUnitsBase implements 
 		yScannableMotor.waitWhileBusy();
 	}
 
-	private double getCurrentX() throws DeviceException{
-		return (ScannableUtils.getCurrentPositionArray(xScannableMotor)[0]+xScannableOffset)*xScannableScale;
-	}
-	private double getCurrentY() throws DeviceException{
-		return (ScannableUtils.getCurrentPositionArray(yScannableMotor)[0]+yScannableOffset)*yScannableScale;
-	}
-	private double getRot() throws DeviceException{
-		return (ScannableUtils.getCurrentPositionArray(rotScannableMotor)[0]+rotScannableOffset)*rotScannableScale* Math.PI/180;
+	private double getCurrentX() throws DeviceException {
+		return (ScannableUtils.getCurrentPositionArray(xScannableMotor)[0] + xScannableOffset) * xScannableScale;
 	}
 
-	
+	private double getCurrentY() throws DeviceException {
+		return (ScannableUtils.getCurrentPositionArray(yScannableMotor)[0] + yScannableOffset) * yScannableScale;
+	}
+
+	private double getRot() throws DeviceException {
+		return (ScannableUtils.getCurrentPositionArray(rotScannableMotor)[0] + rotScannableOffset) * rotScannableScale * Math.PI / 180;
+	}
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		double xC = getCurrentX();
@@ -103,31 +98,26 @@ public class ScannableRotatingGonio extends ScannableMotionUnitsBase implements 
 		double sin_rot = Math.sin(rot);
 		double cos_rot = Math.cos(rot);
 		double x1, y1;
-		if( reportX){
+		if (reportX) {
 			/**
-			 * x1 is new required position, 
-			 * y1 = xCsin(rot) + yCcos(rot) - using current values of x and y
-			 * xNew = x1cos(rot) + y1sin(rot)
-			 * yNew = -x1sin(rot) + y1cos(rot)
+			 * x1 is new required position, y1 = xCsin(rot) + yCcos(rot) - using current values of x and y xNew = x1cos(rot) + y1sin(rot) yNew = -x1sin(rot) +
+			 * y1cos(rot)
 			 */
 			x1 = ScannableUtils.objectToArray(position)[0];
 			y1 = xC * sin_rot + yC * cos_rot;
 
-			
-		} else{
+		} else {
 			/**
-			 * y1 is new required position, 
-			 * x1 = xCcos(rot) - yCsin(rot) - using current values of x and y
-			 * xNew = x1cos(rot) + y1sin(rot)
-			 * yNew = -x1sin(rot) + y1cos(rot)
+			 * y1 is new required position, x1 = xCcos(rot) - yCsin(rot) - using current values of x and y xNew = x1cos(rot) + y1sin(rot) yNew = -x1sin(rot) +
+			 * y1cos(rot)
 			 */
 			x1 = xC * cos_rot - yC * sin_rot;
 			y1 = ScannableUtils.objectToArray(position)[0];
 		}
-		double xNew = x1*cos_rot + y1*sin_rot;
-		double yNew = -x1*sin_rot + y1*cos_rot;
-		double xNewScaled = xNew/xScannableScale - xScannableOffset;
-		double yNewScaled = yNew/yScannableScale - yScannableOffset;
+		double xNew = x1 * cos_rot + y1 * sin_rot;
+		double yNew = -x1 * sin_rot + y1 * cos_rot;
+		double xNewScaled = xNew / xScannableScale - xScannableOffset;
+		double yNewScaled = yNew / yScannableScale - yScannableOffset;
 		xScannableMotor.asynchronousMoveTo(xNewScaled);
 		yScannableMotor.asynchronousMoveTo(yNewScaled);
 	}
@@ -140,20 +130,19 @@ public class ScannableRotatingGonio extends ScannableMotionUnitsBase implements 
 		double rot = getRot();
 		double sin_rot = Math.sin(rot);
 		double cos_rot = Math.cos(rot);
-		if(reportX){
+		if (reportX) {
 			/**
 			 * x1 = xcos(rot) - ysin(rot)
 			 */
-			
-			return x*cos_rot - y*sin_rot;
+
+			return x * cos_rot - y * sin_rot;
 		}
 		/**
 		 * y1 = xsin(rot) + ycos(rot)
 		 */
-		
-		return x*sin_rot + y*cos_rot;
-	}
 
+		return x * sin_rot + y * cos_rot;
+	}
 
 	@Override
 	public boolean isBusy() throws DeviceException {
@@ -161,105 +150,83 @@ public class ScannableRotatingGonio extends ScannableMotionUnitsBase implements 
 		return rotScannableMotor.isBusy() || xScannableMotor.isBusy() || yScannableMotor.isBusy();
 	}
 
-
 	public ScannableMotionUnits getRotScannableMotor() {
 		return rotScannableMotor;
 	}
-
 
 	public void setRotScannableMotor(ScannableMotionUnits rotScannableMotor) {
 		this.rotScannableMotor = rotScannableMotor;
 	}
 
-
 	public ScannableMotionUnits getxScannableMotor() {
 		return xScannableMotor;
 	}
-
 
 	public void setxScannableMotor(ScannableMotionUnits xScannableMotor) {
 		this.xScannableMotor = xScannableMotor;
 	}
 
-
 	public ScannableMotionUnits getyScannableMotor() {
 		return yScannableMotor;
 	}
-
 
 	public void setyScannableMotor(ScannableMotionUnits yScannableMotor) {
 		this.yScannableMotor = yScannableMotor;
 	}
 
-
 	public boolean isReportX() {
 		return reportX;
 	}
-
 
 	public void setReportX(boolean reportX) {
 		this.reportX = reportX;
 	}
 
-
 	public double getxScannableScale() {
 		return xScannableScale;
 	}
-
 
 	public void setxScannableScale(double xScannableScale) {
 		this.xScannableScale = xScannableScale;
 	}
 
-
 	public double getxScannableOffset() {
 		return xScannableOffset;
 	}
-
 
 	public void setxScannableOffset(double xScannableOffset) {
 		this.xScannableOffset = xScannableOffset;
 	}
 
-
 	public double getyScannableScale() {
 		return yScannableScale;
 	}
-
 
 	public void setyScannableScale(double yScannableScale) {
 		this.yScannableScale = yScannableScale;
 	}
 
-
 	public double getyScannableOffset() {
 		return yScannableOffset;
 	}
-
 
 	public void setyScannableOffset(double yScannableOffset) {
 		this.yScannableOffset = yScannableOffset;
 	}
 
-
 	public double getRotScannableScale() {
 		return rotScannableScale;
 	}
-
 
 	public void setRotScannableScale(double rotScannableScale) {
 		this.rotScannableScale = rotScannableScale;
 	}
 
-
 	public double getRotScannableOffset() {
 		return rotScannableOffset;
 	}
 
-
 	public void setRotScannableOffset(double rotScannableOffset) {
 		this.rotScannableOffset = rotScannableOffset;
 	}
-	
-	
 }

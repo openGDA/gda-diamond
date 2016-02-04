@@ -45,7 +45,7 @@ public class AxisDragFigure extends ImageFigure implements MouseListener, MouseM
 		this.i13mjPegViewInitialiser = i13mjPegViewInitialiser;
 		this.canvas = canvas;
 		setVisible(true);
-		setOpaque(false);		
+		setOpaque(false);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 		canvas.addKeyListener(this);
@@ -57,13 +57,13 @@ public class AxisDragFigure extends ImageFigure implements MouseListener, MouseM
 		canvas.removeKeyListener(this);
 		if (getImage() != null) {
 			getImage().dispose();
-		}		
+		}
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent ke) {
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		if (ke.keyCode == SWT.ESC) {
@@ -71,47 +71,44 @@ public class AxisDragFigure extends ImageFigure implements MouseListener, MouseM
 		}
 	}
 
-	
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		if (location == null)
 			return;
-		LayoutManager layoutMgr = getParent().getLayoutManager();					
+		LayoutManager layoutMgr = getParent().getLayoutManager();
 		Rectangle constraint = (Rectangle) layoutMgr.getConstraint(AxisDragFigure.this);
-		i13mjPegViewInitialiser.handleAxisDrag(x_axis, x_axis? constraint.x:constraint.y);
-		me.consume();				
+		i13mjPegViewInitialiser.handleAxisDrag(x_axis, x_axis ? constraint.x : constraint.y);
+		me.consume();
 	}
-	
+
 	@Override
 	public void mousePressed(MouseEvent me) {
 		location = me.getLocation();
 		me.consume();
-		
 	}
-	
+
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
-		me.consume();					
+		me.consume();
 	}
+
 	@Override
 	public void mouseMoved(MouseEvent me) {
 	}
-	
+
 	@Override
 	public void mouseHover(MouseEvent me) {
 		me.consume();
 	}
-	
+
 	@Override
 	public void mouseExited(MouseEvent me) {
-
 	}
-	
+
 	@Override
 	public void mouseEntered(MouseEvent me) {
-
 	}
-	
+
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		if (location == null)
@@ -122,18 +119,16 @@ public class AxisDragFigure extends ImageFigure implements MouseListener, MouseM
 		Dimension offset = newLocation.getDifference(location);
 		if (offset.width == 0 && offset.height == 0)
 			return;
-		location = newLocation;					
+		location = newLocation;
 		UpdateManager updateMgr = getUpdateManager();
 		LayoutManager layoutMgr = getParent().getLayoutManager();
 		Rectangle bounds = getBounds();
 		updateMgr.addDirtyRegion(getParent(), bounds);
 		Rectangle constraint = (Rectangle) layoutMgr.getConstraint(this);
-		bounds = constraint.getCopy().translate(x_axis ? offset.width:0, x_axis ? 0: offset.height);
+		bounds = constraint.getCopy().translate(x_axis ? offset.width : 0, x_axis ? 0 : offset.height);
 		layoutMgr.setConstraint(this, bounds);
-		this.translate(x_axis ? offset.width:0, x_axis ? 0: offset.height);
+		this.translate(x_axis ? offset.width : 0, x_axis ? 0 : offset.height);
 		updateMgr.addDirtyRegion(getParent(), bounds);
-		me.consume();					
-		
+		me.consume();
 	}
-
 }

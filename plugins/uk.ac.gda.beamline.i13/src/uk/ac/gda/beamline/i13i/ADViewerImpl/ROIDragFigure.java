@@ -37,15 +37,15 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 	private I13MJPegViewInitialiser i13mjPegViewInitialiser;
 	private Canvas canvas;
 	private RectangleFigure topLeft;//, topRight, bottomLeft, bottomRight;
-	
-	protected Point location;	
-	
+
+	protected Point location;
+
 	public ROIDragFigure(final I13MJPegViewInitialiser i13mjPegViewInitialiser, Canvas canvas) {
 		super();
 		this.i13mjPegViewInitialiser = i13mjPegViewInitialiser;
 		this.canvas = canvas;
 		addMouseListener(this);
-		addMouseMotionListener(this);		
+		addMouseMotionListener(this);
 		canvas.addKeyListener(this);
 		topLeft = new VertexFigure(4, this);
 		add(topLeft, new Rectangle(-2,-2,4,4));
@@ -57,17 +57,15 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 		add(bottomRight);
 */	}
 
-
-
 	@Override
 	public void keyReleased(KeyEvent ke) {
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		if (ke.keyCode == SWT.ESC) {
 			i13mjPegViewInitialiser.handleROIDragCancel();
-		} 
+		}
 		if (ke.keyCode == 13) {
 			i13mjPegViewInitialiser.handleROIDrag();
 		}
@@ -77,14 +75,12 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 		removeMouseListener(this);
 		removeMouseMotionListener(this);
 		canvas.removeKeyListener(this);
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent me) {
 		location = me.getLocation();
 		me.consume();
-		
 	}
 
 	@Override
@@ -94,7 +90,6 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -107,49 +102,42 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 		Dimension offset = newLocation.getDifference(location);
 		if (offset.width == 0 && offset.height == 0)
 			return;
-		location = newLocation;					
+		location = newLocation;
 		UpdateManager updateMgr = getUpdateManager();
 		LayoutManager layoutMgr = getParent().getLayoutManager();
 		Rectangle bounds = getBounds();
 		updateMgr.addDirtyRegion(getParent(), bounds);
 		Rectangle constraint = (Rectangle) layoutMgr.getConstraint(this);
 		bounds = constraint.getCopy().translate(offset.width, offset.height);
-//		System.out.println("MouseDrag offset :" + offset.width + "," + offset.height);
+		// System.out.println("MouseDrag offset :" + offset.width + "," + offset.height);
 		layoutMgr.setConstraint(this, bounds);
 		ROIDragFigure.this.translate(offset.width, offset.height);
 		updateMgr.addDirtyRegion(getParent(), bounds);
-		me.consume();	
-		
+		me.consume();
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseHover(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
-
-
 	public void vertexDragged(VertexFigure vertexFigure, Dimension offset) {
-		//for now topLeft dragged
+		// for now topLeft dragged
 		if (offset.width == 0 && offset.height == 0)
 			return;
 		UpdateManager updateMgr = getUpdateManager();
@@ -158,14 +146,10 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 		updateMgr.addDirtyRegion(getParent(), bounds);
 		Rectangle constraint = (Rectangle) layoutMgr.getConstraint(this);
 		bounds = new Rectangle(constraint.getTopLeft().translate(offset), constraint.getBottomRight().translate(-offset.width, -offset.height));
-//		System.out.println("MouseDrag offset :" + offset.width + "," + offset.height);
+		// System.out.println("MouseDrag offset :" + offset.width + "," + offset.height);
 		layoutMgr.setConstraint(this, bounds);
 		this.translate(offset.width, offset.height);
 		this.setSize(bounds.getSize());
-		updateMgr.addDirtyRegion(getParent(), bounds);		
+		updateMgr.addDirtyRegion(getParent(), bounds);
 	}
-
-
-
-
 }

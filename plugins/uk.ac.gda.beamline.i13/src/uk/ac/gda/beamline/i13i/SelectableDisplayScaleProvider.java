@@ -29,104 +29,109 @@ import java.util.Map;
 import org.springframework.beans.factory.InitializingBean;
 
 public class SelectableDisplayScaleProvider implements DisplayScaleProvider, InitializingBean {
-//	private static final Logger logger = LoggerFactory.getLogger(SelectableDisplayScaleProvider.class);
+	// private static final Logger logger = LoggerFactory.getLogger(SelectableDisplayScaleProvider.class);
 	public static final String NEWVAL = "NEWVAL";
-	ObservableComponent obsComp= new ObservableComponent();
-	
-	String currentKey="Unknown";
-	
+	ObservableComponent obsComp = new ObservableComponent();
+
+	String currentKey = "Unknown";
+
 	Scannable keyScannable, binXScannable, binYScannable;
 	Map<String, DisplayScaleProvider> providers;
-	
+
 	@Override
 	public void addIObserver(IObserver anIObserver) {
 		obsComp.addIObserver(anIObserver);
 	}
+
 	@Override
 	public void deleteIObserver(IObserver anIObserver) {
 		obsComp.deleteIObserver(anIObserver);
 	}
+
 	@Override
 	public void deleteIObservers() {
 		obsComp.deleteIObservers();
 	}
 
-	
 	@Override
 	public double getPixelsPerMMInX() throws DeviceException {
-		return getProvider().getPixelsPerMMInX()/ getBinningX();
+		return getProvider().getPixelsPerMMInX() / getBinningX();
 	}
+
 	private double getBinningX() throws DeviceException {
-		if( binXScannable == null){
+		if (binXScannable == null) {
 			return 1;
 		}
 		return ScannableUtils.objectToArray(binXScannable.getPosition())[0];
 	}
+
 	@Override
 	public double getPixelsPerMMInY() throws DeviceException {
-		return getProvider().getPixelsPerMMInY()/ getBinningY();
+		return getProvider().getPixelsPerMMInY() / getBinningY();
 	}
-	
-	
+
 	private double getBinningY() throws DeviceException {
-		if( binYScannable == null){
+		if (binYScannable == null) {
 			return 1;
 		}
 		return ScannableUtils.objectToArray(binYScannable.getPosition())[0];
 	}
-	
-	DisplayScaleProvider getProvider() throws DeviceException{
+
+	DisplayScaleProvider getProvider() throws DeviceException {
 		currentKey = (String) keyScannable.getPosition();
 		DisplayScaleProvider currentProvider = providers.get(currentKey);
-		if( currentProvider == null)
-			throw new DeviceException("Unable to get provider from map. key="+currentKey);
+		if (currentProvider == null)
+			throw new DeviceException("Unable to get provider from map. key=" + currentKey);
 		return currentProvider;
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if( keyScannable ==null)
+		if (keyScannable == null)
 			throw new Exception("keyScannable==null");
-		if( providers ==null)
+		if (providers == null)
 			throw new Exception("providers==null");
-		
-		if(keyScannable != null){
+
+		if (keyScannable != null) {
 			keyScannable.addIObserver(new IObserver() {
-				
+
 				@Override
 				public void update(Object source, Object arg) {
 					obsComp.notifyIObservers(SelectableDisplayScaleProvider.this, NEWVAL);
 				}
 			});
 		}
-		
-		
 	}
+
 	public Scannable getKeyScannable() {
 		return keyScannable;
 	}
+
 	public void setKeyScannable(Scannable keyScannable) {
 		this.keyScannable = keyScannable;
 	}
+
 	public Map<String, DisplayScaleProvider> getProviders() {
 		return providers;
 	}
+
 	public void setProviders(Map<String, DisplayScaleProvider> providers) {
 		this.providers = providers;
 	}
+
 	public Scannable getBinXScannable() {
 		return binXScannable;
 	}
+
 	public void setBinXScannable(Scannable binXScannable) {
 		this.binXScannable = binXScannable;
 	}
+
 	public Scannable getBinYScannable() {
 		return binYScannable;
 	}
+
 	public void setBinYScannable(Scannable binYScannable) {
 		this.binYScannable = binYScannable;
 	}
-
-	
-
 }
