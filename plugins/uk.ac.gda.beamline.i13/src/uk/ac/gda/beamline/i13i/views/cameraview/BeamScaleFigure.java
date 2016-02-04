@@ -32,7 +32,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 public class BeamScaleFigure extends Figure {
 
-	private static DecimalFormat scaleFormat = new DecimalFormat("0.0"); // http://leepoint.net/nodes-java/data/strings/conversion/num2string.html
+	private static final DecimalFormat scaleFormat = new DecimalFormat("0.0"); // http://leepoint.net/nodes-java/data/strings/conversion/num2string.html
 	private Vector2d micronsPerPixel = new Vector2d(1.0, 1.0);
 	private Dimension scaleBoxSize = new Dimension(100, 100);
 

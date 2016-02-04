@@ -30,7 +30,7 @@ import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.client.liveplot.LivePlotView;
 
 public class ScriptingPerspective implements IPerspectiveFactory {
-	public final static String ID = "uk.ac.gda.beamline.i13i.perspectives.ScriptingPerspective";
+	// public final static String ID = "uk.ac.gda.beamline.i13i.perspectives.ScriptingPerspective";
 
 	private IPageLayout factory;
 

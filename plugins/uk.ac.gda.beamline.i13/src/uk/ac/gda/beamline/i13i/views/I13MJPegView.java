@@ -34,8 +34,8 @@ import uk.ac.gda.epics.adviewer.views.MJPegView;
 
 public class I13MJPegView extends MJPegView {
 	private static final Logger logger = LoggerFactory.getLogger(I13MJPegView.class);
-	static final String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView";
-	I13ADControllerImpl i13ADControllerImpl;
+	protected static final String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView";
+	private I13ADControllerImpl i13ADControllerImpl;
 
 	public I13MJPegView() {
 		super("i13");

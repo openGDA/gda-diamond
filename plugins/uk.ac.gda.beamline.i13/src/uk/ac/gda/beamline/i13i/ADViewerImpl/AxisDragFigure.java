@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Canvas;
 
 public class AxisDragFigure extends ImageFigure implements MouseListener, MouseMotionListener, KeyListener {
 
-	protected Point location;
+	private Point location;
 	private I13MJPegViewInitialiser i13mjPegViewInitialiser;
 	private Canvas canvas;
 	private boolean x_axis;

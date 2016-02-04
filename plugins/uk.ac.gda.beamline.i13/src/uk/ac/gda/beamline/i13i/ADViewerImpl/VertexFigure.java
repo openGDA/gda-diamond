@@ -29,7 +29,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 public class VertexFigure extends RectangleFigure implements MouseListener, MouseMotionListener {
 
-	protected Point location;
+	private Point location;
 	private ROIDragFigure roiFig;
 
 	public VertexFigure(int i, ROIDragFigure roiFig) {
@@ -55,7 +55,7 @@ public class VertexFigure extends RectangleFigure implements MouseListener, Mous
 		Rectangle bounds = getBounds();
 		updateMgr.addDirtyRegion(getParent(), bounds);
 
-		roiFig.vertexDragged(this, offset);
+		roiFig.vertexDragged(offset);
 		me.consume();
 	}
 

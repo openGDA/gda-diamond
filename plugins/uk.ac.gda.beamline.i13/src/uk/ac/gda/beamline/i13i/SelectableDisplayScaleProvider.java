@@ -30,13 +30,13 @@ import org.springframework.beans.factory.InitializingBean;
 
 public class SelectableDisplayScaleProvider implements DisplayScaleProvider, InitializingBean {
 	// private static final Logger logger = LoggerFactory.getLogger(SelectableDisplayScaleProvider.class);
-	public static final String NEWVAL = "NEWVAL";
-	ObservableComponent obsComp = new ObservableComponent();
+	private static final String NEWVAL = "NEWVAL";
+	private ObservableComponent obsComp = new ObservableComponent();
 
-	String currentKey = "Unknown";
+	private String currentKey = "Unknown";
 
-	Scannable keyScannable, binXScannable, binYScannable;
-	Map<String, DisplayScaleProvider> providers;
+	private Scannable keyScannable, binXScannable, binYScannable;
+	private Map<String, DisplayScaleProvider> providers;
 
 	@Override
 	public void addIObserver(IObserver anIObserver) {
@@ -77,7 +77,7 @@ public class SelectableDisplayScaleProvider implements DisplayScaleProvider, Ini
 		return ScannableUtils.objectToArray(binYScannable.getPosition())[0];
 	}
 
-	DisplayScaleProvider getProvider() throws DeviceException {
+	private DisplayScaleProvider getProvider() throws DeviceException {
 		currentKey = (String) keyScannable.getPosition();
 		DisplayScaleProvider currentProvider = providers.get(currentKey);
 		if (currentProvider == null)

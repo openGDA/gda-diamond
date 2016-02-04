@@ -32,7 +32,6 @@ import org.eclipse.draw2d.ImageFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -55,14 +54,17 @@ import uk.ac.gda.epics.adviewer.views.MJPegView;
 
 public class I13MJPegViewInitialiser implements NewImageListener  {
 	private static final Logger logger = LoggerFactory.getLogger(I13MJPegViewInitialiser.class);
-	I13ADControllerImpl adControllerImpl;
-	boolean changeRotationAxisX, changeImageMarker, vertMoveOnClickEnabled, horzMoveOnClickEnabled;
+	private I13ADControllerImpl adControllerImpl;
+	private boolean changeRotationAxisX;
+	private boolean changeImageMarker;
+	private boolean vertMoveOnClickEnabled;
+	private boolean horzMoveOnClickEnabled;
 /*	private RectangleFigure rotationAxisFigure;
 
 	RectangleFigure imageMarkerFigureX, imageMarkerFigureY, imageCenterFigureX, imageCenterFigureY;
 */
 	private MJPeg mJPeg;
-	MJPegView mjPegView;
+	// private MJPegView mjPegView;
 /*	private Action rotationAxisAction;
 	private Action imageCenterAction;
 	private Action showImageMarkerAction;
@@ -72,7 +74,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		super();
 		this.adControllerImpl = adController;
 		this.mJPeg = mJPeg;
-		this.mjPegView = mjPegView;
+		// this.mjPegView = mjPegView;
 		this.i13mjpegViewComposite = i13mjpegViewComposite;
 
 		Menu rightClickMenu = new Menu(mJPeg.getCanvas());
@@ -118,7 +120,6 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 
 			@Override
 			public void imageStart(IImagePositionEvent event) {
-
 			}
 
 			@Override
@@ -494,20 +495,20 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		return rotationAxisFigure;
 	}
 */
-	static int widthOffAxis = 20;
-	static int widthOffAxisHalf = widthOffAxis / 2;
+	// private static int widthOffAxis = 20;
+	// private static int widthOffAxisHalf = widthOffAxis / 2;
 	private IObserver rotationAxisObserver;
 	private IObserver cameraXYObserver;
-	public Action moveOnClickAction;
+	// private Action moveOnClickAction;
 	private int lastImageHeight;
 	private int lastImageWidth;
 	private AxisDragFigure axisDragFigure;
 	private ROIDragFigure roiDragFigure;
-	protected Point location;
+	// private Point location;
 	private Dimension roiSize = new Dimension(50, 50);
 	private Point roiStart = new Point(10, 10);
 
-	ImageFigure getAxisDragFigure(boolean x_axis) {
+	private ImageFigure getAxisDragFigure(boolean x_axis) {
 		if (axisDragFigure == null) {
 			axisDragFigure = new AxisDragFigure(x_axis, this, mJPeg.getCanvas());
 			mJPeg.getTopFigure().add(axisDragFigure, new Rectangle(0, 0, -1, -1));
@@ -515,7 +516,7 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		return axisDragFigure;
 	}
 
-	Figure getAxisROIFigure() {
+	private Figure getAxisROIFigure() {
 		if (roiDragFigure == null) {
 			roiDragFigure = new ROIDragFigure(this, mJPeg.getCanvas());
 			roiDragFigure.setSize(roiSize);
@@ -616,11 +617,11 @@ public class I13MJPegViewInitialiser implements NewImageListener  {
 		return imageMarkerFigureY;
 	}
 */
-	static RealVector createVectorOf(double... data) {
+	private static RealVector createVectorOf(double... data) {
 		return MatrixUtils.createRealVector(data);
 	}
 
-	void dispose() {
+	protected void dispose() {
 		if (rotationAxisObserver != null) {
 			adControllerImpl.getRotationAxisXScannable().deleteIObserver(rotationAxisObserver);
 			rotationAxisObserver = null;

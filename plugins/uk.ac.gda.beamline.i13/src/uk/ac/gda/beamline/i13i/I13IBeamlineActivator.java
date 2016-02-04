@@ -36,6 +36,8 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	// The shared instance
 	private static I13IBeamlineActivator plugin;
 
+	private static NamedServiceProvider namedServiceProvider;
+
 	/**
 	 * The constructor
 	 */
@@ -79,8 +81,6 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
-
-	private static NamedServiceProvider namedServiceProvider;
 
 	public static Object getNamedService(@SuppressWarnings("rawtypes") Class clzz, final String name) {
 		if (namedServiceProvider == null) {

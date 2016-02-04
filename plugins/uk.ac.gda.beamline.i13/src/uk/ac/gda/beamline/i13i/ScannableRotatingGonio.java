@@ -28,16 +28,16 @@ import gda.observable.IObserver;
 import org.springframework.beans.factory.InitializingBean;
 
 public class ScannableRotatingGonio extends ScannableMotionUnitsBase implements InitializingBean {
-	ScannableMotionUnits rotScannableMotor;
-	ScannableMotionUnits xScannableMotor;
-	ScannableMotionUnits yScannableMotor;
-	double xScannableScale = 1;
-	double xScannableOffset = 0;
-	double yScannableScale = 1;
-	double yScannableOffset = 0;
-	double rotScannableScale = 1;
-	double rotScannableOffset = 0;
-	boolean reportX = true;
+	private ScannableMotionUnits rotScannableMotor;
+	private ScannableMotionUnits xScannableMotor;
+	private ScannableMotionUnits yScannableMotor;
+	private double xScannableScale = 1;
+	private double xScannableOffset = 0;
+	private double yScannableScale = 1;
+	private double yScannableOffset = 0;
+	private double rotScannableScale = 1;
+	private double rotScannableOffset = 0;
+	private boolean reportX = true;
 
 	private IObserver motorObserver;
 

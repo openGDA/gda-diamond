@@ -355,7 +355,6 @@ public class I13MJPEGViewComposite extends Composite {
 				}
 			}
 		});
-
 	}
 
 /*	protected void setVertMoveOnClick() {

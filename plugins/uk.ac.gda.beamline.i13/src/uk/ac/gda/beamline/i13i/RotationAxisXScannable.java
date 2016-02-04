@@ -46,13 +46,13 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	private String configurationName = "configuration";
 	private String offsetPropertyName = "rotationXScannableOffset";
 
-	Scannable sampleStageXScannable;
-	Scannable cameraStageXScannable;
-	Scannable lensScannable;
-	DisplayScaleProvider cameraScaleProvider;
+	private Scannable sampleStageXScannable;
+	private Scannable cameraStageXScannable;
+	private Scannable lensScannable;
+	private DisplayScaleProvider cameraScaleProvider;
 	private IObserver observer;
 
-	String getAllowedKey(String key) {
+	private String getAllowedKey(String key) {
 		return key.replace(" ", "_");
 	}
 
@@ -134,7 +134,7 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 
 	}
 
-	int getRotationAxisX() throws DeviceException {
+	private int getRotationAxisX() throws DeviceException {
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
 		double offset = getOffset();
@@ -161,7 +161,7 @@ public class RotationAxisXScannable extends ScannableBase implements Initializin
 	 *
 	 * where offset is the offset of the rotationAxis from the sampleStage 0 position + the offset of the cameraStage 0 position from the sample stage.
 	 */
-	double getOffsetForRotationAxisX(double positionInCameraImage) throws DeviceException {
+	private double getOffsetForRotationAxisX(double positionInCameraImage) throws DeviceException {
 		double x1 = ScannableUtils.getCurrentPositionArray(sampleStageXScannable)[0];
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
 		return positionInCameraImage / cameraScaleProvider.getPixelsPerMMInX() + x2 - x1;

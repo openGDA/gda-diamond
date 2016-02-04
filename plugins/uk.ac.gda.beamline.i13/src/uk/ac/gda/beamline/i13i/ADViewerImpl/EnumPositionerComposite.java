@@ -46,11 +46,12 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.common.rcp.util.GridUtils;
 
 public class EnumPositionerComposite extends Composite {
-	static final Logger logger = LoggerFactory.getLogger(EnumPositionerComposite.class);
+	private static final Logger logger = LoggerFactory.getLogger(EnumPositionerComposite.class);
 	private EnumPositioner positioner;
 	private IObserver observer;
 	private Group group;
 	private Combo pcom;
+	private String currentPos;
 
 	public EnumPositionerComposite(Composite parent, int style, String title, final String confirmSelectionMsgTemplate, final String jobTitle,
 			final String setCmd) {
@@ -152,6 +153,4 @@ public class EnumPositionerComposite extends Composite {
 		positioner.addIObserver(observer);
 		updateDisplay();
 	}
-
-	private String currentPos;
 }

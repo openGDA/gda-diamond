@@ -38,7 +38,7 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 	private Canvas canvas;
 	private RectangleFigure topLeft;//, topRight, bottomLeft, bottomRight;
 
-	protected Point location;
+	private Point location;
 
 	public ROIDragFigure(final I13MJPegViewInitialiser i13mjPegViewInitialiser, Canvas canvas) {
 		super();
@@ -136,7 +136,7 @@ public class ROIDragFigure extends RectangleFigure implements KeyListener, Mouse
 		// TODO Auto-generated method stub
 	}
 
-	public void vertexDragged(VertexFigure vertexFigure, Dimension offset) {
+	public void vertexDragged(Dimension offset) {
 		// for now topLeft dragged
 		if (offset.width == 0 && offset.height == 0)
 			return;

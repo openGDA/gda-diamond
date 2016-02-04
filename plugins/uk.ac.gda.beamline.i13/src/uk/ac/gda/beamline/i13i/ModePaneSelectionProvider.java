@@ -29,7 +29,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
  */
 public class ModePaneSelectionProvider extends EventManager implements ISelectionProvider {
 
-	ISelection selection;
+	private ISelection selection;
 
 	@Override
 	public void addSelectionChangedListener(ISelectionChangedListener listener) {

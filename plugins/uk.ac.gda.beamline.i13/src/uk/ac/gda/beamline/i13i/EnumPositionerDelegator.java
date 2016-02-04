@@ -41,9 +41,9 @@ import org.springframework.util.StringUtils;
 @CorbaAdapterClass(EnumpositionerAdapter.class)
 public class EnumPositionerDelegator extends DeviceBase implements EnumPositioner, Localizable {
 	private static final Logger logger = LoggerFactory.getLogger(EnumPositionerDelegator.class);
-	Map<String, EnumPositioner> scannableMap;
-	EnumPositioner delegate;
-	ADBase adBase;
+	private Map<String, EnumPositioner> scannableMap;
+	private EnumPositioner delegate;
+	private ADBase adBase;
 	private String name;
 
 	public void setScannableMap(Map<String, EnumPositioner> scannableMap) {

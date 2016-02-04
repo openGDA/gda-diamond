@@ -28,7 +28,7 @@ import uk.ac.gda.epics.adviewer.views.TwoDArrayView;
 
 public class I13PCOArrayView extends TwoDArrayView {
 
-	final static String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView";
+	protected final static String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView";
 
 	public I13PCOArrayView() {
 		super("i13");
@@ -48,5 +48,4 @@ public class I13PCOArrayView extends TwoDArrayView {
 			getViewSite().getActionBars().getToolBarManager().add(iAction);
 		}
 	}
-
 }

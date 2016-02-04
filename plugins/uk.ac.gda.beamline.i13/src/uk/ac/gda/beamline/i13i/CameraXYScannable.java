@@ -42,14 +42,14 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 	// private static final Logger logger = LoggerFactory.getLogger(CameraXYScannable.class);
 
 	private FileConfiguration configuration;
-	Scannable lensScannable;
+	private Scannable lensScannable;
 	private String configurationName = "configuration";
 	private String propertyNameX = "cameraXYScannableOffsetX";
 	private String propertyNameY = "cameraXYScannableOffsetY";
 
-	Scannable cameraStageXScannable;
-	Scannable cameraStageYScannable;
-	DisplayScaleProvider cameraScaleProvider;
+	private Scannable cameraStageXScannable;
+	private Scannable cameraStageYScannable;
+	private DisplayScaleProvider cameraScaleProvider;
 	private IObserver observer;
 
 	@Override
@@ -68,7 +68,7 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 		configuration.save();
 	}
 
-	String getAllowedKey(String key) {
+	private String getAllowedKey(String key) {
 		return key.replace(" ", "_");
 	}
 
@@ -131,26 +131,26 @@ public class CameraXYScannable extends ScannableBase implements InitializingBean
 
 	}
 
-	int getRotationAxisX() throws DeviceException {
+	private int getRotationAxisX() throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
 		double dist = getOffsetX() - x2;
 		double a = dist * cameraScaleProvider.getPixelsPerMMInX();
 		return (int) Math.round(a);
 	}
 
-	int getRotationAxisY() throws DeviceException {
+	private int getRotationAxisY() throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageYScannable)[0];
 		double dist = getOffsetY() - x2;
 		double a = dist * cameraScaleProvider.getPixelsPerMMInY();
 		return (int) Math.round(a);
 	}
 
-	double getOffsetXForRotationAxisX(double array) throws DeviceException {
+	private double getOffsetXForRotationAxisX(double array) throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageXScannable)[0];
 		return (array / cameraScaleProvider.getPixelsPerMMInX() + x2);
 	}
 
-	double getOffsetYForRotationAxisX(double array) throws DeviceException {
+	private double getOffsetYForRotationAxisX(double array) throws DeviceException {
 		double x2 = ScannableUtils.getCurrentPositionArray(cameraStageYScannable)[0];
 		return (array / cameraScaleProvider.getPixelsPerMMInY() + x2);
 	}

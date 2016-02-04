@@ -38,6 +38,21 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 	private int cameraImageWidthMax;
 	private int cameraImageHeightMax;
 
+	private Scannable rotationAxisXScannable;
+	private DisplayScaleProvider displayScaleProvider;
+	private Scannable cameraXYScannable;
+	private String autoCentreCmd;
+	private String showNormalisedImageCmd;
+	private String histogramPlotId;
+	private String imagePlotId;
+
+	private DisplayScaleProvider cameraScaleProvider;
+
+	private ScannableMotionUnits sampleCentringXMotor;
+	private ScannableMotionUnits sampleCentringYMotor;
+
+	private CompositeFactory stagesCompositeFactory;
+
 	@Override
 	public void setExposure(double d) {
 		final String cmd = String.format(getSetExposureTimeCmd(), d);
@@ -105,22 +120,6 @@ public class I13ADControllerImpl extends  ADControllerImpl implements Initializi
 			throw new IllegalArgumentException("setExposureTimeCmd == null");
 
 	}
-
-	private Scannable rotationAxisXScannable;
-	private DisplayScaleProvider displayScaleProvider;
-	private Scannable cameraXYScannable;
-	private String autoCentreCmd;
-	private String showNormalisedImageCmd;
-	private String histogramPlotId;
-	private String imagePlotId;
-
-	private DisplayScaleProvider cameraScaleProvider;
-
-	private ScannableMotionUnits sampleCentringXMotor;
-
-	private ScannableMotionUnits sampleCentringYMotor;
-
-	private CompositeFactory stagesCompositeFactory;
 
 	public Scannable getRotationAxisXScannable() {
 		return rotationAxisXScannable;
