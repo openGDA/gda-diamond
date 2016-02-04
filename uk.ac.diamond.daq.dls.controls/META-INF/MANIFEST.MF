@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Controls common to several Diamond beamlines
+Bundle-SymbolicName: uk.ac.diamond.daq.dls.controls;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Diamond Light Source
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: uk.ac.gda.core;bundle-version="8.52.0",
+ uk.ac.gda.epics,
+ uk.ac.diamond.jython;bundle-version="2.5.3"
+Import-Package: net.sf.cglib.core,
+ net.sf.cglib.proxy,
+ org.apache.commons.lang;version="2.6.0",
+ org.python.core,
+ org.slf4j;version="1.7.6",
+ org.springframework.beans.factory;version="4.0.6.RELEASE"
+Export-Package: gda.device.scannable
+Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
