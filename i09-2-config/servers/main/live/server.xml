@@ -44,6 +44,7 @@
 	<import resource="SS2.xml" />
 	<import resource="SS3.xml" />
 	<import resource="SS4.xml" />
+	<import resource="SS7.xml" />
 	<import resource="topup.xml" />
 
 	<import resource="../main_common.xml" />
