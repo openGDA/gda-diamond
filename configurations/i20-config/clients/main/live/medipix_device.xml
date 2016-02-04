@@ -26,4 +26,4 @@
 	<bean id="medipix_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
 		<property name="prefix" value="BL20I-EA-DET-05:MJPG:" />
 	</bean>
-</beans>	
+</beans>
