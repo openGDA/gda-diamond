@@ -11,5 +11,6 @@
 
 	<bean id="zebraSM1" class="gda.device.motor.DummyMotor" />
 	<bean id="zebraSM2" class="gda.device.motor.DummyMotor" />
+	<bean id="debenSM3" class="gda.device.motor.DummyMotor" />
 
 </beans>

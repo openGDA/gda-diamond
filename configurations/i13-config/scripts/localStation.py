@@ -256,11 +256,18 @@ try:
 		caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
 		if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
 			caput("BL13I-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
-			flyScanDetectorNoChunking.readOutTime=0.21
+			pco4000_readout=0.21
+			flyScanDetector.readOutTime=pco4000_readout
+			flyScanDetectorNoChunking.readOutTime=pco4000_readout
+			p2r_flyScanDetector.getCollectionStrategy().setReadoutTime(pco4000_readout)
+			p2r_flyScanDetector.readOutTime=pco4000_readout		
 		if( caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
 			caput("BL13I-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
-			flyScanDetectorNoChunking.readOutTime=0.011
-			p2r_flyScanFlatDarkDetector.getCollectionStrategy().setReadoutTime(0.011)
+			pcoEdge_readout=0.011
+			flyScanDetector.readOutTime=pcoEdge_readout
+			flyScanDetectorNoChunking.readOutTime=pcoEdge_readout
+			p2r_flyScanDetector.getCollectionStrategy().setReadoutTime(pcoEdge_readout)
+			p2r_flyScanDetector.readOutTime=pcoEdge_readout
 	
 		# Ensure rot speed is set in case GDA has crashed during fly scan.
 		ss1_rot.motor.speed=45
@@ -279,7 +286,8 @@ try:
 	from tomographyXGIScan import tomoXGIScan
 	import tomographyXGIScan2d
 	from tomographyXGIScan2d import tomoXGIScan2d
-
+	from deben import *
+	deben_configure()
 except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
