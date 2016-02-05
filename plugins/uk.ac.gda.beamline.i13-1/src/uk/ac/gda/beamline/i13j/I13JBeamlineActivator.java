@@ -31,7 +31,7 @@ public class I13JBeamlineActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static I13JBeamlineActivator plugin;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -58,5 +58,4 @@ public class I13JBeamlineActivator extends AbstractUIPlugin {
 	public static I13JBeamlineActivator getDefault() {
 		return plugin;
 	}
-
 }
