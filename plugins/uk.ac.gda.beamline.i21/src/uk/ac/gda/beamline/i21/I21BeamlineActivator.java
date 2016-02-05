@@ -15,6 +15,7 @@ public class I21BeamlineActivator implements BundleActivator {
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void start(BundleContext bundleContext) throws Exception {
 		I21BeamlineActivator.context = bundleContext;
 	}
@@ -23,6 +24,7 @@ public class I21BeamlineActivator implements BundleActivator {
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
+	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
 		I21BeamlineActivator.context = null;
 	}
