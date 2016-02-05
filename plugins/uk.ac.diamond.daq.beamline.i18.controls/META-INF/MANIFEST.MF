@@ -22,7 +22,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="8.52.0",
  uk.ac.gda.client;bundle-version="8.52.0",
  uk.ac.gda.dls;bundle-version="1.0.0",
  uk.ac.diamond.daq.microfocus.api;bundle-version="1.0.0",
- uk.ac.diamond.daq.client.gui.rcpcontroller;bundle-version="1.0.0";resolution:=optional,
+ uk.ac.diamond.daq.client.gui.rcpcontroller;bundle-version="1.0.0",
  uk.ac.diamond.daq.dls.controls
 Import-Package: net.sf.cglib.core,
  net.sf.cglib.proxy,
