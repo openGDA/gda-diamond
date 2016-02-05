@@ -131,7 +131,7 @@
 	<!-- piezo raster scan device  - must be included for maxipix -->
 	<import resource="../../../devices/live/pie725_raster.xml"/>
 	
-	<import resource="../../devices/live/maxipix.xml" />
+	<import resource="../../../devices/live/maxipix.xml" />
 
 	<import resource="../_common/server.xml"/>	
 
