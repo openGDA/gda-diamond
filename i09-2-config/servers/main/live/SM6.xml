@@ -21,6 +21,9 @@
 	<bean id="sm6yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09K-MO-SM-06:YAW" />
 	</bean>
+	<bean id="sm6fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
+		<property name="pvName" value="BL09K-MO-SM-06:FPITCH" />
+	</bean>
 	<bean id="sm6iamp27" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="deviceName" value="SM6.IAMP27" />
 		<property name="poll" value="false"/>

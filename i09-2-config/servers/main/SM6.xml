@@ -21,6 +21,9 @@
 	<bean id="sm6yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sm6yaw_motor" />
 	</bean>
+	<bean id="sm6fpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm6fpitch_motor" />
+	</bean>
 
 	<bean id="sm6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -32,6 +35,7 @@
 				<ref bean="sm6roll" />
 				<ref bean="sm6yaw" />
 				<ref bean="sm6iamp27"/>
+				<ref bean="sm6fpitch"/>
 			</list>
 		</property>
 	</bean>
