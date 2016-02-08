@@ -76,7 +76,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         if self._operating_continuously:
             self._last_requested_position = position
         else:
-            raise Exception()
+            raise Exception("asynchronousMoveTo only supports Continuous operation")
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
@@ -102,24 +102,24 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     def getPosition(self):
         if self.verbose: self.logger.info('getPosition()...')
         if self._operating_continuously:
-            raise Exception()
+            raise Exception("getPosition not supported during continuous operation")
             # Should be using getPositionCallable
             #return self._last_requested_position
         else:
-            raise Exception()
+            raise Exception("getPosition only supports continuous operation")
 
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
         if self._operating_continuously:
             return # self._move_controller.waitWhileMoving()
         else:
-            raise Exception()
+            raise Exception("waitWhileBusy only supports continuous operation")
 
     def isBusy(self):
         if self._operating_continuously:
             return False #self._move_controller.isBusy()
         else:
-            raise Exception()
+            raise Exception("isBusy only supports continuous operation")
 
     # public interface ScannableMotion extends Scannable
 
