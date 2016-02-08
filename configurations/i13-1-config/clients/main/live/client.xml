@@ -9,45 +9,10 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<context:property-placeholder properties-ref="propertyConfigurer" />	
+	<context:property-placeholder properties-ref="propertyConfigurer" />
 
 	<import resource="live_client_common.xml" />
-	
-	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>	
-	
-	
-<!--	<bean id="i13ADController"
-		class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
-		<property name="serviceName" value="i13" />
-		<property name="imageNDStats" ref="pco1_stat" />
-		<property name="liveViewNDProc" ref="pco1_proc" />
-		<property name="imageNDArray" ref="pco1_arr" />
-		<property name="imageHistSize" value="500" />
-		<property name="imageMin" value="0" />
-		<property name="detectorName" value="PCO" />
-		<property name="adBase" ref="pco1_cam_base" />
-		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%f)" />
-		<property name="ffmpegStream" ref="pco1_ffmpeg" />
-		<property name="ffmpegImageOutHeightMax" value="1336" />
-		<property name="ffmpegImageOutWidthMax" value="2004" />
-	 	<property name="lensEnum" ref="lens" />
- 		<property name="binningXEnum" ref="binning_x" />
-		<property name="binningYEnum" ref="binning_y" />
-		<property name="regionSizeXEnum" ref="region_size_x"/> <property name="regionSizeYEnum" ref="region_size_y"/>
- 		<property name="stagesCompositeFactory" ref="stages" />
-		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
-		<property name="cameraXYScannable" ref="cameraXYScannable" />
-		<property name="displayScaleProvider" ref="displayScaleProvider" />
-		<property name="cameraScaleProvider" ref="displayScaleProvider" />
-		<property name="sampleCentringXMotor" ref="ss1_x" />
-		<property name="sampleCentringYMotor" ref="ss1_sampley" /> 
-		<property name="cameraImageWidthMax" value="4008" />
-		<property name="cameraImageHeightMax" value="2672" />
-		<property name="showNormalisedImageCmd"
-			value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
-		<property name="imageNDROI" ref="pco1_roi" />
-	</bean> -->
-
+	<import resource="../../../devices/epics/pco1_ndplugins.xml" />
 
 	<bean id="dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
@@ -56,9 +21,5 @@
 			</map>
 		</property>
 	</bean>
-<!-- 	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
-		<property name="service" ref="i13ADController" />
-		<property name="properties" ref="dictionary" />
-	</bean>	 -->
+
 </beans>

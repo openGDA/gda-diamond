@@ -5,7 +5,7 @@
 
 			<bean id = "_limaTangoDevice" class="gda.device.lima.impl.DummyLimaTangoDevice">
 				<constructor-arg value="dummy" />
-				<property name="testFilePaths" value="${gda.config}/devices/dummy/test1.edf,${gda.config}/devices/dummy/test2.edf"/>
+				<property name="testFilePaths" value="${gda.config}/test/test1.edf,${gda.config}/test/test2.edf"/>
 				<property name="attributeMap">
 					<list>
 						<bean class="gda.device.DummyDeviceAttribute">
