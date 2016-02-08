@@ -257,6 +257,6 @@
 	<import resource="excalibur_readout4.xml" />
 	<import resource="excalibur_readout5.xml" />
 	<import resource="excalibur_readout6.xml" />
-	<import resource="../excalibur_common.xml" />
+	<import resource="../_common/excalibur_common.xml" />
 
 </beans>

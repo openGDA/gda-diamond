@@ -35,7 +35,9 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static I13IBeamlineActivator plugin;
-	
+
+	private static NamedServiceProvider namedServiceProvider;
+
 	/**
 	 * The constructor
 	 */
@@ -53,7 +55,7 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-		if(namedServiceProvider != null){
+		if (namedServiceProvider != null) {
 			namedServiceProvider.close();
 			namedServiceProvider = null;
 		}
@@ -68,25 +70,22 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	public static I13IBeamlineActivator getDefault() {
 		return plugin;
 	}
+
 	/**
-	 * Returns an image descriptor for the image file at the given
-	 * plug-in relative path
+	 * Returns an image descriptor for the image file at the given plug-in relative path
 	 *
-	 * @param path the path
+	 * @param path
+	 *            the path
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
-	
 
-	private static NamedServiceProvider namedServiceProvider;
-	
 	public static Object getNamedService(@SuppressWarnings("rawtypes") Class clzz, final String name) {
-		if(namedServiceProvider == null){
+		if (namedServiceProvider == null) {
 			namedServiceProvider = new NamedServiceProvider(bundleContext);
 		}
 		return namedServiceProvider.getNamedService(clzz, "SERVICE_NAME", name);
-		
 	}
 }

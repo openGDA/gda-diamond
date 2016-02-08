@@ -34,9 +34,8 @@ import uk.ac.gda.epics.adviewer.views.MJPegView;
 
 public class I13MJPegView extends MJPegView {
 	private static final Logger logger = LoggerFactory.getLogger(I13MJPegView.class);
-	@SuppressWarnings("hiding")
-	static final String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView";
-	I13ADControllerImpl i13ADControllerImpl;
+	protected static final String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView";
+	private I13ADControllerImpl i13ADControllerImpl;
 
 	public I13MJPegView() {
 		super("i13");
@@ -46,8 +45,7 @@ public class I13MJPegView extends MJPegView {
 	protected MJPeg createPartControlEx(Composite parent) {
 		try {
 			i13ADControllerImpl = (I13ADControllerImpl) getAdController();
-			I13MJPEGViewComposite i13MJPEGViewComposite = new I13MJPEGViewComposite(parent,
-					i13ADControllerImpl.getStagesCompositeFactory());
+			I13MJPEGViewComposite i13MJPEGViewComposite = new I13MJPEGViewComposite(parent, i13ADControllerImpl.getStagesCompositeFactory());
 			i13MJPEGViewComposite.setADController(i13ADControllerImpl, this);
 			return i13MJPEGViewComposite.getMJPeg();
 		} catch (Exception e) {
@@ -60,10 +58,10 @@ public class I13MJPegView extends MJPegView {
 	protected void createShowViewAction() {
 		List<IAction> actions = new Vector<IAction>();
 		{
-			actions.add(ADActionUtils.addShowViewAction("Show Stats", I13PCOHistogramView.Id, null,
-					"Show stats view for selected camera", uk.ac.gda.epics.adviewer.Activator.getHistogramViewImage()));
-			actions.add(ADActionUtils.addShowViewAction("Show Array", I13PCOArrayView.Id, null,
-					"Show array view for selected camera", uk.ac.gda.epics.adviewer.Activator.getTwoDArrayViewImage()));
+			actions.add(ADActionUtils.addShowViewAction("Show Stats", I13PCOHistogramView.Id, null, "Show stats view for selected camera",
+					uk.ac.gda.epics.adviewer.Activator.getHistogramViewImage()));
+			actions.add(ADActionUtils.addShowViewAction("Show Array", I13PCOArrayView.Id, null, "Show array view for selected camera",
+					uk.ac.gda.epics.adviewer.Activator.getTwoDArrayViewImage()));
 		}
 		for (IAction iAction : actions) {
 			getViewSite().getActionBars().getToolBarManager().add(iAction);

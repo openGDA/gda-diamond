@@ -18,8 +18,6 @@
 
 package uk.ac.gda.beamline.i13i.views.cameraview;
 
-
-
 import java.text.DecimalFormat;
 
 import javax.vecmath.Vector2d;
@@ -32,17 +30,16 @@ import org.eclipse.draw2d.RectangleFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-
 public class BeamScaleFigure extends Figure {
 
-	private static DecimalFormat scaleFormat = new DecimalFormat("0.0"); // http://leepoint.net/nodes-java/data/strings/conversion/num2string.html
+	private static final DecimalFormat scaleFormat = new DecimalFormat("0.0"); // http://leepoint.net/nodes-java/data/strings/conversion/num2string.html
 	private Vector2d micronsPerPixel = new Vector2d(1.0, 1.0);
 	private Dimension scaleBoxSize = new Dimension(100, 100);
-	
+
 	private Label xScaleLabel;
 	private Label yScaleLabel;
 	private RectangleFigure rectangle;
-	
+
 	public BeamScaleFigure() {
 		BorderLayout manager = new BorderLayout();
 		setLayoutManager(manager);
@@ -61,8 +58,8 @@ public class BeamScaleFigure extends Figure {
 		add(yScaleLabel);
 		manager.setConstraint(yScaleLabel, BorderLayout.RIGHT);
 		update();
-	}	
-	
+	}
+
 	public double getXScale() {
 		return micronsPerPixel.x;
 	}
@@ -80,22 +77,20 @@ public class BeamScaleFigure extends Figure {
 		this.micronsPerPixel.y = scale;
 		update();
 	}
-	
-	public void setBeamSize(int w, int h){
+
+	public void setBeamSize(int w, int h) {
 		scaleBoxSize.width = w;
-		scaleBoxSize.height= h;
+		scaleBoxSize.height = h;
 		update();
-		
 	}
-	
+
 	@Override
 	protected boolean useLocalCoordinates() {
 		return true;
 	}
 
 	/**
-	 * Updates label contents and box size
-	 * This needs to be called from UI thread
+	 * Updates label contents and box size. This needs to be called from UI thread
 	 */
 	private void update() {
 		String xScaleFormat = scaleFormat.format(scaleBoxSize.width * micronsPerPixel.x / (1024.0 / 10));
