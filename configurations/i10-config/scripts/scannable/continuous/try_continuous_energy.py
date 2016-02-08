@@ -53,6 +53,13 @@ mcsj17 = WaveformChannelScannable('mcsj17', mcsjc, 18);            mcsj17.setHar
 mcsj18 = WaveformChannelScannable('mcsj18', mcsjc, 19);            mcsj18.setHardwareTriggerProvider(cemc);              mcsj18.verbose=True
 mcsj19 = WaveformChannelScannable('mcsj19', mcsjc, 20);            mcsj19.setHardwareTriggerProvider(cemc);              mcsj19.verbose=True
 
+# Sometimes the RASOR struck scaler returns 1 fewer points than requested, this causes the binpoints to fail and the whole scan to fail.
+# Adding the shortest possible time to the total count time seems to ensure that all of the required points are acquired.   
+mcsrc.exposure_time_offset=0.001
+# This may be needed on the other scalers too.
+#mcsic.exposure_time_offset=0.001
+#mcsjc.exposure_time_offset=0.001
+
 # Binpoint is slaved from (triggered by) RASOR scaler (mcsrc)                        'BL10I-CS-CSCAN-01:'
 binpointc           = BinpointWaveformChannelController(             'binpointc', 'BL10I-CS-CSCAN-01:', 'IDPGM:BINPOINTALL:');                                        binpointc.verbose=True
 binpointGrtPitch    = WaveformChannelScannable('binpointGrtPitch',    binpointc, 'GRT:PITCH:');          binpointGrtPitch.setHardwareTriggerProvider(cemc);    binpointGrtPitch.verbose=True
