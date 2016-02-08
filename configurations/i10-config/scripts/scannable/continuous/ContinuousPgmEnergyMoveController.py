@@ -21,6 +21,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self._start_event = threading.Event()
         self._energy_speed_orig = None
         self._movelog_time = datetime.now()
+        self._runupdown_time = None
 
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
@@ -47,9 +48,9 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         # Set the speed before we read out ramp times in case it is dependent
         self._energy.speed = self._energy_speed 
         # Should really be / | | | | | \ not /| | | | |\
-        self._runupdown = self._energy_speed/2 * self._energy.timeToVelocity
-        ### Move ID at full speed to start position
-        ### Move pgm at full speed to start position
+        self._runupdown_time = self._energy.timeToVelocity
+        self._runupdown = self._energy_speed/2 * self._runupdown_time
+        ### Move motor at full speed to start position
         self._energy.speed = self._energy_speed_orig
         if self.getMoveDirectionPositive():
             if self.verbose: self.logger.info('prepareForMove:asynchronousMoveTo(%r) @ %r (+ve)' % (
@@ -118,6 +119,9 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         if self.verbose: self.logger.info('getTotalTime()=%r' % totalTime)
         return totalTime
 
+    def getTimeToVelocity(self):
+        return self._runupdown_time
+
     # Override: public abstract class DeviceBase implements Device, ConditionallyConfigurable, Localizable
 
         # None needed
@@ -132,7 +136,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
     def getMoveDirectionPositive(self):
         return (self._move_end - self._move_start) > 0
 
-    class DelayableEnergyPositionCallable(Callable):
+    class DelayablePgmEnergyPositionCallable(Callable):
     
         def __init__(self, controller, demand_position):
             #self.start_event = threading.Event()
@@ -158,7 +162,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
             # how far through the scan this point is
             complete = abs( (self._demand_position - self._controller._move_start) /
                             (self._controller._move_end - self._controller._move_start) )
-            sleeptime_s = (self._controller._energy.timeToVelocity
+            sleeptime_s = (self._controller._runupdown_time
                 + (complete * self._controller.getTotalTime()))
             
             delta = datetime.now() - self._controller._start_time
@@ -169,10 +173,10 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
                 if self._controller.verbose:
                     self.logger.info('sleeping... sleeptime_s=%r, delta_s=%r, sleeptime_s-delta_s=%r' % (sleeptime_s, delta_s, sleeptime_s-delta_s))
                 time.sleep(sleeptime_s-delta_s)
-            energy = self._controller._energy()
+            position_rbv = self._controller._energy()
             if self._controller.verbose:
-                self.logger.info('...DelayableCallable:call returning %r, %r' % (self._demand_position, energy))
-            return self._demand_position, energy
+                self.logger.info('...DelayableCallable:call returning %r, %r' % (self._demand_position, position_rbv))
+            return self._demand_position, position_rbv
 
     def getPositionCallableExtraNames(self):
         return ['readback']
@@ -184,7 +188,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
     def getPositionCallableFor(self, position):
         if self.verbose: self.logger.info('getPositionCallableFor(%r)...' % position)
         # TODO: return actual positions back calculated from energy positions
-        return self.DelayableEnergyPositionCallable(self, position)
+        return self.DelayablePgmEnergyPositionCallable(self, position)
 
     def _restore_orig_speed(self):
         if self._energy_speed_orig:

@@ -219,7 +219,7 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
     def getGratingMoveDirectionPositive(self):
         return (self._grat_pitch_end - self._grat_pitch_start) > 0
 
-    class DelayableEnergyPositionCallable(Callable):
+    class DelayableCallable(Callable):
     
         def __init__(self, controller, demand_position):
             #self.start_event = threading.Event()
@@ -254,7 +254,7 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
             
             complete = abs( (grat_pitch - self._controller._grat_pitch_start) /
                             (self._controller._grat_pitch_end - self._controller._grat_pitch_start) )
-            sleeptime_s = (self._runupdown_time
+            sleeptime_s = (self._controller._runupdown_time
                 + (complete * self._controller.getTotalTime()))
             
             delta = datetime.now() - self._controller._start_time
@@ -287,7 +287,7 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
     def getPositionCallableFor(self, position):
         if self.verbose: self.logger.info('getPositionCallableFor(%r)...' % position)
         # TODO: return actual positions back calculated from energy positions
-        return self.DelayableEnergyPositionCallable(self, position)
+        return self.DelayableCallable(self, position)
 
     def _restore_orig_speed(self):
         if self._pgm_grat_pitch_speed_orig:
