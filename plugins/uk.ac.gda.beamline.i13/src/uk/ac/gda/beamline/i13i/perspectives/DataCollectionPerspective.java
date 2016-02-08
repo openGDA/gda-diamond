@@ -32,8 +32,8 @@ import uk.ac.gda.client.liveplot.LivePlotView;
 /**
  */
 public class DataCollectionPerspective implements IPerspectiveFactory {
-	
-	//Do not change - used in plugin.xml
+
+	// Do not change - used in plugin.xml
 	private static final String UK_AC_GDA_BEAMLINE_I13I_PERSPECTIVES_DATA_EXPLORER = "uk.ac.gda.beamline.i13i.perspectives.DataExplorer";
 
 	public final static String ID = "uk.ac.gda.beamline.i13i.perspectives.DataCollectionPerspective";
@@ -68,7 +68,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		left.addView(ViewFactoryIds.PCOLiveViewId);
 
 		IFolderLayout rightTop = factory.createFolder("rightTop", IPageLayout.RIGHT, (float) 0.50, "left"); //$NON-NLS-1$
-//		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
+		// left.addView(IPageLayout.ID_PROJECT_EXPLORER);
 		rightTop.addView("uk.ac.gda.beamline.i13i.DetectorPlot");
 		rightTop.addPlaceholder("uk.ac.gda.beamline.i13i.NormalisedImage");
 		rightTop.addPlaceholder(LivePlotView.ID);
@@ -80,7 +80,7 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		rightTop.addPlaceholder(ViewFactoryIds.d3LiveView);
 		rightTop.addPlaceholder(ViewFactoryIds.d4LiveView);
 		rightTop.addPlaceholder(ViewFactoryIds.d5LiveView);
-		
+
 		IFolderLayout rightBottom = factory.createFolder("rightBottom", IPageLayout.BOTTOM, (float) 0.5, "rightTop");
 		rightBottom.addView(JythonTerminalView.ID);
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view");
@@ -88,8 +88,6 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view:data.dispenser.browser");
 		rightBottom.addPlaceholder(CommandQueueViewFactory.ID);
 		rightBottom.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.*");
-		
-
 
 	}
 
@@ -112,5 +110,4 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		factory.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 		factory.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 	}
-
 }

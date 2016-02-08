@@ -28,19 +28,20 @@ import uk.ac.gda.epics.adviewer.views.HistogramView;
 
 public class I13PCOHistogramView extends HistogramView {
 
-	@SuppressWarnings("hiding")
-	final static public String Id="uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView";
+	final static public String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView";
+
 	public I13PCOHistogramView() {
 		super("i13");
 	}
+
 	@Override
 	protected void createShowViewAction() {
 		List<IAction> actions = new Vector<IAction>();
 		{
-			actions.add(ADActionUtils.addShowViewAction("Show MPeg", I13MJPegView.Id, null,
-					"Show MPeg view for selected camera", uk.ac.gda.epics.adviewer.Activator.getMJPegViewImage()));
-			actions.add(ADActionUtils.addShowViewAction("Show Array", I13PCOArrayView.Id, null,
-					"Show array view for selected camera", uk.ac.gda.epics.adviewer.Activator.getTwoDArrayViewImage()));
+			actions.add(ADActionUtils.addShowViewAction("Show MPeg", I13MJPegView.Id, null, "Show MPeg view for selected camera",
+					uk.ac.gda.epics.adviewer.Activator.getMJPegViewImage()));
+			actions.add(ADActionUtils.addShowViewAction("Show Array", I13PCOArrayView.Id, null, "Show array view for selected camera",
+					uk.ac.gda.epics.adviewer.Activator.getTwoDArrayViewImage()));
 		}
 		for (IAction iAction : actions) {
 			getViewSite().getActionBars().getToolBarManager().add(iAction);

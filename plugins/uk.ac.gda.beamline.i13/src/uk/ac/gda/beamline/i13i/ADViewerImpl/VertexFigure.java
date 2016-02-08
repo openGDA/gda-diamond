@@ -27,14 +27,14 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-public class VertexFigure extends RectangleFigure implements MouseListener, MouseMotionListener{
+public class VertexFigure extends RectangleFigure implements MouseListener, MouseMotionListener {
 
-	protected Point location;
-	private ROIDragFigure roiFig;		
-	
+	private Point location;
+	private ROIDragFigure roiFig;
+
 	public VertexFigure(int i, ROIDragFigure roiFig) {
 		this.roiFig = roiFig;
-		setSize(i,i);
+		setSize(i, i);
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
@@ -49,39 +49,34 @@ public class VertexFigure extends RectangleFigure implements MouseListener, Mous
 		Dimension offset = newLocation.getDifference(location);
 		if (offset.width == 0 && offset.height == 0)
 			return;
-		location = newLocation;	
-		
+		location = newLocation;
+
 		UpdateManager updateMgr = getUpdateManager();
 		Rectangle bounds = getBounds();
-		updateMgr.addDirtyRegion(getParent(), bounds);		
-		
-		roiFig.vertexDragged(this, offset);
-		me.consume();		
-		
+		updateMgr.addDirtyRegion(getParent(), bounds);
+
+		roiFig.vertexDragged(offset);
+		me.consume();
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseHover(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -93,13 +88,10 @@ public class VertexFigure extends RectangleFigure implements MouseListener, Mous
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

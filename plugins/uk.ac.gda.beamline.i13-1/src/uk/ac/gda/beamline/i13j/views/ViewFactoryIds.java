@@ -19,5 +19,5 @@
 package uk.ac.gda.beamline.i13j.views;
 
 public class ViewFactoryIds {
-	public static String StatusViewID="uk.ac.gda.beamline.i13j.views.StatusView";
+	public static final String StatusViewID = "uk.ac.gda.beamline.i13j.views.StatusView";
 }

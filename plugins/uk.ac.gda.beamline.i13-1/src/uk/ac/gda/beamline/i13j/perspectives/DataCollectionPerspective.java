@@ -32,17 +32,13 @@ import uk.ac.gda.client.liveplot.LivePlotView;
 /**
  */
 public class DataCollectionPerspective implements IPerspectiveFactory {
-	
-	//Do not change - used in plugin.xml
+
+	// Do not change - used in plugin.xml
 	private static final String UK_AC_GDA_BEAMLINE_I13J_PERSPECTIVES_DATA_EXPLORER = "uk.ac.gda.beamline.i13j.perspectives.DataExplorer";
 
 	public final static String ID = "uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective";
 
 	private IPageLayout factory;
-
-	public DataCollectionPerspective() {
-		super();
-	}
 
 	@Override
 	public void createInitialLayout(IPageLayout factory) {
@@ -68,14 +64,13 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 
 		IFolderLayout right = factory.createFolder("right", IPageLayout.RIGHT, (float) 0.50, factory.getEditorArea()); //$NON-NLS-1$
 		right.addView(LivePlotView.ID);
-		
+
 		IFolderLayout rightBottom = factory.createFolder("rightBottom", IPageLayout.BOTTOM, (float) 0.50, "right");
 		rightBottom.addView("uk.ac.gda.beamline.i13j.DetectorPlot");
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view");
 		rightBottom.addPlaceholder("data.dispenser.browser");
 		rightBottom.addPlaceholder("org.eclipse.ui.browser.view:data.dispenser.browser");
 		rightBottom.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotViewDP");
-		
 
 		IFolderLayout middleBottom = factory.createFolder("middleBottom", // NON-NLS-1
 				IPageLayout.BOTTOM, 0.30f, factory.getEditorArea());
@@ -103,5 +98,4 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		factory.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 		factory.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 	}
-
 }

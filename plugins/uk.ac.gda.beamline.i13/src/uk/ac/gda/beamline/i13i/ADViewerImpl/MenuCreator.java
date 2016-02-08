@@ -66,7 +66,7 @@ public class MenuCreator extends Action implements IMenuCreator {
 		}
 	}
 
-	protected void addActionToMenu(Menu parent, Action action) {
+	private void addActionToMenu(Menu parent, Action action) {
 		ActionContributionItem item = new ActionContributionItem(action);
 		item.fill(parent, -1);
 	}

@@ -28,8 +28,7 @@ import uk.ac.gda.epics.adviewer.views.TwoDArrayView;
 
 public class I13PCOArrayView extends TwoDArrayView {
 
-	@SuppressWarnings("hiding")
-	final static String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView";
+	protected final static String Id = "uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView";
 
 	public I13PCOArrayView() {
 		super("i13");
@@ -39,15 +38,14 @@ public class I13PCOArrayView extends TwoDArrayView {
 	protected void createShowViewAction() {
 		List<IAction> actions = new Vector<IAction>();
 		{
-			actions.add(ADActionUtils.addShowViewAction("Show Stats", I13PCOHistogramView.Id, null,
-					"Show stats view for selected camera", uk.ac.gda.epics.adviewer.Activator.getHistogramViewImage()));
-			actions.add(ADActionUtils.addShowViewAction("Show MPeg", I13MJPegView.Id, null,
-					"Show MPeg view for selected camera", uk.ac.gda.epics.adviewer.Activator.getMJPegViewImage()));
+			actions.add(ADActionUtils.addShowViewAction("Show Stats", I13PCOHistogramView.Id, null, "Show stats view for selected camera",
+					uk.ac.gda.epics.adviewer.Activator.getHistogramViewImage()));
+			actions.add(ADActionUtils.addShowViewAction("Show MPeg", I13MJPegView.Id, null, "Show MPeg view for selected camera",
+					uk.ac.gda.epics.adviewer.Activator.getMJPegViewImage()));
 
 		}
 		for (IAction iAction : actions) {
 			getViewSite().getActionBars().getToolBarManager().add(iAction);
 		}
 	}
-
 }

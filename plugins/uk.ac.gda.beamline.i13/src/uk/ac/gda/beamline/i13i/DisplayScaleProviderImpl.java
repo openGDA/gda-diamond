@@ -21,32 +21,33 @@ package uk.ac.gda.beamline.i13i;
 import gda.observable.IObserver;
 import gda.observable.ObservableComponent;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 public class DisplayScaleProviderImpl implements DisplayScaleProvider, InitializingBean {
-	private static final Logger logger = LoggerFactory.getLogger(DisplayScaleProviderImpl.class);
-	public static final String NEWVAL = "NEWVAL";
-	ObservableComponent obsComp= new ObservableComponent();
-	double pixelsPerMMInX=100;
-	double pixelsPerMMInY=100;
-/*	double cameraStagePixelsPerMMInX=50;
-	double cameraStagePixelsPerMMInY=12.5;
-*/
-	DisplayScaleProvider currentProvider=this;
+	// private static final Logger logger = LoggerFactory.getLogger(DisplayScaleProviderImpl.class);
+	// public static final String NEWVAL = "NEWVAL";
+	private ObservableComponent obsComp= new ObservableComponent();
+	private double pixelsPerMMInX=100;
+	private double pixelsPerMMInY=100;
 
-//	Scannable keyScannable;
-//	Map<String , DisplayScaleProvider> providers;
+	// private double cameraStagePixelsPerMMInX=50;
+	// private double cameraStagePixelsPerMMInY=12.5;
+
+	private DisplayScaleProvider currentProvider = this;
+
+	// private Scannable keyScannable;
+	// private Map<String , DisplayScaleProvider> providers;
 
 	@Override
 	public void addIObserver(IObserver anIObserver) {
 		obsComp.addIObserver(anIObserver);
 	}
+
 	@Override
 	public void deleteIObserver(IObserver anIObserver) {
 		obsComp.deleteIObserver(anIObserver);
 	}
+
 	@Override
 	public void deleteIObservers() {
 		obsComp.deleteIObservers();
@@ -56,25 +57,29 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 	public double getPixelsPerMMInX() {
 		return pixelsPerMMInX;
 	}
+
 	public void setPixelsPerMMInX(double pixelsPerMMInX) {
 		this.pixelsPerMMInX = pixelsPerMMInX;
 	}
+
 	@Override
 	public double getPixelsPerMMInY() {
 		return pixelsPerMMInY;
 	}
+
 	public void setPixelsPerMMInY(double pixelsPerMMInY) {
 		this.pixelsPerMMInY = pixelsPerMMInY;
 	}
 
-	void getProvider() {
+	private void getProvider() {
 /*		if( keyScannable != null && providers != null){
 			String key = ((String[])keyScannable.getPosition())[0];
 			currentProvider= providers.get(key);
 		}*/
-		if( currentProvider == null)
+		if (currentProvider == null)
 			currentProvider = this;
 	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		getProvider();
@@ -92,9 +97,5 @@ public class DisplayScaleProviderImpl implements DisplayScaleProvider, Initializ
 				}
 			});
 		}*/
-
-
 	}
-
-
 }

@@ -70,7 +70,9 @@ public class I13MJPEGViewComposite extends Composite {
 /*	private EnumPositionerComposite regionSizeXComposite;
 	private EnumPositionerComposite regionSizeYComposite;
 */	private I13MJPegViewInitialiser i13MJPegViewInitialiser;
-	private Button btnDragX, btnDragY, btnDragROI;
+	private Button btnDragX;
+	private Button btnDragY;
+	// private Button btnDragROI;
 
 //	private Button btnVertMoveOnClick;
 
@@ -94,12 +96,12 @@ public class I13MJPEGViewComposite extends Composite {
 		fillDefaults.applyTo(this);
 		Composite top = new Composite(this, SWT.NONE);
 		top.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1));
-		
+
 		GridLayout topLayout = fillDefaults.create();
-		topLayout.numColumns=2;
+		topLayout.numColumns = 2;
 		top.setLayout(topLayout);
 		Composite c = new Composite(top, SWT.NONE);
-//		c.setLayout(new GridLayout(1, false));
+		// c.setLayout(new GridLayout(1, false));
 		fillDefaults.applyTo(c);
 
 		if (cf == null) {
@@ -122,14 +124,13 @@ public class I13MJPEGViewComposite extends Composite {
 		}
 		cf.createComposite(c, SWT.NONE);
 
-		
 		Composite rhs = new Composite(top, SWT.NONE);
 		fillDefaults.applyTo(rhs);
 
 		Composite scans = new Composite(rhs, SWT.NONE);
 		GridLayout scansLayout = fillDefaults.create();
-		scansLayout.numColumns=2;
-		scans.setLayout(scansLayout);		
+		scansLayout.numColumns = 2;
+		scans.setLayout(scansLayout);
 
 		Button showNormalisedImage = new Button(scans, SWT.PUSH);
 		showNormalisedImage.setToolTipText("Get Normalised Image");
@@ -196,13 +197,11 @@ public class I13MJPEGViewComposite extends Composite {
 
 					@Override
 					protected void okPressed() {
-						final String cmd = String.format(adControllerImpl.getShowNormalisedImageCmd(),
-								outBeamX.getText(), exposureTime.getText());
+						final String cmd = String.format(adControllerImpl.getShowNormalisedImageCmd(), outBeamX.getText(), exposureTime.getText());
 						try {
 							Queue queue = CommandQueueViewFactory.getQueue();
 							if (queue != null) {
-								queue.addToTail(new JythonCommandCommandProvider(cmd, "Running command '" + cmd + "'",
-										null));
+								queue.addToTail(new JythonCommandCommandProvider(cmd, "Running command '" + cmd + "'", null));
 								CommandQueueViewFactory.showView();
 							} else {
 								throw new Exception("Queue not found");
@@ -233,39 +232,34 @@ public class I13MJPEGViewComposite extends Composite {
 			}
 			openScanDlg.setText("Tomography\nScan...");
 		}
-		
-		
-		
+
 		Composite btnLens = new Composite(rhs, SWT.NONE);
 		GridLayout btnLensLayout = fillDefaults.create();
-		btnLensLayout.numColumns=5;
+		btnLensLayout.numColumns = 5;
 		btnLens.setLayout(btnLensLayout);
 
-		lensComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "Lens",
-				"Are you sure you want to change the camera lens to '%s'", 
-				"Changing lens", "tomodet.setCameraLens('%s')");
+		lensComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "Lens", "Are you sure you want to change the camera lens to '%s'", "Changing lens",
+				"tomodet.setCameraLens('%s')");
 		GridDataFactory.swtDefaults().applyTo(lensComposite);
-		binningXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Bin", 
-				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.",
-				"Changing bin x", null);
+		binningXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Bin",
+				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.", "Changing bin x", null);
 		GridDataFactory.swtDefaults().applyTo(binningXComposite);
-		binningYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Bin", 
-				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.",
-				"Changing bin y", null);
+		binningYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Bin",
+				"Are you sure you want to change the binning to '%s'. The detector will respond when acquisition is restarted.", "Changing bin y", null);
 		GridDataFactory.swtDefaults().applyTo(binningYComposite);
-/*		regionSizeXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Size", 
+/*		regionSizeXComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "H Size",
 				"Are you sure you want to change the region to '%s'. The detector will respond when acquisition is restarted.",
 				"Changing region x", null);
 		GridDataFactory.swtDefaults().applyTo(regionSizeXComposite);
-		regionSizeYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Size", 
+		regionSizeYComposite = new EnumPositionerComposite(btnLens, SWT.NONE, "V Size",
 				"Are you sure you want to change the region to '%s'. The detector will respond when acquisition is restarted.",
 				"Changing region y", null);
 		GridDataFactory.swtDefaults().applyTo(regionSizeYComposite);
 */
-		
+
 		grpDrag = new Group(rhs, SWT.NONE);
 		grpDrag.setText("Drag Axis");
-		grpDrag.setLayout(new FillLayout(SWT.HORIZONTAL));		
+		grpDrag.setLayout(new FillLayout(SWT.HORIZONTAL));
 		btnDragX = new Button(grpDrag, SWT.NORMAL);
 		btnDragX.setText("Sample x");
 		btnDragX.addSelectionListener(new SelectionAdapter() {
@@ -275,7 +269,7 @@ public class I13MJPEGViewComposite extends Composite {
 				updateStatus("Drag the image to the desired position - ESC to cancel.");
 				i13MJPegViewInitialiser.handleDragAxisBtn(true);
 			}
-			
+
 		});
 		btnDragY = new Button(grpDrag, SWT.NORMAL);
 		btnDragY.setText("Sample y");
@@ -286,7 +280,7 @@ public class I13MJPEGViewComposite extends Composite {
 				updateStatus("Drag the image to the desired position - ESC to cancel.");
 				i13MJPegViewInitialiser.handleDragAxisBtn(false);
 			}
-			
+
 		});
 
 /*		btnDragROI = new Button(grpDrag, SWT.NORMAL);
@@ -298,15 +292,15 @@ public class I13MJPEGViewComposite extends Composite {
 				updateStatus("Drag the ROI to the desired position/size - ESC to cancel or RET to complete");
 				i13MJPegViewInitialiser.handleDragROIBtn();
 			}
-			
+
 		});
-*/		
-		
+*/
+
 		statusField = new Label(this, SWT.NONE);
 		GridDataFactory.fillDefaults().applyTo(statusField);
 		statusField.setForeground(getDisplay().getSystemColor(SWT.COLOR_RED));
-		
-		Composite composite_2 = new Composite(this, SWT.NONE );
+
+		Composite composite_2 = new Composite(this, SWT.NONE);
 		composite_2.setLayout(new FillLayout(SWT.HORIZONTAL));
 		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		mJPeg = new MJPeg(composite_2, SWT.BORDER);
@@ -361,10 +355,7 @@ public class I13MJPEGViewComposite extends Composite {
 				}
 			}
 		});
-
 	}
-
-
 
 /*	protected void setVertMoveOnClick() {
 		if (i13MJPegViewInitialiser != null)
@@ -376,7 +367,6 @@ public class I13MJPEGViewComposite extends Composite {
 	}
 */
 
-
 	public void setADController(ADController adController, MJPegView mjPegView) {
 		if (!(adController instanceof I13ADControllerImpl)) {
 			throw new IllegalArgumentException("ADController must be of type I13ADControllerImpl");
@@ -386,16 +376,14 @@ public class I13MJPEGViewComposite extends Composite {
 		lensComposite.setEnumPositioner(adControllerImpl.getLensEnum());
 		binningXComposite.setEnumPositioner(adControllerImpl.getBinningXEnum());
 		binningYComposite.setEnumPositioner(adControllerImpl.getBinningYEnum());
-		
-		
-		if( adControllerImpl.getSampleCentringXMotor()==null){
+
+		if (adControllerImpl.getSampleCentringXMotor() == null) {
 			grpDrag.setVisible(false);
 		}
 /*		regionSizeXComposite.setEnumPositioner(adControllerImpl.getRegionSizeXEnum());
 		regionSizeYComposite.setEnumPositioner(adControllerImpl.getRegionSizeYEnum());
 */
 		mJPeg.setADController(adController);
-
 	}
 
 	public MJPeg getMJPeg() {
@@ -414,9 +402,8 @@ public class I13MJPEGViewComposite extends Composite {
 	}
 */
 
-
 	public void updateStatus(String status) {
 		statusField.setText(status);
-		statusField.getParent().layout();		
+		statusField.getParent().layout();
 	}
 }

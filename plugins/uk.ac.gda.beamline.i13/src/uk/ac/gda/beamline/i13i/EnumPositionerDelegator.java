@@ -39,15 +39,13 @@ import org.springframework.util.StringUtils;
 
 @CorbaImplClass(EnumpositionerImpl.class)
 @CorbaAdapterClass(EnumpositionerAdapter.class)
-public class EnumPositionerDelegator extends DeviceBase implements EnumPositioner, Localizable{
+public class EnumPositionerDelegator extends DeviceBase implements EnumPositioner, Localizable {
 	private static final Logger logger = LoggerFactory.getLogger(EnumPositionerDelegator.class);
-	Map<String, EnumPositioner> scannableMap;
-	EnumPositioner delegate;
-	ADBase adBase;
+	private Map<String, EnumPositioner> scannableMap;
+	private EnumPositioner delegate;
+	private ADBase adBase;
 	private String name;
-	
-	
-	
+
 	public void setScannableMap(Map<String, EnumPositioner> scannableMap) {
 		this.scannableMap = scannableMap;
 	}
@@ -56,196 +54,238 @@ public class EnumPositionerDelegator extends DeviceBase implements EnumPositione
 		this.adBase = adBase;
 	}
 
-	public EnumPositioner getDelegate()  {
-		if( delegate == null){
-			String cameraModel="";
+	public EnumPositioner getDelegate() {
+		if (delegate == null) {
+			String cameraModel = "";
 			try {
 				cameraModel = adBase.getModel_RBV();
 				delegate = scannableMap.get(cameraModel);
-				if( delegate == null){
-					logger.warn("Unable to find EnumPositioner for camera model " + StringUtils.quote(cameraModel) );
+				if (delegate == null) {
+					logger.warn("Unable to find EnumPositioner for camera model " + StringUtils.quote(cameraModel));
 				}
 			} catch (Exception e) {
 				logger.error("Error reading camera model '" + getName() + ".", e);
 			}
-			if( delegate == null){
-				logger.warn("Using default EnumPositioner for " + getName() );
-				delegate =scannableMap.values().toArray(new EnumPositioner[0])[0];
+			if (delegate == null) {
+				logger.warn("Using default EnumPositioner for " + getName());
+				delegate = scannableMap.values().toArray(new EnumPositioner[0])[0];
 			}
 		}
 		return delegate;
 	}
-	
+
 	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	@Override
 	public void reconfigure() throws FactoryException {
 		getDelegate().reconfigure();
 	}
+
 	@Override
 	public Object getPosition() throws DeviceException {
 		return getDelegate().getPosition();
 	}
+
 	@Override
 	public String getName() {
 		return name;
 	}
+
 	@Override
 	public void addIObserver(IObserver observer) {
 		getDelegate().addIObserver(observer);
 	}
+
 	@Override
 	public void setAttribute(String attributeName, Object value) throws DeviceException {
 		getDelegate().setAttribute(attributeName, value);
 	}
+
 	@Override
 	public String[] getPositions() throws DeviceException {
 		return getDelegate().getPositions();
 	}
+
 	@Override
 	public void deleteIObserver(IObserver observer) {
 		getDelegate().deleteIObserver(observer);
 	}
+
 	@Override
 	public String toString() {
 		return getDelegate().toString();
 	}
+
 	@Override
 	public EnumPositionerStatus getStatus() throws DeviceException {
 		return getDelegate().getStatus();
 	}
+
 	@Override
 	public void deleteIObservers() {
 		getDelegate().deleteIObservers();
 	}
+
 	@Override
 	public Object getAttribute(String attributeName) throws DeviceException {
 		return getDelegate().getAttribute(attributeName);
 	}
+
 	@Override
 	public void moveTo(Object position) throws DeviceException {
 		getDelegate().moveTo(position);
 	}
+
 	@Override
 	public void stop() throws DeviceException {
 		getDelegate().stop();
 	}
+
 	@Override
 	public void asynchronousMoveTo(Object position) throws DeviceException {
 		getDelegate().asynchronousMoveTo(position);
 	}
+
 	@Override
 	public void close() throws DeviceException {
 		getDelegate().close();
 	}
+
 	@Override
 	public void setProtectionLevel(int newLevel) throws DeviceException {
 		getDelegate().setProtectionLevel(newLevel);
 	}
+
 	@Override
 	public String checkPositionValid(Object position) throws DeviceException {
 		return getDelegate().checkPositionValid(position);
 	}
+
 	@Override
 	public int getProtectionLevel() throws DeviceException {
 		return getDelegate().getProtectionLevel();
 	}
+
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return getDelegate().isBusy();
 	}
+
 	@Override
 	public void waitWhileBusy() throws DeviceException, InterruptedException {
 		getDelegate().waitWhileBusy();
 	}
+
 	@Override
 	public boolean isAt(Object positionToTest) throws DeviceException {
 		return getDelegate().isAt(positionToTest);
 	}
+
 	@Override
 	public void setLevel(int level) {
 		getDelegate().setLevel(level);
 	}
+
 	@Override
 	public int getLevel() {
 		return getDelegate().getLevel();
 	}
+
 	@Override
 	public String[] getInputNames() {
 		return getDelegate().getInputNames();
 	}
+
 	@Override
 	public void setInputNames(String[] names) {
 		getDelegate().setInputNames(names);
 	}
+
 	@Override
 	public String[] getExtraNames() {
 		return getDelegate().getExtraNames();
 	}
+
 	@Override
 	public void setExtraNames(String[] names) {
 		getDelegate().setExtraNames(names);
 	}
+
 	@Override
 	public void setOutputFormat(String[] names) {
 		getDelegate().setOutputFormat(names);
 	}
+
 	@Override
 	public String[] getOutputFormat() {
 		return getDelegate().getOutputFormat();
 	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void atStart() throws DeviceException {
 		getDelegate().atStart();
 	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void atEnd() throws DeviceException {
 		getDelegate().atEnd();
 	}
+
 	@Override
 	public void atScanStart() throws DeviceException {
 		getDelegate().atScanStart();
 	}
+
 	@Override
 	public void atScanEnd() throws DeviceException {
 		getDelegate().atScanEnd();
 	}
+
 	@Override
 	public void atScanLineStart() throws DeviceException {
 		getDelegate().atScanLineStart();
 	}
+
 	@Override
 	public void atScanLineEnd() throws DeviceException {
 		getDelegate().atScanLineEnd();
 	}
+
 	@Override
 	public void atPointStart() throws DeviceException {
 		getDelegate().atPointStart();
 	}
+
 	@Override
 	public void atPointEnd() throws DeviceException {
 		getDelegate().atPointEnd();
 	}
+
 	@Override
 	public void atLevelMoveStart() throws DeviceException {
 		getDelegate().atLevelMoveStart();
 	}
+
 	@Override
 	public void atLevelStart() throws DeviceException {
 		getDelegate().atLevelStart();
 	}
+
 	@Override
 	public void atLevelEnd() throws DeviceException {
 		getDelegate().atLevelEnd();
 	}
+
 	@Override
 	public void atCommandFailure() throws DeviceException {
 		getDelegate().atCommandFailure();
 	}
+
 	@Override
 	public String toFormattedString() {
 		return getDelegate().toFormattedString();
@@ -254,7 +294,6 @@ public class EnumPositionerDelegator extends DeviceBase implements EnumPositione
 	@Override
 	public void setLocal(boolean local) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -266,8 +305,5 @@ public class EnumPositionerDelegator extends DeviceBase implements EnumPositione
 	@Override
 	public void configure() throws FactoryException {
 		// TODO Auto-generated method stub
-		
 	}
-	
-
 }
