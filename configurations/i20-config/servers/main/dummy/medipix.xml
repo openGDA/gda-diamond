@@ -100,12 +100,22 @@ imh 5/11/2015
 		</property>
 	</bean>
 
+	<!--  New plugin added to calculation roi counts over I1 from ionchambers. imh 4/2/2015 -->
+	<bean id="medipix_FFI0" 
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0">
+		<property name="roiName"    value="roistats1" />
+		<property name="counterTimer" ref="I1" />
+		<property name="i0_channel" value="1" />
+		<property name="nxDetector" ref="medipix" />
+	</bean>
+
 	<bean id="medipix" class="gda.device.detector.NXDetector">
 		<property name="name" value="medipix" />
 		<property name="collectionStrategy" ref="medipix_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
  				<ref bean="medipix_roistat_pair1" />
+ 				<ref bean="medipix_FFI0" />
 				<!-- <ref bean="medipix_roistat_pair2" /> <ref bean="medipix_roistat_pair3"
 					/> <ref bean="medipix_roistat_pair4" /> <ref bean="medipix_roistat_pair5"
 					/> <ref bean="medipix_roistat_pair6" /> -->
