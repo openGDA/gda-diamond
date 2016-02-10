@@ -16,8 +16,8 @@
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
     
-	<logger name="uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotWindowManager">
-        <level value="OFF"/>
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">
+        <level value="ERROR"/>
     </logger>
 
 </included>
