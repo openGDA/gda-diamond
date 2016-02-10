@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
+import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public abstract class EdeDetectorBase extends DetectorBase implements EdeDetector {
@@ -58,6 +59,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	private Integer[] pixels;
 	private boolean energyCalibrationSet;
 	private Roi[] rois=new Roi[EdeDetector.INITIAL_NO_OF_ROIS];
+
+	private DetectorSetupType detectorSetupType = DetectorSetupType.NOT_SET;
 
 	@Override
 	public void configure() throws FactoryException {
@@ -472,5 +475,15 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	@Override
 	public abstract String getOrbitWaitMethod();
+
+	@Override
+	public void setDetectorSetupType(DetectorSetupType detectorSetupType){
+		this.detectorSetupType = detectorSetupType;
+	}
+
+	@Override
+	public DetectorSetupType getDetectorSetupType() {
+		return detectorSetupType;
+	}
 
 }

@@ -79,6 +79,7 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -298,7 +299,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			createSnapShotGroup(form.getBody());
 
 			// Setup frelon specific UI elements.
-			if ( DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData ) {
+			if ( DetectorModel.INSTANCE.getCurrentDetector().getDetectorSetupType() == DetectorSetupType.FRELON ) {
 				createFrelonBinAndOffsetGroup(form.getBody());
 				initialiseFrelonUIComponents();
 			}

@@ -89,11 +89,12 @@ public class DetectorModel extends ObservableModel {
 	}
 
 	private void setupDetectors() {
-		for (DetectorSetup detectorSetup : DetectorSetup.values()) {
+		for (DetectorSetupType detectorSetup : DetectorSetupType.values()) {
 
 			Findable detector = Finder.getInstance().find(detectorSetup.getDetectorName());
 			if (detector != null && detector instanceof EdeDetector) {
 				EdeDetector ededetector = (EdeDetector) detector;
+				ededetector.setDetectorSetupType(detectorSetup);
 				availableDetectors.add(ededetector);
 			}
 		}
@@ -212,20 +213,6 @@ public class DetectorModel extends ObservableModel {
 
 	public ROIsSetObserver getRoisSetObserver() {
 		return roisSetObserver;
-	}
-
-	private static enum DetectorSetup {
-		// XH("xh"), XSTRIP("xstrip"), CCD("ccd");
-		XH("xh"), XSTRIP("xstrip"), FRELON("frelon");
-		private final String detectorName;
-
-		private DetectorSetup(String detectorName) {
-			this.detectorName = detectorName;
-		}
-
-		public String getDetectorName() {
-			return detectorName;
-		}
 	}
 
 	public static class EnergyCalibrationSetObserver extends ObservableModel implements IObserver {
