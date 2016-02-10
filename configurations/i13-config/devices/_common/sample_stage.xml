@@ -48,7 +48,7 @@ At ss1_samplex = 5 rot=0 then ss1_x should be 5 and ss1_z 0.
 At ss1_samplex = 5 rot=90 then ss1_x should be 0 and ss1_z 5.
     
  -->
-	<bean id="ss1_x" class="uk.ac.gda.beamline.i13i.ScannableRotatingGonio">
+	<bean id="ss1_x" class="gda.device.scannable.ScannableRotatingGonio">
 		<property name="xScannableMotor" ref="ss1_samplex"/>
 		<property name="yScannableMotor" ref="ss1_samplez"/>
 <!-- IF USING SMARTACT THEN SCALE IS 1.0 		<property name="xScannableScale" value="-1.0"/>	
@@ -59,7 +59,7 @@ At ss1_samplex = 5 rot=90 then ss1_x should be 0 and ss1_z 5.
 		<property name="rotScannableOffset" value="0"/>
 		<property name="inputNames" value="ss1_x"/>
 	</bean>
- 	<bean id="ss1_z" class="uk.ac.gda.beamline.i13i.ScannableRotatingGonio">
+ 	<bean id="ss1_z" class="gda.device.scannable.ScannableRotatingGonio">
 		<property name="xScannableMotor" ref="ss1_samplex"/>
 		<property name="yScannableMotor" ref="ss1_samplez"/>
 		<property name="rotScannableMotor" ref="ss1_rot"/>

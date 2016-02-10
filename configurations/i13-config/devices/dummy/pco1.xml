@@ -29,63 +29,23 @@
 			</util:map>
 		</property>
 	</bean>
-
-	<bean id="flyScanCollectionStrategy" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
-		<constructor-arg name="classToBeMocked"
-			value="gda.device.detector.nxdetector.NXCollectionStrategyPlugin" />
-		<constructor-arg name="properties">
-			<map>
-				<entry key="getName" value="flyScanCollectionStrategy" />
-			</map>
-		</constructor-arg>
+	
+	<bean id="flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredPCO">
+		<constructor-arg ref="simCamBase" />
+		<constructor-arg value=".001" />
+		<constructor-arg ref="simAdDriverPco1" />
+		<property name="etfg" ref="tfg"/>
+		<property name="triggerMode" value="EXTERNAL_ONLY"/>
 	</bean>
-
-	<bean id="flyScanFlatDarkCollectionStrategy" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
-		<constructor-arg name="classToBeMocked"
-			value="gda.device.detector.nxdetector.NXCollectionStrategyPlugin" />
-		<constructor-arg name="properties">
-			<map>
-				<entry key="getName" value="flyScanFlatDarkCollectionStrategy" />
-			</map>
-		</constructor-arg>
+	
+	<bean id="flyScanFlatDarkCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+		<constructor-arg ref="simCamBase" />
+		<constructor-arg ref="simAdDriverPco1" />
+		<constructor-arg value=".03" />
 	</bean>
-
-	<bean id="pco1_hdf5_filewriter" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
-		<constructor-arg name="classToBeMocked"
-			value="gda.device.detector.nxdetector.NXPlugin" />
-		<constructor-arg name="properties">
-			<map>
-				<entry key="getName" value="pco1_hdf5_filewriter" />
-			</map>
-		</constructor-arg>
-	</bean>
-
-	<bean id="pco1_hdf5_filewriter_nochunking" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
-		<constructor-arg name="classToBeMocked"
-			value="gda.device.detector.nxdetector.NXPlugin" />
-		<constructor-arg name="properties">
-			<map>
-				<entry key="getName" value="pco1_hdf5_filewriter_nochunking" />
-			</map>
-		</constructor-arg>
-	</bean>
-
-	<bean id="pco1_tif_writer" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
-		<constructor-arg name="classToBeMocked" value="gda.device.detector.nxdetector.NXPlugin" />
-		<constructor-arg name="properties">
-			<map>
-				<entry key="getName" value="pco1_tif_writer" />
-			</map>
-		</constructor-arg>
-	</bean>
-
-	<bean id="pco1_hw_tif" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
-		<constructor-arg name="classToBeMocked" value="gda.device.detector.NXDetector" />
-		<constructor-arg name="properties">
-			<map>
-				<entry key="getName" value="pco1_hw_tif" />
-			</map>
-		</constructor-arg>
-	</bean>	
+	
+	<alias name="simHdf5Filewriter" alias="pco1_hdf5_filewriter" />
+	<alias name="simHdf5Filewriter" alias="pco1_hdf5_filewriter_nochunking" />
+	<alias name="simTiffFilewriter" alias="pco1_tif_writer" />
 
 </beans>

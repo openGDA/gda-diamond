@@ -20,6 +20,7 @@ package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
 import gda.device.DeviceException;
 import gda.device.ScannableMotionUnits;
+import gda.device.displayscaleprovider.DisplayScaleProvider;
 import gda.device.scannable.ScannableUtils;
 import gda.observable.IObserver;
 
@@ -47,7 +48,6 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.epics.adviewer.composites.MJPeg;
 import uk.ac.gda.epics.adviewer.composites.imageviewer.NewImageListener;
 import uk.ac.gda.epics.adviewer.views.MJPegView;

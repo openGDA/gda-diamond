@@ -21,6 +21,7 @@ package uk.ac.gda.beamline.i13i.ADViewerImpl;
 import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.device.ScannableMotionUnits;
+import gda.device.displayscaleprovider.DisplayScaleProvider;
 import gda.jython.InterfaceProvider;
 import gda.rcp.views.CompositeFactory;
 
@@ -28,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
-import uk.ac.gda.beamline.i13i.DisplayScaleProvider;
 import uk.ac.gda.epics.adviewer.ADControllerImpl;
 
 public class I13ADControllerImpl extends  ADControllerImpl implements InitializingBean {

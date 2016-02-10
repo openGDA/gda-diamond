@@ -1,33 +1,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" 
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:p="http://www.springframework.org/schema/p" 
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="lens1"
-		class="gda.device.enumpositioner.DummyPersistentNamedEnumPositioner">
-		<property name="values">
-			<map>
-				<entry key="Direct" value="0.000" />
-				<entry key="X2 7mm x 5mm" value="1.0" />
-			</map>
-		</property>
-		<property name="startPositionName" value="Direct" />
-	</bean>
-
-	<bean id="lens" class="uk.ac.gda.beamline.i13i.EnumPositionerDelegator"
-		p:adBase-ref="pco1_cam_base">
-		<property name="scannableMap">
-			<map>
-				<entry key="PCOEdge" value-ref="lens1" />
-			</map>
+	<bean id="lens" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+			</list>
 		</property>
 	</bean>
 

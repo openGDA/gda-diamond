@@ -238,14 +238,14 @@
 
  	<import resource="../../../devices/_common/cameraScaleProviders.xml"/>
  	
-	<bean id="rotationAxisXScannable" class="uk.ac.gda.beamline.i13i.RotationAxisXScannable">
+	<bean id="rotationAxisXScannable" class="gda.device.scannable.RotationAxisXScannable">
 		<property name="sampleStageXScannable" ref="ss1_X" />
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
 		<property name="lensScannable" ref="lens"/>
 	</bean>
 
-	<bean id="cameraXYScannable" class="uk.ac.gda.beamline.i13i.CameraXYScannable">
+	<bean id="cameraXYScannable" class="gda.device.scannable.CameraXYScannable">
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="cameraStageYScannable" ref="cs1_y" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
