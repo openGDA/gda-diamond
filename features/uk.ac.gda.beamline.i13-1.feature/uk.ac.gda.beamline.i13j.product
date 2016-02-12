@@ -25,7 +25,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.root=/dls_sw/i13-1/software/gda/plugins
 -Dgda.config=/dls_sw/i13-1/software/gda/config
 -Dgda.dls-config=/dls_sw/i13/software/gda/workspace_git/gda-diamond.git/dls-config
--Dgda.propertiesFile=/dls_sw/i13-1/software/gda/config/properties/live/java.properties
+-Dgda.propertiesFile=/dls_sw/i13-1/software/gda/config/properties/live/live_instance_java.properties
 -Dgda.data=/dls/i13-1/data
 -Dgda.mode=live
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i13-1/software/gda/config/jca/live/JCALibrary.properties
@@ -83,6 +83,37 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
    <features>
       <feature id="uk.ac.gda.beamline.i13j.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.feature"/>
+      <feature id="org.eclipse.help"/>
+      <feature id="net.sf.py4j.defaultserver.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.httpclient4.ssl.feature"/>
+      <feature id="uk.ac.diamond.scisoft.gda.feature"/>
+      <feature id="uk.ac.gda.xmleditor.feature"/>
+      <feature id="org.eclipse.jdt"/>
+      <feature id="org.eclipse.emf.common"/>
+      <feature id="org.eclipse.equinox.p2.core.feature"/>
+      <feature id="org.dawb.eclipse.feature"/>
+      <feature id="org.dawnsci.common.services.feature"/>
+      <feature id="uk.ac.gda.client.excalibur.feature"/>
+      <feature id="uk.ac.diamond.scisoft.core.feature"/>
+      <feature id="org.eclipse.ecf.core.ssl.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.ssl.feature"/>
+      <feature id="org.dawnsci.plotting.feature"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.equinox.p2.user.ui"/>
+      <feature id="org.eclipse.equinox.p2.extras.feature"/>
+      <feature id="net.sf.py4j.feature"/>
+      <feature id="org.eclipse.richbeans.feature"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.ecf.core.feature"/>
+      <feature id="org.eclipse.equinox.p2.rcp.feature"/>
+      <feature id="org.eclipse.ecf.filetransfer.feature"/>
+      <feature id="org.python.pydev.feature"/>
+      <feature id="org.eclipse.platform"/>
+      <feature id="uk.ac.gda.diamond.feature"/>
+      <feature id="uk.ac.diamond.scisoft.ui.feature"/>
+      <feature id="uk.ac.gda.client.feature"/>
+      <feature id="org.eclipse.e4.rcp"/>
    </features>
 
 
