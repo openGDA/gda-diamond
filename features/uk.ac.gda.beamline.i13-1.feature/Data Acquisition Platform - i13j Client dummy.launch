@@ -23,7 +23,7 @@
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl}"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Declipse.pluginCustomization=${project_loc:i13j-config}/pluginCustomization.ini&#10;-Dentry=EntryGdaShipment&#10;-DidaEmbedded=yes&#10;-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true&#10;-Dgda.install.git.loc=${workspace_loc}/../workspace_git&#10;-Dgda.mode=dummy&#10;-Dgda.root=${project_loc:uk.ac.gda.core}/../&#13;&#10;-Dgda.config=${project_loc:i13j-config}&#10;-Dgda.dls-config=${project_loc:dls-config}&#10;-Dgda.facility.dir=${project_loc:dls-config}&#10;-Dgda.propertiesFile=${project_loc:i13j-config}/properties/dummy/dummy_instance_java.properties&#13;&#10;-Djacorb.config.dir=${project_loc:i13j-config}/dummy/jacorb&#13;&#10;-Dgov.aps.jca.JCALibrary.properties=${project_loc:i13j-config}/properties/dummy/JCALibrary.properties&#10;-Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live&#10;-Xms256m&#10;-Xmx1024m&#10;-XX:MaxPermSize=256m&#10;-XX:+DisableExplicitGC&#10;-XX:ErrorFile=${workspace_loc}/../gda_logs_non_live/hs_err_pid%p.log"/>
 <stringAttribute key="pde.version" value="3.3"/>
