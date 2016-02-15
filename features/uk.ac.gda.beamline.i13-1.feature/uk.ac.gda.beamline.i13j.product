@@ -22,7 +22,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Djacorb.config.dir=/dls_sw/i13-1/software/gda/config/properties/live/jacorb
 -Dgda.install.git.loc=/dls_sw/i13/software/gda/workspace_git
 -Dgda.install.workspace.loc=/dls_sw/i13/software/gda/workspace
--Dgda.root=/dls_sw/i13-1/software/gda/plugins
 -Dgda.config=/dls_sw/i13-1/software/gda/config
 -Dgda.facility.dir=/dls_sw/i13/software/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.propertiesFile=/dls_sw/i13-1/software/gda/config/properties/live/live_instance_java.properties
