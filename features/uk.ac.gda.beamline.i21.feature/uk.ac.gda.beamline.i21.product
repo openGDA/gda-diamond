@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Beamline I21" id="uk.ac.gda.beamline.i21.product" application="uk.ac.gda.client.application" version="9.0.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Beamline i21" uid="uk.ac.gda.beamline.i21.product" id="uk.ac.gda.beamline.i21.product" application="uk.ac.gda.client.application" version="9.0.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+      <text>
+         Diamond Beamline i21 
+
+Based on GDA See &lt;http://www.opengda.org/&gt;
+      </text>
    </aboutInfo>
 
    <configIni use="default">
@@ -13,9 +18,23 @@
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Xms512m
--Xmx1024m
--XX:MaxPermSize=1024m
+-Declipse.pluginCustomization=/dls_sw/i21/software/gda/config/pluginCustomization.ini
+-Djacorb.config.dir=/dls_sw/i21/software/gda/config/properties/live/jacorb
+-Dgda.install.git.loc=/dls_sw/i21/software/gda/workspace_git
+-Dgda.install.workspace.loc=/dls_sw/i21/software/gda/workspace
+-Dgda.config=/dls_sw/i21/software/gda/config
+-Dgda.facility.dir=/dls_sw/i21/software/gda/workspace_git/gda-diamond.git/dls-config
+-Dgda.propertiesFile=/dls_sw/i21/software/gda/config/properties/live/live_instance_java.properties
+-Dgda.data=/dls/i21/data
+-Dgda.mode=live
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i21/software/gda/config/properties/live/JCALibrary.properties
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Xms256m
+-Xmx2048m
+-XX:MaxPermSize=256m
+-XX:+DisableExplicitGC
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
@@ -24,9 +43,10 @@
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.beamline.i21" />
+      location="uk.ac.gda.beamline.i21"
+      handlerType="browser" />
    <launcher name="gda-i21">
-      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
       <solaris/>
       <win useIco="false">
          <bmp/>
@@ -41,7 +61,7 @@
    <license>
         <url>http://www.gnu.org/licenses/</url>
         <text>
-   Copyright © 2011 Diamond Light Source Ltd.
+   Copyright © 2016 Diamond Light Source Ltd.
 
 GDA is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License version 3 as published by the Free
