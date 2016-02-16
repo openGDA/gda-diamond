@@ -42,7 +42,20 @@
 		<property name="userUnits" value="mm"/>
 	</bean>
 	
-	
+	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1_xcenter" />
+				<ref bean="s1_xminus" />
+				<ref bean="s1_xplus" />
+				<ref bean="s1_xsize" />
+				<ref bean="s1_ycenter" />
+				<ref bean="s1_yminus" />
+				<ref bean="s1_yplus" />
+				<ref bean="s1_ysize" />
+			</list>
+		</property>
+	</bean>
 	
 </beans>
 

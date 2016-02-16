@@ -63,5 +63,20 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 	
+	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s4_xcenter" />
+				<ref bean="s4_xminus" />
+				<ref bean="s4_xplus" />
+				<ref bean="s4_xsize" />
+				<ref bean="s4_ycenter" />
+				<ref bean="s4_yminus" />
+				<ref bean="s4_yplus" />
+				<ref bean="s4_ysize" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>
 
