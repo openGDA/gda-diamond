@@ -48,10 +48,6 @@
 		<property name="motor" ref="dcm_id_detune_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	<bean id="dcm_mode" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL13I-OP-DCM-01:MODE" />
-	</bean>
-	
 
 	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -66,7 +62,6 @@
 				<ref bean="dcm_inboard_jack" />
 				<ref bean="dcm_beamline_energy" />
 				<ref bean="dcm_id_detune" />
-				<ref bean="dcm_mode" />
 			</list>
 		</property>
 	</bean>
