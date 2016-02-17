@@ -729,11 +729,6 @@ def _sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd,
 		# sent to the run file, whereas _rockScanParams (below) needs it to be the total number of images collected.
 		totalExposures = 2
 
-	from gda.device.scannable import VariableCollectionTimeDetector
-	if isinstance(detector, VariableCollectionTimeDetector):
-		detector.setCollectionTimeProfile([]) # VariableCollectionTimeDetector.
-	detector.getHardwareTriggerProvider().resetPointBeingPrepared() # ConstantVelocityMoveController2
-
 	mrs=MultiRegionScan()
 	for rockStart in rockStartPositions:
 		rockAngle = sweepAngle/2.
