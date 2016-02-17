@@ -32,6 +32,28 @@ try:
     d1 = DisplayEpicsPVClass("d1", "BL15J-EA-IAMP-02:CHA:PEAK", "mV", "%f")
     d2 = DisplayEpicsPVClass("d2", "BL15J-EA-IAMP-02:CHB:PEAK", "mV", "%f")
 
+    from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
+    from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
+    from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
+    from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
+    global cam1, cam2, bpm1, bpm2
+
+    def wrappedDetectorFactory(camdet):
+        try:
+            pdw_name, peak2d_name, max2d_name= camdet.name+"pdw", camdet.name+"Peak2d", camdet.name+"Max2d"
+            print "Creating %s, %s and %s detector wrappers" % (pdw_name, peak2d_name, max2d_name)
+            cam    = ProcessingDetectorWrapper   (pdw_name, camdet, [], panel_name='GigE Camera', panel_name_rcp='Plot 1')
+            peak2d = DetectorDataProcessorWithRoi(peak2d_name, cam, [TwodGaussianPeak()])
+            max2d  = DetectorDataProcessorWithRoi(max2d_name, cam, [SumMaxPositionAndValue()])
+            return cam, peak2d, max2d
+        except:
+            localStation_exception(sys.exc_info(), "creating %s detector wrappers" % camdet.name)
+
+    cam1pdw, cam1Peak2d, cam1Max2d  = wrappedDetectorFactory(cam1)
+    cam2pdw, cam2Peak2d, cam2Max2d2 = wrappedDetectorFactory(cam2)
+    bpm1pdw, bpm1Peak2d, bpm1Max2d3 = wrappedDetectorFactory(bpm1)
+    bpm2pdw, bpm2Peak2d, bpm1Max2d4 = wrappedDetectorFactory(bpm2)
+
 except:
     localStation_exception(sys.exc_info(), "in localStation")
 
