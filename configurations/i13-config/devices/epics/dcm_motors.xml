@@ -35,11 +35,13 @@
 		<property name="deviceName" value="dcm1.j3" />
 		<property name="local" value="true" />
 	</bean>
-
-<!--  No good as motor is not an Epics motor record DMOV is invalid		<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13I-OP-DCM-01:ENERGY.VAL" />
+	<bean id="dcm_beamline_energy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-OP-BEAM-01:ENERGY" />
 		<property name="local" value="true" />
 	</bean>
- -->
+	<bean id="dcm_id_detune_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-OP-BEAM-01:IDDETUNE" />
+		<property name="local" value="true" />
+	</bean>
 
 </beans>	

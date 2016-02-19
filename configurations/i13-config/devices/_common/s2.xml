@@ -41,6 +41,21 @@
 		<property name="motor" ref="s2_yminus_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
+	
+	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s2_xcenter" />
+				<ref bean="s2_xminus" />
+				<ref bean="s2_xplus" />
+				<ref bean="s2_xsize" />
+				<ref bean="s2_ycenter" />
+				<ref bean="s2_yminus" />
+				<ref bean="s2_yplus" />
+				<ref bean="s2_ysize" />
+			</list>
+		</property>
+	</bean>
 		
 </beans>
 
