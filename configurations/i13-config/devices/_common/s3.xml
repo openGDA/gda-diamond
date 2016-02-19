@@ -41,6 +41,21 @@
 		<property name="motor" ref="s3_yminus_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
+	
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3_xcenter" />
+				<ref bean="s3_xminus" />
+				<ref bean="s3_xplus" />
+				<ref bean="s3_xsize" />
+				<ref bean="s3_ycenter" />
+				<ref bean="s3_yminus" />
+				<ref bean="s3_yplus" />
+				<ref bean="s3_ysize" />
+			</list>
+		</property>
+	</bean>
 		
 </beans>
 

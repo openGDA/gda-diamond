@@ -75,7 +75,7 @@ try:
 	from gda.factory import Finder
 	from gda.configuration.properties import LocalProperties
 
-	from i13i_utilities import wd, cfn, nfn, pwd, nwd
+	from i13i_utilities import wd, cfn, nfn, pwd, nwd, send_email
 	alias("wd")
 	alias("cfn")
 	alias("nfn")
@@ -286,8 +286,85 @@ try:
 	from tomographyXGIScan import tomoXGIScan
 	import tomographyXGIScan2d
 	from tomographyXGIScan2d import tomoXGIScan2d
+	
 	from deben import *
 	deben_configure()
+	
+	from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks
+	def meta_add_i13i():
+		fname = meta_add_i13i.__name__
+		print "\n Adding scan meta-data items (to be recorded in every Nexus scan file as part of the before_scan group)..."
+		
+		# add meta-data scannables
+		meta_scannables = []
+		#meta_scannables.append(filter1)
+		#meta_scannables.append(filter2)
+		#meta_scannables.append(filter3)
+		#meta_scannables.append(filter4)
+		#meta_scannables.append(filter5)
+		meta_scannables.append(filters)
+		meta_scannables.append(id_gap)
+		meta_scannables.append(s1)
+		meta_scannables.append(s2)
+		meta_scannables.append(s3)
+		meta_scannables.append(s4)
+		
+		#for s in meta_scannables:
+		#	meta_add(s)
+		
+		# add meta-data texts
+		meta_texts_cam = {}
+		meta_texts_cam.update({"pco_cam_model": "BL13I-EA-DET-01:CAM:Model_RBV"})
+		try:
+			pco_cam_model_rbv = caget(meta_texts_cam["pco_cam_model"])
+			if "edge" in pco_cam_model_rbv.lower():
+				#meta_texts_cam.update({"focus_pco_edge_label": "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS"})
+				#meta_texts_cam.update({"focus_pco_edge": "BL13I-MO-STAGE-02:FOCUS2.RBV"})
+				meta_scannables.append(pco_edge_agg)
+			elif "4000" in pco_cam_model_rbv.lower():
+				#meta_texts_cam.update({"focus_pco_4000_label": "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS"})
+				#meta_texts_cam.update({"focus_pco_4000": "BL13I-MO-STAGE-02:FOCUS.RBV"})
+				meta_scannables.append(pco_4000_agg)
+			elif "dimax" in pco_cam_model_rbv.lower():
+				pass
+			else:
+				if pco_cam_model_rbv is not None:
+					print "Unsupported camera %s detected in %s!" %(pco_cam_model_rbv,fname)
+		except:
+			rbv = "caget failed"
+			rbv_ = rbv + " on %s!" %(v)
+			msg = "Error in %s: " %(fname)
+			exceptionType, exception, traceback = sys.exc_info()
+			handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
+		
+		meta_texts = {}
+		#meta_texts.update(meta_texts_cam)
+		#meta_texts.update({"filter_stick_1": "BL13I-OP-ATTN-01:STICK1:MP:RBV:CURPOS"})
+		#meta_texts.update({"filter_stick_2": "BL13I-OP-ATTN-01:STICK2:MP:RBV:CURPOS"})
+		#meta_texts.update({"filter_stick_3": "BL13I-OP-ATTN-01:STICK3:MP:RBV:CURPOS"})
+		#meta_texts.update({"filter_stick_4": "BL13I-OP-ATTN-01:STICK4:MP:RBV:CURPOS"})
+		#meta_texts.update({"filter_stick_5": "BL13I-OP-ATTN-01:STICK5:MP:RBV:CURPOS"})
+		
+		for k, v in meta_texts.iteritems():
+			try:
+				rbv = caget(v)
+			except:
+				rbv = "caget failed"
+				rbv_ = rbv + " on %s!" %(v)
+				msg = "Error in %s: " %(fname)
+				exceptionType, exception, traceback = sys.exc_info()
+				handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
+			meta_add(k, rbv)
+		
+		meta_scannables.append(filter_sticks)
+		for s in meta_scannables:
+			meta_add(s)
+		print "\n Finished adding scan meta-data items!"
+	
+	# add meta-data for all scans on this beamline
+	meta_add_i13i()
+	
+	
 except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)

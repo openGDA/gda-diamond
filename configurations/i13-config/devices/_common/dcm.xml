@@ -12,9 +12,6 @@
 		<property name="motor" ref="dcm_bragg_motor" />
 		<property name="userUnits" value="deg"/>
 	</bean>
-<!-- No good as motor is not an Epics motor record DMOV is invalid	<bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="dcm_energy_motor" />
-	</bean> -->
 	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_pitch_motor" />
 <!-- 		<property name="userUnits" value="deg"/>
@@ -43,6 +40,31 @@
 		<property name="motor" ref="dcm_inboard_jack_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	
+	<bean id="dcm_beamline_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_beamline_energy_motor" />
+		<property name="userUnits" value="keV"/>
+	</bean>
+	<bean id="dcm_id_detune" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_id_detune_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcm_bragg" />
+				<ref bean="dcm_pitch" />
+				<ref bean="dcm_roll" />
+				<ref bean="dcm_z" />
+				<ref bean="dcm_y" />
+				<ref bean="dcm_downstream_jack" />
+				<ref bean="dcm_upstream_jack" />
+				<ref bean="dcm_inboard_jack" />
+				<ref bean="dcm_beamline_energy" />
+				<ref bean="dcm_id_detune" />
+			</list>
+		</property>
+	</bean>
+
 </beans>
 
