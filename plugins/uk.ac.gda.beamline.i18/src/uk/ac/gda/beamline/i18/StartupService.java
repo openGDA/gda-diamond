@@ -18,9 +18,11 @@
 
 package uk.ac.gda.beamline.i18;
 
-import org.eclipse.ui.IStartup;
-
 import gda.configuration.properties.LocalProperties;
+
+import org.eclipse.ui.IStartup;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.contexts.IContextService;
 
 /**
  * Setting up the data prior to other views connecting to it.
@@ -29,6 +31,10 @@ public class StartupService implements IStartup {
 
 	@Override
 	public void earlyStartup() {
+
+		IContextService contextService = PlatformUI.getWorkbench().getService(IContextService.class);
+
+		contextService.activateContext("I18 product");
 
 		if (!LocalProperties.get("gda.factory.factoryName").equals("i18_local"))
 			return;

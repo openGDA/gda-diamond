@@ -19,8 +19,6 @@
 package uk.ac.gda.beamline.i18;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -49,10 +47,6 @@ public class I18BeamlineActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-
-		IContextService contextService = (IContextService) PlatformUI.getWorkbench().getService(IContextService.class);
-
-		contextService.activateContext("I18 product");
 	}
 
 	/*
