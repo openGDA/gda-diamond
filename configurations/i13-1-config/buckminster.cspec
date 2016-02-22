@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i13j-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
+        <cs:dependency name="diffcalc" componentType="buckminster"/>
         <cs:dependency name="dls-config" componentType="buckminster"/>
         <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.emf.common" componentType="osgi.bundle"/>
@@ -7,11 +8,11 @@
         <cs:dependency name="org.gda.tango" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.beamline.i13j" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i13j.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.client.excalibur.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.devices.excalibur" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
-        <cs:dependency name="diffcalc" componentType="buckminster"/>
     </cs:dependencies>
 </cs:cspec>
