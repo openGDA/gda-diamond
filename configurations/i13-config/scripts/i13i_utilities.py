@@ -411,35 +411,4 @@ except Exception, ex:
 #pco_edge_aggregate = StringListDisplayEpicsPVClass("pco_edge_aggregate", ["pco_cam_model", "pco_edge_focus_label", "pco_edge_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS", "BL13I-MO-STAGE-02:FOCUS2.RBV"])
 #pco_4000_aggregate = StringListDisplayEpicsPVClass("pco_4000_aggregate", ["pco_cam_model", "pco_4000_focus_label", "pco_4000_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS", "BL13I-MO-STAGE-02:FOCUS.RBV"])
 
-
-def get_dcm_mode():
-    pass
-
-def set_dcm_mode(mode, wait_sec=3., nattempts=32):
-    # create a class dcm_control with appropriate methods 
-    # early out in set_dcm_mode if already in the requested mode
-    # display BL13I-OP-DCM-01:MODE:RBV as feedback
-    # tell the user if nattempts is exceeded
-    # at the end of set_dcm_mode, report: OLD: old_mode/ NEW: new_mode (similar to output from caput in EPICS) (report any errors in the output from set_dcm_mode)
-    # consider monitoring a list of motors for isBusy before executing the while final loop (including BL13I-OP-DCM-01:Y.RBV BL13I-OP-DCM-01:Z.RBV BL13I-OP-DCM-01:BRAGG.RBV BL13I-OP-DCM-01:PERPOFFSET.RBV)
-    # tell the user about valid imput modes, if an invalid mode is entered
-    mode = mode.strip()
-    if (mode.lower() == 'pink'):
-        pv = "BL13I-OP-DCM-01:MODE:GOTOPINK"
-    elif (mode.lower() == 'mono'):
-        pv = "BL13I-OP-DCM-01:MODE:GOTOMONO"
-    else:
-        print 'Invalid input value for DCM mode: %s!' %(mode)
-        return
-    try:
-        caput(pv, 1)
-        attempt = 0
-        while (caget(pv) == 'Busy' and attempt < nattempts):
-            sleep(wait_sec)
-            attempt += 1
-        if attempt == nattempts:
-            print "Timed out on attempt %i (with wait interval of %f)" %(attempt, wait_size) 
-    except Exception, ex:
-        print "Error in set_dcm_mode: %s!" %(str(ex))
-
 print "Finished running i13i_utilities.py!"
