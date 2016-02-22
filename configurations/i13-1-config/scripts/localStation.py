@@ -347,10 +347,10 @@ import excalibur_config
 #bm_topup = TopupCountdown("bm_topup")
 
 #	caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
-if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
-	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
-if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
+#if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
+#	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
+#if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+#	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
 
 
 createPVScannable( "afg_chan1_ampl", "BL13J-EA-FNGEN-01:CHAN1:AMPLITUDE", hasUnits=False)
@@ -358,8 +358,8 @@ createPVScannable( "afg_chan1_ampl", "BL13J-EA-FNGEN-01:CHAN1:AMPLITUDE", hasUni
 createPVScannable( "afg_chan1_state", "BL13J-EA-FNGEN-01:CHAN1:OUTPUT:STATE", hasUnits=False, getAsString=True)
 # pos afg_chan1_state "On"
 
-import alignmentGui
-tomodet = alignmentGui.TomoDet()
+#import alignmentGui
+#tomodet = alignmentGui.TomoDet()
 
 import tomographyScan
 from tomographyScan import reportTomo, showNormalisedImage
@@ -374,38 +374,12 @@ print "stxm_det - end"
 
 from trigger import trigz2
 
+import tomographyXGIScan
+from tomographyXGIScan import tomoXGIScan
+import tomographyXGIScan2d
+from tomographyXGIScan2d import tomoXGIScan2d
+
 run("localStationUser.py")
 
-import time
-def fastshutter_test(posn, itersleep=1, niter=30):
-	failed = True
-	if posn=="Open" or posn=="Close" or posn=="Closed":
-		_posn_out_dct = {"Open": "Open", "Close": "Closed", "Closed": "Closed"}
-		pos expt_fastshutter posn
-		cnt = 0
-		failed = True
-		while failed and (cnt < niter):
-			posn_out=expt_fastshutter.getPosition()
-			if posn_out==_posn_out_dct[posn]:
-				failed = False
-				print "Shutter found in the desired position %s on count %i" %(_posn_out_dct[posn], cnt)
-			else:
-				cnt += 1
-				time.sleep(itersleep)
-				print " %i zzz..." %(cnt)
-	else:
-		print("Unsupported shutter position: %s" %(posn))
-	return (not failed)
-
-def fastshutter_ntests(ntests, testsleep=1, itersleep=1, niter=30):
-	_posn_toggle_dct = {"Open": "Closed", "Close": "Open", "Closed": "Open"}
-	for i in range(ntests):
-		posn_curr=expt_fastshutter.getPosition()
-		success = fastshutter_test(_posn_toggle_dct[posn_curr], itersleep, niter)
-		if not success:
-			print "Tests failed while changing shutter position from %s to %s on test %i (of %i)" %(posn_curr, _posn_toggle_dct[posn_curr], (i+1), ntests)
-			break
-		time.sleep(testsleep)
-	print("Finished shutter tests on test %i - bye!" %(i+1))
 #8/4/2014 pie725 not present
 #run("startup_pie725")

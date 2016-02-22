@@ -194,7 +194,16 @@ def reportJythonNamespaceMapping():
     objectOfInterestSTEP['tomography_detector'] = jns.tomography_detector
     objectOfInterestSTEP['tomography_beammonitor'] = jns.tomography_beammonitor
 
-    msg = "\n These mappings can be changed by editing a file named jythonNamespaceMapping, "
+    objectOfInterestXGI = {}
+    objectOfInterestXGI['tomography_detector'] = jns.tomography_detector
+    objectOfInterestXGI['tomography_theta'] = jns.tomography_theta
+    objectOfInterestXGI['tomography_translation'] = jns.tomography_translation
+    objectOfInterestXGI['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterestXGI['tomography_grating_translation'] = jns.tomography_grating_translation
+    objectOfInterestXGI['tomography_grating_translation_outer'] = jns.tomography_grating_translation_outer
+    objectOfInterestXGI['tomography_grating_translation_inner'] = jns.tomography_grating_translation_inner
+
+    msg = "\n These mappings can be changed by editing a file named live_jythonNamespaceMapping, "
     msg += "\n located in Scripts: Config/src (this can be done by beamline staff).\n"
 
     print "****** STEP-SCAN PRIMARY SETTINGS ******"
@@ -205,8 +214,19 @@ def reportJythonNamespaceMapping():
             name = str(val.getName())
         print "%i. %s = %s" %(idx, key, name)
         idx += 1
-    print msg
+    print "\n"
 
+    print "****** XGI-SCAN PRIMARY SETTINGS ******"
+    idx=1
+    for key, val in objectOfInterestXGI.iteritems():
+        name = "object undefined!"
+        if val is not None:
+            name = str(val.getName())
+        reportln = "%i. %s = %s" %(idx,key,name)
+        #print `idx` + "."+ key + ' = ' + name
+        print reportln
+        idx += 1
+    print msg
 
 def reportTomo():
     return reportJythonNamespaceMapping()
@@ -551,7 +571,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
                 raise msg
             else:
                 print "%s = %s" %(k, eval("%s.getName()" %(k)))
-        return
+        #return
 
 #        if tomography_detector is None:
 #	        tomography_detector=jns.tomography_detector
