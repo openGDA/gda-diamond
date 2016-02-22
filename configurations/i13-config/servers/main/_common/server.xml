@@ -213,6 +213,7 @@
 	<import resource="../../../devices/_common/zebra.xml" />
 	<import resource="../../../devices/_common/p2r.xml" />
 	<import resource="../../../devices/_common/deben_rig.xml"/>
+	<import resource="../../../devices/_common/pco_binning.xml"/>
 
 
 	<!--  dummy motors for testing tomoscan  -->
