@@ -10,6 +10,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.LinearAlgebra as LA
 from org.eclipse.dawnsci.analysis.dataset.impl import LongDataset
 import traceback
 import math
+import re
 
 #Copied from Python documentation since Jython does have this yet (added to Python in 2.6)
 def cartesian_product(*args, **kwds):
@@ -349,15 +350,14 @@ class I16NexusExtender(DataWriterExtenderBase):
         self.writeDetectorModule(nFile, group, name, detDependsOn)
         self.writeDetectorProperties(nFile, group, name)
 
-    def writeTifPaths(self, nFile, group, detName, filePath):
-        template = "%s%05d.tif"
+    def writeTifPaths(self, nFile, group, detName, fileTemplate):
         numberDataset = nFile.getData(group, "path").getDataset().getSlice()
         dimensions = numberDataset.shape
         length = 1
         for d in dimensions:
             length *= d
         numberDataset.resize([length])
-        paths = [ template % (filePath, n) for n in numberDataset.getBuffer() if n > 0 ]
+        paths = [ fileTemplate % n for n in numberDataset.getBuffer() if n > 0 ]
         pathDataset = DF.createFromObject(paths)
         #for some reason, jython cannot pass a java array to a java method that expects a java array (via varargs)
         pathDataset.resize(dimensions.tolist())
@@ -372,8 +372,11 @@ class I16NexusExtender(DataWriterExtenderBase):
             detGroup = nFile.getGroup(instrument, detName, "NXdetector", False)
             self.writeDetector(nFile, detGroup, detName, dependsOn)
             if isinstance(det, ProcessingDetectorWrapper):
-                path = det.getFilepathRelativeToRootDataDir().split('/')[0] + "/"
-                self.writeTifPaths(nFile, detGroup, detName, path)
+                #path = det.getFilepathRelativeToRootDataDir().split('/')[0] + "/"
+                pathTemplate = det.getFilepathRelativeToRootDataDir()
+                #remove the "last" instance of 5 digits with "%05d" for template purposes
+                pathTemplate = re.sub("[0-9]+", "%05d"[::-1], pathTemplate[::-1], 1)[::-1]
+                self.writeTifPaths(nFile, detGroup, detName, pathTemplate)
 
     def parseCrystalInfo(self, nFile, metadataGroup):
         xtalinfo = nFile.getGroup(metadataGroup, "xtalinfo", "NXcollection", False)
