@@ -5,6 +5,7 @@ from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
 from gda.jython.commands import GeneralCommands
+
 class ExperimentShutterEnumPositioner(ScannableBase):
 	"""
 	Class to handle 
@@ -64,7 +65,7 @@ def interruptable():
 try:
 	from gda.device import Scannable
 	from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
-	
+
 	from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform, ls_pv_scannables
 	alias("ls_pv_scannables")
 
@@ -150,6 +151,9 @@ try:
 
 			#make the lens re-read its list of positions following setting them in EPICS above
 			lens.initializationCompleted()
+
+			from dcm_energy_mode import DcmEnergyMode
+			energy_mode = DcmEnergyMode()
 
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
@@ -286,7 +290,7 @@ try:
 	from deben import *
 	deben_configure()
 	
-	from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks
+	from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks, xray_mode
 	def meta_add_i13i():
 		fname = meta_add_i13i.__name__
 		print "\n Adding scan meta-data items (to be recorded in every Nexus scan file as part of the before_scan group)..."
@@ -353,6 +357,7 @@ try:
 			meta_add(k, rbv)
 		
 		meta_scannables.append(filter_sticks)
+		meta_scannables.append(xray_mode)
 		for s in meta_scannables:
 			meta_add(s)
 		print "\n Finished adding scan meta-data items!"

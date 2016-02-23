@@ -23,7 +23,6 @@ class DcmEnergyMode:
         self.modecontrol = self.ModeControl('BL13I-OP-DCM-01:MODE')
 
         # The real motors that move when mode is changed
-        # TODO: Verify which motors move
         self.motors = ['BL13I-OP-DCM-01:Y', 'BL13I-OP-DCM-01:Z',
                        'BL13I-OP-DCM-01:BRAGG', 'BL13I-OP-DCM-01:PERPOFFSET']
 
@@ -38,7 +37,7 @@ class DcmEnergyMode:
 
         # early out if already in the requested mode
         if (mode.lower() == current_mode.lower()):
-            print 'DCM energy mode is already ' + mode
+            print 'DCM energy mode is already', mode
             return
         
         if (mode.lower() == 'pink'):
@@ -52,10 +51,10 @@ class DcmEnergyMode:
 
         try:
             caput(move_pv, 1)
-
+            sleep(wait_sec) # give Epics time to start up
             result = self.waitForCompletion('setting energy mode', wait_sec, nattempts)
             if (result == 'Success'):
-                print 'energy mode control moved OLD: ' + current_mode + ' NEW: ' + mode
+                print 'energy mode control moved OLD: %s NEW: %s' %(current_mode) %(mode)
 
         except Exception, ex:
             print 'Error in DcmEnergyMode.set_mode: %s!' %(str(ex))
@@ -73,10 +72,15 @@ class DcmEnergyMode:
         attempt = 0
 
         while (attempt < nattempts):
-            if (self.get_mode() == 'Error'):
-                print 'Error in', action
+            if (self.get_mode() == 'Invalid'):
+                print 'Invalid state in', action
                 self.report()
-                return 'Error'
+                return 'Invalid'
+            
+            for motor in self.motors:
+                if (self.get_motor_severity(motor) != 'NO_ALARM'):
+                    print 'motor %s is in error state' %(motor)
+                    return 'Invalid'
             
             if (self.isBusy()):
                 sleep(wait_sec)
@@ -93,25 +97,28 @@ class DcmEnergyMode:
 
     def isBusy(self):
         # Check the mode control first
-        if (self.get_mode() == 'Busy'):
+        if (self.get_mode().startswith('Moving')):
             return True
         
         # To be safe, check that the motors have stopped moving
         for motor in self.motors:
-            if (self.get_motor_state(motor) == 'Busy'):
+            if (self.get_motor_state(motor) == '0'):
                 return True
              
         return False
 
-
     def get_motor_state(self, motor):
-        # TODO: verify what PV we need to check
+        # DMOV returns 0 if motor is moving, 1 if not
         return caget(motor + '.DMOV')
+
+    def get_motor_severity(self, motor):
+        return caget(motor + '.SEVR')
 
     
     def report(self):
-        print '========================================='
-        print 'Mode control: ' + self.get_mode()
+        print '==================================================================================='
+        print 'Mode control:', self.get_mode()
+        print 'Busy:', self.isBusy()
         for motor in self.motors:
-            print motor + ': ' + caget(motor + ":RBV")
-        print '========================================='
+            print motor,': RBV:', caget(motor + ".RBV"), ', DMOV:', self.get_motor_state(motor), ', SEVR:', self.get_motor_severity(motor)
+        print '==================================================================================='

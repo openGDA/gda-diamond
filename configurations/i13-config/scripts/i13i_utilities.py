@@ -372,6 +372,8 @@ filter_stick_3 = StringDisplayEpicsPVClass("filter_stick_3", "BL13I-OP-ATTN-01:S
 filter_stick_4 = StringDisplayEpicsPVClass("filter_stick_4", "BL13I-OP-ATTN-01:STICK4:MP:RBV:CURPOS")
 filter_stick_5 = StringDisplayEpicsPVClass("filter_stick_5", "BL13I-OP-ATTN-01:STICK5:MP:RBV:CURPOS")
 
+xray_mode = StringDisplayEpicsPVClass("xray_mode", "BL13I-OP-DCM-01:MODE:RBV")
+
 try:
     pco_edge_agg = ScannableGroup()
     pco_edge_agg.setName("pco_edge_agg")
