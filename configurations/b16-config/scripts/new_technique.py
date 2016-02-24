@@ -44,7 +44,7 @@ def loadImageStack(pathList):
 	print "Creating image stack [images][height][width] = [%i][%i][%i]" % (len(pathList), height, width)
 	for i in range(len(pathList)):
 		image = loadImage(pathList[i])
-		RCPPlotter.plotImage('Pilatus Plot', image)
+		RCPPlotter.imagePlot('Pilatus Plot', image)
 		image.shape = [1, height, width]
 		imagestack[i:i+1,:,:] = image
 	return imagestack 
