@@ -34,6 +34,7 @@ class ImageUtility(object):
 
 	def loadDataFromFile(self, fileName, fileLoader):
 		if fileLoader is None:
+			import os
 			fileLoader = GDA_FILELOADERS[os.path.splitext(fileName)[-1].upper()];
 
 		print fileName

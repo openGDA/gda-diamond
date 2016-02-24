@@ -9,7 +9,7 @@ import math
 
 from gda.analysis.io import PNGLoader, PNGSaver, JPEGLoader, TIFFImageLoader
 from gda.analysis import ScanFileHolder
-from gda.analysis import DataSet;
+from org.eclipse.dawnsci.analysis.dataset.impl import Maths as DatasetMaths
 
 GDA_FILELOADERS={
 			'TIF':TIFFImageLoader,
@@ -95,7 +95,7 @@ class PeemImageClass(object):
 		datasetRho = DatasetMaths.sqrt( DatasetMaths.power(datasetX, 2) + DatasetMaths.power(datasetY, 2) );
 		datasetTheta=DatasetMaths.arctan2(datasetY, datasetX);
 
-		datasetThetaInDegree = DatasetMaths.rad2deg(datasetTheta);
+		datasetThetaInDegree = DatasetMaths.toDegrees(datasetTheta);
 		
 		return [datasetRho, datasetThetaInDegree];
 	

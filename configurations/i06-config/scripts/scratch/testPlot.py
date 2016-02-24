@@ -12,7 +12,6 @@ from gda.analysis.io import JPEGLoader, TIFFImageLoader
 from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
 
 from gda.analysis import ScanFileHolder
-from gda.analysis import DataSet;
 
 # scan testMotor1 -2*math.pi 2*math.pi 0.1 PlotXY("testMotor1",["math.sin(testMotor1)+random.random()"]), dummyCounter 0.1
 
@@ -33,7 +32,7 @@ amb = AxisMapBean(AxisMapBean.FULL)           # create new FULL axis mapping bea
 amb.setAxisID([AxisMapBean.XAXIS])
 
 # list the axis datasets' names
-scalar = DataSetWithAxisInformation()         # create data and axis-mapping container
+scalar = DatasetWithAxisInformation()         # create data and axis-mapping container
 scalar.setAxisMap(amb)                        # set axis-mapping (NB need to set this before setting data)
 scalar.setData(yaxis)                         # set data
 

@@ -4,14 +4,11 @@ from gda.device import Detector;
 
 from gda.analysis.io import JPEGLoader, TIFFImageLoader
 from gda.analysis import ScanFileHolder
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.dawnsci.analysis.dataset.impl import Dataset, DoubleDataset
 from uk.ac.diamond.scisoft.analysis.dataset.function import MakeMask;
 from gda.analysis import RCPPlotter;
 
 import os;
-
-from java.lang import IllegalArgumentException;
-from java.util import ArrayList;
 
 
 #Introduce the script logger
@@ -107,7 +104,7 @@ class DetectorAnalyserClass(PseudoDevice):
 			else:
 				self.filename = None;
 				ds = self.detector.readout();
-				if isinstance(ds, DataSet):
+				if isinstance(ds, Dataset):
 					self.dataset = ds;
 				else:
 					self.dataset = None;
@@ -157,7 +154,7 @@ class DetectorAnalyserClass(PseudoDevice):
 #		arrayListDataset = ArrayList(dataset.exec(maskMaker));
 #		self.mask=DataSet(arrayListDataset.get(0));
 
-		self.mask = DoubleDataset( ArrayList(dataset.exec(maskMaker)).get(0) );
+		self.mask = DoubleDataset(maskMaker.value(dataset).get(0))
 		return self.mask;
 
 	def applyMask(self, mask=None, dataset=None):
