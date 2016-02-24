@@ -1,11 +1,8 @@
 
-from gda.analysis.io import JPEGLoader, TIFFImageLoader, ScanFileHolderException, ConvertedTIFFImageLoader
-from gda.analysis.io import PilatusTiffLoader
+from gda.analysis.io import JPEGLoader, TIFFImageLoader
 
 from gda.analysis import ScanFileHolder
 
-
-from java.lang import IllegalArgumentException;
 
 from gda.analysis import RCPPlotter;
 
@@ -39,17 +36,8 @@ class ImageUtility(object):
 		if fileLoader is None:
 			fileLoader = GDA_FILELOADERS[os.path.splitext(fileName)[-1].upper()];
 
-		if fileLoader is TIFFImageLoader:
-			# We have a backup loader for TIFF loading
-			try:
-				self.data.load(fileLoader(fileName));
-			except IllegalArgumentException:
-				# Try the converted tiff loader instead
-				self.data.load(ConvertedTIFFImageLoader(fileName, 'uint16', 'none'))
-		else:
-			# No backup loader required	
-			print fileName
-			self.data.load(fileLoader(fileName));
+		print fileName
+		self.data.load(fileLoader(fileName));
 
 		return self.data;
 

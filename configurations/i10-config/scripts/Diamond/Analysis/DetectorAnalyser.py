@@ -2,7 +2,7 @@
 from gda.device.scannable import PseudoDevice;
 from gda.device import Detector;
 
-from gda.analysis.io import JPEGLoader, TIFFImageLoader, ConvertedTIFFImageLoader
+from gda.analysis.io import JPEGLoader, TIFFImageLoader
 from gda.analysis import ScanFileHolder
 from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 from uk.ac.diamond.scisoft.analysis.dataset.function import MakeMask;
@@ -78,21 +78,8 @@ class DetectorAnalyserClass(PseudoDevice):
 			fileLoader = GDA_FILELOADERS[os.path.splitext(fileName)[-1].upper()];
 
 	#	print "loadIntoSfh loading: %s using %s" % (fileName, str(iFileLoader))
-		if fileLoader is ConvertedTIFFImageLoader:
-			# This requires a special call
-			self.data.load(fileLoader(fileName, 'uint16', 'none'))  # Bodge to work with xray eye
-		else:
-			if fileLoader is TIFFImageLoader:
-				# We have a backup loader for TIFF loading
-				try:
-					self.data.load(fileLoader(fileName));
-				except IllegalArgumentException:
-					# Try the converted tiff loader instead
-					self.data.load(ConvertedTIFFImageLoader(fileName, 'uint16', 'none'))
-			else:
-				# No backup loader required	
-				print fileName
-				self.data.load(fileLoader(fileName));
+		print fileName
+		self.data.load(fileLoader(fileName));
 
 		return self.data;
 

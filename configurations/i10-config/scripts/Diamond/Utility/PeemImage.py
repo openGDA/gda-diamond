@@ -6,9 +6,8 @@ import math
 
 
 #from gda.analysis.datastructure import *
-from gda.analysis import *
 
-from gda.analysis.io import PNGLoader, PNGSaver, JPEGLoader, TIFFImageLoader, ScanFileHolderException, ConvertedTIFFImageLoader
+from gda.analysis.io import PNGLoader, PNGSaver, JPEGLoader, TIFFImageLoader
 from gda.analysis import ScanFileHolder
 from gda.analysis import DataSet;
 
