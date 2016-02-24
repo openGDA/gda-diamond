@@ -1,5 +1,5 @@
 from temporarySrsReader import createSrsPath, readSrsDataFile
-from gda.analysis.io import JPEGLoader, TIFFImageLoader, ConvertedTIFFImageLoader
+from gda.analysis.io import JPEGLoader, TIFFImageLoader
 from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
 from gda.analysis import ScanFileHolder
 from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset

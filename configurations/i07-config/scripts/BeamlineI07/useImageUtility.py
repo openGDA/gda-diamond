@@ -1,6 +1,6 @@
 from Diamond.Utility.Image import ImageUtility
 
-from gda.analysis.io import JPEGLoader, TIFFImageLoader, ConvertedTIFFImageLoader, PilatusTiffLoader;
+from gda.analysis.io import JPEGLoader, TIFFImageLoader, PilatusTiffLoader;
 from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
 
 image=ImageUtility("Area Detector", iFileLoader=PilatusTiffLoader);
