@@ -100,8 +100,10 @@ public class SingleSpectrumScan extends EdeExperiment {
 
 	@Override
 	public EdeExperimentDataWriter createFileWritter() {
-		return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
-				i0DarkScan, itDarkScan, theDetector);
+		//return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
+		//		i0DarkScan, itDarkScan, theDetector);
+		return new EdeSingleSpectrumAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
+				itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
 	}
 
 	@Override

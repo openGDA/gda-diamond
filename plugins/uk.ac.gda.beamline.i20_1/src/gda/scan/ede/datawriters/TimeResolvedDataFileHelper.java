@@ -168,7 +168,7 @@ public class TimeResolvedDataFileHelper {
 	/**
 	 * Run NeXuS file update and Ascii file writing.
 	 * This can be done in new thread, so that another scan can be started whilst
-	 * data from previous scan is being written. Works ok as provided we don't attempt
+	 * data from previous scan is being written. Works ok provided we don't attempt
 	 * to write ascii data from two scans simultaneously.
 	 * @param generateAsciiFiles whether to generate Ascii files
 	 * @param runInThread run in new thread
@@ -882,7 +882,14 @@ public class TimeResolvedDataFileHelper {
 		itData = getSlice(rawDataset, itRawDataSetIndex);
 		convertToCycledData(itData, cycleCount);
 		itCorrectedDataSet = itData.clone();
-		correctItData(itDarkData, itCorrectedDataSet, timingGroups);
+
+		// Null check added (so data from 'single spectrum' collection can also be written.
+		if ( itDarkData != null ) {
+			correctItData(itDarkData, itCorrectedDataSet, timingGroups);
+		} else if ( i0darkDataSet != null ) {
+			correctItData(i0darkDataSet, itCorrectedDataSet, timingGroups);
+		}
+
 		itNormalisedWithI0iData = createNormalisedItData(i0iCorrectedDataSet, itCorrectedDataSet, timingGroups);
 		if(i0fDataSetIndex != null) {
 			i0fData = getSlice(rawDataset, i0fDataSetIndex);
