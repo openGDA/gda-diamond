@@ -694,7 +694,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			return null;
 		}
 		ILineTrace dataTrace = (ILineTrace) tmpTrace;
-		Dataset dataXDataset = (Dataset)dataTrace.getXData();
+		Dataset dataXDataset = DatasetUtils.convertToDataset(dataTrace.getXData());
 		int idxLower = Math.min(dataXDataset.getSize() - 1, DatasetUtils.findIndexGreaterThanOrEqualTo(dataXDataset, lowerAxis));
 		int idxUpper = Math.min(dataXDataset.getSize() - 1, DatasetUtils.findIndexGreaterThanOrEqualTo(dataXDataset, upperAxis));
 		if (idxLower == idxUpper) {
@@ -702,7 +702,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			return null;
 		}
 		dataE = dataXDataset.getSlice(new Slice(idxLower, idxUpper));
-		dataI = ((Dataset)dataTrace.getYData()).getSlice(new Slice(idxLower, idxUpper));
+		dataI = DatasetUtils.convertToDataset(dataTrace.getYData().getSlice(new Slice(idxLower, idxUpper)));
 		return new Dataset[] {dataE, dataI};
 	}
 

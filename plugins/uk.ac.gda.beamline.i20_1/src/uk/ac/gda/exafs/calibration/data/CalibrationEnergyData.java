@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.calibration.data;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
@@ -105,8 +106,8 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 				return;
 			}
 			this.dataHolder = dataHolder;
-			energyNode = (Dataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
-			dataNode = (Dataset) dataHolder.getLazyDataset(dataNodePath).getSlice();
+			energyNode = DatasetUtils.sliceAndConvertLazyDataset(this.dataHolder.getLazyDataset(energyNodePath));
+			dataNode = DatasetUtils.sliceAndConvertLazyDataset(dataHolder.getLazyDataset(dataNodePath));
 
 			setInitialEnergyRange(energyNode.min().doubleValue(), energyNode.max().doubleValue());
 			double mid = (double) energyNode.mean();
