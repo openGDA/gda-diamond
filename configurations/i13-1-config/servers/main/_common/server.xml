@@ -197,7 +197,7 @@
 	<import resource="../../../devices/_common/s5.xml" />
 
 	<import resource="../../../devices/_common/m2.xml"/>
-	<import resource="../../../devices/_common/pin.xml"/>
+	<!-- <import resource="../../../devices/_common/pin.xml"/> -->
  	<import resource="../../../devices/_common/diff.xml"/>
 	<import resource="../../../devices/_common/s6.xml" />
 	<!-- <import resource="../../../devices/_common/dcm.xml" /> -->

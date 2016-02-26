@@ -154,6 +154,9 @@ try:
 			#make the lens re-read its list of positions following setting them in EPICS above
 			lens.initializationCompleted()
 
+			from dcm_energy_mode import DcmEnergyMode
+			energy_mode = DcmEnergyMode()
+
 	except :
 		exceptionType, exception, traceback = sys.exc_info()
 		handle_messages.log(None, "Error creating pvScannables", exceptionType, exception, traceback, False)
@@ -290,7 +293,7 @@ try:
 	from deben import *
 	deben_configure()
 	
-	from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks
+	from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks, xray_mode
 	def meta_add_i13i():
 		fname = meta_add_i13i.__name__
 		print "\n Adding scan meta-data items (to be recorded in every Nexus scan file as part of the before_scan group)..."
@@ -357,6 +360,7 @@ try:
 			meta_add(k, rbv)
 		
 		meta_scannables.append(filter_sticks)
+		meta_scannables.append(xray_mode)
 		for s in meta_scannables:
 			meta_add(s)
 		print "\n Finished adding scan meta-data items!"
