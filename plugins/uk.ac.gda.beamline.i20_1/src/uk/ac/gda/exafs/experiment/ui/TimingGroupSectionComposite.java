@@ -145,6 +145,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 	private NumberEditorControl itExpDurationControl;
 
+	private Button useTopupCheckerCheckbox;
+
 	public TimingGroupSectionComposite(Composite parent, int style, FormToolkit toolkit, TimeResolvedExperimentModel model) {
 		super(parent, style);
 		this.toolkit = toolkit;
@@ -387,6 +389,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		timePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+
+
 		if ( showRealTimePerSpectrum ) {
 			// Show corrected (i.e. real) time per spectra the detector can provide.
 			label = toolkit.createLabel(groupDetailsSectionComposite, "Real time per spectrum", SWT.None);
@@ -434,11 +438,15 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		externalTriggerComposite.setLayoutData(gridData);
-		externalTriggerComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(3, false));
+		externalTriggerComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 
 		useExternalTriggerCheckbox = toolkit.createButton(externalTriggerComposite, "Use external trigger", SWT.CHECK);
 		useExternalTriggerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		useExternalTriggerCheckbox.setEnabled(true);
+
+		useTopupCheckerCheckbox = toolkit.createButton(externalTriggerComposite, "Use topup checker", SWT.CHECK);
+		useTopupCheckerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		useTopupCheckerCheckbox.setEnabled(true);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(groupSection);
 		toolkit.paintBordersFor(sectionSeparator);
@@ -859,6 +867,16 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.selection().observe(useExternalTriggerCheckbox),
 					BeanProperties.value(TimingGroupUIModel.USE_EXTERNAL_TRIGGER_PROP_NAME).observe(group)));
+
+			groupBindings.add(dataBindingCtx.bindValue(WidgetProperties.selection().observe(useTopupCheckerCheckbox),
+					BeanProperties.value(TimingGroupUIModel.USE_TOPUP_CHECKER_PROP_NAME).observe(group)));
+
+			// Only allow 'use topupchecker' to be switched on/off for *first* timing group
+			if ( group.getName().endsWith("0") ) {
+				useTopupCheckerCheckbox.setEnabled( true );
+			} else {
+				useTopupCheckerCheckbox.setEnabled( false );
+			}
 
 		} catch (Exception e) {
 			logger.error("Unable to setup group detail controls", e);

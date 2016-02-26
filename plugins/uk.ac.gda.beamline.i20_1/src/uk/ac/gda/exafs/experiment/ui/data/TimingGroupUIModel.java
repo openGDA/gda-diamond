@@ -84,6 +84,10 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	@Expose
 	private int noOfAccumulations;
 
+	public static final String USE_TOPUP_CHECKER_PROP_NAME = "useTopupChecker";
+	@Expose
+	private boolean useTopupChecker;
+
 	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExternalTrigger";
 	@Expose
 	private boolean useExternalTrigger;
@@ -413,6 +417,14 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 
 	public void setUseExternalTrigger(boolean value) {
 		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExternalTrigger, useExternalTrigger = value);
+	}
+
+	public boolean getUseTopupChecker() {
+		return useTopupChecker;
+	}
+
+	public void setUseTopupChecker(boolean value) {
+		this.firePropertyChange(USE_TOPUP_CHECKER_PROP_NAME, useTopupChecker, useTopupChecker = value);
 	}
 
 	public boolean isExternalTriggerAvailable() {

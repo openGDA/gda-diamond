@@ -72,6 +72,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	protected Button useExternalTriggerCheckbox;
 
+	private Button useFastShutterCheckbox;
+
 	private SampleStageMotorsComposite sampleMotorsComposite;
 
 	private ExperimentTimeBarComposite timebarViewerComposite;
@@ -150,6 +152,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 						return null;
 					}
 				});
+		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
+				BeanProperties.value(TimeResolvedExperimentModel.USE_FAST_SHUTTER).observe(getModel()) );
 	}
 
 	protected void createExperimentPropertiesComposite(Composite parent) {
@@ -230,6 +234,9 @@ public class TimeResolvedExperimentView extends ViewPart {
 				getModel().doStop();
 			}
 		});
+
+		useFastShutterCheckbox = toolkit.createButton(dataCollectionSectionComposite, "Use fast shutter", SWT.CHECK);
+		useFastShutterCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		//Sample stage motors
 

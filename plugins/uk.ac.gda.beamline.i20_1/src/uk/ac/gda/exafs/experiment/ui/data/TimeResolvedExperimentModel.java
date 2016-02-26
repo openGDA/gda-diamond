@@ -113,6 +113,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private static final int MAX_TOP_UP_TIMES = 10;
 	private static final int DURATION_BETWEEN_TOP_UP_IN_MINUTES = 10;
 
+	public static final String USE_FAST_SHUTTER = "useFastShutter";
+	private boolean useFastShutter;
+
 	public static class Topup extends TimeBarMarkerImpl {
 		public Topup(boolean draggable, JaretDate date) {
 			super(draggable, date);
@@ -139,6 +142,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public static final String UNIT_IN_STRING_PROP_NAME = "unitInStr";
 
 	protected static final String IO_IREF_DATA_SUFFIX_KEY = "_IO_IREF_DATA";
+
+	protected static final String FAST_SHUTTER_KEY = "_USE_FAST_SHUTTER_DATA";
 
 	@Expose
 	private String unitInStr = unit.getUnitText();
@@ -182,6 +187,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();
+		loadFastShutterData();
 	}
 
 	public void addGroupListChangeListener(IListChangeListener listener) {
@@ -253,6 +259,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			if (loadedGroup.getDelayBetweenSpectrum() > 0) {
 				timingGroup.setDelayBetweenSpectrum(loadedGroup.getDelayBetweenSpectrum());
 			}
+			timingGroup.setUseTopupChecker( loadedGroup.getUseTopupChecker() );
 			addToInternalGroupList(timingGroup);
 		}
 		updateCollectionDuration();
@@ -329,7 +336,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			} else if (evt.getPropertyName().equals(TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME) ){
 				group.setAccumulationReadoutTime((double)evt.getNewValue());
 			}
-			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.this.getDataStoreKey(), groupList);
+			savePreferenceData();
+			// ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.this.getDataStoreKey(), groupList);
 		}
 	};
 
@@ -366,7 +374,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 			removeFromInternalGroupList(group);
 			groupToExpend.setEndTime(group.getEndTime());
-			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getDataStoreKey(), groupList);
+			savePreferenceData();
+			// ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getDataStoreKey(), groupList);
 
 		}
 	}
@@ -406,6 +415,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");", this.getExperimentDataModel().getSampleDetails()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setUseFastShutter(%s);", getUseFastShutter() ? "True" : "False" ) );
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFastShutterName(\"%s\");", DetectorModel.FAST_SHUTTER_NAME ) );
+
 		if (SampleStageMotors.INSTANCE.isUseIref()) {
 			addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
 		}
@@ -526,6 +538,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setGroupTrig(uiTimingGroup.isUseExternalTrigger());
+							timingGroup.setUseTopChecker(uiTimingGroup.getUseTopupChecker());
 							// Set up lemo outs
 							setupLemoOuts(timingGroup);
 							timingGroups.add(timingGroup);
@@ -669,7 +682,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			addToInternalGroupList(newGroup);
 		}
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
-		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
+		savePreferenceData();
+		// ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 	}
 
 	public double getItCollectionDuration() {
@@ -716,11 +730,44 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return getDataStoreKey() + IO_IREF_DATA_SUFFIX_KEY;
 	}
 
+	private String getFastShutterDataKey() {
+		return getDataStoreKey() + FAST_SHUTTER_KEY;
+	}
+
 	public double getDuration() {
 		return timeIntervalData.getDuration();
 	}
 
 	public ExternalTriggerSetting getExternalTriggerSetting() {
 		return externalTriggerSetting;
+	}
+
+	public boolean getUseFastShutter() {
+		return useFastShutter;
+	}
+
+	public void setUseFastShutter(boolean useFastShutter) {
+		this.firePropertyChange(USE_FAST_SHUTTER, this.useFastShutter, this.useFastShutter = useFastShutter);
+		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getFastShutterDataKey(), useFastShutter );
+	}
+
+	private void savePreferenceData() {
+		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getDataStoreKey(), groupList);
+	}
+
+	/**
+	 * Load fast shutter value from preference store. Catch null pointer exception caused by value for key not existing - so that gui view
+	 * can still be created.
+	 * since 24/2/2015
+	 */
+	private void loadFastShutterData() {
+		boolean useFastShutter = true;
+		try {
+			useFastShutter = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration( getFastShutterDataKey(), boolean.class );
+		}
+		catch( NullPointerException e ) {
+			logger.info("Problem loading data for use fast shutter preference : ", e );
+		}
+		this.useFastShutter = useFastShutter;
 	}
 }

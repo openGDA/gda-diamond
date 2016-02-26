@@ -166,7 +166,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		if (shouldRunItDark()) {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
 			itDarkScanParameters.setUseFrameTime(true);
-			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			itDarkScan = makeEdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex,  null);
 			itDarkScan.setProgressUpdater(this);
 			scansBeforeIt.add(itDarkScan);
 		} else {
@@ -174,23 +174,30 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		}
 
 		i0ScanParameters.setUseFrameTime(false);
-		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+		i0LightScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
 		i0LightScan.setProgressUpdater(this);
 		scansBeforeIt.add(i0LightScan);
 
 		if (runIRef) {
 			i0ForiRefScanParameters.setUseFrameTime(false);
-			i0ForiRefScan = new EdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			i0ForiRefScan = makeEdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
 			scansBeforeIt.add(i0ForiRefScan);
 			i0ForiRefScan.setProgressUpdater(this);
 
 			iRefScanParameters.setUseFrameTime(false);
-			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			iRefScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
 			scansBeforeIt.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
 		}
 
 		runItWithTriggerOptions=itScanParameters.getGroups().get(0).isGroupTrig();
+
+		// Check user setting to see whether to wait for topup before main It collection.
+		// (not currently done per timing group, but could be in future).
+		boolean useTopupChecker = false;
+		if ( itScanParameters.getGroups().size() > 0 ) {
+			useTopupChecker = itScanParameters.getGroups().get(0).getUseTopChecker();
+		}
 
 		if (runItWithTriggerOptions) {
 			itScans = new EdeScanWithTFGTrigger[repetitions];
@@ -198,7 +205,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
 				// itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldItScanWaitForTopup(timeToTopup));
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, useTopupChecker && shouldItScanWaitForTopup(timeToTopup));
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
@@ -206,22 +213,23 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			itScans = new EdeScan[repetitions];
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter,createTopupCheckerForStartOfExperiment(timeToTopup));
+				TopupChecker topupChecker = useTopupChecker ? createTopupCheckerForItCollection(timeToTopup) : null;
+				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, topupChecker);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
 		}
 
 		i0ScanParameters.setUseFrameTime(false);
-		i0FinalScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector,
-				firstRepetitionIndex, beamLightShutter, createTopupCheckerForAfterItScans());
+		i0FinalScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector,
+				firstRepetitionIndex, createTopupCheckerForAfterItScans());
 		i0FinalScan.setProgressUpdater(this);
 		scansAfterIt.add(i0FinalScan);
 
 		if (runIRef) {
 			iRefScanParameters.setUseFrameTime(false);
-			iRefFinalScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector,
-					firstRepetitionIndex, beamLightShutter, null);
+			iRefFinalScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector,
+					firstRepetitionIndex, null);
 			iRefFinalScan.setProgressUpdater(this);
 			scansAfterIt.add(iRefFinalScan);
 		}
@@ -292,6 +300,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	//		double totalTime = itScanParameters.getTotalNumberOfFrames();
 	//		return itTriggerOptions.getTotalTime() * numberOfRepetitions;
 	//	}
+
 	//	@Override
 	//	protected double getTimeRequiredAfterItCollection() {
 	//		// Time for move from It to I0 position

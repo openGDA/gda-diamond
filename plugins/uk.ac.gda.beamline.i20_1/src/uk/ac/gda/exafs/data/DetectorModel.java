@@ -52,6 +52,8 @@ public class DetectorModel extends ObservableModel {
 
 	public static final String SHUTTER_NAME = "shutter2"; // the shutter to use to create darks
 
+	public static final String FAST_SHUTTER_NAME = "fast_shutter"; // the fast shutter
+
 	private static final Logger logger = LoggerFactory.getLogger(DetectorModel.class);
 
 	private EdeDetector currentDetector;

@@ -104,6 +104,8 @@ public class TimingGroup implements Serializable {
 	private boolean outLemo6;
 	private boolean outLemo7;
 
+	private boolean useTopChecker;
+
 	public String getHeaderDescription() {
 		String desc = "has " + numberOfFrames + " frames. Accumulations are " + timePerScan + "s long";
 		if (numberOfScansPerFrame == 0){
@@ -362,6 +364,14 @@ public class TimingGroup implements Serializable {
 		this.numberOfScansPerFrame = numberOfScansPerFrame;
 	}
 
+	public boolean getUseTopChecker() {
+		return useTopChecker;
+	}
+
+	public void setUseTopChecker(boolean useTopChecker) {
+		this.useTopChecker = useTopChecker;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -398,6 +408,7 @@ public class TimingGroup implements Serializable {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(timePerScan);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (useTopChecker ? 1231 : 1237);
 		return result;
 	}
 
@@ -496,6 +507,9 @@ public class TimingGroup implements Serializable {
 			return false;
 		}
 		if (Double.doubleToLongBits(timePerScan) != Double.doubleToLongBits(other.timePerScan)) {
+			return false;
+		}
+		if (useTopChecker != other.useTopChecker) {
 			return false;
 		}
 		return true;
