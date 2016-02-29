@@ -36,7 +36,7 @@ try:
     from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
     from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
     from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
-    global cam1rawNx, cam2rawNx, bpm1rawNx, bpm2rawNx
+    global cam1rawNx, cam1rgbRawNx, cam2rawNx, bpm1rawNx, bpm2rawNx
 
     def wrappedDetectorFactory(camdet, cam_name):
         try:
@@ -53,6 +53,8 @@ try:
     cam2, cam2Peak2d, cam2Max2d = wrappedDetectorFactory(cam2rawNx, 'cam2')
     bpm1, bpm1Peak2d, bpm1Max2d = wrappedDetectorFactory(bpm1rawNx, 'bpm1')
     bpm2, bpm2Peak2d, bpm2Max2d = wrappedDetectorFactory(bpm2rawNx, 'bpm2')
+
+    cam1rgb = ProcessingDetectorWrapper   ("cam1rgb", cam1rgbRawNx, [], panel_name_rcp='Plot 1')
 
 except:
     localStation_exception(sys.exc_info(), "in localStation")

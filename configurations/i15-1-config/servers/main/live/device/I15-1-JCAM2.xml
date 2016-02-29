@@ -98,7 +98,7 @@
 
 	<!-- NXDetector collection strategies -->
 
-	<bean id="cam2_SingleExposureStandardCollectionStrategy" 
+	<bean id="cam2_SingleExposureStandardCollectionStrategyBase" 
 			class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true"/>
 		<property name="decoratee">
@@ -117,6 +117,18 @@
 				</property>
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="cam2_SingleExposureStandardCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ColourModeDecorator">
+		<property name="restoreColourMode" value="true"/>
+		<property name="colourMode" value="Mono"/>
+		<property name="decoratee" ref="cam2_SingleExposureStandardCollectionStrategyBase"/>
+	</bean>
+
+	<bean id="cam2rgb_SingleExposureStandardCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ColourModeDecorator">
+		<property name="restoreColourMode" value="true"/>
+		<property name="colourMode" value="RGB"/>
+		<property name="decoratee" ref="cam2_SingleExposureStandardCollectionStrategyBase"/>
 	</bean>
 
 	<!-- NXDetector file writers -->
@@ -163,4 +175,14 @@
 		</property>
 	</bean>
 
+	<bean id="cam2rgbRawNx" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam2rawNx" />
+		<property name="collectionStrategy" ref="cam2rgb_SingleExposureStandardCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam2_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="cam2_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
 </beans>
