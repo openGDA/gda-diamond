@@ -13,6 +13,10 @@ from shutil import copyfile
 from time import sleep
 import os.path
 
+supported_line_motors = ('dx', 'dy', 'dz', 'ssx', 'sy', 'ssz')
+
+supportedLineMotorHelp = ", ".join(supported_line_motors[:-1])+" or "+supported_line_motors[len(supported_line_motors)-1]
+
 # Help definitions
 
 _exposeHelp = """
@@ -24,8 +28,8 @@ _exposeNHelp = """
 	"""
 
 _lineHelp = """
-	lineMotor is the motor to scan (dx or dy or dz). stepNumber is the number of steps, so the number of points is this plus one.
-	"""
+	lineMotor is the motor to scan (%r supported). stepNumber is the number of steps, so the number of points is this plus one.
+	""" % supportedLineMotorHelp
 	
 _rockHelp = """
 	exposeRockMotor is assumed (default) to be dkphi, rockCentre is assumed (default) to be 58.0.
@@ -40,7 +44,7 @@ _sweepHelp = """
 	"""
 
 _gridHelp = """
-	horizontal is dx (inner loop) and vertical is dz (outer loop). horizStepNumber, vertStepNumber are the number of steps, so the number of positions are these numbers plus one.
+	exposeHorizMotor defaults to dx (inner loop) and exposeVertMotor efaults to dz (outer loop). horizStepNumber, vertStepNumber are the number of steps, so the number of positions are these numbers plus one.
 	"""
 
 
@@ -422,7 +426,7 @@ def verifyParameters(exposeTime=None, exposeNumber=None, fileName=None,
 	if sweepAngle			and not (isfloat(sweepAngle)):								failures.append("sweepAngle should be a number: %r" % sweepAngle)
 
 	if lineMotor			and not (hasattr(lineMotor, 'name') and 
-									lineMotor.name in ('dx', 'dy', 'dz')):				failures.append("lineMotor invalid, use dx, dy or dz: %r" % lineMotor)
+									lineMotor.name in supported_line_motors):			failures.append("lineMotor `%r` invalid. Supported motors: %r" % (lineMotor, supportedLineMotorHelp))
 
 	if horizStep			and not (isfloat(horizStep)):								failures.append("horizStep should be a number: %r" % horizStep)
 	if horizStepNumber		and not (isint(horizStepNumber)	and horizStepNumber > 0):	failures.append("horizStepNumber should be a positive integer: %r" % horizStepNumber)
