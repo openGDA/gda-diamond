@@ -152,8 +152,8 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="bpm1" class="gda.device.detector.NXDetector">
-		<property name="name" value="bpm1" />
+	<bean id="bpm1rawNx" class="gda.device.detector.NXDetector">
+		<property name="name" value="bpm1rawNx" />
 		<property name="collectionStrategy" ref="bpm1_SingleExposureStandardCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

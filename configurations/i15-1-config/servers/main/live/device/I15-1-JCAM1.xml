@@ -152,8 +152,8 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="cam1" class="gda.device.detector.NXDetector">
-		<property name="name" value="cam1" />
+	<bean id="cam1rawNx" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam1rawNx" />
 		<property name="collectionStrategy" ref="cam1_SingleExposureStandardCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
