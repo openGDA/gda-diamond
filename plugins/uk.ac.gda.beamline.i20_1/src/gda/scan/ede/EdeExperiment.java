@@ -490,6 +490,27 @@ public abstract class EdeExperiment implements IObserver {
 		return topupchecker;
 	}
 
+	/**
+	 * Create topup checker for specified time interval
+	 * @param timeRequired
+	 * @param timeUntilNextTopup
+	 * @return TopupChecker
+	 * @since 29/2/2016
+	 */
+	protected TopupChecker createTopupChecker( double timeRequired, double timeUntilNextTopup ) {
+		if (timeRequired < timeUntilNextTopup) {
+			// Don't wait for topup
+			return null;
+		}
+
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
+		if (timeRequired >= TOP_UP_TIME) {
+			logger.info("Time required ("+timeRequired+") secs is too large to fit within a topup");
+		}
+
+		return createTopupChecker(timeRequired);
+	}
+
 	protected TopupChecker createTopupCheckerForStartOfExperiment(double nextTopupTime) throws Exception {
 		// double predictedExperimentTime = getTimeRequiredForFullExperiment();
 		double timeForPreItScans = getTimeRequiredBeforeItCollection();
@@ -531,6 +552,14 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected double getNextTopupTime() throws DeviceException {
 		return (double) topup.getPosition();
+	}
+
+	public boolean getItWaitForTopup() {
+		if ( itScanParameters.getGroups().size() > 0 ) {
+			return itScanParameters.getGroups().get(0).getUseTopChecker();
+		} else {
+			return false;
+		}
 	}
 
 	protected EdeScanPosition setPosition(EdePositionType type, Map<String, Double> scanableMotorPositions) throws DeviceException {

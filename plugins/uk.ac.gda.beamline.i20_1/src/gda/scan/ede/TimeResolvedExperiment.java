@@ -192,20 +192,13 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 		runItWithTriggerOptions=itScanParameters.getGroups().get(0).isGroupTrig();
 
-		// Check user setting to see whether to wait for topup before main It collection.
-		// (not currently done per timing group, but could be in future).
-		boolean useTopupChecker = false;
-		if ( itScanParameters.getGroups().size() > 0 ) {
-			useTopupChecker = itScanParameters.getGroups().get(0).getUseTopChecker();
-		}
-
 		if (runItWithTriggerOptions) {
 			itScans = new EdeScanWithTFGTrigger[repetitions];
 
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
 				// itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, useTopupChecker && shouldItScanWaitForTopup(timeToTopup));
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, getItWaitForTopup() && shouldItScanWaitForTopup(timeToTopup));
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
@@ -213,7 +206,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			itScans = new EdeScan[repetitions];
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				TopupChecker topupChecker = useTopupChecker ? createTopupCheckerForItCollection(timeToTopup) : null;
+				TopupChecker topupChecker = getItWaitForTopup() ? createTopupCheckerForItCollection(timeToTopup) : null;
 				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, topupChecker);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);

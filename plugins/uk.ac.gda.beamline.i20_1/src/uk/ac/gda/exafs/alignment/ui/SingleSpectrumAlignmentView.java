@@ -51,14 +51,15 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.ui.EDECalibrationSection;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
+import uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionView;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
-public class AlignmentSingleSpectrumView extends ViewPart {
+public class SingleSpectrumAlignmentView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView";
 
-	private static final Logger logger = LoggerFactory.getLogger(AlignmentSingleSpectrumView.class);
+	private static final Logger logger = LoggerFactory.getLogger(SingleSpectrumAlignmentView.class);
 
 	private FormToolkit toolkit;
 
@@ -147,6 +148,9 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
 		toolkit.paintBordersFor(acquisitionButtonsComposite);
 
+		SingleSpectrumCollectionView.addCollectionControls( acquisitionButtonsComposite, toolkit, null, null );
+
+		/*
 		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
 		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -192,6 +196,9 @@ public class AlignmentSingleSpectrumView extends ViewPart {
 						return value;
 					}
 				});
+
+		 */
+
 	}
 
 	private void setupScannables() {

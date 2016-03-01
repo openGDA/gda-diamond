@@ -538,7 +538,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
 							timingGroup.setGroupTrig(uiTimingGroup.isUseExternalTrigger());
-							timingGroup.setUseTopChecker(uiTimingGroup.getUseTopupChecker());
+							timingGroup.setUseTopupChecker(uiTimingGroup.getUseTopupChecker());
 							// Set up lemo outs
 							setupLemoOuts(timingGroup);
 							timingGroups.add(timingGroup);
@@ -758,7 +758,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	/**
 	 * Load fast shutter value from preference store. Catch null pointer exception caused by value for key not existing - so that gui view
 	 * can still be created.
-	 * since 24/2/2015
+	 * @since 24/2/2015
 	 */
 	private void loadFastShutterData() {
 		boolean useFastShutter = true;
