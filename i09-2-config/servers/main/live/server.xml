@@ -46,6 +46,7 @@
 	<import resource="SS4.xml" />
 	<import resource="SS7.xml" />
 	<import resource="topup.xml" />
+	<import resource="fast_shutter.xml" />
 
 	<import resource="../main_common.xml" />
 </beans>
