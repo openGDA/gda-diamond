@@ -11,4 +11,6 @@ if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
   # and using source will switch COMPONENT from servers to logpanel!
 fi
 
+#GDA_CORE_SCRIPT_OPTIONS="--trace"
+
 bashlog debug "gda_servers_pre_instance" "Exited"
