@@ -11,10 +11,6 @@
                name="appName"
                value="Diamond Light Source Beamline I15-1">
          </property>
-         <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
-         </property>
       </product>
    </extension>
    <extension
