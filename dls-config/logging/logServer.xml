@@ -37,10 +37,6 @@
 	<root>
 		<level value="ALL" />
 		<appender-ref ref="FILE" />
-	</root>
-
-	<root>
-		<level value="ALL" />
 		<appender-ref ref="RemoteLoggerListener" />
 	</root>
 
