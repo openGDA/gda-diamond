@@ -89,6 +89,73 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		}
 	}
 
+	/**
+	 * Static method to add start, stop buttons to composite and apply databinding to single spectrum model properties..
+	 * Added to try and reduce code duplication between SingleSpectrumCollectionView and SingleSpectrumAlignmentView.
+	 * @param parent
+	 * @param toolkit
+	 * @param prefixTextBox
+	 * @param descriptionTextBox
+	 * @26/2/2016
+	 */
+	static public void addCollectionControls( Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
+		final DataBindingContext dataBindingCtx = new DataBindingContext();
+
+		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+
+		Button startAcquicitionButton = toolkit.createButton(parent, "Start", SWT.PUSH);
+		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					if ( prefixTextBox == null ||  descriptionTextBox == null ) {
+						singleSpectrumDataModel.doCollection(false, null, "");
+					} else {
+						singleSpectrumDataModel.doCollection(true, prefixTextBox.getText(), descriptionTextBox.getText());
+					}
+				} catch (Exception e) {
+					UIHelper.showError("Unable to scan", e.getMessage());
+					logger.error("Unable to scan", e);
+				}
+			}
+		});
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(startAcquicitionButton),
+				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
+				null,
+				new UpdateValueStrategy() {
+					@Override
+					public Object convert(Object value) {
+						return (!(boolean) value);
+					}
+				});
+
+		Button stopAcquicitionButton = toolkit.createButton(parent, "Stop", SWT.PUSH);
+		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(
+				WidgetProperties.enabled().observe(stopAcquicitionButton),
+				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
+		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				singleSpectrumDataModel.doStop();
+			}
+		});
+
+
+		// Checkbox for fast shutter
+		Button useFastShutterCheckbox = toolkit.createButton(parent, "Use fast shutter", SWT.CHECK);
+		useFastShutterCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
+				BeanProperties.value(SingleSpectrumCollectionModel.USE_FAST_SHUTTER_PROP_NAME).observe( singleSpectrumDataModel ) );
+
+	}
+
 	private void createRunCollectionButtons(Composite formParent) {
 		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 
@@ -114,6 +181,9 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		final Text sampleDescText = toolkit.createText(sampleDescComposite, "", SWT.BORDER);
 		sampleDescText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
+		addCollectionControls(dataCollectionSectionComposite, toolkit, prefixText, sampleDescText );
+
+		/*
 		Button startAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Start", SWT.PUSH);
 		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
@@ -152,6 +222,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 				singleSpectrumDataModel.doStop();
 			}
 		});
+		 */
 	}
 
 	private void setupScannables() {

@@ -20,7 +20,6 @@ package uk.ac.gda.exafs.experiment.ui.data;
 
 import gda.device.DeviceException;
 import gda.device.detector.EdeDetector;
-import gda.device.detector.frelon.FrelonCcdDetectorData;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 
 import com.google.gson.annotations.Expose;
@@ -84,6 +84,10 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	@Expose
 	private int noOfAccumulations;
 
+	public static final String USE_TOPUP_CHECKER_PROP_NAME = "useTopupChecker";
+	@Expose
+	private boolean useTopupChecker;
+
 	public static final String USE_EXTERNAL_TRIGGER_PROP_NAME = "useExternalTrigger";
 	@Expose
 	private boolean useExternalTrigger;
@@ -109,6 +113,69 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 	private int maxVisibleIntervals = 1000;
 
 	private EdeDetector currentDetector;
+
+	/**
+	 * Class to store range and default value for a numerical parameter.
+	 * @since 27/1/2016
+	 */
+	public static class RangeWithDefaults {
+		class Range {
+			public double min, max;
+			Range(double min, double max) {
+				this.min = min; this.max = max;
+			}
+		}
+
+		Range range, defaultValues;
+		ExperimentUnit units;
+		RangeWithDefaults(double min, double max, ExperimentUnit units) {
+			range = new Range(min, max);
+			defaultValues = new Range(min, max);
+			this.units = units;
+		}
+
+		RangeWithDefaults(double min, double max, double defaultMin, double defaultMax,  ExperimentUnit units) {
+			range = new Range(min, max);
+			defaultValues = new Range(defaultMin, defaultMax);
+			this.units = units;
+		}
+
+		public Range getRange() {
+			return range;
+		}
+
+		public Range getDetaultValues() {
+			return defaultValues;
+		}
+
+		public boolean valueInRange( double val ) {
+			// convert value from default experiment units to units used for range
+			double convVal = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(val, units);
+			return convVal >= range.min && convVal <= range.max;
+		}
+
+		public ExperimentUnit getUnit() {
+			return units;
+		}
+
+		public double getMin() {
+			return units.convertTo(range.min, ExperimentUnit.DEFAULT_EXPERIMENT_UNIT);
+		}
+
+		public double getMax() {
+			return  units.convertTo(range.max, ExperimentUnit.DEFAULT_EXPERIMENT_UNIT);
+		}
+
+		public String getRangeString() {
+			return String.format("%g ... %g %s", range.min, range.max, units.getUnitText() );
+		}
+	}
+
+	public static final RangeWithDefaults TIME_PER_SPECTRUM_DEFAULTS        = new RangeWithDefaults(1e-5, 1000000.0, ExperimentUnit.MILLI_SEC);
+	public static final RangeWithDefaults INTEGRATION_TIME_DEFAULTS_XH      = new RangeWithDefaults(2e-5, 100.0, ExperimentUnit.MILLI_SEC);
+	public static final RangeWithDefaults INTEGRATION_TIME_DEFAULTS_FRELON  = new RangeWithDefaults(1e-3, 100.0, ExperimentUnit.MILLI_SEC);
+	public static final RangeWithDefaults ACCUMULATION_READOUT_TIME_FRELON  = new RangeWithDefaults(1e-3, 100.0, ExperimentUnit.MILLI_SEC);
+
 
 	public List<?> getSpectrumList() {
 		return spectrumList;
@@ -352,6 +419,14 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		this.firePropertyChange(USE_EXTERNAL_TRIGGER_PROP_NAME, useExternalTrigger, useExternalTrigger = value);
 	}
 
+	public boolean getUseTopupChecker() {
+		return useTopupChecker;
+	}
+
+	public void setUseTopupChecker(boolean value) {
+		this.firePropertyChange(USE_TOPUP_CHECKER_PROP_NAME, useTopupChecker, useTopupChecker = value);
+	}
+
 	public boolean isExternalTriggerAvailable() {
 		return externalTriggerAvailable;
 	}
@@ -399,7 +474,7 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 			if (detector == null) {
 				detector = DetectorModel.INSTANCE.getCurrentDetector();
 			}
-			boolean isFrelonDetector = detector.getDetectorData() instanceof FrelonCcdDetectorData;
+			boolean isFrelonDetector = detector.getDetectorSetupType() == DetectorSetupType.FRELON;
 
 			// Set Frelon specific frame time, accounting for accumulation readout time imh 15/10/2015
 			if (isFrelonDetector) {
@@ -455,6 +530,34 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 		};
 	}
 
+	/**
+	 * Return a validator for specified numerical range of values.
+	 * @param validRange
+	 * @return IValidator
+	 */
+	public IValidator getRangeValidator(final RangeWithDefaults validRange ) {
+		return new IValidator() {
+			@Override
+			public IStatus validate(Object value) {
+				double floatValue = (double) value;
+
+				if ( ! validRange.valueInRange( floatValue) ) {
+					return ValidationStatus.error("Value out of range " + validRange.getRangeString() );
+				}
+				return ValidationStatus.ok();
+			}
+		};
+	}
+
+	public IValidator getIntegrationTimeValidator() {
+		DetectorSetupType detectorType = DetectorModel.INSTANCE.getCurrentDetector().getDetectorSetupType();
+		if ( detectorType ==  DetectorSetupType.XH || detectorType ==  DetectorSetupType.XSTRIP ) {
+			return getRangeValidator( INTEGRATION_TIME_DEFAULTS_XH );
+		} else {
+			return getRangeValidator( INTEGRATION_TIME_DEFAULTS_FRELON );
+		}
+	}
+
 	public IValidator getTimePerSpectrumValidator() {
 		return new IValidator() {
 			@Override
@@ -467,6 +570,9 @@ public class TimingGroupUIModel extends TimeIntervalDataModel {
 				}
 				if (endTimeIsLocked && (getAvailableDurationAfterDelay() % timePerSpectrum) != 0) {
 					return ValidationStatus.error("Unable to fit with fixed End time");
+				}
+				if ( ! TIME_PER_SPECTRUM_DEFAULTS.valueInRange( (double) value) ) {
+					return ValidationStatus.error("Value out of range " + TIME_PER_SPECTRUM_DEFAULTS.getRangeString() );
 				}
 				return ValidationStatus.ok();
 			}

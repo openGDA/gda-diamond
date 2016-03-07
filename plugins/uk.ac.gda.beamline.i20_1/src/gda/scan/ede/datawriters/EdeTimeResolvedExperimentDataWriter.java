@@ -60,6 +60,9 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	private String itFinalFilename;
 
 	private final String nexusfileName;
+	private boolean writeAsciiData   = true;
+	private boolean writeInNewThread = false;
+
 
 	public EdeTimeResolvedExperimentDataWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
 			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
@@ -105,8 +108,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		}
 		timeResolvedNexusFileHelper.setDetectorName4Node(itScans[0].getDetector().getName());
 		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);
-
-		timeResolvedNexusFileHelper.updateWithNormalisedData(true);
+		timeResolvedNexusFileHelper.updateWithNormalisedData(writeAsciiData, writeInNewThread);
 
 		return itFilename;
 	}
@@ -208,6 +210,22 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	@Override
 	public String getAsciiFilename() {
 		return this.getAsciiItFilename();
+	}
+
+	public boolean getWriteAsciiData() {
+		return writeAsciiData;
+	}
+
+	public void setWriteAsciiData(boolean writeAsciiData) {
+		this.writeAsciiData = writeAsciiData;
+	}
+
+	public boolean getWriteInNewThread() {
+		return writeInNewThread;
+	}
+
+	public void setWriteInNewThread(boolean writeInNewThread) {
+		this.writeInNewThread = writeInNewThread;
 	}
 
 }

@@ -6,7 +6,7 @@
 <mapEntry key="GDA_GROUP_CONFIG_rel" value="workspace_git/gda-xas-core.git/no-group"/>
 <mapEntry key="GDA_INSTANCE_CONFIG_rel" value="workspace_git/gda-dls-beamlines-xas.git/i20-1"/>
 <mapEntry key="GDA_WORKSPACE_GIT_NAME" value="workspace_git"/>
-<mapEntry key="GDA_WORKSPACE_PARENT" value="/scratch/gda/gda_8.44"/>
+<mapEntry key="GDA_WORKSPACE_PARENT" value="/scratch/gda/8.master"/>
 </mapAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.ui.externaltools.launchGroup"/>

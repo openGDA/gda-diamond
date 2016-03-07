@@ -263,6 +263,16 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 				WidgetProperties.enabled().observe(section),
 				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
 
+
+		// 'Use topup checker' checkbox and databinding
+		Button useTopupCheckerCheckbox = toolkit.createButton(acquisitionSettingsComposite, "Use topup checker", SWT.CHECK);
+		useTopupCheckerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		useTopupCheckerCheckbox.setEnabled(true);
+
+		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useTopupCheckerCheckbox),
+				BeanProperties.value(SingleSpectrumCollectionModel.USE_TOPUP_CHECKER_FOR_IT_PROP_NAME).observe(singleSpectrumDataModel));
+
+
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		section.setSeparatorControl(defaultSectionSeparator);

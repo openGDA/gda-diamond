@@ -18,9 +18,11 @@
 
 package gda.scan.ede.datawriters;
 
+import gda.jython.InterfaceProvider;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -161,6 +163,60 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
+
+	/**
+	 * Run NeXuS file update and Ascii file writing.
+	 * This can be done in new thread, so that another scan can be started whilst
+	 * data from previous scan is being written. Works ok provided we don't attempt
+	 * to write ascii data from two scans simultaneously.
+	 * @param generateAsciiFiles whether to generate Ascii files
+	 * @param runInThread run in new thread
+	 * @since 20/1/2016
+	 */
+	public void updateWithNormalisedData(boolean generateAsciiFiles, boolean runInThread ) throws Exception {
+		if ( !runInThread ) {
+			updateWithNormalisedData( generateAsciiFiles );
+			return;
+		}
+
+		final IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
+
+		final boolean genAscii = generateAsciiFiles;
+		Thread fileWritingThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					String threadInfo = "NeXuS update and Ascii file writing thread";
+					InterfaceProvider.getTerminalPrinter().print(threadInfo + " started...");
+					logger.info(threadInfo + " started");
+
+					long startTime = System.nanoTime();
+
+					// TODO Test if it's safe to update NeXuS file inside thread while next scan starts up (seems ok).
+					deriveTimingGroupsAndGenerateNormalisedData(file);
+					RangeData[] avgSpectraList = getAvgSpectra(file);
+					int[] excludedCycles = getExcludedCycles(file);
+					createAxisForNormalisedItData(file, avgSpectraList);
+					updateNexusFileWithNormalisedData(file, avgSpectraList, excludedCycles);
+					// TODO Investigate why Ascii file writing in thread works ok as long as next scan does not also start writing ascii data.
+					if (genAscii) {
+						createAsciiFiles(file);
+					}
+
+					double timeTaken = ( System.nanoTime() - startTime )*1e-9;
+					String endMessage = String.format("%s finished after %.2f seconds.\n", threadInfo, timeTaken);
+
+					InterfaceProvider.getTerminalPrinter().print(endMessage);
+					logger.info(endMessage);
+
+				} catch (Exception e) {
+					logger.error("Updating the nexus file failed.", e);
+				}
+			}
+		} );
+		fileWritingThread.start();
+	}
+
 	public void updateWithNormalisedData(boolean generateAsciiFiles) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
@@ -225,6 +281,116 @@ public class TimeResolvedDataFileHelper {
 		return avgDataset;
 	}
 
+	/**
+	 * Add line of spectrum to a StringBuilder object using supplied Datasets.
+	 * @param numberFormat -  formatter used to convert decimal values to String
+	 * @param spectraNumber - channel (pixel number)
+	 * @param showChannelNumber - prepend spectrum number
+	 * @param energyData - energy values to use for each channel
+	 * @param datasets - datasets to extract values from
+	 * @since 19/1/2016
+	 */
+	private void addSpectraLine( StringBuilder strBuilder, DecimalFormat numberFormat, int spectraNumber, int channelNumber, boolean showChannelNumber, DoubleDataset energyData, DoubleDataset...datasets) {
+		strBuilder.append( spectraNumber );
+
+		if ( showChannelNumber ) {
+			strBuilder.append( "\t" );
+			strBuilder.append( channelNumber );
+		}
+
+		strBuilder.append( "\t" );
+		strBuilder.append( numberFormat.format( energyData.get(channelNumber) ) );
+
+		for ( DoubleDataset dataset : datasets ) {
+			strBuilder.append( "\t" );
+			strBuilder.append( numberFormat.format( dataset.get(spectraNumber, channelNumber) ) );
+		}
+		strBuilder.append("\n");
+	}
+
+	/**
+	 * Write spectra to ascii file.
+	 * @param writer
+	 * @param showChannelNumber
+	 * @param energyData
+	 * @param datasets
+	 * @throws Exception
+	 * @since 19/1/2016
+	 */
+	private void writeSpectra( FileWriter writer, boolean showChannelNumber, DoubleDataset energyData, DoubleDataset...datasets) throws Exception {
+		writeSpectra( writer, "", showChannelNumber,  energyData, datasets);
+	}
+
+	/**
+	 * Write spectra to ascii file.
+	 * Each spectrum is constructed as single String using Stringbuilder and written to file using single write call.
+	 * This method is much faster (~8 times) than writing a line at a time using String.format(...)
+	 * @param writer
+	 * @param prefix
+	 * @param showChannelNumber
+	 * @param energyData
+	 * @param datasets
+	 * @throws Exception
+	 * @since 19/1/2016
+	 */
+	private void writeSpectra( FileWriter writer, String prefix, boolean showChannelNumber, DoubleDataset energyData, DoubleDataset...datasets) throws Exception {
+
+		if ( datasets.length == 0 ) {
+			return;
+		}
+
+		int numSpectra = datasets[0].getShape()[0];
+		int numChannels = energyData.getShape()[0];
+
+		StringBuilder strBuilder = new StringBuilder();
+		DecimalFormat decimalFormatter = new DecimalFormat(" 0.0000000000;-0.0000000000");
+
+		for (int i = 0; i < numSpectra; i++) {
+			for( int j = 0; j < numChannels; j++ ) {
+				if ( prefix.length() > 0 ) {
+					strBuilder.append( prefix );
+				}
+				addSpectraLine( strBuilder, decimalFormatter, i, j, showChannelNumber, energyData, datasets);
+			}
+			writer.write(strBuilder.toString());
+			strBuilder.setLength(0);
+		}
+	}
+
+	/**
+	 * Write raw It spectra to ascii text file
+	 * @param writer
+	 * @param energyData
+	 * @param itiCorrectedAvgData
+	 * @param avgLogI0It
+	 * @param itiAvgData
+	 * @param itDarkData
+	 * @throws Exception
+	 * @since 19/1/2016
+	 */
+	private void writeItRawSpectra( FileWriter writer, DoubleDataset energyData, DoubleDataset itiCorrectedAvgData,
+			DoubleDataset avgLogI0It, DoubleDataset itiAvgData,  DoubleDataset itDarkData ) throws Exception {
+
+		int numSpectra = itiCorrectedAvgData.getShape()[0];
+		int numChannels = energyData.getShape()[0];
+
+		StringBuilder strBuilder = new StringBuilder();
+		DecimalFormat decimalFormatter = new DecimalFormat(" 0.0000000000;-0.0000000000");
+
+		for (int i = 0; i < numSpectra; i++) {
+			for( int j = 0; j < numChannels; j++ ) {
+				addSpectraLine( strBuilder, decimalFormatter, i, j, true, energyData, itiCorrectedAvgData, avgLogI0It, itiAvgData);
+				// adjust length so we can overwrite the newline at end and append 'dark current' data...
+				strBuilder.setLength( strBuilder.length() -1 );
+				strBuilder.append( "\t" );
+				strBuilder.append( decimalFormatter.format( itDarkData.get(0,j))) ;
+				strBuilder.append( "\n" );
+			}
+			writer.write(strBuilder.toString());
+			strBuilder.setLength(0);
+		}
+	}
+
 	private void createAsciiFiles(IHierarchicalDataFile file) throws Exception {
 		File nexusFile = new File(nexusfileName);
 		String assciiFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusfileName);
@@ -248,21 +414,25 @@ public class TimeResolvedDataFileHelper {
 			writer.write("# index\t" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 					+ EdeDataConstants.I0_CORR_COLUMN_NAME + "\t" + EdeDataConstants.I0_RAW_COLUMN_NAME + "\t"
 					+ EdeDataConstants.I0_DARK_COLUMN_NAME + "\n");
-			int numberOfSpectra = i0iDataSet.getShape()[0];
-			int numberOfChannels = i0iDataSet.getShape()[1];
-			for (int i = 0; i < numberOfSpectra; i++) {
-				for (int j = 0; j < numberOfChannels; j++) {
-					writer.write(String.format("0%d\t%d\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), i0iCorrectedDataSet.get(i, j), i0iDataSet.get(i, j), i0darkDataSet.get(i, j)));
-				}
-			}
+
+			writeSpectra( writer, "0", true, energyData,  i0iCorrectedDataSet, i0iDataSet, i0darkDataSet );
+			//			int numberOfSpectra = i0iDataSet.getShape()[0];
+			//			int numberOfChannels = i0iDataSet.getShape()[1];
+			//			for (int i = 0; i < numberOfSpectra; i++) {
+			//				for (int j = 0; j < numberOfChannels; j++) {
+			//					writer.write(String.format("0%d\t%d\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), i0iCorrectedDataSet.get(i, j), i0iDataSet.get(i, j), i0darkDataSet.get(i, j)));
+			//				}
+			//			}
 			if (i0fCorrectedDataSet != null) {
-				numberOfSpectra = i0fData.getShape()[0];
-				numberOfChannels = i0fData.getShape()[1];
-				for (int i = 0; i < numberOfSpectra; i++) {
-					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("1%d\t%d\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), i0fCorrectedDataSet.get(i, j), i0fCorrectedDataSet.get(i, j), i0darkDataSet.get(i, j)));
-					}
-				}
+				// Originally, i0iCorrectedDataSet values appear in *two* columns, should it not be i0iCorrectedDataSet and i0fCorrectedDataSet instead?
+				writeSpectra( writer, "1", true, energyData,  i0fCorrectedDataSet, i0fData, i0darkDataSet );
+				//				numberOfSpectra = i0fData.getShape()[0];
+				//				numberOfChannels = i0fData.getShape()[1];
+				//				for (int i = 0; i < numberOfSpectra; i++) {
+				//					for (int j = 0; j < numberOfChannels; j++) {
+				//						writer.write(String.format("1%d\t%d\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), i0fCorrectedDataSet.get(i, j), i0fCorrectedDataSet.get(i, j), i0darkDataSet.get(i, j)));
+				//					}
+				//				}
 			}
 		} catch (Exception e) {
 			logger.error("Unable to create " + filePathName, e);
@@ -271,8 +441,8 @@ public class TimeResolvedDataFileHelper {
 		}
 		itNormalisedWithI0iData.getShape();
 		DoubleDataset avgLogI0It = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
-		int numberOfSpectra = avgLogI0It.getShape()[0];
-		int numberOfChannels = avgLogI0It.getShape()[1];
+		//				int numberOfSpectra = avgLogI0It.getShape()[0];
+		//				int numberOfChannels = avgLogI0It.getShape()[1];
 		// Create It_raw
 		metaData = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
 		filePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.IT_RAW_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
@@ -285,11 +455,18 @@ public class TimeResolvedDataFileHelper {
 			DoubleDataset itiAvgData = getAverageDataset(itData, null);
 			DoubleDataset itiCorrectedAvgData = getAverageDataset(itCorrectedDataSet, null);
 
-			for (int i = 0; i < numberOfSpectra; i++) {
-				for (int j = 0; j < numberOfChannels; j++) {
-					writer.write(String.format("%d\t%d\t%f\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), itiCorrectedAvgData.get(i,j) , avgLogI0It.get(i, j), itiAvgData.get(i,j) , itDarkData.get(0, j)));
-				}
-			}
+			long startTime = System.nanoTime();
+			writeItRawSpectra( writer, energyData, itiCorrectedAvgData,  avgLogI0It, itiAvgData,  itDarkData );
+			//						for (int i = 0; i < numberOfSpectra; i++) {
+			//							for (int j = 0; j < numberOfChannels; j++) {
+			//								writer.write(String.format("%d\t%d\t%f\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), itiCorrectedAvgData.get(i,j) , avgLogI0It.get(i, j), itiAvgData.get(i,j) , itDarkData.get(0, j)));
+			//							}
+			//
+			//						}
+			writer.close();
+			long endTime = System.nanoTime();
+			logger.info( String.format("Raw It data write to Ascii took %.2f secs\n",(endTime-startTime)*1e-9) );
+
 		} catch (Exception e) {
 			logger.error("Unable to create " + filePathName, e);
 		} finally {
@@ -299,27 +476,45 @@ public class TimeResolvedDataFileHelper {
 		String itiFilePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.IT_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
 		String itFFilePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
 		String itAvgFileFPathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
+		String header = "# index\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\n";
 
 		FileWriter itiWriter = new FileWriter(itiFilePathName);
 		FileWriter itffWriter = new FileWriter(itFFilePathName);
 		FileWriter itavgWriter = new FileWriter(itAvgFileFPathName);
 		try {
-			writeMetaData(scannablesDescription, metaData, itiWriter);
-			writeMetaData(scannablesDescription, metaData, itffWriter);
-			writeMetaData(scannablesDescription, metaData, itavgWriter);
-			String header = "# index\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\n";
-			itiWriter.write(header);
-			itffWriter.write(header);
-			itavgWriter.write(header);
 			DoubleDataset i0f = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
 			DoubleDataset i0avg = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
-			for (int i = 0; i < numberOfSpectra; i++) {
-				for (int j = 0; j < numberOfChannels; j++) {
-					itiWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), avgLogI0It.get(i, j)));
-					itffWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), i0f.get(i, j)));
-					itavgWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), i0avg.get(i, j)));
-				}
-			}
+
+			long startTime = System.nanoTime();
+
+			writeMetaData(scannablesDescription, metaData, itiWriter);
+			itiWriter.write(header);
+			writeSpectra( itiWriter, false, energyData, avgLogI0It );
+			itiWriter.close();
+
+			writeMetaData(scannablesDescription, metaData, itffWriter);
+			itffWriter.write(header);
+			writeSpectra( itffWriter, false, energyData, i0f );
+			itffWriter.close();
+
+			writeMetaData(scannablesDescription, metaData, itavgWriter);
+			itavgWriter.write(header);
+			writeSpectra( itavgWriter, false, energyData, i0avg );
+			itavgWriter.close();
+			//			for (int i = 0; i < numberOfSpectra; i++) {
+			//				itiWriter.write( buildSpectraStringOld( decimalFormatter, i, energyData, avgLogI0It ) );
+			//				itffWriter.write( buildSpectraStringOld( decimalFormatter, i, energyData, i0f ) );
+			//				itavgWriter.write( buildSpectraStringOld( decimalFormatter, i, energyData, i0avg ) );
+			//				/*
+			//						for (int j = 0; j < numberOfChannels; j++) {
+			//							itiWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), avgLogI0It.get(i, j)));
+			//							itffWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), i0f.get(i, j)));
+			//							itavgWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), i0avg.get(i, j)));
+			//						}
+			//				 */
+			//			}
+			long endTime = System.nanoTime();
+			logger.info( String.format("Processed data write to Ascii took %.2f secs\n", (endTime-startTime)*1e-9) );
 		} catch (Exception e) {
 			logger.error("Unable to create " + filePathName, e);
 		} finally {
@@ -330,8 +525,8 @@ public class TimeResolvedDataFileHelper {
 
 		if (iRefiNormalisedData != null) {
 			// Create IRef_raw
-			numberOfSpectra = iRefiNormalisedData.getShape()[0];
-			numberOfChannels = iRefiNormalisedData.getShape()[1];
+			//			numberOfSpectra = iRefiNormalisedData.getShape()[0];
+			//			numberOfChannels = iRefiNormalisedData.getShape()[1];
 			metaData = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.IREF_DATA_NAME);
 			filePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.IREF_RAW_DATA_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
 			writer = new FileWriter(filePathName);
@@ -340,11 +535,13 @@ public class TimeResolvedDataFileHelper {
 				writer.write("# index\t" + EdeDataConstants.STRIP_COLUMN_NAME + "\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 						+ EdeDataConstants.IREF_DATA_NAME + "\t" + EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\t" + EdeDataConstants.IREF_RAW_DATA_NAME + "\t"
 						+ EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
-				for (int i = 0; i < numberOfSpectra; i++) {
-					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("%d\t%d\t%f\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), iRefiCorrecteddata.get(i,j) , iRefiNormalisedData.get(i, j), iRefidata.get(i,j) , iRefDarkData.get(i, j)));
-					}
-				}
+
+				writeSpectra( writer, true, energyData, iRefiCorrecteddata, iRefiNormalisedData, iRefidata, iRefDarkData);
+				//				for (int i = 0; i < numberOfSpectra; i++) {
+				//					for (int j = 0; j < numberOfChannels; j++) {
+				//						writer.write(String.format("%d\t%d\t%f\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), iRefiCorrecteddata.get(i,j) , iRefiNormalisedData.get(i, j), iRefidata.get(i,j) , iRefDarkData.get(i, j)));
+				//					}
+				//				}
 			} catch (Exception e) {
 				logger.error("Unable to create " + filePathName, e);
 			} finally {
@@ -357,11 +554,14 @@ public class TimeResolvedDataFileHelper {
 				writeMetaData(scannablesDescription, metaData, writer);
 				writer.write("# index\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 						+ EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\n");
-				for (int i = 0; i < numberOfSpectra; i++) {
-					for (int j = 0; j < numberOfChannels; j++) {
-						writer.write(String.format("0%d\t%f\t%f\n", i, energyData.get(j), iRefiNormalisedData.get(i, j)));
-					}
-				}
+
+				writeSpectra( writer, false, energyData, iRefiNormalisedData);
+				//				for (int i = 0; i < numberOfSpectra; i++) {
+				//					writer.write( buildSpectraString(decimalFormatter, i, false, energyData, iRefiNormalisedData) );
+				//					for (int j = 0; j < numberOfChannels; j++) {
+				//						writer.write(String.format("0%d\t%f\t%f\n", i, energyData.get(j), iRefiNormalisedData.get(i, j)));
+				//					}
+				//				}
 			} catch (Exception e) {
 				logger.error("Unable to create " + filePathName, e);
 			} finally {
@@ -374,11 +574,13 @@ public class TimeResolvedDataFileHelper {
 					writeMetaData(scannablesDescription, metaData, writer);
 					writer.write("# index\t" + EdeDataConstants.ENERGY_COLUMN_NAME + "\t"
 							+ EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\n");
-					for (int i = 0; i < numberOfSpectra; i++) {
-						for (int j = 0; j < numberOfChannels; j++) {
-							writer.write(String.format("1%d\t%f\t%f\n", i, energyData.get(j), iReffNormalisedData.get(i, j)));
-						}
-					}
+
+					writeSpectra( writer, false, energyData, iReffNormalisedData );
+					//					for (int i = 0; i < numberOfSpectra; i++) {
+					//						for (int j = 0; j < numberOfChannels; j++) {
+					//							writer.write(String.format("1%d\t%f\t%f\n", i, energyData.get(j), iReffNormalisedData.get(i, j)));
+					//						}
+					//					}
 				} catch (Exception e) {
 					logger.error("Unable to create " + filePathName, e);
 				} finally {
@@ -679,7 +881,14 @@ public class TimeResolvedDataFileHelper {
 		itData = getSlice(rawDataset, itRawDataSetIndex);
 		convertToCycledData(itData, cycleCount);
 		itCorrectedDataSet = itData.clone();
-		correctItData(itDarkData, itCorrectedDataSet, timingGroups);
+
+		// Null check added (so data from 'single spectrum' collection can also be written.
+		if ( itDarkData != null ) {
+			correctItData(itDarkData, itCorrectedDataSet, timingGroups);
+		} else if ( i0darkDataSet != null ) {
+			correctItData(i0darkDataSet, itCorrectedDataSet, timingGroups);
+		}
+
 		itNormalisedWithI0iData = createNormalisedItData(i0iCorrectedDataSet, itCorrectedDataSet, timingGroups);
 		if(i0fDataSetIndex != null) {
 			i0fData = getSlice(rawDataset, i0fDataSetIndex);

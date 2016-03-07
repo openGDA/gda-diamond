@@ -128,6 +128,10 @@ public abstract class EdeExperiment implements IObserver {
 
 	private static Gson gson = new Gson();
 
+	protected boolean useFastShutter;
+	protected String fastShutterName;
+	protected Scannable fastShutter;
+
 	public EdeExperiment(List<TimingGroup> itTimingGroups, String itTriggerOptions,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
@@ -137,6 +141,9 @@ public abstract class EdeExperiment implements IObserver {
 		itScanParameters.setGroups(itTimingGroups);
 		setupExperiment(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
+
+		useFastShutter = false;
+		fastShutter = null;
 	}
 
 	public EdeExperiment(EdeScanParameters itScanParameters, String itTriggerOptions,
@@ -242,17 +249,41 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract boolean shouldRunItDark();
 
+	/**
+	 * Method for creating EdeScan objects; includes setting of fastShutter
+	 * @param scanParams
+	 * @param scanPosition
+	 * @param scanType
+	 * @param detector
+	 * @param firstRepetitionIndex
+	 * @param topupChecker
+	 * @return EdeScan object
+	 * @since 23/2/2016
+	 */
+	public EdeScan makeEdeScan( EdeScanParameters scanParams, EdeScanPosition scanPosition, EdeScanType scanType, EdeDetector detector, int firstRepetitionIndex, TopupChecker topupChecker ) {
+		EdeScan edeScan = new EdeScan( scanParams, scanPosition, scanType, detector, firstRepetitionIndex, beamLightShutter, topupChecker );
+
+		// Set option for using fast shutter during scan
+		edeScan.setUseFastShutter(useFastShutter);
+		if ( useFastShutter == true && fastShutterName != null ) {
+			fastShutter = (Scannable) Finder.getInstance().find( fastShutterName );
+			edeScan.setFastShutter( fastShutter );
+		}
+
+		return edeScan;
+	}
+
 	private void addScansForExperiment() throws Exception {
 
 		double timeToTopup = getNextTopupTime();
 		i0ScanParameters.setUseFrameTime(false);
-		i0DarkScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, createTopupCheckerForStartOfExperiment(timeToTopup));
+		i0DarkScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, createTopupCheckerForStartOfExperiment(timeToTopup));
 		i0DarkScan.setProgressUpdater(this);
 		scansBeforeIt.add(i0DarkScan);
 
 		if (runIRef) {
 			iRefScanParameters.setUseFrameTime(false);
-			iRefDarkScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			iRefDarkScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, null);
 			scansBeforeIt.add(iRefDarkScan);
 			iRefDarkScan.setProgressUpdater(this);
 		}
@@ -269,6 +300,11 @@ public abstract class EdeExperiment implements IObserver {
 			clearScans();
 			addScansForExperiment();
 			nexusFilename = addToMultiScanAndRun();
+			if (beamLightShutter!= null) {
+				beamLightShutter.moveTo("Close");
+				logger.info("Close shutter called in EdeExperiment.runExperiment() at end of scan before writing ascii files");
+				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of scan, before writing ascii files.");
+			}
 			String asciiDataFile = writeToFiles();
 			return asciiDataFile;
 		} catch(Exception e) {
@@ -277,8 +313,8 @@ public abstract class EdeExperiment implements IObserver {
 		} finally {
 			theDetector.stop();
 			if (beamLightShutter!= null) {
-				logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
-				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
+				//logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
+				//InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
 				beamLightShutter.moveTo("Close");
 			}
 		}
@@ -434,8 +470,8 @@ public abstract class EdeExperiment implements IObserver {
 		topupchecker.setScannableToBeMonitored(topup);
 		topupchecker.setCollectionTime(timeRequired);
 		topupchecker.setTimeout(timeRequired * 1.25);
-		topupchecker.setWaittime(10); // fixed for EDE beamline
-		topupchecker.setTolerance(0);
+		topupchecker.setWaittime(5); // fixed for EDE beamline
+		topupchecker.setTolerance(2);
 		topupchecker.setPauseBeforeScan(true);
 		topupchecker.setPauseBeforePoint(false);
 
@@ -453,6 +489,27 @@ public abstract class EdeExperiment implements IObserver {
 		return topupchecker;
 	}
 
+	/**
+	 * Create topup checker for specified time interval
+	 * @param timeRequired
+	 * @param timeUntilNextTopup
+	 * @return TopupChecker
+	 * @since 29/2/2016
+	 */
+	protected TopupChecker createTopupChecker( double timeRequired, double timeUntilNextTopup ) {
+		if (timeRequired < timeUntilNextTopup) {
+			// Don't wait for topup
+			return null;
+		}
+
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
+		if (timeRequired >= TOP_UP_TIME) {
+			logger.info("Time required ("+timeRequired+") secs is too large to fit within a topup");
+		}
+
+		return createTopupChecker(timeRequired);
+	}
+
 	protected TopupChecker createTopupCheckerForStartOfExperiment(double nextTopupTime) throws Exception {
 		// double predictedExperimentTime = getTimeRequiredForFullExperiment();
 		double timeForPreItScans = getTimeRequiredBeforeItCollection();
@@ -461,16 +518,47 @@ public abstract class EdeExperiment implements IObserver {
 			return null;
 		}
 
-		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups. 
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
 		if (timeForPreItScans >= TOP_UP_TIME) {
 			logger.info("Time required for before It collection ("+timeForPreItScans+") secs is too large to fit within a topup");
 		}
 
 		return createTopupChecker(timeForPreItScans);
 	}
+	/**
+	 * Create topup checker to be used for main It collection.
+	 * @param nextTopupTime
+	 * @return TopupChecker
+	 * @throws Exception
+	 * @since 22/1/2016
+	 */
+	protected TopupChecker createTopupCheckerForItCollection(double nextTopupTime) throws Exception {
+		// double predictedExperimentTime = getTimeRequiredForFullExperiment();
+		double timeForItScan = getTimeRequiredForItCollection();
+
+		if (timeForItScan < nextTopupTime) {
+			// Don't wait for topup
+			return null;
+		}
+
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups. imh 14/10/2015
+		if (timeForItScan >= TOP_UP_TIME) {
+			logger.info("Time required for before It collection ("+timeForItScan+") secs is too large to fit within a topup");
+		}
+		return createTopupChecker(timeForItScan);
+
+	}
 
 	protected double getNextTopupTime() throws DeviceException {
 		return (double) topup.getPosition();
+	}
+
+	public boolean getItWaitForTopup() {
+		if ( itScanParameters.getGroups().size() > 0 ) {
+			return itScanParameters.getGroups().get(0).getUseTopChecker();
+		} else {
+			return false;
+		}
 	}
 
 	protected EdeScanPosition setPosition(EdePositionType type, Map<String, Double> scanableMotorPositions) throws DeviceException {
@@ -577,4 +665,19 @@ public abstract class EdeExperiment implements IObserver {
 		this.multiScan = multiScan;
 	}
 
+	public boolean getUseFastShutter() {
+		return useFastShutter;
+	}
+
+	public void setUseFastShutter(boolean useFastShutter) {
+		this.useFastShutter = useFastShutter;
+	}
+
+	public String getFastShutterName() {
+		return fastShutterName;
+	}
+
+	public void setFastShutterName(String fastShutterName) {
+		this.fastShutterName = fastShutterName;
+	}
 }

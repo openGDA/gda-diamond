@@ -21,6 +21,7 @@ package gda.scan.ede;
 import java.util.Map;
 
 import gda.device.DeviceException;
+import gda.device.scannable.TopupChecker;
 import gda.scan.EdeScan;
 import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
@@ -70,6 +71,12 @@ public class SingleSpectrumScan extends EdeExperiment {
 		setCommonI0Parameters(i0AccumulationTime, i0NoOfAccumulcation);
 	}
 
+	public void setUseTopupChecker( boolean useTopupChecker ) {
+		if ( itScanParameters.getGroups().size() > 0 ) {
+			itScanParameters.getGroups().get(0).setUseTopupChecker( useTopupChecker );
+		}
+	}
+
 	@Override
 	protected ExperimentCollectionType getCollectionType() {
 		return ExperimentCollectionType.SINGLE;
@@ -99,8 +106,10 @@ public class SingleSpectrumScan extends EdeExperiment {
 
 	@Override
 	public EdeExperimentDataWriter createFileWritter() {
-		return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
-				i0DarkScan, itDarkScan, theDetector);
+		//return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
+		//		i0DarkScan, itDarkScan, theDetector);
+		return new EdeSingleSpectrumAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
+				itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
 	}
 
 	@Override
@@ -116,26 +125,30 @@ public class SingleSpectrumScan extends EdeExperiment {
 		if (shouldRunItDark()) {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
 			itDarkScanParameters.setUseFrameTime(false);
-			itDarkScan = new EdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			itDarkScan = makeEdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, null);
 			itDarkScan.setProgressUpdater(this);
 			scansBeforeIt.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
+		// Add topup checker for I0 to make sure I0 and It collection occur in same topup cycle.
+		double timeRequired = getTimeRequiredBeforeItCollection() + getTimeRequiredForItCollection();
+		TopupChecker topupChecker = getItWaitForTopup() ? createTopupChecker(timeRequired, timeToTopup) : null;
+
 		i0ScanParameters.setUseFrameTime(false);
-		i0LightScan = new EdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+		i0LightScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, topupChecker);
 		i0LightScan.setProgressUpdater(this);
 		scansBeforeIt.add(i0LightScan);
 
 		if (runIRef) {
 			i0ForiRefScanParameters.setUseFrameTime(false);
-			i0ForiRefScan = new EdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			i0ForiRefScan = makeEdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
 			scansBeforeIt.add(i0ForiRefScan);
 			i0ForiRefScan.setProgressUpdater(this);
 
 			iRefScanParameters.setUseFrameTime(false);
-			iRefScan = new EdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, beamLightShutter, null);
+			iRefScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
 			scansBeforeIt.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
 		}
@@ -145,7 +158,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 
 			itScanParameters.setUseFrameTime(false);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, false);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
@@ -153,7 +166,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 			itScans = new EdeScan[repetitions];
 			itScanParameters.setUseFrameTime(false);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter,createTopupCheckerForStartOfExperiment(timeToTopup));
+				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, null);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
@@ -172,7 +185,6 @@ public class SingleSpectrumScan extends EdeExperiment {
 		}
 	}
 
-	// These functions are now implemented in parent class (EdeExperiment)
 	//	@Override
 	//	protected double getTimeRequiredBeforeItCollection() {
 	//		// TODO Auto-generated method stub
