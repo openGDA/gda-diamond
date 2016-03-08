@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,13 +74,13 @@ public class ScannableMotorMoveObserver implements IObserver {
 			public void handleListChange(ListChangeEvent event) {
 				if (event.getObservableList().isEmpty()) {
 					stopMotorsBarItem.setEnabled(false);
-					stopMotorsBarItem.setText("");
+					stopMotorsBarItem.setToolTipText("");
 				} else {
 					stopMotorsBarItem.setEnabled(true);
 					if (event.getObservableList().size() == 1) {
-						stopMotorsBarItem.setText("Stop " + ((Scannable) event.getObservableList().get(0)).getName());
+						stopMotorsBarItem.setToolTipText("Stop " + ((Scannable) event.getObservableList().get(0)).getName());
 					} else {
-						stopMotorsBarItem.setText("Stop");
+						stopMotorsBarItem.setToolTipText("Stop");
 					}
 				}
 				motorSection.layout(true);
@@ -106,5 +107,22 @@ public class ScannableMotorMoveObserver implements IObserver {
 			}
 		});
 		return stopMotorsBarItem;
+	}
+
+	/**
+	 * Create 'motor stop' button on toolbar of a composite section.
+	 * Refactored to avoid code duplication.
+	 * @param section
+	 * @param movingScannables
+	 * @since 1/3/2016
+	 */
+	public static void setupStopToolbarButton(Section section, final WritableList movingScannables) {
+		final ToolBar motorSectionTbar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);
+		@SuppressWarnings("unused")
+		ToolItem separator = new ToolItem(motorSectionTbar, SWT.SEPARATOR);
+		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
+		section.setTextClient(motorSectionTbar);
+		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(section, stopMotorsBarItem));
+		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
 	}
 }
