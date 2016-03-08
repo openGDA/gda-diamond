@@ -140,65 +140,14 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 				});
 	}
 
-	// FIXME Replicated code, refactor!
 	private void createRunCollectionButtons(Composite formParent) {
 		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
-		Composite acquisitionButtonsComposite = new Composite(formParent, SWT.NONE);
+		Composite acquisitionButtonsComposite = toolkit.createComposite(formParent, SWT.NONE);
 		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
 		toolkit.paintBordersFor(acquisitionButtonsComposite);
 
 		SingleSpectrumCollectionView.addCollectionControls( acquisitionButtonsComposite, toolkit, null, null );
-
-		/*
-		Button startAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Start", SWT.PUSH);
-		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					singleSpectrumDataModel.doCollection(false, null, "");
-				} catch (Exception e) {
-					UIHelper.showError("Unable to scan", e.getMessage());
-					logger.error("Unable to scan", e);
-				}
-			}
-		});
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
-				null,
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return (!(boolean) value);
-					}
-				});
-
-		Button stopAcquicitionButton = toolkit.createButton(acquisitionButtonsComposite, "Stop", SWT.PUSH);
-		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				singleSpectrumDataModel.doStop();
-			}
-		});
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
-				null,
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return value;
-					}
-				});
-
-		 */
-
 	}
 
 	private void setupScannables() {

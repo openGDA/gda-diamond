@@ -64,8 +64,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -818,12 +816,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		labelDeltaEValue.setLayoutData(gridData);
 
-		final ToolBar motorSectionTbar = new ToolBar(motorSection, SWT.FLAT | SWT.HORIZONTAL);
-		new ToolItem(motorSectionTbar, SWT.SEPARATOR);
-		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
-		motorSection.setTextClient(motorSectionTbar);
-		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(motorSection, stopMotorsBarItem));
-		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
+		ScannableMotorMoveObserver.setupStopToolbarButton(motorSection, movingScannables);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(motorSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);

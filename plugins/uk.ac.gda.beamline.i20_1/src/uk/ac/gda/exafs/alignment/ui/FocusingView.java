@@ -31,8 +31,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -116,12 +114,7 @@ public class FocusingView extends ViewPart {
 		motorPositionEditorControl = new MotorPositionEditorControl(bendSelectionComposite, SWT.None, ScannableSetup.POLY_BENDER_2.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		final ToolBar motorSectionTbar = new ToolBar(bendSection, SWT.FLAT | SWT.HORIZONTAL);
-		new ToolItem(motorSectionTbar, SWT.SEPARATOR);
-		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
-		bendSection.setTextClient(motorSectionTbar);
-		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(bendSection, stopMotorsBarItem));
-		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
+		ScannableMotorMoveObserver.setupStopToolbarButton(bendSection, movingScannables);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(bendSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
@@ -162,13 +155,7 @@ public class FocusingView extends ViewPart {
 		motorPositionEditorControl = new MotorPositionEditorControl(curvatureSelectionComposite, SWT.None, ScannableSetup.POLY_TWIST.getScannableWrapper(), true);
 		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		final ToolBar motorSectionTbar = new ToolBar(curvatureSection, SWT.FLAT | SWT.HORIZONTAL);
-		@SuppressWarnings("unused")
-		ToolItem separator = new ToolItem(motorSectionTbar, SWT.SEPARATOR);
-		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
-		curvatureSection.setTextClient(motorSectionTbar);
-		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(curvatureSection, stopMotorsBarItem));
-		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
+		ScannableMotorMoveObserver.setupStopToolbarButton(curvatureSection, movingScannables);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(curvatureSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
@@ -185,13 +172,7 @@ public class FocusingView extends ViewPart {
 		toolkit.paintBordersFor(samplePositionSection);
 		samplePositionSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		final ToolBar motorSectionTbar = new ToolBar(samplePositionSection, SWT.FLAT | SWT.HORIZONTAL);
-		@SuppressWarnings("unused")
-		ToolItem separator = new ToolItem(motorSectionTbar, SWT.SEPARATOR);
-		final ToolItem stopMotorsBarItem = ScannableMotorMoveObserver.setupStopToolItem(motorSectionTbar, movingScannables);
-		samplePositionSection.setTextClient(motorSectionTbar);
-		movingScannables.addListChangeListener(ScannableMotorMoveObserver.getStopButtonListener(samplePositionSection, stopMotorsBarItem));
-		stopMotorsBarItem.setEnabled(!movingScannables.isEmpty());
+		ScannableMotorMoveObserver.setupStopToolbarButton(samplePositionSection, movingScannables);
 
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(samplePositionSection);
 		toolkit.paintBordersFor(defaultSectionSeparator);
@@ -239,12 +220,12 @@ public class FocusingView extends ViewPart {
 			motorPositionEditorControl.setLayoutData(controlGridData);
 		}
 		//TODO take the following out and ensure the for loop above covered Sample_Z motor
-//		Label lblSampleZ = toolkit.createLabel(parent, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
-//		lblSampleZ.setLayoutData(labelGridData);
-//		Scannable scannable = ScannableSetup.SAMPLE_Z_POSITION.getScannable();
-//		scannable.addIObserver(moveObserver);
-//		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None,  ScannableSetup.SAMPLE_Z_POSITION.getScannableWrapper(), true);
-//		motorPositionEditorControl.setLayoutData(controlGridData);
+		//		Label lblSampleZ = toolkit.createLabel(parent, ScannableSetup.SAMPLE_Z_POSITION.getLabel(), SWT.NONE);
+		//		lblSampleZ.setLayoutData(labelGridData);
+		//		Scannable scannable = ScannableSetup.SAMPLE_Z_POSITION.getScannable();
+		//		scannable.addIObserver(moveObserver);
+		//		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None,  ScannableSetup.SAMPLE_Z_POSITION.getScannableWrapper(), true);
+		//		motorPositionEditorControl.setLayoutData(controlGridData);
 	}
 
 	@Override
