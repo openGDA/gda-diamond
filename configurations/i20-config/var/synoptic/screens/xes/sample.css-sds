@@ -9,6 +9,7 @@
   <property type="sds.action" id="actionData">
     <actionData />
   </property>
+  <property type="sds.boolean" id="open_relative_on" value="false" />
   <property type="sds.integer" id="position.x" value="0" />
   <property type="sds.integer" id="position.y" value="0" />
   <property type="sds.integer" id="width" value="555" />
@@ -43,7 +44,7 @@
   <property type="sds.boolean" id="grid_on" value="false" />
   <property type="sds.boolean" id="ruler_on" value="false" />
   <property type="sds.boolean" id="geometry_on" value="false" />
-  <layer layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
+  <layer layer_id="DEFAULT_LAYER_ID" layer_name="DEFAULT" layer_index="0" layer_visibility="true" />
 <widget type="org.csstudio.sds.components.Rectangle">
   <property type="sds.behavior" id="behavior" value="" />
   <property type="sds.string" id="primary_pv" value="" />
@@ -83,7 +84,7 @@
   <property type="sds.paramstring" id="tooltip" value="" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -123,7 +124,7 @@
   <property type="sds.paramstring" id="tooltip" value="${aliases}&#xA;Image:&#x9;${filename}" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -169,7 +170,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_rot" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -219,7 +220,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_y" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -269,7 +270,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_z" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -319,7 +320,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_x" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -385,7 +386,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_y" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -441,7 +442,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_fine_rot" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -497,7 +498,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_z" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -553,7 +554,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_x" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -609,7 +610,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_rot" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
 </widget>
@@ -657,7 +658,7 @@
   <property type="sds.paramstring" id="tooltip" value="stop motion" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -714,7 +715,7 @@
   <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=deg&#xD;Increment=1.0" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
@@ -776,7 +777,7 @@
   <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=deg&#xD;Increment=1.0" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
@@ -846,7 +847,7 @@
   <property type="sds.paramstring" id="tooltip" value="stop motion" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -903,7 +904,7 @@
   <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=deg&#xD;Increment=1.0" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
@@ -973,7 +974,7 @@
   <property type="sds.paramstring" id="tooltip" value="stop motion" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -1030,7 +1031,7 @@
   <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=deg&#xD;Increment=1.0" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
@@ -1071,7 +1072,8 @@
       </action_attribut>
     </actionData>
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <outputChannel name="gda://sample_finey.stop, double" value="" />
+      <inputChannel name="" value="" />
+      <outputChannel name="gda://sample_fine_rot.stop, double" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.integer" id="position.x" value="343" />
@@ -1100,7 +1102,7 @@
   <property type="sds.paramstring" id="tooltip" value="stop motion" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -1157,7 +1159,7 @@
   <property type="sds.paramstring" id="tooltip" value="Limits:Low=-10.0,High=10.0&#xD;Units=deg&#xD;Increment=1.0" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.double" id="readback" value="0.0">
@@ -1227,7 +1229,7 @@
   <property type="sds.paramstring" id="tooltip" value="stop motion" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">
@@ -1284,7 +1286,7 @@
   <property type="sds.paramstring" id="tooltip" value="sample_rot_fine" />
   <property type="sds.boolean" id="PROP_CROSSED_OUT" value="false" />
   <property type="sds.boolean" id="PROP_RHOMBUS" value="false" />
-  <property type="sds.string" id="layer" value="DEFAULT" />
+  <property type="sds.string" id="layer" value="DEFAULT_LAYER_ID" />
   <property type="sds.boolean" id="PROP_ACCESS_GRANTED" value="true" />
   <property type="sds.boolean" id="PROP_WRITE_ACCESS_GRANTED" value="true" />
   <property type="sds.path" id="filename">

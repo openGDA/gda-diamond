@@ -740,7 +740,7 @@
     <color hex="#000000" />
   </property>
   <property type="sds.string" id="viewid" value="" />
-  <property type="sds.string" id="server.command" value="calcExpectedPositions.applyFromLive(var)" />
+  <property type="sds.string" id="server.command" value="xes_calculate.applyFromLive(var)" />
   <property type="sds.string" id="server.command.variable" value="">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
       <inputChannel name="local://expeng, string" value="" />

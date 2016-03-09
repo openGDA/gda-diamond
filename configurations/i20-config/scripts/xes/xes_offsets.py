@@ -93,3 +93,28 @@ class XESOffsets:
             if scannable == None:
                 message = "scannable " + name +" could not be found. Will not apply offsets"
                 raise ValueError(message)
+
+# Added from 8.38 to get offset functionality back. imh 22/10/2015
+    def setFromExpectedValues(self, expectedValuesDict):
+        self._checkNameExists(expectedValuesDict)
+        offsetsDict = {}
+        for name in expectedValuesDict.keys():
+            expected = expectedValuesDict[name]
+            print "\t %s %f" % (name,expected)
+            newOffset = self._calcOffset(name,expected)
+            offsetsDict[name] = newOffset
+        print offsetsDict
+        self._applyFromDict(offsetsDict)
+        self.save()
+
+    def _calcOffset(self, name,expectedReadback):
+        scannable = self.spectrometer.getGroupMember(name)
+        if scannable == None:
+            raise "scannable",name,"could not be found. Will not apply offsets"
+        readback = scannable()
+        currentOffset = scannable.getOffset()
+        if currentOffset == None:
+            currentOffset = [0]
+        currentOffset = currentOffset[0]
+        newOffset = expectedReadback - (readback - currentOffset)
+        return newOffset

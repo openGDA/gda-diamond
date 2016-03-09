@@ -190,7 +190,7 @@
 		<property name="local" value="false"/>
 		<property name="deviceName" value="D8P" />
 	</bean>
-	
+
 	<bean id="d9_diode" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
 		<property name="local" value="false"/>
 		<property name="deviceName" value="D9"/>
@@ -215,4 +215,14 @@
 		<property name="pvName" value="BL20I-DI-IAMP-05:GAIN" />
 		<property name="local" value="false"/>
 	</bean>
+
+	<bean id="d10_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="D10.D1I" />
+		<property name="local" value="false"/>
+	</bean>
+	<bean id="d10_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
+		<property name="pvName" value="BL20I-DI-IAMP-06:GAIN" />
+		<property name="local" value="false"/>
+	</bean>
+
 </beans>

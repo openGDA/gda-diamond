@@ -1314,7 +1314,7 @@
   </property>
   <property type="sds.string" id="inputText" value="">
     <dynamicsDescriptor ruleId="directConnection" useConnectionStates="false">
-      <inputChannel name="gda://shutter1.strPos, string" value="" />
+      <inputChannel name="gda://shutter1.getPosition, string" value="" />
     </dynamicsDescriptor>
   </property>
   <property type="sds.option" id="value_type">
