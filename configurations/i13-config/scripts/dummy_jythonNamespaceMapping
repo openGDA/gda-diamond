@@ -44,6 +44,12 @@ tomography_beammonitor=ionc_i
 #tomography_beammonitor=iy_noisy
 #ionc_i=iy_noisy
 
-tomography_flyscan_theta=zebraSM1
+tomography_flyscan_theta=ss1_rot_dummy
 tomography_flyscan_det=flyScanDetector
 tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
+
+# used for grating-interferometry tomography step-scans
+tomography_grating_translation=smar_x
+
+tomography_grating_translation_outer=smar_x
+tomography_grating_translation_inner=smar_y
