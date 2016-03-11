@@ -23,6 +23,18 @@
 		<property name="motor" ref="dummyMotor5" />
 	</bean>
 
+	<bean id="x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotorX" />
+	</bean>
+
+	<bean id="y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotorY" />
+	</bean>
+
+	<bean id="z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotorZ" />
+	</bean>
+
 	<bean id="exposure" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="exposure" />
 	</bean>

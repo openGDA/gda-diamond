@@ -8,4 +8,18 @@
 	<bean id="dummyMotor3" class="gda.device.motor.DummyMotor" />
 	<bean id="dummyMotor4" class="gda.device.motor.DummyMotor" />
 	<bean id="dummyMotor5" class="gda.device.motor.DummyMotor" />
+
+	<bean id="abstractFastDummyMotor" abstract="true">
+		<property name="speed" value="1000.0" />
+		<property name="unitString" value="mm"/>
+		<!-- 
+		<property name="position" value="300"/>
+		<property name="minPosition" value="150"/>
+		<property name="maxPosition" value="1500"/>
+		 -->
+	</bean>
+
+	<bean id="dummyMotorX" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="dummyMotorY" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="dummyMotorZ" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
 </beans>

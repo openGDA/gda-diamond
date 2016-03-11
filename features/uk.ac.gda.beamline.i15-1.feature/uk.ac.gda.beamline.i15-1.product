@@ -11,21 +11,12 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.config=../workspace_git/gda-mt.git/configurations/i15-1-config
--Dgda.mode=live
--Djacorb.config.dir=../workspace_git/gda-mt.git/configurations/i15-1-config/jacorb/live
--Dgda.propertiesFile=../workspace_git/gda-mt.git/configurations/i15-1-config/properties/live/java.properties
--Dgov.aps.jca.JCALibrary.properties=../workspace_git/gda-mt.git/configurations/i15-1-config/jca/live/JCALibrary.properties
--Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i15-1-config/clients/main/common/pluginCustomization.ini
--Dgda.logs.dir=../../../logs
--Dgda.client.jython.automatic.interpreter=1
+      <vmArgs>-Dgda.client.jython.automatic.interpreter=1
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC
+-Xms512m -Xmx1024m -XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

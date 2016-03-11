@@ -100,13 +100,17 @@
 
 	<bean id="bpm1_SingleExposureStandardCollectionStrategy" 
 			class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true"/>
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true"/>
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="adBase" ref="bpm1AD_cam" />
+								<property name="restoreAcquireState" value="true"/>
 							</bean>
 						</property>
 					</bean>
@@ -148,8 +152,8 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="bpm1" class="gda.device.detector.NXDetector">
-		<property name="name" value="bpm1" />
+	<bean id="bpm1rawNx" class="gda.device.detector.NXDetector">
+		<property name="name" value="bpm1rawNx" />
 		<property name="collectionStrategy" ref="bpm1_SingleExposureStandardCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
