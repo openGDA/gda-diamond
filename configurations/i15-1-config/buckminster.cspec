@@ -3,6 +3,7 @@
         <cs:dependency name="diffcalc" componentType="buckminster"/>
         <cs:dependency name="mt-config" componentType="buckminster"/>
         <cs:dependency name="slf4j.api" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.daq.server.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i15-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
