@@ -1,1 +1,4 @@
-ssh -i /dls_sw/i18/software/gda/config/i18ssh.key gda2@i18-control
+# Invoke the command in gda2's ~/.ssh/authorisekeys file on the control 
+# machine passing the first param with the -- removed (to support --debug)
+
+ssh -i /dls_sw/i18/software/gda/config/i18ssh.key gda2@i18-control ${1:2}
