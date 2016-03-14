@@ -5,8 +5,5 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraDummy" />
-	<bean id="zebraSM1" class="gda.device.motor.DummyMotor" />
-	<bean id="zebraSM2" class="gda.device.motor.DummyMotor" />
-	<bean id="debenSM3" class="gda.device.motor.DummyMotor" />
 
 </beans>

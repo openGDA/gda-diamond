@@ -459,7 +459,9 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             raise "ionc_i is not defined in Jython namespace"
         ionc_i_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(ionc_i)
 
-        caput("BL13I-EA-ZEBRA-01:M3:SETPOS.PROC", 1)
+        #caput("BL13I-EA-ZEBRA-01:M3:SETPOS.PROC", 1)
+        zebra = finder.find("zebra")
+        zebra.encCopyMotorPosToZebra(3)
         meta_add( camera_stage)
         meta_add( sample_stage)
                
