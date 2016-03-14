@@ -32,10 +32,10 @@
         <level value="DEBUG"/>
     </logger>    
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO" />
-	<logger name="gda.device.corba.impl.DeviceAdapter - DeviceAdapter" level="INFO" />
+	<logger name="gda.device.corba.impl.DeviceAdapter" level="INFO" />
     
     <root>
-        <level value="ALL"/>
+        <level value="DEBUG"/>
         <appender-ref ref="LogPanel"/>
         <appender-ref ref="DebugPanel"/>
         <appender-ref ref="SOCKET"/>
