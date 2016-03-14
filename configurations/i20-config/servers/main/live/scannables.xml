@@ -20,13 +20,13 @@
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
 		<property name="local" value="true" />
+		<property name="machineModeMonitor" ref="machineModeMonitor" />
 	</bean>
 
 	<bean id="shutterChecker" class="gda.device.scannable.ShutterChecker">
 		<property name="shutter" ref="shutter1" />
 		<property name="pssPVName" value="BL20I-PS-IOC-01:M11:LOP"/>
 <!-- 		private static final String[] ehDetectorNames = new String[] { "ionchambers", "xspress2system", "xmapMca", "I1", "FFI0", "FFI1", "FFI0_vortex", "d9_current", "d9_gain" }; -->
-	
 	</bean>
 
 	<bean id="test_motor" class="gda.device.motor.DummyMotor">
