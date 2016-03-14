@@ -112,7 +112,8 @@ except:
 	print "Could not set up metadatatweaks"
 
 import bslUtils
-bslUtils.createBslFiles(False)
+bslUtils.restore()
+print '\t%sconverting to BSL' %('' if bslUtils.isConvertingOn() else 'not ',)
 
 #run("BeamlineScripts/master.py")
 run(setupScriptDir +  "atten.py")
