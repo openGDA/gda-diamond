@@ -15,6 +15,8 @@ from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
 from gdascripts.scan import specscans
 from gdascripts.scan import gdascans
 
+from ScanFileProcessing import getFileProcessor
+
 from gda.jython.commands.GeneralCommands import alias
 
 print "Setting up scan data processor, scan_processor"
@@ -43,6 +45,9 @@ scan_processor = ScanDataProcessor([mnpav, mxpav, gpab, ge, tge], globals())
 
 go = scan_processor.go
 alias("go")
+
+process1d = getFileProcessor(scan_processor)
+alias("process1d")
 
 print "Creating spec-like commands:"
 ascan  = specscans.Ascan([scan_processor])
