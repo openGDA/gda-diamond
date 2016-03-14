@@ -10,6 +10,7 @@ from gdascripts.analysis.datasetprocessor.oned.MinPositionAndValue import MinPos
 from gdascripts.analysis.datasetprocessor.oned.CentreOfMass import CentreOfMass
 from gdascripts.analysis.datasetprocessor.oned.GaussianPeakAndBackground import  GaussianPeakAndBackground
 from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import  GaussianEdge
+from gdascripts.analysis.datasetprocessor.oned.TwoGaussianEdges import TwoGaussianEdges
 from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
 from gdascripts.scan import specscans
 from gdascripts.scan import gdascans
@@ -20,10 +21,26 @@ print "Setting up scan data processor, scan_processor"
 ge=GaussianEdge()
 ge.smoothwidth=5
 ge.plotPanel = "Edge Fit Plot"
+ge.formatString = 'Edge at %-14.6gslope: %.6g, fwhm: %.6g, residual: %.6g'
+
+tge = TwoGaussianEdges(smoothwidth=3,
+		labelList=('centre','upos','dpos', 'width'),
+		keyxlabel='centre',
+		plotPanel='Two Edge Plot',
+		formatString='Centre at %-12.6gupos: %.6g, dpos: %.6g, width: %.6g')
 
 gpab = GaussianPeakAndBackground()
 gpab.plotPanel = "Peak Fit Plot"
-scan_processor = ScanDataProcessor([MaxPositionAndValue(),MinPositionAndValue(), gpab, ge], globals())
+gpab.formatString = 'Peak at %-14.6goffset: %.6g, top: %.6g, fwhm: %.6g, residual: %.6g'
+
+mxpav = MaxPositionAndValue()
+mxpav.formatString = 'maxval at %-12.6gmaxval = %.6g'
+
+mnpav = MinPositionAndValue()
+mnpav.formatString = 'minval at %-12.6gminval = %.6g'
+
+scan_processor = ScanDataProcessor([mnpav, mxpav, gpab, ge, tge], globals())
+
 go = scan_processor.go
 alias("go")
 
