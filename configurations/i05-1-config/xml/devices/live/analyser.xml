@@ -81,13 +81,6 @@
 			</list>
 		</property>
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
-		<property name="dataChunking">
-			<list>
-				<value>5</value>
-				<value>1000</value>
-				<value>50</value>
-			</list>
-		</property>
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
