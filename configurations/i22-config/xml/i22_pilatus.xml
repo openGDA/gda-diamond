@@ -80,7 +80,7 @@
 		<property name="stats" ref="stats" />
 	</bean>
 
-	<bean id="Pilatus2M" class="uk.ac.gda.server.ncd.subdetector.NcdPilatusAD">
+	<bean id="Pilatus2M_SAXS" class="uk.ac.gda.server.ncd.subdetector.NcdPilatusAD">
 		<property name="controller" ref="controller" />
 		<property name="detectorType" value="SAXS" />
 		<property name="pixelSize" value="0.000172" />

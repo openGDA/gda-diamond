@@ -236,7 +236,7 @@
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
 			<list>
-				<ref bean="Pilatus2M" />
+				<ref bean="Pilatus2M_SAXS" />
 				<ref bean="Pilatus2M_WAXS" />
 				<!-- <ref bean="Hotwaxs" /> -->
 				<ref bean="Scalers" />
