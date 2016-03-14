@@ -58,7 +58,6 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 	private Button shutterButton;
 	private AnalyserCapabilties capabilities;
 
-	@SuppressWarnings("unused") //compiler thinks NudgePositionerComposite isn't used
 	public I05_1ContinuousModeControllerComposite(Composite parent, AnalyserCapabilties capabilities) {
 		super(parent, SWT.NONE);
 		this.capabilities = capabilities;
@@ -67,8 +66,9 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		RowLayoutFactory.swtDefaults().type(SWT.VERTICAL).spacing(5).wrap(false).applyTo(this);
 
 		// Analyser group
-		Group analyserGroup = new Group(this, SWT.DEFAULT);
+		Group analyserGroup = new Group(this, SWT.NONE);
 		analyserGroup.setText("Analyser");
+		analyserGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(analyserGroup);
 
 		// Lens mode
@@ -166,8 +166,9 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		stopButton.addSelectionListener(stopListener);
 
 		// Beamline group
-		Group beamlineGroup = new Group(this, SWT.DEFAULT);
+		Group beamlineGroup = new Group(this, SWT.NONE);
 		beamlineGroup.setText("Beamline");
+		beamlineGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(beamlineGroup);
 
 		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);

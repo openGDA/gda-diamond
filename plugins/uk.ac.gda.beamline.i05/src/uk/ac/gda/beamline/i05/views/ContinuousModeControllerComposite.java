@@ -58,7 +58,6 @@ public class ContinuousModeControllerComposite extends Composite {
 	private Button shutterButton;
 	private AnalyserCapabilties capabilities;
 
-	@SuppressWarnings("unused")
 	// compiler thinks NudgePositionerComposite isn't used
 	public ContinuousModeControllerComposite(Composite parent, AnalyserCapabilties capabilities) {
 		super(parent, SWT.NONE);
@@ -68,8 +67,9 @@ public class ContinuousModeControllerComposite extends Composite {
 		RowLayoutFactory.swtDefaults().type(SWT.VERTICAL).spacing(5).wrap(false).applyTo(this);
 
 		// Analyser group
-		Group analyserGroup = new Group(this, SWT.DEFAULT);
+		Group analyserGroup = new Group(this, SWT.NONE);
 		analyserGroup.setText("Analyser");
+		analyserGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(analyserGroup);
 
 		// Lens mode
@@ -161,8 +161,9 @@ public class ContinuousModeControllerComposite extends Composite {
 		stopButton.addSelectionListener(stopListener);
 
 		// Beamline group
-		Group beamlineGroup = new Group(this, SWT.DEFAULT);
+		Group beamlineGroup = new Group(this, SWT.NONE);
 		beamlineGroup.setText("Beamline");
+		beamlineGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		GridLayoutFactory.swtDefaults().numColumns(5).spacing(10, 0).applyTo(beamlineGroup);
 
 		NudgePositionerComposite energyNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
@@ -190,8 +191,9 @@ public class ContinuousModeControllerComposite extends Composite {
 		shutterButton.addSelectionListener(shutterButtonListener);
 
 		// Sample Translations
-		Group translationNpcGroup = new Group(this, SWT.DEFAULT);
+		Group translationNpcGroup = new Group(this, SWT.NONE);
 		translationNpcGroup.setText("Sample Translations");
+		translationNpcGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).wrap(true).applyTo(translationNpcGroup);
 
 		NudgePositionerComposite saxNPC = new NudgePositionerComposite(translationNpcGroup, SWT.NONE);
@@ -204,8 +206,9 @@ public class ContinuousModeControllerComposite extends Composite {
 		salongNPC.setScannable((Scannable) Finder.getInstance().find("salong"));
 
 		// Sample Rotations
-		Group rotationNpcGroup = new Group(this, SWT.DEFAULT);
+		Group rotationNpcGroup = new Group(this, SWT.NONE);
 		rotationNpcGroup.setText("Sample Rotations");
+		rotationNpcGroup.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		RowLayoutFactory.swtDefaults().type(SWT.HORIZONTAL).spacing(10).applyTo(rotationNpcGroup);
 
 		NudgePositionerComposite satiltNPC = new NudgePositionerComposite(rotationNpcGroup, SWT.NONE);
