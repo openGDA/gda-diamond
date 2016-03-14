@@ -1,4 +1,4 @@
-
+from gda.configuration.properties import LocalProperties
 from gda.observable import IObserver
 
 class DetGuard(IObserver):
@@ -32,21 +32,28 @@ class DetGuard(IObserver):
         for shutter in self.shutters:
             shutter("Close")
 
-detguard=DetGuard(ncddetectors, eh_shutter, det_shutter)
 
-detguard.limits["Rapid2Dpeaksoft"]=0.75*1000000
-detguard.limits["Rapid2Dpeakhard"]=1000000
-detguard.limits["Rapid2Dsumsoft"]=0.75*3*1000000
-detguard.limits["Rapid2Dsumhard"]=3*1000000
+DETGUARD_CREATED_PROPERTY = 'i22.rate.detguard.created'
+if not LocalProperties.check(DETGUARD_CREATED_PROPERTY):
+    detguard=DetGuard(ncddetectors, eh_shutter, det_shutter)
 
-detguard.limits["Hotwaxspeaksoft"]=0.75*1000000
-detguard.limits["Hotwaxspeakhard"]=1000000
+    detguard.limits["Rapid2Dpeaksoft"]=0.75*1000000
+    detguard.limits["Rapid2Dpeakhard"]=1000000
+    detguard.limits["Rapid2Dsumsoft"]=0.75*3*1000000
+    detguard.limits["Rapid2Dsumhard"]=3*1000000
 
-detguard.limits["Hotsaxspeaksoft"]=0.75*1000000
-detguard.limits["Hotsaxspeakhard"]=1000000
+#detguard.limits["Hotwaxspeaksoft"]=0.75*1000000
+#detguard.limits["Hotwaxspeakhard"]=1000000
 
-detguard.limits["Pilatus2Mpeakcountssoft"]=0.75*1000000
-detguard.limits["Pilatus2Mpeakcountshard"]=1000000
+#detguard.limits["Hotsaxspeaksoft"]=0.75*1000000
+#detguard.limits["Hotsaxspeakhard"]=1000000
+
+    detguard.limits["Pilatus2M_SAXSpeakcountssoft"]=0.75*1000000
+    detguard.limits["Pilatus2M_SAXSpeakcountshard"]=1000000
+
+    detguard.limits["Pilatus2M_WAXSpeakcountssoft"]=0.75*1000000
+    detguard.limits["Pilatus2M_WAXSpeakcountshard"]=1000000
 
 # 65536
-detguard.limits["Marpeakcountssoft"]=65500
+    detguard.limits["Marpeakcountssoft"]=65500
+    LocalProperties.set(DETGUARD_CREATED_PROPERTY, "True")
