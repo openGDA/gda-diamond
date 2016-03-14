@@ -9,6 +9,9 @@
 
 #fs_motor=SingleEpicsPositionerClass('fs_motor', 'BL22I-EA-SHTR-01:Y.VAL', 'BL22I-EA-SHTR-01:Y.RBV' , 'BL22I-EA-SHTR-01:Y.DMOV' , 'BL22I-EA-SHTR-01:Y.STOP','mm', '%.5f')
 d13_motor=SingleEpicsPositionerClass('d13_motor', 'BL22I-DI-PHDGN-13:P:SETVALUE2.VAL', 'BL22I-DI-PHDGN-13:POSN.RBV' , 'BL22I-DI-PHDGN-13:POSN.DMOV' , 'BL22I-DI-PHDGN-13:POSN.STOP','mm', '%.5f')
+#wd_x2=SingleEpicsPositionerClass('wd_x2', 'BL22I-EA-DET-05:X', 'BL22I-EA-DET-05:X.RBV' , 'BL22I-EA-DET-05:X.DMOV' , 'BL22I-EA-DET-05:X.STOP','mm', '%.5f')
+#wd_y2=SingleEpicsPositionerClass('wd_y2', 'BL22I-EA-DET-05:Y', 'BL22I-EA-DET-05:Y.RBV' , 'BL22I-EA-DET-05:Y.DMOV' , 'BL22I-EA-DET-05:Y.STOP','mm', '%.5f')
+#gonio_yaw=SingleEpicsPositionerClass('gonio_yaw', 'BL22I-EA-GONIO-01:YAW', 'BL22I-EA-GONIO-01:YAW.RBV' , 'BL22I-EA-GONIO-01:YAW.DMOV' , 'BL22I-EA-GONIO-01:YAW.STOP','deg', '%.3f')
 #hexapod_x=SingleEpicsPositionerClass('hexapod_x', 'BL22I-MO-HEX-01:X.VAL' , 'BL22I-MO-HEX-01:X.RBV' , 'BL22I-MO-HEX-01:X.DMOV' , 'BL22I-MO-HEX-01:X.STOP' , 'mm', '%.5f')
 #hexapod_y=SingleEpicsPositionerClass('hexapod_y', 'BL22I-MO-HEX-01:Y.VAL' , 'BL22I-MO-HEX-01:Y.RBV' , 'BL22I-MO-HEX-01:Y.DMOV' , 'BL22I-MO-HEX-01:Y.STOP' , 'mm', '%.5f')
 #bioy=SingleEpicsPositionerClass('bioy', 'BL22I-EA-BSAX-01:Y.VAL' , 'BL22I-EA-BSAX-01:Y.RBV' , 'BL22I-EA-BSAX-01:Y.DMOV' , 'BL22I-EA-BSAX-01:Y.STOP' , 'mm', '%.5f')
