@@ -33,4 +33,34 @@
                 <property name="local" value="true" />
                 <property name="protectionLevel" value="3" />
         </bean>
+
+        <bean id="wdl_y_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-EA-DET-05:Y" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="wdl_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="wdl_y_motor" />
+                <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
+        </bean>
+
+        <bean id="wdl_x_motor" class="gda.device.motor.EpicsMotor">
+                <property name="pvName" value="BL22I-EA-DET-05:X" />
+                <property name="local" value="true" />
+        </bean>
+        <bean id="wdl_x" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="wdl_x_motor" />
+                <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
+        </bean>
+        <bean id="wdl" class="gda.device.scannable.scannablegroup.ScannableGroup">
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="wdl_x" />
+                                <ref bean="wdl_y" />
+                        </list>
+                </property>
+                <property name="local" value="true" />
+                <property name="protectionLevel" value="3" />
+        </bean>
 </beans>

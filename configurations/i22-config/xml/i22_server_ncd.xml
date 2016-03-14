@@ -210,7 +210,7 @@
 	</bean>
 
 	<import resource="i22_pilatus.xml" />
-	<import resource="i22_pilatus_waxs.xml" />
+	<import resource="i22_pilatus_waxs_l.xml" />
 
 	<!-- <bean id="Mar" class="uk.ac.gda.server.ncd.subdetector.NcdMarDetector"> 
 		<property name="marName" value="mar165" /> <property name="pixelSize" value="0.000080" 
@@ -237,7 +237,7 @@
 		<property name="detectors">
 			<list>
 				<ref bean="Pilatus2M" />
-				<ref bean="PilatusWAXS" />
+				<ref bean="Pilatus2M_WAXS" />
 				<!-- <ref bean="Hotwaxs" /> -->
 				<ref bean="Scalers" />
 				<!-- <ref bean="IonChamber" /> -->

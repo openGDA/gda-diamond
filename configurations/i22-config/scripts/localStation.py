@@ -57,6 +57,9 @@ scan_processor.rootNamespaceDict=globals()
 
 from ncdutils import DetectorMeta, DetectorMetaWithPv
 waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
+waxs_centre_x = DetectorMeta("waxs_centre_x", ncddetectors, "WAXS", "beam_center_x")
+waxs_centre_y = DetectorMeta("waxs_centre_y", ncddetectors, "WAXS", "beam_center_y")
+
 saxs_distance = DetectorMetaWithPv("saxs_distance", ncddetectors, "SAXS", "distance", "m", pv=('BL22I-EA-SAXSP-01:', 'CAMERA'))
 saxs_distance.pv_conversion = 1000
 saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
