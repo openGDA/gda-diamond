@@ -66,6 +66,7 @@ public class SampleMetadataView extends ViewPart {
 			grpScanStat.setText("Scan Status");
 			grpScanStat.setToolTipText("Cycle: Running, [Paused], Completed");
 			grpScanStat.setLayout(new FillLayout(SWT.HORIZONTAL));
+			grpScanStat.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 			scanStatLbl = new Label(grpScanStat, SWT.NONE);
 			scanStatLbl.setText("UNKNOWN");
 			scanStatLbl.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
@@ -78,6 +79,7 @@ public class SampleMetadataView extends ViewPart {
 			grpScanNum.setText("Running Scan Number");
 			grpScanNum.setToolTipText("Before Scan: Number of the next file to be written; During scan: number of file being written");
 			grpScanNum.setLayout(new FillLayout(SWT.HORIZONTAL));
+			grpScanNum.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 			scanNumLbl = new Label(grpScanNum, SWT.NONE);
 			scanNumLbl.setText("");
 			scanNumLbl.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
@@ -89,22 +91,24 @@ public class SampleMetadataView extends ViewPart {
 			grpScanPnt.setText("Scan Point");
 			grpScanPnt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 			grpScanPnt.setLayout(new FillLayout(SWT.HORIZONTAL));
-				scanPntLbl = new Label(grpScanPnt, SWT.NONE);
-				scanPntLbl.setAlignment(SWT.CENTER);
-				scanPntLbl.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
-				scanPntLbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
-				scanPntLbl.setText("[0] / [0]");
+			grpScanPnt.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+			scanPntLbl = new Label(grpScanPnt, SWT.NONE);
+			scanPntLbl.setAlignment(SWT.CENTER);
+			scanPntLbl.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
+			// scanPntLbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
+			scanPntLbl.setText("[0] / [0]");
 		}
 		{
 			Group grpElapsedTime = new Group(parent, SWT.NONE);
 			grpElapsedTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 			grpElapsedTime.setText("Elapsed");
 			grpElapsedTime.setLayout(new FillLayout(SWT.HORIZONTAL));
-				elapsedTime = new Label(grpElapsedTime, SWT.NONE);
-				elapsedTime.setText("00:00:00");
-				elapsedTime.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
-				elapsedTime.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
-				elapsedTime.setAlignment(SWT.CENTER);
+			grpElapsedTime.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+			elapsedTime = new Label(grpElapsedTime, SWT.NONE);
+			elapsedTime.setText("00:00:00");
+			elapsedTime.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
+			elapsedTime.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
+			elapsedTime.setAlignment(SWT.CENTER);
 		}
 		{
 			Group grpRemainTime = new Group(parent, SWT.NONE);
@@ -112,11 +116,12 @@ public class SampleMetadataView extends ViewPart {
 			grpRemainTime.setText("Remaining");
 			grpRemainTime.setToolTipText("Estimate of time remaining based of average time taken so far");
 			grpRemainTime.setLayout(new FillLayout(SWT.HORIZONTAL));
-				remainTimeLbl = new Label(grpRemainTime, SWT.NONE);
-				remainTimeLbl.setText("00:00:00");
-				remainTimeLbl.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
-				remainTimeLbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
-				remainTimeLbl.setAlignment(SWT.CENTER);
+			grpRemainTime.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+			remainTimeLbl = new Label(grpRemainTime, SWT.NONE);
+			remainTimeLbl.setText("00:00:00");
+			remainTimeLbl.setFont(SWTResourceManager.getFont("Sans", 12, SWT.NORMAL));
+			remainTimeLbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
+			remainTimeLbl.setAlignment(SWT.CENTER);
 		}
 		{
 			Label label = new Label(parent, SWT.NONE);
@@ -132,7 +137,7 @@ public class SampleMetadataView extends ViewPart {
 			lblLastScanFile.setText("Last Scan File");
 			lblLastScanFile.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
-			scanFile = new Text(parent, SWT.NONE);
+			scanFile = new Text(parent, SWT.BORDER);
 			scanFile.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1));
 			scanFile.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			scanFile.setText("");
@@ -143,7 +148,7 @@ public class SampleMetadataView extends ViewPart {
 			label.setText("Current Directory");
 			label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
-			currentDirectory = new Text(parent, SWT.NONE);
+			currentDirectory = new Text(parent, SWT.BORDER);
 			currentDirectory.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 4, 1));
 			currentDirectory.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 			currentDirectory.setText("");
