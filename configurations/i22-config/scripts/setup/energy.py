@@ -274,10 +274,9 @@ class PilatusThreshold(ScannableMotionBase):
 
 pilthres = PilatusThreshold("pilthres", "BL22I-EA-PILAT-01:cam1")
 pilthresWAXS = PilatusThreshold("pilthresWAXS", "BL22I-EA-PILAT-02:cam1")
-calibrated_perp = CalibratedPerp("calibrated_perp", perp)
+calibrated_perp = CalibratedPerp("calibrated_perp", dcm_perp)
 calibrated_ID = CalibratedID("calibrated_ID", idgap_mm)
-# calibrated_pitch = CalibratedPitch("calibrated_pitch", pitch)
-bkeV = BraggInkeV("bkeV", bragg)
+bkeV = BraggInkeV("bkeV", dcm_bragg)
 bkeV.setProtectionLevel(3)
 energy.setBragg(bkeV)
 energy.clearScannables()
