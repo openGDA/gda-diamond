@@ -245,6 +245,8 @@
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="returnPathRelativeToDatadir" value="true" />
 	</bean>
 
 </beans>
