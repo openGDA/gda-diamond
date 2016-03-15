@@ -53,7 +53,7 @@
 		<constructor-arg ref="pilatus1_adbase" />
 		<constructor-arg ref="pilatus1_driver" />
 		<constructor-arg value=".003" />
-		<constructor-arg value="EXTERNAL_TRIGGER" />
+		<constructor-arg value="MULTIPLE_EXTERNAL_TRIGGER" />
 	</bean>
 
 	<bean id="pilatus1_nxcollectionstrategy_for_multiple_exposures_per_collection_internal_triggering"
@@ -245,6 +245,8 @@
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
+		<property name="returnPathRelativeToDatadir" value="true" />
 	</bean>
 
 </beans>
