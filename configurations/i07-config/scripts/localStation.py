@@ -155,6 +155,11 @@ from BeamlineI07.lakeshore import LakeshoreDoubleReadout, LakeshoreDoubleReadout
 dummyLakeshore = LakeshoreDoubleReadoutDummy("dummyLakeshore")
 
 
+from scannable.emergency_beamstop import StopOnFaultScannable
+emergency_stopper = StopOnFaultScannable("emergency_stopper",
+		["BL07I-MO-FLITE-01:BEAMSTOP:Y2.SEVR", "BL07I-MO-FLITE-01:BEAMSTOP:Y1.SEVR"],
+		fastshutter, 0)
+
 print "==================================================================="
 print
 #print
