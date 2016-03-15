@@ -1407,7 +1407,7 @@ print "==========================="
 
 run("startup_pie725")
 
-if USE_NEXUS and not USE_DIFFCALC:
+if USE_NEXUS:
 	run("datawriting/i16_nexus")
 	pass
 else:
