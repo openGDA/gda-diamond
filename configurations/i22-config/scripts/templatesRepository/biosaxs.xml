@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BSSCSessionBean>
+    <sampleStorageTemperature>5.0</sampleStorageTemperature>
+    <measurement>
+        <location>
+            <plate>1</plate>
+            <row>A</row>
+            <column>1</column>
+        </location>
+        <bufferLocation>
+            <plate>1</plate>
+            <row>A</row>
+            <column>1</column>
+        </bufferLocation>
+        <sampleName>Sample 1</sampleName>
+        <yellowSample>false</yellowSample>
+        <recouperate>false</recouperate>
+        <concentration>0.1</concentration>
+        <viscosity>medium</viscosity>
+        <timePerFrame>0.2</timePerFrame>
+        <frames>1</frames>
+        <exposureTemperature>20.0</exposureTemperature>
+    </measurement>
+    <measurement>
+        <location>
+            <plate>1</plate>
+            <row>A</row>
+            <column>1</column>
+        </location>
+        <bufferLocation>
+            <plate>1</plate>
+            <row>A</row>
+            <column>1</column>
+        </bufferLocation>
+        <sampleName>Sample 2</sampleName>
+        <yellowSample>false</yellowSample>
+        <recouperate>false</recouperate>
+        <concentration>0.1</concentration>
+        <viscosity>medium</viscosity>
+        <timePerFrame>0.2</timePerFrame>
+        <frames>1</frames>
+        <exposureTemperature>20.0</exposureTemperature>
+    </measurement>
+</BSSCSessionBean>

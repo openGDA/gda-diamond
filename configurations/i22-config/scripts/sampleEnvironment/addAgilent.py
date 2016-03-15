@@ -1,4 +1,7 @@
-aw=gda.device.scannable.AgilentWaveform("aw", "172.23.122.129")
+#   put in correct ip address from agilent
+#   may have to del aw if already defined
+#aw=gda.device.scannable.AgilentWaveform("aw","172.23.31.39") previous run
+aw=gda.device.scannable.AgilentWaveform("aw","172.23.122.129") #run July 2012
 aw.configure()
 aw.getPosition()
 # mode SIN, RAMP, SIN, SQU, RAMP, PULS, NOIS, DC, USER

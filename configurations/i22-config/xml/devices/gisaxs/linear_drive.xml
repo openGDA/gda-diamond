@@ -7,7 +7,7 @@
 		<property name="pvName" value="BL22I-MO-HEX-01:LINEAR" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="linearDrive_pos" class="gda.device.scannable.ScannableMotor">
+	<bean id="linearDrive_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="linearDrive_motor" />
 		<property name="local" value="true" />
 	</bean>
@@ -36,7 +36,7 @@
 		<property name="local" value="true" />
 		<property name="groupMembers">
 			<list>
-				<ref bean="linearDrive_pos" />
+				<ref bean="linearDrive_x" />
 				<ref bean="linearDrive_motorTemp" />
 				<ref bean="linearDrive_baseTemp" />
 				<ref bean="linearDrive_topTemp" />

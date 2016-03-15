@@ -77,5 +77,6 @@ class adCam(NcdSubDetector):
 		return self.getDetector() == other.getDetector()
 
 if __name__ == "__main__":
-    sampleCam = adCam("sampleCam", d11gige, "BL22I-DI-PHDGN-11:")
-    ncddetectors.addDetector(sampleCam)
+    pass
+    #sampleCam = adCam("sampleCam", d11gige, "BL22I-DI-PHDGN-11:")
+  #  ncddetectors.addDetector(sampleCam)

@@ -65,7 +65,13 @@
     </logger>
     <logger name="gda.data.nexus.NexusFileWrapper">
         <level value="DEBUG"/>
-    </logger>    
+    </logger>
+    <logger name="org.eclipse.dawnsci.hdf5">
+        <level value="INFO"/>
+    </logger>
+    <logger name="ncsa.hdf.object">
+        <level value="INFO"/>
+    </logger>
     <root>
         <level value="All"/>
         <appender-ref ref="CONSOLE"/>

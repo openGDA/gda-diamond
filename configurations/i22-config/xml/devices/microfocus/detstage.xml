@@ -22,17 +22,17 @@
 
 	<bean id="mfsax_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfsax_x_motor" />
-		<property name="protectionLevel" value="3" />
+		<property name="protectionLevel" value="2" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="mfsax_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfsax_y_motor" />
-		<property name="protectionLevel" value="3" />
+		<property name="protectionLevel" value="2" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="mfsax_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfsax_z_motor" />
-		<property name="protectionLevel" value="3" />
+		<property name="protectionLevel" value="2" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="mfsax_pitch" class="gda.device.scannable.ScannableMotor">
@@ -51,6 +51,6 @@
 				<ref bean="mfsax_pitch" />
 			</list>
 		</property>
-		<property name="protectionLevel" value="3" />
+		<property name="protectionLevel" value="2" />
 	</bean>
 </beans>
