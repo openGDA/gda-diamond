@@ -119,6 +119,9 @@ try_execfile("BeamlineI07/useEuroThermo.py")
 
 try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
 
+try_execfile("BeamlineI07/htc_temp.py")
+htc = TemperatureSocketDevice('htc', 'localhost', 10002)
+
 #pieX = pie.pieX
 #pieY = pie.pieY
 #pieZ = pie.pieZ
