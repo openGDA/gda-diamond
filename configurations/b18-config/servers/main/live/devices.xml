@@ -367,14 +367,18 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="CRYOX_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18B-EA-CRYO-01:Y" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="CRYOROT_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18B-EA-CRYO-01:ROT" />
-		<property name="local" value="true" />
-	</bean>
+<!-- IOCs for these motors have been removed. Temporary fix - replace with dummy motors. imh 17/2/2016 -->
+	<bean id="CRYOX_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="CRYOROT_motor" class="gda.device.motor.DummyMotor" />
+
+<!-- 	<bean id="CRYOX_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL18B-EA-CRYO-01:Y" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="CRYOROT_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL18B-EA-CRYO-01:ROT" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 
 	<bean id="SAM3Y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="SAM3.Y" />
