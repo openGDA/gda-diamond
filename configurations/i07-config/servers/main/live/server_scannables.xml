@@ -1402,7 +1402,73 @@
         <property name="local" value="true"/>
     </bean>
 
+    <bean id="syringe_left" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="syringe_left" />
+        <property name="motor" ref="MotorSyringe_left" />
+    </bean>
 
+    <bean id="syringe_right" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="syringe_right" />
+        <property name="motor" ref="MotorSyringe_right" />
+    </bean>
+
+    <bean id="syringe_left_valve" class="gda.device.scannable.SimplePVScannable">
+        <property name="name" value="syringe_left_valve" />
+        <property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:SETVPOS" />
+    </bean>
+
+    <bean id="syringe_right_valve" class="gda.device.scannable.SimplePVScannable">
+        <property name="name" value="syringe_right_valve" />
+        <property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
+    </bean>
+
+    <bean id="syringes" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="name" value="syringes" />
+        <property name="groupMembers">
+            <list>
+                <ref bean="syringe_left" />
+                <ref bean="syringe_left_valve" />
+                <ref bean="syringe_right" />
+                <ref bean="syringe_right_valve" />
+            </list>
+        </property>
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="gw_xgap" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="gw_xgap" />
+        <property name="motor" ref="gsax_horiz_gap" />
+    </bean>
+
+    <bean id="gw_ygap" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="gw_ygap" />
+        <property name="motor" ref="gsax_vert_gap" />
+    </bean>
+
+    <bean id="gw_xpos" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="gw_xpos" />
+        <property name="motor" ref="gsax_horiz_pos" />
+    </bean>
+
+    <bean id="gw_ypos" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="gw_ypos" />
+        <property name="motor" ref="gsax_vert_pos" />
+    </bean>
+
+    <bean id="gw_bsx" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="gw_bsx" />
+        <property name="motor" ref="gsax_beamstop_x" />
+    </bean>
+
+    <bean id="gw_bsy" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="gw_bsy" />
+        <property name="motor" ref="gsax_beamstop_y" />
+    </bean>
+
+    <bean id="gw_y" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="gw_y" />
+        <property name="motor" ref="gsax_blade_y" />
+    </bean>
 
     <bean id="sampchange" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorYogurt" />

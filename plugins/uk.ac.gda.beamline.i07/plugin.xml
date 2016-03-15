@@ -189,6 +189,19 @@
                      value="pv//Pilatus 3//BL07I-EA-PILAT-03@">
                </parameter>
             </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Merlin Array"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="pv//Merlin//BL07I-EA-DET-10@">
+               </parameter>
+            </command>
          </menu>
       </menuContribution>
    </extension>
