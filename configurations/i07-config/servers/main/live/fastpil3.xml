@@ -38,6 +38,13 @@
 		<constructor-arg value=".02" />
 	</bean>
 
+	<bean id="fastpil3_softtrigger"
+			class="gda.device.detector.addetector.triggering.SoftTriggeredPilatus">
+		<constructor-arg ref="pilatus3_adbase" />
+		<constructor-arg value=".02" />
+		<property name="pilatusDriver" ref="pilatus3_driver" />
+	</bean>
+
 	<bean id="fastpil3_snapping_strategy"
 			class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
 		<constructor-arg ref="pilatus3_adbase" />
@@ -51,6 +58,14 @@
 		<constructor-arg value="fastpil3" />
 		<property name="ndFile" ref="fastpil3_camserver_ndfile" />
 		<property name="pathErrorSuppressed" value="true" />
+
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s%s00000_%05d.tif" />
+		<!--
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplate" value="%s%s.tif" />
+		<property name="fileTemplateForReadout" value="%s%s_%05d.tif" />
+		-->
 	</bean>
 
 	<bean id="fastpil3_nxfilewriter_for_snaps"
@@ -119,7 +134,8 @@
 
 	<bean id="_fastpil3" class="gda.device.detector.NXDetector">
 		<property name="name" value="_fastpil3" />
-		<property name="collectionStrategy" ref="fastpil3_nxcollectionstrategy" />
+		<!--<property name="collectionStrategy" ref="fastpil3_nxcollectionstrategy" />-->
+		<property name="collectionStrategy" ref="fastpil3_softtrigger" />
 		<property name="additionalPluginList">
 			<list>
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
