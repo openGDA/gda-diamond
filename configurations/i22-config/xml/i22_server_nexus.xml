@@ -184,11 +184,6 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="scanListFileWriter" class="uk.ac.gda.server.ncd.data.scan.ScanListDataWriterExtender">
-		<property name="filename" value="scanlist.csv" />
-	</bean>
-
 	<bean id="scan2terminal" class="uk.ac.gda.server.ncd.data.ScanInformationTerminalLogger">
 		<property name="extractorList">
 			<list>
@@ -213,7 +208,6 @@
 				<ref bean="scan2elog" />
 				<ref bean="scan2terminal" />
 				<ref bean="twodscan" />
-				<ref bean="scanListFileWriter" />
 				<ref bean="ncddetectorsProcessingListener" />
 			</list>
 		</property>
@@ -224,6 +218,10 @@
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
 		<property name="metadataEntries">
 			<list>
+				<bean id="visit" class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="visit" />
+					<property name="value" value="" />
+				</bean>
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="instrument" />
 					<property name="propertyName" value="gda.instrument" />

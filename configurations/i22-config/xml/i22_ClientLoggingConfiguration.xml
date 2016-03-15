@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true" scanPeriod="30 minutes">
     <appender name="LogPanel" class="gda.util.LogPanelAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
@@ -31,9 +31,11 @@
     <logger name="gda.data.nexus.NexusFileWrapper">
         <level value="DEBUG"/>
     </logger>    
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO" />
+	<logger name="gda.device.corba.impl.DeviceAdapter" level="INFO" />
     
     <root>
-        <level value="ALL"/>
+        <level value="DEBUG"/>
         <appender-ref ref="LogPanel"/>
         <appender-ref ref="DebugPanel"/>
         <appender-ref ref="SOCKET"/>
