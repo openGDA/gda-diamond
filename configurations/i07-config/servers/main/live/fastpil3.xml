@@ -85,100 +85,106 @@
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<ref bean="fastpil3_nxfilewriter_for_scans" />
 				<ref bean="fastpil3_proc" />
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats1" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI1:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT1:" />
-					<property name="roiInputNdArrayPort" value="pilatus3.proc" />
-					<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
-					<property name="roiProvider">
-						<bean
-							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
-							<constructor-arg value="0" />
-						</bean>
-					</property>
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats2" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI2:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT2:" />
-					<property name="roiInputNdArrayPort" value="pilatus3.proc" />
-					<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
-					<property name="roiProvider">
-						<bean
-							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
-							<constructor-arg value="1" />
-						</bean>
-					</property>
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats3" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI3:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT3:" />
-					<property name="roiInputNdArrayPort" value="pilatus3.proc" />
-					<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
-					<property name="roiProvider">
-						<bean
-							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
-							<constructor-arg value="2" />
-						</bean>
-					</property>
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats4" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI4:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT4:" />
-					<property name="roiInputNdArrayPort" value="pilatus3.proc" />
-					<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
-					<property name="roiProvider">
-						<bean
-							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
-							<constructor-arg value="3" />
-						</bean>
-					</property>
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats5" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI5:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT5:" />
-					<property name="roiInputNdArrayPort" value="pilatus3.proc" />
-					<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
-					<property name="roiProvider">
-						<bean
-							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
-							<constructor-arg value="4" />
-						</bean>
-					</property>
-				</bean>
-				<bean
-					class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-					<property name="pluginName" value="roistats6" />
-					<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI6:" />
-					<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT6:" />
-					<property name="roiInputNdArrayPort" value="pilatus3.proc" />
-					<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
-					<property name="roiProvider">
-						<bean
-							class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-							<constructor-arg ref="fastpil3_plot_server_roi_provider" />
-							<constructor-arg value="5" />
-						</bean>
-					</property>
-				</bean>
+				<ref bean="fastpil3_roistat1" />
+				<ref bean="fastpil3_roistat2" />
+				<ref bean="fastpil3_roistat3" />
+				<ref bean="fastpil3_roistat4" />
+				<ref bean="fastpil3_roistat5" />
+				<ref bean="fastpil3_roistat6" />
 				<ref bean="fastpil3_freerun_controller" />
 			</list>
 		</property>
 	</bean>
 
+	<bean id="fastpil3_roistat1"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI1:" />
+		<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT1:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat2"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats2" />
+		<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI2:" />
+		<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT2:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="1" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat3"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats3" />
+		<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI3:" />
+		<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT3:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="2" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat4"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats4" />
+		<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI4:" />
+		<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT4:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="3" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat5"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats5" />
+		<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI5:" />
+		<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT5:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="4" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="fastpil3_roistat6"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats6" />
+		<property name="baseRoiPVName" value="BL07I-EA-PILAT-03:ROI6:" />
+		<property name="baseStatsPVName" value="BL07I-EA-PILAT-03:STAT6:" />
+		<property name="roiInputNdArrayPort" value="pilatus3.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
+		<property name="roiProvider">
+			<bean
+				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="fastpil3_plot_server_roi_provider" />
+				<constructor-arg value="5" />
+			</bean>
+		</property>
+	</bean>
 
 </beans>
