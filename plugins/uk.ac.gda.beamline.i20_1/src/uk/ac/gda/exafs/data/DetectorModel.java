@@ -52,6 +52,8 @@ public class DetectorModel extends ObservableModel {
 
 	public static final String SHUTTER_NAME = "shutter2"; // the shutter to use to create darks
 
+	public static final String FAST_SHUTTER_NAME = "fast_shutter"; // the fast shutter
+
 	private static final Logger logger = LoggerFactory.getLogger(DetectorModel.class);
 
 	private EdeDetector currentDetector;
@@ -89,11 +91,12 @@ public class DetectorModel extends ObservableModel {
 	}
 
 	private void setupDetectors() {
-		for (DetectorSetup detectorSetup : DetectorSetup.values()) {
+		for (DetectorSetupType detectorSetup : DetectorSetupType.values()) {
 
 			Findable detector = Finder.getInstance().find(detectorSetup.getDetectorName());
 			if (detector != null && detector instanceof EdeDetector) {
 				EdeDetector ededetector = (EdeDetector) detector;
+				ededetector.setDetectorSetupType(detectorSetup);
 				availableDetectors.add(ededetector);
 			}
 		}
@@ -212,20 +215,6 @@ public class DetectorModel extends ObservableModel {
 
 	public ROIsSetObserver getRoisSetObserver() {
 		return roisSetObserver;
-	}
-
-	private static enum DetectorSetup {
-		// XH("xh"), XSTRIP("xstrip"), CCD("ccd");
-		XH("xh"), XSTRIP("xstrip"), FRELON("frelon");
-		private final String detectorName;
-
-		private DetectorSetup(String detectorName) {
-			this.detectorName = detectorName;
-		}
-
-		public String getDetectorName() {
-			return detectorName;
-		}
 	}
 
 	public static class EnergyCalibrationSetObserver extends ObservableModel implements IObserver {

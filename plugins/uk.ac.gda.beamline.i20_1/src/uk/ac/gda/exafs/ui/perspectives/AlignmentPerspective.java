@@ -25,7 +25,7 @@ import org.eclipse.ui.IViewLayout;
 
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.client.plotting.ScanDataPlotView;
-import uk.ac.gda.exafs.alignment.ui.AlignmentSingleSpectrumView;
+import uk.ac.gda.exafs.alignment.ui.SingleSpectrumAlignmentView;
 import uk.ac.gda.exafs.alignment.ui.AlignmentStageCalibrationView;
 import uk.ac.gda.exafs.alignment.ui.BeamlineAlignmentView;
 import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
@@ -61,7 +61,7 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
-		alignmentControlsFolder.addView(AlignmentSingleSpectrumView.ID);
+		alignmentControlsFolder.addView(SingleSpectrumAlignmentView.ID);
 
 		IFolderLayout focusingControlsFolder = layout.createFolder(FOCUSING_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.32f, editorArea);
 		focusingControlsFolder.addView(FocusingView.ID);

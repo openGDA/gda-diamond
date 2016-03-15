@@ -24,7 +24,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="8.52.0",
  uk.ac.diamond.daq.dls.controls
 Import-Package: net.sf.cglib.core,
  net.sf.cglib.proxy,
- org.slf4j;version="1.7.6"
+ org.slf4j;version="[1.7.2,2.0.0)"
 Export-Package: gda.device.scannable,
  uk.ac.gda.server.exafs.scan.preparers
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework

@@ -38,7 +38,7 @@
 		<property name="motor" ref="test_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
-	
+
 	<!-- more needs adding to this list -->
 	<bean id="sample_alignment" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -56,5 +56,5 @@
 			</list>
 		</property>
 	</bean>
-	
+
 </beans>

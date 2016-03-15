@@ -9,7 +9,7 @@ from devices.RealBlades import AverageAngle
 # from exafsscripts.exafs.config_fluoresence_detectors import XspressConfig, VortexConfig
 from gdascripts.metadata.metadata_commands import meta_add,meta_ll,meta_ls,meta_rm, meta_clear_alldynamical
 from gdascripts.pd.time_pds import showtimeClass, waittime
-import mono_calibration 
+#import mono_calibration 
 from vortex_elements import VortexElements
 from xes.xes_offsets import XESOffsets
 from xes.xes_calculate import XESCalculate
@@ -171,7 +171,7 @@ if LocalProperties.get("gda.mode") == "live":
     FFI0.setInputNames([])
     run "vortexLiveTime"
     #testVortexWiredCorrectly()
-    calibrate_mono = mono_calibration.calibrate_mono()
+    #calibrate_mono = mono_calibration.calibrate_mono()
 else :
     if material() == None:
         material('Si')

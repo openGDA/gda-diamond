@@ -77,7 +77,7 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.alignment.ui.AlignmentSingleSpectrumView"
+            class="uk.ac.gda.exafs.alignment.ui.SingleSpectrumAlignmentView"
             icon="icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView"
             name="Single Collection"

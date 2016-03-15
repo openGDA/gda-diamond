@@ -90,47 +90,23 @@
 			</bean>
 		</property>
 	</bean>
-	<!-- <bean id="medipix_roistat_pair2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> 
-		<property name="pluginName" value="roistats2" /> <property name="baseRoiPVName" 
-		value="BL20I-EA-DET-05:ROI2:" /> <property name="baseStatsPVName" value="BL20I-EA-DET-05:STAT2:" 
-		/> <property name="roiInputNdArrayPort" value="mpx1.det" /> <property name="enabledBasicStats" 
-		value="MaxValue,Total" /> <property name="roiProvider"> <bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> 
-		<constructor-arg ref="medipix_plotserver_roi_provider" /> <constructor-arg 
-		value="0" /> </bean> </property> </bean> <bean id="medipix_roistat_pair3" 
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> 
-		<property name="pluginName" value="roistats3" /> <property name="baseRoiPVName" 
-		value="BL20I-EA-DET-05:ROI3:" /> <property name="baseStatsPVName" value="BL20I-EA-DET-05:STAT3:" 
-		/> <property name="roiInputNdArrayPort" value="mpx1.det" /> <property name="enabledBasicStats" 
-		value="MaxValue,Total" /> <property name="roiProvider"> <bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> 
-		<constructor-arg ref="medipix_plotserver_roi_provider" /> <constructor-arg 
-		value="0" /> </bean> </property> </bean> <bean id="medipix_roistat_pair4" 
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> 
-		<property name="pluginName" value="roistats4" /> <property name="baseRoiPVName" 
-		value="BL20I-EA-DET-05:ROI4:" /> <property name="baseStatsPVName" value="BL20I-EA-DET-05:STAT4:" 
-		/> <property name="roiInputNdArrayPort" value="mpx1.det" /> <property name="enabledBasicStats" 
-		value="MaxValue,Total" /> <property name="roiProvider"> <bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> 
-		<constructor-arg ref="medipix_plotserver_roi_provider" /> <constructor-arg 
-		value="0" /> </bean> </property> </bean> <bean id="medipix_roistat_pair5" 
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> 
-		<property name="pluginName" value="roistats5" /> <property name="baseRoiPVName" 
-		value="BL20I-EA-DET-05:ROI5:" /> <property name="baseStatsPVName" value="BL20I-EA-DET-05:STAT5:" 
-		/> <property name="roiInputNdArrayPort" value="mpx1.det" /> <property name="enabledBasicStats" 
-		value="MaxValue,Total" /> <property name="roiProvider"> <bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> 
-		<constructor-arg ref="medipix_plotserver_roi_provider" /> <constructor-arg 
-		value="0" /> </bean> </property> </bean> <bean id="medipix_roistat_pair6" 
-		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory"> 
-		<property name="pluginName" value="roistats6" /> <property name="baseRoiPVName" 
-		value="BL20I-EA-DET-05:ROI6:" /> <property name="baseStatsPVName" value="BL20I-EA-DET-05:STAT6:" 
-		/> <property name="roiInputNdArrayPort" value="mpx1.det" /> <property name="enabledBasicStats" 
-		value="MaxValue,Total" /> <property name="roiProvider"> <bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer"> 
-		<constructor-arg ref="medipix_plotserver_roi_provider" /> <constructor-arg 
-		value="0" /> </bean> </property> </bean> -->
+
+	<!--  New plugin added to calculation roi counts over I0 from ionchambers. imh 4/2/2015 -->
+	<bean id="medipix_FFI0" 
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0">
+		<property name="roiName"    value="roistats1" />
+		<property name="counterTimer" ref="I1" />
+		<property name="i0_channel" value="1" />
+		<property name="nxDetector" ref="medipix" />
+	</bean>
+
 	<bean id="medipix" class="gda.device.detector.NXDetector">
 		<property name="name" value="medipix" />
 		<property name="collectionStrategy" ref="medipix_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
  				<ref bean="medipix_roistat_pair1" /> 
+ 				<ref bean="medipix_FFI0" />
 				<!-- <ref bean="medipix_roistat_pair2" /> <ref bean="medipix_roistat_pair3" 
 					/> <ref bean="medipix_roistat_pair4" /> <ref bean="medipix_roistat_pair5" 
 					/> <ref bean="medipix_roistat_pair6" /> -->

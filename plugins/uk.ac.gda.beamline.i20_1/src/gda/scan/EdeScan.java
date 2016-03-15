@@ -87,6 +87,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	protected TimingGroup currentTimingGroup;
 
+	private boolean useFastShutter;
+	private Scannable fastShutter;
+
 	/**
 	 * @param scanParameters
 	 *            - timing parameters of the data collection
@@ -121,6 +124,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		//injectionCounter = Finder.getInstance().find("injectionCounter");
 
 		terminalPrinter = InterfaceProvider.getTerminalPrinter();
+		useFastShutter = false;
+		fastShutter = null;
 	}
 
 	private void updateSimulated() {
@@ -172,14 +177,88 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		return null;
 	}
 
+	/**
+	 * Move the fast shutter to specified position (e.g. "Open" , "Close" )
+	 * moveTo doesn't block so sleep until shutter has actually moved to the new position is also implemented here
+	 * @param position
+	 * @throws DeviceException
+	 * @throws InterruptedException
+	 * @since 28/1/2016.
+	 */
+	public void fastShutterMoveTo(String position) throws DeviceException, InterruptedException {
+		final int pollSleepInterval = 250;
+		final int maxWaitTime = 10000;
+
+		if ( useFastShutter == false || fastShutter == null ) {
+			return;
+		}
+
+		String currentPosition = (String) fastShutter.getPosition();
+		String finalPosition = position;
+		if ( position.equals("Close") ) {
+			finalPosition = "Closed";
+		}
+
+		if ( currentPosition.equals(finalPosition) ) {
+			logger.info("Fast shutter move - already in requested position ("+finalPosition+")");
+			return;
+		}
+
+		if ( useFastShutter && fastShutter != null ) {
+
+			String message = "Fast shutter move to \'"+position+"\'";
+			logger.info(message);
+			InterfaceProvider.getTerminalPrinter().print(message);
+
+			fastShutter.moveTo(position); // does not block!
+
+			// Sleep until fast shutter has moved, been interrupted or failed to move for some reason...
+			int waitTime = 0;
+			String shutterExceptionMessage = "";
+			while( !currentPosition.equals( finalPosition ) ) {
+				try {
+					//InterfaceProvider.getTerminalPrinter().print("Sleep for "+pollSleepInterval+" ms ... ");
+
+					Thread.sleep( pollSleepInterval );
+					currentPosition = (String) fastShutter.getPosition();
+
+					//InterfaceProvider.getTerminalPrinter().print("Fast shutter position : "+currentPosition);
+
+					waitTime += pollSleepInterval;
+				}
+				catch( gda.device.DeviceException deviceException ) {
+					// Ignore this exception - happens when getPosition is called whilst shutter is still in process of moving.
+					shutterExceptionMessage = deviceException.getMessage();
+					//InterfaceProvider.getTerminalPrinter().print("Fast shutter exception caught : "+shutterExceptionMessage);
+				}
+
+				// Max wait time exceeded - something probably really is wrong with shutter
+				if ( waitTime > maxWaitTime ) {
+					String exceptionMessage = "Maximum wait time exceeded for fast shutter, last shutter exception - "+shutterExceptionMessage;
+					logger.info(exceptionMessage);
+					InterfaceProvider.getTerminalPrinter().print(exceptionMessage);
+					throw new DeviceException(exceptionMessage);
+				}
+			}
+
+			message = "Fast shutter move finished";
+			logger.info(message);
+			// InterfaceProvider.getTerminalPrinter().print(message);
+		}
+	}
+
 	@Override
 	public void doCollection() throws Exception {
 		// FIXME This is temporary solution as real data in unavailable
 		// SimulatedData.reset();
+
 		validate();
-		if (topupChecker != null) {
-			topupChecker.atScanStart();
-		}
+
+		// Topup checker moved to *after* motor move and shutter close have been done. imh 22/1/2016
+		//		if (topupChecker != null) {
+		//			topupChecker.atScanStart();
+		//		}
+
 		logger.debug(toString() + " loading detector parameters...");
 		theDetector.prepareDetectorwithScanParameters(scanParameters);
 		shutter.moveTo("Reset");
@@ -187,15 +266,38 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			// close the shutter
 			terminalPrinter.print("Closing shutter");
 			shutter.moveTo("Close");
+			fastShutterMoveTo("Close");
+
+			// Topup checker not needed for Dark scan imh 22/1/2016
+			//if (topupChecker != null) {
+			//	topupChecker.atScanStart();
+			//}
+
 			checkThreadInterrupted();
 			waitIfPaused();
 			if (isFinishEarlyRequested()){
 				return;
 			}
 		} else {
+
+			// close shutter while moving motors and waiting for topup. imh 27/1/2016
+			fastShutterMoveTo("Close");
+
+			// close main shutter if not using fast shutter
+			if ( useFastShutter == false ) {
+				shutter.moveTo("Close");
+			}
+
+			// Move into position before topupchecker, so we are ready to start collecting data. imh 22/1/2016
 			moveSampleIntoPosition();
+
+			if (topupChecker != null) {
+				topupChecker.atScanStart();
+			}
+
 			terminalPrinter.print("Opening shutter");
-			shutter.moveTo("Open");
+			shutter.moveTo("Open"); // must be open for Light scan, whether using fast shutter or not
+			fastShutterMoveTo("Open");
 		}
 		if (!isChild()) {
 			currentPointCount = -1;
@@ -225,6 +327,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			pollDetectorAndFetchData();
 		}
 		logger.debug(toString() + " doCollection finished.");
+		fastShutterMoveTo("Close");
 	}
 
 	protected void pollDetectorAndFetchData() throws DeviceException, Exception {
@@ -556,5 +659,21 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	public void setSmartstop(boolean smartstop) {
 		this.smartstop = smartstop;
+	}
+
+	public boolean gsUseFastShutter() {
+		return useFastShutter;
+	}
+
+	public void setUseFastShutter(boolean useFastShutter) {
+		this.useFastShutter = useFastShutter;
+	}
+
+	public Scannable getFastShutter() {
+		return fastShutter;
+	}
+
+	public void setFastShutter(Scannable fastShutter) {
+		this.fastShutter = fastShutter;
 	}
 }

@@ -41,12 +41,18 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.part.IntroPart;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
+import uk.ac.gda.exafs.ExafsActivator;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 
 public class I20IntroPart extends IntroPart {
+
+	private static final Logger logger = LoggerFactory.getLogger(I20IntroPart.class);
 
 	@Override
 	public void standbyStateChanged(boolean standby) {
@@ -123,6 +129,13 @@ public class I20IntroPart extends IntroPart {
 			@Override
 			public void handleEvent(Event event) {
 				ScanObjectManager.setXESOnlyMode(isXES);
+				// Try to write XAS/XES mode preference to disk immediately.
+				try {
+					ScopedPreferenceStore store = (ScopedPreferenceStore) ExafsActivator.getDefault().getPreferenceStore();
+					store.save();
+				} catch (IOException ioException) {
+					logger.error("Problem saving XES/XAS mode preference to disk : ", ioException);
+				}
 				PlatformUI.getWorkbench().getIntroManager().closeIntro(I20IntroPart.this);
 				try {
 					for (IWorkbenchPage page : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages())

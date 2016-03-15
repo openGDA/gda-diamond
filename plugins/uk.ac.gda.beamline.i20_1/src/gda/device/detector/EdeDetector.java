@@ -25,6 +25,7 @@ import java.util.HashMap;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
+import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -136,4 +137,8 @@ public interface EdeDetector extends NexusDetector {
 	public abstract void setOrbitWaitMethod( String methodString );
 
 	public abstract String getOrbitWaitMethod();
+
+	public DetectorSetupType getDetectorSetupType();
+
+	public void setDetectorSetupType(DetectorSetupType detectorSetupType);
 }

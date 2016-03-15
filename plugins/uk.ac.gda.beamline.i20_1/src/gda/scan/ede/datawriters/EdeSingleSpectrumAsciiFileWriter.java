@@ -36,18 +36,75 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	private final EnergyDispersiveExafsScan itScan;
 	private String asciiFilename;
 
+	private final EnergyDispersiveExafsScan iRefScan, iRefDarkScan, i0FinalScan, iRefFinalScan;
+	protected final EnergyDispersiveExafsScan[] itScans;
+	private final String nexusfileName;
+
 	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0InitialScan, EnergyDispersiveExafsScan itScan, EnergyDispersiveExafsScan i0DarkScan,
 			EnergyDispersiveExafsScan itDarkScan, EdeDetector theDetector) {
 		super(i0DarkScan.extractEnergyDetectorDataSet());
-		this.i0InitialScan = i0InitialScan;
-		this.itScan = itScan;
 		this.i0DarkScan = i0DarkScan;
 		this.itDarkScan = itDarkScan;
+		this.i0InitialScan = i0InitialScan;
+		this.itScan = itScan;
 		this.theDetector = theDetector;
+		iRefScan = null; iRefDarkScan = null; i0FinalScan = null; iRefFinalScan = null; nexusfileName = null; itScans = null;
+	}
+
+	/**
+	 * New constructor - used when updating NeXuS file with processed lnI0It data.
+	 * @since 5/2/2016
+	 */
+	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
+			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
+			EdeDetector theDetector, String nexusfileName) {
+		super(i0DarkScan.extractEnergyDetectorDataSet());
+		this.i0DarkScan = i0DarkScan;
+		this.itDarkScan = itDarkScan;
+		this.iRefScan = iRefScan;
+		this.iRefDarkScan = iRefDarkScan;
+		i0InitialScan = i0LightScan;
+		this.itScans = itScans;
+		this.i0FinalScan = i0FinalScan;
+		this.iRefFinalScan = iRefFinalScan;
+		this.theDetector = theDetector;
+		this.nexusfileName = nexusfileName;
+		this.theDetector = theDetector;
+		itScan = itScans[0];
 	}
 
 	@Override
 	public String writeDataFile(EdeDetector detector) throws Exception {
+		theDetector = detector; // are these not already the same, as set by constructor?
+		String asciiName = writeAsciiData();
+		if ( nexusfileName != null )
+		{
+			updateNexusFile(); // update NeXuS file with lnI0It data
+		}
+		return asciiName;
+	}
+
+	/**
+	 * Update NeXuS file with lnI0It data by using EdeTimeResolvedExperimentDataWriter.
+	 * @throws Exception
+	 * @since 5/2/2016
+	 */
+	private void updateNexusFile() throws Exception {
+		EdeTimeResolvedExperimentDataWriter dataWriter = new EdeTimeResolvedExperimentDataWriter( i0DarkScan, i0InitialScan, iRefScan, iRefDarkScan, itDarkScan, itScans,
+				i0FinalScan, iRefFinalScan, theDetector, nexusfileName);
+		dataWriter.setWriteAsciiData( false ); // Don't write ascii data - single spectrum ascii data is different format and written by this.writeAsciiData().
+		dataWriter.setWriteInNewThread( false );
+		dataWriter.writeDataFile( theDetector );
+	}
+
+	/**
+	 * Write Ascii data file with lnI0It and dark current corrected data.
+	 * (Refactored from 'writeDataFile')
+	 * @since 5/2/2016
+	 * @return String with name of Ascii file produced
+	 * @throws Exception
+	 */
+	private String writeAsciiData() throws Exception {
 		DoubleDataset i0DarkDataSet;
 		DoubleDataset itDarkDataSet;
 		DoubleDataset i0InitialDataSet;
