@@ -5,12 +5,14 @@ class LakeshoreDoubleReadout( ScannableBase ):
         self.lakeshore = lakeshore
         self.controller = lakeshore.getController()
         self.setName( name )
-        self.setInputNames( ["Lakeshore_1"] )
-        self.setExtraNames( ["Lakeshore_2"] )
-        self.setoutputformat(["%5.5g", "%5.5g"])
+        self.setInputNames( ["Lakeshore"] )
+        #self.setExtraNames( ["Lakeshore_2"] )
+        #self.setOutputFormat(["%5.5g", "%5.5g"])
+        self.setOutputFormat(["%5.5g"])
 
     def getPosition( self ):
-        return ( self.lakeshore.getCurrentTemperature(), self.lakeshore.controller.getChannel1Temp() )
+        #return ( self.lakeshore.getCurrentTemperature(), self.lakeshore.controller.getChannel1Temp() )
+        return self.lakeshore.getCurrentTemperature()
 
     def rawAsynchronousMoveTo( self, temp ):
         self.lakeshore.rawAsynchronousMoveTo( temp )
