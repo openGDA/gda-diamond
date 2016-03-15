@@ -37,12 +37,26 @@
 		<constructor-arg value=".02" />
 	</bean>
 
+	<bean id="fastpil1_snapping_strategy"
+			class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus1_adbase" />
+		<constructor-arg value=".02" />
+	</bean>
+
 	<!-- NXDetector file writers -->
 
 	<bean id="fastpil1_nxfilewriter_for_scans"
 		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="fastpil1" />
 		<property name="ndFile" ref="fastpil1_camserver_ndfile" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+	<bean id="fastpil1_nxfilewriter_for_snaps"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="fastpil1" />
+		<property name="ndFile" ref="fastpil1_camserver_ndfile" />
+		<property name="numTrackerExtension" value="fastpil1snaps" />
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
@@ -75,8 +89,8 @@
 		<property name="ndProcess" ref="fastpil1_ndprocess" />
 	</bean>
 
-	<bean id="fastpil1" class="gda.device.detector.NXDetector">
-		<property name="name" value="fastpil1" />
+	<bean id="_fastpil1" class="gda.device.detector.NXDetector">
+		<property name="name" value="_fastpil1" />
 		<property name="collectionStrategy" ref="fastpil1_nxcollectionstrategy" />
 		<property name="additionalPluginList">
 			<list>
@@ -90,6 +104,25 @@
 				<ref bean="fastpil1_roistat5" />
 				<ref bean="fastpil1_roistat6" />
 				<ref bean="fastpil1_freerun_controller" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fastpil1" class="gda.device.detector.NXDetectorSnappingDecorator">
+		<constructor-arg ref="_fastpil1" />
+		<property name="name" value="fastpil1" />
+		<property name="snappingCollectionStrategy" ref="fastpil1_snapping_strategy" />
+		<property name="snapperPluginList">
+			<list>
+				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
+				<ref bean="fastpil1_nxfilewriter_for_snaps" />
+				<ref bean="fastpil1_proc" />
+				<ref bean="fastpil1_roistat1" />
+				<ref bean="fastpil1_roistat2" />
+				<ref bean="fastpil1_roistat3" />
+				<ref bean="fastpil1_roistat4" />
+				<ref bean="fastpil1_roistat5" />
+				<ref bean="fastpil1_roistat6" />
 			</list>
 		</property>
 	</bean>
