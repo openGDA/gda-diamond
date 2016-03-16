@@ -480,6 +480,30 @@ try:
 	"""
 	
 	try:
+		pe.hdfwriter.getNdFileHDF5().reset()
+	except:
+		localStation_exception(sys.exc_info(), "configuring pe compression")
+
+	global mar, mpx, psl
+
+	try:
+		mar.hdfwriter.getNdFileHDF5().reset()
+	except:
+		localStation_exception(sys.exc_info(), "configuring mar compression")
+	#try:
+	#	pil3.hdfwriter.getNdFileHDF5().reset()
+	#except:
+	#	localStation_exception(sys.exc_info(), "configuring pil3 compression")
+	try:
+		mpx.hdfwriter.getNdFileHDF5().reset()
+	except:
+		localStation_exception(sys.exc_info(), "configuring mpx compression")
+	try:
+		psl.hdfwriter.getNdFileHDF5().reset()
+	except:
+		localStation_exception(sys.exc_info(), "configuring psl compression")
+	
+	try:
 		from scannables.safeScannable import SafeScannable
 		rot_dkphi = SafeScannable('rot_dkphi', control_scannable=dkphi,
 			check_scannable=shdx, threshold=200, failIfGreaterNotLessThan=False)
