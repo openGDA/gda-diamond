@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true"> <!-- Add debug="true" in here to log logback configuration -->
+<configuration scan="true" scanPeriod="10 seconds" debug="true">
 
     <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
     <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
@@ -12,10 +12,6 @@
     <root>
         <level value="ALL"/>
         <appender-ref ref="ServerDebugFILE"/>
-     </root>
-
-    <root>
-        <level value="DEBUG"/>
         <appender-ref ref="RemoteLoggerListener" />
      </root>
 </configuration>
