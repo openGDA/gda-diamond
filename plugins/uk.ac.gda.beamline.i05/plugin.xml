@@ -45,10 +45,12 @@
       <Scannable name="exit_slit" tooltip="monochromator exit slit setting" />
       <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
       <Scannable name="energy" tooltip="photon energy" />
+      <Scannable name="polarisation" tooltip="photon beam polarisation" />
+      <Scannable name="id" tooltip="insertion device" />
       <Scannable name="pgm_cff" tooltip="monochromator cff" />
-      <Scannable name="cryostat" tooltip="sample temperature" />
-      <Scannable name="sa" tooltip="cryo manipulator" />
-      <Scannable name="psu_mode" tooltip="High or Low Pass" />
+      <Scannable name="cryostat" tooltip="Temperature control" />
+      <Scannable name="sa" tooltip="cryo manipulator positions" />
+      <Scannable name="psu_mode" tooltip="Analyser high or low pass mode" />
 </extension>
 <extension
       point="uk.ac.gda.client.preferences">
