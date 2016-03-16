@@ -37,6 +37,8 @@
 	</bean>
 	<bean id="exit_slit" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="exit_slit_motor" />
+		<property name="upperGdaLimits" value="5.0" />
+		<property name="lowerGdaLimits" value="0.001" />
 		<property name="local" value="false" />
 	</bean>
 
