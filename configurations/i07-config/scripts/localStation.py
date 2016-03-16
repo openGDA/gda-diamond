@@ -105,6 +105,8 @@ try_execfile("BeamlineI07/useAreaDetectorPilatus1.py")
 #try_execfile("BeamlineI07/useEpicsPilatus2M.py")
 try_execfile("BeamlineI07/useAreaDetectorPilatus2.py")
 
+try_execfile("BeamlineI07/dcdRoi.py")
+
 try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
 
 try_execfile("BeamlineI07/useAreaDetectorMerlin.py")
@@ -116,6 +118,9 @@ try_execfile("BeamlineI07/useDummyCam.py")
 try_execfile("BeamlineI07/useEuroThermo.py")
 
 try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
+
+try_execfile("BeamlineI07/htc_temp.py")
+htc = TemperatureSocketDevice('htc', 'localhost', 10002)
 
 #pieX = pie.pieX
 #pieY = pie.pieY
@@ -149,6 +154,11 @@ from BeamlineI07.lakeshore import LakeshoreDoubleReadout, LakeshoreDoubleReadout
 #lakeshore = LakeshoreDoubleReadout("lakeshore", lakeshore_base)
 dummyLakeshore = LakeshoreDoubleReadoutDummy("dummyLakeshore")
 
+
+from scannable.emergency_beamstop import StopOnFaultScannable
+emergency_stopper = StopOnFaultScannable("emergency_stopper",
+		["BL07I-MO-FLITE-01:BEAMSTOP:Y2.SEVR", "BL07I-MO-FLITE-01:BEAMSTOP:Y1.SEVR"],
+		fastshutter, 0)
 
 print "==================================================================="
 print

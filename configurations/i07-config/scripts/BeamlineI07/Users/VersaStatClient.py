@@ -63,9 +63,9 @@ class VersaStatClientClass(object):
 		#To connect to the instrument
 		bs=self.server.Connect(sn);
 		if bs is True:
-			print "Connect to VersaSTAT sucessfully."
+			print "Connected to VersaSTAT sucessfully."
 		else:
-			print "Connection fails."
+			print "Connection failed."
 		
 	def info(self):
 		if self.server is None:
@@ -113,13 +113,13 @@ class VersaStatClientClass(object):
 		self.server.SetAutoRangeOff();
 			
 	def setPotentialDC(self, voltage):
-		self.server.SetDCPotential(voltage);
+		self.server.SetDCPotential(-1.0 * voltage);
 		sleep(self.delay);
 		
 	def getEI(self):
 		self.server.UpdateStatus();
-		e=-1.0 * self.server.GetE();
-		i=self.server.GetI();
+		e = 1.0 * self.server.GetE();
+		i = -1.0 * self.server.GetI();
 		return [e,i];
 		
 
@@ -180,7 +180,8 @@ class VersaStatDeviceClass(PseudoDevice):
 		return self.lastPos
 
 	def asynchronousMoveTo(self,newPos):
-		self.device.setPotentialDC(newPos);
+		#do not multiply by -1 since setPotentialDC will correct the sign
+		self.device.setPotentialDC(1.0 * newPos)
 		return;
 
 	def isBusy(self):
@@ -250,6 +251,8 @@ versa.setup();
 
 versa2 = VersaStatMonitorClass("versa2", "versaStatClient");
 
+versa.setOutputFormat([u'%12.8f', u'%15.11f'])
+versa2.setOutputFormat([u'%12.8f', u'%15.11f'])
 
 #delete all:
 #exec("[versaStatClient, versa, versa2] = [None, None, None]");

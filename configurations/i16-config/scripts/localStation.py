@@ -790,7 +790,7 @@ _pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('p
 #pil100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil100k',
 pil100k = NxProcessingDetectorWrapper('pil100k',
 		pilatus1,
-		pilatus1_hardware_triggered,
+		zebrapil1,
 		pilatus1_for_snaps,
 		[],
 		panel_name='Pilatus100k',
@@ -1407,7 +1407,7 @@ print "==========================="
 
 run("startup_pie725")
 
-if USE_NEXUS and not USE_DIFFCALC:
+if USE_NEXUS:
 	run("datawriting/i16_nexus")
 	pass
 else:
