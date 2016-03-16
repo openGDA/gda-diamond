@@ -10,32 +10,29 @@
 			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
 		<property name="arguments">
 			<map>
-				<entry key="energy">
-					<bean
-						class="uk.ac.gda.arpes.scannable.EnergyScannableWriter">
-						<property name="paths">
+				<entry key="id">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<property name="paths">
 							<list>
-								<value>instrument:NXinstrument/monochromator:NXmonochromator/energy</value>
-								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/beam:NXbeam/final_polarisation_label</value>
 								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/gap</value>
+								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/beam:NXbeam/final_polarisation_label</value>
 								<value>instrument:NXinstrument/insertion_device:NXinsertion_device/phase</value>
 							</list>
 						</property>
 						<property name="units">
 							<list>
-								<value>eV</value>
-								<value>mm</value>
 								<value>mm</value>
 								<value></value>
+								<value>mm</value>
 							</list>
 						</property>
-						<property name="prerequisiteScannableNames">
-							<list>
-								<value>pgm_cff</value>
-								<value>exit_slit</value>
-								<value>pgm_linedensity</value>
-							</list>
-						</property>
+					</bean>
+				</entry>
+				<entry key="energy">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/monochromator:NXmonochromator/energy" />
+						<property name="units" value="eV" />
 					</bean>
 				</entry>
 				<entry key="pgm_cff">
@@ -310,6 +307,7 @@
 			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
 		<property name="arguments">
 			<set>
+				<value>id</value>
 				<value>energy</value>
 				<value>sample_name</value>
 				<value>cryostat</value>
