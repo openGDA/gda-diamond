@@ -210,6 +210,7 @@
 	<import resource="../../../devices/_common/float2.xml" />
 	<import resource="../../../devices/_common/float3.xml" />
 
+	<import resource="../../../devices/_common/pco1.xml" />
 	<import resource="../../../devices/_common/zebra.xml" />
 	<import resource="../../../devices/_common/p2r.xml" />
 	<import resource="../../../devices/_common/deben_rig.xml"/>

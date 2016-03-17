@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.PCOAutoContinuous">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<property name="adcMode" value="0"/>		
+	</bean>
+
+	<bean id="pco1_singleExposurePcoSoftwareTrigger" class="gda.device.detector.addetector.triggering.SingleExposurePcoSoftwareTrigger">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value=".03" />
+	</bean>
+	<bean id="pco1_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg ref="adDriverPco1" />
+		<constructor-arg value=".03" />
+	</bean>
+
+	<!--  Use External Only triggering as otherwise the PCo EPICS driver will also send software triggers -->
+	<bean id="flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredPCO">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".001" />
+		<constructor-arg ref="adDriverPco1" />
+		<property name="etfg" ref="tfg"/>
+		<property name="triggerMode" value="EXTERNAL_ONLY"/>
+	</bean>
+
+	<bean id="flyScanFlatDarkCollectionStrategy" parent="pco1_singleExposurePco"/>
+
+	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
+				<entry key="pco1_arr" value-ref="pco1_arr" />
+				<entry key="pco1_ffmpeg1" value-ref="pco1_ffmpeg1" />
+				<entry key="pco1_roi1" value-ref="pco1_roi1" />
+				<entry key="pco1_proc1" value-ref="pco1_proc1" />
+				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file"/>
+				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif"/>
+				<entry key="pco1_stat" value-ref="pco1_stat"/>
+				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger"/>
+				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco"/>
+				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
+				<entry key="adDriverPco1" value-ref="adDriverPco1"/>
+			</util:map>
+		</property>
+	</bean>
+
+</beans>
