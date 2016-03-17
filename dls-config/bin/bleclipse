@@ -13,7 +13,7 @@ module unload buckminster
 module load global/http_proxy
 . $DLS_CONFIG_BIN/loadjava.sh
 
-module load eclipse/442_20150410
+module load eclipse/452_20160309
 
 # Add diamond specific options for Eclipse
 
