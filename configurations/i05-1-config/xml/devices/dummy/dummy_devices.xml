@@ -10,6 +10,7 @@
 
 	<!-- sample environment -->
 	<import resource="sample_stage.xml" />
+	<import resource="raw_sample_stage.xml"/>
 	<import resource="cryostat.xml"/>
 
 	<!-- slits -->
