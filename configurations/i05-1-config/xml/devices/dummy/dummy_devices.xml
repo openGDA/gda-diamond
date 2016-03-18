@@ -24,6 +24,9 @@
 	<!-- insertion device -->
 	<import resource="rawid.xml" />
 	<import resource="id.xml" />
+
+	<!-- storage ring -->
+	<import resource="ring.xml" />
 	
 	<import resource="zone_plate.xml" />
 	<import resource="osa.xml" />

@@ -288,6 +288,18 @@
 						</property>
 					</bean>
 				</entry>
+				<entry key="ring_current">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/source:NXsource/current" />
+						<property name="units" value="mA" />
+					</bean>
+				</entry>
+				<entry key="ring_energy">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/source:NXsource/energy" />
+						<property name="units" value="GeV" />
+					</bean>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -313,6 +325,8 @@
 				<value>s2_xsize</value>
 				<value>pgm_cff</value>
 				<value>lc_pressure</value>
+				<value>ring_current</value>
+				<value>ring_energy</value>
 			</set>
 		</property>
 	</bean>
