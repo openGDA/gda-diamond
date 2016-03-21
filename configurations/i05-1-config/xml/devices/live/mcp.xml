@@ -62,7 +62,7 @@
 	</bean>
 
 	<bean id="mcp" class="gda.device.detector.NXDetector">
-		<property name="name" value="simAD" />
+		<property name="name" value="mcp" />
 		<property name="collectionStrategy" ref="mcp_collection_strategy" />
 		<property name="additionalPluginList">
 			<list>
