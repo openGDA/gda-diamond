@@ -39,6 +39,7 @@
 		<property name="motor" ref="exit_slit_motor" />
 		<property name="upperGdaLimits" value="5.0" />
 		<property name="lowerGdaLimits" value="0.001" />
+		<property name="outputFormat" value="%5.5f" />
 		<property name="local" value="false" />
 	</bean>
 
