@@ -4,10 +4,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ringcurrent" class="uk.ac.gda.arpes.scannable.NonLocalEpicsScannable">
-		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
-		<property name="useNameAsExtraName" value="true" />
-		<property name="local" value="false" />
+	<bean id="ring_current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+		<property name="unit" value="mA"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+	
+	<bean id="ring_energy" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+		<property name="unit" value="GeV"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
 	</bean>
 
 </beans>

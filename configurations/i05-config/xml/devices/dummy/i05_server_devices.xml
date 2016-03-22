@@ -14,6 +14,7 @@
 	<import resource="dummyMotor.xml" />
 	<import resource="pressure_gauges.xml" />
 	<import resource="cryostat.xml" />
+	<import resource="ring.xml"/>
 
 	<bean class="gda.device.scannable.DummyUnitsScannable" id="s6_xsize">
 		<property name="inputNames">

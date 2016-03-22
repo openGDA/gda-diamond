@@ -18,6 +18,10 @@
 
 package uk.ac.gda.beamline.i05;
 
+import gda.data.PathConstructor;
+import gda.jython.Jython;
+import gda.jython.JythonServerFacade;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -25,52 +29,57 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IPerspectiveListener;
+import org.eclipse.ui.IStartup;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.ui.part.IntroPart;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.data.PathConstructor;
-import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
 import uk.ac.gda.util.io.FileUtils;
 
-public class I05Intro extends IntroPart {
-	private static final Logger logger = LoggerFactory.getLogger(I05Intro.class);
+public class I05Startup implements IStartup {
+	private static final Logger logger = LoggerFactory.getLogger(I05Startup.class);
 
 	@Override
-	public void standbyStateChanged(boolean standby) {
+	public void earlyStartup() {
+		// Need to run the startup in the UI thread
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				startup();
+			}
+		});
 	}
 
-	@Override
-	public void createPartControl(Composite parent) {
+	private void startup() {
 
 		// This is to fix ARPES-253. Create a preference store and then set aspectRatio to false this will make
 		// 2D plots fill the available space by default.
 		IPreferenceStore store = new ScopedPreferenceStore(InstanceScope.INSTANCE, "org.dawnsci.plotting");
 		store.setValue("org.dawb.plotting.system.aspectRatio", false);
 
+		IWorkbench workbench = PlatformUI.getWorkbench();
+
 		logger.info("Creating perspectives");
 		for (String id : new String[] { "uk.ac.gda.client.scripting.JythonPerspective",
 				"uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective",
 				"uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective" }) {
 			try {
-				PlatformUI.getWorkbench().showPerspective(id, PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+				workbench.showPerspective(id, workbench.getActiveWorkbenchWindow());
 			} catch (WorkbenchException e) {
 				logger.error("Error creating workbench: " + e.getMessage());
 			}
 		}
 
 		logger.info("Adding perspective switch listener");
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().addPerspectiveListener(new IPerspectiveListener() {
+		workbench.getActiveWorkbenchWindow().addPerspectiveListener(new IPerspectiveListener() {
 
 			@Override
 			public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId) {
@@ -82,7 +91,6 @@ public class I05Intro extends IntroPart {
 			@Override
 			public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
 
-				logger.info("Perspective Activated: " + page.getLabel());
 				logger.debug("iwbPage label:" + page.getLabel() + ", perspective label:" + perspective.getLabel());
 				// Check if a scan is running if not stop the analyser
 				if (JythonServerFacade.getInstance().getScanStatus() == Jython.IDLE) {
@@ -135,8 +143,4 @@ public class I05Intro extends IntroPart {
 		});
 	}
 
-	@Override
-	public void setFocus() {
-		// Do nothing
-	}
 }
