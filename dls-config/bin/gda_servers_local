@@ -32,8 +32,6 @@ if [[ $# < 2 ]]; then
 	exit 1
 fi
 
-module load global/http_proxy
-
 . $DLS_CONFIG_BIN/loadjava.sh
 if [[ $? -ne 0 ]]; then
    echo module failed - assuming java is already on the path

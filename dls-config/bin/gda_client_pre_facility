@@ -1,7 +1,6 @@
 # Setup specific to this facility, that is done before the client is started
 
 # Set up some basic environment
-module load global/http_proxy
 . ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/loadjava.sh
 
 # Define GDA_VAR

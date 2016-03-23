@@ -140,7 +140,6 @@ while true; do
 done
 
 . /usr/share/Modules/init/bash
-module load global/http_proxy
 
 . $DLS_CONFIG/bin/loadjava.sh
 
