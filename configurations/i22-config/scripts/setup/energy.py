@@ -272,8 +272,8 @@ class PilatusThreshold(ScannableMotionBase):
 	def rawIsBusy(self):
 		return (self.timer()<self.waittime)
 
-pilthres = PilatusThreshold("pilthres", "BL22I-EA-PILAT-01:cam1")
-pilthresWAXS_L = PilatusThreshold("pilthresWAXS_L", "BL22I-EA-PILAT-03:cam1")
+pilthres = PilatusThreshold("pilthres", "BL22I-EA-PILAT-01:CAM")
+pilthresWAXS_L = PilatusThreshold("pilthresWAXS_L", "BL22I-EA-PILAT-03:CAM")
 calibrated_perp = CalibratedPerp("calibrated_perp", dcm_perp)
 calibrated_ID = CalibratedID("calibrated_ID", idgap_mm)
 bkeV = BraggInkeV("bkeV", dcm_bragg)
