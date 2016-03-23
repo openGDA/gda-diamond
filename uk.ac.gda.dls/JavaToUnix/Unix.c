@@ -132,11 +132,11 @@ Java_gda_util_Unix_doGetDiskMB(JNIEnv *env, jobject obj, jstring path)
    return mb;
 }
 
-JNIEXPORT jint JNICALL
+JNIEXPORT jlong JNICALL
 Java_gda_util_Unix_doGetFreeMB(JNIEnv *env, jobject obj, jstring path)
 {
    struct statfs buf;
-   int mb = -1;
+   long mb = -1;
    double bytes = 0;
    
    const char *str = (*env)->GetStringUTFChars(env, path, 0);
