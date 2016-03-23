@@ -17,7 +17,6 @@ if [[ -z "${GDA_NO_PROMPT-}" ]]; then
 fi
 
 # Set up some basic environment
-module load global/http_proxy
 . ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/loadjava.sh
 
 # Define GDA_VAR
