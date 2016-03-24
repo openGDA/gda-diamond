@@ -105,7 +105,7 @@ class BeamEnergy(ScannableMotionBase):
         elif (self.getName() == "jenergy" and self.getPolarisation()=="H"):
             if (Ep<0.104 or Ep > 1.2):
                 raise ValueError("Demanding energy must lie between 0.105 and 1.2 keV!")
-            gap=2.56288 + 186.99257*Ep - 653.74749*Ep**2 + 1589.71628*Ep**3 - 2375.03513*Ep**4 + 2110.75282*Ep**5 - 1019.61741*Ep**6 + 206.70745*Ep**7
+            gap=3.06965 +177.99974*Ep -596.79184*Ep**2 +1406.28911*Ep**3 -2046.90669*Ep**4 +1780.26621*Ep**5 -844.81785*Ep**6 +168.99039*Ep**7
             if self.gap=="jgap" and (gap<16 or gap>60):
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 60)!")
         elif self.getName() == "jenergy" and self.getPolarisation()=="V":
