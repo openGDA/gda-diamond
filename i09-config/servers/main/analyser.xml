@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="analyser.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:TEST:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:CAM:" />
 		<property name="initialDataType" value="UInt16" />
 		<property name="initialMinX" value="0" />
 		<property name="initialMinY" value="0" />
@@ -15,11 +15,11 @@
 	</bean>
 
 	<bean id="analyser.proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:PROC:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:PROC:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="ELECTRON-ANALYSER-01:PROC:" />
-				<property name="initialArrayPort" value="CCD.CAM" />
+				<property name="basePVName" value="BL09I-EA-DET-01:PROC:" />
+				<property name="initialArrayPort" value="EAN1.CAM" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -33,11 +33,11 @@
 		<property name="initialEnableFilter" value="0" />
 	</bean>
 	<bean id="analyser.roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:ROI:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:ROI:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="ELECTRON-ANALYSER-01:ROI:" />
-				<property name="initialArrayPort" value="CCD.CAM" />
+				<property name="basePVName" value="BL09I-EA-DET-01:ROI:" />
+				<property name="initialArrayPort" value="EAN1.CAM" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -55,11 +55,11 @@
 		<property name="initialEnableY" value="true" />
 	</bean>
 	<bean id="analyser.arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:ARR:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="ELECTRON-ANALYSER-01:ARR:" />
-				<property name="initialArrayPort" value="CCD.CAM" />
+				<property name="basePVName" value="BL09I-EA-DET-01:ARR:" />
+				<property name="initialArrayPort" value="EAN1.CAM" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -68,11 +68,11 @@
 	</bean>
 
 	<bean id="analyser.stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:STAT:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:STAT:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="ELECTRON-ANALYSER-01:STAT:" />
-				<property name="initialArrayPort" value="CCD.CAM" />
+				<property name="basePVName" value="BL09I-EA-DET-01:STAT:" />
+				<property name="initialArrayPort" value="EAN1.CAM" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -81,11 +81,11 @@
 	</bean>
 
 	<bean id="analyser_filebase" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:HDF:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:HDF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="ELECTRON-ANALYSER-01:HDF:" />
-				<property name="initialArrayPort" value="CCD.CAM" />
+				<property name="basePVName" value="BL09I-EA-DET-01:HDF:" />
+				<property name="initialArrayPort" value="EAN1.CAM" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -107,7 +107,7 @@
 
 	<bean id="analyser.hdf"
 		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:HDF:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:HDF:" />
 		<property name="file" ref="analyser_filebase" />
 		<property name="initialNumExtraDims" value="0" />
 		<property name="initialExtraDimSizeN" value="1" />
@@ -123,11 +123,11 @@
 
 	<bean id="analyser.mpeg"
 		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:MPG:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:MPG:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="ELECTRON-ANALYSER-01:MPG:" />
-				<property name="initialArrayPort" value="CCD.CAM" />
+				<property name="basePVName" value="BL09I-EA-DET-01:MPG:" />
+				<property name="initialArrayPort" value="EAN1.CAM" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -143,7 +143,7 @@
 
 	<bean id="analysercontroller"
 		class="org.opengda.detector.electronanalyser.server.VGScientaController">
-		<property name="basePVName" value="ELECTRON-ANALYSER-01:TEST:" />
+		<property name="basePVName" value="BL09I-EA-DET-01:CAM:" />
 	</bean>
 
 	<bean id="analyser_hdf_simpleacquire" class="gda.device.detector.addetector.triggering.SimpleAcquire">
@@ -203,14 +203,14 @@
 		<property name="analyser" ref="analyser"/>
 	</bean>
 	<bean id="analyser_spectrumlugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.PVArrayPlugin">
-		<constructor-arg value="ELECTRON-ANALYSER-01:TEST:INT_SPECTRUM_COPY" />
-		<constructor-arg value="ELECTRON-ANALYSER-01:TEST:TOTAL_DATA_POINTS_RBV"/>
+		<constructor-arg value="BL09I-EA-DET-01:CAM:INT_SPECTRUM_COPY" />
+		<constructor-arg value="BL09I-EA-DET-01:CAM:TOTAL_DATA_POINTS_RBV"/>
 		<property name="dataName" value="spectrum"/>
 		<property name="dataUnit" value="counts"/>
 	</bean>
 	<bean id="analyser_externalIOlugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.PVArrayPlugin">
-		<constructor-arg value="ELECTRON-ANALYSER-01:TEST:EXTIO_COPY" />
-		<constructor-arg value="ELECTRON-ANALYSER-01:TEST:TOTAL_DATA_POINTS_RBV"/>
+		<constructor-arg value="BL09I-EA-DET-01:CAM:EXTIO_COPY" />
+		<constructor-arg value="BL09I-EA-DET-01:CAM:TOTAL_DATA_POINTS_RBV"/>
 		<property name="dataName" value="externalIO"/>
 		<property name="dataUnit" value="volt"/>
 	</bean>

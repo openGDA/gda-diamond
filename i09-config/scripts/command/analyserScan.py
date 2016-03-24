@@ -27,7 +27,7 @@ PRINTTIME=False
 zeroScannable=DummyScannable("zeroScannable")
 
 def zerosupplies():
-    caput("ELECTRON-ANALYSER-01:TEST:ZERO_SUPPLIES", 1)
+    caput("BL09I-EA-DET-01:CAM:ZERO_SUPPLIES", 1)
     
 
 def getSequenceFilename(arg, xmldir):

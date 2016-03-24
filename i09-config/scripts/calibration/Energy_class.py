@@ -153,10 +153,10 @@ class BeamEnergy(ScannableMotionBase):
                 try:
                     if s.getName() == "pgmenergy":
                         s.asynchronousMoveTo(self.energy*1000)
-                        # caput("ELECTRON-ANALYSER-01:TEST:EXCITATION_ENERGY", self.energy*1000)
+                        # caput("BL09I-EA-DET-01:CAM:EXCITATION_ENERGY", self.energy*1000)
                     else:
                         s.asynchronousMoveTo(self.energy)
-                        # caput("ELECTRON-ANALYSER-01:TEST:EXCITATION_ENERGY", self.energy*1000)
+                        # caput("BL09I-EA-DET-01:CAM:EXCITATION_ENERGY", self.energy*1000)
                 except:
                     print "cannot set " + s.getName() + " to " + str(self.energy)
                     raise
