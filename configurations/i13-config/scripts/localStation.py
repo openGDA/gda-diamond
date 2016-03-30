@@ -319,7 +319,8 @@ try:
 		meta_texts_cam = {}
 		meta_texts_cam.update({"pco_cam_model": "BL13I-EA-DET-01:CAM:Model_RBV"})
 		try:
-			pco_cam_model_rbv = caget(meta_texts_cam["pco_cam_model"])
+			cam_pv = meta_texts_cam["pco_cam_model"]
+			pco_cam_model_rbv = caget(cam_pv)
 			if "edge" in pco_cam_model_rbv.lower():
 				#meta_texts_cam.update({"focus_pco_edge_label": "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS"})
 				#meta_texts_cam.update({"focus_pco_edge": "BL13I-MO-STAGE-02:FOCUS2.RBV"})
@@ -335,7 +336,7 @@ try:
 					print "Unsupported camera %s detected in %s!" %(pco_cam_model_rbv,fname)
 		except:
 			rbv = "caget failed"
-			rbv_ = rbv + " on %s!" %(v)
+			rbv_ = rbv + " on %s!" %(cam_pv)
 			msg = "Error in %s: " %(fname)
 			exceptionType, exception, traceback = sys.exc_info()
 			handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
