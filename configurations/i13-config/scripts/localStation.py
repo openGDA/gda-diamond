@@ -240,8 +240,9 @@ try:
 		LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")
 		LocalProperties.set("gda.data", "/dls/$instrument$/data/$year$/$visit$/raw")
 	else:
-		LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/cs-scratch/i13i-dummy")
-		LocalProperties.set("gda.data", "/dls/cs-scratch/i13i-dummy")
+		data_dir = LocalProperties.get("gda.config") + "/../../../gda_data_non_live/cs-scratch/i13i-dummy"
+		LocalProperties.set("gda.data.scan.datawriter.datadir", data_dir)
+		LocalProperties.set("gda.data", data_dir)
 
 	import beamlineEnergy
 	bl = beamlineEnergy.beamLineEnergy()
