@@ -459,7 +459,12 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             raise "ionc_i is not defined in Jython namespace"
         ionc_i_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(ionc_i)
 
-        #caput("BL13I-EA-ZEBRA-01:M3:SETPOS.PROC", 1)
+        pcEnc = tomography_flyscan_theta.getPcEnc()
+        zebraPrefix = tomography_flyscan_theta.getContinuousMoveController().getZebra().getZebraPrefix()
+        print("pcEnc = %i" %(pcEnc))
+        print("zebraPrefix = %s" %(zebraPrefix))
+        zebraEncoderSetPosPV = zebraPrefix + 'M' + str(pcEnc) +':SETPOS.PROC'   # need dedicated function for building this string from prefix and pcEnc
+        print("zebraEncoderSetPosPV = %s" %(zebraEncoderSetPosPV))
         zebra = finder.find("zebra")
         zebra.encCopyMotorPosToZebra(3)
         meta_add( camera_stage)
@@ -736,7 +741,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
 
         if autoAnalyse:
             lsdp=jns.lastScanDataPoint()
-            OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
+            OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
         
         #Close the fast shutter to prevent warming of sample
         tomography_shutter.moveTo( "Close")	
@@ -1394,7 +1399,7 @@ def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=
 
         if autoAnalyse:
             lsdp=jns.lastScanDataPoint()
-            OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
+            OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
         
         #Close the fast shutter to prevent warming of sample
         tomography_shutter.moveTo( "Close")    
