@@ -364,7 +364,7 @@ try:
 	
 	# add meta-data for all scans on this beamline
 	meta_add_i13i()
-	
+	caput("BL13I-MO-HEX-01:SAMPLEROT.VMAX", 100.0)
 	
 except:
 	exceptionType, exception, traceback = sys.exc_info()
