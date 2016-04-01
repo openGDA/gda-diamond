@@ -163,4 +163,13 @@
 		</property>
 	</bean>
 
+	<!-- Pneumatics -->
+	
+	<bean id="bpm1pneumatic" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="bpm1pneumatic" />
+		<property name="pvName" value="BL15J-DI-BPM-01:CON" />
+		<!-- 
+		<property name="level" value="6" />
+		 -->
+	</bean>
 </beans>

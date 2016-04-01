@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="railY1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-RAIL-01:Y1" />
+	</bean>
+
+	<bean id="railY2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-RAIL-01:Y2" />
+	</bean>
+
+	<bean id="railY_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-RAIL-01:Y" />
+	</bean>
+
+	<bean id="railPitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-RAIL-01:PITCH" />
+	</bean>
+</beans>
