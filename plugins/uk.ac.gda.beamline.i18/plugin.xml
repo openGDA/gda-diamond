@@ -21,9 +21,9 @@
    </extension>
    <extension
          point="org.eclipse.ui.editors">
-         <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.exafs.ui.XasScanParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/XasParametersIcon.png"
             id="uk.ac.gda.exafs.ui.XasScanParametersEditor"
@@ -32,9 +32,9 @@
                contentTypeId="uk.ac.diamond.gda.client.exafs.getXasContent">
          </contentTypeBinding>
       </editor>
-      <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.exafs.ui.XanesScanParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/XanesParametersIcon.png"
             id="uk.ac.gda.exafs.ui.XanesScanParametersEditor"
@@ -43,9 +43,9 @@
                contentTypeId="uk.ac.diamond.gda.client.exafs.getXanesContent">
          </contentTypeBinding>
       </editor>
-      <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.client.microfocus.ui.editors.MicroFocusScanParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             id="uk.ac.gda.client.microfocus.ui.editors.MicroFocusScanParametersEditor"
             name="MicroFocus Scan">
@@ -53,9 +53,9 @@
                contentTypeId="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent">
          </contentTypeBinding>
       </editor>
-      <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.exafs.ui.I18SampleParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/SampleParametersIcon.png"
             id="uk.ac.gda.exafs.ui.I18SampleParametersEditor"
@@ -64,9 +64,9 @@
                contentTypeId="uk.ac.diamond.gda.client.exafs.getI18SampleContent">
          </contentTypeBinding>
       </editor>
-      <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.exafs.ui.DetectorParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/DetectorParametersIcon.png"
             id="uk.ac.gda.exafs.ui.DetectorParametersEditor"
@@ -75,9 +75,9 @@
                contentTypeId="uk.ac.diamond.gda.client.exafs.getDetectorContent">
          </contentTypeBinding>
       </editor>
-      <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.exafs.ui.OutputParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/OutputParametersIcon.png"
             id="uk.ac.gda.exafs.ui.OutputParametersEditor"
@@ -86,9 +86,9 @@
                contentTypeId="uk.ac.diamond.gda.client.exafs.getOutputContent">
          </contentTypeBinding>
       </editor>
-      <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.exafs.ui.detector.vortex.VortexParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/ParametersEditorIcon.png"
             id="uk.ac.gda.exafs.ui.VortexParametersEditor"
@@ -97,9 +97,9 @@
                contentTypeId="uk.ac.diamond.gda.client.exafs.getVortexContent">
          </contentTypeBinding>
       </editor>
-      <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.exafs.ui.detector.xspress.XspressParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             icon="icons/ParametersEditorIcon.png"
             id="uk.ac.gda.exafs.ui.XspressParametersEditor"
@@ -108,9 +108,9 @@
                contentTypeId="uk.ac.diamond.gda.client.exafs.getXspressContent">
          </contentTypeBinding>
       </editor>
-      <!-- FIXME: provide an e4 compatible alternative to the contributorClass org.eclipse.ui.texteditor.BasicTextEditorActionContributor in this editor -->
       <editor
             class="uk.ac.gda.exafs.ui.QEXAFSParametersEditor"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
             id="uk.ac.gda.exafs.ui.QEXAFSParametersEditor"
             name="QEXAFS Parameters">
