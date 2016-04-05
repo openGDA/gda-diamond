@@ -39,7 +39,7 @@ $(lg s)napshot  Run the latest Jenkins built snapshot associated with the beamli
 $(lg d)evel     Run the most recent export of the server in the beamline workspace
 
 Other:
-de$(lg b)ug     Start the server in debug mode waiting for a connection of port 8001
+de$(lg b)ug     Start the server in debug mode waiting for a connection of port 8000
 $(lg h)elp      Display this message
 
 N.B. the release, snapshot and devel options are mutually exclusive and will be rejected if more than one is specified
@@ -156,7 +156,7 @@ SERVER_INSTALL_DIRNAME=$(basename "$SERVER_INSTALL_PATH")
 application_args="-Dgda.mode=live"
 
 if [[ "$ARGS_IN" == *"debug"* ]]; then
-	application_args="$application_args -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8001"
+	application_args="$application_args -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000"
 fi
 
 # Set user workspace and eclipse runtime configuration location (user and server build specific)
