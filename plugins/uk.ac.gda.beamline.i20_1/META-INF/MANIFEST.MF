@@ -69,8 +69,8 @@ Export-Package: gda.device.detector,
  uk.ac.gda.exafs.experiment.trigger,
  uk.ac.gda.exafs.experiment.ui.data
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api
-Import-Package: ncsa.hdf.object,
- ncsa.hdf.object.h5,
+Import-Package: hdf.object,
+ hdf.object.h5,
  org.apache.commons.collections,
  org.dawnsci.io.h5,
  org.dawnsci.plotting.tools.hyper2d,

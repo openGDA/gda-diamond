@@ -20,7 +20,7 @@
 -Dgda.install.workspace.loc=/dls_sw/b18/software/gda
 -Dgda.install.git.loc=/dls_sw/b18/software/gda/workspace_git
 -Dgda.config=/dls_sw/b18/software/gda/config
--Djava.library.path=/dls_sw/b18/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64:/dls_sw/b18/software/gda/workspace_git/dawn-third.git/ncsa.hdf/lib/linux-x86_64:/dls_sw/b18/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64
+-Djava.library.path=/dls_sw/b18/software/gda/workspace_git/dawn-hdf.git/hdf.hdf5lib/lib/linux-x86_64:/dls_sw/b18/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64
 -Dgda.propertiesFile=/dls_sw/b18/software/gda/config/properties/live/live_instance_java.properties
 -Djacorb.config.dir=/dls_sw/b18/software/gda/config/properties/live/jacorb
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/b18/software/gda/config/properties/live/JCALibrary.properties
@@ -75,5 +75,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.b18.feature"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>

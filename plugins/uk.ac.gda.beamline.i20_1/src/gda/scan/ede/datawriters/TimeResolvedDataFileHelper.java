@@ -18,7 +18,6 @@
 
 package gda.scan.ede.datawriters;
 
-import gda.jython.InterfaceProvider;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -41,6 +40,7 @@ import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.jython.InterfaceProvider;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.EdeDataConstants.ItMetadata;
 import gda.scan.ede.datawriters.EdeDataConstants.RangeData;
@@ -700,7 +700,7 @@ public class TimeResolvedDataFileHelper {
 	private DoubleDataset getDataFromFile(IHierarchicalDataFile file, String path)
 			throws Exception {
 		return (DoubleDataset) H5Utils.getSet(file, path);
-		//		ncsa.hdf.object.Dataset dataset = (ncsa.hdf.object.Dataset) file.getData(path);
+		//		hdf.object.Dataset dataset = (hdf.object.Dataset) file.getData(path);
 		//		int[] dimension = new int[dataset.getDims().length];
 		//		long[] oriDimension = dataset.getDims();
 		//		for (int i = 0; i < dimension.length; i++) {
