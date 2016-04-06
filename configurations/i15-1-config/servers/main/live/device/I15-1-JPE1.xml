@@ -5,7 +5,33 @@
 
 	<!-- AD hardware -->
 
-	<!-- Devices which are defined in Epics but not needed by the client are defined below -->
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="peAD_config_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:CAM:" />
+	</bean>
+
+	<bean id="peAD_summary_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:ARR:" />
+	</bean>
+
+	<bean id="peAD_summary_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:STAT:" />
+	</bean>
+
+	<bean id="peAD_summary_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:ROI:" />
+	</bean>
+
+	<bean id="peAD_summary_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:MJPG:" />
+	</bean>
+
+	<bean id="peAD_summary_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
 
 	<bean id="peAD_summary_roi1" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15J-EA-DET-01:ROI1:" />
