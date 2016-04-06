@@ -69,7 +69,7 @@
     <logger name="org.eclipse.dawnsci.hdf5">
         <level value="INFO"/>
     </logger>
-    <logger name="ncsa.hdf.object">
+    <logger name="hdf.object">
         <level value="INFO"/>
     </logger>
     <root>

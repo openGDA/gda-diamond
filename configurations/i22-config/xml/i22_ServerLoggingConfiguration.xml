@@ -18,7 +18,7 @@
     <logger name="gda.oe.positioners.Positioner" level="INFO"/>
     <logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO"/>
     <logger name="org.apache.http" level="INFO"/>
-    <logger name="ncsa.hdf.object" level="INFO" />
+    <logger name="hdf.object" level="INFO" />
     <root>
         <level value="DEBUG"/>
         <appender-ref ref="SOCKET"/>
