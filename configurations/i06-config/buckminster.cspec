@@ -2,7 +2,7 @@
     <cs:dependencies>
         <cs:dependency name="diffcalc" componentType="buckminster"/>
         <cs:dependency name="mt-config" componentType="buckminster"/>
-        <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="hdf.hdf5lib" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i06.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.devices.pco" componentType="osgi.bundle"/>
