@@ -240,8 +240,9 @@ try:
 		LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")
 		LocalProperties.set("gda.data", "/dls/$instrument$/data/$year$/$visit$/raw")
 	else:
-		LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/cs-scratch/i13i-dummy")
-		LocalProperties.set("gda.data", "/dls/cs-scratch/i13i-dummy")
+		data_dir = LocalProperties.get("gda.config") + "/../../../gda_data_non_live/cs-scratch/i13i-dummy"
+		LocalProperties.set("gda.data.scan.datawriter.datadir", data_dir)
+		LocalProperties.set("gda.data", data_dir)
 
 	import beamlineEnergy
 	bl = beamlineEnergy.beamLineEnergy()
@@ -319,7 +320,8 @@ try:
 		meta_texts_cam = {}
 		meta_texts_cam.update({"pco_cam_model": "BL13I-EA-DET-01:CAM:Model_RBV"})
 		try:
-			pco_cam_model_rbv = caget(meta_texts_cam["pco_cam_model"])
+			cam_pv = meta_texts_cam["pco_cam_model"]
+			pco_cam_model_rbv = caget(cam_pv)
 			if "edge" in pco_cam_model_rbv.lower():
 				#meta_texts_cam.update({"focus_pco_edge_label": "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS"})
 				#meta_texts_cam.update({"focus_pco_edge": "BL13I-MO-STAGE-02:FOCUS2.RBV"})
@@ -335,7 +337,7 @@ try:
 					print "Unsupported camera %s detected in %s!" %(pco_cam_model_rbv,fname)
 		except:
 			rbv = "caget failed"
-			rbv_ = rbv + " on %s!" %(v)
+			rbv_ = rbv + " on %s!" %(cam_pv)
 			msg = "Error in %s: " %(fname)
 			exceptionType, exception, traceback = sys.exc_info()
 			handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
@@ -367,7 +369,7 @@ try:
 	
 	# add meta-data for all scans on this beamline
 	meta_add_i13i()
-	
+	caput("BL13I-MO-HEX-01:SAMPLEROT.VMAX", 100.0)
 	
 except:
 	exceptionType, exception, traceback = sys.exc_info()

@@ -1,7 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/util
@@ -9,10 +8,6 @@
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="pco1_autoContinuousTrigger" class="gda.device.detector.addetector.triggering.SimpleAcquire">
-		<constructor-arg ref="pco1_cam_base" />
-		<constructor-arg value="-0.1" />
-	</bean>
 
 	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
@@ -30,22 +25,14 @@
 		</property>
 	</bean>
 	
-	<bean id="flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredPCO">
-		<constructor-arg ref="simCamBase" />
-		<constructor-arg value=".001" />
-		<constructor-arg ref="simAdDriverPco1" />
-		<property name="etfg" ref="tfg"/>
-		<property name="triggerMode" value="EXTERNAL_ONLY"/>
-	</bean>
-	
-	<bean id="flyScanFlatDarkCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposurePco">
-		<constructor-arg ref="simCamBase" />
-		<constructor-arg ref="simAdDriverPco1" />
-		<constructor-arg value=".03" />
-	</bean>
-	
-	<alias name="simHdf5Filewriter" alias="pco1_hdf5_filewriter" />
-	<alias name="simHdf5Filewriter" alias="pco1_hdf5_filewriter_nochunking" />
-	<alias name="simTiffFilewriter" alias="pco1_tif_writer" />
+	<bean id="adDriverPco1" class="gda.device.detector.areadetector.v17.impl.DummyADDriverPco" />
+
+	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.nxdetector.plugin.NullNXPlugin" />
+
+	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.nxdetector.plugin.NullNXPlugin" />
+
+	<bean id="pco1_tif_writer" class="gda.device.detector.nxdetector.plugin.NullNXPlugin" />
+
+	<bean id="pco1_hw_tif" class="gda.device.detector.DummyDetector" />
 
 </beans>

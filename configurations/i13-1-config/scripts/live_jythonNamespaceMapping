@@ -16,8 +16,8 @@ tomography_translation=t1_sy
 # ss1_rot - normal goniometer
 # p2r_rot - p2r
 #ss1_rot_dummy - a dummy motor used for testing
-tomography_theta=t1_theta
-#tomography_theta=ss1_rot_dummy
+#tomography_theta=t1_theta
+tomography_theta=ss1_rot_dummy
 #tomography_theta=grt_theta
 
 
@@ -65,13 +65,11 @@ tomography_flyscan_theta=p2rSM1
 # used for grating-interferometry step-scan
 #tomography_grating_translation=grt_y
 #tomography_grating_translation=grt_theta
-tomography_grating_translation=ndiff_x
+#tomography_grating_translation=ndiff_x
+tomography_grating_translation=ss1_X_dummy
 
-#tomography_grating_translation_outer=ix
-#tomography_grating_translation_inner=iy
+tomography_grating_translation_outer=ix
+tomography_grating_translation_inner=iy 
 
-tomography_grating_translation_outer=ndiff_x
-tomography_grating_translation_inner=ndiff_y
-
-
-
+#tomography_grating_translation_outer=ndiff_x
+#tomography_grating_translation_inner=ndiff_y

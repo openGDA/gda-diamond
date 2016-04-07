@@ -390,7 +390,6 @@ from tomographyXGIScan import tomoXGIScan
 import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
-run("localStationUser.py")
 
 #8/4/2014 pie725 not present
 #run("startup_pie725")
