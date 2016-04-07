@@ -230,4 +230,14 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- Detector Motors -->
+
+	<bean id="det1Y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-EA-DET-01:Y" />
+	</bean>
+
+	<bean id="det1Z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-EA-DET-01:Z" />
+	</bean>
 </beans>
