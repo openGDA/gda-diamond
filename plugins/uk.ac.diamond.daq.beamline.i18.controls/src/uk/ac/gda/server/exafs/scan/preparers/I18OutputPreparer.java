@@ -12,29 +12,28 @@ import uk.ac.gda.beans.exafs.QEXAFSParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
-import uk.ac.gda.server.exafs.scan.OutputPreparer;
 
-public class I18OutputPreparer extends OutputPreparerBase implements OutputPreparer {
+public class I18OutputPreparer extends OutputPreparerBase {
 
 	private I18SampleParameters sampleParameters;
 
 	public I18OutputPreparer(AsciiDataWriterConfiguration datawriterconfig, NXMetaDataProvider metashop) {
 		super(datawriterconfig, metashop);
 	}
-	
-	
+
+
 	@Override
 	public void configure(IOutputParameters outputParameters, IScanParameters scanBean, IDetectorParameters detectorBean, ISampleParameters sampleParameters)
 			throws DeviceException {
 		super.configure(outputParameters, scanBean, detectorBean, sampleParameters);
 		this.sampleParameters = (I18SampleParameters) sampleParameters;
 	}
-	
+
 	@Override
 	public AsciiDataWriterConfiguration getAsciiDataWriterConfig(IScanParameters scanBean) {
 		// get the basic one from super
 		AsciiDataWriterConfiguration datawriterconfig = super.getAsciiDataWriterConfig(scanBean).clone();
-		
+
 		// TODO if its xas, xanes, quick-xanes, then add the sample stage motor positions to the header
 		if (scanBean instanceof XasScanParameters || scanBean instanceof XanesScanParameters || scanBean instanceof QEXAFSParameters){
 			AsciiMetadataConfig xPosition = new AsciiMetadataConfig();
@@ -49,9 +48,9 @@ public class I18OutputPreparer extends OutputPreparerBase implements OutputPrepa
 			zPosition.setLabel("Z stage: " + sampleParameters.getSampleStageParameters().getZ());
 			datawriterconfig.getHeader().add(zPosition);
 		}
-		
-		
-		
+
+
+
 		return datawriterconfig;
 	}
 }

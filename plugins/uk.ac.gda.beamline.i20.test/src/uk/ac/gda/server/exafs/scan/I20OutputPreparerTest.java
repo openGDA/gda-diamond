@@ -19,14 +19,6 @@
 package uk.ac.gda.server.exafs.scan;
 
 import static org.junit.Assert.assertTrue;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.device.Detector;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
-import gda.scan.ScanPlotSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +28,14 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.device.Detector;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.xmap.Xmap;
+import gda.device.detector.xspress.Xspress2Detector;
+import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
@@ -83,6 +83,8 @@ public class I20OutputPreparerTest {
 
 		thePreparer = new I20OutputPreparer(datawriterconfig, datawriterconfig_xes, ionchambers, xspressSystem,
 				xmpaMca, i20DetectorPreparer);
+		thePreparer.setDatawriterconfig(datawriterconfig);
+
 	}
 
 	private Scannable createMock(Class<? extends Scannable> clazz, String name) {
