@@ -22,12 +22,15 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import com.google.gson.annotations.Expose;
 
 import gda.jython.InterfaceProvider;
 import gda.util.exafs.AbsorptionEdge;
@@ -55,19 +58,27 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	// inputs
 	public static final String CRYSTAL_TYPE_PROP_NAME = "crystalType";
+	@Expose
 	private CrystalType crystalType;
 
 	public static final String CRYSTAL_CUT_PROP_NAME = "crystalCut";
+	@Expose
 	private CrystalCut crystalCut;
 
 	public static final String Q_PROP_NAME = "q";
+	@Expose
 	private QValue q = null;
 
 	public static final String ELEMENT_EDGE_PROP_NAME = "edge";
 	private AbsorptionEdge edge = null; // for the moment, this should match element and edge
+	@Expose
+	private String absorptionEdgeString;
 
 	public static final String ELEMENT_PROP_NAME = "element";
 	private Element element = null;
+
+	@Expose
+	private String elementSymbol;
 
 	public static final String ELEMENT_ENERGY_PROP_NAME = "energy";
 
@@ -81,6 +92,10 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	public static final String AUGGESTED_PARAMETERS_PROP_KEY = "alignmentSuggestedParameters";
 
 	private AlignmentParametersBean alignmentSuggestedParameters;
+
+	private static boolean parametersLoaded = false;
+
+	private static final String ALIGNMENT_PARAMETERS_DATA_STORE_KEY = "ALIGNMENT_PARAMETERS_DATA_STORE_KEY";
 
 	public enum CrystalType {
 		Bragg, Laue;
@@ -144,10 +159,15 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		}
 	}
 	private final PropertyChangeListener listener = new PropertyChangeListener() {
+		List<String> paramsToSave = Arrays.asList(CRYSTAL_TYPE_PROP_NAME, CRYSTAL_CUT_PROP_NAME, Q_PROP_NAME, ELEMENT_EDGE_PROP_NAME, ELEMENT_PROP_NAME);
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
-			if(evt.getNewValue() != null && !evt.getPropertyName().equals(AUGGESTED_PARAMETERS_PROP_KEY)) {
+			String eventPropertyName = evt.getPropertyName();
+			if(evt.getNewValue() != null && !eventPropertyName.equals(AUGGESTED_PARAMETERS_PROP_KEY)) {
 				getCalculations();
+			}
+			if ( paramsToSave.contains(eventPropertyName) ) {
+				saveAlignmentParametersToStore();
 			}
 		}
 	};
@@ -280,5 +300,52 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	public AlignmentParametersBean getAlignmentSuggestedParameters() {
 		return alignmentSuggestedParameters;
+	}
+
+	/**
+	 * Duplicate the model parameters from another object.
+	 * @param model
+	 * @since 11/4/2016
+	 */
+	public void setFromModel( AlignmentParametersModel model ) {
+		crystalType = model.getCrystalType();
+		crystalCut = model.getCrystalCut();
+		q = model.getQ();
+
+		if ( model.absorptionEdgeString != null ) {
+			edge = new AbsorptionEdge(model.absorptionEdgeString);
+			setEdge( edge );
+		}
+
+		if ( model.elementSymbol != null ) {
+			element = Element.getElement(model.elementSymbol);
+			setElement( element );
+		}
+	}
+
+	/**
+	 * Save AlignmentParameters to preference store.
+	 * @since 8/4/2016
+	 */
+	public void saveAlignmentParametersToStore() {
+		if ( parametersLoaded == true ) {
+			elementSymbol = element.getSymbol();
+			if ( edge != null )
+				absorptionEdgeString = edge.toString();
+			else
+				absorptionEdgeString = "";
+
+			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, this);
+		}
+	}
+
+	/**
+	 * Load AlignmentParameters from preference store
+	 * @since 8/4/2016
+	 */
+	public void loadAlignmentParametersFromStore() {
+		parametersLoaded = true;
+		AlignmentParametersModel paramModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, AlignmentParametersModel.class);
+		setFromModel( paramModel );
 	}
 }
