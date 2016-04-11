@@ -22,8 +22,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.Pair;
 import org.dawb.common.ui.widgets.ActionBarWrapper;
 import org.eclipse.core.databinding.DataBindingContext;
@@ -440,9 +442,25 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 		polynomialValueText = new Text(calibrationDetailsComposite, SWT.BORDER);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 4;
-		polynomialValueText.setEditable(false);
+		gridData.horizontalSpan = 3;
+		// polynomialValueText.setEditable(false);
+		polynomialValueText.setEditable(true); // allow user to modify fit formula directly.
 		polynomialValueText.setLayoutData(gridData);
+
+		// New button added so that a modified fit formula can be applied to data. 6/4/2016
+		Button applyPolynomialCalibrationButton = new Button(calibrationDetailsComposite, SWT.None);
+		applyPolynomialCalibrationButton.setText("Apply");
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		applyPolynomialCalibrationButton.setLayoutData(gridData);
+		applyPolynomialCalibrationButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				String polynomialString = polynomialValueText.getText();
+				double [] polyCoeffs = extractCoefficientsFromString(polynomialString);
+				PolynomialFunction polyFunc = new PolynomialFunction(polyCoeffs);
+				runEdeCalibration(polyFunc);
+			}
+		});
 
 		Label goodnessOfFit = new Label(calibrationDetailsComposite, SWT.None);
 		goodnessOfFit.setLayoutData(new GridData(SWT.END, SWT.CENTER, false, false));
@@ -512,6 +530,68 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(goodnessOfFitValueText),
 				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
+
+		// Set regions to initially cover central region of full dataset
+		referenceRegion.setROI( getRoiForFullRegion( refCalibrationDataModel, 10) );
+		edeRegion.setROI( getRoiForFullRegion( edeCalibrationDataModel, 10) );
+	}
+
+	/**
+	 *  Parse a String of format coeff1 x^power1 + coeff2 x^power2 + ..., make a double array of coefficients of each power.<br>
+	 *     e.g.  66.47 x^2 + 123.4*x^3 + 0.2  is converted to double array { 0.2, 0.0, 66.47, 123.4 }
+	 * <ul>
+	 *  <li>Coefficients are initialized to all zero.
+	 *  <li>Order of different powers in string is arbitrary;
+	 *  <li>Each power is separated by + or -, coefficient and power should be separated by a space or a *.
+	 *  <li>if power term is missing, assumed coeff is for x^0; similarly if power is x, interpreted as x^1.
+	 * </ul>
+	 * @param polyString  Text String of format coeff1 x^power1 + coeff2 x^power2 +
+	 * @return double array of polynomial coefficients.
+	 * @since 6/4/2016
+	 */
+	double[] extractCoefficientsFromString( String polyString ) {
+		final int maxOrder = 10;
+		double []coefficients = new double[maxOrder];
+		Arrays.fill( coefficients,  0.0 );
+
+		String []tokens = polyString.split("[+-]");
+		for( int i = 0; i<tokens.length && i<maxOrder; i++ ) {
+			String tok = tokens[i].trim();
+			String []tokArray = tok.split("[ *]");
+
+			// parse coefficient
+			double coeff = Double.parseDouble( tokArray[0].trim() );
+
+			int power = 0;
+			// parse power (i.e. integer part of x^3 )
+			if ( tokArray.length > 1 ) {
+				String powerTok = tokArray[ tokArray.length - 1];
+				int powSeparatorPos = powerTok.indexOf("^");
+				if ( powSeparatorPos != -1 ) {
+					String powString = tokArray[1].substring(powSeparatorPos+1);
+					power = Integer.parseInt( powString );
+				}
+				else // if there's no '^' , assume power is 1
+					power = 1;
+			}
+			coefficients[power] = coeff;
+		}
+		return coefficients;
+	}
+
+	/**
+	 * Return a rectangular ROIS that covers central portion of data region.
+	 *
+	 * @param calibrationModel
+	 * @param edgeGapPercentage gap between edge of roi and edges of data, as percentage.
+	 * @return ROI covering central data region
+	 * @since 6/4/2016
+	 */
+	RectangularROI getRoiForFullRegion( CalibrationEnergyData calibrationModel, double edgeGapPercentage ) {
+		double start = calibrationModel.getStartEnergy(), end = calibrationModel.getEndEnergy();
+		double width = end-start;
+		double edgeOffset = 0.01*width*edgeGapPercentage;
+		return new RectangularROI( start+edgeOffset, 0, width-2*edgeOffset, 1, 0 );
 	}
 
 	private final UpdateValueStrategy refUpdateValueStrategy = new UpdateValueStrategy() {
@@ -551,6 +631,10 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 	};
 
 	private void runEdeCalibration() {
+		runEdeCalibration( null );
+	}
+
+	private void runEdeCalibration( final PolynomialFunction polynomialFunction ) {
 		try {
 			refPlottingSystem.clear();
 			loadPlot(refCalibrationDataModel, refPlottingSystem);
@@ -608,7 +692,13 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 						}
 					});
 
-					edeCalibration.calibrate(true);
+					if ( polynomialFunction == null ) {
+						edeCalibration.calibrate(true);
+					}
+					else {
+						edeCalibration.calibrate(false);
+						edeCalibration.setEdeCalibrationPolynomial(polynomialFunction);
+					}
 					final Dataset resEnergyDataset = edeCalibration.calibrateEdeChannels(edeIdxSlice);
 					Display.getDefault().syncExec(new Runnable() {
 
