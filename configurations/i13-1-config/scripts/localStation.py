@@ -379,6 +379,9 @@ from tomographyXGIScan import tomoXGIScan
 import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
+# for vortex to set Preset Mode to 'Real time' (the default is 'No preset')
+#caput("ME13C-EA-DET-01:PresetMode", 1)
+
 run("localStationUser.py")
 
 #8/4/2014 pie725 not present
