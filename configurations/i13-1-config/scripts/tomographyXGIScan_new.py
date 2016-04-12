@@ -350,26 +350,43 @@ def tomoXGIScan(inBeamPosition, outOfBeamPosition, exposureTime=1., start=0.0, s
         objXGI.append('tomography_grating_translation')
         
         if kwargs is not None and len(kwargs)>0:
-            print "*** Found %i kwargs: " %(len(kwargs)) , kwargs
+            print "\n *** Found %i kwargs: " %(len(kwargs)) , kwargs
             #print kwargs, len(kwargs)
         else:
-            print("*** kwargs not found")
+            print("\n *** kwargs not found")
         
         # use kwargs value to set obj or set it to None
-        for k in objXGI:
-            if (kwargs is not None) and kwargs.has_key(k) and (kwargs[k] is not None):
-                exec("%s=Finder.getInstance().find(\"%s\")" %(kwargs[k].getName(), kwargs[k].getName()))
-                exec(k + "=%s" %(kwargs[k].getName()))
+        for k_str in objXGI:
+            if (kwargs is not None) and kwargs.has_key(k_str) and (kwargs[k_str] is not None):
+                exec("%s=Finder.getInstance().find(\"%s\")" %(kwargs[k_str].getName(), kwargs[k_str].getName()))
+                exec(k_str + "=%s" %(kwargs[k_str].getName()))
+                if eval(k_str +" is None"):
+                    try:
+                        print kwargs[k_str].getName() 
+                        eval(kwargs[k_str].getName())
+                        msg = k_str + "=%s" %(kwargs[k_str].getName())
+                        print msg
+                        exec(k_str + "=%s" %(kwargs[k_str].getName()))
+                        print "this appears to have worked fine without Finder for %s and %s" %(k_str, kwargs[k_str].getName())
+                        #sleep(10)
+                        eval(k_str)
+                        if eval(k_str +" is None"):
+                            print "is None for %s!" %(k_str)
+                    except Exception, ex:
+                        print "got except..."
+                        print k_str, ex
+                else:
+                    print "is not None for %s!" %(k_str)
             else:
-                #if k != 'tomography_detector':
-                #    print k
-                #    exec(k + "=" + "None")
+                #if k_str != 'tomography_detector':
+                #    print k_str
+                #    exec(k_str + "=" + "None")
                 try:
-                    eval(k)
-                    #print k
+                    eval(k_str)
+                    #print k_str
                 except Exception, ex:
-                    print k, ex
-                    exec(k + "=" + "None")
+                    print k_str, ex
+                    exec(k_str + "=" + "None")
         
         #print tomography_grating_translation.getName()
         jns=beamline_parameters.JythonNameSpaceMapping()
@@ -379,20 +396,21 @@ def tomoXGIScan(inBeamPosition, outOfBeamPosition, exposureTime=1., start=0.0, s
 
 
         # use jns values
-        for k in objXGI:
-            if eval(k +" is None"):
-                exec(k + "=" + "jns."+k)
+        for k_str in objXGI:
+            if eval(k_str +" is None"):
+                exec(k_str + "=" + "jns."+k_str)
+                print "imposing jns value for %s" %(k_str)
             else:
-                print "keeping kwargs value for %s" %(k)
+                print "keeping kwargs value for %s" %(k_str)
         
         # final sanity test
-        print "*** This tomoXGIScan is set to use:" 
-        for k in objXGI:
-            if eval("%s is None" %(k)):
-                msg = k + " is not defined"
+        print "\n *** This tomoXGIScan is set to use:" 
+        for k_str in objXGI:
+            if eval("%s is None" %(k_str)):
+                msg = k_str + " is not defined"
                 raise msg
             else:
-                print "%s = %s" %(k, eval("%s.getName()" %(k)))
+                print "%s = %s" %(k_str, eval("%s.getName()" %(k_str)))
 
         #tomography_theta=jns.tomography_theta
         #if tomography_theta is None:
