@@ -105,6 +105,7 @@
 	<import resource="../../../devices/epics/float1.xml"/>
 	<import resource="../../../devices/epics/float2.xml"/>
 	<import resource="../../../devices/epics/float3.xml"/>
+	<import resource="../../../devices/epics/float4.xml"/>
 	
 	<import resource="../../../devices/epics/s7_motors.xml"/>
 
