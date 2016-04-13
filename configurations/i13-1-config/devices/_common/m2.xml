@@ -1,11 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
 
 	<bean id="m2_hsize" class="gda.device.scannable.ScannableMotor">
@@ -58,7 +53,25 @@
 		<property name="motor" ref="m2h_y_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	
+
+	<bean id="m2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m2_hcenter" />
+				<ref bean="m2_hsize" />
+				<ref bean="m2_vcenter" />
+				<ref bean="m2_vsize" />
+				<ref bean="m2h_benda" />
+				<ref bean="m2h_bendb" />
+				<ref bean="m2h_tilt" />
+				<ref bean="m2h_y" />
+				<ref bean="m2v_benda" />
+				<ref bean="m2v_bendb" />
+				<ref bean="m2v_tilt" />
+				<ref bean="m2v_y" />
+			</list>
+		</property>
+	</bean>	
 	
 </beans>
 
