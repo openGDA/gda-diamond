@@ -38,7 +38,7 @@
 	</bean>
 
 	<bean id="float3_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-03:HDF:" />
+		<property name="prefix" value="BL13J-OP-FLOAT-03:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 </beans>

@@ -44,7 +44,7 @@
 	</logger>
 
 	<logger name="gda.device.zebra.ZebraConstantVelocityMoveController">
-		<level value="DEBUG" />
+		<level value="ALL" />
 	</logger>
 
 	<logger name="gda.epics.LazyPVFactory">
