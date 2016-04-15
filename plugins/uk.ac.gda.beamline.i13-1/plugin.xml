@@ -6,15 +6,11 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="Diamond Beamline I13">
+            name="Diamond Beamline I13j">
          <property
                name="appName"
-               value="Diamond Beamline I13">
+               value="Diamond Beamline I13j">
          </property>
-         <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
-         </property>         
          <property
                name="windowImages"
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
@@ -25,7 +21,7 @@
          </property>
          <property
                name="aboutText"
-               value="Diamond Beamline I13 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
+               value="Diamond Beamline I13-1&#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
          </property>    
       </product>
    </extension>
