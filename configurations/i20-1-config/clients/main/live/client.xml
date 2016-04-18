@@ -26,7 +26,7 @@
 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	
+
 <!-- 	<bean id="frelonDetectorData" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
 <!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/frelonDetectorData" /> -->
 <!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
@@ -34,12 +34,12 @@
 <!-- 	</bean> -->
 
 <!-- Remove frelon when using xstrip... imh 15/10/2015 -->
-	<bean id="frelon" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/frelon" />
-		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	
+<!-- 	<bean id="frelon" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/frelon" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
+
 	<import resource="d10.xml" />
-	
+
 </beans>
