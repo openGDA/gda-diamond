@@ -1,6 +1,7 @@
 #This file is used by beamline_parameters.jythonNamespaceMapping
 
-sample_stage=t1_sx
+sample_stage=t1_x
+#sample_stage=t1_sy
 
 #tomography_translation is the motor used to move the sample out of the beam (x)
 #Possible values:
@@ -8,6 +9,9 @@ sample_stage=t1_sx
 #hex_x  - hexapod sample table
 #ss1_X_dummy - a dummy motor used for testing
 #ss1_samplez - only use if going from -90 to 90. otherwise use ss1_x which is a virtual motor that takes acount of rotation
+#tomography_translation=t1_sy
+#tomography_translation=ss1_X
+#tomography_translation=t1_x
 tomography_translation=ss1_X_dummy
 
 #tomography_theta is the motor used to rotate the sample
@@ -15,7 +19,9 @@ tomography_translation=ss1_X_dummy
 # ss1_rot - normal goniometer
 # p2r_rot - p2r
 #ss1_rot_dummy - a dummy motor used for testing
+#tomography_theta=t1_theta
 tomography_theta=ss1_rot_dummy
+#tomography_theta=grt_theta
 
 #tomography_optimizer is the device that checks if the beam current is of high enough value
 tomography_optimizer=beam_optimizer
@@ -23,8 +29,11 @@ tomography_optimizer=beam_optimizer
 #tomography_detector is the detector used in stepped tomography scans
 #Possible values:
 #pco1_hw_tif - uses tfg trigger, saves each image to a separate tif file
-#pco1_hw_hdf - uses tfg trigger, saves all images to 1 hdf file 
-tomography_detector=pco1_sw_hdf_nochunking
+#pco1_hw_hdf - uses tfg trigger, saves all images to 1 hdf file
+tomography_detector=pco1_hw_tif
+#tomography_detector=pco1_hw_hdf
+#tomography_detector=pco1_sw_hdf_nochunking
+#tomography_detector=pco1_sw_tif
 
 #tomography_normalisedImage_detector is the detector used to take normalised images
 #Possible values:
@@ -36,11 +45,13 @@ tomography_normalisedImage_detector=pco1_sw_hdf_nochunking
 #Possible values:
 #eh_shtr_dummy - a dummy shutter used for testing, or when the shutter is being controlled by the detector and pco1_hw_tif.collectionStrategy.useShutterPV=True
 #expt_fastshutter - the fast shutter , or when the shutter is being controlled by the detector and pco1_hw_tif.collectionStrategy.useShutterPV=False
+#tomography_shutter=expt_fastshutter
 tomography_shutter=eh_shtr_dummy
 
 #make sure pco1_tif.collectionStrategy.shutterDarkScannable is set to this 
 
 tomography_time=actualTime
+#tomography_beammonitor=ic1_rate
 tomography_beammonitor=ionc_i
 
 #normal flyscan - uncomment the following 3 lines
@@ -54,3 +65,16 @@ tomography_beammonitor=ionc_i
 tomography_flyscan_det=p2r_flyScanDetector
 tomography_flyscan_flat_dark_det=p2r_flyScanFlatDarkDetector
 tomography_flyscan_theta=p2rSM1
+
+
+# used for grating-interferometry step-scan
+#tomography_grating_translation=grt_y
+#tomography_grating_translation=grt_theta
+#tomography_grating_translation=ndiff_x
+tomography_grating_translation=ss1_X_dummy
+
+tomography_grating_translation_outer=ix
+tomography_grating_translation_inner=iy 
+
+#tomography_grating_translation_outer=ndiff_x
+#tomography_grating_translation_inner=ndiff_y
