@@ -12,7 +12,7 @@
 
     <root>
         <level value="DEBUG"/>
-        <appender-ref ref="LogServer" />
+        <appender-ref ref="LogPanel" />
         <appender-ref ref="ServerDebugFILE"/>
      </root>
 </configuration>
