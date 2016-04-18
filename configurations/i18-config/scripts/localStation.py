@@ -116,9 +116,6 @@ if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'Us
 else:
     energy_scannable_for_scans = energy_nogap
     beamlinePreparer.setUseNoGapEnergy()
-
-# while testing in low-alpha only
-energy_scannable_for_scans = energy_nogap
     
 # simulation
 if (LocalProperties.get("gda.mode") == 'dummy'):
