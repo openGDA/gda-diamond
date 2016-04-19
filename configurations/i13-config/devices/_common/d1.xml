@@ -32,5 +32,20 @@
 		</property>
 	</bean>
 
+	<bean id="d1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d1_cam" />
+				<ref bean="d1_coupling" />
+				<ref bean="d1_flow_temp" />
+				<ref bean="d1_gain" />
+				<ref bean="d1_i" />
+				<ref bean="d1_pos" />
+				<ref bean="d1_return_temp" />
+				<ref bean="d1_x" />
+			</list>
+		</property>
+	</bean>	
+
 </beans>
 
