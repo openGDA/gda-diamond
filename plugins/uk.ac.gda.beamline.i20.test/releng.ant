@@ -35,7 +35,6 @@
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.diamond.daq.client.gui.rcpcontroller/bin" />
 				<pathelement location="${workspace.git.loc}/gda-diamond.git/uk.ac.diamond.daq.dls.controls/bin" />
 				<pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/bin" />
-				<pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/jars/*" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.hdf5/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.client.exafs/bin" />
@@ -54,6 +53,7 @@
 				<path refid="libs.jars.path" />
 				<path refid="tp.slf4j.path" />  <!-- ensure that required org.slf4j.LoggerFactory appears first in classpath -->
 				<path refid="tp.jcl-over-slf4j.path" />  <!-- ensure that matching imp appears first in classpath -->
+				<path refid="tp.hamcrest.path" />  <!-- ensure that latest version appears first in classpath -->
 				<path refid="tp.path" />  <!-- target platform -->
 			</classpath>
 			<batchtest todir="@{report.dir}">
