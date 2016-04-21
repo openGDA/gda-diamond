@@ -6,13 +6,13 @@
 
     <!-- include file is relative to the application directory -->
 
-    <!-- ServerDebugFILE LogServer -->
+    <!-- ServerDebugFILE LogPanel -->
     <include file="${gda.config}/properties/_common/logServer.xml"/>
 
 
     <root>
-        <level value="INFO"/>
-        <appender-ref ref="LogServer" />
+        <level value="ALL"/>
+        <appender-ref ref="LogPanel" />
         <appender-ref ref="ServerDebugFILE"/>
      </root>
 </configuration>

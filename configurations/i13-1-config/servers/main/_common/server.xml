@@ -1,13 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
@@ -171,6 +168,8 @@
 	<import resource="../../../devices/_common/s1.xml" />
 
 	<import resource="../../../devices/_common/filters.xml" />
+	
+	<import resource="../../../devices/_common/gas_bremsstrahlung1.xml"/>
 
 	<import resource="../../../devices/_common/m1.xml" />
 
@@ -210,21 +209,7 @@
 	<!-- <import resource="../../../devices/_common/scope1.xml" /> -->
 
 	<!--  dummy motors for testing tomoscan  -->
-	<bean id="ss1_rot_dummy_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="ss1_rot_dummy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ss1_rot_dummy_motor" />
-	</bean>
-	<bean id="eh_shtr_dummy" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions" value="Open, Close, Reset" />
-	</bean>
-	<bean id="ss1_X_dummy_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="200" />
-	</bean>
-	<bean id="ss1_X_dummy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ss1_X_dummy_motor" />
-	</bean>
+	<import resource="../../../devices/_common/tomoscan_dummies.xml" />
 
 	<import resource="../../../devices/_common/dummyAD.xml" />
 

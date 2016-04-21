@@ -27,6 +27,8 @@ from gda.data.scan.datawriter import *
 
 from gda.commandqueue import JythonScriptProgressProvider
 from gda.commandqueue import JythonCommandCommandProvider
+from org.slf4j import LoggerFactory
+
 finder = Finder.getInstance()
 
 def updateProgress( percent, msg):
@@ -410,8 +412,22 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     imagesPerDark - number of images to be taken for each dark (default=20)
     imagesPerFlat - number of images to be taken for each flat (default=20)
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
-
+    setupForAlignment -
+    autoAnalyse -
+    closeShutterAfterFlats -
+    extraFlatsAtEnd=False -
     """
+    logger = LoggerFactory.getLogger("tomographyScan.tomoFlyScan()")
+    
+    logger.debug("inBeamPosition: {}, outOfBeamPosition: {}, exposureTime: {}, "
+                 + "start: {}, stop: {}, step: {}, darkFieldInterval: {}, flatFieldInterval: {}, " 
+                 + "imagesPerDark: {}, imagesPerFlat: {}, min_i: {}, setupForAlignment: {}, "
+                 + "autoAnalyse: {}, closeShutterAfterFlats: {}, extraFlatsAtEnd: {}",
+                 inBeamPosition, outOfBeamPosition, exposureTime,
+                 start, stop, step, darkFieldInterval, flatFieldInterval,
+                 imagesPerDark, imagesPerFlat, min_i, setupForAlignment,
+                 autoAnalyse, closeShutterAfterFlats, extraFlatsAtEnd)
+    
     updateProgress(0, "Starting scan")
     jns=beamline_parameters.JythonNameSpaceMapping()
     tomography_flyscan_flat_dark_det=jns.tomography_flyscan_flat_dark_det
@@ -419,7 +435,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     try:
         tomodet=jns.tomodet
         if tomodet is None:
-	        raise "tomodet is not defined in Jython namespace"
+            raise "tomodet is not defined in Jython namespace"
 
         tomography_theta=jns.tomography_theta
         if tomography_theta is None:
@@ -763,24 +779,28 @@ def updateProgress( percent, msg):
 from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
 from java.io import FileInputStream
 from gdascripts.metadata.metadata_commands import setTitle, getTitle
+
 def ProcessScanParameters(scanParameterModelXML):
-    print scanParameterModelXML
+    logger = LoggerFactory.getLogger("tomographyScan.ProcessScanParameters()")
+    logger.debug("processing scan parameters from " + scanParameterModelXML)
+
     scanXMLProcessor = ScanXMLProcessor();
     resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
     parameters = resource.getContents().get(0);
     jns=beamline_parameters.JythonNameSpaceMapping()
     additionalScannables=jns.tomography_additional_scannables
     setTitle(parameters.getTitle())
+
     updateProgress(0, "Starting tomoscan" + parameters.getTitle());
-    print "Flyscan:" + `parameters.flyScan`
-    if( parameters.flyScan ):
-#        if parameters.imagesPerDark > 0:
-#            updateProgress(5, "Getting flats and darks")
-#            showNormalisedImageEx(parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, getDataOnly=True)
-#        updateProgress(10, "Starting collection of tomograms")
-        tomoFlyScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)
+    logger.debug("Parameters: " + parameters.toString())
+    logger.debug("Flyscan:" + `parameters.flyScan`)
+
+    if (parameters.flyScan):
+        qFlyScanBatch(parameters.numFlyScans, parameters.title, parameters.flyScanDelay, 
+                      parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
+                      darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
+                      imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI,
+                      extraFlatsAtEnd=parameters.extraFlatsAtEnd)
     else:
         tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
@@ -1144,6 +1164,20 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     #tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
     #          imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False)
     thisfn = qFlyScanBatch.__name__
+    
+    logger = LoggerFactory.getLogger("tomographyScan.qFlyScanBatch()")
+    
+    logger.debug("nScans: {}, batchTitle: {}, interWaitSec: {}, "
+                 + "inBeamPosition: {}, outOfBeamPosition: {}, exposureTime: {}, "
+                 + "start: {}, stop: {}, step: {}, darkFieldInterval: {}, flatFieldInterval: {}, " 
+                 + "imagesPerDark: {}, imagesPerFlat: {}, min_i: {}, setupForAlignment: {}, "
+                 + "autoAnalyse: {}, closeShutterAfterFlats: {}, extraFlatsAtEnd: {}",
+                 nScans, batchTitle, interWaitSec,
+                 inBeamPosition, outOfBeamPosition, exposureTime,
+                 start, stop, step, darkFieldInterval, flatFieldInterval,
+                 imagesPerDark, imagesPerFlat, min_i, setupForAlignment,
+                 autoAnalyse, closeShutterAfterFlats, extraFlatsAtEnd)
+
 
     _args = []  # to store pairs (arg_name, arg_value) for executing tomoFlyScan
     _args.append(("inBeamPosition", inBeamPosition))

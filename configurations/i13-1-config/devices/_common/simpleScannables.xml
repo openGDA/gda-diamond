@@ -28,6 +28,16 @@
 		</bean>
 		</property>
 	</bean>
+
+	<bean id="dummy_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ix" />
+				<ref bean="iy" />
+				<ref bean="iz" />
+			</list>
+		</property>
+	</bean>	
 	
 	<bean id="ix_noisy_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="90" />

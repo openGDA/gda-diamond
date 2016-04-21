@@ -2,6 +2,7 @@
 
 sample_stage=t1_x
 #sample_stage=t1_sy
+
 #tomography_translation is the motor used to move the sample out of the beam (x)
 #Possible values:
 #ss1_X  - normal sample table
@@ -11,6 +12,7 @@ sample_stage=t1_x
 tomography_translation=t1_sy
 #tomography_translation=ss1_X
 #tomography_translation=t1_x
+
 #tomography_theta is the motor used to rotate the sample
 #Possible values:
 # ss1_rot - normal goniometer
@@ -20,13 +22,12 @@ tomography_translation=t1_sy
 tomography_theta=ss1_rot_dummy
 #tomography_theta=grt_theta
 
-
 #tomography_optimizer is the device that checks if the beam current is of high enough value
 tomography_optimizer=beam_optimizer
 
 #tomography_detector is the detector used in stepped tomography scans
 #Possible values:
-pco1_hw_tif - uses tfg trigger, saves each image to a separate tif file
+#pco1_hw_tif - uses tfg trigger, saves each image to a separate tif file
 #pco1_hw_hdf - uses tfg trigger, saves all images to 1 hdf file 
 #tomography_detector=pco1_hw_hdf
 #tomography_detector=pco1_sw_hdf_nochunking

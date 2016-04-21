@@ -1,11 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
 
 	<bean id="qcm_bragg1" class="gda.device.scannable.ScannableMotor">
@@ -68,6 +63,22 @@
 		<property name="motor" ref="qcm_y_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	
+
+	<bean id="qcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="qcm_bragg1" />
+				<ref bean="qcm_bragg1_pitch" />
+				<ref bean="qcm_bragg1_roll" />
+				<ref bean="qcm_bragg1_x" />
+				<ref bean="qcm_bragg2" />
+				<ref bean="qcm_bragg2_pitch" />
+				<ref bean="qcm_bragg2_roll" />
+				<ref bean="qcm_bragg2_x" />
+				<ref bean="qcm_y" />
+			</list>
+		</property>
+	</bean>	
+
 </beans>
 
