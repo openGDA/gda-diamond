@@ -8,6 +8,7 @@ import time
 from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
 from gda.device.scannable import ScannableBase
+from gda.device.scannable.scannablegroup import ScannableGroup
 
 class ExperimentShutterEnumPositioner(ScannableBase):
 	"""
