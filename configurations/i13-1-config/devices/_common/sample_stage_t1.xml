@@ -1,11 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
 	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
 	<bean id="t1_sx" class="gda.device.scannable.ScannableMotor">
@@ -67,16 +62,28 @@
 		<property name="inputNames" value="t1_isxy"/>
 	</bean>
 	
+	<bean id="t1_sxy_plotter" class="gda.device.scannable.TwoDScanPlotter">
+		<property name="name" value="t1_sxy_plotter" />
+		<property name="z_colName" value="total" />
+	</bean>
+	
+	<!-- we should have the ability to not count hot pixels however they are specified. -->
+	<bean id="t1_sxyz_plotter" class="gda.device.scannable.TwoDScanPlotter">
+		<property name="name" value="t1_sxyz_plotter" />
+		<property name="z_colName" value="total" />
+	</bean>
+	
 	<bean id="t1_sxy" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="t1_sx" />
 				<ref bean="t1_sy" />
 				<ref bean="t1_isxy" />
+				<ref bean="t1_sxy_plotter" />
+				<ref bean="t1_sxyz_plotter" />
 			</list>
 		</property>
 	</bean>		
-	
 	
 	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

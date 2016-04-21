@@ -31,5 +31,17 @@
 		</property>
 	</bean>
 
+
+	<bean id="d3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d3_cam" />
+				<ref bean="d3_pos" />
+				<ref bean="d3_return_temp" />
+				<ref bean="d3_window_temp" />
+			</list>
+		</property>
+	</bean>	
+
 </beans>
 

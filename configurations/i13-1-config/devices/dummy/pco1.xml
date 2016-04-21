@@ -39,5 +39,7 @@
 		<property name="ndStats" ref="pco1_ad_stat" />
 		<property name="ndArray" ref="pco1_ad_arr" />
 	</bean>
+	
+	<bean id="pco1_hw_tif" class="gda.device.detector.DummyDetector" />
 
 </beans>	

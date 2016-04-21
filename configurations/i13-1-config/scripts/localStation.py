@@ -130,44 +130,6 @@ if not LocalProperties.check("gda.dummy.mode"):
 
 		beamok = gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
 
-from gda.device.scannable import TwoDScanPlotter
-t1_sxy_plotter = TwoDScanPlotter()
-t1_sxy_plotter.setName("t1_sxy_plotter")
-t1_sxy_plotter.setZ_colName("total")
-# added adp 6th March 2015
-t1_sxz_plotter = TwoDScanPlotter()
-t1_sxz_plotter.setName("t1_sxyz_plotter")
-t1_sxz_plotter.setZ_colName("total")
-#we should the ability to not count hot pixels however they are specified.
-
-
-
-from gda.device.scannable.scannablegroup import ScannableGroup
-#now done in sample_stage_t1.xml and diff.xml
-#make scannablegroup for driving sample stage
-#t1_sxy = ScannableGroup()
-#t1_sxy.addGroupMember(t1_sx)
-#t1_sxy.addGroupMember(t1_sy)
-#t1_sxy.addGroupMember(ix)
-#t1_sxy.setName("t1_sxy")
-#t1_sxy.configure()
-
-#diff_xy = ScannableGroup()
-#diff_xy.addGroupMember(diff_x)
-#diff_xy.addGroupMember(diff_y)
-#diff_xy.addGroupMember(ix)
-#diff_xy.setName("diff_xy")
-#diff_xy.configure()
-
-
-dummy_xy = ScannableGroup()
-dummy_xy.addGroupMember(ix)
-dummy_xy.addGroupMember(iy)
-dummy_xy.addGroupMember(iz)
-dummy_xy.setName("dummy_xy")
-dummy_xy.configure()
-
-
 
 #make ScanPointProvider
 import sample_stage_position_provider
