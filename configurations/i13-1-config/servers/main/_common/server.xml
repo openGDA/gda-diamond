@@ -226,6 +226,8 @@
 
 	<!-- This is no longer present - T2 now contains beamstop but not the detector xyz motors -->
 	<!-- <import resource="../../../devices/_common/detector_stage_t2.xml" /> -->
+	
+	<import resource="../../../devices/_common/diffractometer.xml" />
 
 	<!-- end of device list -->
 
