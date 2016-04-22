@@ -118,6 +118,8 @@
 
 	<import resource="../../../devices/dummy/pco1.xml"/>
 	<import resource="../../../devices/dummy/merlin.xml"/>
+	
+	<import resource="../../../devices/dummy/pie725_raster.xml"/>
 
 	<import resource="../_common/server.xml"/>	
 	
