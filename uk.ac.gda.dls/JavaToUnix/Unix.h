@@ -30,7 +30,7 @@ JNIEXPORT jint JNICALL Java_gda_util_Unix_doGetDiskMB
  * Method:    doGetFreeMB
  * Signature: (Ljava/lang/String;)I
  */
-JNIEXPORT jint JNICALL Java_gda_util_Unix_doGetFreeMB
+JNIEXPORT jlong JNICALL Java_gda_util_Unix_doGetFreeMB
   (JNIEnv *, jobject, jstring);
 
 /*

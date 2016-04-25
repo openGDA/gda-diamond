@@ -184,7 +184,7 @@ public class Unix {
 	 *            to free memory blocks
 	 * @return Status code
 	 */
-	public native int doGetFreeMB(String path);
+	public native long doGetFreeMB(String path);
 
 	/**
 	 * JNI implementation specific.
@@ -442,7 +442,7 @@ public class Unix {
 	 *            Directory path of a file on the required disk.
 	 * @return Free space on the disk in MBytes.
 	 */
-	public int getFreeMB(String path) {
+	public long getFreeMB(String path) {
 		return (doGetFreeMB(path));
 	}
 
