@@ -94,6 +94,28 @@
    </config>
 </extension>
       <extension
+            point="org.eclipse.ui.views">
+         <view
+               class="gda.rcp.ncd.views.SyringeControlView"
+               id="gda.rcp.ncd.views.SyringeControlView"
+               name="Syringe Control"
+               restorable="true">
+         </view>
+      </extension>
+      <extension
+            point="org.eclipse.ui.commands">
+         <command
+               defaultHandler="gda.rcp.ncd.actions.SyringeRefillAction"
+               id="gda.rcp.ncd.views.SyringeRefillCommand"
+               name="Refill Syringe">
+         </command>
+         <command
+               defaultHandler="gda.rcp.ncd.actions.SyringeStopCommandAction"
+               id="gda.rcp.ncd.views.SyringeStopCommand"
+               name="Stop Command">
+         </command>
+      </extension>
+      <extension
             point="org.eclipse.ui.menus">
          <menuContribution
 		      allPopups="false"
@@ -115,5 +137,23 @@
 		      </command>
 		   </menu>
 		</menuContribution>
-   </extension>
+         <menuContribution
+               allPopups="false"
+               locationURI="toolbar:gda.rcp.ncd.views.SyringeControlView">
+            <command
+                  commandId="gda.rcp.ncd.views.SyringeRefillCommand"
+                  icon="icons/syringe_small.png"
+                  label="Refill"
+                  style="push"
+                  tooltip="Refill current syringe">
+            </command>
+            <command
+                  commandId="gda.rcp.ncd.views.SyringeStopCommand"
+                  icon="icons/stop_command_small.png"
+                  label="Set Stop"
+                  style="push"
+                  tooltip="Change the command run when the syringe is stopped">
+            </command>
+         </menuContribution>
+	   </extension>
 </plugin>
