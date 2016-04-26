@@ -22,7 +22,6 @@
 
 	<import resource="../../../devices/live/maxipix_tango.xml" />
 	<import resource="../../../devices/live/tfg2.xml" />
-	<import resource="../../../devices/epics/diffractometer.xml" />
 	<import resource="live_server_common.xml" />
 
 	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
