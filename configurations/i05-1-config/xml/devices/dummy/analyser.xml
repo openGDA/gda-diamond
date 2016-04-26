@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/gda
+	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
 	<bean id="area" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
@@ -92,13 +95,11 @@
 		</property>
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/analyser" />
-		<property name="service" ref="analyser" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
-	</bean>
+	
+	<gda:rmi-export
+		service="analyser"
+		serviceName="gda/analyser"
+		serviceInterface="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
 
 	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />
