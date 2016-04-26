@@ -61,6 +61,7 @@
 		<property name="trajectoryIndex" value="3" />
 		<property name="mode" value="2" />
 		<property name="readTimeout" value="10.0" />
+		<property name="readingBack" value="false" />
 		<property name="tracController" ref="oldTraj1ScanController" />
 	</bean>
 
