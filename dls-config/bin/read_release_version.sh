@@ -11,30 +11,31 @@ MY_WORKSPACE_PARENT=${MY_PATH%%/workspace_git*}
 PEWMA_SCRIPT="$MY_WORKSPACE_PARENT/workspace/pewma-script.txt"
 
 function warn {
-	TEXT="\033[38;5;214m$1\033[0m"
-	echo -e $TEXT
+	TEXT="WARNING: $1, cannot determine release version, using default:"
+	echo -e "\033[38;5;214m$TEXT\033[0m"
+	echo
 }
-
+RELEASE=9.0
 ## Main routine ##
 #
 if [[ ! -f $PEWMA_SCRIPT ]]; then
-	warn "WARNING: pewma-script.txt not present in workspace, cannot determine release version; defaulting to 9.0"
-	RELEASE=9.0
+	warn "pewma-script.txt not present in workspace"
 else
 	# Read release version from pewma-script file
 	#
+	using_default=true
 	while read -r line
 	do
 		if [[ "$line" == *gda-v?.*.cquery* ]] ; then
 			line=${line##*gda-v}
 			RELEASE=${line%%.cquery}
+			using_default=false
 			break
 		fi
 	done < $PEWMA_SCRIPT
-	if [[ -z $RELEASE ]]; then
-		warn "WARNING: cquery details could not be found in pewma-script.txt, defaulting release version to 9.0"
-		RELEASE=9.0
-	else
-		echo -e "\tRelease version is $RELEASE"
+	
+	if [[ $using_default == true ]]; then
+		warn "cquery details could not be found in pewma-script.txt"
 	fi
 fi
+echo -e "\tRelease version is $RELEASE"
