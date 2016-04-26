@@ -43,4 +43,8 @@
 		</property>
 	</bean>
 
+	<bean id="fast_shutter" class="gda.device.enumpositioner.EpicsPneumatic">
+		<property name="epicsRecordName" value="BL20J-EA-SHTR-01" />
+	</bean>
+
 </beans>

@@ -160,6 +160,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			bindModelWithUI();
 			updatePower();
 			initialiseUI();
+			AlignmentParametersModel.INSTANCE.loadAlignmentParametersFromStore();
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create motor controls", e.getMessage());
 			logger.error("Unable to create motor controls", e);

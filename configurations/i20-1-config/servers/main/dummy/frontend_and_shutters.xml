@@ -11,7 +11,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="shutter1" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
 			<list>
@@ -38,5 +38,14 @@
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="fast_shutter" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

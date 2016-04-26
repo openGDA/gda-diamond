@@ -5,9 +5,13 @@ from gdascripts.utils import caget
 
 run("roi_control.py")
 run("gdascripts/javajythonutil.py")
+run("shutter_functions.py")
 
 das = finder.find("DAServer")
 das4tfg=finder.find("daserverForTfg")
+
+#Set flag used by ConcurrentScan so that scannables return to their original position at end of scan. 24/2/2016
+scansReturnToOriginalPositions=1
 
 def machineMode():
     return caget("CS-CS-MSTAT-01:MODE")
@@ -26,6 +30,7 @@ if LocalProperties.get("gda.mode") == "live":
         shutter2('In')
         remove_default([absorberChecker])
         remove_default([shutterChecker])
+        remove_default([topupChecker])
     else:
         add_default([absorberChecker])
         add_default([shutterChecker])
