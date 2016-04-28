@@ -33,7 +33,7 @@ bashlog debug "gda_servers_pre_facility" "set \${OBJECT_SERVER_STARTUP_FILE}=${O
 
 if [ -n "${BEAMLINE}" ]; then
     # This is the normal way the control machine name is constructed at Diamond
-    #Set CONTROL_MACHINE_NAME in gdastart_servers_pre_instance if non-standard
+    #Set CONTROL_MACHINE_NAME in gda_servers_pre_instance if non-standard
     export CONTROL_MACHINE_NAME=${BEAMLINE}-control.diamond.ac.uk
 fi
 if [ "$GDA_MODE" = "live" ]; then
