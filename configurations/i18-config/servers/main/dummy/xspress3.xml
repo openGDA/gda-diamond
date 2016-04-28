@@ -2,16 +2,25 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-
+           
+<!-- Here we can use an EPICs simulator that A. Bark provides, to run it do:
+	export EPICS_CA_SERVER_PORT=6064
+	export EPICS_CA_REPEATER_PORT=6065
+	/home/rfj82980/iocs/xsp-ioc/bin/linux-x86_64/simpleExample.sh
+ -->
 	<bean id="xspress3Controller"
-		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
-		<constructor-arg index="0" ref= "tfg"/>
-		<constructor-arg index="1" ref= "daserver"/>
+		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
+		<property name="epicsTemplate" value="TEST-EA-XSP3-01" />
 		<property name="numberOfChannels" value="10" />
+		<property name="epicsVersion2" value="true" />
 	</bean>
 
-	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector">
+<!-- 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector"> -->
+<!-- 		<property name="controller" ref="xspress3Controller" /> -->
+<!-- 		<property name="writeHDF5Files" value="true" /> -->
+<!-- 	</bean> -->
+
+	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetectorv2">
 		<property name="controller" ref="xspress3Controller" />
 		<property name="readDataFromFile" value="false" />
 	</bean>
@@ -29,37 +38,49 @@
 		<property name="counterTimer" ref="counterTimer01" />
 		<property name="i0_channel" value="1" />
 	</bean>
-	
+
 <!-- 	BufferedDetector classes for use in ContinuousScans  (Qexafs and raster maps) -->
 
-	<bean id="qexafs_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
+	<bean id="raster_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetectorv2">
 		<property name="xspress3Detector" ref="xspress3" />
 	</bean>
 
-	<bean id="qexafs_FFI0_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
-		<property name="qexafsXspress" ref="qexafs_xspress3" />
-		<property name="qexafsScaler" ref="raster_counterTimer01" />
-		<property name="i0_channel" value="1" />
-	</bean>
-	<bean id="raster_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
-		<property name="xspress3Detector" ref="xspress3" />
-	</bean>
-	
 	<bean id="raster_FFI0_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
 		<property name="qexafsXspress" ref="raster_xspress3" />
 		<property name="qexafsScaler" ref="raster_counterTimer01" />
 		<property name="i0_channel" value="1" />
 	</bean>
-	
+
+	<bean id="qexafs_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetectorv2">
+		<property name="xspress3Detector" ref="xspress3" />
+	</bean>
+
+	<bean id="xspress3CollectionStrategy"
+		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
+		<constructor-arg ref="qexafs_xspress3" />
+	</bean> 
+
+	<bean id="qexafsXspress3" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="qexafsXspress3" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
+		<property name="collectionStrategy" ref="xspress3CollectionStrategy" />		
+	</bean>	
+
+	<bean id="qexafs_FFI0_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
+		<property name="qexafsXspress" ref="qexafs_xspress3" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+		<property name="i0_channel" value="0" />
+	</bean>
+
 <!-- 	HardwareTriggeredDetector classes for two-way faster raster -->
 
 <!-- 	<bean id="traj_xspress3" -->
 <!-- 		class="uk.ac.gda.devices.detector.xspress3.HardwareTriggeredXspress3Detector"> -->
-<!-- 		<property name="xspress3" ref="qexafs_xspress3" /> -->
+<!-- 		<property name="xspress3" ref="raster_xspress3" /> -->
 <!-- 	</bean> -->
 
 
