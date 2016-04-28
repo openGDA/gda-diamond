@@ -3,39 +3,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
-		<property name="motor" ref="energy_motor" />
-		<property name="lowerGdaLimits" value="2000" />
-		<property name="upperGdaLimits" value="35000" />
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="qexafs_xmap" class="gda.device.detector.xmap.DummyXmapBufferedDetector">
-		<property name="xmap" ref="xmapMca" />
 		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
 			</list>
 		</property>
 	</bean>
-	
 
 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
-				<value>liveTime</value>
 				<value>I0</value>
 				<value>It</value>
 				<value>Iother</value>
@@ -46,13 +25,14 @@
 		<property name="scaler" ref="CalMemory" />
 		<property name="timer" ref="tfg" />
 		<property name="daserver" ref="daserver" />
-		<property name="timeChannelRequired" value="true" />
+		<property name="timeChannelRequired" value="false" />
 		<property name="darkCurrentRequired" value="false" />
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="3" />
+		<property name="ttlSocket" value="0" />
 		<property name="outputFormat">
 			<list>
-				<value>%6.4g</value>
 				<value>%6.4g</value>
 				<value>%9d</value>
 				<value>%9d</value>
@@ -63,9 +43,83 @@
 		</property>
 	</bean>
 
+	 <bean id="counterTimer01CollectionStrategy"
+		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
+		<constructor-arg ref="qexafs_counterTimer01" />
+	</bean>
+
+	<bean id="qexafsCounterTimer01" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="qexafsCounterTimer01" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
+		<property name="collectionStrategy" ref="counterTimer01CollectionStrategy" />		
+	</bean>	
+
 	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
 		<property name="qexafsXspress" ref="qexafs_xspress" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
+
+	<bean id="Xspress3FFI0CollectionStrategy"
+		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
+		<constructor-arg ref="qexafs_FFI0_xspress3" />
+	</bean>
+
+	<bean id="qexafsXspress3FFI0" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="qexafsXspress3FFI0" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
+		<property name="collectionStrategy" ref="Xspress3FFI0CollectionStrategy" />		
+	</bean>	
+
+	 <bean id="zebra" class="gda.device.zebra.controller.impl.ZebraDummy">
+ 	</bean> 
+
+	 <bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra"/>
+		<property name="mode" value="1"/>
+		<property name="PcPulseGateNotTrigger" value="true"/>
+		<property name="zebraMotorInfoProvider" ref="zebraMotorInforProvider"/> 
+		<!-- <property name="zebraMotorInfoProvider" ref="zebraSM1"/> -->
+		<property name="minimumAccelerationDistance" value="0.001" />
+	</bean> 
+
+	<bean id="zebraBraggAngle" class="gda.device.zebra.ZebraScannableMotor">
+		<!-- <property name="name" value="zebraBraggAngle" /> -->
+		<property name="motor" ref="dcm_bragg_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<!-- <property name="scurveTimeToVelocity" value="5"/> -->  <!-- read from weight system -->
+	</bean> 
+	<!-- <bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra"/>
+		<property name="mode" value="1"/>
+		<property name="PcPulseGateNotTrigger" value="true"/>
+		<property name="zebraMotorInfoProvider" ref="zebraSM1"/>
+		<property name="minimumAccelerationDistance" value="0.001" />
+	</bean> -->
+	
+	 <bean id="zebraMotorInforProvider" class="gda.device.zebra.DummyZebraMotorInfoProvider">
+	</bean> 
+
+	 <bean id="zebraContinuousMoveControllerForQexafs" class="gda.device.zebra.ZebraConstantVelocityMoveControllerForQexafs">
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<!-- <property name="mode" value="1"/> -->
+		<property name="minimumBraggAccelerationDistance" value="0.001" />
+		<property name="minimumScannableMotorAccelerationDistance" value="0.01" />
+	</bean>  
+
+	 <bean id="zebraBragg" class="gda.device.zebra.ZebraScannableMotor">
+	 	<!-- <property name="name" value="zebraBragg" /> -->
+		<property name="motor" ref="dcm_energy_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<!-- <property name="scurveTimeToVelocity" value="5"/>  --> <!-- read from weight system -->
+	</bean> 
+
+	<bean id="zebraBraggEnergy" class="gda.device.zebra.ZebraScannableMotorForQexafs">
+		<property name="name" value="zebraBraggEnergy" />
+		<property name="zebraConstantVelocityMoveControllerForQexafs" ref="zebraContinuousMoveControllerForQexafs"/>
+		<property name="zebraScannableMotor" ref="zebraBragg"/>
+		<property name="braggScannableMotor" ref="sc_dcm_bragg"/>
+		<property name="converter" ref="eV_mDeg_converter"/>
+		<!-- <property name="scurveTimeToVelocity" value="5"/> -->  <!-- read from weight system -->
+	</bean>  
 
 </beans>
