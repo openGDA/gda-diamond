@@ -55,6 +55,12 @@
 	<import resource="../../../xml/devices/common_devices.xml" />
 	<import resource="gda_metadata.xml" />
 	<import resource="jython_server.xml" />
+	<import resource="new_scanning.xml"/>
+	
+	<!-- Data Server -->
+	<bean id="dataServer" class="org.eclipse.dawnsci.remotedataset.server.DataServer" init-method="start">
+		<property name="port" value="${gda.dataserver.port}" />
+	</bean>
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 	<gda:rbac />
