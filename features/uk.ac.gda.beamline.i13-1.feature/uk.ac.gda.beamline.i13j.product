@@ -31,8 +31,8 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live
 -Dgda.instance.dir=${project_loc:i13j-config}
 -Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:uk.ac.gda.core}
--Dgda.group.dir=${project_loc:uk.ac.gda.core}/no-group
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.group.dir=${project_loc:core-config}/no-group
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Xms256m
 -Xmx2048m
