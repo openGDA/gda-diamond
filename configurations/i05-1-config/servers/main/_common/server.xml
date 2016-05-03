@@ -54,7 +54,7 @@
 	<import resource="datawriter.xml" />
 	<import resource="../../../xml/devices/common_devices.xml" />
 	<import resource="gda_metadata.xml" />
-	<import resource="jython_server.xml" />
+	
 	<import resource="new_scanning.xml"/>
 	
 	<!-- Data Server -->
@@ -64,5 +64,7 @@
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 	<gda:rbac />
+	
+	<import resource="jython_server.xml" />
 
 </beans>
