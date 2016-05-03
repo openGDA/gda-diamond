@@ -19,7 +19,7 @@
 	<!-- Translations -->
 	<bean id="smx_control" class="uk.ac.gda.client.livecontrol.Control">
 		<property name="displayName" value="smx" />
-		<property name="group" value="Translations" />
+		<property name="group" value="Sample Translations" />
 		<property name="scannableName" value="smx" />
 		<property name="increment" value="10" />
 	</bean>
@@ -33,7 +33,7 @@
 
 	<bean id="smz_control" class="uk.ac.gda.client.livecontrol.Control">
 		<property name="displayName" value="smz" />
-		<property name="group" value="Translations" />
+		<property name="group" value="Sample Translations" />
 		<property name="scannableName" value="smz" />
 		<property name="increment" value="10" />
 	</bean>
