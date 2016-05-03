@@ -54,4 +54,5 @@ Bundle-Vendor: Diamond Light Source
 Import-Package: Jama,
  org.eclipse.ui.intro.config,
  org.eclipse.ui.texteditor,
- org.slf4j;version="[1.7.2,2.0.0)"
+ org.slf4j;version="[1.7.2,2.0.0)",
+ org.springframework.util;version="4.0.6.RELEASE"

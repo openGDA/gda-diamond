@@ -18,16 +18,15 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.jython.InterfaceProvider;
-
 import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.exafs.b18.LN2CryoStageParameters;
@@ -89,15 +88,14 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 			control_sample_wheel(parameters.getSampleWheelParameters());
 		}
 
-		if (parameters.getStage().equals("xythetastage")) {
-			control_xytheta_stage(parameters.getXYThetaStageParameters());
-		} else if (parameters.getStage().equals("ln2cryostage")) {
-			control_ln2cryo_stage(parameters.getLN2CryoStageParameters());
-		} else if (parameters.getStage().equals("sxcryostage")) {
-			control_sxcryo_stage(parameters.getSXCryoStageParameters());
-		} else if (parameters.getStage().equals("userstage")) {
-			control_user_stage(parameters.getUserStageParameters());
+		List<String> selectedStages = parameters.getSelectedSampleStages();
+		if ( selectedStages != null && selectedStages.size() > 0 ) {
+			for( String stage : selectedStages ) {
+				moveSampleStage( stage );
+			}
 		}
+		else
+			moveSampleStage( parameters.getStage() );
 
 		if (parameters.getTemperatureControl() != "None") {
 			if (parameters.getTemperatureControl().equals("furnace")) {
@@ -107,6 +105,18 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 			} else if (parameters.getTemperatureControl().equals("pulsetubecryostat")) {
 				control_pulsetube(parameters.getPulseTubeCryostatParameters());
 			}
+		}
+	}
+
+	private void moveSampleStage(String stage) throws DeviceException {
+		if (stage.equals("xythetastage")) {
+			control_xytheta_stage(parameters.getXYThetaStageParameters());
+		} else if (stage.equals("ln2cryostage")) {
+			control_ln2cryo_stage(parameters.getLN2CryoStageParameters());
+		} else if (stage.equals("sxcryostage")) {
+			control_sxcryo_stage(parameters.getSXCryoStageParameters());
+		} else if (stage.equals("userstage")) {
+			control_user_stage(parameters.getUserStageParameters());
 		}
 	}
 
