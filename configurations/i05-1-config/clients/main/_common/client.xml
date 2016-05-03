@@ -74,6 +74,9 @@
 		<property name="detectorEnergyWidthInPixels" value="1064"/>
 	</bean>
 
+	<import resource="live_mjpeg.xml"/>
+	<import resource="stage_controls.xml"/>
+
 	<gda:rbac />
 
 </beans>
