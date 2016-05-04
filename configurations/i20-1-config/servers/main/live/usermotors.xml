@@ -30,20 +30,27 @@
 		<property name="pvName" value="BL20J-EA-PATCH-01:MTR7" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="um8_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-EA-PATCH-01:MTR8" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="um9_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-EA-PATCH-01:MTR9" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="um10_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-EA-PATCH-01:MTR10" />
-		<property name="local" value="true" />
-	</bean>
+
+	<bean id="um8_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="um9_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="um10_motor" class="gda.device.motor.DummyMotor"/>
+
+<!--  Motors no longer exist, changed to DummyMotor. imh 13/4/2016-->
+<!-- 	<bean id="um8_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20J-EA-PATCH-01:MTR8" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="um9_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20J-EA-PATCH-01:MTR9" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="um10_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="pvName" value="BL20J-EA-PATCH-01:MTR10" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 
 	<import resource="file:${gda.config}/servers/main/usermotors-common.xml" />
 
 </beans>
-	

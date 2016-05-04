@@ -18,17 +18,6 @@
 
 package gda.device.detector;
 
-import gda.data.NumTracker;
-import gda.data.nexus.extractor.NexusGroupData;
-import gda.data.nexus.tree.NexusTreeProvider;
-import gda.data.scan.datawriter.NexusDataWriter;
-import gda.device.DeviceException;
-import gda.factory.FactoryException;
-import gda.jython.InterfaceProvider;
-import gda.scan.ScanDataPoint;
-import gda.scan.ede.datawriters.EdeDataConstants;
-import gda.scan.ede.datawriters.ScanDataHelper;
-
 import java.io.File;
 import java.io.FileWriter;
 
@@ -39,6 +28,16 @@ import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.NumTracker;
+import gda.data.nexus.extractor.NexusGroupData;
+import gda.data.nexus.tree.NexusTreeProvider;
+import gda.data.scan.datawriter.NexusDataWriter;
+import gda.device.DeviceException;
+import gda.factory.FactoryException;
+import gda.jython.InterfaceProvider;
+import gda.scan.ScanDataPoint;
+import gda.scan.ede.datawriters.EdeDataConstants;
+import gda.scan.ede.datawriters.ScanDataHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;

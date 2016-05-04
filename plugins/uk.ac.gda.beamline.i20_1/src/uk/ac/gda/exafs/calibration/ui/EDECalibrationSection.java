@@ -34,6 +34,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -54,14 +55,14 @@ public class EDECalibrationSection extends ResourceComposite {
 
 	private static final Logger logger = LoggerFactory.getLogger(EDECalibrationSection.class);
 
-	public static final String REF_DATA_PATH = LocalProperties.getVarDir() + "edeRefData";
+	public static final String REF_DATA_PATH = LocalProperties.getConfigDir() + "edeRefData";
 	public static final String REF_DATA_EXT = ".dat";
 
 	private final FormToolkit toolkit;
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
 	private Section section;
-	private Label polynomialValueLbl;
+	private Text polynomialValueText;
 	private Button runCalibrationButton;
 
 	public EDECalibrationSection(Composite parent, int style) {
@@ -73,17 +74,24 @@ public class EDECalibrationSection extends ResourceComposite {
 
 	private void doBinding() {
 		dataBindingCtx.bindValue(
-				WidgetProperties.text().observe(polynomialValueLbl),
+				WidgetProperties.text().observe(polynomialValueText),
 				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()));
 	}
 
-	public String loadReferenceData(Element element, String edgeName) {
-		// FIXME Refactor the file name pattern out
-		File file = new File(REF_DATA_PATH, element.getSymbol() + "_" + edgeName + REF_DATA_EXT);
+	public String getReferenceDataPath(Element element, String edgeName) {
+		return REF_DATA_PATH + File.separator + element.getSymbol() + "_" + edgeName + REF_DATA_EXT;
+	}
+
+	public String loadReferenceData(String path) {
+		File file = new File(path);
 		if (!file.exists() || !file.canRead()) {
 			return null;
 		}
-		return  file.getAbsolutePath();
+		return file.getAbsolutePath();
+	}
+
+	public String loadReferenceData(Element element, String edgeName) {
+		return loadReferenceData( getReferenceDataPath( element, edgeName ) );
 	}
 
 	private void setupUI() {
@@ -107,9 +115,14 @@ public class EDECalibrationSection extends ResourceComposite {
 			public void widgetSelected(SelectionEvent selectionEvent) {
 				EnergyCalibration calibrationModel = new EnergyCalibration();
 				String lastEdeScanFileName = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel().getFileName();
-				String referenceDataFileName = loadReferenceData(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
-				if (lastEdeScanFileName == null || referenceDataFileName == null) {
-					UIHelper.showError("Unable to set energy calibration", "Reference or Ede spectrum data is unavailable");
+				String refDataPath = getReferenceDataPath(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
+				String referenceDataFileName = loadReferenceData(refDataPath);
+				// Display different messages for missing energy calibration data and missing scan data
+				if (referenceDataFileName == null) {
+					UIHelper.showError("Unable to set energy calibration", "Reference data " + refDataPath + " is not found.");
+					return;
+				} else if (lastEdeScanFileName == null) {
+					UIHelper.showError("Unable to set energy calibration", "Ede spectrum data is unavailable - try doing a scan first.");
 					return;
 				}
 				try {
@@ -148,8 +161,10 @@ public class EDECalibrationSection extends ResourceComposite {
 		final Label polynomialLbl = toolkit.createLabel(polyLabelComposite, "Calibration polynomial", SWT.NONE);
 		polynomialLbl.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		polynomialValueLbl = toolkit.createLabel(polyLabelComposite, "", SWT.BORDER);
-		polynomialValueLbl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+//		polynomialValueLbl = toolkit.createLabel(polyLabelComposite, "", SWT.BORDER);
+		polynomialValueText = toolkit.createText(polyLabelComposite, "", SWT.BORDER);
+		polynomialValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		polynomialValueText.setEditable(false);
 
 		Composite roisSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(roisSectionSeparator);
