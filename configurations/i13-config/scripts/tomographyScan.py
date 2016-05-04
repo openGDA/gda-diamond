@@ -544,6 +544,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
             multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Taking flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, tomography_theta, start), PostScanRunnable("Closing shutter after taking flats",10, tomography_shutter, "Close") if closeShutterAfterFlats else None))
         
         scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        scanForward.setSendUpdateEvents(False)
 #        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Taking projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, tomography_theta, start), None))
         if extraFlatsAtEnd:
@@ -1028,6 +1029,7 @@ def tomoTRFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1
             multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Taking flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, tomography_theta, start), PostScanRunnable("Closing shutter after taking flats",10, tomography_shutter, "Close") if closeShutterAfterFlats else None))
         
         scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
+        scanForward.setSendUpdateEvents(False)
 #        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Taking projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, tomography_theta, start), None))
         if extraFlatsAtEnd:
@@ -1146,20 +1148,20 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     Desc:
     Fn to submit a given number of identical tomoFlyScans to the queue for automatic execution with optional wait time between any two consecutive scans
         Note(s):
-        (1) shutter is automatically closed before any wait and then opened after it 
-        (2) shutter is automatically opened after the entire batch has finished
+        (1) shutter is automatically closed before any wait period begins and then opened after that period has elapsed (ie before the next scan is executed) 
+        (2) shutter is automatically closed after the entire batch has finished
     
     Arg(s):
-    nScans = total number of identical scans to be executed in this batch
+    nScans = total number of identical scans to be executed in the batch
         Note(s):
         (1) nScans=1 is admissible
     batchTitle = description of the sample or this batch of scans to be recorded in each Nexus scan file (each scan gets a unique post-fix ID appended to its batch title) 
-    interWaitSec = interval of time to wait between two consecutive scans (NB. no wait is performed after the last scan (but note that some time will be spent anyway on
-        moving to the start angle before the next scan is able to proceed)
+    interWaitSec = interval of time to wait between any two consecutive scans 
         Note(s): 
-        (1) interWaitSec=0 is admissible 
-        (2) if interWaitSec is None, no waiting is performed between scans (but note that some time will be spent anyway on moving to the start angle before the next scan is able to proceed)
-        (3) there is no waiting after the last scan of the batch 
+        (1) interWaitSec=0 is admissible (in which case no waiting is performed between scans) 
+        (2) if interWaitSec is None, no waiting is performed between scans 
+        (3) no waiting is performed after the last scan in the batch 
+        (4) note that, irrespective of whether interWaitSec > 0 or not, some extra 'wait' time will always be spent on moving the rotation stage to the start angle before the next scan is able to proceed 
     """
     #tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
     #          imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False)
@@ -1225,7 +1227,10 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     #print "scan_cmd = %s" %(scan_cmd)
     
     for i in range(nScans):
-        title_tmp = batchTitle + "_%s/%s" %(i+1, nScans)
+        title_tmp = batchTitle
+        if nScans > 1:
+            title_tmp += "_%s/%s" %(i+1, nScans)
+            
         #print "scan %i (of %i): scan_cmd = %s, title = %s" %(i+1, nScans, scan_cmd, title_tmp)
 
         set_title_cmd = "setTitle(\"%s\")" %(title_tmp)
@@ -1244,7 +1249,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
             sleep_cmd = shutter_close_cmd + ";" + sleep_cmd + ";" + shutter_open_cmd
             cmd_tmp = cmd_tmp + ";" + sleep_cmd
         print "scan %i (of %i): cmd_tmp = %s, title = %s" %(i+1, nScans, cmd_tmp, title_tmp)
-        cmd_desc_tmp = set_title_cmd + "; " + "tomoFlyScan(...)" + ("; " + sleep_cmd if sleep_cmd is not None else '')
+        cmd_desc_tmp = set_title_cmd + ";" + "tomoFlyScan(...)" + (";" + sleep_cmd if sleep_cmd is not None else '')
         #print "scan %i (of %i): cmd_desc_tmp = %s, title = %s" %(i+1, nScans, cmd_desc_tmp, title_tmp)
         #cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, title_tmp, None))
         cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, cmd_desc_tmp, None)) 
