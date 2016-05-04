@@ -11,6 +11,8 @@
 	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
 		<property name="zebra" ref="zebra" />
 		<property name="mode" value="1" />
+		<property name="pcPulseGateNotTrigger" value="false"/>
+		<property name="pcPulseTriggerWidth" value="0.01" />
 	</bean>
 
 	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
