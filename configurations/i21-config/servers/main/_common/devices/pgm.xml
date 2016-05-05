@@ -10,8 +10,8 @@
 		<property name="userUnits" value="eV" />
 	</bean>
 
-	<bean id="pgmCff" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="pgmCffMotor" />
+	<bean id="pgmB2Shadow" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmB2ShadowMotor" />
 	</bean>
 
 
@@ -42,7 +42,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="pgmEnergy" />
-				<ref bean="pgmCff" />
+				<ref bean="pgmB2Shadow" />
 				<ref bean="pgmMirrorSelect" />
 				<ref bean="pgmGratingSelect" />
 				<ref bean="pgmMirrorPitch" />

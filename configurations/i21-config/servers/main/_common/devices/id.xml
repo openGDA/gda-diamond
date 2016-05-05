@@ -15,7 +15,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="idgap" />
-				<!-- <ref bean="idvelocity" /> -->
+				<ref bean="idcontroller" />
 			</list>
 		</property>
 	</bean>

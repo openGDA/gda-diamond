@@ -11,8 +11,8 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="pgmCffMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-OP-PGM-01:CFF" />
+	<bean id="pgmB2ShadowMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-PGM-01:B2S" />
 		<property name="local" value="true" />
 	</bean>
 
