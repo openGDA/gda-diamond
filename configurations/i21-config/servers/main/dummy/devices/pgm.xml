@@ -16,7 +16,7 @@
 		<property name="local" value="true" />
 	</bean>
 	
-	<bean id="pgmCffMotor" class="gda.device.motor.DummyMotor">
+	<bean id="pgmB2ShadowMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
