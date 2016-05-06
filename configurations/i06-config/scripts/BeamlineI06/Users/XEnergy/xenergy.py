@@ -12,6 +12,9 @@ class UndulatorControlClass:
         self.offhar = 0.0
         self.detune = 3.0
         self.xmode = 'idxmcd' # other possible values: 'idxas', 'idd' , 'idu'
+        self.ugap_offset = 0.0
+        self.dgap_offset = 0.0
+
         self.ugap = 50.0
         self.ugap_unused = ugap_unused
         self.dgap_unused = dgap_unused
@@ -187,6 +190,9 @@ class UndulatorControlClass:
                 utrp = self.idmm(ugap,self.uListPhaseDict[self.xpol])
                 ubrp = -self.idmm(ugap,self.uListPhaseDict[self.xpol])       
 
+        dgap += self.dgap_offset
+        ugap += self.ugap_offset
+
         #print "requested energy, polarization, detune:", energy, self.xpol, self.detune
         #print "IDD parameters:",dtrp,dbrp, dgap
         #print "IDU parameters:",utrp,ubrp, ugap
@@ -206,13 +212,15 @@ class UndulatorControlClass:
         self.utrp = self.calcParams['utrp']
         self.ubrp = self.calcParams['ubrp']
 
-    def setParameters(self, energy, xpol, xmode, offhar, detune):
+    def setParameters(self, energy, xpol, xmode, offhar, detune, ugap_offset, dgap_offset):
         self.energy = energy
         self.xpol = xpol
         self.xmode = xmode
         self.offhar = offhar
         self.detune = detune
-        
+        self.ugap_offset = ugap_offset
+        self.dgap_offset = dgap_offset
+
     def xenergyIsBusy(self):
         flag = pgmenergy.isBusy()
         flag |= (idugap.isBusy() | iddgap.isBusy())
@@ -262,7 +270,7 @@ class XenergyClass(PseudoDevice):
 
     def asynchronousMoveTo(self, new_energy):
         self.iambusy = True
-        self.id.setParameters(new_energy, self.id.xpol, self.id.xmode, self.id.offhar, self.id.detune)
+        self.id.setParameters(new_energy, self.id.xpol, self.id.xmode, self.id.offhar, self.id.detune, .0, .0)
         self.id.calcIdPos(new_energy)
         self.id.storeIdPos()
         self.id.xenergyMove()
@@ -284,11 +292,8 @@ class XenergyClassWithGapOffsets(XenergyClass):
 
     def asynchronousMoveTo(self, new_energy):
         self.iambusy = True
-        self.id.setParameters(new_energy, self.id.xpol, self.id.xmode, self.id.offhar, self.id.detune)
+        self.id.setParameters(new_energy, self.id.xpol, self.id.xmode, self.id.offhar, self.id.detune, self.ugap_offset, self.dgap_offset)
         self.id.calcIdPos(new_energy)
-        # Apply offsets
-        self.id.calcParams['ugap'] += self.ugap_offset
-        self.id.calcParams['dgap'] += self.dgap_offset
         self.id.storeIdPos()
         self.id.xenergyMove()
         self.energy = new_energy
@@ -315,7 +320,7 @@ class XpolClass(PseudoDevice):
     def asynchronousMoveTo(self, newPol):
         #add a control line to check that the "newpol" is an allowed string!!!!!!!!!!!!
         self.iambusy = True
-        self.id.setParameters(self.id.energy, self.aliases[newPol], self.id.xmode, self.id.offhar, self.id.detune)
+        self.id.setParameters(self.id.energy, self.aliases[newPol], self.id.xmode, self.id.offhar, self.id.detune, self.id.ugap_offset, self.id.dgap_offset)
         self.id.calcIdPos(self.id.energy)
         self.id.storeIdPos()
         self.id.xenergyMove()        
@@ -348,7 +353,7 @@ class XmodeClass(PseudoDevice):
 
     def asynchronousMoveTo(self, newMode):
         self.iambusy = True
-        self.id.setParameters(self.id.energy, self.id.xpol, newMode, self.id.offhar, self.id.detune)
+        self.id.setParameters(self.id.energy, self.id.xpol, newMode, self.id.offhar, self.id.detune, self.id.ugap_offset, self.id.dgap_offset)
         self.id.calcIdPos(self.id.energy)
         self.id.storeIdPos()
         self.id.xenergyMove()        
@@ -377,7 +382,7 @@ class OffHarClass(PseudoDevice):
 
     def asynchronousMoveTo(self, newOffHar):
         self.iambusy = True
-        self.id.setParameters(self.id.energy, self.id.xpol, self.id.xmode, newOffHar, self.id.detune)
+        self.id.setParameters(self.id.energy, self.id.xpol, self.id.xmode, newOffHar, self.id.detune, self.id.ugap_offset, self.id.dgap_offset)
         self.id.calcIdPos(self.id.energy)
         self.id.storeIdPos()
         self.id.xenergyMove()        
@@ -406,7 +411,7 @@ class DetuneClass(PseudoDevice):
 
     def asynchronousMoveTo(self, newDetune):
         self.iambusy = True
-        self.id.setParameters(self.id.energy, self.id.xpol, self.id.xmode, self.id.offhar, newDetune)
+        self.id.setParameters(self.id.energy, self.id.xpol, self.id.xmode, self.id.offhar, newDetune, self.id.ugap_offset, self.id.dgap_offset)
         self.id.calcIdPos(self.id.energy)
         self.id.storeIdPos()
         self.id.xenergyMove()        
