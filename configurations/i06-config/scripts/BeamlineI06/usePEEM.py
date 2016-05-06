@@ -127,10 +127,11 @@ def uvpreview():
 		uv.setToAuto()
 	except AttributeError:
 		pass
-	uv.setPixelClock(40)
+	uv.setPixelClock(10)
 	uv.setCollectionTime(0.1)
 	uv.setImageAverage(1)
 	uv.detector.setCameraInProgress(True)
+	uv.detector.setCameraADC(2)
 
 def uvimaging():
 	uv.detector.setCameraInProgress(False)
@@ -141,6 +142,7 @@ def uvimaging():
 	uv.setPixelClock(10)
 	uv.setImageAverage(0)
 	uv.detector.setCameraSequentialMode(True)
+	uv.detector.setCameraADC(1)
 
 alias("multishots")
 alias("acquireimages")
