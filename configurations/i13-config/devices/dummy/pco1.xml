@@ -8,22 +8,6 @@
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-
-	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
-		<property name="map">
-			<util:map>
-				<entry key="pco1_cam_base" value-ref="pco1_cam_base" />
-				<entry key="pco1_arr" value-ref="pco1_arr" />
-				<entry key="pco1_ffmpeg1" value-ref="pco1_ffmpeg1" />
-				<entry key="pco1_roi1" value-ref="pco1_roi1" />
-				<entry key="pco1_proc1" value-ref="pco1_proc1" />
-				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file" />
-				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif" />
-				<entry key="pco1_stat" value-ref="pco1_stat" />
-				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
-			</util:map>
-		</property>
-	</bean>
 	
 	<bean id="adDriverPco1" class="gda.device.detector.areadetector.v17.impl.DummyADDriverPco" />
 
