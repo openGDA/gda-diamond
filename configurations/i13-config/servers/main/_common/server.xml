@@ -113,7 +113,7 @@
 	<import resource="beamlineEnergyController.xml" />
 	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 	<!-- Replaces ScanDataStore -->
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/ScanDataPointServer" />
 		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
 		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
