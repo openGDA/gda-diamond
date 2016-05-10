@@ -28,7 +28,7 @@
 						</bean>
 						<bean class="gda.jython.ScriptProject">
 							<property name="path"
-								value="${gda.install.git.loc}/gda-pes.git/uk.ac.gda.arpes/scripts/" />
+								value="${gda.install.git.loc}/gda-pes.git/uk.ac.gda.arpes.server/scripts/" />
 							<property name="name" value="Scripts: ARPES" />
 							<property name="type" value="CORE" />
 						</bean>
