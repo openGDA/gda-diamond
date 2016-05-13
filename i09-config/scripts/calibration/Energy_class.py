@@ -40,20 +40,20 @@ class BeamEnergy(ScannableMotionBase):
         else:
             self.order=1
         self.energy=self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
-        self.polarisation='H'
+        self.polarisation='LH'
         if self.getName()=="jenergy":
             self.jidphase = finder.find("jidphase")
     
     def setPolarisation(self, value):
         if self.getName()=="jenergy":
-            if value == "H":
+            if value == "LH":
                 self.jidphase.hortizontal() 
                 self.polarisation=value
-            elif value == "V":
+            elif value == "LV":
                 self.jidphase.vertical()
                 self.polarisation=value
             else:
-                raise ValueError("Input "+str(value)+" invalid. Valid values are 'H' or 'V'.")
+                raise ValueError("Input "+str(value)+" invalid. Valid values are 'LH' or 'LV'.")
             # Wait for 30 secs while ID moves
             sleep(30.0) 
             # Move back to the current position ie the correct gap for the new polarisation
@@ -102,13 +102,13 @@ class BeamEnergy(ScannableMotionBase):
 #                raise ValueError("Required Hard X-Ray ID gap is out side allowable bound (5.1, 9.1)!")
             if self.gap=="jgap" and gap<16:
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (> 16 mm)!")
-        elif (self.getName() == "jenergy" and self.getPolarisation()=="H"):
+        elif (self.getName() == "jenergy" and self.getPolarisation()=="LH"):
             if (Ep<0.104 or Ep > 1.2):
                 raise ValueError("Demanding energy must lie between 0.105 and 1.2 keV!")
             gap=3.06965 +177.99974*Ep -596.79184*Ep**2 +1406.28911*Ep**3 -2046.90669*Ep**4 +1780.26621*Ep**5 -844.81785*Ep**6 +168.99039*Ep**7
             if self.gap=="jgap" and (gap<16 or gap>60):
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 60)!")
-        elif self.getName() == "jenergy" and self.getPolarisation()=="V":
+        elif self.getName() == "jenergy" and self.getPolarisation()=="LV":
             if (Ep<0.22 or Ep > 1.0):
                 raise ValueError("Demanding energy must lie between 0.22 and 1.0 eV!")
             gap = 5.33595 + 72.53678*Ep - 133.96826*Ep**2 + 179.99229*Ep**3 - 128.83048*Ep**4 + 39.34346*Ep**5
