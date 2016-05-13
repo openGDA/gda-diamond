@@ -2,11 +2,9 @@
 
 <included>
 
-    <!-- The include statement in the following java.properties file is not read so you need to reference both -->
-    <property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
-    <property file="${gda.config}/properties/_common/common_instance_java.properties" />
-    <property file="${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties" />
-    <property file="${gda.facility.dir}/properties/_common/common_facility_java.properties" />
+	<!-- Include the standard set of properties files via the XML definition in dls-config -->
+	<include file="${gda.facility.dir}/logging/logging_properties.xml" />
+
     <!-- include file is relative to the application directory -->
 
     <!-- address where the messages from Object Servers send to - the LogServer-->
