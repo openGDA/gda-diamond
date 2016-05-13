@@ -67,7 +67,10 @@
 		<property name="monitorChannels" value="false" />
 	</bean>
 
-
+	<bean id="qcm_energy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-OP-BEAM-01:ENERGY" />
+		<property name="local" value="true" />
+	</bean>
 
 	<!-- <bean id="qcm_bragg1_finepitch_motor" class="gda.device.motor.EpicsMotor"> 
 		<property name="deviceName" value="qcm.bragg1.finepitch" /> <property name="local" 

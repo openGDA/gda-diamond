@@ -185,10 +185,7 @@ import integrate_mpx_scan
 #comment out when not connected
 #from autocollimator_script import  * #@UnusedWildImport
 
-#run("i13diffcalc")
-#del diff, delta, gamma, eta, chi, phi
-#execfile("/dls_sw/i13-1/software/diffcalc/example/startup/sixcircle_dummy.py")
-#execfile("/dls_sw/i13-1/software/diffcalc/example/startup/sixcircle.py")
+run("startup_diffcalc")
 
 #except :
 #	exceptionType, exception, traceback = sys.exc_info()

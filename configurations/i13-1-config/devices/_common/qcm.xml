@@ -64,6 +64,11 @@
 		<property name="userUnits" value="mm"/>
 	</bean>
 
+	<bean id="qcm_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_energy_motor" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+
 	<bean id="qcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -76,6 +81,7 @@
 				<ref bean="qcm_bragg2_roll" />
 				<ref bean="qcm_bragg2_x" />
 				<ref bean="qcm_y" />
+				<ref bean="qcm_energy" />
 			</list>
 		</property>
 	</bean>	

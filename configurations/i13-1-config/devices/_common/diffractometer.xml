@@ -23,7 +23,7 @@
 		<property name="motor" ref="delta_motor" />
 		<property name="userUnits" value="deg" />
 	</bean>
-	<bean id="gamma" class="gda.device.scannable.ScannableMotor">
+	<bean id="gam" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="gamma_motor" />
 		<property name="userUnits" value="deg" />
 	</bean>
@@ -32,7 +32,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="delta" />
-				<ref bean="gamma" />
+				<ref bean="gam" />
 				<ref bean="eta" />
 				<ref bean="chi" />
 				<ref bean="phi" />

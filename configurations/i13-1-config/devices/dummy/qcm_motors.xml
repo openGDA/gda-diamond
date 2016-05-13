@@ -16,5 +16,6 @@
 	<bean id="qcm_bragg1_fineroll_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="qcm_bragg2_fineroll_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="qcm_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="qcm_energy_motor" class="gda.device.motor.DummyMotor" />
 	
 </beans>	
