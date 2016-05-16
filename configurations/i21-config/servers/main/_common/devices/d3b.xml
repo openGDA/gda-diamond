@@ -4,11 +4,13 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
+	<!-- Diagnostic stick -->
 	<bean id="d3bstick" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d3bmotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
+	<!-- Group d3b-related objects -->	
 	<bean id="d3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
