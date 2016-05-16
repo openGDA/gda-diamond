@@ -7,6 +7,7 @@ from time import sleep
 
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
 from gda.scan import ConstantVelocityScanLine, MultiScanItem, MultiScanRunner, ConcurrentScan
+from gda.data.scan.datawriter import NXSubEntryWriter, NXTomoEntryLinkCreator
 
 import sys
 import time
