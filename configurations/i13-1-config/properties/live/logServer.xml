@@ -11,7 +11,7 @@
 
 
     <root>
-        <level value="ALL"/>
+        <level value="DEBUG"/>
         <appender-ref ref="LogPanel" />
         <appender-ref ref="ServerDebugFILE"/>
      </root>
