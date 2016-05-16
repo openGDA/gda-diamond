@@ -447,6 +447,10 @@
             class="uk.ac.gda.beans.exafs.XanesScanParameters"
             describer="uk.ac.gda.exafs.ui.describers.XanesDescriber">
       </bean>
+      <bean
+            class="uk.ac.gda.beans.exafs.i20.MedipixParameters"
+            describer="uk.ac.gda.exafs.ui.describers.MedipixDescriber">
+      </bean>
    </extension>
    <extension
          point="uk.ac.gda.client.experimentdefinition">
@@ -525,6 +529,13 @@
             name="Sample Elements"
             template="Sample_Elements"
             type="UNREGISTERED">
+      </describer>
+      <describer
+            bean="uk.ac.gda.beans.exafs.i20.MedipixParameters"
+            includeInNew="true"
+            name="Medipix parameters"
+            template="Medipix_Parameters"
+            type="MedipixParameters">
       </describer>
    </extension>
    
