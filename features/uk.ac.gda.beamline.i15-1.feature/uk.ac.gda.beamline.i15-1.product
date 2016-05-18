@@ -16,7 +16,7 @@
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Xms512m -Xmx1024m -XX:+DisableExplicitGC
+-Xmx4096m -XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

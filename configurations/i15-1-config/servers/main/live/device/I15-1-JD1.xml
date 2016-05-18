@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Pneumatics -->
+	
+	<bean id="d1pneumatic" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="d1pneumatic" />
+		<property name="pvName" value="BL15J-DI-PHDGN-01:CON" />
+		<!-- 
+		<property name="level" value="6" />
+		 -->
+	</bean>
+</beans>

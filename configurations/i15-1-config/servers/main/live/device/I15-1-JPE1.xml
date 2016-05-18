@@ -5,7 +5,33 @@
 
 	<!-- AD hardware -->
 
-	<!-- Devices which are defined in Epics but not needed by the client are defined below -->
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="peAD_config_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:CAM:" />
+	</bean>
+
+	<bean id="peAD_summary_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:ARR:" />
+	</bean>
+
+	<bean id="peAD_summary_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:STAT:" />
+	</bean>
+
+	<bean id="peAD_summary_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:ROI:" />
+	</bean>
+
+	<bean id="peAD_summary_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:MJPG:" />
+	</bean>
+
+	<bean id="peAD_summary_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
 
 	<bean id="peAD_summary_roi1" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15J-EA-DET-01:ROI1:" />
@@ -156,8 +182,8 @@
 			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pe_NDFileHDF5" />
 		<property name="fileTemplate" value="%s%s%05d.hdf5" />
-		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileNameTemplate" value="$scan$-pe" />
+		<property name="filePathTemplate" value="$datadir$/$scan$" />
+		<property name="fileNameTemplate" value="pe" />
 		<property name="fileNumberAtScanStart" value="-1" /> <!-- 1 results in filenames of the form 92920-pe92920.hdf5 -->
 		<property name="setChunking" value="false" />
 		<!-- <property name="writeErrorStatusSupported" value="false" /> -->
@@ -176,6 +202,10 @@
 	<bean id="pe_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pe" />
 		<property name="ndFile" ref="pe_NDFileTiff" />
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$/pe" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="1" />
 		<property name="keyNameForMetadataPathTemplate" value="pe_path_template" />
 		<!-- TODO: While we can set ndArrayPortVal from here, this filewriter may be used by detectors with different collection
 			 strategies so we should have the option to take the filewriter port from the collection Strategy. For example: -->
@@ -194,14 +224,35 @@
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		 -->
 		<property name="collectionStrategy" ref="pe_ContinuousCollectionStrategy" />
-		<!-- 
-		<property name="collectionStrategy" ref="pe_UnsynchronisedExternalShutterAutoSummingProcessImageModeCollectionStrategy" />
-		 -->
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pe_hdf5_MultipleImagesPerHDF5FileWriter" />
 				<ref bean="pe_tiff_SingleImagePerFileWriter" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="peLegacy" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="peLegacy"/>
+		<!-- 
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		 -->
+		<property name="collectionStrategy" ref="pe_AutoSummingProcessImageModeCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pe_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="pe_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Detector Motors -->
+
+	<bean id="det1Y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-EA-DET-01:Y" />
+	</bean>
+
+	<bean id="det1Z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-EA-DET-01:Z" />
 	</bean>
 </beans>

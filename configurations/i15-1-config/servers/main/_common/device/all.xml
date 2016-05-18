@@ -4,5 +4,4 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<import resource="dummy.xml"/>
-	<import resource="I15-1-DET-PE-AD.xml"/>
 </beans>

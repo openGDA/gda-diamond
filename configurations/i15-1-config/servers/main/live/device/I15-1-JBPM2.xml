@@ -126,7 +126,7 @@
 		<property name="ndFileHDF5" ref="bpm2_NDFileHDF5" />
 		<property name="fileTemplate" value="%s%s%05d.hdf5" />
 		<property name="filePathTemplate" value="$datadir$/$scan$" />
-		<property name="fileNameTemplate" value="bpm2" />
+		<property name="fileNameTemplate" value="bpm2-" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setChunking" value="false" />
 		<property name="lazyOpen" value="true" />
@@ -163,4 +163,13 @@
 		</property>
 	</bean>
 
+	<!-- Pneumatics -->
+	
+	<bean id="bpm2pneumatic" class="gda.device.scannable.SimplePVScannable">
+		<property name="name" value="bpm2pneumatic" />
+		<property name="pvName" value="BL15J-DI-BPM-02:CON" />
+		<!-- 
+		<property name="level" value="6" />
+		 -->
+	</bean>
 </beans>
