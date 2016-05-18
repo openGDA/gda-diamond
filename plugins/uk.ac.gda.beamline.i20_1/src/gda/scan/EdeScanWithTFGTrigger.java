@@ -18,6 +18,16 @@
 
 package gda.scan;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.hdf5.H5Utils;
+import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf5.HierarchicalDataFileUtils;
+import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.Nexus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +35,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.countertimer.TfgScaler;
 import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
@@ -32,6 +43,7 @@ import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.EdeScanType;
+import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.position.EdeScanPosition;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -99,6 +111,9 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		FrelonCcdDetectorData detectorSettings = (FrelonCcdDetectorData) detector.getDetectorData();
 		detectorSettings.setTriggerMode(AcqTriggerMode.EXTERNAL_TRIGGER);
 
+		// set to true (always want to use scalers to measure topup injections for Tfg Frelon scans)
+		triggeringParameters.setUseCountFrameScalers(true);
+		
 		// Multiple timing groups
 		for (Integer i = 0; i < scanParameters.getGroups().size(); i++) {
 			if (Thread.currentThread().isInterrupted()) {
@@ -117,11 +132,13 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			theDetector.setNumberScansInFrame( scansPerFrame );
 
 			// i.e. Only drop first frame for non It collection (helps with TFG timing calculations).
-			if ( numberOfFrames > 1 ) {
-				( (EdeFrelon) theDetector).setDropFirstFrame( false );
-			} else {
-				( (EdeFrelon) theDetector).setDropFirstFrame( true );
-			}
+//			if ( numberOfFrames > 1 ) {
+//				( (EdeFrelon) theDetector).setDropFirstFrame( false );
+//			} else {
+//				( (EdeFrelon) theDetector).setDropFirstFrame( true );
+//			}
+			// EdeScanWithTfgTrigger is *only* used for Tfg triggered light It - *never* drop 1st frame! imh 5/5/2016
+			( (EdeFrelon) theDetector).setDropFirstFrame( false );
 
 			triggeringParameters.getDetectorDataCollection().setNumberOfFrames(numberOfFrames);
 
@@ -139,10 +156,91 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 			// poll tfg and fetch data
 			pollDetectorAndFetchData();
+
+			addScalerFrameCounts( scansPerFrame, numberOfFrames );
 		}
 		detector.getLimaCcd().setAcqTriggerMode(acqTriggerMode);
 		detectorSettings.setTriggerMode(acqTriggerMode);
+	}
 
+	/**
+	 * Sum scaler counts for each time frame to get total scaler counts for each spectra.
+	 * Each spectra has is made up of numAccumulationsPerSpectra frames
+	 * @param scalerCountsForFrames [numSpectra*numAccumulationsPerSpectra][numScalers]
+	 * @param numAccumulationsPerSpectra
+	 * @param numSpectra
+	 * @return scalerCountsForSpectra [numSpectra][numScalers]
+	 * @throws Exception
+	 * @since 6/5/2016
+	 */
+	private double [][] getScalerCountsForSpectra( double [][] scalerCountsForFrames, int numAccumulationsPerSpectra, int numSpectra ) throws Exception {
+		int numScalers = scalerCountsForFrames[0].length;
+		int numFrames = scalerCountsForFrames.length;
+
+		if ( numSpectra * numAccumulationsPerSpectra > numFrames ) {
+			// Don't throw an exception, since even if scaler values can't be converted, still want rest of
+			// processed data to be written at end of scan.
+			logger.error( "Problem converting scaler values : total number of frames != accumulations per spectra * number of spectra");
+			return null;
+		}
+
+		double [][]scalerCountsForSpectra = new double[numSpectra][numScalers];
+		int specCount = 0;
+		for(int i = 0; i<numFrames; i++) {
+
+			// add to scaler values for current spectra
+			for(int j = 0; j<numScalers; j++)
+				scalerCountsForSpectra[specCount][j] += scalerCountsForFrames[i][j];
+
+			// increment counter for next spectra
+			if ( i%numAccumulationsPerSpectra == 0 && i>0 )
+				specCount++;
+		}
+
+		return scalerCountsForSpectra;
+	}
+
+	/** Write dataset of topup scaler counts for each spectra to NeXus file.
+	 * Scaler count>0 for spectra indicates that topup injection was taking place at same time as spectrum was measured.
+	 * @param numAccumulationsPerSpectra
+	 * @param numSpectra
+	 * @throws Exception
+	 * @since 6/5/2016
+	 */
+	private void addScalerFrameCounts(int numAccumulationsPerSpectra, int numSpectra ) throws Exception {
+		final TfgScaler injectionCounter = Finder.getInstance().find("injectionCounter");
+		if ( injectionCounter != null ) {
+			// Read scaler data : one value for each accumulation
+			int totNumFrames =  numAccumulationsPerSpectra * numSpectra;
+			double [][]scalerCounts = injectionCounter.readoutFrames(0,  totNumFrames );
+
+			// Convert to scaler counts for each spectra (i.e. sum over accumulations for each spectra)
+			double [][]scalerCountsForSpectra = getScalerCountsForSpectra(scalerCounts, numAccumulationsPerSpectra, numSpectra );
+
+			if ( scalerCountsForSpectra == null )
+				return;
+
+			DoubleDataset scalerDataset = DoubleDataset.createFromObject( scalerCountsForSpectra );
+
+			String fname = getDataWriter().getCurrentFileName();
+			IHierarchicalDataFile file = HierarchicalDataFactory.getWriter( fname );
+
+			String targetPath = HierarchicalDataFileUtils.createParentEntry(file, "/entry1/" + theDetector.getName(), Nexus.DATA);
+
+			addDatasetToNexus( file, EdeDataConstants.SCALER_FRAME_COUNTS, targetPath, scalerDataset, null );
+			file.close();
+		}
+	}
+
+	private void addDatasetToNexus(IHierarchicalDataFile file, String dataName, String fullPath, DoubleDataset data, Map<String, String> attributes) throws Exception {
+		long[] shape = H5Utils.getLong(data.getShape());
+		String insertedData = file.replaceDataset(dataName, Dataset.FLOAT64, shape, data.getBuffer(), fullPath);
+		if (attributes == null) {
+			return;
+		}
+		for (Entry<String, String> entry : attributes.entrySet()) {
+			file.setAttribute(insertedData, entry.getKey(), entry.getValue());
+		}
 	}
 
 	@Override
