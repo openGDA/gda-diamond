@@ -159,8 +159,8 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			bindFiltersForPowerCalculation();
 			bindModelWithUI();
 			updatePower();
-			initialiseUI();
 			AlignmentParametersModel.INSTANCE.loadAlignmentParametersFromStore();
+			initialiseUI();
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create motor controls", e.getMessage());
 			logger.error("Unable to create motor controls", e);
@@ -170,6 +170,10 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 
 	private void initialiseUI() {
+		// Set crystal cut and Q combo manually (not automatically updated by binding)
+		comboCrystalCut.setSelection( new StructuredSelection( AlignmentParametersModel.INSTANCE.getCrystalCut() ) );
+		comboCrystalQ.setSelection( new StructuredSelection( AlignmentParametersModel.INSTANCE.getQ()) );
+
 		cmbDetectorType.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector()));
 		cmbDetectorType.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -229,7 +233,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		butDetectorSetup = toolkit.createButton(detectorConfigComposite, "Setup", SWT.FLAT);
 		butDetectorSetup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 
-		Label lblCrystalType = toolkit.createLabel(mainSelectionComposite, "Crytal type:", SWT.NONE);
+		Label lblCrystalType = toolkit.createLabel(mainSelectionComposite, "Crystal type:", SWT.NONE);
 		lblCrystalType.setLayoutData(createLabelGridData());
 		comboCrystalType = new ComboViewer(new CCombo(mainSelectionComposite, SWT.READ_ONLY));
 		comboCrystalType.setContentProvider(ArrayContentProvider.getInstance());
@@ -503,7 +507,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			//					BeanProperties.value(DetectorModel.CURRENT_DETECTOR_SETUP_PROP_NAME).observe(DetectorModel.INSTANCE),
 			//					detectorSelectionUpdateStrategy, null);
 
-			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.AUGGESTED_PARAMETERS_PROP_KEY, new PropertyChangeListener() {
+			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.SUGGESTED_PARAMETERS_PROP_KEY, new PropertyChangeListener() {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
 					updateAlignmentParametersSuggestion((AlignmentParametersBean) evt.getNewValue());

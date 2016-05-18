@@ -89,7 +89,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	private Double power = null; // W
 
 	public static final String ELEMENT_EDGES_NAMES_PROP_NAME = "elementEdges";
-	public static final String AUGGESTED_PARAMETERS_PROP_KEY = "alignmentSuggestedParameters";
+	public static final String SUGGESTED_PARAMETERS_PROP_KEY = "alignmentSuggestedParameters";
 
 	private AlignmentParametersBean alignmentSuggestedParameters;
 
@@ -163,7 +163,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			String eventPropertyName = evt.getPropertyName();
-			if(evt.getNewValue() != null && !eventPropertyName.equals(AUGGESTED_PARAMETERS_PROP_KEY)) {
+			if(evt.getNewValue() != null && !eventPropertyName.equals(SUGGESTED_PARAMETERS_PROP_KEY)) {
 				getCalculations();
 			}
 			if ( paramsToSave.contains(eventPropertyName) ) {
@@ -219,7 +219,6 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	public void setElement(Element element) {
 		AbsorptionEdge currentEdge = edge;
-		this.setEdge(null);
 		this.firePropertyChange(ELEMENT_PROP_NAME, null, this.element = element);
 		this.firePropertyChange(ELEMENT_EDGES_NAMES_PROP_NAME, null, getElementEdges());
 		List<String> elementNames = crystalCut.getElementsInEnergyRange().get(element);
@@ -271,7 +270,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	private void getCalculations() {
 		if (DetectorModel.INSTANCE.getCurrentDetector() == null || edge == null || element == null) {
-			this.firePropertyChange(AUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, null);
+			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, null);
 			return;
 		}
 		try {
@@ -291,9 +290,9 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 					waitForResult = false;
 				}
 			}
-			this.firePropertyChange(AUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, alignmentSuggestedParameters = (AlignmentParametersBean) result);
+			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, alignmentSuggestedParameters = (AlignmentParametersBean) result);
 		} catch (Exception e) {
-			this.firePropertyChange(AUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, null);
+			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, null);
 			// TODO add error logger
 		}
 	}
@@ -308,19 +307,24 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	 * @since 11/4/2016
 	 */
 	public void setFromModel( AlignmentParametersModel model ) {
+		if ( model == null )
+			return;
+
 		crystalType = model.getCrystalType();
 		crystalCut = model.getCrystalCut();
 		q = model.getQ();
 
 		if ( model.absorptionEdgeString != null ) {
 			edge = new AbsorptionEdge(model.absorptionEdgeString);
-			setEdge( edge );
 		}
 
 		if ( model.elementSymbol != null ) {
 			element = Element.getElement(model.elementSymbol);
-			setElement( element );
 		}
+		setCrystalType( crystalType );
+		setCrystalCut( crystalCut );
+		setElement( element );
+		setEdge( edge );
 	}
 
 	/**
@@ -329,11 +333,11 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	 */
 	public void saveAlignmentParametersToStore() {
 		if ( parametersLoaded == true ) {
-			elementSymbol = element.getSymbol();
+			if ( element != null )
+				elementSymbol = element.getSymbol();
+
 			if ( edge != null )
 				absorptionEdgeString = edge.toString();
-			else
-				absorptionEdgeString = "";
 
 			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, this);
 		}
@@ -344,8 +348,8 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	 * @since 8/4/2016
 	 */
 	public void loadAlignmentParametersFromStore() {
-		parametersLoaded = true;
 		AlignmentParametersModel paramModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, AlignmentParametersModel.class);
 		setFromModel( paramModel );
+		parametersLoaded = true;
 	}
 }
