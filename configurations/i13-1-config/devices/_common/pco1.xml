@@ -3,12 +3,12 @@
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
 
 	<bean id="pco1_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
@@ -20,10 +20,10 @@
 				<entry key="pco1_proc" value-ref="pco1_proc" />
 				<entry key="pco1_ndhdf5file" value-ref="pco1_ndhdf5file" />
 				<entry key="pco1_ndfiletif" value-ref="pco1_ndfiletif" />
-				<entry key="pco1_stat" value-ref="pco1_stat" />
+				<entry key="pco1_stat" value-ref="pco1_stat"/>				
 				<entry key="pco1_singleExposurePco" value-ref="pco1_singleExposurePco" />
 				<entry key="pco1_singleExposurePcoSoftwareTrigger" value-ref="pco1_singleExposurePcoSoftwareTrigger" />
-				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger" />
+				<entry key="pco1_autoContinuousTrigger" value-ref="pco1_autoContinuousTrigger"/>
 			</util:map>
 		</property>
 	</bean>
@@ -59,17 +59,5 @@
 			</list>
 		</property>
 	</bean>
-
-<!-- 	<bean id="pco1" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="_pco1_tif" />
-		<property name="processor" ref="pco1_tif_processors" />
-		<property name="mergeWithDetectorData" value="true"/>
-	</bean>	
-	
-	<bean id="pcoEdge" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
-		<property name="detector" ref="_pcoEdge_tif" />
-		<property name="processor" ref="pco1_tif_processors" />
-		<property name="mergeWithDetectorData" value="true"/>
-	</bean>	 -->
 	
 </beans>

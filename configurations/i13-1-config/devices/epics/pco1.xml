@@ -8,8 +8,7 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<import resource="pco1_ndplugins.xml"/>
-	
+
 	<bean id="_pco1_tif" class="gda.device.detector.NXDetector">
 		<property name="name" value="_pco1_tif" />
 		<property name="collectionStrategy" ref="pco1_singleExposurePco" />

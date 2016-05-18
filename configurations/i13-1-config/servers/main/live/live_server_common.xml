@@ -115,6 +115,7 @@
 	</bean>
 <!-- 	<import resource="../../../devices/epics/scope1_motors.xml"/>
  -->
+	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>
 	<import resource="../../../devices/epics/pco1.xml"/>
 	<import resource="../../../devices/epics/merlin.xml"/>
 	<!-- This is no longer present - T2 now contains beamstop abut not the detector xyz motors

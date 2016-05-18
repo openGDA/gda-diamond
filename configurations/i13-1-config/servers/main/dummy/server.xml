@@ -116,6 +116,7 @@
 		<property name="positions" value="Open, Closed"/>
 	</bean>
 
+	<import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
 	<import resource="../../../devices/dummy/pco1.xml"/>
 	<import resource="../../../devices/dummy/merlin.xml"/>
 	
