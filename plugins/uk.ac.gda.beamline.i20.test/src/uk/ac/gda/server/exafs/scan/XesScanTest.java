@@ -20,24 +20,6 @@ package uk.ac.gda.server.exafs.scan;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import gda.configuration.properties.LocalProperties;
-import gda.data.metadata.NXMetaDataProvider;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xmap.Xmap;
-import gda.device.scannable.DummyScannable;
-import gda.device.scannable.ScannableMotor;
-import gda.device.scannable.TwoDScanPlotter;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServer;
-import gda.jython.JythonServerFacade;
-import gda.jython.batoncontrol.ClientDetails;
-import gda.jython.commands.ScannableCommands;
-import gda.jython.scriptcontroller.logging.LoggingScriptController;
-import gda.scan.ConcurrentScan;
-import gda.scan.ScanPlotSettings;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -60,6 +42,24 @@ import org.powermock.api.support.membermodification.strategy.MethodStubStrategy;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.NXMetaDataProvider;
+import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.xmap.Xmap;
+import gda.device.scannable.DummyScannable;
+import gda.device.scannable.ScannableMotor;
+import gda.device.scannable.TwoDScanPlotter;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServer;
+import gda.jython.JythonServerFacade;
+import gda.jython.batoncontrol.ClientDetails;
+import gda.jython.commands.ScannableCommands;
+import gda.jython.scriptcontroller.logging.LoggingScriptController;
+import gda.scan.ConcurrentScan;
+import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
@@ -466,7 +466,7 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 6);
+		assertTrue(scanArgs.length == 8);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(xes_energy.getName()));
 		assertTrue(scanArgs[1].equals(new Double(6000.0)));
@@ -474,6 +474,10 @@ public class XesScanTest {
 		assertTrue(scanArgs[3].equals(new Double(200.0)));
 		assertTrue(((Scannable) scanArgs[4]).getName().equals(mono_energy.getName()));
 		assertTrue(scanArgs[5].equals(new Double(10000.0)));
+
+		assertTrue(scanArgs[6] instanceof Xmap);
+		assertTrue(scanArgs[7] instanceof TfgScalerWithFrames);
+
 	}
 
 	@Test
@@ -501,7 +505,7 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 9);
+		assertTrue(scanArgs.length == 11);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(xes_energy.getName()));
 		assertTrue(scanArgs[1].equals(new Double(6000.0)));
@@ -513,6 +517,8 @@ public class XesScanTest {
 		assertTrue(scanArgs[7].equals(new Double(100.0)));
 
 		assertTrue(scanArgs[8] instanceof TwoDScanPlotter);
+		assertTrue(scanArgs[9] instanceof Xmap);
+		assertTrue(scanArgs[10] instanceof TfgScalerWithFrames);
 	}
 
 	@Test
@@ -540,7 +546,7 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 9);
+		assertTrue(scanArgs.length == 11);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(mono_energy.getName()));
 		assertTrue(scanArgs[1].equals(new Double(11000.0)));
@@ -552,6 +558,8 @@ public class XesScanTest {
 		assertTrue(scanArgs[7].equals(new Double(200.0)));
 
 		assertTrue(scanArgs[8] instanceof TwoDScanPlotter);
+		assertTrue(scanArgs[9] instanceof Xmap);
+		assertTrue(scanArgs[10] instanceof TfgScalerWithFrames);
 	}
 
 	protected void mockI20OutputParameters() {

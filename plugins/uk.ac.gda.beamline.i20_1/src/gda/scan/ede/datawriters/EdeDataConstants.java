@@ -50,6 +50,7 @@ public class EdeDataConstants {
 	public static final String IT_COLUMN_NAME = "it";
 	public static final String I0_COLUMN_NAME = "i0";
 	public static final String BEAM_IN_OUT_COLUMN_NAME = "light";
+	public static final String SCALER_FRAME_COUNTS = "scaler_counts";
 
 	public static final String LN_I0_IT_COLUMN_NAME = "lnI0It";
 	public static final String LN_I0_IT__FINAL_I0_COLUMN_NAME = "lnI0It_finalI0";

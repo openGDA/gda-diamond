@@ -18,10 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.trigger;
 
-import gda.device.detector.EdeDetector;
-import gda.device.detector.frelon.FrelonCcdDetectorData;
-import gda.jython.InterfaceProvider;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
@@ -38,6 +34,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.annotations.Expose;
 
+import gda.device.detector.EdeDetector;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
@@ -82,6 +81,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	}
 
 	public static final String TOTAL_TIME_PROP_NAME = "totalTime";
+	private boolean useCountFrameScalers = false;
 
 	public double getTotalTime() {
 		double total = 0.0;
@@ -271,12 +271,32 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	}
 
 	public String getCountFrameString( int numFrames, int port ) {
-		return String.format( "%d 0 %f 0 %d 0 9\n", numFrames, MIN_LIVE_TIME, port);
+		if ( useCountFrameScalers )
+			return getTimeFrameString( numFrames, 0, MIN_LIVE_TIME, 0, 256, 0, 9 );
+		else
+			return String.format( "%d 0 %f 0 %d 0 9\n", numFrames, MIN_LIVE_TIME, port);
 	}
 
 	public String getWaitForTimeString( double length, int port ) {
 		return String.format( "1 %f 0.0 %d 0 0 0\n", length, port );
 	}
+
+	public String getTimeFrameString( int numFrames, double deadTime, double liveTime, int deadPort, int livePort, int deadPause, int livePause ) {
+		return String.format( "%d %f %f %d %d %d %d\n", numFrames, deadTime, liveTime, deadPort, livePort, deadPause, livePause );
+	}
+
+	public String getPrepareScalerString() {
+		String scalerMode = new  String( "\ntfg setup-cc-mode scaler64\n" +
+		"tfg setup-cc-chan 0 vetoed-level\n" +
+		"tfg setup-cc-chan 1 vetoed-level\n" );
+
+		String scalerOpen = new String( "set-func \"path\" \"tfg open-cc\" \n" +
+		"clear %path\n" +
+		"enable %path\n" );
+
+		return scalerMode + scalerOpen;
+	}
+
 	public String getTfgSetupGroupsCommandParameters4Frelon_new(int numberOfCycles, boolean shouldStartOnTopupSignal) {
 		// using TFG setup GUI for Frelon - completely re-written version. imh 29Sept2015
 
@@ -387,6 +407,10 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		}
 
 		tfgCommand.append("-1 0 0 0 0 0 0");
+
+		if ( useCountFrameScalers )
+			tfgCommand.append( getPrepareScalerString() );
+
 		return tfgCommand.toString();
 	}
 
@@ -984,6 +1008,14 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	public void setUsingExternalScripts4TFG(boolean usingExternalScripts4TFG) {
 		this.usingExternalScripts4TFG = usingExternalScripts4TFG;
+	}
+
+	public boolean getUseCountFrameScalers() {
+		return useCountFrameScalers;
+	}
+
+	public void setUseCountFrameScalers(boolean useCountFrameScalers) {
+		this.useCountFrameScalers = useCountFrameScalers;
 	}
 
 }

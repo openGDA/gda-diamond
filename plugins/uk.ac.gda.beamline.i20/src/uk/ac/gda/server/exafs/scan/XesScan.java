@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 
+import gda.device.Detector;
 import gda.device.Scannable;
 import gda.device.scannable.TwoDScanPlotter;
 import gda.jython.scriptcontroller.logging.LoggingScriptController;
@@ -96,6 +97,9 @@ public class XesScan extends XasScanBase implements XasScan {
 	@Override
 	protected Object[] createScanArguments(String sampleName, List<String> descriptions) throws Exception {
 
+		xesScanParameters = (XesScanParameters) scanBean;
+		i20OutputParameters = (I20OutputParameters) outputBean;
+
 		int innerScanType = xesScanParameters.getScanType();
 
 		if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
@@ -127,6 +131,10 @@ public class XesScan extends XasScanBase implements XasScan {
 						xesScanParameters.getMonoStepSize());
 			}
 			xes_args = ArrayUtils.add(xes_args, twodplotter);
+		}
+		Detector[] detList = getDetectors();
+		for (Detector det : detList) {
+			xes_args = ArrayUtils.add(xes_args, det);
 		}
 		return xes_args;
 	}
