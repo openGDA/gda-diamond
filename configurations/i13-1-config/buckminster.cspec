@@ -2,7 +2,7 @@
     <cs:dependencies>
         <cs:dependency name="diffcalc" componentType="buckminster"/>
         <cs:dependency name="dls-config" componentType="buckminster"/>
-        <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="hdf.hdf5lib" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.emf.common" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.emf.ecore" componentType="osgi.bundle"/>
         <cs:dependency name="org.gda.tango" componentType="osgi.bundle"/>
