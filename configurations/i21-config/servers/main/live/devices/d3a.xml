@@ -18,6 +18,11 @@
 
 
 	<!-- Area detector camera -->
+	<bean id="d3aPlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="D3" />
+		<constructor-arg value="6" />
+	</bean>
+
 	<bean id="d3aCamBase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL21I-DI-DCAM-03:CAM:" />
 	</bean>
@@ -34,24 +39,92 @@
 		</property>
 	</bean>
 	
-	<bean id="d3aRoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats" />
+	<bean id="d3aRoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
 		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI1:" />
 		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT1:" />
-		<property name="roiInputNdArrayPort" value="D3A.cam" />
+		<property name="roiInputNdArrayPort" value="D3.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
-				<property name="roi">
-					<bean class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
-						<constructor-arg value="0" />
-						<constructor-arg value="0" />
-						<constructor-arg value="1280" />
-						<constructor-arg value="960" />
-						<constructor-arg value="roi1" />
-					</bean>
-				</property>
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d3aPlotServerRoiProvider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d3aRoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats2" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI2:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT2:" />
+		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d3aPlotServerRoiProvider" />
+				<constructor-arg value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d3aRoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats3" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI3:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT3:" />
+		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d3aPlotServerRoiProvider" />
+				<constructor-arg value="2" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d3aRoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats4" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI4:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT4:" />
+		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d3aPlotServerRoiProvider" />
+				<constructor-arg value="3" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d3aRoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats5" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI5:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT5:" />
+		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d3aPlotServerRoiProvider" />
+				<constructor-arg value="4" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d3aRoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats6" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI6:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT6:" />
+		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d3aPlotServerRoiProvider" />
+				<constructor-arg value="5" />
 			</bean>
 		</property>
 	</bean>
@@ -75,7 +148,12 @@
 		<property name="collectionStrategy" ref="d3aCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="d3aRoiStats" />
+				<ref bean="d3aRoiStats1" />
+				<ref bean="d3aRoiStats2" />
+				<ref bean="d3aRoiStats3" />
+				<ref bean="d3aRoiStats4" />
+				<ref bean="d3aRoiStats5" />
+				<ref bean="d3aRoiStats6" />
 				<ref bean="d3aHdf5Filewriter" />
 			</list>
 		</property>

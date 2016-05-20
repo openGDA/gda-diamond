@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="s4femto1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.235</value>
+		</property>
+	</bean>
+
+	<bean id="s4femto2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+
+	<bean id="s4femto3" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">1.32</value>
+		</property>
+	</bean>
+
+	<bean id="s4femto4" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">2.5</value>
+		</property>
+	</bean>
+
+</beans>
