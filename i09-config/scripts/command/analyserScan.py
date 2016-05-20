@@ -27,7 +27,7 @@ PRINTTIME=False
 zeroScannable=DummyScannable("zeroScannable")
 
 def zerosupplies():
-    caput("ELECTRON-ANALYSER-01:TEST:ZERO_SUPPLIES", 1)
+    caput("BL09I-EA-DET-01:CAM:ZERO_SUPPLIES", 1)
     
 
 def getSequenceFilename(arg, xmldir):
@@ -123,7 +123,6 @@ def allElementsAreNumber(arg):
 
 def allElementsAreTuplesOfNumbers(arg):
     for each in arg:
-        print each, each.__class__
         # Check its a tuple
         if not (type(each)==TupleType):
             return False
@@ -168,7 +167,7 @@ def analyserscan(*args):
                 #parsing scannable group's position lists
                 newargs.append(arg)
             elif allElementsAreTuplesOfNumbers(arg):
-                # THis case is to fix BLIX-206 when using a scannable group with a tuple of tuples of positions
+                # This case is to fix BLIX-206 when using a scannable group with a tuple of tuples of positions
                 newargs.append(arg)
             else:
                 raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of tuples of numbers, or list of numbers are supported."
