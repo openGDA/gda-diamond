@@ -2,7 +2,7 @@
     <cs:dependencies>
         <cs:dependency name="com.springsource.javax.media.jai.core" componentType="osgi.bundle"/>
         <cs:dependency name="mt-config" componentType="buckminster"/>
-        <cs:dependency name="ncsa.hdf" componentType="osgi.bundle"/>
+        <cs:dependency name="hdf.hdf5lib" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i07.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
