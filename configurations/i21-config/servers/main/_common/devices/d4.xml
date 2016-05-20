@@ -5,21 +5,21 @@
 
 
 	<!-- Diagnostic stick -->
-	<bean id="d3bstick" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d3bmotor" />
+	<bean id="d4stick" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d4motor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<!-- Group d3b-related objects -->	
-	<bean id="d3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Group d4-related objects -->	
+ 	<bean id="d4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="d3bpos" />
-				<ref bean="d3bstick" />
-				<ref bean="d3bfemto" />
+				<ref bean="d4pos" />
+				<ref bean="d4stick" />
+				<ref bean="d4femto" />
 			</list>
 		</property>
 		<property name="local" value="true" />
 	</bean>
 
-</beans>
+ </beans>
