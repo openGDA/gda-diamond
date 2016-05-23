@@ -519,6 +519,13 @@ try:
 		localStation_exception(sys.exc_info(), "creating dkphi_rockscan object")
 
 	try:
+		global srot
+		from scannables.ContinuouslyRockingScannable import ContinuouslyRockingScannable
+		srot_rocker = ContinuouslyRockingScannable('srot_rocker', scannable=srot)
+	except:
+		localStation_exception(sys.exc_info(), "creating srot_rocker object")
+
+	try:
 		dx.setOutputFormat(["%.6g"])
 		dy.setOutputFormat(["%.6g"])
 		dz.setOutputFormat(["%.6g"])
