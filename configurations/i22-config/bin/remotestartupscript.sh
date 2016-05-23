@@ -8,19 +8,17 @@ export BEAMLINE=i22
 mv -f nohup.out nohup.out.0 || true
 touch nohup.out
 
+OBJECT_CONSOLE_LOG_FILE="/dls_sw/$BEAMLINE/logs/gda_server_console.$(date +%F_%T).log"
 ( 
 umask 2
 
-OBJECT_CONSOLE_LOG_FILE="/dls_sw/$BEAMLINE/logs/gda_server_console.$(date +%F_%T).log"
-
 /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --stop logserver || true
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config nameserver >> $OBJECT_CONSOLE_LOG_FILE
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config eventserver >> $OBJECT_CONSOLE_LOG_FILE
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config logserver >> $OBJECT_CONSOLE_LOG_FILE
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --properties=/dls_sw/$BEAMLINE/software/gda/config/properties/java.properties.clientlogserver logserver >> $OBJECT_CONSOLE_LOG_FILE
-#ssh -o PreferredAuthentications=publickey -i ~/.ssh/id_rsa marccd@i22-mar01 /dls_sw/i22/software/gda/bin/startmar.sh &
-JAVA_OPTS="-Duser.timezone=GMT -Xms1024m -Xmx8192m -XX:PermSize=256m -XX:MaxPermSize=512m" nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --debug --verbose objectserver >> $OBJECT_CONSOLE_LOG_FILE
-) &
+nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config nameserver
+nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config eventserver
+nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --start logserver
+nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --properties=/dls_sw/$BEAMLINE/software/gda/config/properties/java.properties.clientlogserver --start logserver
+JAVA_OPTS="-Duser.timezone=GMT -Xms1024m -Xmx8192m -XX:PermSize=256m -XX:MaxPermSize=512m" nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --debug --verbose objectserver
+) >> $OBJECT_CONSOLE_LOG_FILE &
 
 cat >> /dls_sw/$BEAMLINE/logs/gda_server.log <<EOF
 
