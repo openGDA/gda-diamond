@@ -392,6 +392,22 @@ aliasList.append("exposeNRockNGridStep")
 
 # User input verification functions
 
+def _sanitise(fileName, detector):
+	if fileName == None or not "_" in fileName:
+		return fileName
+	# TODO: Extend this mechanism to prevent commas in atlas filenames
+	if ('mar' in detector.name):
+		sanitised = fileName.replace("_", "-")
+		msg = "Underscores not supported in fileName for %s detector. Using %s rather than %s" % (detector.name, sanitised, fileName)
+		print "-"*80
+		print msg
+		print "-"*80
+		LoggerFactory.getLogger("_sanitise").warn(msg)
+		return sanitised
+	else:
+		LoggerFactory.getLogger("_sanitise").info("Underscores detected in '{}', but {} detector is fine with that.", fileName, detector.name)
+		return fileName
+
 def isfloat(value):
 	try:
 		float(value)
@@ -768,7 +784,8 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	logger = LoggerFactory.getLogger("_exposeN")
 	
 	detector = _exposeDetector()
-	
+	fileName = _sanitise(fileName, detector)
+
 	detectorShield = jythonNameMap.ds
 	exposure = jythonNameMap.exposure # DummyPD("exposure")
 	

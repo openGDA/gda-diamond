@@ -346,10 +346,9 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	
 	if 'marwriter' in [p.getName() for p in detector.getPluginList()]:
 		# Since the mar doesn't like underscores and replaces all characters after the underscore with a three
-		# digit sequence number, we have to strip out the sample suffix (as it might contain an underscore) and
-		# set the sequence number to the expected sequence number.
-		filePathTemplate="$datadir$/"
-		fileNameTemplate="$scan$-%s" % (detector.name)
+		# digit sequence number, we have to strip out any underscores and ensure that a sequence number is added.
+		if "_" in sampleSuffix:
+			raise Exception('Detector %r does not support underscores in sampleSuffix: %s' % (detector.name, sampleSuffix))
 		fileTemplate="%s%s_%03d" # Breaks GDA because it expects the file to be called blah and it is blah.mar3450 on the filesystem
 		#fileTemplate="%s%s_%03d.mar3450" # Breaks Area detector because it expects the file to be called blah.mar3450.mar3450 and it is blah.mar3450 on the filesystem
 		
