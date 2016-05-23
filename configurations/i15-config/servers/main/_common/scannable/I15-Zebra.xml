@@ -46,4 +46,14 @@
 		<property name="scurveTimeToVelocity" value=".25"/> <!-- From ACCL -->
 		<property name="pcEnc" value="2"/> <!-- Default 0=Enc1? -->
 	</bean>
+
+	<!-- 
+	<bean id="etlZebraScannableMonitor" class="gda.device.zebra.ZebraScannableMotor">
+	 -->
+	<bean id="etlZebraScannableMonitor" class="gda.device.zebra.ZebraScannableMonitor">
+		<property name="name" value="etlZebraScannableMonitor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="pcCapture" value="7"/> <!-- Default 0=Enc1, 6=Div1 -->
+	</bean>
 </beans>

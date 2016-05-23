@@ -535,8 +535,12 @@ def _defaultParameter(parameter, parameter_default, help_text):
 def _staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
-	
+	i0Monitor = jythonNameMap.etlZebraScannableMonitor
+
 	_configureDetector(detector=detector, exposureTime=exposeTime, noOfExposures=totalExposures, sampleSuffix=fileName, dark=False)
+	# Disable i0Monitor for the moment as the stream, always seems to be empty,
+	# presumably since we are not actually running the continuousMoveController
+	#return [detector, exposeTime, zebraFastShutter, exposeTime , i0Monitor]
 	return [detector, exposeTime, zebraFastShutter, exposeTime]
 
 def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures):
@@ -575,16 +579,19 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 													 sampleSuffix=fileName, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(
 													axis=rockMotor, detector=hardwareTriggeredNXDetector)
+	i0Monitor = jythonNameMap.etlZebraScannableMonitor
 
-	logger.info("_rockScanParams: [%r, %r, %r, %r,  %r,  %r, %r]" % (
+	logger.info("_rockScanParams: [%r, %r, %r, %r,  %r,  %r, %r, %r]" % (
 								  continuouslyScannableViaController.name, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController.name,
 								  hardwareTriggeredNXDetector.name, exposeTime,
+								  i0Monitor,
 								))
 	# TODO: We should probably also check that lineMotor and rockMotor aren't both the same!'
 	sc1=ConstantVelocityScanLine([continuouslyScannableViaController, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController,
 								  hardwareTriggeredNXDetector, exposeTime,
+								  i0Monitor,
 								])
 	
 	return [sc1]
