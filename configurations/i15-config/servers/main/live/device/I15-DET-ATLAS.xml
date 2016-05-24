@@ -24,6 +24,9 @@
 		<property name="dynamicThetaAxis" ref="dkthetaZebraScannableMotor" />	<property name="staticThetaAxis" ref="dktheta" />
 		<!-- <property name="dynamicTwothetaAxis" ref="ddelta" /> -->			<property name="staticTwothetaAxis" ref="ddelta" />
 		<!-- <property name="dynamicGammaAxis" ref="?ZebraScannableMotor" />	<property name="staticGammaAxis" ref="?" /> -->
+		<!-- This was implemented, but has not yet been tested:
+		 -->
+		<property name="i0Monitor" ref="etlZebraScannableMonitor" />
 		<property name="staticDdistAxis" ref="ddist" />
 		<property name="binning" value="1"/>
 		<property name="timeoutCollectionTimeMultiplier" value="3"/> <!-- Atlas may collect 2 darks at the same time as collecting the image -->

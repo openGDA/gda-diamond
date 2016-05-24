@@ -392,6 +392,22 @@ aliasList.append("exposeNRockNGridStep")
 
 # User input verification functions
 
+def _sanitise(fileName, detector):
+	if fileName == None or not "_" in fileName:
+		return fileName
+	# TODO: Extend this mechanism to prevent commas in atlas filenames
+	if ('mar' in detector.name):
+		sanitised = fileName.replace("_", "-")
+		msg = "Underscores not supported in fileName for %s detector. Using %s rather than %s" % (detector.name, sanitised, fileName)
+		print "-"*80
+		print msg
+		print "-"*80
+		LoggerFactory.getLogger("_sanitise").warn(msg)
+		return sanitised
+	else:
+		LoggerFactory.getLogger("_sanitise").info("Underscores detected in '{}', but {} detector is fine with that.", fileName, detector.name)
+		return fileName
+
 def isfloat(value):
 	try:
 		float(value)
@@ -519,8 +535,12 @@ def _defaultParameter(parameter, parameter_default, help_text):
 def _staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
-	
+	i0Monitor = jythonNameMap.etlZebraScannableMonitor
+
 	_configureDetector(detector=detector, exposureTime=exposeTime, noOfExposures=totalExposures, sampleSuffix=fileName, dark=False)
+	# Disable i0Monitor for the moment as the stream, always seems to be empty,
+	# presumably since we are not actually running the continuousMoveController
+	#return [detector, exposeTime, zebraFastShutter, exposeTime , i0Monitor]
 	return [detector, exposeTime, zebraFastShutter, exposeTime]
 
 def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures):
@@ -559,16 +579,19 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 													 sampleSuffix=fileName, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(
 													axis=rockMotor, detector=hardwareTriggeredNXDetector)
+	i0Monitor = jythonNameMap.etlZebraScannableMonitor
 
-	logger.info("_rockScanParams: [%r, %r, %r, %r,  %r,  %r, %r]" % (
+	logger.info("_rockScanParams: [%r, %r, %r, %r,  %r,  %r, %r, %r]" % (
 								  continuouslyScannableViaController.name, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController.name,
 								  hardwareTriggeredNXDetector.name, exposeTime,
+								  i0Monitor,
 								))
 	# TODO: We should probably also check that lineMotor and rockMotor aren't both the same!'
 	sc1=ConstantVelocityScanLine([continuouslyScannableViaController, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController,
 								  hardwareTriggeredNXDetector, exposeTime,
+								  i0Monitor,
 								])
 	
 	return [sc1]
@@ -768,7 +791,8 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	logger = LoggerFactory.getLogger("_exposeN")
 	
 	detector = _exposeDetector()
-	
+	fileName = _sanitise(fileName, detector)
+
 	detectorShield = jythonNameMap.ds
 	exposure = jythonNameMap.exposure # DummyPD("exposure")
 	
