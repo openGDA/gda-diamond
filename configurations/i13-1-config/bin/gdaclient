@@ -1,11 +1,4 @@
 #!/bin/bash
 
-gda_start_logpanel
-
-. ${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/utils/gda_console_log gda_client_output
-
-#${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20131114-1228_linux64/gda-i13j --keep --nohup $LOGFILE $*
-#${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20140624-1359_linux64/gda-i13j --keep --nohup $LOGFILE $*
-#${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20140829-1607_linux64/gda-i13j --keep --nohup $LOGFILE $*
-${GDAFOLDER}/workspace_git/gda-diamond.git/dls-config/bin/gdaclient --client ${GDAFOLDER}/client_20141007-1523_linux64/gda-i13j --keep --nohup $LOGFILE $*
-
+gda --start logpanel
+gda --start client "$@"
