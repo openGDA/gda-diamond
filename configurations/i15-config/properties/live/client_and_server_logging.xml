@@ -12,9 +12,9 @@
         <appender-ref ref="SOCKET"/>
     </root>
 
-    <!-- Do not set level to DEBUG or lower on EpicsMotor or you will be flooded with messages -->
+    <!-- Do not set level to ALL or TRACE on EpicsMotor or you will be flooded with messages -->
     <logger name="gda.device.motor.EpicsMotor">
-        <level value="INFO"/>
+        <level value="DEBUG"/>
     </logger>
 
     <!-- Do not set level to DEBUG or lower on MoveEventQueue or you will be flooded with messages -->
