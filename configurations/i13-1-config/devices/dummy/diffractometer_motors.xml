@@ -3,19 +3,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="eta_motor" class="gda.device.motor.DummyMotor">
+	
+	<bean id="rcellKthetaMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="90" />
 	</bean>
-	<bean id="chi_motor" class="gda.device.motor.DummyMotor">
+
+	<bean id="rcellKkappaMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="90" />
 	</bean>
-	<bean id="phi_motor" class="gda.device.motor.DummyMotor">
+
+	<bean id="rcellKphiMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="90" />
 	</bean>
-	<bean id="delta_motor" class="gda.device.motor.DummyMotor">
+
+	<bean id="diffSthetaMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="90" />
 	</bean>
-	<bean id="gamma_motor" class="gda.device.motor.DummyMotor">
+
+	<bean id="diffSkappaMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="90" />
 	</bean>
-</beans>	
+
+	<bean id="diffSphiMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="90" />
+	</bean>
+
+	<bean id="rcellDeferFlag" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

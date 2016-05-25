@@ -92,7 +92,7 @@
 	<import resource="../../../devices/epics/pin_motors.xml"/>
  	<import resource="../../../devices/epics/diff_motors.xml"/>
 
-	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
+	<import resource="../../../devices/epics/diffractometer_motors.xml"/>
 	
 	<import resource="../../../devices/dummy/robot_motors.xml"/>
 
