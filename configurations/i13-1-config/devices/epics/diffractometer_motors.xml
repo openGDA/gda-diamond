@@ -7,37 +7,37 @@
 	<!-- See http://confluence.diamond.ac.uk/pages/viewpage.action?pageId=34408861 -->
 
 	<bean id="rcellKthetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-RCELL-01:KTHETA.VAL" />
+		<property name="pvName" value="BL13J-MO-RCELL-01:KTHETA" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="rcellKkappaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-RCELL-01:KKAPPA.VAL" />
+		<property name="pvName" value="BL13J-MO-RCELL-01:KKAPPA" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="rcellKphiMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-RCELL-01:KPHI.VAL" />
+		<property name="pvName" value="BL13J-MO-RCELL-01:KPHI" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="diffSthetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-DIFF-01:STHETA.VAL" />
+		<property name="pvName" value="BL13J-MO-DIFF-01:STHETA" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="diffSkappaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-DIFF-01:SKAPPA.VAL" />
+		<property name="pvName" value="BL13J-MO-DIFF-01:SKAPPA" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="diffSphiMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13J-MO-DIFF-01:SPHI.VAL" />
+		<property name="pvName" value="BL13J-MO-DIFF-01:SPHI" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
