@@ -225,13 +225,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.server"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.server.ncd.epics"
          download-size="0"
          install-size="0"
