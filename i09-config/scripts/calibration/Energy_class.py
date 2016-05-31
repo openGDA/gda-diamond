@@ -3,6 +3,7 @@ import gda.factory.Finder as Finder
 import sys
 #from gda.function.lookup import LookupTable
 import math
+from time import sleep
 from LookupTables import readLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
@@ -39,14 +40,32 @@ class BeamEnergy(ScannableMotionBase):
         else:
             self.order=1
         self.energy=self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
-        self.polarisation='H'
+        self.polarisation='LH'
+        if self.getName()=="jenergy":
+            self.jidphase = finder.find("jidphase")
     
     def setPolarisation(self, value):
         if self.getName()=="jenergy":
-            if value == "H" or value == "V":
+            if value == "LH":
+                self.jidphase.hortizontal() 
+                self.polarisation=value
+            elif value == "LV":
+                self.jidphase.vertical()
+                self.polarisation=value
+            elif value == "CL":
+                self.jidphase.circular_left()
+                self.polarisation=value
+            elif value == "CR":
+                self.jidphase.circular_right()
                 self.polarisation=value
             else:
-                raise ValueError("Input "+str(value)+" invalid. Valid values are 'H' or 'V'.")
+                raise ValueError("Input "+str(value)+" invalid. Valid values are 'LH', 'LV', 'CL' and 'CR'.")
+
+            # Move back to the current position i.e. the correct gap for the new polarisation
+            # Note this also causes the ID to actually move, if the gap demand is exactly the same it will never!
+            self.asynchronousMoveTo(self.getPosition()/1000)
+            while (self.isBusy()) :
+                sleep(0.5)
         else:
             print "No polaristion parameter for Hard X-ray ID"
     
@@ -89,18 +108,47 @@ class BeamEnergy(ScannableMotionBase):
 #                raise ValueError("Required Hard X-Ray ID gap is out side allowable bound (5.1, 9.1)!")
             if self.gap=="jgap" and gap<16:
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (> 16 mm)!")
-        elif (self.getName() == "jenergy" and self.getPolarisation()=="H"):
+        
+        # Soft ID J branch
+        # Linear Horizontal
+        elif (self.getName() == "jenergy" and self.getPolarisation()=="LH"):
             if (Ep<0.104 or Ep > 1.2):
                 raise ValueError("Demanding energy must lie between 0.105 and 1.2 keV!")
-            gap=2.56288 + 186.99257*Ep - 653.74749*Ep**2 + 1589.71628*Ep**3 - 2375.03513*Ep**4 + 2110.75282*Ep**5 - 1019.61741*Ep**6 + 206.70745*Ep**7
+            gap=3.06965 +177.99974*Ep -596.79184*Ep**2 +1406.28911*Ep**3 -2046.90669*Ep**4 +1780.26621*Ep**5 -844.81785*Ep**6 +168.99039*Ep**7
             if self.gap=="jgap" and (gap<16 or gap>60):
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 60)!")
-        elif self.getName() == "jenergy" and self.getPolarisation()=="V":
+        
+        # Linear Vertical
+        elif self.getName() == "jenergy" and self.getPolarisation()=="LV":
             if (Ep<0.22 or Ep > 1.0):
                 raise ValueError("Demanding energy must lie between 0.22 and 1.0 eV!")
             gap = 5.33595 + 72.53678*Ep - 133.96826*Ep**2 + 179.99229*Ep**3 - 128.83048*Ep**4 + 39.34346*Ep**5
-            if self.gap=="jgap" and (gap<16.01 or gap>35):
+            if self.gap=="jgap" and (gap<16.01 or gap>60):
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 34)!")
+            
+        # Circular left
+        elif self.getName() == "jenergy" and self.getPolarisation()=="CL":
+            if (Ep<0.145 or Ep > 1.2):
+                raise ValueError("Demanding energy must lie between 0.1 and 1.2 eV!")
+            # Circular left gap polymonimal 
+            gap = 5.32869 + 101.28316*Ep - 192.74788*Ep**2 + 249.91788*Ep**3 - 167.93323*Ep**4 + 47.22008*Ep**5-0.054*Ep-.0723
+            
+            # Check the gap is possible
+            if self.gap=="jgap" and (gap<16.01 or gap>60):
+                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 34)!")
+        
+        # Circular right
+        elif self.getName() == "jenergy" and self.getPolarisation()=="CR":
+            if (Ep<0.145 or Ep > 1.2):
+                raise ValueError("Demanding energy must lie between 0.1 and 1.2 eV!")
+            # Circular right gap polymonimal 
+            gap = 5.32869 + 101.28316*Ep - 192.74788*Ep**2 + 249.91788*Ep**3 - 167.93323*Ep**4 + 47.22008*Ep**5
+            
+            # Check the gap is possible
+            if self.gap=="jgap" and (gap<16.01 or gap>60):
+                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 34)!")      
+        
+        # Unsupported        
         else:
             raise ValueError("Unsupported scannable or polarisation mode")
         return gap
@@ -140,10 +188,10 @@ class BeamEnergy(ScannableMotionBase):
                 try:
                     if s.getName() == "pgmenergy":
                         s.asynchronousMoveTo(self.energy*1000)
-                        # caput("ELECTRON-ANALYSER-01:TEST:EXCITATION_ENERGY", self.energy*1000)
+                        # caput("BL09I-EA-DET-01:CAM:EXCITATION_ENERGY", self.energy*1000)
                     else:
                         s.asynchronousMoveTo(self.energy)
-                        # caput("ELECTRON-ANALYSER-01:TEST:EXCITATION_ENERGY", self.energy*1000)
+                        # caput("BL09I-EA-DET-01:CAM:EXCITATION_ENERGY", self.energy*1000)
                 except:
                     print "cannot set " + s.getName() + " to " + str(self.energy)
                     raise
