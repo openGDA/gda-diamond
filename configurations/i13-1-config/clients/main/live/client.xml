@@ -22,4 +22,16 @@
 		</property>
 	</bean>
 
+	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13J-PS-SHTR-02:STA" />
+	</bean>
+
+	<bean id="fast_shtr_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13J-EA-FSHTR-01:CONTROL" />
+	</bean>
+
 </beans>
