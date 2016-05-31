@@ -3,8 +3,12 @@
 
 <included>
 
-    <!-- Include the standard set of properties files via the XML definition in dls-config -->
-    <include file="${gda.facility.dir}/logging/logging_properties.xml"/>
+	<!-- The include statement in the following java.properties file is not read so you need to reference both -->
+	<property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
+	<property file="${gda.config}/properties/_common/common_instance_java.properties" />
+	<property file="${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties" />
+	<property file="${gda.facility.dir}/properties/_common/common_facility_java.properties" />
+	<!-- include file is relative to the application directory -->
 
 	<!-- address where the messages from Object Servers send to - the LogServer -->
 	<appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
@@ -19,7 +23,7 @@
 	<logger name="gda.device.motor.EpicsMotor" level="INFO"/>
 	<logger name="gda.device.motor.MoveEventQueue" level="INFO"/>
 	<!-- This suppresses lots of warnings about chunking from the user see GDA-6192 -->
-	<logger name="gda.data.nexus.hdf5.NexusFileHDF5" level="ERROR"/>
+	<logger name="org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5" level="ERROR"/>
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO"/>
 	<logger name="uk.ac.gda.rcp.views.sample.MetadataUpdater" level="INFO"/>
 	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO"/>
