@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="d2c_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-DI-PHDGN-02:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Area detector cameras -->
+	<bean id="d2c_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d2c_cam_RoiStats" />
+				<ref bean="d2c_cam_Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="d2c_cam_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats" />
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-02:DCAM1:ROI:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-02:DCAM1:STAT:" />
+		<property name="roiInputNdArrayPort" value="d2c.DCAM0.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi">
+					<bean class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
+						<constructor-arg value="0" />
+						<constructor-arg value="0" />
+						<constructor-arg value="1292" />
+						<constructor-arg value="964" />
+						<constructor-arg value="roi1" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d2c_cam_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="d2c_cam"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL07C-DI-PHDGN-02:DCAM1:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+</beans>
