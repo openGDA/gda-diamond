@@ -48,6 +48,7 @@
 		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
 
 	<import resource="jython_server_facade.xml" />
+	<import resource="common_nxplugins.xml"/>
 
 	<corba:export namespace="${gda.beamline.name}" />
 
