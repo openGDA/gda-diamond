@@ -13,5 +13,6 @@
 
 	<!-- Diagnostics -->
 	<import resource="d1c.xml"/>
+	<import resource="d2c.xml"/>
 
 </beans>
