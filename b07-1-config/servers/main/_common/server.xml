@@ -46,7 +46,6 @@
 		serviceName="gda/plotserver"
 		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
 
-	<import resource="command_queue_processor.xml"/>
 	<import resource="jython_server_facade.xml" />
 
 	<!-- Data Server -->
