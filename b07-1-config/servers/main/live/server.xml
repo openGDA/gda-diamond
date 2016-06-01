@@ -9,6 +9,9 @@
 
 	<!-- Mirrors -->
 	<import resource="m1c.xml"/>
+	
+	<!-- Diagnostics -->
+	<import resource="d1c.xml"/>
 
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />

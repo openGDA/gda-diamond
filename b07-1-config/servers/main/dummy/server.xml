@@ -10,6 +10,12 @@
 	<!-- Mirrors -->
 	<import resource="m1c.xml"/>
 
+	<!-- Diagnostics -->
+	<import resource="d1c.xml"/>
+	
+	<!-- Simulated Area Detector -->
+	<import resource="adSimulator.xml"/>
+	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 

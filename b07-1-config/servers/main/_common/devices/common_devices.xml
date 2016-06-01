@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Slits -->
 	<import resource="s1c.xml"/>
@@ -9,5 +10,8 @@
 	
 	<!-- Mirrors -->
 	<import resource="m1c.xml"/>
+
+	<!-- Diagnostics -->
+	<import resource="d1c.xml"/>
 
 </beans>

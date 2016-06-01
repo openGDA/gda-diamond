@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="d1c_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-DI-PHDGN-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Area detector cameras -->
+	<bean id="d1c_cam0" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d1c_cam0_RoiStats" />
+				<ref bean="d1c_cam0_Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="d1c_cam0_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats" />
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM0:ROI:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM0:STAT:" />
+		<property name="roiInputNdArrayPort" value="D1C.DCAM0.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi">
+					<bean class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
+						<constructor-arg value="0" />
+						<constructor-arg value="0" />
+						<constructor-arg value="1292" />
+						<constructor-arg value="964" />
+						<constructor-arg value="roi1" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d1c_cam0_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="d1c_cam0"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL07C-DI-PHDGN-01:DCAM0:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d1c_cam1" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="simRoiStats" />
+				<ref bean="simHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+		<bean id="d1c_cam0_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats" />
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM1:ROI:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM1:STAT:" />
+		<property name="roiInputNdArrayPort" value="D1C.DCAM1.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi">
+					<bean class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
+						<constructor-arg value="0" />
+						<constructor-arg value="0" />
+						<constructor-arg value="1292" />
+						<constructor-arg value="964" />
+						<constructor-arg value="roi1" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d1c_cam0_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="d1c_cam0"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL07C-DI-PHDGN-01:DCAM1:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+</beans>
