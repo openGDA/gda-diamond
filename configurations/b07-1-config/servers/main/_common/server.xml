@@ -21,6 +21,7 @@
 		</property>
 	</bean>
 	
+	<import resource="devices/common_devices.xml"/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
@@ -47,16 +48,6 @@
 		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
 
 	<import resource="jython_server_facade.xml" />
-
-	<!-- Data Server -->
-	<bean id="dataServer" class="org.eclipse.dawnsci.remotedataset.server.DataServer" init-method="start">
-		<property name="port" value="${gda.dataserver.port}" />
-	</bean>
-
-	<!-- This starts a scanServlet which handles new style scan requests arriving over ActiveMQ -->
-	<bean id="scanServlet" class="org.eclipse.scanning.server.servlet.ScanServlet" init-method="connect">
-		<property name="broker" value="${gda.activemq.broker.uri}" />
-	</bean>
 
 	<corba:export namespace="${gda.beamline.name}" />
 
