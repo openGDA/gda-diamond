@@ -126,6 +126,10 @@
          version="0.0.0"/>
 
    <includes
+         id="uk.ac.gda.beamline.i19-1.site"
+         version="0.0.0"/>
+
+   <includes
          id="uk.ac.gda.beamline.i20.site"
          version="0.0.0"/>
 
