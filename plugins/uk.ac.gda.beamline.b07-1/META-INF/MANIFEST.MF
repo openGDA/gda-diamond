@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Beamline B07-1
+Bundle-SymbolicName: uk.ac.gda.beamline.b07-1;singleton:=true
+Bundle-Version: 9.1.0.qualifier
+Bundle-Vendor: Diamond Light Source
+Require-Bundle: org.eclipse.equinox.app
