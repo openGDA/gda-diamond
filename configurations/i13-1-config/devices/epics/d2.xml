@@ -24,12 +24,6 @@
 		<property name="hasUnits" value="false" />
 	</bean>
 
-	<bean id="d2_return_temp" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL13J-DI-PHDGN-02:T2" />
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-	</bean>
-
 	<bean id="d2_cam_base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL13J-DI-PHDGN-02:CAM:" />
 	</bean>

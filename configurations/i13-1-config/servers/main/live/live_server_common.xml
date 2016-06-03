@@ -81,7 +81,6 @@
 	<import resource="../../../devices/epics/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/epics/d4.xml"/>
-	<import resource="../../../devices/epics/d5.xml"/>
 
 <!-- 	<import resource="../../../devices/epics/dcm_motors.xml"/> -->
 
@@ -94,8 +93,6 @@
 
 	<import resource="../../../devices/epics/diffractometer_motors.xml"/>
 	
-	<import resource="../../../devices/dummy/robot_motors.xml"/>
-
 	<import resource="../../../devices/epics/s6_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>

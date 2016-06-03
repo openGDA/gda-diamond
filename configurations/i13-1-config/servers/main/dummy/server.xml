@@ -87,7 +87,6 @@
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/dummy/d4.xml"/>
-	<import resource="../../../devices/dummy/d5.xml"/>
 
 	<import resource="../../../devices/dummy/s4_motors.xml"/>
 	
@@ -98,8 +97,6 @@
 
 	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
 
-	<import resource="../../../devices/dummy/robot_motors.xml"/>
-	
 	<import resource="../../../devices/dummy/s6_motors.xml"/>	
 
 	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>

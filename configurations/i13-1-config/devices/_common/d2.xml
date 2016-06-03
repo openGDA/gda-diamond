@@ -33,7 +33,6 @@
 			<list>
 				<ref bean="d2_cam" />
 				<ref bean="d2_pos" />
-				<ref bean="d2_return_temp" />
 				<ref bean="d2_window_temp" />
 				<ref bean="d2_x" />
 			</list>

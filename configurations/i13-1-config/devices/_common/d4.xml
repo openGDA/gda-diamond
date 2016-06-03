@@ -37,7 +37,6 @@
 				<ref bean="d4_gain" />
 				<ref bean="d4_i" />
 				<ref bean="d4_pos" />
-				<ref bean="d4_return_temp" />
 				<ref bean="d4_window_temp" />
 				<ref bean="d4_x" />
 			</list>
