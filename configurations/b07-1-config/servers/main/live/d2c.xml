@@ -9,16 +9,9 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<!-- Area detector cameras -->
-	<bean id="d2c_cam" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
-		<property name="collectionStrategy" ref="collectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="d2c_cam_RoiStats" />
-				<ref bean="d2c_cam_Hdf5Filewriter" />
-			</list>
-		</property>
+	<!-- D2C cam 1 -->
+	<bean id="d2c_cam1_CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL07C-DI-PHDGN-01:DCAM0:CAM:" />
 	</bean>
 	
 	<bean id="d2c_cam_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -54,6 +47,32 @@
 					</bean>
 				</property>
 			</bean>
+		</property>
+	</bean>
+	
+	<bean id="d2c_cam1_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="restoreAcquireState" value="true" />
+						<property name="adBase" ref="d2c_cam1_CamBase" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="d2c_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="d2c_cam1_CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d2c_cam_RoiStats" />
+				<ref bean="d2c_cam_Hdf5Filewriter" />
+			</list>
 		</property>
 	</bean>
 

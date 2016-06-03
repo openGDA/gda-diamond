@@ -9,15 +9,24 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<!-- Area detector cameras -->
-	<bean id="d1c_cam0" class="gda.device.detector.NXDetector">
-		<property name="name" value="dgncam" />
-		<property name="collectionStrategy" ref="collectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="d1c_cam0_RoiStats" />
-				<ref bean="d1c_cam0_Hdf5Filewriter" />
-			</list>
+	<!-- D1C Cam0 -->
+
+	<bean id="d1c_cam0_CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL07C-DI-PHDGN-01:DCAM0:CAM:" />
+	</bean>
+	
+	<bean id="d1c_cam0_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="restoreAcquireState" value="true" />
+						<property name="adBase" ref="d1c_cam0_CamBase" />
+					</bean>
+				</property>
+			</bean>
 		</property>
 	</bean>
 	
@@ -56,19 +65,40 @@
 			</bean>
 		</property>
 	</bean>
-
-	<bean id="d1c_cam1" class="gda.device.detector.NXDetector">
+	
+	<bean id="d1c_cam0" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
-		<property name="collectionStrategy" ref="collectionStrategy" />
+		<property name="collectionStrategy" ref="d1c_cam0_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="simRoiStats" />
-				<ref bean="simHdf5Filewriter" />
+				<ref bean="d1c_cam0_RoiStats" />
+				<ref bean="d1c_cam0_Hdf5Filewriter" />
 			</list>
 		</property>
 	</bean>
+
+	<!-- D1C Cam1 -->
+
+	<bean id="d1c_cam1_CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL07C-DI-PHDGN-01:DCAM1:CAM:" />
+	</bean>
 	
-		<bean id="d1c_cam0_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	<bean id="d1c_cam1_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="restoreAcquireState" value="true" />
+						<property name="adBase" ref="d1c_cam1_CamBase" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="d1c_cam1_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats" />
 		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM1:ROI:" />
 		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM1:STAT:" />
@@ -90,7 +120,7 @@
 		</property>
 	</bean>
 
-	<bean id="d1c_cam0_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+	<bean id="d1c_cam1_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
 		<property name="fileNameTemplate" value="d1c_cam0"/>
 		<property name="ndFileHDF5">
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
@@ -101,6 +131,17 @@
 					</bean>
 				</property>
 			</bean>
+		</property>
+	</bean>
+	
+	<bean id="d1c_cam1" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="d1c_cam1_CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d1c_cam1_RoiStats" />
+				<ref bean="d1c_cam1_Hdf5Filewriter" />
+			</list>
 		</property>
 	</bean>
 
