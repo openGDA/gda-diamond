@@ -31,27 +31,35 @@ egy =  ContinuousMoveScannable('egy',     cemc);               egy.verbose=True
 st = DummyHardwareTriggerableDetector('st')
 st.setHardwareTriggerProvider(cemc)
 
-# I branch counter:                                  BL10I-DI-SCLR-01:MCA01:
+# I branch counter controller:                       BL10I-DI-SCLR-01:MCA01:
 mcsic  = McsWaveformChannelController(     'mcsic', 'BL10I-DI-SCLR-01:MCA01:', channelAdvanceInternalNotExternal=True); mcsic.verbose=True
-mcsi16 = WaveformChannelScannable('mcsi16', mcsic, 17);            mcsi16.setHardwareTriggerProvider(cemc);             mcsi16.verbose=True
-mcsi17 = WaveformChannelScannable('mcsi17', mcsic, 18);            mcsi17.setHardwareTriggerProvider(cemc);             mcsi17.verbose=True
-mcsi18 = WaveformChannelScannable('mcsi18', mcsic, 19);            mcsi18.setHardwareTriggerProvider(cemc);             mcsi18.verbose=True
-mcsi19 = WaveformChannelScannable('mcsi19', mcsic, 20);            mcsi19.setHardwareTriggerProvider(cemc);             mcsi19.verbose=True
-
-# RASOR counter:                                     ME01D-EA-SCLR-01:MCA01:
+# RASOR counter controller:                          ME01D-EA-SCLR-01:MCA01:
 mcsrc  = McsWaveformChannelController(     'mcsrc', 'ME01D-EA-SCLR-01:MCA01:', channelAdvanceInternalNotExternal=True); mcsrc.verbose=True
-mcsr16 = WaveformChannelScannable('mcsr16', mcsrc, 17);            mcsr16.setHardwareTriggerProvider(cemc);             mcsr16.verbose=True
-mcsr17 = WaveformChannelScannable('mcsr17', mcsrc, 18);            mcsr17.setHardwareTriggerProvider(cemc);             mcsr17.verbose=True
-mcsr18 = WaveformChannelScannable('mcsr18', mcsrc, 19);            mcsr18.setHardwareTriggerProvider(cemc);             mcsr18.verbose=True
-mcsr19 = WaveformChannelScannable('mcsr19', mcsrc, 20);            mcsr19.setHardwareTriggerProvider(cemc);             mcsr19.verbose=True
-
-# This doesn't appear to support MCA mode yet...
-# J branch counter:                                  BL10J-DI-SCLR-01:MCAJ01:
+# J branch counter controller:                       BL10J-DI-SCLR-01:MCAJ01:   NOTE: This doesn't appear to support MCA mode yet...
 mcsjc  = McsWaveformChannelController(     'mcsjc', 'BL10J-DI-SCLR-01:MCAJ01:', channelAdvanceInternalNotExternal=True); mcsjc.verbose=True
-mcsj16 = WaveformChannelScannable('mcsj16', mcsjc, 17);            mcsj16.setHardwareTriggerProvider(cemc);              mcsj16.verbose=True
-mcsj17 = WaveformChannelScannable('mcsj17', mcsjc, 18);            mcsj17.setHardwareTriggerProvider(cemc);              mcsj17.verbose=True
-mcsj18 = WaveformChannelScannable('mcsj18', mcsjc, 19);            mcsj18.setHardwareTriggerProvider(cemc);              mcsj18.verbose=True
-mcsj19 = WaveformChannelScannable('mcsj19', mcsjc, 20);            mcsj19.setHardwareTriggerProvider(cemc);              mcsj19.verbose=True
+
+# I branch scannables
+mcsi16 = WaveformChannelScannable('mcsi16', mcsic, 17); mcsi16.setHardwareTriggerProvider(cemc); mcsi16.verbose=True
+mcsi17 = WaveformChannelScannable('mcsi17', mcsic, 18); mcsi17.setHardwareTriggerProvider(cemc); mcsi17.verbose=True
+mcsi18 = WaveformChannelScannable('mcsi18', mcsic, 19); mcsi18.setHardwareTriggerProvider(cemc); mcsi18.verbose=True
+mcsi19 = WaveformChannelScannable('mcsi19', mcsic, 20); mcsi19.setHardwareTriggerProvider(cemc); mcsi19.verbose=True
+# RASOR scannables
+mcsr16 = WaveformChannelScannable('mcsr16', mcsrc, 17); mcsr16.setHardwareTriggerProvider(cemc); mcsr16.verbose=True
+mcsr17 = WaveformChannelScannable('mcsr17', mcsrc, 18); mcsr17.setHardwareTriggerProvider(cemc); mcsr17.verbose=True
+mcsr18 = WaveformChannelScannable('mcsr18', mcsrc, 19); mcsr18.setHardwareTriggerProvider(cemc); mcsr18.verbose=True
+mcsr19 = WaveformChannelScannable('mcsr19', mcsrc, 20); mcsr19.setHardwareTriggerProvider(cemc); mcsr19.verbose=True
+# J branch scannables
+mcsj16 = WaveformChannelScannable('mcsj16', mcsjc, 17); mcsj16.setHardwareTriggerProvider(cemc); mcsj16.verbose=True
+mcsj17 = WaveformChannelScannable('mcsj17', mcsjc, 18); mcsj17.setHardwareTriggerProvider(cemc); mcsj17.verbose=True
+mcsj18 = WaveformChannelScannable('mcsj18', mcsjc, 19); mcsj18.setHardwareTriggerProvider(cemc); mcsj18.verbose=True
+mcsj19 = WaveformChannelScannable('mcsj19', mcsjc, 20); mcsj19.setHardwareTriggerProvider(cemc); mcsj19.verbose=True
+
+# Sometimes the RASOR struck scaler returns 1 fewer points than requested, this causes the binpoints to fail and the whole scan to fail.
+# Adding the shortest possible time to the total count time seems to ensure that all of the required points are acquired.   
+mcsrc.exposure_time_offset=0.001
+# This may be needed on the other scalers too.
+#mcsic.exposure_time_offset=0.001
+#mcsjc.exposure_time_offset=0.001
 
 # Binpoint is slaved from (triggered by) RASOR scaler (mcsrc)                        'BL10I-CS-CSCAN-01:'
 binpointc           = BinpointWaveformChannelController(             'binpointc', 'BL10I-CS-CSCAN-01:', 'IDPGM:BINPOINTALL:');                                        binpointc.verbose=True
