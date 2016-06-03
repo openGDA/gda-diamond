@@ -100,7 +100,7 @@
 	<import resource="../../../devices/dummy/s6_motors.xml"/>	
 
 	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>
-	<import resource="../../../devices/dummy/g1_motors.xml"/>
+	<!-- <import resource="../../../devices/dummy/g1_motors.xml"/> -->
 	<import resource="../../../devices/dummy/ion_chamber.xml" />	
 	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
 	<import resource="../../../devices/dummy/float1.xml"/>

@@ -96,7 +96,7 @@
 	<import resource="../../../devices/epics/s6_motors.xml"/>
 
 	<import resource="../../../devices/epics/sample_stage_t1_motors.xml"/>
-	<import resource="../../../devices/epics/g1_motors.xml"/>
+	<!-- <import resource="../../../devices/epics/g1_motors.xml"/> -->
 	<import resource="../../../devices/epics/ion_chamber.xml" />
 	<import resource="../../../devices/epics/sample_stage_camera.xml"/>
 	<import resource="../../../devices/epics/float1.xml"/>
@@ -123,7 +123,7 @@
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 	<import resource="../../../devices/epics/excalibur.xml"/>
 	
-	<import resource="../../../devices/live/vortex.xml"/>
+	<!-- <import resource="../../../devices/live/vortex.xml"/> -->
 <!-- 	<import resource="../../../devices/diamond_crl.xml"/>
  -->
 
