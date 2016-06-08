@@ -25,6 +25,10 @@
          id="uk.ac.gda.client.excalibur.feature"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.diamond.daq.mapping.ui.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i13j"
          download-size="0"
@@ -79,6 +83,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
    <plugin
          id="org.eclipse.ecf"
          download-size="0"
