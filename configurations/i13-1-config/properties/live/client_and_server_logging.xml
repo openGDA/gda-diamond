@@ -9,15 +9,21 @@
 		<appender-ref ref="SOCKET" />
 	</root>
 
-	<!-- Do not set level to DEBUG or lower on EpicsMotor or you will be flooded 
-		with messages -->
+	<!-- Do not set level to DEBUG or lower on EpicsMotor or you will be flooded with messages -->
 	<logger name="gda.device.motor.EpicsMotor">
 		<level value="INFO" />
 	</logger>
 
-	<!-- Do not set level to DEBUG or lower on MoveEventQueue or you will be 
-		flooded with messages -->
+	<!-- Do not set level to DEBUG or lower on MoveEventQueue or you will be flooded with messages -->
 	<logger name="gda.device.motor.MoveEventQueue">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="org.apache.activemq">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="org.eclipse.jetty">
 		<level value="INFO" />
 	</logger>
 
