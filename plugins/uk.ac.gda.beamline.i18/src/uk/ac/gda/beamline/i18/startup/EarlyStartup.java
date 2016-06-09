@@ -26,6 +26,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.NotEnabledException;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.core.runtime.preferences.DefaultScope;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
@@ -41,8 +43,11 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PerspectiveAdapter;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
+import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +66,7 @@ public class EarlyStartup implements IStartup {
 
 	@Override
 	public void earlyStartup() {
+
 		Display.getDefault().asyncExec(new Runnable() {
 
 			@Override
@@ -86,7 +92,7 @@ public class EarlyStartup implements IStartup {
 								IViewReference[] viewReference = page.getViewReferences();
 								for (IViewReference view : viewReference) {
 									if (view.getId().equals(ExperimentExperimentView.ID)) {
-										IHandlerService handlerService = (IHandlerService) ((ExperimentExperimentView) view
+										IHandlerService handlerService = ((ExperimentExperimentView) view
 												.getView(true)).getSite().getService(IHandlerService.class);
 										// Execute the command
 										try {
@@ -102,7 +108,6 @@ public class EarlyStartup implements IStartup {
 										}
 									}
 								}
-
 							}
 
 							/*----------------------------------------------
@@ -128,7 +133,6 @@ public class EarlyStartup implements IStartup {
 									page.bringToTop(lastActiveRef.getPart(true));
 							}
 							/*-----Part to hide all editor**/
-
 						}
 
 						@Override
@@ -145,8 +149,11 @@ public class EarlyStartup implements IStartup {
 								}
 							}
 						}
-
 					});
+
+					copyPerspectivePreferences();
+
+					initialiseDefaultPerspectives();
 				}
 			}
 		});
@@ -154,7 +161,7 @@ public class EarlyStartup implements IStartup {
 
 	private void setupPartListener() {
 		final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		IPartService service = (IPartService) workbenchWindow.getService(IPartService.class);
+		IPartService service = workbenchWindow.getService(IPartService.class);
 		service.addPartListener(new IPartListener() {
 
 			@Override
@@ -195,6 +202,57 @@ public class EarlyStartup implements IStartup {
 				}
 			}
 		});
+	}
 
+	/**
+	 * Copy perspective preferences from the Default to the Instance scope. (This fixes ticket I18-62.) The problem
+	 * seems to be that perspective customization preferences loaded as XML strings from the plugin_customization.ini
+	 * file do not automatically trigger the ImportExportPespectiveHandler at application startup. (This is presumably
+	 * because they are loaded before the handler is active, or because loading default preference values does not
+	 * cause PreferenceChangeEvents to be fired.) Copying the values to the Instance scope at this point seems to
+	 * trigger the events correctly and the perspective customization is then applied.
+	 */
+	private void copyPerspectivePreferences() {
+		Preferences defaultPrefs = DefaultScope.INSTANCE.getNode("org.eclipse.ui.workbench");
+		Preferences instancePrefs = InstanceScope.INSTANCE.getNode("org.eclipse.ui.workbench");
+		try {
+			for (String key : defaultPrefs.keys()) {
+				if (key.endsWith("_persp") || key.endsWith("_e4persp")) {
+					instancePrefs.put(key, defaultPrefs.get(key, null));
+				}
+			}
+		} catch (BackingStoreException ex) {
+			logger.error("Error getting default preferences", ex);
+		}
+	}
+
+	/**
+	 * Initialise the default perspectives. This shouldn't be necessary but the PERSPECTIVE_BAR_EXTRAS preference seems
+	 * to be ignored in Eclipse 4, so we do the work ourselves instead.
+	 */
+	private void initialiseDefaultPerspectives() {
+		final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		String perspectiveId = null;
+		try {
+			Preferences instanceEclipseUiPrefs = DefaultScope.INSTANCE.getNode("org.eclipse.ui");
+			String perspectiveList = instanceEclipseUiPrefs.get("PERSPECTIVE_BAR_EXTRAS", "");
+			for (String perspective : perspectiveList.split(",")) {
+				perspectiveId = perspective.trim();
+				if (perspectiveId.length() > 0) {
+					workbenchWindow.getWorkbench().showPerspective(perspectiveId, workbenchWindow);
+				}
+			}
+			perspectiveId = instanceEclipseUiPrefs.get("defaultPerspectiveId", "");
+			workbenchWindow.getWorkbench().showPerspective(perspectiveId, workbenchWindow);
+			Display.getDefault().asyncExec(new Runnable() {
+				@Override
+				public void run() {
+					workbenchWindow.getActivePage().resetPerspective();
+				}
+			});
+
+		} catch (WorkbenchException ex) {
+			logger.warn("Could not open perspective {}", perspectiveId, ex);
+		}
 	}
 }
