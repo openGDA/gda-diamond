@@ -26,10 +26,6 @@
 		<property name="name" value="d3_window_temp" />
 	</bean>
 
-	<bean id="d3_return_temp" class="gda.device.scannable.DummyScannable">
-		<property name="name" value="d3_return_temp" />
-	</bean>
-
 	<bean id="d3_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator" />
 
 	<bean id="d3_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
