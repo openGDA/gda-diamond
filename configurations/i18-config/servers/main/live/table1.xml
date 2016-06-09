@@ -43,6 +43,11 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="sample_z_motor" />
 		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="sc_sample_thetacoarse" class="gda.device.scannable.ScannableMotor">
