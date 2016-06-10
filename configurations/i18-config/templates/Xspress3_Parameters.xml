@@ -8,7 +8,7 @@
         <name>Element0</name>
         <number>0</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -21,7 +21,7 @@
         <name>Element1</name>
         <number>1</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -34,7 +34,7 @@
         <name>Element2</name>
         <number>2</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -47,7 +47,7 @@
         <name>Element3</name>
         <number>3</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -60,7 +60,7 @@
         <name>Element4</name>
         <number>4</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -73,7 +73,7 @@
         <name>Element5</name>
         <number>5</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -86,7 +86,7 @@
         <name>Element6</name>
         <number>6</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -99,7 +99,7 @@
         <name>Element7</name>
         <number>7</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -112,7 +112,7 @@
         <name>Element8</name>
         <number>8</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>
@@ -125,7 +125,7 @@
         <name>Element9</name>
         <number>9</number>
         <ROI>
-            <name>ROI 1</name>
+            <name>ROI</name>
             <windowStart>612</windowStart>
             <windowEnd>660</windowEnd>
         </ROI>

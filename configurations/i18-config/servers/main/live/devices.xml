@@ -9,9 +9,9 @@
 	</bean>
 	<!--EPICS Detector SECTION -->
 
-	<bean id="wdsmca" class="gda.device.detector.analyser.EpicsMCASimple">
+	<!-- <bean id="wdsmca" class="gda.device.detector.analyser.EpicsMCASimple">
 		<property name="mcaPV" value="BL18I-EA-DET-05:aim_adc1" />
-	</bean>
+	</bean> -->
 
 	<!-- ***************************** -->
 	<!-- *** EPICS MONITOR SECTION *** -->
