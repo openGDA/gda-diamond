@@ -34,7 +34,7 @@ public class I18OutputPreparer extends OutputPreparerBase {
 		// get the basic one from super
 		AsciiDataWriterConfiguration datawriterconfig = super.getAsciiDataWriterConfig(scanBean).clone();
 
-		// TODO if its xas, xanes, quick-xanes, then add the sample stage motor positions to the header
+		// if its xas, xanes, quick-xanes, then add the sample stage motor positions to the header
 		if (scanBean instanceof XasScanParameters || scanBean instanceof XanesScanParameters || scanBean instanceof QEXAFSParameters){
 			AsciiMetadataConfig xPosition = new AsciiMetadataConfig();
 			xPosition.setLabel("X stage: " + sampleParameters.getSampleStageParameters().getX());
@@ -43,13 +43,12 @@ public class I18OutputPreparer extends OutputPreparerBase {
 			AsciiMetadataConfig yPosition = new AsciiMetadataConfig();
 			yPosition.setLabel("Y stage: " + sampleParameters.getSampleStageParameters().getY());
 			datawriterconfig.getHeader().add(yPosition);
-
-			AsciiMetadataConfig zPosition = new AsciiMetadataConfig();
-			zPosition.setLabel("Z stage: " + sampleParameters.getSampleStageParameters().getZ());
-			datawriterconfig.getHeader().add(zPosition);
 		}
 
-
+		// always add the Z position
+		AsciiMetadataConfig zPosition = new AsciiMetadataConfig();
+		zPosition.setLabel("Z stage: " + sampleParameters.getSampleStageParameters().getZ());
+		datawriterconfig.getHeader().add(zPosition);
 
 		return datawriterconfig;
 	}
