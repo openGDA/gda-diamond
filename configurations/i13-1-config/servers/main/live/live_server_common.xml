@@ -102,6 +102,8 @@
 	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>
 	<import resource="../../../devices/epics/pco1.xml"/>
 	<import resource="../../../devices/epics/merlin.xml"/>
+	<import resource="../../../devices/epics/merlin_mapping.xml"/>
+	
 	<!-- This is no longer present - T2 now contains beamstop abut not the detector xyz motors
 	<import resource="../../../devices/epics/detector_stage_t2_motors.xml"/>
      -->

@@ -10,28 +10,18 @@
 					<constructor-arg name="name" value="Mandelbrot Detector" />
 					<constructor-arg name="model">
 						<bean class="org.eclipse.scanning.example.detector.MandelbrotModel">
-							<property name="realAxisName" value="stage_x" />
-							<property name="imaginaryAxisName" value="stage_y" />
+							<property name="realAxisName" value="ss1_X_dummy" />
+							<property name="imaginaryAxisName" value="ss1_rot_dummy" />
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Microscope" />
+					<constructor-arg name="name" value="Merlin" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="mic" />
+							<property name="name" value="merlin_mapping" />
 							<property name="exposureTime" value="0.002" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
-				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Spectrum" />
-					<constructor-arg name="model">
-						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="det" />
-							<property name="exposureTime" value="0.1" />
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
