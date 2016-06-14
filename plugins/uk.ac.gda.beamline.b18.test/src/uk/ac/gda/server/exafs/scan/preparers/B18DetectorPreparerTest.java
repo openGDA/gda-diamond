@@ -19,17 +19,6 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.fail;
-import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.mythen.MythenDetectorImpl;
-import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
-import gda.device.scannable.DummyScannable;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServer;
-import gda.jython.JythonServerFacade;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -42,6 +31,17 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.mythen.MythenDetectorImpl;
+import gda.device.detector.xmap.Xmap;
+import gda.device.detector.xspress.Xspress2Detector;
+import gda.device.scannable.DummyScannable;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServer;
+import gda.jython.JythonServerFacade;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
@@ -155,6 +155,7 @@ public class B18DetectorPreparerTest {
 			LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT,"DummyDataWriter");
 
 			thePreparer.configure(null, detParams, outParams, "/scratch/test/xml/path/");
+			thePreparer.collectMythenData();
 
 			Mockito.verify(energy_scannable).moveTo(10000.0);
 			Mockito.verify(mythen_scannable).setCollectionTime(1.2);
