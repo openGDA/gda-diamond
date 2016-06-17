@@ -13,7 +13,7 @@
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
 	<bean id="d1c_cam0" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
-		<property name="collectionStrategy" ref="collectionStrategy" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="simRoiStats" />
@@ -24,7 +24,7 @@
 
 	<bean id="d1c_cam1" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
-		<property name="collectionStrategy" ref="collectionStrategy" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="simRoiStats" />
