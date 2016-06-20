@@ -185,7 +185,7 @@ import integrate_mpx_scan
 #comment out when not connected
 #from autocollimator_script import  * #@UnusedWildImport
 
-run("startup_diffcalc")
+#run("startup_diffcalc")
 
 #except :
 #	exceptionType, exception, traceback = sys.exc_info()
