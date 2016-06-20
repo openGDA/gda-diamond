@@ -48,4 +48,13 @@
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
 	</bean>
+	
+	<bean id="sm1fpitchfeedback" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
 </beans>

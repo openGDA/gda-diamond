@@ -71,4 +71,31 @@
 		<property name="slowSpeed" value="100" />
 	</bean>
 
+	<bean id="dcmlockbeamheight" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dcmfrollfeedback" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dcmfpitchfeedback" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>
