@@ -74,6 +74,7 @@
 	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
 
 	<import resource="../../../devices/dummy/d4.xml"/>
+	<import resource="../../../devices/dummy/d5.xml"/>
 
 	<import resource="../../../devices/dummy/s4_motors.xml"/>
 	
