@@ -5,7 +5,7 @@
 	<include file="${gda.config}/properties/_common/client_and_server_logging.xml" />
 
 	<root>
-		<level value="DEBUG" />
+		<level value="INFO" />
 		<appender-ref ref="SOCKET" />
 	</root>
 
@@ -36,7 +36,7 @@
 	</logger>
 
 	<logger name="gda.device.detector.areadetector">
-		<level value="ALL" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="gda.epics.connection.EpicsController">
@@ -52,15 +52,15 @@
 	</logger>
 
 	<logger name="gda.device.zebra.ZebraConstantVelocityMoveController">
-		<level value="ALL" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="gda.epics.LazyPVFactory">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
     <logger name="gda">
-        <level value="ALL"/>
+        <level value="INFO"/>
     </logger>
 
 </configuration>
