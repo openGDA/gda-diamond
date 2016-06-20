@@ -21,6 +21,14 @@
 		<level value="INFO" />
 	</logger>
 
+	<logger name="org.apache.activemq">
+		<level value="INFO" />
+	</logger>
+
+	<logger name="org.eclipse.jetty">
+		<level value="INFO" />
+	</logger>
+
 	<logger name="gda.factory">
 		<level value="INFO" />
 	</logger>

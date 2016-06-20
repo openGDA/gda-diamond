@@ -299,6 +299,7 @@ class StringDisplayEpicsPVClass(ScannableMotionBase):
         self.outcli=CAClient(pvstring)
     
     def rawGetPosition(self):
+        output = "rawGetPosition: unknown position"
         try:
             if not self.outcli.isConfigured():
                 self.outcli.configure()
