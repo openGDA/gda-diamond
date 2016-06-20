@@ -51,6 +51,9 @@
 				<ref bean="dcmtemp6" />
 				<ref bean="dcmtemp7" />
 				<ref bean="dcmtemp8" />
+				<ref bean="dcmlockbeamheight" />
+				<ref bean="dcmfrollfeedback" />
+				<ref bean="dcmfpitchfeedback" />
 			</list>
 		</property>
 	</bean>
