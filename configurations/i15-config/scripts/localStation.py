@@ -750,6 +750,13 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating metadata objects")
 
+	try:
+		if abs(zebraPositionScannable.getPosition()[2]) > 0.01:
+			zebraPositionScannable.moveTo(1)
+			if abs(zebraPositionScannable.getPosition()[2]) > 0.01:
+				localStation_exceptions.append("    Mismatch between dkphi motor position and zebra encoder - Rocking of dkphi will probably fail!\n    * To fix, run 'zebraPositionScannable.copyMotorPosToZebra()' when motor is static (it must not be moving at all).\n    * Then run 'pos zebraPositionScannable 1' and check that the reported diff is now small.\n    * See 'http://confluence.diamond.ac.uk/x/9AVBAg' for more details.")
+	except:
+		localStation_exception(sys.exc_info(), "checking zebra encoder position")
 except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
