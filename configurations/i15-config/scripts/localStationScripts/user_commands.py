@@ -480,6 +480,12 @@ def _calcAbsPositions(motor, stepSize, numSteps):
 	AbsoluteEndPos =   currentPosition + stepSize * numSteps
 	return AbsoluteStartPos, AbsoluteEndPos
 
+def _d1out():
+	return _defaultParameter("expose_d1out", False, " to change the default.")
+
+def _d2out():
+	return _defaultParameter("expose_d2out", True, " to change the default.")
+
 def _horizMotor():
 	return _defaultParameter("exposeHorizMotor", "dx", " to define horizontal axis motor.")
 
@@ -801,7 +807,7 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	scan_params.extend(_horizScanParams(horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep, horizStepNumber))
 	# Note that the first element in a scan must be a start/stop/step so always add exposure if neither horiz nor vert are present
 	scan_params.extend([exposure, 1, exposeNumber, 1] if len(scan_params)==0 or exposeNumber > 1 else [])
-	scan_params.extend([detectorShield, DiodeController(True, True)])
+	scan_params.extend([detectorShield, DiodeController(_d1out(), _d2out())])
 
 	totalExposures = exposeNumber * (1 if horizStep == None else horizStep) * (1 if vertStep == None else vertStep)
 	
