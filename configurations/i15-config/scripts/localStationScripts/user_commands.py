@@ -539,6 +539,10 @@ def _defaultParameter(parameter, parameter_default, help_text):
 	return jythonNameMap[parameter]
 
 def _staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark):
+	logger = LoggerFactory.getLogger("_staticExposeScanParams")
+	logger.trace("detector={}, exposeTime={}, fileName={}, totalExposures={}, dark={}",
+				detector, exposeTime, fileName, totalExposures, dark)
+
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
 	i0Monitor = jythonNameMap.etlZebraScannableMonitor
@@ -552,7 +556,9 @@ def _staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark
 def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	logger = LoggerFactory.getLogger("_rockScanParams")
-	
+	logger.trace("(detector={}, exposeTime={}, fileName={}, rockMotor={}, rockCentre={}, rockAngle={}, rockNumber={}, totalExposures={}",
+				detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures)
+
 	if type(rockMotor) is str:
 		rockMotor = jythonNameMap[rockMotor]
 
