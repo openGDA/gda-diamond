@@ -815,7 +815,8 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	scan_params.extend([exposure, 1, exposeNumber, 1] if len(scan_params)==0 or exposeNumber > 1 else [])
 	scan_params.extend([detectorShield, DiodeController(_d1out(), _d2out())])
 
-	totalExposures = exposeNumber * (1 if horizStep == None else horizStep) * (1 if vertStep == None else vertStep)
+	totalExposures = (exposeNumber * (1 if horizStepNumber == None else horizStepNumber + 1) * 
+									 (1 if vertStepNumber == None else vertStepNumber + 1) )
 	
 	if rockMotor:
 		rockMotorPosition = rockMotor.getPosition()
