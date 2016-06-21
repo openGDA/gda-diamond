@@ -5,6 +5,7 @@ Basic sanity check tests
 exposeDetector='mar'
 exposeDetector='pe'
 exposeDetector='atlas'
+exposeDetector='pil3'
 
 exposeDark(1, exposeDetector+'+exposeDark+1')
 expose(1, exposeDetector+'+expose+1')

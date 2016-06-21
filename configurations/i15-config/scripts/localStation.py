@@ -484,16 +484,16 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "configuring pe compression")
 
-	global mar, mpx, psl
+	global mar, pil3, mpx, psl
 
 	try:
 		mar.hdfwriter.getNdFileHDF5().reset()
 	except:
 		localStation_exception(sys.exc_info(), "configuring mar compression")
-	#try:
-	#	pil3.hdfwriter.getNdFileHDF5().reset()
-	#except:
-	#	localStation_exception(sys.exc_info(), "configuring pil3 compression")
+	try:
+		pil3.hdfwriter.getNdFileHDF5().reset()
+	except:
+		localStation_exception(sys.exc_info(), "configuring pil3 compression")
 	try:
 		mpx.hdfwriter.getNdFileHDF5().reset()
 	except:
