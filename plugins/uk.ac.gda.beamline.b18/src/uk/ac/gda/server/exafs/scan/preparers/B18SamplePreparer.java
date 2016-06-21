@@ -19,6 +19,7 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 	private final Scannable user_scannable;
 
 	private B18SampleParameters parameters;
+	private B18SampleEnvironmentIterator sampleEnvironmentIterator;
 
 	public B18SamplePreparer(Scannable sxcryo_scannable, Scannable xytheta_scannable, Scannable ln2cryo_scannable,
 			Scannable lakeshore_scannable, Scannable furnace_scannable, Scannable pulsetube_scannable,
@@ -41,7 +42,14 @@ public class B18SamplePreparer implements SampleEnvironmentPreparer {
 
 	@Override
 	public SampleEnvironmentIterator createIterator(String experimentType) {
-		return new B18SampleEnvironmentIterator(parameters, sxcryo_scannable, xytheta_scannable, ln2cryo_scannable,
+		sampleEnvironmentIterator = new B18SampleEnvironmentIterator(parameters, sxcryo_scannable, xytheta_scannable, ln2cryo_scannable,
 				lakeshore_scannable, furnace_scannable, pulsetube_scannable, samplewheel_scannable, user_scannable);
+		return sampleEnvironmentIterator;
+//		return new B18SampleEnvironmentIterator(parameters, sxcryo_scannable, xytheta_scannable, ln2cryo_scannable,
+//				lakeshore_scannable, furnace_scannable, pulsetube_scannable, samplewheel_scannable, user_scannable);
+	}
+
+	public B18SampleEnvironmentIterator getCurrentSampleEnvironmentIterator() {
+		return sampleEnvironmentIterator;
 	}
 }

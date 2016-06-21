@@ -38,13 +38,13 @@
 		<property name="edxdControllerName" value="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
- 		<!--
+
 		<property name="host" value="b18-xspress0" />
- 		-->
-		<property name="host" value="b18-xspress1" />
+
+<!-- 		<property name="host" value="b18-xspress1" /> -->
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
@@ -59,7 +59,7 @@
 	<bean id="struckScaler" class="gda.device.detector.EpicsScaler">
 		<property name="pvName" value="BL18B-EA-DET-01:SCALER" />
 	</bean>
-	
+
 	<bean id="adc" class="gda.device.detector.GeFanuc110BLADC">
 		<property name="samplingRate_pv" value="BL18B-EA-GEADC-01:CLOCKRATE" />
 		<property name="numberOfChannels_pv" value="BL18B-EA-GEADC-01:CHANNELS" />
