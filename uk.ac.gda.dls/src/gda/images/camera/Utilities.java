@@ -70,13 +70,8 @@ public class Utilities {
 	
 	public static RealMatrix createMatrixFromProperty(String propName) {
 		
-		String propValue = LocalProperties.get(propName);
-		
-		// workaround for GDA-2492 - can't use commas in property values
-		propValue = propValue.replace(";", ",");
-		
 		RealMatrixPropertyEditor mpe = new RealMatrixPropertyEditor();
-		mpe.setAsText(propValue);
+		mpe.setAsText(LocalProperties.get(propName));
 		RealMatrix axisOrientationMatrix = mpe.getValue();
 		if (axisOrientationMatrix.getRowDimension() != 3 || axisOrientationMatrix.getColumnDimension() != 3) {
 			throw new IllegalArgumentException("Axis orientation matrix is not 3×3: " + axisOrientationMatrix);
