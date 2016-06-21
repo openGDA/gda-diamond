@@ -340,8 +340,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	# Then configure multi-file filewriters
 	
 	collectionStrategy = detector.getCollectionStrategy()
-	#                     VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV Why? that makes no sense!
-	if noOfExposures != 1 or collectionStrategy.getNumberImagesPerCollection(exposureTime) > 1:
+
+	if noOfExposures != 1:
 		filePathTemplate="$datadir$/$scan$-%s-files-%s/" % (detector.name, sampleSuffix)
 		fileNameTemplate=""
 		fileTemplate="%s%s%05d"	# One image per file
