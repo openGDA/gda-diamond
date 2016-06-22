@@ -112,6 +112,7 @@
 	
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 	<import resource="../../../devices/epics/excalibur.xml"/>
+	<import resource="../../../devices/epics/excalibur_mapping.xml"/>
 	
 	<!-- <import resource="../../../devices/live/vortex.xml"/> -->
 <!-- 	<import resource="../../../devices/diamond_crl.xml"/>
