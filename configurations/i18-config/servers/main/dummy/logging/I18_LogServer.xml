@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true" scanPeriod="10 seconds" debug="true">
+
+	<!-- Include I18 properties files (would be better to include dls-config/logging/logging_properties.xml if I18 used
+		the correct config 1.1 layout) -->
+	<property file="${gda.config}/properties/common.properties" />
+	<property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
+
     <!-- display message in Logger Server's console -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -15,7 +21,11 @@
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>%d %-5level [%logger] %rEx - %m%n</pattern>
         </layout>
-    </appender>   
+    </appender>
+
+	<appender name="LogPanel" class="ch.qos.logback.classic.net.server.ServerSocketAppender">
+		<port>${gda.logserver.out.port}</port>
+	</appender>
 
     <logger name="gda">
         <level value="INFO"/>
@@ -33,5 +43,6 @@
         <level value="ALL"/>
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="DebugFILE"/>
+        <appender-ref ref="LogPanel"/>
     </root>
 </configuration>
