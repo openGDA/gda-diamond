@@ -5,39 +5,38 @@
 
 	
 	<bean id="rcellKthetaMotor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="90" />
+		<property name="speed" value="5" />
 		<property name="minPosition" value="-1" />
 		<property name="maxPosition" value="24" />
-	</bean>
-
-	<bean id="rcellKkappaMotor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="90" />
-		<property name="minPosition" value="-5" />
-		<property name="maxPosition" value="5" />
+		<property name="position" value="0" />
 	</bean>
 
 	<bean id="rcellKphiMotor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="90" />
+		<property name="speed" value="5" />
 		<property name="minPosition" value="0" />
 		<property name="maxPosition" value="15" />
+		<property name="position" value="0" />
 	</bean>
 
 	<bean id="diffSthetaMotor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="90" />
+		<property name="speed" value="5" />
 		<property name="minPosition" value="-10" />
 		<property name="maxPosition" value="10" />
+		<property name="position" value="0" />
 	</bean>
 
 	<bean id="diffSkappaMotor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="90" />
+		<property name="speed" value="5" />
 		<property name="minPosition" value="75" />
 		<property name="maxPosition" value="105" />
+		<property name="position" value="75" />
 	</bean>
 
 	<bean id="diffSphiMotor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="90" />
+		<property name="speed" value="5" />
 		<property name="minPosition" value="-88" />
 		<property name="maxPosition" value="88" />
+		<property name="position" value="0" />
 	</bean>
 
 	<bean id="rcellDeferFlag" class="gda.device.controlpoint.DummyControlPoint">

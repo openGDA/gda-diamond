@@ -167,6 +167,7 @@
 	<import resource="../../../devices/_common/d2.xml" />
 	<import resource="../../../devices/_common/d3.xml" />
 	<import resource="../../../devices/_common/d4.xml" />
+	<import resource="../../../devices/_common/d5.xml" />
 
 	<import resource="../../../devices/_common/float1.xml" />
 	<import resource="../../../devices/_common/float2.xml" />

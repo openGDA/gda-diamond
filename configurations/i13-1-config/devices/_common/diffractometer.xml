@@ -4,8 +4,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="eta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="diffSthetaMotor" />
+	<bean id="diffScannableBase" abstract="true">
 		<property name="userUnits" value="deg" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
@@ -14,47 +13,27 @@
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
-	<bean id="chi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="diffSkappaMotor" />
-		<property name="userUnits" value="deg" />
-		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
-		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
-		<property name="outputFormat" value="%5.5g" />
-		<property name="logMoveRequestsWithInfo" value="true" />
-	</bean>
-
-	<bean id="phi" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="diffSphiMotor" />
-		<property name="userUnits" value="deg" />
-		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
-		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
-		<property name="outputFormat" value="%5.5g" />
-		<property name="logMoveRequestsWithInfo" value="true" />
-	</bean>
-
-	<bean id="delta" class="gda.device.scannable.ScannableMotor">
+	<bean id="delta" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
 		<property name="motor" ref="rcellKthetaMotor" />
-		<property name="userUnits" value="deg" />
-		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
-		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
-		<property name="outputFormat" value="%5.5g" />
-		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
-	<bean id="gam" class="gda.device.scannable.ScannableMotor">
+	<bean id="gam" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
 		<property name="motor" ref="rcellKphiMotor" />
-		<property name="userUnits" value="deg" />
-		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
-		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
-		<property name="outputFormat" value="%5.5g" />
-		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
-	<bean id="_fivec" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
+	<bean id="eta" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
+		<property name="motor" ref="diffSthetaMotor" />
+	</bean>
+
+	<bean id="chi" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
+		<property name="motor" ref="diffSkappaMotor" />
+	</bean>
+
+	<bean id="phi" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
+		<property name="motor" ref="diffSphiMotor" />
+	</bean>
+
+	<bean id="_fivec" class="gda.device.scannable.scannablegroup.MotomanRobotScannableGroup">
 		<property name="name" value="_fivec" />
         <property name="local" value="true"/>
 		<property name="groupMembers">
@@ -66,7 +45,6 @@
 				<ref bean="phi" />
 			</list>
 		</property>
-        <property name="deferredControlPoint" ref="rcellDeferFlag" />
 	</bean>
 
 </beans>
