@@ -2,92 +2,53 @@ from uk.ac.gda.server.exafs.scan.preparers import I18BeamlinePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18DetectorPreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18SamplePreparer
 from uk.ac.gda.server.exafs.scan.preparers import I18OutputPreparer
-from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan, XasScanFactory
-from uk.ac.gda.client.microfocus.scan import StepMap, MapSelector, RasterMap, FasterRasterMap, MapFactory
-#from gda.device.scannable import LineRepeatingBeamMonitor
+from uk.ac.gda.server.exafs.scan import XasScanFactory
+from uk.ac.gda.client.microfocus.scan import MapSelector, MapFactory
 
 from gda.configuration.properties import LocalProperties
-#from gda.data import PathConstructor
-#from gda.data.fileregistrar import IcatXMLCreator
 from gda.device.scannable import DummyScannable
 from gda.device.scannable import TopupChecker
 from gda.device.scannable import I18BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.factory import Finder
-#from uk.ac.gda.client.microfocus.scan.datawriter import MicroFocusWriterExtender
-#from cid_photodiode import CidPhotoDiode
 from stageSelector import StageSelector
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
 from gda.jython.commands.ScannableCommands import add_default
-#from gda.data.scan.datawriter import NexusDataWriter
-
-#from microfocus.microfocus_elements import getXY,plotSpectrum,displayMap
-#from edxd_calibrator import refinement #script refinement that is used to calibrate the vortex about once a year
-#from sampleStageTilt import *
-#from pd_setPvAndWaitForCallbackWithSeparateReadback import SetPvAndWaitForCallbackWithSeparateReadback2
 
 print "Initialization Started";
+
+live_mode = (LocalProperties.get("gda.mode") == 'live')
 
 finder = Finder.getInstance()
 
 test = DummyScannable("test")
 
-
-# if (LocalProperties.get("gda.mode") == 'live'):
-print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
+print "Creating topup , beam, detector-filling, trajectory monitors to pause and resume scans"
 topupMonitor = TopupChecker()
 topupMonitor.setName("topupMonitor")
 topupMonitor.setTolerance(1.0)
 topupMonitor.setWaittime(1)
 topupMonitor.setTimeout(600)
-topupMonitor.setMachineModeMonitor(machineModeMonitor)
-topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
+topupMonitor.setMachineModeMonitor(machineModeMonitor) # @UndefinedVariable
+topupMonitor.setScannableToBeMonitored(machineTopupMonitor) # @UndefinedVariable
 topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
 topupMonitor.configure()
 
-beamMonitor = I18BeamMonitor(energy)
+beamMonitor = I18BeamMonitor(energy) # @UndefinedVariable
 beamMonitor.setName("beamMonitor")
-beamMonitor.setMachineModeMonitor(machineModeMonitor)
+beamMonitor.setMachineModeMonitor(machineModeMonitor) # @UndefinedVariable
 beamMonitor.configure()
-# traj1ContiniousX.setBeamMonitor(beamMonitor) # this will test the beam state just before a traj map move
-# traj1ContiniousX.setTopupMonitor(topupMonitor) # this will test the beam state just before a traj map move
-# traj3ContiniousX.setBeamMonitor(beamMonitor)
-# traj3ContiniousX.setTopupMonitor(topupMonitor)
 
 detectorFillingMonitor = DetectorFillingMonitorScannable()
 detectorFillingMonitor.setName("detectorFillingMonitor")
 detectorFillingMonitor.setStartTime(9)
 detectorFillingMonitor.setDuration(25.0)
+
 detectorFillingMonitor.configure()
 
-# else:
-#     traj1xmap = finder.find("traj1xmap")
-#     traj3xmap = finder.find("traj3xmap")
-#     
-#     topupMonitor = DummyMonitor()
-#     topupMonitor.setName("topupMonitor")
-#     beamMonitor = DummyMonitor()
-#     beamMonitor.setName("beamMonitor")
-#     detectorFillingMonitor = DummyMonitor()
-#     detectorFillingMonitor.setName("detectorFillingMonitor")
-#     trajBeamMonitor = DummyMonitor()
-#     trajBeamMonitor.setName("trajBeamMonitor")
-
-#Comment and check with I18 if it is used
-#trajBeamMonitor = LineRepeatingBeamMonitor(energy)
-#trajBeamMonitor.setName("trajBeamMonitor")
-#trajBeamMonitor.configure()
-#trajBeamMonitor.setMachineModeMonitor(machineModeMonitor)
-#trajBeamMonitor.setLevel(1)
-
-add_default topupMonitor
-add_default beamMonitor
+add_default(topupMonitor)
+add_default(beamMonitor)
 # don't add detectorFillingMonitor as a default
-
-#check with IT if necessary
-#archiver = IcatXMLCreator()
-#archiver.setDirectory("/dls/bl-misc/dropfiles2/icat/dropZone/i18/i18_")
-
 
 rcpController =                finder.find("RCPController")
 XASLoggingScriptController =   finder.find("XASLoggingScriptController")
@@ -100,28 +61,27 @@ if finder.find("datawriterconfig").getHeader() != None:
     original_header =              finder.find("datawriterconfig").getHeader()[:]
 elementListScriptController =  finder.find("elementListScriptController")
 
-gains = [i0_keithley_gain, it_keithley_gain]
-detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3, raster_counterTimer01, raster_xspress, QexafsFFI0, raster_xspress3,raster_FFI0_xspress3, buffered_cid, None)
+gains = [i0_keithley_gain, it_keithley_gain] # @UndefinedVariable
+detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3, raster_counterTimer01, raster_xspress, QexafsFFI0, raster_xspress3,raster_FFI0_xspress3, buffered_cid, None) # @UndefinedVariable
 
-samplePreparer   = I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x)
-samplePreparer.setStage1(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z)
-samplePreparer.setStage3(table_x, table_y, table_z)
+samplePreparer   = I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x) # @UndefinedVariable
+samplePreparer.setStage1(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z) # @UndefinedVariable
+samplePreparer.setStage3(table_x, table_y, table_z) # @UndefinedVariable
 samplePreparer.setStage(1)
 outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
-beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter)
+beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter) # @UndefinedVariable
 
-if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
-    energy_scannable_for_scans = energy
+if live_mode  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'): # @UndefinedVariable
+    energy_scannable_for_scans = energy # @UndefinedVariable
     beamlinePreparer.setUseWithGapEnergy()
 else:
-    energy_scannable_for_scans = energy_nogap
+    energy_scannable_for_scans = energy_nogap # @UndefinedVariable
     beamlinePreparer.setUseNoGapEnergy()
-    
+
 # simulation
-if (LocalProperties.get("gda.mode") == 'dummy'):
-    energy(7000)
-    energy_nogap(7000)
-    
+if not live_mode:
+    energy(7000) # @UndefinedVariable
+    energy_nogap(7000) # @UndefinedVariable
 
 theFactory = XasScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);
@@ -131,23 +91,20 @@ theFactory.setOutputPreparer(outputPreparer);
 theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
 theFactory.setEnergyScannable(energy_scannable_for_scans);
-theFactory.setMetashop(Finder.getInstance().find("metashop"));
+theFactory.setMetashop(finder.find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
-theFactory.setQexafsDetectorPreparer(detectorPreparer);
-theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy);
-theFactory.setQexafsNXDetectorList([qexafsCounterTimer01,qexafsXspress3,qexafsXspress3FFI0])  # @UndefinedVariable
 theFactory.setScanName("energyScan")
-
 xas = theFactory.createEnergyScan();
 xanes = xas
-qexafs = theFactory.createQexafsConstantVelocityScan()
 
+if live_mode:
+    theFactory.setQexafsDetectorPreparer(detectorPreparer);
+    theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
+    theFactory.setQexafsNXDetectorList([qexafsCounterTimer01,qexafsXspress3,qexafsXspress3FFI0]) # @UndefinedVariable
+    qexafs = theFactory.createQexafsConstantVelocityScan()
 
-if (LocalProperties.get("gda.mode") != 'live'):
-    traj1PositionReader = None
-    traj3PositionReader = None
-
-#qexafs = QexafsScan(detectorPreparer, samplePreparer, outputPreparer, commandQueueProcessor, ExafsScriptObserver, XASLoggingScriptController, datawriterconfig, original_header, qexafs_energy, qexafs_counterTimer01, topupMonitor, beamMonitor)
+traj1PositionReader = finder.find("traj1PositionReader")
+traj3PositionReader = finder.find("traj3PositionReader")
 
 mapFactory = MapFactory();
 mapFactory.setBeamlinePreparer(beamlinePreparer);
@@ -156,36 +113,35 @@ mapFactory.setSamplePreparer(samplePreparer);
 mapFactory.setOutputPreparer(outputPreparer);
 mapFactory.setLoggingScriptController(XASLoggingScriptController);
 mapFactory.setDatawriterconfig(datawriterconfig);
-mapFactory.setEnergyWithGapScannable(energy);
-mapFactory.setEnergyNoGapScannable(energy_nogap);
+mapFactory.setEnergyWithGapScannable(energy); # @UndefinedVariable
+mapFactory.setEnergyNoGapScannable(energy_nogap); # @UndefinedVariable
 mapFactory.setMetashop(Finder.getInstance().find("metashop"));
 mapFactory.setIncludeSampleNameInNexusName(True);
-mapFactory.setCounterTimer(counterTimer01);
-mapFactory.setxScan(sc_MicroFocusSampleX);
-mapFactory.setyScan(sc_MicroFocusSampleY);
-mapFactory.setzScan(sc_sample_z);
+mapFactory.setCounterTimer(counterTimer01); # @UndefinedVariable
+mapFactory.setxScan(sc_MicroFocusSampleX); # @UndefinedVariable
+mapFactory.setyScan(sc_MicroFocusSampleY); # @UndefinedVariable
+mapFactory.setzScan(sc_sample_z); # @UndefinedVariable
 mapFactory.setElementListScriptController(elementListScriptController);
 mapFactory.setRasterMapDetectorPreparer(detectorPreparer);
-mapFactory.setTrajectoryMotor(traj1ContiniousX); # use the MapSelector object to switch to the large stage (stage 3)
-mapFactory.setPositionReader(finder.find("traj1PositionReader")); # use the MapSelector object to switch to the large stage (stage 3)
+mapFactory.setTrajectoryMotor(traj1ContiniousX); # @UndefinedVariable # use the MapSelector object to switch to the large stage (stage 3)
+mapFactory.setPositionReader(traj1PositionReader); # use the MapSelector object to switch to the large stage (stage 3)
 mapFactory.setScanName("step map")
-
 
 non_raster_map = mapFactory.createStepMap()
 raster_map = mapFactory.createRasterMap()
 faster_raster_map = mapFactory.createFasterRasterMap();
 
-map = MapSelector(beamlinePreparer, non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader, raster_counterTimer01)
-map.setStage1X(sc_MicroFocusSampleX)
-map.setStage1Y(sc_MicroFocusSampleY)
-map.setStage1Z(sc_sample_z)
-map.setStage3X(table_x)
-map.setStage3Y(table_y)
-map.setStage3Z(table_z)
+map = MapSelector(beamlinePreparer, non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader, raster_counterTimer01) # @UndefinedVariable @ReservedAssignment
+map.setStage1X(sc_MicroFocusSampleX) # @UndefinedVariable
+map.setStage1Y(sc_MicroFocusSampleY) # @UndefinedVariable
+map.setStage1Z(sc_sample_z) # @UndefinedVariable
+map.setStage3X(table_x) # @UndefinedVariable
+map.setStage3Y(table_y) # @UndefinedVariable
+map.setStage3Z(table_z) # @UndefinedVariable
 
 map.setStage(1)
 
-if (LocalProperties.get("gda.mode") == 'live')  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'):
+if live_mode and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'): # @UndefinedVariable
     map.enableUseIDGap()
 else:
     map.disableUseIDGap()
@@ -202,13 +158,16 @@ alias("meta_ls")
 alias("meta_rm")
 
 
-if (LocalProperties.get("gda.mode") == 'live'):
-    photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/")
+if live_mode:
+    photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/") # @UndefinedVariable
 
 
 selectStage = StageSelector(samplePreparer,map)
 alias("selectStage")
 selectStage(1)
+
+from gda.scan import EpicsTrajectoryScanController
+EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000)
 
 print "Initialization Complete";
 
@@ -238,7 +197,3 @@ print "To change the y axis used in maps to fine theta (but could be any motor) 
 print " map.setStage1Y(sc_sample_thetafine)"
 print " map.setStage(1)"
 print "****************************************"
-
-
-from gda.scan import EpicsTrajectoryScanController
-EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000)
