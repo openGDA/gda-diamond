@@ -8,7 +8,9 @@
 	<bean id="traj3PositionReader" class="gda.device.scannable.DummyRealPositionReader" />
 
 	<bean id="traj3ScanControllerAdapter"
-		class="gda.device.continuouscontroller.DummyTrajectoryMoveController"/>
+		class="gda.device.continuouscontroller.DummyTrajectoryMoveController">
+		<property name="local" value="true" />
+	</bean>
 
 	<bean id="traj3SampleX" class="gda.device.scannable.TrajectoryScannableMotor">
 		<property name="protectionLevel" value="0" />

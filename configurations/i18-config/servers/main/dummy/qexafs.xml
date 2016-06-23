@@ -12,6 +12,7 @@
 				<value>%.2f</value>
 			</list>
 		</property>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
@@ -20,6 +21,7 @@
 			<list>
 			</list>
 		</property>
+		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="qexafs_xmap" class="gda.device.detector.xmap.DummyXmapBufferedDetector">

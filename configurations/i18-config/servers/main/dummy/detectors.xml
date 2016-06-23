@@ -130,16 +130,19 @@
 	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0">
 		<property name="xmap" ref="xmapMca" />
 		<property name="counterTimer" ref="counterTimer01" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap">
 		<property name="xmap" ref="xmapMca" />
 		<property name="timer" ref="tfg" />
 		<property name="slave" value="true" />
+		<property name="local" value="true" />
 	</bean>
 
 <!-- 	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetectorForTesting"> -->
 	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
 		<property name="xspress2system" ref="xspress2system" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
@@ -236,6 +239,7 @@
 				</value>
 			</list>
 		</property>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="I0_keithley" class="gda.device.enumpositioner.DummyPositioner">
