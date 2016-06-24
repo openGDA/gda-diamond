@@ -8,24 +8,24 @@
 		<property name="motor" ref="smx_motor" />
 		<property name="initialUserUnits" value="micron" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-5000" />
-		<property name="upperGdaLimits" value="5000" />
+		<property name="lowerGdaLimits" value="-7000" />
+		<property name="upperGdaLimits" value="6500" />
 	</bean>
 
 	<bean id="smy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smy_motor" />
 		<property name="initialUserUnits" value="micron" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-5000" />
-		<property name="upperGdaLimits" value="5000" />
+		<property name="lowerGdaLimits" value="-7000" />
+		<property name="upperGdaLimits" value="6500" />
 	</bean>
 
 	<bean id="smz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smz_motor" />
 		<property name="initialUserUnits" value="micron" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-5000" />
-		<property name="upperGdaLimits" value="5000" />
+		<property name="lowerGdaLimits" value="-7500" />
+		<property name="upperGdaLimits" value="7000" />
 	</bean>
 
 	<bean id="smpolar" class="gda.device.scannable.ScannableMotor">
