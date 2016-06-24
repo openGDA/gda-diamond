@@ -97,11 +97,10 @@ theFactory.setScanName("energyScan")
 xas = theFactory.createEnergyScan();
 xanes = xas
 
-if live_mode:
-    theFactory.setQexafsDetectorPreparer(detectorPreparer);
-    theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
-    theFactory.setQexafsNXDetectorList([qexafsCounterTimer01,qexafsXspress3,qexafsXspress3FFI0]) # @UndefinedVariable
-    qexafs = theFactory.createQexafsConstantVelocityScan()
+theFactory.setQexafsDetectorPreparer(detectorPreparer);
+theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
+theFactory.setQexafsNXDetectorList([qexafsCounterTimer01,qexafsXspress3,qexafsXspress3FFI0]) # @UndefinedVariable
+qexafs = theFactory.createQexafsConstantVelocityScan()
 
 traj1PositionReader = finder.find("traj1PositionReader")
 traj3PositionReader = finder.find("traj3PositionReader")

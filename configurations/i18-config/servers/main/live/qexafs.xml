@@ -43,7 +43,7 @@
 		</property>
 	</bean>
 
-	 <bean id="counterTimer01CollectionStrategy"
+	<bean id="counterTimer01CollectionStrategy"
 		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
 		<constructor-arg ref="qexafs_counterTimer01" />
 	</bean>
@@ -68,48 +68,41 @@
 		<property name="name" value="qexafsXspress3FFI0" />
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
 		<property name="collectionStrategy" ref="Xspress3FFI0CollectionStrategy" />		
-	</bean>	
+	</bean>
 
-	 <bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
+	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
 		<property name="zebraPrefix" value="BL18I-OP-DCM-01:ZEBRA:"/>
- 	</bean> 
+	</bean>
 
-	 <bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
 		<property name="zebra" ref="zebra"/>
 		<property name="mode" value="1"/>
 		<property name="PcPulseGateNotTrigger" value="true"/>
 		<!-- <property name="zebraMotorInfoProvider" ref="zebraSM1"/> -->
 		<property name="minimumAccelerationDistance" value="0.001" />
-	</bean> 
+	</bean>
 
 	<bean id="zebraBraggAngle" class="gda.device.zebra.ZebraScannableMotor">
 		<!-- <property name="name" value="zebraBraggAngle" /> -->
 		<property name="motor" ref="dcm_bragg_motor" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
 		<!-- <property name="scurveTimeToVelocity" value="5"/> -->  <!-- read from weight system -->
-	</bean> 
-	<!-- <bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
-		<property name="zebra" ref="zebra"/>
-		<property name="mode" value="1"/>
-		<property name="PcPulseGateNotTrigger" value="true"/>
-		<property name="zebraMotorInfoProvider" ref="zebraSM1"/>
-		<property name="minimumAccelerationDistance" value="0.001" />
-	</bean> -->
+	</bean>
 
-	 <bean id="zebraContinuousMoveControllerForQexafs" class="gda.device.zebra.ZebraConstantVelocityMoveControllerForQexafs">
+	<bean id="zebraContinuousMoveControllerForQexafs" class="gda.device.zebra.ZebraConstantVelocityMoveControllerForQexafs">
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
 		<!-- <property name="mode" value="1"/> -->
 		<!-- <property name="zebraMotorInfoProvider" ref="zebraSM1"/> -->
 		<property name="minimumBraggAccelerationDistance" value="0.001" />
 		<property name="minimumScannableMotorAccelerationDistance" value="0.01" />
-	</bean>  
+	</bean>
 
-	 <bean id="zebraBragg" class="gda.device.zebra.ZebraScannableMotor">
-	 	<!-- <property name="name" value="zebraBragg" /> -->
+	<bean id="zebraBragg" class="gda.device.zebra.ZebraScannableMotor">
+		<!-- <property name="name" value="zebraBragg" /> -->
 		<property name="motor" ref="dcm_energy_motor" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
 		<!-- <property name="scurveTimeToVelocity" value="5"/>  --> <!-- read from weight system -->
-	</bean> 
+	</bean>
 
 	<bean id="zebraBraggEnergy" class="gda.device.zebra.ZebraScannableMotorForQexafs">
 		<property name="name" value="zebraBraggEnergy" />
@@ -118,6 +111,6 @@
 		<property name="braggScannableMotor" ref="sc_dcm_bragg"/>
 		<property name="converter" ref="eV_mDeg_converter"/>
 		<!-- <property name="scurveTimeToVelocity" value="5"/> -->  <!-- read from weight system -->
-	</bean>  
+	</bean>
 
 </beans>
