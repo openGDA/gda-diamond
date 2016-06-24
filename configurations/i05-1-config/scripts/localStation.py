@@ -49,6 +49,9 @@ caput("BL05J-EA-DET-01:ARR:EnableCallbacks",1)
 
 import arpes
 
+# Sample stage script for easy and safe movement of the stage to predefined positions
+execfile(gdaScriptDir + "/sampleStage.py")
+
 print "==================================================================="
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
    print "Running i05-1 scripts."
