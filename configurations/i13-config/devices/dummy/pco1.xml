@@ -17,6 +17,9 @@
 
 	<bean id="pco1_tif_writer" class="gda.device.detector.nxdetector.plugin.NullNXPlugin" />
 
-	<bean id="pco1_hw_tif" class="gda.device.detector.DummyDetector" />
+	<bean id="pco1_hw_tif" class="gda.device.detector.DummyNXDetector">
+		<constructor-arg value="pco1_hw_tif" />
+		<constructor-arg value="1" />
+	</bean>
 
 </beans>

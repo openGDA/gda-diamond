@@ -14,4 +14,6 @@
 	<bean id="dcm_beamline_energy_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="dcm_id_detune_motor" class="gda.device.motor.DummyMotor"/>
 	
+	<bean id="dcm_fine_pitch_demand" class="gda.device.scannable.SimpleScannable"/>
+	<bean id="dcm_fine_pitch" class="gda.device.scannable.SimpleScannable"/>
 </beans>
