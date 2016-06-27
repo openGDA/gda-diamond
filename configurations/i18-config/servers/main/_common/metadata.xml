@@ -1,22 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-           http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/${gda.mode}/java.properties
-				</value>
-				<value>file:${gda.config}/properties/common.properties</value>
-			</list>
-		</property>
-	</bean>
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
-
 		<property name="metadataEntries">
 			<list>
 				<bean class="gda.data.metadata.StoredMetadataEntry">
@@ -39,11 +26,11 @@
 					<property name="name" value="userid" />
 					<property name="propertyName" value="user.name" />
 				</bean>
-
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="federalid" />
 				</bean>
 			</list>
 		</property>
 	</bean>
+
 </beans>

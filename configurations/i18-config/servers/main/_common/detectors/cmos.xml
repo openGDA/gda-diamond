@@ -17,7 +17,7 @@
 		<property name="framesFlush" value="0" />
 		<property name="lazyOpen" value="true" />
 		<!-- property name="boundaryAlign" value="1048576"/ -->
-		<property name="setChunking" value="false" /> 
+		<property name="setChunking" value="false" />
 		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64 -->
 	</bean>
 
@@ -54,7 +54,8 @@
 		<property name="generateCallbacks" value="true" />
 	</bean>
 
-<!-- NXDetector cannot be used on ContinuousScans, but that's OK as the readout time is so large there would be no gain for use in raster scans -->
+	<!-- NXDetector cannot be used on ContinuousScans, but that's OK as the 
+		readout time is so large there would be no gain for use in raster scans -->
 	<bean id="cmos_for_maps" class="gda.device.detector.NXDetector">
 		<property name="name" value="cmos" />
 		<property name="collectionStrategy" ref="cmos_hardwaretriggered_strategy" />

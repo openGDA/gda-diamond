@@ -1,10 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="datawriterconfig" class="gda.data.scan.datawriter.AsciiDataWriterConfiguration">
-		<property name="commentMarker" value="#"></property>
+		<property name="commentMarker" value="#" />
 		<property name="header">
 			<list>
 				<bean id="machine" class="gda.data.scan.datawriter.AsciiMetadataConfig">
@@ -85,233 +85,202 @@
 			</list>
 		</property>
 	</bean>
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
 		<property name="arguments">
 			<map>
 				<entry key="d1motor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D1motor:NXattenuator/d1motor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d2motor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D2motor:NXattenuator/d2motor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d3motor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D3motor:NXattenuator/d3motor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d5amotor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D5motor:NXattenuator/d5amotor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
-				
 				<entry key="d5bmotor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D5motor:NXattenuator/d5bmotor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d6amotor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D6motor:NXattenuator/d6amotor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d6bmotor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D6motor:NXattenuator/d6bmotor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d7amotor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D7motor:NXattenuator/d7amotor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="d7bmotor">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/D7motor:NXattenuator/d7bmotor" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="sid_x">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SiD:NXpositioner/sid_x" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="sc_MicroFocusSampleX">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SampleMotors:NXpositioner/sc_MicroFocusSampleX" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
-
 				<entry key="sc_MicroFocusSampleY">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SampleMotors:NXpositioner/sc_MicroFocusSampleY" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="sc_sample_z">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SampleMotors:NXpositioner/sc_sample_z" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="sc_sample_thetacoarse">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SampleMotors:NXpositioner/sc_sample_thetacoarse" />
 						<property name="units" value="deg" />
 					</bean>
 				</entry>
 				<entry key="sc_sample_thetafine">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SampleMotors:NXpositioner/sc_sample_thetafine" />
 						<property name="units" value="deg" />
 					</bean>
 				</entry>
 				<entry key="s1ygap">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/PrimarySlit:NXaperture/s1ygap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s1xgap">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/PrimarySlit:NXaperture/s1xgap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s1ypos">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/PrimarySlit:NXaperture/s1ypos" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s1xpos">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/PrimarySlit:NXaperture/s1xpos" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s2ygap">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SecondarySlit:NXaperture/s2ygap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s2xgap">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SecondarySlit:NXaperture/s2xgap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s2ypos">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SecondarySlit:NXaperture/s2ypos" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s2xpos">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/SecondarySlit:NXaperture/s2xpos" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s3ygap">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/PostDCMslit:NXaperture/s3ygap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s3xgap">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/PostDCMslit:NXaperture/s3xgap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s3ypos">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/PostDCMslit:NXaperture/s3ypos" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="s3xpos">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/PostDCMslit:NXaperture/s3xpos" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
 				<entry key="energy">
-					<bean
-						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
 							value="instrument:NXinstrument/DCM:NXmonochromator/energy" />
 						<property name="units" value="eV" />
@@ -320,10 +289,9 @@
 			</map>
 		</property>
 	</bean>
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod"
-			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
 		<property name="arguments">
 			<set>
 				<value>d1motor</value>
@@ -357,7 +325,9 @@
 			</set>
 		</property>
 	</bean>
+
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
 		<property name="name" value="metashop"/>
 	</bean>
+
 </beans>

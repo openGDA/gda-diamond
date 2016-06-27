@@ -1,15 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="eV_mDeg_converter" class="gda.util.converters.JEPConverterHolder">
 		<constructor-arg value="eV_mDeg_converter" />
-		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/eV_mDeg_converter.xml" />
+		<constructor-arg
+			value="${gda.function.columnDataFile.lookupDir}/eV_mDeg_converter.xml" />
 	</bean>
 	<bean id="mDeg_dcm_perp_mm_converter" class="gda.util.converters.JEPConverterHolder">
 		<constructor-arg value="mDeg_dcm_perp_mm_converter" />
-		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/mDeg_dcm_perp_mm_converter.xml" />
+		<constructor-arg
+			value="${gda.function.columnDataFile.lookupDir}/mDeg_dcm_perp_mm_converter.xml" />
 	</bean>
 	<bean id="mDeg_idGap_mm_converter" class="gda.util.converters.RenameableConverter">
 		<constructor-arg value="mDeg_idGap_mm_converter" />
@@ -99,8 +101,7 @@
 		<constructor-arg value="1" />
 		<constructor-arg type="java.lang.String" value="Both" />
 	</bean>
-	
-	
+
 	<bean id="harmonic1" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic1" />
 		<constructor-arg value="harmonic1_converter" />
@@ -173,10 +174,8 @@
 		<constructor-arg value="5300" />
 		<constructor-arg value="5430" />
 	</bean>
-	
-	
-	
-	 <bean id="lookup_name_provider" class="gda.util.converters.util.RangeConverterNameProvider">
+
+	<bean id="lookup_name_provider" class="gda.util.converters.util.RangeConverterNameProvider">
 		<constructor-arg value="lookup_name_provider" />
 		<constructor-arg value="harmonic1_converter" />
 		<property name="converters">
@@ -196,11 +195,11 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="auto_mDeg_idGap_mm_converter" class="gda.util.converters.AutoRenameableConverter">
 		<constructor-arg value="auto_mDeg_idGap_mm_converter" />
 		<constructor-arg value="lookup_name_provider" />
-		<constructor-arg value="true" />	
+		<constructor-arg value="true" />
 	</bean>
-	
+
 </beans>
