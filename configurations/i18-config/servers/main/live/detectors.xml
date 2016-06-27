@@ -16,6 +16,7 @@
 		<property name="replyTimeOut" value="5000" />
 	</bean>
 
+	<!-- TODO Check if this is actually used and remove if not -->
 	<bean id="xspress3_daserver" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
 		<property name="host" value="bl18i-ea-serv-01" />
@@ -36,38 +37,6 @@
 		<property name="collectionTime" value="1" />
 		<property name="host" value="172.23.118.71" />
 		<property name="port" value="23" />
-	</bean>
-
-	<bean id="I0_keithley" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL18I-EA-IAMP-02:Gain" />
-		<property name="values">
-			<map>
-				<entry key="10^3 V/A" value="10^3 V/A" />
-				<entry key="10^4 V/A" value="10^4 V/A" />
-				<entry key="10^5 V/A" value="10^5 V/A" />
-				<entry key="10^6 V/A" value="10^6 V/A" />
-				<entry key="10^7 V/A" value="10^7 V/A" />
-				<entry key="10^8 V/A" value="10^8 V/A" />
-				<entry key="10^9 V/A" value="10^9 V/A" />
-				<entry key="10^10 V/A" value="10^10 V/A" />
-			</map>
-		</property>
-	</bean>
-
-	<bean id="It_keithley" class="gda.device.enumpositioner.EpicsSimplePositioner">
-		<property name="pvName" value="BL18I-EA-IAMP-03:Gain" />
-		<property name="values">
-			<map>
-				<entry key="10^3 V/A" value="10^3 V/A" />
-				<entry key="10^4 V/A" value="10^4 V/A" />
-				<entry key="10^5 V/A" value="10^5 V/A" />
-				<entry key="10^6 V/A" value="10^6 V/A" />
-				<entry key="10^7 V/A" value="10^7 V/A" />
-				<entry key="10^8 V/A" value="10^8 V/A" />
-				<entry key="10^9 V/A" value="10^9 V/A" />
-				<entry key="10^10 V/A" value="10^10 V/A" />
-			</map>
-		</property>
 	</bean>
 
 </beans>
