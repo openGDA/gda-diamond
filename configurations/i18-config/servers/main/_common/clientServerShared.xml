@@ -1,16 +1,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-<!-- 	this is used to populate the Elements view in the Microfocus perspective -->
+	<!-- 	this is used to populate the Elements view in the Microfocus perspective -->
 	<bean id="elementListScriptController" class="gda.jython.scriptcontroller.ScriptControllerBase">
 		<property name="command" value="" />
 		<property name="parametersName" value="" />
 		<property name="importCommand" value="" />
 	</bean>
-	
+
 	<!-- 	detector configuration objects -->
 	<bean id="xspressConfig" class="gda.device.detector.xspress.XspressDetectorConfiguration" >
 		<constructor-arg>
@@ -22,12 +21,5 @@
 		<property name="service" ref="xspressConfig" />
 		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
 	</bean>
-
-	<import resource="converters.xml" />
-	<import resource="datawriter.xml" />
-	<import resource="LoggingScriptController.xml" />
-	<import resource="metadata.xml" />
-	<import resource="rmiserver.xml" />
-	<import resource="scannables.xml" />
 
 </beans>

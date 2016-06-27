@@ -16,7 +16,17 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
+	<import resource="detectors/cmos.xml" />
+	<import resource="detectors/detectors.xml" />
+	<import resource="detectors/qexafs.xml" />
+	<import resource="detectors/xspress3.xml" />
 	<import resource="clientServerShared.xml" />
+	<import resource="converters.xml" />
+	<import resource="datawriter.xml" />
+	<import resource="LoggingScriptController.xml" />
+	<import resource="metadata.xml" />
+	<import resource="rmiserver.xml" />
+	<import resource="scannables.xml" />
 
 	<corba:export namespace="I18" />
 

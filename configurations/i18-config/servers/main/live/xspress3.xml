@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="xspress3Controller"
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
@@ -10,83 +10,4 @@
 		<property name="epicsVersion2" value="true" />
 	</bean>
 
-<!-- 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector"> -->
-<!-- 		<property name="controller" ref="xspress3Controller" /> -->
-<!-- 		<property name="writeHDF5Files" value="true" /> -->
-<!-- 	</bean> -->
-
-	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetectorv2">
-		<property name="controller" ref="xspress3Controller" />
-		<property name="readDataFromFile" value="false" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspress3" />
-		<property name="service" ref="xspress3" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
-	</bean>
-
-	<bean id="FFI0_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0Detector">
-		<property name="xspress3" ref="xspress3" />
-		<property name="counterTimer" ref="counterTimer01" />
-		<property name="i0_channel" value="1" />
-	</bean>
-
-<!-- 	BufferedDetector classes for use in ContinuousScans  (Qexafs and raster maps) -->
-
-	<bean id="raster_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetectorv2">
-		<property name="xspress3Detector" ref="xspress3" />
-	</bean>
-
-	<bean id="raster_FFI0_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
-		<property name="qexafsXspress" ref="raster_xspress3" />
-		<property name="qexafsScaler" ref="raster_counterTimer01" />
-		<property name="i0_channel" value="1" />
-	</bean>
-
-	<bean id="qexafs_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetectorv2">
-		<property name="xspress3Detector" ref="xspress3" />
-	</bean>
-
-	<bean id="xspress3CollectionStrategy"
-		class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
-		<constructor-arg ref="qexafs_xspress3" />
-	</bean> 
-
-	<bean id="qexafsXspress3" class="gda.device.detector.HardwareTriggeredNXDetector">
-		<property name="name" value="qexafsXspress3" />
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
-		<property name="collectionStrategy" ref="xspress3CollectionStrategy" />		
-	</bean>	
-
-	<bean id="qexafs_FFI0_xspress3"
-		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
-		<property name="qexafsXspress" ref="qexafs_xspress3" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="i0_channel" value="0" />
-	</bean>
-
-<!-- 	HardwareTriggeredDetector classes for two-way faster raster -->
-
-<!-- 	<bean id="traj_xspress3" -->
-<!-- 		class="uk.ac.gda.devices.detector.xspress3.HardwareTriggeredXspress3Detector"> -->
-<!-- 		<property name="xspress3" ref="raster_xspress3" /> -->
-<!-- 	</bean> -->
-
-
-<!-- 	<bean id="cmos_for_maps" class="gda.device.detector.NXDetector"> -->
-<!-- 		<property name="name" value="cmos" /> -->
-<!-- 		<property name="collectionStrategy" ref="cmos_hardwaretriggered_strategy" /> -->
-<!-- 		<property name="additionalPluginList"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="cmos_hdf5_filewriter_nochunking" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
-	
 </beans>
