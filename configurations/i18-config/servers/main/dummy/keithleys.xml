@@ -1,14 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="i0_keithley_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
-			<util:list list-class="java.util.ArrayList">
+			<list>
 				<value>10^3 V/A</value>
 				<value>10^4 V/A</value>
 				<value>10^5 V/A</value>
@@ -17,13 +14,13 @@
 				<value>10^8 V/A</value>
 				<value>10^9 V/A</value>
 				<value>10^10 V/A</value>
-			</util:list>
+			</list>
 		</property>
 	</bean>
 
 	<bean id="it_keithley_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
-			<util:list list-class="java.util.ArrayList">
+			<list>
 				<value>10^3 V/A</value>
 				<value>10^4 V/A</value>
 				<value>10^5 V/A</value>
@@ -32,7 +29,7 @@
 				<value>10^8 V/A</value>
 				<value>10^9 V/A</value>
 				<value>10^10 V/A</value>
-			</util:list>
+			</list>
 		</property>
 	</bean>
 
