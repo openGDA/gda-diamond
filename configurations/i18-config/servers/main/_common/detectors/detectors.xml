@@ -3,8 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="xspress2controller"
-		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
+	<bean id="xspress2controller" class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
 		<property name="daServer" ref="daserver" />
 		<property name="tfg" ref="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
