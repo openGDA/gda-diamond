@@ -61,5 +61,37 @@
 	<bean id="dcm_offset" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DCM.OFFSET" />
 	</bean>
+	
+	<!-- DCM Lock Beam Height -->
+	<bean id="dcmlockbeamheight" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL09I-MO-DCM-01:LOCKT2:CON" />
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Feedback	 -->
+	<bean id="dcmfrollfeedback" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL09I-EA-FDBK-01:ENABLE" />
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dcmfpitchfeedback" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL09I-EA-FDBK-02:ENABLE" />
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>

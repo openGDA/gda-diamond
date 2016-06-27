@@ -36,6 +36,7 @@
 				<ref bean="sm1yaw" />
 				<ref bean="sm1fpitch" />
 				<ref bean="sm1wfs1" />
+				<ref bean="sm1fpitchfeedback" />
 			</list>
 		</property>
 	</bean>

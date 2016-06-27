@@ -28,4 +28,14 @@
 	<bean id="sm1fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
 		<property name="deviceName" value="SM1.FPITCH" />
 	</bean>
+	
+	<bean id="sm1fpitchfeedback" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL09J-EA-FDBK-01:ENABLE" />
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
 </beans>
