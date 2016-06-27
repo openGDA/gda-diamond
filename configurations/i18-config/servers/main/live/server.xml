@@ -1,29 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-2.0.xsd
-           http://www.diamond.ac.uk/schema/gda/corba
-           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/${gda.mode}/java.properties
-				</value>
-				<value>file:${gda.config}/properties/common.properties</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
-	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
-
-	<import resource="file:${gda.config}/servers/main/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/keithleys.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/table1.xml" />
@@ -34,15 +13,8 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/qexafs.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/cmos.xml" />
-	<import resource="file:${gda.config}/servers/main/scannables.xml" />
-	<import resource="file:${gda.config}/servers/main/datawriter.xml" />
-	<import resource="file:${gda.config}/servers/main/converters.xml" />
-	<import resource="file:${gda.config}/servers/main/rmiserver.xml" />
-	<import resource="file:${gda.config}/servers/main/LoggingScriptController.xml" />
-	<import resource="file:${gda.config}/servers/main/clientServerShared.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<corba:export namespace="I18" />
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>

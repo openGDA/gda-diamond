@@ -22,4 +22,12 @@
 		<property name="service" ref="xspressConfig" />
 		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
 	</bean>
+
+	<import resource="converters.xml" />
+	<import resource="datawriter.xml" />
+	<import resource="LoggingScriptController.xml" />
+	<import resource="metadata.xml" />
+	<import resource="rmiserver.xml" />
+	<import resource="scannables.xml" />
+
 </beans>
