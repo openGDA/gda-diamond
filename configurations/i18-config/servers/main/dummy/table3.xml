@@ -1,53 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="table_x_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="table_y_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="table_z_motor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="table_pitch_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="table_x" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="table_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
 
-	<bean id="table_y" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="table_y_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-
-	<bean id="table_z" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="table_z_motor" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	
-	<bean id="table_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="motor" ref="table_pitch_motor" />
-		<property name="hardwareUnitString" value="deg" />
-	</bean>
-
-	<bean id="table" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="table_x" />
-				<ref bean="table_y" />
-				<ref bean="table_z" />
-				<ref bean="table_pitch" />
-			</list>
-		</property>
-		<property name="protectionLevel" value="0" />
-	</bean>
 </beans>

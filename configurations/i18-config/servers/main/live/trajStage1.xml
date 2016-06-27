@@ -1,20 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="traj1ScanController"
-		class="gda.device.continuouscontroller.EpicsTrajectoryScanController">
+	<bean id="traj1ScanController" class="gda.device.continuouscontroller.EpicsTrajectoryScanController">
 		<property name="deviceName" value="TRAJ" />
 		<property name="local" value="true" />
 		<property name="maximumNumberElements" value="2000" />
 		<property name="maximumNumberPulses" value="20000" />
 	</bean>
 
-	<bean id="traj1ScanControllerAdapter"
-		class="gda.device.continuouscontroller.EpicsTrajectoryMoveControllerAdapter">
+	<bean id="traj1ScanControllerAdapter" class="gda.device.continuouscontroller.EpicsTrajectoryMoveControllerAdapter">
 		<property name="controller" ref="traj1ScanController" />
-
 		<property name="axisNames">
 			<list>
 				<value>samplez</value>
@@ -36,7 +33,7 @@
 		<property name="continuousMoveController" ref="traj1ScanControllerAdapter" />
 	</bean>
 
-
+	<!-- TODO Check if this is still used and remove if not -->
 	<bean id="oldTraj1ScanController" class="gda.scan.EpicsTrajectoryScanController">
 		<property name="deviceName" value="TRAJ" />
 		<property name="m1axis" value="samplex" />
@@ -51,10 +48,8 @@
 		<property name="local" value="true" />
 	</bean>
 
-
 	<!-- Extends EpicsSingleTrajectoryScannable -->
-	<bean id="traj1PositionReader"
-		class="gda.device.scannable.EpicsTrajectoryScanRealPositionReader">
+	<bean id="traj1PositionReader" class="gda.device.scannable.EpicsTrajectoryScanRealPositionReader">
 		<property name="protectionLevel" value="0" />
 		<property name="trajectoryIndex" value="3" />
 		<property name="tracController" ref="oldTraj1ScanController" />
@@ -68,41 +63,5 @@
 		<property name="readTimeout" value="10.0" />
 		<property name="tracController" ref="oldTraj1ScanController" />
 	</bean>
-
-	<bean id="traj1tfg" class="gda.device.detector.countertimer.TFGTriggeredScaler">
-		<property name="extraNames">
-			<list>
-				<value>liveTime</value>
-				<value>I0</value>
-				<value>It</value>
-				<value>Iother</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
-		<property name="daserver" ref="daserver" />
-		<property name="ttlSocket" value="1" />
-		<property name="outputFormat">
-			<list>
-				<value>%6.4g</value>
-				<value>%6.4g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-			</list>
-		</property>
-		<property name="hardwareTriggerProvider" ref="traj1ScanControllerAdapter" />
-	</bean>
-
-<!-- 	<bean id="traj1xmap" class="gda.device.detector.xmap.HardwareTriggeredNexusXmapImpl"> -->
-<!-- 		<property name="hardwareTriggerProvider" ref="traj1ScanControllerAdapter" /> -->
-<!-- 		<property name="xmap" ref="xmapMca" /> -->
-<!-- 		<property name="controller" ref="edxdcontroller" /> -->
-<!-- 	</bean> -->
 
 </beans>

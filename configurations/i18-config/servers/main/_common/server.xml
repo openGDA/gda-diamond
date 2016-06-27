@@ -22,12 +22,18 @@
 	<import resource="detectors/xspress3.xml" />
 	<import resource="clientServerShared.xml" />
 	<import resource="converters.xml" />
-	<import resource="core.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="LoggingScriptController.xml" />
 	<import resource="metadata.xml" />
 	<import resource="rmiserver.xml" />
 	<import resource="scannables.xml" />
+	<import resource="table1.xml" />
+	<import resource="table3.xml" />
+	<import resource="trajStage1.xml" />
+	<import resource="trajStage3.xml" />
+
+	<!-- Need to import core.xml last so all other objects are configured before the Jython server -->
+	<import resource="core.xml" />
 
 	<corba:export namespace="I18" />
 

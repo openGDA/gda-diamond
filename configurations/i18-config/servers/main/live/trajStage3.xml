@@ -1,20 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="traj3ScanController"
-		class="gda.device.continuouscontroller.EpicsTrajectoryScanController">
+	<bean id="traj3ScanController" class="gda.device.continuouscontroller.EpicsTrajectoryScanController">
 		<property name="deviceName" value="TRAJ3" />
 		<property name="local" value="true" />
 		<property name="maximumNumberElements" value="2000" />
 		<property name="maximumNumberPulses" value="20000" />
 	</bean>
 
-	<bean id="traj3ScanControllerAdapter"
-		class="gda.device.continuouscontroller.EpicsTrajectoryMoveControllerAdapter">
+	<bean id="traj3ScanControllerAdapter" class="gda.device.continuouscontroller.EpicsTrajectoryMoveControllerAdapter">
 		<property name="controller" ref="traj3ScanController" />
-
 		<property name="axisNames">
 			<list>
 				<value>samplex</value>
@@ -22,15 +19,6 @@
 		</property>
 		<property name="verifyEpicsReadbackEnabled" value="false" />
 		<property name="local" value="true" />
-	</bean>
-
-	<bean id="traj3SampleX" class="gda.device.scannable.TrajectoryScannableMotor">
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="table_x_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="controllerMotorIndex" value="0" />
-		<property name="continuousMoveController" ref="traj3ScanControllerAdapter" />
 	</bean>
 
 	<bean id="oldTraj3ScanController" class="gda.scan.EpicsTrajectoryScanController">
@@ -47,8 +35,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="traj3PositionReader"
-		class="gda.device.scannable.EpicsTrajectoryScanRealPositionReader">
+	<bean id="traj3PositionReader" class="gda.device.scannable.EpicsTrajectoryScanRealPositionReader">
 		<property name="protectionLevel" value="0" />
 		<property name="trajectoryIndex" value="1" />
 		<property name="tracController" ref="oldTraj3ScanController" />
@@ -62,41 +49,5 @@
 		<property name="readTimeout" value="10.0" />
 		<property name="tracController" ref="oldTraj3ScanController" />
 	</bean>
-
-	<bean id="traj3tfg" class="gda.device.detector.countertimer.TFGTriggeredScaler">
-		<property name="extraNames">
-			<list>
-				<value>liveTime</value>
-				<value>I0</value>
-				<value>It</value>
-				<value>Iother</value>
-			</list>
-		</property>
-		<property name="scaler" ref="CalMemory" />
-		<property name="timer" ref="tfg" />
-		<property name="timeChannelRequired" value="true" />
-		<property name="darkCurrentRequired" value="false" />
-		<property name="outputLogValues" value="false" />
-		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="4" />
-		<property name="daserver" ref="daserver" />
-		<property name="ttlSocket" value="1" />
-		<property name="outputFormat">
-			<list>
-				<value>%6.4g</value>
-				<value>%6.4g</value>
-				<value>%9d</value>
-				<value>%9d</value>
-				<value>%9d</value>
-			</list>
-		</property>
-		<property name="hardwareTriggerProvider" ref="traj3ScanControllerAdapter" />
-	</bean>
-
-<!-- 	<bean id="traj3xmap" class="gda.device.detector.xmap.HardwareTriggeredNexusXmapImpl"> -->
-<!-- 		<property name="hardwareTriggerProvider" ref="traj3ScanControllerAdapter" /> -->
-<!-- 		<property name="xmap" ref="xmapMca" /> -->
-<!-- 		<property name="controller" ref="edxdcontroller" /> -->
-<!-- 	</bean> -->
 
 </beans>
