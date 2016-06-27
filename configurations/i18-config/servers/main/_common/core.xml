@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths" ref="jython_script_paths" />
+		<property name="gdaVarDirectory" value="${gda.config}/var" />
+		<property name="cacheDirectory" value="${gda.config}/var/jythonCache" />
+		<property name="remotePort" value="9999" />
+	</bean>
+
+	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/rcpController" />
+		<property name="service" ref="RCPController" />
+		<property name="serviceInterface" value="gda.gui.RCPController" />
+	</bean>
+
+	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+
+	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<bean id="ExafsController" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<bean id="MicroFocusController" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<!-- We need to define which classes are responsible for beans in the BeanFactory -->
+	<bean class="uk.ac.gda.util.beans.BeansFactory">
+		<property name="classes">
+			<list>
+				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.XesScanParameters</value>
+				<value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
+				<value>uk.ac.gda.beans.exafs.i18.I18SampleParameters</value>
+				<value>uk.ac.gda.beans.exafs.SampleElements</value>
+				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
+				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
+				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
+				<value>uk.ac.gda.beans.xspress.XspressParameters</value>
+				<value>uk.ac.gda.beans.microfocus.MicroFocusScanParameters</value>
+				<value>uk.ac.gda.beans.vortex.Xspress3Parameters</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+</beans>

@@ -22,6 +22,7 @@
 	<import resource="detectors/xspress3.xml" />
 	<import resource="clientServerShared.xml" />
 	<import resource="converters.xml" />
+	<import resource="core.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="LoggingScriptController.xml" />
 	<import resource="metadata.xml" />
