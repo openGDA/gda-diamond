@@ -16,7 +16,7 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-	<import resource="file:${gda.config}/servers/main/clientServerShared.xml" />
+	<import resource="clientServerShared.xml" />
 
 	<corba:export namespace="I18" />
 
