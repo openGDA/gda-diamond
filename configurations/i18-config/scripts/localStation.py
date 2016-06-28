@@ -156,11 +156,6 @@ alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
 
-
-if live_mode:
-    photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/") # @UndefinedVariable
-
-
 selectStage = StageSelector(samplePreparer,map)
 alias("selectStage")
 selectStage(1)
