@@ -5,23 +5,6 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-<<<<<<< HEAD
-	<!-- D3A Stick Positioner -->
-	<bean id="d4pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-DI-PHDGN-04:MP" />
-	</bean>
-
-	<!-- Stick motor -->
-	<bean id="d4motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-DI-PHDGN-04:POS" />
-		<property name="local" value="true" />
-	</bean>
-
-
-	<!-- Femto -->
-	<bean id="d4femto" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-DI-PHGDN-04:FEMTO1:I" />
-=======
 	<!-- D4 Stick Positioner -->
 	<bean id="d4pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL21I-DI-PHDGN-04:MP" />
@@ -36,7 +19,6 @@
 	<!-- Femto -->
 	<bean id="d4femto" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-DI-PHDGN-04:FEMTO1:I" />
->>>>>>> branch 'gda-8.52' of ssh://dascgitolite@dasc-git.diamond.ac.uk/gda/gda-dls-beamlines-i21.git
 		<property name="local" value="true" />
 	</bean>
 	
