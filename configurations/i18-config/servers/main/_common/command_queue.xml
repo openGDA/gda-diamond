@@ -10,7 +10,6 @@
 		<property name="startImmediately" value="false" />
 		<property name="pauseWhenQueueEmpty" value="true" />
 	</bean>
-
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/commandQueueProcessor" />
 		<property name="service" ref="commandQueueProcessor" />
@@ -22,7 +21,6 @@
 		<property name="directory" value="${gda.var}/" />
 		<property name="local" value="true" />
 	</bean>
-
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/XASLoggingScriptController" />
 		<property name="service" ref="XASLoggingScriptController" />

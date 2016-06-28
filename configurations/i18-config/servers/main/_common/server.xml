@@ -34,9 +34,9 @@
 	<import resource="detectors/detectors.xml" />
 	<import resource="detectors/qexafs.xml" />
 	<import resource="detectors/xspress3.xml" />
+	<import resource="command_queue.xml" />
 	<import resource="converters.xml" />
 	<import resource="datawriter.xml" />
-	<import resource="LoggingScriptController.xml" />
 	<import resource="metadata.xml" />
 	<import resource="rmiserver.xml" />
 	<import resource="scannables.xml" />
