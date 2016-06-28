@@ -201,11 +201,6 @@ alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
 
-
-if (LocalProperties.get("gda.mode") == 'live'):
-    photonccd.setOutputFolderRoot("x:/data/2014/sp9943-1/xrd/")
-
-
 selectStage = StageSelector(samplePreparer,map)
 alias("selectStage")
 selectStage(1)
