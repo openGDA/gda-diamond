@@ -18,6 +18,10 @@
 	<import resource="s3_motors.xml" />
 	<import resource="s4_femtos.xml" />
 	<import resource="s4_motors.xml" />
+<<<<<<< HEAD
+	<import resource="s5_motors.xml" />
+=======
+>>>>>>> branch 'gda-8.52' of ssh://dascgitolite@dasc-git.diamond.ac.uk/gda/gda-dls-beamlines-i21.git
 
 	<!-- diagnostics -->
 	<import resource="dgn.xml" />
@@ -26,6 +30,10 @@
 	<import resource="d3a.xml" />
 	<import resource="d3b.xml" />
 	<import resource="d4.xml" />
+<<<<<<< HEAD
+	<import resource="d7.xml" />
+=======
+>>>>>>> branch 'gda-8.52' of ssh://dascgitolite@dasc-git.diamond.ac.uk/gda/gda-dls-beamlines-i21.git
 	
 	<!-- pressure gauges -->
 	<import resource="pressureGauges.xml"/>
