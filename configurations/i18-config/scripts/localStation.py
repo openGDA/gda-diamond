@@ -37,9 +37,9 @@ test = DummyScannable("test")
 print "Create topup , beam, detector-filling, trajectory monitors to pause and resume scans"
 topupMonitor = TopupChecker()
 topupMonitor.setName("topupMonitor")
-topupMonitor.setTolerance(1.0)
-topupMonitor.setWaittime(1)
-topupMonitor.setTimeout(600)
+topupMonitor.setTolerance(2.0)
+topupMonitor.setWaittime(1.0)
+topupMonitor.setTimeout(600.0)
 topupMonitor.setMachineModeMonitor(machineModeMonitor)
 topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
 topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move

@@ -18,6 +18,12 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -29,13 +35,6 @@ import gda.jython.InterfaceProvider;
 import gda.jython.JythonServer;
 import gda.jython.commands.ScannableCommands;
 import gda.util.converters.AutoRenameableConverter;
-
-import java.util.Date;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
@@ -124,11 +123,11 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 			if (((MicroFocusScanParameters) scanBean).isRaster()){
 				// set to the row time
 				double rowTime = ((MicroFocusScanParameters) scanBean).getRowTime();
-				topupMonitor.setCollectionTime(rowTime + 15.0); // give a 15s overhead for starting the row (generous)
+				topupMonitor.setCollectionTime(rowTime); // Fred thinks the standard 2s tolerance in the topup monitor is enough so we don't add any extra here
 			} else {
 				// set to the point time
 				double pointTime = ((MicroFocusScanParameters) scanBean).getCollectionTime();
-				topupMonitor.setCollectionTime(pointTime + 2.0); // give a 2s overhead for each point
+				topupMonitor.setCollectionTime(pointTime);
 			}
 		} else if (scanBean instanceof XasScanParameters) {
 			// set to the longest time step
@@ -139,7 +138,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 			if (parameters.getExafsTime() > maxTime) maxTime = parameters.getExafsTime();
 			if (parameters.getExafsFromTime() > maxTime) maxTime = parameters.getExafsFromTime();
 			if (parameters.getExafsToTime() > maxTime) maxTime = parameters.getExafsToTime();
-			topupMonitor.setCollectionTime(maxTime + 2.0); // give a 2s overhead for each point
+			topupMonitor.setCollectionTime(maxTime);
 		} else if (scanBean instanceof XanesScanParameters) {
 			List<Region> regions = ((XanesScanParameters) scanBean).getRegions();
 			double maxTime = 0;
@@ -148,7 +147,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 					maxTime = region.getTime();
 				}
 			}
-			topupMonitor.setCollectionTime(maxTime + 2.0); // give a 2s overhead for each point
+			topupMonitor.setCollectionTime(maxTime);
 		}
 	}
 
