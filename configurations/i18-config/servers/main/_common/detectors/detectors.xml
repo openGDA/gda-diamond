@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Xspress2 Germanium detector -->
 	<bean id="xspress2controller" class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
 		<property name="daServer" ref="daserver" />
 		<property name="tfg" ref="tfg" />
@@ -21,12 +22,20 @@
 			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="sumAllElementData" value="true" />
 	</bean>
-
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xspress2system" />
 		<property name="service" ref="xspress2system" />
 		<property name="serviceInterface"
 			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
+	</bean>
+
+	<bean id="xspressConfig" class="gda.device.detector.xspress.XspressDetectorConfiguration" >
+		<constructor-arg ref="xspress2system" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspressConfig" />
+		<property name="service" ref="xspressConfig" />
+		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
 	</bean>
 
 	<!-- Time Frame Generator -->

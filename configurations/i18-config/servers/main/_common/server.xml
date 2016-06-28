@@ -34,7 +34,6 @@
 	<import resource="detectors/detectors.xml" />
 	<import resource="detectors/qexafs.xml" />
 	<import resource="detectors/xspress3.xml" />
-	<import resource="clientServerShared.xml" />
 	<import resource="converters.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="LoggingScriptController.xml" />
