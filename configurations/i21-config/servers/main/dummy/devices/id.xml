@@ -14,7 +14,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="idcontroller" class="gda.device.insertiondevice.DummyI21IDController">
+	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDDummy">
 		<property name="local" value="true" />
 		<property name="maxPhaseMotorPos" value="30.0" />
 		<property name="minGapPos" value="25.0" />
