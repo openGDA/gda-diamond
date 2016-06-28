@@ -38,7 +38,7 @@
 	<import resource="converters.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="metadata.xml" />
-	<import resource="rmiserver.xml" />
+	<import resource="motor_rmi_exports.xml" />
 	<import resource="scannables.xml" />
 	<import resource="table1.xml" />
 	<import resource="table3.xml" />
