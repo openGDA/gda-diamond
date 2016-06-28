@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<!--  the include statement in the following java.properties file is not read so you need to reference both -->
-	<property file="${gda.config}/properties/${gda.mode}/java.properties" />
-	<property file="${gda.config}/properties/java.properties" />
+
+	<!-- Include I18 properties files (would be better to include dls-config/logging/logging_properties.xml if I18 used
+		the correct config 1.1 layout) -->
+	<property file="${gda.config}/properties/_common/common_instance_java.properties" />
+	<property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
+
 	<turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
         <Name>Finest</Name>
         <Marker>FINEST</Marker>
