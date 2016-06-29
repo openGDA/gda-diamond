@@ -8,8 +8,8 @@
 		<property name="motor" ref="ssx_motor" />
 		<property name="initialUserUnits" value="micron" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-5000" />
-		<property name="upperGdaLimits" value="5000" />
+		<property name="lowerGdaLimits" value="-7000" />
+		<property name="upperGdaLimits" value="6500" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -17,8 +17,8 @@
 		<property name="motor" ref="ssy_motor" />
 		<property name="initialUserUnits" value="micron" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-5000" />
-		<property name="upperGdaLimits" value="5000" />
+		<property name="lowerGdaLimits" value="-7000" />
+		<property name="upperGdaLimits" value="6500" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -26,8 +26,8 @@
 		<property name="motor" ref="ssz_motor" />
 		<property name="initialUserUnits" value="micron" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-5000" />
-		<property name="upperGdaLimits" value="5000" />
+		<property name="lowerGdaLimits" value="-7500" />
+		<property name="upperGdaLimits" value="7000" />
 		<property name="local" value="true" />
 	</bean>
 
