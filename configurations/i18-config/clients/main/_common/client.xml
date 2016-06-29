@@ -13,7 +13,7 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<corba:import namespace="I18" names="plot_server" />
+	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
