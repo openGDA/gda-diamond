@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="10 seconds" debug="true">
 
-	<!-- Include I18 properties files (would be better to include dls-config/logging/logging_properties.xml if I18 used
-		the correct config 1.1 layout) -->
-	<property file="${gda.config}/properties/_common/common_instance_java.properties" />
-	<property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
+	<!-- Include the standard set of properties files via the XML definition in dls-config -->
+	<include file="${gda.facility.dir}/logging/logging_properties.xml" />
 
     <!-- display message in Logger Server's console -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">

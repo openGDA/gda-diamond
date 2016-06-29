@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="10 seconds" debug="true">
-
-	<!-- Include I18 properties files (would be better to include dls-config/logging/logging_properties.xml if I18 used
-		the correct config 1.1 layout) -->
-	<property file="${gda.config}/properties/_common/common_instance_java.properties" />
-	<property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
-
     <appender name="LogPanel" class="gda.util.LogPanelAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>

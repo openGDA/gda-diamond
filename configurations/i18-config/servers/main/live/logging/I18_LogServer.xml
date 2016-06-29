@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-	<!-- Include I18 properties files (would be better to include dls-config/logging/logging_properties.xml if I18 used
-		the correct config 1.1 layout) -->
-	<property file="${gda.config}/properties/_common/common_instance_java.properties" />
-	<property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
+	<!-- Include the standard set of properties files via the XML definition in dls-config -->
+	<include file="${gda.facility.dir}/logging/logging_properties.xml" />
 
 	<turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
         <Name>Finest</Name>
@@ -21,25 +19,25 @@
     <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
    <appender name="WS001" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i18-ws001.diamond.ac.uk</RemoteHost>
-        <Port>6789</Port>
+        <Port>${gda.client.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
 	  <appender name="WS001_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i18-ws001.diamond.ac.uk</RemoteHost>
-        <Port>6790</Port>
+        <Port>${gda.logPanel.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
     <appender name="WS002" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i18-ws002.diamond.ac.uk</RemoteHost>
-        <Port>6789</Port>
+        <Port>${gda.client.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
     <appender name="WS002_LogPanel" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i18-ws002.diamond.ac.uk</RemoteHost>
-        <Port>6790</Port>
+        <Port>${gda.logPanel.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
     </appender>    
