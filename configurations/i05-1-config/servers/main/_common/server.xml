@@ -9,9 +9,9 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.diamond.ac.uk/schema/gda/corba
-	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 	http://www.diamond.ac.uk/schema/gda/gda
-	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -33,8 +33,12 @@
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
-	<bean id="plot_server"
-		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+
+	<gda:rmi-export 
+		service="plot_server"
+		serviceName="gda/plotserver"
+		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
