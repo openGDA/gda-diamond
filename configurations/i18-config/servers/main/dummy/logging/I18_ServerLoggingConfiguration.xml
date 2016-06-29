@@ -4,7 +4,7 @@
 
 	<!-- Include I18 properties files (would be better to include dls-config/logging/logging_properties.xml if I18 used
 		the correct config 1.1 layout) -->
-	<property file="${gda.config}/properties/common.properties" />
+	<property file="${gda.config}/properties/_common/common_instance_java.properties" />
 	<property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
 
     <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
