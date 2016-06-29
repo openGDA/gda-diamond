@@ -50,7 +50,7 @@
 				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
 			</map>
 		</property>
-		<property name="dummyMode" value="true"></property>
+		<property name="dummyMode" value="true" />
 	</bean>
 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
@@ -58,11 +58,12 @@
 				<entry key="Top" value="BL13I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="true"></property>
+		<property name="dummyMode" value="true" />
 	</bean>
 
 	<import resource="../../../devices/dummy/undulator.xml" />
 	<import resource="../../../devices/dummy/front_end.xml" />
+	<import resource="../../../devices/dummy/ring.xml" />
 	
 	<!-- start of internal building -->
 
