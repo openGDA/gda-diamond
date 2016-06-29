@@ -16,7 +16,7 @@ module load eclipse/452_20160309
 
 # Add diamond specific options for Eclipse
 
-ECLIPSE_OPTIONS=$ECLIPSE_OPTIONS' -showlocation'
+ECLIPSE_OPTIONS='-showlocation '$ECLIPSE_OPTIONS
 
 # Use the standard eclipse keyring location (see the Developer's Reference
 # Card) if one isn't already defined.
