@@ -7,7 +7,7 @@
 		<property name="jythonScriptPaths" ref="jython_script_paths" />
 		<property name="gdaVarDirectory" value="${gda.config}/var" />
 		<property name="cacheDirectory" value="${gda.config}/var/jythonCache" />
-		<property name="remotePort" value="9999" />
+		<property name="remotePort" value="${gda.jython.socket}" />
 	</bean>
 
 	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
