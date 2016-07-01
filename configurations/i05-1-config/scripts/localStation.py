@@ -44,6 +44,9 @@ centre_energy = analyser.getCentreEnergyScannable()
 centre_energy.setName("centre_energy")
 centre_energy.setInputNames(["centre_energy"])
 
+# Add the MCP ROI to the global namespace, must match the name in spring.
+mcp_roi = finder.find('mcp_roi')
+
 # Enable callbacks on ARR1 to allow updating of detector plot
 caput("BL05J-EA-DET-01:ARR:EnableCallbacks",1)
 
