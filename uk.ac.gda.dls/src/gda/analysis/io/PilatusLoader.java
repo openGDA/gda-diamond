@@ -19,10 +19,9 @@
 
 package gda.analysis.io;
 
-import gda.util.OSCommandRunner;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.api.monitor.IMonitor;
@@ -30,6 +29,7 @@ import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.util.OSCommandRunner;
 import uk.ac.diamond.scisoft.analysis.io.AbstractFileLoader;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.Utils;
@@ -60,7 +60,7 @@ public class PilatusLoader extends AbstractFileLoader {
 
 	/**
 	 * This is the function which load in the tiff file
-	 * 
+	 *
 	 * @return The holder object which contains the datasets containing the tiff information
 	 * @throws ScanFileHolderException
 	 */
@@ -137,6 +137,6 @@ public class PilatusLoader extends AbstractFileLoader {
 	}
 
 	@Override
-	public void loadMetadata(IMonitor mon) throws Exception {
+	public void loadMetadata(IMonitor mon) throws IOException {
 	}
 }
