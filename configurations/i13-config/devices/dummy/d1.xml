@@ -72,4 +72,7 @@
 		<property name="prefix" value="I13I-AD-SIM-01:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
+	
+	<bean id="d1_total" class="gda.device.scannable.SimpleScannable"/>
+	
 </beans>	

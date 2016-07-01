@@ -7,5 +7,11 @@
 	<bean id="eh_shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback"> 
 		<property name="deviceName" value="eh_shtr" /> 
 	</bean> 
+
+    <bean id="dcm_fine_pitch_demand" class="gda.device.scannable.EpicsScannable">
+    	<property name="name" value="dcm_fine_pitch_demand" />
+    	<property name="pvName" value="BL13I-OP-DCM-01:BRAGG:FINE:DEMANDPOS" />
+    	<property name="useNameAsInputName" value="true" />
+    </bean>
 	
 </beans>	

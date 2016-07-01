@@ -18,11 +18,6 @@
 
 package uk.ac.gda.beamline.i13i.ADViewerImpl;
 
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.jython.InterfaceProvider;
-import gda.observable.IObserver;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -43,6 +38,10 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.jython.InterfaceProvider;
+import gda.observable.IObserver;
 import uk.ac.gda.common.rcp.util.GridUtils;
 
 public class EnumPositionerComposite extends Composite {
@@ -129,7 +128,7 @@ public class EnumPositionerComposite extends Composite {
 				pcom.add(pos);
 			}
 		} catch (DeviceException e1) {
-			logger.error("Error getting positions from the lens", e1);
+			logger.error("Error getting positions from " + positioner.getName(), e1);
 		}
 
 		observer = new IObserver() {
@@ -144,7 +143,7 @@ public class EnumPositionerComposite extends Composite {
 							pcom.setText(currentPos);
 							GridUtils.layout(group);
 						} catch (DeviceException e) {
-							logger.error("Error reading the lens position", e);
+							logger.error("Error reading position of " + positioner.getName(), e);
 						}
 					}
 				});

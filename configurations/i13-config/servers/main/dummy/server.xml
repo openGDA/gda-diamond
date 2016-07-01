@@ -50,7 +50,7 @@
 				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
 			</map>
 		</property>
-		<property name="dummyMode" value="true"></property>
+		<property name="dummyMode" value="true" />
 	</bean>
 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
@@ -58,12 +58,13 @@
 				<entry key="Top" value="BL13I" />
 			</map>
 		</property>
-		<property name="dummyMode" value="true"></property>
+		<property name="dummyMode" value="true" />
 	</bean>
 
 	<import resource="../../../devices/dummy/undulator.xml" />
 	<import resource="../../../devices/dummy/front_end.xml" />
-	
+	<import resource="../../../devices/dummy/ring.xml" />
+
 	<!-- start of internal building -->
 
 	<import resource="../../../devices/dummy/s1_motors.xml" />
@@ -99,8 +100,16 @@
 	<import resource="../../../devices/dummy/table_motors.xml" />
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
 
+
+	<!-- Include the following lines to run with simulated area detector -->
+<!--     <import resource="../../../devices/dummy/adSimulator.xml"/>
+    <import resource="../../../devices/dummy/pco1_ndplugins_sim.xml"/> -->
+
+	<!-- Include the following line to run in dummy mode -->
+    <import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
+
 	<import resource="../../../devices/dummy/pco1.xml" />
-	<import resource="../../../devices/dummy/pco1_ndplugins.xml" />
+	
 	<import resource="../../../devices/dummy/lens.xml" />
 	<import resource="../../../devices/dummy/pco_binning.xml" />
 	<import resource="../../../devices/dummy/zebra.xml" />

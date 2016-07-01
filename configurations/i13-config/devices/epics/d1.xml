@@ -96,4 +96,11 @@
 		<property name="prefix" value="BL13I-DI-PHDGN-01:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
+	
+    <bean id="d1_total" class="gda.device.scannable.EpicsScannable">
+    	<property name="name" value="d1_total" />
+    	<property name="pvName" value="BL13I-DI-PHDGN-01:STAT:Total_RBV" />
+    	<property name="useNameAsInputName" value="true" />
+    </bean>
+	
 </beans>	

@@ -1,22 +1,30 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/aop
-		http://www.springframework.org/schema/aop/spring-aop.xsd
-		http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-2.5.xsd
-		http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 
-	<bean id="adDriverPco1" class="gda.device.detector.areadetector.v17.impl.DummyADDriverPco" />
+	<bean id="pco1_singleExposureStandard" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".03" />
+	</bean>
+	
+	<bean id="pco1_sw" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_singleExposureStandard" />
+		<property name="additionalPluginList">
+			<list>
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+				<constructor-arg ref="pco1_arr"/>
+			</bean>
+			</list>
+		</property>
+	</bean>	
 
-	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.nxdetector.plugin.NullNXPlugin" />
-
-	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.nxdetector.plugin.NullNXPlugin" />
-
-	<bean id="pco1_tif_writer" class="gda.device.detector.nxdetector.plugin.NullNXPlugin" />
-
-	<bean id="pco1_hw_tif" class="gda.device.detector.DummyDetector" />
+	<bean id="pco1_hw_tif" class="gda.device.detector.DummyNXDetector">
+		<constructor-arg value="pco1_hw_tif" />
+		<constructor-arg value="1" />
+	</bean>
 
 </beans>

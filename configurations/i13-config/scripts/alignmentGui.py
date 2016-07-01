@@ -56,14 +56,15 @@ class TomoDet():
         
         if self.model == "PCO.Camera Dimax":
             self.pco1_autoContinuousTrigger.triggerMode=2 #EXTERNAL_AND_SOFTWARE otherwise it runs too fast
+            self.pco1_autoContinuousTrigger.prepareForCollection(exposureTime,1,None)
+        elif self.model == "GC1020C":
+            pass # gige camera from test lab
+        elif self.model == "Basic simulator":
+            self.pco1_cam_base.startAcquiring()
         else:
-            if self.model == "GC1020C" or self.model =="Basic simulator":
-                pass # gige camera from test lab
-            else:
-                self.pco1_autoContinuousTrigger.triggerMode=0 #AUTO - ok for PCO4000
+            self.pco1_autoContinuousTrigger.triggerMode=0 #AUTO - ok for PCO4000
+            self.pco1_autoContinuousTrigger.prepareForCollection(exposureTime,1,None)
             
-        self.pco1_autoContinuousTrigger.prepareForCollection(exposureTime,1,None)
-
         self.pco1_proc1.getPluginBase().disableCallbacks()
         self.pco1_proc1.getPluginBase().setBlockingCallbacks(1)
         self.pco1_proc1.getPluginBase().setMinCallbackTime(0.5)
@@ -104,6 +105,9 @@ class TomoDet():
 #epg 7/8/13 hack to get live stream working - the above line arms the detector which seems to stop it working 
 #in continuous mode
             caput("BL13I-EA-DET-01:CAM:Acquire",1 )
+        elif self.model =="Basic simulator":
+            self.pco1_cam_base.setImageMode(2) # continuous
+            self.pco1_cam_base.startAcquiring()
         else:
             self.pco1_autoContinuousTrigger.collectData()
 	    return True
