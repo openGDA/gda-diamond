@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Deprecated. Use the standard logging definitions in core-config/logging instead of including this file. -->
+
 <included>
 	<!-- Include all standard property files because the log server does not follow "include" instructions -->
 	<!-- They are included in reverse order compared to the way LocalProperties reads them, because LocalProperties
