@@ -23,13 +23,13 @@ tomography_optimizer=beam_optimizer
 #pco1_hw_tif - uses tfg trigger, saves each image to a separate tif file
 #pco1_hw_hdf - uses tfg trigger, saves all images to 1 hdf file 
 #tomography_detector=pco1_hw_hdf
-tomography_detector=pco1_hw_tif
+tomography_detector=pco1_sw
 
 #tomography_normalisedImage_detector is the detector used to take normalised images
 #Possible values:
 #pco1_hw_tif - to save to tif files
 #pco1_hw_hdf_nochunking - to save to hdf with no chunking ( chunking only suitable for full projection sets)
-tomography_normalisedImage_detector=pco1_hw_tif
+tomography_normalisedImage_detector=pco1_sw
 
 #tomography_shutter is the shutter that is closed to take a dark and opened for a flat and projection
 #Possible values:

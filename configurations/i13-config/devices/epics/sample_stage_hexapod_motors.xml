@@ -39,5 +39,16 @@
 		<property name="configureAtStartup" value="${use.hexapod}"/>
 	</bean>
 
+    <bean id="hex_samplex" class="gda.device.scannable.EpicsScannable">
+    	<property name="name" value="hex_samplex" />
+    	<property name="pvName" value="BL13I-MO-HEX-01:SAMPLEX.VAL" />
+    	<property name="useNameAsInputName" value="true" />
+    </bean>
+
+    <bean id="hex_samplez" class="gda.device.scannable.EpicsScannable">
+    	<property name="name" value="hex_samplex" />
+    	<property name="pvName" value="BL13I-MO-HEX-01:SAMPLEZ.VAL" />
+    	<property name="useNameAsInputName" value="true" />
+    </bean>
 
 </beans>	
