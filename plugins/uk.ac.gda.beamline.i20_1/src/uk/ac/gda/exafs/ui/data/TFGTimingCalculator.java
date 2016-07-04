@@ -19,6 +19,7 @@
 package uk.ac.gda.exafs.ui.data;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset;
 
@@ -60,11 +61,11 @@ public final class TFGTimingCalculator {
 		yValues[4] = 0.;
 
 
-		DoubleDataset xDataSet = new DoubleDataset(xValues, xValues.length);
-		DoubleDataset yDataSet = new DoubleDataset(yValues, yValues.length);
-		IntegerDataset inputsDataSet = new IntegerDataset(1);
+		DoubleDataset xDataSet = DatasetFactory.createFromObject(DoubleDataset.class, xValues, xValues.length);
+		DoubleDataset yDataSet = DatasetFactory.createFromObject(DoubleDataset.class, yValues, yValues.length);
+		IntegerDataset inputsDataSet = DatasetFactory.zeros(IntegerDataset.class, 1);
 		inputsDataSet.set(lemoIn, 0);
-		IntegerDataset outputsDataset = new IntegerDataset(1);
+		IntegerDataset outputsDataset = DatasetFactory.zeros(IntegerDataset.class, 1);
 		outputsDataset.set(lemoOut, 0);
 		return new Dataset[] { xDataSet, yDataSet, inputsDataSet, outputsDataset };
 	}

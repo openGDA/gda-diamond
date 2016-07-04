@@ -19,6 +19,7 @@
 package uk.ac.gda.exafs.ui.data;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 /**
@@ -51,10 +52,10 @@ public class EdeTimingCalculator {
 	}
 
 	private static DoubleDataset[] returnArraysAsDatasets() {
-		DoubleDataset xDataSet = new DoubleDataset(xValues, xValues.length);
-		DoubleDataset yDataSet = new DoubleDataset(yValues, yValues.length);
-		DoubleDataset inputsDataSet = new DoubleDataset(inputTrigPoints, inputTrigPoints.length);
-		DoubleDataset outputsDataset = new DoubleDataset(outputTrigPoints, outputTrigPoints.length);
+		DoubleDataset xDataSet = DatasetFactory.createFromObject(DoubleDataset.class, xValues);
+		DoubleDataset yDataSet = DatasetFactory.createFromObject(DoubleDataset.class, yValues);
+		DoubleDataset inputsDataSet = DatasetFactory.createFromObject(DoubleDataset.class, inputTrigPoints);
+		DoubleDataset outputsDataset = DatasetFactory.createFromObject(DoubleDataset.class, outputTrigPoints);
 		return new DoubleDataset[] { xDataSet, yDataSet, inputsDataSet, outputsDataset };
 	}
 

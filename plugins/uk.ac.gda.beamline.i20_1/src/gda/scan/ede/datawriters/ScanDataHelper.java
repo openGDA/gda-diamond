@@ -21,6 +21,7 @@ package gda.scan.ede.datawriters;
 import java.util.Arrays;
 import java.util.Vector;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 import gda.data.nexus.extractor.NexusExtractor;
@@ -44,7 +45,7 @@ public class ScanDataHelper {
 		String dataType = isEnergy? EdeDataConstants.ENERGY_COLUMN_NAME : EdeDataConstants.DATA_COLUMN_NAME;
 		NexusGroupData groupData = detData.getData(detectorName, dataType, NexusExtractor.SDSClassName);
 		double[] originalData = (double[]) groupData.getBuffer();
-		return new DoubleDataset(Arrays.copyOf(originalData, originalData.length), originalData.length);
+		return DatasetFactory.createFromObject(DoubleDataset.class, Arrays.copyOf(originalData, originalData.length));
 	}
 
 	public static int getIndexOfMyDetector(String detectorName, ScanDataPoint scanDataPoint) {

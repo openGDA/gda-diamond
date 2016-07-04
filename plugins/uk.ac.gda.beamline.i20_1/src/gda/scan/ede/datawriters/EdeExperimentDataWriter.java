@@ -20,6 +20,7 @@ package gda.scan.ede.datawriters;
 
 import java.util.ArrayList;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +73,7 @@ public abstract class EdeExperimentDataWriter {
 			itNormaliseArray[channel] = calcLnI0It(i0RawArray[channel]-darkArray[channel],itRawArray[channel]-darkArray[channel]);
 		}
 
-		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
+		return DatasetFactory.createFromObject(DoubleDataset.class, itNormaliseArray);
 	}
 
 	public static DoubleDataset normaliseDatasset(DoubleDataset it, DoubleDataset i0) {
@@ -85,7 +86,7 @@ public abstract class EdeExperimentDataWriter {
 			itNormaliseArray[channel] = calcLnI0It(i0Array[channel],itArray[channel]);
 		}
 
-		return new DoubleDataset(itNormaliseArray,itNormaliseArray.length);
+		return DatasetFactory.createFromObject(DoubleDataset.class, itNormaliseArray);
 
 	}
 

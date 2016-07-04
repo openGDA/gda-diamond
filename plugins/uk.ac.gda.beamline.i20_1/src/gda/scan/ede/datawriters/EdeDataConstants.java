@@ -19,6 +19,7 @@
 package gda.scan.ede.datawriters;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -137,7 +138,7 @@ public class EdeDataConstants {
 		}
 
 		public static DoubleDataset toDataset(TimingGroupMetadata[] metaData) {
-			DoubleDataset metaDataset = new DoubleDataset(new int[]{metaData.length, 6});
+			DoubleDataset metaDataset = DatasetFactory.zeros(DoubleDataset.class, metaData.length, 6);
 			for (int i = 0; i < metaData.length; i++) {
 				TimingGroupMetadata metaDataItem = metaData[i];
 				metaDataset.set(metaDataItem.getIndex(), i, 0);

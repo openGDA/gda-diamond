@@ -24,6 +24,7 @@ import java.io.FileWriter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -277,7 +278,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		for (int i = 0; i < pixelData.length; i++) {
 			pixelDataArray[i] = pixelData[i];
 		}
-		return new DoubleDataset(pixelDataArray);
+		return DatasetFactory.createFromObject(DoubleDataset.class, pixelDataArray);
 	}
 
 	@Override

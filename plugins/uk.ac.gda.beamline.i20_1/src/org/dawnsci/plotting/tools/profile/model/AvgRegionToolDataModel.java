@@ -18,6 +18,7 @@
 
 package org.dawnsci.plotting.tools.profile.model;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.region.IRegion;
@@ -39,7 +40,7 @@ public class AvgRegionToolDataModel extends SpectraRegionDataNode {
 
 	@Override
 	public DoubleDataset getDataset(DoubleDataset fullData) {
-		DoubleDataset result = new DoubleDataset(new int[]{0, TimeResolvedDataNode.NUMBER_OF_STRIPS});
+		DoubleDataset result = DatasetFactory.zeros(DoubleDataset.class, 0, TimeResolvedDataNode.NUMBER_OF_STRIPS);
 		for (int i = this.getStart().getIndex(); i  < this.getEnd().getIndex() + 1; i = i + noOfSpectraToAvg) {
 			DoubleDataset data = (DoubleDataset) ((DoubleDataset) fullData.getSliceView(new int[]{i, 0}, new int[]{i + noOfSpectraToAvg, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1,1})).mean(0);
 			data.setShape(new int[]{1, TimeResolvedDataNode.NUMBER_OF_STRIPS});
