@@ -29,7 +29,7 @@ from gda.device.detector import PseudoDetector
 
 from gda.analysis.datastructure import *
 from gda.analysis import *
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.january.dataset import DatasetFactory
 from gda.analysis import RCPPlotter;
 from gda.analysis.io import PNGLoader, PNGSaver;
 
@@ -182,7 +182,7 @@ class EpicsCameraClass(PseudoDetector):
 		tempDoubleList = [float(x) for x in self.rawData];
 
 #		self.dataset=DataSet.array(self.frameData.cagetArrayDouble());
-		self.dataset = DoubleDataset.array(tempDoubleList)
+		self.dataset = DatasetFactory.createFromObject(tempDoubleList)
 		self.dataset.shape = [self.height, self.width]
 #		self.data = ScanFileHolder();
 #		self.data.addDataSet(self.getName(), self.dataset);

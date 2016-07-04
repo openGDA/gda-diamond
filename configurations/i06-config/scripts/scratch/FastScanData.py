@@ -5,7 +5,7 @@ import jarray;
 
 from gda.epics import CAClient;
 from gda.device.scannable import PseudoDevice;
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.january.dataset import DatasetFactory
 
 class FastEnergyDeviceClass(PseudoDevice):
 	""" """
@@ -203,7 +203,7 @@ class EpicsMCAWaveformDataDeviceClass(PseudoDevice):
 			la.append(self.data[i]);
 		print "---> Debug: get waveform: end at: " + ctime();
 		
-		ds=DoubleDataset.array(la) #ds is a new DataSet with dimension [numberOfDetectors, size];
+		ds=DatasetFactory.createFromObject(la) #ds is a new DataSet with dimension [numberOfDetectors, size];
 		
 		self.dataset = ds;
 		return True;

@@ -3,9 +3,10 @@ from gda.analysis import RCPPlotter
 from uk.ac.diamond.scisoft.analysis.plotserver import GuiBean;
 from uk.ac.diamond.scisoft.analysis.plotserver import GuiParameters;
 from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI, RectangularROIList;
+from org.eclipse.january.dataset import DatasetFactory
 
 pp=RCPPlotter()
-pp.plot("Area Detector", DoubleDataset.array(range(100)) )
+pp.plot("Area Detector", DatasetFactory.createFromObject(range(100)))
 
 
 
@@ -13,7 +14,7 @@ pp.plot("Area Detector", DoubleDataset.array(range(100)) )
 #d = DataSet.arange(10000)
 #d.shape = [100,100]
 
-d=DoubleDataset.arange(10000)
+d=DatasetFactory.createRange(10000)
 d.shape = [100,100]
 # or, d = DataSet.arange(10000).reshape((100,100)) in GDA v8.12
 
@@ -21,7 +22,7 @@ pp.imagePlot("Area Detector", d)
 
 
 #This is used to plot on the ImageExploreView
-pp.plotImageToGrid("Image Explorer", DataSet.ones([20,30]) )
+pp.plotImageToGrid("Image Explorer", DatasetFactory.ones([20,30]) )
 pp.plotImageToGrid("Image Explorer", "/home/xr56/temp/p100kImage26455.tif")
 
 #RCPPlotter().plotImageToGrid("Image Explorer","/home/xr56/temp/pilatus100K/p686905.tif")
@@ -35,7 +36,7 @@ gbean = pp.getGuiBean("Area Detector")
 
 gbean
 
-{ROIData=Start (36.0000, 27.0000) Size (11.0000,10.0000) Angle 0.00000, PlotMode=2D, PlotID=09421fb4-720f-4847-a40e-e8cafeacba84}
+#{ROIData=Start (36.0000, 27.0000) Size (11.0000,10.0000) Angle 0.00000, PlotMode=2D, PlotID=09421fb4-720f-4847-a40e-e8cafeacba84}
 gKeys = gbean.keySet() #[ROIData, PlotMode, PlotID]
 gValues = gbean.values() # [Start (36.0000, 27.0000) Size (11.0000,10.0000) Angle 0.00000, 2D, 09421fb4-720f-4847-a40e-e8cafeacba84]
 

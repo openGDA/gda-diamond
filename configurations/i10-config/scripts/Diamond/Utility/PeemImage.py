@@ -9,7 +9,7 @@ import math
 
 from gda.analysis.io import PNGLoader, PNGSaver, JPEGLoader, TIFFImageLoader
 from gda.analysis import ScanFileHolder
-from org.eclipse.dawnsci.analysis.dataset.impl import Maths as DatasetMaths
+from org.eclipse.january.dataset import Maths as DatasetMaths
 
 GDA_FILELOADERS={
 			'TIF':TIFFImageLoader,
