@@ -5,7 +5,7 @@ from uk.ac.diamond.scisoft.analysis.fitting.functions import Quadratic, Gaussian
 from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
 
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.dawnsci.analysis.dataset.impl import DatasetFactory
 
 from time import sleep
 from gda.analysis import ScanFileHolder, RCPPlotter
@@ -173,7 +173,7 @@ class q_refinement() :
     
     def getEnergyBin(self,energys, energy):
         sfh = ScanFileHolder()
-        return sfh.getInterpolatedX(DoubleDataset.arange(len(energys)),energys,energy)
+        return sfh.getInterpolatedX(DatasetFactory.createRange(len(energys)),energys,energy)
     
     def getPeakRatio(self,sortedPeaks, a,b,c):
         return (sortedPeaks[a]-sortedPeaks[b])/(sortedPeaks[a]-sortedPeaks[c])                        

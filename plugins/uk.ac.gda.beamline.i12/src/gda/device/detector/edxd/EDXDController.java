@@ -18,6 +18,15 @@
 
 package gda.device.detector.edxd;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.analysis.RCPPlotter;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.NexusTreeProvider;
@@ -34,13 +43,6 @@ import gda.util.persistence.LocalDatabase.LocalDatabaseException;
 import gda.util.persistence.LocalObjectShelf;
 import gda.util.persistence.LocalObjectShelfManager;
 import gda.util.persistence.ObjectShelfException;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class describes the EDXD detector on I12, it is made up of 24 subdetectors
@@ -215,7 +217,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 			// add the data
 			double[] detData =  det.readoutDoubles();
-			plotds[i] = new DoubleDataset( detData);
+			plotds[i] = DatasetFactory.createFromObject(DoubleDataset.class, detData);
 			plotds[i].setName(det.getName());
 			double sum = 0;
 			for (double value : detData){
@@ -287,7 +289,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Sets the number of bins that are used by the xmap.
-	 * 
+	 *
 	 * @param NumberOfBins
 	 *            a number up to 16k
 	 * @return the number of bins which are actualy set.
@@ -308,7 +310,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Sets the dynamic range of the detector
-	 * 
+	 *
 	 * @param dynamicRange
 	 *            the dynamic range in KeV
 	 * @return the actual value which has been set
@@ -321,7 +323,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Sets the energy per bin
-	 * 
+	 *
 	 * @param binWidth
 	 *            in eV
 	 * @throws DeviceException
@@ -332,7 +334,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Simple method which sets up the EDXD with some basic assumptions
-	 * 
+	 *
 	 * @param maxEnergy
 	 *            The maxim energy expected in KeV
 	 * @param numberOfBins
@@ -350,7 +352,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Save all the xmap settings, with no description
-	 * 
+	 *
 	 * @param name
 	 * @throws ObjectShelfException
 	 * @throws LocalDatabaseException
@@ -362,7 +364,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Save all the xmap settings along with the given description
-	 * 
+	 *
 	 * @param name
 	 * @param description
 	 * @throws ObjectShelfException
@@ -392,7 +394,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Loads a setting from the persistance
-	 * 
+	 *
 	 * @param name
 	 * @return The description of the configuration loaded
 	 * @throws DeviceException
@@ -427,7 +429,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * This method shows all the savefiles for the EDXD detector
-	 * 
+	 *
 	 * @return a string containing all the files
 	 * @throws LocalDatabaseException
 	 * @throws ObjectShelfException
@@ -458,7 +460,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Prints all the settings to the screen, this is an I12 request
-	 * 
+	 *
 	 * @return the created string
 	 */
 	public String printCurrentSettings() {
@@ -479,7 +481,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the preampGain for all elements
-	 * 
+	 *
 	 * @param preampGain
 	 * @throws DeviceException
 	 */
@@ -491,7 +493,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the peakTime for all elements
-	 * 
+	 *
 	 * @param peakTime
 	 * @throws DeviceException
 	 */
@@ -503,7 +505,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the triggerThreshold for all elements
-	 * 
+	 *
 	 * @param triggerThreshold
 	 * @throws DeviceException
 	 */
@@ -515,7 +517,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the baseThreshold for all elements
-	 * 
+	 *
 	 * @param baseThreshold
 	 * @throws DeviceException
 	 */
@@ -527,7 +529,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the baseLength for all elements
-	 * 
+	 *
 	 * @param baseLength
 	 * @throws DeviceException
 	 */
@@ -539,7 +541,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the energyThreshold for all elements
-	 * 
+	 *
 	 * @param energyThreshold
 	 * @throws DeviceException
 	 */
@@ -551,7 +553,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the resetDelay for all elements
-	 * 
+	 *
 	 * @param resetDelay
 	 * @throws DeviceException
 	 */
@@ -563,7 +565,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the gapTime for all elements
-	 * 
+	 *
 	 * @param gapTime
 	 * @throws DeviceException
 	 */
@@ -575,7 +577,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the triggerPeakTime for all elements
-	 * 
+	 *
 	 * @param triggerPeakTime
 	 * @throws DeviceException
 	 */
@@ -587,7 +589,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the triggerGapTime for all elements
-	 * 
+	 *
 	 * @param triggerGapTime
 	 * @throws DeviceException
 	 */
@@ -599,7 +601,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Set the maxWidth for all elements
-	 * 
+	 *
 	 * @param maxWidth
 	 * @throws DeviceException
 	 */
@@ -611,7 +613,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Get one of the elements specifialy by name
-	 * 
+	 *
 	 * @param index
 	 * @return An the EDXDElement requested
 	 */
@@ -630,7 +632,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	private ArrayList<DoubleDataset> traceDataSets = new ArrayList<DoubleDataset>();
 
 	/**
-	 * 
+	 *
 	 */
 	public void monitorAllSpectra() {
 		plotAllSpectra = true;
@@ -638,7 +640,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Monitors a specific spectra
-	 * 
+	 *
 	 * @param detectorNumber
 	 */
 	public void monitorSpectra(int detectorNumber) {
@@ -670,7 +672,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Acquires a single image for viewing only
-	 * 
+	 *
 	 * @param aquisitionTime
 	 *            The time to collect for
 	 * @return The dataset of the aquired data, for additional processing if required.
@@ -683,7 +685,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 
 	/**
 	 * Acquires a single image for viewing only
-	 * 
+	 *
 	 * @param aquisitionTime
 	 *            The time to collect for
 	 * @return The dataset of the aquired data, for additional processing if required.
@@ -714,10 +716,10 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 			EDXDElement det = subDetectors.get(i);
 
 			// add the data
-			data[i] = new DoubleDataset(det.readoutDoubles());
+			data[i] = DatasetFactory.createFromObject(DoubleDataset.class, det.readoutDoubles());
 			data[i].setName(det.getName());
 		}
-		DoubleDataset yaxis = new DoubleDataset(subDetectors.get(0).getEnergyBins());
+		Dataset yaxis = DatasetFactory.createFromObject(subDetectors.get(0).getEnergyBins());
 		yaxis.setName("Energy");
 		try {
 			RCPPlotter.plot(EDXD_PLOT, yaxis, data);
@@ -734,13 +736,13 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 		try {
 
 			if (plotAllSpectra) {
-				DoubleDataset yAxis = new DoubleDataset(subDetectors.get(0).getEnergyBins());
+				Dataset yAxis = DatasetFactory.createFromObject(subDetectors.get(0).getEnergyBins());
 				yAxis.setName("Energy");
 				RCPPlotter.plot(EDXD_PLOT, yAxis, plotds);
 			} else {
 
 				if (traceOneSpectra != null) {
-					DoubleDataset yAxis = new DoubleDataset(subDetectors.get(traceOneSpectra).getEnergyBins());
+					Dataset yAxis = DatasetFactory.createFromObject(subDetectors.get(traceOneSpectra).getEnergyBins());
 					yAxis.setName("Energy");
 					if (newTrace) {
 						traceDataSets.clear();

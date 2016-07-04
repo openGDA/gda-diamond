@@ -1,5 +1,5 @@
 from gda.analysis import ScanFileHolder, RCPPlotter
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.dawnsci.analysis.dataset.impl import DatasetFactory
 from gda.data import PathConstructor,NumTracker
 from gda.data.nexus.tree import NexusTreeNodeSelection
 from uk.ac.diamond.scisoft.analysis.io import NexusLoader
@@ -24,7 +24,7 @@ def plotAll(point) :
 		plots.append(ds)
 		
 
-	RCPPlotter.plot("Plot 1",DoubleDataset.arange(plots[0].getDimensions()[0]), plots)
+	RCPPlotter.plot("Plot 1",DatasetFactory.createRange(plots[0].getDimensions()[0]), plots)
 
 
 def plotOne(Number) :
@@ -47,5 +47,5 @@ def plotOne(Number) :
 		ds.setName(str(i))
 		plots.append(ds)		
 
-	RCPPlotter.plot("Plot 1",DoubleDataset.arange(plots[0].getDimensions()[0]), plots)
+	RCPPlotter.plot("Plot 1",DatasetFactory.createRange(plots[0].getDimensions()[0]), plots)
 

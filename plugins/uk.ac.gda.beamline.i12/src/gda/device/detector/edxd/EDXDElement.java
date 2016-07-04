@@ -18,20 +18,20 @@
 
 package gda.device.detector.edxd;
 
+import org.eclipse.dawnsci.analysis.api.tree.Node;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.data.nexus.INeXusInfoWriteable;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorBase;
 import gda.device.epicsdevice.FindableEpicsDevice;
 import gda.device.epicsdevice.ReturnType;
-
-import org.eclipse.dawnsci.analysis.api.tree.Node;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.diamond.scisoft.analysis.fitting.Fitter;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.CompositeFunction;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Quadratic;
@@ -43,15 +43,15 @@ import uk.ac.diamond.scisoft.analysis.optimize.LeastSquares;
 public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	private static final String REALTIME = "REALTIME"; //channel acquisition time
- 
+
 	private static final String ELIVETIME = "ELIVETIME"; //elapsed live time
 
 	private static final String TLIVETIME = "TLIVETIME"; //channel trigger live time
 
-	private static final String GETNBINS = "GETNBINS"; 
+	private static final String GETNBINS = "GETNBINS";
 
 	private static final String DATA = "DATA"; //XMAP MCA data record
-	
+
 	private static final String EVENTS = "EVENTS"; //channel total number of events
 
 	private static final String INPUTCOUNTRATE = "INPUTCOUNTRATE"; //input count rate
@@ -71,9 +71,9 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 	private static final String BASELENGTH = "BASELENGTH"; //the number of samples averaged in the baseline filter, specified as number of samples
 
 	private static final String ENERGYTHRESH = "ENERGYTHRESH"; //the energy filter threshold
-	
+
 	private static final String ADCPERCENT = "ADCPERCENT"; //ADC % rule
-	
+
 	private static final String BINWIDTH = "BINWIDTH"; //Width of the individual bin in the MCA spectrum
 
 	private static final String MAXENERGY = "MAXENERGY"; //maximum energy for the spectrum
@@ -116,7 +116,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * This detector dose not create its own files
-	 * 
+	 *
 	 * @return false
 	 * @throws DeviceException
 	 */
@@ -140,7 +140,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * the trigger live time
-	 * 
+	 *
 	 * @return the reported trigger live time
 	 * @throws DeviceException
 	 */
@@ -203,7 +203,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * Sets the peak time
-	 * 
+	 *
 	 * @param peakTime
 	 * @return the peaktime as it is reported
 	 * @throws DeviceException
@@ -223,7 +223,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the dynamic range
-	 * 
+	 *
 	 * @param dynamicRange
 	 * @return the dynamic range as it is reported
 	 * @throws DeviceException
@@ -243,7 +243,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the trigger threshold
-	 * 
+	 *
 	 * @param triggerThreshold
 	 * @return the trigger threshold as it is reported
 	 * @throws DeviceException
@@ -263,7 +263,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the base threshold
-	 * 
+	 *
 	 * @param baseThreshold
 	 * @return the base threshold as reported
 	 * @throws DeviceException
@@ -284,7 +284,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the Base Length
-	 * 
+	 *
 	 * @param baseLength
 	 * @return the base length as it is reported
 	 * @throws DeviceException
@@ -304,7 +304,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the energy threshold
-	 * 
+	 *
 	 * @param energyThreshold
 	 * @return the energy threshold
 	 * @throws DeviceException
@@ -331,7 +331,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the bin width
-	 * 
+	 *
 	 * @param binWidth
 	 * @return the bin width as reported
 	 * @throws DeviceException
@@ -358,7 +358,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the preamp gain
-	 * 
+	 *
 	 * @param preampGain
 	 * @return the preamp gain as reported
 	 * @throws DeviceException
@@ -378,7 +378,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * Sets the reset delay
-	 * 
+	 *
 	 * @param resetDelay
 	 * @return the reset delay as reported
 	 * @throws DeviceException
@@ -398,7 +398,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * Sets the gap time
-	 * 
+	 *
 	 * @param gapTime
 	 * @return the gap time as reported
 	 * @throws DeviceException
@@ -418,7 +418,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets teh trigger peak time
-	 * 
+	 *
 	 * @param triggerPeakTime
 	 * @return the trigger peak time as reported
 	 * @throws DeviceException
@@ -438,7 +438,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the trigger gap time
-	 * 
+	 *
 	 * @param triggerGapTime
 	 * @return the reported trigger gap time
 	 * @throws DeviceException
@@ -458,7 +458,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * sets the max width
-	 * 
+	 *
 	 * @param maxWidth
 	 * @return the reported max width
 	 * @throws DeviceException
@@ -521,7 +521,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * get an energy for a single bin
-	 * 
+	 *
 	 * @param value
 	 * @return the energy in eV
 	 */
@@ -544,7 +544,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * The point of this function is to fit a curve to the data collected from a calibration Sample
-	 * 
+	 *
 	 * @param actual
 	 * @param reported
 	 * @throws Exception
@@ -552,8 +552,8 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 	public void fitPolynomialToEnergyData(double[] actual, double[] reported) throws Exception {
 
 		// create some dataSets
-		DoubleDataset act = new DoubleDataset(actual);
-		DoubleDataset rep = new DoubleDataset(reported);
+		Dataset act = DatasetFactory.createFromObject(actual);
+		Dataset rep = DatasetFactory.createFromObject(reported);
 
 		double[] initial = { 0.0, 1.0, 0.0 };
 		CompositeFunction out = Fitter.fit(rep, act, new LeastSquares(0.0), new Quadratic(initial));
@@ -621,7 +621,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 
 	/**
 	 * Sets all the xmap values from the values in the provided bean
-	 * 
+	 *
 	 * @param bean
 	 * @throws DeviceException
 	 */
@@ -661,5 +661,5 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 	public void setQ(double[] q) {
 		this.q = q;
 	}
-	
+
 }

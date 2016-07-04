@@ -1,19 +1,18 @@
 import scisoftpy as dnp
-import org.eclipse.dawnsci.analysis.dataset.impl.IntegerDataset as IntegerDataset
 
 import uk.ac.diamond.scisoft.analysis.fitting.Generic1DFitter as fitter1
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian as Gaussian
 import uk.ac.diamond.scisoft.analysis.optimize.GeneticAlg as GeneticAlg
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset as DoubleDataset
 from uk.ac.diamond.scisoft.analysis.fitting import CalibrationUtils
 import gdascripts.analysis.datasetprocessor.oned.extractPeakParameters as epp
+from org.eclipse.dawnsci.analysis.dataset.impl import DatasetFactory
 
 def findPeakPosition(approxVal, integerDataSet, leftShift=6, rightShift=6):
     actualVal = approxVal
     start = approxVal - leftShift
     end = approxVal + rightShift
     slice1 = integerDataSet.getSlice([start], [end], [1])
-    fittedG = fitter1.fitPeakFunctions(IntegerDataset.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0000001), 5, 1)
+    fittedG = fitter1.fitPeakFunctions(DatasetFactory.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0000001), 5, 1)
     if fittedG != None and not fittedG.isEmpty():
         c = fittedG.get(0)
         if c != None:
@@ -37,7 +36,7 @@ def testMisAlignmentForElementsPlot():
     peakEnergies = []
     for i in data1.iteritems():
         if i[0][0:-2] == 'EDXD_Element_' and index < 23 and index != 20:
-            integerDataSet = IntegerDataset(i[1].data[0])
+            integerDataSet = DatasetFactory.createFromObject(i[1].data[0])
             print "index:" + `index`
             peakEnergies.append(findPeakPosition(1000, integerDataSet, leftShift=50, rightShift=50))
             index += 1
@@ -53,17 +52,17 @@ def testPeakFitFunction():
     e = epp.ExtractPeakParameters()
     print '_________________'
     print 'Method 1'
-    id1 = IntegerDataset(data1[0])
+    id1 = DatasetFactory.createFromObject(data1[0])
     slice1 = id1.getSlice([950], [1050], [1])
     dnp.plot.plot(slice1, name="Plot 1")
     '''
-    singlePeakProc = e.singlePeakProcess(IntegerDataset.createRange(slice1.shape[0]), slice1)
+    singlePeakProc = e.singlePeakProcess(DatasetFactory.createRange(slice1.shape[0]), slice1)
     
     print 'Single Peak Process returns ' + `singlePeakProc`
     '''
     print '_________________'
     print 'Method 2'
-    fittedG = fitter1.fitPeakFunctions(IntegerDataset.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0001), 5, 1)
+    fittedG = fitter1.fitPeakFunctions(DatasetFactory.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0001), 5, 1)
     print 'Using fitting Algorithm ' + `fittedG`
     print '_________________'
     
@@ -73,13 +72,13 @@ def testPeakFitFunction():
     id1 = IntegerDataset(data1[0])
     slice1 = id1.getSlice([900], [1300], [1])
     dnp.plot.plot(slice1, name="Plot 3")
-    singlePeakProc = e.singlePeakProcess(IntegerDataset.createRange(slice1.shape[0]), slice1)
+    singlePeakProc = e.singlePeakProcess(DatasetFactory.createRange(slice1.shape[0]), slice1)
     
     print 'Single Peak Process returns ' + `singlePeakProc`
     '''
     print '_________________'
     print 'Method 2'
-    fittedG = fitter1.fitPeakFunctions(IntegerDataset.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0001), 5, 1)
+    fittedG = fitter1.fitPeakFunctions(DatasetFactory.createRange(slice1.shape[0]), slice1, Gaussian(1, 1, 1, 1), GeneticAlg(0.0001), 5, 1)
     print 'Using fitting Algorithm ' + `fittedG`
     print '_________________'
 
@@ -88,8 +87,8 @@ def testMapAxis():
     d = dnp.io.load("/dls/i12/data/2012/cm5706-3/default/12867.nxs")
     data1 = d.entry1.EDXD_Element_01
     energyAxis = data1.edxd_energy_approx[:]
-    originalAxisApproximatePeakPositions = DoubleDataset([34.720, 39.258], [2])
-    newAxisExactPeakPositions = DoubleDataset([34.720, 39.258], [2])
+    originalAxisApproximatePeakPositions = DatasetFactory.createFromObject([34.720, 39.258], [2])
+    newAxisExactPeakPositions = DatasetFactory.createFromObject(([34.720, 39.258], [2])
     apeakFunction = Gaussian(1, 1, 1, 1)
     polynomial = 1
     output = CalibrationUtils.mapAxis(data1.data[0], energyAxis, originalAxisApproximatePeakPositions, newAxisExactPeakPositions, apeakFunction, polynomial)
@@ -109,7 +108,7 @@ def testMethod1ForEnergyCalibration():
     index = 0
     for i in data1.iteritems():
         if i[0][0:-2] == 'EDXD_Element_' and index < 23:
-            integerDataSet = IntegerDataset(i[1].data[0])
+            integerDataSet = DatasetFactory.createFromObject((i[1].data[0])
             hec = findPeakPosition(ahec, integerDataSet)
             lec = findPeakPosition(alec, integerDataSet)
             a.append(findA(hev, lev, hec, lec))

@@ -18,12 +18,6 @@
 
 package gda.device.detector.phantom;
 
-import gda.analysis.ScanFileHolder;
-import gda.device.DeviceException;
-import gda.device.detector.DetectorBase;
-import gda.device.detector.Phantom;
-import gda.factory.FactoryException;
-
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -31,7 +25,14 @@ import javax.naming.TimeLimitExceededException;
 
 import org.eclipse.dawnsci.analysis.api.io.IFileSaver;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
+
+import gda.analysis.ScanFileHolder;
+import gda.device.DeviceException;
+import gda.device.detector.DetectorBase;
+import gda.device.detector.Phantom;
+import gda.factory.FactoryException;
 
 /**
  * The main interface for the Phantom Camera, this is set on top of a set of hardware simulations and real classes.
@@ -46,7 +47,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * This method will check to see if a status is active on the camera.
-	 * 
+	 *
 	 * @param cineNumber
 	 *            The number of the cine which will be checked
 	 * @param cineState
@@ -56,13 +57,13 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 	 *             if anything goes wrong, this should be explanitary
 	 */
 	public boolean isCineStatus(int cineNumber, String cineState) throws DeviceException {
-		
+
 		// get the string from the camera first
 		String returnData = hardware.command("get c" + cineNumber + ".state");
 
 		// split the string by spaces
 		String[] splitString = returnData.split(" ");
-		
+
 
 		for (int i = 0; i < splitString.length; i++) {
 			if (splitString[i].compareToIgnoreCase(cineState) == 0) {
@@ -75,7 +76,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * This method tries to add the supplied flag to the cine in question.
-	 * 
+	 *
 	 * @param cineNumber
 	 *            The cine which is being modified
 	 * @param cineState
@@ -113,7 +114,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * Method that removes a flag from the specified cines status
-	 * 
+	 *
 	 * @param cineNumber
 	 *            The number of the cine to be modified
 	 * @param cineState
@@ -154,7 +155,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * Gets the width of the images to be captured from the Phantom Camera
-	 * 
+	 *
 	 * @param cineNumber
 	 *            The number of the cine in question
 	 * @return the width that that cine is set to
@@ -178,7 +179,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * Gets the width of the images to be captured from the Phantom Camera
-	 * 
+	 *
 	 * @param cineNumber
 	 *            The number of the cine in question
 	 * @return the height that that cine is set to
@@ -201,7 +202,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * Gets the width of the images to be captured from the Phantom Camera
-	 * 
+	 *
 	 * @param cineNumber
 	 *            The number of the cine in question
 	 * @param width
@@ -233,7 +234,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * Gets the width of the images to be captured from the Phantom Camera
-	 * 
+	 *
 	 * @param cineNumber
 	 *            The number of the cine in question
 	 * @param height
@@ -265,7 +266,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * gets the image size being produced buy the camera of the speicfied cine
-	 * 
+	 *
 	 * @param cineNumber
 	 *            the number of the cine in question
 	 * @return the size in pixels of the image, i.e. 800x600 = 480000;
@@ -301,7 +302,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 					+ cineNumber + ".frcount");
 		}
 	}
-	
+
 	/**
 	 * This function waits for the cine specified to finish recording, and then returns
 	 * @param cineNumber The number of the cine to wait for
@@ -313,18 +314,18 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 		long startTime = System.currentTimeMillis();
 		long timeSpent = 0;
 		while (timeSpent < timeOutLength) {
-			
+
 			// check to see if the camera is ready
 			if(isCineStatus(cineNumber, "STR")) {
 				return;
 			}
-			
+
 			timeSpent = System.currentTimeMillis()-startTime;
-			
+
 		}
-		
+
 		throw new TimeLimitExceededException("cine "+cineNumber+ " is still not in a stored status, even after the timeout of "+timeOutLength+"mS");
-		
+
 	}
 
 	protected void prepareCineSize(int numberOfFrames, int framesPerSecond, int width, int height)
@@ -350,9 +351,9 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 		// TODO this should work
 		// CineStatus states = getCineStatus(1)
-		//		
+		//
 		// states.setDEF(false);
-		//		
+		//
 		// setCineStatus(1, states);
 
 	}
@@ -386,21 +387,21 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 		// get the number of frames from the cine
 		String out = hardware.command("get c"+cineNumber+".ptframes");
 		String[] splitOut = out.split(" ");
-		
+
 		int numberOfFrames = Integer.parseInt(splitOut[2].trim());
-		
+
 		// TODO this port should also be set in the XML
 		hardware.prepareForDataTransfer(12364, false);
 
 		System.out.println(hardware.command("img { cine:"+cineNumber+", start:0, cnt:"+numberOfFrames+" }"));
 
 		boolean finished = false;
-		
-		DoubleDataset dataSet;
-		
+
+		Dataset dataSet;
+
 		while (!finished) {
 			try {
-				dataSet = new DoubleDataset(hardware.getDataBlock(600 * 800), 600, 800);
+				dataSet = DatasetFactory.createFromObject(hardware.getDataBlock(600 * 800), 600, 800);
 				output.addDataSet("Image" + 0, dataSet);
 				finished = true;
 			} catch (OutOfMemoryError e) {
@@ -417,7 +418,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 		// once we are done, we should be able to send the communications thread the termination request.
 		hardware.finishDataTransfer();
-		
+
 		return output;
 
 	}
@@ -450,8 +451,8 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 		System.out.println(hardware.command("img { cine:1, start:" + cineNumber + ", cnt:1 }"));
 
-		DoubleDataset dataSet = new DoubleDataset(hardware.getDataBlock(600 * 800), 600, 800);
-		
+		Dataset dataSet = DatasetFactory.createFromObject(hardware.getDataBlock(600 * 800), 600, 800);
+
 		try {
 			output.addDataSet("Image" + 0, dataSet);
 		} catch (ScanFileHolderException e) {
@@ -466,7 +467,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	}
 
-	
+
 	@Override
 	public int getStatus() throws DeviceException {
 		// TODO Auto-generated method stub
@@ -567,8 +568,8 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 		// first we need to work out the size of the images which will be returned
 		int imageSize = getImageSize(cineNumber);
-		
-		// next open the port to receive the data, 
+
+		// next open the port to receive the data,
 		// TODO the start point should be specific by the XML, but the number should be able to increase if the port is in use
 		int portNumber = 12364;
 		int maxPortNumber = 12399;
@@ -585,13 +586,13 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 				}
 			}
 		}
-			
+
 		// tell the camera to release the data to our waiting port
 		hardware.command("img { cine:"+cineNumber+", start:"+start+", cnt:"+count+", fmt:16 }");
-		
+
 		// check to make sure that the camera returned a sencible output.
 		//TODO add in the check here.
-		
+
 		// see if the collection has finished
 		//TODO this should also be read in from the XML
 		try {
@@ -599,19 +600,19 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 		} catch (TimeLimitExceededException e) {
 			throw new DeviceException("timeout occured in the Phantom Camera retrieveDataMethod",e);
 		}
-		
-		
-		// now, lets grab the data off the camera in handy chunks, each the image size.  
-		// this should allow the circular buffer plenty of time to refill, and then grab a new chunk.		
-		
+
+
+		// now, lets grab the data off the camera in handy chunks, each the image size.
+		// this should allow the circular buffer plenty of time to refill, and then grab a new chunk.
+
 		ScanFileHolder result = new ScanFileHolder();
-		
+
 		for(int i = 0; i < count ;i ++ ) {
-		
+
 			// now collect the data off the camera
 			try {
 				//TODO need to sort out getting the height and width correctly
-				result.addDataSet("Frame"+i, new DoubleDataset(hardware.getDataBlock(imageSize),600,800));
+				result.addDataSet("Frame" + i, DatasetFactory.createFromObject(hardware.getDataBlock(imageSize), 600, 800));
 			} catch (IndexOutOfBoundsException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -619,22 +620,22 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+
 		}
-			
+
 		// close the data connection to the camera
 		hardware.finishDataTransfer();
-		
-		
+
+
 		return result;
-		
+
 	}
 
 	// CASTOR elements of the CLASS for xml instanciation
 
 	/**
 	 * This is for the creation in CASTOR
-	 * 
+	 *
 	 * @param setter
 	 */
 	public void setIPAddress(String setter) {
@@ -644,7 +645,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 
 	/**
 	 * getter for CASTOR.
-	 * 
+	 *
 	 * @return the IP of the camera
 	 */
 	public String getIPAddress() {
@@ -665,7 +666,7 @@ public class PhantomV73 extends DetectorBase implements Phantom {
 	public String command(String commandString) throws DeviceException {
 		return hardware.command(commandString);
 	}
-	
-	
+
+
 
 }
