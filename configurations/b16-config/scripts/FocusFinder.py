@@ -1,5 +1,5 @@
 from gda.jython.commands.InputCommands import requestInput
-from  org.eclipse.dawnsci.analysis.dataset.impl import Dataset
+from  org.eclipse.january.dataset import Dataset
 from gda.analysis import ScanFileHolder
 from gda.analysis import RCPPlotter
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter

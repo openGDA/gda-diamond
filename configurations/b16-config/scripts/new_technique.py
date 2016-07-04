@@ -2,7 +2,7 @@ from temporarySrsReader import createSrsPath, readSrsDataFile
 from gda.analysis.io import JPEGLoader, TIFFImageLoader
 from org.eclipse.dawnsci.analysis.api.io import ScanFileHolderException
 from gda.analysis import ScanFileHolder
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.january.dataset import DatasetFactory
 from gdascripts.scan.process.ScanDataProcessor import loadScanFile
 from gda.analysis import ScanFileHolder
 from gda.analysis.io import SRSLoader
@@ -39,7 +39,8 @@ def loadScanAndImages(scanID, root_path = None):
 
 def loadImageStack(pathList):
 	height, width = loadImage(pathList[0]).getDimensions()
-	imagestack = DoubleDataset('imagestack', [len(pathList), height, width])
+	imagestack = DatasetFactory.zeros(len(pathList), height, width)
+	imagestack.setName('imagestack')
 	imagestack.fill(-1)
 	print "Creating image stack [images][height][width] = [%i][%i][%i]" % (len(pathList), height, width)
 	for i in range(len(pathList)):

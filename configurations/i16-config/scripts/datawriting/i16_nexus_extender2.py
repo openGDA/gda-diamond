@@ -5,9 +5,9 @@ from gda.factory import Finder
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 from jarray import array, zeros
 from gda.data.nexus import NexusUtils
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory as DF
-import org.eclipse.dawnsci.analysis.dataset.impl.LinearAlgebra as LA
-from org.eclipse.dawnsci.analysis.dataset.impl import LongDataset
+import org.eclipse.january.dataset.DatasetFactory as DF
+import org.eclipse.january.dataset.LinearAlgebra as LA
+from org.eclipse.january.dataset import Dataset
 import traceback
 import math
 import re
@@ -437,7 +437,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.createData(group, nameData)
 
     def writeFeatures(self, nFile, group, features):
-        data = LongDataset.createFromObject(features)
+        data = DF.createFromObject(Dataset.INT64, features)
         data.name = "features"
         nFile.createData(group, data)
 

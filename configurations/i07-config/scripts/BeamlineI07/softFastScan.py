@@ -6,7 +6,6 @@ import math;
 from gda.factory import Finder
 from gda.epics import CAClient;
 from gda.device.scannable import PseudoDevice;
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 
 from gov.aps.jca.event import PutEvent;
 from gov.aps.jca.event import PutListener;

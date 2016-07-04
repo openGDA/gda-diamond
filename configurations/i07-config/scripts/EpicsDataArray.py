@@ -6,13 +6,12 @@ from gda.epics import CAClient
 from gda.data import NumTracker
 from gda.data import PathConstructor
 #import gda
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
 from gda.analysis import Plotter
 
 from gda.jython import JythonServer;
 from gda.factory import Finder
 
-
+from org.eclipse.january.dataset import DatasetFactory
 
 #The Class for creating a EpicsArrayData object
 
@@ -73,7 +72,7 @@ class EpicsDataArrayClass:
 		self.length = 0;
 		self.head=0;
 
-		self.dataSetCh01=DoubleDataset([maxLength]); 
+		self.dataSetCh01=DatasetFactory.zeros(maxLength); 
 		self.dataSetCh01.setName("Channel 1");
 		self.js = Finder.getInstance().find("command_server");
 
