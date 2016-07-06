@@ -21,7 +21,7 @@ import re
 from gda.configuration.properties import LocalProperties
 import os
 from uk.ac.diamond.scisoft.analysis import SDAPlotter
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.january.dataset import DatasetFactory
 
 INT_RE = re.compile(r"^[-]?\d+$")
 def representsInt(s):
@@ -130,8 +130,8 @@ def plotdata(filename, dataType=MAC, plotPane="DataPlot", Overlay=True):
     elif dataType == RAW:
             # mythen raw data file
             dataset = loadMythenRawData(filename)
-            data=DoubleDataset(dataset.getCountArray(), dataset.getCountArray().length)
-            channeldata=DoubleDataset(dataset.getChannelArray(),dataset.getChannelArray().length)
+            data=DatasetFactory.createFromObject(dataset.getCountArray())
+            channeldata=DatasetFactory.createFromObject(dataset.getChannelArray())
             data.setName(filename)
             if Overlay:
                 Plotter.plotOver(plotPane, channeldata, data)
