@@ -17,10 +17,10 @@ from gdascripts.messages import handle_messages
 from gdascripts.scan import gdascans
 from uk.ac.gda.server.ncd.subdetector import LastImageProvider
 import scisoftpy as dnp
-from org.eclipse.dawnsci.analysis.api.metadata import Metadata
 from org.eclipse.dawnsci.analysis.dataset.roi import GridPreferences
 from uk.ac.diamond.scisoft.analysis import SDAPlotter as RCPPlotter
 from java.util import HashMap
+from org.eclipse.january.metadata import Metadata
 class Grid(DataWriterExtenderBase):
 	
 	def __init__(self, cameraPanel, gridPanel, camera, positioner, ncddetectors):
