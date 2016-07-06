@@ -37,8 +37,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.january.dataset.Dataset;
 
 import uk.ac.diamond.scisoft.analysis.io.NexusLoader;
 import uk.ac.gda.util.io.SortingUtils;
