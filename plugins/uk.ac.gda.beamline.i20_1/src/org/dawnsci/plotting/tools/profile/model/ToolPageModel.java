@@ -20,9 +20,9 @@ package org.dawnsci.plotting.tools.profile.model;
 
 import java.io.File;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.IImageTrace;
+import org.eclipse.january.dataset.IDataset;
 
 import uk.ac.gda.beans.ObservableModel;
 

@@ -22,7 +22,7 @@ import gda.device.DeviceException;
 
 import java.util.HashMap;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 public interface DetectorTemperature {
 	HashMap<String, Double> getTemperatures() throws DeviceException;

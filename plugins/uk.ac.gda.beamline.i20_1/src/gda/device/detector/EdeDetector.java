@@ -18,9 +18,9 @@
 
 package gda.device.detector;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-
 import java.util.HashMap;
+
+import org.eclipse.january.dataset.DoubleDataset;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;

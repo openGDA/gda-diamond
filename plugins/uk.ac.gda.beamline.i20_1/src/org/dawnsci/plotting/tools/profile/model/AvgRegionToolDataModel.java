@@ -18,10 +18,10 @@
 
 package org.dawnsci.plotting.tools.profile.model;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.region.IRegion;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
 
 public class AvgRegionToolDataModel extends SpectraRegionDataNode {
 	private int noOfSpectraToAvg;

@@ -21,7 +21,7 @@ package uk.ac.gda.exafs.ui.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.DoubleDataset;
 import org.junit.Test;
 
 public class EdeTimingCalculatorTest {

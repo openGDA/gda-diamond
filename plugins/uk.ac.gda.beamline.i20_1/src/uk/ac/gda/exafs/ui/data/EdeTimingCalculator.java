@@ -19,8 +19,8 @@
 package uk.ac.gda.exafs.ui.data;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
 
 /**
  * Used to create data to plot in graph of when acquiring and not acquiring data
