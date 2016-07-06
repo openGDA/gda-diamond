@@ -6,7 +6,7 @@ from uk.ac.diamond.scisoft.analysis.fitting.functions import Gaussian, Offset
 from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
 
-from org.eclipse.dawnsci.analysis.dataset.impl import DatasetFactory
+from org.eclipse.january.dataset import DatasetFactory
 
 from gda.analysis import RCPPlotter
 
@@ -20,10 +20,10 @@ class DataSetFitter(INexusProviderDataSetProcessor):
 
     def process(self, detectorName, dataName, ds):
         integrator = Integrate2D()
-        dsy = ds.sum(0)
-        dsx = ds.sum(1)
-        dsyaxis = dnp.arange(dsy.shape[0])
-        dsxaxis = dnp.arange(dsy.shape[0])
+#         dsy = ds.sum(0)
+#         dsx = ds.sum(1)
+#         dsyaxis = dnp.arange(dsy.shape[0])
+#         dsxaxis = dnp.arange(dsy.shape[0])
         dsy, dsx = integrator.value(ds)
         dsyaxis = DatasetFactory.createRange(dsy.shape[0])
         dsxaxis = DatasetFactory.createRange(dsx.shape[0])
