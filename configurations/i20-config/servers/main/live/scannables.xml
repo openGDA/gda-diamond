@@ -89,4 +89,11 @@
 			</list>
 		</property>
 	</bean>
+
+<!-- Eurotherm furnace -->
+	<bean id="eurotherm" class="gda.device.temperature.EpicsEurotherm903">
+			<property name="eurothermPv" value="BL20I-EA-TEMPC-03" />
+			<property name="inputNames" value="eurotherm" />
+	</bean>
+
 </beans>
