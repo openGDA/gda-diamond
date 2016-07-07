@@ -11,11 +11,15 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-	<context:property-placeholder
-		location="file:${gda.config}/properties/${gda.mode}/java.properties,file:${gda.config}/properties/common.properties" />
-	
-	<gda:rbac />
-	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/XASLoggingScriptController" />
 		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" />

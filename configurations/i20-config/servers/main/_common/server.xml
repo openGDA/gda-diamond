@@ -14,7 +14,7 @@
 		<constructor-arg value="${gda.config}/xml/BL20I-gda-interface.xml" />
 	</bean>
 
-	<import resource="file:${gda.config}/servers/main/server-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/server-common.xml" />
 
 	<!-- GDA configuration split up by part type -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
@@ -31,7 +31,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/tables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
-	<import resource="file:${gda.config}/servers/main/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors-common.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" /> -->
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
@@ -39,7 +39,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/cryo.xml" />
 
 	<!-- Definition of the ascii data format -->
-	<import resource="file:${gda.config}/servers/main/dataformat.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
 
 	<!--should normally be called last -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/command-server.xml" />
