@@ -21,18 +21,22 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="Beamline I21">
+            name="Diamond Beamline i21">
          <property
                name="windowImages"
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
          <property
                name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
          <property
                name="appName"
-               value="Beamline I21">
+               value="Diamond Beamline i21">
+         </property>
+         <property
+               name="aboutText"
+               value="Diamond Beamline i21 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
          </property>
       </product>
    </extension>

@@ -18,23 +18,26 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=/dls_sw/i21/software/gda/config/pluginCustomization.ini
--Djacorb.config.dir=/dls_sw/i21/software/gda/config/properties/live/jacorb
--Dgda.install.git.loc=/dls_sw/i21/software/gda/workspace_git
--Dgda.install.workspace.loc=/dls_sw/i21/software/gda/workspace
--Dgda.config=/dls_sw/i21/software/gda/config
--Dgda.facility.dir=/dls_sw/i21/software/gda/workspace_git/gda-diamond.git/dls-config
--Dgda.propertiesFile=/dls_sw/i21/software/gda/config/properties/live/live_instance_java.properties
--Dgda.data=/dls/i21/data
--Dgda.mode=live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i21/software/gda/config/properties/live/JCALibrary.properties
+-Drebel.log=true
+-Dgda.mode=dummy
+-Dgda.config=${project_loc:i21-config}
+-Dgda.propertiesFile=${project_loc:i21-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:i21-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i21-config}/properties/dummy/JCALibrary.properties
+-Declipse.pluginCustomization=${project_loc:i21-config}/client/pluginCustomization.ini
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live
+-Dgda.instance.dir=${project_loc:i21-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.group.dir=${project_loc:core-config}/no-group
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Xms256m
 -Xmx2048m
 -XX:MaxPermSize=256m
 -XX:+DisableExplicitGC
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
@@ -43,8 +46,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.beamline.i21"
-      handlerType="browser" />
+      location="uk.ac.gda.beamline.i21" />
    <launcher name="gda-i21">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
       <solaris/>
