@@ -27,12 +27,18 @@
 		<property name="prefix" value="BL21I-DI-DCAM-03:CAM:" />
 	</bean>
 
-	<bean id="d3aCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+	<bean id="d3aCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
 		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-						<property name="adBase" ref="d3aCamBase" />
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="d3aCamBase" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
 					</bean>
 				</property>
 			</bean>
