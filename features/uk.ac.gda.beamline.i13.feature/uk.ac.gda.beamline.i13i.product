@@ -19,7 +19,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=${project_loc:i13i-config}/client/pluginCustomization.ini
+-Declipse.pluginCustomization=${project_loc:i13i-config}/pluginCustomization.ini
 -Djacorb.config.dir=${project_loc:i13i-config}/properties/dummy/jacorb
 -Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
