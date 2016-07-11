@@ -24,6 +24,7 @@
 					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 						<property name="restoreAcquireState" value="true" />
 						<property name="adBase" ref="d1c_cam0_CamBase" />
+						<property name="readoutTime" value="-1" />
 					</bean>
 				</property>
 			</bean>
