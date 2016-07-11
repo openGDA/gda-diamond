@@ -18,6 +18,9 @@
 	<import resource="d1c.xml"/>
 	<import resource="d2c.xml"/>
 
+	<!-- Monocromators -->
+	<import resource="pgm.xml"/>
+
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
