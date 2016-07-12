@@ -19,8 +19,7 @@
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
 -Xms512m
--Xmx1024m
--XX:MaxPermSize=1024m
+-Xmx4g
 -XX:+DisableExplicitGC
 -Xdebug
 -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
