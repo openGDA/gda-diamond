@@ -40,5 +40,47 @@
 	<bean id="pgm_mirror" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL07C-OP-PGM-01:MIRRORSELECT" />
 	</bean>
+	
+	<bean id="pgm_pressure" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-VA-GAUGE-04:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+	<bean id="pgm_t1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-OP-PGM-01:GRT:TEMP1" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
+	<bean id="pgm_t2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-OP-PGM-01:GRT:TEMP2" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
+	<bean id="pgm_t3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-OP-PGM-01:GRT:TEMP3" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
+	<bean id="pgm_t4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-OP-PGM-01:MIR:TEMP1" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
+
+	<bean id="pgm_t5" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07C-OP-PGM-01:TEMP1" />
+		<property name="unit" value="C" />
+		<property name="poll" value="true" />
+		<property name="sensitivity" value="2.0" />
+	</bean>
 
 </beans>

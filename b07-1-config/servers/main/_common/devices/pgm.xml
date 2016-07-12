@@ -45,6 +45,12 @@
 				<ref bean="pgm_mirror_x" />
 				<ref bean="pgm_grating" />
 				<ref bean="pgm_mirror" />
+				<ref bean="pgm_pressure" />
+				<ref bean="pgm_t1" />
+				<ref bean="pgm_t2" />
+				<ref bean="pgm_t3" />
+				<ref bean="pgm_t4" />
+				<ref bean="pgm_t5" />
 			</list>
 		</property>
 		<property name="local" value="true" />
