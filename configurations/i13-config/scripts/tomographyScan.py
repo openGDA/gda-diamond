@@ -24,6 +24,7 @@ from uk.ac.gda.analysis.hdf5 import Hdf5Helper, Hdf5HelperData, HDF5HelperLocati
 from gda.util import OSCommandRunner
 from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
 from gda.data.scan.datawriter import *
+from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
 
 from gda.commandqueue import JythonScriptProgressProvider
 from gda.commandqueue import JythonCommandCommandProvider
@@ -278,6 +279,7 @@ def showNormalisedImage(outOfBeamPosition, exposureTime=None, imagesPerDark=1, i
 		handle_messages.log(None, "Error in showNormalisedImage", exceptionType, exception, traceback, False)
 
 def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1, imagesPerFlat=1, getDataOnly=False):
+    logger = LoggerFactory.getLogger('tomographyScan.showNormalisedImageEx()')
     jns=beamline_parameters.JythonNameSpaceMapping()
     tomodet=jns.tomodet
     if tomodet is None:
@@ -305,55 +307,58 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
         return True
     
     lsdp=jns.lastScanDataPoint()
-    detName=tomography_detector.getName()
-    #wait for the image file to arrive from the detector system
-#    time.sleep(5)
     found=False 
     attempt=0
+
     while not found and attempt<11: 
         attempt+=1
         try:
-            nxdata=dnp.io.load(lsdp.currentFilename)[str('entry1/' + tomography_detector.getName())] 
-            dataKey=None
-            for key in nxdata.keys():
-                if key == "image_data":
-                    dataKey=key
-                    break
-                if key == "data":
-                    dataKey=key
-                    break
-            if dataKey is None:
+            nxentry = str('/entry1/' + tomography_detector.getName())
+            logger.debug('Opening entry ' + nxentry + ' in file '+ lsdp.currentFilename)
+            nxfile = NexusFileHDF5.openNexusFile(lsdp.currentFilename)
+            nxgroup = nxfile.getGroup(nxentry, False)
+            if (nxgroup.containsDataNode("image_data")):
+                nxdata = nxgroup.getDataNode("image_data")
+            elif (nxgroup.containsDataNode("data")):
+                nxdata = nxgroup.getDataNode("data")
+            else:
                 raise "Unable to find data in file"
-            dataset=nxdata[dataKey]
-            dark=dnp.array(dataset[0,:,:]).astype(dnp.float64)
-            flat=dnp.array(dataset[imagesPerDark,:,:]).astype(dnp.float64)
-            image=dnp.array(dataset[imagesPerDark+imagesPerFlat,:,:]).astype(dnp.float64)
+
+            dataset = nxdata.getDataset();
+            dark = getSingleImage(dataset, 0)
+            flat = getSingleImage(dataset, imagesPerDark)
+            image = getSingleImage(dataset, imagesPerDark + imagesPerFlat)
             found = True
+
         except:
             exceptionType, exception, traceback = sys.exc_info()
-            handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, False)            
+            handle_messages.log(None, "Error in showNormalisedImageEx", exceptionType, exception, traceback, False)            
             updateProgress(90, "Wait 5 seconds for image file to arrive from the detector system")
             time.sleep(5)
 
-
-    
     if not found:
         raise "Unable to analyse data as it has not arrived from detector in time"
+ 
+    flat.isubtract(dark)
+    image.isubtract(dark).idivide(flat)
 
-    imageD=image-dark
-    flatD=flat-dark
-    t=imageD/flatD
-#    t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
-    t._jdataset().name=str(lsdp.getScanIdentifier()) + " (image-dark)/(flat-dark)"
-    hdfData = Hdf5HelperData(t.shape, t._jdataset().buffer)
-    locs = HDF5HelperLocations("entry1")
-    locs.add(tomography_detector.getName())
-    Hdf5Helper.getInstance().writeToFileSimple(hdfData, lsdp.currentFilename,locs , "normalisedImage")
+    imageName = str(lsdp.getScanIdentifier()) + " (image-dark)/(flat-dark)"
+    image.setName(imageName)
+    logger.debug("Creating " + imageName + " at " + nxentry + "/normalisedImage")
+    nxfile.createData(nxentry, "normalisedImage", image, True)
+    nxfile.close()
+
     rcp=Finder.getInstance().find("RCPController")
     rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
-    dnp.plot.image(t, name="Normalised Image")
+    dnp.plot.image(image, name="Normalised Image")
     #turn camera back on
     return True
+
+# Return single 2D image from dataset
+def getSingleImage(dataset, index):
+    shape = dataset.getShape();
+    return dataset.getSlice([index, 0, 0], [index + 1, shape[1], shape[2]], None).reshape(shape[1], shape[2])
+
 
 from java.lang import Runnable
 class PreScanRunnable(Runnable):
@@ -792,9 +797,8 @@ def ProcessScanParameters(scanParameterModelXML):
     additionalScannables=jns.tomography_additional_scannables
     setTitle(parameters.getTitle())
 
-    updateProgress(0, "Starting tomoscan" + parameters.getTitle());
-    logger.debug("Parameters: " + parameters.toString())
-    logger.debug("Flyscan:" + `parameters.flyScan`)
+    updateProgress(0, "Starting tomoscan " + parameters.getTitle());
+    logger.info("Starting tomoscan with parameters: " + parameters.toString())
 
     if (parameters.flyScan):
         qFlyScanBatch(parameters.numFlyScans, parameters.title, parameters.flyScanDelay, 
