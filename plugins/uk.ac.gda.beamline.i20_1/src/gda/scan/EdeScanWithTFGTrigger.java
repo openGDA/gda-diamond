@@ -23,11 +23,11 @@ import java.util.Map.Entry;
 
 import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.hdf5.H5Utils;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf5.HierarchicalDataFileUtils;
-import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
-import org.eclipse.dawnsci.hdf5.Nexus;
+import org.eclipse.dawnsci.hdf.object.H5Utils;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataFileUtils;
+import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf.object.Nexus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +113,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 		// set to true (always want to use scalers to measure topup injections for Tfg Frelon scans)
 		triggeringParameters.setUseCountFrameScalers(true);
-		
+
 		// Multiple timing groups
 		for (Integer i = 0; i < scanParameters.getGroups().size(); i++) {
 			if (Thread.currentThread().isInterrupted()) {
