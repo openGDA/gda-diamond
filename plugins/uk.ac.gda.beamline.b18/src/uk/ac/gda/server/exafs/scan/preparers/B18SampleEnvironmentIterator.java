@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.scannable.SampleWheel;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
@@ -60,6 +61,10 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 	private Scannable user_scannable;
 
+	// Repetition counters. added 26/5/2016
+	int currentScanRepetitionNumber; // scan repetitions (i.e. 'number of repeats' in command queue)
+	int currentSampleRepetitionNumber; // sample environment iterations
+
 	public B18SampleEnvironmentIterator(B18SampleParameters parameters, Scannable sxcryo_scannable,
 			Scannable xytheta_scannable, Scannable ln2cryo_scannable, Scannable lakeshore_scannable,
 			Scannable furnace_scannable, Scannable pulsetube_scannable, Scannable samplewheel_scannable,
@@ -73,6 +78,9 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 				this.pulsetube_scannable = pulsetube_scannable;
 				this.samplewheel_scannable = samplewheel_scannable;
 				this.user_scannable = user_scannable;
+
+				currentScanRepetitionNumber = 0;
+				currentSampleRepetitionNumber = 0;
 	}
 
 	@Override
@@ -106,6 +114,7 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 				control_pulsetube(parameters.getPulseTubeCryostatParameters());
 			}
 		}
+		currentSampleRepetitionNumber++;
 	}
 
 	private void moveSampleStage(String stage) throws DeviceException {
@@ -122,7 +131,17 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 	@Override
 	public void resetIterator() {
-		// not applicable
+		// Reset and increment repetition counters - called just before loop over sample environment
+		currentScanRepetitionNumber++;
+		currentSampleRepetitionNumber = 0;
+	}
+
+	public int getCurrentSampleRepetitionNumber() {
+		return currentSampleRepetitionNumber;
+	}
+
+	public int getCurrentScanRepetitionNumber() {
+		return currentScanRepetitionNumber;
 	}
 
 	@Override
@@ -351,7 +370,7 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 		}
 	}
 
-	private void control_sample_wheel(SampleWheelParameters bean) throws DeviceException {
+	private void control_sample_wheel(SampleWheelParameters bean) throws DeviceException, InterruptedException {
 		if (bean.isManual()) {
 			double demand = bean.getDemand();
 			log("moving sample wheel to " + demand);
@@ -359,9 +378,11 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 		} else {
 			String filter = bean.getFilter();
 			log("moving sample wheel to " + filter);
-			samplewheel_scannable.moveTo(filter);
+			// Move to named filter, block until finished
+			((SampleWheel) samplewheel_scannable).moveToFilter(filter);
+			((SampleWheel) samplewheel_scannable).waitWhileBusy();
 		}
-		// print "sample wheel move complete";
+		log("sample wheel move complete");
 	}
 
 	private void log(String msg) {

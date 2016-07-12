@@ -13,7 +13,7 @@
     <!-- include file="${gda.config}/servers/log/_common/logSharedWithClients.xml"/-->
 
     <root>
-        <level value="INFO"/>
+        <level value="ALL"/>
         <appender-ref ref="LogServer" />
         <appender-ref ref="ServerDebugFILE"/>
      </root>

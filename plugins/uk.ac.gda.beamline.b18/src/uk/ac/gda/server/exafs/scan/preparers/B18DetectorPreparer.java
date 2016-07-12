@@ -1,5 +1,9 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
+
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.DataWriter;
 import gda.data.scan.datawriter.DataWriterFactory;
@@ -16,11 +20,6 @@ import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
 import gda.scan.StaticScan;
-
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
-
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IExperimentDetectorParameters;
@@ -52,6 +51,9 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	// QEXAFS options
 	private boolean gmsd_enabled;
 	private boolean additional_channels_enabled;
+	private String experimentFullPath;
+	private IOutputParameters outputBean;
+	private B18SamplePreparer samplePreparer;
 
 	public B18DetectorPreparer(Scannable energy_scannable, MythenDetectorImpl mythen_scannable,
 			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
@@ -76,12 +78,15 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 		this.scanBean = scanBean;
 		this.detectorBean = detectorBean;
+		this.experimentFullPath = experimentFullPath;
+		this.outputBean = outputBean;
 
 		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
-			if (fluoresenceParameters.isCollectDiffractionImages()) {
-				control_mythen(fluoresenceParameters, outputBean, experimentFullPath);
-			}
+		//  Mythen data is now collected just before first repetition, i.e. after sample environment has been set up. 
+//			if (fluoresenceParameters.isCollectDiffractionImages()) {
+//				control_mythen(fluoresenceParameters, outputBean, experimentFullPath);
+//			}
 			String detType = fluoresenceParameters.getDetectorType();
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
 			if (detType.equals("Germanium")) {
@@ -97,15 +102,56 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
 		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
 			TransmissionParameters transmissionParameters = detectorBean.getTransmissionParameters();
-			if (transmissionParameters.isCollectDiffractionImages()) {
-				control_mythen(transmissionParameters, outputBean, experimentFullPath);
-			}
+//			if (transmissionParameters.isCollectDiffractionImages()) {
+//				control_mythen(transmissionParameters, outputBean, experimentFullPath);
+//			}
 			control_all_ionc(transmissionParameters.getIonChamberParameters());
 		}
 	}
 
+	/**
+	 * Collected Mythen diffraction data (if 'collect' checkbox is ticked in Detector params.)
+	 * Refactored from 'configure' function
+	 * @since 26/5/2016
+	 * @throws Exception
+	 */
+	public void collectMythenData() throws Exception {
+		IExperimentDetectorParameters detParams = getDetectorParameters();
+		if ( detParams != null && detParams.isCollectDiffractionImages() == true ){
+			control_mythen(detParams, outputBean, experimentFullPath);
+		}
+	}
+
+	private IExperimentDetectorParameters getDetectorParameters() {
+		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
+			return detectorBean.getFluorescenceParameters();
+		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
+			return detectorBean.getTransmissionParameters();
+		}
+		else
+			return null;
+	}
+
 	@Override
 	public void beforeEachRepetition() throws Exception {
+
+		boolean collectMythenData = true;
+
+		// Use SampleEnvironmentIterator to determine if doing first repetition of scan, or first of loop over sample environment.
+		if ( samplePreparer != null ) {
+			B18SampleEnvironmentIterator iter = samplePreparer.getCurrentSampleEnvironmentIterator();
+			boolean firstSampleRep = iter.getCurrentSampleRepetitionNumber() == 1;
+			boolean firstScanRep = iter.getCurrentScanRepetitionNumber() == 1;
+			if (firstScanRep) {
+				collectMythenData = true;
+			}
+		}
+
+		// collect Mythen data
+		if ( collectMythenData ) {
+			collectMythenData();
+		}
+
 		Double[] times = new Double[] {};
 		if (scanBean instanceof XasScanParameters) {
 			times = ExafsScanPointCreator.getScanTimeArray((XasScanParameters) scanBean);
@@ -219,8 +265,8 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 			staticscan.setDataWriter(datawriter);
 		}
 
-		LocalProperties.setScanSetsScanNumber(true);
-		staticscan.setScanNumber(1); // need to do this here to prevent the scan trying to use a numtracker to derive
+		//LocalProperties.setScanSetsScanNumber(true);
+		//staticscan.setScanNumber(1); // need to do this here to prevent the scan trying to use a numtracker to derive
 										// the scan number
 		InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image...");
 		staticscan.run();
@@ -284,6 +330,10 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	public Detector[] getExtraDetectors() {
 		// not required for this beamline
 		return null;
+	}
+
+	public void setSamplePreparer(B18SamplePreparer samplePreparer) {
+		this.samplePreparer = samplePreparer;
 	}
 
 }

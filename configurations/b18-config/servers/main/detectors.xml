@@ -161,17 +161,18 @@
 		<property name="timer" ref="tfg" />
 	</bean>
 
-	<!-- this class will return the in-window sca counts and a link to the HDF5 
+	<!-- this class will return the in-window sca counts and a link to the HDF5
 		file containing the MCAs -->
-<!-- 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector"> -->
-<!-- 		<property name="controller" ref="xspress3Controller" /> -->
-<!-- 		<property name="writeHDF5Files" value="true" /> -->
-<!-- 	</bean> -->
-<!-- 	from I18 -->
-	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector">
+	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
 		<property name="controller" ref="xspress3Controller" />
-		<property name="readDataFromFile" value="false" />
+		<property name="numberOfChannelsToRead" value="4" />
+		<property name="writeHDF5Files" value="true" />
 	</bean>
+<!-- 	from I18 -->
+<!-- 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector"> -->
+<!-- 		<property name="controller" ref="xspress3Controller" /> -->
+<!-- 		<property name="readDataFromFile" value="false" /> -->
+<!-- 	</bean> -->
 
 	<bean id="qexafs_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">

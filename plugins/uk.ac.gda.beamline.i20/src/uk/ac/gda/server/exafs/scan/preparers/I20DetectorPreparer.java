@@ -17,6 +17,10 @@
  */
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
@@ -24,11 +28,9 @@ import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.TopupChecker;
+import gda.exafs.scan.ExafsScanPointCreator;
+import gda.exafs.scan.XanesScanPointCreator;
 import gda.util.Element;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -38,6 +40,7 @@ import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
+import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.server.exafs.scan.DetectorPreparer;
 
 public class I20DetectorPreparer implements DetectorPreparer {
@@ -52,6 +55,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private Xmap vortex;
 	private TopupChecker topupChecker;
 	private IScanParameters scanBean;
+	private Double[] tfgFrameTimes;
 
 	public I20DetectorPreparer(Xspress2Detector xspress2system, Scannable[] sensitivities, Scannable[] sensitivity_units,
 			Scannable[] offsets, Scannable[] offset_units, TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1,
@@ -85,7 +89,20 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 		_setUpIonChambers();
 
-		if (detectorBean.getExperimentType().equals(DetectorParameters.FLUORESCENCE_TYPE)) {
+		String experimentType = detectorBean.getExperimentType();
+
+		// Set frame times for ionchambers
+		if (tfgFrameTimes != null) {
+			if (experimentType.equals(DetectorParameters.XES_TYPE)) {
+				i1.clearFrameSets();
+				i1.setTimes(tfgFrameTimes);
+			} else {
+				ionchambers.clearFrameSets();
+				ionchambers.setTimes(tfgFrameTimes);
+			}
+		}
+
+		if (experimentType.equals(DetectorParameters.FLUORESCENCE_TYPE)) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
 			String detType = fluoresenceParameters.getDetectorType();
@@ -97,7 +114,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 				vortex.setConfigFileName(xmlFileName);
 				vortex.configure();
 			}
-		} else if (detectorBean.getExperimentType() == DetectorParameters.XES_TYPE) {
+		} else if (experimentType.equals(DetectorParameters.XES_TYPE)) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getXesParameters();
 			String detType = fluoresenceParameters.getDetectorType();
 			if (detType.equals(FluorescenceParameters.SILICON_DET_TYPE)) {
@@ -108,11 +125,11 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 
 		List<IonChamberParameters> ionChamberParamsArray = null;
-		if (detectorBean.getExperimentType() == (DetectorParameters.FLUORESCENCE_TYPE)) {
+		if (experimentType.equals(DetectorParameters.FLUORESCENCE_TYPE)) {
 			ionChamberParamsArray = detectorBean.getFluorescenceParameters().getIonChamberParameters();
-		} else if (detectorBean.getExperimentType() == (DetectorParameters.TRANSMISSION_TYPE)) {
+		} else if (experimentType.equals(DetectorParameters.TRANSMISSION_TYPE)) {
 			ionChamberParamsArray = detectorBean.getTransmissionParameters().getIonChamberParameters();
-		} else if (detectorBean.getExperimentType() == DetectorParameters.XES_TYPE) {
+		} else if (experimentType.equals(DetectorParameters.XES_TYPE)) {
 			ionChamberParamsArray = detectorBean.getXesParameters().getIonChamberParameters();
 		}
 		if (ionChamberParamsArray != null) {
@@ -172,9 +189,21 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 	}
 
-	private void _setUpIonChambers() {
+	private int getWholeNumSteps(double rangeFloat, double stepSize) {
+		int wholeNumber = (int) Math.floor(rangeFloat / stepSize);
+		double remainder = rangeFloat % stepSize;
+		// Increment count if remainder is very similar in size to to stepsize
+		if (Math.abs(remainder - stepSize) < 1e-6) {
+			wholeNumber += 1;
+		}
+		return wholeNumber;
+	}
+
+	private void _setUpIonChambers() throws Exception {
 		// # determine max collection time
 		double maxTime = 0;
+		tfgFrameTimes = null;
+
 		if (scanBean instanceof XanesScanParameters) {
 			XanesScanParameters xanesParams = (XanesScanParameters) scanBean;
 			for (Region region : xanesParams.getRegions()) {
@@ -182,8 +211,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 					maxTime = region.getTime();
 				}
 			}
+			tfgFrameTimes = XanesScanPointCreator.getScanTimeArray(xanesParams);
 		}
-
 		else if (scanBean instanceof XasScanParameters) {
 			XasScanParameters xasParams = (XasScanParameters) scanBean;
 			if (xasParams.getPreEdgeTime() > maxTime) {
@@ -204,8 +233,41 @@ public class I20DetectorPreparer implements DetectorPreparer {
 					maxTime = xasParams.getExafsFromTime();
 				}
 			}
+			tfgFrameTimes = ExafsScanPointCreator.getScanTimeArray(xasParams);
 		}
+		else if ( scanBean instanceof XesScanParameters ) {
+			XesScanParameters xesParams = (XesScanParameters) scanBean;
 
+			double collectionTime = xesParams.getXesIntegrationTime();
+			double energyRange = xesParams.getXesFinalEnergy() - xesParams.getXesInitialEnergy();
+			int numStepsXes = 1 + getWholeNumSteps(energyRange, xesParams.getXesStepSize());
+
+			int numStepsMono = 1;
+			int scanType = xesParams.getScanType();
+
+			// 2d scan, mono is also moved.
+			if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) { // # XesScanParameters.SCAN_XES_SCAN_MONO:
+				energyRange = xesParams.getMonoFinalEnergy() - xesParams.getMonoInitialEnergy();
+				numStepsMono = 1 + getWholeNumSteps(energyRange, xesParams.getMonoStepSize());
+			}
+
+			// Determine number of steps in inner and outer loops
+			// (These will be probably be needed when implementing bragg offset optimization during 2d scan)
+
+//			int numStepsPerInnerLoop = 0, numStepsPerOuterLoop = 0;
+//			String loopType = xesParams.getLoopChoice();
+//			if (loopType.equals(XesScanParameters.EF_OUTER_MONO_INNER)) {
+//				numStepsPerOuterLoop = numStepsXes;
+//				numStepsPerInnerLoop = numStepsMono;
+//			} else if (loopType.equals(XesScanParameters.MONO_OUTER_EF_INNER)) {
+//				numStepsPerOuterLoop = numStepsMono;
+//				numStepsPerInnerLoop = numStepsXes;
+//			}
+
+			tfgFrameTimes = new Double[numStepsMono * numStepsXes];
+			Arrays.fill(tfgFrameTimes, collectionTime);
+
+		}
 		// # set dark current time and handle any errors here
 		if (maxTime > 0) {
 			// InterfaceProvider.getTerminalPrinter().print(

@@ -22,14 +22,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 import gda.device.detector.EdeDetector;
 import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.detector.xstrip.XhDetector;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 
 public class TFGTriggerTest {
@@ -40,6 +39,7 @@ public class TFGTriggerTest {
 		tfgTrigger.getDetectorDataCollection().setTriggerPulseLength(0.001);
 		tfgTrigger.getDetectorDataCollection().setNumberOfFrames(5);
 		tfgTrigger.getDetectorDataCollection().setCollectionDuration(0.50688);
+		tfgTrigger.setUseCountFrameScalers(false);
 
 		EdeFrelon frelonDetector = (EdeFrelon) tfgTrigger.getDetector();
 		FrelonCcdDetectorData detectorSettings = new FrelonCcdDetectorData();
