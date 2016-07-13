@@ -1,19 +1,7 @@
-#!/bin/sh
-# This script assumes that $BEAMLINE is set (e.g. i02, i18, b16) if not exit...
+# gda_environment.sh
+# This script should do nothing more than source i18-config/etc/live/i18_profile.sh
+# See the notes in that script for an explanation
 
-if [ ! -n "$BEAMLINE" ]; 
-then
-  echo "Please set BEAMLINE environment variable."
-  exit 1
-fi
-if [ ! -n "$SOFTWAREFOLDER" ]; 
-then
-  echo "Please set SOFTWAREFOLDER environment variable."
-  exit 1
-fi
-unset ANT_HOME
-unset JAVA_HOME
-unset JYTHON_HOME
-unset SVN_HOME
+here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source ${here_dir}/../etc/live/i18_profile.sh
 
-export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin:${PATH}
