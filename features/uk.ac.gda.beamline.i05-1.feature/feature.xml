@@ -25,6 +25,10 @@
          id="org.dawnsci.plotting.feature"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.diamond.daq.mapping.ui.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i05-1"
          download-size="0"
@@ -89,6 +93,13 @@
 
    <plugin
          id="uk.ac.gda.arpes.server"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.detectors.vgscienta.electronanalyser.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
