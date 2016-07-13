@@ -35,6 +35,7 @@
 	<import resource="detectors/qexafs.xml" />
 	<import resource="detectors/xspress3.xml" />
 	<import resource="command_queue.xml" />
+	<import resource="heterogeneous_scan_servlet.xml" />
 	<import resource="converters.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="metadata.xml" />

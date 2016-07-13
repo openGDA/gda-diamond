@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- This starts a scanServlet which handles new style scan requests arriving over ActiveMQ -->
+	<bean id="scanServlet" class="gda.commandqueue.HeterogeneousScanServlet" init-method="connect">
+		<property name="broker" value="${gda.activemq.broker.uri}" />
+	</bean>
+
+</beans>
