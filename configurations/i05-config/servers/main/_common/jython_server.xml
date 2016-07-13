@@ -34,7 +34,7 @@
 		</property>
 		<property name="gdaVarDirectory" value="${gda.var}" />
 		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
-		<property name="remotePort" value="8920" />
+		<property name="remotePort" value="9999" />
 	</bean>
 
 	<bean id="jython_server_facade" class="gda.jython.JythonServerFacade">
