@@ -199,6 +199,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 		}
 
 		if (energyInUse == energyWithGap) {
+			log("Re-enabling ID harmonic change");
 			auto_mDeg_idGap_mm_converter.enableAutoConversion();
 		}
 
@@ -207,9 +208,22 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 
 	public void setUseWithGapEnergy() {
 		energyInUse = energyWithGap;
+		logEnergyInUse();
 	}
 
 	public void setUseNoGapEnergy() {
 		energyInUse = energyNoGap;
+		logEnergyInUse();
+	}
+
+	public void logEnergyInUse() {
+		log("Energy in use: " + energyInUse.getName());
+		if (energyInUse == energyWithGap) {
+			log("Energy changes will move the ID gap, but the ID gap should not change harmonic during energy scans");
+		} else if (energyInUse == energyNoGap) {
+			log("Energy changes will move the DCM only; the ID gap will not move");
+		} else {
+			log("Error: unexpected energy scannable");
+		}
 	}
 }
