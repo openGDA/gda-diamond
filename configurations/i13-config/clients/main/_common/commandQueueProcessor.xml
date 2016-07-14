@@ -11,7 +11,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
-	<context:property-placeholder properties-ref="propertyConfigurer" />
+	<context:property-placeholder />
 
 	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}commandQueueProcessor" />
