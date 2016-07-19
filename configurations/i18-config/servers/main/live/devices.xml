@@ -395,7 +395,7 @@
 
 	<bean id="xpsDeferFlag" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL18I-MO-XPS-01:DEFER" />
-		<property name="pvNameGetPoint" value="BL18I-MO-XPS-01:DEFER" />
+		<property name="pvNameGetPoint" value="BL18I-MO-XPS-01:DEFER.RBV" />
 		<property name="local" value="true" />
 	</bean>
 
