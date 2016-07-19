@@ -102,9 +102,6 @@ theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # 
 theFactory.setQexafsNXDetectorList([qexafsCounterTimer01,qexafsXspress3,qexafsXspress3FFI0]) # @UndefinedVariable
 qexafs = theFactory.createQexafsConstantVelocityScan()
 
-traj1PositionReader = finder.find("traj1PositionReader")
-traj3PositionReader = finder.find("traj3PositionReader")
-
 mapFactory = MapFactory();
 mapFactory.setBeamlinePreparer(beamlinePreparer);
 mapFactory.setDetectorPreparer(detectorPreparer);
@@ -123,7 +120,7 @@ mapFactory.setzScan(sc_sample_z); # @UndefinedVariable
 mapFactory.setElementListScriptController(elementListScriptController);
 mapFactory.setRasterMapDetectorPreparer(detectorPreparer);
 mapFactory.setTrajectoryMotor(traj1ContiniousX); # @UndefinedVariable # use the MapSelector object to switch to the large stage (stage 3)
-mapFactory.setPositionReader(traj1PositionReader); # use the MapSelector object to switch to the large stage (stage 3)
+mapFactory.setPositionReader(traj1PositionReader); # @UndefinedVariable # use the MapSelector object to switch to the large stage (stage 3)
 mapFactory.setScanName("step map")
 
 non_raster_map = mapFactory.createStepMap()
