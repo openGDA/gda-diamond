@@ -21,7 +21,7 @@ if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then
 	elif [[ "${SSH_ORIGINAL_COMMAND}" == *"stop"* ]]; then
 		SSH_ORIGINAL_COMMAND="${SSH_ORIGINAL_COMMAND/stop/--stop}"
 	fi
-	${here_dir}/gda  ${SSH_ORIGINAL_COMMAND} --mode=live servers
+	${here_dir}/../../bin/gda  ${SSH_ORIGINAL_COMMAND} --mode=live servers
 else
-	${here_dir}/gda --restart --mode=live servers
+	${here_dir}/../../bin/gda --restart --mode=live servers
 fi
