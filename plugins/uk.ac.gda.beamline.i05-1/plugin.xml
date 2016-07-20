@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-        <extension
-         point="org.eclipse.ui.intro">
-      <intro
-            class="uk.ac.gda.beamline.i05_1.I05_1Intro"
-            id="uk.ac.gda.beamline.i05_1.i05_1intro">
-      </intro>
-      <introProductBinding introId="uk.ac.gda.beamline.i05_1.i05_1intro" productId="uk.ac.gda.beamline.i05-1.product"/>
-   </extension>
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">
@@ -33,12 +25,6 @@
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
          </property>         
       </product>
-   </extension>
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="uk.ac.gda.beamline.i05_1.I05_1StartupService">
-      </startup>
    </extension>
 <extension
           point="org.eclipse.ui.perspectiveExtensions">
@@ -120,5 +106,11 @@
             name="Continuous Mode"
             restorable="true">
       </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i05_1.I05_1Startup">
+      </startup>
    </extension>
  </plugin>

@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i05;
+package uk.ac.gda.beamline.i05_1;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,8 +43,8 @@ import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
 import uk.ac.gda.util.io.FileUtils;
 
-public class I05Startup implements IStartup {
-	private static final Logger logger = LoggerFactory.getLogger(I05Startup.class);
+public class I05_1Startup implements IStartup {
+	private static final Logger logger = LoggerFactory.getLogger(I05_1Startup.class);
 
 	@Override
 	public void earlyStartup() {
@@ -61,8 +61,8 @@ public class I05Startup implements IStartup {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 
 				logger.info("Creating perspectives");
-				for (String id : new String[] { "uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective",
-						"uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective" }) {
+				for (String id : new String[] { "uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective",
+						"uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective" }) {
 					try {
 						workbench.showPerspective(id, workbench.getActiveWorkbenchWindow());
 					} catch (WorkbenchException e) {
@@ -93,7 +93,7 @@ public class I05Startup implements IStartup {
 						}
 
 						// PerspectiveListener to populate the editor with an initial sample .arpes analyser configuration
-						if (perspective.getId().equals("uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective")) {
+						if (perspective.getId().equals("uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective")) {
 
 							// full path to initialExampleAnalyserConfig.arpes
 							String sampFileName = PathConstructor.createFromProperty("gda.analyser.sampleConf");

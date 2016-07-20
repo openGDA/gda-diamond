@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: i05 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i05;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: uk.ac.gda.beamline.i05.I05BeamlineActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.8.1",
@@ -24,7 +23,6 @@ Require-Bundle: org.eclipse.ui,
  hdf.object;bundle-version="[2.9.0,3.0.0)",
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)",
  org.apache.commons.math3;bundle-version="[3.2.0,4.0.0)"
-Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: uk.ac.gda.beamline.i05;uses:="org.eclipse.ui,org.eclipse.ui.plugin,org.osgi.framework",
  uk.ac.gda.beamline.i05.perspectives;uses:="org.eclipse.ui"
