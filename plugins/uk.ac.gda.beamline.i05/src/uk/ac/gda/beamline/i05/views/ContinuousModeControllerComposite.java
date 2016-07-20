@@ -18,14 +18,6 @@
 
 package uk.ac.gda.beamline.i05.views;
 
-import gda.device.MotorStatus;
-import gda.device.Scannable;
-import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
-import gda.observable.IObserver;
-import gda.rcp.views.NudgePositionerComposite;
-
 import java.util.Arrays;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -41,10 +33,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.swtdesigner.SWTResourceManager;
+
+import gda.device.MotorStatus;
+import gda.device.Scannable;
+import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServerFacade;
+import gda.observable.IObserver;
+import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class ContinuousModeControllerComposite extends Composite {
