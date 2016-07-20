@@ -1,7 +1,7 @@
 import math
 from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
 from gda.analysis import RCPPlotter
-from org.eclipse.dawnsci.analysis.dataset.impl import Dataset
+from org.eclipse.january.dataset import DatasetFactory
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter
 from uk.ac.diamond.scisoft.analysis.fitting.functions import Gaussian, StraightLine 
 # call these 2 lines to get this to work.
@@ -83,7 +83,7 @@ class refinement() :
 				maxval = tmp
 
 	
-		xds=Dataset(self.be)[start:stop]
+		xds=DatasetFactory.createFromObject(self.be).getSlice([start], [stop], [1])
 
 		yds=self.ds[chan][start:stop]
 

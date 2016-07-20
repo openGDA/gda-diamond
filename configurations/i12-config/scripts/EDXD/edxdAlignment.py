@@ -5,7 +5,7 @@ import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian as Gaussian
 import uk.ac.diamond.scisoft.analysis.optimize.GeneticAlg as GeneticAlg
 from uk.ac.diamond.scisoft.analysis.fitting import CalibrationUtils
 import gdascripts.analysis.datasetprocessor.oned.extractPeakParameters as epp
-from org.eclipse.dawnsci.analysis.dataset.impl import DatasetFactory
+from org.eclipse.january.dataset import DatasetFactory
 
 def findPeakPosition(approxVal, integerDataSet, leftShift=6, rightShift=6):
     actualVal = approxVal

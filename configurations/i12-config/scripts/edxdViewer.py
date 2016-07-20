@@ -1,5 +1,5 @@
 from gda.analysis import ScanFileHolder, RCPPlotter
-from org.eclipse.dawnsci.analysis.dataset.impl import DatasetFactory
+from org.eclipse.january.dataset import DatasetFactory
 from gda.data import PathConstructor,NumTracker
 from gda.data.nexus.tree import NexusTreeNodeSelection
 from uk.ac.diamond.scisoft.analysis.io import NexusLoader

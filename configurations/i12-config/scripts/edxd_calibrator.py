@@ -1,7 +1,7 @@
 import math
 from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
 from gda.analysis import RCPPlotter
-from org.eclipse.dawnsci.analysis.dataset.impl import Dataset
+from org.eclipse.january.dataset import DatasetFactory
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter
 from uk.ac.diamond.scisoft.analysis.fitting.functions import StraightLine, Gaussian
 
@@ -62,7 +62,7 @@ class refinement() :
 		print start
 		print stop
 	
-		xds=Dataset(self.be)[start:stop]
+		xds=DatasetFactory.createFromObject(self.be).getSlice([start], [stop], [1])
 
 		print "here"
 		yds=self.ds[chan][start:stop]

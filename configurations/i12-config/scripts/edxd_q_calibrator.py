@@ -5,7 +5,7 @@ from uk.ac.diamond.scisoft.analysis.fitting.functions import Quadratic, Gaussian
 from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
 
-from org.eclipse.dawnsci.analysis.dataset.impl import DatasetFactory
+from org.eclipse.january.dataset import DatasetFactory
 
 from time import sleep
 from gda.analysis import ScanFileHolder, RCPPlotter
@@ -157,13 +157,13 @@ class q_refinement() :
         binPositions.sort()
         qvalues.sort()
         
-        fit = Fitter.fit(DoubleDataset(binPositions),DoubleDataset(qvalues),GeneticAlg(0.00001),[Quadratic(-1,1,-1,1,-1,1)])
+        fit = Fitter.fit(DatasetFactory.createFromObject(binPositions),DatasetFactory.createFromObject(qvalues),GeneticAlg(0.00001),[Quadratic(-1,1,-1,1,-1,1)])
         
         # plot the result to show its a good fit
-        RCPPlotter.plot("Plot 1",DoubleDataset(binPositions),[DoubleDataset(qvalues),fit.getFunction().makeDataSet([DoubleDataset(binPositions)])])
+        RCPPlotter.plot("Plot 1",DatasetFactory.createFromObject(binPositions),[DatasetFactory.createFromObject(qvalues),fit.getFunction().makeDataSet([DatasetFactory.createFromObject(binPositions)])])
         
         # construct the q axis
-        binAxis = DataSet.arange(edxd.getBins()) #@UndefinedVariable
+        binAxis = DatasetFactory.createRange(edxd.getBins()) #@UndefinedVariable
         qAxis = fit.getFunction().makeDataSet([binAxis])
         
         # finally push this to the right location
@@ -210,10 +210,10 @@ class q_refinement() :
             
             
             # get the initial fit
-            fit = Fitter.fit(DoubleDataset(self.skeys)[0:3],DoubleDataset(matchpeakvalues)[0:3],GeneticAlg(0.000001),[Quadratic(-1,1,-10,10,-100,100)])
+            fit = Fitter.fit(DatasetFactory.createFromObject(self.skeys).getSlice([0],[3],[1]),DatasetFactory.createFromObject(matchpeakvalues).getSlice([0],[3],[1]),GeneticAlg(0.000001),[Quadratic(-1,1,-10,10,-100,100)])
                         
             # now the initial fit is made, the rest of the points can be found using this new conversion
-            newMatchValues = fit.getFunction().makeDataSet([DoubleDataset(self.skeys)])
+            newMatchValues = fit.getFunction().makeDataSet([DatasetFactory.createFromObject(self.skeys)])
             newValues = newMatchValues.doubleArray().tolist()        
             
             # now refit all the peaks
@@ -260,13 +260,13 @@ class q_refinement() :
                 #print self.binPositions
                 #print self.qvalues
                 
-                fit = Fitter.fit(DoubleDataset(self.binPositions),DoubleDataset(self.qvalues),GeneticAlg(0.000001),[Quadratic(-1,1,-2,2,-5,5)])
+                fit = Fitter.fit(DatasetFactory.createFromObject(self.binPositions),DatasetFactory.createFromObject(self.qvalues),GeneticAlg(0.000001),[Quadratic(-1,1,-2,2,-5,5)])
             
                 # plot the result to show its a good fit
-                RCPPlotter.plot("Plot 1",DoubleDataset(self.binPositions),[DoubleDataset(self.qvalues),fit.getFunction().makeDataSet([DoubleDataset(self.binPositions)])])
+                RCPPlotter.plot("Plot 1",DatasetFactory.createFromObject(self.binPositions),[DatasetFactory.createFromObject(self.qvalues),fit.getFunction().makeDataSet([DatasetFactory.createFromObject(self.binPositions)])])
             
                 # construct the q axis
-                binAxis = DataSet.arange(edxd.getBins()) #@UndefinedVariable
+                binAxis = DatasetFactory.createRange(edxd.getBins()) #@UndefinedVariable
                 qAxis = fit.getFunction().makeDataSet([binAxis])
             
                 # finally push this to the right location
@@ -327,7 +327,7 @@ class q_refinement() :
                     
             except :
                 print "Element %i unsucsessfull" % i
-                edxd.getSubDetector(i).setQ(DataSet.arange(edxd.getBins()).doubleArray())    #@UndefinedVariable
+                edxd.getSubDetector(i).setQ(DatasetFactory.createRange(edxd.getBins()).getData())    #@UndefinedVariable
                 
             sleep(2)
             
