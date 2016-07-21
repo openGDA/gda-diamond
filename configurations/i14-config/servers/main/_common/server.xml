@@ -22,9 +22,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" />
 
 	<!-- shared files -->
-	<import resource="file:${gda.config}/servers/main/metadata.xml" />
-	<import resource="file:${gda.config}/servers/main/optics_scannables.xml" />
-	<import resource="file:${gda.config}/servers/main/diagnostics_and_shutters_scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/optics_scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/diagnostics_and_shutters_scannables.xml" />
 
 	<!-- Command Server at the end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
