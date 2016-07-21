@@ -509,25 +509,122 @@
            name="sc_sample_z">
      </zscannable>
   </extension>
-  
+
   <extension
         point="org.eclipse.ui.handlers">
      <handler
            class="uk.ac.gda.exafs.ui.actions.I18DataCollectionModeHandler"
            commandId="uk.ac.gda.client.exafs.dataCollectionCommand">
 
-		<activeWhen>
-			<with variable="activeContexts">
-				<iterate
-					ifEmpty="false"
-					operator="or">
-					<equals value="I18 product"/>
-				</iterate>
-			</with>
-		</activeWhen>
-		
+        <activeWhen>
+            <with variable="activeContexts">
+                <iterate
+                    ifEmpty="false"
+                    operator="or">
+                    <equals value="I18 product"/>
+                </iterate>
+            </with>
+        </activeWhen>
+
      </handler>
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.RunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.RunSingleScanOnlyCommand">
+
+        <activeWhen>
+            <with variable="activeContexts">
+                <iterate
+                    ifEmpty="false"
+                    operator="or">
+                    <equals value="I18 product"/>
+                </iterate>
+            </with>
+        </activeWhen>
+
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.RunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.RunSingleExperimentCommand">
+
+        <activeWhen>
+            <with variable="activeContexts">
+                <iterate
+                    ifEmpty="false"
+                    operator="or">
+                    <equals value="I18 product"/>
+                </iterate>
+            </with>
+        </activeWhen>
+
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.RunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.RunMultiExperimentCommand">
+
+        <activeWhen>
+            <with variable="activeContexts">
+                <iterate
+                    ifEmpty="false"
+                    operator="or">
+                    <equals value="I18 product"/>
+                </iterate>
+            </with>
+        </activeWhen>
+
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.QueueAndRunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunSingleScanOnlyCommand">
+
+        <activeWhen>
+            <with variable="activeContexts">
+                <iterate
+                    ifEmpty="false"
+                    operator="or">
+                    <equals value="I18 product"/>
+                </iterate>
+            </with>
+        </activeWhen>
+        
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.QueueAndRunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunSingleExperimentCommand">
+
+        <activeWhen>
+            <with variable="activeContexts">
+                <iterate
+                    ifEmpty="false"
+                    operator="or">
+                    <equals value="I18 product"/>
+                </iterate>
+            </with>
+        </activeWhen>
+
+     </handler>
+
+     <handler
+           class="uk.ac.gda.client.experimentdefinition.ui.handlers.QueueAndRunExperimentNewQueueCommandHandler"
+           commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunMultiExperimentCommand">
+
+        <activeWhen>
+            <with variable="activeContexts">
+                <iterate
+                    ifEmpty="false"
+                    operator="or">
+                    <equals value="I18 product"/>
+                </iterate>
+            </with>
+        </activeWhen>
+
+     </handler>
+
   </extension>
+
   <extension
         point="org.eclipse.ui.contexts">
      <context
@@ -536,6 +633,7 @@
            parentId="org.eclipse.ui.contexts.window">
      </context>
   </extension>
+
   <extension
         id="offline_product"
         point="org.eclipse.core.runtime.products">
@@ -548,5 +646,5 @@
         </property>
      </product>
   </extension>
-  
+
 </plugin>
