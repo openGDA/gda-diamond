@@ -9,26 +9,28 @@
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.install.workspace.loc=/dls_sw/i14/software/gda
--Dgda.install.git.loc=/dls_sw/i14/software/gda_git
--Dgda.config=/dls_sw/i14/software/gda/config
--Djava.library.path=/dls_sw/i14/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
--Dgda.propertiesFile=/dls_sw/i14/software/gda/config/properties/live/java.properties
--Djacorb.config.dir=/dls_sw/i14/software/gda/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i14/software/gda/config/jca/live/JCALibrary.properties
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.mode=live
--Dgda.client.jython.automatic.interpreter=1
--Xms512m
--Xmx1024m
--XX:MaxPermSize=1024m
+-Drebel.log=true
+-Dgda.mode=dummy
+-Dgda.config=${project_loc:i14-config}
+-Dgda.propertiesFile=${project_loc:i14-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:i14-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i14-config}/properties/dummy/JCALibrary.properties
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live
+-Dgda.instance.dir=${project_loc:i14-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.group.dir=${project_loc:core-config}/no-group
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Xms256m
+-Xmx2048m
+-XX:MaxPermSize=256m
 -XX:+DisableExplicitGC
--Xdebug
--Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <launcher name="gda-i14">
