@@ -120,7 +120,10 @@ print '\t%sconverting to BSL' %('' if bslUtils.isConvertingOn() else 'not ',)
 
 #run("BeamlineScripts/master.py")
 run(setupScriptDir +  "atten.py")
-run(setupScriptDir +  "rate.py")
+
+# Temporarily don't run rate.py, meaning the DetGuard object isn't set up.
+# This is because it's closing the shutter when beamline staff think it shouldn't
+#run(setupScriptDir +  "rate.py")
 
 from gdascripts.pd.time_pds import actualTimeClass
 epoch=actualTimeClass("epoch")
