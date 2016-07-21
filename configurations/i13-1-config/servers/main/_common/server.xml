@@ -150,6 +150,8 @@
 
 	<!-- Start of real device list -->
 
+	<import resource="../../../devices/_common/fast_shutter.xml"/>
+
 	<import resource="../../../devices/_common/undulator.xml" />
 	<import resource="../../../devices/_common/front_end.xml" />
 
@@ -188,6 +190,7 @@
 	<!-- <import resource="../../../devices/_common/dcm.xml" /> -->
 
 	<import resource="../../../devices/_common/sample_stage_t1.xml" />
+	<import resource="../../../devices/_common/ion_chamber.xml" />
 	<!-- <import resource="../../../devices/_common/g1.xml" /> -->
 	<import resource="../../../devices/_common/sample_stage_camera.xml" />
 	<import resource="../../../devices/_common/s7.xml" />
@@ -216,6 +219,8 @@
 	<!-- <import resource="../../../devices/_common/detector_stage_t2.xml" /> -->
 	
 	<import resource="../../../devices/_common/diffractometer.xml" />
+	
+	<import resource="../../../devices/_common/afg.xml"/>
 
 	<!-- end of device list -->
 

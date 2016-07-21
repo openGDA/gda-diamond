@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ion_chamber" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ionc_i" />
+				<ref bean="ionc_gain" />
+				<ref bean="ionc_coupling" />
+				<ref bean="ionc_photonflux" />
+				<ref bean="ic2" />
+				<ref bean="ic2_rate" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

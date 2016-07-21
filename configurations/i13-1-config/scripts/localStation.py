@@ -104,32 +104,20 @@ try:
 except NameError:
 	print "!!!!!!!!!!!!!!!!!!!!!!! qcm_bragg1 not found so could not create waitForQcm_bragg1 "
 	print "Continuing anyway..."
-#createPVScannable( "d1_total", "BL13J-DI-PHDGN-01:STAT:Total_RBV")
+
+try:
+	expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
+except gda.factory.FactoryException, e:
+	print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring fast shutter "
+	print e
+	print "Continuing anyway..."
+
+# Aliases for ion chamber objects
+ic1 = ionc_i
+ic1_rate = ionc_photonflux 
 
 import gdascripts.scannable.beamokay
-beamok = False
-
-if not LocalProperties.check("gda.dummy.mode"):
-	try:
-#		createPVScannable( "fs1", "BL13J-EA-FSHTR-01:CONTROL", hasUnits=False)
-		createPVScannable( "expt_fastshutter_raw", "BL13J-EA-FSHTR-01:RAWCONTROL", hasUnits=False)
-		expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", expt_fastshutter_raw)
-	except gda.factory.FactoryException, e:
-		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring fast shutter "
-		print e
-		print "Continuing anyway..."
-	try:
-		createPVScannable( "ic1", "BL13J-DI-IONC-01:I", hasUnits=True)
-		createPVScannable( "ic1_rate", "BL13J-DI-IONC-01:HRPHOTONRATE", hasUnits=True)
-		createPVScannable( "ic2", "BL13J-DI-IONC-02:I", hasUnits=True)
-		createPVScannable( "ic2_rate", "BL13J-DI-IONC-02:HRPHOTONRATE", hasUnits=True)
-		
-	except gda.factory.FactoryException, e:
-		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring ion chamber"
-		print e
-		print "Continuing anyway..."
-
-		beamok = gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
+beamok = gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
 
 
 #make ScanPointProvider
@@ -154,22 +142,21 @@ imageROI3 = finder.find("imageROI3")
 imageStats.profileY=False
 imageStats.profileX=False
 
-if not LocalProperties.check("gda.dummy.mode"):
-	import roi_operations
-	mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
-	mpx_roi_average_diff = roi_operations.roi_diff("mpx_roi_average_diff","mpx_roi_average_diff",mpx_wrap, "mpx", "image_data.average", "image_data.average2")
-	
-	#create objects in namespace
-	try:
-		mpx_controller = mpx.getMaxiPix2MultiFrameDetector()
-		mpx_threshold = mpx_controller.energyThreshold
-		mpx_limaCCD = mpx_controller.getLimaCCD()
-		mpx_maxipix = mpx_controller.getMaxiPix2()
-		mpx_reset_configure()
-	except gda.factory.FactoryException, e:
-		print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring mpx detector"
-		print e
-		print "Continuing anyway..."
+import roi_operations
+mpx_roi_total_diff = roi_operations.roi_diff("mpx_roi_total_diff","mpx_roi_total_diff",mpx_wrap)
+mpx_roi_average_diff = roi_operations.roi_diff("mpx_roi_average_diff","mpx_roi_average_diff",mpx_wrap, "mpx", "image_data.average", "image_data.average2")
+
+#create objects in namespace
+try:
+	mpx_controller = mpx.getMaxiPix2MultiFrameDetector()
+	mpx_threshold = mpx_controller.energyThreshold
+	mpx_limaCCD = mpx_controller.getLimaCCD()
+	mpx_maxipix = mpx_controller.getMaxiPix2()
+	mpx_reset_configure()
+except gda.factory.FactoryException, e:
+	print "!!!!!!!!!!!!!!!!!!!!!!! problem configuring mpx detector"
+	print e
+	print "Continuing anyway..."
 
 import file_converter
 import mpx_external_scan_monitor
@@ -216,9 +203,8 @@ beam_check=scan_aborter.scan_aborter("beam_check",3, 300000., "Too high")
 #imageROI.setROI(370, 390, 370, 390)#    ( y_start, y_end, x_start, x_end)
 
 
-if not LocalProperties.check("gda.dummy.mode"):
-	import average
-	d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
+import average
+d4_i_avg = average.Average(d4_i,numPoints=10, timeBetweenReadings=0.1)
 
 def eh_shtr_control():
 	if eh_shtr()=="Open":
@@ -321,10 +307,8 @@ if not LocalProperties.check("gda.dummy.mode"):
 		caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
 	
 	
-	createPVScannable( "afg_chan1_ampl", "BL13J-EA-FNGEN-01:CHAN1:AMPLITUDE", hasUnits=False)
-	# pos afg_chan1_ampl 2.
-	createPVScannable( "afg_chan1_state", "BL13J-EA-FNGEN-01:CHAN1:OUTPUT:STATE", hasUnits=False, getAsString=True)
-	# pos afg_chan1_state "On"
+# pos afg_chan1_ampl 2.
+# pos afg_chan1_state "On"
 
 #import alignmentGui
 #tomodet = alignmentGui.TomoDet()

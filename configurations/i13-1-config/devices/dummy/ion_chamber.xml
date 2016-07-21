@@ -1,22 +1,38 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<description> Ion chamber in Experiment Hutch</description>
 
 	<bean id="ionc_i" class="gda.device.scannable.SimpleScannable">
-		<property name="currentPosition">
-		<bean class="java.lang.Double">
-		  <constructor-arg value="0.0"/>
-		</bean>
-		</property>
-		<property name="inputNames" value="ionc_i"/>
+		<property name="currentPosition" value="1.33" />
+		<property name="inputNames" value="ionc_i" />
+	</bean>
+
+	<bean id="ionc_gain" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ionc_gain" />
+		<property name="currentPosition" value="10^6 low noise" />
+	</bean>
+
+	<bean id="ionc_coupling" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ionc_coupling" />
+		<property name="currentPosition" value="DC" />
+	</bean>
+
+	<bean id="ionc_photonflux" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ionc_photonflux" />
+		<property name="currentPosition" value="617.815" />
+	</bean>
+
+	<bean id="ic2" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ic2" />
+		<property name="currentPosition" value="-0.00473966" />
+	</bean>
+
+	<bean id="ic2_rate" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ic2_rate" />
+		<property name="currentPosition" value="0" />
 	</bean>
 
 </beans>

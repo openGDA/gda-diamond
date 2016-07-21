@@ -20,18 +20,16 @@
 				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
 			</map>
 		</property>
-		<property name="dummyMode" value="true"></property>
+		<property name="dummyMode" value="true" />
 	</bean>
 	
-<!--MLL IS NOT CONNECTED 	<import resource="../../../devices/mll.xml"/>	
- -->	
  	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
 				<entry key="Top" value="BL13J" />
 			</map>
 		</property>
-		<property name="dummyMode" value="true"></property>
+		<property name="dummyMode" value="true" />
 	</bean>	
 
 	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
@@ -41,6 +39,8 @@
 	<import resource="../../../devices/dummy/front_end.xml"/>
 
 <!-- start of internal building -->
+
+	<import resource="../../../devices/dummy/fast_shutter.xml"/>
 
 	<import resource="../../../devices/dummy/s1_motors.xml"/>
 	<import resource="../../../devices/dummy/filter_motors.xml"/>
@@ -97,10 +97,6 @@
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 
-	<bean id="fs" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions" value="Open, Closed"/>
-	</bean>
-
 	<!-- Include the following lines to run with simulated area detector -->
 <!--     <import resource="../../../devices/dummy/adSimulator.xml"/>
     <import resource="../../../devices/dummy/pco1_ndplugins_sim.xml"/> -->
@@ -112,6 +108,8 @@
 	<import resource="../../../devices/dummy/merlin.xml"/>
 	
 	<import resource="../../../devices/dummy/pie725_raster.xml"/>
+	
+	<import resource="../../../devices/dummy/afg.xml"/>
 
 	<import resource="../_common/server.xml"/>	
 	

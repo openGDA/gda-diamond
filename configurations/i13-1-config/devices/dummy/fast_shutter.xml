@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="fs" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="Open, Closed"/>
+	</bean>
+
+	<bean id="expt_fastshutter_raw" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="expt_fastshutter_raw" />
+		<property name="currentPosition" value="5" />
+	</bean>
+
+</beans>

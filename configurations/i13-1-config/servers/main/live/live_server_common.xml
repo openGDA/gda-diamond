@@ -20,7 +20,7 @@
 				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"></property>
+		<property name="dummyMode" value="false" />
 	</bean>
 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
@@ -28,13 +28,15 @@
 				<entry key="Top" value="BL13J" />
 			</map>
 		</property>
-		<property name="dummyMode" value="false"></property>
+		<property name="dummyMode" value="false" />
 	</bean>	
 	
 	<import resource="../../../devices/epics/undulator.xml"/>
 	<import resource="../../../devices/epics/front_end.xml"/>
 
 <!-- start of internal building -->
+
+	<import resource="../../../devices/epics/fast_shutter.xml"/>
 
 	<import resource="../../../devices/epics/s1_motors.xml"/>
 	<import resource="../../../devices/epics/filter_motors.xml"/>
@@ -93,11 +95,6 @@
 	<import resource="../../../devices/epics/float4.xml"/>
 	
 	<import resource="../../../devices/epics/s7_motors.xml"/>
-
-	<bean id="fs" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="recordName" value="BL13J-EA-FSHTR-01:CONTROL" />
-		<property name="readOnly" value="False"/>
-	</bean>
 <!-- 	<import resource="../../../devices/epics/scope1_motors.xml"/>
  -->
 	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>
@@ -113,6 +110,8 @@
 	<import resource="../../../devices/epics/excalibur_shared.xml"/>
 	<import resource="../../../devices/epics/excalibur.xml"/>
 	<import resource="../../../devices/epics/excalibur_mapping.xml"/>
+
+	<import resource="../../../devices/epics/afg.xml"/>
 	
 	<!-- <import resource="../../../devices/live/vortex.xml"/> -->
 <!-- 	<import resource="../../../devices/diamond_crl.xml"/>
