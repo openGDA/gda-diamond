@@ -47,6 +47,21 @@
 		<property name="motor" ref="s1_y_down_motor" />
 	</bean>
 
+	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1_x_centre" />
+				<ref bean="s1_x_size" />
+				<ref bean="s1_x_up" />
+				<ref bean="s1_x_down" />
+				<ref bean="s1_y_centre" />
+				<ref bean="s1_y_size" />
+				<ref bean="s1_y_up" />
+				<ref bean="s1_y_down" />
+			</list>
+		</property>
+	</bean>	
+
 
 	<!-- A1 (attenuator, sometimes called F1): -->
 	<bean id="attn1_stick1" class="gda.device.scannable.ScannableMotor">
@@ -57,6 +72,17 @@
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="attn1_stick2_motor" />
 	</bean>
+
+	<bean id="attn1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="attn1_stick1" />
+				<ref bean="attn1_stick1_position" />
+				<ref bean="attn1_stick2" />
+				<ref bean="attn1_stick2_position" />
+			</list>
+		</property>
+	</bean>	
 
 	<!-- M1 (mirror): -->
 	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
@@ -71,6 +97,16 @@
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="m1_pitch_motor" />
 	</bean>
+
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1_x" />
+				<ref bean="m1_y" />
+				<ref bean="m1_pitch" />
+			</list>
+		</property>
+	</bean>	
 
 	<!-- M2 (mirror): -->
 	<bean id="m2_x" class="gda.device.scannable.ScannableMotor">
@@ -90,6 +126,17 @@
 		<property name="motor" ref="m2_roll_motor" />
 	</bean>
 
+	<bean id="m2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m2_x" />
+				<ref bean="m2_y" />
+				<ref bean="m2_pitch" />
+				<ref bean="m2_roll" />
+			</list>
+		</property>
+	</bean>	
+
 	<!-- DCM (monochromator): -->
 	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_pitch_motor" />
@@ -103,6 +150,17 @@
 	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_bragg_motor" />
 	</bean>
+
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcm_pitch" />
+				<ref bean="dcm_roll" />
+				<ref bean="dcm_perp" />
+				<ref bean="dcm_bragg" />
+			</list>
+		</property>
+	</bean>	
 
 </beans>
 
