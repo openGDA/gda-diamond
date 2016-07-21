@@ -9,7 +9,6 @@
 	<context:property-placeholder/>
 
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
-
 		<property name="metadataEntries">
 			<list>
 				<bean class="gda.data.metadata.StoredMetadataEntry">
@@ -30,7 +29,6 @@
 					<property name="name" value="userid" />
 					<property name="propertyName" value="user.name" />
 				</bean>
-
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="federalid" />
 				</bean>
@@ -38,6 +36,8 @@
 		</property>
 	</bean>
 
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" />
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop"/>
+	</bean>
 
 </beans>
