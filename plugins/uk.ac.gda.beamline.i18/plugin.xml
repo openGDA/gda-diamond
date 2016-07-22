@@ -536,5 +536,17 @@
            parentId="org.eclipse.ui.contexts.window">
      </context>
   </extension>
+  <extension
+        id="offline_product"
+        point="org.eclipse.core.runtime.products">
+     <product
+           application="uk.ac.gda.client.application"
+           name="GDA I18 Beamline Dummy Client">
+        <property
+              name="appName"
+              value="GDA I18 Beamline Dummy Client">
+        </property>
+     </product>
+  </extension>
   
 </plugin>
