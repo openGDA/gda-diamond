@@ -11,12 +11,20 @@
 	
 	<bean id="pco_binx_rbv" class="gda.device.scannable.SimpleScannable">
 		<property name="name" value="pco_binx_rbv"/>
-		<property name="currentPosition" value="1" />
+		<property name="currentPosition">
+			<bean class="java.lang.Integer">
+				<constructor-arg value="1" />
+			</bean>
+		</property>
 	</bean>
 	
 	<bean id="pco_biny_rbv" class="gda.device.scannable.SimpleScannable">
 		<property name="name" value="pco_biny_rbv"/>
-		<property name="currentPosition" value="1" />
+		<property name="currentPosition">
+			<bean class="java.lang.Integer">
+				<constructor-arg value="1" />
+			</bean>
+		</property>
 	</bean>
 
 </beans>

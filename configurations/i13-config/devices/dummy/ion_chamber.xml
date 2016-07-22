@@ -9,5 +9,19 @@
 		<property name="inputNames" value="ionc_i" />
 	</bean>
 
+	<bean id="ionc_gain" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="5" />
+		<property name="inputNames" value="ionc_gain" />
+	</bean>
+
+	<bean id="ionc_coupling" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="1" />
+		<property name="inputNames" value="ionc_coupling" />
+	</bean>
+
+	<bean id="ionc_photonflux" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="0.009" />
+		<property name="inputNames" value="ionc_photonflux" />
+	</bean>
+
 </beans>
-	

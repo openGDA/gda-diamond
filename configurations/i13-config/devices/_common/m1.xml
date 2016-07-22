@@ -24,7 +24,23 @@
 		<property name="motor" ref="m1_y_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	
-	
+
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1_bender" />
+				<ref bean="m1_coarsepitch" />
+				<ref bean="m1_x" />
+				<ref bean="m1_y" />
+				<ref bean="m1_finepitch" />
+				<ref bean="m1_mask_temp" />
+				<ref bean="m1_cooling_blade1_temp" />
+				<ref bean="m1_cooling_blade2_temp" />
+				<ref bean="m1_upstr_bend_plate_temp" />
+				<ref bean="m1_downstr_bend_plate_temp" />
+			</list>
+		</property>
+	</bean>
+
 </beans>
 

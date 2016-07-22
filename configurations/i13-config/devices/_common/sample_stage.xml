@@ -82,6 +82,12 @@ At ss1_samplex = 5 rot=90 then ss1_x should be 0 and ss1_z 5.
 				<ref bean="ss1_sampley" />
 				<ref bean="ss1_samplez" />
 				<ref bean="ss1_rot" />
+				<ref bean="ss1_pitch" />
+				<ref bean="ss1_roll" />
+				<ref bean="ss1_x" />
+				<ref bean="ss1_z" />
+				<ref bean="ss1_X_dummy" />
+				<ref bean="ss1_rot_dummy" />
 			</list>
 		</property>
 	</bean>	

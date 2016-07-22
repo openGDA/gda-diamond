@@ -43,6 +43,7 @@
 				<ref bean="d1_pos" />
 				<ref bean="d1_return_temp" />
 				<ref bean="d1_x" />
+				<ref bean="d1_total" />
 			</list>
 		</property>
 	</bean>	

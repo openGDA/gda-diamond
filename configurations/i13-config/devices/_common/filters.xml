@@ -58,6 +58,12 @@
 				<ref bean="filter4" />
 				<ref bean="filter5" />
 				<ref bean="filter_aperture" />
+				<ref bean="f1_Aperture" />
+				<ref bean="f1_Stick1" />
+				<ref bean="f1_Stick2" />
+				<ref bean="f1_Stick3" />
+				<ref bean="f1_Stick4" />
+				<ref bean="f1_Stick5" />
 			</list>
 		</property>
 	</bean>

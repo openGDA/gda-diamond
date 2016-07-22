@@ -69,14 +69,14 @@
 		<property name="position" value="0" />
 	</bean>
 
-	<bean id="dcm_fine_pitch_demand" class="gda.device.motor.DummyMotor">
+	<bean id="dcm_fine_pitch_demand" class="gda.device.scannable.SimpleScannable">
 		<property name="name" value="dcm_fine_pitch_demand" />
-		<property name="position" value="79" />
+		<property name="currentPosition" value="79.000urad" />
 	</bean>
 
-	<bean id="dcm_fine_pitch" class="gda.device.motor.DummyMotor">
+	<bean id="dcm_fine_pitch" class="gda.device.scannable.SimpleScannable">
 		<property name="name" value="dcm_fine_pitch" />
-		<property name="position" value="1.22475" />
+		<property name="currentPosition" value="1.2228urad" />
 	</bean>
 
 </beans>

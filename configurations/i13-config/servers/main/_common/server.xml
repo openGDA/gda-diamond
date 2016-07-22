@@ -153,6 +153,7 @@
 	<import resource="../../../devices/_common/s1.xml" />
 	<import resource="../../../devices/_common/filters.xml" />
 	<import resource="../../../devices/_common/m1.xml" />
+	<import resource="../../../devices/_common/absorbers.xml" />
 
 	
 	<!-- End of internal Building/ Start of external Building -->

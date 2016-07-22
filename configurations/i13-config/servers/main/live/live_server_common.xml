@@ -86,12 +86,7 @@
 	<import resource="../../../devices/epics/zone_plate_motors.xml" />
 	<import resource="../../../devices/epics/phase_ring_motors.xml" />
 
-	
-	<bean id="fastshutter" class="gda.device.scannable.EpicsScannable"> 
-		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL" /> 
-		<property name="useNameAsExtraName" value="false"/>
-		<property name="hasUnits" value="false"/>
-	</bean>
+	<import resource="../../../devices/epics/fast_shutter.xml" />
 
 	<import resource="../../../devices/live/p2r.xml"/>	
 	<import resource="../../../devices/epics/sample_stage_hexapod_motors.xml"/>

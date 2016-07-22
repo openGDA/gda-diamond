@@ -5,17 +5,31 @@
 
 	<bean id="ab4_t1" class="gda.device.scannable.SimpleScannable">
 		<property name="currentPosition">
-		<bean class="java.lang.Double">
-		  <constructor-arg value="0.0"/>
-		</bean>
+			<bean class="java.lang.Double">
+				<constructor-arg value="20.7" />
+			</bean>
 		</property>
 	</bean>
 	<bean id="ab4_t2" class="gda.device.scannable.SimpleScannable">
 		<property name="currentPosition">
-		<bean class="java.lang.Double">
-		  <constructor-arg value="0.0"/>
-		</bean>
+			<bean class="java.lang.Double">
+				<constructor-arg value="20.4" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="ab4_t3" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="20.8" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="ab4_t4" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="20.4" />
+			</bean>
 		</property>
 	</bean>
 
-</beans>	
+</beans>

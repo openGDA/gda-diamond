@@ -60,8 +60,11 @@
 				<ref bean="dcm_downstream_jack" />
 				<ref bean="dcm_upstream_jack" />
 				<ref bean="dcm_inboard_jack" />
-				<ref bean="dcm_beamline_energy" />
 				<ref bean="dcm_id_detune" />
+				<ref bean="dcm_energy" />
+				<ref bean="dcm_fine_pitch" />
+				<ref bean="dcm_fine_pitch_demand" />
+				<ref bean="dcm_beamline_energy" />
 			</list>
 		</property>
 	</bean>

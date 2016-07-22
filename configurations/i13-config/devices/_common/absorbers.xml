@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="absorbers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ab1_t1" />
+				<ref bean="ab1_t2" />
+				<ref bean="ab1_t3" />
+				<ref bean="ab1_t4" />
+				<ref bean="ab2_t1" />
+				<ref bean="ab2_t2" />
+				<ref bean="ab2_t3" />
+				<ref bean="ab2_t4" />
+				<ref bean="ab3_t1" />
+				<ref bean="ab3_t2" />
+				<ref bean="ab4_t1" />
+				<ref bean="ab4_t2" />
+				<ref bean="ab4_t3" />
+				<ref bean="ab4_t4" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

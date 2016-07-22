@@ -45,6 +45,9 @@
 				<ref bean="hex_x" />
 				<ref bean="hex_y" />
 				<ref bean="hex_z" />
+				<ref bean="hex_rot" />
+				<ref bean="hex_samplex" />
+				<ref bean="hex_samplez" />
 			</list>
 		</property>
 	</bean>	

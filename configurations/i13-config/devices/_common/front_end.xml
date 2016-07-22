@@ -24,6 +24,20 @@
 		<property name="motor" ref="fes1_ycenter_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
+
+	<bean id="front_end" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fes1_xsize" />
+				<ref bean="fes1_xcenter" />
+				<ref bean="fes1_ysize" />
+				<ref bean="fes1_ycenter" />
+				<ref bean="fshtr1" />
+				<ref bean="fshtr2" />
+				<ref bean="fastmask" />
+			</list>
+		</property>
+	</bean>
 	
 <!--Not present on beamline
  	<bean id="fes1_xplus" class="gda.device.scannable.ScannableMotor">

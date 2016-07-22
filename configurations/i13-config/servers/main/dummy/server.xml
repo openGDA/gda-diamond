@@ -102,8 +102,7 @@
 	<import resource="../../../devices/dummy/zone_plate_motors.xml" />
 	<import resource="../../../devices/dummy/phase_ring_motors.xml" />
 
-	
-	<bean id="fastshutter" class="gda.device.scannable.DummyScannable"/> 
+	<import resource="../../../devices/dummy/fast_shutter.xml" />
 
 	<import resource="../../../devices/dummy/p2r.xml"/>	
 	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>
