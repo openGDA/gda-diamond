@@ -186,6 +186,41 @@ try:
 	expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", fastshutter)
 	
 	if isLive():
+		try:
+			#if you change these you need to change the values in cameraScaleProviders
+			#edited by J. Vila-Comamala to match new objective lens configuration 25.04.2014
+			position1="Empty"
+			position2="Empty"
+			position3="Empty"
+			position4="Empty"
+			position5="10x Pink"
+			position6="4x Pink"
+			position7="2x Pink"
+
+			caput("BL13I-EA-TURR-01:DEMAND.ZRST",position1)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", position1)
+			caput("BL13I-EA-TURR-01:DEMAND.ONST", position2)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", position2)
+			caput("BL13I-EA-TURR-01:DEMAND.TWST", position3)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", position3)
+			caput("BL13I-EA-TURR-01:DEMAND.THST", position4)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", position4)
+			caput("BL13I-EA-TURR-01:DEMAND.FRST", position5)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", position5)
+			caput("BL13I-EA-TURR-01:DEMAND.FVST", position6)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", position6)
+			caput("BL13I-EA-TURR-01:DEMAND.SXST", position7)
+			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", position7)
+
+
+			#make the lens re-read its list of positions following setting them in EPICS above
+			lens.initializationCompleted()
+
+		except:
+			exceptionType, exception, traceback = sys.exc_info()
+			handle_messages.log(None, "Error setting initial positions for lens", exceptionType, exception, traceback, False)
+
+
 		from dcm_energy_mode import DcmEnergyMode
 		energy_mode = DcmEnergyMode()
 			

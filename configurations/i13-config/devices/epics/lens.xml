@@ -7,17 +7,6 @@
 		<property name="controlPv" value="BL13I-EA-TURR-01:DEMAND"/>
 		<property name="statusPv" value="BL13I-EA-TURR-01:CURRENTPOS"/>
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
-		<property name="initialPositions">
-			<list>
-				<value>Empty</value>
-				<value>Empty</value>
-				<value>Empty</value>
-				<value>Empty</value>
-				<value>10x Pink</value>
-				<value>4x Pink</value>
-				<value>2x Pink</value>
-			</list>
-		</property>
 	</bean>
 
 </beans>
