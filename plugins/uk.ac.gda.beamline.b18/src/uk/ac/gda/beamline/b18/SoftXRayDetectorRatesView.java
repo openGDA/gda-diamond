@@ -20,8 +20,9 @@ package uk.ac.gda.beamline.b18;
 
 import java.util.Vector;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.jreality.impl.PlotException;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -192,7 +193,7 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 							setElement3(values[6]);
 
 							Vector<DoubleDataset> dataSets = new Vector<DoubleDataset>();
-							dataSets.add(new DoubleDataset(values));
+							dataSets.add(DatasetFactory.createFromObject(DoubleDataset.class, values));
 							myPlotter.replaceAllPlots(dataSets);
 							myPlotter.updateAllAppearance();
 							myPlotter.refresh(true);

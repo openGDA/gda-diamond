@@ -22,7 +22,7 @@ import gda.device.DeviceException;
 
 import java.util.HashMap;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.january.dataset.IDataset;
 
 /**
  * Sub-interface for functionality specifically relating the XH and XStrip detectors.

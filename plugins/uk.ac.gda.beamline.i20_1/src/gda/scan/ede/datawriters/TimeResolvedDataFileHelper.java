@@ -27,16 +27,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFileUtils;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf.object.Nexus;
 import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -261,7 +262,7 @@ public class TimeResolvedDataFileHelper {
 		int numberOfChannels = shape[2];
 		DoubleDataset avgDataset = null;
 		if (noOfCycles > 1) {
-			avgDataset = new DoubleDataset(new int[]{0, numberOfChannels});
+			avgDataset = DatasetFactory.zeros(DoubleDataset.class, 0, numberOfChannels);
 			for (int i = 0; i < numberOfSpectrum; i++) {
 				Dataset tempDataset = cyclicDataset.getSlice(new int[]{0,i,0}, new int[]{noOfCycles, numberOfSpectrum, numberOfChannels}, new int[]{1, numberOfSpectrum, 1});
 				if (excludedCycles != null && excludedCycles.length > 0) {
@@ -644,7 +645,7 @@ public class TimeResolvedDataFileHelper {
 		if (avgSpectraList != null) {
 			int noOfSpectrum = dataToAdd.getShape()[0];
 			int noOfChannels = dataToAdd.getShape()[1];
-			DoubleDataset dataToAvgAndAdd = new DoubleDataset(0, noOfChannels);
+			DoubleDataset dataToAvgAndAdd = DatasetFactory.zeros(DoubleDataset.class, 0, noOfChannels);
 			int j = 0;
 			for (int i = 0; i < avgSpectraList.length; i++) {
 				RangeData avgInfo = avgSpectraList[i];
@@ -707,7 +708,7 @@ public class TimeResolvedDataFileHelper {
 		//			dimension[i] = (int) oriDimension[i];
 		//		}
 		//		double[] data = (double[]) dataset.getData();
-		//		return new DoubleDataset(data, dimension);
+		//		return DatasetFactory.createFromObject(DoubleDataset.class, data, dimension);
 	}
 
 	private String getDetectorDataPath() {
@@ -914,8 +915,8 @@ public class TimeResolvedDataFileHelper {
 				totalAvgSpectra -= avgSpectraList[i].getEndIndex() - avgSpectraList[i].getStartIndex();
 			}
 		}
-		timeAxisData = new DoubleDataset(new int[]{totalAvgSpectra});
-		groupAxisData = new DoubleDataset(new int[]{totalAvgSpectra});
+		timeAxisData = DatasetFactory.zeros(DoubleDataset.class, totalAvgSpectra);
+		groupAxisData = DatasetFactory.zeros(DoubleDataset.class, totalAvgSpectra);
 		int currentGroupIndex = 0;
 		int j = 0;
 		int k = 0;
@@ -987,7 +988,7 @@ public class TimeResolvedDataFileHelper {
 		int numberOfChannels = shape[2];
 		int spectrumInCycle = 0;
 		int spectrum = 0;
-		DoubleDataset normalisedData = new DoubleDataset(itCorrectedCycledData.getShape());
+		DoubleDataset normalisedData = DatasetFactory.zeros(DoubleDataset.class, itCorrectedCycledData.getShape());
 		for (int cycle = 0; cycle < noOfCycles; cycle++) {
 			for (int groupIndex = 0; groupIndex < timingGroups.length; groupIndex++) {
 				DoubleDataset i0Dataset = ((DoubleDataset) i0CorrectedDataSet.getSlice(new int[]{groupIndex, 0},new int[]{groupIndex + 1, numberOfChannels}, null).squeeze());
@@ -1010,7 +1011,7 @@ public class TimeResolvedDataFileHelper {
 	private DoubleDataset createNormalisedIRefData(DoubleDataset i0ForRefCorrectedDataSet, DoubleDataset iRefCorrectedData) {
 		int[] shape = iRefCorrectedData.getShape();
 		int numberOfChannels = shape[1];
-		DoubleDataset normalisedData = new DoubleDataset(new int[]{1,numberOfChannels});
+		DoubleDataset normalisedData = DatasetFactory.zeros(DoubleDataset.class, 1, numberOfChannels);
 		for (int channel = 0; channel < numberOfChannels; channel++) {
 			double value = calcLnI0It(i0ForRefCorrectedDataSet.get(0, channel), iRefCorrectedData.get(0, channel));
 			normalisedData.set(value, 0, channel);
@@ -1113,7 +1114,7 @@ public class TimeResolvedDataFileHelper {
 	public void replaceEnergy(String energyCalibration, double[] value) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
-			DoubleDataset data = new DoubleDataset(value, new int[]{value.length});
+			DoubleDataset data = DatasetFactory.createFromObject(DoubleDataset.class, value);
 			String targetPath = HierarchicalDataFileUtils.createParentEntry(file, getDetectorDataPath(), Nexus.DATA);
 			addDatasetToNexus(file, EdeDataConstants.ENERGY_COLUMN_NAME, targetPath, data, null);
 			String parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);

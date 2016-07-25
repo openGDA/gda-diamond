@@ -18,18 +18,6 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import gda.data.nexus.extractor.NexusExtractor;
-import gda.data.nexus.extractor.NexusGroupData;
-import gda.device.DeviceException;
-import gda.device.detector.EdeDetector;
-import gda.device.detector.NXDetectorData;
-import gda.device.detector.frelon.FrelonCcdDetectorData;
-import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
-import gda.jython.JythonServerStatus;
-import gda.observable.IObserver;
-import gda.scan.ede.datawriters.EdeDataConstants;
-
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Date;
@@ -37,10 +25,12 @@ import java.util.Date;
 import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -71,6 +61,19 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.swtdesigner.ResourceManager;
+
+import gda.data.nexus.extractor.NexusExtractor;
+import gda.data.nexus.extractor.NexusGroupData;
+import gda.device.DeviceException;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.NXDetectorData;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
+import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerStatus;
+import gda.observable.IObserver;
+import gda.scan.ede.datawriters.EdeDataConstants;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -84,8 +87,6 @@ import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.ui.components.NumberEditorControl;
-
-import com.swtdesigner.ResourceManager;
 
 public class XHControlComposite extends Composite implements IObserver {
 
@@ -758,7 +759,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					updatePlotWithData(title, new DoubleDataset(xdata, null), new DoubleDataset(counts, null));
+					updatePlotWithData(title, DatasetFactory.createFromObject(xdata), DatasetFactory.createFromObject(counts));
 				}
 			});
 		} else {
@@ -771,7 +772,7 @@ public class XHControlComposite extends Composite implements IObserver {
 		return readout.getDoubleVals();
 	}
 
-	private void updatePlotWithData(final String title, final DoubleDataset energies, final DoubleDataset results) {
+	private void updatePlotWithData(final String title, final Dataset energies, final Dataset results) {
 		plottingSystem.getSelectedXAxis().setAxisAutoscaleTight(true);
 		lineTrace.setData(energies, results);
 		if (!plottingSystem.getTitle().equals(title)) {

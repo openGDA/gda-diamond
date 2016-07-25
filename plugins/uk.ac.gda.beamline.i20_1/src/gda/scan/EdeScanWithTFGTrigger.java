@@ -21,13 +21,13 @@ package gda.scan;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFileUtils;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf.object.Nexus;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -220,7 +220,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			if ( scalerCountsForSpectra == null )
 				return;
 
-			DoubleDataset scalerDataset = DoubleDataset.createFromObject( scalerCountsForSpectra );
+			Dataset scalerDataset = DatasetFactory.createFromObject( scalerCountsForSpectra );
 
 			String fname = getDataWriter().getCurrentFileName();
 			IHierarchicalDataFile file = HierarchicalDataFactory.getWriter( fname );
@@ -232,7 +232,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		}
 	}
 
-	private void addDatasetToNexus(IHierarchicalDataFile file, String dataName, String fullPath, DoubleDataset data, Map<String, String> attributes) throws Exception {
+	private void addDatasetToNexus(IHierarchicalDataFile file, String dataName, String fullPath, Dataset data, Map<String, String> attributes) throws Exception {
 		long[] shape = H5Utils.getLong(data.getShape());
 		String insertedData = file.replaceDataset(dataName, Dataset.FLOAT64, shape, data.getBuffer(), fullPath);
 		if (attributes == null) {

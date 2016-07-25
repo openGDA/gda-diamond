@@ -20,14 +20,15 @@ package org.dawnsci.plotting.tools.profile.model;
 
 import java.util.Arrays;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.Maths;
 import org.eclipse.dawnsci.plotting.api.region.IROIListener;
 import org.eclipse.dawnsci.plotting.api.region.IRegion;
 import org.eclipse.dawnsci.plotting.api.region.ROIEvent;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.Maths;
 
 import uk.ac.gda.beans.ObservableModel;
 
@@ -131,7 +132,7 @@ public class TimeEnergyShiftingModel extends ObservableModel implements IROIList
 					int diff = dervIndex[start] - dervIndex[start + i];
 					value[i] = data.get(i + diff, index);
 				}
-				newdata = new DoubleDataset(value, new int[]{value.length});
+				newdata = DatasetFactory.createFromObject(DoubleDataset.class, value);
 			} else {
 				newdata = (DoubleDataset) data.getSlice(new int[]{0, index},new int[]{data.getShape()[0], index + 1}, new int[]{1,1}).squeeze();
 			}
@@ -142,7 +143,7 @@ public class TimeEnergyShiftingModel extends ObservableModel implements IROIList
 					int diff = dervIndex[0] - dervIndex[i];
 					value[i] = imageData.get(i + diff, index);
 				}
-				newdata = new DoubleDataset(value, new int[]{value.length});
+				newdata = DatasetFactory.createFromObject(DoubleDataset.class, value);
 			} else {
 				newdata = (DoubleDataset) imageData.getSlice(new int[]{0, index},new int[]{numberOfSpectrum, index + 1}, new int[]{1,1}).squeeze();
 			}

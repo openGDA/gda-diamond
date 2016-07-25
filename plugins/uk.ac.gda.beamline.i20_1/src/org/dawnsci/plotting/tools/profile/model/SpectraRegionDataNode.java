@@ -22,13 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.roi.IROI;
-import org.eclipse.dawnsci.analysis.dataset.impl.DatasetUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.eclipse.dawnsci.analysis.dataset.roi.RectangularROI;
 import org.eclipse.dawnsci.plotting.api.region.IROIListener;
 import org.eclipse.dawnsci.plotting.api.region.IRegion;
 import org.eclipse.dawnsci.plotting.api.region.ROIEvent;
 import org.eclipse.dawnsci.plotting.api.trace.ITrace;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DoubleDataset;
 
 import uk.ac.gda.beans.ObservableModel;
 
@@ -130,7 +131,7 @@ public class SpectraRegionDataNode extends ObservableModel implements IROIListen
 	public void roiSelected(ROIEvent evt) {}
 
 	public DoubleDataset getDataset(DoubleDataset fullData) {
-		DoubleDataset result = new DoubleDataset(new int[]{0, TimeResolvedDataNode.NUMBER_OF_STRIPS});
+		DoubleDataset result = DatasetFactory.zeros(DoubleDataset.class, 0, TimeResolvedDataNode.NUMBER_OF_STRIPS);
 		for (SpectrumDataNode spectrum : this.getSpectra()) {
 			DoubleDataset data = (DoubleDataset) fullData.getSliceView(new int[]{spectrum.getIndex(), 0}, new int[]{spectrum.getIndex() + 1, TimeResolvedDataNode.NUMBER_OF_STRIPS}, new int[]{1,1});
 			result = (DoubleDataset) DatasetUtils.append(result, data, 0);

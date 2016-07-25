@@ -24,9 +24,10 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.LongDataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.LongDataset;
 
 public class XCHIPTemperatureLogParser {
 
@@ -76,8 +77,8 @@ public class XCHIPTemperatureLogParser {
 		for (int i = 0; i < 4; i++) {
 			// we might not have found anything
 			if (times[i] != null){
-				timeDatasets[i] = new LongDataset(times[i]);
-				temperatureDatasets[i] = new DoubleDataset(temps[i]);
+				timeDatasets[i] = DatasetFactory.createFromObject(LongDataset.class, times[i]);
+				temperatureDatasets[i] = DatasetFactory.createFromObject(DoubleDataset.class, temps[i]);
 			}
 		}
 

@@ -5,7 +5,7 @@ from time import sleep
 from gda.factory import Finder
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter
 from uk.ac.diamond.scisoft.analysis.fitting.functions import StraightLine, Gaussian
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.january.dataset import DatasetFactory
 #ref = refinement()
 #ref.calibrateElement(20.0,0,23. 24. 22.4 0.001)
 
@@ -67,7 +67,7 @@ class refinement() :
 		print start
 		print stop
 	
-		xds=DoubleDataset(self.be)[start:stop]
+		xds=DatasetFactory.createFromObject(self.be).getSlice([start], [stop], [1])
 
 		print "here"
 		yds=self.ds[chan][start:stop]
@@ -115,9 +115,12 @@ class refinement() :
 		data =[]
 		for i in range(self.edxd.getNumberOfElements()):
 			det = self.edxd.getSubDetector(i)
-			data.append(DoubleDataset(det.getName(), det.readoutDoubles()))
+			ds = DatasetFactory.createFromObject(det.readoutDoubles())
+			ds.setName(det.getName())
+			data.append(ds)
 			
-		yaxis = DoubleDataset("Energy", self.edxd.getSubDetector(0).getEnergyBins())
+		yaxis = DatasetFactory.createFromObject(self.edxd.getSubDetector(0).getEnergyBins())
+		yaxis.setName("Energy")
 		##plot
 		RCPPlotter.plot("Scan Plot 1", yaxis, data);
 		return data

@@ -21,7 +21,8 @@ package gda.scan.ede.datawriters;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -164,7 +165,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	private DoubleDataset createNormalisedDataset(DoubleDataset i0DarkDataSet, DoubleDataset itDarkDataSet, DoubleDataset i0DataSet, DoubleDataset itDataSet) {
 		int channels = itDataSet.getShape()[0];
-		DoubleDataset normalisedIt = new DoubleDataset(channels);
+		DoubleDataset normalisedIt = DatasetFactory.zeros(DoubleDataset.class, channels);
 		for (int channel = 0; channel < channels; channel++) {
 			Double i0Raw = i0DataSet.get(channel);
 			Double i0Dark = i0DarkDataSet.get(channel);

@@ -20,7 +20,7 @@ package gda.scan.ede;
 
 import java.io.Serializable;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.DoubleDataset;
 
 public class EdeExperimentProgressBean implements Serializable {
 

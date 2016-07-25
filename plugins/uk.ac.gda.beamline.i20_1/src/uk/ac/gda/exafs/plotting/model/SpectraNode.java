@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.DoubleDataset;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 

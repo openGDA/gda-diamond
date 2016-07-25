@@ -23,7 +23,7 @@ import java.io.FileWriter;
 
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.DoubleDataset;
 
 import gda.device.detector.EdeDetector;
 import gda.scan.EnergyDispersiveExafsScan;

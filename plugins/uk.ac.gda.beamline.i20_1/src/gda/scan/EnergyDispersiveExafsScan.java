@@ -20,7 +20,7 @@ package gda.scan;
 
 import java.util.List;
 
-import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.january.dataset.DoubleDataset;
 
 import gda.device.detector.EdeDetector;
 import gda.observable.IObserver;
