@@ -8,7 +8,7 @@ from gda.analysis.functions import Step
 from gda.data import NumTracker
 from gda.jython.commands import InputCommands
 
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.january.dataset import DatasetFactory
 
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
 from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg
@@ -50,7 +50,7 @@ def getDerivative(fileNo=0):
 			
 			# fit Gaussian
 			fit = Fitter.fit(data[0], derivative, optimiser, 
-			 		[Gaussian(minX, maxX, maxX - minX, (maxX - minX) * DoubleDataset(pointsY).max() / 2)])
+			 		[Gaussian(minX, maxX, maxX - minX, (maxX - minX) * DatasetFactory.createFromObject(pointsY).max() / 2)])
 			RCPPlotter.plot("Data Vector", data[0],fit.display(data[0])[0]);
 
 			
@@ -135,8 +135,8 @@ def fitStepFunction(fileNo=0):
 	#simpleLog("x vals: " + str(xVals))
 	if (len(xVals) == 2):
 		simpleLog( "FWHM: " + str(xVals[1] - xVals[0]))
-		dsX = DoubleDataset([xVals[0], xVals[1]])
-		dsY = DoubleDataset([innerPeakHalfMax, innerPeakHalfMax])
+		dsX = DatasetFactory.createFromObject([xVals[0], xVals[1]])
+		dsY = DatasetFactory.createFromObject([innerPeakHalfMax, innerPeakHalfMax])
 		RCPPlotter.addPlot("Data Vector", dsX, dsY)
 	else:
 		simpleLog( "Cannot find inner peak FWHM")
