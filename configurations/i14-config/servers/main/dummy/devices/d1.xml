@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- D1 -->
+	<bean id="d1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d1_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>In</value>
+				<value>Out</value>
+			</util:list>
+		</property>
+	</bean>
+
+ </beans>

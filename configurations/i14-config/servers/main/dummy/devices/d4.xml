@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D4 -->
+	<bean id="d4_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d4_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d4_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+	<bean id="d4_diode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.121</value>
+		</property>
+	</bean>
+
+ </beans>
