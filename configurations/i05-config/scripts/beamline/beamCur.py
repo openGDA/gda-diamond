@@ -23,7 +23,7 @@ class BeamCurrent(PseudoDevice):
 
    def isBusy(self):
        if float(self.ricur.caget())<self.MinLevel:
-           if self.wasOff = False:
+           if self.wasOff == False:
                self.wasOff = True
            return True
        return False
