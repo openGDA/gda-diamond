@@ -25,6 +25,7 @@ consolelogfile_name=$(basename ${GDA_LOG_FILE})
 if [[ ! -d "${consolelogfile_dir}" ]]; then
     bashlog info "gda_setup_consolelog_facility" "issuing: mkdir -pv -m 777 ${consolelogfile_dir}"
     mkdir -pv -m 777 ${consolelogfile_dir}/
+    chmod 777 ${consolelogfile_dir}
 fi
 
 bashlog debug "gda_setup_consolelog_facility" "Writing console log to $GDA_LOG_FILE"
