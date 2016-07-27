@@ -38,4 +38,7 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
+print "Making daserver for xspress3 available as 'daserver_xspress3'"
+daserver_xspress3 = Finder.getInstance().find("daserver_xspress3")
+
 print "Initialisation Complete";

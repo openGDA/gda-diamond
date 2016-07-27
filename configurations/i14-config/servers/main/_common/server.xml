@@ -20,6 +20,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3_daserver.xml" />
 
 	<!-- shared files -->
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
