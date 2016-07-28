@@ -67,7 +67,6 @@
 	</bean>
 
 	<corba:export namespace="${gda.factory.factoryName}" />
-	<gda:rbac />
 	
 	<import resource="jython_server.xml" />
 
