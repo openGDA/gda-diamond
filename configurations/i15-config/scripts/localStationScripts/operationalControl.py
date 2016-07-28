@@ -144,13 +144,13 @@ def d3out():
 	"""
 	#TODO: read these from the motor limits?
 	#      moveMotorsTogether(d3x, math.floor(d3x.upperMotorLimit), d3y, math.floor(d3y.upperMotorLimit)) ?
-	moveMotorsTogether(d3x, 19, d3y, 13.5)
+	moveMotorsTogether(d3x, 90, d3y, 13.5)
 
 def d4out():
 	"""
 	move diode 4 out
 	"""
-	d4x.moveTo(115)
+	d4x.moveTo(117)
 	d4y.moveTo(0)
 
 #def d4cryoIn(moveBeamStopOut=False):

@@ -80,19 +80,24 @@
 
 	<!-- We need to make a Merlin collection strategy which understands about Merlin states -->
 
-	<!-- MultipleExposureSoftwareTriggerAutoMode(ADBase adBase, double maxExposureTime) -->
-
-	<bean id="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy"
-			class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
-		<constructor-arg ref="mpxAD_config_base" />
-		<property name="readAcquireTimeFromHardware" value="True" />
-		<!-- No ndProcess since we want multiple images in colour mode. -->
+	<!-- Create collection strategy by composition -->
+	<bean id="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy" 
+			class="gda.device.detector.addetector.collectionstrategy.MultipleImageModeDecorator">
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="adBase" ref="mpxAD_config_base" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<!-- We also need a Merlin specific colour mode -->
 	<bean id="mpx_MerlinColourModeCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.MerlinColourModeDecorator">
 		<property name="imagesPerCollectionMultiplier" value="8" />
-		<property name="decoratee" ref="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
+		<property name="decoratee" ref="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy" />
 	</bean>
 
 	<bean id="mpx_threshold_sweep_strategy"
@@ -147,7 +152,7 @@
 
 	<bean id="mpx" class="gda.device.detector.NXDetector">
 		<property name="name" value="mpx" />
-		<property name="collectionStrategy" ref="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
+		<property name="collectionStrategy" ref="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
@@ -173,7 +178,7 @@
 	<bean id="mpxHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="mpx"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<property name="collectionStrategy" ref="mpx_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
+		<property name="collectionStrategy" ref="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />

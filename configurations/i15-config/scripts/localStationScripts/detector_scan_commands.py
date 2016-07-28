@@ -145,6 +145,7 @@ def _configureConstantVelocityMove(axis, detector):
 	
 	return continuouslyScannableViaController, continuousMoveController
 
+""" Pre usercommands.py
 def rockScan(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTime, noOfExposures=1,
 		sampleSuffix="rockScan_test", d1out=True, d2out=True):
 	# Based on gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
@@ -173,6 +174,7 @@ def rockScan(axis, centre, rockSize, noOfRocksPerExposure, detector, exposureTim
 	
 	print "Moving %s back to %r" % (axis.name, centre)
 	axis.moveTo(centre)
+"""
 
 """ Pre geobrick
 def rockScanUnsync(axis, centre, rockSize, noOfRocks, detector, exposureTime,
@@ -338,8 +340,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	# Then configure multi-file filewriters
 	
 	collectionStrategy = detector.getCollectionStrategy()
-	#                     VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV Why? that makes no sense!
-	if noOfExposures != 1 or collectionStrategy.getNumberImagesPerCollection(exposureTime) > 1:
+
+	if noOfExposures != 1:
 		filePathTemplate="$datadir$/$scan$-%s-files-%s/" % (detector.name, sampleSuffix)
 		fileNameTemplate=""
 		fileTemplate="%s%s%05d"	# One image per file
