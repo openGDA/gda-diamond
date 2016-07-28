@@ -5,12 +5,16 @@
 
 	<!-- D3 -->
 	<bean id="d3_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0" />
+		<property name="maxPosition" value="-1000.0" />
+		<property name="position" value="0.3" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="d3_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
+		<property name="unit" value="uA" />
 		<property name="value">
-			<value type="double">0.235</value>
+			<value type="double">0.012148</value>
 		</property>
 	</bean>
 

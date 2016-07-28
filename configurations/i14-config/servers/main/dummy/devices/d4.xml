@@ -5,21 +5,29 @@
 
 	<!-- D4 -->
 	<bean id="d4_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.0" />
+		<property name="maxPosition" value="150.0" />
+		<property name="position" value="0.25" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="d4_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-97.500" />
+		<property name="maxPosition" value="-0.40000" />
+		<property name="position" value="-61.01" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="d4_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
+		<property name="unit" value="uA" />
 		<property name="value">
-			<value type="double">0.865</value>
+			<value type="double">-0.00054657</value>
 		</property>
 	</bean>
 	<bean id="d4_diode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
+		<property name="unit" value="uA" />
 		<property name="value">
-			<value type="double">0.121</value>
+			<value type="double">-0.00054300</value>
 		</property>
 	</bean>
 
