@@ -1,0 +1,92 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!--  Setup for Turbo slits driven by Zebra. imh  20/4/2016 -->
+
+<!--  Scan can be run using  :
+ >>> contscan = ContinuousScan( turbo_xas_slit, 0, 10, 5, 0.1, [turbo_xas_counterTimer01]  )
+ >>> contscan.runScan()
+ -->
+
+<!-- Turbo slit x motor   -->
+	<bean id="turbo_slit_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-OP-PCHRO-01:TS:XFINE" />
+	</bean>
+
+	<bean id="turbo_slit_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="turbo_slit_x_motor" />
+		<property name="initialUserUnits" value="mm" />
+	</bean>
+
+<!-- Zebra device -->
+	<bean id="zebra_device" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL20J-EA-ZEBRA-01:"/>
+		<property name="name" value="zebra"/>
+	</bean>
+
+<!-- TurboxXasScannable for driving turbo slits in a continuous scan. imh 23/5/2016 -->
+	<bean id="turbo_xas_slit" class="gda.device.scannable.TurboXasScannable">
+		<property name="motor" ref="turbo_slit_x_motor" />
+		<property name="zebraDevice" ref="zebra_device" />
+	</bean>
+
+<!-- Dummy daserver and scalers - for testing. imh 23/5/2016 -->
+	<bean id="dummy_daserver_for_zebra" class="gda.device.detector.DummyDAServer">
+		<property name="local" value="True" />
+		<property name="host" value="localhost" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
+
+	<bean id="dummy_tfg_for_zebra" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="dummy_daserver_for_zebra" />
+	</bean>
+
+	<bean id="dummy_calmemory_for_zebra" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="dummy_daserver_for_zebra" />
+		<property name="width" value="4" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+	<bean id="turbo_xas_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+<!-- 				<value>lnI0It</value> -->
+<!-- 				<value>lnItIref</value> -->
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserverForTfg" />
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="3" />
+
+		<property name="outputFormat">
+			<list>
+				<value>%.6g</value>
+				<value>%6.5g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

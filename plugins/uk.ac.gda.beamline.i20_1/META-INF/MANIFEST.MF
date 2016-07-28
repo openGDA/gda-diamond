@@ -48,7 +48,8 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.gda.tango;bundle-version="1.0.0",
  uk.ac.gda.exafs.api;bundle-version="1.0.0",
  org.eclipse.richbeans.widgets;bundle-version="1.0.0",
- org.eclipse.richbeans.xml;bundle-version="1.0.0"
+ org.eclipse.richbeans.xml;bundle-version="1.0.0",
+ org.eclipse.dawnsci.nexus;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,
@@ -68,9 +69,14 @@ Export-Package: gda.device.detector,
  uk.ac.gda.exafs.experiment.trigger,
  uk.ac.gda.exafs.experiment.ui.data
 Eclipse-RegisterBuddy: uk.ac.gda.client.experimentdefinition, uk.ac.gda.common, uk.ac.gda.core, uk.ac.gda.api
-Import-Package: ncsa.hdf.object,
+Import-Package: com.thoughtworks.xstream,
+ com.thoughtworks.xstream.annotations,
+ com.thoughtworks.xstream.converters.basic,
+ ncsa.hdf.object,
  ncsa.hdf.object.h5,
  org.apache.commons.collections,
+ org.apache.commons.math;version="2.2.0",
+ org.apache.commons.math.analysis.solvers;version="2.2.0",
  org.dawnsci.io.h5,
  org.dawnsci.plotting.tools.hyper2d,
  org.eclipse.core.commands,

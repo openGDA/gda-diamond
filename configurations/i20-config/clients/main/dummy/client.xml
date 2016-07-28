@@ -8,7 +8,7 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
-	<import resource="../client-common.xml" />
+	<import resource="../_common/client.xml" />
 
 <!-- 	<bean id="cam1" class="uk.ac.gda.video.views.CameraParameters"> -->
 <!-- 		<property name="name" value="cam1" /> -->
@@ -37,6 +37,6 @@
 	</bean>
 
 	<import resource="medipix_device.xml" />
-	<import resource="../medipix.xml" />
+	<import resource="../_common/medipix.xml" />
 
 </beans>

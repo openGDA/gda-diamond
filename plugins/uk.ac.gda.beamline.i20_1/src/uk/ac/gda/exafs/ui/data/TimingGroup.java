@@ -19,16 +19,12 @@
 package uk.ac.gda.exafs.ui.data;
 
 import java.io.Serializable;
-import java.net.URL;
 
 /**
  * Defines a group of equally sized data collections used in an EDE scan. To define a complex experiment where the data
  * collection time, or pause time between collections, varies then multiple Frames must be defined.
  */
 public class TimingGroup implements Serializable {
-
-	static public final URL mappingURL = EdeScanParameters.class.getResource("EdeScanParametersMapping.xml");
-	static public final URL schemaURL = EdeScanParameters.class.getResource("EdeScanParametersMapping.xsd");
 
 	// basic info
 	private String label; // to uniquely identify each frame in the UI
