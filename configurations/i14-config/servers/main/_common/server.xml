@@ -57,6 +57,6 @@
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-	<corba:export namespace="I14" />
+	<corba:export namespace="${gda.factory.factoryName}" />
 
 </beans>
