@@ -21,8 +21,11 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3_daserver.xml" />
 
-	<!-- optics -->
+	<!-- ID & front end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/id.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/frontEnd.xml" />
+
+	<!-- optics -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/a1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m1.xml" />
@@ -39,8 +42,10 @@
 	<!-- =========================================================== --> 
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 
-	<!-- optics -->
+	<!-- ID -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/id.xml" />
+
+	<!-- optics -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/s1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/a1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/m1.xml" />
