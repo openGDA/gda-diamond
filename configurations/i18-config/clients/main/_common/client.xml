@@ -23,5 +23,6 @@
 	<corba:adapterfactory namespace="${gda.factory.factoryName}" />
 
 	<import resource="rmi_imports.xml" />
+	<import resource="mapping.xml"/>
 
 </beans>

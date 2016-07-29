@@ -35,11 +35,11 @@
 	<import resource="detectors/qexafs.xml" />
 	<import resource="detectors/xspress3.xml" />
 	<import resource="command_queue.xml" />
-	<import resource="heterogeneous_scan_servlet.xml" />
 	<import resource="converters.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="metadata.xml" />
 	<import resource="motor_rmi_exports.xml" />
+	<import resource="new_scanning.xml" />
 	<import resource="scannables.xml" />
 	<import resource="table1.xml" />
 	<import resource="table3.xml" />
