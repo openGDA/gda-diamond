@@ -72,7 +72,7 @@
 	<import resource="../../../devices/dummy/s4_motors.xml" />
 	<import resource="../../../devices/dummy/absorbers4.xml" />
 	<import resource="../../../devices/dummy/ion_chamber.xml" />
-	<import resource="../../../devices/dummy/kb_motors.xml" />
+	<!-- <import resource="../../../devices/dummy/kb_motors.xml" /> -->
 
 
 	<import resource="../../../devices/dummy/sample_stage_motors.xml" />

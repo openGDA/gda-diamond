@@ -161,7 +161,7 @@
 	<import resource="../../../devices/_common/s3.xml" />
 	<import resource="../../../devices/_common/dcm.xml" />
 	<import resource="../../../devices/_common/s4.xml" />
-	<import resource="../../../devices/_common/kb.xml" />
+	<!-- <import resource="../../../devices/_common/kb.xml" /> -->
 	<import resource="../../../devices/_common/sample_stage.xml" />
 	<import resource="../../../devices/_common/table.xml" />
 	<import resource="../../../devices/_common/camera_stage.xml" />

@@ -64,7 +64,7 @@
 	<import resource="../../../devices/epics/s4_motors.xml" />
 	<import resource="../../../devices/epics/absorbers4.xml" />
 	<import resource="../../../devices/epics/ion_chamber.xml" />
-	<import resource="../../../devices/epics/kb_motors.xml" />
+	<!-- <import resource="../../../devices/epics/kb_motors.xml" /> -->
 
 
 	<import resource="../../../devices/epics/sample_stage_motors.xml" />
