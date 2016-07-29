@@ -4,16 +4,57 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- D1 -->
+	
+	<!-- Stick motor scannable -->
 	<bean id="d1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="d1_x_motor" />
 	</bean>
-	
+
+	<!-- Collection strategy -->
+	<bean id="d1_collectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="d1_camBase" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+
+ 	<!-- Area detector camera -->
+ 	<bean id="d1_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d1_cam" />
+		<property name="collectionStrategy" ref="d1_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d1_roiStats1" />
+				<ref bean="d1_roiStats2" />
+				<ref bean="d1_roiStats3" />
+				<ref bean="d1_roiStats4" />
+				<ref bean="d1_roiStats5" />
+				<ref bean="d1_roiStats6" />
+				<ref bean="d1_hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Scannable group -->
 	<bean id="d1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d1_x" />
 				<ref bean="d1_x_position" />
+				<ref bean="d1_diode1" />
+				<ref bean="d1_cam" />
 			</list>
 		</property>
 	</bean>	

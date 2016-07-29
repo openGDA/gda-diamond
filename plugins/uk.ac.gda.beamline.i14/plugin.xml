@@ -37,17 +37,6 @@
                showTitle="true"
                visible="true">
          </view>
-<!--         
-         <view
-               closeable="true"
-               id="uk.ac.gda.nano.views.TestView"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
--->         
          <view
                closeable="false"
                id="uk.ac.gda.client.liveplotview"
@@ -96,7 +85,33 @@
   
    <extension
          point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Area Detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="D1 Array"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D1//BL14I-OP-DCAM-01@">
+               </parameter>
+            </command>
+         </menu>
+      </menuContribution>
    </extension>
-  
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D1//BL14I-OP-DCAM-01@"
+            name="D1 Array View"
+            restorable="true">
+      </view>
+   </extension>
   
 </plugin>

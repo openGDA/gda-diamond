@@ -35,6 +35,8 @@
 		<property name="hardwareUnitString" value="eV" />
 	</bean> -->
 
+	<import resource="file:${gda.config}/servers/main/dummy/devices/adSimulator.xml" />
+
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>
