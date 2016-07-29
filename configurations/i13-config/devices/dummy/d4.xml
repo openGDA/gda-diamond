@@ -8,14 +8,13 @@
 		<property name="datatype" value="UINT32"/>
 	</bean>
 
-	<bean id="d4_pos" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
-		<property name="values">
-			<map>
-				<entry key="Out" value="0.0000"/>
-				<entry key="CdW04" value="-27.0000"/>
-			</map>
+	<bean id="d4_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out</value>
+				<value>CdW04</value>
+			</list>
 		</property>
-		<property name="startPositionName" value="Out"/>
 	</bean>
 
 	<bean id="d4_x_motor" class="gda.device.motor.DummyMotor">

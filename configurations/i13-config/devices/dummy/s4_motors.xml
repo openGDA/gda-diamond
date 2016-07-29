@@ -7,6 +7,7 @@
 		<property name="minPosition" value="-20.000" />
 		<property name="maxPosition" value="40.000" />
 		<property name="position" value="8.5004" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -14,6 +15,7 @@
 		<property name="minPosition" value="-10.000" />
 		<property name="maxPosition" value="10.000" />
 		<property name="position" value="1.9000" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -21,6 +23,7 @@
 		<property name="minPosition" value="-40.000" />
 		<property name="maxPosition" value="40.000" />
 		<property name="position" value="7.0002" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -28,6 +31,7 @@
 		<property name="minPosition" value="-10.000" />
 		<property name="maxPosition" value="10.000" />
 		<property name="position" value="-0.48150" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -35,6 +39,7 @@
 		<property name="minPosition" value="-98.253" />
 		<property name="maxPosition" value="101.75" />
 		<property name="position" value="6.1502" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -42,6 +47,7 @@
 		<property name="minPosition" value="-122.00" />
 		<property name="maxPosition" value="78.000" />
 		<property name="position" value="-2.3502" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -49,6 +55,7 @@
 		<property name="minPosition" value="-70.683" />
 		<property name="maxPosition" value="129.32" />
 		<property name="position" value="3.0186" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -56,6 +63,7 @@
 		<property name="minPosition" value="-130.63" />
 		<property name="maxPosition" value="69.371" />
 		<property name="position" value="-3.9816" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 

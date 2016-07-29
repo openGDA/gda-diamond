@@ -7,6 +7,7 @@
 		<property name="minPosition" value="-6.8955" />
 		<property name="maxPosition" value="28.605" />
 		<property name="position" value="0.039400" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -14,6 +15,7 @@
 		<property name="minPosition" value="-6.4411" />
 		<property name="maxPosition" value="29.759" />
 		<property name="position" value="-0.0078000" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -21,6 +23,7 @@
 		<property name="minPosition" value="-8.2500" />
 		<property name="maxPosition" value="29.850" />
 		<property name="position" value="0.0021000" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -28,6 +31,7 @@
 		<property name="minPosition" value="-6.9766" />
 		<property name="maxPosition" value="29.323" />
 		<property name="position" value="-0.47420" />
+		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 

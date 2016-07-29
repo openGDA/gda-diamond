@@ -15,6 +15,7 @@
 		<property name="minPosition" value="-78200" />
 		<property name="maxPosition" value="78200" />
 		<property name="position" value="29999.9" />
+		<property name="unitString" value="urad" />
 	</bean>
 
 	<bean id="dcm_roll_motor" class="gda.device.motor.DummyMotor">
@@ -22,6 +23,7 @@
 		<property name="minPosition" value="-100.00" />
 		<property name="maxPosition" value="100.00" />
 		<property name="position" value="24.53" />
+		<property name="unitString" value="kcts" />
 	</bean>
 
 	<bean id="dcm_y_motor" class="gda.device.motor.DummyMotor">
