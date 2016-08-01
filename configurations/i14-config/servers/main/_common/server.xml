@@ -40,12 +40,14 @@
 
 	<!-- diagnostics and shutters -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d2.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d4.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d5.xml" />
 
-	<!-- =========================================================== --> 
+	<!-- =========================================================== -->
 	<!-- Shared files                                                -->
-	<!-- =========================================================== --> 
+	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/abstract_nxplugins.xml" />
 
@@ -61,12 +63,17 @@
 
 	<!-- diagnostics and shutters -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/d1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/d2.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d3.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d4.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/d5.xml" />
+
+	<!-- Dummies -->
+	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
 
 	<!-- Command Server at the end -->
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-	
+
 	<gda:rmi-export
 		service="plot_server"
 		serviceName="gda/plotserver"

@@ -4,6 +4,8 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- D4 -->
+
+	<!-- Stick motor scannables -->
 	<bean id="d4_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="d4_x_motor" />
@@ -14,13 +16,35 @@
 		<property name="motor" ref="d4_y_motor" />
 	</bean>
 
+	<!-- Collection strategy -->
+	<bean id="d4_collectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="d4_camBase" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+
 	<bean id="d4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d4_x" />
+				<ref bean="d4_x_position" />
 				<ref bean="d4_y" />
+				<ref bean="d4_lateral_position" />
 				<ref bean="d4_diode1" />
 				<ref bean="d4_diode2" />
+				<ref bean="d4_cam" />
 			</list>
 		</property>
 	</bean>	

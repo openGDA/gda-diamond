@@ -1,9 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<!-- D4 -->
+
+	<!-- Stick motors -->
 	<bean id="d4_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0.0" />
 		<property name="maxPosition" value="150.0" />
@@ -11,6 +16,7 @@
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="d4_y_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-97.500" />
 		<property name="maxPosition" value="-0.40000" />
@@ -18,17 +24,47 @@
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
+
+	<!-- Stick positioners -->
+	<bean id="d4_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screen</value>
+				<value>Out</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="d4_lateral_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Left</value>
+				<value>Right</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<!-- Scatter diodes -->
 	<bean id="d4_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
 		<property name="value">
 			<value type="double">-0.00054657</value>
 		</property>
 	</bean>
+
 	<bean id="d4_diode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
 		<property name="value">
 			<value type="double">-0.00054300</value>
 		</property>
+	</bean>
+
+	<!-- Area detector camera -->
+	<!-- To use this, you will have to start an area detector simulator -->
+	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
+	<alias name="simCamBase" alias="d4_camBase" />
+ 	<bean id="d4_cam" parent="simCam">
+		<property name="name" value="d4_cam" />
 	</bean>
 
  </beans>

@@ -66,4 +66,14 @@
 		</property>
 	</bean>
 	
+	<bean id="simCam" class="gda.device.detector.NXDetector" abstract="true">
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="simRoiStats" />
+				<ref bean="simHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>

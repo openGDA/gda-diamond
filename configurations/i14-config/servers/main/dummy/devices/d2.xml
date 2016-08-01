@@ -6,19 +6,19 @@
         http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<!-- D3 -->
+	<!-- D2 -->
 
 	<!-- Stick motor -->
-	<bean id="d3_x_motor" class="gda.device.motor.DummyMotor">
+	<bean id="d2_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
-		<property name="position" value="24.7" />
+		<property name="position" value="98.2" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 	
 	<!-- Stick positioner -->
-	<bean id="d3_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="d2_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
 				<value>Screen</value>
@@ -28,19 +28,19 @@
 	</bean>
 	
 	<!-- Scatter diode -->
-	<bean id="d3_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="d2_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="V" />
 		<property name="value">
-			<value type="double">0.012148</value>
+			<value type="double">0.635</value>
 		</property>
 	</bean>
 
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
-	<alias name="simCamBase" alias="d3_camBase" />
- 	<bean id="d3_cam" parent="simCam">
-		<property name="name" value="d3_cam" />
+	<alias name="simCamBase" alias="d2_camBase" />
+ 	<bean id="d2_cam" parent="simCam">
+		<property name="name" value="d2_cam" />
 	</bean>
 
  </beans>

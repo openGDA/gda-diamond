@@ -16,7 +16,7 @@
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<!-- Stick positioner -->
 	<bean id="d1_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
@@ -27,14 +27,20 @@
 		</property>
 	</bean>
 
-	<!-- Simulated area detector -->
+	<!-- Scatter diode -->
+	<bean id="d1_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.235</value>
+		</property>
+	</bean>
+
+	<!-- Area detector camera -->
+	<!-- To use this, you will have to start an area detector simulator -->
+	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
 	<alias name="simCamBase" alias="d1_camBase" />
-	<alias name="simRoiStats" alias="d1_roiStats1" />
-	<alias name="simRoiStats" alias="d1_roiStats2" />
-	<alias name="simRoiStats" alias="d1_roiStats3" />
-	<alias name="simRoiStats" alias="d1_roiStats4" />
-	<alias name="simRoiStats" alias="d1_roiStats5" />
-	<alias name="simRoiStats" alias="d1_roiStats6" />
-	<alias name="simHdf5Filewriter" alias="d1_hdf5Filewriter" />
+ 	<bean id="d1_cam" parent="simCam">
+		<property name="name" value="d1_cam" />
+	</bean>
 
  </beans>

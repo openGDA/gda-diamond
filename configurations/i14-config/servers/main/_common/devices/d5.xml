@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- D1 -->
+	<!-- D5 -->
 
 	<!-- Stick motor scannable -->
-	<bean id="d1_x" class="gda.device.scannable.ScannableMotor">
+	<bean id="d5_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="d1_x_motor" />
+		<property name="motor" ref="d5_x_motor" />
 	</bean>
 
 	<!-- Collection strategy -->
-	<bean id="d1_collectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+	<bean id="d5_collectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
@@ -20,7 +20,7 @@
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="d1_camBase" />
+								<property name="adBase" ref="d5_camBase" />
 								<property name="restoreAcquireState" value="true"/>
 							</bean>
 						</property>
@@ -30,14 +30,14 @@
 		</property>
 	</bean>	
 
-	<!-- Scannable group -->
-	<bean id="d1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="d5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="d1_x" />
-				<ref bean="d1_x_position" />
-				<ref bean="d1_diode1" />
-				<ref bean="d1_cam" />
+				<ref bean="d5_x" />
+				<ref bean="d5_x_position" />
+				<ref bean="d5_diode1" />
+				<ref bean="d5_diode2" />
+				<ref bean="d5_cam" />
 			</list>
 		</property>
 	</bean>	

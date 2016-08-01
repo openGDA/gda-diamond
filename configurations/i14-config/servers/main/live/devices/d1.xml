@@ -140,4 +140,20 @@
 		<property name="prefix" value="BL14I-OP-DCAM-01:CAM:" />
 	</bean>
 
+ 	<bean id="d1_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d1_cam" />
+		<property name="collectionStrategy" ref="d1_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d1_roiStats1" />
+ 				<ref bean="d1_roiStats2" />
+				<ref bean="d1_roiStats3" />
+				<ref bean="d1_roiStats4" />
+				<ref bean="d1_roiStats5" />
+				<ref bean="d1_roiStats6" />
+				<ref bean="d1_hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
 </beans>
