@@ -6,7 +6,7 @@
 
 
     <!-- Front End Beam Permit -->
- 	<bean id="feShutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+ 	<bean id="fe_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="FE14I-CS-BEAM-01" />
 		<property name="controlPv" value="FE14I-CS-BEAM-01:BLCON" />
 		<property name="local" value="true"/>

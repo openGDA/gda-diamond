@@ -6,7 +6,7 @@
 
 
     <!-- Front End Beam Permit -->
-	<bean id="feShutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="fe_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Open</value>
