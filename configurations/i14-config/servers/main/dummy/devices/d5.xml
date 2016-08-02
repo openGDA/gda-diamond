@@ -10,9 +10,9 @@
 
 	<!-- Stick motor -->
 	<bean id="d5_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0" />
-		<property name="maxPosition" value="150.0" />
-		<property name="position" value="0.25" />
+		<property name="minPosition" value="-1000.0" />
+		<property name="maxPosition" value="1000.0" />
+		<property name="position" value="56.2" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
@@ -22,6 +22,7 @@
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
 				<value>Screen</value>
+				<value>Inline diode</value>
 				<value>Out</value>
 			</util:list>
 		</property>

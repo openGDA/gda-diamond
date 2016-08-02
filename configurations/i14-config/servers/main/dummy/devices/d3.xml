@@ -21,7 +21,9 @@
 	<bean id="d3_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
+				<value>Screen 2</value>
 				<value>Screen</value>
+				<value>Trans scatter foil</value>
 				<value>Out</value>
 			</util:list>
 		</property>
@@ -29,7 +31,7 @@
 	
 	<!-- Scatter diode -->
 	<bean id="d3_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
+		<property name="unit" value="uA" />
 		<property name="value">
 			<value type="double">0.012148</value>
 		</property>

@@ -29,8 +29,11 @@
 	<bean id="d4_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
+				<value>Screen 2</value>
 				<value>Screen</value>
+				<value>Inline diode</value>
 				<value>Out</value>
+				<value>Scatter</value>
 			</util:list>
 		</property>
 	</bean>
@@ -38,8 +41,8 @@
 	<bean id="d4_lateral_position" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>Left</value>
-				<value>Right</value>
+				<value>Nano</value>
+				<value>Meso</value>
 			</util:list>
 		</property>
 	</bean>
