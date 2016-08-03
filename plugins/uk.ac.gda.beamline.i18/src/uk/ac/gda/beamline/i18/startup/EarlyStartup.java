@@ -51,6 +51,7 @@ import org.osgi.service.prefs.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.beamline.i18.I18BeamlineActivator;
 import uk.ac.gda.client.experimentdefinition.components.ExperimentExperimentView;
 import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
 import uk.ac.gda.client.experimentdefinition.ui.handlers.RefreshProjectCommandHandler;
@@ -58,6 +59,8 @@ import uk.ac.gda.client.microfocus.ui.MicroFocusPerspective;
 import uk.ac.gda.client.microfocus.views.ExafsSelectionView;
 
 public class EarlyStartup implements IStartup {
+
+	private static final String WORKSPACE_INITIALISED_PREF = "WORKSPACE_INITIALISED";
 
 	private static final Logger logger = LoggerFactory.getLogger(EarlyStartup.class);
 
@@ -151,9 +154,7 @@ public class EarlyStartup implements IStartup {
 						}
 					});
 
-					copyPerspectivePreferences();
-
-					initialiseDefaultPerspectives();
+					initialiseWorkspace();
 				}
 			}
 		});
@@ -202,6 +203,19 @@ public class EarlyStartup implements IStartup {
 				}
 			}
 		});
+	}
+
+	/**
+	 * Check the WORKSPACE_INITIALISED preference to see if the workspace is new or has been reset. If so, initialise
+	 * the perspectives and set the WORKSPACE_INITIALISED preference to ensure we only do this once.
+	 */
+	private void initialiseWorkspace() {
+		Preferences i18prefs = InstanceScope.INSTANCE.getNode(I18BeamlineActivator.PLUGIN_ID);
+		if (!i18prefs.getBoolean(WORKSPACE_INITIALISED_PREF, false)) {
+			copyPerspectivePreferences();
+			initialiseDefaultPerspectives();
+			i18prefs.putBoolean(WORKSPACE_INITIALISED_PREF, true);
+		}
 	}
 
 	/**
