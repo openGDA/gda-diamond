@@ -5,9 +5,6 @@
 <mapEntry key="BEAMLINE" value="i08"/>
 <mapEntry key="GDA_MODE" value="dummy"/>
 </mapAttribute>
-<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
-<listEntry value="org.eclipse.ui.externaltools.launchGroup"/>
-</listAttribute>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/i08-config/bin/gda}"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="--restart servers"/>
 </launchConfiguration>
