@@ -12,6 +12,7 @@
 				<value>Open</value>
 				<value>Close</value>
 				<value>Abort</value>
+				<value>Unknown</value>
 			</list>
 		</property>
 	</bean>
