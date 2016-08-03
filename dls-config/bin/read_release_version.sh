@@ -15,7 +15,7 @@ function warn {
 	echo -e "\033[38;5;214m$TEXT\033[0m"
 	echo
 }
-RELEASE=9.0
+RELEASE=9.2
 ## Main routine ##
 #
 if [[ ! -f $PEWMA_SCRIPT ]]; then
