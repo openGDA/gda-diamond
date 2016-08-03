@@ -25,7 +25,7 @@
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3_daserver.xml" />
+	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3_daserver.xml" /> -->
 
 	<!-- ID & front end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/id.xml" />
