@@ -33,6 +33,8 @@
 
 	<!-- optics -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s2.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/a1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m2.xml" />
@@ -56,6 +58,8 @@
 
 	<!-- optics -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/s1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/s2.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/s3.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/a1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/m1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/m2.xml" />
