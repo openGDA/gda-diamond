@@ -195,6 +195,38 @@
 						<property name="units" value="deg" />
 					</bean>
 				</entry>
+				<entry key="table_x">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/Stage3:NXpositioner/table_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="table_y">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/Stage3:NXpositioner/table_y" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="table_z">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/Stage3:NXpositioner/table_z" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="table_pitch">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/Stage3:NXpositioner/table_pitch" />
+						<property name="units" value="deg" />
+					</bean>
+				</entry>
 				<entry key="s1ygap">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
@@ -309,6 +341,10 @@
 				<value>sc_sample_z</value>
 				<value>sc_sample_thetacoarse</value>
 				<value>sc_sample_thetafine</value>
+				<value>table_x</value>
+				<value>table_y</value>
+				<value>table_z</value>
+				<value>table_pitch</value>
 				<value>s1ygap</value>
 				<value>s1xgap</value>
 				<value>s1ypos</value>
