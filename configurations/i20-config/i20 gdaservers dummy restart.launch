@@ -6,9 +6,6 @@
 <mapEntry key="GDA_MODE" value="dummy"/>
 <mapEntry key="GDA_NO_PROMPT" value="no_prompt"/>
 </mapAttribute>
-<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
-<listEntry value="org.eclipse.ui.externaltools.launchGroup"/>
-</listAttribute>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/i20-config/bin/gda}"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="--restart servers"/>
 </launchConfiguration>
