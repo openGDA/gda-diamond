@@ -8,6 +8,6 @@
            http://www.diamond.ac.uk/schema/gda/corba
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
-	<import resource="file:${gda.config}/servers/main/server.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>
