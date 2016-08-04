@@ -1,5 +1,3 @@
-#@PydevCodeAnalysisIgnore
-from gda.jython import ScriptBase
 print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
@@ -423,11 +421,28 @@ try:
 	kbm2 = TripodToolBase("kbm2", kbmbase, c=[42, 42.5, 63], **copy.deepcopy(_kbm_common_geom))
 
 	from pd_single_element_of_vector_pd import *
-	kbmx=single_element_of_vector_pd_class('kbmxx', kbm1, 'kbm1_x', help='Distance along beam (mm) for KBM2')
-	vmpitch=single_element_of_vector_pd_class('vfm_pitch', kbm1, 'kbm1_alpha3', help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
-	hmpitch=single_element_of_vector_pd_class('hfm_pitch', kbm2, 'kbm2_alpha2', help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
-	vmtrans=single_element_of_vector_pd_class('vfm_trans', kbm1, 'kbm1_y', help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
-	hmtrans=single_element_of_vector_pd_class('hfm_trans', kbm2, 'kbm2_z', help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
+	#kbmx=single_element_of_vector_pd_class('kbmxx', kbm1, 'kbm1_x', help='Distance along beam (mm) for KBM2')
+	#vmpitch=single_element_of_vector_pd_class('vfm_pitch', kbm1, 'kbm1_alpha3', help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
+	#hmpitch=single_element_of_vector_pd_class('hfm_pitch', kbm2, 'kbm2_alpha2', help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
+	#vmtrans=single_element_of_vector_pd_class('vfm_trans', kbm1, 'kbm1_y', help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
+	#hmtrans=single_element_of_vector_pd_class('hfm_trans', kbm2, 'kbm2_z', help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
+
+    ##### new devices for KBM pitch and trans. Now with offsets.
+	vmpitch_offset=pd_offset.Offset('vmpitch_offset', warningIfChangeGreaterThan=.5); 
+	hmpitch_offset=pd_offset.Offset('hmpitch_offset', warningIfChangeGreaterThan=.5);
+	vmtrans_offset=pd_offset.Offset('vmtrans_offset', warningIfChangeGreaterThan=5);
+	hmtrans_offset=pd_offset.Offset('hmtrans_offset', warningIfChangeGreaterThan=5);
+	kbmx_offset=pd_offset.Offset('kbmx_offset', warningIfChangeGreaterThan=5);
+	kbmroll_offset=pd_offset.Offset('kbmroll_offset', warningIfChangeGreaterThan=.5);
+	vmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_pitch', kbm1, 'kbm1_alpha3', vmpitch_offset, help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
+	hmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_pitch', kbm2, 'kbm2_alpha2', hmpitch_offset, help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
+	vmtrans=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_trans', kbm1, 'kbm1_y', vmtrans_offset, help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
+	hmtrans=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_trans', kbm2, 'kbm2_z', hmtrans_offset, help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
+	kbmx=single_element_of_vector_pd_with_offset_and_scalefactor_class('kbm_x', kbm2, 'kbm2_z', kbmx_offset, help='Distance along beam (mm) for KBM2 - normally zero when box-face to sample is about 83 mm')
+	kbmroll=single_element_of_vector_pd_with_offset_and_scalefactor_class('kbm_roll', kbm2, 'kbm2_alpha1', kbmroll_offset, help='KBM1/2 roll: usually close to zero')
+	RsV=ReadSingleValueFromVectorPDClass
+	kbm=ReadPDGroupClass('kbm calibrated mirror values',[RsV(vmtrans,0,'vmtrans','%.3f'),RsV(hmtrans,0,'hmtrans','%.3f'),RsV(vmpitch,0,'vmpitch','%.3f'),RsV(hmpitch,0,'hmpitch','%.3f'),RsV(kbmx,0,'kbmx','%.3f'),RsV(kbmroll,0,'kbmroll','%.3f')], help='Use help vmpitch etc for help on each. Use kbm1/kbm2 for raw values\nCalibrated values all close to zero when mirrors aligned with zero pitch ')
+
 	###########################################
 
 except NameError:
@@ -1036,8 +1051,11 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 ###############################################################################
 if installation.isLive():
 	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
-	tthp.apd = 3.25 #30/9/15
-	tthp.diode=56.4#2/10/11 - changed from 55.6
+	#tthp.apd = 3.25 #30/9/15
+	tthp.apd = 0.5 #17/5/16
+	#tthp.diode=56.4#2/10/11 - changed from 55.6
+	#tthp.diode=55#01/07/16 - changed from 56.4
+	tthp.diode=53.713#01/07/16 - changed from 56.4
 	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
 	tthp.ccd=70
@@ -1073,6 +1091,7 @@ if installation.isLive():
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
 	xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
 	dummypd=ReadPDGroupClass('dummypd',[x,y,z])
+	kbm_offsets=ReadPDGroupClass('kbm_offsets',[vmtrans_offset, hmtrans_offset, vmpitch_offset, hmpitch_offset, kbmx_offset, kbmroll_offset])
 	try:
 		xps3=ReadPDGroupClass('xps3',[xps3m1, xps3m2, xps3m3, xps3m4, xps3m5, xps3m6])
 	except NameError, e:
@@ -1084,7 +1103,7 @@ if installation.isLive():
 	except NameError:
 		lakeshore=ReadPDGroupClass('lakeshore',[]) # LS340 is often not present
 	#minimirrors=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch]) #added to metadata as mirror3
-	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset])
+	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset, kbm_offsets])
 	#mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
@@ -1164,7 +1183,8 @@ run('pd_adc_table')
 run('enable_xps_gda.py')
 
 from edgeDetectRobust import edgeDetectRobust as edge
-run('edgeDetectRobust')
+from edgeDetectEnergy import eEdge as eedge
+#run('edgeDetectRobust')
 
 run('rePlot')
 
@@ -1174,6 +1194,15 @@ print "New minimirrors function - type help minimirrors"
 run('minimirrors')
 
 run("startup_trajscan")
+
+if USE_DIFFCALC == False:
+	print "run possiblehkl_new"
+	run('possiblehkl_new')
+	print "run Space Group Interpreter"
+	run('SGinterpreter')
+
+
+
 
 #### temp fix for valves closing due to img03#######################
 gv1= Epics_Shutter('gv1','BL16I-VA-VALVE-01:CON')
@@ -1225,9 +1254,13 @@ def open_valves():
 #ci=247.0; cj=106.0	#01/12/14
 #ci=245.0; cj=107.0	#10/12/14
 #ci=244.0; cj=110.0	#13/01/15
-ci=242.0; cj=108.0	#23/06/15
+#ci=242.0; cj=108.0	#23/06/15
 #ci=240.0; cj=118.0	#23/06/15 #wrong gam offset
-ci=242.0; cj=110.0	#23/06/15
+#ci=242.0; cj=110.0	#23/06/15
+#ci=239.;cj=112. #02/03/16 after pilatus exchange
+#ci=240.;cj=109. #04/03/16 after pilatus reexchange
+#ci=238.;cj=111. #06/04/16 after pilatus reexchange
+ci=242.;cj=105. #13/07/16 loan detector
 maxi=486; maxj=194 #08/10/15
 
 #small centred
@@ -1428,6 +1461,11 @@ chirock.verbose = False
 etarock = ContinuouslyRockingScannable('etarock', scannable = eta)
 etarock.verbose = False
 '''
+
+run("sz_cryo")
+cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
+szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K','Ta') \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K','Tc') for the cryofurnace.")
+
 print "======================================================================"
 print "Local Station Script completed"
 print "======================================================================"

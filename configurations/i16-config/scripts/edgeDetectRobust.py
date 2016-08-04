@@ -34,7 +34,7 @@ def edgeDetectRobust(relativefilenumber,axis1,axis2):
 	Plotter.plot('Data Vector',xdata,ydata)
 	Plotter.plotOver('Data Vector',xdata,ydiffdata._jdataset())
 	peakproximitytolerance=0.01
-	intercepts=data.getInterpolatedX(xdata,ydata,ydata.min()+((ydata.max()-ydata.min())/2.),peakproximitytolerance)
+	intercepts=data.getInterpolatedX(xdata,ydata,(ydata.max()+ydata.min())/2.,peakproximitytolerance)
 	if minpos > maxpos:
 		midpoint1=maxpos+(minpos-maxpos)/2.
 		firstintercept1=maxpos
