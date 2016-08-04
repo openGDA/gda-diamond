@@ -8,9 +8,6 @@
 <mapEntry key="GDA_WORKSPACE_GIT_NAME" value="workspace_git"/>
 <mapEntry key="GDA_WORKSPACE_PARENT" value="/scratch/gda/8.master"/>
 </mapAttribute>
-<listAttribute key="org.eclipse.debug.ui.favoriteGroups">
-<listEntry value="org.eclipse.ui.externaltools.launchGroup"/>
-</listAttribute>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/dls-config/bin/gda_servers_local}"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="${workspace_loc:/uk.ac.gda.core} ${workspace_loc:/i20-1-config} dummy --restart --debug -p 8001"/>
 </launchConfiguration>
