@@ -3,17 +3,28 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="fes1_xsize_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fes1_xcenter_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fes1_ysize_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fes1_ycenter_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="fes1_xsize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-40.824" />
+		<property name="maxPosition" value="48.524" />
+		<property name="position" value="-3.1769" />
+	</bean>
 
-	<bean id="fes1_xplus_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fes1_xminus_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fes1_yplus_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fes1_yminus_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="fes1_xcenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-20.152" />
+		<property name="maxPosition" value="22.822" />
+		<property name="position" value="-1.3283" />
+	</bean>
 
- 
+	<bean id="fes1_ysize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-6.2616" />
+		<property name="maxPosition" value="93.460" />
+		<property name="position" value="33.409" />
+	</bean>
 
+	<bean id="fes1_ycenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-18.884" />
+		<property name="maxPosition" value="20.925" />
+		<property name="position" value="0.9508" />
+	</bean>
 	
 </beans>	

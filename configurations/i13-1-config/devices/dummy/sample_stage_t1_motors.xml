@@ -3,13 +3,58 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="t1_sx_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="t1_sy_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="t1_sz_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="t1_x_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="t1_y_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="t1_z_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="t1_pitch_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="t1_roll_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="t1_theta_motor" class="gda.device.motor.DummyMotor"/>
-</beans>	
+	<bean id="t1_sx_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0000e+10" />
+		<property name="maxPosition" value="9.9991e+08" />
+		<property name="position" value="-1770.0" />
+	</bean>
+
+	<bean id="t1_sy_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0000e+10" />
+		<property name="maxPosition" value="1.0000e+12" />
+		<property name="position" value="-2500.0" />
+	</bean>
+
+	<bean id="t1_sz_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10094" />
+		<property name="maxPosition" value="10906" />
+		<property name="position" value="452.0" />
+	</bean>
+
+	<bean id="t1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-25.6" />
+		<property name="maxPosition" value="25.5" />
+		<property name="position" value="3.8444" />
+	</bean>
+
+	<bean id="t1_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.4" />
+		<property name="maxPosition" value="5.0" />
+		<property name="position" value="-1.9043" />
+	</bean>
+
+	<bean id="t1_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-55.0" />
+		<property name="maxPosition" value="55.0" />
+		<property name="position" value="-0.0003" />
+	</bean>
+
+	<bean id="t1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.1" />
+		<property name="maxPosition" value="10.0" />
+		<property name="position" value="0.060055" />
+	</bean>
+
+	<bean id="t1_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.6" />
+		<property name="maxPosition" value="0.6" />
+		<property name="position" value="0.16509" />
+	</bean>
+
+	<bean id="t1_theta_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-91.825" />
+		<property name="maxPosition" value="91.825" />
+		<property name="position" value="-86.3" />
+	</bean>
+
+</beans>

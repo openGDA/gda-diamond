@@ -8,22 +8,28 @@
 		<property name="datatype" value="UINT32" />
 	</bean>
 
-	<bean id="d2_pos" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
-		<property name="values">
-			<map>
-				<entry key="Direct" value="0.0000" />
-				<entry key="Flu Screen" value="-27.0000" />
-				<entry key="Gold Foil 1" value="-40.0000" />
-				<entry key="Gold Foil 2" value="-60.0000" />
-			</map>
+	<bean id="d2_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out</value>
+				<value>CdW04</value>
+			</list>
 		</property>
-		<property name="startPositionName" value="Direct" />
 	</bean>
 
-	<bean id="d2_x_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="d2_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-97.500" />
+		<property name="maxPosition" value="1.0" />
+		<property name="position" value="-30.9" />
+	</bean>
 
-	<bean id="d2_window_temp" class="gda.device.scannable.DummyScannable">
+	<bean id="d2_window_temp" class="gda.device.scannable.SimpleScannable">
 		<property name="name" value="d2_window_temp" />
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="22.4" />
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="d2_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator" />

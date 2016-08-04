@@ -10,7 +10,7 @@
 
 	<bean id="expt_fastshutter_raw" class="gda.device.scannable.SimpleScannable">
 		<property name="name" value="expt_fastshutter_raw" />
-		<property name="currentPosition" value="5" />
+		<property name="currentPosition" value="5.0000V" />
 	</bean>
 
 </beans>

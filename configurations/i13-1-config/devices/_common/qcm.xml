@@ -75,10 +75,14 @@
 				<ref bean="qcm_bragg1" />
 				<ref bean="qcm_bragg1_pitch" />
 				<ref bean="qcm_bragg1_roll" />
+				<ref bean="qcm_bragg1_finepitch" />
+				<ref bean="qcm_bragg1_fineroll" />
 				<ref bean="qcm_bragg1_x" />
 				<ref bean="qcm_bragg2" />
 				<ref bean="qcm_bragg2_pitch" />
 				<ref bean="qcm_bragg2_roll" />
+				<ref bean="qcm_bragg2_finepitch" />
+				<ref bean="qcm_bragg2_fineroll" />
 				<ref bean="qcm_bragg2_x" />
 				<ref bean="qcm_y" />
 				<ref bean="qcm_energy" />

@@ -3,8 +3,40 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="gb1_t1" class="gda.device.scannable.DummyScannable"/>
-	<bean id="gb1_t2" class="gda.device.scannable.DummyScannable"/>
-	<bean id="gb1_t3" class="gda.device.scannable.DummyScannable"/>
-	<bean id="gb1_t4" class="gda.device.scannable.DummyScannable"/>
+	<bean id="gb1_t1" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="gb1_t1"/>
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="25.7" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="gb1_t2" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="gb1_t2"/>
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="25.6" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="gb1_t3" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="gb1_t3"/>
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="26.6" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="gb1_t4" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="gb1_t4"/>
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="25.9" />
+			</bean>
+		</property>
+	</bean>
+
 </beans>	

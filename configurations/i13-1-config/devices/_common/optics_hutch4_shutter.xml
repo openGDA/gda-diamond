@@ -11,6 +11,15 @@
 		<property name="detector" ref="oh4_shtr_cam_ad" />
 		<property name="processor" ref="cam_ad_processors" />
 	</bean>	
-	
+
+	<bean id="oh4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="oh4_shtr" />
+				<ref bean="oh4_shtr_cam" />
+				<ref bean="oh4_shtr_cam_ad" />
+			</list>
+		</property>
+	</bean>	
+
 </beans>
-	

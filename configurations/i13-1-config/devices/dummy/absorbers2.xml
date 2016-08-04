@@ -6,14 +6,14 @@
 	<bean id="ab2_t1" class="gda.device.scannable.SimpleScannable">
 		<property name="currentPosition">
 		<bean class="java.lang.Double">
-		  <constructor-arg value="0.0"/>
+		  <constructor-arg value="21.4"/>
 		</bean>
 		</property>
 	</bean>
 	<bean id="ab2_t2" class="gda.device.scannable.SimpleScannable">
 		<property name="currentPosition">
 		<bean class="java.lang.Double">
-		  <constructor-arg value="0.0"/>
+		  <constructor-arg value="20.9"/>
 		</bean>
 		</property>
 	</bean>
