@@ -79,6 +79,15 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D4//BL21I-DI-DCAM-04@">
                </parameter>
             </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="S5 Array"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//S5//BL21I-DI-DCAM-55@">
+               </parameter>
+            </command>
          </menu>
       </menuContribution>
    </extension>
@@ -110,6 +119,13 @@
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D4//BL21I-DI-DCAM-04@"
             name="D4 Array View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//S5//BL21I-DI-DCAM-55@"
+            name="S5 Array View"
             restorable="true">
       </view>
    </extension>
