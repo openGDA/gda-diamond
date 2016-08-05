@@ -31,8 +31,8 @@
 		<property name="restoreAcquireTime" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
-				<property name="decoratee">
 				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
