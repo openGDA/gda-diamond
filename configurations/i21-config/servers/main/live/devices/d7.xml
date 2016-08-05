@@ -9,5 +9,16 @@
 		<property name="pvName" value="BL21I-DI-GAS-01:GAS" />
 		<property name="local" value="true" />
 	</bean>
-	
+	<!-- Femto -->
+
+	<bean id="d7femto1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvRoot" value="BL21I-DI-GAS-01:FEMTO1"/>
+		<property name="enableValueMonitoring" value="false"/>
+		<property name="modeControlAvailable" value="false"/>
+	</bean>
+	<bean id="d7femto2" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvRoot" value="BL21I-DI-GAS-01:FEMTO2"/>
+		<property name="enableValueMonitoring" value="false"/>
+		<property name="modeControlAvailable" value="false"/>
+	</bean>
 </beans>

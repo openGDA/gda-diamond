@@ -13,6 +13,9 @@ from gda.data import PathConstructor, NumTracker
 from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
 from gda.jython.commands.ScannableCommands import scan
+from gda.factory import Finder
+from time import sleep  # @UnusedImport
+
 import os
 
 global run
@@ -36,6 +39,7 @@ print "Please note: users can only create sub-directory within their permitted v
 print "To create another sub-directory 'child-test' inside a sub-directory 'test', you must specify the full path as 'test/child-test' "
 # set up a nice method for getting the latest file path
 i11NumTracker = NumTracker("i21");
+finder=Finder.getInstance()
 
 # function to find the working directory
 def pwd():
@@ -85,10 +89,6 @@ def getSubdirectory():
 
 print
 
-from gda.factory import Finder
-from time import sleep  # @UnusedImport
-import java #@UnresolvedImport
-
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -133,6 +133,13 @@ d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 
 d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
 d4camtotal=DisplayEpicsPVClass('d4camtotal', 'BL21I-DI-DCAM-04:STAT:Total_RBV', 'counts', '%10d')
 
+print 
+
+from scannables.cleverAmplifier import CleverAmplifier
+print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2"
+cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+print
 
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
