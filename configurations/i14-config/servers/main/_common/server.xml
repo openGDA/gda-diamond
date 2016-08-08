@@ -74,6 +74,9 @@
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
+	
+	<!-- Mapping -->
+	<import resource="mapping_scan_server.xml" />
 
 	<!-- Command Server at the end -->
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />

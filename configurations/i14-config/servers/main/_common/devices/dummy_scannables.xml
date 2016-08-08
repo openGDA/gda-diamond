@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-       	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    	http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<!-- Dummy scannables, primarily for testing -->
 
@@ -43,6 +46,32 @@
 		<property name="motor" ref="iy_noisy_motor" />
 	</bean>
 
+	<bean id="ss1_rot_dummy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
+
+	<bean id="ss1_rot_dummy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_rot_dummy_motor" />
+	</bean>
+
+	<bean id="eh_shtr_dummy" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="ss1_X_dummy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
+
+	<bean id="ss1_X_dummy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_X_dummy_motor" />
+	</bean>
+
 	<bean id="dummies" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -50,6 +79,9 @@
 				<ref bean="ix_noisy" />
 				<ref bean="iy" />
 				<ref bean="iy_noisy" />
+				<ref bean="ss1_rot_dummy" />
+				<ref bean="ss1_X_dummy" />
+				<ref bean="eh_shtr_dummy" />
 			</list>
 		</property>
 	</bean>	
