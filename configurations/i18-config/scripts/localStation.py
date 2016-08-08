@@ -73,10 +73,8 @@ beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillin
 
 if live_mode  and (machineModeMonitor() == 'User' or machineModeMonitor() == 'BL Startup' or machineModeMonitor() == 'Special'): # @UndefinedVariable
     energy_scannable_for_scans = energy # @UndefinedVariable
-    beamlinePreparer.setUseWithGapEnergy()
 else:
     energy_scannable_for_scans = energy_nogap # @UndefinedVariable
-    beamlinePreparer.setUseNoGapEnergy()
 
 # simulation
 if not live_mode:
