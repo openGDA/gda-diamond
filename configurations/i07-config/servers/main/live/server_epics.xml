@@ -1461,10 +1461,25 @@
         <property name="pvName" value="BL07I-OP-DCD-02:TILT" />
         <property name="local" value="true" />
     </bean>
-    
-	<bean id="dcdx_filter" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL07I-OP-DCD-02:MP" />
-	</bean>    
+
+    <bean id="dcdx_filter" class="gda.device.enumpositioner.EpicsPositionerCallback">
+        <property name="recordName" value="BL07I-OP-DCD-02:MP" />
+    </bean>
+
+    <bean id="dcdx_rot_real_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:ROT2" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="dcdx_slit_rot_real_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:ROTSLIT" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="dcdx_filter_wheel_motor" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-OP-DCD-02:FILTER" />
+        <property name="local" value="true" />
+    </bean>
 
     <bean id="MotorSyringe_left" class="gda.device.motor.EpicsMotor">
         <property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:MOTOR" />

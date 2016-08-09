@@ -1402,6 +1402,23 @@
         <property name="local" value="true"/>
     </bean>
 
+    <bean id="dcdx_rot_real" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="dcdx_rot_real_motor" />
+    </bean>
+
+    <bean id="dcdx_slit_rot_real" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="dcdx_slit_rot_real_motor" />
+    </bean>
+
+    <bean id="dcdx_filter_wheel" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="dcdx_filter_wheel_motor" />
+    </bean>
+
+    <bean id="sampchange" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorYogurt" />
+        <property name="protectionLevel" value="0" />
+    </bean>
+
     <bean id="syringe_left" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="syringe_left" />
         <property name="motor" ref="MotorSyringe_left" />
@@ -1470,9 +1487,6 @@
         <property name="motor" ref="gsax_blade_y" />
     </bean>
 
-    <bean id="sampchange" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="MotorYogurt" />
-        <property name="protectionLevel" value="0" />
     </bean>
 
     <bean id="ALL_MOTORS" class="gda.device.scannable.scannablegroup.ScannableGroup">
