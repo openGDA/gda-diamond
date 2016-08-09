@@ -7,6 +7,7 @@
 		<property name="bidiAsciiCommunicator" ref="p2r_telnet"></property>
 		<property name="zebra" ref="zebra"/>
 		<property name="mode" value="1"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="p2r_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
