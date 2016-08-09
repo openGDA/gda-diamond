@@ -1525,4 +1525,54 @@
         <property name="pvName" value="BL07I-MO-GSAX-01:BEAMSTOP:X" />
         <property name="local" value="true" />
     </bean>
+
+    <bean id="s20_motor_yplus" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:Y:PLUS" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_yminus" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:Y:MINUS" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_xplus" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:X:PLUS" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_xminus" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:X:MINUS" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_beamstoph" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:BEAMSTOP:H" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_beamstopv" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:BEAMSTOP:V" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_xcentre" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:X:CENTER" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_xsize" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:X:SIZE" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_ycentre" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:Y:CENTER" />
+        <property name="local" value="true" />
+    </bean>
+
+    <bean id="s20_motor_ysize" class="gda.device.motor.EpicsMotor">
+        <property name="pvName" value="BL07I-AL-SLITS-20:Y:SIZE" />
+        <property name="local" value="true" />
+    </bean>
 </beans>

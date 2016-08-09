@@ -1487,6 +1487,59 @@
         <property name="motor" ref="gsax_blade_y" />
     </bean>
 
+    <bean id="claspycentre" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspycentre" />
+        <property name="motor" ref="s20_motor_ycentre" />
+    </bean>
+
+    <bean id="claspysize" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspysize" />
+        <property name="motor" ref="s20_motor_ysize" />
+    </bean>
+
+    <bean id="claspyplus" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspyplus" />
+        <property name="motor" ref="s20_motor_yplus" />
+    </bean>
+
+    <bean id="claspyminus" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspyminus" />
+        <property name="motor" ref="s20_motor_yminus" />
+    </bean>
+
+    <bean id="claspxcentre" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspxcentre" />
+        <property name="motor" ref="s20_motor_xcentre" />
+    </bean>
+
+    <bean id="claspxsize" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspxsize" />
+        <property name="motor" ref="s20_motor_xsize" />
+    </bean>
+
+    <bean id="claspxplus" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspyplus" />
+        <property name="motor" ref="s20_motor_xplus" />
+    </bean>
+
+    <bean id="claspxminus" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspyminus" />
+        <property name="motor" ref="s20_motor_xminus" />
+    </bean>
+
+    <bean id="clasphstop" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="clasphstop" />
+        <property name="motor" ref="s20_motor_beamstoph" />
+    </bean>
+
+    <bean id="claspvstop" class="gda.device.scannable.ScannableMotor">
+        <property name="name" value="claspvstop" />
+        <property name="motor" ref="s20_motor_beamstopv" />
+    </bean>
+
+    <bean id="claspshutter" class="gda.device.scannable.SimplePVScannable">
+        <property name="name" value="claspshutter" />
+        <property name="pvName" value="BL07I-OP-FILT-01:FILTER13:CTRL" />
     </bean>
 
     <bean id="ALL_MOTORS" class="gda.device.scannable.scannablegroup.ScannableGroup">
