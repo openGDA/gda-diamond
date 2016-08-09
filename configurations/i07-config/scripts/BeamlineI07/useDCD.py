@@ -34,6 +34,7 @@ qh=MomentumTransferDeviceClass("qh", dcm1lambda, diff1homega, diff1vgamma, [diff
 
 #Reciprocal Space devices in DCD mode:
 qdcd=MomentumTransferDeviceClass("qdcd", dcm1lambda, dcdtheta, None, [diff1vdelta, diff1vgamma, dcdomega, dcdMonitor]);
+qsdcd=MomentumTransferDeviceClass("qsdcd", dcm1lambda, sdcdtheta, None, [diff1vdelta, diff1vgamma, dcdomega, dcdMonitor])
 qdcd_=MomentumTransferDeviceClass("qdcd_", dcm1lambda, dcdtheta_, None, [dcdomega, dcdMonitor]);
 
 
