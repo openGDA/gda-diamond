@@ -28,7 +28,6 @@
 		</constructor-arg>
 	</bean>
 
-	<import resource="mapping_experiment_bean_provider.xml" />
-	<import resource="mapping_region_manager.xml" />
+	<import resource="mapping.xml" />
 
 </beans>

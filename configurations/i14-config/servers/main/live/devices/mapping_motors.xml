@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		For the moment, use dummy motors in live mode until the stage is available.
+	</description>
+
+	<bean id="stage_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="100" />
+		<property name="timeToVelocity" value="0.01" />
+	</bean>
+
+	<bean id="stage_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="100" />
+		<property name="timeToVelocity" value="0.01" />
+	</bean>
+
+	<bean id="stage_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="100" />
+		<property name="timeToVelocity" value="0.01" />
+	</bean>
+
+</beans>
