@@ -52,7 +52,6 @@ add_default(beamMonitor)
 
 rcpController =                finder.find("RCPController")
 XASLoggingScriptController =   finder.find("XASLoggingScriptController")
-commandQueueProcessor =        finder.find("commandQueueProcessor")
 ExafsScriptObserver =          finder.find("ExafsScriptObserver")
 auto_mDeg_idGap_mm_converter = finder.find("auto_mDeg_idGap_mm_converter")
 loggingcontroller =            finder.find("XASLoggingScriptController")

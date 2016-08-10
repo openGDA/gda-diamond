@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="XASLoggingScriptController" class="gda.jython.scriptcontroller.logging.LoggingScriptController">
+		<property name="messageClassToLog" value="gda.jython.scriptcontroller.logging.XasLoggingMessage"/>
+		<property name="directory" value="${gda.var}/"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/XASLoggingScriptController"/>
+		<property name="service" ref="XASLoggingScriptController"/>
+		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController"/>
+	</bean>
+
+</beans>	
