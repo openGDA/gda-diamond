@@ -252,6 +252,8 @@
 
 
 	<import resource="jythonServerFacade.xml" />
+
+	<import resource="mapping_scan_server.xml" />
 	
 	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
 	<corba:export namespace="${gda.factory.factoryName}" />

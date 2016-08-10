@@ -25,6 +25,10 @@
          id="uk.ac.gda.client.tomo.feature"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.diamond.daq.mapping.ui.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i13i"
          download-size="0"
