@@ -105,6 +105,23 @@
 		id="detectorInfoPath"
 		serviceUrl="rmi://i22-control.diamond.ac.uk/gda/detectorInfoPath"
 		serviceInterface="uk.ac.gda.server.ncd.beans.StoredDetectorInfo" />
-	
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+        <property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
+        <property name="service">
+			<bean class="uk.ac.gda.epics.adviewer.SimpleADPVSuffixes">
+			        <property name="adBaseSuffix" value="cam1:" />
+			</bean>
+        </property>
+        <property name="properties">
+			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
+				<property name="map">
+					<map>
+						<entry key="SERVICE_NAME" value="saxsDetectorSuffixes" />
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
 	<gda:rbac />
 </beans>

@@ -79,7 +79,7 @@
 		</property>
 		<property name="gdaVarDirectory" value="${gda.config}/var" />
 		<property name="cacheDirectory" value="${gda.config}/var/jythonCache" />
-
+		<property name="remoteServerUsesJline" value="true" />
 		<property name="remotePort" value="8920" />
 	</bean>
 
@@ -135,6 +135,14 @@
 		<property name="plotPanel" value="Plot 2D" />
 	</bean>
 	
+	<bean id="ncddetectorsProcessingListener" class="uk.ac.gda.server.ncd.data.scan.DataProcessingScanListener" >
+		<property name="detector" ref="ncddetectors"/>
+		<property name="runner" ref="saxsprocessingrunner" />
+		<property name="background" ref="backgroundDataFile" />
+		<property name="collectionId" ref="dataCollectionId" />
+		<property name="disabled" value="true" />
+	</bean>
+
 	<gda:rbac />
 	<corba:export namespace="i22" />
 </beans>

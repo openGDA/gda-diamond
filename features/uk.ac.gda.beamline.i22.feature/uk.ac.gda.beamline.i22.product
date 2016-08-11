@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Beamline I22" id="uk.ac.gda.beamline.i22.product" application="uk.ac.gda.client.application" version="8.43.0" useFeatures="true" includeLaunchers="true">
+<product name="Beamline I22" id="uk.ac.gda.beamline.i22.product" application="uk.ac.gda.client.application" version="8.56.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -12,8 +12,22 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Xms512m
--Xmx1024m</vmArgs>
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Xms512m
+-Xmx1024m
+-Dgda.config=/dls_sw/i22/software/gda/config
+-Dgda.propertiesFile=/dls_sw/i22/software/gda/config/properties/java.properties
+-Dgda.install.workspace.loc=/dls_sw/i22/software/gda/workspace
+-Dgda.install.git.loc=/dls_sw/i22/software/gda/workspace_git
+-Djacorb.config.dir=/dls_sw/i22/software/gda/config/properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i22/software/gda/config/properties/JCALibrary.properties
+-Declipse.pluginCustomization=/dls_sw/i22/software/gda/config/client/pluginCustomization.ini
+-Duser.timezone=GMT
+-XX:PermSize=128m
+-XX:MaxPermSize=512m
+-XX:-UseCompressedOops
+-Dorg.dawb.editor.h5.use.default=false</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 

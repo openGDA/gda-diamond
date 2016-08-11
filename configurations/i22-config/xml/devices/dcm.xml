@@ -3,60 +3,60 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="roll_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:ROLL" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="fineroll_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_fineroll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:FROLL" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="pitch_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:PITCH" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="finepitch_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_finepitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:FPITCH" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="perp_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:YPRIME" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="bragg_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-DCM-01:BRAGG" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="pitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
-		<property name="motor" ref="pitch_motor" />
+		<property name="motor" ref="dcm_pitch_motor" />
 		<property name="protectionLevel" value="2" />
 	</bean>
-	<bean id="finepitch" class="gda.device.scannable.ScannableMotor">
+	<bean id="dcm_finepitch" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
-		<property name="motor" ref="finepitch_motor" />
+		<property name="motor" ref="dcm_finepitch_motor" />
 		<property name="protectionLevel" value="2" />
 	</bean>
-	<bean id="roll" class="gda.device.scannable.ScannableMotor">
+	<bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
-		<property name="motor" ref="roll_motor" />
+		<property name="motor" ref="dcm_roll_motor" />
 		<property name="protectionLevel" value="3" />
 	</bean>
-	<bean id="fineroll" class="gda.device.scannable.ScannableMotor">
+	<bean id="dcm_fineroll" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
-		<property name="motor" ref="fineroll_motor" />
+		<property name="motor" ref="dcm_fineroll_motor" />
 		<property name="protectionLevel" value="3" />
 	</bean>
-	<bean id="perp" class="gda.device.scannable.ScannableMotor">
+	<bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
-		<property name="motor" ref="perp_motor" />
+		<property name="motor" ref="dcm_perp_motor" />
 		<property name="protectionLevel" value="3" />
 	</bean>
-	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
+	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="local" value="true" />
-		<property name="motor" ref="bragg_motor" />
-		<property name="scalingFactor" value="-1" />
+		<property name="motor" ref="dcm_bragg_motor" />
+		<property name="scalingFactor" value="1" />
 		<property name="protectionLevel" value="3" />
 	</bean>
 
@@ -64,12 +64,12 @@
 		<property name="local" value="true" />
 		<property name="groupMembers">
 			<list>
-				<ref bean="pitch" />
-				<ref bean="finepitch" />
-				<ref bean="roll" />
-				<ref bean="fineroll" />
-				<ref bean="perp" />
-				<ref bean="bragg" />
+				<ref bean="dcm_pitch" />
+				<ref bean="dcm_finepitch" />
+				<ref bean="dcm_roll" />
+				<ref bean="dcm_fineroll" />
+				<ref bean="dcm_perp" />
+				<ref bean="dcm_bragg" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="3" />

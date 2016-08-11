@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="gonio_roll_motor" class="gda.device.motor.EpicsMotor">
+            <property name="pvName" value="BL22I-EA-GONIO-01:ROLL" />
+            <property name="local" value="true" />
+    </bean>
+    <bean id="gonio_roll" class="gda.device.scannable.ScannableMotor">
+            <property name="motor" ref="gonio_roll_motor" />
+            <property name="local" value="true" />
+            <property name="protectionLevel" value="2" />
+    </bean>
+
+    <bean id="gonio_pitch_motor" class="gda.device.motor.EpicsMotor">
+            <property name="pvName" value="BL22I-EA-GONIO-01:PITCH" />
+            <property name="local" value="true" />
+    </bean>
+    <bean id="gonio_pitch" class="gda.device.scannable.ScannableMotor">
+            <property name="motor" ref="gonio_pitch_motor" />
+            <property name="local" value="true" />
+            <property name="protectionLevel" value="2" />
+    </bean>
+
+    <bean id="gonio_yaw_motor" class="gda.device.motor.EpicsMotor">
+            <property name="pvName" value="BL22I-EA-GONIO-01:YAW" />
+            <property name="local" value="true" />
+    </bean>
+    <bean id="gonio_yaw" class="gda.device.scannable.ScannableMotor">
+            <property name="motor" ref="gonio_yaw_motor" />
+            <property name="local" value="true" />
+            <property name="protectionLevel" value="2" />
+    </bean>
+
+	<bean id="gonio" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="gonio_roll"/>
+				<ref bean="gonio_pitch"/>
+				<ref bean="gonio_yaw"/>
+			</list>
+		</property>
+	</bean>
+</beans>

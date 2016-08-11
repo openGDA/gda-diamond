@@ -39,6 +39,6 @@
 	<bean id="d3filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-03:MP" />
 		<property name="local" value="true" />
-		<property name="protectionLevel" value="3" />
+		<property name="protectionLevel" value="2" />
 	</bean>
 </beans>

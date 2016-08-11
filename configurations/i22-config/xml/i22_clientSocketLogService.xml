@@ -5,7 +5,7 @@
             <level>INFO</level>
         </filter>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level %logger - %m %ex %n</pattern>
+            <pattern>%date %-5level %logger - %m %rEx %n</pattern>
         </layout>
     </appender>
     <appender name="DebugPanel" class="gda.util.DebugPanelAppender">
@@ -13,7 +13,7 @@
             <level>DEBUG</level>
         </filter>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level %logger - %m %ex%n</pattern>
+            <pattern>%date %-5level %logger - %m %rEx%n</pattern>
         </layout>
     </appender>
     <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">

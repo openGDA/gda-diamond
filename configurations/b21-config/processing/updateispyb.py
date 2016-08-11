@@ -5,7 +5,7 @@ from suds.client import Client
 from suds.transport.http import HttpAuthenticated
 from socket import *
 
-host = "cs04r-sc-vserv-50"
+host = "ispybb.diamond.ac.uk"
 # this needs to be set to the machine running GDA server
 # since it is evaluated on the cluster, "localhost" WILL NOT WORK
 controlserver = "b21-control.diamond.ac.uk"
@@ -26,15 +26,11 @@ collid=sys.argv[2]
 state=sys.argv[3]
 messagefilename=sys.argv[4]
 
-if redana == "analysis":
-	client.service.setDataAnalysisStatus(collid, state, messagefilename)
-else:
+if redana == "reduction":
 	client.service.setDataReductionStatus(collid, state, messagefilename)
-
-#client.service.setDataAnalysisStatus("1985", "COMPLETE", "filename")
-#client.service.setDataAnalysisStatus(collid, state, messagefilename)
-#client.service.setDataReductionStatus(dataCollectionId = "2033", status = "FAILED", filenameOrMessage = "failed message")
-#client.service.setDataReductionStatus(2033, "COMPLETE", "/dls/b21/data/2013/sm999-9/b21-14.nxs")
+else:
+	print "unexpected status to update. analysis is no longer supported"
+	sys.exit(1)
 
 addr = (controlserver,udpport)
 UDPSock = socket(AF_INET,SOCK_DGRAM)

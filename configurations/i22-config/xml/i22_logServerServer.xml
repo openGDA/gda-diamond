@@ -6,7 +6,7 @@
       <level>INFO</level>
     </filter>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{36} - %m %ex%n</Pattern>
+            <Pattern>%date %-5level %logger{36} - %m %rEx%n</Pattern>
         </layout>
     </appender>
     <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
@@ -40,7 +40,7 @@
             <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d %-5level %logger - %m %ex %n</pattern>
+            <pattern>%d %-5level %logger - %m %rEx %n</pattern>
         </layout>
     </appender>
     <logger name="gda">
@@ -62,24 +62,27 @@
         <level value="INFO"/>
     </logger>
     <logger name="gda.device.motor">
-        <level value="INFO"/> 
+        <level value="INFO"/>
     </logger>
     <logger name="httpclient.wire.content">
-        <level value="INFO"/> 
+        <level value="INFO"/>
+    </logger>
+    <logger name="org.apache.http">
+        <level value="INFO"/>
     </logger>
     <logger name="org.apache.commons.httpclient">
-        <level value="INFO"/> 
+        <level value="INFO"/>
     </logger>
     <logger name="gda.data.nexus.extractor.NexusExtractor">
         <level value="DEBUG"/>
-    </logger>    
+    </logger>
     <logger name="gda.data.nexus.NexusFileWrapper">
         <level value="DEBUG"/>
-    </logger>    
+    </logger>
     <logger name="uk.ac.gda.server.ncd.detector.DAServer">
         <level value="DEBUG"/>
-    </logger>    
-    
+    </logger>
+
     <root>
         <level value="All"/>
         <appender-ref ref="CONSOLE"/>

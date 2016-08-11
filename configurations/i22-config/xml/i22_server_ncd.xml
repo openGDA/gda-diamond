@@ -186,7 +186,7 @@
 		<property name="units" value="counts" />
 		<property name="channel" value="3" />
 		<property name="label" value="data" />
-		<property name="scalingAndOffset" ref="bsdiodegain" />
+		<property name="scalingAndOffset" ref="bs1diodegain" />
 	</bean>
 
 	<bean id="I0"
@@ -210,45 +210,47 @@
 	</bean>
 
 	<import resource="i22_pilatus.xml" />
-	<import resource="i22_pilatus_waxs.xml" />
+	<import resource="i22_pilatus_waxs_l.xml" />
 
 	<!-- <bean id="Mar" class="uk.ac.gda.server.ncd.subdetector.NcdMarDetector"> 
 		<property name="marName" value="mar165" /> <property name="pixelSize" value="0.000080" 
 		/> <property name="detectorType" value="SAXS" /> </bean> 
 		
-
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDController">
+-->
+<!--
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
 		<property name="epicsDeviceName" value="edxd" />
-		<property name="NUMBER_OF_ELEMENTS" value="4" />
+		<property name="numberOfElements" value="4" />
+		<property name="elementOffset" value="1" />
 	</bean>
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController2">
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="local" value="true" />
 		<property name="edxdControllerName" value="edxdcontroller" />
 	</bean>
 	<bean id="xmap" class="uk.ac.gda.server.ncd.subdetector.NcdXmapDetector">
 		<property name="xmapControllerName" value="xmapcontroller" />
 	</bean>
--->
+	-->
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
 			<list>
-				<ref bean="Pilatus2M" />
-				<ref bean="PilatusWAXS" />
+				<ref bean="Pilatus2M_SAXS" />
+				<ref bean="Pilatus2M_WAXS" />
 				<!-- <ref bean="Hotwaxs" /> -->
 				<ref bean="Scalers" />
 				<!-- <ref bean="IonChamber" /> -->
 				<ref bean="I0" />
 				<ref bean="It" />
 				<ref bean="TfgTimes" />
-				<!-- <bean="xmap" /> -->
+	<!--			<ref bean="xmap" />-->
 			</list>
 		</property>
 	</bean>
 
 	<bean id="energy" class="uk.ac.gda.server.ncd.scannable.EnergyScannable">
-		<property name="bragg" ref="bragg" />
+		<property name="bragg" ref="dcm_bragg" />
 		<property name="protectionLevel" value="2" />
 	</bean>
 
@@ -266,7 +268,7 @@
 		<property name="environment">
 			<map>
 				<entry key="GDA_CONFIG" value="${gda.config}" />
-				<entry key="DAWN" value="/dls_sw/b21/software/DawnDiamond-1.5.0.v20140425-2056-linux64/dawn" />
+				<entry key="DAWN" value="/dls_sw/i22/software/dawn-live/dawn" />
 				<entry key="MOML" value="${gda.config}/processing/ncd_model.moml" />
 			</map>
 		</property>
@@ -274,13 +276,14 @@
 		<property name="detectorInfo" ref="detectorInfoPath" />
 	</bean>
 
-        <bean class="uk.ac.gda.server.ncd.beans.StoredDetectorInfoImpl" id="detectorInfoPath">
-		<property name="currentDataDirectoryUpdater" ref="observableSubdirectory"/>
+	<bean class="uk.ac.gda.server.ncd.beans.PerVisitMaskLocation" id="detectorInfoPath">
 	</bean>
 
 	<import resource="cameras/i22_mfgige.xml" />
 	<import resource="cameras/i22_biosaxscam.xml" />
 	<import resource="cameras/i22_floatingcam.xml" />
+	<import resource="cameras/i22_d12gige.xml" />
+	<import resource="cameras/i22_d11gige.xml" />
 
 	<bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
 		<property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />

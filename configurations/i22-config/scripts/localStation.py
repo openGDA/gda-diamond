@@ -12,46 +12,59 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep
 from gda.jython.commands.GeneralCommands import alias
 
+from maskUtils import setMask, clearMask, currentMask
+
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = "/dls/i22/software/gda/config/scripts/"
+setupScriptDir = "setup/"
+#beamlineScriptDir = "beamlineScripts/"
+
 gdascripts = "/dls/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
 
-execfile(gdascripts + "/pd/epics_pds.py");
-execfile(gdascripts + "/pd/time_pds.py");
-execfile(gdascripts + "/pd/dummy_pds.py");
-execfile(gdascripts + "/utils.py");
+execfile(gdascripts + "/pd/epics_pds.py")
+execfile(gdascripts + "/pd/time_pds.py")
+execfile(gdascripts + "/pd/dummy_pds.py")
+execfile(gdascripts + "/utils.py")
 
 #Set up the Bimorph Mirror 
 #print "Setting up access to Bimorph Mirror Channels...";
-execfile(gdaScriptDir + "fastshuttershutter.py");
-execfile(gdaScriptDir + "notchrissbimorph.py");
+run(setupScriptDir + "fastshuttershutter.py")
+#execfile(gdaScriptDir + "fastshuttershutter.py")
+run(setupScriptDir +  "notchrissbimorph.py")
+#execfile(gdaScriptDir + "notchrissbimorph.py")
 
-execfile(gdaScriptDir + "LookupTables.py");
+#execfile(gdaScriptDir + "LookupTables.py")
+run(setupScriptDir + "LookupTables.py")
 #execfile(gdaScriptDir + "CheckShutter.py");
 
-i0xplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD1:I_C","ua","%.3e")
-i0xminus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD2:I_C","ua","%.3e")
-i0yplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD3:I_C","ua","%.3e")
-i0yminus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD4:I_C","ua","%.3e")
-i0=DisplayEpicsPVClass("i0","BL22I-DI-IAMP-06:INTEN_C","ua","%.3e")
+# '''i0xplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD1:I_C","ua","%.3e")
+# i0xminus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD2:I_C","ua","%.3e")
+# i0yplus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD3:I_C","ua","%.3e")
+# i0yminus=DisplayEpicsPVClass("i0xplus","BL22I-DI-IAMP-06:PHD4:I_C","ua","%.3e")
+# i0=Displa'''yEpicsPVClass("i0","BL22I-DI-IAMP-06:INTEN_C","ua","%.3e")
 
-execfile(gdaScriptDir + "TopupCountdown.py")
-execfile(gdaScriptDir + "gainpds.py")
-execfile(gdaScriptDir + "microfocus.py")
+run(setupScriptDir +  "TopupCountdown.py")
+#run(setupScriptDir +  "gainpds.py")
+#run(setupScriptDir +  "microfocus.py")
 
-from linkam import Linkam
+from sampleEnvironment.linkam import Linkam
 linkam=Linkam("linkam","BL22I-EA-TEMPC-01")
-from linkamrampmaster4000 import LinkamRampMaster4000
+from sampleEnvironment.linkamrampmaster4000 import LinkamRampMaster4000
 lrm4k=LinkamRampMaster4000("lrm4k",linkam)
 
-from installStandardScansWithProcessing import *
+from setup.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 
-from ncdutils import DetectorMeta
+from ncdutils import DetectorMeta, DetectorMetaWithPv
 waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
-saxs_distance = DetectorMeta("saxs_distance", ncddetectors, "SAXS", "distance", "m")
+waxs_centre_x = DetectorMeta("waxs_centre_x", ncddetectors, "WAXS", "beam_center_x")
+waxs_centre_y = DetectorMeta("waxs_centre_y", ncddetectors, "WAXS", "beam_center_y")
+
+saxs_distance = DetectorMetaWithPv("saxs_distance", ncddetectors, "SAXS", "distance", "m", pv=('BL22I-EA-SAXSP-01:', 'CAMERA'))
+saxs_distance.pv_conversion = 1000
 saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
 saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
+saxs_abs_cal = DetectorMeta("saxs_abs_cal", ncddetectors, "SAXS", "scaling_factor")
 
 # preseed listener dispatcher
 print "Pre-seeding listener dispatcher"
@@ -64,8 +77,8 @@ finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 #create cam1, peak2d
 #scan slit start end step cam1 620 peak2d
 #run "setupBimorphOptimisation"
-
-import gridscan
+run(setupScriptDir + "energy.py")
+from setup import gridscan
 
 print "Create ncdgridscan"
 try:
@@ -77,27 +90,37 @@ gridxy=ScannableGroup()
 gridxy.setName("gridxy")
 gridxy.setGroupMembers([mfstage_x, mfstage_y])
 gridxy.configure()
-ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
-ncdgridscan.snap()
+try:
+	ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
+	ncdgridscan.snap()
+except:
+	print "Could not configure ncdgridscan"
 
-import metadatatweaks
-getTitle = metadatatweaks.getTitle
-alias("getTitle")
-setTitle = metadatatweaks.setTitle
-alias("setTitle")
-getSubdirectory = metadatatweaks.getSubdirectory
-alias("getSubdirectory")
-setSubdirectory = metadatatweaks.setSubdirectory
-alias("setSubdirectory")
-getVisit = metadatatweaks.getVisit
-alias("getVisit")
-setVisit = metadatatweaks.setVisit
-alias("setVisit")
-sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
+try:
+	from setup import metadatatweaks
+	getTitle = metadatatweaks.getTitle
+	alias("getTitle")
+	setTitle = metadatatweaks.setTitle
+	alias("setTitle")
+	getSubdirectory = metadatatweaks.getSubdirectory
+	alias("getSubdirectory")
+	setSubdirectory = metadatatweaks.setSubdirectory
+	alias("setSubdirectory")
+	getVisit = metadatatweaks.getVisit
+	alias("getVisit")
+	setVisit = metadatatweaks.setVisit
+	alias("setVisit")
+	sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
+except:
+	print "Could not set up metadatatweaks"
 
-run("/BeamlineScripts/master.py")
-execfile(gdaScriptDir + "atten.py")
-execfile(gdaScriptDir + "rate.py")
+import bslUtils
+bslUtils.restore()
+print '\t%sconverting to BSL' %('' if bslUtils.isConvertingOn() else 'not ',)
+
+#run("BeamlineScripts/master.py")
+run(setupScriptDir +  "atten.py")
+run(setupScriptDir +  "rate.py")
 
 from gdascripts.pd.time_pds import actualTimeClass
 epoch=actualTimeClass("epoch")
@@ -108,4 +131,8 @@ string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
 gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLI22", "BLI22-RUNL", None)
 print "importing bimorph"
 import bimorph
+
+#print "creating sampleCam and adding to ncdDetectors"
+#execfile(gdaScriptDir + "sampleCam.py")
+#run(setupScriptDir + "ZebraDetectors.py")
 print "==================================================================="

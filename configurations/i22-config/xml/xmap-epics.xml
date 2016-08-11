@@ -1,6 +1,10 @@
 <?xml version="1.0" ?>
 <devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/trunk/support/gda/gdaApp/src/genericBeamlineSchema.xsd">
 	<dxp desc="xmap dxp class instance" name="edxd">
+		<STOPALL desc="Stop system" pv="BL22I-EA-DET-04:StopAll" ro="false" type="pv" />
+		<STARTALL desc="Start system" pv="BL22I-EA-DET-04:StartAll" ro="false" type="pv" />
+		<ERASESTART desc="Erase Start" pv="BL22I-EA-DET-04:EraseStart" ro="false" type="pv" />
+		<ERASEALL desc="Erase All" pv="BL22I-EA-DET-04:EraseAll" ro="false" type="pv" />
 		<ACQUIRE desc="start or stop system" pv="BL22I-EA-DET-04:Acquire" ro="false" type="binary"/>
 		<SETRESUME desc="Set resume mode. Clear on start or resume acquiring into same spectrum." pv="BL22I-EA-DET-04:Resume" ro="false" type="binary"/>
 		<SETPRESETVALUE desc="set the preset acquisition value for all channels" pv="BL22I-EA-DET-04:PresetValue" ro="false" type="pv"/>

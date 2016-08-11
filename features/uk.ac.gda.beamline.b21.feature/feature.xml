@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.b21.feature"
       label="B21 Feature"
-      version="8.43.0.qualifier"
+      version="8.56.0.qualifier"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -101,6 +101,35 @@
 
    <plugin
          id="uk.ac.gda.devices.hatsaxs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.scisoft.ncd.rcp.contributions"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.scisoft.ncd.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.isencia.passerelle.workbench.starter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.devices.vgscienta"
          download-size="0"
          install-size="0"
          version="0.0.0"
