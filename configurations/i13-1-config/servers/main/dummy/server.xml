@@ -9,8 +9,6 @@
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-    <bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
-	
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
@@ -37,6 +35,7 @@
 	
 	<import resource="../../../devices/dummy/undulator.xml"/>
 	<import resource="../../../devices/dummy/front_end.xml"/>
+	<import resource="../../../devices/dummy/ring.xml" />
 
 <!-- start of internal building -->
 

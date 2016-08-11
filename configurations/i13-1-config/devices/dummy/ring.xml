@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="ringCurrent" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="instrument.source.current" />
+		<property name="value" value="298.24" />
+	</bean>
+
+	<bean id="ringEnergy" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="instrument.source.energy" />
+		<property name="value" value="3.271" />
+	</bean>
+
+	<bean id="facilityMessage" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="facility.message" />
+		<property name="value" value="Welcome to Diamond" />
+	</bean>
+
+	<bean id="facilityMode" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="facility.mode" />
+		<property name="value" value="User" />
+	</bean>
+
+	<bean id="fillMode" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="source.fillMode" />
+		<property name="value" value="Standby" />
+	</bean>
+
+</beans>
