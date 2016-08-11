@@ -5,4 +5,5 @@
 
 	<bean id="samX_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="samY_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="blowerZ_motor" class="gda.device.motor.DummyMotor"/>
 </beans>
