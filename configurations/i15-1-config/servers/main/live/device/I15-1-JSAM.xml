@@ -12,4 +12,20 @@
 		<!-- <property name="deviceName" value="" /> -->
 		<property name="pvName" value="BL15J-MO-TABLE-01:SAMPLE:Y" />
 	</bean>
+
+	<bean id="blowerZ_motor"  class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-EA-BLOWR-01:TLATE" />
+	</bean>
+
+<!-- 
+    <bean id="blower_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+        <property name="local" value="true"/>
+        <property name="configureAtStartup" value="true"/>
+        <property name="basePVName" value = "BL15J-EA-BLOW-01"/>
+        <property name="maxRampRate" value = "10"/>
+        <property name="minRampRate" value = "0.01"/>
+        <property name="maxOutput" value = "100"/>
+     </bean>
+ -->	
 </beans>
