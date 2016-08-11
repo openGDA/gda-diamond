@@ -103,25 +103,6 @@
 
 	<!-- NXDetector collection strategies -->
 
-	<!-- MultipleExposureSoftwareTriggerAutoMode(ADBase adBase, double maxExposureTime) -->
-
-	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy"
-			class="gda.device.detector.addetector.triggering.MultipleExposureSoftwareTriggerAutoMode">
-		<constructor-arg ref="peAD_config_base" />
-		<property name="ndProcess" ref="peAD_summary_proc2" />
-		<property name="readAcquireTimeFromHardware" value="True" />
-		<!-- We need a way here to tell file writers that they need to take their image from this ndProcess if defined? -->
-		<property name="filterEnabledAfterCollection" value="True" />
-	</bean>
-
-	<!-- Should now apply UnsynchronisedExternalShutterDecorator to MultipleExposureSoftwareTriggerAutoMode -->
-	<!-- which should itself apply MultipleExposureAutoModeDecorator around a SoftwareTrigger Collection Strategy -->
-	<bean id="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" 
-			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
-		<property name="decoratee" ref="pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy" />
-		<property name="collectionExtensionTimeS" value="10" />
-	</bean>
-
 	<!-- We need to make a PE collection strategy which understands about PE states -->
 
 	<!-- Create collection strategy by composition -->
@@ -233,9 +214,6 @@
 	<bean id="pe" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="pe"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
-		<!-- 
-		<property name="collectionStrategy" ref="pe_MultipleExposureSoftwareTriggerAutoModeUnsynchronisedExternalShutter" />
-		 -->
 		<property name="collectionStrategy" ref="pe_UnsynchronisedExternalShutterAutoSummingProcessImageModeCollectionStrategy" />
 
 		<property name="additionalPluginList">

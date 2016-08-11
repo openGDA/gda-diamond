@@ -1,7 +1,8 @@
 #test of writing data from mca to the Data Vector
 import math
 
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.january.dataset import DatasetFactory
+
 from gda.analysis import ScanFileHolder,Plotter
 from gda.analysis.io import IFileLoader, LoadDataHolder
 from gda.factory import Finder
@@ -15,10 +16,10 @@ class XYDataLoader(IFileLoader):
         pass
     def loadFile(self):
         dataHolder = LoadDataHolder()
-        xDataSet = DoubleDataset(1,len(self.xData),self.xData)
+        xDataSet = DatasetFactory.createFromObject(self.xData 1,len(self.xData))
         xDataSet.setName(self.xName)
         dataHolder.addDataSet(xDataSet.getName(), xDataSet);
-        yDataSet = DoubleDataset(1,len(self.yData),self.yData)
+        yDataSet = DatasetFactory.createFromObject(self.yData, 1, len(self.yData))
         yDataSet.setName(self.yName)
         dataHolder.addDataSet(yDataSet.getName(), yDataSet);
         return dataHolder

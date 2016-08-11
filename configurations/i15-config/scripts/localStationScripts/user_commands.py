@@ -480,6 +480,12 @@ def _calcAbsPositions(motor, stepSize, numSteps):
 	AbsoluteEndPos =   currentPosition + stepSize * numSteps
 	return AbsoluteStartPos, AbsoluteEndPos
 
+def _d1out():
+	return _defaultParameter("expose_d1out", False, " to change the default.")
+
+def _d2out():
+	return _defaultParameter("expose_d2out", True, " to change the default.")
+
 def _horizMotor():
 	return _defaultParameter("exposeHorizMotor", "dx", " to define horizontal axis motor.")
 
@@ -533,6 +539,10 @@ def _defaultParameter(parameter, parameter_default, help_text):
 	return jythonNameMap[parameter]
 
 def _staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark):
+	logger = LoggerFactory.getLogger("_staticExposeScanParams")
+	logger.trace("detector={}, exposeTime={}, fileName={}, totalExposures={}, dark={}",
+				detector, exposeTime, fileName, totalExposures, dark)
+
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
 	i0Monitor = jythonNameMap.etlZebraScannableMonitor
@@ -546,7 +556,9 @@ def _staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark
 def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures):
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	logger = LoggerFactory.getLogger("_rockScanParams")
-	
+	logger.trace("(detector={}, exposeTime={}, fileName={}, rockMotor={}, rockCentre={}, rockAngle={}, rockNumber={}, totalExposures={}",
+				detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures)
+
 	if type(rockMotor) is str:
 		rockMotor = jythonNameMap[rockMotor]
 
@@ -801,9 +813,10 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	scan_params.extend(_horizScanParams(horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep, horizStepNumber))
 	# Note that the first element in a scan must be a start/stop/step so always add exposure if neither horiz nor vert are present
 	scan_params.extend([exposure, 1, exposeNumber, 1] if len(scan_params)==0 or exposeNumber > 1 else [])
-	scan_params.extend([detectorShield, DiodeController(True, True)])
+	scan_params.extend([detectorShield, DiodeController(_d1out(), _d2out())])
 
-	totalExposures = exposeNumber * (1 if horizStep == None else horizStep) * (1 if vertStep == None else vertStep)
+	totalExposures = (exposeNumber * (1 if horizStepNumber == None else horizStepNumber + 1) * 
+									 (1 if vertStepNumber == None else vertStepNumber + 1) )
 	
 	if rockMotor:
 		rockMotorPosition = rockMotor.getPosition()

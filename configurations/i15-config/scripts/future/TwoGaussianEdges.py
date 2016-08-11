@@ -10,8 +10,6 @@ from uk.ac.diamond.scisoft.analysis.fitting.functions import Gaussian, Offset
 from uk.ac.diamond.scisoft.analysis.optimize import GeneticAlg, NelderMead
 from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
 
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
-
 
 try:
     from uk.ac.diamond.scisoft.analysis.fitting import Fitter 
