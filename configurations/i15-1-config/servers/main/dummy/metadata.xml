@@ -48,7 +48,7 @@
 
 				<bean class="gda.data.metadata.IcatMetadataEntry">
 					<property name="name" value="investigation" />
-					<property name="query" value="id:investigation:id" />
+					<property name="query" value="id" />
 				</bean>
 
 <!--
