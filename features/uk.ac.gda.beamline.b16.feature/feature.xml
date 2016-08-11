@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.b16.feature"
       label="Diamond Light Source Beamline B16 Feature"
-      version="9.1.0.qualifier"
+      version="9.2.0.qualifier"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -129,6 +129,13 @@
 
    <plugin
          id="com.github.tschoonj.xraylib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.scanning.event.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

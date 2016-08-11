@@ -8,8 +8,6 @@ from gda.epics import CAClient;
 from gda.device.scannable import PseudoDevice;
 from gda.device.scannable import ScannableBase
 
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
-
 from gov.aps.jca.event import PutEvent;
 from gov.aps.jca.event import PutListener;
 from gov.aps.jca import CAStatus;

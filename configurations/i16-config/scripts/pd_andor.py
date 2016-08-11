@@ -115,7 +115,7 @@ class AndorCCDClass(PseudoDevice):
 		print "Pilatus file path:"+self.CAFilePath.caget()
 		
 import os
-from org.eclipse.dawnsci.analysis.dataset.impl import DoubleDataset
+from org.eclipse.january.dataset import DatasetFactory, Dataset
 from gda.analysis.io import LoadDataHolder
 import array
 
@@ -143,7 +143,7 @@ class AndorAsciiLoader:
 				rawData.append(float(line))
 			lineNumber += 1
 		
-		data = DoubleDataset(self.height,self.width,rawData)
+		data = DatasetFactory.createFromObject(self.rawData, self.height, self.width)
 		
 		output = LoadDataHolder();
 		output.addDataSet(self.filename, data);
