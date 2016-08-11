@@ -185,4 +185,25 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- ADDetectors -->
+<!-- 
+    <bean id="cam2rawAD" class="gda.device.detector.addetector.ADDetector">
+        <property name="adBase" ref="cam2AD_cam"/>
+        <property name="collectionStrategy" ref="cam2_SingleExposureStandardCollectionStrategy" />
+        <property name="ndFile"  ref="cam2_NDFileHDF5"/>
+        <property name="ndArray" ref="cam2AD_arr"/>
+        <property name="ndStats" ref="cam2AD_stat"/>
+        <property name="filewriter" ref="cam2_hdf5_MultipleImagesPerHDF5FileWriter"/>
+    </bean>
+
+    <bean id="cam2rgbRawAD" class="gda.device.detector.addetector.ADDetector">
+        <property name="adBase" ref="cam2AD_cam"/>
+        <property name="collectionStrategy" ref="cam2rgb_SingleExposureStandardCollectionStrategy" />
+        <property name="ndFile"  ref="cam2_NDFileHDF5"/>
+        <property name="ndArray" ref="cam2AD_arr"/>
+        <property name="ndStats" ref="cam2AD_stat"/>
+        <property name="filewriter" ref="cam2_hdf5_MultipleImagesPerHDF5FileWriter"/>
+    </bean>
+ -->
 </beans>
