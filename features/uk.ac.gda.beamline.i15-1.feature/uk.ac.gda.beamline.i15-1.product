@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Light Source Beamline I15-1" id="uk.ac.gda.beamline.i15-1.product" application="uk.ac.gda.client.application" version="9.1.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Light Source Beamline I15-1" id="uk.ac.gda.beamline.i15-1.product" version="9.1.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -12,8 +12,6 @@
 
    <launcherArgs>
       <vmArgs>-Dgda.client.jython.automatic.interpreter=1
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
--Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Xmx4096m -XX:+DisableExplicitGC

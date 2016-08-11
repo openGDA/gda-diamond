@@ -26,6 +26,8 @@
 	<import resource="metadata.xml"/>
 	<import resource="terminal_logger.xml"/>
 
+	<import resource="p45/server.xml"/>
+
 	<corba:export namespace="${gda.factory.factoryName}" />
 
 	<!-- SingletonRegistrationPostProcessor not needed in dummy
