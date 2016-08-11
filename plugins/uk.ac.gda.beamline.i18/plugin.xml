@@ -509,6 +509,16 @@
            name="sc_sample_z">
      </zscannable>
   </extension>
+  
+   <extension point="org.eclipse.core.expressions.definitions">
+         <definition id="uk.ac.gda.client.isproduct.i18">
+         <with variable="activeContexts">
+             <iterate ifEmpty="false" operator="or">
+                 <equals value="I18 product"/>
+             </iterate>
+         </with>
+      </definition>
+   </extension>
 
   <extension
         point="org.eclipse.ui.handlers">
@@ -517,13 +527,7 @@
            commandId="uk.ac.gda.client.exafs.dataCollectionCommand">
 
         <activeWhen>
-            <with variable="activeContexts">
-                <iterate
-                    ifEmpty="false"
-                    operator="or">
-                    <equals value="I18 product"/>
-                </iterate>
-            </with>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
         </activeWhen>
 
      </handler>
@@ -532,13 +536,7 @@
            commandId="uk.ac.gda.client.experimentdefinition.RunSingleScanOnlyCommand">
 
         <activeWhen>
-            <with variable="activeContexts">
-                <iterate
-                    ifEmpty="false"
-                    operator="or">
-                    <equals value="I18 product"/>
-                </iterate>
-            </with>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
         </activeWhen>
 
      </handler>
@@ -548,13 +546,7 @@
            commandId="uk.ac.gda.client.experimentdefinition.RunSingleExperimentCommand">
 
         <activeWhen>
-            <with variable="activeContexts">
-                <iterate
-                    ifEmpty="false"
-                    operator="or">
-                    <equals value="I18 product"/>
-                </iterate>
-            </with>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
         </activeWhen>
 
      </handler>
@@ -564,13 +556,7 @@
            commandId="uk.ac.gda.client.experimentdefinition.RunMultiExperimentCommand">
 
         <activeWhen>
-            <with variable="activeContexts">
-                <iterate
-                    ifEmpty="false"
-                    operator="or">
-                    <equals value="I18 product"/>
-                </iterate>
-            </with>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
         </activeWhen>
 
      </handler>
@@ -580,13 +566,7 @@
            commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunSingleScanOnlyCommand">
 
         <activeWhen>
-            <with variable="activeContexts">
-                <iterate
-                    ifEmpty="false"
-                    operator="or">
-                    <equals value="I18 product"/>
-                </iterate>
-            </with>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
         </activeWhen>
         
      </handler>
@@ -596,13 +576,7 @@
            commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunSingleExperimentCommand">
 
         <activeWhen>
-            <with variable="activeContexts">
-                <iterate
-                    ifEmpty="false"
-                    operator="or">
-                    <equals value="I18 product"/>
-                </iterate>
-            </with>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
         </activeWhen>
 
      </handler>
@@ -612,13 +586,7 @@
            commandId="uk.ac.gda.client.experimentdefinition.QueueAndRunMultiExperimentCommand">
 
         <activeWhen>
-            <with variable="activeContexts">
-                <iterate
-                    ifEmpty="false"
-                    operator="or">
-                    <equals value="I18 product"/>
-                </iterate>
-            </with>
+            <reference definitionId="uk.ac.gda.client.isproduct.i18"/>
         </activeWhen>
 
      </handler>
