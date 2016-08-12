@@ -58,7 +58,4 @@
 	<import resource="gda_metadata.xml" />
 	<import resource="jython_server.xml" />
 
-	<!-- Apply Role based access control -->
-	<gda:rbac />
-
 </beans>

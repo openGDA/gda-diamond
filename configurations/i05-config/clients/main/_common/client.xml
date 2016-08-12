@@ -48,6 +48,4 @@
 
 	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties" />
 
-	<gda:rbac />
-
 </beans>
