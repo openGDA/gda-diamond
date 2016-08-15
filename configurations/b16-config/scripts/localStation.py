@@ -343,36 +343,14 @@ else:
 
 
 if installation.isLive():
-	print "Installing atto devices from epics BL16B-EA-ATTO..."
-
-	from scannable.epics.anc150axis import createAnc150Axis
-
+	print "Installing atto devices from epics BL16B-EA-ECC..."
 	try:
-		attorot1  = createAnc150Axis("attorot1",  "BL16B-EA-ATTO-03:PIEZO3:", 0.25)
-		attorot2  = createAnc150Axis("attorot2",  "BL16B-EA-ATTO-04:PIEZO3:", 0.25)
-		attotilt1 = createAnc150Axis("attotilt1", "BL16B-EA-ATTO-01:PIEZO1:", 0.25)
-		attotilt2 = createAnc150Axis("attotilt2", "BL16B-EA-ATTO-02:PIEZO1:", 0.25)
-		attox1    = createAnc150Axis("attox1",    "BL16B-EA-ATTO-01:PIEZO2:", 0.25)
-		attox2    = createAnc150Axis("attox2",    "BL16B-EA-ATTO-02:PIEZO2:", 0.25)
-		attox3    = createAnc150Axis("attox3",    "BL16B-EA-ATTO-03:PIEZO1:", 0.25)
-		attoz1    = createAnc150Axis("attoz1",    "BL16B-EA-ATTO-03:PIEZO2:", 0.25)
-		attoz2    = createAnc150Axis("attoz2",    "BL16B-EA-ATTO-04:PIEZO2:", 0.25)
-		attoy1    = createAnc150Axis("attoy1",    "BL16B-EA-ATTO-01:PIEZO3:", 0.25)
-		attoy2    = createAnc150Axis("attoy2",    "BL16B-EA-ATTO-02:PIEZO3:", 0.25)
-
-		attorot1.setFrequency(625)
-		attorot2.setFrequency(625)
-		attotilt1.setFrequency(1000)
-		attotilt2.setFrequency(1000)
-		attox1.setFrequency(1000)
-		attox2.setFrequency(1000)
-		attox3.setFrequency(1000)
-		attoz1.setFrequency(1000)
-		attoz2.setFrequency(1000)
-		attoy1.setFrequency(2000)
-		attoy2.setFrequency(2000)
+		from scannable.epics.ecc100axis import createEcc100Axis
+		attol1 = createEcc100Axis("attol1", "BL16B-EA-ECC-03:ACT0:")
+		attol2 = createEcc100Axis("attol2", "BL16B-EA-ECC-03:ACT1:")
+		attol3 = createEcc100Axis("attol3", "BL16B-EA-ECC-03:ACT2:")
 	except:
-		print "* Failed to initialise atto devices *"
+		print "Could not initialise attocube devices"
 else:
 	print "* Not installing atto devices (as not live installation) *"
 
