@@ -162,6 +162,10 @@ emergency_stopper = StopOnFaultScannable("emergency_stopper",
 
 print "==================================================================="
 print
+
+from BeamlineI07.hplc import Hplc
+hplc = Hplc("BL07I-EA-HPLC-01:")
+
 #print
 #print "running 'i07-config/scripts/si9328.py'"
 #run('si9328_setup')
