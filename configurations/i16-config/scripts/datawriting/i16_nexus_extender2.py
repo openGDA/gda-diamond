@@ -4,7 +4,8 @@ from gda.device.detector import NexusDetector
 from gda.factory import Finder
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
 from jarray import array, zeros
-from gda.data.nexus import NexusUtils
+from org.eclipse.dawnsci.nexus import NexusUtils
+from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
 import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory as DF
 import org.eclipse.dawnsci.analysis.dataset.impl.LinearAlgebra as LA
 from org.eclipse.dawnsci.analysis.dataset.impl import LongDataset
@@ -460,7 +461,8 @@ class I16NexusExtender(DataWriterExtenderBase):
         NexusUtils.writeAttribute(nFile, data, "depends_on","/entry1/instrument/transformations/gamma")
 
     def writeStuffToFile(self, fileName):
-        nFile = NexusUtils.openNexusFile(fileName)
+        nFile = NexusFileHDF5(fileName)
+        nFile.openToWrite(False)
         try:
             entry = nFile.getGroup("/entry1", False)
             metadataGroup = nFile.getGroup("/entry1/before_scan", False)

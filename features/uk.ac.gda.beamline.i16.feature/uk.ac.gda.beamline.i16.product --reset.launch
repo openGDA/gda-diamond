@@ -6,9 +6,9 @@
 <booleanAttribute key="automaticValidate" value="true"/>
 <stringAttribute key="bootstrap" value=""/>
 <booleanAttribute key="clearConfig" value="false"/>
-<booleanAttribute key="clearws" value="false"/>
+<booleanAttribute key="clearws" value="true"/>
 <booleanAttribute key="clearwslog" value="false"/>
-<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.i16.product"/>
+<stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/uk.ac.gda.beamline.i16.product --reset"/>
 <booleanAttribute key="default" value="false"/>
 <booleanAttribute key="includeOptional" value="true"/>
 <stringAttribute key="location" value="${workspace_loc}/../runtime-uk.ac.gda.beamline.i16.product"/>
