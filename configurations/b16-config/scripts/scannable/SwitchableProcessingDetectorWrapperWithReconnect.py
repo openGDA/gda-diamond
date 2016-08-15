@@ -44,11 +44,10 @@ class SwitchableProcessingDetectorWrapperWithReconnect(SwitchableHardwareTrigger
         self.caClient.configure()
         self.reconnectTimeout = 10
 
-    def atPointStart(self):
+    def prepareForAcquisition(self, time):
+        SwitchableHardwareTriggerableProcessingDetectorWrapper.prepareForAcquisition(self, time)
         self.caClient.caput(self.reconnectTimeout, 1)
-        SwitchableHardwareTriggerableProcessingDetectorWrapper.atPointStart(self)
-        pass
 
-    def acquire(self):
+    def atScanStart(self):
+        SwitchableHardwareTriggerableProcessingDetectorWrapper.atScanStart(self)
         self.caClient.caput(self.reconnectTimeout, 1)
-        SwitchableHardwareTriggerableProcessingDetectorWrapper.acquire(self)

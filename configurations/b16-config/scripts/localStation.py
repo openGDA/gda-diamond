@@ -343,36 +343,14 @@ else:
 
 
 if installation.isLive():
-	print "Installing atto devices from epics BL16B-EA-ATTO..."
-
-	from scannable.epics.anc150axis import createAnc150Axis
-
+	print "Installing atto devices from epics BL16B-EA-ECC..."
 	try:
-		attorot1  = createAnc150Axis("attorot1",  "BL16B-EA-ATTO-03:PIEZO3:", 0.25)
-		attorot2  = createAnc150Axis("attorot2",  "BL16B-EA-ATTO-04:PIEZO3:", 0.25)
-		attotilt1 = createAnc150Axis("attotilt1", "BL16B-EA-ATTO-01:PIEZO1:", 0.25)
-		attotilt2 = createAnc150Axis("attotilt2", "BL16B-EA-ATTO-02:PIEZO1:", 0.25)
-		attox1    = createAnc150Axis("attox1",    "BL16B-EA-ATTO-01:PIEZO2:", 0.25)
-		attox2    = createAnc150Axis("attox2",    "BL16B-EA-ATTO-02:PIEZO2:", 0.25)
-		attox3    = createAnc150Axis("attox3",    "BL16B-EA-ATTO-03:PIEZO1:", 0.25)
-		attoz1    = createAnc150Axis("attoz1",    "BL16B-EA-ATTO-03:PIEZO2:", 0.25)
-		attoz2    = createAnc150Axis("attoz2",    "BL16B-EA-ATTO-04:PIEZO2:", 0.25)
-		attoy1    = createAnc150Axis("attoy1",    "BL16B-EA-ATTO-01:PIEZO3:", 0.25)
-		attoy2    = createAnc150Axis("attoy2",    "BL16B-EA-ATTO-02:PIEZO3:", 0.25)
-
-		attorot1.setFrequency(625)
-		attorot2.setFrequency(625)
-		attotilt1.setFrequency(1000)
-		attotilt2.setFrequency(1000)
-		attox1.setFrequency(1000)
-		attox2.setFrequency(1000)
-		attox3.setFrequency(1000)
-		attoz1.setFrequency(1000)
-		attoz2.setFrequency(1000)
-		attoy1.setFrequency(2000)
-		attoy2.setFrequency(2000)
+		from scannable.epics.ecc100axis import createEcc100Axis
+		attol1 = createEcc100Axis("attol1", "BL16B-EA-ECC-03:ACT0:")
+		attol2 = createEcc100Axis("attol2", "BL16B-EA-ECC-03:ACT1:")
+		attol3 = createEcc100Axis("attol3", "BL16B-EA-ECC-03:ACT2:")
 	except:
-		print "* Failed to initialise atto devices *"
+		print "Could not initialise attocube devices"
 else:
 	print "* Not installing atto devices (as not live installation) *"
 
@@ -591,7 +569,7 @@ if installation.isLive():
 	print "-------------------------------PSL INIT---------------------------------------"
 	try:
 
-		PSL_AUTO_RECONNECT = True
+		PSL_AUTO_RECONNECT = False
 		if not PSL_AUTO_RECONNECT:
 			psl = SwitchableHardwareTriggerableProcessingDetectorWrapper('psl',
 			                                                             _psl,
@@ -682,7 +660,7 @@ hkl.setLevel(5) #@UndefinedVariable
 ###                          IPP image processor                            ###
 ###############################################################################
 if not installation.isLive():
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Detector Plot', panel_name_rcp="Plot 1")
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Data Vector', panel_name_rcp="Plot 1")
 	#setIPPWrapperDir( '/scratch/ws/trunk/plugins/uk.ac.gda.core/scripts/gdascripts/scannable/detector/dummy/focused_beam_dataset//') #@UndefinedVariable
 	ipp.returnPathAsImageNumberOnly = True
 	def emulateSlowFileSystem(makeSlow = True):
@@ -697,8 +675,8 @@ if not installation.isLive():
 			print "*Not* emulating file system for ipp"
 
 else:
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Detector Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
-	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], panel_name='Detector Plot', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
@@ -772,6 +750,21 @@ if installation.isLive() and ENABLE_PCOEDGE:
 	pcoedgepeak2d = DetectorDataProcessorWithRoi('peak2d', pcoedge, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
 	pcoedgemax2d = DetectorDataProcessorWithRoi('max2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
 	pcoedgeintensity2d = DetectorDataProcessorWithRoi('intensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
+
+	pcoedge_multi = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'pcoedge_multi',
+		_pcoedge_multi,  # @UndefinedVariable
+		None,
+		_pcoedge_for_snaps,  # @UndefinedVariable
+		[],
+		panel_name='Detector Plot',
+		panel_name_rcp='Plot 1',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	pcoedge_multi_peak2d = DetectorDataProcessorWithRoi('peak2d', pcoedge_multi, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	pcoedge_multi_max2d = DetectorDataProcessorWithRoi('max2d', pcoedge_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pcoedge_multi_intensity2d = DetectorDataProcessorWithRoi('intensity2d', pcoedge_multi, [PixelIntensity()],prefix_name_to_extranames=False)
 
 
 if installation.isLive() and ENABLE_PCO4000:
@@ -1024,12 +1017,80 @@ from scannable.hw.caenhvsupply import CaenHvSupply
 caen0 = CaenHvSupply('caen0', 'BL16B-EA-CAEN-01:', 0)
 caen1 = CaenHvSupply('caen1', 'BL16B-EA-CAEN-01:', 1)
 
+xmapRoiPlot1 = gda.device.scannable.TwoDScanPlotter()
+xmapRoiPlot1.name = "xmapRoiPlot1"
+xmapRoiPlot1.setPlotViewname("Plot 1")
+xmapRoiPlot1.z_colName = "Roi1"
+xmapRoiPlot2 = gda.device.scannable.TwoDScanPlotter()
+xmapRoiPlot2.name = "xmapRoiPlot2"
+xmapRoiPlot2.setPlotViewname("Plot 2")
+xmapRoiPlot2.z_colName = "Roi2"
+xmapRoiPlot3 = gda.device.scannable.TwoDScanPlotter()
+xmapRoiPlot3.name = "xmapRoiPlot3"
+xmapRoiPlot3.setPlotViewname("Plot 3")
+xmapRoiPlot3.z_colName = "Roi3"
+xmapRoiPlot4 = gda.device.scannable.TwoDScanPlotter()
+xmapRoiPlot4.name = "xmapRoiPlot4"
+xmapRoiPlot4.setPlotViewname("Plot 4")
+xmapRoiPlot4.z_colName = "Roi4"
+xmapRoiPlot5 = gda.device.scannable.TwoDScanPlotter()
+xmapRoiPlot5.name = "xmapRoiPlot5"
+xmapRoiPlot5.setPlotViewname("Plot 5")
+xmapRoiPlot5.z_colName = "Roi5"
+xmapRoiPlot6 = gda.device.scannable.TwoDScanPlotter()
+xmapRoiPlot6.name = "xmapRoiPlot6"
+xmapRoiPlot6.setPlotViewname("Plot 6")
+xmapRoiPlot6.z_colName = "Roi6"
+
+#ensure xmapMca settings are correct (no epics screen) - one off
+try:
+	caput("BL16B-EA-DET-05:CollectMode", 0) #MCA Spectra
+	caput("BL16B-EA-DET-05:PresetMode", 1) #Real mode
+	caput("BL16B-EA-DET-05:MCA1.NUSE", 2048) #binning
+	caput("BL16B-EA-DET-05:DXP1:MaxEnergy", 20.48)
+	caput("BL16B-EA-DET-05:DXP2:MaxEnergy", 20.48)
+	caput("BL16B-EA-DET-05:DXP3:MaxEnergy", 20.48)
+	caput("BL16B-EA-DET-05:DXP4:MaxEnergy", 20.48)
+except:
+	print "WARNING: Could not ensure xmapMca settings are correct"
+
+#Configure scan interrupters
+from scannable.scan_stopper import ScanStopper, ThresholdInterrupt
+ai2thresh = ThresholdInterrupt(ai2, 0.02)
+#ai2thresh.threshold = newThreshold
+ai2stop = ScanStopper('ai2stop', ai2thresh)
+
 #print "*" * 80
 #print "mt8886-2: Writing NeXus files and medpix to return images only"
 #print "*" * 80
 #
 #medipix.returnPathAsImageNumberOnly = True
 #LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+
+#Linkam temp controller
+run("linkam.py")
+lkts1500 = Linkam("lkts1500", "BL16B-EA-TEMPC-01:")
+
+run('pd_LS340control.py')
+tset = EpicsLScontrol('tset','BL16B-EA-LS340-01:','K','%5.2f','0','1')
+
+from gda.device.scannable import EpicsScannable
+Tc = EpicsScannable()
+Tc.name = 'Tc'
+Tc.pvName = 'BL16B-EA-LS340-01:KRDG2'
+Tc.userUnits = 'K'
+Tc.extraNames = ['Tc']
+Tc.outputFormat = ['%6f']
+Tc.configure()
+Td = EpicsScannable()
+Td.name = 'Td'
+Td.extraNames = ['Td']
+Td.pvName = 'BL16B-EA-LS340-01:KRDG3'
+Td.userUnits = 'K'
+Td.outputFormat = ['%6f']
+Td.configure()
+
+
 print "Done!"
 from epics_scripts.device.scannable.pvscannables_with_logic import PVWithSeparateReadbackAndToleranceScannable
 furnace = PVWithSeparateReadbackAndToleranceScannable('furnace', pv_set='BL16B-EA-TEMPC-01:RAMP:LIMIT:SET', pv_read='BL16B-EA-TEMPC-01:TEMP', timeout=36000, tolerance = .1)

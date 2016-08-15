@@ -51,6 +51,8 @@
 	<import resource="epics/motor/test2.xml" />
 	<import resource="epics/motor/test3.xml" />
 	<import resource="epics/motor/aerotech_piezo.xml" />
+	<import resource="epics/motor/granite_table.xml" />
+	<import resource="epics/motor/micro_tomo.xml" />
 
 	<import resource="../common/scannable/motors.xml" />
 
@@ -74,6 +76,7 @@
 	<import resource="epics/detector/pcoedge.xml" />
 	<import resource="epics/detector/pco4000.xml" />
 
+	<!--<import resource="epics/detector/xmap_new.xml" />--><!-- transient -->
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="10000" />

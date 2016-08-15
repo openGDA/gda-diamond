@@ -104,6 +104,22 @@
                </parameter>
             </command>
          </menu>
+         <menu
+               label="Fluorescence detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XMap"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="xmapFluorescenceDetector">
+               </parameter>
+            </command>
+         </menu>
       </menuContribution>
    </extension>
    <extension
@@ -111,5 +127,14 @@
       <defaultEnablement
             id="uk.ac.gda.epics.adviewer.disableviews">
       </defaultEnablement>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
+            id="uk.ac.gda.beamline.b16.FluorescenceDetector"
+            name="Xmap Fluorescence Detector"
+            restorable="true">
+      </view>
    </extension>
 </plugin>
