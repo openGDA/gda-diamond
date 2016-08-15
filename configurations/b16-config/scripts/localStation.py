@@ -1020,21 +1020,27 @@ caen1 = CaenHvSupply('caen1', 'BL16B-EA-CAEN-01:', 1)
 xmapRoiPlot1 = gda.device.scannable.TwoDScanPlotter()
 xmapRoiPlot1.name = "xmapRoiPlot1"
 xmapRoiPlot1.setPlotViewname("Plot 1")
+xmapRoiPlot1.z_colName = "Roi1"
 xmapRoiPlot2 = gda.device.scannable.TwoDScanPlotter()
 xmapRoiPlot2.name = "xmapRoiPlot2"
 xmapRoiPlot2.setPlotViewname("Plot 2")
+xmapRoiPlot2.z_colName = "Roi2"
 xmapRoiPlot3 = gda.device.scannable.TwoDScanPlotter()
 xmapRoiPlot3.name = "xmapRoiPlot3"
 xmapRoiPlot3.setPlotViewname("Plot 3")
+xmapRoiPlot3.z_colName = "Roi3"
 xmapRoiPlot4 = gda.device.scannable.TwoDScanPlotter()
 xmapRoiPlot4.name = "xmapRoiPlot4"
 xmapRoiPlot4.setPlotViewname("Plot 4")
+xmapRoiPlot4.z_colName = "Roi4"
 xmapRoiPlot5 = gda.device.scannable.TwoDScanPlotter()
 xmapRoiPlot5.name = "xmapRoiPlot5"
 xmapRoiPlot5.setPlotViewname("Plot 5")
+xmapRoiPlot5.z_colName = "Roi5"
 xmapRoiPlot6 = gda.device.scannable.TwoDScanPlotter()
 xmapRoiPlot6.name = "xmapRoiPlot6"
 xmapRoiPlot6.setPlotViewname("Plot 6")
+xmapRoiPlot6.z_colName = "Roi6"
 
 #ensure xmapMca settings are correct (no epics screen) - one off
 try:
