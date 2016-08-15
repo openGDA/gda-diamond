@@ -26,15 +26,6 @@
 		</property>
 	</bean>
 
-	<bean id="d3_return_temp" class="gda.device.scannable.SimpleScannable">
-		<property name="name" value="d3_return_temp"/>
-		<property name="currentPosition">
-			<bean class="java.lang.Double">
-				<constructor-arg value="20.9" />
-			</bean>
-		</property>
-	</bean> 
-
 	<bean id="d3_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
 
 	<bean id="d3_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">

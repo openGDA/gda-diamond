@@ -37,7 +37,6 @@
 			<list>
 				<ref bean="d3_cam" />
 				<ref bean="d3_pos" />
-				<ref bean="d3_return_temp" />
 				<ref bean="d3_window_temp" />
 			</list>
 		</property>
