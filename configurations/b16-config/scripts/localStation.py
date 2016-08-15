@@ -1046,6 +1046,10 @@ ai2stop = ScanStopper('ai2stop', ai2thresh)
 #medipix.returnPathAsImageNumberOnly = True
 #LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 
+#Linkam temp controller
+run("linkam.py")
+lkts1500 = Linkam("lkts1500", "BL16B-EA-TEMPC-01:")
+
 run('pd_LS340control.py')
 tset = EpicsLScontrol('tset','BL16B-EA-LS340-01:','K','%5.2f','0','1')
 
