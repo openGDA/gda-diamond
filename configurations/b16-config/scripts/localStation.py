@@ -1045,6 +1045,27 @@ ai2stop = ScanStopper('ai2stop', ai2thresh)
 #
 #medipix.returnPathAsImageNumberOnly = True
 #LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+
+run('pd_LS340control.py')
+tset = EpicsLScontrol('tset','BL16B-EA-LS340-01:','K','%5.2f','0','1')
+
+from gda.device.scannable import EpicsScannable
+Tc = EpicsScannable()
+Tc.name = 'Tc'
+Tc.pvName = 'BL16B-EA-LS340-01:KRDG2'
+Tc.userUnits = 'K'
+Tc.extraNames = ['Tc']
+Tc.outputFormat = ['%6f']
+Tc.configure()
+Td = EpicsScannable()
+Td.name = 'Td'
+Td.extraNames = ['Td']
+Td.pvName = 'BL16B-EA-LS340-01:KRDG3'
+Td.userUnits = 'K'
+Td.outputFormat = ['%6f']
+Td.configure()
+
+
 print "Done!"
 from epics_scripts.device.scannable.pvscannables_with_logic import PVWithSeparateReadbackAndToleranceScannable
 furnace = PVWithSeparateReadbackAndToleranceScannable('furnace', pv_set='BL16B-EA-TEMPC-01:RAMP:LIMIT:SET', pv_read='BL16B-EA-TEMPC-01:TEMP', timeout=36000, tolerance = .1)
