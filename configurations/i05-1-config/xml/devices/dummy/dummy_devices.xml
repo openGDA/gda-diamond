@@ -6,6 +6,7 @@
 
 	<!-- electron analyser -->
 	<import resource="analyser.xml" />
+	<import resource="analyser_cam_only.xml" />
 	<import resource="scientaslit.xml" />
 
 	<!-- sample environment -->
