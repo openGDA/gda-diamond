@@ -4,6 +4,7 @@ from gda.device.scannable.scannablegroup import ScannableGroup,\
 from gdascripts.scannable.dummy import SingleInputDummy
 from scisoftpy.external import create_function
 import scisoftpy.external
+from tripod_class import tripod_class
 reload(scisoftpy.external)
 
 
@@ -11,7 +12,16 @@ GDA_EXTERNAL_PATH = "/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configura
 
 print "Importing scannable.tripod. This calls the python code: '%s/tripod.p'y" % GDA_EXTERNAL_PATH
 
-tool_to_base = create_function("tool_to_base",
+
+def tool_to_base(tp, x, y, z, a1, a2, a3):
+    _r = tp.cbase( (x, y, z), (a1, a2, a3) )
+    return _r[0].tolist() + _r[1].tolist()
+
+def base_to_tool(tp, x1, x2, x3, y1, y2, y3):
+    _r = tp.ctool( (x1, x2, x3), (y1, y2, y3) )
+    return _r[0].tolist() + _r[1].tolist()
+
+tool_to_base_old = create_function("tool_to_base",
                                module="tripod",
                                extra_path=[GDA_EXTERNAL_PATH],
                                dls_module="python/ana") # scipy")  # SEE SCI-1795
@@ -21,7 +31,7 @@ tool_to_base = create_function("tool_to_base",
 """
 
 
-base_to_tool = create_function("base_to_tool",
+base_to_tool_old = create_function("base_to_tool",
                                module="tripod",
                                extra_path=[GDA_EXTERNAL_PATH],
                                dls_module="python/ana") # scipy")  # SEE SCI-1795
@@ -49,11 +59,17 @@ class TripodToolBase(ScannableMotionWithScannableFieldsBase):
         self.prepend_name_to_output_fields = prepend_name_to_output_fields
         self.geom = {'l':l, 't':t, 'psi':psi, 'c':c, 'theta':theta, 'BX':BX, 'BY':BY}
         
+        self.tp = tripod_class(l, t, psi, c, theta, BX, BY)
         self.autoCompletePartialMoveToTargets=True  # inherited property
         self.usePositionAtScanStartWhenCompletingPartialMoves=True  # inherited property
+
+        self.use_old = False
     
     def rawAsynchronousMoveTo(self, tool_position):
-        base_position = list(tool_to_base(*tool_position, **self.geom))
+        if self.use_old:
+            base_position = list(tool_to_base_old(*tool_position, **self.geom))
+        else:
+            base_position = list(tool_to_base(self.tp, *tool_position))
         if self.print_base_target:
             lines = []
             lines.append(self.tripod_base_scannable_group.name + "-->")
@@ -65,8 +81,11 @@ class TripodToolBase(ScannableMotionWithScannableFieldsBase):
         
     def rawGetPosition(self):
         base_position = list(self.tripod_base_scannable_group.getPosition())
-        tool_position = list(base_to_tool(*base_position, **self.geom))
-        return tool_position  # + base_position
+        if self.use_old:
+            tool_position = list(base_to_tool_old(*base_position, **self.geom))
+            return tool_position  # + base_position
+        tool_position = base_to_tool(self.tp, *base_position)
+        return tool_position
         
     def waitWhileBusy(self):
         self.tripod_base_scannable_group.waitWhileBusy()

@@ -265,7 +265,7 @@ kbbhd=kbt1
 kbbhu=kbt2
 kbbvu=kbt5
 kbbvd=kbt6
-
+a1=SingleEpicsPositionerClass('a1','BL16I-OP-ATTN-02:POSN.VAL','BL16I-OP-ATTN-02:POSN.RBV','BL16I-OP-ATTN-02:POSN.DMOV','BL16I-OP-ATTN-02:POSN.STOP','mm','%.2f') #added 08/02/2016
 a1x=SingleEpicsPositionerSetAndGetOnlyClass('a1x','BL16I-EA-ANC-01:M3:POS','BL16I-EA-ANC-01:M3:POS','V','%5.2f',help='Attocube 1 x')
 
 x2posneg=epics_binary_pos_neg('x2_ttl_posneg','BL16I-EA-USER-01:BO2','BL16I-EA-USER-01:BO2','logical','%.0f',help='TTL out socket x2 in posneg mode')

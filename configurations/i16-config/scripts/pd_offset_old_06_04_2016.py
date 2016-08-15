@@ -1,5 +1,3 @@
-# modified with optional warnings 6/4/16; previous file saved separately with date
-
 from gda.util.persistence import LocalJythonShelfManager
 from gda.device.scannable import PseudoDevice
 
@@ -9,14 +7,12 @@ import installation
 # Offset scannables save and load single values to persistant storage.
 # Note 
 class Offset(PseudoDevice):
+	'''Offset scannables save and load single values to persistant storage.
+	
 	'''
-	Offset scannables save and load single values to persistant storage.
-	use warningIfChangeGreaterThan keyword to specify the largest allowed change without a warning
-	'''
-	def __init__(self,name, scannableToOffset=None, warningIfChangeGreaterThan=None):
+	def __init__(self,name, scannableToOffset=None):
 		self.setName(name)
 		self.setInputNames([name])
-		self.warn=warningIfChangeGreaterThan
 		# <old shelf>
 		self.offsetShelf=ShelveIO.ShelveIO()
 		self.offsetShelf.path=ShelveIO.ShelvePath+'offset'
@@ -36,14 +32,6 @@ class Offset(PseudoDevice):
 		self.scannableToOffset.setOffset(float(toset) if toset else None)
 
 	def asynchronousMoveTo(self,position):
-		try:
-			oldposition=self.getPosition()
-			if not self.warn==None:
-				if abs(position-oldposition)>self.warn:
-					print "=== xxx === WARNING: YOU HAVE MADE A LARGER-THAN-EXPECTED CHANGE TO %s\n=== xxx === Old value: %g\n=== xxx === New value: %g" % (self.getName(), oldposition, position)
-		except:
-			print "=== There was a problem checking the previous value of this offset\n=== This is OK if it is a new device"
-
 		self.label=1
 		# <old shelf >
 #		try:
