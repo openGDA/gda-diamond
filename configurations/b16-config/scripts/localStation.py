@@ -569,7 +569,7 @@ if installation.isLive():
 	print "-------------------------------PSL INIT---------------------------------------"
 	try:
 
-		PSL_AUTO_RECONNECT = True
+		PSL_AUTO_RECONNECT = False
 		if not PSL_AUTO_RECONNECT:
 			psl = SwitchableHardwareTriggerableProcessingDetectorWrapper('psl',
 			                                                             _psl,
