@@ -751,6 +751,21 @@ if installation.isLive() and ENABLE_PCOEDGE:
 	pcoedgemax2d = DetectorDataProcessorWithRoi('max2d', pcoedge, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
 	pcoedgeintensity2d = DetectorDataProcessorWithRoi('intensity2d', pcoedge, [PixelIntensity()],prefix_name_to_extranames=False)
 
+	pcoedge_multi = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+		'pcoedge_multi',
+		_pcoedge_multi,  # @UndefinedVariable
+		None,
+		_pcoedge_for_snaps,  # @UndefinedVariable
+		[],
+		panel_name='Detector Plot',
+		panel_name_rcp='Plot 1',
+		returnPathAsImageNumberOnly=True,
+		fileLoadTimout=60)
+
+	pcoedge_multi_peak2d = DetectorDataProcessorWithRoi('peak2d', pcoedge_multi, [TwodGaussianPeak()],prefix_name_to_extranames=True) # modified to work with bimorph script
+	pcoedge_multi_max2d = DetectorDataProcessorWithRoi('max2d', pcoedge_multi, [SumMaxPositionAndValue()],prefix_name_to_extranames=False)
+	pcoedge_multi_intensity2d = DetectorDataProcessorWithRoi('intensity2d', pcoedge_multi, [PixelIntensity()],prefix_name_to_extranames=False)
+
 
 if installation.isLive() and ENABLE_PCO4000:
 
