@@ -68,6 +68,11 @@
 		<property name="useNameAsExtraName" value="true" />
 		<property name="local" value="true" />
 	</bean>
+	
+	<!-- PGM Grating Select -->
+	<bean id="pgm_grating" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL05I-OP-PGM-01:GRATINGSELECT" />
+	</bean>
 
 	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -79,6 +84,7 @@
 				<ref bean="pgm_gpitch" />
 				<ref bean="pgm_gtrans" />
 				<ref bean="pgm_linedensity" />
+				<ref bean="pgm_grating" />
 			</list>
 		</property>
 		<property name="local" value="true" />
