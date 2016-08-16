@@ -92,11 +92,67 @@
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView"
             name="PCO MPeg">
-      </view>                       
+      </view>
+      		                    
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d1//BL13I-DI-PHDGN-01@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d2//BL13I-DI-PHDGN-02@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d3//BL13I-DI-PHDGN-03@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d4//BL13I-DI-PHDGN-04@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d5//BL13I-DI-PHDGN-05@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 1//BL13I-OP-FLOAT-01@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 2//BL13I-OP-FLOAT-02@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 3//BL13I-OP-FLOAT-03@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+
    </extension>
-   
-
-
    
    <extension
          point="org.eclipse.ui.perspectives">
@@ -161,11 +217,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//d1//BL13I-DI-PHDGN-01@">
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d1//BL13I-DI-PHDGN-01@">
             </parameter>
          </command>
          <command
@@ -174,11 +226,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//d3//BL13I-DI-PHDGN-02@">
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d2//BL13I-DI-PHDGN-02@">
             </parameter>
          </command>
          <command
@@ -187,11 +235,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//d3//BL13I-DI-PHDGN-03@">
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d3//BL13I-DI-PHDGN-03@">
             </parameter>
          </command>
          <command
@@ -200,11 +244,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//d4//BL13I-DI-PHDGN-04@">
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d4//BL13I-DI-PHDGN-04@">
             </parameter>
          </command>
          <command
@@ -213,11 +253,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//d5//BL13I-DI-PHDGN-05@">
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d5//BL13I-DI-PHDGN-05@">
             </parameter>
          </command>
          <command
@@ -226,11 +262,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//Float 1//BL13I-OP-FLOAT-01@">
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//Float 1//BL13I-OP-FLOAT-01@">
             </parameter>
          </command>
          <command
@@ -239,11 +271,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//Float 2//BL13I-OP-FLOAT-02@">
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//Float 2//BL13I-OP-FLOAT-02@">
             </parameter>
          </command>
          <command
@@ -252,11 +280,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.epics.adviewer.mpegview">
-            </parameter>
-            <parameter
-                  name="org.eclipse.ui.views.showView.secondaryId"
-                  value="pv//Float 3//BL13I-OP-FLOAT-03@">
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//Float 3//BL13I-OP-FLOAT-03@">
             </parameter>
          </command>
       </menu>
