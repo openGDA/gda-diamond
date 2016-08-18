@@ -31,10 +31,6 @@
 		<level value="INFO" />
 	</logger>
 
-	<logger name="gda.device.corba.impl">
-		<level value="INFO" />
-	</logger>
-
 	<logger name="gda.device.detector.areadetector">
 		<level value="ALL" />
 	</logger>
