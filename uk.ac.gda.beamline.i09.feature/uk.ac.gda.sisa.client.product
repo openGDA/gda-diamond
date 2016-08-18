@@ -38,10 +38,9 @@ http://www.opengda.org
 -Dpython.cachedir=~/python.cachedir
 -Djava.net.preferIPv4Stack=true
 -Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/${target.arch}/usr/lib64/xulrunner-1.9.2/
--Xms128m 
--Xmx1024m
--XX:PermSize=128m 
--XX:MaxPermSize=512m</vmArgs>
+-Xms1g 
+-Xmx4g
+      </vmArgs>
       <vmArgsLin>-client
 -Xms128m
 -Xmx1024m
@@ -51,12 +50,15 @@ http://www.opengda.org
 -XX:+DisableExplicitGC
 -XX:+UseGCOverheadLimit
 -XX:+UseParallelGC
--XX:ParallelGCThreads=8</vmArgsLin>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:ParallelGCThreads=8
+      </vmArgsLin>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
       <vmArgsWin>-Xms512m
 -Xmx1024m
 -XX:PermSize=182m 
--XX:MaxPermSize=786m</vmArgsWin>
+-XX:MaxPermSize=786m
+      </vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
