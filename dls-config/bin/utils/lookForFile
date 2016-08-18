@@ -43,6 +43,12 @@ while true; do
   fi
   if [ -r $OBJECT_SERVER_STARTUP_FILE ]; then
     printf "\n%30s: Found          %s\n" "$HOSTNAME" "$OBJECT_SERVER_STARTUP_FILE"
+    read it < <(cat $OBJECT_SERVER_STARTUP_FILE)
+    if [[ ${#it} > 0 ]]; then
+        echo -e "\n$it\n"
+        echo GDA Server failed to start
+        exit 1
+    fi
     exit 0
   fi
 
