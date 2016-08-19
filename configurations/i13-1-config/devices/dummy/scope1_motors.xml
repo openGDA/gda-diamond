@@ -41,6 +41,9 @@
 				<value>Position 2</value>
 				<value>Position 3</value>
 				<value>Position 4</value>
+				<value>Position 5</value>
+				<value>Position 6</value>
+				<value>Position 7</value>
 			</list>
 		</property>
 	</bean>
