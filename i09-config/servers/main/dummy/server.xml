@@ -42,6 +42,7 @@
 	<import resource="HS4.xml" />
 	<import resource="HM1.xml" />
 	<import resource="HM2.xml" />
+	<import resource="Lakeshore.xml"/>
 	<import resource="MachineStatus.xml"/>
 	<import resource="PGM.xml" />
 	<import resource="RFDMotors.xml"/>
