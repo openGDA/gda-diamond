@@ -24,10 +24,10 @@ CORE_SCRIPTS="$MY_WORKSPACE_PARENT/workspace_git/gda-core.git/core-config/bin"
 #
 source "$CORE_SCRIPTS/gda_server_target_select.sh"
 
-# start the log panel
-gda --start logpanel
-
 # invoke the remote startup script from the control machine passing through the composite args
 #
 #
 gda $operation servers $ARGS
+
+# start the log panel
+gda --start logpanel
