@@ -114,7 +114,10 @@ except gda.factory.FactoryException, e:
 
 # Aliases for ion chamber objects
 ic1 = ionc_i
-ic1_rate = ionc_photonflux 
+ic1_rate = ionc_photonflux
+
+# Define lens as identical to scope1_turret so we can use the same scripts as on Imaging
+lens = scope1_turret
 
 import gdascripts.scannable.beamokay
 beamok = gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)

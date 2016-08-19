@@ -86,7 +86,7 @@
 	<import resource="../../../devices/_common/sample_stage_camera.xml" />
 	<import resource="../../../devices/_common/s7.xml" />
 
-	<!-- <import resource="../../../devices/_common/scope1.xml" /> -->
+	<import resource="../../../devices/_common/scope1.xml" />
 
 	<!--  dummy motors for testing tomoscan  -->
 	<import resource="../../../devices/_common/tomoscan_dummies.xml" />
@@ -96,7 +96,6 @@
 <!-- Not present: -->
 <!-- 	<import resource="../../../devices/_common/s3.xml" />
 	<import resource="../../../devices/_common/diff1.xml" />
-	<import resource="../../../devices/_common/scope1.xml" />
 	<import resource="../../../devices/_common/t1.xml" />
 	<import resource="../../../devices/_common/z1.xml" /> 
  -->

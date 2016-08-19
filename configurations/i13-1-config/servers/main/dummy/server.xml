@@ -95,6 +95,7 @@
 	<import resource="../../../devices/dummy/float3.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
+	<import resource="../../../devices/dummy/scope1_motors.xml"/>
 
 	<!-- Include the following lines to run with simulated area detector -->
 <!--     <import resource="../../../devices/dummy/adSimulator.xml"/>

@@ -7,16 +7,24 @@
 		<property name="deviceName" value="scope1.x" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="scope1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="scope1.y" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="scope1_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="scope1.z" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="scope1_yraw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="scope1.yraw" />
+
+	<bean id="scope1_focus_rot_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-OP-SCOPE-01:ROT"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="scope1_focus_translation_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-OP-SCOPE-01:FOCUS"/>
 		<property name="local" value="true" />
 	</bean>
 
