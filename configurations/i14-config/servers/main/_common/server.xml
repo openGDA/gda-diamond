@@ -46,6 +46,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d4.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d5.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d6.xml" />
 	
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
@@ -74,6 +75,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/d3.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d4.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d5.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/d6.xml" />
 
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
