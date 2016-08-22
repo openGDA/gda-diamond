@@ -25,6 +25,8 @@ from gda.util import OSCommandRunner
 from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
 from gda.data.scan.datawriter import *
 from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
+from org.eclipse.january.dataset import DatasetUtils
+from org.eclipse.january.dataset import Dataset
 
 from gda.commandqueue import JythonScriptProgressProvider
 from gda.commandqueue import JythonCommandCommandProvider
@@ -325,9 +327,11 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
                 raise "Unable to find data in file"
 
             dataset = nxdata.getDataset();
-            dark = getSingleImage(dataset, 0)
-            flat = getSingleImage(dataset, imagesPerDark)
-            image = getSingleImage(dataset, imagesPerDark + imagesPerFlat)
+
+            # Convert images to floating point for manipulation
+            dark = DatasetUtils.copy(getSingleImage(dataset, 0), Dataset.FLOAT64)
+            flat = DatasetUtils.copy(getSingleImage(dataset, imagesPerDark), Dataset.FLOAT64)
+            image = DatasetUtils.copy(getSingleImage(dataset, imagesPerDark + imagesPerFlat), Dataset.FLOAT64)
             found = True
 
         except:
