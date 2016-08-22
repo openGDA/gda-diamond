@@ -128,26 +128,29 @@
 		class="org.opengda.detector.electronanalyser.client.viewfactories.SpectrumViewFactory">
 		<property name="viewPartName" value="Spectrum" />
 		<property name="analyser" ref="analyser" />
-		<property name="arrayPV" value="BL09I-EA-DET-01:CAM:INT_SPECTRUM"/>
+		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/>
+		<property name="updatesPerSecond" value="10" />
 	</bean>
 
 	<bean id="imageviewfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.ImageViewFactory">
 		<property name="viewPartName" value="Image" />
 		<property name="analyser" ref="analyser" />
-		<property name="arrayPV" value="BL09I-EA-DET-01:CAM:IMAGE"/>
+		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/>
+		<property name="updatesPerSecond" value="3" />
 	</bean>
+
 <!-- 	<bean id="externalioviewfactory" -->
 <!-- 		class="org.opengda.detector.electronanalyser.client.viewfactories.ExternalIOViewFactory"> -->
 <!-- 		<property name="viewPartName" value="External IO" /> -->
 <!-- 		<property name="analyser" ref="analyser" /> -->
-<!-- 		<property name="arrayPV" value="BL09I-EA-DET-01:CAM:EXTIO"/> -->
+<!-- 		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/> -->
 <!-- 	</bean> -->
 <!-- 	<bean id="slicesviewfactory" -->
 <!-- 		class="org.opengda.detector.electronanalyser.client.viewfactories.SlicesViewFactory"> -->
 <!-- 		<property name="viewPartName" value="Slices" /> -->
 <!-- 		<property name="analyser" ref="analyser" /> -->
-<!-- 		<property name="arrayPV" value="BL09I-EA-DET-01:CAM:IMAGE"/> -->
+<!-- 		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/> -->
 <!-- 	</bean> -->
 	<bean id="progressviewfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.ProgressViewFactory">
