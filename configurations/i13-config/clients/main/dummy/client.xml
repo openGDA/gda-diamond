@@ -5,6 +5,7 @@
 
 
 	<!-- Include the following lines to run with simulated area detector -->
+	<!-- NB. Corresponding changes must be made in the dummy server.xml -->
 <!--     <import resource="../../../devices/dummy/adSimulator.xml"/>
     <import resource="../../../devices/dummy/pco1_ndplugins_sim.xml"/> -->
 
