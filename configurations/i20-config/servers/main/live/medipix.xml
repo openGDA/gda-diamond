@@ -68,10 +68,14 @@
 		<property name="merlinController" ref="medipix" />
 	</bean>
 
-	<bean id="medipix_plotserver_roi_provider"
-		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-		<constructor-arg value="medipix" />
-		<constructor-arg value="1" />
+	<bean id="plotserver_roi_provider" class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+		<constructor-arg>
+			<bean class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+				<constructor-arg value="medipix" />
+				<constructor-arg value="1" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="0" />
 	</bean>
 
 	<bean id="medipix_roistat_pair1"
@@ -82,13 +86,7 @@
 		<property name="roiInputNdArrayPort" value="MPX1.DET" />
 		<property name="enabledBasicStats" value="MaxValue,Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean
-				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="medipix_plotserver_roi_provider" />
-				<constructor-arg value="0" />
-			</bean>
-		</property>
+		<property name="roiProvider" ref="plotserver_roi_provider" />
 	</bean>
 
 	<!--  New plugin added to calculation roi counts over I0 from ionchambers. imh 4/2/2015 -->

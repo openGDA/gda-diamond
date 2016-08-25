@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.device.Detector;
 import gda.device.DeviceException;
@@ -55,13 +56,13 @@ public class I20OutputPreparerTest {
 	private Xmap xmpaMca;
 	private I20DetectorPreparer i20DetectorPreparer;
 	private I20OutputPreparer thePreparer;
-//	private NXMetaDataProvider metashop;
+	private NXMetaDataProvider metashop;
 
 	@Before
 	public void setup() {
 
 //		// mock the metashop and add it to the Finder. Yuck, but then we can see calls to it.
-//		metashop = Mockito.mock(NXMetaDataProvider.class);
+		metashop = Mockito.mock(NXMetaDataProvider.class);
 //		Mockito.when(metashop.getName()).thenReturn("metashop");
 //		ObjectFactory factory = new ObjectFactory();
 //		factory.addFindable(metashop);
@@ -81,7 +82,7 @@ public class I20OutputPreparerTest {
 		detList.add(xmpaMca);
 		Mockito.when(i20DetectorPreparer.getDetectors()).thenReturn(detList);
 
-		thePreparer = new I20OutputPreparer(datawriterconfig, datawriterconfig_xes, ionchambers, xspressSystem,
+		thePreparer = new I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xspressSystem,
 				xmpaMca, i20DetectorPreparer);
 		thePreparer.setDatawriterconfig(datawriterconfig);
 

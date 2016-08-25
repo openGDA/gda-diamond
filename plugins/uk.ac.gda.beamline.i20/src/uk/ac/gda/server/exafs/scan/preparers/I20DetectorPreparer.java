@@ -17,14 +17,28 @@
  */
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.detector.NXDetector;
+import gda.device.detector.addetector.triggering.SimpleAcquire;
+import gda.device.detector.areadetector.v17.impl.ADBaseImpl;
+import gda.device.detector.areadetector.v18.NDStatsPVs.BasicStat;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.nxdetector.NXPluginBase;
+import gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPair;
+import gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory;
+import gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI;
+import gda.device.detector.nxdetector.roi.RectangularROI;
+import gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.TopupChecker;
@@ -41,9 +55,13 @@ import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
+import uk.ac.gda.beans.exafs.i20.MedipixParameters;
+import uk.ac.gda.beans.exafs.i20.ROIRegion;
 import uk.ac.gda.server.exafs.scan.DetectorPreparer;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class I20DetectorPreparer implements DetectorPreparer {
+	private static final Logger logger = LoggerFactory.getLogger(I20DetectorPreparer.class);
 
 	private Xspress2Detector xspress2system;
 	private Scannable[] sensitivities;
@@ -53,13 +71,15 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private TfgScalerWithFrames ionchambers;
 	private TfgScalerWithFrames i1;
 	private Xmap vortex;
+	private NXDetector medipix;
 	private TopupChecker topupChecker;
 	private IScanParameters scanBean;
 	private Double[] tfgFrameTimes;
+	private List<NXPluginBase> originalMedipixPlugins;
 
 	public I20DetectorPreparer(Xspress2Detector xspress2system, Scannable[] sensitivities, Scannable[] sensitivity_units,
 			Scannable[] offsets, Scannable[] offset_units, TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1,
-			Xmap vortex, TopupChecker topupChecker) {
+			Xmap vortex, NXDetector medipix, TopupChecker topupChecker) {
 		this.xspress2system = xspress2system;
 		this.sensitivities = sensitivities;
 		this.sensitivity_units = sensitivity_units;
@@ -68,6 +88,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		this.ionchambers = ionchambers;
 		this.i1 = I1;
 		this.vortex = vortex;
+		this.medipix = medipix;
 		this.topupChecker = topupChecker;
 		sensitivities = sensitivity_units;
 	}
@@ -78,6 +99,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		detectors.add(ionchambers);
 		detectors.add(i1);
 		detectors.add(vortex);
+		detectors.add(medipix);
 		return detectors;
 	}
 
@@ -117,10 +139,13 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		} else if (experimentType.equals(DetectorParameters.XES_TYPE)) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getXesParameters();
 			String detType = fluoresenceParameters.getDetectorType();
+			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
 			if (detType.equals(FluorescenceParameters.SILICON_DET_TYPE)) {
-				String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
 				vortex.setConfigFileName(xmlFileName);
 				vortex.configure();
+			}
+			else if ( detType.equals(FluorescenceParameters.MEDIPIX_DET_TYPE)) {
+				configureMedipix( xmlFileName);
 			}
 		}
 
@@ -139,6 +164,109 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 	}
 
+	/**
+	 * Create ROI using parameters from XML file, setup Medipix NXPlugin list to use new ROI rather than the one from plotserver.
+	 *
+	 * @param xmlFileName
+	 * @throws Exception
+	 * @since 24/8/2016
+	 */
+	private void configureMedipix( String xmlFileName ) throws Exception {
+		// --- Create ROI using parameters from XML file :
+
+		// Create bean from XML
+		MedipixParameters param = (MedipixParameters) XMLHelpers.createFromXML(MedipixParameters.mappingURL, MedipixParameters.class, MedipixParameters.schemaURL, new File(xmlFileName));
+
+		// Create region using first ROI only - currently camera uses only one ROI
+		ROIRegion region1 = param.getRegionList().get(0);
+		int xstart = region1.getXRoi().getRoiStart(),
+			xsize = region1.getXRoi().getRoiEnd() - xstart;
+
+		int ystart = region1.getYRoi().getRoiStart(),
+			ysize = region1.getYRoi().getRoiEnd() - ystart;
+
+		RectangularROI<Integer> roi = new ImutableRectangularIntegerROI(xstart, ystart, xsize, ysize, region1.getRoiName() ) ;
+
+		// --- Create new NXPlugin for ROI :
+
+		// First try to get plotserver ROI NXPlugin from detector - so we can extract PV names necessary to create the new plugin
+		ADRoiStatsPair plotserverRoiPlugin = getRoiPlugin("roistats1");
+
+		if ( plotserverRoiPlugin == null ) {
+			logger.warn("Not able to set up ROI for scan - could not find ADRoiStatsPair NXPlugin for detector ",medipix.getName() );
+			return;
+		}
+
+		String arrayPortName = plotserverRoiPlugin.getRoiInputPort();
+
+		// Try to get camera base PV name from collection strategy
+		String basePvName="BL20I-EA-DET-05";
+		if ( medipix.getCollectionStrategy() instanceof SimpleAcquire ) {
+			ADBaseImpl baseImpl = (ADBaseImpl) ( (SimpleAcquire) medipix.getCollectionStrategy() ).getAdBase();
+			basePvName = baseImpl.getBasePVName();
+		}
+		basePvName = basePvName.replace(":CAM:", "");
+
+		// Create new NXPlugin with ROI from XML settings (same PV names as plotserver ROI).
+		ADRoiStatsPair roistatPair = getNXRoiStatPair( basePvName, arrayPortName, roi );
+
+		// --- Setup additionalPluginList : copy old list but replace plotserver ROI plugin with new one with ROI from XML settings :
+
+		// Store current NXPlugin list so we can return it to the original state at the end of the scan
+		originalMedipixPlugins = medipix.getAdditionalPluginList();
+
+		// Make new plugin list
+		List<NXPluginBase> newPluginList = new ArrayList<NXPluginBase>();
+		for(NXPluginBase plugin : originalMedipixPlugins ) {
+			if( plugin == plotserverRoiPlugin ) {
+				newPluginList.add( roistatPair );
+			} else
+				newPluginList.add( plugin );
+		}
+		medipix.setAdditionalPluginList(newPluginList);
+	}
+
+	/**
+	 * Get ADRoiStatPair plugin with given name from detector.
+	 * @param searchName
+	 * @return
+	 */
+	private ADRoiStatsPair getRoiPlugin( String searchName ) {
+		for( NXPluginBase plugin : medipix.getAdditionalPluginList() ) {
+			if ( plugin instanceof ADRoiStatsPair && plugin.getName().equals( searchName ))
+				return (ADRoiStatsPair) plugin;
+		}
+		return null;
+	}
+
+	/**
+	 * Make a new ADRoiStatsPair NXPlugin using provided ROI and PV names; 'MaxValue' and 'Total' basic stats enabled.
+	 *
+	 * @param basePvName
+	 * @param arrayPortName
+	 * @param roi
+	 * @return
+	 * @throws Exception
+	 */
+	private ADRoiStatsPair getNXRoiStatPair( String basePvName, String arrayPortName, RectangularROI<Integer> roi ) throws Exception {
+
+		ADRoiStatsPairFactory fac = new ADRoiStatsPairFactory();
+		fac.setPluginName("roistats");
+		fac.setBaseRoiPVName(basePvName+":ROI1:");
+		fac.setBaseStatsPVName(basePvName+":STAT1:");
+		fac.setRoiInputNdArrayPort(arrayPortName);
+		List<BasicStat> stats = Arrays.asList( new BasicStat[]{ BasicStat.MaxValue, BasicStat.Total } );
+		fac.setEnabledBasicStats(stats);
+		fac.setOneTimeSeriesCollectionPerLine(false);
+
+		SimpleRectangularROIProvider roiProvider = new SimpleRectangularROIProvider();
+		roiProvider.setRoi(roi);
+
+		fac.setRoiProvider(roiProvider);
+
+		return fac.getObject();
+
+	}
 	@Override
 	public void beforeEachRepetition() throws Exception {
 		// nothing needed here (yet)
@@ -153,6 +281,10 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	public void completeCollection() {
 		topupChecker.setCollectionTime(0.0);
 		ionchambers.setOutputLogValues(false);
+
+		// Return NXPlugin list back to original state (i.e. the one using plotserver ROI plugin)
+		if ( originalMedipixPlugins != null )
+			medipix.setAdditionalPluginList(originalMedipixPlugins);
 	}
 
 	private void _setup_amp_sensitivity(IonChamberParameters ionChamberParams) throws Exception {
