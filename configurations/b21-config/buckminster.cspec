@@ -9,6 +9,8 @@
         <cs:dependency name="uk.ac.gda.beamline.b21.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.client.ncd" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.bssc" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.hplc" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.hatsaxs" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.server.ncd" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.server.ncd.epics" componentType="osgi.bundle"/>
