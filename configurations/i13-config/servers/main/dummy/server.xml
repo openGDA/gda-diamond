@@ -12,8 +12,6 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 	<!--for an 'empty' configuration, remove the imports below, and the other xml files and directories inside the xml/server directory-->
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
