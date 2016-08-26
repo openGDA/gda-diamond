@@ -273,6 +273,9 @@ alias("disablefeedbackdcmfpitch")
 alias("enablefeedbacksm1fpitch")
 alias("disablefeedbacksm1fpitch")
 
+# I09-70 Create a empty string to hold detectors to be used with the GUI
+extraDetectors = ""
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete." 
