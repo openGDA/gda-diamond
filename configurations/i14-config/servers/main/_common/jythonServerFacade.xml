@@ -1,15 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-	<context:property-placeholder/>
-
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
@@ -40,23 +34,5 @@
 		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
 		<property name="remotePort" value="9999" />
 	</bean>
-
-	<bean id="RCPController" class="gda.gui.RCPControllerImpl" />
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/rcpController" />
-		<property name="service" ref="RCPController" />
-		<property name="serviceInterface" value="gda.gui.RCPController" />
-	</bean>
-
-	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
-
-	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-
-	<bean id="ExafsController" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-
-	<bean id="MicroFocusController" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-
-	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
 </beans>
