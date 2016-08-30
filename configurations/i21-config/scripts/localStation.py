@@ -17,8 +17,9 @@ from gda.factory import Finder
 from time import sleep  # @UnusedImport
 
 import os
+from calibration.Energy_class import BeamEnergy
 
-global run
+#global run
  
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
@@ -140,6 +141,13 @@ print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2"
 cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 print
+
+print
+print "-----------------------------------------------------------------------------------------------------------------"
+print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'dummies.x' and 'dummies.y'"
+dummyenergy=BeamEnergy("dummyenergy", idcontroller, dummies.x, dummies.y)  # @UndefinedVariable
+print "Create an 'energy' scannable which can be used for energy scan in GDA. It moves both ID gap and PGM energy"
+energy=BeamEnergy("energy",idcontroller, idgap, pgmEnergy,lut="IDCalibrationTable.txt")  # @UndefinedVariable
 
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
