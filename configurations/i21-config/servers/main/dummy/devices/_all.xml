@@ -18,6 +18,7 @@
 	<import resource="s3_motors.xml" />
 	<import resource="s4_femtos.xml" />
 	<import resource="s4_motors.xml" />
+	<import resource="s5_motors.xml" />
 	
 	<!-- diagnostics -->
 	<import resource="dgn.xml" />
@@ -26,6 +27,7 @@
 	<import resource="d3a.xml" />
 	<import resource="d3b.xml" />
 	<import resource="d4.xml" />
+	<import resource="d7.xml" />
 
 	<!-- pressure gauges -->
 	<import resource="pressureGauges.xml"/>
