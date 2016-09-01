@@ -13,7 +13,7 @@ from tomographyXGIScan import tomoXGIScan
 import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
-from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks, xray_mode
+from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks, xray_mode, isLive
 
 class ExperimentShutterEnumPositioner(ScannableBase):
 	"""
@@ -52,10 +52,6 @@ def fs_control():
 		pos fs "Closed"
 	else:
 		pos fs "Open"
-
-def isLive():
-	mode = LocalProperties.get("gda.mode")
-	return mode =="live" or mode =="live_localhost"
 
 def interruptable():
 	"""

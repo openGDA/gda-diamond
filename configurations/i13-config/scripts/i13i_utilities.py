@@ -6,14 +6,13 @@ from gdascripts.messages import handle_messages
 from gda.data import PathConstructor
 from gda.factory import Finder
 from gda.commandqueue import JythonCommandCommandProvider
-from gdascripts.metadata.metadata_commands import setTitle, getTitle
-import tomographyScan
 from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
 from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from gda.device.scannable.scannablegroup import ScannableGroup
 from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform
+from gda.configuration.properties import LocalProperties
 
 print "Running i13i_utilities.py..."
 
@@ -113,91 +112,6 @@ def getVisitRootPath():
         visitRootpath = workDirpath
     return visitRootpath
 
-def _qFlyScanBatch(nScans, batchTitle, interWait, inBeamPosition, outOfBeamPosition, exposureTime=1., start=-90., stop=90., step=0.1, darkFieldInterval=0., flatFieldInterval=0., imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True):
-    """
-    Desc:
-    Fn to submit a given number of identical tomoFlyScans to the queue for automatic execution with optional wait time between any two consecutive scans
-    TO-DO: close shutter before any wait and after the batch is finished (need to get it from jythonNamespaceMapping first)
-    
-    Arg(s):
-    nScans = total number of identical scans to be executed in this batch
-        Note(s):
-        (1) nScans=1 is admissible
-    batchTitle = description of the sample or this batch of scans to be recorded in each Nexus scan file (each scan gets a unique post-fix ID appended to its batch title) 
-    interWait = number of seconds to wait between two consecutive scans (NB. no wait is included after the last scan but note that some additional time will be spent 
-        on moving to the start angle before the next scan is run)
-        Note(s): 
-        (1) interWait=0 is admissible 
-        (2) if interWait is None, no waiting is included between scans (but note that some additional time will be spent on moving to the start angle before the next scan is run)
-        (3) there is no waiting after the last scan of the batch
-    """
-    #tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-    #          imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True)
-    thisfn = qFlyScanBatch.__name__
-
-    _args = []  # to store pairs (arg_name, arg_value) for executing tomoFlyScan
-    _args.append(("inBeamPosition", inBeamPosition))
-    _args.append(("outOfBeamPosition", outOfBeamPosition))
-    _args.append(("exposureTime", exposureTime))
-    _args.append(("start", start))
-    _args.append(("stop", stop))
-    _args.append(("step", step))
-    _args.append(("darkFieldInterval", darkFieldInterval))
-    _args.append(("flatFieldInterval", flatFieldInterval))
-    _args.append(("imagesPerDark", imagesPerDark))
-    _args.append(("imagesPerFlat", imagesPerFlat))
-    _args.append(("min_i", min_i))
-    _args.append(("setupForAlignment", setupForAlignment))
-    _args.append(("autoAnalyse", autoAnalyse))
-    _args.append(("closeShutterAfterFlats", closeShutterAfterFlats))
-
-    def mysleep(secsToWait, v=True):
-        if v:
-            print "Waiting for %i sec..." %(secsToWait)  
-        sleep(secsToWait)
-        if v:
-            print "Finished waiting for %i sec" %(secsToWait)
-
-    cqp = finder.find("commandQueueProcessor")
-    
-    if (batchTitle is None) or len(batchTitle)==0:
-        batchTitle = thisfn
-    
-    title_saved = getTitle()
-    if (title_saved is None) or len(title_saved)==0:
-        title_saved = "undefined" 
-    
-    scan_cmd = ",".join(["%s=%s" %(p[0], str(p[1])) for p in _args])
-    scan_cmd = "tomographyScan.tomoFlyScan(" + scan_cmd + ")"
-    print "scan_cmd = %s" %(scan_cmd)
-    
-    for i in range(nScans):
-        title_tmp = batchTitle + "_%s/%s" %(i+1, nScans)
-        print "scan %i (of %i): scan_cmd = %s, title = %s" %(i+1, nScans, scan_cmd, title_tmp)
-
-        set_title_cmd = "setTitle(%s)" %(title_tmp)
-        print "scan %i (of %i): set_title_cmd = %s, title = %s" %(i+1, nScans, set_title_cmd, title_tmp)
-        cmd_tmp = set_title_cmd + ";" + scan_cmd
-        print "scan %i (of %i): cmd_tmp = %s, title = %s" %(i+1, nScans, cmd_tmp, title_tmp)
-        #cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, title_tmp, None))
-        sleep_cmd = None
-        if (not (interWait is None)) and i < (nScans-1):
-            sleep_cmd = "sleep(%i)" %(interWait)
-            print "scan %i (of %i): sleep_cmd = %s, title = %s" %(i+1, nScans, sleep_cmd, title_tmp)
-            cmd_tmp = cmd_tmp + ";" + sleep_cmd
-            #cqp.addToTail(JythonCommandCommandProvider(sleep_cmd, sleep_cmd, None))
-    
-        print "scan %i (of %i): cmd_tmp = %s, title = %s" %(i+1, nScans, cmd_tmp, title_tmp)
-        cmd_desc_tmp = set_title_cmd + "; " + "tomoFlyScan(...)" + ("; " + sleep_cmd if sleep_cmd is not None else '')
-        print "scan %i (of %i): cmd_desc_tmp = %s, title = %s" %(i+1, nScans, cmd_desc_tmp, title_tmp)
-        #cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, cmd_desc_tmp, None)) 
-        #cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, title_tmp, None))
-    
-    # after the scans
-    set_title_saved_cmd = "setTitle(%s)" %(title_saved)
-    print "set_title_saved_cmd = %s" %(set_title_saved_cmd)
-    #cqp.addToTail(JythonCommandCommandProvider(set_title_saved_cmd, set_title_saved_cmd, None))
-
 
 import smtplib
 from email.mime.text import MIMEText
@@ -288,7 +202,6 @@ def clear_meta_data():
         print "No meta-data found to clear!"
     return all_lst, all_kv_lst
 alias("clear_meta_data")
-
 
 class StringDisplayEpicsPVClass(ScannableMotionBase):
     '''Create PD to display single EPICS PV which returns a string (label)'''
@@ -417,5 +330,9 @@ except Exception, ex:
 
 #pco_edge_aggregate = StringListDisplayEpicsPVClass("pco_edge_aggregate", ["pco_cam_model", "pco_edge_focus_label", "pco_edge_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS", "BL13I-MO-STAGE-02:FOCUS2.RBV"])
 #pco_4000_aggregate = StringListDisplayEpicsPVClass("pco_4000_aggregate", ["pco_cam_model", "pco_4000_focus_label", "pco_4000_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS", "BL13I-MO-STAGE-02:FOCUS.RBV"])
+
+def isLive():
+    mode = LocalProperties.get("gda.mode")
+    return mode =="live" or mode =="live_localhost"
 
 print "Finished running i13i_utilities.py!"

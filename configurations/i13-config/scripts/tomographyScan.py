@@ -31,6 +31,7 @@ from org.eclipse.january.dataset import Dataset
 from gda.commandqueue import JythonScriptProgressProvider
 from gda.commandqueue import JythonCommandCommandProvider
 from org.slf4j import LoggerFactory
+from i13i_utilities import isLive
 
 finder = Finder.getInstance()
 
@@ -137,6 +138,11 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
         instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
         instrument_detector_data_target += "image_data:SDS"
+        nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
+    elif tomography_detector_name == 'pco1_sw':
+        instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
+        instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
+        instrument_detector_data_target += "data:SDS"
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
     else:
         print "Defaults used for unsupported tomography detector in addNXTomoSubentry: " + tomography_detector_name
@@ -579,7 +585,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         if setupForAlignment:
             tomodet.setupForAlignment()
         updateProgress(100, "Scan complete")
-        if autoAnalyse:
+        if autoAnalyse and isLive():
             lsdp=jns.lastScanDataPoint()
             OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
 
@@ -765,7 +771,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         tomodet.stop()
         scanObject.runScan()
 
-        if autoAnalyse:
+        if autoAnalyse and isLive():
             lsdp=jns.lastScanDataPoint()
             OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
         
@@ -1063,7 +1069,7 @@ def tomoTRFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1
         if setupForAlignment:
             tomodet.setupForAlignment()
         updateProgress(100, "Scan complete")
-        if autoAnalyse:
+        if autoAnalyse and isLive():
             lsdp=jns.lastScanDataPoint()
             OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
 
@@ -1444,7 +1450,7 @@ def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=
         tomodet.stop()
         scanObject.runScan()
 
-        if autoAnalyse:
+        if autoAnalyse and isLive():
             lsdp=jns.lastScanDataPoint()
             OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
         
