@@ -61,6 +61,10 @@ if LocalProperties.get("gda.mode") == "live":
 #samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos, rcpController)
 #outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
+# Create mono optimiser object - this will also need sending into one of the preparers... imh 31/8/2016
+from gda.device.scannable import MonoOptimisation
+monoOptimiser = MonoOptimisation( braggoffset, ionchambers )
+
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(xspress2system, sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
 samplePreparer = I20SamplePreparer(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll, sample_pitch, filterwheel, cryostat, cryostick_pos, rcpController)
@@ -176,4 +180,7 @@ if LocalProperties.get("gda.mode") == "live":
 else :
     if material() == None:
         material('Si')
+        
+
+
 print "****GDA startup script complete.****\n\n"
