@@ -129,7 +129,7 @@
 		<property name="viewPartName" value="Spectrum" />
 		<property name="analyser" ref="analyser" />
 		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/>
-		<property name="updatesPerSecond" value="10" />
+		<property name="updatesPerSecond" value="8" />
 	</bean>
 
 	<bean id="imageviewfactory"
