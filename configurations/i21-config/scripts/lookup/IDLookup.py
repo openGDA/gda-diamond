@@ -82,7 +82,8 @@ class IDLookupScannable(ScannableBase):
         if self.lookupGapPhaseCreatedInScanStart==True:
             self.lookupGapPhase.stop()
         
-idlam=IDLookupScannable("energypolar", lut=lookup_file) #a scannable for ID linear Angular Mode
+idlam=IDLookupScannable("idlam", lut=lookup_file) #a scannable for ID linear Angular Mode
+#dummyidlam=IDLookupScannable("dummyidlam", gap=dummies.x, phase=dummies.y, lut=lookup_file) #a scannable for ID linear Angular Mode @UndefinedVariable
 endtime=time.time()
 print "time taken for Initialisation: %s" % (endtime-starttime)
 
