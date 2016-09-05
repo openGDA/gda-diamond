@@ -118,26 +118,12 @@
             name="Two 2 Array View"
             restorable="true">
       </view>
-      <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.MJPegView"
-            id="uk.ac.gda.epics.adviewer.mpegview:pv//pe//BL15J-EA-DET-01@"
-            name="MJPeg View"
-            restorable="true">
-      </view>
 
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//eye//BL15J-EA-PSL-01@"
             name="Two 2 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.MJPegView"
-            id="uk.ac.gda.epics.adviewer.mpegview:pv//eye//BL15J-EA-PSL-01@"
-            name="MJPeg View"
             restorable="true">
       </view>
 
@@ -148,26 +134,12 @@
             name="Two 2 Array View"
             restorable="true">
       </view>
-      <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.MJPegView"
-            id="uk.ac.gda.epics.adviewer.mpegview:pv//cam1//BL15J-DI-CAM-01@"
-            name="MJPeg View"
-            restorable="true">
-      </view>
 
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//cam2//BL15J-DI-CAM-02@"
             name="Two 2 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.MJPegView"
-            id="uk.ac.gda.epics.adviewer.mpegview:pv//cam2//BL15J-DI-CAM-02@"
-            name="MJPeg View"
             restorable="true">
       </view>
 
@@ -178,26 +150,12 @@
             name="Two 2 Array View"
             restorable="true">
       </view>
-      <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.MJPegView"
-            id="uk.ac.gda.epics.adviewer.mpegview:pv//bpm1//BL15J-DI-BPM-01@"
-            name="MJPeg View"
-            restorable="true">
-      </view>
 
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//bpm2//BL15J-DI-BPM-02@"
             name="Two 2 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.MJPegView"
-            id="uk.ac.gda.epics.adviewer.mpegview:pv//bpm2//BL15J-DI-BPM-02@"
-            name="MJPeg View"
             restorable="true">
       </view>
 
@@ -209,6 +167,15 @@
             locationURI="menu:window?after=showView">
          <menu
                label="Area Detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="New Live MJpeg View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.client.liveplot.mjpeg.LiveMJPEGView">
+               </parameter>
+            </command>
 
             <command
                   commandId="org.eclipse.ui.views.showView"
@@ -217,15 +184,6 @@
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//pe//BL15J-EA-DET-01@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Perkin Elmer (pe) Live (MJPeg) View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview:pv//pe//BL15J-EA-DET-01@">
                </parameter>
             </command>
 
@@ -238,15 +196,6 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//eye//BL15J-EA-PSL-01@">
                </parameter>
             </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Photonic Science SCMOS Camera (eye) Live (MJPeg) View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview:pv//eye//BL15J-EA-PSL-01@">
-               </parameter>
-            </command>
 
             <command
                   commandId="org.eclipse.ui.views.showView"
@@ -255,15 +204,6 @@
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//cam1//BL15J-DI-CAM-01@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Mako G-125C (cam1) Live (MJPeg) View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview:pv//cam1//BL15J-DI-CAM-01@">
                </parameter>
             </command>
 
@@ -276,15 +216,6 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//cam2//BL15J-DI-CAM-02@">
                </parameter>
             </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Mako G-125C (cam2) Live (MJPeg) View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview:pv//cam2//BL15J-DI-CAM-02@">
-               </parameter>
-            </command>
 
             <command
                   commandId="org.eclipse.ui.views.showView"
@@ -295,15 +226,6 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//bpm1//BL15J-DI-BPM-01@">
                </parameter>
             </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Mako G-125B (bpm1) Live (MJPeg) View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview:pv//bpm1//BL15J-DI-BPM-01@">
-               </parameter>
-            </command>
 
             <command
                   commandId="org.eclipse.ui.views.showView"
@@ -312,15 +234,6 @@
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//bpm2//BL15J-DI-BPM-02@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Mako G-125B (bpm2) Live (MJPeg) View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview:pv//bpm2//BL15J-DI-BPM-02@">
                </parameter>
             </command>
 
