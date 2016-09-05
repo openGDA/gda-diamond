@@ -2,7 +2,7 @@ import string
     
 def readLookupTable(filename): 
     '''
-    read in the lookup table from a tab-delimited data file. 
+    read in the lookupTable table from a tab-delimited data file. 
     :param filename:
     '''
     f = open(filename, "r")
