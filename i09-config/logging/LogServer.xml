@@ -30,9 +30,6 @@
     <logger name="gda.jython.corba.impl">
         <level value="INFO"/>
     </logger>
-    <logger name="gda.oe.corba.impl">
-        <level value="INFO"/>
-    </logger>
     <logger name="gda.data.nexus.hdf5.NexusFileHDF5" level="ERROR"/>
     
     <root>

@@ -59,7 +59,6 @@
 	<import resource="analyser.xml"/>
 	<import resource="RegionScannable.xml"/>
 	<import resource="ES2.xml"/>
-	<import resource="topup.xml"/>
 	<import resource="ES3.xml"/>
 	<import resource="RFD.xml"/>
 
