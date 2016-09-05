@@ -3,6 +3,7 @@ Performs software triggered tomography
 """
 
 from time import sleep
+import datetime
 
 from pcoDetectorWrapper import PCODetectorWrapper
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
@@ -432,6 +433,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     closeShutterAfterFlats -
     extraFlatsAtEnd=False -
     """
+    startTm = datetime.datetime.now()
     logger = LoggerFactory.getLogger("tomographyScan.tomoFlyScan()")
     
     logger.debug("inBeamPosition: {}, outOfBeamPosition: {}, exposureTime: {}, "
@@ -599,7 +601,9 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         handle_messages.log(None, "Error in tomoFlyScan", exceptionType, exception, traceback, True)
     finally :
         atTomoFlyScanEnd()
-
+        endTm = datetime.datetime.now()
+        elapsedTm = endTm - startTm
+        print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
 
 
@@ -624,6 +628,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
 
     """
+    startTm = datetime.datetime.now()
     try:
         darkFieldInterval=int(darkFieldInterval)
         flatFieldInterval=int(flatFieldInterval)
@@ -785,6 +790,10 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, True)
+    finally:
+        endTm = datetime.datetime.now()
+        elapsedTm = endTm - startTm
+        print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
 
 from gda.commandqueue import JythonScriptProgressProvider
