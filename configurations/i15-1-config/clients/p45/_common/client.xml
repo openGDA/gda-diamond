@@ -8,6 +8,7 @@
 
 	<context:property-placeholder/>
 
+	<!-- 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
@@ -16,6 +17,7 @@
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
 	</bean>
+	 -->
 
 	<import resource="command_queue_processor.xml"/>
 	<import resource="plot_server.xml" />

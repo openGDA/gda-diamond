@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!-- 
 	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
 		<constructor-arg ref="command_server" />
 	</bean>
@@ -59,5 +60,6 @@
 		<constructor-arg ref="jythonServerFacade" />
 		<constructor-arg ref="terminal_logger" />
 	</bean>
+ -->
 
 </beans>

@@ -15,11 +15,17 @@
 	<!-- Device Servlet -->
 	<bean id="deviceServlet" class="org.eclipse.scanning.server.servlet.DeviceServlet" init-method="connect">
 		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="requestTopic"    value="org.eclipse.scanning.request.device.topic" />
+		<property name="responseTopic"   value="org.eclipse.scanning.response.device.topic" />
 	</bean>
 
 	<!-- This starts a scanServlet which handles new style scan requests arriving over ActiveMQ -->
 	<bean id="scanServlet" class="org.eclipse.scanning.server.servlet.ScanServlet" init-method="connect">
 		<property name="broker" value="${gda.activemq.broker.uri}" />
+		<property name="submitQueue" value="org.eclipse.scanning.submission.queue" />
+		<property name="statusSet"   value="org.eclipse.scanning.status.set"   />
+		<property name="statusTopic" value="org.eclipse.scanning.status.topic" />
+		<property name="durable"     value="true" />
 	</bean>
 
 </beans>

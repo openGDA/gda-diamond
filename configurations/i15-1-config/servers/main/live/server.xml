@@ -26,7 +26,7 @@
 	<import resource="metadata.xml"/>
 	<import resource="terminal_logger.xml"/>
 
-	<import resource="p45/server.xml"/>
+	<import resource="../../p45/dummy/server.xml"/>
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 

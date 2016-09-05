@@ -8,5 +8,5 @@
 
 	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" />
 	<import resource="../_common/client.xml"/>
-	<import resource="../_common/p45/client.xml"/>
+	<import resource="../../p45/dummy/client.xml"/>
 </beans>
