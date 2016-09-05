@@ -1,7 +1,7 @@
 from gda.device.scannable import ScannableMotionBase
 import gda.factory.Finder as Finder
 import sys
-#from gda.function.lookup import LookupTable
+#from gda.function.lookupTable import LookupTable
 import math
 from time import sleep
 from LookupTables import readLookupTable
@@ -12,14 +12,14 @@ from gda.configuration.properties import LocalProperties
 class BeamEnergy(ScannableMotionBase):
     '''Create beam energy scannable that encapsulates and fan-outs control to ID gap and PGM energy.
     
-        This pseudo device requires a lookup table object to provide ID parameters for calculation of ID gap from beam 
-        energy required and harmonic order. The lookup table object must be created before the instance creation of this class.
+        This pseudo device requires a lookupTable table object to provide ID parameters for calculation of ID gap from beam 
+        energy required and harmonic order. The lookupTable table object must be created before the instance creation of this class.
         The child scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class 
         instance.
         '''
         
     def __init__(self, name, idctrl, gap, pgm, lut="IDCalibrationTable.txt"):
-        '''Constructor - Only succeed if it find the lookup table, otherwise raise exception.'''
+        '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut=readLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.gap=gap
         self.pgm=pgm
