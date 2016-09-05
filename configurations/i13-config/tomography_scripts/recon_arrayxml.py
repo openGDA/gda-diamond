@@ -414,7 +414,7 @@ sed -i "s|^.*GPUDeviceNumber.*$|<GPUDeviceNumber>$mycuda</GPUDeviceNumber>|" $my
 		#nodesID = "tesla"
 		nodesID = "tesla64"
 		#args+=[ "-l", nodesID, "-pe", "smp", "6"]
-		args+=[ "-l", nodesID, "-l", "gpus=1", "-pe", "smp", "4"]
+		args+=[ "-l", nodesID, "-l", "gpu=1", "-pe", "smp", "4"]
 		args+=[ "-t", "%i-%i"%(self.firstchunk, self.nchunks)]
 
 		#script

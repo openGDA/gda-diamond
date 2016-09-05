@@ -544,7 +544,7 @@ fi
 #       i.e. the nodes offer two of it & if two jobs run you can't start another job. If you use that the above becomes:
 		#nodesID = "tesla"
 		nodesID = "tesla64" 	 		
-		args += [ "-l", nodesID, "-l", "gpus=1"]
+		args += [ "-l", nodesID, "-l", "gpu=1"]
 
 		#submit array jobs
 		#self.firstchunk is used to define SGE-TASK_FIRST
