@@ -17,6 +17,8 @@
 		</property>
 	</bean>
 
+	<import resource="MJPEG.xml" />
+
 <!-- 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
