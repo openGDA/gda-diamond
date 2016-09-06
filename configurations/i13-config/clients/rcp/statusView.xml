@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Status" />
@@ -66,6 +69,7 @@
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="expt_sht_stat" />
 								<property name="label" value="State" />
+								<property name="colourMap" ref="shutterStatusColourMap" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
 								<property name="command" value="eh_shtr_control()" />
@@ -100,6 +104,7 @@
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="fast_shtr_stat" />
 								<property name="label" value="State" />
+								<property name="colourMap" ref="shutterStatusColourMap" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
 								<property name="commandRunner" ref="commandRunner" />
@@ -200,5 +205,10 @@
 			</list>
 		</property>
 	</bean>
+
+	<util:map id="shutterStatusColourMap">
+		<entry key="Open" value="6" />
+		<entry key="Closed" value="3" />
+	</util:map>
 
 </beans>
