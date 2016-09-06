@@ -93,6 +93,7 @@
 	<import resource="../../../devices/dummy/float1.xml"/>
 	<import resource="../../../devices/dummy/float2.xml"/>
 	<import resource="../../../devices/dummy/float3.xml"/>
+	<import resource="../../../devices/dummy/float4.xml"/>
 	
 	<import resource="../../../devices/dummy/s7_motors.xml"/>
 	<import resource="../../../devices/dummy/scope1_motors.xml"/>
@@ -110,6 +111,8 @@
 	<import resource="../../../devices/dummy/pie725_raster.xml"/>
 	
 	<import resource="../../../devices/dummy/afg.xml"/>
+	
+	<import resource="../../../devices/dummy/t1_vac_motors.xml"/>
 
 	<import resource="../_common/server.xml"/>	
 	

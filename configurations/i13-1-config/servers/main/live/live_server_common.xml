@@ -119,6 +119,8 @@
 
 	<!-- piezo raster scan device  - must be included for maxipix -->
 	<import resource="../../../devices/live/pie725_raster.xml"/>
+
+	<import resource="../../../devices/epics/t1_vac_motors.xml"/>
 	
 	<import resource="../_common/server.xml"/>	
 

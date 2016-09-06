@@ -65,6 +65,7 @@
 	<import resource="../../../devices/_common/float1.xml" />
 	<import resource="../../../devices/_common/float2.xml" />
 	<import resource="../../../devices/_common/float3.xml" />
+	<import resource="../../../devices/_common/float4.xml" />
 
 	<import resource="../../../devices/_common/optics_hutch4_shutter.xml" />
 
@@ -99,6 +100,8 @@
 	<import resource="../../../devices/_common/t1.xml" />
 	<import resource="../../../devices/_common/z1.xml" /> 
  -->
+
+	<import resource="../../../devices/_common/t1_vac.xml" />
 
 	<import resource="../../../devices/_common/pco1.xml" />
 	<import resource="../../../devices/_common/merlin.xml" />
