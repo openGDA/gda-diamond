@@ -3,27 +3,27 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="t1_xvac" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="t1_xvac_motor" />
+	<bean id="t1_vacx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_vacx_motor" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="t1_yvac" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="t1_yvac_motor" />
+	<bean id="t1_vacy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_vacy_motor" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="t1_zvac" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="t1_zvac_motor" />
+	<bean id="t1_vacz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_vacz_motor" />
 		<property name="userUnits" value="um"/>
 	</bean>
 	
 	<bean id="t1_vac" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="t1_xvac" />
-				<ref bean="t1_yvac" />
-				<ref bean="t1_zvac" />
+				<ref bean="t1_vacx" />
+				<ref bean="t1_vacy" />
+				<ref bean="t1_vacz" />
 			</list>
 		</property>
 	</bean>	

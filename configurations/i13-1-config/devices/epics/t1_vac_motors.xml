@@ -3,17 +3,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
            
-	<bean id="t1_xvac_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="t1_vacx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-SMAR-01:VACX"/>
 		<property name="local" value="true" />
 	</bean>
            
-	<bean id="t1_yvac_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="t1_vacy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-SMAR-01:VACY"/>
 		<property name="local" value="true" />
 	</bean>
            
-	<bean id="t1_zvac_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="t1_vacz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-SMAR-01:VACZ"/>
 		<property name="local" value="true" />
 	</bean>
