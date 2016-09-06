@@ -29,7 +29,7 @@
 	</bean>
 
 	<bean id="float1_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="BL13J-OP-FLOAT-01:FFMPEG:" />
+		<property name="prefix" value="BL13J-OP-FLOAT-01:MJPG:" />
 	</bean>
 
 	<bean id="float1_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
