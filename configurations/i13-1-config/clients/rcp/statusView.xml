@@ -166,25 +166,32 @@
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Float 1" />
-								<constructor-arg value="Float 1" />
+								<constructor-arg value="Float 1 - Scint. Macroscope" />
+								<constructor-arg value="Float 1 - Scint. Macroscope" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13J-OP-FLOAT-01:"/>
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Float 2" />
-								<constructor-arg value="Float 2" />
+								<constructor-arg value="Float 2 - Top Vis. Microscope" />
+								<constructor-arg value="Float 2 - Top Vis. Microscope" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13J-OP-FLOAT-02:"/>
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Float 2" />
-								<constructor-arg value="Float 2" />
+								<constructor-arg value="Float 3 - Scint. Microscope" />
+								<constructor-arg value="Float 3 - Scint. Microscope" />
 								<constructor-arg value="MPEG"/>
-								<constructor-arg value="diagnosticCameraType"/>
 								<constructor-arg value="BL13J-OP-FLOAT-03:"/>
+								<constructor-arg value="diagnosticCameraType"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Float 4 - Side Vis. Microscope" />
+								<constructor-arg value="Float 4 - Side Vis. Microscope" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-OP-FLOAT-04:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="excalibur" />
