@@ -187,7 +187,7 @@
 	</bean>
 
 	<!-- ADDetectors -->
-<!-- -->
+
 	<bean id="cam2rawAD" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="cam2AD_cam"/>
 		<property name="collectionStrategy" ref="cam2_SingleExposureStandardCollectionStrategy" />

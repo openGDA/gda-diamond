@@ -86,13 +86,13 @@
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
+	<bean id="eye_NDFileHDF5file" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15J-EA-PSL-01:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
 	<bean id="eye_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl">
-			<bean class="gda.spring.V17NDFileFactoryBean">
-				<property name="prefix" value="BL15J-EA-PSL-01:HDF5:" />
-				<property name="resetToInitialValues" value="false" />
-			</bean>
-		</property>
+		<property name="ndFileImpl" ref="eye_NDFileHDF5file" />
 		<property name="initialCompression" value="zlib" />
 	</bean>
 
@@ -156,5 +156,16 @@
 				<ref bean="eye_tiff_SingleImagePerFileWriter" />
 			</list>
 		</property>
+	</bean>
+
+	<!-- ADDetectors -->
+
+	<bean id="eyeRawAD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="eyeAD_cam"/>
+		<property name="collectionStrategy" ref="eye_SingleExposureStandardCollectionStrategy" />
+		<property name="ndFile"  ref="eye_NDFileHDF5file"/>
+		<property name="ndArray" ref="eyeAD_arr"/>
+		<property name="ndStats" ref="eyeAD_stat"/>
+		<property name="fileWriter" ref=eye_hdf5_MultipleImagesPerHDF5FileWriter"/>
 	</bean>
 </beans>

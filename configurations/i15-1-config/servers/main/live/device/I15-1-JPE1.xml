@@ -116,14 +116,14 @@
 		<property name="filePathConverter" ref="pe_UnixToWindowsFilePathConverter" />
 	</bean>
 
+	<bean id="pe_NDFileHDF5file" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-01:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter" ref="pe_UnixToWindowsFilePathConverter" />
+	</bean>
+
 	<bean id="pe_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl">
-			<bean class="gda.spring.V17NDFileFactoryBean">
-				<property name="prefix" value="BL15J-EA-DET-01:HDF5:" />
-				<property name="resetToInitialValues" value="false" />
-				<property name="filePathConverter" ref="pe_UnixToWindowsFilePathConverter" />
-			</bean>
-		</property>
+		<property name="ndFileImpl" ref="pe_NDFileHDF5file" />
 		<property name="initialCompression" value="zlib" />
 	</bean>
 
@@ -244,6 +244,26 @@
 				<ref bean="pe_tiff_SingleImagePerFileWriter" />
 			</list>
 		</property>
+	</bean>
+
+	<!-- ADDetectors -->
+
+	<bean id="peAD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="peAD_config_base"/>
+		<property name="collectionStrategy" ref="pe_ContinuousCollectionStrategy" />
+		<property name="ndFile"  ref="pe_NDFileHDF5file"/>
+		<property name="ndArray" ref="peAD_summary_arr"/>
+		<property name="ndStats" ref="peAD_summary_stat"/>
+		<property name="fileWriter" ref="pe_hdf5_MultipleImagesPerHDF5FileWriter"/>
+	</bean>
+
+	<bean id="peLegacyAD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="peAD_config_base"/>
+		<property name="collectionStrategy" ref="pe_AutoSummingProcessImageModeCollectionStrategy" />
+		<property name="ndFile"  ref="pe_NDFileHDF5file"/>
+		<property name="ndArray" ref="peAD_summary_arr"/>
+		<property name="ndStats" ref="peAD_summary_stat"/>
+		<property name="fileWriter" ref="pe_hdf5_MultipleImagesPerHDF5FileWriter"/>
 	</bean>
 
 	<!-- Detector Motors -->
