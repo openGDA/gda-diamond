@@ -75,6 +75,7 @@
 	<import resource="../../../devices/dummy/translation_stage_motors.xml" />
 	<import resource="../../../devices/dummy/table_motors.xml" />
 	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
+	<import resource="../../../devices/dummy/cs2_motors.xml" />
 
 
 	<!-- Include the following lines to run with simulated area detector -->

@@ -71,6 +71,7 @@
 	<import resource="../../../devices/epics/translation_stage_motors.xml" />
 	<import resource="../../../devices/epics/table_motors.xml" />
 	<import resource="../../../devices/epics/camera_stage_motors.xml" />
+	<import resource="../../../devices/epics/cs2_motors.xml" />
 
 	<import resource="../../../devices/live/pco1.xml" />
 	<import resource="../../../devices/epics/pco1_ndplugins.xml" />
