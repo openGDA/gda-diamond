@@ -100,7 +100,7 @@
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 							<property name="name" value="peLegacyAD" />
-							<property name="exposuADDetector'sreTime" value="0.1" />
+							<property name="exposureTime" value="0.1" />
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
