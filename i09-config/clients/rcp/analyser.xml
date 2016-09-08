@@ -128,7 +128,7 @@
 		class="org.opengda.detector.electronanalyser.client.viewfactories.SpectrumViewFactory">
 		<property name="viewPartName" value="Spectrum" />
 		<property name="analyser" ref="analyser" />
-		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/>
+		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_CHANNEL_RBV"/>
 		<property name="updatesPerSecond" value="8" />
 	</bean>
 
@@ -136,7 +136,7 @@
 		class="org.opengda.detector.electronanalyser.client.viewfactories.ImageViewFactory">
 		<property name="viewPartName" value="Image" />
 		<property name="analyser" ref="analyser" />
-		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/>
+		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_CHANNEL_RBV"/>
 		<property name="updatesPerSecond" value="3" />
 	</bean>
 
