@@ -32,6 +32,7 @@
 				<ref bean="m1c_pitch" />
 				<ref bean="m1c_roll" />
 				<ref bean="m1c_yaw" />
+				<ref bean="m1c_pressure" />
 			</list>
 		</property>
 	</bean>
