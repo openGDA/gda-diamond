@@ -18,14 +18,6 @@
 
 package uk.ac.gda.beamline.i05.views;
 
-import gda.device.MotorStatus;
-import gda.device.Scannable;
-import gda.factory.Finder;
-import gda.jython.InterfaceProvider;
-import gda.jython.JythonServerFacade;
-import gda.observable.IObserver;
-import gda.rcp.views.NudgePositionerComposite;
-
 import java.util.Arrays;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -45,6 +37,13 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.MotorStatus;
+import gda.device.Scannable;
+import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServerFacade;
+import gda.observable.IObserver;
+import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
 
 public class ContinuousModeControllerComposite extends Composite {
@@ -184,7 +183,7 @@ public class ContinuousModeControllerComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Closing beamline shutter");
-				InterfaceProvider.getCommandRunner().runCommand("hr_shutter(1)");
+				InterfaceProvider.getCommandRunner().runCommand("hr_shutter('Close')");
 			}
 		};
 		shutterButton.addSelectionListener(shutterButtonListener);

@@ -4,8 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="gda.device.enumpositioner.EpicsValveCallback" id="hr_shutter">
-		<property name="epicsRecordName" value="BL05I-PS-SHTR-01" />
+	<bean class="gda.device.enumpositioner.DummyEnumPositioner" id="hr_shutter">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</list>
+		</property>
 	</bean>
 
 </beans>
