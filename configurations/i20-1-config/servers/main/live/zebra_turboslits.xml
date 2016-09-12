@@ -4,11 +4,6 @@
 
 <!--  Setup for Turbo slits driven by Zebra. imh  20/4/2016 -->
 
-<!--  Scan can be run using  :
- >>> contscan = ContinuousScan( turbo_xas_slit, 0, 10, 5, 0.1, [turbo_xas_counterTimer01]  )
- >>> contscan.runScan()
- -->
-
 <!-- Turbo slit x motor   -->
 	<bean id="turbo_slit_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:TS:XFINE" />
@@ -25,12 +20,67 @@
 		<property name="name" value="zebra"/>
 	</bean>
 
+<!-- Zebra controller  -->
+	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra_device"/>
+		<property name="mode" value="1"/>
+		<property name="pcPulseGateNotTrigger" value="false"/>
+		<property name="minimumAccelerationDistance" value="0.008"/>
+		<property name="scannableMotor" ref="turbo_slit_x" />
+		<property name="zebraMotorInfoProvider" ref="turbo_slit_x_zebra"/>
+	</bean>
+
+<!-- Zebra scannable motor for turbo x  -->
+	<bean id="turbo_slit_x_zebra" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="turbo_slit_x_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
+	</bean>
+
 <!-- TurboxXasScannable for driving turbo slits in a continuous scan. imh 23/5/2016 -->
 	<bean id="turbo_xas_slit" class="gda.device.scannable.TurboXasScannable">
 		<property name="motor" ref="turbo_slit_x_motor" />
-		<property name="zebraDevice" ref="zebra_device" />
+		<property name="zebraDevice" ref="zebra_device" />	
 	</bean>
-
+	
+	
+	<bean id="scaler_for_zebra" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>I0</value>
+				<value>It</value>
+				<value>Iref</value>
+<!-- 				<value>lnI0It</value> -->
+<!-- 				<value>lnItIref</value> -->
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserverForTfg" />
+		<property name="ttlSocket" value="2" />
+		
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+<!-- 		<property name="outputLogValues" value="true" /> -->
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="3" />
+<!-- 		<property name="numChannelsToRead" value="3" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.8g</value>
+				<value>%8.8g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+<!-- 				<value>%.6g</value> -->
+<!-- 				<value>%.6g</value> -->
+			</list>
+		</property>
+	</bean>
+	
+	
 <!-- Dummy daserver and scalers - for testing. imh 23/5/2016 -->
 	<bean id="dummy_daserver_for_zebra" class="gda.device.detector.DummyDAServer">
 		<property name="local" value="True" />
@@ -55,8 +105,8 @@
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
-
-	<bean id="turbo_xas_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+	
+	<bean id="dummy_scaler_for_zebra" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
 				<value>time</value>
@@ -67,26 +117,29 @@
 <!-- 				<value>lnItIref</value> -->
 			</list>
 		</property>
-		<property name="scaler" ref="CalMemory" />
+		<property name="scaler" ref="dummy_calmemory_for_zebra" />
+		<property name="timer" ref="dummy_tfg_for_zebra" />
+		<property name="daserver" ref="dummy_daserver_for_zebra" />
 
-		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="daserverForTfg" />
 		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
-
+<!-- 		<property name="outputLogValues" value="true" /> -->
 		<property name="outputLogValues" value="false" />
 		<property name="TFGv2" value="true" />
 		<property name="numChannelsToRead" value="3" />
-
+<!-- 		<property name="numChannelsToRead" value="3" /> -->
 		<property name="outputFormat">
 			<list>
-				<value>%.6g</value>
-				<value>%6.5g</value>
+				<value>%.8g</value>
+				<value>%8.8g</value>
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
+<!-- 				<value>%.6g</value> -->
+<!-- 				<value>%.6g</value> -->
 			</list>
 		</property>
 	</bean>
-
+	
 </beans>
+	
