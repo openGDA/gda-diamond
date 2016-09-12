@@ -22,9 +22,6 @@ import gda.device.DeviceException;
 
 /**
  * Interface to be implemented by services that provide client-side movement of the sample.
- * 
- * <p>For convenience this interface extends {@link SampleMovementService} so that all sample movement methods are
- * available through one interface.
  */
 public interface ClientSideSampleMovementService {
 
