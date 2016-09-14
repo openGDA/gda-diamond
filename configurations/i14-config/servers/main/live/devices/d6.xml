@@ -6,13 +6,13 @@
 	<!-- D6 -->
 
 	<!-- Stick motor -->
-	<bean id="d6_x_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="d6_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-DI-PHDGN-06:Y" />
 		<property name="local" value="true" />
 	</bean>
 	
 	<!-- Stick positioner -->
-	<bean id="d6_x_position" class="gda.device.enumpositioner.EpicsPositioner">
+	<bean id="d6_y_position" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL14I-DI-PHDGN-06:MP" />
 		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
 	</bean>

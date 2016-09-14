@@ -6,24 +6,24 @@
         http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<!-- D6 -->
+	<!-- D7 -->
 
 	<!-- Stick motor -->
-	<bean id="d6_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-146.0" />
-		<property name="maxPosition" value="1.0" />
-		<property name="position" value="-90.3" />
+	<bean id="d7_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-147.157" />
+		<property name="maxPosition" value="1.16982" />
+		<property name="position" value="-23.8" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<!-- Stick positioner -->
-	<bean id="d6_y_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="d7_y_position" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>Screen</value>
-				<value>Inline diode</value>
-				<value>Out</value>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
 			</util:list>
 		</property>
 	</bean>
@@ -31,9 +31,9 @@
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
-	<alias name="simCamBase" alias="d6_camBase" />
- 	<bean id="d6_cam" parent="simCam">
-		<property name="name" value="d6_cam" />
+	<alias name="simCamBase" alias="d7_camBase" />
+ 	<bean id="d7_cam" parent="simCam">
+		<property name="name" value="d7_cam" />
 	</bean>
 
  </beans>

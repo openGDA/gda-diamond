@@ -36,6 +36,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s2.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s3.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s4.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/a1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m2.xml" />
@@ -48,6 +49,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d4.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d5.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d6.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d7.xml" />
 	
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
@@ -65,6 +67,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/s1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/s2.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/s3.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/s4.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/a1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/m1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/m2.xml" />
@@ -77,6 +80,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/d4.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d5.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d6.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />
 
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
