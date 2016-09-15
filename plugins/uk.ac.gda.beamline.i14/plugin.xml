@@ -6,14 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I14 Beamline">
+            name="Diamond Beamline I14">
          <property
                name="appName"
-               value="GDA I14 Beamline">
-         </property>
-         <property
-               name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+               value="Diamond Beamline I14">
          </property>
          <property
                name="aboutImage"
@@ -22,7 +18,11 @@
          <property
                name="aboutText"
                value="Diamond Beamline I14&#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
-         </property>    
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
       </product>
    </extension>
    <extension

@@ -3,6 +3,15 @@
 
 <product name="Diamond Beamline I14" uid="uk.ac.gda.beamline.i14.product" id="uk.ac.gda.beamline.i14.product" application="uk.ac.gda.client.application" version="9.2.0" useFeatures="true" includeLaunchers="true">
 
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+      <text>
+         Diamond Beamline I14
+
+Based on GDA See &lt;http://www.opengda.org/&gt;
+      </text>
+   </aboutInfo>
+
    <configIni use="default">
    </configIni>
 
@@ -34,7 +43,7 @@
       </vmArgsMac>
    </launcherArgs>
 
-   <windowImages/>
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
       location="uk.ac.gda.beamline.i14" />
@@ -77,5 +86,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i14.feature"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
