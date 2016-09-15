@@ -19,6 +19,7 @@
 	<import resource="d3b.xml" />
 	<import resource="d4.xml" />
 	<import resource="d7.xml" />
+	<import resource="d8.xml" />
 
 	<!-- pressure gauges -->
 	<import resource="pressureGauges.xml"/>
@@ -32,11 +33,13 @@
 	<!-- mirrors -->
 	<import resource="m1.xml" />
 	<import resource="m2.xml" />
+	<import resource="m4.xml" />
 	
 	<!-- PGM -->
 	<import resource="pgm.xml" />
 	
 	<!-- ID -->
 	<import resource="id.xml" />
+	<import resource="smp.xml" />
 
 </beans>
