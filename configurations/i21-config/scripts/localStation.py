@@ -133,6 +133,7 @@ d1camtotal=DisplayEpicsPVClass('d1camtotal', 'BL21I-DI-DCAM-01:STAT:Total_RBV', 
 d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 'counts', '%10d')
 d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
 d4camtotal=DisplayEpicsPVClass('d4camtotal', 'BL21I-DI-DCAM-04:STAT:Total_RBV', 'counts', '%10d')
+d8camtotal=DisplayEpicsPVClass('d8camtotal', 'BL21I-DI-DCAM-24:STAT:Total_RBV', 'counts', '%10d')
 
 print 
 
@@ -145,9 +146,9 @@ print
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'dummies.x' and 'dummies.y'"
-dummyenergy=BeamEnergy("dummyenergy", idcontroller, dummies.x, dummies.y)  # @UndefinedVariable
+dummyenergy=BeamEnergy("dummyenergy",idphase, dummies.x, dummies.y)  # @UndefinedVariable
 print "Create an 'energy' scannable which can be used for energy scan in GDA. It moves both ID gap and PGM energy"
-energy=BeamEnergy("energy",idcontroller, idgap, pgmEnergy,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+energy=BeamEnergy("energy",idphase, idgap, pgmEnergy,lut="IDCalibrationTable.txt")  # @UndefinedVariable
 
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
