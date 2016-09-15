@@ -3,7 +3,6 @@
 
 <product name="Diamond Beamline I14" uid="uk.ac.gda.beamline.i14.product" id="uk.ac.gda.beamline.i14.product" application="uk.ac.gda.client.application" version="9.2.0" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -25,6 +24,7 @@
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.group.dir=${project_loc:core-config}/no-group
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms256m
 -Xmx2048m
 -XX:MaxPermSize=256m
