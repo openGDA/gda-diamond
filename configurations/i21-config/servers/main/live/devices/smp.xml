@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- motors -->
+	<bean id="smprzMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:RZ" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpxMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpyMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpzMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:Z" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Femto -->
+	<bean id="smpfemto" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO1:I" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<import resource="smpcam1.xml"/>
+	<import resource="smpcam2.xml"/>
+	<import resource="smpcam3.xml"/>
+	<import resource="smpcam4.xml"/>
+
+</beans>
