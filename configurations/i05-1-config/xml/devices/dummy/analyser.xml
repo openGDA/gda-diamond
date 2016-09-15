@@ -72,6 +72,7 @@
 	<bean id="analyser" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyser">
 		<property name="cpsRoiProvider" ref="analyser_roi_provider" />
 		<property name="controller" ref="controller" />
+		<property name="energyRange" ref="analyser_energy_range" />
 		<property name="adBase" ref="area" />
 		<property name="ndProc" ref="proc" />
 		<property name="ndArray" ref="array2" />
@@ -100,6 +101,11 @@
 		service="analyser"
 		serviceName="gda/analyser"
 		serviceInterface="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
+		
+	<gda:rmi-export
+		service="analyser"
+		serviceName="gda/analyserRmi"
+		serviceInterface="uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI" />
 
 	<bean id="raw_centre_energy" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:CENTRE_ENERGY_RBV" />

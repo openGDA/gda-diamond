@@ -6,6 +6,7 @@
 	<bean id="analyser_cam" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserCamOnly">
 		<property name="cpsRoiProvider" ref="analyser_roi_provider" />
 		<property name="controller" ref="controller" />
+		<property name="energyRange" ref="analyser_energy_range" />
 		<property name="adBase" ref="area" />
 		<property name="local" value="true" />
 		<property name="readArray" value="false" />
