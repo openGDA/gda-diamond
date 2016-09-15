@@ -48,11 +48,12 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+<!-- 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" /> -->
+<!-- 		<property name="serviceInterface" -->
+<!-- 			value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
 	
 	<import resource="analyser_lens_mapping.xml"/>
 	<bean id="AnalyserCapabilities"	class="uk.ac.gda.devices.vgscienta.i05_1.I05_1AnalyserCapabilties">
@@ -82,9 +83,9 @@
 		<property name="detectorEnergyWidthInPixels" value="1064"/>
 	</bean>
 
-	<import resource="live_mjpeg.xml"/>
-	<import resource="stage_controls.xml"/>
-	<import resource="mapping_experiment_bean_provider.xml"/>
-	<import resource="mapping_region_manager.xml" />
+<!-- 	<import resource="live_mjpeg.xml"/> -->
+<!-- 	<import resource="stage_controls.xml"/> -->
+<!-- 	<import resource="mapping_experiment_bean_provider.xml"/> -->
+<!-- 	<import resource="mapping_region_manager.xml" /> -->
 
 </beans>
