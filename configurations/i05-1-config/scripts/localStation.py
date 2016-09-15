@@ -47,16 +47,18 @@ centre_energy.setInputNames(["centre_energy"])
 # Add the MCP ROI to the global namespace, must match the name in spring.
 mcp_roi = finder.find('mcp_roi')
 
-# Enable callbacks on ARR1 to allow updating of detector plot
-caput("BL05J-EA-DET-01:ARR:EnableCallbacks",1)
-
 import arpes
 
 # Sample stage script for easy and safe movement of the stage to predefined positions
 execfile(gdaScriptDir + "/sampleStage.py")
 
-print "==================================================================="
+
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
-   print "Running i05-1 scripts."
-   run "beamline/masterj.py"
-print "==================================================================="
+    # Enable callbacks on ARR1 to allow updating of detector plot
+    caput("BL05J-EA-DET-01:ARR:EnableCallbacks",1)
+
+    # Run the beamline staff scripts
+    print "==================================================================="
+    print "Running i05-1 scripts."
+    run "beamline/masterj.py"
+    print "==================================================================="
