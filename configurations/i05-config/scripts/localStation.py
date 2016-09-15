@@ -60,8 +60,6 @@ centre_energy.setInputNames(["centre_energy"])
 
 # Add short 1.0 sec timeout so if IOC is down fail quicker
 caput_wait("BL05I-EA-DET-01:ARR1:EnableCallbacks",1, 1.0)
-# This is a temporary fix for I05-80 and also requires a region delay to be set in SES
-caput_wait("BL05I-EA-DET-01:CAM:ALWAYS_DELAY", 0, 1.0)
 
 import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
