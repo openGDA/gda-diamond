@@ -4,7 +4,7 @@ import sys
 #from gda.function.lookupTable import LookupTable
 import math
 from time import sleep
-from LookupTables import readLookupTable
+from lookup.LookupTables import readLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
 
