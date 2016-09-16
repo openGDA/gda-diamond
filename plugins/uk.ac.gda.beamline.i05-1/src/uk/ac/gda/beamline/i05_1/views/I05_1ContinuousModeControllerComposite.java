@@ -19,6 +19,7 @@
 package uk.ac.gda.beamline.i05_1.views;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -45,22 +46,22 @@ import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
 import gda.observable.IObserver;
 import gda.rcp.views.NudgePositionerComposite;
-import uk.ac.gda.devices.vgscienta.AnalyserCapabilties;
+import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
 
 public class I05_1ContinuousModeControllerComposite extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(I05_1ContinuousModeControllerComposite.class);
-	private Combo lensMode;
+	private Combo lensModeCombo;
 	private Combo passEnergyCombo;
 	private Button startButton;
 	private Button stopButton;
 	private boolean running = false;
 	private Button shutterButton;
-	private AnalyserCapabilties capabilities;
+	private IVGScientaAnalyserRMI analyser;
 
-	public I05_1ContinuousModeControllerComposite(Composite parent, AnalyserCapabilties capabilities) {
+	public I05_1ContinuousModeControllerComposite(Composite parent, IVGScientaAnalyserRMI analyser) {
 		super(parent, SWT.NONE);
-		this.capabilities = capabilities;
+		this.analyser = analyser;
 
 		// Overall layout of groups
 		RowLayoutFactory.swtDefaults().type(SWT.VERTICAL).spacing(5).wrap(false).applyTo(this);
@@ -76,24 +77,25 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		lensModeLabel.setText("Lens Mode");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).grab(false, true).applyTo(lensModeLabel);
 
-		lensMode = new Combo(analyserGroup, SWT.NONE);
-		GridDataFactory.swtDefaults().grab(true, false).applyTo(lensMode);
+		lensModeCombo = new Combo(analyserGroup, SWT.NONE);
+		GridDataFactory.swtDefaults().grab(true, false).applyTo(lensModeCombo);
 		// Setup lens modes and select currently selected one
-		lensMode.setItems(capabilities.getLensModes());
+		lensModeCombo.setItems(analyser.getEnergyRange().getAllLensModes().toArray(new String[0]));
 		String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
-		lensMode.select(Arrays.asList(lensMode.getItems()).indexOf(activeLensMode));
+		lensModeCombo.select(Arrays.asList(lensModeCombo.getItems()).indexOf(activeLensMode));
 
 		SelectionListener lensModeListener = new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				logger.info("Changing analyser lens mode to " + lensMode.getText());
-				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensMode.getText() + "\")");
+				logger.info("Changing analyser lens mode to " + lensModeCombo.getText());
+				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensModeCombo.getText() + "\")");
+				updatePassEnergyCombo();
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		};
-		lensMode.addSelectionListener(lensModeListener);
+		lensModeCombo.addSelectionListener(lensModeListener);
 
 		// Centre energy
 		NudgePositionerComposite centre_energyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
@@ -238,29 +240,30 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 
 	private void updatePassEnergyCombo() {
 		// Get the current PSU mode
-		String psuMode = JythonServerFacade.getInstance().evaluateCommand("psu_mode.getPosition()").trim();
-		// Get the available pass energies depending on the PSU mode
-		Short[] passEnergiesShortArray;
-		if (psuMode.equalsIgnoreCase("High Pass (XPS)")) {
-			passEnergiesShortArray = capabilities.getPassEnergiesHigh();
-		} else if (psuMode.equalsIgnoreCase("Low Pass (UPS)")) {
-			passEnergiesShortArray = capabilities.getPassEnergiesLow();
-		} else { // In this case mode wasn't matched give all pass energies EPICS knows about and error
-			logger.error("Failed to match psu_mode! Not all pass energies avaliable are valid!");
-			passEnergiesShortArray = capabilities.getPassEnergies();
-		}
+		String psuMode;
+		try {
+			psuMode = analyser.getPsuMode();
+
+		// Get the available pass energies depending on the PSU mode and lens mode
+		Set<Integer> passEnergies = analyser.getEnergyRange().getPassEnergies(psuMode, lensModeCombo.getText());
 
 		// Convert the short array into a string ArrayList for combo box
-		String[] passEnergiesStringArray = new String[passEnergiesShortArray.length];
-		for (int i = 0; i < passEnergiesShortArray.length; i++) {
-			passEnergiesStringArray[i] = passEnergiesShortArray[i].toString();
+		String[] passEnergyStrings = new String[passEnergies.size()];
+		int i = 0;
+		for (Integer pe : passEnergies) {
+			passEnergyStrings[i++] = pe.toString();
 		}
 
 		// Set the new pass energies
-		passEnergyCombo.setItems(passEnergiesStringArray);
+		logger.debug("Setting items in pass energy combo box");
+		passEnergyCombo.setItems(passEnergyStrings);
 
 		// Automatically select the current pass energy if available in current PSU mode
+		logger.debug("Selecting currently active pass energy in combo box");
 		String activePassEnergy = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
-		passEnergyCombo.select(Arrays.asList(passEnergiesStringArray).indexOf(activePassEnergy));
+		passEnergyCombo.select(Arrays.asList(passEnergyStrings).indexOf(activePassEnergy));
+		} catch (Exception e) {
+			logger.error("Failed to get PSU mode", e);
+		}
 	}
 }

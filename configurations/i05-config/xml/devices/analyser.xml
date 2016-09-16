@@ -73,7 +73,6 @@
 		<property name="ndProc" ref="proc" />
 		<property name="ndArray" ref="array2" />
 		<property name="local" value="true" />
-		<property name="capabilities" ref="AnalyserCapabilities" />
 		<property name="fixedModeRegion">
 			<list>
 				<value>1</value>
@@ -109,8 +108,6 @@
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
 	</bean>
-
-	<bean id="AnalyserCapabilities" class="uk.ac.gda.beamline.i05.analyser.I05AnalyserCapabilties" />
 
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />

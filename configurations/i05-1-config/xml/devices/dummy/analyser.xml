@@ -60,7 +60,7 @@
 	</bean>
 
 	<bean id="controller" class="uk.ac.gda.devices.vgscienta.VGScientaController">
-		<property name="basePVName" value="BL05I-EA-DET-01:CAM:" />
+		<property name="basePVName" value="BL05J-EA-DET-01:CAM:" />
 	</bean>
 
 	<bean id="analyser_roi_provider"
@@ -77,7 +77,6 @@
 		<property name="ndProc" ref="proc" />
 		<property name="ndArray" ref="array2" />
 		<property name="local" value="true" />
-		<property name="capabilities" ref="AnalyserCapabilities" />
 		<property name="fixedModeRegion">
 			<list>
 				<value>1</value>
@@ -94,6 +93,7 @@
 				<value>690</value>
 			</list>
 		</property>
+		<property name="energyStepPerPixel" value="0.0861" />
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 	</bean>
 	
@@ -115,34 +115,6 @@
 	<bean id="acquire_time" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL05I-EA-DET-01:CAM:AcquireTime_RBV" />
 		<property name="pvNameSetPoint" value="BL05I-EA-DET-01:CAM:STEP_TIME" />
-	</bean>
-
-	<import resource="analyser_lens_mapping.xml" />
-	<bean id="AnalyserCapabilities" class="uk.ac.gda.devices.vgscienta.i05_1.I05_1AnalyserCapabilties">
-		<description>
-			This class is used to hold the specific capabilities of the analyser. It contains a map of
-			lens modes and an array to map pixel position to angle for each.
-		</description>
-
-		<property name="lens2angles">
-			<map>
-				<entry key="Transmission" value-ref="transmissionArray" />
-				<entry key="A14_08" value-ref="a14_08Array" />
-				<entry key="A7_08" value-ref="a7_08Array" />
-				<entry key="A30_08" value-ref="a30_08Array" />
-				<entry key="DA30_01" value-ref="da30_01Array" />
-				<entry key="DA30_08" value-ref="da30_08Array" />
-				<entry key="DA14_01" value-ref="da14_01Array" />
-				<entry key="DA14_08" value-ref="da14_08Array" />
-				<entry key="DA7_08" value-ref="da7_08Array" />
-				<entry key="DA30Q_01" value-ref="da30q_01Array" />
-				<entry key="DA30Q_08" value-ref="da30q_08Array" />
-				<entry key="A14_01" value-ref="a14_01Array" />
-				<entry key="A30_01" value-ref="a30_01Array" />
-			</map>
-		</property>
-		<property name="energyStepPerPixel" value="0.086088032" />
-		<property name="detectorEnergyWidthInPixels" value="1064" />
 	</bean>
 
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
