@@ -1,13 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 	<context:property-placeholder/>
-
-	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
@@ -30,90 +30,16 @@
 		<property name="dummyMode" value="true" />
 	</bean>	
 
-	<import resource="../../../devices/dummy/maxipix_tango.xml"/>
-	<import resource="../../../devices/dummy/tfg2.xml"/>
-	
-	<import resource="../../../devices/dummy/undulator.xml"/>
-	<import resource="../../../devices/dummy/front_end.xml"/>
-	<import resource="../../../devices/dummy/ring.xml" />
-
-<!-- start of internal building -->
-
-	<import resource="../../../devices/dummy/fast_shutter.xml"/>
-
-	<import resource="../../../devices/dummy/s1_motors.xml"/>
-	<import resource="../../../devices/dummy/filter_motors.xml"/>
-	
-	<import resource="../../../devices/dummy/gas_bremsstrahlung1.xml"/>
-	
-	<import resource="../../../devices/dummy/m1.xml"/>
-
-	<import resource="../../../devices/dummy/d1.xml"/>
-
-	<import resource="../../../devices/dummy/absorbers1.xml"/>
-
-	<import resource="../../../devices/dummy/d2.xml"/>
-
-	<import resource="../../../devices/dummy/absorbers2.xml"/>
-
-	<import resource="../../../devices/dummy/s2_motors.xml"/>
-
-	<import resource="../../../devices/dummy/d3.xml"/>
-
-	<import resource="../../../devices/dummy/absorbers3.xml"/>	
-
-<!-- End of internal Building/ Start of external Building -->
-
-	<import resource="../../../devices/dummy/optics_hutch4_shutter.xml"/>
-	
-	<import resource="../../../devices/dummy/absorbers4.xml"/>	
-
-	<import resource="../../../devices/dummy/qcm_motors.xml"/>
-
-	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml"/>
-
-	<import resource="../../../devices/dummy/d4.xml"/>
-	<import resource="../../../devices/dummy/d5.xml"/>
-
-	<import resource="../../../devices/dummy/s4_motors.xml"/>
-	
-	<import resource="../../../devices/dummy/s5_motors.xml"/>
-	<import resource="../../../devices/dummy/m2_motors.xml"/>
-	<import resource="../../../devices/dummy/pin_motors.xml"/>
-	<import resource="../../../devices/dummy/diff_motors.xml"/>
-
-	<import resource="../../../devices/dummy/diffractometer_motors.xml"/>
-
-	<import resource="../../../devices/dummy/s6_motors.xml"/>	
-
-	<import resource="../../../devices/dummy/sample_stage_t1_motors.xml"/>
-	<!-- <import resource="../../../devices/dummy/g1_motors.xml"/> -->
-	<import resource="../../../devices/dummy/ion_chamber.xml" />	
-	<import resource="../../../devices/dummy/sample_stage_camera.xml"/>
-	<import resource="../../../devices/dummy/float1.xml"/>
-	<import resource="../../../devices/dummy/float2.xml"/>
-	<import resource="../../../devices/dummy/float3.xml"/>
-	<import resource="../../../devices/dummy/float4.xml"/>
-	
-	<import resource="../../../devices/dummy/s7_motors.xml"/>
-	<import resource="../../../devices/dummy/scope1_motors.xml"/>
-
 	<!-- Include the following lines to run with simulated area detector -->
-<!--     <import resource="../../../devices/dummy/adSimulator.xml"/>
-    <import resource="../../../devices/dummy/pco1_ndplugins_sim.xml"/> -->
+	<!-- <import resource="file:${gda.config}/devices/dummy/adSimulator.xml"/>
+    <import resource="file:${gda.config}/devices/dummy/pco1_ndplugins_sim.xml"/> -->
 
-	<!-- Include the following line to run in dummy mode -->
-    <import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
+	<!-- Include the following line to run with dummy area detector -->
+    <import resource="file:${gda.config}/devices/dummy/pco1_ndplugins.xml"/>
+	
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
-	<import resource="../../../devices/dummy/pco1.xml"/>
-	<import resource="../../../devices/dummy/merlin.xml"/>
-	
-	<import resource="../../../devices/dummy/pie725_raster.xml"/>
-	
-	<import resource="../../../devices/dummy/afg.xml"/>
-	
-	<import resource="../../../devices/dummy/t1_vac_motors.xml"/>
-
-	<import resource="../_common/server.xml"/>	
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
 	
 </beans>
