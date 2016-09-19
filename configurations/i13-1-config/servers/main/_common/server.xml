@@ -7,6 +7,7 @@
 
 	<context:property-placeholder/>
 
+	<import resource="ringAndBeamline.xml" />
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="GDAMetadata.xml" />
 	<import resource="imageProcessors.xml" />

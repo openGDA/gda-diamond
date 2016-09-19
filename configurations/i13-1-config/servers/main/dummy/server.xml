@@ -9,27 +9,6 @@
 
 	<context:property-placeholder/>
 
-	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="Current" value="SR-DI-DCCT-01:SIGNAL" />
-				<entry key="FastCurrent" value="SR21C-DI-DCCT-01:SIGNAL" />
-				<entry key="TimeUntilRefill" value="SR-CS-FILL-01:COUNTDOWN" />
-				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
-			</map>
-		</property>
-		<property name="dummyMode" value="true" />
-	</bean>
-	
- 	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="Top" value="BL13J" />
-			</map>
-		</property>
-		<property name="dummyMode" value="true" />
-	</bean>	
-
 	<!-- Include the following lines to run with simulated area detector -->
 	<!-- <import resource="file:${gda.config}/devices/dummy/adSimulator.xml"/>
     <import resource="file:${gda.config}/devices/dummy/pco1_ndplugins_sim.xml"/> -->
