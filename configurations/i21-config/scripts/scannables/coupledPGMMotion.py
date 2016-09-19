@@ -107,6 +107,6 @@ energycff1=pgmEnergyScannable("energycff1", 600*1000, pgmMirrorPitch, pgmGrating
 energycff2=pgmEnergyScannable("energycff2", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 energycff3=pgmEnergyScannable("energycff3", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 
-energy1=BeamEnergy("energy1",idphase, idgap, energycff1,lut="IDCalibrationTable.txt")  # @UndefinedVariable
-energy2=BeamEnergy("energy2",idphase, idgap, energycff2,lut="IDCalibrationTable.txt")  # @UndefinedVariable
-energy3=BeamEnergy("energy3",idphase, idgap, energycff3,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+energy1=BeamEnergy("energy1",idcontroller, idgap, energycff1,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+energy2=BeamEnergy("energy2",idcontroller, idgap, energycff2,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+energy3=BeamEnergy("energy3",idcontroller, idgap, energycff3,lut="IDCalibrationTable.txt")  # @UndefinedVariable
