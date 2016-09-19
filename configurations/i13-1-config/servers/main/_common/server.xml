@@ -171,7 +171,6 @@
 
 	<!-- Command Server at the end -->
  	<import resource="dataFileMonitor.xml" />
- 	<import resource="dataFileWriter.xml" />
  	<import resource="rcpController.xml" />
 	
 	<!-- See uk.ac.gda.exafs.ui.detector.DetectorEditor.EXAFS_SCRIPT_OBSERVER-->

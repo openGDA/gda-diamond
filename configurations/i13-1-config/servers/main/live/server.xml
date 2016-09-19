@@ -25,7 +25,9 @@
 
 	<!-- Not present <import resource="file:${gda.config}/devices/epics/s3_motors.xml"/> -->
 	<!-- Not present <import resource="file:${gda.config}/devices/epics/z1_motors.xml"/> -->
-	
+
+ 	<import resource="dataFileWriter.xml" />
+
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
