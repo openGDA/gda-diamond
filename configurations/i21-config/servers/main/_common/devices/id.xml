@@ -15,16 +15,11 @@
 		<property name="controller" ref="idcontrol" />
 	</bean>
 	
-	<bean id="idcontroller2" class="gda.device.insertiondevice.Apple2IDGapPolar">
-		<property name="controller" ref="idcontrol" />
-	</bean>
-	
 	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="idgap" />
 				<ref bean="idcontroller" />
-				<ref bean="idcontroller2" />
 			</list>
 		</property>
 	</bean>
