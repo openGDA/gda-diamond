@@ -10,6 +10,7 @@
 	<import resource="s1c.xml"/>
 	<import resource="s2c.xml"/>
 	<import resource="s2c_femtos.xml" />
+	<import resource="s3c.xml"/>
 
 	<!-- Mirrors -->
 	<import resource="m1c.xml"/>
