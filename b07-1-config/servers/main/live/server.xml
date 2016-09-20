@@ -14,10 +14,15 @@
 
 	<!-- Mirrors -->
 	<import resource="m1c.xml"/>
-	
+
 	<!-- Diagnostics -->
 	<import resource="d1c.xml"/>
 	<import resource="d2c.xml"/>
+	<import resource="d3c.xml"/>
+	<import resource="d4c.xml"/>
+	<import resource="d5c.xml"/>
+	<import resource="d6c.xml"/>
+	<import resource="d8c.xml"/>
 
 	<!-- Monocromators -->
 	<import resource="pgm.xml"/>

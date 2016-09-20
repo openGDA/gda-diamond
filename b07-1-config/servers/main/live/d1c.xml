@@ -10,45 +10,65 @@
 	</bean>
 
 	<!-- D1C Cam0 -->
+	<bean id="d1c_cam0_PlotServerRoiProvider"
+		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="D1C Cam0" /> <!-- This must match the string used in the view secondary ID -->
+		<constructor-arg value="2" /> <!-- Maximum number of ROIs -->
+	</bean>
 
 	<bean id="d1c_cam0_CamBase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL07C-DI-PHDGN-01:DCAM0:CAM:" />
 	</bean>
-	
+
 	<bean id="d1c_cam0_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
 		<property name="restoreNumImagesAndImageMode" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 				<property name="restoreTriggerMode" value="true" />
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-						<property name="restoreAcquireState" value="true" />
-						<property name="adBase" ref="d1c_cam0_CamBase" />
-						<property name="readoutTime" value="-1" />
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="d1c_cam0_CamBase" />
+								<property name="readoutTime" value="-1" />
+							</bean>
+						</property>
 					</bean>
 				</property>
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="d1c_cam0_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats" />
-		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM0:ROI:" />
-		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM0:STAT:" />
+
+	<bean id="d1c_cam0_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM0:ROI1:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM0:STAT1:" />
 		<property name="roiInputNdArrayPort" value="D1C.DCAM0.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
-				<property name="roi">
-					<bean class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
-						<constructor-arg value="0" />
-						<constructor-arg value="0" />
-						<constructor-arg value="1292" />
-						<constructor-arg value="964" />
-						<constructor-arg value="roi1" />
-					</bean>
-				</property>
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d1c_cam0_PlotServerRoiProvider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d1c_cam0_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats2" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM0:ROI2:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM0:STAT2:" />
+		<property name="roiInputNdArrayPort" value="D1C.DCAM0.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d1c_cam0_PlotServerRoiProvider" />
+				<constructor-arg value="1" />
 			</bean>
 		</property>
 	</bean>
@@ -66,57 +86,78 @@
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="d1c_cam0" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
 		<property name="collectionStrategy" ref="d1c_cam0_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="d1c_cam0_RoiStats" />
+				<ref bean="d1c_cam0_RoiStats1" />
+				<ref bean="d1c_cam0_RoiStats2" />
 				<ref bean="d1c_cam0_Hdf5Filewriter" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- D1C Cam1 -->
+	<bean id="d1c_cam1_PlotServerRoiProvider"
+		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="D1C Cam1" /> <!-- This must match the string used in the view secondary ID -->
+		<constructor-arg value="2" /> <!-- Maximum number of ROIs -->
+	</bean>
 
 	<bean id="d1c_cam1_CamBase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL07C-DI-PHDGN-01:DCAM1:CAM:" />
 	</bean>
-	
+
 	<bean id="d1c_cam1_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
 		<property name="restoreNumImagesAndImageMode" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 				<property name="restoreTriggerMode" value="true" />
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-						<property name="restoreAcquireState" value="true" />
-						<property name="adBase" ref="d1c_cam1_CamBase" />
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="d1c_cam1_CamBase" />
+							</bean>
+						</property>
 					</bean>
 				</property>
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="d1c_cam1_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats" />
-		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM1:ROI:" />
-		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM1:STAT:" />
+
+	<bean id="d1c_cam1_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM1:ROI1:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM1:STAT1:" />
 		<property name="roiInputNdArrayPort" value="D1C.DCAM1.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
-				<property name="roi">
-					<bean class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
-						<constructor-arg value="0" />
-						<constructor-arg value="0" />
-						<constructor-arg value="1292" />
-						<constructor-arg value="964" />
-						<constructor-arg value="roi1" />
-					</bean>
-				</property>
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d1c_cam1_PlotServerRoiProvider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d1c_cam1_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats2" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-01:DCAM1:ROI2:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-01:DCAM1:STAT2:" />
+		<property name="roiInputNdArrayPort" value="D1C.DCAM1.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d1c_cam1_PlotServerRoiProvider" />
+				<constructor-arg value="1" />
 			</bean>
 		</property>
 	</bean>
@@ -134,13 +175,14 @@
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="d1c_cam1" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
 		<property name="collectionStrategy" ref="d1c_cam1_CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="d1c_cam1_RoiStats" />
+				<ref bean="d1c_cam1_RoiStats1" />
+				<ref bean="d1c_cam1_RoiStats2" />
 				<ref bean="d1c_cam1_Hdf5Filewriter" />
 			</list>
 		</property>
