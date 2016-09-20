@@ -1,82 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba
+	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.diamond.ac.uk/schema/gda/gda
-	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd" >
+	http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 	<context:property-placeholder/>
-
-	<!--for an 'empty' configuration, remove the imports below, and the other xml files and directories inside the xml/server directory-->
-
-	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-
-	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="Current" value="SR-DI-DCCT-01:SIGNAL" />
-				<entry key="FastCurrent" value="SR21C-DI-DCCT-01:SIGNAL" />
-				<entry key="TimeUntilRefill" value="SR-CS-FILL-01:COUNTDOWN" />
-				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
-			</map>
-		</property>
-		<property name="dummyMode" value="true" />
-	</bean>
-
-	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="Top" value="BL13I" />
-			</map>
-		</property>
-		<property name="dummyMode" value="true" />
-	</bean>
-	
-	<import resource="../../../devices/dummy/undulator.xml" />
-	<import resource="../../../devices/dummy/front_end.xml" />
-	<import resource="../../../devices/dummy/ring.xml" />
-
-	<!-- start of internal building -->
-
-	<import resource="../../../devices/dummy/s1_motors.xml" />
-	<import resource="../../../devices/dummy/filter_motors.xml" />
-	<import resource="../../../devices/dummy/m1.xml" />
-	
-	<import resource="../../../devices/dummy/d1.xml" />
-	<import resource="../../../devices/dummy/d2.xml" />
-	<import resource="../../../devices/dummy/d3.xml" />
-	<import resource="../../../devices/dummy/d4.xml" />
-	<import resource="../../../devices/dummy/d5.xml" />
-
-	<import resource="../../../devices/dummy/absorbers1.xml" />
-	<import resource="../../../devices/dummy/absorbers2.xml" />
-	<import resource="../../../devices/dummy/s2_motors.xml" />
-
-
-	<!-- End of internal Building/ Start of external Building -->
-	<import resource="../../../devices/dummy/optics_hutch4_shutter.xml" />
-	<import resource="../../../devices/dummy/s3_motors.xml" />
-	<import resource="../../../devices/dummy/absorbers3.xml" />
-	<import resource="../../../devices/dummy/dcm_motors.xml" />
-	<import resource="../../../devices/dummy/experiment_hutch_shutter.xml" />
-
-	<import resource="../../../devices/dummy/s4_motors.xml" />
-	<import resource="../../../devices/dummy/absorbers4.xml" />
-	<import resource="../../../devices/dummy/ion_chamber.xml" />
-	<!-- <import resource="../../../devices/dummy/kb_motors.xml" /> -->
-
-
-	<import resource="../../../devices/dummy/sample_stage_motors.xml" />
-	<import resource="../../../devices/dummy/translation_stage_motors.xml" />
-	<import resource="../../../devices/dummy/table_motors.xml" />
-	<import resource="../../../devices/dummy/camera_stage_motors.xml" />
-	<import resource="../../../devices/dummy/cs2_motors.xml" />
-
 
 	<!-- Include the following lines to run with simulated area detector -->
 	<!-- NB. Corresponding changes must be made in the dummy client.xml -->
@@ -86,32 +20,10 @@
 	<!-- Include the following line to run in dummy mode -->
     <import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
 
-	<import resource="../../../devices/dummy/pco1.xml" />
-
-	<import resource="../../../devices/dummy/lens.xml" />
-	<import resource="../../../devices/dummy/pco_binning.xml" />
-	<import resource="../../../devices/dummy/zebra.xml" />
-	
-	<import resource="../../../devices/dummy/float1.xml" />
-	<import resource="../../../devices/dummy/float2.xml" />
-	<import resource="../../../devices/dummy/float3.xml" />
-	
-	<import resource="../../../devices/dummy/pinhole_motors.xml" />
-	<import resource="../../../devices/dummy/zone_plate_motors.xml" />
-	<import resource="../../../devices/dummy/phase_ring_motors.xml" />
-
-	<import resource="../../../devices/dummy/fast_shutter.xml" />
-
-	<import resource="../../../devices/dummy/p2r.xml"/>	
-	<import resource="../../../devices/dummy/sample_stage_hexapod_motors.xml"/>
- 	<import resource="../../../devices/dummy/smaract_motors.xml"/>
- 	<import resource="../../../devices/dummy/newport_motors.xml"/>
- 	<import resource="../../../devices/dummy/deben_motors.xml"/>
-
-	<import resource="../../../devices/dummy/tfg2.xml"/>	
-
-
-<!-- do not remove anything below here -->
+	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
 
 </beans>

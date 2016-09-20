@@ -1,37 +1,26 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba
 	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-	http://www.diamond.ac.uk/schema/gda/gda
-	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd" >
 
 
 	<context:property-placeholder/>
 	
-	<import resource="live_server_common.xml" />
-	<import resource="../../../devices/live/tfg2.xml"/>
+	<import resource="dataFileWriter.xml" />
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrar" />
-		<property name="directory"
-			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.epics.interface.xml}" />
 	</bean>
 
-	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
-		<property name="name" value="DataWriterFactory" />
-		<property name="dataWriterExtenders">
-			<list>
-				<ref bean="FileRegistrar" />
-			</list>
-		</property>
-	</bean>
+	<import resource="../../../devices/live/pco1_ndplugins.xml" />
+
+	<import resource="../_common/server.xml" />
 
 	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
 	<corba:export namespace="${gda.factory.factoryName}" />
