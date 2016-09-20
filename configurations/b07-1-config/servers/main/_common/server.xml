@@ -21,8 +21,6 @@
 		</property>
 	</bean>
 	
-	<import resource="devices/common_devices.xml"/>
-
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
@@ -46,6 +44,8 @@
 		service="plot_server"
 		serviceName="gda/plotserver"
 		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
+		
+	<import resource="devices/common_devices.xml"/>
 
 	<import resource="jython_server_facade.xml" />
 	<import resource="common_nxplugins.xml"/>
