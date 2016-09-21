@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
+	<!--  Only reference script folders here that are within a config folder or separate from the workspace -->
+	<!--  all other should use the uk.ac.diamond.daq.jython.api.scriptLocations extension point-->
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
 			<bean class="gda.jython.ScriptPaths">
@@ -19,11 +20,6 @@
 							<property name="path" value="${gda.config}/scripts" />
 							<property name="name" value="Scripts: Config" />
 							<property name="type" value="CONFIG" />
-						</bean>
-						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts" />
-							<property name="name" value="Scripts: Core" />
-							<property name="type" value="CORE" />
 						</bean>
 					</list>
 				</property>
