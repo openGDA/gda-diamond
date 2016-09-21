@@ -71,6 +71,7 @@
 	<import resource="../../../devices/_common/sample_stage.xml" />
 	<import resource="../../../devices/_common/table.xml" />
 	<import resource="../../../devices/_common/camera_stage.xml" />
+	<import resource="../../../devices/_common/cs2.xml" />
 	<import resource="../../../devices/_common/sample_stage_hexapod.xml"/>
 	<import resource="../../../devices/_common/smaract_stage.xml"/>
 	<import resource="../../../devices/_common/newport_stage.xml"/>

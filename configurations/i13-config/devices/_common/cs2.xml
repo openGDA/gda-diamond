@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="cs2_focus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cs2_focus_motor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="cs2_rotation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cs2_rotation_motor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+
+ 	<bean id="cs2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cs2_focus" />
+				<ref bean="cs2_rotation" />
+				<ref bean="cs2_objective" />
+				<ref bean="cs2_focus_pos" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

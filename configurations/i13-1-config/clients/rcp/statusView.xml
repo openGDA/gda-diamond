@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Status" />
@@ -53,12 +56,7 @@
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="expt_sht_stat" />
 								<property name="label" value="State" />
-								<property name="colourMap">
-									<map>
-										<entry key="Open" value="5" />
-										<entry key="Closed" value="3" />
-									</map>
-								</property>
+								<property name="colourMap" ref="shutterStatusColourMap" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
 								<property name="command" value="eh_shtr_control()" />
@@ -94,12 +92,7 @@
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="fast_shtr_stat" />
 								<property name="label" value="State" />
-								<property name="colourMap">
-									<map>
-										<entry key="Open" value="5" />
-										<entry key="Closed" value="3" />
-									</map>
-								</property>
+								<property name="colourMap" ref="shutterStatusColourMap" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
 								<property name="commandRunner" ref="commandRunner" />
@@ -166,25 +159,32 @@
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Float 1" />
-								<constructor-arg value="Float 1" />
+								<constructor-arg value="Float 1 - Scint. Macroscope" />
+								<constructor-arg value="Float 1 - Scint. Macroscope" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13J-OP-FLOAT-01:"/>
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Float 2" />
-								<constructor-arg value="Float 2" />
+								<constructor-arg value="Float 2 - Top Vis. Microscope" />
+								<constructor-arg value="Float 2 - Top Vis. Microscope" />
 								<constructor-arg value="MPEG"/>
 								<constructor-arg value="BL13J-OP-FLOAT-02:"/>
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
-								<constructor-arg value="Float 2" />
-								<constructor-arg value="Float 2" />
+								<constructor-arg value="Float 3 - Scint. Microscope" />
+								<constructor-arg value="Float 3 - Scint. Microscope" />
 								<constructor-arg value="MPEG"/>
-								<constructor-arg value="diagnosticCameraType"/>
 								<constructor-arg value="BL13J-OP-FLOAT-03:"/>
+								<constructor-arg value="diagnosticCameraType"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Float 4 - Side Vis. Microscope" />
+								<constructor-arg value="Float 4 - Side Vis. Microscope" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-OP-FLOAT-04:"/>
+								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="excalibur" />
@@ -227,5 +227,10 @@
 			</list>
 		</property>
 	</bean>
+
+	<util:map id="shutterStatusColourMap">
+		<entry key="Open" value="6" />
+		<entry key="Closed" value="3" />
+	</util:map>
 
 </beans>
