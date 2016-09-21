@@ -8,6 +8,8 @@
 		<constructor-arg ref="command_server" />
 	</bean>
 
+	<!--  Only reference script folders here that are within a config folder or separate from the workspace -->
+	<!--  all other should use the uk.ac.diamond.daq.jython.api.scriptLocations extension point-->
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
 			<bean class="gda.jython.ScriptPaths">
