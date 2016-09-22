@@ -8,7 +8,7 @@
 	<context:property-placeholder/>
 
 	<import resource="live_client_common.xml" />
-	<import resource="../../../devices/epics/pco1_ndplugins.xml" />
+	<import resource="../../../devices/live/pco1_ndplugins.xml" />
 
 	<bean id="dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
 		<property name="map">
