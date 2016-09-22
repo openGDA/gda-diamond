@@ -2,7 +2,7 @@
 """
 I13-1
 
-This is the help for I13:
+This is the help for I13 Coherence branch:
 
 
 Scans are recorded in the visit folder given by VisitPath.getVisitPath()
@@ -175,14 +175,14 @@ To take an image from the maxipix detector:
     repscan 5 mpx_wrap .1 mpx_roi_average_diff mpx_roi_total_diff
 
 12. Beammonitor
-    To pause the scan if the value of a scannable goes below a minimum threshold add thescannable beammonitor to a scan command
+    To pause the scan if the value of a scannable goes below a minimum threshold add the scannable beammonitor to a scan command
     e.g. scan ix 0 10 1 beammonitor
     
     To view the scannable being monitored :
     >beammonitor.scannableToMonitor
     ( To change use a command of the form: beammonitor.scannableToMonitor = d3_i)
     
-    To view the minium value bwlo which teh scan pauses:
+    To view the minimum value below which the scan pauses:
     >beammonitor.minimumThreshold
 
     (To change use a command of the form: beammonitor.minimumThreshold = .1)
@@ -252,13 +252,13 @@ To take an image from the maxipix detector:
     
     Type help tfg_commands.sendSimplyTrigger for full details of the command
     
-19. To use PCO Egde for effective exposure times greater than 2s
+19. To use PCO Edge for effective exposure times greater than 2s
     Turn on accumulation mode:
     >pco1_sw_hdf_nochunking.collectionStrategy.accumlationMode=True
     Set  exposure for the individual images that are to be accumulated together at each point
     >pco1_sw_hdf_nochunking.collectionStrategy.accumlationMode.acc_expo_time=.1
     
-    To get 1 accummulated image with effective exposure time of 4 s:
+    To get 1 accumulated image with effective exposure time of 4 s:
     >repscan 1 pco1_sw_hdf_nochunking 4
 
 """
