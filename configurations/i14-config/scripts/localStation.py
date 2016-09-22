@@ -29,8 +29,8 @@ alias("meta_rm")
 from gda.data.scan.datawriter import NexusDataWriter
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
-from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-scan_processor.rootNamespaceDict=globals()
+#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+#scan_processor.rootNamespaceDict=globals()
 
 from gdascripts.pd.time_pds import waittimeClass, showtimeClass, showincrementaltimeClass, actualTimeClass
 waittime=waittimeClass('waittime')
