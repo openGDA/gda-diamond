@@ -11,7 +11,7 @@
 		<property name="lowerGdaLimits" value="20" />
 	</bean>
 	
-	<bean id="idcontroller" class="gda.device.insertiondevice.Apple2IDGapPolarPos">
+	<bean id="idscannable" class="gda.device.insertiondevice.Apple2IDGapPolarPos">
 		<property name="controller" ref="idcontrol" />
 	</bean>
 	
@@ -19,7 +19,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="idgap" />
-				<ref bean="idcontroller" />
+				<ref bean="idscannable" />
 			</list>
 		</property>
 	</bean>

@@ -22,7 +22,7 @@ my_env = os.environ
 my_env["PYTHONPATH"] = python_path
 
 def lookupGapPhase(gap, rowphase):
-    stdoutdata, stderrdata=subprocess.Popen(["./lookup.py", "-f", lookup_file, "gaprowphase", str(gap), str(rowphase)], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=lookup_module_dir, env=my_env).communicate()
+    stdoutdata, stderrdata=subprocess.Popen(["./lookup.py", "-f", lookup_file, "gaprowphase", str(idgap), str(rowphase)], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=lookup_module_dir, env=my_env).communicate()
     if stderrdata!='':
         print stderrdata
     return stdoutdata.strip('\n')
@@ -37,15 +37,15 @@ def test():
     start=time.time()
     print lookupGapPhase(25, 17)
     end=time.time()
-    print "time taken for lookup 1st gap and rowphase: %s" % (end-start)
+    print "time taken for lookup 1st idgap and rowphase: %s" % (end-start)
     start=time.time()
     print lookupGapPhase(60, 20)
     end=time.time()
-    print "time taken for lookup 2nd gap and rowphase: %s" % (end-start)
+    print "time taken for lookup 2nd idgap and rowphase: %s" % (end-start)
     start=time.time()
     print lookupGapPhase(45, 10)
     end=time.time()
-    print "time taken for lookup 3rd gap and rowphase: %s" % (end-start)
+    print "time taken for lookup 3rd idgap and rowphase: %s" % (end-start)
     
     print
     
