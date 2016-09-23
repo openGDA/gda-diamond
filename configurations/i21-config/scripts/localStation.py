@@ -150,6 +150,11 @@ dummyenergy=BeamEnergy("dummyenergy",idscannable, dummies.x, dummies.y)  # @Unde
 print "Create an 'energy' scannable which can be used for energy scan in GDA. It moves both ID gap and PGM energy"
 energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy)  # @UndefinedVariable
 
+print "-----------------------------------------------------------------------------------------------------------------"
+print "setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm "
+from metashop import *  # @UnusedWildImport
+import metashop  # @UnusedImport
+
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
 
