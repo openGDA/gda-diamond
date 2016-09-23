@@ -32,6 +32,6 @@
 	</bean>
 
 	<bean id="s2gapY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15J-AL-SLITS-02:X:CENTER" />
+		<property name="pvName" value="BL15J-AL-SLITS-02:Y:SIZE" />
 	</bean>
 </beans>
