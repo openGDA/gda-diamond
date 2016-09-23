@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="uk.ac.gda.devices.vgscienta.VGScientaOverExposureProtector">
+		<!-- PVs -->
+		<property name="valuePv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
+		<property name="warningPv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV.HIGH" />
+		<property name="alarmPv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV.HIHI" />
+		<!-- Exposure values -->
+		<property name="warningValue" value="750" />
+		<property name="alarmValue" value="900" />
+		<!-- Close the shutter if over exposure is detected -->
+		<property name="alarmActionCommand" value="pos hr_shutter 'Close'" />
+		<property name="userMessage" value="Analyser over-exposure detected! The HR shutter has been closed.\nTo reopen the shutter run: pos hr_shutter 'Open'" />
+	</bean>
+
+</beans>

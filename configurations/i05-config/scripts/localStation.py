@@ -58,7 +58,8 @@ centre_energy=analyser.getCentreEnergyScannable()
 centre_energy.setName("centre_energy")
 centre_energy.setInputNames(["centre_energy"])
 
-caput("BL05I-EA-DET-01:ARR1:EnableCallbacks",1)
+# Add short 1.0 sec timeout so if IOC is down fail quicker
+caput_wait("BL05I-EA-DET-01:ARR1:EnableCallbacks",1, 1.0)
 
 import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
