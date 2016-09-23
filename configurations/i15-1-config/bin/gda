@@ -1,23 +1,28 @@
 #!/bin/bash
-# Expects a parameter line that can be passed on to the gda python script
-#export GDA_DEBUG=TRUE
+#export GDA_DEBUG=TRUE # Uncomment this line to turn on extra logging for the startup scripts
+
+# This script MUST only ever contain environment variable definitions.
+
+# Any other code should be added to an "/etc/_common/gda_common_pre_instance"
+# instead. See p45-config for an example of this.
 
 here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-set -o nounset  # Turn on nounset
-set -o errexit  # Turn on errexit
+WORKSPACE_GIT_LOC=$(readlink -f ${here_dir}/../../../..)
+WORKSPACE_GIT_NAME=$(basename $WORKSPACE_GIT_LOC)
+# This will normally be "workspace_git" but will always end with "_git".
 
-# Define this instance's group, facility and core
-export GDA_WORKSPACE_PARENT=$(readlink -f ${here_dir}/../../../../..)
-export GDA_WORKSPACE_GIT_NAME=$(basename $(readlink -f ${here_dir}/../../../..))  # will normally be "workspace_git", will always end with "_git"
-export GDA_INSTANCE_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/i15-1-config
-export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/mt-config
-export GDA_FACILITY_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-diamond.git/dls-config
-export GDA_CORE_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-core.git/core-config
+# Define variables required by gda_core script
+export    GDA_WORKSPACE_PARENT=$(readlink -f $WORKSPACE_GIT_LOC/..)
+export GDA_INSTANCE_CONFIG_rel=$WORKSPACE_GIT_NAME/gda-mt.git/configurations/i15-1-config
+export    GDA_GROUP_CONFIG_rel=$WORKSPACE_GIT_NAME/gda-mt.git/configurations/mt-config
+export GDA_FACILITY_CONFIG_rel=$WORKSPACE_GIT_NAME/gda-diamond.git/dls-config
+export     GDA_CORE_CONFIG_rel=$WORKSPACE_GIT_NAME/gda-core.git/core-config
 
-export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/clients/main/_common/pluginCustomization.ini"
-export GDA_CLIENT=$GDA_WORKSPACE_PARENT/client/gda-i15-1
+# Define variables required by dls-config/bin/gdaclient
+export              GDA_CLIENT=$GDA_WORKSPACE_PARENT/client/gda-i15-1
+export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=$GDA_WORKSPACE_PARENT/$GDA_INSTANCE_CONFIG_rel/clients/main/_common/pluginCustomization.ini"
 
-# Define a display name for use in messages
+# Define variables required by dls-config/bin/gda_servers_pre_facility
 export GDA_INSTANCE_NAME=i15-1
 
-. ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
+source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
