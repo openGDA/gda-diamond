@@ -21,9 +21,13 @@
 	<bean id="d7_y_position" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>1</value>
-				<value>2</value>
-				<value>3</value>
+				<value>Screen</value>
+				<value>Scatter Diode</value>
+				<value>Inline Diode</value>
+				<value>Out</value>
+				<value>5</value>
+				<value>6</value>
+				<value>7</value>
 			</util:list>
 		</property>
 	</bean>
