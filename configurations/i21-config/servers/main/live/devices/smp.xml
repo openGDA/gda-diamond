@@ -21,6 +21,10 @@
 		<property name="pvName" value="BL21I-EA-SMPL-01:Z" />
 		<property name="local" value="true" />
 	</bean>
+	<bean id="smpazimuthMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:AZIMUTH" />
+		<property name="local" value="true" />
+	</bean>
 
 	<!-- Femto -->
 	<bean id="smpfemto" class="gda.device.monitor.EpicsMonitor">

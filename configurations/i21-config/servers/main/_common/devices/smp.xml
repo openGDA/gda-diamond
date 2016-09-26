@@ -4,34 +4,39 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="smprz" class="gda.device.scannable.ScannableMotor">
+	<bean id="sapolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smprzMotor" />
 		<property name="userUnits" value="mdeg" />
 	</bean>
 
-	<bean id="smpx" class="gda.device.scannable.ScannableMotor">
+	<bean id="sax" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpxMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="smpy" class="gda.device.scannable.ScannableMotor">
+	<bean id="say" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpyMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="smpz" class="gda.device.scannable.ScannableMotor">
+	<bean id="saz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpzMotor" />
 		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="saazimuth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpazimuthMotor" />
+		<property name="userUnits" value="deg" />
 	</bean>
 
 	<!-- Group d4-related objects -->	
  	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="smprz" />
-				<ref bean="smpx" />
-				<ref bean="smpy" />
-				<ref bean="smpz" />
+				<ref bean="sapolar" />
+				<ref bean="sax" />
+				<ref bean="say" />
+				<ref bean="saz" />
+				<ref bean="saazimuth" />
 				<ref bean="smpfemto" />
 				<ref bean="smplcam1" />
 				<ref bean="smplcam2" />
