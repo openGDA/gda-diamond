@@ -7,12 +7,8 @@
 		<constructor-arg ref="command_server" />
 	</bean>
 	
-	<bean id="diffcalc_script_project"  class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/diffcalc.git" />
-		<property name="name" value="Scripts: Diffcalc" />
-		<property name="type" value="CONFIG" />
-	</bean>
-
+	<!--  Only reference script folders here that are within a config folder or separate from the workspace -->
+	<!--  all other should use the uk.ac.diamond.daq.jython.api.scriptLocations extension point-->
 	<bean id="user_script_project" class="gda.jython.ScriptProject">
 		<constructor-arg index="0" value="${gda.beamline.scripts.dir}" />
 		<constructor-arg index="1" value="Scripts: User" />
@@ -27,12 +23,6 @@
 			value="CONFIG" />
 	</bean>
 
-	<bean id="excalibur_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-dls-excalibur.git/uk.ac.gda.devices.excalibur/scripts" />
-		<property name="name" value="Scripts: Excalibur" />
-		<property name="type" value="CORE" />
-	</bean>
-	
 <!-- Used for moveable equipment supported by mt-config
  	<bean id="mt_script_project" class="gda.jython.ScriptProject">
 		<property name="path" value="${gda.install.git.loc}/gda-mt.git/configurations/mt-config/scripts" />
@@ -43,10 +33,8 @@
 	<bean id="script_paths" class="gda.jython.ScriptPaths">
 		<property name="projects">
 			<list>
-				<ref bean="diffcalc_script_project" />
 				<ref bean="user_script_project" />
 				<ref bean="configuration_script_project" />
-				<ref bean="excalibur_script_project" />
 			</list>
 		</property>
 		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
