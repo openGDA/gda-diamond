@@ -10,7 +10,11 @@
 		<property name="pvName" value="BL21I-DI-PHDGN-08:POS" />
 		<property name="local" value="true" />
 	</bean>
-
+	<!-- Femto -->
+	<bean id="d8femto1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-DI-PHDGN-08:FEMTO1:I" />
+		<property name="local" value="true" />
+	</bean>
 
 	<!-- Area detector camera -->
 	<bean id="d8PlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">

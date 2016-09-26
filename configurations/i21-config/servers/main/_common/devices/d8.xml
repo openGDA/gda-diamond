@@ -16,6 +16,7 @@
 			<list>
 				<ref bean="d8stick" />
 				<ref bean="d8cam" />
+				<ref bean="d8femto1" />
 			</list>
 		</property>
 		<property name="local" value="true" />
