@@ -3,6 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!--  Only reference script folders here that are within a config folder or separate from the workspace -->
+	<!--  all other should use the uk.ac.diamond.daq.jython.api.scriptLocations extension point-->
 	<bean id="jython_script_paths" class="gda.jython.ScriptPaths">
 		<property name="projects">
 			<list>
@@ -15,18 +17,6 @@
 					<property name="path" value="${gda.config}/scripts"></property>
 					<property name="name" value="Scripts: Config"></property>
 					<property name="type" value="CONFIG"></property>
-				</bean>
-				<bean class="gda.jython.ScriptProject">
-					<property name="path"
-						value="${gda.install.git.loc}/gda-xas-core.git/uk.ac.gda.server.exafs/scripts" />
-					<property name="name" value="Scripts: Exafs" />
-					<property name="type" value="CORE" />
-				</bean>
-				<bean class="gda.jython.ScriptProject">
-					<property name="path"
-						value="${gda.install.git.loc}/gda-xas-core.git/uk.ac.diamond.daq.client.microfocus.scan/scripts" />
-					<property name="name" value="Scripts: Microfocus" />
-					<property name="type" value="CORE" />
 				</bean>
 			</list>
 		</property>
