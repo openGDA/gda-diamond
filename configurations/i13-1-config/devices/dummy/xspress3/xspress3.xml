@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="xspress3_controller" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
+		<constructor-arg index="0" ref= "xspress3_tfg"/>
+		<constructor-arg index="1" ref= "xspress3_daserver"/>
+		<property name="numberOfChannels" value="10" />
+	</bean>
+
+</beans>

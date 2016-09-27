@@ -95,6 +95,9 @@
 	<!-- piezo raster scan device  - must be included for maxipix -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/pie725_raster.xml"/>
 
+	<!-- xspress3 -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/xspress3/xspress3.xml" />
+
 	<!-- =========================================================== -->
 	<!-- Shared device files                                         -->
 	<!-- =========================================================== -->
@@ -164,6 +167,9 @@
 	<import resource="file:${gda.config}/devices/_common/afg.xml"/>
 
 	<!-- <import resource="file:${gda.config}/devices/_common/mll.xml"/> -->
+
+	<!-- xspress3 -->
+	<import resource="file:${gda.config}/devices/_common/xspress3/xspress3.xml"/>
 
 	<!-- =========================================================== -->
 	<!-- end of device list -->
