@@ -9,6 +9,7 @@
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL05J-EA-SM-01:DET:I" />
+		<property name="settletime" value="500" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -17,6 +18,7 @@
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL05J-EA-SM-01:DET:IAV" />
+		<property name="settletime" value="500" />
 		<property name="local" value="true" />
 	</bean>
 
