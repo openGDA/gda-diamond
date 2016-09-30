@@ -24,7 +24,7 @@
 			</bean>
 		</property>	
 		<property name="decoratee">		
-			<bean id="pimte1CollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 				<property name="restoreAcquireTime" value="false" />
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
