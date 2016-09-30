@@ -24,8 +24,26 @@
     <logger name="gda">
         <level value="DEBUG"/>
     </logger>
+    <logger name="gda.device.motor.MoveEventQueue">
+        <level value="INFO"/>
+    </logger>
     <logger name="gda.device.motor.EpicsMotor">
         <level value="INFO"/>
+    </logger>
+    <logger name="gda.device.corba.impl">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.device.temperature">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.jython.corba.impl">
+        <level value="INFO"/>
+    </logger>
+    <logger name="gda.oe.corba.impl">
+        <level value="INFO"/>
+    </logger>
+    <logger name="org.apache.commons">
+    	<level value="INFO"/>
     </logger>
 
     <logger name="gda.jython.GDAInteractiveConsole">
