@@ -32,6 +32,7 @@ class PomsSocketDeviceClass(PseudoDevice):
         self.theta=None;
         self.phi=None;
         self.verbose=False
+        self.alreadyBusy=False
 
         self.socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM);
 
@@ -105,6 +106,7 @@ class PomsSocketDeviceClass(PseudoDevice):
     def asynchronousMoveTo(self,newPos):
         if self.verbose:
             print "asynchronousMoveTo(%r)" % newPos
+        self.alreadyBusy=True
         #To check if theta and phi will be changed:
         if self.theta != newPos[1] or self.phi != newPos[2]:
             cmd='setFieldDirection %(v1)10.2f %(v2)10.2f\n\r' %{'v1': newPos[1], 'v2': newPos[2]};
@@ -134,8 +136,10 @@ class PomsSocketDeviceClass(PseudoDevice):
             self.field = newPos[0];
 
         sleep(0.5);
+        self.alreadyBusy=False
         return;
 
     def isBusy(self):
-        sleep(1);
-        return False;
+        #sleep(1);
+        return self.alreadyBusy
+

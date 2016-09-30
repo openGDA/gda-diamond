@@ -49,6 +49,8 @@
 	<import resource="I10-CAJ2.xml"/>
 	<import resource="I10-MAGJ1.xml"/>
 
+	<import resource="LakeShore.xml"/>
+	
 	<!-- ME02P Polarimeter -->
 	<!-- 
 	<import resource="ME02P-Polarimeter.xml"/>

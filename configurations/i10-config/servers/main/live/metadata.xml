@@ -73,8 +73,9 @@
                 
                 <bean class="gda.data.metadata.IcatMetadataEntry">
                     <property name="name" value="title" />
-                    <property name="query" value="TITLE:investigation:id" />
-                </bean>
+<!--                     <property name="query" value="TITLE:investigation:id" /> -->
+                   <property name="query" value="TITLE" />
+	            </bean>
                 
                 <bean class="gda.data.metadata.IcatMetadataEntry">
                     <property name="name" value="user" />

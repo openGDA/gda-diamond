@@ -8,6 +8,7 @@ from gda.device.scannable import ContinuouslyScannableViaController, \
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy
+from time import sleep
 
 """ This scannable uses the motor controller to just control the motor and calculates the
     actual position from the position callables provided by the specified pitch motors.
@@ -42,6 +43,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
 
         self._operating_continuously = False
         self._last_requested_position = None
+        self.mybusy=False
 
     # Implement: public interface ContinuouslyScannableViaController extends Scannable
 
@@ -71,12 +73,14 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     # Override: public class ScannableMotionBase extends ScannableBase implements ScannableMotion, INeXusInfoWriteable
 
     def asynchronousMoveTo(self, position):
+        self.mybusy=True
         if self.verbose: self.logger.info('asynchronousMoveTo(%r)...' % position)
         position = float(position)
         if self._operating_continuously:
             self._last_requested_position = position
         else:
             raise Exception("asynchronousMoveTo only supports Continuous operation")
+        self.mybusy=False
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
@@ -111,13 +115,15 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
         if self._operating_continuously:
+            while self.isBusy():
+                sleep(0.1)
             return # self._move_controller.waitWhileMoving()
         else:
             raise Exception("waitWhileBusy only supports continuous operation")
 
     def isBusy(self):
         if self._operating_continuously:
-            return False #self._move_controller.isBusy()
+            return self.mybusy #self._move_controller.isBusy()
         else:
             raise Exception("isBusy only supports continuous operation")
 

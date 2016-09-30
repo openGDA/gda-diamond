@@ -54,11 +54,29 @@
 	<simpleMotor desc="Cryostat z translation motor" name="CRYO.Z">
 		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-MO-CRYO-01:Z" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Diffractometer 2theta rotation encoder" name="ENCDR.ENCTWOTHETA">
-		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-MO-ENCDR-01:ENC2THETA" ro="false" type="motor"/>
+	<simpleMotor desc="Diffractometer 2theta rotation motor count position" name="MTRDI.MTRCTTWOTHETA">
+		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-MO-MTRDI-01:MTRCT:TWOTHETA" ro="false" type="motor"/>
 	</simpleMotor>
-	<simpleMotor desc="Diffractometer theta rotation encoder" name="ENCDR.ENCTHETA">
-		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-MO-ENCDR-01:ENCTHETA" ro="false" type="motor"/>
+	<simpleMotor desc="Diffractometer theta rotation motor count position" name="MTRDI.MTRCTTHETA">
+		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-MO-MTRDI-01:MTRCT:THETA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Diffractometer 2theta rotation motor" name="MTRDI.MTRENCTWOTHETA">
+		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-MO-MTRDI-01:MTRENC:TWOTHETA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="RASOR ElectroMagnetic EggCup Motor Y1 (lower)" name="REMEC.Y1">
+		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-EA-EMEC-01:Y1" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="RASOR ElectroMagnetic EggCup Motor Y2 (upper)" name="REMEC.Y2">
+		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-EA-EMEC-01:Y2" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="RASOR ElectroMagnetic EggCup Motor PITCH  - RotX" name="REMEC.PITCH">
+		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-EA-EMEC-01:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="RASOR PinHoles Motor Y" name="RPINH.Y">
+		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-EA-PINH-01:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="RASOR PinHoles Motor X" name="RPINH.X">
+		<RECORD IOC="ME01D-CS-IOC-01" desc="Motor" pv="ME01D-EA-PINH-01:X" ro="false" type="motor"/>
 	</simpleMotor>
 	<simpleScaler desc="Scaler Card 1 (Struck 3820)" name="SCALER1">
 		<RECORD IOC="ME01D-EA-IOC-01" desc="Scaler" pv="ME01D-EA-SCLR-01:SCALER1" ro="false" type="scaler"/>
