@@ -18,13 +18,13 @@
 
 package gda.device.scannable;
 
-import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
 import gda.device.zebra.controller.Zebra;
+import gda.scan.TurboXasMotorParameters;
 
 /*
  * Continuous Scannable for Turbo slit position
@@ -37,6 +37,10 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	private Zebra zebraDevice;
 
 	private  ContinuousParameters continuousParameters;
+	private TurboXasMotorParameters motorParameters;
+
+	//private TurboXasParameters scanParameters;
+
 	private int positionTriggerEncoder;
 	private int positionTriggerTimeUnits;
 	private double pulseWidthFraction;
@@ -47,26 +51,48 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	private double initialMotorPosition, finalMotorPosition, motorRampDistance;
 	private double maxMotorSpeed = 300; // TODO : set this dynamically by looking at PV (BL20J-OP-PCHRO-01:TS:XFINE.VMAX)
 
-	private PolynomialFunction energyToPositionPolynomial;
+	private double positionStepSize;
+	private int numReadoutsForScan;
+	private int ttlOutputPort;
 
+	private enum ScanParametersType { NONE, ERROR, CONTINUOUSPARAMS, TURBOXASMOTORPARAMS };
+	private ScanParametersType lastParameterSetType;
+
+	private boolean configZebraDuringPrepare;
+	private boolean armZebraAtScanStart;
+	private boolean disarmZebraAtScanEnd;
+
+	private int numZebraGates;
 
 	public TurboXasScannable() {
 		positionTriggerEncoder = Zebra.PC_ENC_ENC3;
-		motorStabilisationDistance = 0.1;
+		ttlOutputPort = 31; // set TTL output 1 to 'PC_PULSE'
 		positionTriggerTimeUnits = Zebra.PC_TIMEUNIT_SEC;
-		energyToPositionPolynomial = new PolynomialFunction( new double[]{0,1} ); // coefficients of powers of x; 1st element is constant term,
+
+		motorStabilisationDistance = 0.1;
 		pulseWidthFraction = 0.98;
+		lastParameterSetType = ScanParametersType.NONE;
+		numZebraGates = 1;
 	}
 
 	@Override
 	public void setContinuousParameters(ContinuousParameters continuousParameters) {
 		this.continuousParameters = continuousParameters;
-
+		lastParameterSetType = ScanParametersType.CONTINUOUSPARAMS;
 	}
 
 	@Override
 	public ContinuousParameters getContinuousParameters() {
 		return continuousParameters;
+	}
+
+	public void setTurboXasMotorParameters(TurboXasMotorParameters motorParameters) {
+		this.motorParameters = motorParameters;
+		lastParameterSetType = ScanParametersType.TURBOXASMOTORPARAMS;
+	}
+
+	public TurboXasMotorParameters getTurboXasMotorParameters() {
+		return motorParameters;
 	}
 
 	public Zebra getZebraDevice() {
@@ -77,54 +103,48 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		this.zebraDevice = zebraDevice;
 	}
 
-	public PolynomialFunction getEnergyToPositionPolynomial() {
-		return energyToPositionPolynomial;
-	}
-
-	public void setEnergyToPositionPolynomial(PolynomialFunction energyToPositionPolynomial) {
-		this.energyToPositionPolynomial = energyToPositionPolynomial;
-	}
-
-	public void setEnergyToPositionPolynomial(double [] coeffArray ) {
-		energyToPositionPolynomial = new PolynomialFunction( coeffArray );
-	}
-
-	/**
-	 *  Convert from photon energy to motor position - use polynomial from calibration measurement :
-	 *  	E(x) = a + b*x + c*x*x etc. where x is motor position and E is energy
-	 * @param photon energy
-	 * @return motor position
-	 */
-	private double getMotorPositionForEnergy( double energy ) {
-
-		// solve for roots in specified interval - may need to do this if supplied polynomial is energy as func. of position.
-		// rather than position as function of energy...
-
-		//UnivariateRealSolver solver = new BisectionSolver();
-		//result = solver.solve(f, -0.2, 0.2);
-
-		if ( energyToPositionPolynomial != null )
-			return energyToPositionPolynomial.value(energy);
-		else
-			return energy;
-	}
-
-	/**
-	 *  Get Energy for given motor position  - do this by solving energyToPositionPolynomial ?
-	 * @param motor position
-	 * @return photon energy
-	 */
-	private double getEnergyForMotorPosition( double position ) {
-		return position;
+	public void setMotorParameters() throws DeviceException {
+		switch(lastParameterSetType) {
+			case TURBOXASMOTORPARAMS : setMotorParameters(motorParameters);
+				break;
+			case CONTINUOUSPARAMS : setMotorParameters(continuousParameters);
+				break;
+			default : throw new DeviceException("Scan parameters have not been set - unable to calculate motor positions for scan");
+		}
 	}
 	/**
-	 * Set motor parameters (start, end, initial position etc) from current continuousParameters
+	 * Set motor parameters from a TurboXasMotorParameters object
+	 * @param motorParameters
 	 * @throws DeviceException
 	 */
-	public void setMotorParameters() throws DeviceException {
+	public void setMotorParameters(TurboXasMotorParameters motorParameters) throws DeviceException {
 		// Convert from energy to real-space motor positions
-		scanStartMotorPosition = getMotorPositionForEnergy(continuousParameters.getStartPosition());
-		scanEndMotorPosition = getMotorPositionForEnergy(continuousParameters.getEndPosition());
+		scanStartMotorPosition = motorParameters.getScanStartPosition();
+		scanEndMotorPosition = motorParameters.getScanEndPosition();
+
+		// set real-space range and speed
+		scanMotorRange = motorParameters.getScanPositionRange();
+		motorScanSpeed = motorParameters.getScanMotorSpeed();
+
+		initialMotorPosition = motorParameters.getStartPosition();
+		finalMotorPosition = motorParameters.getEndPosition();
+
+		numReadoutsForScan = motorParameters.getNumReadoutsForScan();
+		positionStepSize = motorParameters.getPositionStepsize();
+
+		this.motorParameters = motorParameters;
+		lastParameterSetType = ScanParametersType.TURBOXASMOTORPARAMS;
+
+	}
+
+	/**
+	 * Set motor parameters (start, end, initial position etc) from ContinuousParameters object
+	 * @throws DeviceException
+	 */
+	public void setMotorParameters(ContinuousParameters continuousParameters) throws DeviceException {
+		// Convert from energy to real-space motor positions
+		scanStartMotorPosition = continuousParameters.getStartPosition();
+		scanEndMotorPosition = continuousParameters.getEndPosition();
 
 		// set real-space range and speed
 		scanMotorRange = scanEndMotorPosition - scanStartMotorPosition;
@@ -141,6 +161,14 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		motorRampDistance = 0.5 * motorScanSpeed * timeToVelocity;
 		initialMotorPosition = scanStartMotorPosition - scanMotorDirection * (motorRampDistance + motorStabilisationDistance);
 		finalMotorPosition = scanEndMotorPosition + scanMotorDirection * (motorRampDistance + motorStabilisationDistance);
+
+		numReadoutsForScan = continuousParameters.getNumberDataPoints();
+		positionStepSize = scanMotorRange/numReadoutsForScan;
+
+		numZebraGates = 1;
+
+		this.continuousParameters = continuousParameters;
+		lastParameterSetType = ScanParametersType.CONTINUOUSPARAMS;
 	}
 
 	/**
@@ -150,6 +178,7 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	public void configureZebra() throws Exception {
 
 		// each of these calls to zebra waits for callback before continuing. Overhead ?
+		zebraDevice.reset(); // sometimes gate download gets 'stuck' (esp. for large number of fast pulses), need to reset before gate can be reconfigured. imh 12/8/2016
 
 		// 'arm' settings
 		zebraDevice.pcDisarm(); // disarm before trying to configure
@@ -162,33 +191,36 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		zebraDevice.setPCTimeUnit(positionTriggerTimeUnits);
 
 		// 'gate' settings
+		// Pulse start needs to be slightly after gate start (to avoid triggering issues)
+		// -> adjust gate start position by small 'offset' so that pulse start is at correct position :
+		double offset = motorStabilisationDistance*0.5;
+		double gateStart = scanStartMotorPosition-offset;
+		double gateWidth = scanMotorRange + 2*offset;
 		zebraDevice.setPCGateSource(Zebra.PC_GATE_SOURCE_POSITION);
-		zebraDevice.setPCGateStart(scanStartMotorPosition);
-		zebraDevice.setPCGateWidth(Math.abs(scanMotorRange));
-		zebraDevice.setPCGateNumberOfGates(1);
+		zebraDevice.setPCGateStart(gateStart);
+		zebraDevice.setPCGateWidth(Math.abs(gateWidth));
+		zebraDevice.setPCGateNumberOfGates(numZebraGates);
 		zebraDevice.setPCGateStep(0);
 
 		// 'pulse' settings
-
-		// separation between start of each pulse
-		double pulseStart = 0;
-		double pulseStep = scanMotorRange / continuousParameters.getNumberDataPoints();
+		double pulseStart = offset;
+		double pulseStep = positionStepSize;
 		double pulseWidth = pulseStep * pulseWidthFraction;
 
 		zebraDevice.setPCPulseSource(Zebra.PC_PULSE_SOURCE_POSITION);
 		zebraDevice.setPCPulseStart(pulseStart);
 		zebraDevice.setPCPulseWidth(pulseWidth);
 		zebraDevice.setPCPulseStep(pulseStep);
-		zebraDevice.setPCPulseMax(continuousParameters.getNumberDataPoints());
+		zebraDevice.setPCPulseMax(numReadoutsForScan);
 
-		zebraDevice.setOutTTL(1, 31); // set TTL output 1 to 'PC_PULSE'
+		zebraDevice.setOutTTL(1, ttlOutputPort);
 	}
 
 	public double getPulseWidthFraction() {
 		return pulseWidthFraction;
 	}
 
-	public void setPulseWidthFraction( double pulseWidthFraction ) {
+	public void setPulseWidthFraction(double pulseWidthFraction) {
 		this.pulseWidthFraction = pulseWidthFraction;
 	}
 
@@ -200,6 +232,59 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		this.motorStabilisationDistance = motorStabilisationDistance;
 	}
 
+	public void setConfigZebraDuringPrepare( boolean configZebraDuringPrepare) {
+		this.configZebraDuringPrepare = configZebraDuringPrepare;
+	}
+
+	public void setArmZebraAtScanStart( boolean armZebraAtScanStart ) {
+		this.armZebraAtScanStart = armZebraAtScanStart;
+	}
+
+	public void setDisarmZebraAtScanEnd( boolean disarmZebraAtScanEnd ) {
+		this.disarmZebraAtScanEnd = disarmZebraAtScanEnd;
+	}
+
+	public void setNumZebraGates( int numZebraGates ) {
+		this.numZebraGates = numZebraGates;
+	}
+
+	public int getNumZebraGates() {
+		return numZebraGates;
+	}
+
+	//  Getters only for parameters derived from scan params
+	public double getScanStartMotorPosition() {
+		return scanStartMotorPosition;
+	}
+
+	public double getScanEndMotorPosition() {
+		return scanEndMotorPosition;
+	}
+
+	public double getMotorScanSpeed() {
+		return motorScanSpeed;
+	}
+
+	public double getScanMotorRange() {
+		return scanMotorRange;
+	}
+
+	public double getInitialMotorPosition() {
+		return initialMotorPosition;
+	}
+
+	public double getFinalMotorPosition() {
+		return finalMotorPosition;
+	}
+
+	public double getPositionStepSize() {
+		return positionStepSize;
+	}
+
+	public int getNumReadoutsForScan() {
+		return numReadoutsForScan;
+	}
+
 	@Override
 	public void prepareForContinuousMove() {
 		try {
@@ -208,36 +293,48 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 			logger.info("Moving motor to initial run-up position ("+initialMotorPosition+")");
 			this.setSpeed(maxMotorSpeed);
-			moveTo(initialMotorPosition);
-			this.setSpeed(motorScanSpeed);
+			asynchronousMoveTo(initialMotorPosition);
+			// to help reduce 'dead time', set motor speed just before starting move to final position
+			// instead of setting it here after waiting for motor to move to initial position.
 
-			logger.info("Configuring zebra gate, pulse parameters ...");
-			configureZebra();
+			if ( configZebraDuringPrepare ) {
+				logger.info("Configuring zebra gate, pulse parameters ...");
+				configureZebra();
+			} else
+				logger.info("Skipping zebra configure");
+
 		}
-		catch( Exception e ) {
+		catch(Exception e) {
 			logger.warn("Exception in prepareForContinuousMove", e);
 		}
 	}
 
+	/**
+	 * Returns number of zebra readouts used for scan.
+	 */
 	@Override
 	public int getNumberOfDataPoints() {
-		return continuousParameters.getNumberDataPoints();
+		return numReadoutsForScan;
 	}
+
 
 	@Override
 	public void performContinuousMove() throws DeviceException {
 		try {
-
-			logger.info("Arming Zebra");
-			zebraDevice.reset();
-			zebraDevice.pcArm(); // should wait until armed, but seems to wait for ever
+			if ( armZebraAtScanStart ) {
+				logger.info("Arming Zebra");
+				zebraDevice.reset();
+				zebraDevice.pcArm(); // should wait until armed, but seems to wait for ever
+			} else
+				logger.info("Skipping arm at scan start");
 
 			while (isBusy()) {
 				logger.info("Waiting for turbo slit to finish moving to runup position");
-				Thread.sleep(100);
+				Thread.sleep(20);
 			}
 
 			logger.info("Turbo slit move started (final position = "+finalMotorPosition+")");
+			this.setSpeed(motorScanSpeed);
 			asynchronousMoveTo(finalMotorPosition );
 
 		} catch (Exception e) {
@@ -248,7 +345,8 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	@Override
 	public void continuousMoveComplete() throws DeviceException {
-		double maxWaitTime = continuousParameters.getTotalTime()*2;
+		// Use rough estimate of how long motor takes for move for max wait time
+		double maxWaitTime = 2.0*scanMotorRange/motorScanSpeed;
 		try {
 			logger.info("Waiting for Turbo slit to finish move at end of scan");
 			waitWhileBusy(maxWaitTime);
@@ -262,20 +360,54 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 			throw new DeviceException(e.getMessage(), e);
 		}
 
-		try {
-			logger.info("Disarming Zebra at end of scan");
-			zebraDevice.pcDisarm();
-		} catch (Exception e) {
-			logger.error("Exception while trying to disarm Zebra at end of scan", e);
-			throw new DeviceException(e.getMessage(), e);
+		if ( disarmZebraAtScanEnd ) {
+			try {
+				logger.info("Disarming Zebra at end of scan");
+				zebraDevice.pcDisarm();
+			} catch (Exception e) {
+				logger.error("Exception while trying to disarm Zebra at end of scan", e);
+				throw new DeviceException(e.getMessage(), e);
+			}
+		}else {
+			logger.info("Skipping disarm at scan end");
 		}
 	}
 
 	@Override
 	public double calculateEnergy(int frameIndex) throws DeviceException {
-		double deltaPositionPerFrame = scanMotorRange/(continuousParameters.getNumberDataPoints()-1);
+		double deltaPositionPerFrame = scanMotorRange/numReadoutsForScan;
 		double motorPosition = scanStartMotorPosition + frameIndex*deltaPositionPerFrame;
-		return getEnergyForMotorPosition( motorPosition );
+		if ( lastParameterSetType == ScanParametersType.TURBOXASMOTORPARAMS )
+			return motorParameters.getEnergyForPosition(motorPosition);
+		else
+			return motorPosition;
+	}
+
+	public int getTtlOutputPort() {
+		return ttlOutputPort;
+	}
+
+	public void setTtlOutputPort(int ttlOutputPort) {
+		this.ttlOutputPort = ttlOutputPort;
+	}
+
+	/**
+	 *  Reset Zebra arm, disarm and configure parameters to default values (i.e. all true)
+	 */
+	public void resetZebraArmConfigFlags() {
+		armZebraAtScanStart = true;
+		disarmZebraAtScanEnd = true;
+		configZebraDuringPrepare = true;
+	}
+
+	@Override
+	public void atScanStart() {
+		resetZebraArmConfigFlags();
+	}
+
+	@Override
+	public void atScanEnd() {
+		resetZebraArmConfigFlags();
 	}
 
 }

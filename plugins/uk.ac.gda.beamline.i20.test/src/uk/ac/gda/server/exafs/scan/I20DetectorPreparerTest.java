@@ -27,6 +27,7 @@ import org.powermock.api.mockito.PowerMockito;
 
 import gda.device.Detector;
 import gda.device.Scannable;
+import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
@@ -43,6 +44,7 @@ public class I20DetectorPreparerTest {
 
 	private Xspress2Detector xspressSystem;
 	private Xmap xmpaMca;
+	private NXDetector medipix;
 	private TfgScalerWithFrames ionchambers;
 	private TfgScalerWithFrames I1;
 	private Scannable[] sensitivities;
@@ -56,6 +58,7 @@ public class I20DetectorPreparerTest {
 	public void setup() {
 		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		xmpaMca = (Xmap) createMock(Xmap.class, "xmpaMca");
+		medipix = (NXDetector) createMock(NXDetector.class, "medipix");
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 		I1 = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 
@@ -86,7 +89,7 @@ public class I20DetectorPreparerTest {
 		topupChecker = (TopupChecker) createMock(TopupChecker.class, "ionchambers");
 
 		thePreparer = new I20DetectorPreparer(xspressSystem, sensitivities, sensitivity_units, offset, offset_units,
-				ionchambers, I1, xmpaMca, topupChecker);
+				ionchambers, I1, xmpaMca, medipix, topupChecker);
 	}
 
 	private Scannable createMockScannable(String string) {
@@ -103,12 +106,13 @@ public class I20DetectorPreparerTest {
 	public void testGetDetectors() {
 		List<Detector> arraylist = thePreparer.getDetectors();
 
-		org.junit.Assert.assertEquals(4, arraylist.size());
+		org.junit.Assert.assertEquals(5, arraylist.size());
 
 		org.junit.Assert.assertTrue(arraylist.contains(xspressSystem));
 		org.junit.Assert.assertTrue(arraylist.contains(xmpaMca));
 		org.junit.Assert.assertTrue(arraylist.contains(ionchambers));
 		org.junit.Assert.assertTrue(arraylist.contains(I1));
+		org.junit.Assert.assertTrue(arraylist.contains(medipix));
 	}
 
 	@Test

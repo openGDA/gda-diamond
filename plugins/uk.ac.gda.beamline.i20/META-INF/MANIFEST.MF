@@ -52,6 +52,7 @@ Export-Package: gda.device.detector,
  uk.ac.gda.server.exafs.scan.preparers
 Bundle-Vendor: Diamond Light Source
 Import-Package: Jama,
+ org.eclipse.dawnsci.hdf5.nexus,
  org.eclipse.ui.intro.config,
  org.eclipse.ui.texteditor,
  org.slf4j;version="[1.7.2,2.0.0)",
