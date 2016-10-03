@@ -64,6 +64,7 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 		<property name="serviceInterface"
 				value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
+		<property name="lookupStubOnStartup" value="false" />
 	</bean>
 
 </beans>
