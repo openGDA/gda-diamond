@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- This is a temporary file to get manipulator motions quickly into GDA should be split into live and dummy should also probably be moved into endstation -->
+
+	<bean id="hsmpmx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:X" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="hsmpmx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hsmpmx_motor" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="hsmpmy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="hsmpmy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hsmpmy_motor" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="hsmpmz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:Z" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="hsmpmz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hsmpmz_motor" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="hsmpmpolar_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:POLAR" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="hsmpmpolar" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hsmpmpolar_motor" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="hsmpm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hsmpmx" />
+				<ref bean="hsmpmy" />
+				<ref bean="hsmpmz" />
+				<ref bean="hsmpmpolar" />
+				<ref bean="es1x" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

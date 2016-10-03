@@ -48,5 +48,8 @@
 	<import resource="topup.xml" />
 	<import resource="fast_shutter.xml" />
 
+	<import resource="manipulator.xml" />
+	<import resource="es1.xml" />
+
 	<import resource="../main_common.xml" />
 </beans>
