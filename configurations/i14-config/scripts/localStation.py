@@ -6,6 +6,7 @@ from gda.jython import InterfaceProvider
 from gda.device.scannable import ScannableBase
 from gda.device.monitor import EpicsMonitor
 from gdascripts.parameters.beamline_parameters import JythonNameSpaceMapping
+from gdascripts.scan import gdascans
 #from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
 
 print "Initialisation Started";
@@ -19,6 +20,9 @@ def ls_scannables():
     
 #from gda.scan.RepeatScan import create_repscan, repscan
 #vararg_alias("repscan")
+
+rscan=gdascans.Rscan()
+alias('rscan');print rscan.__doc__.split('\n')[2]
 
 from gdascripts.metadata.metadata_commands import setTitle, meta_add, meta_ll, meta_ls, meta_rm
 alias("setTitle")
