@@ -36,7 +36,7 @@
 	</bean>
 	<bean id="m4vs" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4VerticalStage" />
-		<property name="userUnits" value="mdeg"/>
+		<property name="userUnits" value="mm"/>
 	</bean>
 
 	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
