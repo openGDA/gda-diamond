@@ -22,7 +22,7 @@
 		<property name="prefix" value="BL21I-DI-DCAM-00:CAM:" />
 	</bean>
 
-	<bean id="d4CollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+	<bean id="dgnCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
