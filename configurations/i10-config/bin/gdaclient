@@ -9,7 +9,7 @@ VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/$GDA_MODE/java.properties $V
 VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/$GDA_MODE/JCALibrary.properties $VMARGS"
 VMARGS="-Dgda.install.git.loc=$GDA_ROOT/workspace_git $VMARGS"
 VMARGS="-Dgda.config=$GDA_CONFIG $VMARGS"
-VMARGS="-Declipse.pluginCustomization=$GDA_CONFIG/clients/main/_common/pluginCustomization.ini $VMARGS"
+VMARGS="-Declipse.pluginCustomization=$GDA_CONFIG/clients/main/common/pluginCustomization.ini $VMARGS"
 
 export GDA_CLIENT_VMARGS=$VMARGS
 #echo  GDA_CLIENT_VMARGS=$VMARGS

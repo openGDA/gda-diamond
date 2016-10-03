@@ -13,27 +13,33 @@
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.config=../workspace_git/gda-mt.git/configurations/i10-config
+-Dgda.install.git.loc=/dls_sw/i10/software/gda/workspace_git
+-Dgda.install.workspace.loc=/dls_sw/i10/software/gda/workspace
+-Dgda.config=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config
 -Dgda.mode=live
--Djacorb.config.dir=../workspace_git/gda-mt.git/configurations/i10-config/jacorb/live
--Dgda.propertiesFile=../workspace_git/gda-mt.git/configurations/i10-config/properties/live/java.properties
--Dgov.aps.jca.JCALibrary.properties=../workspace_git/gda-mt.git/configurations/i10-config/jca/live/JCALibrary.properties
--Declipse.pluginCustomization=../workspace_git/gda-mt.git/configurations/i10-config/clients/main/common/pluginCustomization.ini
--Dgda.logs.dir=../../../../logs
+-Djacorb.config.dir=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/jacorb/live
+-Dgda.propertiesFile=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties/live/java.properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/jca/live/JCALibrary.properties
+-Declipse.pluginCustomization=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/clients/main/common/pluginCustomization.ini
+-Dgda.logs.dir=/dls_sw/i10/logs
 -Dgda.client.jython.automatic.interpreter=1
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.client"
-      handlerType="browser" />
+      location="uk.ac.gda.beamline.i10"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,595,20"
+      startupForegroundColor="000000" />
    <launcher name="gda-i10">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
       <solaris/>
@@ -71,5 +77,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i10.feature"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
