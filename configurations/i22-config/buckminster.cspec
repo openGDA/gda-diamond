@@ -2,17 +2,5 @@
 <cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i22-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="dls-config" componentType="buckminster"/>
-        <cs:dependency name="uk.ac.gda.beamline.i22.site" componentType="eclipse.feature"/>
-        <cs:dependency name="uk.ac.gda.beamline.i22" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.server.ncd.epics" componentType="osgi.bundle"/>
-        <cs:dependency name="hdf.hdf5lib" componentType="osgi.bundle"/>
-        <cs:dependency name="hdf.object" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.diamond.scisoft.analysis" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.diamond.scisoft.deprecated" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.analysis" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.devices.bssc" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.dls" componentType="osgi.bundle"/>
-        <cs:dependency name="org.gda.tango" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
