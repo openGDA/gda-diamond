@@ -2,11 +2,5 @@
 <cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="i20-config" componentType="buckminster" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="dls-config" componentType="buckminster"/>
-        <cs:dependency name="uk.ac.gda.beamline.i20.site" componentType="eclipse.feature"/>
-        <cs:dependency name="uk.ac.gda.beamline.i20" componentType="osgi.bundle"/>
-        <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.core.resources" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.equinox.common" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.core.jobs" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
