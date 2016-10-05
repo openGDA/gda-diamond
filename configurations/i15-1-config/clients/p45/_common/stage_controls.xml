@@ -6,6 +6,8 @@
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
+				<ref bean="samX_control" />
+				<ref bean="samY_control" />
 				<ref bean="stage_x_control" />
 				<ref bean="stage_y_control" />
 				<ref bean="stage_z_control" />
@@ -13,6 +15,20 @@
 				<ref bean="exposure_control"/>
 			</list>
 		</property>
+	</bean>
+
+	<bean id="samX_control" class="uk.ac.gda.client.livecontrol.Control">
+		<property name="displayName" value="Sample X" />
+		<property name="group" value="Translations" />
+		<property name="scannableName" value="samX" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="samY_control" class="uk.ac.gda.client.livecontrol.Control">
+		<property name="displayName" value="Sample Y" />
+		<property name="scannableName" value="samY" />
+		<property name="group" value="Translations" />
+		<property name="increment" value="0.1" />
 	</bean>
 
 	<bean id="stage_x_control" class="uk.ac.gda.client.livecontrol.Control">
