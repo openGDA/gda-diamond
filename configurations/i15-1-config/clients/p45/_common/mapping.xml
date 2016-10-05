@@ -62,6 +62,9 @@
 					<constructor-arg name="name" value="Camera 1" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+						<!-- 
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+						 -->
 							<property name="name" value="cam1rawAD" />
 							<property name="exposureTime" value="0.1" />
 						</bean>
@@ -72,6 +75,9 @@
 					<constructor-arg name="name" value="Camera 2" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+						<!-- 
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+					 	-->
 							<property name="name" value="cam2rawAD" />
 							<property name="exposureTime" value="0.1" />
 						</bean>
