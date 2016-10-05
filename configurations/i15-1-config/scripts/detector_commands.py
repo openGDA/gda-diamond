@@ -7,18 +7,24 @@ For instance:
 
 from mapping_scan_commands import _fetch_model_for_detector
 
-
-MANDELBROT_DETECTOR = 'mandelbrot'
-
-
-def mandelbrot(exposure_time=None):
-    """Obtain and possibly update a Mandelbrot model, to be passed to mscan().
+def _fetch_detector_and_model(detector_name, detector_model_name, exposure_time):
+    """Obtain and possibly update an Area Detector model, to be passed to mscan().
     """
-    model = _fetch_model_for_detector(MANDELBROT_DETECTOR)
+    print "_fetch_detector_and_model(%r, %r, %r) called..." % (detector_name, detector_model_name, exposure_time)
+    print "calling _fetch_model_for_detector(%r)" % (detector_model_name)
+    model = _fetch_model_for_detector(detector_model_name)
 
     if exposure_time is not None:
+        print "calling model.setExposureTime(%r)" % (exposure_time)
         model.setExposureTime(exposure_time)
     else:
         pass  # Keep the value already set.
 
-    return MANDELBROT_DETECTOR, model
+    print "returning (%r, %r)" % (detector_name, model)
+    return detector_name, model
+
+def mandelbrot(exposure_time=None):
+    return _fetch_detector_and_model('mandelbrot', 'mandelbrot_detector', exposure_time)
+
+def cam2det(exposure_time=None):
+    return _fetch_detector_and_model('cam2det', 'Area Detector', exposure_time)

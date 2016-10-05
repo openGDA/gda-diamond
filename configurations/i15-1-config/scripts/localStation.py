@@ -59,6 +59,11 @@ try:
 
     cam1rgb = ProcessingDetectorWrapper   ("cam1rgb", cam1rgbRawNx, [], panel_name_rcp='Plot 1')
 
+    from mapping_scan_commands import mscan, scan_request, submit, step, grid, circ, poly, rect
+
+    from detector_commands import mandelbrot
+    from detector_commands import cam2det
+
 except:
     localStation_exception(sys.exc_info(), "in localStation")
 
