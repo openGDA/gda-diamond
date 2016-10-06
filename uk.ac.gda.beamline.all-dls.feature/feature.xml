@@ -251,13 +251,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.integrationtest"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.devices.andor"
          download-size="0"
          install-size="0"
