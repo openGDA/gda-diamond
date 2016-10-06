@@ -329,6 +329,110 @@ print "stxm_det - end"
 
 from trigger import trigz2
 
+#try:
+#	xspress3_full_calculations
+#except:	
+#	xspress3_full_calculations=finder.find("xspress3_full_calculations")
+
+# Temporary function to run Xspress3 scan, ignoring errors with number of frames
+print "Adding xspress3_scan..."
+import java.lang.Exception
+from gda.device import DeviceException
+def xspress3_scan(numFrames, exposureTime, xspress3_config="/dls_sw/i13-1/scripts/Xspress3_Parameters.xml", numRetries=3, wait_secs=1.0):
+	"""
+	To collect a given number of frames with xspress3, eg 
+	scan ix 1 6 1 xspress3_full_calculations exposureTime
+
+	numFrames - number of frames to collect
+	exposureTime - exposure time in seconds
+	xspress3_config - path to config file (default: /dls_sw/i13-1/scripts/Xspress3_Parameters.xml)
+	numRetries - number of attempts to execute the scan (default: 3)
+	wait_sec - time interval to wait between 2 successive attempts to run the scan (default: 1.0) 
+	
+	Note:
+	To display the xspress3 IOC, execute:
+	/dls_sw/work/R3.14.12.3/support/BL13J-BUILDER/iocs/BL13J-EA-IOC-09/bin/linux-x86_64/stBL13J-EA-IOC-09-gui &
+	
+	"""
+	xspress3_full_calculations.setConfigFileName(xspress3_config)
+	xspress3_full_calculations.loadConfigurationFromFile()
+	retries_left = numRetries
+	
+	if (numFrames > 0):
+		while retries_left > 0:
+			try:
+				scan ix 1 numFrames 1 xspress3_full_calculations exposureTime
+				#scan ix 1 numFrames 1 xspress3_full_calculations exposureTime
+				break
+			except DeviceException, e:
+				print "DeviceException: scan failed - trying again: "+str(e)
+				time.sleep(wait_secs)
+				retries_left -= 1
+			except java.lang.Exception, e:
+				print "java.lang.Exception: scan failed - trying again: "+str(e)
+				time.sleep(wait_secs)
+				retries_left -= 1
+			except Exception, e:
+				print "Exception: scan failed - trying again: "+str(e)
+				time.sleep(wait_secs)
+				retries_left -= 1
+	else:
+		print "numFrames must be > 0"
+	return retries_left
+print "Adding xspress3_grid_scan..."
+def xspress3_grid_scan(stage_obj, motor_pos_obj, exposureTime1, exposureTime2, det_obj1=xspress3_full_calculations, det_obj2=merlin_sw_hdf, add_scnb1=ic1, add_scnb2=ic1_rate, xspress3_config="/dls_sw/i13-1/scripts/Xspress3_Parameters.xml", numRetries=3, wait_secs=1.0):
+	"""
+	To run a grid scan with xspress3, eg 
+	scan lab_sxy two_motor_positions xspress3_full_calculations exposureTime1 merlin_sw_hdf exposureTime2 ic1 ic1_rate
+	
+	stage_obj - stage to be moved between scan points
+	motor_pos_obj - list of positions for stage_obj
+	exposureTime1 - exposure time in seconds for det_obj1
+	exposureTime2 - exposure time in seconds for det_obj2
+	add_scnb1 - additional scannable to be recorded at each scan point
+	add_scnb2 - another additional scannable to be recorded at each scan point
+	xspress3_config = path to config file (default: /dls_sw/i13-1/scripts/Xspress3_Parameters.xml)
+	numRetries - number of attempts to execute the scan (default: 3)  
+	wait_sec - time interval to wait between 2 successive attempts to run the scan (default: 1.0)  
+	
+	Note:
+	To display the xspress3 IOC, execute:
+	/dls_sw/work/R3.14.12.3/support/BL13J-BUILDER/iocs/BL13J-EA-IOC-09/bin/linux-x86_64/stBL13J-EA-IOC-09-gui &
+	
+	"""
+	det_obj2=None
+	xspress3_full_calculations.setConfigFileName(xspress3_config)
+	xspress3_full_calculations.loadConfigurationFromFile()
+	retries_left = numRetries
+	
+	print "Entered xspress3_grid_scan"
+	while retries_left > 0:
+		try:
+			if (det_obj1 is not None) and (det_obj2 is not None): 
+				scan stage_obj motor_pos_obj det_obj1 exposureTime1 det_obj2 exposureTime2 add_scnb1 add_scnb2
+			elif (det_obj1 is not None) and (det_obj2 is None):
+				scan stage_obj motor_pos_obj det_obj1 exposureTime1 add_scnb1 add_scnb2
+			elif (det_obj1 is None) and (det_obj2 is not None):
+				scan stage_obj motor_pos_det_obj2 exposureTime2 add_scnb1 add_scnb2
+			else:
+				print "Unspecified detector objects!"					
+			break
+		except DeviceException, e:
+			print "DeviceException: scan failed - trying again: "+str(e)
+			time.sleep(wait_secs)
+			retries_left -= 1
+		except java.lang.Exception, e:
+			print "java.lang.Exception: scan failed - trying again: "+str(e)
+			time.sleep(wait_secs)
+			retries_left -= 1
+		except Exception, e:
+			print "Exception: scan failed - trying again: "+str(e)
+			time.sleep(wait_secs)
+			retries_left -= 1
+	print "Leaving xspress3_grid_scan"
+	return retries_left
+
+
 if not LocalProperties.check("gda.dummy.mode"):
 	run("localStationUser.py")
 
@@ -338,7 +442,7 @@ import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
 # for vortex to set Preset Mode to 'Real time' (the default is 'No preset')
-#caput("ME13C-EA-DET-01:PresetMode", 1)
+caput("ME13C-EA-DET-01:PresetMode", 1)
 
 #8/4/2014 pie725 not present
 #run("startup_pie725")
