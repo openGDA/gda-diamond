@@ -40,14 +40,14 @@
 	</bean>
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
-		<property name="edxdControllerName" value="edxdcontroller" />
+		<property name="edxdController" ref="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller" ref="xmapcontroller" />
 		<property name="slave" value="false" />
-		<property name="configFileName" value="${gda.var}/Vortex_Parameters.xml"/> 
+		<property name="configFileName" value="${gda.var}/Vortex_Parameters.xml"/>
 		<!-- <property name="tfg" ref="tfg" /> -->
 		<property name="eventProcessingTimes">
 			<list>
