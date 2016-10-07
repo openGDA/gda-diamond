@@ -17,7 +17,16 @@ else
 fi
 bashlog debug "gda_setup_consolelog_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
 
-export GDA_LOG_FILE=${GDA_LOGS_DIR}/$LOGNAME/${LOGNAME}_`date +%F-%T`.txt
+# Protect against ssh being so fast that server and client try to write to the same file
+while [ -z ${GDA_LOG_FILE-} ]; do
+    export GDA_LOG_FILE=${GDA_LOGS_DIR}/$LOGNAME/${LOGNAME}_`date +%F-%T`.txt
+    if [ -f $GDA_LOG_FILE ]; then
+        bashlog debug "gda_setup_consolelog_facility" "GDA_LOG_FILE exists, wait a second and try again..."
+        GDA_LOG_FILE=
+        sleep 1
+    fi
+done
+
 consolelogfile_dir=$(dirname ${GDA_LOG_FILE})
 consolelogfile_name=$(basename ${GDA_LOG_FILE})
 
@@ -30,7 +39,10 @@ fi
 
 bashlog debug "gda_setup_consolelog_facility" "Writing console log to $GDA_LOG_FILE"
 touch $GDA_LOG_FILE
+LAST_LOG_FILE=$(readlink -f "$GDA_LOGS_DIR/$LOGNAME.txt")
 [ -h $GDA_LOGS_DIR/$LOGNAME.txt ] && rm $GDA_LOGS_DIR/$LOGNAME.txt
+[ -h $GDA_LOGS_DIR/$LOGNAME.old.txt ] && rm $GDA_LOGS_DIR/$LOGNAME.old.txt
 ln -s $GDA_LOG_FILE $GDA_LOGS_DIR/$LOGNAME.txt
+ln -s $LAST_LOG_FILE $GDA_LOGS_DIR/$LOGNAME.old.txt
 
 bashlog debug "gda_setup_consolelog_facility" "Exited"
