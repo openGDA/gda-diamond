@@ -25,6 +25,7 @@
 		<property name="pvName" value="BL05I-DI-PHDGN-07:DET:IAV" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
+		<property name="settletime" value="500" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -35,6 +36,7 @@
 		<property name="pvName" value="BL05I-DI-PHDGN-07:DET:I" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
+		<property name="settletime" value="500" />
 		<property name="local" value="true" />
 	</bean>
 
