@@ -50,6 +50,7 @@
 				<ref bean="s5vdso1" />
 				<ref bean="s5vdso2" />
 				<ref bean="s5hdso" />
+				<ref bean="s5cam" />
 			</list>
 		</property>
 		<property name="local" value="true" />

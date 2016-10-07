@@ -13,6 +13,8 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="d7gascell" />
+				<ref bean="d7femto1" />
+				<ref bean="d7femto2" />
 			</list>
 		</property>
 		<property name="local" value="true" />

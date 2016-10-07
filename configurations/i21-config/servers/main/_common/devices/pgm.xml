@@ -18,12 +18,12 @@
 	<!-- real motors -->
 	<bean id="pgmMirrorPitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgmMirrorPitchMotor" />
-		<property name="userUnits" value="mrad" />
+		<property name="userUnits" value="deg" />
 	</bean>
 
 	<bean id="pgmGratingPitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgmGratingPitchMotor" />
-		<property name="userUnits" value="mrad" />
+		<property name="userUnits" value="deg" />
 	</bean>
 	
 	<bean id="pgmMirrorSelectReal" class="gda.device.scannable.ScannableMotor">

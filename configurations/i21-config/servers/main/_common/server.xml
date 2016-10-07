@@ -29,13 +29,7 @@
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
-	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
-
-	<!--  object to provide recording of metadata in Nexus files -->
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
-		<property name="name" value="metashop"/>
-	</bean>
+	<import resource="GDAMetadata.xml"/>
 
 	<!-- Replaces ScanDataStore -->
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">

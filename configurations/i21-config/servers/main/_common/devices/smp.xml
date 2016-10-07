@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="sapolar" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smprzMotor" />
+		<property name="userUnits" value="mdeg" />
+	</bean>
+
+	<bean id="sax" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpxMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="say" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpyMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="saz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpzMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="saazimuth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpazimuthMotor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+
+	<!-- Group d4-related objects -->	
+ 	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sapolar" />
+				<ref bean="sax" />
+				<ref bean="say" />
+				<ref bean="saz" />
+				<ref bean="saazimuth" />
+				<ref bean="smpfemto" />
+				<ref bean="smplcam1" />
+				<ref bean="smplcam2" />
+				<ref bean="smplcam3" />
+				<ref bean="smplcam1" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+ </beans>

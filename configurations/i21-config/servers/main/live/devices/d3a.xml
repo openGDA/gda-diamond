@@ -31,6 +31,7 @@
 		<property name="restoreAcquireTime" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 						<property name="decoratee">
@@ -49,7 +50,7 @@
 		<property name="pluginName" value="roistats1" />
 		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI1:" />
 		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT1:" />
-		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="roiInputNdArrayPort" value="D3A.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -64,7 +65,7 @@
 		<property name="pluginName" value="roistats2" />
 		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI2:" />
 		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT2:" />
-		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="roiInputNdArrayPort" value="D3A.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -79,7 +80,7 @@
 		<property name="pluginName" value="roistats3" />
 		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI3:" />
 		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT3:" />
-		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="roiInputNdArrayPort" value="D3A.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -94,7 +95,7 @@
 		<property name="pluginName" value="roistats4" />
 		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI4:" />
 		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT4:" />
-		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="roiInputNdArrayPort" value="D3A.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -109,7 +110,7 @@
 		<property name="pluginName" value="roistats5" />
 		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI5:" />
 		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT5:" />
-		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="roiInputNdArrayPort" value="D3A.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -124,7 +125,7 @@
 		<property name="pluginName" value="roistats6" />
 		<property name="baseRoiPVName" value="BL21I-DI-DCAM-03:ROI6:" />
 		<property name="baseStatsPVName" value="BL21I-DI-DCAM-03:STAT6:" />
-		<property name="roiInputNdArrayPort" value="D3.cam" />
+		<property name="roiInputNdArrayPort" value="D3A.cam" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
