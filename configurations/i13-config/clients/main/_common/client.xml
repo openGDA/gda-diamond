@@ -25,6 +25,8 @@
 	<import resource="../../rcp/alignmentView.xml" />
 	<import resource="../../rcp/detectorImage.xml" />
 
+	<import resource="../../rcp/tomographyOptions.xml" />
+
 	<import resource="../../../devices/_common/cameraScaleProviders.xml" />
 
 	<import resource="adController.xml" />
