@@ -59,7 +59,7 @@
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Camera 1" />
+					<constructor-arg name="name" value="Camera 1 (cam1rawAD)" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 						<!-- 
@@ -72,13 +72,39 @@
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Camera 2" />
+					<constructor-arg name="name" value="Camera 1 (cam1uesdRawAD)" />
+					<constructor-arg name="model">
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+						<!-- 
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+						 -->
+							<property name="name" value="cam1uesdRawAD" />
+							<property name="exposureTime" value="0.1" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="false" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="Camera 2 (cam2rawAD)" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 						<!-- 
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
 					 	-->
 							<property name="name" value="cam2rawAD" />
+							<property name="exposureTime" value="0.1" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="false" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="Camera 2 (cam2uesdRawAD)" />
+					<constructor-arg name="model">
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+						<!-- 
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+						 -->
+							<property name="name" value="cam2uesdRawAD" />
 							<property name="exposureTime" value="0.1" />
 						</bean>
 					</constructor-arg>

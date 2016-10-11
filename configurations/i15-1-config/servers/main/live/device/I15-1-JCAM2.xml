@@ -131,6 +131,12 @@
 		<property name="decoratee" ref="cam2_SingleExposureStandardCollectionStrategyBase"/>
 	</bean>
 
+	<bean id="cam2_UESD_SingleExposureStandardCollectionStrategy" 
+			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
+		<property name="collectionExtensionTimeS" value="6"/>
+		<property name="decoratee" ref="cam2_SingleExposureStandardCollectionStrategy" />
+	</bean>
+
 	<!-- NXDetector file writers -->
 
 	<bean id="cam2_hdf5_MultipleImagesPerHDF5FileWriter"
@@ -200,6 +206,15 @@
 	<bean id="cam2rgbRawAD" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="cam2AD_cam"/>
 		<property name="collectionStrategy" ref="cam2rgb_SingleExposureStandardCollectionStrategy" />
+		<property name="ndFile"  ref="cam2_NDFileHDF5file"/>
+		<property name="ndArray" ref="cam2AD_arr"/>
+		<property name="ndStats" ref="cam2AD_stat"/>
+		<property name="fileWriter" ref="cam2_hdf5_MultipleImagesPerHDF5FileWriter"/>
+	</bean>
+
+	<bean id="cam2uesdRawAD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="cam2AD_cam"/>
+		<property name="collectionStrategy" ref="cam2_UESD_SingleExposureStandardCollectionStrategy" />
 		<property name="ndFile"  ref="cam2_NDFileHDF5file"/>
 		<property name="ndArray" ref="cam2AD_arr"/>
 		<property name="ndStats" ref="cam2AD_stat"/>
