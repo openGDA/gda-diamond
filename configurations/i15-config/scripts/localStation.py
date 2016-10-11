@@ -51,8 +51,7 @@ import scannables.detectorShield
 ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
 
 import scannables.MerlinColourModeThresholdsScannable
-mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
-    PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
+mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts', PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
 
 from localStationScripts.detector_scan_commands import * # @UnusedWildImport
 from localStationScripts.user_commands import * # @UnusedWildImport
@@ -248,9 +247,9 @@ try:
 		pilatus = pd_pilatus.Pilatus("pilatus", "BL15I-EA-PILAT-02:", "/dls/i15/data/currentdir/", "pil")
 	except:
 		localStation_exception(sys.exc_info(), "creating pilatus")
-    
+
 	try:
-        from gda.analysis.io import PilatusTiffLoader #, SRSLoader
+		from gda.analysis.io import PilatusTiffLoader #, SRSLoader
 
 		pildet = pd_pilatus.EpicsPilatus('pildet', 'BL15I-EA-PILAT-02:',"/dls/i15/data/currentdir/",'p','%s%s%d.tif')
 		#pil = ProcessingDetectorWrapper('pil', pildet, [], panel_name='Pilatus Plot', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
@@ -263,7 +262,7 @@ try:
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
 	except:
 		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
-    """
+	"""
 
 	""" Remove ODCCD/Ruby/Atlas objects
 	try:
