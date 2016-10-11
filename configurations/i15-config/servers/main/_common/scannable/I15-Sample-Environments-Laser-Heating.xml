@@ -15,20 +15,20 @@
 		<property name="motor" ref="laserboardz_motor" />
 	</bean>
 
-	<bean id="xobjus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xobjus_motor" />
+	<bean id="laserxus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="laserxus_motor" />
 	</bean>
 
-	<bean id="xobjds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="xobjds_motor" />
+	<bean id="laserxds" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="laserxds_motor" />
 	</bean>
 
-	<bean id="yobjus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="yobjus_motor" />
+	<bean id="laseryus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="laseryus_motor" />
 	</bean>
 
-	<bean id="yobjds" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="yobjds_motor" />
+	<bean id="laseryds" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="laseryds_motor" />
 	</bean>
 
 	<bean id="armus" class="gda.device.scannable.ScannableMotor">
@@ -60,10 +60,10 @@
 	<bean id="laser" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="xobjus" />
-				<ref bean="xobjds" />
-				<ref bean="yobjus" />
-				<ref bean="yobjds" />
+				<ref bean="laserxus" />
+				<ref bean="laserxds" />
+				<ref bean="laseryus" />
+				<ref bean="laseryds" />
 				<ref bean="armus" />
 				<ref bean="armds" />
 				<ref bean="focus" />

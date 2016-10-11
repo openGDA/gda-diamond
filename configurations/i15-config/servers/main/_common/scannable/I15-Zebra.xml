@@ -13,6 +13,11 @@
 		<property name="mode" value="1"/>
 		<property name="pcPulseGateNotTrigger" value="true"/>
 		<property name="minimumAccelerationDistance" value="0.008"/>
+		<property name="triggeredControllers">
+			<list>
+				<ref bean="zebra2ZebraMonitorController" />
+			</list>
+		</property>
 	</bean>
 	<!-- minimumAccelerationDistance is calculated from MRES=0.001deg *2 may need MRES*32=0.032 
 		 Failed with 0.002 minimumAccelerationDistance
@@ -47,13 +52,29 @@
 		<property name="pcEnc" value="2"/> <!-- Default 0=Enc1? -->
 	</bean>
 
-	<!-- 
-	<bean id="etlZebraScannableMonitor" class="gda.device.zebra.ZebraScannableMotor">
-	 -->
+	<bean id="zebra2" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL15I-EA-ZEBRA-02:"/>
+	</bean>
+
+	<bean id="zebra2ZebraMonitorController" class="gda.device.zebra.ZebraMonitorController">
+		<property name="zebra" ref="zebra2"/>
+		<property name="local" value="true" />
+		<property name="zebraCVMoveController" ref="zebraContinuousMoveController"/>
+	</bean>
+
 	<bean id="etlZebraScannableMonitor" class="gda.device.zebra.ZebraScannableMonitor">
 		<property name="name" value="etlZebraScannableMonitor" />
 		<property name="local" value="true" />
-		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
-		<property name="pcCapture" value="7"/> <!-- Default 0=Enc1, 6=Div1 -->
+		<property name="zebraMonitorController" ref="zebra2ZebraMonitorController"/>
+		<property name="pcCapture" value="7"/> <?ignore Default 0=Enc1, 6=Div1 ?>
 	</bean>
+
+<!-- 
+	<bean id="etlZebraDetectorMonitor" class="gda.device.zebra.ZebraExternallyTriggeredDetector">
+		<property name="name" value="etlZebraScannableMonitor" />
+		<property name="local" value="true" />
+		<property name="zebraMonitorController" ref="zebra2ZebraMonitorController"/>
+		<property name="pcCapture" value="7"/> <?ignore Default 0=Enc1, 6=Div1 ?>
+	</bean>
+ -->
 </beans>

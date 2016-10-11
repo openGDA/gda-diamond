@@ -51,8 +51,7 @@ import scannables.detectorShield
 ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
 
 import scannables.MerlinColourModeThresholdsScannable
-mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts',
-    PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
+mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsScannable('mcts', PvManager(pvroot='BL15I-EA-DET-18:Merlin1:'))
 
 from localStationScripts.detector_scan_commands import * # @UnusedWildImport
 from localStationScripts.user_commands import * # @UnusedWildImport
@@ -82,16 +81,17 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	s6ypos, s6ygap, s6yup, s6ydown,\
 	vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,\
 	hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,\
+	s2ygap, s2ypos,\
 	qbpm2_x, qbpm2_y, qbpm2A, qbpm2B, qbpm2C, qbpm2D, qbpm2total,\
 	s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,\
 	fsx, fsy,\
 	pinx, piny, pinz, pinpitch, pinyaw,\
 	dx, dy, dz, dmu, dkphi, dkappa, dktheta,\
-	djack1, djack2, djack3, dtransx, drotation, detz, ddelta,\
+	djack1, djack2, djack3, dtransx, drotation, det1z, ddelta,\
 	shdx, shdy, shdz,\
 	bsx, bsy,\
 	tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,\
-	s7xpos, s7ypos, s7xgap, s7xgap,\
+	s7xpos, s7ypos, s7xgap, s7ygap,\
 	d6x,\
 	fs2x, fs2y,\
 	skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,\
@@ -213,7 +213,7 @@ try:
 		#ring= finder.find("Ring")
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
-		detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
+		#detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
 		
 		patch12x6 = Simple_PD_EpicsDevice("patch12x6", beamline, "-EA-PATCH-12:X6")
 		
@@ -248,9 +248,9 @@ try:
 		pilatus = pd_pilatus.Pilatus("pilatus", "BL15I-EA-PILAT-02:", "/dls/i15/data/currentdir/", "pil")
 	except:
 		localStation_exception(sys.exc_info(), "creating pilatus")
-    
+
 	try:
-        from gda.analysis.io import PilatusTiffLoader #, SRSLoader
+		from gda.analysis.io import PilatusTiffLoader #, SRSLoader
 
 		pildet = pd_pilatus.EpicsPilatus('pildet', 'BL15I-EA-PILAT-02:',"/dls/i15/data/currentdir/",'p','%s%s%d.tif')
 		#pil = ProcessingDetectorWrapper('pil', pildet, [], panel_name='Pilatus Plot', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
@@ -263,7 +263,7 @@ try:
 		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
 	except:
 		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
-    """
+	"""
 
 	""" Remove ODCCD/Ruby/Atlas objects
 	try:
@@ -312,7 +312,7 @@ try:
 				(camdet_name, cam_name, peak2d_name, max2d_name)
 			camdet = EpicsGigECamera(camdet_name, cam_pv,
 				filepath=VisitPath.getVisitPath() + '/', stdNotArr=False, reconnect=False)
-			cam = ProcessingDetectorWrapper(cam_name, camdet, [], panel_name='GigE Camera', panel_name_rcp='Plot 1')
+			cam = ProcessingDetectorWrapper(cam_name, camdet, [], panel_name_rcp='Plot 1')
 			peak2d = DetectorDataProcessorWithRoi(peak2d_name, cam, [TwodGaussianPeak()])
 			max2d = DetectorDataProcessorWithRoi(max2d_name, cam, [SumMaxPositionAndValue()])
 			return camdet, cam, peak2d, max2d
@@ -327,6 +327,8 @@ try:
 		'cam3det', 'cam3', 'peak2d3', 'max2d3', 'BL15I-DI-GIGE-03:')
 	cam4det, cam4, peak2d4, max2d4 = gigeFactory(
 		'cam4det', 'cam4', 'peak2d4', 'max2d4', 'BL15I-DI-GIGE-04:')
+	cam5det, cam5, peak2d5, max2d5 = gigeFactory(
+		'cam5det', 'cam5', 'peak2d5', 'max2d5', 'BL15I-DI-GIGE-05:')
 
 	try:
 		simpleLog("Create diodes")
@@ -695,17 +697,18 @@ try:
 				's6ypos', 's6ygap', 's6yup', 's6ydown',
 				'vfm_x', 'vfm_y', 'vfm_pitch', 'vfm_curve', 'vfm_ellipticity', 'vfm_gravsag',
 				'hfm_x', 'hfm_y', 'hfm_pitch', 'hfm_curve', 'hfm_ellipticity', 'hfm_yaw', 'hfm_roll',
+				's2ygap', 's2ypos',
 				'qbpm2_x', 'qbpm2_y', 'qbpm2A', 'qbpm2B', 'qbpm2C', 'qbpm2D', 'qbpm2total',
 				's4xpos', 's4xgap', 's4ypos', 's4ygap', 's4yaw', 's4pitch',
 				'fsx', 'fsy',
 				'pinx', 'piny', 'pinz', 'pinpitch', 'pinyaw',
 				'thermo1', 'thermo2', 'thermo3', 'pt100_1',
 				'dx', 'dy', 'dz', 'dkphi', 'dkappa', 'dktheta',
-				'djack1', 'djack2', 'djack3', 'dtransx', 'drotation', 'detz', 'ddelta',
+				'djack1', 'djack2', 'djack3', 'dtransx', 'drotation', 'det1z', 'ddelta',
 				'shdx', 'shdy', 'shdz',
 				'bsx', 'bsy',
 				'tab2jack1', 'tab2jack2', 'tab2jack3', 'tab2transx', 'tab2rotation',
-				's7xpos', 's7ypos', 's7xgap', 's7xgap',
+				's7xpos', 's7ypos', 's7xgap', 's7ygap',
 				'd6x',
 				'fs2x', 'fs2y',
 				'skbjack1', 'skbjack2', 'skbjack3', 'skby', 'skbpitch', 'skbroll',

@@ -120,7 +120,7 @@ def closeEHShutter():
 	while (status != 3):
 		sleep(1)  # Pause for 1 second.
 		count = count +1
-		if count ==4:
+		if count ==8:
 			simpleLog( " -> Time out: Could not Close EH shutter")
 			return
 		status = beamline.getValue(None,"Top","-PS-SHTR-02:STA")

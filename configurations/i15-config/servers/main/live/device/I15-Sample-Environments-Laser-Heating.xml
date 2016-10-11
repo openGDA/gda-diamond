@@ -18,23 +18,23 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="xobjus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:XOBJ:US" />
+	<bean id="laserxus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LASX:US" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="xobjds_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:XOBJ:DS" />
+	<bean id="laserxds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LASX:DS" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="yobjus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:YOBJ:US" />
+	<bean id="laseryus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LASY:US" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="yobjds_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:YOBJ:DS" />
+	<bean id="laseryds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LASY:DS" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -49,12 +49,12 @@
 	</bean>
 
 	<bean id="focus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:FOC:US" />
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LASFOC:US" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="focds_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL15I-MO-LHEAT-01:FOC:DS" />
+		<property name="pvName" value="BL15I-MO-LHEAT-01:LASFOC:DS" />
 		<property name="local" value="true" />
 	</bean>
 

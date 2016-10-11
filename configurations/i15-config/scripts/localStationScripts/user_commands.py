@@ -546,11 +546,13 @@ def _staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	zebraFastShutter = jythonNameMap.zebraFastShutter
 	i0Monitor = jythonNameMap.etlZebraScannableMonitor
+	#continuousMonitorController = jythonNameMap.zebra2ZebraMonitorController
+	#fastShutterFeedback = jythonNameMap.atlasShutterScannableMonitor
 
 	_configureDetector(detector=detector, exposureTime=exposeTime, noOfExposures=totalExposures, sampleSuffix=fileName, dark=False)
-	# Disable i0Monitor for the moment as the stream, always seems to be empty,
-	# presumably since we are not actually running the continuousMoveController
-	#return [detector, exposeTime, zebraFastShutter, exposeTime , i0Monitor]
+	# Disable i0Monitor and fastShutterFeedback for the moment as the stream is seems to be empty, due to the fact that
+	# we are controlling the shutter via the zebraFastShutter scannable, rather than via the zebraContinuousMoveController
+	#return [detector, exposeTime, zebraFastShutter, exposeTime , i0Monitor, continuousMonitorController, fastShutterFeedback]
 	return [detector, exposeTime, zebraFastShutter, exposeTime]
 
 def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockAngle, rockNumber, totalExposures):
@@ -591,19 +593,24 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 													 sampleSuffix=fileName, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(
 													axis=rockMotor, detector=hardwareTriggeredNXDetector)
-	i0Monitor = jythonNameMap.etlZebraScannableMonitor
+	i0Monitor, continuousMonitorController = jythonNameMap.etlZebraScannableMonitor, jythonNameMap.zebra2ZebraMonitorController
+	fastShutterFeedback = jythonNameMap.fastShutterFeedbackScannableMonitor
 
-	logger.info("_rockScanParams: [%r, %r, %r, %r,  %r,  %r, %r, %r]" % (
+	logger.info("_rockScanParams: [%r, %r, %r, %r,\n %r,\n %r, %r,\n %r,\n %r,\n %r]" % (
 								  continuouslyScannableViaController.name, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController.name,
 								  hardwareTriggeredNXDetector.name, exposeTime,
-								  i0Monitor,
+								  i0Monitor.name,
+								  fastShutterFeedback.name,
+								  continuousMonitorController.name
 								))
 	# TODO: We should probably also check that lineMotor and rockMotor aren't both the same!'
 	sc1=ConstantVelocityScanLine([continuouslyScannableViaController, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController,
 								  hardwareTriggeredNXDetector, exposeTime,
 								  i0Monitor,
+								  fastShutterFeedback,
+								  continuousMonitorController,
 								])
 	
 	return [sc1]
@@ -772,7 +779,7 @@ def _sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd,
 	for rockStart in rockStartPositions:
 		rockAngle = sweepAngle/2.
 		rockCentre = rockStart + rockAngle
-		if isinstance(detector.getCollectionStrategy(), ODCCDOverflow): # Collecting Overflow images
+		if isinstance(detector.getCollectionStrategy(), ODCCDOverflow) and multifactor > 1: # Collecting Overflow images
 			rockScanParams=_rockScanParams(detector, float(exposeTime)/multifactor, fileName, sweepMotor, rockCentre, rockAngle, 1, totalExposures)
 			inner_scan = ConcurrentScan(scan_params + rockScanParams)
 			logger.debug("Scan parameters for rockStart %r: %r (fast)" % (rockStart, scan_params + rockScanParams))

@@ -22,14 +22,13 @@
 		<property name="dynamicPhiAxis" ref="dkphiZebraScannableMotor" />		<property name="staticPhiAxis" ref="dkphi" />
 		<property name="dynamicKappaAxis" ref="dkappaZebraScannableMotor" />	<property name="staticKappaAxis" ref="dkappa" />
 		<property name="dynamicThetaAxis" ref="dkthetaZebraScannableMotor" />	<property name="staticThetaAxis" ref="dktheta" />
-		<!-- <property name="dynamicTwothetaAxis" ref="ddelta" /> -->			<property name="staticTwothetaAxis" ref="ddelta" />
-		<!-- <property name="dynamicGammaAxis" ref="?ZebraScannableMotor" />	<property name="staticGammaAxis" ref="?" /> -->
-		<!-- This was implemented, but has not yet been tested:
-		 -->
-		<property name="i0Monitor" ref="etlZebraScannableMonitor" />
-		<property name="staticDdistAxis" ref="ddist" />
+		<?ignore <property name="dynamicTwothetaAxis" ref="ddelta" /> ?>		<property name="staticTwothetaAxis" ref="ddelta" />
+		<?ignore <property name="dynamicGammaAxis" ref="?ZebraScannableMotor" /><property name="staticGammaAxis" ref="?" /> ?>
+																				<property name="staticDdistAxis" ref="ddist" />
+		<property name="i0Monitor" ref="zebra2ZebraMonitorController" />
+		<property name="i0MonitorPcCapture" value="18"/> <?ignore Default 0=Enc1, 6=Div1 +11 for secondaries, 7+11=18 ?>
 		<property name="binning" value="1"/>
-		<property name="timeoutCollectionTimeMultiplier" value="3"/> <!-- Atlas may collect 2 darks at the same time as collecting the image -->
+		<property name="timeoutCollectionTimeMultiplier" value="3"/> <?ignore Atlas may collect 2 darks at the same time as collecting the image ?>
 		<property name="timeoutCollectionTimeOffset" value="60"/>
 	</bean>
 	
