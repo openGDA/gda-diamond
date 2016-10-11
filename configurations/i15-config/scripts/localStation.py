@@ -81,16 +81,17 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	s6ypos, s6ygap, s6yup, s6ydown,\
 	vfm_x, vfm_y, vfm_pitch, vfm_curve, vfm_ellipticity, vfm_gravsag,\
 	hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,\
+	s2ygap, s2ypos,\
 	qbpm2_x, qbpm2_y, qbpm2A, qbpm2B, qbpm2C, qbpm2D, qbpm2total,\
 	s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,\
 	fsx, fsy,\
 	pinx, piny, pinz, pinpitch, pinyaw,\
 	dx, dy, dz, dmu, dkphi, dkappa, dktheta,\
-	djack1, djack2, djack3, dtransx, drotation, detz, ddelta,\
+	djack1, djack2, djack3, dtransx, drotation, det1z, ddelta,\
 	shdx, shdy, shdz,\
 	bsx, bsy,\
 	tab2jack1, tab2jack2, tab2jack3, tab2transx, tab2rotation,\
-	s7xpos, s7ypos, s7xgap, s7xgap,\
+	s7xpos, s7ypos, s7xgap, s7ygap,\
 	d6x,\
 	fs2x, fs2y,\
 	skbjack1, skbjack2, skbjack3, skby, skbpitch, skbroll,\
@@ -212,7 +213,7 @@ try:
 		#ring= finder.find("Ring")
 		ringCurrent = DisplayEpicsPVClass("ringCurrent", "SR-DI-DCCT-01:SIGNAL", "mA", "%f")
 		wigglerField = DisplayEpicsPVClass("wigglerField", "SR15I-ID-SCMPW-01:B_REAL", "Tesla", "%f")
-		detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
+		#detz = DisplayEpicsPVClass("detz", "BL15I-MO-DIFF-01:ARM:DETECTOR:Z.VAL", "mm", "%f")
 		
 		patch12x6 = Simple_PD_EpicsDevice("patch12x6", beamline, "-EA-PATCH-12:X6")
 		
@@ -696,17 +697,18 @@ try:
 				's6ypos', 's6ygap', 's6yup', 's6ydown',
 				'vfm_x', 'vfm_y', 'vfm_pitch', 'vfm_curve', 'vfm_ellipticity', 'vfm_gravsag',
 				'hfm_x', 'hfm_y', 'hfm_pitch', 'hfm_curve', 'hfm_ellipticity', 'hfm_yaw', 'hfm_roll',
+				's2ygap', 's2ypos',
 				'qbpm2_x', 'qbpm2_y', 'qbpm2A', 'qbpm2B', 'qbpm2C', 'qbpm2D', 'qbpm2total',
 				's4xpos', 's4xgap', 's4ypos', 's4ygap', 's4yaw', 's4pitch',
 				'fsx', 'fsy',
 				'pinx', 'piny', 'pinz', 'pinpitch', 'pinyaw',
 				'thermo1', 'thermo2', 'thermo3', 'pt100_1',
 				'dx', 'dy', 'dz', 'dkphi', 'dkappa', 'dktheta',
-				'djack1', 'djack2', 'djack3', 'dtransx', 'drotation', 'detz', 'ddelta',
+				'djack1', 'djack2', 'djack3', 'dtransx', 'drotation', 'det1z', 'ddelta',
 				'shdx', 'shdy', 'shdz',
 				'bsx', 'bsy',
 				'tab2jack1', 'tab2jack2', 'tab2jack3', 'tab2transx', 'tab2rotation',
-				's7xpos', 's7ypos', 's7xgap', 's7xgap',
+				's7xpos', 's7ypos', 's7xgap', 's7ygap',
 				'd6x',
 				'fs2x', 'fs2y',
 				'skbjack1', 'skbjack2', 'skbjack3', 'skby', 'skbpitch', 'skbroll',
