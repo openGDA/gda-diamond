@@ -25,6 +25,14 @@ class DetectorShield(ScannableBase):
         self.OPENING=2
         self.CLOSED=3
         self.CLOSING=4
+        
+        self.stateDescriptions = {
+                self.FAULT:     "Fault",
+                self.OPEN:      "Open",
+                self.OPENING:   "Opening",
+                self.CLOSED:    "Closed",
+                self.CLOSING:   "Closing",
+            }
 
     def __repr__(self):
         return "%s(name=%r, pvManager=%r)" % (self.__class__.__name__, self.name, self.pvManager)
@@ -34,23 +42,29 @@ class DetectorShield(ScannableBase):
         return None
 
     def atScanStart(self):
+        self.openDetectorShield(suppressWait=True)
+
+    def openDetectorShield(self, suppressWait=False):
         self.pvManager['CON'].caput(self.TIMEOUT, 0)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
-        else:
-            simpleLog("Detector Shield Opening...")
-        #self.waitFor(self.OPEN)
-        simpleLog("Detector Shield Open")
+        simpleLog("Detector Shield Opening...")
+        if not suppressWait:
+            self.waitWhileBusy(self.TIMEOUT*2)
+            simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
 
     def atScanEnd(self):
+        self.closeDetectorShield(suppressWait=True)
+
+    def closeDetectorShield(self, supporessWait=False):
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
         else:
             simpleLog("Detector Shield Closing...")
-        #
-        #self.waitFor(self.CLOSED)
-        simpleLog("Detector Shield Closed")
+        if not supporessWait:
+            self.waitWhileBusy(self.TIMEOUT*2)
+            simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
 
     def atCommandFailure(self):
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
@@ -71,6 +85,8 @@ class DetectorShield(ScannableBase):
         #      will silently stay busy until manual intervention corrects it.
         #      Since this should never be busy for more than around 10 seconds,
         #      we should report it's state periodically.
+        helptext = " Go to the 'Experimental Hutch' EPICS Synoptic, click on Det Shield (near the top) and reset it." + \
+            "\n If Detector Shield is disconnected, do '%s.ignoreFault=True' to ignore fault conditions." % self.name
         state = int(self.pvManager['STA'].caget())
         if self.verbose and state != self.state:
             simpleLog("%s:%s() state transitioned from %r to %r" % (self.name, self.pfuncname(), self.state, state))
@@ -79,11 +95,16 @@ class DetectorShield(ScannableBase):
             return False
         elif state in (self.OPENING, self.CLOSING):
             return True
-        elif state == self.FAULT and self.ignoreFault:
-            return False
-        elif not self.ignoreFault:
-            simpleLog("%s.ignoreFault=False, do '%s.ignoreFault=True' to ignore fault conditions" % (self.name, self.name))
-        raise Exception("Problem with detector shield. EPICS reports a FAULT\nGo to 'Experimental Hutch' EPICS Synoptic and click on Det Shield (near the top) and then reset it.\n %r is not %r, %r, %r, or %r on %r" % (self.state, self.OPEN, self.CLOSED, self.OPENING, self.CLOSING, self.pvManager['STA'].pvName))
+        elif state == self.FAULT:
+            if self.ignoreFault:
+                return False
+            raise Exception("Problem with detector shield. EPICS reports a FAULT.\n" + helptext)
+        raise Exception("Problem with detector shield. EPICS reports an invalid state. %r is not %r, %r, %r, or %r on %r\n%s" % (
+                        state, self.OPEN, self.CLOSED, self.OPENING, self.CLOSING, self.pvManager['STA'].pvName, helptext))
+
+    def getDetectorShieldStatus(self):
+        state = int(self.pvManager['STA'].caget())
+        return self.stateDescriptions.get(state, "INVALID STATE")
 
     def pfuncname(self):
         import traceback
