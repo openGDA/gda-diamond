@@ -311,7 +311,7 @@ try:
 				(camdet_name, cam_name, peak2d_name, max2d_name)
 			camdet = EpicsGigECamera(camdet_name, cam_pv,
 				filepath=VisitPath.getVisitPath() + '/', stdNotArr=False, reconnect=False)
-			cam = ProcessingDetectorWrapper(cam_name, camdet, [], panel_name='GigE Camera', panel_name_rcp='Plot 1')
+			cam = ProcessingDetectorWrapper(cam_name, camdet, [], panel_name_rcp='Plot 1')
 			peak2d = DetectorDataProcessorWithRoi(peak2d_name, cam, [TwodGaussianPeak()])
 			max2d = DetectorDataProcessorWithRoi(max2d_name, cam, [SumMaxPositionAndValue()])
 			return camdet, cam, peak2d, max2d
@@ -326,6 +326,8 @@ try:
 		'cam3det', 'cam3', 'peak2d3', 'max2d3', 'BL15I-DI-GIGE-03:')
 	cam4det, cam4, peak2d4, max2d4 = gigeFactory(
 		'cam4det', 'cam4', 'peak2d4', 'max2d4', 'BL15I-DI-GIGE-04:')
+	cam5det, cam5, peak2d5, max2d5 = gigeFactory(
+		'cam5det', 'cam5', 'peak2d5', 'max2d5', 'BL15I-DI-GIGE-05:')
 
 	try:
 		simpleLog("Create diodes")
