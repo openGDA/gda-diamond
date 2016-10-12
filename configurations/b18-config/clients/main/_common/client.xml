@@ -47,12 +47,12 @@
          <property name="serviceUrl" value="${gda.rmi.prefix}xspress3" />
          <property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
          <property name="refreshStubOnConnectFailure" value="true" />
-     </bean> 
+     </bean>
 	 <bean id="xspress2system" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
          <property name="serviceUrl" value="${gda.rmi.prefix}xspress2system" />
          <property name="serviceInterface" value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
          <property name="refreshStubOnConnectFailure" value="true" />
-     </bean> 
+     </bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="gda.commandqueue.Processor" />
 		<property name="service" ref="commandQueueProcessor" />
@@ -86,7 +86,7 @@
 <!-- 	</bean> -->
 
 
-	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener"> 
+	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="sockpuppet" /> </bean> -->
 <!-- 	</bean>  -->
 
@@ -95,21 +95,37 @@
 		<property name="serviceInterface"
 			value="gda.device.Scannable" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> 
+	</bean>
 	<bean id="ionc2_gas_injector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ionc2_gas_injector" />
 		<property name="serviceInterface"
 			value="gda.device.Scannable" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> 
+	</bean>
 	<bean id="ionc3_gas_injector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ionc3_gas_injector" />
 		<property name="serviceInterface"
 			value="gda.device.Scannable" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> 
-	
-	
+	</bean>
+
+
+	<bean id="ionc1_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc1_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="ionc2_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc2_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="ionc3_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc3_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="sockpuppet" />
 	</bean> -->

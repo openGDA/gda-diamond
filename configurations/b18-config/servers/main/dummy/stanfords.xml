@@ -174,5 +174,9 @@
 		</property>
 	</bean>
 
+<!-- Stanford current amplifiers - moved from dummy/scannables.xml imh 23/9/2016  -->
+	<bean id="ionc1_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
+	<bean id="ionc2_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
+	<bean id="ionc3_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
 
 </beans>
