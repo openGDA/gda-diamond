@@ -54,6 +54,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/d2.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/absorbers2.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/s2_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/s3_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/d3.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/absorbers3.xml"/>
 	
@@ -91,6 +92,7 @@
 	
 	<import resource="file:${gda.config}/devices/${gda.mode}/afg.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_vac_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/t2_motors.xml"/>
 
 	<!-- piezo raster scan device  - must be included for maxipix -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/pie725_raster.xml"/>
@@ -108,6 +110,7 @@
 	<import resource="file:${gda.config}/devices/_common/gas_bremsstrahlung1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/m1.xml" />
 	<import resource="file:${gda.config}/devices/_common/s2.xml" />
+	<import resource="file:${gda.config}/devices/_common/s3.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/d1.xml" />
 	<import resource="file:${gda.config}/devices/_common/d2.xml" />
@@ -152,6 +155,7 @@
  	-->
 
 	<import resource="file:${gda.config}/devices/_common/t1_vac.xml" />
+	<import resource="file:${gda.config}/devices/_common/t2.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/pco1.xml" />
 	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
