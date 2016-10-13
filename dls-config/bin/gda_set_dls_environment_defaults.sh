@@ -2,10 +2,10 @@
 # Establishes defaults for installation that follow the Diamond Light Source folder structure
 # Expects a single parameter specifying what the beamline name should be set to and checks if $BEAMLINE matches it
 
-here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+facility_here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-export  GDA_WORKSPACE_PARENT=$(readlink -f ${here_dir}/../../../..)
-        GDA_WORKSPACE_GIT_NAME=$(basename $(readlink -f ${here_dir}/../../..))  # will normally be "workspace_git", will at least end with "_git". Not exporting as only used in this script
+export  GDA_WORKSPACE_PARENT=$(readlink -f ${facility_here_dir}/../../../..)
+        GDA_WORKSPACE_GIT_NAME=$(basename $(readlink -f ${facility_here_dir}/../../..))  # will normally be "workspace_git", will at least end with "_git".
 
 if [[ ! -L ${GDA_WORKSPACE_PARENT}/config ]] || [[ ! -d ${GDA_WORKSPACE_PARENT}/config ]]; then
 	echo >&2 "ERROR: Cannot start; a valid config link pointing to a valid configuration folder must exist in the root folder of the deployment."
