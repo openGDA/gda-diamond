@@ -391,7 +391,7 @@ except:
 	msg = "Failed to create a scannable from a given PV: "
 	handle_messages.log(None, msg, exceptionType, exception, traceback, False)
 	print msg
-print "hello!!!!!!!!!!!!!!!!!!!!!"
+
 try:
 	print "\n Adding beamline meta scannables..."
 	meta_scannables = []

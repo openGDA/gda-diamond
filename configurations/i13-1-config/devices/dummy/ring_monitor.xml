@@ -11,7 +11,7 @@
 
 				<bean id="ring_energy" class="gda.device.monitor.DummyMonitor">
 					<property name="name" value="ring_energy" />
-					<property name=constantValue value="3.271" />
+					<property name="constantValue" value="3.271" />
 				</bean>
 
 				<bean id="ring_current" class="gda.device.monitor.DummyMonitor">
