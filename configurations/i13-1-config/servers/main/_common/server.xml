@@ -55,7 +55,8 @@
 	<import resource="../../../devices/_common/m1.xml" />
 
 	<import resource="../../../devices/_common/s2.xml" />
-
+	<import resource="../../../devices/_common/s3.xml" />
+	
 	<import resource="../../../devices/_common/d1.xml" />
 	<import resource="../../../devices/_common/d2.xml" />
 	<import resource="../../../devices/_common/d3.xml" />
@@ -102,6 +103,7 @@
  -->
 
 	<import resource="../../../devices/_common/t1_vac.xml" />
+	<import resource="../../../devices/_common/t2.xml" />
 
 	<import resource="../../../devices/_common/pco1.xml" />
 	<import resource="../../../devices/_common/merlin.xml" />

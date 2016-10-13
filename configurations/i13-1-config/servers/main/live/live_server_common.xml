@@ -54,6 +54,7 @@
 	<import resource="../../../devices/epics/absorbers2.xml"/>
 	
 	<import resource="../../../devices/epics/s2_motors.xml"/>
+	<import resource="../../../devices/epics/s3_motors.xml"/>
 
 	<import resource="../../../devices/epics/d3.xml"/>
 
@@ -121,6 +122,8 @@
 	<import resource="../../../devices/live/pie725_raster.xml"/>
 
 	<import resource="../../../devices/epics/t1_vac_motors.xml"/>
+	<import resource="../../../devices/epics/t2_motors.xml"/>
+	<import resource="../../../devices/epics/ring_monitor.xml" />
 	
 	<import resource="../_common/server.xml"/>	
 

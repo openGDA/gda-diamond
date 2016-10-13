@@ -36,6 +36,7 @@
 	<import resource="../../../devices/dummy/undulator.xml"/>
 	<import resource="../../../devices/dummy/front_end.xml"/>
 	<import resource="../../../devices/dummy/ring.xml" />
+	<import resource="../../../devices/dummy/ring_monitor.xml" />
 
 <!-- start of internal building -->
 
@@ -57,6 +58,7 @@
 	<import resource="../../../devices/dummy/absorbers2.xml"/>
 
 	<import resource="../../../devices/dummy/s2_motors.xml"/>
+	<import resource="../../../devices/dummy/s3_motors.xml"/>
 
 	<import resource="../../../devices/dummy/d3.xml"/>
 
@@ -113,6 +115,7 @@
 	<import resource="../../../devices/dummy/afg.xml"/>
 	
 	<import resource="../../../devices/dummy/t1_vac_motors.xml"/>
+	<import resource="../../../devices/dummy/t2_motors.xml"/>
 
 	<import resource="../_common/server.xml"/>	
 	
