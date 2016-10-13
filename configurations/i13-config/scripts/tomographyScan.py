@@ -107,7 +107,7 @@ class   tomoScan_positions(ScanPositionProvider):
     def toString(self):
         return self.__str__()
 
-def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_name):
+def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_name, **kwargs):
     if scanObject is None:
         raise "Input scanObject must not be None"
    
@@ -147,7 +147,22 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
     else:
         print "Defaults used for unsupported tomography detector in addNXTomoSubentry: " + tomography_detector_name
-   
+
+    if kwargs.has_key("approxCOR") and (kwargs["approxCOR"] is not None):
+        approxCOR = kwargs["approxCOR"]
+        if approxCOR[0] is None:
+            nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
+        else:
+            nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(approxCOR[0])
+            
+        if approxCOR[1] is None:
+            nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
+        else:
+            nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(approxCOR[1])
+    else:
+        nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
+        nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
+    
     nxLinkCreator.afterPropertiesSet()
    
     dataWriter = createDataWriterFromFactory()
@@ -156,10 +171,10 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     scanObject.setDataWriter(dataWriter)
 
 
-def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_name, externalhdf=True):
+def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_name, externalhdf=True, **kwargs):
     if scanObject is None:
         raise "Input scanObject must not be None"
-   
+    
     nxLinkCreator = NXTomoEntryLinkCreator()
    
     # detector independent items
@@ -190,6 +205,23 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
         instrument_detector_data_target += "image_data:SDS"
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
    
+    if kwargs.has_key("approxCOR") and (kwargs["approxCOR"] is not None):
+        approxCOR = kwargs["approxCOR"]
+        print "Found it!"
+        print approxCOR
+        if approxCOR[0] is None:
+            nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
+        else:
+            nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(approxCOR[0])
+            
+        if approxCOR[1] is None:
+            nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
+        else:
+            nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(approxCOR[1])
+    else:
+        nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
+        nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
+        
     nxLinkCreator.afterPropertiesSet()
    
     dataWriter = createDataWriterFromFactory()
@@ -322,7 +354,8 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     while not found and attempt<11: 
         attempt+=1
         try:
-            nxentry = str('/entry1/' + tomography_detector.getName())
+            tomo_det_name = tomography_detector.getName()
+            nxentry = str('/entry1/' + tomo_det_name)
             logger.debug('Opening entry ' + nxentry + ' in file '+ lsdp.currentFilename)
             nxfile = NexusFileHDF5.openNexusFile(lsdp.currentFilename)
             nxgroup = nxfile.getGroup(nxentry, False)
@@ -331,7 +364,8 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
             elif (nxgroup.containsDataNode("data")):
                 nxdata = nxgroup.getDataNode("data")
             else:
-                raise "Unable to find data in file"
+                hint = " - try using pco1_sw instead of "+tomo_det_name if tomo_det_name != "pco1_sw" else '' 
+                raise "Unable to find data in file"+hint
 
             dataset = nxdata.getDataset();
 
@@ -413,7 +447,7 @@ class PostScanRunnable(Runnable):
 perform a continuous tomography scan
 """
 def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, approxCOR=(None,None)):
     """
     Function to collect a tomogram
      Arguments:
@@ -428,10 +462,12 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     imagesPerDark - number of images to be taken for each dark (default=20)
     imagesPerFlat - number of images to be taken for each flat (default=20)
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
-    setupForAlignment -
-    autoAnalyse -
+    setupForAlignment - advanced use
+    autoAnalyse - advanced use
     closeShutterAfterFlats -
     extraFlatsAtEnd=False -
+    approxCOR - approximate centre of tomography rotation in the image (x,y) coordinates which can be utilised as a hint by subsequent tomography reconstruction (default = (None,None))
+        For example, use a pair (<finite float number>, None) to indicate a vertical rotation axis in the image (x,y) coordinates   
     """
     startTm = datetime.datetime.now()
     logger = LoggerFactory.getLogger("tomographyScan.tomoFlyScan()")
@@ -499,7 +535,8 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         zebraEncoderSetPosPV = zebraPrefix + 'M' + str(pcEnc) +':SETPOS.PROC'   # need dedicated function for building this string from prefix and pcEnc
         print("zebraEncoderSetPosPV = %s" %(zebraEncoderSetPosPV))
         zebra = finder.find("zebra")
-        zebra.encCopyMotorPosToZebra(3)
+        #zebra.encCopyMotorPosToZebra(3)
+        zebra.encCopyMotorPosToZebra(pcEnc+1)
         meta_add( camera_stage)
         meta_add( sample_stage)
                
@@ -574,7 +611,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 #        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections backwards",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
-        addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
+        addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name, approxCOR=approxCOR)
         multiScanObj.runScan()
         tomography_shutter.moveTo("Close")
             
@@ -610,8 +647,8 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 """
 perform a simple tomography scan
 """
-def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[]):
+def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0, flatFieldInterval=0,
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, flatFieldAngle=None, tomography_detector=None, approxCOR=(None,None), additionalScannables=[]):
     """
     Function to collect a tomogram
  	Arguments:
@@ -626,9 +663,25 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
     imagesPerDark - number of images to be taken for each dark (default=20)
     imagesPerFlat - number of images to be taken for each flat (default=20)
     min_i - minimum value of ion chamber current required to take an image (default is -1 . A negative value means that the value is not checked )
+    flatFieldAngle - if specified to be None, flat fields will be taken at the most recent angle as the stage rotates during the scan (with the first flat field being taken at the scan start angle). 
+        If specified to be a finite number, all flat fields will be taken at this particular angle (this is useful if it is impossible to move the sample out of the beam for some angles). 
+    approxCOR - approximate centre of tomography rotation in the image (x,y) coordinates which can be utilised as a hint by subsequent tomography reconstruction (default = (None,None))
+        For example, use a pair (<finite float number>, None) to indicate a vertical rotation axis in the image (x,y) coordinates   
 
     """
     startTm = datetime.datetime.now()
+    if flatFieldAngle is None:
+        print "Each flat field will be taken at the most recent angle as the stage rotates during the scan, with the first flat field being taken at the scan start angle of %.4f deg" %(start)
+    else:
+        print "All flat fields will be taken at the same, user-specified angle of %.4f deg" %(flatFieldAngle)
+        if start < stop:
+            min_ang = start
+            max_ang = stop
+        else:
+            min_ang = stop
+            max_ang = start 
+        if flatFieldAngle < min_ang or flatFieldAngle > max_ang:
+            print "WARNING: All flat fields will be taken at the same, user-supplied angle of %.4f deg which is outside the scanning range of [%.4f, %.4f]!" %(flatFieldAngle, start, stop)
     try:
         darkFieldInterval=int(darkFieldInterval)
         flatFieldInterval=int(flatFieldInterval)
@@ -720,7 +773,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             index = index + 1
                     
         for i in range(imagesPerFlat):
-            scan_points.append((theta_pos, shutterOpen, outOfBeamPosition, image_key_flat, index )) #flat
+            scan_points.append((theta_pos if flatFieldAngle is None else flatFieldAngle, shutterOpen, outOfBeamPosition, image_key_flat, index )) #flat
             index = index + 1        
         scan_points.append((theta_pos,shutterOpen, inBeamPosition, image_key_project, index )) #first
         index = index + 1        
@@ -735,7 +788,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             imageSinceFlat = imageSinceFlat + 1
             if imageSinceFlat == flatFieldInterval and flatFieldInterval != 0:
                 for i in range(imagesPerFlat):
-                    scan_points.append((theta_pos, shutterOpen, outOfBeamPosition,  image_key_flat, index ))
+                    scan_points.append((theta_pos if flatFieldAngle is None else flatFieldAngle, shutterOpen, outOfBeamPosition,  image_key_flat, index ))
                     index = index + 1        
                     imageSinceFlat=0
             
@@ -749,7 +802,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         #add dark and flat only if not done in last steps
         if imageSinceFlat != 0:
             for i in range(imagesPerFlat):
-                scan_points.append((theta_pos, shutterOpen, outOfBeamPosition,  image_key_flat, index )) #flat
+                scan_points.append((theta_pos if flatFieldAngle is None else flatFieldAngle, shutterOpen, outOfBeamPosition,  image_key_flat, index )) #flat
                 index = index + 1
         if imageSinceDark != 0:
             for i in range(imagesPerDark):
@@ -772,7 +825,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             
         scanObject=createConcurrentScan(scan_args)
         if addNXEntry:
-            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name)
+            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name, approxCOR=approxCOR)
         tomodet.stop()
         scanObject.runScan()
 
@@ -819,16 +872,24 @@ def ProcessScanParameters(scanParameterModelXML):
     updateProgress(0, "Starting tomoscan " + parameters.getTitle());
     logger.info("Starting tomoscan with parameters: " + parameters.toString())
 
+    cor_x = cor_y = None
     if (parameters.flyScan):
+        #cor_x = cor_y = None
+        if parameters.approxCentreOfRotation is not None:
+            print "Input CoR = %.3f" %(parameters.approxCentreOfRotation)
+        else:
+            print("Input CoR's type = " + type(parameters.approxCentreOfRotation))
+        cor_x, cor_y = getApproxCoR()
+        print("(cor_x, cor_y) = (%s, %s)" %(str(cor_x), str(cor_y)))   
         qFlyScanBatch(parameters.numFlyScans, parameters.title, parameters.flyScanDelay, 
                       parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                       darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
                       imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI,
-                      extraFlatsAtEnd=parameters.extraFlatsAtEnd)
+                      extraFlatsAtEnd=parameters.extraFlatsAtEnd, approxCOR=(cor_x,cor_y))
     else:
         tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                  darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables)
+                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables, approxCOR=(cor_x,cor_y))
     updateProgress(100,"Done");
     
 
@@ -1166,7 +1227,7 @@ def standardtomoScan():
         print "Error - points are not correct :" + `positions`
     return sc
 
-def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPosition, exposureTime=1., start=-90., stop=90., step=0.1, darkFieldInterval=0., flatFieldInterval=0., imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False):
+def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPosition, exposureTime=1., start=-90., stop=90., step=0.1, darkFieldInterval=0., flatFieldInterval=0., imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, approxCOR=(None,None)):
     """
     Desc:
     Fn to submit a given number of identical tomoFlyScans to the queue for automatic execution with optional wait time between any two consecutive scans
@@ -1187,7 +1248,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
         (4) note that, irrespective of whether interWaitSec > 0 or not, some extra 'wait' time will always be spent on moving the rotation stage to the start angle before the next scan is able to proceed 
     """
     #tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-    #          imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False)
+    #          imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, approxCOR=(None,None))
     thisfn = qFlyScanBatch.__name__
     
     logger = LoggerFactory.getLogger("tomographyScan.qFlyScanBatch()")
@@ -1220,6 +1281,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     _args.append(("autoAnalyse", autoAnalyse))
     _args.append(("closeShutterAfterFlats", closeShutterAfterFlats))
     _args.append(("extraFlatsAtEnd", extraFlatsAtEnd))
+    _args.append(("approxCOR", approxCOR))
 
     def mysleep(secsToWait, v=True):
         if v:
@@ -1289,7 +1351,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     #cqp.addToTail(JythonCommandCommandProvider(tmp, tmp, None))
     
 def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, frames=1, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[]):
+              imagesPerDark=20, imagesPerFlat=20, frames=1, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, approxCOR=(None,None), additionalScannables=[]):
     """
     Function to collect a tomogram
      Arguments:
@@ -1455,7 +1517,7 @@ def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=
             
         scanObject=createConcurrentScan(scan_args)
         if addNXEntry:
-            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name)
+            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name, approxCOR)
         tomodet.stop()
         scanObject.runScan()
 
@@ -1473,3 +1535,13 @@ def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, True)
+        
+        
+def getApproxCoR():
+    # assuming camera is in the i13 default orientation wrt to the axis of rotation
+    #cam_model = caget("BL13I-EA-DET-01:CAM:Model_RBV")
+    cam_max_sensor_size_x = caget("BL13I-EA-DET-01:CAM:MaxSizeX_RBV")
+    cor_x = float(cam_max_sensor_size_x) * 0.5
+    cor_y = None
+    return cor_x, cor_y
+

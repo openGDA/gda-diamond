@@ -3,6 +3,7 @@ Performs software triggered tomography
 """
 
 from time import sleep
+import datetime
 
 from pcoDetectorWrapper import PCODetectorWrapper
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
@@ -310,8 +311,8 @@ def testElapsedInterval(index, offset_dark, offset_flat, fieldInterval):
 """
 perform a simple tomography scan
 """
-def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90., stop=90., step=0.1, startGratingOuter=0., stopGratingOuter=13.0, stepGratingOuter=1.0, startGratingInner=0., stopGratingInner=13.0, stepGratingInner=1.0, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=False, tomography_detector=None, additionalScannables=[]):
+def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90., stop=90., step=0.1, startGratingOuter=0., stopGratingOuter=13.0, stepGratingOuter=1.0, startGratingInner=0., stopGratingInner=13.0, stepGratingInner=1.0, darkFieldInterval=0, flatFieldInterval=0,
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=False,  flatFieldAngle=None, tomography_detector=None, additionalScannables=[]):
     """
     Function to collect 2d grating-interferometry tomogram
  	Arguments:
@@ -336,9 +337,26 @@ def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90.,
     imagesPerFlat - number of flat series to be taken for each flat collection (default = 20)
         Note: the total number of flat frames recorded in a single flat series is equal to imagesPerFlat x [1 + (stopGratingOuter - startGratingOuter)/stepGratingOuter] x [1 + (stopGratingInner - startGratingInner)/stepGratingInner]
     min_i - minimum value of ion chamber current required to take an image (default = -1). A negative value means that the value is not checked
+    flatFieldAngle - if specified to be None, flat fields will be taken at the most recent angle as the stage rotates during the scan (with the first flat field being taken at the scan start angle). 
+        If specified to be a finite number, all flat fields will be taken at this angle (this is useful if it is impossible to move the sample out of the beam for certain angles).  
+
 
     """
     try:
+        startTm = datetime.datetime.now()
+        if flatFieldAngle is None:
+            print "Flat fields will be taken at the most recent angle as the stage rotates during the scan, with the first one being taken at the scan start angle of %.4f deg" %(start)
+        else:
+            print "All flat fields will be taken at the same, user-supplied angle of %.4f deg" %(flatFieldAngle)
+            if start < stop:
+                min_ang = start
+                max_ang = stop
+            else:
+                min_ang = stop
+                max_ang = start 
+            if flatFieldAngle < min_ang or flatFieldAngle > max_ang:
+                print "WARNING: All flat fields will be taken at the same, user-supplied angle of %.4f deg which is outside the scanning range of [%.4f, %.4f]!" %(flatFieldAngle, start, stop)
+
         darkFieldInterval=int(darkFieldInterval)
         flatFieldInterval=int(flatFieldInterval)
         
@@ -452,7 +470,7 @@ def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90.,
             nextPoint_inner = ScannableUtils.calculateNextPoint(previousPoint_inner, stepGratingInner);
             grating_points_inner.append(nextPoint_inner)
             previousPoint_inner = nextPoint_inner
-        print "grating_points_inner..."
+        #print "grating_points_inner..."
         #print grating_points_inner
 
         grating_points = [] 
@@ -460,7 +478,7 @@ def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90.,
             for innerPt in grating_points_inner:
                 grating_points.append((outerPt, innerPt))
 
-        print "grating_points..."
+        #print "grating_points..."
         #print grating_points
 
 
@@ -481,7 +499,7 @@ def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90.,
         for f in range(imagesPerFlat):
             for pt in grating_points:
                 grating_pos = pt
-                scan_points.append((theta_pos, shutterOpen, outOfBeamPosition) + grating_pos + (image_key_flat, index)) #flat
+                scan_points.append((theta_pos if flatFieldAngle is None else flatFieldAngle, shutterOpen, outOfBeamPosition) + grating_pos + (image_key_flat, index)) #flat
                 index = index + 1
                 offset_flat += 1
         
@@ -496,7 +514,7 @@ def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90.,
                 for f in range(imagesPerFlat):
                     for pt1 in grating_points:
                         grating_pos = pt1
-                        scan_points.append((theta_pos, shutterOpen, outOfBeamPosition) + grating_pos + (image_key_flat, index))
+                        scan_points.append((theta_pos if flatFieldAngle is None else flatFieldAngle, shutterOpen, outOfBeamPosition) + grating_pos + (image_key_flat, index))
                         index = index + 1
                         offset_flat += 1
                 imageSinceFlat = 0
@@ -525,7 +543,7 @@ def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90.,
                     for f in range(imagesPerFlat):
                         for pt1 in grating_points:
                             grating_pos = pt1
-                            scan_points.append((theta_pos, shutterOpen, outOfBeamPosition) + grating_pos + (image_key_flat, index))
+                            scan_points.append((theta_pos if flatFieldAngle is None else flatFieldAngle, shutterOpen, outOfBeamPosition) + grating_pos + (image_key_flat, index))
                             index = index + 1
                             offset_flat += 1
                     imageSinceFlat = 0
@@ -552,7 +570,7 @@ def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90.,
             for f in range(imagesPerFlat):
                 for pt1 in grating_points:
                     grating_pos = pt1
-                    scan_points.append((theta_pos, shutterOpen, outOfBeamPosition) + grating_pos + (image_key_flat, index)) #flat
+                    scan_points.append((theta_pos if flatFieldAngle is None else flatFieldAngle, shutterOpen, outOfBeamPosition) + grating_pos + (image_key_flat, index)) #flat
                     index = index + 1
                     offset_flat += 1
         #if not testElapsedInterval(index, offset_dark, offset_flat, darkFieldInterval):
@@ -607,6 +625,10 @@ def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90.,
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, True)
+    finally:
+        endTm = datetime.datetime.now()
+        elapsedTm = endTm - startTm
+        print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
 
 from gda.commandqueue import JythonScriptProgressProvider
