@@ -13,8 +13,11 @@ from tomographyXGIScan import tomoXGIScan
 import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
-from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks, xray_mode, isLive
+from i13i_utilities import isLive
+from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks, filter_stick_1, filter_stick_2, filter_stick_3, filter_stick_4, filter_stick_5, beamline_xray_mode
+from i13i_utilities import ionc_A_over_V_gain, ionc_gainmode, ionc_acdc
 
+section_sep = "-"*128
 class ExperimentShutterEnumPositioner(ScannableBase):
 	"""
 	Class to handle experimental hutch shutter
@@ -62,7 +65,7 @@ def interruptable():
 def ls_scannables():
 	ls_names(Scannable)
 
-#--------------------------------------------------------------------------------------------------------------
+print(section_sep)
 
 def meta_add_i13i():
 	fname = meta_add_i13i.__name__
@@ -70,7 +73,19 @@ def meta_add_i13i():
 	
 	# add meta-data scannables
 	meta_scannables = []
-	meta_scannables.append(filters)
+	#meta_scannables.append(filters)
+	meta_scannables.append(filter_aperture)
+	#meta_scannables.append(f1_Aperture)
+	#meta_scannables.append(f1_Stick1)
+	#meta_scannables.append(f1_Stick2)
+	#meta_scannables.append(f1_Stick3)
+	#meta_scannables.append(f1_Stick4)
+	#meta_scannables.append(f1_Stick5)
+	meta_scannables.append(filter1)
+	meta_scannables.append(filter2)
+	meta_scannables.append(filter3)
+	meta_scannables.append(filter4)
+	meta_scannables.append(filter5)
 	meta_scannables.append(id_gap)
 	meta_scannables.append(s1)
 	meta_scannables.append(s2)
@@ -87,11 +102,13 @@ def meta_add_i13i():
 		if "edge" in pco_cam_model_rbv.lower():
 			#meta_texts_cam.update({"focus_pco_edge_label": "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS"})
 			#meta_texts_cam.update({"focus_pco_edge": "BL13I-MO-STAGE-02:FOCUS2.RBV"})
-			meta_scannables.append(pco_edge_agg)
+			#meta_scannables.append(pco_edge_agg)
+			pass
 		elif "4000" in pco_cam_model_rbv.lower():
 			#meta_texts_cam.update({"focus_pco_4000_label": "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS"})
 			#meta_texts_cam.update({"focus_pco_4000": "BL13I-MO-STAGE-02:FOCUS.RBV"})
-			meta_scannables.append(pco_4000_agg)
+			#meta_scannables.append(pco_4000_agg)
+			pass
 		elif "dimax" in pco_cam_model_rbv.lower():
 			pass
 		else:
@@ -123,13 +140,24 @@ def meta_add_i13i():
 			handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
 		meta_add(k, rbv)
 	
-	meta_scannables.append(filter_sticks)
-	meta_scannables.append(xray_mode)
+	#meta_scannables.append(filter_sticks)
+	#meta_scannables.append(beamline_xray_mode)
 	for s in meta_scannables:
 		meta_add(s)
-	print "\n Finished adding scan meta-data items!"
+		
+	meta_add("filter_stick_1", filter_stick_1())
+	meta_add("filter_stick_2", filter_stick_2())
+	meta_add("filter_stick_3", filter_stick_3())
+	meta_add("filter_stick_4", filter_stick_4())
+	meta_add("filter_stick_5", filter_stick_5())
+	meta_add("beamline_xray_mode", beamline_xray_mode())
+	meta_add("ionc_A_over_V_gain", ionc_A_over_V_gain())
+	meta_add("ionc_gainmode", ionc_gainmode())
+	meta_add("ionc_acdc", ionc_acdc())
+	
+	print "\n Finished adding meta-data items!"
 
-#--------------------------------------------------------------------------------------------------------------
+print(section_sep)
 
 try:
 	from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform, ls_pv_scannables
@@ -311,10 +339,22 @@ try:
 		from deben import *
 		deben_configure()
 
-		# add meta-data for all scans on this beamline
+		print("\n Adding beamline meta scannables...")
 		meta_add_i13i()
 		caput("BL13I-MO-HEX-01:SAMPLEROT.VMAX", 100.0)
-	
+		createPVScannable('xgi_sample_rot','BL13I-MO-SMAR-02:RY.VAL')
+		createPVScannable('xgi_sample_x','BL13I-MO-SMAR-02:X.VAL')
+		createPVScannable('xgi_sample_y','BL13I-MO-SMAR-02:Y.VAL')
+		createPVScannable('xgi_sample_z','BL13I-MO-SMAR-02:Z.VAL')
+		
+		createPVScannable('xgi_grat_x','BL13I-MO-SMAR-01:X2.VAL')
+		createPVScannable('xgi_grat_y','BL13I-MO-SMAR-01:Y2.VAL')
+		createPVScannable('xgi_grat_z','BL13I-MO-SMAR-01:Z2.VAL')
+		
+		_stressTesting = False
+		if _stressTesting:
+			from i13i_utilities import stressTest
+			LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
 except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
