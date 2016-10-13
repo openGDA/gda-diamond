@@ -26,15 +26,6 @@
 	<bean id="script_paths" parent="common_script_paths_with_mapping"/>
  -->
 
-	<bean id="script_paths" class="gda.jython.ScriptPaths" parent="abstract_common_script_paths">
-		<property name="projects">
-			<list merge="true">
-				<ref bean="gda_mapping_script_project" />
-			</list>
-		</property>
-	</bean>
-
-
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="script_paths"/>
 		<property name="stopJythonScannablesOnStopAll" value="false" />
