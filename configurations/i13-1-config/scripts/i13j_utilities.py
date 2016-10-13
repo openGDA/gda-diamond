@@ -2,6 +2,9 @@ from gda.data import NumTracker
 import os
 from gda.data import PathConstructor
 from gda.factory import Finder
+from gda.jython import InterfaceProvider
+from gda.device.scannable import EpicsScannable
+from gda.jython.commands.GeneralCommands import alias, vararg_alias
 
 
 # set up a nice method for getting the latest file path
@@ -76,5 +79,61 @@ def send_email(whoto, subject, body):
     except smtplib.SMTPException, ex:
     #except Exception, ex:
         print "Failed to send e-mail: %s!" %(str(ex))
+
+def createScannableFromPV( name, pv, addToNameSpace=True, getAsString=True, hasUnits=False):
+    """
+    Description:
+        Utility function to create a scannable from a given PV
+    Arguments:
+        name - user-specified name of a scannable to be created, e.g. pixium10_DataType
+        pv - EPICS identifier of pv to be used by the scannable, e.g. BL12I-EA-DET-10:CAM:DataType
+        addToNameSpace = if True, the scannable is accessible from the commandline after the call
+        getAsString - If True, output value is a string (useful for enum pv, in which case set getAsString=True, and set hasUnits=False)
+        hasUnits - If False, output value is not converted to units - useful for enum pv with getAsString=True
+    
+    For example,
+        createScannableFromPV("pixium10_DataType", "BL12I-EA-DET-10:CAM:DataType", True, True, False)
+    creates a scannable for pv with the following enums:
+    caget -d 31 BL12I-EA-DET-10:CAM:DataType
+        BL12I-EA-DET-10:CAM:DataType
+        Native data type: DBF_ENUM
+        Request type:     DBR_CTRL_ENUM
+        Element count:    1
+        Value:            UInt32
+        Status:           NO_ALARM
+        Severity:         NO_ALARM
+        Enums:            ( 8)
+                          [ 0] Int8
+                          [ 1] UInt8
+                          [ 2] Int16
+                          [ 3] UInt16
+                          [ 4] Int32
+                          [ 5] UInt32
+                          [ 6] Float32
+                          [ 7] Float64
+    """
+    sc = EpicsScannable()
+    sc.setName(name)
+    sc.setPvName(pv)
+    sc.setUseNameAsInputName(True)
+    sc.setGetAsString(getAsString)
+    sc.setHasUnits(hasUnits)
+    sc.afterPropertiesSet()
+    sc.configure()
+    if addToNameSpace:
+        commandServer = InterfaceProvider.getJythonNamespace()
+        commandServer.placeInJythonNamespace(name,sc)
+    return sc
+
+def clear_defaults():
+    """To clear all current default scannables."""
+    srv = finder.find(JythonServer.SERVERNAME)
+    all_vec = srv.getDefaultScannables()
+    all_arr = all_vec.toArray()
+    for s in all_arr:
+        #srv.removeDefault(s)
+        ScannableCommands.remove_default(s)
+    return all_arr
+alias("clear_defaults")
 
 

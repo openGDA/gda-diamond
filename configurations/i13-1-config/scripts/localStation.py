@@ -6,9 +6,13 @@ import gda.factory.FactoryException
 import time
 
 from gda.device import Scannable
-from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
+from gda.jython.commands.GeneralCommands import ls_names, alias, vararg_alias
+from gda.jython.commands.ScannableCommands import add_default
 from gda.device.scannable import ScannableBase
 from gda.device.scannable.scannablegroup import ScannableGroup
+from i13j_utilities import createScannableFromPV, clear_defaults
+
+section_sep = "-"*128
 
 class ExperimentShutterEnumPositioner(ScannableBase):
 	"""
@@ -295,6 +299,7 @@ import excalibur_config
 #scanAborter=ScanAborter("scanAborter",ic, -10)
 #slitscanner = SlitScanner()
 #slitscanner.setScanAborter(scanAborter)
+#from gdascripts.bimorph.bimorph_mirror_optimising import TopupCountdown
 #bm_topup = TopupCountdown("bm_topup")
 
 #	caput ("BL13I-EA-DET-01:CAM:ReverseX", 1)
@@ -329,6 +334,7 @@ print "stxm_det - end"
 
 from trigger import trigz2
 
+print(section_sep)
 if not LocalProperties.check("gda.dummy.mode"):
 	run("localStationUser.py")
 
@@ -337,8 +343,106 @@ from tomographyXGIScan import tomoXGIScan
 import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
+print(section_sep)
+print "\n Adding beamline default scannables..."
+# append new items to the list below as required
+_default_scannable_names = []
+#_default_scannable_names.append("ring")
+_default_scannable_names.append("actualTime")
+_default_scannable_names.append("ionc_i")
+
+from types import *
+_default_scannables = []
+for sname in _default_scannable_names:
+	if type(finder.find(sname)) is not NoneType:
+		_default_scannables.append(finder.find(sname))
+	else:
+		try:
+			#print sname
+			eval(sname)
+			_default_scannables.append(eval(sname))
+		except:
+			msg = "\t Failed to find a default scannable named: " + sname
+			print msg
+try:
+	for s in _default_scannables:
+		add_default(s)
+except:
+	exceptionType, exception, traceback = sys.exc_info()
+	msg = "Failed to complete the task of adding default scannables: "
+	handle_messages.log(None, msg, exceptionType, exception, traceback, False)
+
+print "\n Finished adding beamline default scannables."
+srv = finder.find(JythonServer.SERVERNAME)
+_default_scannables_in_gda = srv.getDefaultScannables().toArray()
+print "\n The following default scannables will be recorded at each scan point under /entry1/default or /entry1/instrument in every Nexus scan file:"
+for s in _default_scannables_in_gda:
+	print s.getName()
+print(section_sep)
+
+try:
+	ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13J-DI-FEMTO-06:GAINHIGHSPEED", addToNameSpace=True, getAsString=True, hasUnits=False)
+	ionc_gainmode = createScannableFromPV("ionc_gainmode", "BL13J-DI-FEMTO-06:GAINMODE", addToNameSpace=True, getAsString=True, hasUnits=False)
+	ionc_acdc = createScannableFromPV("ionc_acdc", "BL13J-DI-FEMTO-06:ACDC", addToNameSpace=True, getAsString=True, hasUnits=False)
+	mirror_stripe = createScannableFromPV("mirror_stripe", "BL13J-OP-MIRR-01:CURSTRIP", addToNameSpace=True, getAsString=True, hasUnits=False)
+	crls_present = createScannableFromPV("crls_present", "BL13J-OP-ATTN-01:CRL:Y:MP:RBV:CURPOS", addToNameSpace=True, getAsString=True, hasUnits=False)
+except:
+	exceptionType, exception, traceback = sys.exc_info()
+	msg = "Failed to create a scannable from a given PV: "
+	handle_messages.log(None, msg, exceptionType, exception, traceback, False)
+	print msg
+print "hello!!!!!!!!!!!!!!!!!!!!!"
+try:
+	print "\n Adding beamline meta scannables..."
+	meta_scannables = []
+
+	# in alphabetical order
+	meta_scannables.append(id_gap)
+	meta_scannables.append(fes1)
+	meta_scannables.append(qcm_energy)
+	meta_scannables.append(s1)
+	meta_scannables.append(s2)
+	#meta_scannables.append(s3)
+	meta_scannables.append(s4)
+	meta_scannables.append(s5)
+	meta_scannables.append(s6)
+	meta_scannables.append(s7)
+	meta_scannables.append(t2)
+
+	# this fails coz it is trying to write string as float
+	#meta_scannables.append(ionc_A_over_V_gain)
+	#meta_scannables.append(ionc_gainmode)
+	#meta_scannables.append(ionc_acdc)
+	
+	for s in meta_scannables:
+		meta_add(s)
+	# temp fix
+	meta_add("ionc_A_over_V_gain", ionc_A_over_V_gain())
+	meta_add("ionc_gainmode", ionc_gainmode())
+	meta_add("ionc_acdc", ionc_acdc())
+	meta_add("mirror_stripe", mirror_stripe())
+	meta_add("crls_present", crls_present())
+	
+	print "\n Finished adding beamline meta scannables."
+	print "\n The following meta scannables will be recorded once per scan under /entry1/before_scan in every Nexus scan file:"
+	meta_scannables_in_gda = meta_ls()
+	print meta_scannables_in_gda
+except:
+	exceptionType, exception, traceback = sys.exc_info()
+	msg = "Failed to complete the task of adding meta scannables: "
+	handle_messages.log(None, msg, exceptionType, exception, traceback, False)
+print(section_sep)
+
 # for vortex to set Preset Mode to 'Real time' (the default is 'No preset')
 #caput("ME13C-EA-DET-01:PresetMode", 1)
 
 #8/4/2014 pie725 not present
 #run("startup_pie725")
+
+print(section_sep)
+# localStationUser.py should be run at the very end of this localStation.py
+if not LocalProperties.check("gda.dummy.mode"):
+	run("localStationUser.py")
+
+print(section_sep)	
+print("\n Finished running localStation.py")
