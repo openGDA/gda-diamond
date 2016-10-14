@@ -23,9 +23,4 @@ public class ViewFactoryIds {
 	public static final String PCOImageProfileViewId = "uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView";
 	public static final String PCOImageViewId = "uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView";
 	public static final String PCOLiveViewId = "uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView";
-	public static final String d1LiveView = "uk.ac.gda.beamline.i13i.d1AreaDetectorLiveView";
-	public static final String d2LiveView = "uk.ac.gda.beamline.i13i.d2AreaDetectorLiveView";
-	public static final String d3LiveView = "uk.ac.gda.beamline.i13i.d3AreaDetectorLiveView";
-	public static final String d4LiveView = "uk.ac.gda.beamline.i13i.41AreaDetectorLiveView";
-	public static final String d5LiveView = "uk.ac.gda.beamline.i13i.d5AreaDetectorLiveView";
 }

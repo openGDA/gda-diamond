@@ -18,13 +18,12 @@
 
 package uk.ac.gda.beamline.i13i.perspectives;
 
-import gda.rcp.views.JythonTerminalView;
-
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 
+import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.beamline.i13i.views.ViewFactoryIds;
 import uk.ac.gda.client.CommandQueueViewFactory;
 import uk.ac.gda.client.liveplot.LivePlotView;
@@ -75,11 +74,6 @@ public class DataCollectionPerspective implements IPerspectiveFactory {
 		rightTop.addPlaceholder("uk.ac.gda.video.views.cameraview");
 		rightTop.addPlaceholder(ViewFactoryIds.PCOImageProfileViewId);
 		rightTop.addPlaceholder(ViewFactoryIds.PCOImageViewId);
-		rightTop.addPlaceholder(ViewFactoryIds.d1LiveView);
-		rightTop.addPlaceholder(ViewFactoryIds.d2LiveView);
-		rightTop.addPlaceholder(ViewFactoryIds.d3LiveView);
-		rightTop.addPlaceholder(ViewFactoryIds.d4LiveView);
-		rightTop.addPlaceholder(ViewFactoryIds.d5LiveView);
 
 		IFolderLayout rightBottom = factory.createFolder("rightBottom", IPageLayout.BOTTOM, (float) 0.5, "rightTop");
 		rightBottom.addView(JythonTerminalView.ID);
