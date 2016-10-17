@@ -15,8 +15,8 @@
 	<import resource="../_common/client.xml" />
 	
 	<import resource="cameraview.xml" />
-	<import resource="../../../devices/epics/pco1_ndplugins.xml"/>
-	<import resource="../../../devices/epics/ion_chamber.xml" />
+	<import resource="../../../devices/live/pco1_ndplugins.xml"/>
+	<import resource="../../../devices/live/ion_chamber.xml" />
 
 	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="SR13I-MO-SERVC-01:CURRGAPD" />
