@@ -47,7 +47,5 @@
 	<import resource="microscope.xml"/>
 	<import resource="cryostat.xml"/>
 	<import resource="raw_sample_stage.xml"/>
-	<import resource="analyser_mapping.xml"/>
-	
 	
 </beans>
