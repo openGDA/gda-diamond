@@ -38,6 +38,9 @@
 	<!-- analyser -->
 	<import resource="scientaslit.xml" />
 	<import resource="analyser.xml"/>
+	<import resource="analyser_energy_range.xml"/>
+	
+	<!-- endstation -->
 	<import resource="sample_stage.xml"/>
 	<import resource="zone_plate.xml"/>
 	<import resource="osa.xml"/>
