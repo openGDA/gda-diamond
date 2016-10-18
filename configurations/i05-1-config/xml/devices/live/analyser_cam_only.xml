@@ -26,7 +26,8 @@
 				<value>690</value>
 			</list>
 		</property>
-		<property name="energyStepPerPixel" value="0.0861" />
+		<!-- From SES: Calibration -> Detector -> Energy Scale [meV/channel] -->
+		<property name="energyStepPerPixel" value="0.0861" /> 
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 	</bean>
 

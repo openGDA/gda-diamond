@@ -85,6 +85,7 @@
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 		<property name="energyRange" ref="analyser_energy_range" />
 		<property name="maxKE" value="1500" />
+		<property name="energyStepPerPixel" value="0.0861" />
 	</bean>
 	
 	<gda:rmi-export
