@@ -16,7 +16,7 @@
 		<property name="pluginBase">
 			<bean class="uk.ac.gda.devices.vgscienta.i05_1.FakeNDPluginBaseForSwept">
 				<property name="basePVName" value="BL05J-EA-DET-01:ARR:" />
-				<property name="analyser" ref="analyser" />
+				<property name="analyser" ref="analyser_old" />
 			</bean>
 		</property>
 	</bean>
@@ -59,7 +59,7 @@
 		<property name="maximumActiveRois" value="1" />
 	</bean>
 
-	<bean id="analyser" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyser">
+	<bean id="analyser_old" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyser">
 		<property name="cpsRoiProvider" ref="analyser_roi_provider" />
 		<property name="controller" ref="controller" />
 		<property name="adBase" ref="area" />
@@ -88,12 +88,12 @@
 	</bean>
 	
 	<gda:rmi-export
-		service="analyser"
+		service="analyser_old"
 		serviceName="gda/analyser"
 		serviceInterface="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
 		
 	<gda:rmi-export
-		service="analyser"
+		service="analyser_old"
 		serviceName="gda/analyserRmi"
 		serviceInterface="uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI" />
 
@@ -108,21 +108,21 @@
 	</bean>
 
 	<bean id="AnalyserLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
+		<property name="analyser" ref="analyser_old" />
 		<property name="plotName" value="Detector Plot" />
 		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
 		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:ArrayCounter_RBV" />
 	</bean>
 
 	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
+		<property name="analyser" ref="analyser_old" />
 		<property name="plotName" value="Detector Sum Plot" />
 		<property name="arrayPV" value="BL05J-EA-DET-01:ARR:ArrayData" />
 		<property name="frameNumberPV" value="BL05J-EA-DET-01:ARR:ArrayCounter_RBV" />
 	</bean>
 
 	<bean id="AnalyserSweptLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
-		<property name="analyser" ref="analyser" />
+		<property name="analyser" ref="analyser_old" />
 		<property name="plotName" value="Swept Plot" />
 		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
 		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:CURRENT_POINT_RBV" />

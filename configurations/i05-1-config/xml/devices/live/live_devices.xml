@@ -39,6 +39,7 @@
 	<import resource="scientaslit.xml" />
 	<import resource="analyser.xml"/>
 	<import resource="analyser_energy_range.xml"/>
+	<import resource="analyser_cam_only.xml"/>
 	
 	<!-- endstation -->
 	<import resource="sample_stage.xml"/>
