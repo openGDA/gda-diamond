@@ -1,47 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- This file allows facilities to customise logging. e.g. if they want it 
+<!-- This file allows facilities to customise logging. e.g. if they want it
 	all to be logged to a central server -->
 
 <included>
 
-	<!-- Graylog is a centralised log storage and analysis system -->
-	<!-- https://github.com/Moocar/logback-gelf -->
-	<appender name="GrayLog" class="me.moocar.logbackgelf.GelfUDPAppender">
-		<remoteHost>cs04r-sc-serv-14.diamond.ac.uk</remoteHost>
-		<port>12201</port>
-		<encoder class="me.moocar.logbackgelf.GZIPEncoder">
-			<layout class="me.moocar.logbackgelf.GelfLayout">
-				<shortMessageLayout class="ch.qos.logback.classic.PatternLayout">
-					<pattern>%-5level - %m%n%rEx</pattern>
-				</shortMessageLayout>
-				<useLoggerName>true</useLoggerName>
-				<useThreadName>false</useThreadName>
-				<staticField class="me.moocar.logbackgelf.Field">
-					<key>_beamline</key>
-					<value>${gda.beamline.name}</value>
-				</staticField>
-				<staticField class="me.moocar.logbackgelf.Field">
-					<key>_mode</key>
-					<value>${gda.mode}</value>
-				</staticField>
-				<staticField class="me.moocar.logbackgelf.Field">
-					<key>_user</key>
-					<value>${user.name}</value>
-				</staticField>
-				<staticField class="me.moocar.logbackgelf.Field">
-					<key>_gdaVersion</key>
-					<value>${gda.version}</value>
-				</staticField>
-			</layout>
-		</encoder>
-	</appender>
+  <if condition='property("gda.mode").contains("live")'>
+    <then>
 
-	<!-- This is a bit dubious but it seems to work i.e. the graylog appender gets added to the root logger but it kind
-	of looks like you are redefining the root logger. If you set the lever here it will override it on the core root
+
+	<!-- Use the central Graylog appender definition -->
+	<include file="/dls_sw/dasc/graylog/graylog_appender.xml" />
+
+	<!-- This is a bit dubious but it seems to work i.e. the Graylog appender gets added to the root logger but it kind
+	of looks like you are redefining the root logger. If you set the level here it will override it on the core root
 	logger as the root logger can only have one overall level.-->
 	<root>
-		<appender-ref ref="GrayLog" /> <!-- For the log panel -->
+		<appender-ref ref="GrayLog" />
 	</root>
+
+    </then>
+  </if>
+
 
 </included>
