@@ -9,4 +9,5 @@
 #
 # This script should not be added to as it is being phased out
 
+gda --start logpanel
 gda servers $*
