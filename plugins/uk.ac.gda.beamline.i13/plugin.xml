@@ -46,57 +46,6 @@
          point="org.eclipse.ui.views">
       <category name="I13I Views" id="uk.ac.gda.beamline.i13i"/>
       <view
-	         allowMultiple="false"
-	         category="uk.ac.gda.beamline.i13i"
-	         class="gda.rcp.views.ViewFactory:statusView"
-	         icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
-	         id="uk.ac.gda.beamline.i13i.views.StatusView"
-	         name="Status">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
-            icon="icons/chart_curve.png"
-            id="uk.ac.gda.beamline.i13i.DetectorPlot"
-            name="Detector Image"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
-            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
-            icon="icons/chart_curve.png"
-            id="uk.ac.gda.beamline.i13i.NormalisedImage"
-            name="Normalised Image"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
-            class="uk.ac.gda.beamline.i13i.views.I13PCOHistogramView"
-            icon="icons/AreaDetectorProfileView.gif"
-            id="uk.ac.gda.beamline.i13i.PCOAreaDetectorProfileView"
-            name="PCO Histogram">
-      </view>                       
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
-            class="uk.ac.gda.beamline.i13i.views.I13PCOArrayView"
-            icon="icons/AreaDetectorImageView.gif"
-            id="uk.ac.gda.beamline.i13i.PCOAreaDetectorArrayView"
-            name="PCO Array">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i13i"
-            class="uk.ac.gda.beamline.i13i.views.I13MJPegView"
-            icon="icons/AreaDetectorLiveView.gif"
-            id="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView"
-            name="PCO MJPeg">
-      </view>
-      		                    
-      <view
             allowMultiple="true"
             category="uk.ac.gda.beamline.i13i"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
@@ -171,31 +120,6 @@
       </view>
 
    </extension>
-   
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.beamline.i13i.perspectives.DataCollectionPerspective"
-            icon="icons/releng_gears.gif"
-            id="uk.ac.gda.beamline.i13i.perspectives.DataCollectionPerspective"
-            name="Data Collection">
-      </perspective>
-      <perspective
-            class="uk.ac.gda.beamline.i13i.perspectives.ScriptingPerspective"
-            icon="icons/releng_gears.gif"
-            id="uk.ac.gda.beamline.i13i.perspectives.ScriptingPerspective"
-            name="Scripting">
-      </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="*">
-            <perspectiveShortcut
-                  id="uk.ac.gda.beamline.i13i.perspectives.DataCollectionPerspective">
-            </perspectiveShortcut>
-      </perspectiveExtension>
-   </extension>    
    
 <extension
       point="org.eclipse.help.toc">

@@ -34,13 +34,12 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.client.tomo;bundle-version="1.0.0",
  org.apache.commons.configuration;bundle-version="[1.10.0,1.11.0)",
  org.apache.commons.lang;bundle-version="[2.6.0,2.7.0)",
- org.eclipse.dawnsci.nexus;bundle-version="1.0.0"
+ org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
+ uk.ac.diamond.daq.scripting.ui;bundle-version="9.2.0",
+ uk.ac.diamond.daq.tomography.datacollection.ui;bundle-version="9.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: uk.ac.gda.beamline.i13i,
- uk.ac.gda.beamline.i13i.perspectives,
- uk.ac.gda.beamline.i13i.views,
- uk.ac.gda.beamline.i13i.views.cameraview
+Export-Package: uk.ac.gda.beamline.i13i
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
 Import-Package: org.eclipse.draw2d,

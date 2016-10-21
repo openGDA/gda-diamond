@@ -3,8 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="i13ADController" class="uk.ac.gda.beamline.i13i.ADViewerImpl.I13ADControllerImpl">
-		<property name="serviceName" value="i13" />
+	<bean id="dataCollectionADController" class="uk.ac.diamond.daq.tomography.datacollection.ui.adviewer.DataCollectionADControllerImpl">
 		<property name="imageNDStats" ref="pco1_stat" />
 		<property name="liveViewNDProc" ref="pco1_proc1" />
 		<property name="imageNDArray" ref="pco1_arr" />
