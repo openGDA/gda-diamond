@@ -2,31 +2,34 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-       
 
-	
-	
-	<bean id="ionc1_power_supply" class="gda.device.scannable.PowerSupplyScannable">
+
+
+
+	<bean id="ionc1_power_supply"
+		class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL20I-EA-ISEG-01:V1_ACTUAL" />
 		<property name="voltage" value="BL20I-EA-ISEG-01:SET_V1_DEMAND" />
 		<property name="disable" value="BL20I-EA-ISEG-01:DISABLE:POLL" />
-		<property name="send" value="BL20I-EA-ISEG-01:SET_V1_SET:SEND.PROC" />
+		<property name="send" value="BL20I-EA-ISEG-01:SET_V1_SET:SEND.PROC" /> <!-- Doesn't exist. What is it, is it needed -->
 		<property name="start_ramp" value="BL20I-EA-ISEG-01:V1_START" />
 	</bean>
 
-	<bean id="ionc2_power_supply" class="gda.device.scannable.PowerSupplyScannable">
+	<bean id="ionc2_power_supply"
+		class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL20I-EA-ISEG-01:V2_ACTUAL" />
 		<property name="voltage" value="BL20I-EA-ISEG-01:SET_V2_DEMAND" />
 		<property name="disable" value="BL20I-EA-ISEG-01:DISABLE:POLL" />
-		<property name="send" value="BL20I-EA-ISEG-01:SET_V2_SET:SEND.PROC" />
+		<property name="send" value="BL20I-EA-ISEG-01:SET_V2_SET:SEND.PROC" /> <!-- Doesn't exist. What is it, is it needed -->
 		<property name="start_ramp" value="BL20I-EA-ISEG-01:V2_START" />
 	</bean>
 
-	<bean id="ionc3_power_supply" class="gda.device.scannable.PowerSupplyScannable">
+	<bean id="ionc3_power_supply"
+		class="uk.ac.gda.server.exafs.epics.device.scannable.PowerSupplyScannable">
 		<property name="readback" value="BL20I-EA-ISEG-02:V1_ACTUAL" />
 		<property name="voltage" value="BL20I-EA-ISEG-02:SET_V1_DEMAND" />
 		<property name="disable" value="BL20I-EA-ISEG-02:DISABLE:POLL" />
-		<property name="send" value="BL20I-EA-ISEG-02:SET_V1_SET:SEND.PROC" />
+		<property name="send" value="BL20I-EA-ISEG-02:SET_V1_SET:SEND.PROC" /> <!-- Doesn't exist. What is it, is it needed -->
 		<property name="start_ramp" value="BL20I-EA-ISEG-02:V1_START" />
 	</bean>
 
@@ -98,7 +101,7 @@
 		<property name="base_pressure" ref="ionc_base_pressure" />
 		<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
 	</bean>
-	
+
 	<bean id="ionc2_gas_injector" class="gda.device.scannable.GasInjectionScannable">
 		<property name="purge_pressure" ref="ionc_purge_pressure" />
 		<property name="purge_period" ref="ionc_purge_period" />
@@ -119,7 +122,7 @@
 		<property name="base_pressure" ref="ionc_base_pressure" />
 		<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
 	</bean>
-	
+
 	<bean id="ionc3_gas_injector" class="gda.device.scannable.GasInjectionScannable">
 		<property name="purge_pressure" ref="ionc_purge_pressure" />
 		<property name="purge_period" ref="ionc_purge_period" />
@@ -150,5 +153,42 @@
 	<bean id="ionc3_pressure" class="gda.device.scannable.SimplePVScannable">
 		<property name="pvName" value="BL20I-EA-GIR-01:P4" />
 	</bean>
-           
+
+	<!-- I0 -->
+	<bean id="ionc1_stanford" class="gda.device.currentamplifier.StanfordScannable">
+	<property name="base_pv" value="BL20I-EA-IAMP-01:" />
+	</bean>
+
+	<!-- It -->
+	<bean id="ionc2_stanford" class="gda.device.currentamplifier.StanfordScannable">
+	<property name="base_pv" value="BL20I-EA-IAMP-02:" />
+	</bean>
+
+	<!-- Iref -->
+	<bean id="ionc3_stanford" class="gda.device.currentamplifier.StanfordScannable">
+	<property name="base_pv" value="BL20I-EA-IAMP-03:" />
+	</bean>
+
+	<!-- I1 -->
+	<bean id="ionc4_stanford" class="gda.device.currentamplifier.StanfordScannable">
+	<property name="base_pv" value="BL20I-EA-IAMP-04:" />
+	</bean>
+
+<!-- RMI export the Stanford scannables -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc1_stanford" />
+		<property name="service" ref="ionc1_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc2_stanford" />
+		<property name="service" ref="ionc2_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc3_stanford" />
+		<property name="service" ref="ionc3_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+	</bean>
+	
 </beans>
