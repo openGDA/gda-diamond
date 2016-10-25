@@ -9,7 +9,7 @@
 	</bean>
 
 	<bean id="GTLINX2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16B-MO-GTLIN-01:Y2" />
+		<property name="pvName" value="BL16B-MO-GTLIN-01:Y3" />
 		<property name="local" value="true" />
 	</bean>
 

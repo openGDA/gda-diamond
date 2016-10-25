@@ -33,16 +33,16 @@
 		<property name="local" value="true" />
 	</bean>
 
-<!-- 	<bean id="geo3mot7Motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="BRICK3.MOT7" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
+	<bean id="geo3mot7Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS7" />
+		<property name="local" value="true" />
+	</bean>
 
-<!-- 	<bean id="geo3mot8Motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="BRICK3.MOT8" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-	
+	<bean id="geo3mot8Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS8" />
+		<property name="local" value="true" />
+	</bean>
+
 		<bean id="geo3mot1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="geo3mot1Motor" />
 	</bean>
@@ -66,6 +66,15 @@
 	<bean id="geo3mot6" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="geo3mot6Motor" />
 	</bean>
+
+	<bean id="geo3mot7" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo3mot7Motor" />
+	</bean>
+
+	<bean id="geo3mot8" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo3mot8Motor" />
+	</bean>
+
 	
 	<bean id="geo3" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -76,6 +85,8 @@
 				<ref bean="geo3mot4" />
 				<ref bean="geo3mot5" />
 				<ref bean="geo3mot6" />
+				<ref bean="geo3mot7" />
+				<ref bean="geo3mot8" />
 			</list>
 		</property>
 	</bean>

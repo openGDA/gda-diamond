@@ -19,8 +19,12 @@ def ptl3cal():
 		ucalibrate()
 		pos d3a 12
 		scan energy ptl3-.05 ptl3+.05 .001 w .2 ic1
-		print "Now go to edge and type: en.calibrate(11.564) "
-		pos d3a 90 energy ptl3
+#		print "Now go to edge and type: en.calibrate(11.564) "  #
+        edgeval=eedge()
+        go edgeval                                    #
+        print('Going to '+str(edgeval)+' keV and calibrating')  #  Gareth 27 April 2016
+        en.calibrate(11.564)                                    #
+        pos d3a 90 energy ptl3
 	
 def go8keV():
 	print "===Go to 8keV - last chance to abort!"; sleep(5)
@@ -65,6 +69,30 @@ def alignpinh():
 	#pos s5vgap .5 s5hgap .5 s6vgap 1 s6hgap 1
 	print 'Moving base_y to ' + str(baseycen)
 
+
+def alignpinhAPDkapton():
+	pos phi 0
+	print "===Align pin - edge must be aligned with camera at phi=0. Last chance to abort!"; sleep(5)
+	pos eta 0
+	pos chi 90
+	pos tthp tthp.apd+90
+	pos delta 0
+#	pos diodegain 0
+#	pos qbpm6inserter 1
+	#qbpm6.set_range(3)
+	pos s5vgap 5 s5hgap 5 s6vgap 5 s6hgap 5 #uncomment
+	bypos=base_y()
+	#scan base_y bypos-1 bypos+1 .02 w 1 diode hpos
+	scan base_y bypos-1 bypos+1 .02 checkbeam t 1
+	pos phi 180
+	#scan base_y bypos-1 bypos+1 .02 w 1 diode hpos
+	scan base_y bypos-1 bypos+1 .02 checkbeam t 1
+	#print "===Now you must move base_y to centre...";
+	baseycen=(edge(0,'base_y','APD')[1]+edge(-1,'base_y','APD')[1])/2.
+	go baseycen
+	#pos s5vgap .5 s5hgap .5 s6vgap 1 s6hgap 1
+	print 'Moving base_y to ' + str(baseycen)
+
 def alignpinv():
 	#please stop editing this!
 	pos phi 180
@@ -82,6 +110,23 @@ def alignpinv():
 	print "If the plots look ok then type energy.calibrate()"
 
 
+def aligns5APDkapton():
+	#use s5xgap because ss won't scan properly due to bug
+	print "=== check pin out, APD in Kapton scattering in, delta 0"
+	pos ds [3 3] ss [.05 2]
+	scancn ss.x .02 21 t .5 
+	go maxpos
+	#scan s5xgap .1 -.05 -0.005 w .5 diode
+	pos ds [3 3] ss [2 0.005]
+	#pos ss [1 .01]
+	scancn ss.y .005 31 t .5 
+	go maxpos
+	#scan s5ygap .05 -.02 -0.002 w .5 diode
+	#pos ss [0 0]
+	print "=== pos s5xgap and s5ygap to values where signal goes to zero, then set all s5 values to zero in epics"
+	print "=== Make sure you move the right gaps!!"
+	print "=== Don't do anything if they look close"
+
 def aligns5():
 	#use s5xgap because ss won't scan properly due to bug
 	print "=== check pin out, diode in, delta 0"
@@ -97,6 +142,7 @@ def aligns5():
 	print "=== pos s5xgap and s5ygap to values where signal goes to zero, then set all s5 values to zero in epics"
 	print "=== Make sure you move the right gaps!!"
 	print "=== Don't do anything if they look close"
+
 	
 def aligns6():
 	print "=== check pin out, diode in, delta 0"

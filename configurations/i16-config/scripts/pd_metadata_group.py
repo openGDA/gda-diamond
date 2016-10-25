@@ -3,7 +3,8 @@ import java.lang.Exception
 
 class ReadPDGroupClass(PseudoDevice):
 	'''Output values of a group of PseudoDevices'''
-	def __init__(self, name,pdlist):
+	def __init__(self, name,pdlist,help=None):
+		if help is not None: self.__doc__+='\nHelp specific to '+name+':\n'+help
 		self.pdlist=pdlist
 		self.setName(name);
 		self.setInputNames([])
