@@ -6,4 +6,8 @@
 	<bean id="ddist" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="Dr1ddistMotor" />
 	</bean>
+
+	<bean id="det1z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det1z_motor" />
+	</bean>
 </beans>
