@@ -5,6 +5,7 @@
  	
  	<!--Rasor-->
  	
+ 	
  	<bean id="dsd" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="dsd" />
 		<property name="initialUserUnits" value="mm" />
@@ -175,17 +176,6 @@
 		<property name="upperGdaLimits" value="260" />
 		 -->
 	</bean>
-	
-	<bean id="tth_enc" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="tth_enc" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="motor" ref="diff_twotheta_motor_enc" />
-		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-80" />
-		<property name="upperGdaLimits" value="260" />
-		 -->
-	</bean>
 
 	<bean id="th" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="th" />
@@ -198,16 +188,6 @@
 		 -->
 	</bean>
 	
-	<bean id="th_enc" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="th_enc" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="motor" ref="diff_theta_motor_enc" />
-		<property name="hardwareUnitString" value="deg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="190" />
-		 -->
-	</bean>
 
 	<bean id="chi" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="chi" />
@@ -252,6 +232,14 @@
 		<property name="upperGdaLimits" value="1" />
 		 -->
 	</bean>
+	<bean id="pinhx" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="pinh_x_motor" />
+	</bean>
+	<bean id="pinhy" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="pinh_y_motor" />
+	</bean>
 	
 	<bean id="rasor" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="name" value="rasor" />
@@ -263,11 +251,46 @@
 				<ref bean="phi" />
 				<ref bean="difx" />
 				<ref bean="alpha" />
+				<ref bean="pinhx" />
+				<ref bean="pinhy" />
 			</list>
 		</property>
 		<property name="local" value="true"/>
 	</bean>
+
+	<bean id="emecy1" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="emecy1" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="emec_y1_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
 	
+	<bean id="emecy2" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="emecy2" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="emec_y2_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	
+	<bean id="emecpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="emecpitch" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="emec_pitch_motor" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	
+	<bean id="emec" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="emec" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="emecy1" />
+				<ref bean="emecy2" />
+				<ref bean="emecpitch" />
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+
 	<bean id="eta" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="eta" />
 		<property name="initialUserUnits" value="deg" />

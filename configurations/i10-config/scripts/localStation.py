@@ -486,8 +486,6 @@ except:
 try:
     th_off = epics_pds.EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
     tth_off = epics_pds.EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
-    th_enc_off = epics_pds.EpicsReadWritePVClass('th_off', 'ME01D-MO-ENCDR-01:ENCTHETA.OFF', 'deg', '%.6f')
-    tth_enc_off = epics_pds.EpicsReadWritePVClass('tth_enc_off', 'ME01D-MO-ENCDR-01:ENC2THETA.OFF', 'deg', '%.6f')
 except:
     localStation_exception(sys.exc_info(), "creating th & tth offset and encoder offset scannables")
 
@@ -511,7 +509,7 @@ try:
         if polarimeter_installed:
             stdmetadatascannables += (RetTilt, RetRotation, AnaTilt ,AnaRotation, 
                                  AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb)
-        stdmetadatascannables += (th_off, tth_off, th_enc_off, tth_enc_off)
+        stdmetadatascannables += (th_off, tth_off)
         setmeta_ret=setmeta(*stdmetadatascannables)
         print "Standard metadata scannables: " + setmeta_ret
 
@@ -552,10 +550,19 @@ try:
     from gda.device.scannable.scannablegroup import ScannableGroup
     
     checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
-    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 30, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=30) #@UndefinedVariable
+    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
     checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
     checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
     checkbeam.configure()
+    
+    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
+    checkrc_cv.setOperatingContinuously(True)
+    checktopup_time_cv = WaitWhileScannableBelowThreshold('checktopup_time_cv', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
+    checktopup_time_cv.setOperatingContinuously(True)
+    checkfe_cv = WaitForScannableState('checkfe_cv', frontend, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
+    checkfe_cv.setOperatingContinuously(True)
+    checkbeam_cv = ScannableGroup('checkbeam_cv', [checkrc_cv, checkfe_cv, checktopup_time_cv])
+    checkbeam_cv.configure()
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
 
@@ -567,7 +574,7 @@ try:
     class ZiePassthroughScannableDecorator(PassthroughScannableDecorator):
 
         def __init__(self, delegate):
-            PassthroughScannableDecorator.__init__(self, delegate)
+            PassthroughScannableDecorator.__init__(self, delegate)  # @UndefinedVariable
     
         def getInputNames(self): 
             return []
@@ -581,7 +588,7 @@ try:
         def getPosition(self):
             return None
 
-    checkbeamcv = ZiePassthroughScannableDecorator(checkbeam)
+    checkbeamcv = ZiePassthroughScannableDecorator(checkbeam_cv)
 except:
     localStation_exception(sys.exc_info(), "creating checkbeamcv object")
 

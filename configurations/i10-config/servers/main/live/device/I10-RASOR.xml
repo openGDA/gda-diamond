@@ -2,6 +2,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<!-- pin hole motors -->
+	<bean id="pinh_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-PINH-01:X" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="pinh_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-PINH-01:Y" />
+		<property name="local" value="true"/>
+	</bean>
 
 	<bean id="aptr2_trans_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="APTR2.TRANS" />
@@ -77,24 +86,12 @@
 		<property name="local" value="true"/>
 	</bean>
   	
-  	<bean id="diff_twotheta_motor_enc" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ENCDR.ENCTWOTHETA" />
-		<property name="epicsConfiguration" ref="rasorConfig" />
-		<property name="local" value="true"/>
-	</bean>
-  	
   	<bean id="diff_theta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DIFF.THETA" />
 		<property name="epicsConfiguration" ref="rasorConfig" />
 		<property name="local" value="true"/>
 	</bean>
 
-  	<bean id="diff_theta_motor_enc" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ENCDR.ENCTHETA" />
-		<property name="epicsConfiguration" ref="rasorConfig" />
-		<property name="local" value="true"/>
-	</bean>
-  	
   	<bean id="diff_chi_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DIFF.CHI" />
 		<property name="epicsConfiguration" ref="rasorConfig" />
@@ -104,6 +101,21 @@
   	<bean id="diff_alpha_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DIFF.ALPHA" />
 		<property name="epicsConfiguration" ref="rasorConfig" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="emec_y1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-EMEC-01:Y1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="emec_y2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-EMEC-01:Y2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="emec_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="ME01D-EA-EMEC-01:PITCH" />
 		<property name="local" value="true"/>
 	</bean>
 
