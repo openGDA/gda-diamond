@@ -236,7 +236,7 @@ try:
 	#dummyDetector = SimpleDummyDetector()
 
 	try:
-		from mtscripts.scannable.CryojetScannable import CryojetScannable
+		from dls_scripts.scannable.CryojetScannable import CryojetScannable
 		cryojet = CryojetScannable('cryojet', 'BL15I-CG-CJET-01:', 
 									temp_tolerance=1, stable_time_sec=60)
 	except:
@@ -522,7 +522,7 @@ try:
 
 	try:
 		global srot
-		from scannables.ContinuouslyRockingScannable import ContinuouslyRockingScannable
+		from dls_scripts.scannable.ContinuouslyRockingScannable import ContinuouslyRockingScannable
 		srot_rocker = ContinuouslyRockingScannable('srot_rocker', scannable=srot)
 	except:
 		localStation_exception(sys.exc_info(), "creating srot_rocker object")
