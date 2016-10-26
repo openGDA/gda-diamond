@@ -8,7 +8,7 @@ from gdascripts.utils import caget
 from gdascripts.constants import clight, hPlanck, eV, pi
 from scisoftpy.jython.jymaths import arcsin, arccos, sqrt, cos, sin
 
-
+print "Running coupledPGMotion..."
 PV="BL21I-OP-PGM-01:ENERGY.RBV"
 energyfrompgm=float(caget(PV))
 
@@ -63,7 +63,7 @@ class pgmEnergyScannable(ScannableMotionBase):
 
     def __init__(self, name, lineDensity1, pgmMirrorPitch1, pgmGratingPitch1):
         '''
-        Constructor
+        Constenergy3=BeamEnergy("energy3",idscannable, idgap, energycff3,lut="IDCalibrationTable.txt")  # @UndefinedVariablructor
         '''
         self.setName(name)
         self.mirrorPitch=pgmMirrorPitch1
@@ -79,10 +79,10 @@ class pgmEnergyScannable(ScannableMotionBase):
         beta=arccos(cos(alpha)*self.cff())
         theta=(alpha+beta)/2
         
-        #print alpha*180/pi, beta*180/pi, theta*180/pi
+        #print alpha*180/pi, beta*180/pi, theta*180/pienergy1
         self.mirrorPitch.asynchronousMoveTo(theta*180/pi)
         self.gratingPitch.asynchronousMoveTo(beta*180/pi)
-    
+        
     def getPosition(self):
         wavelength=(-sin(float(self.gratingPitch.getPosition())*pi/180)+sin((2*float(self.mirrorPitch.getPosition())-float(self.gratingPitch.getPosition()))*pi/180))/self.lineDensity
         return float(self.wavelength2energy(wavelength))
@@ -99,14 +99,47 @@ class pgmEnergyScannable(ScannableMotionBase):
     def cff(self):
         return float(cos(float(self.gratingPitch.getPosition())*pi/180)/cos((2*float(self.mirrorPitch.getPosition())-float(self.gratingPitch.getPosition()))*pi/180))
     
-cff1=CoupledPGMMotion("cff1", 600*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
-cff2=CoupledPGMMotion("cff2", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
-cff3=CoupledPGMMotion("cff3", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+try:
+    cff1
+except:
+    cff1=CoupledPGMMotion("cff1", 600*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+try:
+    cff2
+except:
+    cff2=CoupledPGMMotion("cff2", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+try:
+    cff3
+except:
+    cff3=CoupledPGMMotion("cff3", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 
-energycff1=pgmEnergyScannable("energycff1", 600*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
-energycff2=pgmEnergyScannable("energycff2", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
-energycff3=pgmEnergyScannable("energycff3", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+try:
+    energycff1
+except:
+    energycff1=pgmEnergyScannable("energycff1", 600*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 
-energy1=BeamEnergy("energy1",idscannable, idgap, energycff1,lut="IDCalibrationTable.txt")  # @UndefinedVariable
-energy2=BeamEnergy("energy2",idscannable, idgap, energycff2,lut="IDCalibrationTable.txt")  # @UndefinedVariable
-energy3=BeamEnergy("energy3",idscannable, idgap, energycff3,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+try:
+    energycff2
+except:
+    energycff2=pgmEnergyScannable("energycff2", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+
+try:
+    energycff3
+except:
+    energycff3=pgmEnergyScannable("energycff3", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+
+try:
+   energy1
+except: 
+    #energy1=BeamEnergy("energy1",idscannable, idgap, energycff1,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+    energy1=BeamEnergy("energy1",idscannable, idgap, energycff1)
+try:
+    energy2
+except:
+    #energy2=BeamEnergy("energy2",idscannable, idgap, energycff2,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+    energy2=BeamEnergy("energy2",idscannable, idgap, energycff2)  # @UndefinedVariable
+try:
+    energy3
+except:
+    #energy3=BeamEnergy("energy3",idscannable, idgap, energycff3,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+    energy3=BeamEnergy("energy3",idscannable, idgap, energycff3)  # @UndefinedVariable
+print "Finished running coupledPGMotion"
