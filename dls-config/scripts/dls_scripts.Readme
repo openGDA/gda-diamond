@@ -1,0 +1,22 @@
+--------------------------------------------------------------------------------
+Note that scripts which need to be referenced outside of the dls-config project
+should go under the dls_scripts module.
+--------------------------------------------------------------------------------
+Why do we need to do this?
+
+Jython flattens the namespace and does not merge modules in different projects.
+
+this means that which project is selected for a given module is unpredictable
+and thus any scripts not under the dls_scripts module may not be accessible, or
+may become inaccessible for no readily apparent reason.
+
+Worse still, a script not under the dls_scripts module may become inaccessible
+without any changes to this repository. This typically happens with a module
+named something like 'scannable' which is common to multiple script projects.
+Someone adding a module with the same name in a completely unrelated project
+could then hide the module in use and prevent previously working scripts from
+running.
+
+Given that test scripts should not need to be run from outside this project,
+they can be at the root level of scripts. 
+--------------------------------------------------------------------------------
