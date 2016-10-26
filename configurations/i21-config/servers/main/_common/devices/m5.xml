@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="m5lx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lxTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m5ly" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lyTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m5lz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lzTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m5lpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lpitchMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+	<bean id="m5lyaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lyawMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+	<bean id="m5lroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lrollMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+
+	<bean id="m5rx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5rxTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m5ry" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5ryTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m5rz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5rzTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m5rpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5rpitchMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+	<bean id="m5ryaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5ryawMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+	<bean id="m5rroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5rrollMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+
+	<bean id="m5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m5lx" />
+				<ref bean="m5ly" />
+				<ref bean="m5lz" />
+				<ref bean="m5lpitch" />
+				<ref bean="m5lyaw" />
+				<ref bean="m5lroll" />
+				<ref bean="m5rx" />
+				<ref bean="m5ry" />
+				<ref bean="m5rz" />
+				<ref bean="m5rpitch" />
+				<ref bean="m5ryaw" />
+				<ref bean="m5rroll" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+	
+
+</beans>
