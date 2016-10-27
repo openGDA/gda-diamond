@@ -21,6 +21,8 @@ package uk.ac.gda.exafs.plotting.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
@@ -51,6 +53,8 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 
 	private Node addedData;
 
+	private ExecutorService executorService = Executors.newSingleThreadExecutor();
+
 	public ExperimentRootNode() {
 		super(null);
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
@@ -78,9 +82,28 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 		}
 	}
 
+	/**
+	 * Update the gui synchronously using a separate thread - to avoid locking up the gui for other update events
+	 * when adding a large number of plots in quick succession.
+	 * @since 27/9/2016
+	 */
 	@Override
 	public void update(final Object source, final Object arg) {
-		Display.getDefault().asyncExec(new Runnable() {
+		executorService.submit(new Runnable() {
+			@Override
+			public void run() {
+				updateSyncInGuiThread(source, arg);
+			}
+		});
+	}
+
+	/**
+	 * Update the gui with plot data (synchronously)
+	 * @param source
+	 * @param arg
+	 */
+	private void updateSyncInGuiThread(final Object source, final Object arg) {
+		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {
 				updateDataSetInUI(source, arg);
