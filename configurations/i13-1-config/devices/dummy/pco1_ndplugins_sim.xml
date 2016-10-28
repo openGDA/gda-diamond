@@ -8,8 +8,8 @@
 	<alias name="simCamBase" alias="pco1_cam_base" />
 	<alias name="simArr" alias="pco1_arr" />
 	<alias name="simStat" alias="pco1_stat" />
-	<alias name="simRoi" alias="pco1_roi1" />
-	<alias name="simFfmpeg1" alias="pco1_ffmpeg1" />
+	<alias name="simRoi" alias="pco1_roi" />
+	<alias name="simFfmpeg1" alias="pco1_ffmpeg" />
 	<alias name="simNdfilehdf5_base" alias="pco1_ndfilehdf5_base" />
 
 	<bean id="pco1_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
@@ -17,6 +17,6 @@
 	</bean>
 
 	<alias name="simNdfiletif" alias="pco1_ndfiletif" />
-	<alias name="simProc" alias="pco1_proc1" />
+	<alias name="simProc" alias="pco1_proc" />
 
 </beans>
