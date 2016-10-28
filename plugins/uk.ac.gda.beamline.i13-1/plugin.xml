@@ -73,57 +73,28 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
-      <category
-            name="I13J Views"
-            id="uk.ac.gda.beamline.i13j"/>
-            
-                       <view
-                 allowMultiple="false"
-                 category="uk.ac.gda.beamline.i13j"
-                 class="gda.rcp.views.ViewFactory:statusView"
-                 icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
-                 id="uk.ac.gda.beamline.i13j.views.StatusView"
-                 name="Status">
+      <category name="I13J Views" id="uk.ac.gda.beamline.i13j"/>
+      <view
+         allowMultiple="false"
+         category="uk.ac.gda.beamline.i13j"
+         class="gda.rcp.views.ViewFactory:statusView"
+         icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
+         id="uk.ac.gda.beamline.i13j.views.StatusView"
+         name="Status">
       </view>
-                       <view
-                             allowMultiple="false"
-                             category="uk.ac.diamond.scisoft.analysis.rcp"
-                             class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
-                             icon="icons/chart_curve.png"
-                             id="uk.ac.gda.beamline.i13j.DetectorPlot"
-                             name="Detector Image"
-                             restorable="true">
-                       </view>
+      <view
+         allowMultiple="false"
+         category="uk.ac.diamond.scisoft.analysis.rcp"
+         class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+         icon="icons/chart_curve.png"
+         id="uk.ac.gda.beamline.i13j.DetectorPlot"
+         name="Detector Image"
+         restorable="true">
+       </view>
    </extension>  
 
-
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective"
-            icon="icons/releng_gears.gif"
-            id="uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective"
-            name="Data Collection">
-      </perspective>
-      <perspective
-            class="uk.ac.diamond.scisoft.analysis.rcp.DataExplorationPerspective"
-            icon="icons/chart_curve.png"
-            id="uk.ac.gda.beamline.i13j.perspectives.DataExplorer"
-            name="Data Explorer">
-      </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="*">
-            <perspectiveShortcut
-                  id="uk.ac.gda.beamline.i13j.perspectives.DataCollectionPerspective">
-            </perspectiveShortcut>
-      </perspectiveExtension>
-   </extension>    
-   
    <extension point="org.eclipse.ui.menus">   
-	<menuContribution
+	 <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
                id="uk.ac.gda.client.mx.mainControls">
@@ -135,9 +106,6 @@
             </command>
          </toolbar>
       </menuContribution>
-</extension>
-
-
-
+   </extension>
 
 </plugin>
