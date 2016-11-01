@@ -23,10 +23,11 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
+import gda.device.detector.ZebraAreaDetectorPreparer;
 import gda.device.zebra.controller.Zebra;
 import gda.scan.TurboXasMotorParameters;
 
-/*
+/**
  * Continuous Scannable for Turbo slit position
  * @since 19/5/2016
  */
@@ -38,8 +39,6 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	private  ContinuousParameters continuousParameters;
 	private TurboXasMotorParameters motorParameters;
-
-	//private TurboXasParameters scanParameters;
 
 	private int positionTriggerEncoder;
 	private int positionTriggerTimeUnits;
@@ -214,6 +213,11 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		zebraDevice.setPCPulseMax(numReadoutsForScan);
 
 		zebraDevice.setOutTTL(1, ttlOutputPort);
+
+		// Configure the area detector settings
+		if (useAreaDetector && zebraAreaDetectorPreparer != null) {
+			zebraAreaDetectorPreparer.configure(numReadoutsForScan*numZebraGates);
+		}
 	}
 
 	public double getPulseWidthFraction() {
@@ -325,6 +329,12 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 				logger.info("Arming Zebra");
 				zebraDevice.reset();
 				zebraDevice.pcArm(); // should wait until armed, but seems to wait for ever
+
+				// Arm the area detector
+				if (useAreaDetector && zebraAreaDetectorPreparer != null) {
+					zebraAreaDetectorPreparer.arm();
+				}
+
 			} else
 				logger.info("Skipping arm at scan start");
 
@@ -377,7 +387,7 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	public double calculateEnergy(int frameIndex) throws DeviceException {
 		double deltaPositionPerFrame = scanMotorRange/numReadoutsForScan;
 		double motorPosition = scanStartMotorPosition + frameIndex*deltaPositionPerFrame;
-		if ( lastParameterSetType == ScanParametersType.TURBOXASMOTORPARAMS )
+		if (lastParameterSetType == ScanParametersType.TURBOXASMOTORPARAMS)
 			return motorParameters.getEnergyForPosition(motorPosition);
 		else
 			return motorPosition;
@@ -410,4 +420,45 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		resetZebraArmConfigFlags();
 	}
 
+	private boolean useAreaDetector = false;
+	private ZebraAreaDetectorPreparer zebraAreaDetectorPreparer;
+
+	public void setUseAreaDetector(boolean useAreaDetector) throws Exception {
+		this.useAreaDetector = useAreaDetector;
+		if (useAreaDetector) {
+			zebraAreaDetectorPreparer = makeZebraAreaDetectorPreparer();
+		} else
+			zebraAreaDetectorPreparer = null;
+	}
+
+	public void setAreaDetectorPreparer(ZebraAreaDetectorPreparer preparer) {
+		zebraAreaDetectorPreparer = preparer;
+		if (preparer != null) {
+			useAreaDetector = true;
+		} else {
+			useAreaDetector = false;
+		}
+	}
+
+	public ZebraAreaDetectorPreparer getAreaDetectorPreparer() {
+		return zebraAreaDetectorPreparer;
+	}
+
+	/** Make default area detector preparer for i20-1 zebra
+	 * This is is for testing purposes only, so set hdf file path to the tmp directory.
+	 * To change how it's set up (e.g. in script), just make
+	 * a new ZebraAreaDector object and pass it in via. {@link #setAreaDetectorPreparer(ZebraAreaDetectorPreparer)}.
+	 */
+	private ZebraAreaDetectorPreparer makeZebraAreaDetectorPreparer() throws Exception {
+		String zebraPv = zebraDevice.getZebraPrefix();
+		String dataDir = "/dls/i20-1/data/2016/cm14479-4/tmp/";
+		String fileName = "test";
+		ZebraAreaDetectorPreparer preparer = new ZebraAreaDetectorPreparer(zebraPv);
+		preparer.setFileDirectory(dataDir);
+		preparer.setFilename(fileName);
+		preparer.setCamPvSuffix(""); // Normal area detectors use "CAM:"
+		preparer.setHdfPvSuffix("HDF:"); // NB Normal area detectors use "HDF5:"
+		preparer.setFilenameTemplate("%s%s%d.hdf");
+		return preparer;
+	}
 }

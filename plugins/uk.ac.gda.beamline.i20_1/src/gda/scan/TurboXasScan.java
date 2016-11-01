@@ -38,6 +38,7 @@ import gda.device.DeviceException;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyNXDetector;
 import gda.device.detector.NXDetectorData;
+import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TurboXasScannable;
@@ -69,6 +70,7 @@ import gda.scan.ede.position.EdePositionType;
 public class TurboXasScan extends ContinuousScan {
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasScan.class);
 	private TurboXasMotorParameters turboXasMotorParams;
+	private boolean useAreaDetector;
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
 			Double time, BufferedDetector[] detectors) {
@@ -137,6 +139,16 @@ public class TurboXasScan extends ContinuousScan {
 		// Set number of zebra gates
 		turboXasScannable.setNumZebraGates(totNumSpectra);
 
+		// Set area detector flag (for timing, encoder position information)
+		turboXasScannable.setUseAreaDetector(useAreaDetector); // setAreaDetectorPreparer( getZebraAreaDetectorPreparer(zebraPv) );
+
+		// Prepare detectors (BufferedScalers) for readout of all spectra
+		// Do this once at beginning to avoid overhead of clearing out scaler memory etc for each spectra.
+		lastFrameRead = 0;
+		int totNumReadouts = turboXasScannable.getNumReadoutsForScan()*totNumSpectra;
+		prepareDetectors(totNumReadouts);
+
+
 		// Loop over timing groups...
 		for (int i = 0; i < timingGroups.size(); i++) {
 			logger.info("Setting motor parameters for timing group {} of {}", i+1, timingGroups.size());
@@ -159,8 +171,31 @@ public class TurboXasScan extends ContinuousScan {
 		}
 		// flags back to default values
 		turboXasScannable.atScanEnd();
-	}
+ 	}
 
+	public void prepareDetectors(int totNumReadouts) throws DeviceException, InterruptedException {
+
+		// Try to set scalert64 mode first, otherwise Scalers seem to return junk. imh 14/9/2016
+		BufferedDetector det = getScanDetectors()[0];
+		if ( det instanceof BufferedScaler ) {
+			Object result = ((BufferedScaler)det).getDaserver().sendCommand("tfg setup-cc-mode scaler64");
+			if (!result.toString().equals("0")) {
+				logger.info("Problem setting Tfg to use scaler64 mode - scaler readout may not work correctly...");
+			}
+		}
+
+		// Setup scaler memory to record all frames of data for all spectra across all timing groups
+		ContinuousParameters params = createContinuousParameters();
+		params.setNumberDataPoints(totNumReadouts);
+
+		// prep the detectors
+		for (BufferedDetector detector : getScanDetectors() ) {
+			detector.clearMemory(); // Is it necessary to clear scaler memory each time (takes approx 0.3--0.4secs)
+			detector.setContinuousParameters(params);
+			detector.setContinuousMode(true);
+			checkThreadInterrupted();
+		}
+	}
 	/**
 	 * Set the ContinuousParameters (and TurboXasMotorParameters) to be used on the scan axis.
 	 */
@@ -200,21 +235,13 @@ public class TurboXasScan extends ContinuousScan {
 		params.setNumberDataPoints(numberScanpoints);
 		super.setTotalNumberOfPoints(numberScanpoints);
 
-		// Prepare the detectors
-		BufferedDetector[] scanDetectors = getScanDetectors();
-		for (BufferedDetector detector : scanDetectors) {
-			detector.clearMemory(); // Is it necessary to clear scaler memory each time (takes approx 0.3--0.4secs)
-			detector.setContinuousParameters(params);
-			detector.setContinuousMode(true);
-			checkThreadInterrupted();
-		}
-
 		scanAxis.performContinuousMove();
 
 		scanAxis.waitWhileBusy();
 		// Wait for scan to finish, then readout all frames at end into single ScanDataPoint object
 
-		if ( scanDetectors.length > 0 ) {
+		BufferedDetector[] scanDetectors = getScanDetectors();
+		if (scanDetectors.length > 0) {
 			collectData(scanDetectors[0]);
 		}
 	}
@@ -229,19 +256,14 @@ public class TurboXasScan extends ContinuousScan {
 
 	private NXDetectorData createNXDetectorData(BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
 
-		detectorFrameData = detector.readAllFrames();
+		detectorFrameData = detector.readFrames(lowFrame, highFrame);
 
 		NXDetectorData frame = new NXDetectorData(detector);
 
-		double[][] frameDataArray = (double[][]) detectorFrameData;
-
-		if (lowFrame<0)
-			lowFrame=0;
-		if (highFrame>detectorFrameData.length)
-			highFrame = detectorFrameData.length;
+		double[][]frameDataArray = (double[][]) detectorFrameData;
 
 		int numFrames = highFrame - lowFrame;
-		int[] frameIndex = new int[numFrames];
+		int[]frameIndex = new int[numFrames];
 		double[] energy = new double[numFrames];
 
 		double[] i0Values = new double[numFrames];
@@ -250,9 +272,9 @@ public class TurboXasScan extends ContinuousScan {
 		double[] timeValues = new double[numFrames];
 
 		ContinuouslyScannable scanAxis = getScanAxis();
-		for(int i = lowFrame; i<highFrame; i++) {
+		for(int i = 0; i<numFrames; i++) {
 			frameIndex[i] = i;
-			timeValues [i] = frameDataArray[i][0];
+			timeValues[i] = frameDataArray[i][0];
 			i0Values[i] = frameDataArray[i][1];
 			itValues[i] = frameDataArray[i][2];
 			irefValues[i] = frameDataArray[i][3];
@@ -295,12 +317,15 @@ public class TurboXasScan extends ContinuousScan {
 
 	private PlotUpdater plotUpdater = new PlotUpdater();
 	private Object[] detectorFrameData;
+	private int lastFrameRead;
 
 	private void collectData(BufferedDetector detector) throws Exception {
 
 		// each frame is set of scaler values, corresponding to values for single photon energy/zebra pulse/motor position
+		// Readout frames from Scaler memory corresponding to latest spectra.
 		int framesRead = detector.getNumberFrames();
-		Object[][] nxFrameData = readDetector(detector,0, framesRead);
+		Object[][]nxFrameData = readDetector(detector, lastFrameRead, framesRead);
+		lastFrameRead = framesRead;
 
 		// Create scan data point and add detector data.
 		ScanDataPoint thisPoint = new ScanDataPoint();
@@ -486,5 +511,17 @@ public class TurboXasScan extends ContinuousScan {
 						EdeDataConstants.IT_COLUMN_NAME, itDataset, energyDataset));
 			}
 		}
+	}
+
+	public TurboXasMotorParameters getTurboXasMotorParams() {
+		return turboXasMotorParams;
+	}
+
+	public void setUseAreaDetector(boolean useAreaDetector) {
+		this.useAreaDetector = useAreaDetector;
+	}
+
+	public boolean getUseAreaDetector() {
+		return useAreaDetector;
 	}
 }
