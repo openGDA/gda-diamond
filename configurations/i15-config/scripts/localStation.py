@@ -236,7 +236,7 @@ try:
 	#dummyDetector = SimpleDummyDetector()
 
 	try:
-		from mtscripts.scannable.CryojetScannable import CryojetScannable
+		from dls_scripts.scannable.CryojetScannable import CryojetScannable
 		cryojet = CryojetScannable('cryojet', 'BL15I-CG-CJET-01:', 
 									temp_tolerance=1, stable_time_sec=60)
 	except:
@@ -522,7 +522,7 @@ try:
 
 	try:
 		global srot
-		from scannables.ContinuouslyRockingScannable import ContinuouslyRockingScannable
+		from dls_scripts.scannable.ContinuouslyRockingScannable import ContinuouslyRockingScannable
 		srot_rocker = ContinuouslyRockingScannable('srot_rocker', scannable=srot)
 	except:
 		localStation_exception(sys.exc_info(), "creating srot_rocker object")
@@ -681,7 +681,7 @@ try:
 		metashop=Finder.getInstance().find("metashop")
 		LocalProperties.set( NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop" ) # gda.nexus.metadata.provider.name
 		# As well as metashop needing to be define, GDAMetadata also needs to be defined.
-		# metashop is defined in mt-config/servers/main/common/required_at_start.py
+		# metashop is defined in i15-config/servers/main/common/required_at_start.py
 
 		simpleLog("Metadata scannables, from configuration: " + " ".join(str(x.name) for x in metashop.getMetaScannables()))
 
