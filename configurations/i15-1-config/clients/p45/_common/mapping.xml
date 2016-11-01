@@ -85,12 +85,22 @@
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Camera 2 (cam2rawAD)" />
+					<constructor-arg name="name" value="Camera 2 (cam2rawAD) Nexus" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 						<!-- 
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
 					 	-->
+							<property name="name" value="cam2rawAD" />
+							<property name="exposureTime" value="0.1" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="false" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="Camera 2 (cam2rawAD) HDF5" />
+					<constructor-arg name="model">
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
 							<property name="name" value="cam2rawAD" />
 							<property name="exposureTime" value="0.1" />
 						</bean>
