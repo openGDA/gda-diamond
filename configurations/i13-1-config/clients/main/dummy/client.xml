@@ -1,11 +1,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<context:property-placeholder />	
+	<!-- Include the following lines to run with simulated area detector -->
+	<!-- NB. Corresponding changes must be made in the dummy server.xml -->
+<!--     <import resource="../../../devices/dummy/adSimulator.xml"/>
+    <import resource="../../../devices/dummy/pco1_ndplugins_sim.xml"/> -->
+
+	<!-- Include the following line to run in dummy mode -->
+    <import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
 
 	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable">
 		<constructor-arg value="ringCurrent" />

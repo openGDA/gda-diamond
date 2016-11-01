@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="pco_model_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-EA-DET-01:CAM:Model_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="getAsString" value="true" />
+	</bean>
+
+	<bean id="pco_binx_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-EA-DET-01:CAM:BinX_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="pco_biny_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-EA-DET-01:CAM:BinY_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
+
+</beans>

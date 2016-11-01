@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Beans available in the client -->
+
+	<bean id="rotationAxisXScannable" class="gda.device.scannable.RotationAxisXScannable">
+		<property name="sampleStageXScannable" ref="t1_sx" />
+		<property name="cameraStageXScannable" ref="t1_x" />
+		<property name="cameraScaleProvider" ref="displayScaleProvider" />
+		<property name="lensScannable" ref="scope1_turret"/>
+	</bean>
+
+	<bean id="cameraXYScannable" class="gda.device.scannable.CameraXYScannable">
+		<property name="cameraStageXScannable" ref="t1_x" />
+		<property name="cameraStageYScannable" ref="t1_y" />
+		<property name="cameraScaleProvider" ref="displayScaleProvider" />
+		<property name="lensScannable" ref="scope1_turret"/>
+	</bean>
+
+</beans>

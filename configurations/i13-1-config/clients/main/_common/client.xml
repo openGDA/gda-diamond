@@ -4,15 +4,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
+   	<corba:import namespace="${gda.factory.factoryName}"
+		names="dcm_energy, dcm_bragg, eh_shtr, fs, rotationAxisXScannable, cameraXYScannable, scope1_turret, binning_x, pco_binx_rbv, binning_y, pco_biny_rbv" />
 
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="rmi_imports.xml" />
 	<import resource="plot_server.xml" />
 	<import resource="osgi_services.xml" />
 	<import resource="mapping.xml" />
+	<import resource="adController.xml" />
 	
 	<import resource="../../rcp/statusView.xml" />
+	<import resource="../../rcp/alignmentView.xml" />
 	<import resource="../../rcp/detectorImage.xml" />
+
+	<import resource="../../../devices/_common/cameraScaleProviders.xml" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />

@@ -1,32 +1,44 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+ 		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
 	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
 	<bean id="t1_sx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_sx_motor" />
 	</bean>
+
 	<bean id="t1_sy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_sy_motor" />
 	</bean>
+
 	<bean id="t1_sz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_sz_motor" />
 	</bean>
+
 	<bean id="t1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_x_motor" />
 	</bean>
+
 	<bean id="t1_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_y_motor" />
 	</bean>
+
 	<bean id="t1_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_z_motor" />
 	</bean>
+
 	<bean id="t1_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_pitch_motor" />
 	</bean>
+
 	<bean id="t1_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_roll_motor" />
 	</bean>
+
 	<bean id="t1_theta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t1_theta_motor" />
 	</bean>
@@ -40,8 +52,6 @@
 		<property name="inputNames" value="t1_ixy"/>
 	</bean>
 	
-
-		
 	<bean id="t1_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -51,7 +61,6 @@
 			</list>
 		</property>
 	</bean>		
-
 
 	<bean id="t1_isxy" class="gda.device.scannable.SimpleScannable">
 		<property name="currentPosition">
@@ -101,7 +110,42 @@
 				<ref bean="t1_sxy" />
 			</list>
 		</property>
-	</bean>	
+	</bean>
 	
-</beans>
+	<!-- RMI exports -->
+	<gda:rmi-export
+		service="t1_sx"
+		serviceName="gda/t1_sx"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
 
+	<gda:rmi-export
+		service="t1_sy"
+		serviceName="gda/t1_sy"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_sz"
+		serviceName="gda/t1_sz"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_theta"
+		serviceName="gda/t1_theta"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+	
+	<gda:rmi-export
+		service="t1_x"
+		serviceName="gda/t1_x"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_y"
+		serviceName="gda/t1_y"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_z"
+		serviceName="gda/t1_z"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+</beans>

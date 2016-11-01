@@ -9,6 +9,7 @@
 
 	<import resource="ringAndBeamline.xml" />
 	<import resource="commandQueueProcessor.xml" />
+	<import resource="beamlineEnergyController.xml" />
 	<import resource="GDAMetadata.xml" />
 	<import resource="imageProcessors.xml" />
 	<import resource="jythonServerFacade.xml" />
@@ -67,7 +68,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/d4.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/d5.xml"/>
 
-	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/dcm_motors.xml"/> -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/dcm_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/s4_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/s5_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/m2_motors.xml"/>
@@ -88,6 +89,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/scope1_motors.xml"/>
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_mapping.xml"/>
 	
@@ -134,7 +136,7 @@
 	<!-- <import resource="file:${gda.config}/devices/_common/pin.xml"/> -->
  	<import resource="file:${gda.config}/devices/_common/diff.xml"/>
 	<import resource="file:${gda.config}/devices/_common/s6.xml" />
-	<!-- <import resource="file:${gda.config}/devices/_common/dcm.xml" /> -->
+	<import resource="file:${gda.config}/devices/_common/dcm.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/sample_stage_t1.xml" />
 	<import resource="file:${gda.config}/devices/_common/ion_chamber.xml" />
@@ -159,6 +161,7 @@
 	<import resource="file:${gda.config}/devices/_common/t2.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/pco1.xml" />
+	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
 	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
 	<import resource="file:${gda.config}/devices/_common/maxipix.xml" />
 
@@ -174,7 +177,8 @@
 	<!-- end of device list -->
 	<!-- =========================================================== -->
 
-	<!-- Command Server at the end -->
+ 	<import resource="file:${gda.config}/devices/_common/cameraScaleProviders.xml"/>
+ 	<import resource="cameraStageScannables.xml" />
  	<import resource="dataFileMonitor.xml" />
  	<import resource="rcpController.xml" />
 	

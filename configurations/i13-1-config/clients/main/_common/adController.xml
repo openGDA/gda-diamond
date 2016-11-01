@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dataCollectionADController" class="uk.ac.diamond.daq.tomography.datacollection.ui.adviewer.DataCollectionADControllerImpl">
+		<property name="imageNDStats" ref="pco1_stat" />
+		<property name="liveViewNDProc" ref="pco1_proc" />
+		<property name="imageNDArray" ref="pco1_arr" />
+		<property name="imageHistSize" value="500" />
+		<property name="imageMin" value="0" />
+		<property name="detectorName" value="PCO" />
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%f)" />
+		<property name="ffmpegStream" ref="pco1_ffmpeg" />
+		<property name="ffmpegImageOutHeightMax" value="1336" />
+		<property name="ffmpegImageOutWidthMax" value="2004" />
+  		<property name="lensEnum" ref="scope1_turret" />
+ 		<property name="binningXEnum" ref="binning_x" />
+		<property name="binningYEnum" ref="binning_y" />
+ 		<property name="stagesCompositeFactory" ref="stages" />
+		<property name="rotationAxisXScannable" ref="rotationAxisXScannable" />
+		<property name="cameraXYScannable" ref="cameraXYScannable" />
+		<property name="displayScaleProvider" ref="displayScaleProvider" />
+		<property name="cameraScaleProvider" ref="displayScaleProvider" />
+		<property name="sampleCentringXMotor" ref="t1_sx" />
+		<property name="sampleCentringYMotor" ref="t1_sy" />
+		<property name="cameraImageWidthMax" value="4008" />
+		<property name="cameraImageHeightMax" value="2672" />
+		<property name="showNormalisedImageCmd" value="tomographyScan.showNormalisedImage(%s,exposureTime=%s)" />
+		<property name="imageNDROI" ref="pco1_roi" />
+	</bean>
+
+</beans>
