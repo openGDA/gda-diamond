@@ -10,8 +10,8 @@
 <!-- Replace with dummy while detector is away -->
 <!-- 	<bean id="DAServer" class="gda.device.detector.DAServer"> -->
 <!-- 		<property name="local" value="True" /> -->
-<!-- IP address = 172.23.90.204 --> 
-<!-- 		<property name="host" value="i20-1-xh0.diamond.ac.uk" /> -->  
+<!-- IP address = 172.23.90.204 -->
+<!-- 		<property name="host" value="i20-1-xh0.diamond.ac.uk" /> -->
 <!-- 		<property name="port" value="1972" /> -->
 <!-- 		<property name="startupCommands"> -->
 <!-- 			<list> -->
@@ -24,44 +24,44 @@
 <!-- 	</bean> -->
 
 <!--  XH detector -->
-	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
-<!-- 		IP address = 172.23.90.205 -->
-		<property name="host" value="i20-1-xh1.diamond.ac.uk" />  
-		<property name="port" value="1972" />
-		<property name="startupCommands">
-			<list>
-				<value>~config_xh</value>
-			</list>
-		</property>
- 		<property name="dataPort" value="20030" />
-		<property name="replyTimeOut" value="5000" />
-	</bean>
-
-<!-- Replace with dummy while detector is away -->
-<!--  Dummy XH -->
-<!-- 	<bean id="DAServer" class="gda.device.detector.xstrip.DummyXStripDAServer"> -->
+<!-- 	<bean id="DAServer" class="gda.device.detector.DAServer"> -->
 <!-- 		<property name="local" value="True" /> -->
-<!-- 		<property name="host" value="localhost" /> -->
+<!-- 		IP address = 172.23.90.205 -->
+<!-- 		<property name="host" value="i20-1-xh1.diamond.ac.uk" />   -->
 <!-- 		<property name="port" value="1972" /> -->
 <!-- 		<property name="startupCommands"> -->
 <!-- 			<list> -->
-<!-- 				<value>~config</value> -->
+<!-- 				<value>~config_xh</value> -->
 <!-- 			</list> -->
 <!-- 		</property> -->
-<!-- 		<property name="dataPort" value="20030" /> -->
+<!--  		<property name="dataPort" value="20030" /> -->
 <!-- 		<property name="replyTimeOut" value="5000" /> -->
 <!-- 	</bean> -->
+
+<!-- Replace with dummy while detector is away -->
+<!--  Dummy XH -->
+	<bean id="DAServer" class="gda.device.detector.xstrip.DummyXStripDAServer">
+		<property name="local" value="True" />
+		<property name="host" value="localhost" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
 
 	<!--
 	<bean id="d10_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL20J-DI-PHDGN-10:CAM" />
 	</bean>
-	
+
 	<bean id="d10_stats_pvs" class="ggda.device.detector.areadetector.v18.impl.NDStatsPVsImpl" factory-method="createFromBasePVName">
 		<constructor-arg value="ComputeCentroid"/>
 	</bean>
-	
+
 	<bean id="d10_nxcollectionstrategy" class=gda.device.detector.addetector.triggering.SoftwareContinuous>
 		<constructor-arg ref="d10_stats_pvs" />
 		<constructor-arg value="0" />
@@ -89,57 +89,7 @@
 	</bean>
 	 -->
 
-	<!-- AD hardware -->
-
-	<bean id="d10_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL20J-DI-PHDGN-10:CAM:" />
-	</bean>
-
-	<!-- NXDetector collection strategies -->
-
-	<bean id="d10_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire" >
-		<constructor-arg ref="d10_adbase" />
-		<constructor-arg value="0" />
-	</bean>
-
-
-	<!-- NXDetector file writers -->
-
-	<bean id="d10_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL20J-DI-PHDGN-10:HDF5:" />
-		<property name="resetToInitialValues" value="false" />
-	</bean>
-
-	<bean id="d10_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="d10_ndfilehdf5_base" />
-	</bean>
-
-
-	<bean id="d10_hdf5"
-		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="d10_ndfilehdf5" />
-		<property name="fileNameTemplate" value="d10_xrayeye" />
-		<property name="filePathTemplate" value="$datadir$nexus/" />
-		<property name="fileTemplate" value="%s%s-%d.hdf" />
-		<property name="fileNumberAtScanStart" value="-1" />
-		<property name="setFileNameAndNumber" value="true" />
-		<property name="lazyOpen" value="true" />
-		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks 
-			is 64 -->
-	</bean>
-
-	<!-- NXDetectors -->
-
-	<bean id="d10_xrayeye" class="gda.device.detector.NXDetector">
-		<property name="name" value="d10_xrayeye" />
-		<property name="collectionStrategy" ref="d10_nxcollectionstrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="d10_hdf5" />
-<!-- 				<ref bean="d10_stats_plugin" /> -->
-			</list>
-		</property>
-	</bean>
+	<import resource="file:${gda.config}/servers/main/live/xray_eyes.xml" />
 
 	<import resource="file:${gda.config}/servers/main/detectors-common.xml" />
 

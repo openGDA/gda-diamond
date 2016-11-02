@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
-<mapEntry key="GDA_CORE_CONFIG_rel" value="workspace_git/gda-core.git/core-config"/>
-<mapEntry key="GDA_FACILITY_CONFIG_rel" value="workspace_git/gda-diamond.git/dls-config"/>
-<mapEntry key="GDA_GROUP_CONFIG_rel" value="workspace_git/gda-xas-core.git/no-group"/>
-<mapEntry key="GDA_INSTANCE_CONFIG_rel" value="workspace_git/gda-dls-beamlines-xas.git/i20-1"/>
-<mapEntry key="GDA_WORKSPACE_GIT_NAME" value="workspace_git"/>
-<mapEntry key="GDA_WORKSPACE_PARENT" value="/scratch/gda/8.master"/>
+<mapEntry key="BEAMLINE" value="i20-1"/>
+<mapEntry key="GDA_DEBUG" value=""/>
+<mapEntry key="GDA_MODE" value="dummy"/>
+<mapEntry key="GDA_NO_PROMPT" value="y"/>
 </mapAttribute>
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.ui.externaltools.launchGroup"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/dls-config/bin/gda_servers_local}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="${workspace_loc:/uk.ac.gda.core} ${workspace_loc:/i20-1-config} dummy --restart --debug -p 8001"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/i20-1-config/bin/gda}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="--restart servers"/>
 </launchConfiguration>

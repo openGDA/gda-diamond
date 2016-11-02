@@ -24,7 +24,7 @@
 				<bean name="probe" class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="propertyName" value="gda.facility.probe" />
 				</bean>
-				
+
 				<bean name="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
 					<property name="defaultSubdirectory" value="" />
 				</bean>
@@ -54,10 +54,6 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
-
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
-		<property name="name" value="metashop" />
 	</bean>
 
 </beans>
