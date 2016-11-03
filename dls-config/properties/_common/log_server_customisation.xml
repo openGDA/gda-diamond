@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- This file allows facilities to customise logging. e.g. if they want it
-	all to be logged to a central server -->
+<!-- This file allows facilities to customise logging. e.g. if they want it all to be logged to a central server -->
 
 <included>
-
-  <if condition='property("gda.mode").contains("live")'>
-    <then>
-
 
 	<!-- Use the central Graylog appender definition -->
 	<include file="/dls_sw/dasc/graylog/graylog_appender.xml" />
@@ -18,9 +13,5 @@
 	<root>
 		<appender-ref ref="GrayLog" />
 	</root>
-
-    </then>
-  </if>
-
 
 </included>
