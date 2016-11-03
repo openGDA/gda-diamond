@@ -27,12 +27,8 @@ from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFr
 from gda.data.scan.datawriter import *
 
 from gda.commandqueue import JythonScriptProgressProvider
-
-
-def updateProgress( percent, msg):
-    JythonScriptProgressProvider.sendProgress( percent, msg)
-    print "percentage %d %s" % (percent, msg)
-
+from org.slf4j import LoggerFactory
+from i13j_utilities import isLive
 
 class EnumPositionerDelegateScannable(ScannableBase):
     """
@@ -114,9 +110,12 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/"
     sample_rotation_angle_target += tomography_theta_name + ":SDS"
     nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
-    nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/t1:NXcollection/t1_sx:SDS")
-    nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/t1:NXcollection/t1_sy:SDS")
-    nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/t1:NXcollection/t1_sz:SDS")
+    #nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/t1:NXcollection/t1_sx:SDS")
+    #nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/t1:NXcollection/t1_sy:SDS")
+    #nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/t1:NXcollection/t1_sz:SDS")
+    nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/t1_sx:SDS")
+    nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/t1_sx:SDS")
+    nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/t1_sx:SDS")
    
     nxLinkCreator.setTitle_target("entry1:NXentry/title:SDS")
    
@@ -131,7 +130,10 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
         # image filenames
         instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
-        instrument_detector_data_target += "image_data:SDS"
+        if isLive():
+            instrument_detector_data_target += "image_data:SDS"
+        else:
+            instrument_detector_data_target += "data:SDS"
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
     else:
         print "Defaults used for unsupported tomography detector in addNXTomoSubentry: " + tomography_detector_name
@@ -501,7 +503,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 perform a simple tomography scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[], **kwargs):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, approxCOR=(None,None), additionalScannables=[], **kwargs):
     """
     Function to collect a tomogram
  	Arguments:
@@ -672,6 +674,9 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         #we need ionc_i for the NXTomoEntry
         if min_i > 0.:
             import gdascripts.scannable.beamokay
+            #ionc_i = jns.ionc_i
+            #if ionc_i is None:
+            #    raise "ionc_i is not defined in Jython namespace"
             beamok=gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok", tomography_beammonitor, min_i)
             scan_args.append(beamok)
             
@@ -684,7 +689,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         tomography_detector.stop()
         scanObject.runScan()
 
-        if autoAnalyse:
+        if autoAnalyse and isLive():
             lsdp=jns.lastScanDataPoint()
             OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
         
@@ -705,30 +710,44 @@ def updateProgress( percent, msg):
     JythonScriptProgressProvider.sendProgress( percent, msg)
     print "percentage %d %s" % (percent, msg)
     
-#epg 17/4/2014 Not available on I13-1 yet - need to add tomography plugings
+from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
+from java.io import FileInputStream
+from gdascripts.metadata.metadata_commands import setTitle, getTitle
 
-#from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
-#from java.io import FileInputStream
-#from gdascripts.metadata.metadata_commands import setTitle
-#def ProcessScanParameters(scanParameterModelXML):
-#    print scanParameterModelXML
-#    scanXMLProcessor = ScanXMLProcessor();
-#    resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
-#    parameters = resource.getContents().get(0);
-#    jns=beamline_parameters.JythonNameSpaceMapping()
-#    additionalScannables=jns.tomography_additional_scannables
-#    setTitle(parameters.getTitle())
-#    updateProgress(0, "Starting tomoscan" + parameters.getTitle());
-#    print "Flyscan:" + `parameters.flyScan`
-#    if( parameters.flyScan ):
-#        tomoFlyScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-#                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-#                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)
-#    else:
-#        tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-#                darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-#                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables)
-#    updateProgress(100,"Done");
+def ProcessScanParameters(scanParameterModelXML):
+    logger = LoggerFactory.getLogger("tomographyScan.ProcessScanParameters()")
+    logger.debug("processing scan parameters from " + scanParameterModelXML)
+
+    scanXMLProcessor = ScanXMLProcessor();
+    resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
+    parameters = resource.getContents().get(0);
+    jns=beamline_parameters.JythonNameSpaceMapping()
+    additionalScannables=jns.tomography_additional_scannables
+    setTitle(parameters.getTitle())
+
+    updateProgress(0, "Starting tomoscan " + parameters.getTitle());
+    logger.info("Starting tomoscan with parameters: " + parameters.toString())
+
+    cor_x = cor_y = None
+    if (parameters.flyScan):
+        logger.info("Fly scan not supported")
+#         #cor_x = cor_y = None
+#         if parameters.approxCentreOfRotation is not None:
+#             print "Input CoR = %.3f" %(parameters.approxCentreOfRotation)
+#         else:
+#             print("Input CoR's type = " + type(parameters.approxCentreOfRotation))
+#         cor_x, cor_y = getApproxCoR()
+#         print("(cor_x, cor_y) = (%s, %s)" %(str(cor_x), str(cor_y)))   
+#         qFlyScanBatch(parameters.numFlyScans, parameters.title, parameters.flyScanDelay, 
+#                       parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
+#                       darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
+#                       imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI,
+#                       extraFlatsAtEnd=parameters.extraFlatsAtEnd, approxCOR=(cor_x,cor_y))
+    else:
+        tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
+                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
+                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables, approxCOR=(cor_x,cor_y))
+    updateProgress(100,"Done");
     
 
 def __test1_tomoScan():
@@ -799,3 +818,11 @@ def standardtomoScan():
     if positions[0] != 180. or positions[4] != 40.:
         print "Error - points are not correct :" + `positions`
     return sc
+
+def getApproxCoR():
+    # assuming camera is in the i13 default orientation wrt to the axis of rotation
+    #cam_model = caget("BL13I-EA-DET-01:CAM:Model_RBV")
+    cam_max_sensor_size_x = caget("BL13I-EA-DET-01:CAM:MaxSizeX_RBV")
+    cor_x = float(cam_max_sensor_size_x) * 0.5
+    cor_y = None
+    return cor_x, cor_y

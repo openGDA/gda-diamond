@@ -1,7 +1,8 @@
 #This file is used by beamline_parameters.jythonNamespaceMapping
 
-sample_stage=t1_x
+#sample_stage=t1_x
 #sample_stage=t1_sy
+sample_stage=t1_sx
 
 #tomography_translation is the motor used to move the sample out of the beam (x)
 #Possible values:

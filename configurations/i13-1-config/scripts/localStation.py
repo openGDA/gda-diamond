@@ -325,6 +325,7 @@ import tomographyScan
 from tomographyScan import reportTomo, showNormalisedImage
 alias("reportTomo")
 alias("showNormalisedImage")
+tomography_additional_scannables=[]
 
 print "stxm_det - begin"
 import stxm_det

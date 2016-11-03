@@ -5,7 +5,7 @@ from gda.factory import Finder
 from gda.jython import InterfaceProvider
 from gda.device.scannable import EpicsScannable
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
-
+from gda.configuration.properties import LocalProperties
 
 # set up a nice method for getting the latest file path
 i13jNumTracker = NumTracker("i13j");
@@ -136,4 +136,7 @@ def clear_defaults():
     return all_arr
 alias("clear_defaults")
 
+def isLive():
+    mode = LocalProperties.get("gda.mode")
+    return mode =="live" or mode =="live_localhost"
 
