@@ -5,7 +5,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
    	<corba:import namespace="${gda.factory.factoryName}"
-		names="dcm_energy, dcm_bragg, eh_shtr, fs, rotationAxisXScannable, cameraXYScannable, scope1_turret, binning_x, pco_binx_rbv, binning_y, pco_biny_rbv" />
+   		names="dcm_energy, dcm_bragg, eh_shtr, fs, rotationAxisXScannable, cameraXYScannable, scope1_turret, binning_x, binning_y" />
 
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="rmi_imports.xml" />
@@ -18,6 +18,11 @@
 	<import resource="../../rcp/alignmentView.xml" />
 	<import resource="../../rcp/detectorImage.xml" />
 	<import resource="../../rcp/tomographyOptions.xml" />
+
+	<!-- =========================================================== --> 
+	<!-- Device files with separate live and dummy versions          -->
+	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
 
 	<import resource="../../../devices/_common/cameraScaleProviders.xml" />
 
