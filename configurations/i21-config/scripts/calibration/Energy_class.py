@@ -84,13 +84,14 @@ class BeamEnergy(ScannableMotionBase):
     def getOrder(self):
         return self.order
     
-    def idgap(self, Ep, n):
+    def idgap_fn(self, Ep, n):
         gap=20.0
         # Linear Horizontal
         if (self.getPolarisationMode()=="LH"):
             if (Ep<600 or Ep > 1000):
                 raise ValueError("Demanding energy must lie between 600 and 1000eV!")
-            gap = 12.063 + 0.031329*Ep
+            # gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
+            gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
             if (gap<20 or gap>70):
                 raise ValueError("Required Soft X-Ray ID idgap is out side allowable bound (20, 70)!")
         
@@ -128,7 +129,7 @@ class BeamEnergy(ScannableMotionBase):
             if self.getName() == "dummyenergy":
                 gap=self.energy
             else:
-                gap=self.idgap(self.energy, self.order)
+                gap=self.idgap_fn(self.energy, self.order)
         except:
             raise
 
