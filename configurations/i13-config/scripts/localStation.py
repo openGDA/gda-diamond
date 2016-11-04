@@ -7,6 +7,7 @@ from gda.device.scannable import ScannableBase
 from gda.jython.commands import GeneralCommands
 from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
+from gda.data import PathConstructor
 
 import tomographyXGIScan
 from tomographyXGIScan import tomoXGIScan
