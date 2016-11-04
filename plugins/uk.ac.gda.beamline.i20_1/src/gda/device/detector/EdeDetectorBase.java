@@ -25,6 +25,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,14 +132,19 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		return detectorData;
 	}
 
+	private NexusGroupData setNexusCompression(NexusGroupData groupData) {
+		groupData.compressionType = NexusFile.COMPRESSION_NONE;
+		return groupData;
+	}
+
 	protected NXDetectorData createNXDetectorData(int[] elements) {
 		//TODO sort out excluded string correction
 		double[] correctedData = performCorrections(elements, false)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
 		double[] energies = this.getEnergyForChannels();
 
-		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, new NexusGroupData(energies), 1, 1, "eV", false);
-		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, new NexusGroupData(correctedData), "eV", 1);
+		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, setNexusCompression(new NexusGroupData(energies)), 1, 1, "eV", false);
+		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, setNexusCompression(new NexusGroupData(correctedData)), "eV", 1);
 
 		// Add pixel axis. imh 8/12/2015
 		int count = 0;
@@ -146,7 +152,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		for( Integer val : this.getPixels() ) {
 			pixels[count++] = val;
 		}
-		thisFrame.addAxis(getName(), EdeDataConstants.PIXEL_COLUMN_NAME, new NexusGroupData(pixels), 1, 2, "pixel number", false);
+		thisFrame.addAxis(getName(), EdeDataConstants.PIXEL_COLUMN_NAME, setNexusCompression(new NexusGroupData(pixels)), 1, 2, "pixel number", false);
 
 		double[] extraValues = getExtraValues(elements);
 		String[] names = getExtraNames();
@@ -224,7 +230,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			sdp.addDataFromDetector(this);
 			sdp.setCurrentPointNumber(0);
 			sdp.setNumberOfPoints(1);
-			sdp.setScanDimensions(new int[1]);
+			sdp.setScanDimensions(new int[]{1});
 
 			NumTracker runNumber = new NumTracker("scanbase_numtracker");
 			int scanNumber = runNumber.incrementNumber();
