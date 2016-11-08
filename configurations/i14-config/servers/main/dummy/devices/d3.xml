@@ -28,7 +28,7 @@
 			</util:list>
 		</property>
 	</bean>
-	
+
 	<!-- Scatter diode -->
 	<bean id="d3_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
@@ -37,12 +37,31 @@
 		</property>
 	</bean>
 
+	<!-- HDF5 file -->
+	<bean id="d3_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+						<property name="dims" value="1000,1000" />
+						<property name="datatype" value="UINT32" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 	<!-- Area detector camera -->
-	<!-- To use this, you will have to start an area detector simulator -->
-	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
-	<alias name="simCamBase" alias="d3_camBase" />
- 	<bean id="d3_cam" parent="simCam">
+	<bean id="d3_camBase" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator" />
+
+	<bean id="d3_cam" class="gda.device.detector.NXDetector">
 		<property name="name" value="d3_cam" />
+		<property name="collectionStrategy" ref="d3_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d3_hdf5Filewriter" />
+			</list>
+		</property>
 	</bean>
 
  </beans>

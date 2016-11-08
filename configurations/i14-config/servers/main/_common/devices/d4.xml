@@ -33,8 +33,15 @@
 				</property>
 			</bean>
 		</property>
-	</bean>	
+	</bean>
 
+	<!-- HDF5 file writer -->
+	<bean id="d4_hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="ndFileHDF5" ref="d4_ndhdf5file" />
+		<property name="fileNameTemplate" value="d4" />
+	</bean>
+
+	<!-- Scannable group -->
 	<bean id="d4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

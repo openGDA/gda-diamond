@@ -10,7 +10,7 @@
 		<property name="pvName" value="BL14I-DI-PHDGN-07:Y" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<!-- Stick positioner -->
 	<bean id="d7_y_position" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL14I-DI-PHDGN-07:MP1" />
@@ -112,18 +112,13 @@
 			</bean>
 		</property>
 	</bean>
-	
-	<!-- HDF5 file writer -->
-	<bean id="d7_hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
-		<property name="fileNameTemplate" value="d7"/>
-		<property name="ndFileHDF5">
-			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
-				<property name="ndFileImpl">
-					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="BL14I-OP-DCAM-07:HDF5:" />
-						<property name="resetToInitialValues" value="false" />
-					</bean>
-				</property>
+
+	<!-- HDF5 file -->
+	<bean id="d7_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL14I-OP-DCAM-07:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
 			</bean>
 		</property>
 	</bean>

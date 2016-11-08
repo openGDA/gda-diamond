@@ -4,19 +4,19 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- D1 -->
-	
+
 	<!-- Stick motor -->
 	<bean id="d1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-DI-PHDGN-01:X" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<!-- Stick positioner -->
 	<bean id="d1_x_position" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL14I-DI-PHDGN-01:MP" />
 		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
 	</bean>
-	
+
 	<!-- Scatter diode -->
 	<bean id="d1_diode1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL14I-DI-PHDGN-01:FEMTO1:I"/>
@@ -119,18 +119,13 @@
 			</bean>
 		</property>
 	</bean>
-	
-	<!-- HDF5 file writer -->
-	<bean id="d1_hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
-		<property name="fileNameTemplate" value="d1"/>
-		<property name="ndFileHDF5">
-			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
-				<property name="ndFileImpl">
-					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="BL14I-OP-DCAM-01:HDF5:" />
-						<property name="resetToInitialValues" value="false" />
-					</bean>
-				</property>
+
+	<!-- HDF5 file -->
+	<bean id="d1_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL14I-OP-DCAM-01:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
 			</bean>
 		</property>
 	</bean>

@@ -35,12 +35,31 @@
 		</property>
 	</bean>
 
+	<!-- HDF5 file -->
+	<bean id="d2_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+						<property name="dims" value="1000,1000" />
+						<property name="datatype" value="UINT32" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 	<!-- Area detector camera -->
-	<!-- To use this, you will have to start an area detector simulator -->
-	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
-	<alias name="simCamBase" alias="d2_camBase" />
- 	<bean id="d2_cam" parent="simCam">
+	<bean id="d2_camBase" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator" />
+
+	<bean id="d2_cam" class="gda.device.detector.NXDetector">
 		<property name="name" value="d2_cam" />
+		<property name="collectionStrategy" ref="d2_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d2_hdf5Filewriter" />
+			</list>
+		</property>
 	</bean>
 
  </beans>
