@@ -41,6 +41,11 @@
 
 	<!-- NXDetectors -->
 
+	<bean id="andor_darkandflatfields_proc"
+		class="gda.device.detector.nxdetector.andor.proc.FlatAndDarkFieldPlugin">
+		<constructor-arg ref="andor_adproc" />
+	</bean>
+
 	 <bean id="andor" class="gda.device.detector.NXDetector">
 		<property name="name" value="andor" />
 		<property name="collectionStrategy" ref="andor_nxcollectionstrategy" />
@@ -64,10 +69,6 @@
 		</property>
 	</bean>
 
-	<bean id="andor_darkandflatfields_proc"
-		class="gda.device.detector.nxdetector.andor.proc.FlatAndDarkFieldPlugin">
-		<constructor-arg ref="andor_adproc" />
-	</bean>
 
 	<!-- underscore as it should be wrapped in the scanwrapper -->
 	<bean id="_andorrastor" class="gda.device.detector.HardwareTriggeredNXDetector">
