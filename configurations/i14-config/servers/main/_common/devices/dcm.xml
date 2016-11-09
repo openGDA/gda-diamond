@@ -16,6 +16,9 @@
 	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_bragg_motor" />
 	</bean>
+	<bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_energy_motor" />
+	</bean>
 
 	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -24,8 +27,9 @@
 				<ref bean="dcm_roll" />
 				<ref bean="dcm_perp" />
 				<ref bean="dcm_bragg" />
+				<ref bean="dcm_energy" />
 			</list>
 		</property>
-	</bean>	
+	</bean>
 
 </beans>

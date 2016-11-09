@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="shutters" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="oh1_shutter_status" />
+				<ref bean="oh2_shutter_status" />
+				<ref bean="oh3_shutter_status" />
+				<ref bean="eh2_nano_shutter_status" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

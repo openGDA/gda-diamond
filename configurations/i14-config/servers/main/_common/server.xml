@@ -16,13 +16,17 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-	
+
 	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
 	<import resource="file:${gda.config}/servers/main/_common/plotServer.xml" />
 
+	<!-- Command Server -->
+	<import resource="file:${gda.config}/servers/main/_common/jythonServerFacade.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
+
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-	<!-- =========================================================== --> 
+	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
@@ -31,6 +35,9 @@
 	<!-- ID & front end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/id.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/frontEnd.xml" />
+
+	<!--  shutters -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/shutters.xml" />
 
 	<!-- optics -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s1.xml" />
@@ -66,6 +73,9 @@
 	<!-- ID -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/id.xml" />
 
+	<!--  shutters -->
+	<import resource="file:${gda.config}/servers/main/_common/devices/shutters.xml" />
+
 	<!-- optics -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/s1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/s2.xml" />
@@ -90,16 +100,12 @@
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
-	
+
 	<!-- Mapping -->
 	<import resource="mapping_scan_server.xml" />
 
 	<!-- moveable devices -->
 	<import resource="file:${gda.config}/servers/main/_common/moveable/me07m/all.xml" />
-
-	<!-- Command Server at the end -->
-	<import resource="file:${gda.config}/servers/main/_common/jythonServerFacade.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 

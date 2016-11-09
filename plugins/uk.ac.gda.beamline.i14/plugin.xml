@@ -26,68 +26,6 @@
       </product>
    </extension>
    <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.beamline.i14.perspectives.ExperimentPerspective"
-            id="uk.ac.gda.microscopy.ExperimentPerspective"
-            name="X-ray Microscopy Experiment">
-      </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectiveExtensions">
-      <perspectiveExtension
-            targetID="uk.ac.gda.microscopy.ExperimentPerspective">
-
-         <view
-               closeable="false"
-               id="gda.rcp.jythonterminalview"
-               minimized="false"
-               moveable="true"
-               ratio="0.95"
-               relationship="left"
-               relative="org.eclipse.ui.editorss"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="uk.ac.gda.client.liveplotview"
-               minimized="false"
-               moveable="true"
-               ratio="0.6"
-               relationship="top"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="uk.ac.gda.exafs.ui.dashboardView"
-               moveable="false"
-               ratio="0.75"
-               relationship="right"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               id="uk.ac.gda.client.navigator"
-               minimized="false"
-               ratio="0.2"
-               relationship="left"
-               relative="uk.ac.gda.client.liveplotview">
-         </view>
-         <view
-               id="uk.ac.gda.epics.adviewer.mpegview"
-               minimized="false"
-               ratio="0.2"
-               relationship="right"
-               relative="uk.ac.gda.client.liveplotview"
-               visible="true">
-         </view>
-      </perspectiveExtension>
-   </extension>
-   <extension
          point="uk.ac.gda.client.preferences">
       <preference
             name="gda.client.max.size.cached.points"
@@ -171,8 +109,21 @@
 
    <extension
          point="org.eclipse.ui.views">
+      <category
+            name="I14 Views"
+            id="uk.ac.gda.beamline.i14">
+      </category>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i14"
+            class="uk.ac.gda.beamline.i14.views.I14StatusView"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.diamond.daq.microscopy.xraymicroscopyexperiment.ui.StatusView"
+            name="Status">
+      </view>
       <view
             allowMultiple="true"
+            category="uk.ac.gda.beamline.i14"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D1//BL14I-OP-DCAM-01@"
             name="D1 Array View"
@@ -180,6 +131,7 @@
       </view>
       <view
             allowMultiple="true"
+            category="uk.ac.gda.beamline.i14"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D2//BL14I-OP-DCAM-02@"
             name="D2 Array View"
@@ -187,6 +139,7 @@
       </view>
       <view
             allowMultiple="true"
+            category="uk.ac.gda.beamline.i14"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D3//BL14I-OP-DCAM-03@"
             name="D3 Array View"
@@ -194,6 +147,7 @@
       </view>
       <view
             allowMultiple="true"
+            category="uk.ac.gda.beamline.i14"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D4//BL14I-OP-DCAM-04@"
             name="D4 Array View"
@@ -201,6 +155,7 @@
       </view>
       <view
             allowMultiple="true"
+            category="uk.ac.gda.beamline.i14"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D5//BL14I-OP-DCAM-05@"
             name="D5 Array View"
@@ -208,6 +163,7 @@
       </view>
       <view
             allowMultiple="true"
+            category="uk.ac.gda.beamline.i14"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D6//BL14I-OP-DCAM-06@"
             name="D6 Array View"
@@ -215,6 +171,7 @@
       </view>
       <view
             allowMultiple="true"
+            category="uk.ac.gda.beamline.i14"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D7//BL14I-OP-DCAM-07@"
             name="D7 Array View"

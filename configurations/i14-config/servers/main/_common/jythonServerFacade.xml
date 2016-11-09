@@ -4,6 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
+		<constructor-arg ref="command_server" />
+	</bean>
+
 	<!--  Only reference script folders here that are within a config folder or separate from the workspace -->
 	<!--  all other should use the uk.ac.diamond.daq.jython.api.scriptLocations extension point-->
 	<bean id="command_server" class="gda.jython.JythonServer">

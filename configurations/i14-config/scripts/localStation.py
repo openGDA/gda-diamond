@@ -7,19 +7,16 @@ from gda.device.scannable import ScannableBase
 from gda.device.monitor import EpicsMonitor
 from gdascripts.parameters.beamline_parameters import JythonNameSpaceMapping
 from gdascripts.scan import gdascans
-#from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
+
+from gda.device import Scannable
+from gda.jython.commands.GeneralCommands import ls_names, alias
+
+from shutter_control import toggle_oh1_shtr, toggle_oh2_shtr, toggle_oh3_shtr, toggle_eh2_nano_shtr
 
 print "Initialisation Started";
 
-
-from gda.device import Scannable
-from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
-
 def ls_scannables():
     ls_names(Scannable)
-    
-#from gda.scan.RepeatScan import create_repscan, repscan
-#vararg_alias("repscan")
 
 rscan=gdascans.Rscan()
 alias('rscan');print rscan.__doc__.split('\n')[2]
@@ -30,11 +27,9 @@ alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
+
 from gda.data.scan.datawriter import NexusDataWriter
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
-
-#from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-#scan_processor.rootNamespaceDict=globals()
 
 from gdascripts.pd.time_pds import waittimeClass, showtimeClass, showincrementaltimeClass, actualTimeClass
 waittime=waittimeClass('waittime')

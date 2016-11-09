@@ -32,5 +32,11 @@
 		<property name="unitString" value="deg" />
 		<property name="local" value="true" />
 	</bean>
+	<bean id="dcm_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0" />
+		<property name="maxPosition" value="100" />
+		<property name="position" value="11.9975" />
+		<property name="local" value="true" />
+	</bean>
 
 </beans>

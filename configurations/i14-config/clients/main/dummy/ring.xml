@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="idGap" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="idGap" />
+		<property name="currentPosition" value="10.5" />
+	</bean>
+
+    <bean id="timeToRefill" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="timeToRefill"/>
+		<property name="currentPosition" value="376" />
+	</bean>
+
+    <bean id="ringCurrent" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="ringCurrent"/>
+		<property name="currentPosition" value="301.209" />
+	</bean>
+
+</beans>

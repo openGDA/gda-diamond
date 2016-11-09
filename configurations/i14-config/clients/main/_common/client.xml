@@ -10,24 +10,29 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<context:property-placeholder />	
+	<context:property-placeholder />
+
+	<corba:import namespace="${gda.factory.factoryName}"
+		names="plot_server, dcm_energy, dcm_bragg, oh1_shutter_status, oh2_shutter_status, oh3_shutter_status, eh2_nano_shutter_status" />
+
+	<!-- =========================================================== -->
+	<!-- Files with separate live and dummy versions                 -->
+	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/ring.xml" />
+
+	<!-- =========================================================== -->
+	<!-- Shared files                                                -->
+	<!-- =========================================================== -->
+	<import resource="mapping.xml" />
+	<import resource="osgi_services.xml" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
-
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
-		<property name="service" ref="plot_server" />
-	</bean>
-	
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
 	</bean>
-
-	<import resource="mapping.xml" />
 
 </beans>
