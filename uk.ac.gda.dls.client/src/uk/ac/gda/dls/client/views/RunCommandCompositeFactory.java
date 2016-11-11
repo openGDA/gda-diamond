@@ -18,27 +18,16 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.jython.ICommandRunner;
-import gda.rcp.views.CompositeFactory;
-
 import java.io.File;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.StringUtils;
 
+import gda.jython.ICommandRunner;
+import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.ui.utils.SWTUtils;
 
@@ -175,46 +164,4 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 		this.tooltip = tooltip;
 	}
 
-}
-
-class RunCommandComposite extends Composite {
-
-	RunCommandComposite(Composite parent, int style, final ICommandRunner commandRunner,
-			String label, final String command, final String commandObserver, final String jobTitle, String tooltip) {
-		super(parent, style);
-		final Display display = parent.getDisplay();
-		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(this);
-		GridDataFactory.fillDefaults().applyTo(this);
-		final Button btn = new Button(this, SWT.PUSH);
-		btn.setText(label);
-		btn.setToolTipText(tooltip);
-		btn.addSelectionListener(new SelectionAdapter() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				super.widgetSelected(e);
-				btn.setEnabled(false);
-				Job job = new Job(jobTitle) {
-
-					@Override
-					protected IStatus run(IProgressMonitor monitor) {
-						if (StringUtils.hasLength(commandObserver)) {
-							commandRunner.runCommand(command, commandObserver);
-						} else {
-							commandRunner.runCommand(command);
-						}
-						display.asyncExec(new Runnable() {
-							@Override
-							public void run() {
-								btn.setEnabled(true);
-							}
-						});
-						return Status.OK_STATUS;
-					}
-				};
-				job.setUser(true);
-				job.schedule();
-			}
-		});
-	}
 }
