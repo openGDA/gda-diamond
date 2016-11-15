@@ -1,10 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
+    <import resource="metadata.xml"/>
 
 <!-- Do not remove anything below here -->
-	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+    <import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>
