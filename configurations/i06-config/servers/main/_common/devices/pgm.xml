@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="PGMENCODERS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pgmmenc1" />
+				<ref bean="pgmmenc2" />
+				<ref bean="pgmmenc3" />
+				<ref bean="pgmmenc4" />
+				<ref bean="pgmgenc1" />
+				<ref bean="pgmgenc2" />
+				<ref bean="pgmgenc3" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="PGMSETTINGS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cff" />
+				<ref bean="pgmmo" />
+				<ref bean="pgmgo" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

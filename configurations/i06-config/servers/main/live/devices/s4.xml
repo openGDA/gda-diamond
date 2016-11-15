@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Exit Slits S4 Motors -->
+	<bean id="MotorXDisp_S4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.XDISP" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorYDisp_S4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.YDISP" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorZ_S4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S4.Z" />
+		<property name="local" value="true"/>
+	</bean>
+
+
+</beans>

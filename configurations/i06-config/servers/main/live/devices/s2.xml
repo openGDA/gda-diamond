@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Secondary Slits S2 Motors -->
+	<bean id="MotorXPos_S2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S2.XPOS" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorXNeg_S2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S2.XNEG" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorYPos_S2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S2.YPOS" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorYNeg_S2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S2.YNEG" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorXSize_S2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S2.XSIZE" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorXCentre_S2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S2.XCENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorYSize_S2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S2.YSIZE" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorYCentre_S2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S2.YCENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+
+
+
+
+</beans>

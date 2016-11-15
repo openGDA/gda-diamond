@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- KB Mirror (M4/M5) Strain Gauges -->
+	<bean id="m4bend1g" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-OP-KBM-01:HFM:USG:POLLVALUE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="m4bend2g" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-OP-KBM-01:HFM:DSG:POLLVALUE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="m5bend1g" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-OP-KBM-01:VFM:USG:POLLVALUE" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="m5bend2g" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-OP-KBM-01:VFM:DSG:POLLVALUE" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- KB Mirror (M4/M5) Motors -->
+	<!-- KB Mirrors M4 (HFM) -->
+	<bean id="MotorHFMX_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.X" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorHFMPitch_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.PITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorHFMFinePitch_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M4.FPITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorHFMBender1_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.BEND1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorHFMBender2_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.BEND2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorHFMRoll_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HFM.ROLL" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- KB Mirrors M5 (VFM) Positioner and DOFs -->
+	<bean id="MotorVFMPitch_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.PITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorVFMBender1_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.BEND1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorVFMBender2_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="VFM.BEND2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorVFMFinePitch_M4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M5.FPITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

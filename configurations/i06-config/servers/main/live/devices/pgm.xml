@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- PGM Mirror and Grating encoders -->
+	<bean id="pgmmenc1" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="PGM.MIRENC1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="pgmmenc2" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="PGM.MIRENC2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="pgmmenc3" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="PGM.MIRENC3" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="pgmmenc4" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="PGM.MIRENC4" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="pgmgenc1" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="PGM.GRTENC1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="pgmgenc2" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="PGM.GRTENC2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="pgmgenc3" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="PGM.GRTENC3" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<!-- Plane Grating Monochromator CFF -->
+	<bean id="cff" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceNameGetPoint" value="PGM.CFF" />
+		<property name="deviceNameSetPoint" value="PGM.CFF" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Plane Grating Monochromator grating offset -->
+	<bean id="pgmgo" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceName" value="PGM.GRTOFF" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Plane Grating Monochromator mirror offset -->
+	<bean id="pgmmo" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceName" value="PGM.MIROFF" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorXMirror_PGM" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.MIRX" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorXGrating_PGM" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.GRTX" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorPitchMirror_PGM" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.MIR" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorPitchGrating_PGM" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.GRT" />
+		<property name="local" value="true"/>
+	</bean>
+
+
+</beans>

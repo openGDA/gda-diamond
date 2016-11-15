@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- M6 Hexapod Legs Control Point -->
+	<bean id="m6leg1" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceName" value="M6.LEG1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="m6leg2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceName" value="M6.LEG2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="m6leg3" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceName" value="M6.LEG3" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="m6leg4" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceName" value="M6.LEG4" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="m6leg5" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceName" value="M6.LEG5" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="m6leg6" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="deviceName" value="M6.LEG6" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Switching Mirrow M6 Motors -->
+	<bean id="MotorX_M6" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M6.X" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorY_M6" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M6.Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorZ_M6" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M6.Z" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorYaw_M6" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M6.YAW" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorPitch_M6" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M6.PITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorRoll_M6" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M6.ROLL" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorFinePitch_M6" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="M6.FPITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>
