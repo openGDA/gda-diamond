@@ -11,6 +11,8 @@
 		<!-- Exposure values -->
 		<property name="warningValue" value="750" />
 		<property name="alarmValue" value="900" />
+		<!-- Delay time (ms) -->
+		<property name="delayTime" value="500" />
 		<!-- Close the shutter if over exposure is detected -->
 		<property name="alarmActionCommand" value="pos hr_shutter 'Close'" />
 		<property name="userMessage" value="Analyser over-exposure detected! The HR shutter has been closed.\nTo reopen the shutter run: pos hr_shutter 'Open'" />
