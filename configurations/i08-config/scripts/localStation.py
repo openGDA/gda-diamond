@@ -1,4 +1,12 @@
 from gda.configuration.properties import LocalProperties
+
+# Add config/scripts to import search path (why is this not already set in gda9?). 
+# Also, this seems to be different to run search path... imh 11/11/2016
+import sys 
+import os
+scriptDir=LocalProperties.get("gda.config")+"/scripts/"
+sys.path.append(os.path.abspath(scriptDir))
+
 from andormap import AndorMap
 from andormapWithCorrection import AndorMapWithCorrection
 from scanForImageCorrection import ScanForImageCorrection
@@ -47,12 +55,19 @@ andormapWithCorrection = AndorMapWithCorrection(stxmDummy.stxmDummyY,stxmDummy.s
 alias("andormapWithCorrection")
 
 if (LocalProperties.get("gda.mode") == 'live'): 
-    run("xrfmap")
+    run(scriptDir+"xrfmap.py")
     LocalProperties.set("gda.scan.executeAtEnd","/dls_sw/i08/software/gda/config/scripts/I08_NeXus_Fix.sh")
 else:
     LocalProperties.set("gda.scan.executeAtEnd",None)
 
 energyStepScan = EnergyStepScan(IDEnergy,xmapMca)  # @UndefinedVariable
 alias("energyStepScan")
+
+# Property so that user can drag ROIs in FluorescenceDetector views. imh 11/11/2016
+LocalProperties.set("exafs.editor.overlay.Preference", "True")
+
+# For access to new mscan mapping scan command. imh 11/11/2016
+print "Adding mscan mapping scan command. Use help(mscan) to get information on how to use it."
+run('mapping_scan_commands.py')
 
 print "Initialisation Complete";

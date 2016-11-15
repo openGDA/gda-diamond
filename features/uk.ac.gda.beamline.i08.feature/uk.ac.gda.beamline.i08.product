@@ -10,25 +10,23 @@
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Dgda.install.workspace.loc=/dls_sw/i08/software/gda
--Dgda.install.git.loc=/dls_sw/i08/software/gda_git
+-Dgda.install.git.loc=/dls_sw/i08/software/gda/workspace_git
 -Dgda.config=/dls_sw/i08/software/gda/config
--Djava.library.path=/dls_sw/i08/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
--Dgda.propertiesFile=/dls_sw/i08/software/gda/config/properties/live/java.properties
--Djacorb.config.dir=/dls_sw/i08/software/gda/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i08/software/gda/config/jca/live/JCALibrary.properties
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Djava.library.path=/dls_sw/i08/software/gda/workspace_git/dawn-hdf.git/hdf.hdf5lib/lib/linux-x86_64
+-Dgda.propertiesFile=/dls_sw/i08/software/gda/config/properties/live/live_instance_java.properties
+-Dgda.facility.dir=/dls_sw/i08/software/gda/workspace_git/gda-diamond.git/dls-config
+-Dgda.core.dir=/dls_sw/i08/software/gda/workspace_git/gda-core.git/core-config
+-Djacorb.config.dir=/dls_sw/i08/software/gda/config/properties/live/jacorb
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i08/software/gda/config/properties/live/JCALibrary.properties
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
 -Xms512m
 -Xmx1024m
 -XX:MaxPermSize=1024m
 -XX:+DisableExplicitGC
--Xdebug
--Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <launcher name="gda-i08">
