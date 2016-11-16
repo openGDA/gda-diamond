@@ -2,36 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<bean id="ionc1_stanford" class="gda.device.scannable.DummyStanfordScannable" />
-	<bean id="ionc2_stanford" class="gda.device.scannable.DummyStanfordScannable" />
-	<bean id="ionc3_stanford" class="gda.device.scannable.DummyStanfordScannable" />
-	
-	<bean id="ionc1_gas_injector" class="gda.device.scannable.DummyScannable" />
-	<bean id="ionc2_gas_injector" class="gda.device.scannable.DummyScannable" />
-	<bean id="ionc3_gas_injector" class="gda.device.scannable.DummyScannable" />
-	
-	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc1_gas_injector" />
-		<property name="service" ref="ionc1_gas_injector" />
-		<property name="serviceInterface"
-			value="gda.device.Scannable" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc2_gas_injector" />
-		<property name="service" ref="ionc2_gas_injector" />
-		<property name="serviceInterface"
-			value="gda.device.Scannable" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc3_gas_injector" />
-		<property name="service" ref="ionc3_gas_injector" />
-		<property name="serviceInterface"
-			value="gda.device.Scannable" />
-	</bean>
-	
-	
-	
+
 	<bean id="lakeshore" class="gda.device.scannable.DummyLakeshoreScannable" >
 		<property name="InputNames" value="lakeshore" />
 	</bean>
@@ -41,7 +12,7 @@
 		<property name="name" value="samplewheel" />
 		<property name="numberOfFilters" value="36" />
 	</bean>
-	
+
 	<bean id="energy" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="energy" />
 		<property name="motor" ref="energy_bragg_pv" />
@@ -58,5 +29,5 @@
 			</list>
 		</property>
 	</bean>
-	
+
 </beans>

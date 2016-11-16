@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 
 import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.device.Detector;
 import gda.device.DeviceException;
@@ -52,9 +53,10 @@ public class I20OutputPreparer extends OutputPreparerBase {
 	private I20DetectorPreparer detectorPreparer;
 
 	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig,
-			AsciiDataWriterConfiguration datawriterconfig_xes, TfgScalerWithFrames ionchambers,
+			AsciiDataWriterConfiguration datawriterconfig_xes, NXMetaDataProvider metashop, TfgScalerWithFrames ionchambers,
 			Xspress2Detector xspress2system, Xmap xmapMca, I20DetectorPreparer detectorPreparer) {
 		this.datawriterconfig = datawriterconfig;
+		setDatawriterconfig(datawriterconfig);
 		this.datawriterconfig_xes = datawriterconfig_xes;
 		this.ionchambers = ionchambers;
 		this.xspress2system = xspress2system;

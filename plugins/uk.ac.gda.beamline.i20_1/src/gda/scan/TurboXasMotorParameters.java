@@ -65,31 +65,31 @@ public class TurboXasMotorParameters {
 	public TurboXasMotorParameters() {
 		scanParameters = new TurboXasParameters();
 		setDefaultMotorParams();
-		setScanParameters( scanParameters );
+		setScanParameters(scanParameters);
 	}
 
-	public TurboXasMotorParameters( TurboXasParameters params ) {
+	public TurboXasMotorParameters(TurboXasParameters params) {
 		scanParameters = params;
 		setDefaultMotorParams();
-		setScanParameters( scanParameters );
+		setScanParameters(scanParameters);
 	}
 
 	public void setDefaultMotorParams() {
 		motorMaxSpeed = 300;
-		motorTimeToVelocity = 0.15;
+		motorTimeToVelocity = 0.015;
 		motorStabilisationDistance = 0.1;
 		motorHighLimit = 10000;
 		motorLowLimit = -10000;
 	}
 
-	public void setScanParameters( TurboXasParameters params ) {
+	public void setScanParameters(TurboXasParameters params) {
 		scanParameters = params;
-		setPositionToEnergyPolynomial( params.getEnergyCalibrationPolynomial() );
+		setPositionToEnergyPolynomial(params.getEnergyCalibrationPolynomial());
 	}
 
-	public void setPositionToEnergyPolynomial( String eqnString ) {
-		double [] polynomialCoefficients = PolynomialParser.extractCoefficientsFromString( eqnString );
-		positionToEnergyPolynomial = new PolynomialFunction( polynomialCoefficients );
+	public void setPositionToEnergyPolynomial(String eqnString) {
+		double[] polynomialCoefficients = PolynomialParser.extractCoefficientsFromString(eqnString);
+		positionToEnergyPolynomial = new PolynomialFunction(polynomialCoefficients);
 	}
 
 	public void setPositionToEnergyPolynomial(PolynomialFunction positionToEnergyPolynomial) {
@@ -124,11 +124,11 @@ public class TurboXasMotorParameters {
 
 		int numTimingGroups = scanParameters.getTimingGroups().size();
 		if ( timingGroupIndex > numTimingGroups-1 ) {
-			logger.warn("Specified timing group index "+timingGroupIndex+" > number of timing groups ("+numTimingGroups+")" );
+			logger.warn("Specified timing group index {} > number of timing groups ({})", timingGroupIndex, numTimingGroups);
 			return;
 		}
 
-		setMotorParametersForTime( scanParameters.getTimingGroups().get(timingGroupIndex).getTimePerSpectrum() );
+		setMotorParametersForTime(scanParameters.getTimingGroups().get(timingGroupIndex).getTimePerSpectrum());
 		calculateSetPositionStepSize();
 
 	}
@@ -139,16 +139,16 @@ public class TurboXasMotorParameters {
 	 * @param timeForSpectra
 	 * @return motor speed
 	 */
-	public double getScanSpeed( double timeForSpectra ) {
+	public double getScanSpeed(double timeForSpectra) {
 		// set real-space range and speed
-		return Math.abs( getScanPositionRange() ) / timeForSpectra;
+		return Math.abs(getScanPositionRange()) / timeForSpectra;
 	}
 
 	/**
 	 * Calculate total time to move from one end of scan to the other at specified motor speed, including accel and velocity stabilisation
 	 * @return total time
 	 */
-	public double getTotalTimeForScan( double motorSpeed ) {
+	public double getTotalTimeForScan(double motorSpeed) {
 		double timeForScan = getScanPositionRange()/motorSpeed;
 		double timeForVelocityStabilisation = motorStabilisationDistance/motorSpeed;
 		return timeForScan + 2.0*(timeForVelocityStabilisation + motorTimeToVelocity);
@@ -162,12 +162,12 @@ public class TurboXasMotorParameters {
 	 * Calculate and set motor parameters for given time for spectrum.
 	 * @param timeForSpectrum
 	 */
-	public void setMotorParametersForTime( double timeForSpectrum ) {
+	public void setMotorParametersForTime(double timeForSpectrum) {
 		// Convert from energy to real-space motor positions
-		scanStartPosition = getPositionForEnergy( scanParameters.getStartEnergy() );
-		scanEndPosition = getPositionForEnergy( scanParameters.getEndEnergy() );
+		scanStartPosition = getPositionForEnergy(scanParameters.getStartEnergy());
+		scanEndPosition = getPositionForEnergy(scanParameters.getEndEnergy());
 
-		scanMotorSpeed =  getScanSpeed( timeForSpectrum );
+		scanMotorSpeed =  getScanSpeed(timeForSpectrum);
 		// determine direction of motor move
 		double scanMotorDirection = 1.0;
 		if ( scanEndPosition - scanStartPosition < 0 )
@@ -210,13 +210,13 @@ public class TurboXasMotorParameters {
 	public void showParameters() {
 		String numFormat = "%.5g\n", twoNumFormat = "%.5g, %.5g\n";
 		String params = String.format("Start, end positions for scan energy range : "+twoNumFormat, scanStartPosition, scanEndPosition)
-		+ String.format("Scan range  : "+numFormat, getScanPositionRange() )
+		+ String.format("Scan range  : "+numFormat, getScanPositionRange())
 		+ String.format("Motor speed : "+numFormat, scanMotorSpeed)
 		+ String.format("Initial, final position  : "+twoNumFormat, startPosition, endPosition)
-		+ String.format("Ramp distance     : "+numFormat, motorRampDistance )
-		+ String.format("Velocity stabilisation distance : "+numFormat,motorStabilisationDistance)
-		+ String.format("Max motor speed   : "+numFormat,motorMaxSpeed)
-		+ String.format("Parameters valid ? %s", validateParameters() );
+		+ String.format("Ramp distance     : "+numFormat, motorRampDistance)
+		+ String.format("Velocity stabilisation distance : "+numFormat, motorStabilisationDistance)
+		+ String.format("Max motor speed   : "+numFormat, motorMaxSpeed)
+		+ String.format("Parameters valid ? %s", validateParameters());
 		InterfaceProvider.getTerminalPrinter().print(params);
 	}
 
@@ -226,7 +226,7 @@ public class TurboXasMotorParameters {
 	 * @return True if > minimum motor move size
 	 */
 	public boolean validMotorScanRange() {
-		return Math.abs( getScanPositionRange() ) > minimumAllowedMotorMoveSize;
+		return Math.abs(getScanPositionRange()) > minimumAllowedMotorMoveSize;
 	}
 
 	/**
@@ -269,7 +269,7 @@ public class TurboXasMotorParameters {
 	 * @param energy
 	 * @return motor position
 	 */
-	public double getPositionForEnergy( double energy ) {
+	public double getPositionForEnergy(double energy) {
 
 		double position = energy;
 
@@ -279,7 +279,7 @@ public class TurboXasMotorParameters {
 			// of energy calibration polynomial with energy subtracted :
 			double[] coeffs = positionToEnergyPolynomial.getCoefficients();
 			coeffs[0] -= energy;
-			PolynomialFunction tmpPoly = new PolynomialFunction( coeffs );
+			PolynomialFunction tmpPoly = new PolynomialFunction(coeffs);
 
 			// Run the solver
 			PolynomialSolver solver =  new LaguerreSolver();
@@ -288,26 +288,26 @@ public class TurboXasMotorParameters {
 			// convert x from normalised to real position
 			double lowLimit = scanParameters.getEnergyCalibrationMinPosition(), highLimit = scanParameters.getEnergyCalibrationMaxPosition();
 			position = (highLimit - lowLimit)*result + lowLimit;
-			logger.debug( String.format("Position to energy conversion : energy = %.5g, x = %.5g, position = %.5g", energy, result, position) );
+			logger.debug(String.format("Position to energy conversion : energy = %.5g, x = %.5g, position = %.5g", energy, result, position));
 		}
 		return position;
 	}
 
 	/**
-	 *  Convert from motor position to position using polynomial from calibration measurement :
+	 *  Convert from motor position to energy using polynomial from calibration measurement :
 	 *  	E(x) = a + b*x + c*x*x etc. where x is normalised motor position and E is energy
 	 *
 	 * @param position
 	 * @return energy
 	 */
-	public double getEnergyForPosition( double position ) {
+	public double getEnergyForPosition(double position) {
 		if ( positionToEnergyPolynomial != null ) {
 			// energy calibration polynomial works off normalised position (0 < x < 1)
 			double lowLimit = scanParameters.getEnergyCalibrationMinPosition(), highLimit = scanParameters.getEnergyCalibrationMaxPosition();
 			double normalisedPosition = (position - lowLimit) / (highLimit - lowLimit);
 			// show warning if position is out of range, but still calculate value.
 			if ( normalisedPosition < 0 || normalisedPosition > 1 ) {
-				logger.warn( String.format("Possible problem converting from position to energy : value %.5g is out of range of calibration polynomial (%.5g, %.5g)", position, lowLimit, highLimit) );
+				logger.warn(String.format("Possible problem converting from position to energy : value %.5g is out of range of calibration polynomial (%.5g, %.5g)", position, lowLimit, highLimit));
 			}
 			return positionToEnergyPolynomial.value(normalisedPosition);
 		}
@@ -415,7 +415,7 @@ public class TurboXasMotorParameters {
 	 */
 	static public XStream getXStream() {
 		XStream xstream = TurboXasParameters.getXStream();
-		Annotations.configureAliases(xstream,  TurboXasMotorParameters.class );
+		Annotations.configureAliases(xstream,  TurboXasMotorParameters.class);
 		xstream.omitField(TurboXasMotorParameters.class , "positionToEnergyPolynomial");
 		return xstream;
 	}
@@ -426,7 +426,7 @@ public class TurboXasMotorParameters {
 	 */
 	public String toXML() {
 		XStream xstream = TurboXasMotorParameters.getXStream();
-		return xstream.toXML( this );
+		return xstream.toXML(this);
 	}
 
 	/**
@@ -434,9 +434,9 @@ public class TurboXasMotorParameters {
 	 * @param xmlString
 	 * @return TurboXasMotorParameters object
 	 */
-	static public TurboXasMotorParameters fromXML( String xmlString ) {
+	static public TurboXasMotorParameters fromXML(String xmlString) {
 		XStream xstream = TurboXasMotorParameters.getXStream();
-		return (TurboXasMotorParameters) xstream.fromXML( xmlString );
+		return (TurboXasMotorParameters) xstream.fromXML(xmlString);
 	}
 
 }

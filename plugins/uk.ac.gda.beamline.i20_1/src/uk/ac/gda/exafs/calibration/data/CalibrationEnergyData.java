@@ -18,6 +18,9 @@
 
 package uk.ac.gda.exafs.calibration.data;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetUtils;
@@ -43,6 +46,12 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 	private double endEnergy;
 
 	private final double[] refReferencePoints = new double[3];
+
+	private String xAxisName;
+
+	public String getXAxisName() {
+		return xAxisName;
+	}
 
 	public boolean isManualCalibration() {
 		return manualCalibration;
@@ -98,6 +107,9 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 	}
 
 	protected void setData(String fileName, String energyNodePath, String dataNodePath) throws Exception {
+		if (fileName==null) {
+			return;
+		}
 		try {
 			IDataHolder dataHolder = LoaderFactory.getData(fileName);
 			if (dataHolder == null) {
@@ -105,6 +117,13 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 				this.setManualCalibration(false);
 				return;
 			}
+			// Check to make sure named data for energy values is available, use first column from datafile if not found. imh 15/9/2016
+			List<String> dataNames = Arrays.asList(dataHolder.getNames());
+			if ( !dataNames.contains(energyNodePath) ) {
+				energyNodePath = dataNames.get(0);
+			}
+			xAxisName = energyNodePath;
+
 			this.dataHolder = dataHolder;
 			energyNode = DatasetUtils.sliceAndConvertLazyDataset(this.dataHolder.getLazyDataset(energyNodePath));
 			dataNode = DatasetUtils.sliceAndConvertLazyDataset(dataHolder.getLazyDataset(dataNodePath));

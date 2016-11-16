@@ -19,7 +19,7 @@
 	<bean id="d2_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20J-DI-IAMP-01:GAIN" />
 	</bean>
-	
+
 	<bean id="d3"
 		class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
 		<property name="recordName" value="BL20J-DI-PHDGN-03:MP" />
@@ -38,7 +38,7 @@
 <!-- 	<bean id="d4_motor" class="gda.device.motor.EpicsMotor"> -->
 <!-- 		<property name="pvName" value="BL20J-DI-PHDGN-04:POSN" /> -->
 <!-- 	</bean> -->
-	
+
 	<bean id="d5"
 		class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
  		<property name="recordName" value="BL20J-DI-PHDGN-05:MP" />
@@ -54,6 +54,12 @@
 	</bean>
 	<bean id="d5_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="D5.D1I" />
+	</bean>
+
+<!-- Added 5/10/2016 -->
+	<bean id="d10_current" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL20J-DI-ADC-01:CH7" />
+		<property name="local" value="true" />
 	</bean>
 
 </beans>

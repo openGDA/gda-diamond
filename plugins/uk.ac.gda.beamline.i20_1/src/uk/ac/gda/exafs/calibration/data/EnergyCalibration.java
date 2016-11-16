@@ -27,12 +27,12 @@ import uk.ac.gda.beans.ObservableModel;
 public class EnergyCalibration extends ObservableModel {
 	public static final String MANUAL_PROP_NAME = "manual";
 	public static final String DATA_READY_PROP_NAME = "dataReady";
-
 	private boolean dataReady;
+
 	@Expose
 	private boolean manual;
 
-	private final CalibrationEnergyData edeData = new SampleData();
+	private final CalibrationEnergyData sampleData = new SampleData();
 	private final CalibrationEnergyData refData = new ReferenceData();
 
 	public static final String POLYNOMIAL_ORDER_PROP_NAME = "polynomialOrder";
@@ -47,14 +47,14 @@ public class EnergyCalibration extends ObservableModel {
 		checkAndFireDataReady();
 	}
 
-	public void setEdeData(String sampleDataFileFullPath) throws Exception {
-		edeData.setDataFile(sampleDataFileFullPath);
+	public void setSampleData(String sampleDataFileFullPath) throws Exception {
+		sampleData.setDataFile(sampleDataFileFullPath);
 		calibrationDetails.setSampleDataFileName(FilenameUtils.getName(sampleDataFileFullPath));
 		checkAndFireDataReady();
 	}
 
 	private void checkAndFireDataReady() {
-		boolean ready = (refData.getFileName() != null && edeData.getFileName() != null);
+		boolean ready = (refData.getFileName() != null && sampleData.getFileName() != null);
 		firePropertyChange(DATA_READY_PROP_NAME, dataReady, dataReady = ready);
 	}
 
@@ -66,8 +66,8 @@ public class EnergyCalibration extends ObservableModel {
 		return refData;
 	}
 
-	public CalibrationEnergyData getEdeData() {
-		return edeData;
+	public CalibrationEnergyData getSampleData() {
+		return sampleData;
 	}
 
 	public boolean isManual() {

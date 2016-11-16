@@ -118,16 +118,21 @@ public class EDECalibrationSection extends ResourceComposite {
 				String refDataPath = getReferenceDataPath(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
 				String referenceDataFileName = loadReferenceData(refDataPath);
 				// Display different messages for missing energy calibration data and missing scan data
+				String message = "";
 				if (referenceDataFileName == null) {
-					UIHelper.showError("Unable to set energy calibration", "Reference data " + refDataPath + " is not found.");
-					return;
-				} else if (lastEdeScanFileName == null) {
-					UIHelper.showError("Unable to set energy calibration", "Ede spectrum data is unavailable - try doing a scan first.");
-					return;
+					message += "Reference data " + refDataPath + " is not found.\n";
 				}
+				if (lastEdeScanFileName == null) {
+					message += "Ede spectrum data is unavailable - try doing a scan first.";
+				}
+				// Show warning message, but still display calibration tool if data cannot be set automatically
+				if (message.length() > 0) {
+					UIHelper.showWarning("Unable to set input for energy calibration tool automatically", message);
+				}
+
 				try {
 					calibrationModel.setRefData(referenceDataFileName);
-					calibrationModel.setEdeData(lastEdeScanFileName);
+					calibrationModel.setSampleData(lastEdeScanFileName);
 					WizardDialog wizardDialog = new WizardDialog(runCalibrationButton.getShell(), new EnergyCalibrationWizard(calibrationModel)) {
 						@Override
 						protected void createButtonsForButtonBar(Composite parent) {

@@ -141,4 +141,9 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop" />
+	</bean>
+
 </beans>
