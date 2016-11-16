@@ -47,7 +47,7 @@
 				<pathelement location="${workspace.git.loc}/richbeans.git/org.eclipse.richbeans.xml/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.nexus/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.hdf5/bin" />
-				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.january/bin" />
+				<pathelement location="${workspace.git.loc}/january.git/org.eclipse.january/bin" />
 				<pathelement location="${workspace.git.loc}/dawnsci.git/org.eclipse.dawnsci.analysis.api/bin" />
 				<pathelement location="${workspace.git.loc}/dawn-ui.git/org.dawnsci.common.widgets/bin" />
 				<path refid="tp.slf4j.path" />  <!-- ensure that required org.slf4j.LoggerFactory appears first in classpath -->
