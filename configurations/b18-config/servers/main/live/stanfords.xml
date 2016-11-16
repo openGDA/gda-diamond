@@ -201,9 +201,26 @@
 				<ref bean="iref_stanford_sensitivity" />
 				<ref bean="iref_stanford_offset" />
 				<ref bean="it_stanford_sensitivity" />
-				<ref bean="it_stanford_offset" />		
+				<ref bean="it_stanford_offset" />
 			</list>
 		</property>
 	</bean>
-	
+
+<!-- Stanford current amplifiers - moved from live/devices.xml imh 23/9/2016  -->
+	<bean id="sxsam_stanford" class="gda.device.currentamplifier.StanfordScannable">
+		<property name="base_pv" value="BL18B-DI-STANF-03:" />
+	</bean>
+	<bean id="sxi0_stanford" class="gda.device.currentamplifier.StanfordScannable">
+		<property name="base_pv" value="BL18B-DI-STANF-01:" />
+	</bean>
+	<bean id="ionc1_stanford" class="gda.device.currentamplifier.StanfordScannable">
+		<property name="base_pv" value="BL18B-DI-STANF-04:" />
+	</bean>
+	<bean id="ionc2_stanford" class="gda.device.currentamplifier.StanfordScannable">
+		<property name="base_pv" value="BL18B-DI-STANF-05:" />
+	</bean>
+	<bean id="ionc3_stanford" class="gda.device.currentamplifier.StanfordScannable">
+		<property name="base_pv" value="BL18B-DI-STANF-06:" />
+	</bean>
+
 </beans>

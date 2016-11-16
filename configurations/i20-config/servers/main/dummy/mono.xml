@@ -22,7 +22,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="bragg1_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="500" />
 	</bean>
@@ -51,29 +51,6 @@
 	<bean id="jena_crystal34_roll_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="500" />
 	</bean> 
-
-	<bean id="bragg1" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="eV" />
-		<property name="motor" ref="bragg1_motor" />
-		<property name="hardwareUnitString" value="eV" />
-	</bean>
-
-	<bean id="bragg2" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="eV" />
-		<property name="motor" ref="bragg2_motor" />
-		<property name="hardwareUnitString" value="eV" />
-	</bean>
-
-	<bean id="braggoffset" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="braggoffset_motor" />
-		<property name="outputFormat">
-			<util:list>
-				<value>%.4f</value>
-			</util:list>
-		</property>
-	</bean>
 
 	<bean id="bragg1_cal_energy_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="500" />
@@ -118,42 +95,5 @@
 		<property name="motor" ref="crystal1_pitch_motor" />
 		<property name="hardwareUnitString" value="mRad" />
 	</bean>
-	<bean id="crystal2_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mRad" />
-		<property name="motor" ref="crystal2_roll_motor" />
-		<property name="hardwareUnitString" value="mRad" />
-	</bean>
 
-	<bean id="crystal34_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="mRad" />
-		<property name="motor" ref="crystal34_roll_motor" />
-		<property name="hardwareUnitString" value="mRad" />
-		<property name="lowerGdaLimits" value="0" />
-		<property name="upperGdaLimits" value="10" />
-	</bean>
-
-	<bean id="jena_crystal1_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="jena_crystal1_pitch_motor" />
-	</bean>
-	<bean id="jena_crystal2_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="jena_crystal2_roll_motor" />
-	</bean>
-	<bean id="jena_crystal34_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="jena_crystal34_roll_motor" />
-	</bean>
-	<bean id="mono" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="crystal1_pitch" />
-				<ref bean="crystal2_roll" />
-				<ref bean="crystal34_roll" />
-				<ref bean="crystalcut" />
-			</list>
-		</property>
-	</bean>
 </beans>

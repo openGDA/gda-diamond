@@ -614,18 +614,25 @@ public class TimeResolvedDataFileHelper {
 
 		attributes.clear();
 		attributes.put(NexusUtils.SIGNAL, "1");
+		String targetPath;
 
-		String targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/", Nexus.DATA);
-		checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithI0iData, attributes);
-		addLinks(file, targetPath);
+		if (itNormalisedWithI0iData != null) {
+			targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/", Nexus.DATA);
+			checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithI0iData, attributes);
+			addLinks(file, targetPath);
+		}
 
-		targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME + "/", Nexus.DATA);
-		checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithI0fData, attributes);
-		addLinks(file, targetPath);
+		if (itNormalisedWithI0fData != null) {
+			targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME + "/", Nexus.DATA);
+			checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithI0fData, attributes);
+			addLinks(file, targetPath);
+		}
 
-		targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME + "/", Nexus.DATA);
-		checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithAvgI0iAndI0fData, attributes);
-		addLinks(file, targetPath);
+		if (itNormalisedWithAvgI0iAndI0fData != null) {
+			targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME + "/",	Nexus.DATA);
+			checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithAvgI0iAndI0fData, attributes);
+			addLinks(file, targetPath);
+		}
 
 		if (iRefiNormalisedData != null) {
 			targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "/", Nexus.DATA);
@@ -634,6 +641,8 @@ public class TimeResolvedDataFileHelper {
 	}
 
 	private void checkCyclicDataAndAddData(IHierarchicalDataFile file, String fullPath, RangeData[] avgSpectraList, int[] excludedCycles, DoubleDataset data, Map<String, String> attributes) throws Exception {
+		if (data == null)
+			return;
 		DoubleDataset dataToAdd = null;
 		if (data.getShape()[0] == 1) {
 			data.setShape(new int[]{data.getShape()[1], data.getShape()[2]});

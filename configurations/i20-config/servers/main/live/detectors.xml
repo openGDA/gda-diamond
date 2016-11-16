@@ -3,32 +3,31 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="file:${gda.config}/servers/main/live/xspress0.xml" />
-<!-- <import resource="file:${gda.config}/servers/main/live/xspress1.xml" /> --> 
+<!-- 	<import resource="file:${gda.config}/servers/main/live/xspress0.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/live/xspress1.xml" /> 
 
 	<import resource="file:${gda.config}/servers/main/live/ionchambers.xml" />
 	
 	<import resource="file:${gda.config}/servers/main/live/1-element-xmap.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/live/4-element-xmap.xml" />--> 
 
-	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
-		<property name="daServerName" value="DAServer" />
-		<property name="tfgName" value="tfg" />
+	<bean id="xspress2controller" class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
+		<property name="daServer" ref="DAServer" />
+		<property name="tfg" ref="tfg" />
 		<property name="xspressSystemName" value="xsp1" />
-		<property name="alwaysRecordRawMCAs" value="true" />
+
 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
+		<property name="fullMCABits" value="12" />
+	</bean>
+
+	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2Detector">
+		<property name="controller" ref="xspress2controller" />
 		<property name="configFileName"
 			value="${gda.config}/var/templates/Xspress_Parameters.xml" />
 		<property name="dtcConfigFileName"
 			value="${gda.config}/var/templates/Xspress_DeadTime_Parameters.xml" />
-		<property name="fullMCABits" value="12" />
-		<property name="outputFormat">
-			<list>
-				<value>%9.2f</value>
-			</list>
-		</property>
 	</bean>
 
 	<!-- Time Frame Generator -->

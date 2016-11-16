@@ -463,15 +463,30 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	protected TopupChecker createTopupChecker(Double realTimeRequired) {
-		double timeRequired = Math.min( TOP_UP_TIME-30,  realTimeRequired ); //otherwise if realTimeRequired>TOP_UP_TIME checker runs forever...
+		double timeRequired = Math.min(TOP_UP_TIME-30, realTimeRequired); //otherwise if realTimeRequired>TOP_UP_TIME checker runs forever...
+
+		double waitTime = 5.0, tolerance = 2.0;
+
+		// Copy values for waittime and tolerance from machine topupChecker to this new topupchecker.
+		TopupChecker topupCheckerMachine = (TopupChecker) Finder.getInstance().find("topupChecker");
+		if (topupCheckerMachine != null) {
+			tolerance = topupCheckerMachine.getTolerance();
+			waitTime = topupCheckerMachine.getWaittime();
+		}
+
+		// Avoid having timeout<waitTime+tolerance, otherwise get exception due to timeout whilst topup is imminent/happening
+		double timeout = 1.5*Math.max(waitTime + tolerance, timeRequired);
+
+		logger.debug("createTopupChecker() : collectionTime = {}, timeout = {}, waitTime = {}, tolerance = {}", timeRequired, timeout, waitTime, tolerance);
 
 		TopupChecker topupchecker = new TopupChecker();
 		topupchecker.setName("EDE_scan_topup_checker");
 		topupchecker.setScannableToBeMonitored(topup);
 		topupchecker.setCollectionTime(timeRequired);
-		topupchecker.setTimeout(timeRequired * 1.25);
-		topupchecker.setWaittime(5); // fixed for EDE beamline
-		topupchecker.setTolerance(2);
+		topupchecker.setTimeout(timeout); // maximum time for how long to wait for topup to finish
+		topupchecker.setWaittime(waitTime);  // how long to pause for after topup has finished (e.g. to wait for beam to stabilise)
+		topupchecker.setTolerance(tolerance);
+
 		topupchecker.setPauseBeforeScan(true);
 		topupchecker.setPauseBeforePoint(false);
 
@@ -479,12 +494,6 @@ public abstract class EdeExperiment implements IObserver {
 		Scannable machineModeMonitor = Finder.getInstance().find( "machineModeMonitor" );
 		if ( machineModeMonitor != null ) {
 			topupchecker.setMachineModeMonitor(machineModeMonitor);
-		}
-		// Copy values for waittime and tolerance from machine topupChecker to this new topupchecker.
-		TopupChecker topupCheckerMachine = (TopupChecker) Finder.getInstance().find( "topupChecker" );
-		if ( topupCheckerMachine != null ) {
-			topupchecker.setTolerance( topupCheckerMachine.getTolerance() );
-			topupchecker.setWaittime( topupCheckerMachine.getWaittime() );
 		}
 		return topupchecker;
 	}

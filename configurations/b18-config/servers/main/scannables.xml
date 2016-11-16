@@ -384,7 +384,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="hvdtyx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="HVDTYX_motor" />
 	</bean>
@@ -399,7 +399,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="cryox" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="CRYOX_motor" />
 	</bean>
@@ -459,12 +459,12 @@
 		<property name="mirror" ref="dcm_branch" />
 		<property name="mirrorType" value="HR" />
 	</bean>
-	
+
 	<bean id="oh_coating" class="gda.device.scannable.MirrorCoating" >
 	<property name="mirror" ref="dcm_branch" />
 		<property name="mirrorType" value="OH" />
 	</bean>
-	
+
 	<bean id="hr_inout" class="gda.device.scannable.MirrorInOut" >
 		<property name="mirror" ref="HRY1_motor" />
 	</bean>
@@ -483,7 +483,7 @@
 	<bean id="test" class="gda.device.scannable.ScannableMotor" >
 		<property name="motor" ref="test_motor" />
 	</bean>
-	
+
 	<bean id="ionc_gas_injectors" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -493,7 +493,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="ionc_stanfords" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -503,11 +503,11 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="ln2" class="gda.device.scannable.Ln2Scannable" >
 		<property name="cryo" ref="cryo" />
 	</bean>
-	
+
 	<bean id="user2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER2_motor" />
 		<property name="initialUserUnits" value="mm" />
@@ -538,7 +538,7 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="configureAtStartup" value="true"/>
 	</bean>
-	
+
 	<bean id="userstage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="configureAtStartup" value="true"/>
 		<property name="local" value="true" />
@@ -553,4 +553,42 @@
 			</list>
 		</property>
 	</bean>
+
+<!-- RMI export the Stanford scannables -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc1_stanford" />
+		<property name="service" ref="ionc1_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc2_stanford" />
+		<property name="service" ref="ionc2_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc3_stanford" />
+		<property name="service" ref="ionc3_stanford" />
+		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+	</bean>
+
+<!-- RMI export the gas injector scannables -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc1_gas_injector" />
+		<property name="service" ref="ionc1_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc2_gas_injector" />
+		<property name="service" ref="ionc2_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ionc3_gas_injector" />
+		<property name="service" ref="ionc3_gas_injector" />
+		<property name="serviceInterface"
+			value="gda.device.Scannable" />
+	</bean>
+
 </beans>

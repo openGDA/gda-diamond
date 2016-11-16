@@ -134,7 +134,7 @@ public class ClientConfig {
 		POLY_TWIST("Twist","poly_twist", UnitSetup.MILLI_METER),
 
 		SLIT_3_HORIZONAL_GAP("Slit hgap", "s3_hgap", UnitSetup.MILLI_METER),
-		SLIT_3_HORIZONAL_OFFSET("Slit offset", "sample_x", UnitSetup.MILLI_METER),
+		SLIT_3_HORIZONAL_OFFSET("Slit offset", "s3_hoffset", UnitSetup.MILLI_METER),
 
 		ALIGNMENT_STAGE_X_POSITION("Alignment stage x", "alignment_x", UnitSetup.MILLI_METER),
 		ALIGNMENT_STAGE_Y_POSITION("Alignment stage y", "alignment_y", UnitSetup.MILLI_METER),

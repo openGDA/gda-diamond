@@ -38,3 +38,10 @@ else:
     remove_default([absorberChecker])
 
 xstrip.start() #Call start so data and timing handles are set correctly. imh 16/12/2015
+
+
+# Setup metashop for writing metadata into Nexus file (TurboXas scans). imh 29/7/2016
+from gda.data.scan.datawriter import NexusDataWriter
+# Local property used bye NexusDataWriter to store name of metadata object
+LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
+metashop = Finder.getInstance().find("metashop")

@@ -22,8 +22,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.util.Pair;
@@ -74,6 +74,7 @@ import org.slf4j.LoggerFactory;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.EdeCalibration;
 import uk.ac.diamond.scisoft.spectroscopy.fitting.XafsFittingUtils;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
+import uk.ac.gda.beamline.i20_1.utils.PolynomialParser;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.calibration.data.CalibrationEnergyData;
@@ -92,19 +93,19 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 	private IRegion[] referenceDataPlottingRegions;
 	private IRegion referenceRegion;
 
-	private IRegion[] edeDataPlottingRegions;
-	private IRegion edeRegion;
+	private IRegion[] sampleDataPlottingRegions;
+	private IRegion sampleRegion;
 
 	private Button runCalibrationButton;
 	private Button manualCalibrationCheckButton;
 	private Spinner polynomialFittingOrderSpinner;
 
 	private IPlottingSystem refPlottingSystem;
-	private IPlottingSystem edePlottingSystem;
+	private IPlottingSystem samplePlottingSystem;
 
 	private final EnergyCalibration calibrationDataModel;
-	private final CalibrationEnergyData edeCalibrationDataModel;
-	private final CalibrationEnergyData refCalibrationDataModel;
+	private final CalibrationEnergyData sampleCalibrationData;
+	private final CalibrationEnergyData refCalibrationData;
 	private final XafsFittingUtils xafsFittingUtils = new XafsFittingUtils();
 
 	private Text polynomialValueText;
@@ -113,8 +114,8 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 	protected EnergyCalibrationWizardPage(EnergyCalibration calibrationDataModel) {
 		super("Energy calibration");
 		this.calibrationDataModel = calibrationDataModel;
-		refCalibrationDataModel = calibrationDataModel.getRefData();
-		edeCalibrationDataModel = calibrationDataModel.getEdeData();
+		refCalibrationData = calibrationDataModel.getRefData();
+		sampleCalibrationData = calibrationDataModel.getSampleData();
 		this.setTitle("Energy calibration");
 		this.setDescription("Energy calibration using reference data");
 	}
@@ -125,20 +126,20 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		container.setLayout(new GridLayout(2, true));
 		try {
 			refPlottingSystem = PlottingFactory.createPlottingSystem();
-			Composite groupParent = createDataPlotting(container, "Reference data", refCalibrationDataModel, refPlottingSystem);
-			referenceDataPlottingRegions = createManualCalibrationMarkersAsRegions(refPlottingSystem, refCalibrationDataModel);
+			Composite groupParent = createDataPlotting(container, "Reference data", refCalibrationData, refPlottingSystem);
+			referenceDataPlottingRegions = createManualCalibrationMarkersAsRegions(refPlottingSystem, refCalibrationData);
 			referenceRegion = createSelectedDataRegion("data_region", refPlottingSystem);
-			setupRegions(refCalibrationDataModel, referenceDataPlottingRegions, referenceRegion, refPlottingSystem);
+			setupRegions(refCalibrationData, referenceDataPlottingRegions, referenceRegion, refPlottingSystem);
 
 			registerRegionChanges(groupParent, referenceRegion);
 
-			edePlottingSystem = PlottingFactory.createPlottingSystem();
-			groupParent = createDataPlotting(container, "EDE scan data", edeCalibrationDataModel, edePlottingSystem);
-			edeDataPlottingRegions = createManualCalibrationMarkersAsRegions(edePlottingSystem, edeCalibrationDataModel);
-			edeRegion = createSelectedDataRegion("data_region", edePlottingSystem);
-			setupRegions(edeCalibrationDataModel, edeDataPlottingRegions, edeRegion, edePlottingSystem);
+			samplePlottingSystem = PlottingFactory.createPlottingSystem();
+			groupParent = createDataPlotting(container, "Sample data", sampleCalibrationData, samplePlottingSystem);
+			sampleDataPlottingRegions = createManualCalibrationMarkersAsRegions(samplePlottingSystem, sampleCalibrationData);
+			sampleRegion = createSelectedDataRegion("data_region", samplePlottingSystem);
+			setupRegions(sampleCalibrationData, sampleDataPlottingRegions, sampleRegion, samplePlottingSystem);
 
-			registerRegionChanges(groupParent, edeRegion);
+			registerRegionChanges(groupParent, sampleRegion);
 
 		} catch (Exception e) {
 			logger.error("Unable to create controls", e);
@@ -190,12 +191,12 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		if (refPlottingSystem != null && !refPlottingSystem.isDisposed()) {
 			refPlottingSystem.dispose();
 		}
-		if (edePlottingSystem != null && !edePlottingSystem.isDisposed()) {
-			edePlottingSystem.dispose();
+		if (samplePlottingSystem != null && !samplePlottingSystem.isDisposed()) {
+			samplePlottingSystem.dispose();
 		}
 		calibrationDataModel.clearListeners();
-		refCalibrationDataModel.clearListeners();
-		edeCalibrationDataModel.clearListeners();
+		refCalibrationData.clearListeners();
+		sampleCalibrationData.clearListeners();
 		super.dispose();
 	}
 
@@ -264,9 +265,9 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 						referenceDataPlottingRegions[2].getROI().getPointX());
 			} else if (model instanceof SampleData) {
 				model.setReferencePoints(
-						edeDataPlottingRegions[0].getROI().getPointX(),
-						edeDataPlottingRegions[1].getROI().getPointX(),
-						edeDataPlottingRegions[2].getROI().getPointX());
+						sampleDataPlottingRegions[0].getROI().getPointX(),
+						sampleDataPlottingRegions[1].getROI().getPointX(),
+						sampleDataPlottingRegions[2].getROI().getPointX());
 			}
 			dragged = false;
 		}
@@ -335,11 +336,13 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		trace.setData(calibrationDataModel.getRefEnergyDataset(), calibrationDataModel.getEdeDataset());
 		if (calibrationDataModel instanceof SampleData) {
 			trace.setTraceColor(ColorConstants.red);
-			plottingSystem.getSelectedXAxis().setTitle("Strip");
+//			plottingSystem.getSelectedXAxis().setTitle("Strip");
 		} else {
 			trace.setTraceColor(ColorConstants.blue);
-			plottingSystem.getSelectedXAxis().setTitle("Energy");
+//			plottingSystem.getSelectedXAxis().setTitle("Energy");
 		}
+		plottingSystem.getSelectedXAxis().setTitle(calibrationDataModel.getXAxisName());
+
 		plottingSystem.addTrace(trace);
 		plottingSystem.repaint();
 	}
@@ -384,8 +387,11 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 				if (refFile.exists() && refFile.canRead()) {
 					if (dataModel instanceof ReferenceData) {
 						calibrationDataModel.setRefData(selected);
+						//Also set the ROI
+						referenceRegion.setROI( getRoiForFullRegion(calibrationDataModel.getRefData(), 10) );
 					} else if (dataModel instanceof SampleData) {
-						calibrationDataModel.setEdeData(selected);
+						calibrationDataModel.setSampleData(selected);
+						sampleRegion.setROI( getRoiForFullRegion( calibrationDataModel.getSampleData(), 10) );
 					}
 				} else {
 					throw new Exception("Unable to read " + selected + ".");
@@ -427,7 +433,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		runCalibrationButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				runEdeCalibration();
+				runCalibration();
 			}
 		});
 
@@ -456,9 +462,9 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			@Override
 			public void handleEvent(Event event) {
 				String polynomialString = polynomialValueText.getText();
-				double [] polyCoeffs = extractCoefficientsFromString(polynomialString);
+				double[] polyCoeffs = PolynomialParser.extractCoefficientsFromString(polynomialString);
 				PolynomialFunction polyFunc = new PolynomialFunction(polyCoeffs);
-				runEdeCalibration(polyFunc);
+				runCalibration(polyFunc);
 			}
 		});
 
@@ -480,7 +486,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 						String poly = (String) value;
 						if (!poly.isEmpty()) {
 							referenceRegion.setROI(new RectangularROI(calibrationDataModel.getCalibrationDetails().getRefRangeStart(), 10, calibrationDataModel.getCalibrationDetails().getRefRangeEnd(), 1, 0));
-							edeRegion.setROI(new RectangularROI(calibrationDataModel.getCalibrationDetails().getSampleRangeStart(), 10, calibrationDataModel.getCalibrationDetails().getSampleRangeEnd(), 1, 0));
+							sampleRegion.setROI(new RectangularROI(calibrationDataModel.getCalibrationDetails().getSampleRangeStart(), 10, calibrationDataModel.getCalibrationDetails().getSampleRangeEnd(), 1, 0));
 							goodnessOfFitValueText.setText(DataHelper.roundDoubletoString(calibrationDataModel.getCalibrationDetails().getGoodnessOfFit(), 3));
 							poly = calibrationDataModel.getCalibrationDetails().getFormattedPolinormal();
 						}
@@ -493,19 +499,19 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 			public void handleEvent(Event event) {
 				refPlottingSystem.clear();
 				runCalibrationButton.setEnabled(true);
-				loadPlot(refCalibrationDataModel, refPlottingSystem);
+				loadPlot(refCalibrationData, refPlottingSystem);
 			}
 		});
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(manualCalibrationCheckButton),
-				BeanProperties.value(CalibrationEnergyData.MANUAL_CALIBRATION_PROP_NAME).observe(refCalibrationDataModel),
+				BeanProperties.value(CalibrationEnergyData.MANUAL_CALIBRATION_PROP_NAME).observe(refCalibrationData),
 				refUpdateValueStrategy, refUpdateValueStrategy);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(manualCalibrationCheckButton),
-				BeanProperties.value(CalibrationEnergyData.MANUAL_CALIBRATION_PROP_NAME).observe(edeCalibrationDataModel),
-				edeUpdateValueStrategy, edeUpdateValueStrategy);
+				BeanProperties.value(CalibrationEnergyData.MANUAL_CALIBRATION_PROP_NAME).observe(sampleCalibrationData),
+				updateValueStrategy, updateValueStrategy);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(manualCalibrationCheckButton),
@@ -532,51 +538,8 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 				BeanProperties.value(EnergyCalibration.DATA_READY_PROP_NAME).observe(calibrationDataModel));
 
 		// Set regions to initially cover central region of full dataset
-		referenceRegion.setROI( getRoiForFullRegion( refCalibrationDataModel, 10) );
-		edeRegion.setROI( getRoiForFullRegion( edeCalibrationDataModel, 10) );
-	}
-
-	/**
-	 *  Parse a String of format coeff1 x^power1 + coeff2 x^power2 + ..., make a double array of coefficients of each power.<br>
-	 *     e.g.  66.47 x^2 + 123.4*x^3 + 0.2  is converted to double array { 0.2, 0.0, 66.47, 123.4 }
-	 * <ul>
-	 *  <li>Coefficients are initialized to all zero.
-	 *  <li>Order of different powers in string is arbitrary;
-	 *  <li>Each power is separated by + or -, coefficient and power should be separated by a space or a *.
-	 *  <li>if power term is missing, assumed coeff is for x^0; similarly if power is x, interpreted as x^1.
-	 * </ul>
-	 * @param polyString  Text String of format coeff1 x^power1 + coeff2 x^power2 +
-	 * @return double array of polynomial coefficients.
-	 * @since 6/4/2016
-	 */
-	double[] extractCoefficientsFromString( String polyString ) {
-		final int maxOrder = 10;
-		double []coefficients = new double[maxOrder];
-		Arrays.fill( coefficients,  0.0 );
-
-		String []tokens = polyString.split("[+-]");
-		for( int i = 0; i<tokens.length && i<maxOrder; i++ ) {
-			String tok = tokens[i].trim();
-			String []tokArray = tok.split("[ *]");
-
-			// parse coefficient
-			double coeff = Double.parseDouble( tokArray[0].trim() );
-
-			int power = 0;
-			// parse power (i.e. integer part of x^3 )
-			if ( tokArray.length > 1 ) {
-				String powerTok = tokArray[ tokArray.length - 1];
-				int powSeparatorPos = powerTok.indexOf("^");
-				if ( powSeparatorPos != -1 ) {
-					String powString = tokArray[1].substring(powSeparatorPos+1);
-					power = Integer.parseInt( powString );
-				}
-				else // if there's no '^' , assume power is 1
-					power = 1;
-			}
-			coefficients[power] = coeff;
-		}
-		return coefficients;
+		referenceRegion.setROI( getRoiForFullRegion( refCalibrationData, 10) );
+		sampleRegion.setROI( getRoiForFullRegion( sampleCalibrationData, 10) );
 	}
 
 	/**
@@ -612,66 +575,88 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 		}
 	};
 
-	private final UpdateValueStrategy edeUpdateValueStrategy = new UpdateValueStrategy() {
+	private final UpdateValueStrategy updateValueStrategy = new UpdateValueStrategy() {
 		@Override
 		protected IStatus doSet(IObservableValue observableValue, Object value) {
 			IStatus result = super.doSet(observableValue, value);
 			boolean manualChecked = (boolean) value;
-			for (int i = 0; i < edeDataPlottingRegions.length; i++) {
-				edeDataPlottingRegions[i].setVisible(manualChecked);
+			for (int i = 0; i < sampleDataPlottingRegions.length; i++) {
+				sampleDataPlottingRegions[i].setVisible(manualChecked);
 			}
 			if (manualChecked) {
-				edeRegion.toBack();
+				sampleRegion.toBack();
 			} else {
-				edeRegion.toFront();
+				sampleRegion.toFront();
 			}
-			edeRegion.setMobile(!manualChecked);
+			sampleRegion.setMobile(!manualChecked);
 			return result;
 		}
 	};
 
-	private void runEdeCalibration() {
-		runEdeCalibration( null );
+	private void runCalibration() {
+		runCalibration( null );
 	}
 
-	private void runEdeCalibration( final PolynomialFunction polynomialFunction ) {
+	/**
+	 * Return list of reference and spectrum calibration points
+	 * refactored from {@link #runCalibration()}
+	 * @since 15/9/2016
+	 * @return List of reference, spectra calibration point pairs
+	 */
+	private List< Pair<Double,Double> > getReferencePositions() {
+		double[] refPoints = refCalibrationData.getReferencePoints();
+		double[] edePoints = sampleCalibrationData.getReferencePoints();
+
+		ArrayList<Pair<Double, Double>> refPositions = new ArrayList<Pair<Double, Double>>();
+		for(int i=0; i<refPoints.length; i++) {
+			final Pair<Double, Double> refPoint = new Pair<Double, Double>(refPoints[i], edePoints[0]);
+			refPositions.add(refPoint);
+		}
+		return refPositions;
+
+//		double ref1e = refCalibrationDataModel.getReferencePoints()[0];
+//		double ref2e = refCalibrationDataModel.getReferencePoints()[1];
+//		double ref3e = refCalibrationDataModel.getReferencePoints()[2];
+//
+//		double ede1e = edeCalibrationDataModel.getReferencePoints()[0];
+//		double ede2e = edeCalibrationDataModel.getReferencePoints()[1];
+//		double ede3e = edeCalibrationDataModel.getReferencePoints()[2];
+//
+//		final Pair<Double, Double> refPoint1 = new Pair<Double, Double>(ref1e, ede1e);
+//		final Pair<Double, Double> refPoint2 = new Pair<Double, Double>(ref2e, ede2e);
+//		final Pair<Double, Double> refPoint3 = new Pair<Double, Double>(ref3e, ede3e);
+//
+//		ArrayList<Pair<Double, Double>> refPositions = new ArrayList<Pair<Double, Double>>();
+//		refPositions.add(refPoint1);
+//		refPositions.add(refPoint2);
+//		refPositions.add(refPoint3);
+//		return refPositions;
+	}
+
+	private void runCalibration( final PolynomialFunction polynomialFunction ) {
 		try {
 			refPlottingSystem.clear();
-			loadPlot(refCalibrationDataModel, refPlottingSystem);
-			final EdeCalibration edeCalibration = new EdeCalibration();
+			loadPlot(refCalibrationData, refPlottingSystem);
+
 			Dataset[] refDatasets = selectDataRange(refPlottingSystem, referenceRegion);
-			final Dataset refEnergySlice = refDatasets[0];
-			final Dataset refSpectrumSlice = refDatasets[1];
-			Dataset[] edeDatasets = selectDataRange(edePlottingSystem, edeRegion);
-			final Dataset edeIdxSlice = edeDatasets[0];
-			final Dataset edeSpectrumSlice = edeDatasets[1];
-			edeCalibration.setMaxEdeChannel(edeCalibrationDataModel.getEdeDataset().getSize() - 1);
+			final Dataset refXValuesSlice = refDatasets[0];
+			final Dataset refYValuesSlice = refDatasets[1];
+
+			Dataset[] edeDatasets = selectDataRange(samplePlottingSystem, sampleRegion);
+			final Dataset edeXValuesSlice = edeDatasets[0];
+			final Dataset edeYValuesSlice = edeDatasets[1];
+
+			final EdeCalibration edeCalibration = new EdeCalibration();
+			edeCalibration.setEdeChannelRange(sampleCalibrationData.getEnergyNode());
 			edeCalibration.setFitOrder(polynomialFittingOrderSpinner.getSelection());
-			edeCalibration.setReferenceData(refEnergySlice, refSpectrumSlice);
-			edeCalibration.setEdeSpectrum(edeIdxSlice, edeSpectrumSlice);
+			edeCalibration.setReferenceData(refXValuesSlice, refYValuesSlice);
+			edeCalibration.setEdeSpectrum(edeXValuesSlice, edeYValuesSlice);
 
-			double ref1e, ref2e, ref3e;
-			double ede1e, ede2e, ede3e;
 			if (manualCalibrationCheckButton.getSelection()) {
-				ref1e = refCalibrationDataModel.getReferencePoints()[0];
-				ref2e = refCalibrationDataModel.getReferencePoints()[1];
-				ref3e = refCalibrationDataModel.getReferencePoints()[2];
-
-				ede1e = edeCalibrationDataModel.getReferencePoints()[0];
-				ede2e = edeCalibrationDataModel.getReferencePoints()[1];
-				ede3e = edeCalibrationDataModel.getReferencePoints()[2];
-
-				final Pair<Double, Double> refPoint1 = new Pair<Double, Double>(ref1e, ede1e);
-				final Pair<Double, Double> refPoint2 = new Pair<Double, Double>(ref2e, ede2e);
-				final Pair<Double, Double> refPoint3 = new Pair<Double, Double>(ref3e, ede3e);
-
-				ArrayList<Pair<Double, Double>> refPositions = new ArrayList<Pair<Double, Double>>();
-				refPositions.add(refPoint1);
-				refPositions.add(refPoint2);
-				refPositions.add(refPoint3);
-				edeCalibration.setReferencePositions(refPositions);
+				edeCalibration.setReferencePositions(getReferencePositions());
 			}
-			Job job = new Job("EDE calibration") {
+
+			Job job = new Job("Sample calibration") {
 				@Override
 				protected void canceling() {
 					super.canceling();
@@ -699,7 +684,7 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 						edeCalibration.calibrate(false);
 						edeCalibration.setEdeCalibrationPolynomial(polynomialFunction);
 					}
-					final Dataset resEnergyDataset = edeCalibration.calibrateEdeChannels(edeIdxSlice);
+					final Dataset calibratedEdeXValuesSlice = edeCalibration.calibrateEdeChannels(edeXValuesSlice);
 					Display.getDefault().syncExec(new Runnable() {
 
 						@Override
@@ -711,11 +696,11 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 								xafsFittingUtils.setPreEdgeGap(15);
 
 								ILineTrace refTrace = refPlottingSystem.createLineTrace("Ref");
-								Dataset[] exafs = xafsFittingUtils.getNormalisedIntensityAndSpline(refEnergySlice, refSpectrumSlice);
-								exafs[0].setName("ref-energy");
-								exafs[1].setName("ref-spectrum");
-								exafs[2].setName("ref-spectrum-spline");
-								refTrace.setData(exafs[0], exafs[1]);
+								Dataset[] refExafs = xafsFittingUtils.getNormalisedIntensityAndSpline(refXValuesSlice, refYValuesSlice);
+								refExafs[0].setName("ref-energy");
+								refExafs[1].setName("ref-spectrum");
+								refExafs[2].setName("ref-spectrum-spline");
+								refTrace.setData(refExafs[0], refExafs[1]);
 								refTrace.setTraceColor(ColorConstants.blue);
 								refPlottingSystem.addTrace(refTrace);
 
@@ -725,15 +710,14 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 								//								refTraceSpline.setTraceColor(ColorConstants.blue);
 								//								refPlottingSystem.addTrace(refTraceSpline);
 
-								ILineTrace edeTrace = refPlottingSystem.createLineTrace(EDE_OVERLAY_TRACE_NAME);
-
-								Dataset[] exafsede = xafsFittingUtils.getNormalisedIntensityAndSpline(resEnergyDataset, edeSpectrumSlice);
-								exafsede[0].setName("sample-energy");
-								exafsede[1].setName("sample-spectrum");
-								exafsede[2].setName("sample-spectrum-spline");
-								edeTrace.setData(exafsede[0], exafsede[1]);
-								edeTrace.setTraceColor(ColorConstants.red);
-								refPlottingSystem.addTrace(edeTrace);
+								ILineTrace sampleTrace = refPlottingSystem.createLineTrace(EDE_OVERLAY_TRACE_NAME);
+								Dataset[] sampleExafs = xafsFittingUtils.getNormalisedIntensityAndSpline(calibratedEdeXValuesSlice, edeYValuesSlice);
+								sampleExafs[0].setName("sample-energy");
+								sampleExafs[1].setName("sample-spectrum");
+								sampleExafs[2].setName("sample-spectrum-spline");
+								sampleTrace.setData(sampleExafs[0], sampleExafs[1]);
+								sampleTrace.setTraceColor(ColorConstants.red);
+								refPlottingSystem.addTrace(sampleTrace);
 
 								// TODO Show spline on/off
 								//								ILineTrace edeTraceSpline = refPlottingSystem.createLineTrace("EdeSpline");
@@ -745,8 +729,8 @@ public class EnergyCalibrationWizardPage extends WizardPage {
 
 								calibrationDataModel.getCalibrationDetails().setRefRangeStart(((RectangularROI) referenceRegion.getROI()).getPoint()[0]);
 								calibrationDataModel.getCalibrationDetails().setRefRangeEnd(((RectangularROI) referenceRegion.getROI()).getLength(0));
-								calibrationDataModel.getCalibrationDetails().setSampleRangeStart(((RectangularROI) edeRegion.getROI()).getPoint()[0]);
-								calibrationDataModel.getCalibrationDetails().setSampleRanceEnd(((RectangularROI) edeRegion.getROI()).getLength(0));
+								calibrationDataModel.getCalibrationDetails().setSampleRangeStart(((RectangularROI) sampleRegion.getROI()).getPoint()[0]);
+								calibrationDataModel.getCalibrationDetails().setSampleRanceEnd(((RectangularROI) sampleRegion.getROI()).getLength(0));
 								calibrationDataModel.getCalibrationDetails().setGoodnessOfFit(edeCalibration.getGoodnessOfFit());
 								calibrationDataModel.getCalibrationDetails().setCalibrationResult(edeCalibration.getEdeCalibrationPolynomial());
 
