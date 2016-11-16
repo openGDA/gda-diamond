@@ -56,7 +56,10 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d5.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d6.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d7.xml" />
-	
+
+	<!-- detectors -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
+
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
 
@@ -96,6 +99,7 @@
 
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/xspress3_addetector.xml" />
 
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
