@@ -76,6 +76,7 @@
 		<config>servers/main/live/devices/testMotors.xml</config>
 		<config>servers/main/_common/devices/testMotors.xml</config>
 		<config>servers/main/live/devices/dummyScannables.xml</config>
+		<config>servers/main/live/devices/uview.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

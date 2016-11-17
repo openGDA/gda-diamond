@@ -7,6 +7,7 @@
 		<project>uk.ac.gda.common</project>
 		<project>uk.ac.gda.common.rcp</project>
 		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.devices.peem</project>
 		<project>uk.ac.gda.epics</project>
 		<project>uk.ac.gda.epics.adviewer</project>
 		<project>uk.ac.gda.libs</project>
