@@ -173,7 +173,7 @@
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.client.liveplot.mjpeg.LiveMJPEGView">
+                     value="uk.ac.gda.client.live.stream.view.LiveMJPEGView">
                </parameter>
             </command>
 

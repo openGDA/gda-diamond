@@ -3,54 +3,54 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="bpm1_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="bpm1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="BPM 1 Mjpg" />
 		<property name="url" value="http://i15-1-motion01.diamond.ac.uk:8089/JBPM1.mjpg.mjpg" />
 	</bean>
 
-	<bean id="bpm2_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="bpm2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="BPM 2 Mjpg" />
 		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8090/JBPM2.mjpg.mjpg" />
 	</bean>
 
-	<bean id="cam1_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="cam1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Cam 1 Mjpg (Mono)" />
 		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8090/JCAM1.mjpg.mjpg" />
 		<property name="rgb" value="false" />
 	</bean>
 
-	<bean id="cam1rgb_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="cam1rgb_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Cam 1 Mjpg (Colour)" />
 		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8090/JCAM1.mjpg.mjpg" />
 		<property name="rgb" value="true" />
 	</bean>
 
-	<bean id="cam2_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="cam2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Cam 2 Mjpg" />
 		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8090/JCAM2.mjpg.mjpg" />
 	</bean>
 
-	<bean id="pe_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="pe_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Perkin Elmer Mjpg" />
 		<property name="url" value="http://I15-1-PE01:8091/pe1.mjpg.mjpg" />
 	</bean>
 
-	<bean id="psl_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="psl_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="PSL Cam Mjpg" />
 		<property name="url" value="http://i15-1-motion01.diamond.ac.uk:8086/psl.mjpg.mjpg" />
 	</bean>
 
-	<bean id="web1_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="web1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Web Cam 1 Mjpg" />
 		<property name="url" value="http://i15-1-motion01.diamond.ac.uk:8094/JWEB1.mjpg.mjpg" />
 	</bean>
 
-	<bean id="web2_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="web2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Web Cam 2 Mjpg" />
 		<property name="url" value="http://i15-1-motion01.diamond.ac.uk:8094/JWEB2.mjpg.mjpg" />
 	</bean>
 
-	<bean id="eye_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
+	<bean id="eye_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="X-ray eye Mjpg" />
 		<property name="url" value="http://bl15j-di-serv-01.diamond.ac.uk:8090/JEYE1.mjpg.mjpg" />
 	</bean>
