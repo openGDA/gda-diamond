@@ -60,9 +60,9 @@
 	
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
-	
-	<!-- moveable devices -->
-	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/moveable/me07m/all.xml" /> -->
+
+	<!-- movable devices -->
+	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/movable/me07m/all.xml" /> -->
 
 	<!-- =========================================================== -->
 	<!-- Shared files                                                -->
@@ -104,8 +104,8 @@
 	<!-- Mapping -->
 	<import resource="mapping_scan_server.xml" />
 
-	<!-- moveable devices -->
-	<!-- <import resource="file:${gda.config}/servers/main/_common/moveable/me07m/all.xml" /> -->
+	<!-- movable devices -->
+	<!-- <import resource="file:${gda.config}/servers/main/_common/movable/me07m/all.xml" /> -->
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
