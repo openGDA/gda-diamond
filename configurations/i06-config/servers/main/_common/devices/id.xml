@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Front End: Downstream Insertion Device (ID1 / IDd) -->
+	<bean id="iddgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorGap_ID1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="iddtrp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorUpperPhase_ID1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="iddbrp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorLowerPhase_ID1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="iddlaangle" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorLA_Angle_ID1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+	<bean id="IDd" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="iddgap" />
+				<ref bean="iddtrp" />
+				<ref bean="iddbrp" />
+				<ref bean="iddlaangle" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+	
+	<!-- Front End: downstreamInsertion Device (ID2 / IDu) -->
+	
+	<bean id="idugap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorGap_ID2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="idutrp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorUpperPhase_ID2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="idubrp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorLowerPhase_ID2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="idulaangle" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorLA_Angle_ID2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+	<bean id="IDu" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="idugap" />
+				<ref bean="idutrp" />
+				<ref bean="idubrp" />
+				<ref bean="idulaangle" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+
+	<bean id="pugap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorPHU_GAP" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	
+	<bean id="ID" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="iddgap" />
+				<ref bean="iddtrp" />
+				<ref bean="iddbrp" />
+				<ref bean="iddlaangle" />
+				
+				<ref bean="idugap" />
+				<ref bean="idutrp" />
+				<ref bean="idubrp" />
+				<ref bean="idulaangle" />
+
+				<ref bean="pugap" />
+				
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

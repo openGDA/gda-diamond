@@ -77,6 +77,14 @@
 		<config>servers/main/_common/devices/testMotors.xml</config>
 		<config>servers/main/live/devices/dummyScannables.xml</config>
 		<config>servers/main/live/devices/uview.xml</config>
+		<config>servers/main/_common/devices/id.xml</config>
+		<config>servers/main/_common/devices/frontEndAperture.xml</config>
+		<config>servers/main/_common/devices/beamlineShuttersGateValves.xml</config>
+		<config>servers/main/_common/devices/s1.xml</config>
+		<config>servers/main/_common/devices/s2.xml</config>
+		<config>servers/main/_common/devices/s3.xml</config>
+		<config>servers/main/_common/devices/d4.xml</config>
+		<config>servers/main/_common/devices/energy.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
