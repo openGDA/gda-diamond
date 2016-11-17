@@ -85,6 +85,16 @@
 		<config>servers/main/_common/devices/s3.xml</config>
 		<config>servers/main/_common/devices/d4.xml</config>
 		<config>servers/main/_common/devices/energy.xml</config>
+		<config>servers/main/_common/devices/d5.xml</config>
+		<config>servers/main/_common/devices/s4.xml</config>
+		<config>servers/main/_common/devices/d6.xml</config>
+		<config>servers/main/_common/devices/d7.xml</config>
+		<config>servers/main/_common/devices/d7a.xml</config>
+		<config>servers/main/_common/devices/s5.xml</config>
+		<config>servers/main/_common/devices/m4.xml</config>
+		<config>servers/main/_common/devices/m5.xml</config>
+		<config>servers/main/_common/devices/peemStage.xml</config>
+		<config>servers/main/_common/devices/peemUserMotors.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
