@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="delta" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="delta" />
+    </bean>
+    
+    <bean id="fastshutter" class="gda.device.scannable.DummyScannable">
+        <property name="name" value="fastshutter" />
+    </bean>
+
+</beans>

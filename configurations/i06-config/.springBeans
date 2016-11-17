@@ -73,6 +73,9 @@
 		<config>servers/main/live/devices/fastScan.xml</config>
 		<config>servers/main/live/devices/peemExitSlit.xml</config>
 		<config>servers/main/_common/devices/peemExitSlit.xml</config>
+		<config>servers/main/live/devices/testMotors.xml</config>
+		<config>servers/main/_common/devices/testMotors.xml</config>
+		<config>servers/main/live/devices/dummyScannables.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

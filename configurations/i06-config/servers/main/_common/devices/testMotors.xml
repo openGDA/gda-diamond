@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="t" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorTestMotor0" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="lowerGdaLimits" value="-2000000000" />
+        <property name="upperGdaLimits" value="2000000000" />
+    </bean>
+    
+    <bean id="testMotor1" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorTestMotor1" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+        <property name="lowerGdaLimits" value="-1000" />
+        <property name="upperGdaLimits" value="1000" />
+    </bean>
+    <bean id="testMotor2" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorTestMotor2" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="m" />
+        <property name="hardwareUnitString" value="m" />
+        <property name="lowerGdaLimits" value="-100" />
+        <property name="upperGdaLimits" value="100" />
+    </bean>
+    <bean id="testMotor3" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorTestMotor3" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="rad" />
+        <property name="hardwareUnitString" value="rad" />
+    </bean>
+    <bean id="testMotor4" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="MotorTestMotor4" />
+        <property name="protectionLevel" value="0" />
+        <property name="initialUserUnits" value="Deg" />
+        <property name="hardwareUnitString" value="Deg" />
+        <property name="lowerGdaLimits" value="0" />
+        <property name="upperGdaLimits" value="360" />
+    </bean>
+    
+    <bean id="TestMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="t" />
+                <ref bean="testMotor1" />
+                <ref bean="testMotor2" />
+                <ref bean="testMotor3" />
+                <ref bean="testMotor4" />
+            </list>
+        </property>
+        <property name="protectionLevel" value="0" />
+    </bean>
+
+</beans>
