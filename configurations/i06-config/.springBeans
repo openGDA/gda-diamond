@@ -96,6 +96,8 @@
 		<config>servers/main/_common/devices/peemStage.xml</config>
 		<config>servers/main/_common/devices/peemUserMotors.xml</config>
 		<config>servers/main/live/devices/d7a.xml</config>
+		<config>servers/main/live/devices/laser.xml</config>
+		<config>servers/main/_common/devices/laser.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
