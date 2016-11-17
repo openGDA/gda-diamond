@@ -99,6 +99,7 @@
 		<config>servers/main/live/devices/laser.xml</config>
 		<config>servers/main/_common/devices/laser.xml</config>
 		<config>servers/main/live/devices/m5.xml</config>
+		<config>servers/main/live/devices/peemCamera1.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
