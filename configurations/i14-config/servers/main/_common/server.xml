@@ -30,7 +30,6 @@
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
-	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3_daserver.xml" /> -->
 
 	<!-- ID & front end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/id.xml" />
@@ -94,6 +93,9 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/d5.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d6.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />
+
+	<!-- detectors -->
+	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" />
 
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
