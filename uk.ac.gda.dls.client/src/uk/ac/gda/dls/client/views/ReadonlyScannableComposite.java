@@ -18,13 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.scannable.ScannableGetPositionWrapper;
-import gda.device.scannable.ScannablePositionChangeEvent;
-import gda.device.scannable.ScannableStatus;
-import gda.observable.IObserver;
-
 import java.text.NumberFormat;
 import java.util.Map;
 import java.util.Scanner;
@@ -40,19 +33,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.scannable.ScannableGetPositionWrapper;
+import gda.device.scannable.ScannablePositionChangeEvent;
+import gda.device.scannable.ScannableStatus;
+import gda.observable.IObserver;
 import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 
 public class ReadonlyScannableComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(ReadonlyScannableComposite.class);
 	private Text text;
-	Scannable scannable;
-	IObserver observer;
-	String val = "...";
-	Display display;
+	private Scannable scannable;
+	private IObserver observer;
+	private String val = "...";
+	private Display display;
 	private Runnable setTextRunnable;
-	String [] formats;
-	String suffix="";
-	Integer decimalPlaces;
+	private String [] formats;
+	private String suffix="";
+	private Integer decimalPlaces;
 	private Integer minPeriodMS=null;
 	private Boolean textUpdateScheduled=false;
 	private Map<String, Integer> colourMap;
@@ -104,6 +103,7 @@ public class ReadonlyScannableComposite extends Composite {
 
 			@Override
 			public void run() {
+				beforeUpdateText(text, val);
 				int currentLength = text.getText().length();
 				String valPlusUnits = val+suffix;
 				text.setText(valPlusUnits);
@@ -117,6 +117,7 @@ public class ReadonlyScannableComposite extends Composite {
 					}
 				}
 				textUpdateScheduled=false;
+				afterUpdateText(text, val);
 			}
 		};		
 		
@@ -157,7 +158,7 @@ public class ReadonlyScannableComposite extends Composite {
 		scannable.addIObserver(observer);
 	}
 
-	void setVal(String newVal) {
+	private void setVal(String newVal) {
 		if (decimalPlaces != null) {
 			Scanner sc = new Scanner(newVal.trim());
 			if (sc.hasNextDouble()) {
@@ -189,6 +190,14 @@ public class ReadonlyScannableComposite extends Composite {
 	public void dispose() {
 		scannable.deleteIObserver(observer);
 		super.dispose();
+	}
+
+	@SuppressWarnings("unused")
+	protected void beforeUpdateText(Text text, String value) {
+	}
+	
+	@SuppressWarnings("unused")
+	protected void afterUpdateText(Text text, String value) {
 	}
 	
 }
