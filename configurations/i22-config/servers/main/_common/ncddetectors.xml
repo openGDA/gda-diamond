@@ -5,11 +5,34 @@
 <!-- <import resource="pilatus_saxs.xml"/> -->
 <!-- <import resource="pilatus_waxs_l.xml"/> -->
 
+    <bean class="gda.device.timer.Etfg" id="Tfg">
+        <property name="daServerName" value="DAServer"/>
+        <property name="showArmed" value="true"/>
+    </bean>
+
     <bean class="gda.device.memory.Scaler" id="CalibMemory">
         <property name="daServerName" value="DAServer"/>
         <property name="width" value="9"/>
         <property name="height" value="1"/>
         <property name="openCommand" value="tfg open-cc"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector" id="Scalers">
+        <property name="detectorType" value="CALIB"/>
+        <property name="memory" ref="CalibMemory"/>
+        <property name="transposedData" value="true"/>
+    </bean>
+
+    <bean class="gda.device.memory.GdhistTimes" id="TimesMemory">
+        <property name="daServerName" value="DAServer"/>
+        <property name="width" value="8"/>
+        <property name="height" value="1"/>
+        <property name="openCommand" value="module open 'tfg_times' header"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.NcdTimesDetector" id="TfgTimes">
+        <property name="detectorType" value="TIMES"/>
+        <property name="memory" ref="TimesMemory"/>
     </bean>
 
     <bean class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" id="ncdlistener">
@@ -20,11 +43,6 @@
     <bean class="uk.ac.gda.server.ncd.scannable.EnergyScannable" id="energy">
         <property name="bragg" ref="dcm_bragg"/>
         <property name="protectionLevel" value="2"/>
-    </bean>
-
-    <bean class="gda.device.timer.Etfg" id="Tfg">
-        <property name="daServerName" value="DAServer"/>
-        <property name="showArmed" value="true"/>
     </bean>
 
     <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="IonChamber">
@@ -60,30 +78,6 @@
         <property name="description" value="no scaling or offset"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.subdetector.NcdTimesDetector" id="TfgTimes">
-        <property name="detectorType" value="TIMES"/>
-        <property name="memory" ref="TimesMemory"/>
-    </bean>
-
-    <bean class="gda.device.memory.Gdhist" id="RapidMemory">
-        <property name="daServerName" value="DAServer"/>
-        <property name="width" value="512"/>
-        <property name="height" value="512"/>
-        <property name="supportedDimensions">
-            <list>
-                <value>128</value>
-                <value>256</value>
-                <value>512</value>
-                <value>1024</value>
-                <value>2048</value>
-                <value>4096</value>
-                <value>8192</value>
-            </list>
-        </property>
-        <property name="openCommand" value="gdhist open 'saxs2d'"/>
-        <property name="startupScript" value="set_res_xy"/>
-        <property name="sizeCommand" value="gdscaler get-mem-size 'saxs2d'"/>
-    </bean>
 
     <bean class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem" id="ncddetectors">
         <property name="timer" ref="Tfg"/>
@@ -100,25 +94,5 @@
                 <!--			<ref bean="xmap" />-->
             </list>
         </property>
-    </bean>
-
-    <bean class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector" id="Scalers">
-        <property name="detectorType" value="CALIB"/>
-        <property name="memory" ref="CalibMemory"/>
-        <property name="transposedData" value="true"/>
-    </bean>
-
-    <bean class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector" id="Rapid2D">
-        <property name="detectorType" value="SAXS"/>
-        <property name="memory" ref="RapidMemory"/>
-        <property name="pixelSize" value="0.000383"/>
-        <property name="interpretation" value="image"/>
-    </bean>
-
-    <bean class="gda.device.memory.GdhistTimes" id="TimesMemory">
-        <property name="daServerName" value="DAServer"/>
-        <property name="width" value="8"/>
-        <property name="height" value="1"/>
-        <property name="openCommand" value="module open 'tfg_times' header"/>
     </bean>
 </beans>

@@ -13,7 +13,7 @@
 
     <import resource="base.xml"/>
     <import resource="bco.xml"/>
-    <import resource="bsaxs-axes.xml" />
+<!--     <import resource="bsaxs-axes.xml" /> -->
     <import resource="bs.xml" />
     <import resource="d1.xml" />
     <import resource="d2.xml" />
@@ -24,18 +24,17 @@
     <import resource="d7.xml" />
     <import resource="dcm.xml" />
     <import resource="feaptr.xml" />
-    <import resource="gonio.xml" />
+<!--     <import resource="gonio.xml" /> -->
     <import resource="hfm.xml" />
     <import resource="idgap.xml" />
     <import resource="pxy.xml" />
     <import resource="rot.xml" />
     <import resource="sd.xml" />
-    <import resource="tango.xml" />
+<!--     <import resource="tango.xml" /> -->
     <import resource="user.xml" />
     <import resource="vfm.xml" />
     <import resource="wd.xml" />
-
-    <import resource="gisaxs/gisaxs.xml"/>
+<!--     <import resource="gisaxs/gisaxs.xml"/> -->
     <import resource="microfocus/microfocus.xml"/>
     <import resource="slits/slits.xml"/>
 </beans>

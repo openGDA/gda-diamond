@@ -29,7 +29,7 @@ EXPECTED_BEAMLINE_VALUE=i22
 #         GDA_CLIENT                  /client/gda-${GDA_INSTANCE_NAME} below GDA_WORKSPACE_PARENT
 
 here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-DLS_CONFIG_BIN_RELATIVE_PATH=${here_dir}/../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
+DLS_CONFIG_BIN_RELATIVE_PATH=${here_dir}/../../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
 
 if [[ -d ${DLS_CONFIG_BIN_RELATIVE_PATH} ]]; then
 

@@ -12,7 +12,7 @@
 
     <import resource='base.xml'/>
     <import resource='bco.xml'/>
-    <import resource='bsaxs-axes.xml'/>
+<!--     <import resource='bsaxs-axes.xml'/> -->
     <import resource='bs.xml'/>
     <import resource='d1.xml'/>
     <import resource='d2.xml'/>

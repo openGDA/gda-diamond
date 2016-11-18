@@ -4,6 +4,13 @@
                 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
     <import resource="metadata.xml"/>
+    <import resource="jython_server.xml"/>
+    <import resource="datawriter.xml"/>
+    <import resource="pilatus_saxs.xml"/>
+    <import resource="pilatus_waxs_l.xml"/>
+    <import resource="i22_server_ncd.xml"/>
+
+    <import resource="devices/devices.xml" />
 
 <!-- Do not remove anything below here -->
     <import resource="file:${gda.config}/servers/main/_common/server.xml" />

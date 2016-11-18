@@ -6,5 +6,6 @@
 <included>
 
 <!-- <logger name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" level="ERROR" /> -->
+<logger name="gda.device.motor.EpicsMotor" level="INFO" />
 
 </included>

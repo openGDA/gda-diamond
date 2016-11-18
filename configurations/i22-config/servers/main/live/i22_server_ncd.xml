@@ -7,99 +7,84 @@
   <property name="dataPort" value="20030"/>
   <property name="startupCommands">
    <list>
-    <value>
-     ~config2d
-    </value>
-    <value>
-     tfg setup-cc-mode scaler64
-    </value>
-    <value>
-     tfg setup-cc-chan -1 edge
-    </value>
+    <value>~config2d</value>
+    <value>tfg setup-cc-mode scaler64</value>
+    <value>tfg setup-cc-chan -1 edge</value>
    </list>
   </property>
  </bean>
- <bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
-  <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"/>
-  <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
-  <!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
- </bean>
- <bean class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger" id="bssc">
-  <property name="hostname" value="i22-biosaxs.diamond.ac.uk"/>
-  <property name="port" value="9555"/>
- </bean>
- <bean class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp" id="qbpmgain">
+ <bean class="gda.device.currentamplifier.GainWithScalingAndOffset" id="qbpmgain">
   <property name="pvName" value="BL22I-DI-PHDGN-07:Y:PLUS:GAIN"/>
   <property name="fixed" value="true"/>
   <property name="gaintosando">
    <map>
     <entry key="0">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e8"/>
      </bean>
     </entry>
     <entry key="1">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e7"/>
      </bean>
     </entry>
     <entry key="2">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e6"/>
      </bean>
     </entry>
     <entry key="3">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e5"/>
      </bean>
     </entry>
     <entry key="4">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e4"/>
      </bean>
     </entry>
     <entry key="5">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e3"/>
      </bean>
     </entry>
     <entry key="6">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e2"/>
      </bean>
     </entry>
     <entry key="7">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e6"/>
      </bean>
     </entry>
     <entry key="8">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e5"/>
      </bean>
     </entry>
     <entry key="9">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e4"/>
      </bean>
     </entry>
     <entry key="10">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e3"/>
      </bean>
     </entry>
     <entry key="11">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e2"/>
      </bean>
     </entry>
     <entry key="12">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e1"/>
      </bean>
     </entry>
     <entry key="13">
-     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+     <bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
       <property name="scaling" value="10e0"/>
      </bean>
     </entry>
