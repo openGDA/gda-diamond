@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.diamond.ac.uk/schema/gda/corba
+	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.diamond.ac.uk/schema/gda/gda
+	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd" >
+
+	<context:property-placeholder/>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<!--  object to provide recording of metadata in Nexus files -->
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop"/>
+	</bean>
+
+	<!-- This can't be replaced with gda:rmi-export as it doesn't yet handle plain objects retrieved via SpEL -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ScanDataPointServer" />
+		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
+		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+	</bean>
+
+	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase"/>
+
+	<gda:rmi-export
+		service="plot_server"
+		serviceName="gda/plotserver"
+		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
+
+	<import resource="command_queue_processor.xml"/>
+	<import resource="jython_server_facade.xml" />
+	<import resource="new_scanning.xml" />
+
+	<corba:export namespace="${gda.beamline.name}" />
+
+</beans>

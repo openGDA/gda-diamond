@@ -1,7 +1,12 @@
 #!/bin/bash
-##This is an example script file to restart GDA server from a remote client
-##This requires generation of ssh keys and copying the public key to the authorized_keys file in the server
-##Please refer to the document howtoSSH.txt for key generation.
-##To use this script change the key file path, user name and the server machine name
+# The local gda script is required to be on the path until the Diamond Launcher scripts in
+# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
+# this cannot be done until all beamlines use the standard startup commands.
 
-ssh -x -o StrictHostKeyChecking=false -i /dls_sw/${BEAMLINE}/etc/gda/${BEAMLINE}ssh.key gda2@${BEAMLINE}-control.diamond.ac.uk
+#############
+# @DEPRECATED
+#############
+#
+# This script should not be added to as it is being phased out
+
+gda servers $*
