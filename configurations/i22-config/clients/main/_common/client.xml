@@ -1,29 +1,33 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context.xsd" >
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd" >
 
-	<context:property-placeholder/>
+    <context:property-placeholder/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+    <bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+    <bean class="gda.factory.corba.util.AdapterFactory">
+        <constructor-arg index="0" value="${gda.factory.factoryName}" />
+        <constructor-arg index="1">
+            <bean class="gda.spring.NetServiceFactoryBean" />
+        </constructor-arg>
+    </bean>
 
-	<import resource="command_queue_processor.xml"/>
-	<import resource="plot_server.xml" />
+    <bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
+        <property name="clientFileAnnouncerName" value="sockpuppet"/>
+    </bean>
 
-	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+    <import resource="command_queue_processor.xml"/>
+    <import resource="plot_server.xml" />
+
+    <bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+        <property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
+        <property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+        <property name="refreshStubOnConnectFailure" value="true" />
+    </bean>
 
 </beans>
