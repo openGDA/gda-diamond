@@ -33,4 +33,14 @@
 		</property>
 	</bean>
 
+	<bean id="d1c_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C"/>
+		<property name="value">
+			<value type="double">21.3</value>
+		</property>
+		<property name="lowerLimit" value="18" />
+		<property name="upperLimit" value="56" />
+		<property name="increment" value="0.35" />
+	</bean>
+
 </beans>
