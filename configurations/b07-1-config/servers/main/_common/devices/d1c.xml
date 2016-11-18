@@ -14,6 +14,7 @@
 				<ref bean="d1c_y" />
 				<ref bean="d1c_cam0"/>
 				<ref bean="d1c_cam1"/>
+				<ref bean="d1c_temp"/>
 			</list>
 		</property>
 	</bean>
