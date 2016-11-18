@@ -21,6 +21,8 @@ package uk.ac.gda.beamline.i14.views;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
@@ -29,7 +31,10 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.device.Scannable;
 import gda.factory.Finder;
@@ -39,11 +44,31 @@ import uk.ac.gda.dls.client.views.ReadonlyScannableComposite;
 import uk.ac.gda.dls.client.views.RunCommandComposite;
 
 
-public class I14StatusView extends ViewPart {
+public class I14StatusView extends ViewPart implements IExecutableExtension {
 
+	private static final Logger logger = LoggerFactory.getLogger(I14StatusView.class);
 	private final Map<String, Integer> colourMap = new HashMap<String, Integer>();
 	private final Finder finder = Finder.getInstance();
 	private final ICommandRunner commandRunner = InterfaceProvider.getCommandRunner();
+
+	private Double ringCurrentAlarmThreshold;
+	private Double timeToRefillAlarmThreshold;
+
+	@Override
+	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
+		super.setInitializationData(cfig, propertyName, data);
+
+		try {
+			if (propertyName == "class" && data instanceof Map<?, ?>) {
+				@SuppressWarnings("unchecked")
+				final Map<String, String> properties = (Map<String, String>) data;
+				ringCurrentAlarmThreshold = Double.valueOf(properties.get("ringCurrentAlarmThreshold"));
+				timeToRefillAlarmThreshold = Double.valueOf(properties.get("timeToRefillAlarmThreshold"));
+			}
+		} catch (Exception ex) {
+			logger.warn("Error setting alarm properties", ex);
+		}
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -59,8 +84,8 @@ public class I14StatusView extends ViewPart {
 		grpMachine.setBackground(null);
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpMachine);
 
-		createNumericComposite(grpMachine, getScannable("ringCurrent"), "Ring current", "mA", 2, 1000);
-		createNumericComposite(grpMachine, getScannable("timeToRefill"), "Time to refill", "s", 0, 1000);
+		createNumericCompositeWithAlarm(grpMachine, getScannable("ringCurrent"), "Ring current", "mA", 2, 1000, ringCurrentAlarmThreshold);
+		createNumericCompositeWithAlarm(grpMachine, getScannable("timeToRefill"), "Time to refill", "s", 0, 1000, timeToRefillAlarmThreshold);
 
 		// Beamline status
 		final Group grpBeamline = new Group(parent, SWT.NONE);
@@ -122,6 +147,11 @@ public class I14StatusView extends ViewPart {
 		composite.setMinPeriodMS(minPeriodMS);
 	}
 
+	private void createNumericCompositeWithAlarm(final Composite parent, final Scannable scannable, final String label, final String units, final Integer decimalPlaces, final Integer minPeriodMS, Double alarmValue) {
+		final ReadonlyScannableCompositeWithAlarm composite = new ReadonlyScannableCompositeWithAlarm(parent, SWT.NONE, scannable, label, units, decimalPlaces, alarmValue);
+		composite.setMinPeriodMS(minPeriodMS);
+	}
+
 	@SuppressWarnings("unused")
 	private void createCommandComposite(final Composite parent, final ICommandRunner commandRunner, final String label, final String command, final String jobTitle, final String tooltip) {
 		new RunCommandComposite(parent, SWT.NONE, commandRunner, label, command, null, jobTitle, tooltip);
@@ -132,5 +162,35 @@ public class I14StatusView extends ViewPart {
 		colourMap.put("Closed", 3);
 		colourMap.put("Close", 3);
 		colourMap.put("Reset", 8);
+	}
+
+	/**
+	 * Extend ReadonlyScannableComposite to show value with red background when value drops below a certain number.
+	 * Used to indicate falling ring current or imminent refill.
+	 */
+	private class ReadonlyScannableCompositeWithAlarm extends ReadonlyScannableComposite {
+		private Double alarmValue;
+		private Color backgroundColour = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+
+		public ReadonlyScannableCompositeWithAlarm(Composite parent, int style, Scannable scannable, String label,
+				String units, Integer decimalPlaces, Double alarmValue) {
+			super(parent, style, scannable, label, units, decimalPlaces);
+			this.alarmValue = alarmValue;
+		}
+
+		@Override
+		protected void afterUpdateText(Text text, String value) {
+			super.afterUpdateText(text,value);
+			if (alarmValue != null) {
+				try {
+					final Double val = Double.valueOf(value);
+					if (val < alarmValue) {
+						text.setBackground(backgroundColour);
+					}
+				} catch (NumberFormatException ex) {
+					logger.warn("Non-numeric value in status view", ex);
+				}
+			}
+		}
 	}
 }
