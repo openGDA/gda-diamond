@@ -1,0 +1,85 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+    <bean id="bs2_cs_x_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_abs_x_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_abs_y_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_x_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_x_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_abs_y_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_cs_y_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_cs_y_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_cs_x_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_y_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_pitch_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_yaw_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_yaw_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_cs_y_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_pitch_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_y_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_abs_x_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_roll_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs3_cs_x_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs2_x_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bs1_y_motor" class="gda.device.motor.DummyMotor">
+        <property name="local" value="true" />
+    </bean>
+
+
+    <bean class="gda.device.monitor.DummyMonitor" id="bs2_y_temp" />
+    <bean class="gda.device.monitor.DummyMonitor" id="bs1_y_temp" />
+    <bean class="gda.device.monitor.DummyMonitor" id="bs3_y_temp" />
+    <bean class="gda.device.monitor.DummyMonitor" id="bs2_x_temp" />
+    <bean class="gda.device.monitor.DummyMonitor" id="bs3_x_temp" />
+    <bean class="gda.device.monitor.DummyMonitor" id="bs1_x_temp" />
+    <bean class="gda.device.monitor.DummyMonitor" id="bs3_roll_temp" />
+</beans>

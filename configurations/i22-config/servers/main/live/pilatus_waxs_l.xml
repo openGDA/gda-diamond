@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd                                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd                                                 http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+ <bean class="gda.device.detector.areadetector.v17.impl.NDStatsImpl" id="WAXS_L_stats">
+  <property name="basePVName" value="BL22I-EA-PILAT-03:STAT:"/>
+ </bean>
+ <bean class="uk.ac.gda.server.ncd.epics.NDFileHDF5Impl" id="WAXS_L_hdf5">
+  <property name="basePVName" value="BL22I-EA-PILAT-03:HDF5:"/>
+  <property name="compression" value="zlib"/>
+  <property name="zCompressLevel" value="1"/>
+  <property name="numRowChunks" value="1679"/>
+  <property name="framesPerChunk" value="1"/>
+  <property name="columnsPerChunk" value="1475"/>
+  <property name="chunkAlignment" value="0"/>
+  <property name="file">
+   <bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+    <property name="basePVName" value="BL22I-EA-PILAT-03:HDF5:"/>
+    <property name="initialAutoIncrement" value="0"/>
+    <property name="initialAutoSave" value="0"/>
+    <property name="initialWriteMode" value="0"/>
+    <property name="initialNumCapture" value="1"/>
+    <property name="initialFileName" value="helloworld"/>
+    <property name="initialFileTemplate" value="%s%s-%d.h5"/>
+    <property name="pluginBase">
+     <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+      <property name="basePVName" value="BL22I-EA-PILAT-03:HDF5:"/>
+     </bean>
+    </property>
+   </bean>
+  </property>
+ </bean>
+ <bean class="gda.device.detector.areadetector.v17.impl.NDArrayImpl" id="WAXS_L_array">
+  <property name="basePVName" value="BL22I-EA-PILAT-03:ARR:"/>
+  <property name="pluginBase">
+   <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+    <property name="basePVName" value="BL22I-EA-PILAT-03:ARR:"/>
+   </bean>
+  </property>
+ </bean>
+ <bean class="gda.device.detector.areadetector.v17.impl.ADBaseImpl" id="WAXS_L_AreaDetector">
+  <property name="basePVName" value="BL22I-EA-PILAT-03:cam1:"/>
+  <property name="initialDataType" value="UInt16"/>
+  <property name="initialMinX" value="0"/>
+  <property name="initialMinY" value="0"/>
+  <property name="initialSizeX" value="1475"/>
+  <property name="initialSizeY" value="1679"/>
+  <property name="initialBinX" value="1"/>
+  <property name="initialBinY" value="1"/>
+ </bean>
+ <bean class="uk.ac.gda.server.ncd.pilatus.PilatusADController" id="WAXS_L_controller">
+  <property name="basePVName" value="BL22I-EA-PILAT-03:cam1:"/>
+  <property name="areaDetector" ref="WAXS_L_AreaDetector"/>
+  <property name="HDF5" ref="WAXS_L_hdf5"/>
+  <property name="array" ref="WAXS_L_array"/>
+  <property name="stats" ref="WAXS_L_stats"/>
+    <bean class="uk.ac.gda.server.ncd.subdetector.NcdPilatusAD" id="Pilatus2M_WAXS">
+        <property name="controller" ref="WAXS_L_controller"/>
+        <property name="detectorType" value="WAXS"/>
+        <property name="pixelSize" value="0.000172"/>
+    </bean>
+</beans>

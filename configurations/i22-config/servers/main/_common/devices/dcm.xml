@@ -1,77 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba
+        http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="dcm_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:ROLL" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="dcm_fineroll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:FROLL" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="dcm_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:PITCH" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="dcm_finepitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:FPITCH" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:YPRIME" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-OP-DCM-01:BRAGG" />
-		<property name="local" value="true" />
-	</bean>
+    <bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
+        <property name="local" value="true"/>
+        <property name="motor" ref="dcm_bragg_motor"/>
+        <property name="scalingFactor" value="1"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
 
-	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="true" />
-		<property name="motor" ref="dcm_pitch_motor" />
-		<property name="protectionLevel" value="2" />
-	</bean>
-	<bean id="dcm_finepitch" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="true" />
-		<property name="motor" ref="dcm_finepitch_motor" />
-		<property name="protectionLevel" value="2" />
-	</bean>
-	<bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="true" />
-		<property name="motor" ref="dcm_roll_motor" />
-		<property name="protectionLevel" value="3" />
-	</bean>
-	<bean id="dcm_fineroll" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="true" />
-		<property name="motor" ref="dcm_fineroll_motor" />
-		<property name="protectionLevel" value="3" />
-	</bean>
-	<bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="true" />
-		<property name="motor" ref="dcm_perp_motor" />
-		<property name="protectionLevel" value="3" />
-	</bean>
-	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="true" />
-		<property name="motor" ref="dcm_bragg_motor" />
-		<property name="scalingFactor" value="1" />
-		<property name="protectionLevel" value="3" />
-	</bean>
+    <bean id="dcm_finepitch" class="gda.device.scannable.ScannableMotor">
+        <property name="local" value="true"/>
+        <property name="motor" ref="dcm_finepitch_motor"/>
+        <property name="protectionLevel" value="2"/>
+    </bean>
 
-	<bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
-		<property name="groupMembers">
-			<list>
-				<ref bean="dcm_pitch" />
-				<ref bean="dcm_finepitch" />
-				<ref bean="dcm_roll" />
-				<ref bean="dcm_fineroll" />
-				<ref bean="dcm_perp" />
-				<ref bean="dcm_bragg" />
-			</list>
-		</property>
-		<property name="protectionLevel" value="3" />
-	</bean>
+    <bean id="dcm_fineroll" class="gda.device.scannable.ScannableMotor">
+        <property name="local" value="true"/>
+        <property name="motor" ref="dcm_fineroll_motor"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
+        <property name="local" value="true"/>
+        <property name="motor" ref="dcm_pitch_motor"/>
+        <property name="protectionLevel" value="2"/>
+    </bean>
+
+    <bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="local" value="true"/>
+        <property name="groupMembers">
+            <list>
+                <ref bean="dcm_pitch"/>
+                <ref bean="dcm_finepitch"/>
+                <ref bean="dcm_roll"/>
+                <ref bean="dcm_fineroll"/>
+                <ref bean="dcm_perp"/>
+                <ref bean="dcm_bragg"/>
+            </list>
+        </property>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
+        <property name="local" value="true"/>
+        <property name="motor" ref="dcm_perp_motor"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
+        <property name="local" value="true"/>
+        <property name="motor" ref="dcm_roll_motor"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
 </beans>

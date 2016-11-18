@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+    <bean class="gda.data.metadata.GdaMetadata" id="GDAMetadata">
+        <property name="metadataEntries">
+            <list>
+                <ref bean="subdirectory"/>
+                <ref bean="samplename"/>
+                <ref bean="title"/>
+                <ref bean="instrument.source.current"/>
+                <bean class="gda.data.metadata.StoredMetadataEntry" id="visit">
+                    <property name="name" value="visit"/>
+                    <property name="value" value=""/>
+                </bean>
+                <bean class="gda.data.metadata.PropertyMetadataEntry">
+                    <property name="name" value="instrument"/>
+                    <property name="propertyName" value="gda.instrument"/>
+                </bean>
+                <bean class="gda.data.metadata.StoredMetadataEntry">
+                    <property name="name" value="federalid"/>
+                    <property name="value" value=""/>
+                </bean>
+                <bean class="gda.data.metadata.StoredMetadataEntry">
+                    <property name="name" value="note"/>
+                    <property name="value" value="undefined"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="gda.data.metadata.StoredScanMetadataEntry" id="title">
+        <property name="name" value="title"/>
+        <property name="value" value=""/>
+    </bean>
+
+    <bean class="gda.data.metadata.MetadataBlaster" id="observableScanTitle">
+        <property name="storedMetadataEntry" ref="title"/>
+    </bean>
+
+
+    <bean class="gda.data.metadata.IntransparentLogFilePathProvider" id="logfilenameprovider">
+        <property name="storedMetadataEntry" ref="subdirectory"/>
+        <property name="pathTemplate" value="${gda.data}/$year$/$visit$/gda-console-$visit$.log"/>
+    </bean>
+
+
+    <bean class="gda.data.metadata.SubdirectoryMetadataEntry" id="subdirectory">
+        <property name="defaultValue" value=""/>
+        <property name="defaultSubdirectory" value=""/>
+    </bean>
+    
+    <bean class="gda.data.metadata.MetadataBlaster" id="observableSubdirectory">
+        <property name="storedMetadataEntry" ref="subdirectory"/>
+    </bean>
+
+    <bean class="gda.data.metadata.MetadataBlaster" id="observableSamplename">
+        <property name="storedMetadataEntry" ref="samplename"/>
+    </bean>
+
+    <bean class="gda.data.metadata.StoredScanMetadataEntry" id="backgroundDataFile">
+        <property name="value" value=""/>
+    </bean>
+
+    <bean class="gda.data.metadata.StoredMetadataEntry" id="samplename">
+        <property name="name" value="samplename"/>
+        <property name="value" value="none"/>
+    </bean>
+
+    <bean class="gda.data.metadata.StoredScanMetadataEntry" id="dataCollectionId">
+        <property name="value" value=""/>
+    </bean>
+    
+        
+    <bean class="uk.ac.gda.server.ncd.scannable.ScanResetDummyUnitScannable" id="sample_thickness">
+        <property name="name" value="sample_thickness"/>
+        <property name="inputNames">
+            <list><value>sample_thickness</value></list>
+        </property>
+        <property name="outputFormat">
+            <list><value>%5.5g</value></list>
+        </property>
+        <property name="protectionLevel" value="1"/>
+        <property name="userUnits" value="mm"/>
+        <property name="resetValue" value="NaN"/>
+    </bean>
+</beans>

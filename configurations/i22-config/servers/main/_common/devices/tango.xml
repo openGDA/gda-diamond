@@ -1,22 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="tangoMotorDeviceProxy1" class="gda.device.TangoDeviceProxy">
-                <constructor-arg value="tango://i22-bvic:20000/desy/motor/motor1" />
-        </bean>
-
-        <bean id="tangoMotorMotor1" class="gda.device.motor.TangoSpecMotor">
-                <property name="tangoDeviceProxy" ref="tangoMotorDeviceProxy1" />
-                <property name="local" value="true" />
-        </bean>
-
-        <bean id="tangoMotor1" class="gda.device.scannable.ScannableMotor">
-                <property name="protectionLevel" value="3" />
-                <property name="motor" ref="tangoMotorMotor1" />
-                <property name="hardwareUnitString" value="mm" />
-                <property name="lowerGdaLimits" value="-999999" />
-                <property name="upperGdaLimits" value="999999" />
-        </bean>
+    <bean id="tangoMotor1" class="gda.device.scannable.ScannableMotor">
+        <property name="protectionLevel" value="3"/>
+        <property name="motor" ref="tangoMotorMotor1"/>
+        <property name="hardwareUnitString" value="mm"/>
+        <property name="lowerGdaLimits" value="-999999"/>
+        <property name="upperGdaLimits" value="999999"/>
+    </bean>
 </beans>

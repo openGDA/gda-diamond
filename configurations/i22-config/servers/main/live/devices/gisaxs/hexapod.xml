@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="hexapod_OfP_x" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OBJECTXOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_rotate" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL22I-MO-HEX-01:ROTMODE"/>
+		<property name="pvNameGetPoint" value="BL22I-MO-HEX-01:ROTMODE"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="hexapod_l2temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:L2TEMP"/>
+	</bean>
+
+	<bean id="hexapod_rawleg6" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LEG6.RBV"/>
+	</bean>
+
+	<bean id="hexapod_OfP_y" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OBJECTYOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_bothoffsets_y" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OUYOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_UfM_pitch" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:USERPITCHOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_bothoffsets_x" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OUXOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_PiM_pitch" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="degrees"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:MACHPITCHPOS"/>
+	</bean>
+
+	<bean id="hexapod_defer" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL22I-MO-HEX-01:DEFER"/>
+		<property name="pvNameGetPoint" value="BL22I-MO-HEX-01:DEFER"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="hexapod_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-MO-HEX-01:YAW"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="hexapod_rawleg2" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LEG2.RBV"/>
+	</bean>
+
+	<bean id="hexapod_rawleg5" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LEG5.RBV"/>
+	</bean>
+
+	<bean id="hexapod_l6temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:L6TEMP"/>
+	</bean>
+
+	<bean id="hexapod_PiM_x" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:MACHXPOS"/>
+	</bean>
+
+	<bean id="hexapod_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-MO-HEX-01:Z"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="hexapod_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-MO-HEX-01:X"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="hexapod_l3temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:L3TEMP"/>
+	</bean>
+
+	<bean id="hexapod_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-MO-HEX-01:ROLL"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="hexapod_UfM_y" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:USERYOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_bothoffsets_z" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OUZOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_UfM_x" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:USERXOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_UfM_z" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:USERZOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_l5temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:L5TEMP"/>
+	</bean>
+
+	<bean id="hexapod_PiM_roll" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="degrees"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:MACHROLLPOS"/>
+	</bean>
+
+	<bean id="hexapod_PiM_yaw" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="degrees"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:MACHYAWPOS"/>
+	</bean>
+
+	<bean id="hexapod_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-MO-HEX-01:Y"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="hexapod_l4temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:L4TEMP"/>
+	</bean>
+
+	<bean id="hexapod_OfP_yaw" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OBJECTYAWOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_OfP_z" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OBJECTZOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_rawleg3" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LEG3.RBV"/>
+	</bean>
+
+	<bean id="hexapod_OfP_pitch" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OBJECTPITCHOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_rawleg1" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LEG1.RBV"/>
+	</bean>
+
+	<bean id="hexapod_PiM_z" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:MACHZPOS"/>
+	</bean>
+
+	<bean id="hexapod_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-MO-HEX-01:PITCH"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="hexapod_l1temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="deviceName" value="Leg 1 temp"/>
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:L1TEMP"/>
+	</bean>
+
+	<bean id="hexapod_UfM_roll" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:USERROLLOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_rawleg4" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LEG4.RBV"/>
+	</bean>
+
+	<bean id="hexapod_OfP_roll" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:OBJECTROLLOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_UfM_yaw" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL22I-MO-HEX-01:USERYAWOFF"/>
+		<property name="useNameAsInputName" value="true"/>
+	</bean>
+
+	<bean id="hexapod_PiM_y" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="mm"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:MACHYPOS"/>
+	</bean>
+</beans>

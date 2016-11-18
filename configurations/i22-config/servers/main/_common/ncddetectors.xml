@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd                                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd                                                 http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+
+<!-- <import resource="pilatus_saxs.xml"/> -->
+<!-- <import resource="pilatus_waxs_l.xml"/> -->
+
+    <bean class="gda.device.memory.Scaler" id="CalibMemory">
+        <property name="daServerName" value="DAServer"/>
+        <property name="width" value="9"/>
+        <property name="height" value="1"/>
+        <property name="openCommand" value="tfg open-cc"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" id="ncdlistener">
+        <property name="ncdDetector" ref="ncddetectors"/>
+        <property name="energyScannable" ref="energy"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.scannable.EnergyScannable" id="energy">
+        <property name="bragg" ref="dcm_bragg"/>
+        <property name="protectionLevel" value="2"/>
+    </bean>
+
+    <bean class="gda.device.timer.Etfg" id="Tfg">
+        <property name="daServerName" value="DAServer"/>
+        <property name="showArmed" value="true"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="IonChamber">
+        <property name="detectorType" value="CALIB"/>
+        <property name="memory" ref="CalibMemory"/>
+        <property name="units" value="counts"/>
+        <property name="channel" value="2"/>
+        <property name="label" value="data"/>
+        <property name="scalingAndOffset" ref="sao1"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="I0">
+        <property name="detectorType" value="CALIB"/>
+        <property name="memory" ref="CalibMemory"/>
+        <property name="units" value="counts"/>
+        <property name="channel" value="1"/>
+        <property name="label" value="data"/>
+        <property name="scalingAndOffset" ref="d10d2gain"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="It">
+        <property name="detectorType" value="CALIB"/>
+        <property name="memory" ref="CalibMemory"/>
+        <property name="units" value="counts"/>
+        <property name="channel" value="3"/>
+        <property name="label" value="data"/>
+        <property name="scalingAndOffset" ref="bs1diodegain"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset" id="sao1">
+        <property name="offset" value="0"/>
+        <property name="scaling" value="1"/>
+        <property name="description" value="no scaling or offset"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.NcdTimesDetector" id="TfgTimes">
+        <property name="detectorType" value="TIMES"/>
+        <property name="memory" ref="TimesMemory"/>
+    </bean>
+
+    <bean class="gda.device.memory.Gdhist" id="RapidMemory">
+        <property name="daServerName" value="DAServer"/>
+        <property name="width" value="512"/>
+        <property name="height" value="512"/>
+        <property name="supportedDimensions">
+            <list>
+                <value>128</value>
+                <value>256</value>
+                <value>512</value>
+                <value>1024</value>
+                <value>2048</value>
+                <value>4096</value>
+                <value>8192</value>
+            </list>
+        </property>
+        <property name="openCommand" value="gdhist open 'saxs2d'"/>
+        <property name="startupScript" value="set_res_xy"/>
+        <property name="sizeCommand" value="gdscaler get-mem-size 'saxs2d'"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem" id="ncddetectors">
+        <property name="timer" ref="Tfg"/>
+        <property name="detectors">
+            <list>
+                <ref bean="Pilatus2M_SAXS"/>
+                <ref bean="Pilatus2M_WAXS"/>
+                <!-- <ref bean="Hotwaxs" /> -->
+                <ref bean="Scalers"/>
+                <!-- <ref bean="IonChamber" /> -->
+                <ref bean="I0"/>
+                <ref bean="It"/>
+                <ref bean="TfgTimes"/>
+                <!--			<ref bean="xmap" />-->
+            </list>
+        </property>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector" id="Scalers">
+        <property name="detectorType" value="CALIB"/>
+        <property name="memory" ref="CalibMemory"/>
+        <property name="transposedData" value="true"/>
+    </bean>
+
+    <bean class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector" id="Rapid2D">
+        <property name="detectorType" value="SAXS"/>
+        <property name="memory" ref="RapidMemory"/>
+        <property name="pixelSize" value="0.000383"/>
+        <property name="interpretation" value="image"/>
+    </bean>
+
+    <bean class="gda.device.memory.GdhistTimes" id="TimesMemory">
+        <property name="daServerName" value="DAServer"/>
+        <property name="width" value="8"/>
+        <property name="height" value="1"/>
+        <property name="openCommand" value="module open 'tfg_times' header"/>
+    </bean>
+</beans>

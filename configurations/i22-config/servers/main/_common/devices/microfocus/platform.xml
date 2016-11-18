@@ -1,72 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="mfplatform_x_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-05:X" />
-		<property name="local" value="true" />
-        </bean>
-        
-        <bean id="mfplatform_y_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-05:Y" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="mfplatform_y1_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-05:Y1" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="mfplatform_y2_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-05:Y2" />
-		<property name="local" value="true" />
-        </bean>
-        
-        <bean id="mfplatform_yaw_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-05:YAW" />
-		<property name="local" value="true" />
-        </bean>
-        
-        <bean id="mfplatform_pitch_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-05:PITCH" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="mfplatform_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfplatform_x_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 
-        <bean id="mfplatform_x" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="mfplatform_x_motor" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="mfplatform_y" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="mfplatform_y_motor" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="mfplatform_y1" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="mfplatform_y1_motor" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="mfplatform_y2" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="mfplatform_y2_motor" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="mfplatform_yaw" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="mfplatform_yaw_motor" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="mfplatform_pitch" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="mfplatform_pitch_motor" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="mfplatform_y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfplatform_y1_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 
-        <bean id="mfplatform" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
-                <property name="groupMembers">
-                        <list>
-                                <ref bean="mfplatform_x" />
-                                <ref bean="mfplatform_y" />
-                                <ref bean="mfplatform_y1" />
-                                <ref bean="mfplatform_y2" />
-                                <ref bean="mfplatform_yaw" />
-                                <ref bean="mfplatform_pitch" />
-                        </list>
-                </property>
-        </bean>
+	<bean id="mfplatform_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfplatform_y_motor"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="mfplatform_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfplatform_yaw_motor"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="mfplatform_y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfplatform_y2_motor"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="mfplatform_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfplatform_pitch_motor"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="mfplatform" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="mfplatform_x"/>
+				<ref bean="mfplatform_y"/>
+				<ref bean="mfplatform_y1"/>
+				<ref bean="mfplatform_y2"/>
+				<ref bean="mfplatform_yaw"/>
+				<ref bean="mfplatform_pitch"/>
+			</list>
+		</property>
+	</bean>
 </beans>

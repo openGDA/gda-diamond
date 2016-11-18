@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+    <bean id="DAServer" class="gda.device.detector.DummyDAServer">
+        <property name="local" value="true" />
+    </bean>
+<!--     <bean id="DAServer" class="gda.device.detector.DummyDAServer"> -->
+<!--         <property name="local" value="true" /> -->
+<!--     </bean> -->
+<!--     <bean id="DAServer" class="gda.device.detector.DummyDAServer"> -->
+<!--         <property name="local" value="true" /> -->
+<!--     </bean> -->
+    <bean id="SaxsMemory" class="gda.device.memory.Gdscaler">
+        <property name="daServerName" value="DAServer" />
+        <property name="width" value="64" />
+        <property name="height" value="64" />
+        <property name="supportedDimensions">
+            <list>
+                <value>16</value>
+                <value>32</value>
+                <value>48</value>
+                <value>64</value>
+                <value>128</value>
+                <value>256</value>
+                <value>512</value>
+            </list>
+        </property>
+        <property name="openCommand" value="gdscaler open 'saxs' 1" />
+        <property name="sizeCommand" value="gdscaler get-mem-size 'saxs'" />
+    </bean>
+    <bean id="WaxsMemory" class="gda.device.memory.Gdscaler">
+        <property name="daServerName" value="DAServer" />
+        <property name="width" value="512" />
+        <property name="height" value="1" />
+        <property name="supportedDimensions">
+            <list>
+                <value>16</value>
+                <value>32</value>
+                <value>48</value>
+                <value>64</value>
+                <value>128</value>
+                <value>256</value>
+                <value>512</value>
+            </list>
+        </property>
+        <property name="openCommand" value="gdscaler open 'waxs' 1" />
+        <property name="sizeCommand" value="gdscaler get-mem-size 'waxs'" />
+    </bean>
+<!--     <bean id="CalibMemory" class="gda.device.memory.Scaler"> -->
+<!--         <property name="name" value="CalibMemory" /> -->
+<!--         <property name="daServerName" value="DAServerT" /> -->
+<!--         <property name="width" value="9" /> -->
+<!--         <property name="height" value="1" /> -->
+<!--         <property name="openCommand" value="tfg open-cc" /> -->
+<!--     </bean> -->
+<!--     <bean id="TimesMemory" class="gda.device.memory.GdhistTimes"> -->
+<!--         <property name="daServerName" value="DAServerT" /> -->
+<!--         <property name="width" value="8" /> -->
+<!--         <property name="height" value="1" /> -->
+<!--         <property name="openCommand" value="module open 'tfg_times' header" /> -->
+<!--     </bean> -->
+<!--     <bean id="Tfg" class="gda.device.timer.Etfg"> -->
+<!--         <property name="daServerName" value="DAServerT" /> -->
+<!--         <property name="showArmed" value="true" /> -->
+<!--     </bean> -->
+
+    <bean id="Pilatus2M_SAXS" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+        <property name="detectorType" value="SAXS" />
+        <property name="memory" ref="SaxsMemory" />
+        <property name="pixelSize" value="0.000383" />
+    </bean>
+
+    <bean id="Pilatus2M_WAXS" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+        <property name="detectorType" value="WAXS" />
+        <property name="memory" ref="WaxsMemory" />
+    </bean>
+
+<!--     <bean id="Scaler" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector"> -->
+<!--         <property name="detectorType" value="CALIB" /> -->
+<!--         <property name="memory" ref="CalibMemory" /> -->
+<!--     </bean> -->
+
+</beans>

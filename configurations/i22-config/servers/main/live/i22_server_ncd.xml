@@ -1,293 +1,109 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="file:${gda.config}/properties/java.properties" />
-	</bean>
-
-	<bean id="qbpmgain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
-		<property name="pvName" value="BL22I-DI-PHDGN-07:Y:PLUS:GAIN" />
-		<property name='fixed' value='true' />
-		<property name="gaintosando">
-			<map>
-				<entry key="0">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e8" />
-					</bean>
-				</entry>
-				<entry key="1">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e7" />
-					</bean>
-				</entry>
-				<entry key="2">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e6" />
-					</bean>
-				</entry>
-				<entry key="3">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e5" />
-					</bean>
-				</entry>
-				<entry key="4">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e4" />
-					</bean>
-				</entry>
-				<entry key="5">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e3" />
-					</bean>
-				</entry>
-				<entry key="6">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e2" />
-					</bean>
-				</entry>
-				<entry key="7">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e6" />
-					</bean>
-				</entry>
-				<entry key="8">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e5" />
-					</bean>
-				</entry>
-				<entry key="9">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e4" />
-					</bean>
-				</entry>
-				<entry key="10">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e3"></property>
-					</bean>
-				</entry>
-				<entry key="11">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e2"></property>
-					</bean>
-				</entry>
-				<entry key="12">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e1"></property>
-					</bean>
-				</entry>
-				<entry key="13">
-					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e0"></property>
-					</bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
-	<!--*************************************** -->
-	<!-- *** NCD devices section *** -->
-	<!--*************************************** -->
-
-	<!-- <bean id="DAServerHW" class="gda.device.detector.DAServer"> <property 
-		name="host" value="i22-hotwaxs-scal" /> <property name="port" value="1972" 
-		/> <property name="local" value="true" /> <property name="dataPort" value="20031" 
-		/> <property name="startupCommands"> <list> <value>~config</value> </list> 
-		</property> </bean> <bean id="HotwaxsMemory" class="gda.device.memory.Gdscaler"> 
-		<property name="daServerName" value="DAServerHW" /> <property name="width" 
-		value="512" /> <property name="height" value="1" /> <property name="openCommand" 
-		value="gdscaler open 'waxs' 1" /> <property name="sizeCommand" value="gdscaler 
-		get-mem-size 'waxs'" /> </bean> <bean id="Hotwaxs" class="uk.ac.gda.beamline.i22.detector.I22Hotwaxs"> 
-		<property name="detectorType" value="WAXS" /> <property name="memory" ref="HotwaxsMemory" 
-		/> <property name="pixelSize" value="0.000818" /> <property name="interpretation" 
-		value="spectrum" /> <property name="caenPVbase" value="BL22I-EA-HV-01" /> 
-		<property name="flowPVName" value="BL22I-EA-GIR-01:HWAX:FLOW:RBV" /> </bean> -->
-	<!-- <bean id="DAServer" class="gda.device.detector.DummyDAServer"> <property 
-		name="local" value="true" /> </bean> -->
-
-	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="host" value="i22-rapid-mem-gig" />
-		<property name="port" value="1972" />
-		<property name="local" value="true" />
-		<property name="dataPort" value="20030" />
-		<property name="startupCommands">
-			<list>
-				<value>~config2d</value>
-				<value>tfg setup-cc-mode scaler64</value>
-				<value>tfg setup-cc-chan -1 edge</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="Tfg" class="gda.device.timer.Etfg">
-		<property name="daServerName" value="DAServer" />
-		<property name="showArmed" value="true" />
-	</bean>
-	<bean id="RapidMemory" class="gda.device.memory.Gdhist">
-		<property name="daServerName" value="DAServer" />
-		<property name="width" value="512" />
-		<property name="height" value="512" />
-		<property name="supportedDimensions">
-			<list>
-				<value>128</value>
-				<value>256</value>
-				<value>512</value>
-				<value>1024</value>
-				<value>2048</value>
-				<value>4096</value>
-				<value>8192</value>
-			</list>
-		</property>
-		<property name="openCommand" value="gdhist open 'saxs2d'" />
-		<property name="startupScript" value="set_res_xy" />
-		<property name="sizeCommand" value="gdscaler get-mem-size 'saxs2d'" />
-	</bean>
-	<bean id="Rapid2D" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
-		<property name="detectorType" value="SAXS" />
-		<property name="memory" ref="RapidMemory" />
-		<property name="pixelSize" value="0.000383" />
-		<property name="interpretation" value="image" />
-	</bean>
-	<bean id="CalibMemory" class="gda.device.memory.Scaler">
-		<property name="daServerName" value="DAServer" />
-		<property name="width" value="9" />
-		<property name="height" value="1" />
-		<property name="openCommand" value="tfg open-cc" />
-	</bean>
-	<bean id="Scalers" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
-		<property name="detectorType" value="CALIB" />
-		<property name="memory" ref="CalibMemory" />
-		<property name="transposedData" value="true" />
-	</bean>
-	<bean id="TimesMemory" class="gda.device.memory.GdhistTimes">
-		<property name="daServerName" value="DAServer" />
-		<property name="width" value="8" />
-		<property name="height" value="1" />
-		<property name="openCommand" value="module open 'tfg_times' header" />
-	</bean>
-	<bean id="TfgTimes" class="uk.ac.gda.server.ncd.subdetector.NcdTimesDetector">
-		<property name="detectorType" value="TIMES" />
-		<property name="memory" ref="TimesMemory" />
-	</bean>
-
-	<bean id="sao1"
-		class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
-		<property name="offset" value="0" />
-		<property name="scaling" value="1" />
-		<property name="description" value="no scaling or offset" />
-	</bean>
-
-	<bean id="It"
-		class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
-		<property name="detectorType" value="CALIB" />
-		<property name="memory" ref="CalibMemory" />
-		<property name="units" value="counts" />
-		<property name="channel" value="3" />
-		<property name="label" value="data" />
-		<property name="scalingAndOffset" ref="bs1diodegain" />
-	</bean>
-
-	<bean id="I0"
-		class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
-		<property name="detectorType" value="CALIB" />
-		<property name="memory" ref="CalibMemory" />
-		<property name="units" value="counts" />
-		<property name="channel" value="1" />
-		<property name="label" value="data" />
-		<property name="scalingAndOffset" ref="qbpmgain" />
-	</bean>
-
-	<bean id="IonChamber"
-		class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset">
-		<property name="detectorType" value="CALIB" />
-		<property name="memory" ref="CalibMemory" />
-		<property name="units" value="counts" />
-		<property name="channel" value="2" />
-		<property name="label" value="data" />
-		<property name="scalingAndOffset" ref="sao1" />
-	</bean>
-
-	<import resource="i22_pilatus.xml" />
-	<import resource="i22_pilatus_waxs_l.xml" />
-
-	<!-- <bean id="Mar" class="uk.ac.gda.server.ncd.subdetector.NcdMarDetector"> 
-		<property name="marName" value="mar165" /> <property name="pixelSize" value="0.000080" 
-		/> <property name="detectorType" value="SAXS" /> </bean> 
-		
--->
-<!--
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
-		<property name="local" value="true" />
-		<property name="epicsDeviceName" value="edxd" />
-		<property name="numberOfElements" value="4" />
-		<property name="elementOffset" value="1" />
-	</bean>
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
-		<property name="local" value="true" />
-		<property name="edxdControllerName" value="edxdcontroller" />
-	</bean>
-	<bean id="xmap" class="uk.ac.gda.server.ncd.subdetector.NcdXmapDetector">
-		<property name="xmapControllerName" value="xmapcontroller" />
-	</bean>
-	-->
-	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
-		<property name="timer" ref="Tfg" />
-		<property name="detectors">
-			<list>
-				<ref bean="Pilatus2M_SAXS" />
-				<ref bean="Pilatus2M_WAXS" />
-				<!-- <ref bean="Hotwaxs" /> -->
-				<ref bean="Scalers" />
-				<!-- <ref bean="IonChamber" /> -->
-				<ref bean="I0" />
-				<ref bean="It" />
-				<ref bean="TfgTimes" />
-	<!--			<ref bean="xmap" />-->
-			</list>
-		</property>
-	</bean>
-
-	<bean id="energy" class="uk.ac.gda.server.ncd.scannable.EnergyScannable">
-		<property name="bragg" ref="dcm_bragg" />
-		<property name="protectionLevel" value="2" />
-	</bean>
-
-	<bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
-		<property name="ncdDetector" ref="ncddetectors" />
-		<property name="energyScannable" ref="energy" />
-	</bean>
-
-	<bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger">
-		<property name="hostname" value="i22-biosaxs.diamond.ac.uk" />
-		<property name="port" value="9555" />
-	</bean>
-
-	<bean id="saxsprocessingrunner" class="uk.ac.gda.server.ncd.data.ProcessingRunner">
-		<property name="environment">
-			<map>
-				<entry key="GDA_CONFIG" value="${gda.config}" />
-				<entry key="DAWN" value="/dls_sw/i22/software/dawn-live/dawn" />
-				<entry key="MOML" value="${gda.config}/processing/ncd_model.moml" />
-			</map>
-		</property>
-		<property name="executablePath" value="${gda.config}/processing/saxs.sh" />
-		<property name="detectorInfo" ref="detectorInfoPath" />
-	</bean>
-
-	<bean class="uk.ac.gda.server.ncd.beans.PerVisitMaskLocation" id="detectorInfoPath">
-	</bean>
-
-	<import resource="cameras/i22_mfgige.xml" />
-	<import resource="cameras/i22_biosaxscam.xml" />
-	<import resource="cameras/i22_floatingcam.xml" />
-	<import resource="cameras/i22_d12gige.xml" />
-	<import resource="cameras/i22_d11gige.xml" />
-
-	<bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
-		<property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
-		<!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
-		<!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
-	</bean>
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd                                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd                                                 http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+ <bean class="gda.device.detector.DAServer" id="DAServer">
+  <property name="host" value="i22-rapid-mem-gig"/>
+  <property name="port" value="1972"/>
+  <property name="local" value="true"/>
+  <property name="dataPort" value="20030"/>
+  <property name="startupCommands">
+   <list>
+    <value>
+     ~config2d
+    </value>
+    <value>
+     tfg setup-cc-mode scaler64
+    </value>
+    <value>
+     tfg setup-cc-chan -1 edge
+    </value>
+   </list>
+  </property>
+ </bean>
+ <bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
+  <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"/>
+  <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
+  <!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
+ </bean>
+ <bean class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger" id="bssc">
+  <property name="hostname" value="i22-biosaxs.diamond.ac.uk"/>
+  <property name="port" value="9555"/>
+ </bean>
+ <bean class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp" id="qbpmgain">
+  <property name="pvName" value="BL22I-DI-PHDGN-07:Y:PLUS:GAIN"/>
+  <property name="fixed" value="true"/>
+  <property name="gaintosando">
+   <map>
+    <entry key="0">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e8"/>
+     </bean>
+    </entry>
+    <entry key="1">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e7"/>
+     </bean>
+    </entry>
+    <entry key="2">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e6"/>
+     </bean>
+    </entry>
+    <entry key="3">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e5"/>
+     </bean>
+    </entry>
+    <entry key="4">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e4"/>
+     </bean>
+    </entry>
+    <entry key="5">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e3"/>
+     </bean>
+    </entry>
+    <entry key="6">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e2"/>
+     </bean>
+    </entry>
+    <entry key="7">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e6"/>
+     </bean>
+    </entry>
+    <entry key="8">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e5"/>
+     </bean>
+    </entry>
+    <entry key="9">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e4"/>
+     </bean>
+    </entry>
+    <entry key="10">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e3"/>
+     </bean>
+    </entry>
+    <entry key="11">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e2"/>
+     </bean>
+    </entry>
+    <entry key="12">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e1"/>
+     </bean>
+    </entry>
+    <entry key="13">
+     <bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
+      <property name="scaling" value="10e0"/>
+     </bean>
+    </entry>
+   </map>
+  </property>
+ </bean>
 </beans>

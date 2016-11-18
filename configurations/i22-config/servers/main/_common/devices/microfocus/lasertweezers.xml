@@ -1,42 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="ltwee_x_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-LTWEE-01:X" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="ltwee_y_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-LTWEE-01:Y" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="ltwee_z_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-LTWEE-01:Z" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="ltwee" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="ltwee_x"/>
+				<ref bean="ltwee_y"/>
+				<ref bean="ltwee_z"/>
+			</list>
+		</property>
+	</bean>
 
-        <bean id="ltwee_x" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="ltwee_x_motor" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="ltwee_y" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="ltwee_y_motor" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="ltwee_z" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="ltwee_z_motor" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="ltwee_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ltwee_z_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 
-        <bean id="ltwee" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
-                <property name="groupMembers">
-                        <list>
-                                <ref bean="ltwee_x" />
-                                <ref bean="ltwee_y" />
-                                <ref bean="ltwee_z" />
-                        </list>
-                </property>
-        </bean>
+	<bean id="ltwee_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ltwee_x_motor"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="ltwee_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ltwee_y_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 </beans>

@@ -1,56 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="mfsax_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-EA-DET-03:X" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="mfsax_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-EA-DET-03:Y" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="mfsax_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-EA-DET-03:Z" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="mfsax_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-EA-DET-03:PITCH" />
-		<property name="local" value="true" />
+	<bean id="mfsax" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="mfsax_x"/>
+				<ref bean="mfsax_y"/>
+				<ref bean="mfsax_z"/>
+				<ref bean="mfsax_pitch"/>
+			</list>
+		</property>
+		<property name="protectionLevel" value="2"/>
 	</bean>
 
 	<bean id="mfsax_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfsax_x_motor" />
-		<property name="protectionLevel" value="2" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="mfsax_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfsax_y_motor" />
-		<property name="protectionLevel" value="2" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="mfsax_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfsax_z_motor" />
-		<property name="protectionLevel" value="2" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="mfsax_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="mfsax_pitch_motor" />
-		<property name="protectionLevel" value="3" />
-		<property name="local" value="true" />
+		<property name="motor" ref="mfsax_x_motor"/>
+		<property name="protectionLevel" value="2"/>
+		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="mfsax" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
-		<property name="groupMembers">
-			<list>
-				<ref bean="mfsax_x" />
-				<ref bean="mfsax_y" />
-				<ref bean="mfsax_z" />
-				<ref bean="mfsax_pitch" />
-			</list>
-		</property>
-		<property name="protectionLevel" value="2" />
+	<bean id="mfsax_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfsax_pitch_motor"/>
+		<property name="protectionLevel" value="3"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="mfsax_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfsax_z_motor"/>
+		<property name="protectionLevel" value="2"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="mfsax_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mfsax_y_motor"/>
+		<property name="protectionLevel" value="2"/>
+		<property name="local" value="true"/>
 	</bean>
 </beans>

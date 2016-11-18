@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                        
+			http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util-2.5.xsd                                 
+			http://www.springframework.org/schema/tx 
+			http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                                         
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop-2.5.xsd                                               
+			http://www.diamond.ac.uk/schema/gda/corba
+			http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+    <bean class="gda.data.scan.TwoDPlotListener" id="twodscan">
+        <property name="plotPanel" value="Plot 2D"/>
+    </bean>
+    
+    <bean class="uk.ac.gda.server.ncd.data.ScanInformationTerminalLogger" id="scan2terminal">
+        <property name="extractorList">
+            <list>
+                <bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="gda.data.scan.datawriter.DefaultDataWriterFactory" id="DefaultDataWriterFactory">
+        <property name="name" value="DataWriterFactory"/>
+        <property name="dataWriterExtenders">
+            <list>
+                <ref bean="FileRegistrar"/>
+                <ref bean="scan2elog"/>
+                <ref bean="scan2terminal"/>
+                <ref bean="twodscan"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables"/>
+        <property name="arguments">
+            <set>
+                <value>energy</value>
+                <value>sample_name</value>
+                <value>sample_thickness</value>
+            </set>
+        </property>
+    </bean>
+    
+    <bean class="gda.data.fileregistrar.ClientFileAnnouncer" id="sockpuppet"/>
+</beans>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="bs3_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:PITCH"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs2_abs_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:YABS"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs1_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:X"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:X"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs2_cs_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:CSX"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs2_y_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:Y:TEMP"/>
+	</bean>
+
+	<bean id="bs3_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:YAW"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs2_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:X"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs1_y_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:Y:TEMP"/>
+	</bean>
+
+	<bean id="bs1_cs_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:CSY"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_cs_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:CSR"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs2_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:Y"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_y_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:Y:TEMP"/>
+	</bean>
+
+	<bean id="bs2_x_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:X:TEMP"/>
+	</bean>
+
+	<bean id="bs2_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:YAW"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_x_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:X:TEMP"/>
+	</bean>
+
+	<bean id="bs2_abs_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:XABS"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs2_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:PITCH"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs1_cs_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:CSX"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs1_x_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:X:TEMP"/>
+	</bean>
+
+	<bean id="bs2_cs_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:CSY"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_cs_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:CSY"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs1_abs_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:XABS"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs1_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:Y"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_cs_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:CSX"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:Y"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:ROLL"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="bs3_roll_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:ROLL:TEMP"/>
+	</bean>
+
+	<bean id="bs1_abs_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:YABS"/>
+		<property name="local" value="true"/>
+	</bean>
+</beans>

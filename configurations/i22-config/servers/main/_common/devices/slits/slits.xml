@@ -1,11 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<import resource="s1.xml" />
-<import resource="s2.xml" />
-<import resource="s3.xml" />
-<import resource="s4.xml" />
-<import resource="s5.xml" />
+    <import resource="s1.xml" />
+    <import resource="s2.xml" />
+    <import resource="s3.xml" />
+    <import resource="s4.xml" />
+    <import resource="s5.xml" />
 </beans>

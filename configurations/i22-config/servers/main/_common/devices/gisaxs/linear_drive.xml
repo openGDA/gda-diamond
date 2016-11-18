@@ -1,47 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
-	<bean id="linearDrive_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-HEX-01:LINEAR" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="linearDrive_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="linearDrive_motor" />
-		<property name="local" value="true" />
-	</bean>
-	
-	<bean id="linearDrive_motorTemp" class="gda.device.monitor.EpicsMonitor">
-		<property name="unit" value="celsius"/>
-		<property name="pvName" value="BL22I-MO-HEX-01:LINEARTEMP"/>
-	</bean>
-	
-	<bean id="linearDrive_baseTemp" class="gda.device.monitor.EpicsMonitor">
-		<property name="unit" value="celsius"/>
-		<property name="pvName" value="BL22I-MO-HEX-01:LDBASETEMP"/>
-	</bean>
-	
-	<bean id="linearDrive_topTemp" class="gda.device.monitor.EpicsMonitor">
-		<property name="unit" value="celsius"/>
-		<property name="pvName" value="BL22I-MO-HEX-01:LDTOPTEMP"/>
-	</bean>
-	
-	<bean id="linearDrive_pillarTemp" class="gda.device.monitor.EpicsMonitor">
-		<property name="unit" value="celsius"/>
-		<property name="pvName" value="BL22I-MO-HEX-01:PILLARTEMP"/>
-	</bean>
-	
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
 	<bean id="linearDrive" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
+		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
-				<ref bean="linearDrive_x" />
-				<ref bean="linearDrive_motorTemp" />
-				<ref bean="linearDrive_baseTemp" />
-				<ref bean="linearDrive_topTemp" />
-				<ref bean="linearDrive_pillarTemp" />
+				<ref bean="linearDrive_x"/>
+				<ref bean="linearDrive_motorTemp"/>
+				<ref bean="linearDrive_baseTemp"/>
+				<ref bean="linearDrive_topTemp"/>
+				<ref bean="linearDrive_pillarTemp"/>
 			</list>
 		</property>
+	</bean>
+
+	<bean id="linearDrive_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="linearDrive_motor"/>
+		<property name="local" value="true"/>
 	</bean>
 </beans>

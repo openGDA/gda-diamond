@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="d3d1" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true"/>
+		<property name="hasUnits" value="false"/>
+		<property name="pvName" value="BL22I-DI-PHDGN-03:DIODE1:I"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="d3filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+		<property name="pvBase" value="BL22I-DI-PHDGN-03:MP"/>
+		<property name="local" value="true"/>
+		<property name="protectionLevel" value="2"/>
+	</bean>
+
+	<bean id="d3motor_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-DI-PHDGN-03:POSN"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="d3d2" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true"/>
+		<property name="hasUnits" value="false"/>
+		<property name="pvName" value="BL22I-DI-PHDGN-03:DIODE2:I"/>
+		<property name="local" value="true"/>
+	</bean>
+</beans>

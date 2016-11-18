@@ -1,73 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="alio_x_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-06:X" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="alio_x" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="alio_x_motor" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="alio_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alio_roll_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 
-        <bean id="alio_y_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-06:Y" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="alio_y" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="alio_y_motor" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="alio_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alio_x_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 
-        <bean id="alio_z_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-06:Z" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="alio_z" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="alio_z_motor" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="alio_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alio_z_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 
-        <bean id="alio_pitch_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-06:PITCH" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="alio_pitch" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="alio_pitch_motor" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="alio" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="alio_x"/>
+				<ref bean="alio_y"/>
+				<ref bean="alio_z"/>
+				<ref bean="alio_pitch"/>
+				<ref bean="alio_roll"/>
+				<ref bean="alio_rot"/>
+			</list>
+		</property>
+	</bean>
 
-        <bean id="alio_roll_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-06:ROLL" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="alio_roll" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="alio_roll_motor" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="alio_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alio_pitch_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 
-        <bean id="alio_rot_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-TABLE-06:ROT" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="alio_rot" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="alio_rot_motor" />
-		<property name="local" value="true" />
-        </bean>
+	<bean id="alio_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alio_y_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 
-        <bean id="alio" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
-                <property name="groupMembers">
-                        <list>
-                                <ref bean="alio_x" />
-                                <ref bean="alio_y" />
-                                <ref bean="alio_z" />
-                                <ref bean="alio_pitch" />
-                                <ref bean="alio_roll" />
-                                <ref bean="alio_rot" />
-                        </list>
-                </property>
-        </bean>
+	<bean id="alio_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="alio_rot_motor"/>
+		<property name="local" value="true"/>
+	</bean>
 </beans>

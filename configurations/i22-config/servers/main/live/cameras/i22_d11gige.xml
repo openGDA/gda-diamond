@@ -1,39 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<description>
-		There are 3 ways of configure EPICS access:
-		1. use Java content objects provided by epics-x.x.x.jar to specify
-		'deviceName' property;
-		e.g. <!-- property name="deviceName" value="pilad.cam_ADBase"/ -->
-		2. set pvProvider property which in turn uses XMLPVProvider bean to
-		specify 'deviceName' property;
-		e.g. <!-- property name="pvProvider"> <bean 
-			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
-			value="pilad.cam_ADBase" /> </bean> </property -->
-		3. set base PV name property with field or sub-element being coded in
-		Java classes.
-		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" / -->
-	</description>
-
-	<bean id="d11gige_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL22I-DI-PHDGN-11:CAM:" />
-		<property name="initialDataType" value="UInt8" />
-	</bean>
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<bean id="d11gige_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL22I-DI-PHDGN-11:ARR:" />
+		<property name="basePVName" value="BL22I-DI-PHDGN-11:ARR:"/>
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL22I-DI-PHDGN-11:ARR:" />
+				<property name="basePVName" value="BL22I-DI-PHDGN-11:ARR:"/>
 			</bean>
 		</property>
-	</bean>	
-	
+	</bean>
+
 	<bean id="d11gige" class="uk.ac.gda.server.ncd.camera.ADCameraDetector">
-		<property name="basePVName" value="BL22I-DI-PHDGN-11:" />
-		<property name="areaDetector" ref="d11gige_ad" />
-		<property name="array" ref="d11gige_array" />
+		<property name="basePVName" value="BL22I-DI-PHDGN-11:"/>
+		<property name="areaDetector" ref="d11gige_ad"/>
+		<property name="array" ref="d11gige_array"/>
+	</bean>
+
+	<bean id="d11gige_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL22I-DI-PHDGN-11:CAM:"/>
+		<property name="initialDataType" value="UInt8"/>
 	</bean>
 </beans>

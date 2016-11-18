@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <import resource="platform.xml" />
-        <import resource="stage.xml" />
-        <import resource="s6.xml" />
-        <import resource="lenses.xml" />
-        <import resource="lasertweezers.xml" />
-        <import resource="mfbs.xml" />
-        <import resource="detstage.xml" />
-        <!--  <import resource="alio.xml" /> -->
+    <import resource="alio.xml" />
+    <import resource="detstage.xml" />
+    <import resource="lasertweezers.xml" />
+    <import resource="lenses.xml" />
+    <import resource="mfbs.xml" />
+    <import resource="platform.xml" />
+    <import resource="s6.xml" />
+    <import resource="stage.xml" />
 </beans>

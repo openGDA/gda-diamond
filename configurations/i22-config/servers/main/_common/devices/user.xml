@@ -1,35 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="user_three_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-USER-01:MTR3" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="user_three" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="user_three_motor" />
-		<property name="local" value="true" />
-        </bean>
+    <bean id="user_four" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="user_four_motor"/>
+        <property name="local" value="true"/>
+    </bean>
 
-        <bean id="user_four_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL22I-MO-USER-01:MTR4" />
-		<property name="local" value="true" />
-        </bean>
-        <bean id="user_four" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="user_four_motor" />
-		<property name="local" value="true" />
-        </bean>
+    <bean id="user_three" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="user_three_motor"/>
+        <property name="local" value="true"/>
+    </bean>
 
-        <bean id="user" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
-                <property name="groupMembers">
-                        <list>
-                                <ref bean="user_three" />
-                                <ref bean="user_four" />
-                        </list>
-                </property>
-        </bean>
-        
-        <!-- <import resource="tango.xml" /> -->
+    <bean id="user" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="local" value="true"/>
+        <property name="groupMembers">
+            <list>
+                <ref bean="user_three"/>
+                <ref bean="user_four"/>
+            </list>
+        </property>
+    </bean>
 </beans>
