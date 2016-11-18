@@ -13,11 +13,11 @@
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.config=${workspace_loc:i22-new-config}
+-Dgda.config=${workspace_loc:i22-config}
 -Dgda.mode=dummy
--Dgda.propertiesFile=${workspace_loc:i22-new-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${workspace_loc:i22-new-config}/properties/dummy/jacorb
--Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i22-new-config}/properties/dummy/JCALibrary.properties
+-Dgda.propertiesFile=${workspace_loc:i22-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${workspace_loc:i22-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i22-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.logs.dir=${project_loc}/../logs

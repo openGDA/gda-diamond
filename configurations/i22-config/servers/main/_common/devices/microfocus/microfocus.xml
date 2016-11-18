@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <import resource="alio.xml" />
+<!--     <import resource="alio.xml" /> -->
     <import resource="detstage.xml" />
     <import resource="lasertweezers.xml" />
     <import resource="lenses.xml" />
