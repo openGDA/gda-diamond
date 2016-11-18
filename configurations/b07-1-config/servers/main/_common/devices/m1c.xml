@@ -33,6 +33,8 @@
 				<ref bean="m1c_roll" />
 				<ref bean="m1c_yaw" />
 				<ref bean="m1c_pressure" />
+				<ref bean="m1c_mask_temp" />
+				<ref bean="m1c_mirror_temp" />
 			</list>
 		</property>
 	</bean>

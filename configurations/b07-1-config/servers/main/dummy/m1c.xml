@@ -33,4 +33,24 @@
 		<property name="increment" value="1.0e-8" />
 	</bean>
 
+	<bean id="m1c_mask_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C"/>
+		<property name="value">
+			<value type="double">25.3</value>
+		</property>
+		<property name="lowerLimit" value="18" />
+		<property name="upperLimit" value="56" />
+		<property name="increment" value="0.35" />
+	</bean>
+
+	<bean id="m1c_mirror_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C"/>
+		<property name="value">
+			<value type="double">25.3</value>
+		</property>
+		<property name="lowerLimit" value="18" />
+		<property name="upperLimit" value="56" />
+		<property name="increment" value="0.35" />
+	</bean>
+
 </beans>
