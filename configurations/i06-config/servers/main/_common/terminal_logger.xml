@@ -13,24 +13,13 @@
     http://www.springframework.org/schema/aop 
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-<!-- 
-	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
-		<constructor-arg ref="command_server" />
-	</bean>
--->
  
- 
-	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
-<!-- 	<property name="path" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" /> -->
-		<property name="local" value="true" />
-	</bean>
-<!--
   	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
- 		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+ 		<property name="template" value="/dls/i06/data/$year$/$visit$/spool/gdaterminal.log" />
  		<property name="gdaMetadata" ref="GDAMetadata" />
  		<property name="local" value="true" />
  	</bean>
--->
+
 	
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
 		<constructor-arg ref="terminallog_path_provider" />
