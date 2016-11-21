@@ -1,8 +1,10 @@
+from java.io import FileNotFoundException
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
 from gda.factory import Finder
 from gdascripts.messages import handle_messages
 from gda.jython import InterfaceProvider
+from gda.jython.commands.GeneralCommands import alias, cmd, ls, pause, reset_namespace, run, vararg_regex
 from gda.device.scannable import ScannableBase
 from gda.device.monitor import EpicsMonitor
 from gdascripts.parameters.beamline_parameters import JythonNameSpaceMapping
@@ -12,6 +14,8 @@ from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names, alias
 
 from shutter_control import toggle_oh1_shtr, toggle_oh2_shtr, toggle_oh3_shtr, toggle_eh2_nano_shtr
+
+from i14_utilities import isLive
 
 print "Initialisation Started";
 
@@ -37,7 +41,13 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
-#print "Making daserver for xspress3 available as 'daserver_xspress3'"
-#daserver_xspress3 = Finder.getInstance().find("daserver_xspress3")
+if isLive():
+    print "Running in live mode: attempting to run localStationUser.py in users script directory"
+    try:
+        run("localStationUser.py")
+    except FileNotFoundException, e:
+        print "No localStationUser run"
+else:
+    print "Running in dummy mode"
 
 print "Initialisation Complete";
