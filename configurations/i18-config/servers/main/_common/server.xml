@@ -19,6 +19,7 @@
 	<!-- Import mode-specific objects -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/cmos.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/keithleys.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/qexafs.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3.xml" />
@@ -29,6 +30,8 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/table3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/trajStage1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/trajStage3.xml" />
+	<!-- Make mandelbrot detector available both on dummy and live modes for testing mapping scans. -->
+	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml"/>
 
 	<!-- Import common objects -->
 	<import resource="detectors/cmos.xml" />
