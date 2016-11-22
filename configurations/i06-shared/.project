@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>i06-shared</name>
+	<comment></comment>
+	<projects>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.epics</project>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
 </projectDescription>
