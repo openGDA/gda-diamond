@@ -100,14 +100,8 @@
 		<config>servers/main/_common/devices/laser.xml</config>
 		<config>servers/main/live/devices/m5.xml</config>
 		<config>servers/main/live/devices/peemCamera1.xml</config>
-		<config>servers/main/_common/fileRegistry.xml</config>
-		<config>servers/main/_common/jythonServerFacade.xml</config>
-		<config>servers/main/_common/GDAMetadata.xml</config>
-		<config>servers/main/_common/plotServer.xml</config>
 		<config>servers/main/_common/devices/dashboard.xml</config>
-		<config>servers/main/_common/scanDataPointServer.xml</config>
 		<config>servers/main/_common/server.xml</config>
-		<config>servers/main/_common/commandQueueProcessor.xml</config>
 		<config>servers/main/live/devices/_all.xml</config>
 		<config>servers/main/_common/devices/_all.xml</config>
 		<config>servers/main/_common/devices/polarimeter.xml</config>
