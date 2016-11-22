@@ -1,0 +1,99 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="lab46cam1AD_cam" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL06I-DI-PHDGN-50:DCAM1:CAM:" />
+	</bean>
+
+	<bean id="lab46cam1AD_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL06I-DI-PHDGN-50:DCAM1:ARR:" />
+	</bean>
+
+	<bean id="lab46cam1AD_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL06I-DI-PHDGN-50:DCAM1:STAT:" />
+	</bean>
+
+	<bean id="lab46cam1AD_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL06I-DI-PHDGN-50:DCAM1:ROI:" />
+	</bean>
+
+	<bean id="lab46cam1AD_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL06I-DI-PHDGN-50:DCAM1:MJPG:" />
+	</bean>
+
+	<bean id="lab46cam1AD_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL06I-DI-PHDGN-50:DCAM1:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
+
+	<!-- None -->
+
+	<!-- Area Detector Filewriters -->
+
+	<bean id="lab46cam1_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL06I-DI-PHDGN-50:DCAM1:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="lab46cam1_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL06I-DI-PHDGN-50:DCAM1:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<!-- SingleExposureStandard(ADBase adBase, double readoutTime)
+				Negative readoutTime disables AcquirePeriod
+	 -->
+	<bean id="lab46cam1_SingleExposureStandardCollectionStrategy"
+		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="lab46cam1AD_cam" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="lab46cam1_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="lab46cam1_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-lab46cam1" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+
+	<!-- SingleImagePerFileWriter(String detectorName)
+	 -->
+	<bean id="lab46cam1_tiff_SingleImagePerFileWriter"
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="lab46cam1" />
+		<property name="ndFile" ref="lab46cam1_NDFileTiff" />
+		<property name="keyNameForMetadataPathTemplate" value="lab46cam1_path_template" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="lab46cam1" class="gda.device.detector.NXDetector">
+		<property name="name" value="lab46cam1" />
+		<property name="collectionStrategy" ref="lab46cam1_SingleExposureStandardCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="lab46cam1_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="lab46cam1_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+</beans>
