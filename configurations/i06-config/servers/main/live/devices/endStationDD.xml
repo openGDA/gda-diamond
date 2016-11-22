@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Dichorism and Diffraction Motors -->
+	<bean id="MotorTheta_DD" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DDIFF.THETA" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="Motor2Theta_DD" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DDIFF.2THETA" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorXSample_DD" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-EA-DDIFF-01:SMPL:X"/>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorYSample_DD" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DDIFF.Y" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorZSample_DD" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-EA-DDIFF-01:SMPL:Z"/>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorYDetector_DD" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DDIFF.DET.Y" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorXTable_DD" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DDIFF.X" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorXTrans_DD" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DDIFF.PINX" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorYTrans_DD" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DDIFF.PINY" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorZTrans_DD" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DDIFF.PINZ" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Dichorism and Diffraction Motors -->
+	<!-- Sample Rotation: Theta -->
+	<bean id="ddth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorTheta_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+	
+	<!-- Detector Rotation: 2Theta -->
+	<bean id="dd2th" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Motor2Theta_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+	
+	<bean id="ddsx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXSample_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<!-- Sample Height: -->
+	<bean id="ddsy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYSample_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="ddsz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorZSample_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	
+	<!-- Detector Height: -->
+	<bean id="dddy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYDetector_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	
+	<!-- Detector Table X: -->
+	<bean id="ddtx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXTable_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	
+	
+	<bean id="ddpinx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXTrans_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="ddpiny" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYTrans_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="ddpinz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorZTrans_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="DD" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ddth" />
+				<ref bean="dd2th" />
+				<ref bean="ddsx" />
+				<ref bean="ddsy" />
+				<ref bean="ddsz" />
+				<ref bean="dddy" />
+				<ref bean="ddtx" />
+				<ref bean="ddpinx" />
+				<ref bean="ddpiny" />
+				<ref bean="ddpinz" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>
