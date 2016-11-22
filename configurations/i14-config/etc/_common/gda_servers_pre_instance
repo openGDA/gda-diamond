@@ -1,0 +1,13 @@
+# Setup specific to this beamline, that is done before the servers are started
+bashlog debug "gda_servers_pre_instance" "Entered"
+
+# Since the gda_servers_* scripts are run on both the client machine and on the
+# server machine in live mode, don't start the log client on the server machine.
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
+	bashlog debug "gda_servers_pre_instance" "Ensure the log panel is running..."
+	bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core logpanel
+  	# Note that we don't want to source here, since this is already being run from gda_core
+  	# and using source will switch COMPONENT from servers to logpanel!
+fi
+
+bashlog debug "gda_servers_pre_instance" "Exited"
