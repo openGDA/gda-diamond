@@ -99,7 +99,7 @@ class Valves():
 class MirrorsVoltages():
 
 	def __init__(self):
-		self.directory = "/dls_sw/i22/software/gda/config/scripts/beamlineScripts/startupShutdown/voltages/"
+		self.directory = "/dls_sw/i22/software/var/voltages/"
 		self.HFM = "hfm_v"
 		self.VFM = "vfm_v"
 		self.vfmZeroVoltages = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
