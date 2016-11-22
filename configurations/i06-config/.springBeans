@@ -109,6 +109,7 @@
 		<config>servers/main/_common/devices/mobilerack.xml</config>
 		<config>servers/main/live/devices/endStationDD.xml</config>
 		<config>servers/main/_common/devices/endStationDD.xml</config>
+		<config>servers/main/live/devices/accessControl.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
