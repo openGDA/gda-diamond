@@ -36,6 +36,8 @@
                 <ref bean="scan2elog"/>
                 <ref bean="scan2terminal"/>
                 <ref bean="twodscan"/>
+                <ref bean="autoPostProcessing"/>
+                <ref bean="bslConversion" />
             </list>
         </property>
     </bean>

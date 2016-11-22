@@ -1,18 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd                                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd                                                 http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
- <bean class="gda.data.fileregistrar.FileRegistrar" id="FileRegistrar">
-  <property name="name" value="FileRegistrar"/>
-  <property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i22-"/>
-  <property name="clientFileAnnouncer" ref="sockpuppet"/>
- </bean>
- <bean class="gda.data.ScanToElogExtender" id="scan2elog">
-  <property name="logID" value="BLI22"/>
-  <property name="groupID" value="BLI22-RUNL"/>
-  <!-- <property name="logID" value="DAG" /> <property name="groupID" value="SCAN" /> -->
-  <property name="extractorList">
-   <list>
-    <bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractorHTML"/>
-   </list>
-  </property>
- </bean>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="autoPostProcessing" class="uk.ac.gda.server.ncd.data.scan.MetaDataProcessingScanListener">
+			<property name="detector" ref="ncddetectors"/>
+			<property name="runner">
+					<bean class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
+							<property name="scriptPath" value="/dls_sw/apps/dawn_autoprocessing/autoprocess"/>
+					</bean>
+			</property>
+	</bean>
+
+	<bean id="bslConversion" class="uk.ac.gda.server.ncd.data.scan.MetaDataProcessingScanListener">
+			<property name="detector" ref="ncddetectors"/>
+			<property name="runner">
+					<bean class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
+							<property name="scriptPath" value="/dls_sw/i22/software/gda/config/nexus2otoko/nexus2otoko"/>
+					</bean>
+			</property>
+	</bean>
+
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrar"/>
+		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i22-"/>
+		<property name="clientFileAnnouncer" ref="sockpuppet"/>
+	</bean>
+
+	<bean id="scan2elog" class="gda.data.ScanToElogExtender">
+		<property name="logID" value="BLI22"/>
+		<property name="groupID" value="BLI22-RUNL"/>
+		<!-- <property name="logID" value="DAG" /> <property name="groupID" value="SCAN" /> -->
+		<property name="extractorList">
+			<list>
+				<bean class="uk.ac.gda.server.ncd.data.TfgSettingsExtractorHTML"/>
+			</list>
+		</property>
+	</bean>
 </beans>
