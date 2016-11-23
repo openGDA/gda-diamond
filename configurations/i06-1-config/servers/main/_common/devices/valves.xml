@@ -3,13 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="BL" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="VALVES" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="shtr1i" />
-				<ref bean="shtr1j" />
-				<ref bean="gv11i" />
+				<ref bean="gv2" />
 				<ref bean="gv4j" />
+				<ref bean="d3valve" />
+				<ref bean="d4valve" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

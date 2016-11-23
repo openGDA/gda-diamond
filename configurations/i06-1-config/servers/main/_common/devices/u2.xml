@@ -3,49 +3,32 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-
-	<!-- Branchline User Motors U2 Motors -->
-	<bean id="u1j" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorMTR1_U2" />
-		<property name="protectionLevel" value="0" />
-<!--		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
--->	</bean>
-	<bean id="u2j" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorMTR2_U2" />
-		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
-	</bean>
-	<bean id="u3j" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorMTR3_U2" />
-		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
-	</bean>
-	<bean id="u4j" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorMTR4_U2" />
-		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
-	</bean>
-	<bean id="u5j" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorMTR5_U2" />
-		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
-	</bean>
-	<bean id="u6j" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorMTR6_U2" />
-		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
-	</bean>
-	<bean id="U2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Analogue Outputs -->
+	<bean id="DAC2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="u1j" />
-				<ref bean="u2j" />
-				<ref bean="u3j" />
-				<ref bean="u4j" />
-				<ref bean="u5j" />
-				<ref bean="u6j" />
+				<ref bean="dac21" />
+				<ref bean="dac22" />
+				<ref bean="dac23" />
+				<ref bean="dac24" />
+				<ref bean="dac25" />
+				<ref bean="dac26" />
+				<ref bean="dac27" />
+				<ref bean="dac28" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Analogue Inputs -->
+	<bean id="ADC2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="adc21" />
+				<ref bean="adc22" />
+				<ref bean="adc23" />
+				<ref bean="adc24" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

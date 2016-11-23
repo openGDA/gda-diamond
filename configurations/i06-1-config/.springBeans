@@ -16,8 +16,8 @@
 		<config>servers/main/_common/devices/d10.xml</config>
 		<config>servers/main/_common/devices/d11.xml</config>
 		<config>servers/main/_common/devices/d12.xml</config>
-		<config>servers/main/_common/devices/u2.xml</config>
 		<config>servers/main/_common/devices/magnet.xml</config>
+		<config>servers/main/_common/devices/userMotors.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
