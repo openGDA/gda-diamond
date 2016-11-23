@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<!-- Branchline User Motors U2 Motors -->
+	<bean id="u1j" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR1_U2" />
+		<property name="protectionLevel" value="0" />
+<!--		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+-->	</bean>
+	<bean id="u2j" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR2_U2" />
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="u3j" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR3_U2" />
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="u4j" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR4_U2" />
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="u5j" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR5_U2" />
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="u6j" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR6_U2" />
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="U2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="u1j" />
+				<ref bean="u2j" />
+				<ref bean="u3j" />
+				<ref bean="u4j" />
+				<ref bean="u5j" />
+				<ref bean="u6j" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>
