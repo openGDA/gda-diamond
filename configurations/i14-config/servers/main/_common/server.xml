@@ -107,15 +107,20 @@
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
 
-	<!-- Mapping -->
-	<import resource="mapping_scan_server.xml" />
-
 	<!-- movable devices -->
 	<!-- <import resource="file:${gda.config}/servers/main/_common/movable/me07m/all.xml" /> -->
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<!--
+		Mapping scans
+		IMPORTANT: this will start processing the scanning queue.
+		Detectors must be created before doing this.
+		ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file:${gda.config}/servers/p45/_common/solstice_scanning.xml"/>
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 
