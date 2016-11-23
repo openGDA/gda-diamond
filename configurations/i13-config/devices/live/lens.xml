@@ -4,8 +4,9 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
  	<bean id="lens" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="controlPv" value="BL13I-EA-TURR-01:DEMAND"/>
-		<property name="statusPv" value="BL13I-EA-TURR-01:CURRENTPOS"/>
+ 		<property name="name" value="lens" />
+		<property name="controlPv" value="BL13I-MO-CAM-01:TURRET:DEMAND"/>
+		<property name="statusPv" value="BL13I-MO-CAM-01:TURRET:CURRENTPOS"/>
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 

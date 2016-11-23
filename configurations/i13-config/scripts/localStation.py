@@ -101,8 +101,8 @@ def meta_add_i13i():
 		cam_pv = meta_texts_cam["pco_cam_model"]
 		pco_cam_model_rbv = caget(cam_pv)
 		if "edge" in pco_cam_model_rbv.lower():
-			#meta_texts_cam.update({"focus_pco_edge_label": "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS"})
-			#meta_texts_cam.update({"focus_pco_edge": "BL13I-MO-STAGE-02:FOCUS2.RBV"})
+			#meta_texts_cam.update({"focus_pco_edge_label": "BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS"})
+			#meta_texts_cam.update({"focus_pco_edge": "BL13I-MO-CAM-02:FOCUS.RBV"})
 			#meta_scannables.append(pco_edge_agg)
 			pass
 		elif "4000" in pco_cam_model_rbv.lower():
@@ -222,20 +222,21 @@ try:
 			position6="4x Pink"
 			position7="2x Pink"
 
-			caput("BL13I-EA-TURR-01:DEMAND.ZRST",position1)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ZRST", position1)
-			caput("BL13I-EA-TURR-01:DEMAND.ONST", position2)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.ONST", position2)
-			caput("BL13I-EA-TURR-01:DEMAND.TWST", position3)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.TWST", position3)
-			caput("BL13I-EA-TURR-01:DEMAND.THST", position4)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.THST", position4)
-			caput("BL13I-EA-TURR-01:DEMAND.FRST", position5)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FRST", position5)
-			caput("BL13I-EA-TURR-01:DEMAND.FVST", position6)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.FVST", position6)
-			caput("BL13I-EA-TURR-01:DEMAND.SXST", position7)
-			caput("BL13I-EA-TURR-01:CURRENTPOS.SXST", position7)
+			turret_prefix = "BL13I-MO-CAM-01:TURRET"
+			caput(turret_prefix + ":DEMAND.ZRST",position1)
+			caput(turret_prefix + ":CURRENTPOS.ZRST", position1)
+			caput(turret_prefix + ":DEMAND.ONST", position2)
+			caput(turret_prefix + ":CURRENTPOS.ONST", position2)
+			caput(turret_prefix + ":DEMAND.TWST", position3)
+			caput(turret_prefix + ":CURRENTPOS.TWST", position3)
+			caput(turret_prefix + ":DEMAND.THST", position4)
+			caput(turret_prefix + ":CURRENTPOS.THST", position4)
+			caput(turret_prefix + ":DEMAND.FRST", position5)
+			caput(turret_prefix + ":CURRENTPOS.FRST", position5)
+			caput(turret_prefix + ":DEMAND.FVST", position6)
+			caput(turret_prefix + ":CURRENTPOS.FVST", position6)
+			caput(turret_prefix + ":DEMAND.SXST", position7)
+			caput(turret_prefix + ":CURRENTPOS.SXST", position7)
 
 
 			#make the lens re-read its list of positions following setting them in EPICS above

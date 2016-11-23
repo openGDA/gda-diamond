@@ -4,23 +4,23 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="cs2_focus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13I-MO-STAGE-03:FOCUS"/>
+		<property name="pvName" value="BL13I-MO-CAM-03:FOCUS"/>
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="cs2_rotation_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL13I-MO-STAGE-03:ROT"/>
+		<property name="pvName" value="BL13I-MO-CAM-03:ROT"/>
 		<property name="local" value="true" />
 	</bean>
 
  	<bean id="cs2_objective" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="controlPv" value="BL13I-EA-TURR-02:DEMAND"/>
-		<property name="statusPv" value="BL13I-EA-TURR-02:CURRENTPOS"/>
+		<property name="controlPv" value="BL13I-MO-CAM-03:TURRET:DEMAND"/>
+		<property name="statusPv" value="BL13I-MO-CAM-03:TURRET:CURRENTPOS"/>
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 
 	<bean id="cs2_focus_pos" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="recordName" value="BL13I-MO-STAGE-03:FOCUS:MP" />
+		<property name="recordName" value="BL13I-MO-CAM-03:FOCUS:MP" />
 	</bean>
 
 </beans>

@@ -330,8 +330,9 @@ class StringListDisplayEpicsPVClass(ScannableMotionBase):
 
 pco_cam_model = StringDisplayEpicsPVClass("pco_cam_model", "BL13I-EA-DET-01:CAM:Model_RBV")
 
-pco_edge_focus_label = StringDisplayEpicsPVClass("focus_pco_edge_label", "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS")
-pco_edge_focus = StringDisplayEpicsPVClass("focus_pco_edge", "BL13I-MO-STAGE-02:FOCUS2.RBV")
+pco_focus_prefix = "BL13I-MO-CAM-02:FOCUS"
+pco_edge_focus_label = StringDisplayEpicsPVClass("focus_pco_edge_label", pco_focus_prefix + ":MP:RBV:CURPOS")
+pco_edge_focus = StringDisplayEpicsPVClass("focus_pco_edge", pco_focus_prefix + ".RBV")
 
 pco_4000_focus_label = StringDisplayEpicsPVClass("focus_pco_4000_label", "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS")
 pco_4000_focus = StringDisplayEpicsPVClass("focus_pco_4000", "BL13I-MO-STAGE-02:FOCUS.RBV")
@@ -390,7 +391,7 @@ except Exception, ex:
     print "Failed to create the filter_sticks group: ", str(ex)
 
 
-#pco_edge_aggregate = StringListDisplayEpicsPVClass("pco_edge_aggregate", ["pco_cam_model", "pco_edge_focus_label", "pco_edge_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", "BL13I-MO-STAGE-02:FOCUS2:MP:RBV:CURPOS", "BL13I-MO-STAGE-02:FOCUS2.RBV"])
+#pco_edge_aggregate = StringListDisplayEpicsPVClass("pco_edge_aggregate", ["pco_cam_model", "pco_edge_focus_label", "pco_edge_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", pco_focus_prefix + ":MP:RBV:CURPOS", pco_focus_prefix + ".RBV"])
 #pco_4000_aggregate = StringListDisplayEpicsPVClass("pco_4000_aggregate", ["pco_cam_model", "pco_4000_focus_label", "pco_4000_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS", "BL13I-MO-STAGE-02:FOCUS.RBV"])
 
 def isLive():
