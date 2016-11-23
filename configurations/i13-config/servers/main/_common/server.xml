@@ -19,7 +19,6 @@
 	<import resource="beamlineEnergyController.xml" />
 	<import resource="metadata.xml" />
 	<import resource="imageProcessors.xml" />
-	<import resource="jythonServerFacade.xml" />
 	<import resource="mapping_scan_server.xml" />
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
@@ -166,5 +165,8 @@
  	<import resource="cameraStageScannables.xml" />
  	<import resource="dataFileMonitor.xml" />
  	<import resource="rcpController.xml" />
+ 	
+ 	<!-- Initialise Jython late on, as localStation refers to beans -->
+	<import resource="jythonServerFacade.xml" />
 
 </beans>
