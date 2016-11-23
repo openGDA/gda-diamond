@@ -1,5 +1,8 @@
 import os
+import time 
+import datetime
 import subprocess
+import csv
 from time import sleep
 from gda.data import NumTracker
 from gdascripts.messages import handle_messages
@@ -15,6 +18,8 @@ from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, ca
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import EpicsScannable
 from gda.jython import InterfaceProvider
+from gda.jython.commands import GeneralCommands
+from tomographyScan import tomoFlyScan
 
 print "Running i13i_utilities.py..."
 
@@ -396,7 +401,7 @@ def isLive():
 
 def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="na"):
     """
-    Function to run a sequence of tomography fly scans to test the response of the file system. 
+    Function to run a sequence of tomography fly scans to test the performance of the file system. 
     
     Args:
         nScans - initial number of scans, which is then repeated ad infinitum
@@ -440,4 +445,98 @@ def stressTest(nScans=100, pathToVisit="/dls/i13/data/2016/cm14467-4", filesys="
         flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(windowsSubString_dct[filesys])
     print "Finished executing stressTest - bye!"
     
+    
+    
+def stressfly13(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i13/data/2016/cm14467-4", filesys="na"):
+    """
+    Fn to collect a series of fly scans for testing purposes with the following:
+	dummy translation stage is expected to be used!
+	no flats and darks
+	all scan files going to the tmp sub-directory of the input pathToVisitDir
+ 
+    nscans = tot number of scans to be run
+    exposureTime = exposure time in seconds
+    start = first rotation angle
+    stop = last rotation angle
+    step = rotation step size
+    pathToVisitDir = path to a directory which GDA can use for writing log files, ie /dls/i13/data/2016/cm14467-4
+    filesys = 'na' for NetApp and 'gpfs' for GPFS01
+    """
+    _fn = stressfly13.__name__
+    windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "t:\\i13\\data\\"}
+    flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
+    #windowsSubString_saved = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    #print "windowsSubString_saved = %s" %(windowsSubString_saved)
+    print "Setting windowsSubString to %s..." %(windowsSubString_dct[filesys])
+    flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(windowsSubString_dct[filesys])
+    print "Current windowsSubString = %s" %(flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString())
+    
+    pv_after_scan = {"HDF5:IOSpeed": "BL13I-EA-DET-01:HDF5:IOSpeed", "HDF5:DroppedArrays": "BL13I-EA-DET-01:HDF5:DroppedArrays_RBV", "HDF5:RunTime": "BL13I-EA-DET-01:HDF5:RunTime"}
+    log_subdir_path = "raw/testout"
+    log_dir_path = os.path.join(pathToVisitDir, log_subdir_path)  # it appears GDA can't save files in tmp or processing
+    print "log_dir_path = %s" %(log_dir_path)
+    if (not os.path.exists(log_dir_path)):
+        try:
+            os.makedirs(log_dir_path)
+        except Exception, e:
+            msg="Failed to create sub-directory %s: " %(log_dir_path)
+            raise Exception(msg + str(e))
+    log_file_name = _fn
+    timestr_template = "%d-%m-%Y-%H-%M-%S"
+    timestr = time.strftime(timestr_template)
+    log_file_name += ("_%s_" %(filesys))
+    log_file_name += timestr
+    #log_file_name += ".log"
+    log_file_name += ".csv"
+    log_file_path = os.path.join(log_dir_path,log_file_name)
+    fh = open(log_file_path, 'wt')
+    print "Saving log file in: %s\n" %(log_file_path)
+    
+    title_saved = getTitle()
+    title = _fn +"_" + filesys
+    msg = wd()
+    print "Saving data in: " + msg
+    try:
+        i =-1
+        timestr_template_HMS = "%H:%M:%S"
+        csv_writer = csv.writer(fh)
+        #msg = "scan iter \t scan number \t start time \t end time \t elapsed (min) \t HDF5:IOSpeed \t HDF5:RunTime \t HDF5:Dropped"
+        #fh.write(msg+"\n")
+        csv_writer.writerow(('scan iter', 'scan number', 'start time', 'end time', 'elapsed (min)', 'HDF5:IOSpeed', 'HDF5:RunTime', 'HDF5:Dropped'))
+        for i in range(nscans):
+            interruptable()             # for breaking this loop when GDA Abort button is pressed
+            title_tmp = title
+            title_tmp += "_%d/%d" %((i+1), nscans)
+            setTitle(title_tmp)
+            timestr_start = time.strftime(timestr_template_HMS)
+            print "Starting scan iter %d (of %d), start time: %s." %(i+1, nscans, timestr_start)
+            #msg = "scan iter: %d/%d, scan number: %d, start time: %s" %((i+1), nscans, nfn(), timestr_start)
+            #fh.write(msg+"\n")
+            start_time = time.time()
+            tomoFlyScan(inBeamPosition=0., outOfBeamPosition=1., exposureTime=exposureTime, \
+                                       start=start, stop=stop, step=step, \
+                                       imagesPerDark=0, imagesPerFlat=0)
+            end_time = time.time()
+            elapsed_min = (end_time - start_time)/60.0
+            timestr_end = time.strftime(timestr_template_HMS)
+            #msg = "scan iter: %d/%d, scan number: %d, start time: %s, end time: %s, elapsed (min): %f, HDF5:IOSpeed: %s, HDF5:Dropped: %s" %((i+1), nscans, cfn(), timestr_start, timestr_end, elapsed_min, str(caget(pv_after_scan["HDF5:IOSpeed"])), str(caget(pv_after_scan["HDF5:DroppedArrays"])))
+            #msg = "%d/%d \t %d \t %s \t %s \t %f \t %s \t %s \t %s" %((i+1), nscans, cfn(), timestr_start, timestr_end, elapsed_min, str(caget(pv_after_scan["HDF5:IOSpeed"])), str(caget(pv_after_scan["HDF5:RunTime"])), str(caget(pv_after_scan["HDF5:DroppedArrays"])))
+            #fh.write(msg+"\n")
+            csv_writer.writerow(("%d/%d" %((i+1), nscans), cfn(), timestr_start, timestr_end, elapsed_min, str(caget(pv_after_scan["HDF5:IOSpeed"])), str(caget(pv_after_scan["HDF5:RunTime"])), str(caget(pv_after_scan["HDF5:DroppedArrays"]))))
+            print "Finished scan iter %d (of %d), end time: %s." %(i+1, nscans, timestr_end)
+            interruptable()             # for breaking this loop when GDA Abort button is pressed
+    except Exception, e:
+        msg = "Scan %d (of %d) has failed: " %(i+1, nscans)
+        print msg + str(e)
+    finally:
+        fh.close()
+        setTitle(title_saved)
+    print "\n Finished executing %s - bye!" %(_fn)
+
+def interruptable():
+    """
+    Fn to facilitate making for-loops interruptable in GDA: need to call this fn in the 1st or the last line of a for-loop
+    """
+    GeneralCommands.pause()
+
 print "Finished running i13i_utilities.py!"

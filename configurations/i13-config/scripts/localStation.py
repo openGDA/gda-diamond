@@ -14,7 +14,7 @@ from tomographyXGIScan import tomoXGIScan
 import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
-from i13i_utilities import isLive
+from i13i_utilities import isLive, interruptable
 from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks, filter_stick_1, filter_stick_2, filter_stick_3, filter_stick_4, filter_stick_5, beamline_xray_mode
 from i13i_utilities import ionc_A_over_V_gain, ionc_gainmode, ionc_acdc
 
@@ -57,11 +57,11 @@ def fs_control():
 	else:
 		pos fs "Open"
 
-def interruptable():
-	"""
-	Fn to facilitate making for-loops interruptable in GDA: need to call this fn in the 1st or the last line of a for-loop
-	"""
-	GeneralCommands.pause()
+# def interruptable():
+# 	"""
+# 	Fn to facilitate making for-loops interruptable in GDA: need to call this fn in the 1st or the last line of a for-loop
+# 	"""
+# 	GeneralCommands.pause()
 
 def ls_scannables():
 	ls_names(Scannable)
@@ -352,7 +352,7 @@ try:
 		createPVScannable('xgi_grat_y','BL13I-MO-SMAR-01:Y2.VAL')
 		createPVScannable('xgi_grat_z','BL13I-MO-SMAR-01:Z2.VAL')
 		
-		_stressTesting = False
+		_stressTesting = True
 		if _stressTesting:
 			from i13i_utilities import stressTest
 			LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")

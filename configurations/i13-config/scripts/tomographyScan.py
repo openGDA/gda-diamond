@@ -28,11 +28,10 @@ from gda.data.scan.datawriter import *
 from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
 from org.eclipse.january.dataset import DatasetUtils
 from org.eclipse.january.dataset import Dataset
-
+from gda.configuration.properties import LocalProperties
 from gda.commandqueue import JythonScriptProgressProvider
 from gda.commandqueue import JythonCommandCommandProvider
 from org.slf4j import LoggerFactory
-from i13i_utilities import isLive
 
 finder = Finder.getInstance()
 
@@ -148,21 +147,7 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     else:
         print "Defaults used for unsupported tomography detector in addNXTomoSubentry: " + tomography_detector_name
 
-    if kwargs.has_key("approxCOR") and (kwargs["approxCOR"] is not None):
-        approxCOR = kwargs["approxCOR"]
-        if approxCOR[0] is None:
-            nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
-        else:
-            nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(approxCOR[0])
-            
-        if approxCOR[1] is None:
-            nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
-        else:
-            nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(approxCOR[1])
-    else:
-        nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
-        nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
-    
+    _addNXTomoSubentryValues(nxLinkCreator, **kwargs)
     nxLinkCreator.afterPropertiesSet()
    
     dataWriter = createDataWriterFromFactory()
@@ -205,23 +190,7 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
         instrument_detector_data_target += "image_data:SDS"
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
    
-    if kwargs.has_key("approxCOR") and (kwargs["approxCOR"] is not None):
-        approxCOR = kwargs["approxCOR"]
-        print "Found it!"
-        print approxCOR
-        if approxCOR[0] is None:
-            nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
-        else:
-            nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(approxCOR[0])
-            
-        if approxCOR[1] is None:
-            nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
-        else:
-            nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(approxCOR[1])
-    else:
-        nxLinkCreator.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
-        nxLinkCreator.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
-        
+    _addNXTomoSubentryValues(nxLinkCreator, **kwargs)
     nxLinkCreator.afterPropertiesSet()
    
     dataWriter = createDataWriterFromFactory()
@@ -671,7 +640,9 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
     """
     startTm = datetime.datetime.now()
     if flatFieldAngle is None:
-        print "Each flat field will be taken at the most recent angle as the stage rotates during the scan, with the first flat field being taken at the scan start angle of %.4f deg" %(start)
+        msg = "\n Each flat field will be taken at the most recent angle as the stage rotates during the scan, \n"
+        msg += " with the first flat field being taken at the scan start angle of %.4f deg" %(start)
+        print msg
     else:
         print "All flat fields will be taken at the same, user-specified angle of %.4f deg" %(flatFieldAngle)
         if start < stop:
@@ -872,15 +843,17 @@ def ProcessScanParameters(scanParameterModelXML):
     updateProgress(0, "Starting tomoscan " + parameters.getTitle());
     logger.info("Starting tomoscan with parameters: " + parameters.toString())
 
-    cor_x = cor_y = None
+    det_dist, det_dist_units = _process_scan_parameters_det_dist(parameters)
+    x_pixel_size, x_pixel_size_units, y_pixel_size, y_pixel_size_units = _process_scan_parameters_pixel_size(parameters)
+    cor_x, cor_y = _process_scan_parameters_cor(parameters)
+    print("Input (cor_x, cor_y) = (%s, %s)" %(str(cor_x), str(cor_y)))
+    lin_stage, rot_stage = _process_scan_parameters_stages(parameters)
+    if not lin_stage is None:
+        print("Using lin_stage: %s" %(lin_stage.getName()))
+    if not rot_stage is None:
+        print("Using rot_stage: %s" %(rot_stage.getName()))
+    
     if (parameters.flyScan):
-        #cor_x = cor_y = None
-        if parameters.approxCentreOfRotation is not None:
-            print "Input CoR = %.3f" %(parameters.approxCentreOfRotation)
-        else:
-            print("Input CoR's type = " + type(parameters.approxCentreOfRotation))
-        cor_x, cor_y = getApproxCoR()
-        print("(cor_x, cor_y) = (%s, %s)" %(str(cor_x), str(cor_y)))   
         qFlyScanBatch(parameters.numFlyScans, parameters.title, parameters.flyScanDelay, 
                       parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
                       darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
@@ -1545,3 +1518,180 @@ def getApproxCoR():
     cor_y = None
     return cor_x, cor_y
 
+def _process_scan_parameters_cor(parameters):
+    cor_x = cor_y = None
+    if len(parameters.approxCentreOfRotation) > 0:
+        print "Input CoR = %s" %(parameters.approxCentreOfRotation)
+        print "Input CoR len = %i" %(len(parameters.approxCentreOfRotation))
+        print("Input CoR's type = %s" %(type(parameters.approxCentreOfRotation)))
+        cor_y = None
+        try:
+            cor_x = float(parameters.approxCentreOfRotation)
+        except Exception, e:
+            cor_x, cor_y = getApproxCoR()
+            print("cor_y type = %s" %(type(cor_y)))
+            msg = "Error reading input cor_x: %s. Using default value of %.3f instead!" %(str(e), cor_x)
+            print msg
+    else:
+        cor_x, cor_y = getApproxCoR()
+    return cor_x, cor_y
+    
+def _process_scan_parameters_det_dist(parameters):
+    det_dist = None
+    if len(parameters.detectorToSampleDistance) > 0:
+        print "Input detectorToSampleDistance = %s" %(parameters.detectorToSampleDistance)
+        print "Input detectorToSampleDistance len = %i" %(len(parameters.detectorToSampleDistance))
+        print("Input detectorToSampleDistance's type = %s" %(type(parameters.detectorToSampleDistance)))
+        try:
+            det_dist = float(parameters.detectorToSampleDistance)
+        except Exception, e:
+            msg = "Error reading input detectorToSampleDistance: %s. Using default value instead!" %(str(e))
+            print msg
+    else:
+        print("No input detectorToSampleDistance. Using default value.")
+    return det_dist, parameters.detectorToSampleDistanceUnits
+
+def _process_scan_parameters_pixel_size(parameters):
+    x_pixel_size = None
+    if len(parameters.XPixelSize) > 0:
+        print "Input XPixelSize = %s" %(parameters.XPixelSize)
+        print "Input XPixelSize len = %i" %(len(parameters.XPixelSize))
+        print("Input XPixelSize's type = %s" %(type(parameters.XPixelSize)))
+        try:
+            x_pixel_size = float(parameters.XPixelSize)
+        except Exception, e:
+            msg = "Error reading input XPixelSize: %s. Using default value instead!" %(str(e))
+            print msg
+    else:
+        print("No input XPixelSize. Using default value.")
+        
+    y_pixel_size = None
+    if len(parameters.YPixelSize) > 0:
+        print "Input YPixelSize = %s" %(parameters.YPixelSize)
+        print "Input YPixelSize len = %i" %(len(parameters.YPixelSize))
+        print("Input YPixelSize's type = %s" %(type(parameters.YPixelSize)))
+        try:
+            y_pixel_size = float(parameters.YPixelSize)
+        except Exception, e:
+            msg = "Error reading input YPixelSize: %s. Using default value instead!" %(str(e))
+            print msg
+    else:
+        print("No input YPixelSize. Using default value.")
+    return x_pixel_size, parameters.XPixelSizeUnits, y_pixel_size, parameters.YPixelSizeUnits
+
+def _process_scan_parameters_stages(parameters):
+    lin_stage = None
+    if len(parameters.linearStage) > 0:
+        print "Input linearStage = %s" %(parameters.linearStage)
+        print "Input linearStage len = %i" %(len(parameters.linearStage))
+        print("Input linearStage's type = %s" %(type(parameters.linearStage)))
+        try:
+            lin_stage = finder.find(parameters.linearStage)
+        except Exception, e:
+            msg = "Error reading input linearStage: %s. Using value in live_JythonNamespaceMapping." %(str(e))
+            print msg
+    else:
+        print("No input linearStage. Using value in live_JythonNamespaceMapping.")
+    
+    rot_stage = None
+    if len(parameters.rotationStage) > 0:
+        print "Input rotationStage = %s" %(parameters.rotationStage)
+        print "Input rotationStage len = %i" %(len(parameters.rotationStage))
+        print("Input rotationStage's type = %s" %(type(parameters.rotationStage)))
+        try:
+            rot_stage = finder.find(parameters.rotationStage)
+        except Exception, e:
+            msg = "Error reading input rotationStage: %s. Using value in live_JythonNamespaceMapping." %(str(e))
+            print msg
+    else:
+        print("No input rotationStage. Using value in live_JythonNamespaceMapping.")
+    return lin_stage, rot_stage
+
+
+def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
+    if kwargs.has_key("approxCOR") and (kwargs["approxCOR"] is not None):
+        approxCOR = kwargs["approxCOR"]
+        print "approxCOR:"
+        print approxCOR
+        if approxCOR[0] is None:
+            nxLinkCreatorObj.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
+        else:
+            nxLinkCreatorObj.setInstrument_detector_x_rotation_axis_pixel_position(approxCOR[0])
+            
+        if approxCOR[1] is None:
+            nxLinkCreatorObj.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
+        else:
+            nxLinkCreatorObj.setInstrument_detector_y_rotation_axis_pixel_position(approxCOR[1])
+    else:
+        nxLinkCreatorObj.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
+        nxLinkCreatorObj.setInstrument_detector_y_rotation_axis_pixel_position(float('nan'))
+        
+    if kwargs.has_key("detectorToSampleDistance") and (kwargs["detectorToSampleDistance"] is not None):
+        detectorToSampleDistance = kwargs["detectorToSampleDistance"]
+        print "detectorToSampleDistance:"
+        print detectorToSampleDistance
+        if detectorToSampleDistance is None:
+            nxLinkCreatorObj.setInstrument_detector_distance(float('nan'))
+        else:
+            nxLinkCreatorObj.setInstrument_detector_distance(detectorToSampleDistance)
+    else:
+        nxLinkCreatorObj.setInstrument_detector_distance(float('nan'))
+    
+    if kwargs.has_key("detectorToSampleDistanceUnits") and (kwargs["detectorToSampleDistanceUnits"] is not None):
+        detectorToSampleDistanceUnits = kwargs["detectorToSampleDistanceUnits"]
+        print "detectorToSampleDistanceUnits:"
+        print detectorToSampleDistanceUnits
+        if detectorToSampleDistanceUnits is None or len(detectorToSampleDistanceUnits) == 0:
+            nxLinkCreatorObj.setInstrument_detector_distance_units('undefined')
+        else:
+            nxLinkCreatorObj.setInstrument_detector_distance_units(detectorToSampleDistanceUnits)
+    else:
+        nxLinkCreatorObj.setInstrument_detector_distance_units('undefined')
+    
+    if kwargs.has_key("XPixelSize") and (kwargs["XPixelSize"] is not None):
+        XPixelSize = kwargs["XPixelSize"]
+        print "XPixelSize:"
+        print XPixelSize
+        if XPixelSize is None:
+            nxLinkCreatorObj.setInstrument_detector_x_pixel_size(float('nan'))
+        else:
+            nxLinkCreatorObj.setInstrument_detector_x_pixel_size(XPixelSize)
+    else:
+        nxLinkCreatorObj.setInstrument_detector_x_pixel_size(float('nan'))
+    
+    if kwargs.has_key("XPixelSizeUnits") and (kwargs["XPixelSizeUnits"] is not None):
+        XPixelSizeUnits = kwargs["XPixelSizeUnits"]
+        print "XPixelSizeUnits:"
+        print XPixelSizeUnits
+        if XPixelSizeUnits is None or len(XPixelSizeUnits) == 0:
+            nxLinkCreatorObj.setInstrument_detector_pixel_size_units('undefined')
+        else:
+            nxLinkCreatorObj.setInstrument_detector_pixel_size_units(XPixelSizeUnits)
+    else:
+        nxLinkCreatorObj.setInstrument_detector_pixel_size_units('undefined')
+        
+    if kwargs.has_key("YPixelSize") and (kwargs["YPixelSize"] is not None):
+        YPixelSize = kwargs["YPixelSize"]
+        print "YPixelSize:"
+        print YPixelSize
+        if YPixelSize is None:
+            nxLinkCreatorObj.setInstrument_detector_y_pixel_size(float('nan'))
+        else:
+            nxLinkCreatorObj.setInstrument_detector_y_pixel_size(YPixelSize)
+    else:
+        nxLinkCreatorObj.setInstrument_detector_y_pixel_size(float('nan'))
+    
+    if kwargs.has_key("YPixelSizeUnits") and (kwargs["YPixelSizeUnits"] is not None):
+        YPixelSizeUnits = kwargs["YPixelSizeUnits"]
+        print "YPixelSizeUnits:"
+        print YPixelSizeUnits
+        if YPixelSizeUnits is None or len(YPixelSizeUnits) == 0:
+            nxLinkCreatorObj.setInstrument_detector_pixel_size_units('undefined')
+        else:
+            nxLinkCreatorObj.setInstrument_detector_pixel_size_units(YPixelSizeUnits)
+    else:
+        nxLinkCreatorObj.setInstrument_detector_pixel_size_units('undefined')
+
+def isLive():
+    mode = LocalProperties.get("gda.mode")
+    return mode =="live" or mode =="live_localhost"
