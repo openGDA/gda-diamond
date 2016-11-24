@@ -7,7 +7,13 @@
 		<project>uk.ac.gda.epics</project>
 	</projects>
 	<buildSpec>
+		<buildCommand>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 	</natures>
 </projectDescription>

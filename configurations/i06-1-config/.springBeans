@@ -8,19 +8,8 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>servers/main/live/devices/accessControl.xml</config>
-		<config>servers/main/_common/devices/d8.xml</config>
-		<config>servers/main/_common/devices/s6.xml</config>
-		<config>servers/main/_common/devices/d9.xml</config>
-		<config>servers/main/_common/devices/m7.xml</config>
-		<config>servers/main/_common/devices/s7.xml</config>
-		<config>servers/main/_common/devices/d10.xml</config>
-		<config>servers/main/_common/devices/d11.xml</config>
-		<config>servers/main/_common/devices/d12.xml</config>
-		<config>servers/main/_common/devices/magnet.xml</config>
-		<config>servers/main/_common/devices/userMotors.xml</config>
 		<config>servers/main/live/devices/accessCheckedPgmEnergy.xml</config>
 		<config>servers/main/live/devices/branchShutter.xml</config>
-		<config>servers/main/_common/devices/CHP.xml</config>
 		<config>servers/main/live/devices/CHP.xml</config>
 		<config>servers/main/live/devices/d10.xml</config>
 		<config>servers/main/live/devices/d11.xml</config>
@@ -29,27 +18,19 @@
 		<config>servers/main/live/devices/d9.xml</config>
 		<config>servers/main/live/devices/dd_cam6.xml</config>
 		<config>servers/main/live/devices/endStationDD.xml</config>
-		<config>servers/main/_common/devices/endStationDD.xml</config>
 		<config>servers/main/live/devices/gv17.xml</config>
-		<config>servers/main/_common/devices/laser.xml</config>
 		<config>servers/main/live/devices/laser.xml</config>
 		<config>servers/main/live/devices/m7.xml</config>
 		<config>servers/main/live/devices/mobilerack_cam1.xml</config>
-		<config>servers/main/_common/devices/mobilerack.xml</config>
 		<config>servers/main/live/devices/mobilerack.xml</config>
 		<config>servers/main/live/devices/pixis.xml</config>
 		<config>servers/main/live/devices/polarimeter.xml</config>
-		<config>servers/main/_common/devices/polarimeter.xml</config>
 		<config>servers/main/live/devices/s6.xml</config>
 		<config>servers/main/live/devices/s7.xml</config>
 		<config>servers/main/_common/server.xml</config>
-		<config>servers/main/_common/devices/shutters.xml</config>
 		<config>servers/main/_common/terminal_logger.xml</config>
-		<config>servers/main/_common/devices/u2.xml</config>
 		<config>servers/main/live/devices/u2.xml</config>
 		<config>servers/main/live/devices/userMotors.xml</config>
-		<config>servers/main/_common/devices/valves.xml</config>
-		<config>servers/main/_common/devices/_all.xml</config>
 		<config>servers/main/live/devices/_all.xml</config>
 		<config>servers/main/live/server.xml</config>
 	</configs>
@@ -61,24 +42,6 @@
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>
-				<config>servers/main/_common/devices/CHP.xml</config>
-				<config>servers/main/_common/devices/d10.xml</config>
-				<config>servers/main/_common/devices/d11.xml</config>
-				<config>servers/main/_common/devices/d12.xml</config>
-				<config>servers/main/_common/devices/d8.xml</config>
-				<config>servers/main/_common/devices/d9.xml</config>
-				<config>servers/main/_common/devices/endStationDD.xml</config>
-				<config>servers/main/_common/devices/laser.xml</config>
-				<config>servers/main/_common/devices/m7.xml</config>
-				<config>servers/main/_common/devices/magnet.xml</config>
-				<config>servers/main/_common/devices/mobilerack.xml</config>
-				<config>servers/main/_common/devices/polarimeter.xml</config>
-				<config>servers/main/_common/devices/s6.xml</config>
-				<config>servers/main/_common/devices/s7.xml</config>
-				<config>servers/main/_common/devices/shutters.xml</config>
-				<config>servers/main/_common/devices/u2.xml</config>
-				<config>servers/main/_common/devices/userMotors.xml</config>
-				<config>servers/main/_common/devices/valves.xml</config>
 				<config>servers/main/_common/server.xml</config>
 				<config>servers/main/_common/terminal_logger.xml</config>
 				<config>servers/main/live/devices/accessCheckedPgmEnergy.xml</config>
@@ -103,7 +66,6 @@
 				<config>servers/main/live/devices/s7.xml</config>
 				<config>servers/main/live/devices/u2.xml</config>
 				<config>servers/main/live/devices/userMotors.xml</config>
-				<config>servers/main/_common/devices/_all.xml</config>
 				<config>servers/main/live/devices/_all.xml</config>
 				<config>servers/main/live/server.xml</config>
 			</configs>

@@ -10,36 +10,20 @@
 		<config>servers/main/live/devices/peemShutter.xml</config>
 		<config>servers/main/live/devices/gv11.xml</config>
 		<config>servers/main/live/devices/d7.xml</config>
-		<config>servers/main/_common/devices/valves.xml</config>
-		<config>servers/main/_common/devices/shutters.xml</config>
 		<config>servers/main/live/devices/m4.xml</config>
 		<config>servers/main/live/devices/u1.xml</config>
-		<config>servers/main/_common/devices/u1.xml</config>
 		<config>servers/main/live/devices/m3.xml</config>
-		<config>servers/main/_common/devices/m3.xml</config>
 		<config>servers/main/live/devices/d5.xml</config>
 		<config>servers/main/live/devices/s4.xml</config>
 		<config>servers/main/live/devices/d6.xml</config>
 		<config>servers/main/live/devices/s5.xml</config>
 		<config>servers/main/live/devices/peemStage.xml</config>
 		<config>servers/main/live/devices/peemExitSlit.xml</config>
-		<config>servers/main/_common/devices/peemExitSlit.xml</config>
 		<config>servers/main/live/devices/uview.xml</config>
-		<config>servers/main/_common/devices/d5.xml</config>
-		<config>servers/main/_common/devices/s4.xml</config>
-		<config>servers/main/_common/devices/d6.xml</config>
-		<config>servers/main/_common/devices/d7.xml</config>
-		<config>servers/main/_common/devices/d7a.xml</config>
-		<config>servers/main/_common/devices/s5.xml</config>
-		<config>servers/main/_common/devices/m4.xml</config>
-		<config>servers/main/_common/devices/m5.xml</config>
-		<config>servers/main/_common/devices/peemStage.xml</config>
 		<config>servers/main/live/devices/d7a.xml</config>
 		<config>servers/main/live/devices/m5.xml</config>
 		<config>servers/main/live/devices/peemCamera1.xml</config>
 		<config>servers/main/_common/server.xml</config>
-		<config>servers/main/live/devices/_all.xml</config>
-		<config>servers/main/_common/devices/_all.xml</config>
 		<config>servers/main/live/devices/accessControl.xml</config>
 		<config>servers/main/live/devices/userMotors.xml</config>
 		<config>servers/main/live/devices/accessCheckedPgmEnergy.xml</config>
@@ -64,7 +48,8 @@
 		<config>xml/client/swingclient_core.xml</config>
 		<config>servers/main/_common/terminal_logger.xml</config>
 		<config>xml/testicat.xml</config>
-		<config>servers/main/_common/devices/userMotors.xml</config>
+		<config>servers/main/live/devices/_all_devices.xml</config>
+		<config>servers/main/live/epicsConfiguration.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
@@ -74,25 +59,8 @@
 			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
 			<incomplete>false</incomplete>
 			<configs>
-				<config>servers/main/_common/devices/_all.xml</config>
-				<config>servers/main/_common/devices/d5.xml</config>
-				<config>servers/main/_common/devices/d6.xml</config>
-				<config>servers/main/_common/devices/d7.xml</config>
-				<config>servers/main/_common/devices/d7a.xml</config>
-				<config>servers/main/_common/devices/m3.xml</config>
-				<config>servers/main/_common/devices/m4.xml</config>
-				<config>servers/main/_common/devices/m5.xml</config>
-				<config>servers/main/_common/devices/peemExitSlit.xml</config>
-				<config>servers/main/_common/devices/peemStage.xml</config>
-				<config>servers/main/_common/devices/s4.xml</config>
-				<config>servers/main/_common/devices/s5.xml</config>
-				<config>servers/main/_common/devices/shutters.xml</config>
-				<config>servers/main/_common/devices/u1.xml</config>
-				<config>servers/main/_common/devices/userMotors.xml</config>
-				<config>servers/main/_common/devices/valves.xml</config>
 				<config>servers/main/_common/server.xml</config>
 				<config>servers/main/_common/terminal_logger.xml</config>
-				<config>servers/main/live/devices/_all.xml</config>
 				<config>servers/main/live/devices/accessCheckedPgmEnergy.xml</config>
 				<config>servers/main/live/devices/accessControl.xml</config>
 				<config>servers/main/live/devices/CamC2.xml</config>
@@ -116,6 +84,7 @@
 				<config>servers/main/live/devices/userMotors.xml</config>
 				<config>servers/main/live/devices/uview.xml</config>
 				<config>servers/main/live/server.xml</config>
+				<config>servers/main/live/devices/_all_devices.xml</config>
 			</configs>
 			<profiles>
 			</profiles>

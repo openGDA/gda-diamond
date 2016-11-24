@@ -11,7 +11,7 @@
 
 	<import resource="terminal_logger.xml"/>
 	
-	<import resource="devices/_all.xml"/>
+	<import resource="scannables/_all_scannables.xml"/>
 	
 	<corba:export namespace="${gda.factory.factoryName}" />
 	

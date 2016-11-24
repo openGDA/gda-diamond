@@ -2,9 +2,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<import resource="../../../../i06-shared/servers/main/_common/gdaProperties.xml"/>
+	<import resource="../../../../i06-shared/servers/main/live/epicsConfiguration.xml"/>
 
-
-	<import resource="devices/_all.xml"/>
+	<import resource="../../../../i06-shared/servers/main/live/server.xml"/>
+	<import resource="devices/_all_devices.xml"/>
 
 <!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />
