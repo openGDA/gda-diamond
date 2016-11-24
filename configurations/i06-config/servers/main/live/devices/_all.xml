@@ -3,6 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<import resource="accessControl.xml"/>
+	<import resource="accessCheckedPgmEnergy.xml"/>
 	<import resource="m3.xml"/>
 	<import resource="d5.xml"/>
 	<import resource="peemShutter.xml"/>
@@ -11,15 +13,18 @@
 <!-- 	<import resource="CamC2.xml"/> -->
 	<import resource="s5.xml"/>
 	<import resource="d7.xml"/>
+<!-- 	<import resource="d7cam.xml"/> -->
 	<import resource="m4.xml"/>
+	<import resource="m5.xml"/>
+	<import resource="gv11.xml"/>
 	<import resource="d7a.xml"/>
+	<import resource="u1.xml"/>
+	<import resource="userMotors.xml"/>
+	
 	<import resource="peemCamera1.xml"/>
 	<import resource="peemStage.xml"/>
 	<import resource="peemExitSlit.xml"/>
-	<import resource="peemUserMotors.xml"/>
 	<import resource="uview.xml"/>
-	<import resource="u1.xml"/>
-	
 	<import resource="pco.xml"/>
 	
 </beans>

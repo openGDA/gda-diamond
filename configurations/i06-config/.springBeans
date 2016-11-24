@@ -42,7 +42,6 @@
 		<config>servers/main/_common/devices/_all.xml</config>
 		<config>servers/main/live/devices/accessControl.xml</config>
 		<config>servers/main/live/devices/userMotors.xml</config>
-		<config>servers/main/_common/devices/shutterAndValves.xml</config>
 		<config>servers/main/live/devices/accessCheckedPgmEnergy.xml</config>
 		<config>servers/main/live/devices/CamC2.xml</config>
 		<config>xml/client/client_core.xml</config>
@@ -87,7 +86,6 @@
 				<config>servers/main/_common/devices/peemStage.xml</config>
 				<config>servers/main/_common/devices/s4.xml</config>
 				<config>servers/main/_common/devices/s5.xml</config>
-				<config>servers/main/_common/devices/shutterAndValves.xml</config>
 				<config>servers/main/_common/devices/shutters.xml</config>
 				<config>servers/main/_common/devices/u1.xml</config>
 				<config>servers/main/_common/devices/userMotors.xml</config>
