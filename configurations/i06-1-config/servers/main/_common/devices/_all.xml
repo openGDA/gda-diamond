@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="shutters.xml"/>
+	<import resource="valves.xml"/>
+	<import resource="d8.xml"/>
+	<import resource="s6.xml"/>
+	<import resource="CHP.xml"/>
+	<import resource="d9.xml"/>
+	<import resource="m7.xml"/>
+	<import resource="s7.xml"/>
+	<import resource="d10.xml"/>
+	<import resource="d11.xml"/>
+	<import resource="d12.xml"/>
+	<import resource="u2.xml"/>
+	<import resource="userMotors.xml"/>
+	
+	<!-- mobile end station devices below -->
+	<import resource="endStationDD.xml"/>
+	<import resource="laser.xml"/>
+	<import resource="magnet.xml"/>
+	<import resource="mobilerack.xml"/>
+	<import resource="polarimeter.xml"/>
+	
+</beans>

@@ -5,17 +5,11 @@
 
 	<!--   ============================== Access control for PGM   ==============================  -->
 	<!-- PEEM=0 means PEEM Line has control of PGM; BRANCHLINE=1 means Branchline has control of PGM --> 	
-	<bean id="branchena" class="gda.epics.AccessControl">
+	<bean id="accessControl" class="gda.epics.AccessControl">
 		<property name="accessControlPvName" value="BL06I-OP-PGM-01:CONTROLLER" />
 		<property name="defaultAction" value="False" />
 		<property name="enableValue" value="1" />
 		<property name="disableValue" value="0" />
-	</bean>
-
-	<!-- Plane Grating Monochromator (PGM, M2) Motors -->
-	<bean id="MotorEnergy_PGM" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PGM.EN" />
-		<property name="accessControlName" value="branchena" />
 	</bean>
 
 </beans>
