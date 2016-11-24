@@ -12,5 +12,4 @@
 	
 	<corba:export namespace="${gda.factory.factoryName}" />
 	
-	
 </beans>

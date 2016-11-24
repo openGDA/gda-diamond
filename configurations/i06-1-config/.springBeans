@@ -31,8 +31,8 @@
 		<config>servers/main/_common/terminal_logger.xml</config>
 		<config>servers/main/live/devices/u2.xml</config>
 		<config>servers/main/live/devices/userMotors.xml</config>
-		<config>servers/main/live/devices/_all.xml</config>
 		<config>servers/main/live/server.xml</config>
+		<config>servers/main/live/devices/_all_devices.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
@@ -66,8 +66,8 @@
 				<config>servers/main/live/devices/s7.xml</config>
 				<config>servers/main/live/devices/u2.xml</config>
 				<config>servers/main/live/devices/userMotors.xml</config>
-				<config>servers/main/live/devices/_all.xml</config>
 				<config>servers/main/live/server.xml</config>
+				<config>servers/main/live/devices/_all_devices.xml</config>
 			</configs>
 			<profiles>
 			</profiles>
