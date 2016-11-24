@@ -33,6 +33,25 @@
 		<config>servers/main/live/devices/userMotors.xml</config>
 		<config>servers/main/live/server.xml</config>
 		<config>servers/main/live/devices/_all_devices.xml</config>
+		<config>servers/main/_common/scannables/_all_scannables.xml</config>
+		<config>servers/main/_common/scannables/CHP.xml</config>
+		<config>servers/main/_common/scannables/d10.xml</config>
+		<config>servers/main/_common/scannables/d11.xml</config>
+		<config>servers/main/_common/scannables/d12.xml</config>
+		<config>servers/main/_common/scannables/d8.xml</config>
+		<config>servers/main/_common/scannables/d9.xml</config>
+		<config>servers/main/_common/scannables/endStationDD.xml</config>
+		<config>servers/main/_common/scannables/laser.xml</config>
+		<config>servers/main/_common/scannables/m7.xml</config>
+		<config>servers/main/_common/scannables/magnet.xml</config>
+		<config>servers/main/_common/scannables/mobilerack.xml</config>
+		<config>servers/main/_common/scannables/polarimeter.xml</config>
+		<config>servers/main/_common/scannables/s6.xml</config>
+		<config>servers/main/_common/scannables/s7.xml</config>
+		<config>servers/main/_common/scannables/shutters.xml</config>
+		<config>servers/main/_common/scannables/u2.xml</config>
+		<config>servers/main/_common/scannables/userMotors.xml</config>
+		<config>servers/main/_common/scannables/valves.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

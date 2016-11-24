@@ -40,16 +40,29 @@
 		<config>xml/client/client_workstation.xml</config>
 		<config>servers/main/live/devices/d7cam.xml</config>
 		<config>xml/client/i06/Endstations-PCO-2000-cam.xml</config>
-		<config>xml/server/main/live/device/Endstations-PCO-2000-cam.xml</config>
 		<config>xml/client/mjpegViewers.xml</config>
 		<config>servers/main/live/devices/pco.xml</config>
-		<config>xml/server/server_i06-1.xml</config>
 		<config>servers/main/live/server.xml</config>
 		<config>xml/client/swingclient_core.xml</config>
 		<config>servers/main/_common/terminal_logger.xml</config>
 		<config>xml/testicat.xml</config>
 		<config>servers/main/live/devices/_all_devices.xml</config>
-		<config>servers/main/live/epicsConfiguration.xml</config>
+		<config>servers/main/_common/scannables/_all_scannables.xml</config>
+		<config>servers/main/_common/scannables/d5.xml</config>
+		<config>servers/main/_common/scannables/d6.xml</config>
+		<config>servers/main/_common/scannables/d7.xml</config>
+		<config>servers/main/_common/scannables/d7a.xml</config>
+		<config>servers/main/_common/scannables/m3.xml</config>
+		<config>servers/main/_common/scannables/m4.xml</config>
+		<config>servers/main/_common/scannables/m5.xml</config>
+		<config>servers/main/_common/scannables/peemExitSlit.xml</config>
+		<config>servers/main/_common/scannables/peemStage.xml</config>
+		<config>servers/main/_common/scannables/s4.xml</config>
+		<config>servers/main/_common/scannables/s5.xml</config>
+		<config>servers/main/_common/scannables/shutters.xml</config>
+		<config>servers/main/_common/scannables/u1.xml</config>
+		<config>servers/main/_common/scannables/userMotors.xml</config>
+		<config>servers/main/_common/scannables/valves.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
@@ -85,6 +98,81 @@
 				<config>servers/main/live/devices/uview.xml</config>
 				<config>servers/main/live/server.xml</config>
 				<config>servers/main/live/devices/_all_devices.xml</config>
+				<config>/i06-shared/servers/main/_common/commandQueueProcessor.xml</config>
+				<config>/i06-shared/servers/main/_common/commandServer.xml</config>
+				<config>/i06-shared/servers/main/_common/dataArchieval.xml</config>
+				<config>/i06-shared/servers/main/_common/dataWriter.xml</config>
+				<config>/i06-shared/servers/main/_common/GDAMetadata.xml</config>
+				<config>/i06-shared/servers/main/_common/gdaProperties.xml</config>
+				<config>/i06-shared/servers/main/_common/plotServer.xml</config>
+				<config>/i06-shared/servers/main/_common/scanDataPointServer.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/_all_scannables.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/beam.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/ca1.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/ca2.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/ca3.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/ca4.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/d4.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/dashboard.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/dummyScannables.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/energy.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/frontEndAperture.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/id.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/m1.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/m6.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/pgm.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/s1.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/s2.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/s3.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/testMotors.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/xbpm1.xml</config>
+				<config>/i06-shared/servers/main/_common/scannables/xbpm2.xml</config>
+				<config>/i06-shared/servers/main/_common/server.xml</config>
+				<config>/i06-shared/servers/main/live/devices/_all_devices.xml</config>
+				<config>/i06-shared/servers/main/live/devices/agilentADC.xml</config>
+				<config>/i06-shared/servers/main/live/devices/ca1.xml</config>
+				<config>/i06-shared/servers/main/live/devices/ca2.xml</config>
+				<config>/i06-shared/servers/main/live/devices/ca3.xml</config>
+				<config>/i06-shared/servers/main/live/devices/ca4.xml</config>
+				<config>/i06-shared/servers/main/live/devices/d3.xml</config>
+				<config>/i06-shared/servers/main/live/devices/d4.xml</config>
+				<config>/i06-shared/servers/main/live/devices/fastScan.xml</config>
+				<config>/i06-shared/servers/main/live/devices/frontEndAbsorber.xml</config>
+				<config>/i06-shared/servers/main/live/devices/frontEndAperture.xml</config>
+				<config>/i06-shared/servers/main/live/devices/frontEndPermitBeam.xml</config>
+				<config>/i06-shared/servers/main/live/devices/gv2.xml</config>
+				<config>/i06-shared/servers/main/live/devices/id.xml</config>
+				<config>/i06-shared/servers/main/live/devices/m1.xml</config>
+				<config>/i06-shared/servers/main/live/devices/m6.xml</config>
+				<config>/i06-shared/servers/main/live/devices/opticShutter.xml</config>
+				<config>/i06-shared/servers/main/live/devices/pgm.xml</config>
+				<config>/i06-shared/servers/main/live/devices/portShutter.xml</config>
+				<config>/i06-shared/servers/main/live/devices/ringCurrent.xml</config>
+				<config>/i06-shared/servers/main/live/devices/ringEnergy.xml</config>
+				<config>/i06-shared/servers/main/live/devices/s1.xml</config>
+				<config>/i06-shared/servers/main/live/devices/s2.xml</config>
+				<config>/i06-shared/servers/main/live/devices/s3.xml</config>
+				<config>/i06-shared/servers/main/live/devices/testMotors.xml</config>
+				<config>/i06-shared/servers/main/live/devices/xbpm1.xml</config>
+				<config>/i06-shared/servers/main/live/devices/xbpm2.xml</config>
+				<config>/i06-shared/servers/main/live/epicsConfiguration.xml</config>
+				<config>/i06-shared/servers/main/live/server.xml</config>
+				<config>servers/main/_common/scannables/_all_scannables.xml</config>
+				<config>servers/main/_common/scannables/d5.xml</config>
+				<config>servers/main/_common/scannables/d6.xml</config>
+				<config>servers/main/_common/scannables/d7.xml</config>
+				<config>servers/main/_common/scannables/d7a.xml</config>
+				<config>servers/main/_common/scannables/m3.xml</config>
+				<config>servers/main/_common/scannables/m4.xml</config>
+				<config>servers/main/_common/scannables/m5.xml</config>
+				<config>servers/main/_common/scannables/peemExitSlit.xml</config>
+				<config>servers/main/_common/scannables/peemStage.xml</config>
+				<config>servers/main/_common/scannables/s4.xml</config>
+				<config>servers/main/_common/scannables/s5.xml</config>
+				<config>servers/main/_common/scannables/shutters.xml</config>
+				<config>servers/main/_common/scannables/u1.xml</config>
+				<config>servers/main/_common/scannables/userMotors.xml</config>
+				<config>servers/main/_common/scannables/valves.xml</config>
 			</configs>
 			<profiles>
 			</profiles>
