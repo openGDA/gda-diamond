@@ -3,19 +3,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="M7LEGS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="SHUTTERS" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="m7leg1" />
-				<ref bean="m7leg2" />
-				<ref bean="m7leg3" />
-				<ref bean="m7leg4" />
-				<ref bean="m7leg5" />
-				<ref bean="m7leg6" />
+				<ref bean="fepb" />
+				<ref bean="feabsb2" />
+				<ref bean="shtr1" />
+				<ref bean="shtr2" />
+				<ref bean="shtr1j" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
 		<property name="local" value="true"/>
 	</bean>
-
+	
 </beans>
