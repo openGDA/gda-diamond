@@ -6,12 +6,9 @@
 		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
-
-	<import resource="../../../../i06-shared/servers/main/_common/server.xml"/>
-
-	<import resource="terminal_logger.xml"/>
-	
 	<import resource="scannables/_all_scannables.xml"/>
+	<import resource="../../../../i06-shared/servers/main/_common/server.xml"/>
+	<import resource="terminal_logger.xml"/>
 	
 	<corba:export namespace="${gda.factory.factoryName}" />
 	
