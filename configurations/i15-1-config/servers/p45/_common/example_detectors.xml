@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!--  Malcolm Example -->
+	<!-- 
 	<bean id="dummyMalcolmModel" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name"                   value="Malcolm (Dummy)"/>
 		<property name="exposureTime"           value="0.1"/>
@@ -12,15 +13,15 @@
 		<property name="id"          value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring"/>
 		<property name="label"       value="Dummy Malcolm Detector"/>
 		<property name="description" value="A dummy malcom detector which is only used for testing"/>
-		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> <!--  bundle must be on client for that, if it isn't a default icon is used -->
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> <?ignore bundle must be on client for that, if it isn't a default icon is used ?>
 	</bean>
 	<bean id="dummyMalcolmDetector" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
 		<property name="name"              value="Malcolm (Dummy)"/>
 		<property name="model"             ref="dummyMalcolmModel"/>
 		<property name="deviceInformation" ref="dummyMalcolmInfo"/>
-		<property name="activated"         value="true"/> <!-- This means it is activated as the default device to use in a scan -->
+		<property name="activated"         value="true"/> <?ignore This means it is activated as the default device to use in a scan ?>
 	</bean>
-
+	 -->
 
 
 	<!--  Mandelbrot Example -->
