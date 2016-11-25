@@ -12,7 +12,6 @@
         <property name="jythonScriptPaths" ref="script_paths"/>
         <property name="gdaVarDirectory" value="${gda.var}"/>
         <property name="cacheDirectory" value="${gda.var}/jythonCache"/>
-        <property name="remoteServerUsesJline" value="true" />
         <property name="remotePort" value="${gda.jython.socket}"/>
     </bean>
 
