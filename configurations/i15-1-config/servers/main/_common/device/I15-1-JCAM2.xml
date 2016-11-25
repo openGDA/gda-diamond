@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Scanning API -->
+
+	<bean id="cam2uesdNexusModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="cam2uesdRawAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="cam2uesdNexusInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"                   value="cam2uesdRawAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.cam2uesdNexusInfo"/>
+		<property name="label"       value="Camera 2 Nexus (cam2uesdNexusInfo)"/>
+		<property name="description" value="Camera 2 with images written to Nexus file by the scan"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cam2uesdNexusDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name"              value="cam2uesdRawAD"/>
+		<property name="model"             ref="cam2uesdNexusModel"/>
+		<property name="deviceInformation" ref="cam2uesdNexusInfo"/>
+		<property name="activated"         value="true"/>
+	</bean>
+
+	<!-- ^^^ is based on vvv but with a longer exposure time than requested -->
+
+	<bean id="cam2nexusModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="cam2rawAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="cam2nexusInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"                   value="cam2rawAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.cam2nexusInfo"/>
+		<property name="label"       value="Camera 2 Nexus (cam2nexusInfo)"/>
+		<property name="description" value="Camera 2 with images written to Nexus file by the scan"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cam2nexusDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name"              value="cam2rawAD"/>
+		<property name="model"             ref="cam2nexusModel"/>
+		<property name="deviceInformation" ref="cam2nexusInfo"/>
+		<property name="activated"         value="true"/>
+	</bean>
+
+	<!-- vvv is based on ^^^ but with the Area Detector writing hdf5 files rather than the images being written to the
+							 scan Nexus file -->
+
+	<bean id="cam2hdf5Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"                   value="cam2rawAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="cam2hdf5Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"                   value="cam2rawAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.cam2hdf5Info"/>
+		<property name="label"       value="Camera 2 HDF5 (cam2hdf5Info)"/>
+		<property name="description" value="Camera 2 with images written to HDF5 file by Area Detector"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cam2hdf5Detector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
+		<property name="name"              value="cam2rawAD"/>
+		<property name="model"             ref="cam2hdf5Model"/>
+		<property name="deviceInformation" ref="cam2hdf5Info"/>
+		<property name="activated"         value="true"/>
+	</bean>
+
+</beans>
