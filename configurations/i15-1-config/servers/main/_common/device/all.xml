@@ -4,4 +4,27 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<import resource="dummy.xml"/>
+	<!-- 
+	<import resource="I15-1-JBPM1.xml"/>
+	<import resource="I15-1-JBPM2.xml"/>
+	<import resource="I15-1-JCAM1.xml"/>
+	 -->
+	<import resource="I15-1-JCAM2.xml"/>
+	<!-- 
+	<import resource="I15-1-JCL.xml"/>
+	<import resource="I15-1-JD1.xml"/>
+	<import resource="I15-1-JEYE1.xml"/>
+	<import resource="I15-1-JF1.xml"/>
+	<import resource="I15-1-JLAUE.xml"/>
+	<import resource="I15-1-JM1.xml"/>
+	<import resource="I15-1-JPE1.xml"/>
+	<import resource="I15-1-JPSL.xml"/>
+	<import resource="I15-1-JRAIL1.xml"/>
+	<import resource="I15-1-JS1.xml"/>
+	<import resource="I15-1-JS2.xml"/>
+	<import resource="I15-1-JS3.xml"/>
+	<import resource="I15-1-JS4.xml"/>
+	<import resource="I15-1-JS5.xml"/>
+	<import resource="I15-1-JSAM.xml"/>
+	 -->
 </beans>
