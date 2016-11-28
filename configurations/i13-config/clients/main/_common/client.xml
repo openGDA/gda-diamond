@@ -13,7 +13,7 @@
 	<context:property-placeholder/>
 
  	<corba:import namespace="${gda.factory.factoryName}"
-		names="dcm_energy, dcm_bragg, eh_shtr, fs, rotationAxisXScannable, cameraXYScannable, lens, binning_x, binning_y" />
+		names="dcm_energy, dcm_bragg, eh_shtr, fs, rotationAxisXScannable, cameraXYScannable, cam01_objective, binning_x, binning_y" />
 
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="plot_server.xml" />

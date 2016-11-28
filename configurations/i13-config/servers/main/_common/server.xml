@@ -77,7 +77,9 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/cs2_motors.xml" />
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco1.xml" />
-	<import resource="file:${gda.config}/devices/${gda.mode}/lens.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/cam01_motors.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/cam02_motors.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/cam04_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
 	
@@ -94,7 +96,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/p2r.xml"/>	
 	<import resource="file:${gda.config}/devices/${gda.mode}/sample_stage_hexapod_motors.xml"/>
  	<import resource="file:${gda.config}/devices/${gda.mode}/smaract_motors.xml"/>
- 	<import resource="file:${gda.config}/devices/${gda.mode}/newport_motors.xml"/>
+ 	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/newport_motors.xml"/> -->
  	<import resource="file:${gda.config}/devices/${gda.mode}/deben_motors.xml"/>
 
 	<!-- =========================================================== -->
@@ -127,10 +129,13 @@
 	<import resource="file:${gda.config}/devices/_common/sample_stage.xml" />
 	<import resource="file:${gda.config}/devices/_common/table.xml" />
 	<import resource="file:${gda.config}/devices/_common/camera_stage.xml" />
+	<import resource="file:${gda.config}/devices/_common/cam01.xml" />
+	<import resource="file:${gda.config}/devices/_common/cam02.xml" />
 	<import resource="file:${gda.config}/devices/_common/cs2.xml" />
+	<import resource="file:${gda.config}/devices/_common/cam04.xml" />
 	<import resource="file:${gda.config}/devices/_common/sample_stage_hexapod.xml"/>
 	<import resource="file:${gda.config}/devices/_common/smaract_stage.xml"/>
-	<import resource="file:${gda.config}/devices/_common/newport_stage.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/_common/newport_stage.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/pinhole.xml" />
 	<import resource="file:${gda.config}/devices/_common/zone_plate.xml" />
 	<import resource="file:${gda.config}/devices/_common/phase_ring.xml" />
@@ -151,7 +156,7 @@
 	<import resource="file:${gda.config}/devices/_common/pco1.xml" />
 	<import resource="file:${gda.config}/devices/_common/zebra.xml" />
 	<import resource="file:${gda.config}/devices/_common/p2r.xml" />
-	<import resource="file:${gda.config}/devices/_common/deben_rig.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/_common/deben_rig.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
 
 	<!--  dummy motors for testing tomoscan  -->

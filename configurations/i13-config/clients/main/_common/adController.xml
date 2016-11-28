@@ -15,7 +15,7 @@
 		<property name="ffmpegStream" ref="pco1_ffmpeg1" />
 		<property name="ffmpegImageOutHeightMax" value="1336" />
 		<property name="ffmpegImageOutWidthMax" value="2004" />
-		<property name="lensEnum" ref="lens" />
+		<property name="lensEnum" ref="cam01_objective" />
 		<property name="binningXEnum" ref="binning_x" />
 		<property name="binningYEnum" ref="binning_y" />
 		<!-- <property name="regionSizeXEnum" ref="region_size_x"/> <property name="regionSizeYEnum" 

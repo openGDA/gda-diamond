@@ -189,17 +189,17 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean> -->
 
-	<bean id="newport_2" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+<!-- 	<bean id="newport_2" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}newport_2" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	</bean> -->
 
-	<bean id="newport_3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+<!-- 	<bean id="newport_3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}newport_3" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	</bean> -->
 	
 	<bean id="translate_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}translate_x" />

@@ -9,14 +9,14 @@
 		<property name="sampleStageXScannable" ref="ss1_X" />
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
-		<property name="lensScannable" ref="lens"/>
+		<property name="lensScannable" ref="cam01_objective"/>
 	</bean>
 
 	<bean id="cameraXYScannable" class="gda.device.scannable.CameraXYScannable">
 		<property name="cameraStageXScannable" ref="cs1_x" />
 		<property name="cameraStageYScannable" ref="cs1_y" />
 		<property name="cameraScaleProvider" ref="displayScaleProvider" />
-		<property name="lensScannable" ref="lens"/>
+		<property name="lensScannable" ref="cam01_objective"/>
 	</bean>
 
 </beans>

@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="displayScaleProvider" class="gda.device.displayscaleprovider.SelectableDisplayScaleProvider">
-		<property name="keyScannable" ref="lens" />
+		<property name="keyScannable" ref="cam01_objective" />
 		<property name="binXScannable" ref="pco_binx_rbv"/>
 		<property name="binYScannable" ref="pco_biny_rbv"/>
 		<property name="providers">

@@ -125,14 +125,14 @@ class TomoDet():
     
     def setCameraLens(self, position):
         try:
-            print "Setting lens to " + `position`
-            lens=Finder.getInstance().find("lens")
-            lens.moveTo(position)
-            lens.waitWhileBusy()
+            print "Setting cam01_objective to " + `position`
+            cam01_objective=Finder.getInstance().find("cam01_objective")
+            cam01_objective.moveTo(position)
+            cam01_objective.waitWhileBusy()
             print "Done"
         except :
             exceptionType, exception, traceback = sys.exc_info()
-            handle_messages.log(None, "Error setting lens to "+ `position` , exceptionType, exception, traceback, False)      
+            handle_messages.log(None, "Error setting cam01_objective to "+ `position` , exceptionType, exception, traceback, False)      
 
     def setBinningX(self, externalPosition, internalPosition):
         try:

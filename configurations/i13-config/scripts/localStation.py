@@ -213,7 +213,7 @@ try:
 	if isLive():
 		try:
 			#if you change these you need to change the values in cameraScaleProviders
-			#edited by J. Vila-Comamala to match new objective lens configuration 25.04.2014
+			#edited by J. Vila-Comamala to match new camera 1 objective lens configuration 25.04.2014
 			position1="Empty"
 			position2="Empty"
 			position3="Empty"
@@ -240,11 +240,11 @@ try:
 
 
 			#make the lens re-read its list of positions following setting them in EPICS above
-			lens.initializationCompleted()
+			cam01_objective.initializationCompleted()
 
 		except:
 			exceptionType, exception, traceback = sys.exc_info()
-			handle_messages.log(None, "Error setting initial positions for lens", exceptionType, exception, traceback, False)
+			handle_messages.log(None, "Error setting initial positions for cam01_objective", exceptionType, exception, traceback, False)
 
 
 		from dcm_energy_mode import DcmEnergyMode
