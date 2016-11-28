@@ -39,7 +39,6 @@ class PerpendicularSampleMotion(PseudoDevice):
         self.Units=['mm']
         self.setLevel(5)
         self.sx = sx
-        self.sx_inverted = i15mode
         self.sy = sy
         self.mu = mu
         self.phi = phi
@@ -51,24 +50,22 @@ class PerpendicularSampleMotion(PseudoDevice):
 
     def xyFromPerpPara(self, sperp, spara):
         murad, phirad = self.getPositions()
-        theta=phirad-murad
-        if self.sx_inverted:
+        angle=phirad-murad
+        if self.i15mode: # sx inverted compared to i16
 #     dxI:    - DE  *COS(T)    - DA  *SIN(T)
-            # - DE11*COS(T11)  - DA11*SIN(T11)
-            x=-sperp*cos(theta)-spara*sin(theta)
+            x=-sperp*cos(angle)-spara*sin(angle)
         else:
 #     dx:     +DE  *COS(T)    + DA  *SIN(T)
-            #  DE11*COS(T11)  + DA11*SIN(T11)
-            x=sperp*cos(theta)+spara*sin(theta)
+            x=sperp*cos(angle)+spara*sin(angle)
         
         # - DE11*SIN(T11)  + DA11*COS(T11)
-        y=-sperp*sin(theta)+spara*cos(theta)
+        y=-sperp*sin(angle)+spara*cos(angle)
         return x, y
 
     def asynchronousMoveToPerpendicular(self,value):
         murad, phirad = self.getPositions()
         
-        if self.i15mode:
+        if self.i15mode: # sx inverted compared to i16
             clock_x, clock_y = self.xyFromPerpPara(value, self.getPositionParallel())
         else:
             anticlock_x=self.sy()*sin(phirad-murad)+self.sx()*cos(phirad-murad)
@@ -80,7 +77,7 @@ class PerpendicularSampleMotion(PseudoDevice):
     def asynchronousMoveToParallel(self,value):
         murad, phirad = self.getPositions()
         
-        if self.i15mode:
+        if self.i15mode: # sx inverted compared to i16
             clock_x, clock_y = self.xyFromPerpPara(self.getPositionPerpendicular(), value)
         else:
             anticlock_y=self.sy()*cos(phirad-murad)-self.sx()*sin(phirad-murad)
@@ -91,34 +88,21 @@ class PerpendicularSampleMotion(PseudoDevice):
 
     def getPositionPerpendicular(self):
         murad, phirad = self.getPositions()
-        theta=phirad-murad
-        if self.i15mode:
-
-            if self.sx_inverted:
-                #dperpI: -   DX  *COS(T)    -     DY  *SIN(T)
-                #      -     DX11*COS(T11)  -     DY11*SIN(T11)
-                return -self.sx()*cos(theta)-self.sy()*sin(theta)
-            else:
-                #dperp:    +DX  *COS(T)    -     DY  *SIN(T)
-                #           DX11*COS(T11)  -     DY11*SIN(T11)
-                return self.sx()*cos(theta)-self.sy()*sin(theta)
+        angle=phirad-murad
+        if self.i15mode: # sx inverted compared to i16
+            #dperpI: -   DX  *COS(T)    -     DY  *SIN(T)
+            return -self.sx()*cos(angle)-self.sy()*sin(angle)
         else:
-            return self.sy()*cos(phirad-murad)-self.sx()*sin(phirad-murad)
+            return self.sy()*cos(angle)-self.sx()*sin(angle)
 
     def getPositionParallel(self):
         murad, phirad = self.getPositions()
-        theta=phirad-murad
-        if self.i15mode:
-            if self.sx_inverted:
-                #      -     DX  *SIN(T)    +     DY*  COS(T)
-                #      -     DX11*SIN(T11)  +     DY11*COS(T11)
-                return -self.sx()*sin(theta)+self.sy()*cos(theta)
-            else:
-                #dpara:  +  DX  *SIN(T)    +     DY  *COS(T)
-                #           DX11*SIN(T11)  +     DY11*COS(T11)
-                return self.sx()*sin(theta)+self.sy()*cos(theta)
+        angle=phirad-murad
+        if self.i15mode: # sx inverted compared to i16
+            #      -     DX  *SIN(T)    +     DY*  COS(T)
+            return -self.sx()*sin(angle)+self.sy()*cos(angle)
         else:
-            return self.sx()*cos(phirad-murad)+self.sy()*sin(phirad-murad)
+            return self.sx()*cos(angle)+self.sy()*sin(angle)
 
     def isBusy(self):
         return self.sx.isBusy() or self.sy.isBusy()
