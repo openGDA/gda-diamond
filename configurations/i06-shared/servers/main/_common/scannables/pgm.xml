@@ -32,31 +32,31 @@
 	</bean>
 	<!-- Plane Grating Monochromator (PGM, M2) -->
 	<bean id="pgmenergy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorEnergy_PGM" />
+		<property name="motor" ref="MotorEnergy_PGM_proxy" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="eV" />
 		<property name="hardwareUnitString" value="eV" />
 	</bean>
 	<bean id="pgmmx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorXMirror_PGM" />
+		<property name="motor" ref="MotorXMirror_PGM_proxy" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="pgmgx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorXGrating_PGM" />
+		<property name="motor" ref="MotorXGrating_PGM_proxy" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="pgmpitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorPitchMirror_PGM" />
+		<property name="motor" ref="MotorPitchMirror_PGM_proxy" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
 	</bean>
 	<bean id="pgmgratpitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorPitchGrating_PGM" />
+		<property name="motor" ref="MotorPitchGrating_PGM_proxy" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
