@@ -3,19 +3,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="cs2_focus_motor" class="gda.device.motor.DummyMotor">
+	<bean id="cam03_focus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.01" />
 		<property name="maxPosition" value="25.7" />
 		<property name="position" value="1.23" />
 	</bean>
 
-	<bean id="cs2_rotation_motor" class="gda.device.motor.DummyMotor">
+	<bean id="cam03_rotation_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0" />
 		<property name="maxPosition" value="360" />
 		<property name="position" value="43" />
 	</bean>
 
-	<bean id="cs2_objective" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="cam03_objective" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Position 1</value>
@@ -29,11 +29,14 @@
 		</property>
 	</bean>
 
-	<bean id="cs2_focus_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="cam03_focus_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Position 1</value>
 				<value>Position 2</value>
+				<value>Position 3</value>
+				<value>Position 4</value>
+				<value>Position 5</value>
 			</list>
 		</property>
 	</bean>

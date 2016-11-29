@@ -3,23 +3,23 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="cs2_focus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="cs2_focus_motor" />
+	<bean id="cam03_focus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cam03_focus_motor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="cs2_rotation" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="cs2_rotation_motor" />
+	<bean id="cam03_rotation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cam03_rotation_motor" />
 		<property name="userUnits" value="deg" />
 	</bean>
 
- 	<bean id="cs2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+ 	<bean id="cam03" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="cs2_focus" />
-				<ref bean="cs2_rotation" />
-				<ref bean="cs2_objective" />
-				<ref bean="cs2_focus_pos" />
+				<ref bean="cam03_focus" />
+				<ref bean="cam03_focus_pos" />
+				<ref bean="cam03_rotation" />
+				<ref bean="cam03_objective" />
 			</list>
 		</property>
 		<property name="local" value="true" />

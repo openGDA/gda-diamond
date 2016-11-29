@@ -17,9 +17,9 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="cam02_focus" />
+				<ref bean="cam02_focus_pos" />
 				<ref bean="cam02_rotation" />
 				<ref bean="cam02_objective" />
-				<ref bean="cam02_focus_pos" />
 			</list>
 		</property>
 		<property name="local" value="true" />
