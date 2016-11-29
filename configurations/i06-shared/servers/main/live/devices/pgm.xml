@@ -40,7 +40,7 @@
 	</bean>
 	
 	<!-- do access check method intercepter -->
-	<bean id="doAccessCheck" class="gda.aop.checkAccessBeforeMethod">
+	<bean id="doAccessCheck" class="gda.aop.CheckAccessBeforeMethod">
 		<property name="accessControl" ref="accessControl"/>
 	</bean>
 	
@@ -136,6 +136,20 @@
 			<bean class="gda.device.motor.EpicsMotor">
 				<property name="deviceName" value="PGM.GRT" />
 				<property name="local" value="true"/>
+			</bean>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>doAccessCheck</value>
+			</list>
+		</property>
+	</bean>
+	<!-- Plane Grating Monochromator Energy is Guarded -->
+	<bean id="MotorEnergy_PGM" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<bean class="gda.device.motor.EpicsMotor">
+				<property name="deviceName" value="PGM.EN" />
+				<property name="accessControl" ref="accessControl" />
 			</bean>
 		</property>
 		<property name="interceptorNames">

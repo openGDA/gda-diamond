@@ -8,7 +8,6 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>servers/main/live/devices/accessControl.xml</config>
-		<config>servers/main/live/devices/accessCheckedPgmEnergy.xml</config>
 		<config>servers/main/live/devices/branchShutter.xml</config>
 		<config>servers/main/live/devices/CHP.xml</config>
 		<config>servers/main/live/devices/d10.xml</config>
@@ -63,7 +62,6 @@
 			<configs>
 				<config>servers/main/_common/server.xml</config>
 				<config>servers/main/_common/terminal_logger.xml</config>
-				<config>servers/main/live/devices/accessCheckedPgmEnergy.xml</config>
 				<config>servers/main/live/devices/accessControl.xml</config>
 				<config>servers/main/live/devices/branchShutter.xml</config>
 				<config>servers/main/live/devices/CHP.xml</config>
