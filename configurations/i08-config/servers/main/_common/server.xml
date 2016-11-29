@@ -17,27 +17,37 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
+	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
+	<import resource="file:${gda.config}/servers/main/_common/plotServer.xml" />
+
+	<!-- Command Server -->
+	<import resource="file:${gda.config}/servers/main/_common/jythonServerFacade.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
+
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
 <!-- 	mode specific files -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics_and_shutters.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/optics.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/photodiode.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/andor.xml" />
- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xmap_detector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/diagnostics_and_shutters.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/machine.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/photodiode.xml" />
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor.xml" />
+ 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xmap_detector.xml" />
 
 <!-- 	shared files -->
-	<import resource="file:${gda.config}/servers/main/_common/andor.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
- 	<import resource="file:${gda.config}/servers/main/_common/opticsScannables.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/stxmScannables.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/xmap_detector.xml" />
 
-<!-- 	Command Server at the end -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
+ 	<import resource="file:${gda.config}/servers/main/_common/devices/opticsScannables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/stxmScannables.xml" />
+
+	<import resource="file:${gda.config}/servers/main/_common/detectors/xmap_detector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/andor.xml" />
+
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
 	<corba:export namespace="${gda.factory.factoryName}" />
 
 </beans>

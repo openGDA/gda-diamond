@@ -3,16 +3,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+
     <import resource="../_common/client.xml"/>
-
-    <bean id="d5_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
-    	<property name="displayName" value="d5 camera" />
-    	<property name="url" value="http://bl08i-di-serv-01.diamond.ac.uk:8080/D5.CAM1.MJPG.mjpg" />
-    </bean>
-
-    <bean id="d7_cam" class="uk.ac.gda.client.liveplot.mjpeg.CameraConfiguration">
-    	<property name="displayName" value="d7 camera" />
-    	<property name="url" value="http://bl08i-di-serv-01.diamond.ac.uk:8080/D7.CAM1.MJPG.mjpg" />
-    </bean>
 
 </beans>
