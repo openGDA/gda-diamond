@@ -127,13 +127,13 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     nxLinkCreator.setTitle_target("entry1:NXentry/title:SDS")
    
     # detector dependent items
-    if tomography_detector_name == "pco1_hw_hdf" or tomography_detector_name == "pco1_hw_hdf_nochunking":
+    if tomography_detector_name in ("pco1_hw_hdf", "pco1_hw_hdf_nochunking", "merlin_sw_hdf"):
         # external file
         instrument_detector_data_target = "!entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
         instrument_detector_data_target += "data:SDS"
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
-    elif tomography_detector_name == "pco1_hw_tif" or tomography_detector_name == "pco1_tif":
+    elif tomography_detector_name in ("pco1_hw_tif", "pco1_tif", "merlin_sw_tif"):
         # image filenames
         instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"

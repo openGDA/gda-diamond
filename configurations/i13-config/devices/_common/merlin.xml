@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="merlin_plugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="merlin_cam_base" value-ref="merlin_cam_base" />
+				<entry key="merlin_arr" value-ref="merlin_arr" />
+				<entry key="merlin_ffmpeg" value-ref="merlin_ffmpeg" />
+				<entry key="merlin_roi" value-ref="merlin_roi" />
+				<entry key="merlin_roi1" value-ref="merlin_roi1" />
+				<entry key="merlin_roi2" value-ref="merlin_roi2" />
+				<entry key="merlin_stat1" value-ref="merlin_stat1" />
+				<entry key="merlin_stat2" value-ref="merlin_stat2" />
+				<entry key="merlin_proc" value-ref="merlin_proc" />
+				<entry key="merlin_ndhdf5file" value-ref="merlin_ndhdf5file" />
+				<entry key="merlin_ndfiletif" value-ref="merlin_ndfiletif" />
+				<entry key="merlin_singleExposurePco" value-ref="merlin_singleExposurePco" />
+			</util:map>
+		</property>
+	</bean>
+
+	<bean id="merlin_singleExposurePco"
+		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="merlin_cam_base" />
+		<constructor-arg value="0" />
+	</bean>
+
+</beans>

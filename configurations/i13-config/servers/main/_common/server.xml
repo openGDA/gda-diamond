@@ -158,7 +158,11 @@
 	<import resource="file:${gda.config}/devices/_common/p2r.xml" />
 	<!-- <import resource="file:${gda.config}/devices/_common/deben_rig.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
-
+	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
+		
+	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_mapping.xml"/>
+	
 	<!--  dummy motors for testing tomoscan  -->
 	<import resource="file:${gda.config}/devices/_common/tomoscan_dummies.xml" />
 	
