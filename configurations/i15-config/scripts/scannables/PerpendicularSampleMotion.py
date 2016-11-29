@@ -31,7 +31,7 @@ from math import pi, sin, cos
 
 class PerpendicularSampleMotion(PseudoDevice):
     '''Device to move sample stage perpendicular to the beam when phi or mu are not zero'''
-    def __init__(self, name, sx, sy, mu, phi, i15mode=False, mu_offset = 0, phi_offset = 0, help_text=None):
+    def __init__(self, name, sx, sy, sz=None, mu=None, phi=None, kappa=None, theta=None, i15mode=False, mu_offset = 0, phi_offset = 0, help_text=None):
         self.setName(name)
         if help_text is not None: self.__doc__+='\nHelp specific to '+self.name+':\n'+help_text
         self.setInputNames([name])
@@ -40,8 +40,11 @@ class PerpendicularSampleMotion(PseudoDevice):
         self.setLevel(5)
         self.sx = sx
         self.sy = sy
+        self.sz = sz
         self.mu = mu
         self.phi = phi
+        self.kappa = kappa
+        self.theta = theta
         self.i15mode = i15mode
         self.mu_offset = mu_offset
         self.phi_offset = phi_offset
