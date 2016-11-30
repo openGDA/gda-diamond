@@ -48,6 +48,8 @@
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
+	<!-- Transient only -->
+	<!--
 	<bean id="cryophi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcCryoPhiMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
@@ -55,9 +57,7 @@
 		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
-	
-	
-
+	-->
 
 	<bean id="sixc_additional_position_validators" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
