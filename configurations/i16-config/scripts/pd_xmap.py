@@ -6,7 +6,7 @@ from pd_epics import SingleEpicsPositionerSetAndGetOnlyClass as sep
 
 xmroi1=DisplayEpicsPVClass('xmroi1','BL16I-EA-XMAP-01:MCA1.R0','counts','%6f')
 xmroi2=DisplayEpicsPVClass('xmroi2','BL16I-EA-XMAP-01:MCA1.R1','counts','%6f')
-xmroi3=DisplayEpicsPVClass('xmroi2','BL16I-EA-XMAP-01:MCA1.R3','counts','%6f')
+xmroi3=DisplayEpicsPVClass('xmroi2','BL16I-EA-XMAP-01:MCA1.R2','counts','%6f')
 
 energy.maxEnergyChangeBeforeMovingMirrors=0.00
 

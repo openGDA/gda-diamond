@@ -104,7 +104,7 @@ def alignpinv():
 	pos phi 0
 	scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode
 	#print "===Now you must move base_z to centre...";
-	basezcen=(edge(0,'Base_z','diode')[1]+edge(-1,'Base_z','diode')[2])/2. # now uses falling edhe of first scan
+	basezcen=(edge(0,'Base_z','diode')[2]+edge(-1,'Base_z','diode')[1])/2. # now uses rising edge of first scan
 	print 'Moving base_z to ' + str(basezcen)
 	print base_z(basezcen)	#spc 2/10/11
 	print "If the plots look ok then type energy.calibrate()"

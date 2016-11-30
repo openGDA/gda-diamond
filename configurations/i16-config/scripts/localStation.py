@@ -9,16 +9,16 @@ import installation
 
 USE_NEXUS = True
 if installation.isDummy():
-	USE_DIFFCALC = True 
+	USE_DIFFCALC = False
 	USE_CRYO_GEOMETRY = True
 
 else:
 	# see also notes below
 	# Changed for Allesandro's experiment on Jan 20 2015 -- RobW
+	#USE_DIFFCALC = False  # <-- change here for live gda!
+	#USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = False  # <-- change here for live gda!
-	USE_CRYO_GEOMETRY = False
-	#USE_DIFFCALC = True  # <-- change here for live gda!
-	#USE_CRYO_GEOMETRY = True
+	USE_CRYO_GEOMETRY = False # < -- chi will not move if True
 
 
 USE_DUMMY_IDGAP_MOTOR = False
@@ -416,6 +416,14 @@ _kbm_common_geom = {'l':[142.0, 142.0, 142.0],
 
 import copy
 
+# offets for KB mirrors
+vmpitch_offset=pd_offset.Offset('vmpitch_offset', warningIfChangeGreaterThan=.5)
+hmpitch_offset=pd_offset.Offset('hmpitch_offset', warningIfChangeGreaterThan=.5)
+vmtrans_offset=pd_offset.Offset('vmtrans_offset', warningIfChangeGreaterThan=5)
+hmtrans_offset=pd_offset.Offset('hmtrans_offset', warningIfChangeGreaterThan=5)
+kbmx_offset=pd_offset.Offset('kbmx_offset', warningIfChangeGreaterThan=5)
+kbmroll_offset=pd_offset.Offset('kbmroll_offset', warningIfChangeGreaterThan=.5)
+
 try:
 	kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))				
 
@@ -429,12 +437,6 @@ try:
 	#hmtrans=single_element_of_vector_pd_class('hfm_trans', kbm2, 'kbm2_z', help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
 
     ##### new devices for KBM pitch and trans. Now with offsets.
-	vmpitch_offset=pd_offset.Offset('vmpitch_offset', warningIfChangeGreaterThan=.5); 
-	hmpitch_offset=pd_offset.Offset('hmpitch_offset', warningIfChangeGreaterThan=.5);
-	vmtrans_offset=pd_offset.Offset('vmtrans_offset', warningIfChangeGreaterThan=5);
-	hmtrans_offset=pd_offset.Offset('hmtrans_offset', warningIfChangeGreaterThan=5);
-	kbmx_offset=pd_offset.Offset('kbmx_offset', warningIfChangeGreaterThan=5);
-	kbmroll_offset=pd_offset.Offset('kbmroll_offset', warningIfChangeGreaterThan=.5);
 	vmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_pitch', kbm1, 'kbm1_alpha3', vmpitch_offset, help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
 	hmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_pitch', kbm2, 'kbm2_alpha2', hmpitch_offset, help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
 	vmtrans=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_trans', kbm1, 'kbm1_y', vmtrans_offset, help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
@@ -1057,6 +1059,7 @@ if installation.isLive():
 	#tthp.diode=56.4#2/10/11 - changed from 55.6
 	#tthp.diode=55#01/07/16 - changed from 56.4
 	tthp.diode=53.713#01/07/16 - changed from 56.4
+	tthp.diode=53.65#01/07/16 - changed from 53.713
 	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
 	tthp.ccd=70
@@ -1261,8 +1264,11 @@ def open_valves():
 #ci=239.;cj=112. #02/03/16 after pilatus exchange
 #ci=240.;cj=109. #04/03/16 after pilatus reexchange
 #ci=238.;cj=111. #06/04/16 after pilatus reexchange
-ci=242.;cj=105. #13/07/16 loan detector
+#ci=242.;cj=105. #13/07/16 loan detector
+ci=244.; cj=103.; #10/08/16 loan detector
+
 maxi=486; maxj=194 #08/10/15
+
 
 #small centred
 roi1 = scroi=HardwareTriggerableDetectorDataProcessor('roi1', pil, [SumMaxPositionAndValue()])
@@ -1428,6 +1434,8 @@ run('align1')
 run('select_and_move_detector')
 run('showdiff')
 run('showdiff_new')
+bpmroi1 = HardwareTriggerableDetectorDataProcessor('bpmroi1', bpm, [SumMaxPositionAndValue()])
+bpmroi1.setRoi(int(909-40),int(387-10),int(909+40),int(387+10))
 #run('pd_searchref2') #put at the end as it gave some errors
 run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable

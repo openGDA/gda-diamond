@@ -217,8 +217,6 @@ def changehkl(key,newkey,newhkl,doshow=0):
 	rr.setReflection(newkey,nomeref)
 	if doshow == 1:
 		showref()
-
-
 #rr.setReflectionsFileName('LiF')
 latt()
 
