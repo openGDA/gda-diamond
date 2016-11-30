@@ -118,10 +118,11 @@ from scannable.MoveThroughOrigin import MoveThroughOriginScannable
 from gda.device.scannable.scannablegroup import DeferredScannableGroup
 
 # Configure here as nested beans are not configured
-eulerNames = ["phi", "chi", "eta", "mu", "delta", "gam"]
-for motor, name in zip(euler_cryo.getScannableMotors(), eulerNames):
-	motor.name = name
-	motor.configure()
+if USE_CRYO_GEOMETRY:
+	eulerNames = ["phi", "chi", "eta", "mu", "delta", "gam"]
+	for motor, name in zip(euler_cryo.getScannableMotors(), eulerNames):
+		motor.name = name
+		motor.configure()
 
 ##CHANGED TO USE LIMIT CRYOPHI
 if USE_CRYO_GEOMETRY:
