@@ -782,20 +782,21 @@ from scannable.detector.DetectorWithShutter import DetectorWithShutter
 pil2mdet = pilatus2
 _pilatus2_counter_monitor = Finder.getInstance().find("pilatus2_plugins").get('pilatus2_counter_monitor')
 
-pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
-															pilatus2,
-															pilatus2_hardware_triggered,
-															pilatus2_for_snaps,
-															[],
-															panel_name='Pilatus2M',
-															panel_name_rcp='Plot 1',
-															toreplace=None,
-															replacement=None,
-															iFileLoader=PilatusTiffLoader,
-															fileLoadTimout=60,
-															returnPathAsImageNumberOnly=True,
-															array_monitor_for_hardware_triggering = _pilatus2_counter_monitor
-															)
+#pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
+pil2m = NxProcessingDetectorWrapper('pil2m',
+		pilatus2,
+		pilatus2_hardware_triggered,
+		pilatus2_for_snaps,
+		[],
+		panel_name='Pilatus2M',
+		panel_name_rcp='Plot 1',
+		toreplace=None,
+		replacement=None,
+		iFileLoader=PilatusTiffLoader,
+		fileLoadTimout=60,
+		returnPathAsImageNumberOnly=True,
+		array_monitor_for_hardware_triggering = _pilatus2_counter_monitor
+		)
 pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
 pil2m.printNfsTimes = True
 pil2m.display_image = True
