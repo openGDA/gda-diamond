@@ -23,4 +23,7 @@
 	<!-- Monocromators -->
 	<import resource="pgm.xml"/>
 
+	<!-- Dummy devices -->
+	<import resource="dummy.xml"/>
+
 </beans>
