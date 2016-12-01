@@ -93,5 +93,18 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="d3c_y" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07C-DI-PHDGN-03:Y:MP" />
+	</bean>
+	
+	<bean id="d3c" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d3c_y" />
+				<ref bean="d3c_cam"/>
+			</list>
+		</property>
+	</bean>
 
 </beans>
