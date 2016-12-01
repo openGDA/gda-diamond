@@ -628,16 +628,20 @@ try:
 		print "* Not installing example wirescanner *"
 
 	if True:
-		from scannables.PerpendicularSampleMotion import PerpendicularSampleMotion, ParallelSampleMotion
+		from scannables.PerpendicularSampleMotion import PerpendicularSampleMotion, ParallelSampleMotion, HeightSampleMotion
 	
 		try:
-			simpleLog("Creating dperp & dpara")
-			dperp=PerpendicularSampleMotion("dperp", dx, dy, dmu, dkphi, True, 0, 58)
-			dpara=ParallelSampleMotion     ("dpara", dx, dy, dmu, dkphi, True, 0, 58)
+			simpleLog("Creating dperp, dpara & dheight")
+			dperp=PerpendicularSampleMotion("dperp", dx, dy, dz, dmu, dkphi, dkappa, dktheta, True, 0, 58,
+											help_text="To move sample stage horizontal to the beam.")
+			dpara=ParallelSampleMotion     ("dpara", dx, dy, dz, dmu, dkphi, dkappa, dktheta, True, 0, 58,
+											help_text="To move sample stage parallel to the beam.")
+			dheight=HeightSampleMotion     ("dpara", dx, dy, dz, dmu, dkphi, dkappa, dktheta, True, 0, 58,
+											help_text="To move sample stage vertical to the beam.")
 		except:
 			localStation_exception(sys.exc_info(), "creating dperp & dpara")
 	else:
-		simpleLog("* Not creating dperp & dpara *")
+		simpleLog("* Not creating dperp, dpara & dheight *")
 
 	try:
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()

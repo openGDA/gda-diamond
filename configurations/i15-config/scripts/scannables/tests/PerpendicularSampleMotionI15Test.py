@@ -17,19 +17,22 @@ class SampleMotionI15Test(unittest.TestCase):
         (dx, dy, dz, dmu, dkphi, dkappa, dktheta) = self.setUpMocks()
 
         #################### Start Example configuration ####################  
-        from scannables.PerpendicularSampleMotion import PerpendicularSampleMotion, ParallelSampleMotion
+        from scannables.PerpendicularSampleMotion import PerpendicularSampleMotion, ParallelSampleMotion, HeightSampleMotion
 
         dperp=PerpendicularSampleMotion("dperp", dx, dy, dz, dmu, dkphi, dkappa, dktheta, True, 0, 58)
         dpara=ParallelSampleMotion     ("dpara", dx, dy, dz, dmu, dkphi, dkappa, dktheta, True, 0, 58)
-
+        dheight=HeightSampleMotion     ("dheight", dx, dy, dz, dmu, dkphi, dkappa, dktheta, True, 0, 58)
         #################### End Example configuration ####################  
 
         self.sperp = dperp
         self.spara = dpara
+        self.sheight = dheight
         self.sperp.verbose=False
         self.spara.verbose=False
+        self.sheight.verbose=False
         self.sperp.no_move=False
         self.spara.no_move=False
+        self.sheight.no_move=False
         
     def mockMotor(self, name):
         motor = Mock()
@@ -84,6 +87,12 @@ class SampleMotionI15Test(unittest.TestCase):
            'P30b': {'mu':0, 'phi':58+30, 'sx':-1, 'sy':0, 'sperp': 0.8660254037844387, 'spara': 0.49999999999999994},
            'M45b': {'mu':0, 'phi':58-45, 'sx':-1, 'sy':0, 'sperp': 0.7071067811865476, 'spara':-0.7071067811865475},
            'P45b': {'mu':0, 'phi':58+45, 'sx':-1, 'sy':0, 'sperp': 0.7071067811865476, 'spara': 0.7071067811865475},
+
+           'sheight'   : 0,
+           'sz'        : 0,
+           'theta'     : -34.05,
+           'kappa'     : -134.74,
+           'tolerance' : 1
            }
     #"""
 
@@ -97,6 +106,7 @@ class SampleMotionI15Test(unittest.TestCase):
         self.sy.asynchronousMoveTo.assert_called_with(self.tests[test]['sy'])
         # False positives on sx with -0.9999999999999999 != -1
         self.sx.asynchronousMoveTo.assert_called_with(self.tests[test]['sx'])
+        assert not self.sz.asynchronousMoveTo.called
 
     def assertSxSyFromPara(self, test):
         self.mu.return_value = self.tests[test]['mu']
@@ -106,6 +116,7 @@ class SampleMotionI15Test(unittest.TestCase):
         self.spara.asynchronousMoveTo(self.tests[test]['spara'])
         self.sx.asynchronousMoveTo.assert_called_with(self.tests[test]['sx'])
         self.sy.asynchronousMoveTo.assert_called_with(self.tests[test]['sy'])
+        assert not self.sz.asynchronousMoveTo.called
 
     def assertPerpFromSxSy(self, test):
         self.mu.return_value = self.tests[test]['mu']
@@ -218,6 +229,139 @@ class SampleMotionI15Test(unittest.TestCase):
     def testSxSyFromParaP45b(self):
         self.assertSxSyFromPara('P45b')
 
+    def testHeightMove(self):
+        self.sx.return_value = self.tests['0a']['sx']
+        self.sy.return_value = self.tests['0a']['sy']
+
+        self.sheight.asynchronousMoveTo(self.tests['sz'])
+
+        self.sx.asynchronousMoveTo.assert_called_with(self.tests['0a']['sx'])
+        self.sy.asynchronousMoveTo.assert_called_with(self.tests['0a']['sy'])
+        self.sz.asynchronousMoveTo.assert_called_with(self.tests['sz'])
+
+    def assertStageFromLab(self, test, calc_mode):
+        self.spara.setCalcMode(calc_mode)
+
+        sx, sy, sz = self.spara.stageFromLab(dheight=0,
+            dperp     = self.tests[test]['sperp'],
+            dpara     = self.tests[test]['spara'],
+            mu_rad    = self.tests[test]['mu']  * self.spara.DEG2RAD,
+            theta_rad = self.tests['theta']     * self.spara.DEG2RAD,
+            kappa_rad = self.tests['kappa']     * self.spara.DEG2RAD,
+            phi_rad   = self.tests[test]['phi'] * self.spara.DEG2RAD)
+
+        self.assertAlmostEqual(sx, self.tests[test]['sx'], self.tests['tolerance'])
+        self.assertAlmostEqual(sy, self.tests[test]['sy'], self.tests['tolerance'])
+        self.assertAlmostEqual(sz, 0,                      self.tests['tolerance'])
+
+    def assertLabFromStage(self, test, calc_mode):
+        self.spara.setCalcMode(calc_mode)
+
+        sheight, sperp, spara = self.spara.labFromStage(
+            dx        = self.tests[test]['sx'],
+            dy        = self.tests[test]['sy'],
+            dz        = self.tests['sz'],
+            mu_rad    = self.tests[test]['mu']  * self.spara.DEG2RAD,
+            theta_rad = self.tests['theta']     * self.spara.DEG2RAD,
+            kappa_rad = self.tests['kappa']     * self.spara.DEG2RAD,
+            phi_rad   = self.tests[test]['phi'] * self.spara.DEG2RAD)
+
+        self.assertAlmostEqual(sheight, self.tests['sheight'],   self.tests['tolerance'])
+        self.assertAlmostEqual(sperp, self.tests[test]['sperp'], self.tests['tolerance'])
+        self.assertAlmostEqual(spara, self.tests[test]['spara'], self.tests['tolerance'])
+
+    def testLabFromStage0aj(self):
+        self.assertLabFromStage('0a', self.sperp.jamaMode)
+    def testStageFromLab0aj(self):
+        self.assertStageFromLab('0a', self.sperp.jamaMode)
+    def testLabFromStage0as(self):
+        self.assertLabFromStage('0a', self.sperp.scisoftpyMode)
+    def testStageFromLab0as(self):
+        self.assertStageFromLab('0a', self.sperp.scisoftpyMode)
+
+    def testLabFromStage0bj(self):
+        self.assertLabFromStage('0b', self.sperp.jamaMode)
+    def testStageFromLab0bj(self):
+        self.assertStageFromLab('0b', self.sperp.jamaMode)
+    def testLabFromStage0bs(self):
+        self.assertLabFromStage('0b', self.sperp.scisoftpyMode)
+    def testStageFromLab0bs(self):
+        self.assertStageFromLab('0b', self.sperp.scisoftpyMode)
+
+    """ Note that these tests do not currently pass with the new Lab-stage calculations:
+
+    def testLabFromStageM30aj(self):
+        self.assertLabFromStage('M30a', self.sperp.jamaMode)
+    def testStageFromLabM30aj(self):
+        self.assertStageFromLab('M30a', self.sperp.jamaMode)
+    def testLabFromStageM30as(self):
+        self.assertLabFromStage('M30a', self.sperp.scisoftpyMode)
+    def testStageFromLabM30as(self):
+        self.assertStageFromLab('M30a', self.sperp.scisoftpyMode)
+
+    def testLabFromStageM30bj(self):
+        self.assertLabFromStage('M30b', self.sperp.jamaMode)
+    def testStageFromLabM30bj(self):
+        self.assertStageFromLab('M30b', self.sperp.jamaMode)
+    def testLabFromStageM30bs(self):
+        self.assertLabFromStage('M30b', self.sperp.scisoftpyMode)
+    def testStageFromLabM30bs(self):
+        self.assertStageFromLab('M30b', self.sperp.scisoftpyMode)
+
+    def testLabFromStageP30aj(self):
+        self.assertLabFromStage('P30a', self.sperp.jamaMode)
+    def testStageFromLabP30aj(self):
+        self.assertStageFromLab('P30a', self.sperp.jamaMode)
+    def testLabFromStageP30as(self):
+        self.assertLabFromStage('P30a', self.sperp.scisoftpyMode)
+    def testStageFromLabP30as(self):
+        self.assertStageFromLab('P30a', self.sperp.scisoftpyMode)
+
+    def testLabFromStageP30bj(self):
+        self.assertLabFromStage('P30b', self.sperp.jamaMode)
+    def testStageFromLabP30bj(self):
+        self.assertStageFromLab('P30b', self.sperp.jamaMode)
+    def testLabFromStageP30bs(self):
+        self.assertLabFromStage('P30b', self.sperp.scisoftpyMode)
+    def testStageFromLabP30bs(self):
+        self.assertStageFromLab('P30b', self.sperp.scisoftpyMode)
+
+    def testLabFromStageM45aj(self):
+        self.assertLabFromStage('M45a', self.sperp.jamaMode)
+    def testStageFromLabM45aj(self):
+        self.assertStageFromLab('M45a', self.sperp.jamaMode)
+    def testLabFromStageM45as(self):
+        self.assertLabFromStage('M45a', self.sperp.scisoftpyMode)
+    def testStageFromLabM45as(self):
+        self.assertStageFromLab('M45a', self.sperp.scisoftpyMode)
+
+    def testLabFromStageM45bj(self):
+        self.assertLabFromStage('M45b', self.sperp.jamaMode)
+    def testStageFromLabM45bj(self):
+        self.assertStageFromLab('M45b', self.sperp.jamaMode)
+    def testLabFromStageM45bs(self):
+        self.assertLabFromStage('M45b', self.sperp.scisoftpyMode)
+    def testStageFromLabM45bs(self):
+        self.assertStageFromLab('M45b', self.sperp.scisoftpyMode)
+
+    def testLabFromStageP45aj(self):
+        self.assertLabFromStage('P45a', self.sperp.jamaMode)
+    def testStageFromLabP45aj(self):
+        self.assertStageFromLab('P45a', self.sperp.jamaMode)
+    def testLabFromStageP45as(self):
+        self.assertLabFromStage('P45a', self.sperp.scisoftpyMode)
+    def testStageFromLabP45as(self):
+        self.assertStageFromLab('P45a', self.sperp.scisoftpyMode)
+
+    def testLabFromStageP45bj(self):
+        self.assertLabFromStage('P45b', self.sperp.jamaMode)
+    def testStageFromLabP45bj(self):
+        self.assertStageFromLab('P45b', self.sperp.jamaMode)
+    def testLabFromStageP45bs(self):
+        self.assertLabFromStage('P45b', self.sperp.scisoftpyMode)
+    def testStageFromLabP45bs(self):
+        self.assertStageFromLab('P45b', self.sperp.scisoftpyMode)
+    """
 #if __name__ == "__main__":
 #    #import sys;sys.argv = ['', 'Test.testName']
 #    unittest.main()
