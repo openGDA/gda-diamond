@@ -20,8 +20,8 @@
 -Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i22-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.logs.dir=${project_loc}/../logs
--Dgda.instance.dir=${workspace_loc:i22-new-config}
+-Dgda.logs.dir=${workspace_loc}/../logs
+-Dgda.instance.dir=${workspace_loc:i22-config}
 -Dgda.facility.dir=${workspace_loc:dls-config}
 -Dgda.core.dir=${workspace_loc:core-config}
 -Xms1g
