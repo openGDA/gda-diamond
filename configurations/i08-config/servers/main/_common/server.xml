@@ -1,14 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba
         http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
- 		http://www.diamond.ac.uk/schema/gda/gda
-		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -26,27 +23,46 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-<!-- 	mode specific files -->
+	<!-- =========================================================== -->
+	<!-- 	mode specific files -->
+	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/diagnostics_and_shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/photodiode.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_addetector.xml" />
  	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xmap_detector.xml" />
 
-<!-- 	shared files -->
+	<!-- =========================================================== -->
+	<!-- 	shared files -->
+	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 
  	<import resource="file:${gda.config}/servers/main/_common/devices/opticsScannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/stxmScannables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
 
-	<import resource="file:${gda.config}/servers/main/_common/detectors/xmap_detector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/xmap_detector.xml" />
 
+	<!-- Dummies -->
+	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<!--
+		Mapping scans
+		IMPORTANT: this will start processing the scanning queue.
+		Detectors must be created before doing this.
+		ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file:${gda.config}/servers/p45/_common/solstice_scanning.xml"/>
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 

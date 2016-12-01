@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+
+	<!-- This seems a bit redundant in the new scanning but keeping it for now
+		to fit with the current ADDectector framework -->
+	<bean id="andor_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="andor_hdf5" />
+		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+	<bean id="andor_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="andor_adbase" />
+		<property name="ndFile" ref="andor_ndfile" />
+		<property name="ndArray" ref="andor_ndarray" />
+		<property name="ndStats" ref="andor_stats" />
+		<property name="fileWriter" ref="andor_hdf5_writer" />
+	</bean>
+
+	<bean id="andorModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="andor_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="andorInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
+		<property name="label" value="Andor" />
+		<property name="description" value="Andor" />
+	</bean>
+
+	<bean id="andor_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="andor_addetector" />
+		<property name="model" ref="andorModel" />
+		<property name="deviceInformation" ref="andorInfo" />
+		<property name="activated" value="true" />
+	</bean>
+
+</beans>

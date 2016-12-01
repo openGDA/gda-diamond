@@ -12,6 +12,7 @@
 
 	<context:property-placeholder />	
 
+	<import resource="mapping.xml" />
 	<import resource="osgi_services.xml" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
