@@ -47,7 +47,7 @@
       </win>
    </launcher>
 
-   <intro introId="uk.ac.gda.client.intro"/>
+   <intro introId="uk.ac.gda.beamline.i22.i22intro"/>
 
    <vm>
    </vm>
