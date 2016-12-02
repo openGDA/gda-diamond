@@ -43,4 +43,8 @@
          id="uk.ac.diamond.daq.mapping.ui.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.dawnsci.browser.feature"
+         version="0.0.0"/>
+
 </feature>
