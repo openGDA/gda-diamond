@@ -554,6 +554,32 @@
 		</property>
 	</bean>
 
+
+	<bean id="last_gasfill" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="lastfillPressure_ionc1" />
+				<ref bean="lastfillGas_ionc1" />
+				<ref bean="lastfillPressure_ionc2" />
+				<ref bean="lastfillGas_ionc2" />
+				<ref bean="lastfillPressure_ionc3" />
+				<ref bean="lastfillGas_ionc3" />
+				<ref bean="lastfillPressure_ionc4" />
+				<ref bean="lastfillGas_ionc4" />
+			</list>
+		</property>
+	</bean>
+
+<!-- Detector rate gui status object (positions added by client)-->
+	<bean id="detectorRateGuiControl" class="gda.device.enumpositioner.DummyEnumPositioner">
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/detectorRateGuiControl" />
+		<property name="service" ref="detectorRateGuiControl" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
+	</bean>
+
 <!-- RMI export the Stanford scannables -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/ionc1_stanford" />

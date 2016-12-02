@@ -280,14 +280,14 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 				if (gas_select_val != -1) {
 					base_pressure_val = Double.parseDouble(base_pressure.getPosition().toString());
 					gas_fill1_pressure.moveTo(gas_fill1_pressure_val + base_pressure_val);
-	
+
 					log("Filling gas 1");
 					control_select.moveTo(3);
 					checkForAbort();
 					gas_fill_start.moveTo(1);// fill 1
 					checkForAbort();
 					waitUntilIdle(fillTimeout);
-	
+
 					log("Purge 2");
 					control_select.moveTo(4);
 					checkForAbort();
@@ -342,6 +342,14 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 	}
 
 	public void waitUntilIdle(int timeout) {
+		// Extra sleep added to make sure previous move has finished, and gasFillStatus has time to update.
+		logger.debug("waitUntilIdle({})", timeout);
+		try {
+			Thread.sleep(1000);
+		} catch(InterruptedException e) {
+			logger.debug("Exception caught while sleeping", e);
+		}
+
 		while ((getFillStatus().contains("gas") || getFillStatus().contains("helium")) && timeout > 0) {
 			try {
 				Thread.sleep(1000);
@@ -350,6 +358,7 @@ public class GasInjectionScannable extends ScannableBase implements Scannable {
 			}
 			timeout--;
 		}
+		logger.debug("waitUntilIdle finished");
 	}
 
 	public String getFillStatus() {

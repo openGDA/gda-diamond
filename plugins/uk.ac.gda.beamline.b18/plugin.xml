@@ -285,6 +285,39 @@
                style="push"
                tooltip="stop monitoring">
          </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Detector views">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XSpress2"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="xspress2system">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="XSpress3"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
+               </parameter>
+               <parameter
+                     name="org.eclipse.ui.views.showView.secondaryId"
+                     value="xspress3">
+               </parameter>
+            </command>
+         </menu>
       </menuContribution>      
    </extension>
     <extension

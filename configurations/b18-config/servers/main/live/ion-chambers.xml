@@ -149,6 +149,60 @@
 		<property name="hvStatusScannable" ref="ionc3hvstat" />
 	</bean>
 
+<!-- Last fill pressures. Added 21/11/2016  -->
+	<bean id="lastfillPressure_ionc1" class="gda.device.scannable.PVScannable" >
+		<property name="name" value="lastfillPressure_ionc1" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC1:MON:P" />
+		<property name="units" value="mBar" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillPressure_ionc2" class="gda.device.scannable.PVScannable" >
+		<property name="name" value="lastfillPressure_ionc2" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC2:MON:P" />
+		<property name="units" value="mBar" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillPressure_ionc3" class="gda.device.scannable.PVScannable" >
+		<property name="name" value="lastfillPressure_ionc3" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC3:MON:P" />
+		<property name="units" value="mBar" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillPressure_ionc4" class="gda.device.scannable.PVScannable" >
+		<property name="name" value="lastfillPressure_ionc4" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC4:MON:P" />
+		<property name="units" value="mBar" />
+		<property name="canMove" value="false" />
+	</bean>
+
+<!-- Last fill gas type. Added 21/11/2016  -->
+	<bean id="lastfillGas_ionc1" class="gda.device.scannable.PVStringScannable" >
+		<property name="name" value="lastfillGas_ionc1" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC1:MON:GAS" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillGas_ionc2" class="gda.device.scannable.PVStringScannable" >
+		<property name="name" value="lastfillGas_ionc2" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC2:MON:GAS" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillGas_ionc3" class="gda.device.scannable.PVStringScannable" >
+		<property name="name" value="lastfillGas_ionc3" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC3:MON:GAS" />
+		<property name="canMove" value="false" />
+	</bean>
+
+	<bean id="lastfillGas_ionc4" class="gda.device.scannable.PVStringScannable" >
+		<property name="name" value="lastfillGas_ionc4" />
+		<property name="pvName" value="BL18B-EA-GIR-01:IONC4:MON:GAS" />
+		<property name="canMove" value="false" />
+	</bean>
+
 	<bean id="ionc1_pressure" class="gda.device.scannable.SimplePVScannable">
 		<property name="pvName" value="BL18B-EA-GIR-01:P2" />
 	</bean>
