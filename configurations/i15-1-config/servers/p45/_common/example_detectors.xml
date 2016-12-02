@@ -23,7 +23,6 @@
 	</bean>
 	 -->
 
-
 	<!--  Mandelbrot Example -->
 	<bean id="mandelbrotModel" class="org.eclipse.scanning.example.detector.MandelbrotModel">
 		<property name="maxIterations"          value="500"/>
@@ -53,7 +52,7 @@
 
 
 
-	<!--  Dark Image Example -->
+	<!--  Dark Image Example
 	<bean id="darkImageModel" class="org.eclipse.scanning.example.detector.DarkImageModel">
 		<property name="name"          value="dkExmpl"/>
 		<property name="columns"       value="64"/>
@@ -64,16 +63,16 @@
 		<property name="id"          value="org.eclipse.scanning.example.detector.darkImageDetector"/>
 		<property name="label"       value="Dark Current Example Detector"/>
 		<property name="description" value="A detector which takes images at a frequency lower than the scan numbner to simulate a dark current reading."/>
-		<property name="icon"        value="org.eclipse.scanning.example/icons/darkcurrent.png"/> <!--  bundle must be on client for that, if it isn't a default icon is used -->
+		<property name="icon"        value="org.eclipse.scanning.example/icons/darkcurrent.png"/> <?ignore  bundle must be on client for that, if it isn't a default icon is used ?>
 	</bean>
 	<bean id="darkImageDetector" class="org.eclipse.scanning.example.detector.DarkImageDetector" init-method="register">
 		<property name="name"              value="dkExmpl"/>
 		<property name="model"             ref="darkImageModel"/>
 		<property name="deviceInformation" ref="darkImageInfo"/>
 	</bean>
+	 -->
 
-
-	<!--  Constant Velocity Example -->
+	<!--  Constant Velocity Example
 	<bean id="constantVelocityModel" class="org.eclipse.scanning.example.detector.ConstantVelocityModel">
 		<property name="name"           value="cvExmpl"/>
 		<property name="lineSize"       value="64"/>
@@ -91,5 +90,6 @@
 		<property name="model"             ref="constantVelocityModel"/>
 		<property name="deviceInformation" ref="constantVelocityInfo"/>
 	</bean>
+	 -->
 
 </beans>
