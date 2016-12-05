@@ -35,15 +35,6 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeTimeResolvedExperimentDataWriter.class);
 
-	public static final String NXDATA_LN_I0_IT_WITH_AVERAGED_I0 = "LnI0It_withAveragedI0";
-	public static final String NXDATA_LN_I0_IT_WITH_FINAL_I0 = "LnI0It_withFinalI0";
-	public static final String NXDATA_LN_I0_IT = "LnI0It";
-	public static final String NXDATA_CYCLE_LN_I0_IT_WITH_AVERAGED = "LnI0It_averaged";
-
-	public static final String IT_RAW_AVERAGEDI0_SUFFIX = "_It_raw_averagedi0";
-	public static final String IT_RAW_FINALI0_SUFFIX = "_It_raw_finali0";
-	public static final String IT_RAW_SUFFIX = "_It_raw";
-
 	protected final EnergyDispersiveExafsScan i0DarkScan;
 	protected final EnergyDispersiveExafsScan i0InitialLightScan;
 	protected final EnergyDispersiveExafsScan iRefDarkScan;

@@ -21,9 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import gda.device.MotorException;
 import gda.device.scannable.ScannableMotor;
-import gda.factory.FactoryException;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.ExplicitScanPositions;
 import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
@@ -34,7 +32,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 public class TimeEstimatorsTest {
 
 	@Test
-	public void testSingleExperimentEstimator() throws MotorException, FactoryException {
+	public void testSingleExperimentEstimator() throws Exception {
 
 		EdeScanParameters itParams = new EdeScanParameters();
 		TimingGroup group2 = new TimingGroup();
@@ -64,7 +62,7 @@ public class TimeEstimatorsTest {
 	}
 
 	@Test
-	public void testLinearExperimentEstimator() throws MotorException, FactoryException {
+	public void testLinearExperimentEstimator() throws Exception {
 
 		EdeScanParameters itParams = new EdeScanParameters();
 		TimingGroup group2 = new TimingGroup();
@@ -95,7 +93,7 @@ public class TimeEstimatorsTest {
 	}
 
 	@Test
-	public void testLinearExperimentEstimator_withIref() throws MotorException, FactoryException {
+	public void testLinearExperimentEstimator_withIref() throws Exception {
 		// FIXME Rewrite the test
 
 		EdeScanParameters itParams = new EdeScanParameters();
@@ -128,7 +126,7 @@ public class TimeEstimatorsTest {
 	}
 
 	@Test
-	public void testLinearExperimentEstimator_multipleGroups() throws MotorException, FactoryException {
+	public void testLinearExperimentEstimator_multipleGroups() throws Exception {
 
 		EdeScanParameters itParams = new EdeScanParameters();
 		TimingGroup group1 = new TimingGroup();

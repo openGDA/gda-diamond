@@ -7,7 +7,7 @@
 <listEntry value="2"/>
 </listAttribute>
 <mapAttribute key="org.eclipse.debug.core.environmentVariables">
-<mapEntry key="LD_LIBRARY_PATH" value=":${project_loc:uk.ac.gda.common}/lib/${target.os}-${target.arch}:${workspace_loc:uk.ac.gda.core}/lib/${target.os}-${target.arch}"/>
+<mapEntry key="LD_LIBRARY_PATH" value=":${project_loc:uk.ac.gda.common}/lib/${target.os}-${target.arch}:${workspace_loc:uk.ac.gda.core}/lib/${target.os}-${target.arch}:${project_loc:ncsa.hdf}/lib/linux-x86_64"/>
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value="=uk.ac.gda.beamline.i20_1.test/src"/>
 <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="true"/>
