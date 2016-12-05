@@ -13,6 +13,7 @@
 	<import resource="s3c.xml"/>
 
 	<!-- Mirrors -->
+	<import resource="m1b.xml"/>
 	<import resource="m1c.xml"/>
 	<import resource="m3c.xml"/>
 
