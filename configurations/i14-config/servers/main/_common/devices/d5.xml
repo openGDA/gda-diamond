@@ -44,6 +44,7 @@
 				<ref bean="d5_x_position" />
 				<ref bean="d5_diode1" />
 				<ref bean="d5_diode2" />
+				<ref bean="d5_adc" />
 				<ref bean="d5_cam" />
 			</list>
 		</property>

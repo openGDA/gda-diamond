@@ -28,7 +28,7 @@
 	</bean>
 	
 	<!-- Scatter diode -->
-	<bean id="d2_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+	<bean id="d2_diode" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
 		<property name="value">
 			<value type="double">0.635</value>

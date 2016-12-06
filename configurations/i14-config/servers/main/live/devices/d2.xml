@@ -18,7 +18,7 @@
 	</bean>
 
 	<!-- Scatter diode -->
-	<bean id="d2_diode1" class="gda.device.monitor.EpicsMonitor">
+	<bean id="d2_diode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL14I-DI-PHDGN-02:FEMTO1:I"/>
 		<property name="local" value="true"/>
 		 <property name="poll" value="true" />

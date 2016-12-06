@@ -24,6 +24,12 @@
 		 <property name="poll" value="true" />
 	</bean>
 
+	<bean id="d3_adc_scatter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-03:FEMTO1:ADC1_VALUE"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
 	<!-- ROI support -->
 	<bean id="d3PlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
 		<constructor-arg value="D3" />

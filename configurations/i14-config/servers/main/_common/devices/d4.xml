@@ -51,6 +51,7 @@
 				<ref bean="d4_lateral_position" />
 				<ref bean="d4_diode1" />
 				<ref bean="d4_diode2" />
+				<ref bean="d4_adc_inline" />
 				<ref bean="d4_cam" />
 			</list>
 		</property>

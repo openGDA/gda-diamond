@@ -28,7 +28,7 @@
 		</property>
 	</bean>
 
-	<!-- Scatter diodes -->
+	<!-- Scatter diode -->
 	<bean id="d5_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
 		<property name="value">
@@ -36,10 +36,17 @@
 		</property>
 	</bean>
 
+	<!-- Inline diode -->
 	<bean id="d5_diode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
 		<property name="value">
 			<value type="double">-0.000478</value>
+		</property>
+	</bean>
+
+	<bean id="d5_adc" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Integer">320</value>
 		</property>
 	</bean>
 

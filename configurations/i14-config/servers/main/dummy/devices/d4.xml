@@ -47,18 +47,25 @@
 		</property>
 	</bean>
 
-	<!-- Scatter diodes -->
+	<!-- Scatter diode -->
 	<bean id="d4_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
 		<property name="value">
-			<value type="double">-0.00054657</value>
+			<value type="double">0.0206739</value>
 		</property>
 	</bean>
 
+	<!-- Inline diode -->
 	<bean id="d4_diode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
 		<property name="value">
-			<value type="double">-0.00054300</value>
+			<value type="double">0.0054300</value>
+		</property>
+	</bean>
+
+	<bean id="d4_adc_inline" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Integer">485</value>
 		</property>
 	</bean>
 

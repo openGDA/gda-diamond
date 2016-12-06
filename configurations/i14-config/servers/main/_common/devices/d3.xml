@@ -43,6 +43,7 @@
 				<ref bean="d3_x" />
 				<ref bean="d3_x_position" />
 				<ref bean="d3_diode1" />
+				<ref bean="d3_adc_scatter" />
 				<ref bean="d3_cam" />
 			</list>
 		</property>

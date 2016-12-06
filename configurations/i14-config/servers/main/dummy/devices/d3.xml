@@ -33,7 +33,13 @@
 	<bean id="d3_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="uA" />
 		<property name="value">
-			<value type="double">0.012148</value>
+			<value type="double">0.0613588</value>
+		</property>
+	</bean>
+
+	<bean id="d3_adc_scatter" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Integer">-12739</value>
 		</property>
 	</bean>
 

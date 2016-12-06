@@ -42,7 +42,7 @@
 			<list>
 				<ref bean="d2_x" />
 				<ref bean="d2_x_position" />
-				<ref bean="d2_diode1" />
+				<ref bean="d2_diode" />
 				<ref bean="d2_cam" />
 			</list>
 		</property>
