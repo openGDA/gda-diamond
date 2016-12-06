@@ -29,7 +29,6 @@
         <cs:dependency name="i22-config" componentType="buckminster"/>
         <cs:dependency name="id18-config" componentType="buckminster"/>
         <cs:dependency name="lab11-config" componentType="buckminster"/>
-        <cs:dependency name="lpd-config" componentType="buckminster"/>
         <cs:dependency name="ncdsim-config" componentType="buckminster"/>
         <cs:dependency name="p45-config" componentType="buckminster"/>
     </cs:dependencies>

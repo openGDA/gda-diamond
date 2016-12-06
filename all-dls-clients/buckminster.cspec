@@ -37,6 +37,5 @@
         <cs:dependency name="uk.ac.gda.client.excalibur.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.client.logpanel.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.example.site" componentType="eclipse.feature"/>
-        <cs:dependency name="uk.ac.rl.gda.lpd.site" componentType="eclipse.feature"/>
     </cs:dependencies>
 </cs:cspec>
