@@ -15,8 +15,34 @@
 		<property name="position" value="Shutdown" />
 	</bean>
 
-	<bean id="machineTopupMonitor" class="gda.device.monitor.DummyMonitor">
-		<property name="constantValue" value="600"></property>
+	<bean id="machineTopupMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">600</value>
+		</property>
+	</bean>
+	
+	<bean id="machineTopupPeriod" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">600</value>
+		</property>
+	</bean>
+	
+	<bean id="ringcurrent" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">300</value>
+		</property> 
+	</bean>
+	
+	<bean id="portshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Opening</value>
+				<value>Closed</value>
+				<value>Closing</value>
+				<value>Fault</value>
+			</list>
+		</property>
 	</bean>
 
 	<!-- *************************** -->
