@@ -170,7 +170,8 @@ public class I14StatusView extends ViewPart implements IExecutableExtension {
 	 */
 	private class ReadonlyScannableCompositeWithAlarm extends ReadonlyScannableComposite {
 		private Double alarmValue;
-		private Color backgroundColour = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+		private Color alarmBackgroundColour = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+		private Color normalBackgroundColour = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 
 		public ReadonlyScannableCompositeWithAlarm(Composite parent, int style, Scannable scannable, String label,
 				String units, Integer decimalPlaces, Double alarmValue) {
@@ -185,7 +186,9 @@ public class I14StatusView extends ViewPart implements IExecutableExtension {
 				try {
 					final Double val = Double.valueOf(value);
 					if (val < alarmValue) {
-						text.setBackground(backgroundColour);
+						text.setBackground(alarmBackgroundColour);
+					} else {
+						text.setBackground(normalBackgroundColour);
 					}
 				} catch (NumberFormatException ex) {
 					logger.warn("Non-numeric value in status view", ex);
