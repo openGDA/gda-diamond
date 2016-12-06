@@ -44,7 +44,7 @@
 	</bean>
 
 	<!-- vvv is based on ^^^ but with the Area Detector writing hdf5 files rather than the images being written to the
-							 scan Nexus file -->
+							 scan Nexus file. Only the second will show in the Scanning perspective. -->
 
 	<bean id="cam2hdf5Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
 		<property name="name"                   value="cam2rawAD"/>
