@@ -14,13 +14,13 @@ class SampleMotionI16Test(unittest.TestCase):
     def setUp(self):
         # Initialise these as local, so the example code looks the same
         # as it will in localstation or a user script.
-        (sx, sy, mu, phi) = self.setUpMocks()
+        (sx, sy, sz, mu, phi, kappa, theta) = self.setUpMocks()
 
         #################### Start Example configuration ####################  
         from scannables.PerpendicularSampleMotion import PerpendicularSampleMotion, ParallelSampleMotion
 
-        sperp=PerpendicularSampleMotion("sperp", sx, sy, mu, phi)
-        spara=ParallelSampleMotion     ("spara", sx, sy, mu, phi)
+        sperp=PerpendicularSampleMotion("sperp", sx, sy, sz, mu, phi, kappa, theta)
+        spara=ParallelSampleMotion     ("spara", sx, sy, sz, mu, phi, kappa, theta)
 
         #################### End Example configuration ####################  
 
@@ -40,10 +40,13 @@ class SampleMotionI16Test(unittest.TestCase):
     def setUpMocks(self):
         self.sx = self.mockMotor("sx")
         self.sy = self.mockMotor("sy")
+        self.sz = self.mockMotor("sy")
         self.mu = self.mockMotor("mu")
         self.phi = self.mockMotor("phi")
+        self.kappa = self.mockMotor("kappa")
+        self.theta = self.mockMotor("theta")
 
-        return (self.sx, self.sy, self.mu, self.phi)
+        return (self.sx, self.sy, self.sz, self.mu, self.phi, self.kappa, self.theta)
         
     def tearDown(self):
         pass

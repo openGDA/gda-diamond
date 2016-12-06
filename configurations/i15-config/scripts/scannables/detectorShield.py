@@ -56,13 +56,13 @@ class DetectorShield(ScannableBase):
     def atScanEnd(self):
         self.closeDetectorShield(suppressWait=True)
 
-    def closeDetectorShield(self, supporessWait=False):
+    def closeDetectorShield(self, suppressWait=False):
         self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
         else:
             simpleLog("Detector Shield Closing...")
-        if not supporessWait:
+        if not suppressWait:
             self.waitWhileBusy(self.TIMEOUT*2)
             simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
 
