@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>s1c_xcentre</value>
+				<value>s1c_xsize</value>
+				<value>m1c_x</value>
+				<value>m1c_x</value>
+				<value>m1c_pitch</value>
+				<value>m1c_roll</value>
+				<value>m1c_yaw</value>
+				<value>s2c_xcentre</value>
+				<value>s2c_xsize</value>
+				<value>s2c_ycentre</value>
+				<value>s2c_ysize</value>
+				<value>pgm_energy</value>
+				<value>pgm_cff</value>
+				<value>pgm_mirror_pitch</value>
+				<value>pgm_mirror_x</value>
+				<value>s3c_xcentre</value>
+				<value>s3c_xsize</value>
+				<value>s3c_ycentre</value>
+				<value>s3c_ysize</value>
+				<value>m3c_x</value>
+				<value>m3c_y</value>
+				<value>m3c_pitch</value>
+				<value>m3c_roll</value>
+				<value>m3c_yaw</value>
+				<value>m1b_mask_temp</value>
+			</set>
+		</property>
+	</bean>
+
+</beans>
