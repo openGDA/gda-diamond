@@ -49,6 +49,7 @@
 
 	<import resource="jython_server_facade.xml" />
 	<import resource="common_nxplugins.xml"/>
+	<import resource="nexus_datawriter.xml"/>
 
 	<corba:export namespace="${gda.beamline.name}" />
 
