@@ -16,8 +16,19 @@
         <IncludeCallerData>true</IncludeCallerData>
     </appender>
     
-	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">
-        <level value="ERROR"/>
-    </logger>
+	<!-- Classes for which INFO messages are excessive-->
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">			<level value="ERROR"/></logger>
+
+	<!-- Classes for which DEBUG messages are excessive-->
+	<logger name="org.apache.activemq.transport.AbstractInactivityMonitor">				<level value="INFO"/></logger>
+	<logger name="org.eclipse.jetty.server">											<level value="INFO"/></logger>
+	<logger name="org.eclipse.jetty.servlet">											<level value="INFO"/></logger>
+	<logger name="org.eclipse.jetty.io">												<level value="INFO"/></logger>
+	<logger name="org.eclipse.jetty.http">												<level value="INFO"/></logger>
+
+
+	<!-- Classes for which TRACE messages are excessive-->
+	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">           				<level value="DEBUG"/></logger>
+	<logger name="hdf.hdf5lib.H5">														<level value="DEBUG"/></logger>
 
 </included>
