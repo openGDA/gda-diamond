@@ -17,8 +17,6 @@ from time import sleep,time
 from math import log
 
 
-
-
 def createPVMotor( name, pv, addToNameSpace=True):
     """
     utility function to create a scannable from a PV
@@ -31,19 +29,22 @@ def createPVMotor( name, pv, addToNameSpace=True):
     createPVMotor("dcm_braggo","BL14I-OP-DCM-01:BRAGG")
     
     """
-    em = EpicsMotor()
-    em.pvName=pv
-    em.name = name
-    em.configure()
-    sc=ScannableMotor()
-    sc.motor = em
-    sc.name = name
-    sc.configure()
-    if addToNameSpace:
-        commandServer = InterfaceProvider.getJythonNamespace()    
-        commandServer.placeInJythonNamespace(name,sc)
-    return sc
-
+    try:
+        em = EpicsMotor()
+        em.pvName=pv
+        em.name = name
+        em.configure()
+        sc=ScannableMotor()
+        sc.motor = em
+        sc.name = name
+        sc.configure()
+        if addToNameSpace:
+            commandServer = InterfaceProvider.getJythonNamespace()    
+            commandServer.placeInJythonNamespace(name,sc)
+        return sc
+    except:
+        print 'Error creating PVMotor', name
+        return None
 
 
 def createPVMonitor( name, pv, addToNameSpace=True):
@@ -57,16 +58,20 @@ def createPVMonitor( name, pv, addToNameSpace=True):
     e.g.
     createPVMonitor("dblah","BL14I-DI-PHDGN-03:FEMTO2:I")
     """
-    sc = EpicsMonitor()
-    sc.pvName=pv
-    sc.name = name
-    sc.configure()
-    if addToNameSpace:
-        commandServer = InterfaceProvider.getJythonNamespace()    
-        commandServer.placeInJythonNamespace(name,sc)
-    return sc
+    try:
+        sc = EpicsMonitor()
+        sc.pvName=pv
+        sc.name = name
+        sc.configure()
+        if addToNameSpace:
+            commandServer = InterfaceProvider.getJythonNamespace()    
+            commandServer.placeInJythonNamespace(name,sc)
+        return sc
+    except:
+        print 'Error creating PVMonitor', name
+        return None
 
-        
+
 class ExafsDetector(PseudoDevice):
     """
     records  log(i0/it)

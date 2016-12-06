@@ -3,8 +3,8 @@ from math import asin,sin,degrees,radians
 from gda.device.scannable import PseudoDevice
 from gda.analysis.datastructure import DataVector
 from gda.analysis.numerical.interpolation import Interpolator
-from java.lang import  Double
 import codecs
+import os.path
 #
 # Temporary script...to be replaced by comboDCM GDA motor at some point
 #
@@ -85,11 +85,16 @@ def stringToFloatList(input_string):
 
 
 class DCMpdq(PseudoDevice):
-    def __init__(self, name):
+    def __init__(self, name, dcm_bragg, dcm_perp, id_gap):
             self.setName(name);
             self.setInputNames([name])
             self.setExtraNames([])
             self.setOutputFormat(["%5.5g"])
+            
+            self.dcm_bragg = dcm_bragg
+            self.dcm_perp = dcm_perp
+            self.id_gap = id_gap
+
             # Si 111 spacing at 77K
             self.silicon_d111 = 3.134925
             # Conversion factor used in wavelength to keV calculation
@@ -153,7 +158,7 @@ class DCMpdq(PseudoDevice):
                 #else:
                 #    pos dcm_bragg bragg dcm_perp perp id_gap newid_gap
                 # Moves bragg, perp and gap together to new positions
-                pos dcm_bragg bragg dcm_perp perp id_gap newid_gap
+                pos(self.dcm_bragg, bragg, self.dcm_perp, perp, self.id_gap, newid_gap)
                 self.iambusy = 0
 
     def rawIsBusy(self):
@@ -173,7 +178,7 @@ class DCMpdq(PseudoDevice):
         """
         Calculate the energy given the current bragg motor position
         """
-        bragg = dcm_bragg.getPosition()
+        bragg = self.dcm_bragg.getPosition()
         bragg_rad = radians(bragg)
         energy  = self.wavetokeV/(2*self.silicon_d111*sin(bragg_rad))
         return energy
@@ -296,20 +301,21 @@ class DCMpdq(PseudoDevice):
         
         """
         print "harmonic selected:",harmonic
+        harmonics_dir = os.path.dirname(os.path.realpath(__file__)) + '/../harmonics/'
         if(harmonic==5):
-            self.setLookupTable('/dls_sw/i14/scripts/Harmonics/harmonic5_20160429.txt')
+            self.setLookupTable(harmonics_dir + 'harmonic5_20160429.txt')
         elif(harmonic==7):
-            self.setLookupTable('/dls_sw/i14/scripts/Harmonics/harmonic7_20160429.txt')
+            self.setLookupTable(harmonics_dir + 'harmonic7_20160429.txt')
         elif(harmonic==9):
-            self.setLookupTable('/dls_sw/i14/scripts/Harmonics/harmonic9_20160429.txt')
+            self.setLookupTable(harmonics_dir + 'harmonic9_20160429.txt')
         elif(harmonic==11):
-            self.setLookupTable('/dls_sw/i14/scripts/Harmonics/harmonic11_20160429.txt')
+            self.setLookupTable(harmonics_dir + 'harmonic11_20160429.txt')
         elif(harmonic==13):
-            self.setLookupTable('/dls_sw/i14/scripts/Harmonics/harmonic13_20160429.txt')
+            self.setLookupTable(harmonics_dir + 'harmonic13_20160429.txt')
         elif(harmonic==15):
-            self.setLookupTable('/dls_sw/i14/scripts/Harmonics/harmonic15_20160429.txt')
+            self.setLookupTable(harmonics_dir + 'harmonic15_20160429.txt')
         elif(harmonic==17):
-            self.setLookupTable('/dls_sw/i14/scripts/Harmonics/harmonic17_20160429.txt')
+            self.setLookupTable(harmonics_dir + 'harmonic17_20160429.txt')
 
         else:
             print 'Cannot find a match for ',harmonic
