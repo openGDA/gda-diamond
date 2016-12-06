@@ -17,6 +17,32 @@
 		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
 	</bean>
 
+	<!-- Scatter diode -->
+	<bean id="d6_diode1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:FEMTO1:I"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<bean id="d6_adc_scatter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:FEMTO1:ADC1_VALUE"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<!-- Stick diode -->
+	<bean id="d6_diode2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:FEMTO2:I"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<bean id="d6_adc_stick" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:FEMTO2:ADC2_VALUE"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
 	<!-- ROI support -->
 	<bean id="d6PlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
 		<constructor-arg value="D6" />

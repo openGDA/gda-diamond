@@ -28,6 +28,34 @@
 		</property>
 	</bean>
 
+	<!-- Scatter diode -->
+	<bean id="d6_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="uA" />
+		<property name="value">
+			<value type="double">-0.000258</value>
+		</property>
+	</bean>
+
+	<bean id="d6_adc_scatter" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Integer">96</value>
+		</property>
+	</bean>
+
+	<!-- Inline diode -->
+	<bean id="d6_diode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="uA" />
+		<property name="value">
+			<value type="double">0.000938</value>
+		</property>
+	</bean>
+
+	<bean id="d6_adc_stick" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Integer">45</value>
+		</property>
+	</bean>
+
 	<!-- HDF5 file -->
 	<bean id="d6_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
 		<property name="file">

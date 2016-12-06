@@ -42,6 +42,10 @@
 			<list>
 				<ref bean="d6_y" />
 				<ref bean="d6_y_position" />
+				<ref bean="d6_diode1" />
+				<ref bean="d6_adc_scatter" />
+				<ref bean="d6_diode2" />
+				<ref bean="d6_adc_stick" />
 				<ref bean="d6_cam" />
 			</list>
 		</property>

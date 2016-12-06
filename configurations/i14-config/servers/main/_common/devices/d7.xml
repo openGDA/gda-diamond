@@ -42,6 +42,10 @@
 			<list>
 				<ref bean="d7_y" />
 				<ref bean="d7_y_position" />
+				<ref bean="d7_diode1" />
+				<ref bean="d7_adc_scatter" />
+				<ref bean="d7_diode2" />
+				<ref bean="d7_adc_stick" />
 				<ref bean="d7_cam" />
 			</list>
 		</property>
