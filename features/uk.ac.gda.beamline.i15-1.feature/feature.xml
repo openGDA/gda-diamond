@@ -47,4 +47,8 @@
          id="org.dawnsci.browser.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.scanning.event.queues.feature"
+         version="0.0.0"/>
+
 </feature>
