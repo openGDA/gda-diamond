@@ -3,7 +3,6 @@
         <cs:dependency name="all-mx-clients" componentType="buckminster"/>
         <cs:dependency name="fr.esrf.gda.beamline.bm26.site" componentType="eclipse.feature"/>
         <cs:dependency name="fr.esrf.gda.beamline.bm26a.site" componentType="eclipse.feature"/>
-        <cs:dependency name="gov.aps.gda.beamline.id18.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.diamond.daq.beamline.p45.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.b07-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.b16.site" componentType="eclipse.feature"/>
