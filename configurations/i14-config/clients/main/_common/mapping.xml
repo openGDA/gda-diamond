@@ -35,7 +35,7 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+<!-- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Xspress3" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
@@ -44,8 +44,8 @@
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
-				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+				</bean> -->
+<!-- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Andor" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
@@ -54,7 +54,7 @@
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
-				</bean>
+				</bean> -->
 			</list>
 		</property>
 		<property name="scanDefinition">
