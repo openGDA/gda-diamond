@@ -9,8 +9,6 @@
 
 EXPECTED_BEAMLINE_VALUE=i08
 
-
-
 # Initialise the workspace and config locations for a standard Diamond Light Source GDA 9 installation, if the
 # config tree contains the dls-config/bin folder. This will define the following environment variables which
 # must all be set for the server and client to start successfully:
@@ -45,11 +43,6 @@ fi
 
 # For instance if you use an actual group config (like mx) you might put
 # export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
-
-# Set WORKSTATION environment variable - used in dummy mode for spring config of dummy area detector
-if [ -z $WORKSTATION ]; then
-	export WORKSTATION=${HOSTNAME%%.*}
-fi
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings

@@ -1,3 +1,0 @@
-#This is I08's file which needs to be recreated for i08
-export CONTROL_MACHINE_PUBKEY="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0BO+SThlUb10lWlC/27pf2pQ4QUejQYkWvODMRY6pNNChEQqwwCYZcWso0CuDqG0dp1vF/mbazO/2ghoIjlnPYBsJ0hKUiup92+onhMWxiWc13Vvb3bqHJkTbQrIV3CIHZCdACmVjZTFOFHIM+opGGRLv3aYy+pk9lByLEwQciG+sQEns30eMikgIH+vJp/4myfWurPUlRG82hOaLv+KSiUBaJxQ+aqRv8c3wnqZKKgTkflXmAFD+uqfKKPN5ZRh24cuv++QvlGgZZRWXGMtoZ1Q9hGNfnYXknZ2S3tFT8zPgn8J9x7CGcwUyrq4gFjO8eDyrFiCiu0ahJ1C1fFQ9Q=="
-bashlog debug "gda_servers_pre_instance" "exported CONTROL_MACHINE_PUBKEY=${CONTROL_MACHINE_PUBKEY:0:12}..."
