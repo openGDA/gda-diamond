@@ -34,6 +34,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_addetector.xml" />
  	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xmap_detector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
 
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
@@ -62,6 +63,8 @@
 		ADVISED: do it last or towards the end, scan will now start to run!
 	 -->
 	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml"/>
+
+	<import resource="file:${gda.config}/servers/main/_common/motor_rmi_exports.xml" />
 
  	<!-- Initialise Jython late on, as localStation refers to beans -->
 	<import resource="jythonServerFacade.xml" />

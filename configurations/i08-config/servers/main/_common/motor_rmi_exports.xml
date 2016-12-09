@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/T1X" />
+		<property name="service" ref="T1X" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/T1Y" />
+		<property name="service" ref="T1Y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/T1Z" />
+		<property name="service" ref="T1Z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+</beans>

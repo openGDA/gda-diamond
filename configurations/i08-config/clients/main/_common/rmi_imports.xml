@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Motors -->
+	<bean id="T1X" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}T1X" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="T1Y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}T1Y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="T1Z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}T1Z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+</beans>

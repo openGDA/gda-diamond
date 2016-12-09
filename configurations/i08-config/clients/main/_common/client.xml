@@ -12,9 +12,6 @@
 
 	<context:property-placeholder />	
 
-	<import resource="mapping.xml" />
-	<import resource="osgi_services.xml" />
-
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
@@ -31,5 +28,9 @@
 		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
+	<import resource="rmi_imports.xml" />
+	<import resource="mapping.xml" />
+	<import resource="osgi_services.xml" />
 
 </beans>
