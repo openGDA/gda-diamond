@@ -15,7 +15,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL08I-EA-DET-01:STAT:" />
-				<property name="initialArrayPort" value="ANDOR" />
+				<property name="initialArrayPort" value="DET1.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -25,7 +25,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL08I-EA-DET-01:ARR:" />
-				<property name="initialArrayPort" value="ANDOR" />
+				<property name="initialArrayPort" value="DET1.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -35,7 +35,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL08I-EA-DET-01:HDF5:" />
-				<property name="initialArrayPort" value="ANDOR.stat" />
+				<property name="initialArrayPort" value="DET1.stat" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
