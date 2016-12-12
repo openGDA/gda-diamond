@@ -3,6 +3,7 @@ from math import asin,sin,degrees,radians
 from gda.device.scannable import PseudoDevice
 from gda.analysis.datastructure import DataVector
 from gda.analysis.numerical.interpolation import Interpolator
+from gda.jython.commands.ScannableCommands import pos
 import codecs
 import os.path
 #
