@@ -63,7 +63,8 @@ public class ScanDataHelper {
 				logger.warn("Problem converting from Nexus data to Dataset : shape does not match original Nexus data.");
 			}
 		}
-		return (DoubleDataset) dataset;
+		// Return clone of dataset, so original NexusGroupData object is not affected if we manipulate the returned dataset...
+		return new DoubleDataset(dataset);
 	}
 
 	public static int getIndexOfMyDetector(String detectorName, ScanDataPoint scanDataPoint) {
