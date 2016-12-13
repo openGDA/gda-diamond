@@ -29,6 +29,14 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<!-- =========================================================== -->
+	<!-- 	mode specific files -->
+	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
+
+	<!-- =========================================================== -->
+	<!-- 	shared files -->
+	<!-- =========================================================== -->
 	<import resource="rmi_imports.xml" />
 	<import resource="mapping.xml" />
 	<import resource="osgi_services.xml" />
