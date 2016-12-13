@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I08 Beamline" id="uk.ac.gda.beamline.i08.product" application="uk.ac.gda.client.application" version="9.2.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I08 Beamline" uid="uk.ac.gda.beamline.i08.product" id="uk.ac.gda.beamline.i08.product" application="uk.ac.gda.client.application" version="9.2.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+      <text>
+         Diamond Beamline I08
+
+Based on GDA See &lt;http://www.opengda.org/&gt;
+      </text>
+   </aboutInfo>
 
    <configIni use="default">
    </configIni>
@@ -29,15 +38,40 @@
       </vmArgsMac>
    </launcherArgs>
 
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i08" />
    <launcher name="gda-i08">
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
       <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2016 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
 
    <plugins>
    </plugins>
