@@ -28,8 +28,9 @@
 				<ref bean="m2_y" />
 				<ref bean="m2_pitch" />
 				<ref bean="m2_roll" />
+				<ref bean="m2_mirror_stripe" />
 			</list>
 		</property>
-	</bean>	
+	</bean>
 
 </beans>

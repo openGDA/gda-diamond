@@ -8,17 +8,25 @@
 		<property name="pvName" value="BL14I-OP-MIRR-02:X" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-02:Y" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-02:PITCH" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-02:ROLL" />
 		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_mirror_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL14I-OP-MIRR-02:Y:MP" />
+		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
 	</bean>
 
 </beans>
