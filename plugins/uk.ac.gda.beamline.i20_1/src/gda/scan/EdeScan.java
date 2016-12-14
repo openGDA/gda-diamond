@@ -45,6 +45,8 @@ import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.ScanDataHelper;
+import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -89,6 +91,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	private boolean useFastShutter;
 	private Scannable fastShutter;
+
+	private Scannable motorToMoveDuringScan;
 
 	/**
 	 * @param scanParameters
@@ -303,8 +307,32 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			currentPointCount = -1;
 		}
 
-		logger.debug(toString() + " starting detector running...");
 		terminalPrinter.print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+		if (motorPositions instanceof EdeScanMotorPositions) {
+			EdeScanMotorPositions scanMotorPositions = (EdeScanMotorPositions)motorPositions;
+			List<Double> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
+			motorToMoveDuringScan = scanMotorPositions.getMotorToMoveDuringScan();
+			boolean lightItScan = scanType == EdeScanType.LIGHT && motorPositions.getType() == EdePositionType.INBEAM;
+
+			if (lightItScan && motorToMoveDuringScan !=null && motorPositionsToScan != null && motorPositionsToScan.size()>0) {
+				int count = 1;
+				for(Double pos : motorPositionsToScan) {
+					logger.info("Moving motor {} to position {} (step {} of {})...", motorToMoveDuringScan.getName(), pos, count++, motorPositionsToScan.size());
+					motorToMoveDuringScan.moveTo(pos);
+					collectDetectorData();
+				}
+			} else {
+				collectDetectorData();
+			}
+		} else {
+			logger.debug(toString() + " starting detector running...");
+			collectDetectorData();
+		}
+		fastShutterMoveTo("Close");
+	}
+
+	protected void collectDetectorData() throws Exception {
+		logger.debug(toString() + " collectDetectorData started...");
 		if (theDetector instanceof EdeFrelon) {
 			for (Integer i = 0; i < scanParameters.getGroups().size(); i++) {
 				if (Thread.currentThread().isInterrupted()) {
@@ -326,8 +354,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			// poll tfg and fetch data
 			pollDetectorAndFetchData();
 		}
-		logger.debug(toString() + " doCollection finished.");
-		fastShutterMoveTo("Close");
+		logger.debug(toString() + " collectDetectorData finished.");
 	}
 
 	protected void pollDetectorAndFetchData() throws DeviceException, Exception {
@@ -550,6 +577,12 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			thisPoint.addScannable(indexer);
 			thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
 		}
+
+		if (motorToMoveDuringScan != null) {
+			thisPoint.addScannable(motorToMoveDuringScan);
+			thisPoint.addScannablePosition(motorToMoveDuringScan.getPosition(), motorToMoveDuringScan.getOutputFormat());
+		}
+
 		addDetectorsToScanDataPoint(lowFrame, detData, thisFrame, thisPoint);
 		thisPoint.setCurrentPointNumber(currentPointCount);
 		thisPoint.setNumberOfPoints(getTotalNumberOfPoints());
