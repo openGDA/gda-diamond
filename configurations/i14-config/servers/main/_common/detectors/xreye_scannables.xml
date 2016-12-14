@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="xreye_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="xreye_x_motor" />
+	</bean>
+
+	<bean id="xreye_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="xreye_y_motor" />
+	</bean>
+
+	<bean id="xreye_z" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="xreye_z_motor" />
+	</bean>
+
+	<bean id="xreye_lens_focus" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="xreye_lens_focus_motor" />
+	</bean>
+
+	<bean id="xreye_lens_sel" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="xreye_lens_sel_motor" />
+	</bean>
+
+	<bean id="xreye" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xreye_addetector" />
+				<ref bean="xreye_x" />
+				<ref bean="xreye_y" />
+				<ref bean="xreye_z" />
+				<ref bean="xreye_lens_focus" />
+				<ref bean="xreye_lens_sel" />
+				<ref bean="xreye_lens_selector" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

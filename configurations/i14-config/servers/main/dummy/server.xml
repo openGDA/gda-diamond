@@ -4,9 +4,6 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!-- Include the following lines to run with simulated area detector -->
-	<!-- <import resource="file:${gda.config}/servers/main/dummy/detectors/adSimulator.xml" /> -->
-
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 </beans>

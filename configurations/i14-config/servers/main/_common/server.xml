@@ -58,8 +58,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d7.xml" />
 
 	<!-- detectors -->
-	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_addetector.xml" /> -->
-	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
 
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
@@ -99,9 +100,10 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />
 
 	<!-- detectors -->
-	<!-- <import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" />
-	<!-- <import resource="file:${gda.config}/servers/main/_common/detectors/xspress3_addetector.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_scannables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/xspress3_addetector.xml" />
 
 	<!-- sample stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />

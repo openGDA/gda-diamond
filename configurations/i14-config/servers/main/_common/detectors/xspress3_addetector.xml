@@ -36,7 +36,7 @@
 		<property name="description" value="Xspress3" />
 	</bean>
 
-	<bean id="Xspress3" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+	<bean id="xsp3_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
 		<property name="name" value="xsp3_addetector" />
 		<property name="model" ref="xsp3Model" />
 		<property name="deviceInformation" ref="xsp3Info" />
