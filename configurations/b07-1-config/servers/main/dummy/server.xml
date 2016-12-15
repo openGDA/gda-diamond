@@ -21,6 +21,7 @@
 	<import resource="d1c.xml"/>
 	<import resource="d2c.xml"/>
 	<import resource="d3c.xml"/>
+	<import resource="d6c.xml"/>
 	
 	<!-- Simulated Area Detector -->
 	<import resource="adSimulator.xml"/>
