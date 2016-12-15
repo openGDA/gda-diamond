@@ -93,5 +93,14 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="d6c_y_positioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07C-DI-PHDGN-06:Y:MP" />
+	</bean>
+	
+	<bean id="d6c_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-DI-PHDGN-06:Y" />
+		<property name="local" value="true" />
+	</bean>
 
 </beans>
