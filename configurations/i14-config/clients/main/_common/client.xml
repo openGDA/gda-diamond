@@ -19,6 +19,7 @@
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/ring.xml" />
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
 
 	<!-- =========================================================== -->
 	<!-- Shared files                                                -->
