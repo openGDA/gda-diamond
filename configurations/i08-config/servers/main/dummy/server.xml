@@ -9,41 +9,8 @@
            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
-<!-- How to manage look-up table -->
-	<!-- <bean id="energy" class="gda.device.scannable.CoupledScannable">
-		<property name="scannables">
-			<list>
-				<ref bean="energy_gap" />
-				<ref bean="pgm_energy" />
-			</list>
-		</property>
-		<property name="initialUserUnits" value="eV" />
-		<property name="hardwareUnitString" value="eV" />
-		<property name="outputFormat">
-			<list>
-				<value>%.4f</value>
-			</list>
-		</property>
-	</bean>
-    
-	<bean id="energy_idgap_converter" class="gda.util.converters.LookupTableConverterHolder">
-		<constructor-arg value="energy_idgap_converter" />
-		<constructor-arg value="energy_idgap_converter.txt" />
-		<constructor-arg value="0" />
-		<constructor-arg value="1" />
-		<constructor-arg type="java.lang.String" value="Both" />
-	</bean>    
-    
-    
-	<bean id="energy_gap" class="gda.device.scannable.ConvertorScannable">
-		<property name="scannable" ref="idgap" />
-		<property name="convertor" ref="energy_idgap_converter" />
-		<property name="initialUserUnits" value="eV" />
-		<property name="hardwareUnitString" value="eV" />
-	</bean>     -->
+	<import resource="file:${gda.config}/servers/main/dummy/detectors/sim_addetector.xml" />
 
-
-    
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
-	
+
 </beans>
