@@ -186,7 +186,7 @@
 		<property name="units" value="counts" />
 		<property name="channel" value="3" />
 		<property name="label" value="data" />
-		<property name="scalingAndOffset" ref="bs1diodegain" />
+		<property name="scalingAndOffset" ref="bs2diodegain" />
 	</bean>
 
 	<bean id="I0"
@@ -196,7 +196,7 @@
 		<property name="units" value="counts" />
 		<property name="channel" value="1" />
 		<property name="label" value="data" />
-		<property name="scalingAndOffset" ref="qbpmgain" />
+		<property name="scalingAndOffset" ref="d4d2gain" />
 	</bean>
 
 	<bean id="IonChamber"
