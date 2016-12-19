@@ -79,7 +79,7 @@ class RoiWithStats(ScannableBase, object):
         self.roiPvs['enableX'] = roiPV('EnableX')
         self.roiPvs['enableY'] = roiPV('EnableY')
         self.roiPvs['port'] = roiPV('PortName_RBV')
-        
+
         self.roiPvs['name'] = roiPV('Name')
         self.roiPvs['name'].caput(name)
 
@@ -87,16 +87,16 @@ class RoiWithStats(ScannableBase, object):
         self.statPvs['inputPort'] = statPV('NDArrayPort')
 
         self.level = 3
-        
+
     def isBusy(self):
         return 0
-    
+
     def atScanStart(self):
         if self.used:
             raise RoiException("ROI has been disconnected")
         self.statPvs['inputPort'].caput(self.roiPvs['port'].caget())
         self.enable(True)
-        
+
     def atScanEnd(self):
         if self.singleUse:
             self.used = True
@@ -115,19 +115,19 @@ class RoiWithStats(ScannableBase, object):
 #         print new_position
         for i in range(4):
             var = self.inputs[i]
-#             print "moving %s to %d" %(var, new_position[i]) 
+#             print "moving %s to %d" %(var, new_position[i])
             self.roiPvs[var].caput(new_position[i])
-            
+
     def rawGetPosition(self):
         sleep(0.5)
         return [stringToInt(self.roiPvs[i].caget()) for i in self.inputs] + [stringToInt(self.statPvs[i].caget()) for i in self.outputs]
-    
+
     def enable(self, enable=True):
         self.roiPvs['enable'].caput(1 if enable else 0)
         self.roiPvs['enableX'].caput(1 if enable else 0)
         self.roiPvs['enableY'].caput(1 if enable else 0)
         self.statPvs['enable'].caput(1 if enable else 0)
-    
+
     def isEnabled(self):
         return bool(stringToInt(self.roiPvs['enable'].caget())),\
             bool(stringToInt(self.statPvs['enable'].caget())),\
@@ -144,40 +144,49 @@ class RoiWithStats(ScannableBase, object):
         if not enabled[1]: warning += "STATS are not enabled\n"
         message = warning + ScannableBase.__str__(self)
         return message
-    
+
     def __del__(self):
 #         print "closing channels"
         for _, cac in self.roiPvs.items():
             cac.clearup()
         for _, cac in self.statPvs.items():
             cac.clearup()
-    
+
+
+class RoiWithAbsoluteStats(RoiWithStats):
+	def rawGetPosition(self):
+		raw = super(RoiWithAbsoluteStats, self).rawGetPosition()
+		rel = raw[:]
+		for i in range(4):
+			rel[4+i] = raw[4+i] + raw[i%2]
+		return rel
+
 class RoiPlotter:
     MAX_ROIS = 6
     def __init__(self, basePV, plotname="roiPlot"):
 #         self.ad = addet
 #         self.ad_base = addet.getAdBase()
 #         self.ad_array = addet.getNdArray()
-        
+
         self.basepv = basePV
         self.ad_rois = [RoiWithStats("roi_" + str(i+1), self.basepv, i+1) for i in range(self.MAX_ROIS)]
 #         self.rois = dict([(r, "%s_roi" % r.getName()) for r in rois])
-        
+
 #         self.basepv = addet.getAdBase().getBasePVName().split(':')[0]
         self.plotname = plotname
-    
+
 #     def _getArraySize(self):
 #         ad_array_plugin_base = self.ad_array.getPluginBase()
 #         size_x = ad_array_plugin_base.getArraySize0_RBV()
 #         size_y = ad_array_plugin_base.getArraySize1_RBV()
 #         return size_x, size_y
-#     
+#
 #     def _getData(self):
 #         dims = self._getArraySize()
 #         data = dnp.array(self.ad_array.getImageData(dims[0] * dims[1]))
 #         data.shape = dims[::-1]
 #         return data
-#     
+#
 #     def plotImage(self):
 #         data = self._getData()
 #         dnp.plot.clear(name=self.plotname)
@@ -189,15 +198,24 @@ class RoiPlotter:
 #             to_plot.append(droi)
 #         if to_plot:
 #             dnp.plot.setrois(to_plot, name=self.plotname)
-    
+
     def getRois(self):
+        return self._getRois(False)
+    def getAbsouteRois(self):
+        return self._getRois(True)
+
+    def _getRois(self, absolute=False):
         rois = dnp.plot.getrois(name=self.plotname)
         count = min(len(rois), self.MAX_ROIS)
         roiWithStatsList = []
         roi_count = 1
         for name, roi in rois.items():
             if roi.isPlot():
-                rws = RoiWithStats(name + "_roi", self.basepv, roi_count, True)
+                if absolute:
+                    roi_class = RoiWithAbsoluteStats
+                else:
+                    roi_class = RoiWithStats
+                rws = roi_class(name + "_roi", self.basepv, roi_count, True)
                 point = list(roi.getPoint())
 #                 print point
                 lengths = list(roi.getLengths())
