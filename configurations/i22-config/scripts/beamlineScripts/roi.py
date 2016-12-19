@@ -51,15 +51,15 @@ class RoiWithStats(ScannableBase, object):
         self.name = name
         self.roiExts = {'min_x': 'MinX', 'size_x': 'SizeX', 'min_y': 'MinY', 'size_y': 'SizeY'}
         self.statExts = {'min_value': 'MinValue_RBV', 'max_value': 'MaxValue_RBV',\
-                     'x_min': 'MinX_RBV', 'x_max': 'MaxX_RBV', 'y_min': 'MinY_RBV', 'y_max': 'MaxY_RBV', }
+				'x_min': 'MinX_RBV', 'x_max': 'MaxX_RBV', 'y_min': 'MinY_RBV', 'y_max': 'MaxY_RBV', 'mean': 'MeanValue_RBV', 'sum': 'Total_RBV'}
 
         self.inputs = ['min_x', 'min_y', 'size_x', 'size_y']
-        self.outputs = ['min_value', 'max_value', 'x_min', 'x_max', 'y_min', 'y_max']
+        self.outputs = ['x_min', 'y_min', 'x_max', 'y_max', 'min_value', 'max_value', 'mean', 'sum']
         self.inputNames = ["%s_%s" %(name,input) for input in self.inputs]
         self.extraNames = ["%s_%s" %(name,output) for output in self.outputs]
-        self.outputFormat = ['%d']*10
-        
-        
+        self.outputFormat = ['%d']*12
+
+
         roiBasePV = "%s:ROI%d:" %(basePV, roi)
         statBasePV = "%s:STAT%d:" %(basePV, roi)
 
