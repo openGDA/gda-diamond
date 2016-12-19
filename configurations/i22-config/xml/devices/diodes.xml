@@ -15,6 +15,7 @@
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE1:I" />
 		<property name="local" value="true" />
 		<property name="settletime" value="500" />
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 	<bean id="d10d1gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE1:GAIN" />
@@ -102,6 +103,7 @@
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE2:I" />
 		<property name="local" value="true" />
 		<property name="settletime" value="500" />
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 	<bean id="d10d2gain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE2:GAIN" />
@@ -189,6 +191,7 @@
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:I" />
 		<property name="local" value="true" />
 		<property name="settletime" value="500" />
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 	<bean id="bs1diodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:GAIN" />
@@ -276,6 +279,7 @@
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:I" />
 		<property name="local" value="true" />
 		<property name="settletime" value="500" />
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 	<bean id="bs2diodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:GAIN" />
@@ -363,6 +367,7 @@
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:I" />
 		<property name="local" value="true" />
 		<property name="settletime" value="500" />
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 	<bean id="bs3diodegain" class="uk.ac.gda.server.ncd.epics.ScalingAndOffsetFromCurrAmp">
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:GAIN" />
