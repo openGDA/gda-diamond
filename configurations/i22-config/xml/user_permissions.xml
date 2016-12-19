@@ -57,4 +57,10 @@
 <tfx17877>2</tfx17877>
 <!--user on visit sm10499-4, added by PAS on 6 February 2016 so user could move BS2/3 - GISAXS-->
 <hgs15434>2</hgs15434>
+<!-- user on visit sm14049-1 to move mfsax motors by Rob Walton on 23 April 2016 -->
+<mmp21335>3</mmp21335>
+<ukc93988>3</ukc93988>
+<!-- user on visit sm13921-1 to change energies etc by olga Shebanova on June 17th -->
+<uri03207>2</uri03207>
+<!-- user on the same visit as above by Olga Shebanova -->
 </user_permissions>
