@@ -65,7 +65,7 @@ class Harmonic:
 	c = linear term
 	d = constant term
 	"""
-	
+
 	def __init__(self, order, energyStart, energyEnd, a, b, c, d):
 		self.name = "Harmonic "+str(order)
 		self.energyStart = energyStart
@@ -80,17 +80,17 @@ class Harmonic:
 	def getEnergy(self, position):
 		c = self.c - position
 		b = self.b
-		a = self.a 
+		a = self.a
 		delta = b*b - 4.0 * a*c
 		if ( delta ) < 0:
 			raise DeviceException("No real solution for the energy")
 
 		x1 = ( - b + sqrt( delta ) ) / ( 2.0 * a )
 		x2 = ( - b - sqrt( delta ) ) / ( 2.0 * a )
-		if ( x1 >= (self.energyStart-self.EPSILON) and x1 < self.energyEnd ):			
-			return x1 
-		if ( x2 >= (self.energyStart-self.EPSILON) and x2 < self.energyEnd ):			
-			return x2 
+		if ( x1 >= (self.energyStart-self.EPSILON) and x1 < self.energyEnd ):
+			return x1
+		if ( x2 >= (self.energyStart-self.EPSILON) and x2 < self.energyEnd ):
+			return x2
 		raise DeviceException("Energy out of range for the "+self.name+". The 2 solutions for an ID gap of "+str(position)+"mm are "+str(x1)+" or "+str(x2))
 
 	def getPosition(self, X):
@@ -98,25 +98,25 @@ class Harmonic:
 
 	def getName(self):
 		return self.name
-	
+
 	def isSelected(self, X):
 		selected = False
 #		print str(X)+" "+str(self.energyEnd)+" "+str(X<self.energyEnd)
 		if ( X >= self.energyStart and X < self.energyEnd ):
 			selected = True
-		return selected	
+		return selected
 
 class CalibratedID(gda.device.scannable.PseudoDevice):
 	"""
 	    Purpose:       To change the ID gap to the right energy value.It is assumed the DCM has been commissioned first.
 	"""
 
-	def __init__(self, name, id):
+	def __init__(self, name, id_gap):
 		""" Constructor method give the device a name - in this case CalibratedID"""
 		self.name = name
 		self.setInputNames([name])
-		self.id = id
-		self.selectedHarmonic = 3 
+		self.id_gap = id_gap
+		self.selectedHarmonic = 3
 		harmonics =[]
 		#                            fit y = ax^3 + bx^2 + cx +d
 		#                            n: harmonic order
@@ -134,13 +134,13 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
 		self.harmonics = harmonics
 
 	def isBusy(self):
-		return self.id.isBusy()
+		return self.id_gap.isBusy()
 
 	def getPosition(self):
-		return float(self.id.getPosition())
+		return float(self.id_gap.getPosition())
 
 	def asynchronousMoveTo(self,X):
-		self.id.asynchronousMoveTo(self.calculateposition(X)-0.005)
+		self.id_gap.asynchronousMoveTo(self.calculateposition(X)-0.005)
 
 	def getSelectedHarmonic(self, X):
 		n = len(self.harmonics)
@@ -154,7 +154,7 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
 		return self.harmonics[self.selectedHarmonic].getPosition(X)
 
 	def test(self , start, end , step):
-		energy_position = start 
+		energy_position = start
 		while ( energy_position <= end ):
 			position = self.position( energy_position )
 			selectedHarmonic = self.getSelectedHarmonic(energy_position)
