@@ -1,6 +1,5 @@
 from gdascripts.analysis.datasetprocessor.oned import GaussianEdge, GaussianPeakAndBackground
-from uk.ac.diamond.scisoft.analysis.io import LoaderFactory
-from gdascripts.analysis.io import FileLoader
+from gdascripts.analysis.io import ScanFileLoader
 import scisoftpy as dnp
 import os
 from gdascripts.scan.process.ScanDataProcessorResult import ScanDataProcessorResult
@@ -47,7 +46,8 @@ def _fileProcess(file_desc, scannables, processor=None):#, ns=None):
     if not processor:
         print "No processors provided"
         return
-    data = FileLoader.loadFile(file_desc, loader=LoaderFactory.getData)
+
+    data = ScanFileLoader.ScanFileLoader(file_desc).getSFH()
     if not data:
         print "No data returned"
         return
@@ -58,7 +58,7 @@ def _fileProcess(file_desc, scannables, processor=None):#, ns=None):
     print "x: %s, y: %s" %tuple(snames)
     x_data, y_data = _getDatasets(data, paths)
 
-    if not x_data.rank == y_data.rank == 1:
+    if not len(x_data.shape) == len(y_data.shape) == 1:
         print "Can only process 1D data"
         return
 
@@ -66,10 +66,6 @@ def _fileProcess(file_desc, scannables, processor=None):#, ns=None):
     results = FileProcessResult()
     error = None
     try:
-        #silence fitting routines
-        tmp_stdout = sys.stdout
-        sys.stdout = open(os.devnull, 'w')
-
         dnp.plot.clear(name="Scan Plot 1")
         dnp.plot.plot(x_data, y_data, name="Scan Plot 1")
         for sp in processor.processors:
@@ -77,16 +73,13 @@ def _fileProcess(file_desc, scannables, processor=None):#, ns=None):
             fit_results.append(res)
             setattr(results,sp.name,FileProcessResult(**res.resultsDict))
     except ValueError, e:
-        #don't print here as stdout is devnull
         error = "Could not process file: %s" %e
-    finally:
-        #reenable stdout
-        sys.stdout.close()
-        sys.stdout = tmp_stdout
+
     if error:
         print error
     else:
         print '\n'.join([res.report for res in fit_results])
+
     ns = processor.rootNamespaceDict
     if ns.has_key('results') and not isinstance(ns['results'], FileProcessResult):
         print "not overriding results object"
@@ -151,4 +144,4 @@ def _getData(data, scannable):
     except AttributeError, ae:
         #scannable is a path
         dataset = data.getLazyDataset(scannable).getSlice(None)
-    return dataset
+    return dnp.array(dataset)
