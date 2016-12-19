@@ -19,16 +19,18 @@ class DetGuard(IObserver):
                 for type in self.checks.keys():
                     for severity in self.severities.keys():
                         if detname+type+severity in self.limits:
-                            if self.checks[type](rate) > self.limits[detname+type+severity]:
-                                self.severities[severity](detname)
+                            current_value = self.checks[type](rate)
+                            limit = self.limits[detname+type+severity]
+                            if current_value > limit:
+                                self.severities[severity](detname, current_value, limit)
         except:
             pass
         
-    def softAction(self, message):
-        print "INFO: detector %s is operating close to the maximum allowed count rate" % message
+    def softAction(self, message, current_value, limit):
+        print "INFO: detector %s is operating close to the maximum allowed count rate (current value %g, limit %g)" % (message, current_value, limit)
         
-    def hardAction(self, message):
-        print "ERROR: count rate on detector %s intolerable, closing shutter" % message
+    def hardAction(self, message, current_value, limit):
+        print "ERROR: count rate %g exceeds limit %g on detector %s intolerable, closing shutter" % (current_value, limit, message)
         for shutter in self.shutters:
             shutter("Close")
 

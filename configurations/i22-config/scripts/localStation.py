@@ -57,17 +57,17 @@ scan_processor.rootNamespaceDict=globals()
 
 from ncdutils import DetectorMeta, DetectorMetaWithPv, DetectorMetaString
 waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
-waxs_mask = DetectorMetaString('waxs_mask', ncddetectors, 'WAXS', 'maskFile')
-waxs_calibration = DetectorMetaString('waxs_calibration', ncddetectors, 'WAXS', 'calibrationFile')
 waxs_centre_x = DetectorMeta("waxs_centre_x", ncddetectors, "WAXS", "beam_center_x")
 waxs_centre_y = DetectorMeta("waxs_centre_y", ncddetectors, "WAXS", "beam_center_y")
+waxs_mask = DetectorMetaString("waxs_mask", ncddetectors, 'WAXS', 'maskFile')
+waxs_calibration = DetectorMetaString('waxs_calibration', ncddetectors, 'WAXS', 'calibrationFile')
 
 saxs_distance = DetectorMetaWithPv("saxs_distance", ncddetectors, "SAXS", "distance", "m", pv=('BL22I-EA-SAXSP-01:', 'CAMERA'))
 saxs_distance.pv_conversion = 1000
-saxs_mask = DetectorMetaString('saxs_mask', ncddetectors, 'SAXS', 'maskFile')
-saxs_calibration = DetectorMetaString('saxs_calibration', ncddetectors, 'SAXS', 'calibrationFile')
 saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
 saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
+saxs_mask = DetectorMetaString("saxs_mask", ncddetectors, 'SAXS', 'maskFile')
+saxs_calibration = DetectorMetaString('saxs_calibration', ncddetectors, 'SAXS', 'calibrationFile')
 saxs_abs_cal = DetectorMeta("saxs_abs_cal", ncddetectors, "SAXS", "scaling_factor")
 
 # preseed listener dispatcher
@@ -124,7 +124,10 @@ print '\t%sconverting to BSL' %('' if bslUtils.isConvertingOn() else 'not ',)
 
 #run("BeamlineScripts/master.py")
 run(setupScriptDir +  "atten.py")
-run(setupScriptDir +  "rate.py")
+
+# Temporarily don't run rate.py, meaning the DetGuard object isn't set up.
+# This is because it's closing the shutter when beamline staff think it shouldn't
+#run(setupScriptDir +  "rate.py")
 
 from gdascripts.pd.time_pds import actualTimeClass
 epoch=actualTimeClass("epoch")

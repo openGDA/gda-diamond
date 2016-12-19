@@ -23,6 +23,7 @@
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE1:I"/>
 		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 
 	<bean id="d10d2gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
@@ -200,6 +201,7 @@
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:I"/>
 		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 
 	<bean id="d10d2" class="gda.device.currentamplifier.CalibratedAmplifier">
@@ -209,6 +211,7 @@
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE2:I"/>
 		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 
 	<bean id="bs2diode" class="gda.device.currentamplifier.CalibratedAmplifier">
@@ -218,6 +221,7 @@
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:I"/>
 		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 
 	<bean id="bs2diodegain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
@@ -311,6 +315,7 @@
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:I"/>
 		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 
 	<bean id="bs1diodegain" class="gda.device.currentamplifier.GainWithScalingAndOffset">

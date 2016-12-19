@@ -59,8 +59,12 @@
    <extension
       point="uk.ac.gda.client.dashboard.objects">
    <Scannable
-         name="bsdiode"
+         name="bs2diode"
          tooltip="beamstop diode reading.">
+   </Scannable>
+   <Scannable
+         name="d4d2"
+         tooltip="d4d2 diode reading.">
    </Scannable>
 </extension>
 <extension

@@ -4,8 +4,22 @@
 	be customised at the instance config level -->
 
 <included>
-
-<!-- <logger name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" level="ERROR" /> -->
-<logger name="gda.device.motor.EpicsMotor" level="INFO" />
-
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">        
+	        <layout class="ch.qos.logback.classic.PatternLayout">                   
+	            <pattern>%d %-5level [%logger{36}] - %m%n</pattern>                 
+	        </layout>                                                               
+	    </appender>
+	<!-- <logger name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" level="ERROR" /> -->
+	<logger name="gda.device.motor.EpicsMotor" level="INFO" />
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO" />
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.BeanScriptingManagerImpl" level="INFO" />
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.connection.Plotting2DUI" level="INFO" />
+	<logger name="gda.factory.corba.util.CorbaEventDispatcher" level="INFO" />
+	<logger name="org.springframework" level="INFO" />
+	<logger name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" level="INFO" />
+	<logger name="gda.device.detector.DummyDAServer" level="INFO" />
+	<root>                                                                      
+        <level value="DEBUG"/>                                                  
+        <appender-ref ref="Console"/>                                           
+    </root>
 </included>

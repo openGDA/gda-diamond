@@ -23,6 +23,7 @@
 		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE1:I"/>
 		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 
 	<bean id="d4d2" class="gda.device.currentamplifier.CalibratedAmplifier">
@@ -32,6 +33,7 @@
 		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:I"/>
 		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
 	</bean>
 
 	<bean id="d4d1gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
