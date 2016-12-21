@@ -22,7 +22,15 @@
          version="0.0.0"/>
 
    <includes
-         id="uk.ac.gda.dal.feature"
+         id="uk.ac.diamond.daq.mapping.ui.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.dawnsci.browser.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.scanning.event.queues.feature"
          version="0.0.0"/>
 
    <plugin
@@ -38,17 +46,5 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <includes
-         id="uk.ac.diamond.daq.mapping.ui.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.dawnsci.browser.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.scanning.event.queues.feature"
-         version="0.0.0"/>
 
 </feature>
