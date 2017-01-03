@@ -18,22 +18,14 @@
 
 package uk.ac.gda.beamline.i11.views;
 
-import gda.analysis.io.MACLoader;
-import gda.device.detector.mythen.data.MythenMergedDataset;
-import gda.device.detector.mythen.data.MythenProcessedDataset;
-import gda.device.detectorfilemonitor.FileProcessor;
-import gda.factory.Configurable;
-import gda.factory.FactoryException;
-import gda.factory.Findable;
-
 import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.january.dataset.IDataset;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -41,8 +33,14 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.StringUtils;
 
+import gda.analysis.io.MACLoader;
+import gda.device.detector.mythen.data.MythenMergedDataset;
+import gda.device.detector.mythen.data.MythenProcessedDataset;
+import gda.device.detectorfilemonitor.FileProcessor;
+import gda.factory.Configurable;
+import gda.factory.FactoryException;
+import gda.factory.Findable;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.HDF5Loader;
 import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
@@ -115,7 +113,7 @@ public class DetectorFileDisplayer implements FileProcessor, PlotConfigurable, I
 		if (isNewPlot()) {
 			dataFilesPlotted.clear();
 		}
-		if (StringUtils.hasLength(filename) && !isAlreadyPlotted(filename)) {
+		if (filename != null && !filename.isEmpty() && !isAlreadyPlotted(filename)) {
 			IDataset xds = null, yds = null;
 			String name = FilenameUtils.getName(filename);
 			if (name.contains("mythen")) {

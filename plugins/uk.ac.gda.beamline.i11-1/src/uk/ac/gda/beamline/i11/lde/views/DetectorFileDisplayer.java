@@ -18,11 +18,6 @@
 
 package uk.ac.gda.beamline.i11.lde.views;
 
-import gda.device.detectorfilemonitor.FileProcessor;
-import gda.factory.Configurable;
-import gda.factory.FactoryException;
-import gda.factory.Findable;
-
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
@@ -37,8 +32,11 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.StringUtils;
 
+import gda.device.detectorfilemonitor.FileProcessor;
+import gda.factory.Configurable;
+import gda.factory.FactoryException;
+import gda.factory.Findable;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.HDF5Loader;
 import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
@@ -111,7 +109,7 @@ public class DetectorFileDisplayer implements FileProcessor, PlotConfigurable, I
 		if (isNewPlot()) {
 			dataFilesPlotted.clear();
 		}
-		if (StringUtils.hasLength(filename) && !isAlreadPlotted(filename)) {
+		if (filename != null && !filename.isEmpty() && !isAlreadPlotted(filename)) {
 			IDataset xds = null, yds = null;
 			String name = FilenameUtils.getName(filename);
 			if (name.contains("pixium")) {

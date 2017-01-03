@@ -27,7 +27,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.python.pydev.jython;bundle-version="3.6.0",
  uk.ac.gda.devices.pixium;bundle-version="1.0.0",
  uk.ac.gda.epics.client.pixium;bundle-version="1.0.0",
- uk.ac.diamond.org.springframework;bundle-version="3.2.2",
  org.apache.commons.io;bundle-version="2.4.0",
  org.opengda.lde.ui,
  uk.ac.gda.epics.client,
@@ -44,4 +43,5 @@ Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: org.dawnsci.plotting.jreality,
  org.eclipse.core.filesystem,
  org.eclipse.draw2d,
- org.slf4j;version="1.5.6"
+ org.slf4j;version="1.5.6",
+ org.springframework.beans.factory;version="4.0.6.RELEASE"
