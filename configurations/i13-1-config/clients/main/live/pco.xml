@@ -23,12 +23,12 @@
 			</bean>
 		</property>
 		<property name="properties">
-			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-				<property name="map">
+			<bean class="java.util.Hashtable">
+				<constructor-arg>
 					<map>
 						<entry key="SERVICE_NAME" value="pcoType" />
 					</map>
-				</property>
+				</constructor-arg>
 			</bean>
 		</property>
 	</bean>

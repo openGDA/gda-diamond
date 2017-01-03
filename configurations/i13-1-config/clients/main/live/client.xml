@@ -10,12 +10,12 @@
 	<import resource="live_client_common.xml" />
 	<import resource="../../../devices/live/pco1_ndplugins.xml" />
 
-	<bean id="dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-		<property name="map">
+	<bean class="java.util.Hashtable">
+		<constructor-arg>
 			<map>
 				<entry key="SERVICE_NAME" value="i13" />
 			</map>
-		</property>
+		</constructor-arg>
 	</bean>
 
 	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
