@@ -21,12 +21,12 @@
 		<property name="connectToPlotServer" value="true" />
 	</bean>
 
-	<bean id="medipixdictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-		<property name="map">
+	<bean id="medipixdictionary" class="java.util.Hashtable">
+		<constructor-arg>
 			<map>
 				<entry key="SERVICE_NAME" value="medipix" />
 			</map>
-		</property>
+		</constructor-arg>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />

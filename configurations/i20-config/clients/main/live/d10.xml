@@ -49,12 +49,12 @@
 	</bean>
 
 
-	<bean id="d10_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-		<property name="map">
+	<bean id="d10_dictionary" class="java.util.Hashtable">
+		<constructor-arg>
 			<map>
 				<entry key="SERVICE_NAME" value="d10ADController" />
 			</map>
-		</property>
+		</constructor-arg>
 	</bean>
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />

@@ -31,8 +31,8 @@
 		<property name="properties" ref="plotYAxisColors" />
 	</bean>	
 	
-	<bean id="plotYAxisColors" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-		<property name="map">
+	<bean id="plotYAxisColors" class="java.util.Hashtable">
+		<constructor-arg>
 			<map>
 				<!-- The names are defined in EdeExperiment and must match with those names -->
 				<entry key="Total" value="#000000" /> <!-- black -->
@@ -56,7 +56,7 @@
 				<entry key="It_corr" value="#FFA500" /> <!-- orange -->
 				<entry key="LnI0It" value="#000000" /> <!-- black -->
 			</map>
-		</property>
+		</constructor-arg>
 	</bean>
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
