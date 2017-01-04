@@ -13,7 +13,7 @@
 				<property name="projects">
 					<list>
 						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="${gda.users.scripts.dir }"/>
+							<property name="path" value="${gda.users.scripts.dir}"/>
 							<property name="name" value="Scripts: User"/>
 							<property name="type" value="USER"/>
 						</bean>
