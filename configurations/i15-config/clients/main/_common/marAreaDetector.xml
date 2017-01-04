@@ -20,12 +20,12 @@
 		<property name="serviceName" value="mar"/>
 	</bean>
 
-	<bean id="marAD_dictionary" class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-		<property name="map">
+	<bean id="marAD_dictionary" class="java.util.Hashtable">
+		<constructor-arg>
 			<map>
 				<entry key="SERVICE_NAME" value="mar" />
 			</map>
-		</property>
+		</constructor-arg>
 	</bean>
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">

@@ -169,11 +169,11 @@
                label="Area Detectors">
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="New Live MJpeg View"
+                  label="Live Stream View"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.client.live.stream.view.LiveMJPEGView">
+                     value="uk.ac.gda.client.live.stream.view.LiveStreamView">
                </parameter>
             </command>
 

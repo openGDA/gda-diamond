@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Scanning API -->
+
+	<bean id="peADnexusModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="peAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="peADnexusInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"        value="peAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.peADnexusInfo"/>
+		<property name="label"       value="Perkin Elmer 1 Continuous Nexus (peADnexusInfo)"/>
+		<property name="description" value="Perkin Elmer 1 with continuous running and images written to Nexus file by the scan"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="peADnexusDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name"              value="peAD"/>
+		<property name="model"             ref="peADnexusModel"/>
+		<property name="deviceInformation" ref="peADnexusInfo"/>
+		<property name="activated"         value="true"/>
+	</bean>
+
+	<!-- vvv is based on ^^^ but with the Area Detector writing hdf5 files rather than the images being written to the
+							 scan Nexus file. Only the second will show in the Scanning perspective. -->
+
+	<bean id="peADhdf5Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"                   value="peAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="peADhdf5Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"        value="peAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.peADhdf5Info"/>
+		<property name="label"       value="Perkin Elmer 1 Continuous HDF5 (peADhdf5Info)"/>
+		<property name="description" value="Perkin Elmer 1 with continuous running and images written to HDF5 file by Area Detector"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="peADhdf5Detector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
+		<property name="name"              value="peAD"/>
+		<property name="model"             ref="peADhdf5Model"/>
+		<property name="deviceInformation" ref="peADhdf5Info"/>
+		<property name="activated"         value="true"/>
+	</bean>
+
+	<!-- Legacy mode -->
+
+	<bean id="peLegacyADhdf5Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"                   value="peLegacyAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="peLegacyADhdf5Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"        value="peLegacyAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.peLegacyADhdf5Info"/>
+		<property name="label"       value="Perkin Elmer 1 StopStart HDF5 (peLegacyADhdf5Info)"/>
+		<property name="description" value="Perkin Elmer 1 with non-continuous running and images written to HDF5 file by Area Detector"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="peLegacyADhdf5Detector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
+		<property name="name"              value="peLegacyAD"/>
+		<property name="model"             ref="peLegacyADhdf5Model"/>
+		<property name="deviceInformation" ref="peLegacyADhdf5Info"/>
+		<property name="activated"         value="true"/>
+	</bean>
+
+	<!-- vvv is based on ^^^ but with the Area Detector writing hdf5 files rather than the images being written to the
+							 scan Nexus file. Only the second will show in the Scanning perspective. -->
+
+	<bean id="peLegacyADnexusModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="peLegacyAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="peLegacyADnexusInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"        value="peLegacyAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.peLegacyADnexusInfo"/>
+		<property name="label"       value="Perkin Elmer 1 StopStart Nexus (peLegacyADnexusInfo)"/>
+		<property name="description" value="Perkin Elmer 1 with non-continuous running and images written to Nexus file by the scan"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="peLegacyADnexusDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name"              value="peLegacyAD"/>
+		<property name="model"             ref="peLegacyADnexusModel"/>
+		<property name="deviceInformation" ref="peLegacyADnexusInfo"/>
+		<property name="activated"         value="true"/>
+	</bean>
+
+</beans>
