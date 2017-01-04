@@ -154,7 +154,7 @@
 	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we need events to
 	   be fired for the GDA9 ExpressionWatchdog -->
 	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="FE18I-PS-SHTR-02:STA"/>l
+		<property name="pvName" value="FE18I-PS-SHTR-02:STA"/>
 	</bean>
 
 	<!-- *************************** -->
