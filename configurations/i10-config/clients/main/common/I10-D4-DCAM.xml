@@ -5,12 +5,12 @@
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="properties">
-			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-				<property name="map">
+			<bean class="java.util.Hashtable">
+				<constructor-arg>
 					<map>
 						<entry key="SERVICE_NAME" value="d4dcam" />
 					</map>
-				</property>
+				</constructor-arg>
 			</bean>
 		</property>
 		<!-- Using pv//d4dcam//BL10I-DI-PHDGN-04@DCAM@"> in plugin.xml:
