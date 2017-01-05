@@ -46,8 +46,6 @@
 	<import resource="SS3.xml" />
 	<import resource="SS4.xml" />
 	<import resource="SMPM.xml" />
-	
-	<import resource="endstation/endstation.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>
