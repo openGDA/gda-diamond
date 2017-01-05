@@ -105,23 +105,6 @@ inctime=showincrementaltimeClass('inctime')
 waittime=waittimeClass2('Waittime')
 atime=actualTimeClass('atime')
 
-### Pipeline    
-def configureScanPipeline(length = None, simultaneousPoints = None):
-    lengthProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_LENGTH
-    simultaneousProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_POINTS_TO_COMPUTE_SIMULTANEOUSELY
-    def show():
-        print "ScanDataPoint pipeline:"
-        print " " + lengthProp + " = " + LocalProperties.get(lengthProp, '4') # duplicated in ScannableCommands
-        print " " + simultaneousProp + " = " + LocalProperties.get(simultaneousProp, '3') # duplicated in ScannableCommands
-    if (length == None) or (simultaneousPoints == None):
-        show()
-    else:
-        LocalProperties.set(lengthProp, `length`)
-        LocalProperties.set(simultaneousProp, `simultaneousPoints`)
-        show()
-
-alias('configureScanPipeline')
-
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create 'beam' object for get/set photon beam properties such as wavelength, energy"
 beam = finder.find("beam")
@@ -182,19 +165,6 @@ scan_processor.rootNamespaceDict=globals()
 #scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
 #scan_processor.processors.append(Lcen())
 #scan_processor.processors.append(Rcen())
-
-
-###############################################################################
-###                   Configure scannable output formats                        ###
-###############################################################################
-globals()['sm3pitch'].setOutputFormat(["%10.1f"])
-#globals()['bragg'].setOutputFormat(["%10.7f"])    
-
-#print "-----------------------------------------------------------------------------------------------------------------"
-#print "Setup 'plot' function for plotting collected, use 'help plot' for syntax"
-#from plot import plot, plotover, plotdata #@UnusedImport
-#print
-
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
