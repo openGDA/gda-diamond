@@ -17,6 +17,7 @@
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
 	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="sc_MicroFocusSampleX"/></bean>
 	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="sc_MicroFocusSampleY"/></bean>
+	<bean id="z_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="sc_sample_z"/></bean>
 
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
@@ -75,11 +76,16 @@
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
+		<property name="associatedAxis" ref="z_axis_name" />
 		<property name="beamSize" value="0.1" />
 	</bean>
 	<!-- Register the mapping stage info bean as an OSGi service -->
 	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageInfo" />
+		<property name="service" ref="mapping_stage_info" />
+	</bean>
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="org.eclipse.scanning.api.ui.IStageScanConfiguration" />
 		<property name="service" ref="mapping_stage_info" />
 	</bean>
 
