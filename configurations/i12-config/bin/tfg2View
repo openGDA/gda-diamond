@@ -1,2 +1,0 @@
-#! /bin/sh
-exec gnome-terminal --title="I132 TFG2" -x sh -c "telnet i12-tfg2-10ge 8921 || sleep 5"

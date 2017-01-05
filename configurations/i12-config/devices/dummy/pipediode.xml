@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="adc10" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">34.7</value>
+		</property>
+	</bean>
+
+	<bean id="adc11" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">93.62</value>
+		</property>
+	</bean>
+
+	<bean id="adc12" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">33.3</value>
+		</property>
+	</bean>
+
+	<bean id="adc13" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">98.4</value>
+		</property>
+	</bean>
+
+	<bean id="adc14" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">42.8</value>
+		</property>
+	</bean>
+
+	<bean id="adc15" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">0.64</value>
+		</property>
+	</bean>
+
+	<bean id="adc16" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">-34.7</value>
+		</property>
+	</bean>
+
+	<bean id="adc17" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">22.4</value>
+		</property>
+	</bean>
+
+</beans>

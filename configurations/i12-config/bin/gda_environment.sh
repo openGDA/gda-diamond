@@ -1,33 +1,17 @@
 #!/bin/sh
-# This script assumes that $BEAMLINE is set (e.g. i02, i18, b16) if not exit...
+export BEAMLINE=i12
 
-if [ ! -n "$BEAMLINE" ]; 
-then
-  echo "Please set BEAMLINE environment variable."
-  exit 1
-fi
-
-export SOFTWAREFOLDER=dls_sw
-export GDA_ROOT=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/plugins
+export SOFTWARE_FOLDER=dls_sw
+export GDA_ROOT=/$SOFTWARE_FOLDER/$BEAMLINE/software/gda/plugins
 export GDA_CONFIG=${GDA_ROOT}/../i12-config
 export GDA_DATADIR=/dls/$BEAMLINE/data
-export GDALOGS=/dls_sw/i12/software/logs
-export GDAFOLDER=/dls_sw/$BEAMLINE/software/gda
+export GDA_LOGS=/dls_sw/i12/software/logs
+export GDA_FOLDER=/dls_sw/$BEAMLINE/software/gda
 
+export CLASSPATH=/$SOFTWARE_FOLDER/$BEAMLINE/software/gda/thirdparty/eclipse/plugins/*:$CLASSPATH
+export MATLABPATH=/$SOFTWARE_FOLDER/$BEAMLINE/software/tomoTilt/code/release
 
-LIBRARY_SUBDIR=linux-`uname -i`
-LD_LIBRARY_PATH=${GDA_ROOT}/uk.ac.gda.core/lib/${LIBRARY_SUBDIR}:$LD_LIBRARY_PATH; export LD_LIBRARY_PATH
-
-unset ANT_HOME
-unset JAVA_HOME
-unset SVN_HOME
-
-export CLASSPATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/thirdparty/eclipse/plugins/*:$CLASSPATH
-export MATLABPATH=/$SOFTWAREFOLDER/$BEAMLINE/software/tomoTilt/code/release
-
-export PATH=/$SOFTWAREFOLDER/$BEAMLINE/software/gda/i12-config/bin:/$SOFTWAREFOLDER/$BEAMLINE/software/tomoTilt/code/release:/dls_sw/dasc/bin/iKittenScripts:/$SOFTWAREFOLDER/$BEAMLINE/bin:$PATH:/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin
-
-
+export PATH=/$SOFTWARE_FOLDER/$BEAMLINE/software/gda/i12-config/bin:/$SOFTWARE_FOLDER/$BEAMLINE/software/tomoTilt/code/release:/dls_sw/dasc/bin/iKittenScripts:/$SOFTWARE_FOLDER/$BEAMLINE/bin:$PATH:/$SOFTWARE_FOLDER/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin
 
 # If for whatever reason GDA_Launchers failed to be created on user login, this will create it when user open a terminal.
 case $DISPLAY in 

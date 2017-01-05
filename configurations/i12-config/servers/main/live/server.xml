@@ -1,49 +1,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-                           http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
-	<context:property-placeholder
-		location="file:${gda.dls-config}/properties/common.properties,
-		file:${gda.dls-config}/properties/logging.properties,
-		file:${gda.dls-config}/properties/live.properties,
-		file:${gda.config}/epics/live/epics.properties,
-		file:${gda.config}/properties/live/java.properties,
-		file:${gda.config}/properties/common.properties" />
+	<import resource="file:${gda.config}/devices/live/dac3.xml"/>
+	<import resource="file:${gda.config}/devices/live/I0eh1.xml"/>
+	<import resource="file:${gda.config}/devices/live/I0eh2.xml"/>
+	<import resource="file:${gda.config}/devices/live/I0oh2.xml"/>
+	<import resource="file:${gda.config}/devices/live/loeh1.xml"/>
+	<import resource="file:${gda.config}/devices/live/loeh2.xml"/>
+	<import resource="file:${gda.config}/devices/live/looh1.xml"/>
 
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<!-- <constructor-arg value="${gda.config}/epics/live/BL12I-gda-interface_29-03-2011_rev2.xml" 
-			/> -->
-		<constructor-arg value="${gda.epics.interface.xml}" />
-	</bean>
+	<!-- do not remove anything below here -->
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
-	<import resource="cam1_motors.xml" />
-	<import resource="Ioeh1.xml" />
-	<import resource="Ioeh2.xml" />
-	<import resource="Iooh2.xml" />
-	<import resource="mono_motors.xml" />
-	<import resource="pipediode.xml" />
-	<!-- <import resource="adc3.xml"/> <import resource="dac3.xml"/> -->
-	<import resource="s3.xml" />
-	<import resource="s4.xml" />
-	<import resource="ss1_motors.xml" />
-	<import resource="ss2.xml" />
-	<import resource="t1_motors.xml" />
-	<import resource="t3_motors.xml" />
-	<import resource="t4_motors.xml" />
-	<import resource="t5.xml" />
-	<import resource="t7.xml" />
-	<import resource="t8.xml" />
-	<import resource="../datawriter.xml"/>
-	<!-- <import resource="../../../devices/live/p2r.xml"/> -->
-	<import resource="../../../devices/epics/zebra.xml"/>
-	<import resource="../../../devices/zebra.xml"/>
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
 
-	<import resource="../main_common.xml" />
 </beans>

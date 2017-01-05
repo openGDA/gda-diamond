@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="gbc1_flow" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">38.9</value>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,181 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+	<!-- Define the scannable group -->
+	<bean id="ss1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_x" />
+		<property name="motor" ref="ssbase_x_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Scannables in the group -->
+	<bean id="ss1_y1" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_y1" />
+		<property name="motor" ref="ss1_y1_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ss1_phi" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_phi" />
+		<property name="motor" ref="ss1_phi_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ss1_rx" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_rx" />
+		<property name="motor" ref="ss1_rx_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ss1_rz" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_rz" />
+		<property name="motor" ref="ss1_rz_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ss1_y2" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_y2" />
+		<property name="motor" ref="ss1_y2_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ss1_y3" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_y3" />
+		<property name="motor" ref="ss1_y3_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ss1_theta" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_theta" />
+		<property name="motor" ref="ss1_theta_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ss1_tx" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_tx" />
+		<property name="motor" ref="ss1_tx_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ss1_tz" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ss1_tz" />
+		<property name="motor" ref="ss1_tz_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="ss1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ss1_phi" />
+				<ref bean="ss1_rx" />
+				<ref bean="ss1_rz" />
+				<ref bean="ss1_theta" />
+				<ref bean="ss1_tx" />
+				<ref bean="ss1_tz" />
+				<ref bean="ss1_x" />
+				<ref bean="ss1_y1" />
+				<ref bean="ss1_y2" />
+				<ref bean="ss1_y3" />
+			</list>
+		</property>
+	</bean>
+
+	<gda:rmi-export
+		serviceName="gda/ss1_theta"
+		service="ss1_theta"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/ss1_tx"
+		service="ss1_tx"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/ss1_tz"
+		service="ss1_tz"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/ss1_y2"
+		service="ss1_y2"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/ss1_y3"
+		service="ss1_y3"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/ss1_y1"
+		service="ss1_y1"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/ss1_x"
+		service="ss1_x"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/ss1_rx"
+		service="ss1_rx"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/ss1_rz"
+		service="ss1_rz"
+		serviceInterface="gda.device.IScannableMotor" />
+
+</beans>

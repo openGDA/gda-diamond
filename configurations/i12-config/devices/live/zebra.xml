@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL12I-EA-ZEBRA-01:" />
+		<property name="name" value="zebra" />
+	</bean>
+
+	<bean id="zebra2" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL12I-EA-ZEBRA-02:" />
+		<property name="name" value="zebra2" />
+	</bean>
+
+	<bean id="zebra3" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL12I-EA-ZEBRA-03:" />
+		<property name="name" value="zebra3" />
+	</bean>
+
+</beans>	

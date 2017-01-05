@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="flow_diamond_filter" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">35.9</value>
+		</property>
+	</bean>
+
+	<bean id="flow_shutter1" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">-3.986</value>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="s1_top_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s1_bottom_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s1_in_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s1_out_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s1_xs_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s1_xc_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s1_ys_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s1_yc_motor" class="gda.device.motor.DummyMotor" />
+
+	<!-- Diagnostics -->
+	<bean id="s1_t1" class="gda.device.monitor.DummyMonitor">
+		<property name="name" value="s1_t1" />
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg type="double" value="1.2" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="s1_t2" class="gda.device.monitor.DummyMonitor">
+		<property name="name" value="s1_t2" />
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg type="double" value="4.9" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

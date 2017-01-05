@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Scannable motors -->
+	<bean id="s1_top" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="s1_top" />
+		<property name="motor" ref="s1_top_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="s1_bottom" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="s1_bottom" />
+		<property name="motor" ref="s1_bottom_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="s1_in" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="s1_in" />
+		<property name="motor" ref="s1_in_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="s1_out" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="s1_out" />
+		<property name="motor" ref="s1_out_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="s1_xs" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="s1_xs" />
+		<property name="motor" ref="s1_xs_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="s1_xc" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="s1_xc" />
+		<property name="motor" ref="s1_xc_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="s1_ys" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="s1_ys" />
+		<property name="motor" ref="s1_ys_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="s1_yc" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="s1_yc" />
+		<property name="motor" ref="s1_yc_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<!-- Define the scannable group -->
+	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1_top" />
+				<ref bean="s1_bottom" />
+				<ref bean="s1_in" />
+				<ref bean="s1_out" />
+				<ref bean="s1_xs" />
+				<ref bean="s1_xc" />
+				<ref bean="s1_ys" />
+				<ref bean="s1_yc" />
+				<ref bean="s1_t1" />
+				<ref bean="s1_t2" />
+			</list>
+		</property>
+	</bean>
+</beans>

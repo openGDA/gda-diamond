@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  Define all the motors -->
+	<bean id="cam3_roll_motor" class="gda.device.motor.DummyMotor">
+	</bean>
+	<bean id="cam3_x_motor" class="gda.device.motor.DummyMotor">
+	</bean>
+	<bean id="cam3_z_motor" class="gda.device.motor.DummyMotor">
+	</bean>
+	
+</beans>

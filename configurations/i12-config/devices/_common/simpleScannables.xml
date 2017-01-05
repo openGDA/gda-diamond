@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+	<bean id="ix" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
+		</property>
+		<property name="inputNames" value="ix" />
+	</bean>
+	<bean id="iy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
+		</property>
+		<property name="inputNames" value="iy" />
+	</bean>
+	<bean id="iz" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
+		</property>
+		<property name="inputNames" value="iz" />
+	</bean>
+
+	<bean id="idummymotor_x" class="gda.device.motor.DummyMotor">
+	</bean>
+	
+	<bean id="idummyscannablemotor_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="idummymotor_x" />
+		<property name="motor" ref="idummymotor_x" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<gda:rmi-export
+		serviceName="gda/idummyscannablemotor_x"
+		service="idummyscannablemotor_x"
+		serviceInterface="gda.device.IScannableMotor" />
+	
+</beans>

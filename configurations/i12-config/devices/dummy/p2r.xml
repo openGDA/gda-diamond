@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="p2r_telnet" class="uk.ac.gda.tomography.devices.p2r.DummyP2RBidiAsciiCommunicator"/>
+
+	<bean id="p2r_rot_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="p2r_y_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="p2r_force_motor" class="gda.device.motor.DummyMotor" />
+
+</beans>	

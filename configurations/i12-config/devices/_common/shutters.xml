@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+ 		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+	<!-- RMI export -->
+	<gda:rmi-export
+		serviceName="gda/eh1shtr"
+		service="eh1shtr"
+		serviceInterface="gda.device.Scannable" />
+
+	<gda:rmi-export
+		serviceName="gda/extshtr"
+		service="extshtr"
+		serviceInterface="gda.device.Scannable" />
+
+</beans>

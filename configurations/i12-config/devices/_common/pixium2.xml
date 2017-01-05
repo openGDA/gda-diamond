@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="pixium10_hdf_fileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pixium10_ndfilehdf" />
+		<property name="fileNameTemplate" value="pixium"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="0"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="0"/>
+		<property name="framesFlush" value="0"/>
+		<property name="lazyOpen" value="true"/>
+		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="camFloat2" class="uk.ac.gda.devices.edxd.AdDetectorExtRoiDraw">
+		<property name="adBase" ref="camFloat2.cam" />
+		<property name="ndStats" ref="camFloat2.stat" />
+		<property name="ndArray" ref="camFloat2.arr" />
+		<property name="ndFile" ref="camFloat2.tif" />
+		<property name="ndRoi1" ref="camFloat2.roi1" />
+		<property name="ndRoi2" ref="camFloat2.roi2" />
+		<property name="ndProc1" ref="camFloat2.proc1" />
+		<property name="ndProc2" ref="camFloat2.proc2" />
+		<property name="ndDraw" ref="camFloat2.draw" />
+		<property name="mjpeg1" ref="camFloat2.mjpeg1" />
+		<property name="mjpeg2" ref="camFloat2.mjpeg2" />
+		<property name="computeCentroid" value="true" />
+		<property name="computeStats" value="true" />
+	</bean>
+
+</beans>

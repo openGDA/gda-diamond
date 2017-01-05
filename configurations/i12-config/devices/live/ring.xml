@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ring_energy" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="ring_energy" />
+		<property name="deviceName" value="MSTAT.ENERGY" />
+	</bean>
+
+	<bean id="ring_current" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="ring_current" />
+		<property name="deviceName" value="MSTAT.CURRENT" />
+	</bean>
+
+	<bean id="ring_topup_countdown" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="ring_topup_countdown" />
+		<property name="deviceName" value="MSTAT.TOPUPCD" />
+	</bean>
+
+	<bean id="ring_beam_lifetime" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="ring_beam_lifetime" />
+		<property name="deviceName" value="MSTAT.LIFETIME" />
+	</bean>
+
+</beans>

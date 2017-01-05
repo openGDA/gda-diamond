@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ring_energy" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">3.271</value>
+		</property>
+	</bean>
+
+	<bean id="ring_current" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">298.24</value>
+		</property>
+	</bean>
+
+	<bean id="ring_topup_countdown" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">33.7</value>
+		</property>
+	</bean>
+
+	<bean id="ring_beam_lifetime" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">42.8</value>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+
+	<!-- Define all the motors -->
+	<bean id="cam1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cam1_roll" />
+		<property name="motor" ref="cam1_roll_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="cam1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cam1_x" />
+		<property name="motor" ref="cam1_x_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="cam1_z" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cam1_z" />
+		<property name="motor" ref="cam1_z_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<gda:rmi-export
+		serviceName="gda/cam1_x"
+		service="cam1_x"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/cam1_z"
+		service="cam1_z"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<gda:rmi-export
+		serviceName="gda/cam1_roll"
+		service="cam1_roll"
+		serviceInterface="gda.device.IScannableMotor" />
+
+	<bean id="cam1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cam1_roll" />
+				<ref bean="cam1_x" />
+				<ref bean="cam1_z" />
+			</list>
+		</property>
+	</bean>
+</beans>

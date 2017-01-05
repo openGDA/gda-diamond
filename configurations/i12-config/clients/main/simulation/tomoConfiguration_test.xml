@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<description>Tomography configuration view configuration data</description>
+	
+	<bean id="tomoConfigResourceHandler"
+		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoConfigResourceHandler">
+		<property name="fileLocation"
+			value="/scratch/i12Workspc_git/gda-dls-beamlines-i12.git/i12/var/tomoConfiguration.tomoparameters" />
+	</bean>
+	<!-- -->
+	<bean id="tomoConfigurationViewHolder"
+		class="uk.ac.gda.client.tomo.configuration.view.factory.TomoConfigurationViewFactoryFactory">
+		<property name="viewPartName" value="Configuration" />
+		<!-- The tomoConfigResourceHandler is declared in the tomoAlignment.xml -->
+		<property name="tomoConfigResourceHandler" ref="tomoConfigResourceHandler" />
+	</bean>
+
+</beans>

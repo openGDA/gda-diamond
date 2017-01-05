@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Camera config -->
+	<bean id="mono2_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="Mono2 Camera Preview" />
+		<property name="exposurePV" value="BL12I-OP-DCM-01:CAM2:AcquireTime" />
+		<property name="acqPeriodPV" value="BL12I-OP-DCM-01:CAM2:AcquirePeriod" />
+		<property name="gainPV" value="BL12I-OP-DCM-01:CAM2:Gain" />
+		<property name="acquirePV" value="BL12I-OP-DCM-01:CAM2:Acquire" />
+		<property name="urlPV" value="BL12I-OP-DCM-01:MPEG2:MJPG_URL_RBV" />
+	</bean>
+
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<ref bean="mono2_cam_config" />
+			</list>
+		</property>
+		<property name="plotViewID" value="uk.ac.gda.beamline.i12.plotView" />
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
+
+</beans>

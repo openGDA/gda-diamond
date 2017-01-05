@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA I12 Beamline" uid="uk.ac.gda.beamline.i12.product" id="uk.ac.gda.beamline.i12.product" application="uk.ac.gda.client.application" version="9.2.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA I12 Beamline" uid="uk.ac.gda.beamline.i12.product" id="uk.ac.gda.beamline.i12.product" version="9.2.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -22,23 +22,29 @@ http://www.opengda.org
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=/dls_sw/i12/software/gda/config/pluginCustomization.ini
--Dgda.config=/dls_sw/i12/software/gda/config
+-Djacorb.config.dir=${project_loc:i12-config}/properties/dummy/jacorb
+-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.config=${project_loc:i12-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.instance.dir=${project_loc:i12-config}
+-Dgda.group.dir=${project_loc:core-config}/no-group
+-Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live
+-Dgda.propertiesFile=${project_loc:i12-config}/properties/dummy/dummy_instance_java.properties
 -Dgda.data=/dls/i12/data
--Dgda.install.git.loc=/dls_sw/i12/software/gda/workspace_git
--Dgda.install.workspace.loc=/dls_sw/i12/software/gda/workspace
--Dgda.propertiesFile=/dls_sw/i12/software/gda/config/properties/live/java.properties
--Djacorb.config.dir=/dls_sw/i12/software/gda/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i12/software/gda/config/jca/live/JCALibrary.properties
--Dgda.gui.beans.xml=/dls_sw/i12/software/gda/config/clients/rcp/live/client.xml
--Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/x86_64/usr/lib64/xulrunner-1.9.2
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
--Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
--Dgda.mode=live
--Xms512m
--Xmx1024m
--XX:MaxPermSize=512m</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-Dgda.mode=dummy
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i12-config}/properties/dummy/JCALibrary.properties
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Duk.ac.diamond.scisoft.analysis.io.nocaching=true
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Xms256m
+-Xmx2024m
+-XX:MaxPermSize=256m
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
