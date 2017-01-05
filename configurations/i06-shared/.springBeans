@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.8.1.201607290748-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.8.2.201610040608-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -9,7 +9,6 @@
 	<configs>
 		<config>servers/main/_common/scannables/_all_scannables.xml</config>
 		<config>servers/main/live/devices/_all_devices.xml</config>
-		<config>servers/main/_common/gdaProperties.xml</config>
 		<config>servers/main/_common/dataArchieval.xml</config>
 		<config>servers/main/live/devices/agilentADC.xml</config>
 		<config>servers/main/_common/scannables/beam.xml</config>
@@ -66,6 +65,10 @@
 		<config>servers/main/live/devices/xbpm1.xml</config>
 		<config>servers/main/live/devices/xbpm2.xml</config>
 		<config>servers/main/_common/scannables/xbpm2.xml</config>
+		<config>properties/_common/gdaProperties.xml</config>
+		<config>clients/main/live/client.xml</config>
+		<config>clients/main/dummy/client.xml</config>
+		<config>clients/main/_common/client.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.8.1.201607290748-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.8.2.201610040608-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -31,7 +31,6 @@
 		<config>xml/client/client_dd.xml</config>
 		<config>xml/client/client_demo.xml</config>
 		<config>xml/client/client_i06-1.xml</config>
-		<config>xml/client/client_i06.xml</config>
 		<config>xml/client/client_magnet.xml</config>
 		<config>xml/client/client_mobilerack.xml</config>
 		<config>xml/client/client_peem.xml</config>
@@ -62,6 +61,9 @@
 		<config>servers/main/_common/scannables/u1.xml</config>
 		<config>servers/main/_common/scannables/userMotors.xml</config>
 		<config>servers/main/_common/scannables/valves.xml</config>
+		<config>clients/client.xml</config>
+		<config>clients/main/live/client.xml</config>
+		<config>clients/main/_common/client.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
@@ -101,7 +103,6 @@
 				<config>/i06-shared/servers/main/_common/dataArchieval.xml</config>
 				<config>/i06-shared/servers/main/_common/dataWriter.xml</config>
 				<config>/i06-shared/servers/main/_common/GDAMetadata.xml</config>
-				<config>/i06-shared/servers/main/_common/gdaProperties.xml</config>
 				<config>/i06-shared/servers/main/_common/plotServer.xml</config>
 				<config>/i06-shared/servers/main/_common/scanDataPointServer.xml</config>
 				<config>/i06-shared/servers/main/_common/scannables/_all_scannables.xml</config>
@@ -171,6 +172,7 @@
 				<config>servers/main/_common/scannables/u1.xml</config>
 				<config>servers/main/_common/scannables/userMotors.xml</config>
 				<config>servers/main/_common/scannables/valves.xml</config>
+				<config>/i06-shared/properties/_common/gdaProperties.xml</config>
 			</configs>
 			<profiles>
 			</profiles>

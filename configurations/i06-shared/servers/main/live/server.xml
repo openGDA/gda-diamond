@@ -3,8 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="../_common/gdaProperties.xml"/>
+	<import resource="../../../properties/_common/gdaProperties.xml"/>
 	<import resource="epicsConfiguration.xml"/>
 	<import resource="devices/_all_devices.xml"/>
+	<import resource="../_common/server.xml"/>
 
 </beans>
