@@ -1,7 +1,7 @@
-# file:        localStation.py
+# file: localStation.py
 # Description: For beamline specific initialisation.
-# @author: Fajin Yuan
-# updated 19/06/2012
+# @author: Fajin Yuan / James Mudd
+# updated 5/1/2017
 import os
 from gda.factory import Finder
 import java
@@ -215,12 +215,6 @@ print "-------------------------------------------------------------------------
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 
-print "Create an 'analyserscan' command for scanning the electron analyser."
-from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
-alias("zerosupplies")
-alias("analyserscan")
-alias("analyserscan_v1")
-alias("analyserscancheck")
 
 print
 print "=================================================================================================================";
