@@ -20,7 +20,6 @@ from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import Extr
 from gda.util import PropertyUtils
 import sys
 from java.lang import System
-from org.opengda.detector.electronanalyser.utils import FilenameUtil
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
