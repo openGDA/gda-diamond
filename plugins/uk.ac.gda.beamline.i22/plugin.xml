@@ -22,16 +22,10 @@
          <property
                name="aboutImage"
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
-         </property>
+         </property>         
       </product>
    </extension>
 
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
-            class="uk.ac.gda.beamline.i22.I22StartupService">
-      </startup>
-   </extension>
    <extension
           point="org.eclipse.ui.perspectiveExtensions">
     <perspectiveExtension targetID="*">
