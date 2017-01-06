@@ -1,7 +1,7 @@
-# file:        localStation.py
+# file: localStation.py
 # Description: For beamline specific initialisation.
-# @author: Fajin Yuan
-# updated 19/06/2012
+# @author: Fajin Yuan / James Mudd
+# updated 5/1/2017
 import os
 from gda.factory import Finder
 import java
@@ -20,7 +20,6 @@ from gdascripts.analysis.datasetprocessor.oned.extractPeakParameters import Extr
 from gda.util import PropertyUtils
 import sys
 from java.lang import System
-from org.opengda.detector.electronanalyser.utils import FilenameUtil
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
@@ -106,23 +105,6 @@ inctime=showincrementaltimeClass('inctime')
 waittime=waittimeClass2('Waittime')
 atime=actualTimeClass('atime')
 
-### Pipeline    
-def configureScanPipeline(length = None, simultaneousPoints = None):
-    lengthProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_LENGTH
-    simultaneousProp = LocalProperties.GDA_SCAN_MULTITHREADED_SCANDATA_POINT_PIPElINE_POINTS_TO_COMPUTE_SIMULTANEOUSELY
-    def show():
-        print "ScanDataPoint pipeline:"
-        print " " + lengthProp + " = " + LocalProperties.get(lengthProp, '4') # duplicated in ScannableCommands
-        print " " + simultaneousProp + " = " + LocalProperties.get(simultaneousProp, '3') # duplicated in ScannableCommands
-    if (length == None) or (simultaneousPoints == None):
-        show()
-    else:
-        LocalProperties.set(lengthProp, `length`)
-        LocalProperties.set(simultaneousProp, `simultaneousPoints`)
-        show()
-
-alias('configureScanPipeline')
-
 print "-----------------------------------------------------------------------------------------------------------------"
 print "create 'beam' object for get/set photon beam properties such as wavelength, energy"
 beam = finder.find("beam")
@@ -184,19 +166,6 @@ scan_processor.rootNamespaceDict=globals()
 #scan_processor.processors.append(Lcen())
 #scan_processor.processors.append(Rcen())
 
-
-###############################################################################
-###                   Configure scannable output formats                        ###
-###############################################################################
-globals()['sm3pitch'].setOutputFormat(["%10.1f"])
-#globals()['bragg'].setOutputFormat(["%10.7f"])    
-
-#print "-----------------------------------------------------------------------------------------------------------------"
-#print "Setup 'plot' function for plotting collected, use 'help plot' for syntax"
-#from plot import plot, plotover, plotdata #@UnusedImport
-#print
-
-
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
@@ -216,12 +185,6 @@ print "-------------------------------------------------------------------------
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 
-print "Create an 'analyserscan' command for scanning the electron analyser."
-from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
-alias("zerosupplies")
-alias("analyserscan")
-alias("analyserscan_v1")
-alias("analyserscancheck")
 
 print
 print "=================================================================================================================";

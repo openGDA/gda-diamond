@@ -30,8 +30,6 @@
 	<import resource="BeamMonitor.xml"/>
 <!-- 	<import resource="topup.xml"/> -->
 
-	<import resource="endstation/endstation.xml"/>
-
 	<import resource="../servers_common.xml" />
 
 </beans>

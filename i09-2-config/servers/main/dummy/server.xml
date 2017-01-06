@@ -31,7 +31,6 @@
 	<import resource="MachineStatus.xml"/>
 	<import resource="PGM.xml" />
 	<import resource="SD1.xml" />
-	<import resource="SD2.xml" />
 	<import resource="SD3.xml" />
 	<import resource="SD4.xml"/>
 	<import resource="SD5.xml" />
@@ -46,8 +45,6 @@
 	<import resource="SS3.xml" />
 	<import resource="SS4.xml" />
 	<import resource="SMPM.xml" />
-	
-	<import resource="endstation/endstation.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

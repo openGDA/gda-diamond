@@ -20,9 +20,7 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.mode=dummy
+      <vmArgs>-Dgda.mode=dummy
 -Dgda.config=${project_loc:i09-2-config}
 -Dgda.propertiesFile=${project_loc:i09-2-config}/properties/dummy/dummy_instance_java.properties
 -Djacorb.config.dir=${project_loc:i09-2-config}/properties/dummy/jacorb
@@ -31,9 +29,9 @@ http://www.opengda.org
 -Dgda.logs.dir=${workspace_loc}/../logs
 -Dgda.instance.dir=${project_loc:i09-2-config} 
 -Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:uk.ac.gda.core}
--Xms256m 
--Xmx1024m
+-Dgda.core.dir=${project_loc:core-config}
+-Xms1g 
+-Xmx3g
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
@@ -54,7 +52,6 @@ http://www.opengda.org
    </launcher>
 
    <vm>
-      <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/CDC-1.0%Foundation-1.0</linux>
    </vm>
 
    <license>
