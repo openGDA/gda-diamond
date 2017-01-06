@@ -6,7 +6,13 @@
 		<project>i06-shared</project>
 		<project>mt-config</project>
 		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.dls</project>
+		<project>uk.ac.gda.dls.client</project>
 		<project>uk.ac.gda.epics</project>
+		<project>uk.ac.gda.epics.adviewer</project>
+		<project>uk.ac.gda.server.nano</project>
+		<project>uk.ac.gda.video.mjpeg</project>
+		<project>uk.ac.gda.video.views</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
