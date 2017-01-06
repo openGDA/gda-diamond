@@ -38,4 +38,6 @@
 		<property name="slowSpeed" value="100" />
 	</bean>
 
+	<bean id="sm6fpitch_motor" class="gda.device.motor.DummyMotor"/>
+
 </beans>
