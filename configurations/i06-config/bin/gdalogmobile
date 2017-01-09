@@ -1,7 +1,0 @@
-#!/bin/bash
-
-export GDA_MODE=mobilerack
-
-GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
-
-$GDA_ROOT/workspace_git/gda-mt.git/configurations/i06-config/bin/gdalog
