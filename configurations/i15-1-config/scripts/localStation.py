@@ -19,6 +19,10 @@ def localStation_exception(exc_info, msg):
     localStation_exceptions.append("    %s" % msg)
     log(None, "Error %s -  " % msg , typ, exception, traceback, False)
 
+from gda.configuration.properties import LocalProperties
+dummy_mode = (LocalProperties.get('gda.mode') == u'dummy')
+print "dummy_mode=%r" % dummy_mode
+    
 try:
     simpleLog("%s ================ INITIALISING I15-1 GDA ================" % time.strftime("%Y-%m-%d %H:%M"))
 
@@ -60,6 +64,28 @@ try:
     cam1rgb = ProcessingDetectorWrapper   ("cam1rgb", cam1rgbRawNx, [], panel_name_rcp='Plot 1')
 
     from mapping_scan_commands import mscan, detector, scan_request, submit, step, grid, circ, poly, rect
+
+    print "Imported mapping_scan_commands"
+
+    if dummy_mode:
+        print "*"*80
+        print "Dummy mode specific setup"
+        print "*"*80
+        from jythonAreaDetectorRunnableDevice import JythonAreaDetectorRunnableDevice
+        pe1JythonAreaDetectorRunnableDevice = JythonAreaDetectorRunnableDevice()
+        print "pe1JythonAreaDetectorRunnableDevice=%r" % pe1JythonAreaDetectorRunnableDevice
+
+        global peAD
+        print "global peAD done."
+        print "peAD=%r" % peAD
+
+        pe1AreaDetectorRunnableDeviceProxyFinder = finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
+        print "pe1AreaDetectorRunnableDeviceProxyFinder=%r" % pe1AreaDetectorRunnableDeviceProxyFinder
+        
+        pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+        print "pe1AreaDetectorRunnableDeviceProxy=%r" % pe1AreaDetectorRunnableDeviceProxy
+
+        pe1AreaDetectorRunnableDeviceProxy.setRunnableDevice(pe1JythonAreaDetectorRunnableDevice)
 
 except:
     localStation_exception(sys.exc_info(), "in localStation")
