@@ -19,7 +19,6 @@
 package gda.scan;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,11 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
-import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
-import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
@@ -47,7 +41,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
-import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.device.detector.StepScanEdeDetector;
@@ -78,7 +71,6 @@ public class EdeScanTest extends EdeTestBase {
 	private static final int MCA_WIDTH = 1024;
 	private DummyXStripDAServer daserver;
 	private XhDetector xh;
-	private String testDir;
 	private DummyMonitor topupMonitor;
 	private final DummyPositioner shutter = createShutter2();
 	private ScannableMotor xScannable;
@@ -124,23 +116,13 @@ public class EdeScanTest extends EdeTestBase {
 		Finder.getInstance().addFactory(factory);
 
 		inOutBeamMotors = new HashMap<String, Double>();
-		inOutBeamMotors.put("xScannable", 0.3);
-		inOutBeamMotors.put("yScannable", 0.3);
-	}
-
-	private void setup(String testName) throws Exception {
-		/* String testFolder = */TestHelpers.setUpTest(EdeScanTest.class, testName, true);
-		LocalProperties.setScanSetsScanNumber(true);
-		LocalProperties.set("gda.scan.sets.scannumber", "true");
-		LocalProperties.set("gda.scanbase.firstScanNumber", "-1");
-		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusDataWriter");
-		LocalProperties.set("gda.nexus.createSRS", "false");
-		testDir = LocalProperties.getBaseDataDir();
+		inOutBeamMotors.put(xScannable.getName(), 0.3);
+		inOutBeamMotors.put(yScannable.getName(), 0.3);
 	}
 
 	@Test()
 	public void testSingleSpectrumScan() throws Exception {
-		setup("testSingleSpectrumScan");
+		setup(EdeScanTest.class, "testSingleSpectrumScan");
 
 		SingleSpectrumScan theExperiment = new SingleSpectrumScan(0.001, 0.005, 1, inOutBeamMotors, inOutBeamMotors,
 				"xh", "topup", shutter.getName());
@@ -152,13 +134,13 @@ public class EdeScanTest extends EdeTestBase {
 
 	@Test
 	public void testRunScan() throws Exception {
-		setup("testRunScan");
+		setup(EdeScanTest.class, "testRunScan");
 		runEdeScan(-1, 1);
 	}
 
 	@Test
 	public void testRunScanOutputProgressData() throws Exception {
-		setup("testRunScanOutputProgressData");
+		setup(EdeScanTest.class, "testRunScanOutputProgressData");
 		// create the extra columns by having number of repetitions >= 0
 		runEdeScan(10, 1);
 	}
@@ -215,7 +197,7 @@ public class EdeScanTest extends EdeTestBase {
 
 	@Test
 	public void testStepScan() throws Exception {
-		setup("testStepScan");
+		setup(EdeScanTest.class, "testStepScan");
 		LocalProperties.set("gda.nexus.createSRS", "true");
 		ScannableMotor xScannable = createMotor("xScannable");
 		StepScanEdeDetector ssxh = new StepScanEdeDetector();
@@ -275,7 +257,7 @@ public class EdeScanTest extends EdeTestBase {
 
 	@Test
 	public void testSimpleLinearExperimentWithMotorMove() throws Exception {
-		setup("testSimpleLinearExperimentWithMotorMove");
+		setup(EdeScanTest.class, "testSimpleLinearExperimentWithMotorMove");
 
 		List<TimingGroup> groups = new ArrayList<TimingGroup>();
 
@@ -336,37 +318,9 @@ public class EdeScanTest extends EdeTestBase {
 
 	}
 
-	private class RangeValidator {
-		private double min, max;
-		private boolean checkMin, checkMax;
-		public RangeValidator(double min, double max, boolean checkMin, boolean checkMax) {
-			this.min = min; this.max = max;
-			this.checkMin = checkMin; this.checkMax = checkMax;
-		}
-		public boolean valueOk(double val) {
-			boolean minOk = checkMin ? val>=min : true;
-			boolean maxOk = checkMax ? val<=max : true;
-			return minOk && maxOk;
-		}
-		public String info() {
-			return "Range : "+min+" (check = "+checkMin+") ... "+max+" (check = "+checkMax+")";
-		}
-	};
-
-	// Check all values in a Dataset to make sure they are all within expected range
-	public void checkDataValidRange(String filename, String groupName, String dataName, RangeValidator rangeValidator) throws NexusException {
-		Dataset dataset = (Dataset) getDataset(filename, groupName, dataName);
-		IndexIterator iter=dataset.getIterator();
-		while (iter.hasNext()) {
-			double val = dataset.getElementDoubleAbs(iter.index);
-			String message = "Data value "+val+" not within valid range at index = "+iter.index+"\n"+rangeValidator.info();
-			assertTrue(message, rangeValidator.valueOk(val));
-		}
-	}
-
 	@Test
 	public void testSimpleLinearExperiment() throws Exception {
-		setup("testSimpleLinearExperiment");
+		setup(EdeScanTest.class, "testSimpleLinearExperiment");
 
 		List<TimingGroup> groups = new ArrayList<TimingGroup>();
 
@@ -401,7 +355,7 @@ public class EdeScanTest extends EdeTestBase {
 		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+16);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+16);
-//		filename = theExperiment.getItAveragedFilename();
+//		String filename = theExperiment.getItAveragedFilename();
 //		testNumberColumnsInEDEFile(filename, 9);
 //		testNumberLinesInEDEFile(filename, MCA_WIDTH * numberExpectedSpectra);
 //		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
@@ -416,6 +370,9 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	private void testNexusStructure(String nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
+		NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename);
+		// GroupNode g = file.getGroup("/entry1", false);
+
 		boolean checkForCycles = numberRepetitions>1;
 		if (numberRepetitions > 0){
 			// Scans with I0 measured before and after It
@@ -427,46 +384,25 @@ public class EdeScanTest extends EdeTestBase {
 			// numberRepetitions = 0 -> single spectrum scan (no final I0 measurement)
 			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
 		}
+		file.close();
 	}
 
-	private void assertLinearData(String filename, String groupName, int numberSpectra, boolean testForCycles) throws NexusException{
-		assertDimensions(filename, groupName, EdeDataConstants.DATA_COLUMN_NAME, new int[] { numberSpectra, MCA_WIDTH });
-		assertDimensions(filename, groupName, EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { MCA_WIDTH });
-		assertDimensions(filename, groupName, EdeDataConstants.PIXEL_COLUMN_NAME, new int[] { MCA_WIDTH });
-		assertDimensions(filename, groupName, EdeDataConstants.TIMINGGROUP_COLUMN_NAME, new int[] { numberSpectra });
-		assertDimensions(filename, groupName, EdeDataConstants.TIME_COLUMN_NAME, new int[] { numberSpectra });
+	private void assertLinearData(String nexusFilename, String groupName, int numberSpectra, boolean testForCycles) throws NexusException{
+		assertDimensions(nexusFilename, groupName, EdeDataConstants.DATA_COLUMN_NAME, new int[] { numberSpectra, MCA_WIDTH });
+		assertDimensions(nexusFilename, groupName, EdeDataConstants.ENERGY_COLUMN_NAME, new int[] { MCA_WIDTH });
+		assertDimensions(nexusFilename, groupName, EdeDataConstants.TIMINGGROUP_COLUMN_NAME, new int[] { numberSpectra });
+		assertDimensions(nexusFilename, groupName, EdeDataConstants.TIME_COLUMN_NAME, new int[] { numberSpectra });
+		assertDimensions(nexusFilename, groupName, EdeDataConstants.PIXEL_COLUMN_NAME, new int[] { MCA_WIDTH });
 
 		if (testForCycles){
-			assertDimensions(filename, groupName, EdeDataConstants.CYCLE_COLUMN_NAME, new int[] { numberSpectra });
+			assertDimensions(nexusFilename, groupName, EdeDataConstants.CYCLE_COLUMN_NAME, new int[] { numberSpectra });
 		}
 	}
-	private void assertDimensions(String filename, String groupName, String dataName, int[] expectedDims) throws NexusException {
-		int[] shape = getDataset(filename, groupName, dataName).getShape();
-		for (int i = 0; i < expectedDims.length; i++) {
-			assertEquals(expectedDims[i], shape[i]);
-		}
-	}
-
-	private IDataset getDataset(String nexusFilename, String groupName, String dataName) throws NexusException {
-		NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename);
-		try {
-			GroupNode group = file.getGroup("/entry1/"+groupName, false);
-			DataNode d = file.getData(group, dataName);
-			return d.getDataset().getSlice(null, null, null);
-		}catch(NexusException e){
-			String msg = "Problem opening nexus data group="+groupName+" data="+dataName;
-			throw new NexusException(msg+e);
-		}finally {
-			file.close();
-		}
-
-	}
-
 
 	@Test
 	@Ignore
 	public void testSimpleCyclicExperiment() throws Exception {
-		setup("testSimpleCyclicExperiment");
+		setup(EdeScanTest.class, "testSimpleCyclicExperiment");
 
 		List<TimingGroup> groups = new ArrayList<TimingGroup>();
 

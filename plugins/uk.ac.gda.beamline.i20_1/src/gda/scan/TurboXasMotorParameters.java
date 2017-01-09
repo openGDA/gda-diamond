@@ -88,8 +88,12 @@ public class TurboXasMotorParameters {
 	}
 
 	public void setPositionToEnergyPolynomial(String eqnString) {
-		double[] polynomialCoefficients = PolynomialParser.extractCoefficientsFromString(eqnString);
-		positionToEnergyPolynomial = new PolynomialFunction(polynomialCoefficients);
+		if (eqnString != null && eqnString.length() > 0) {
+			double[] polynomialCoefficients = PolynomialParser.extractCoefficientsFromString(eqnString);
+			positionToEnergyPolynomial = new PolynomialFunction(polynomialCoefficients);
+		} else {
+			positionToEnergyPolynomial = null;
+		}
 	}
 
 	public void setPositionToEnergyPolynomial(PolynomialFunction positionToEnergyPolynomial) {

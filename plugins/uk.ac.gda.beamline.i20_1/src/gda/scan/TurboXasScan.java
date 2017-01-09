@@ -99,7 +99,7 @@ public class TurboXasScan extends ContinuousScan {
 		} else {
 			logger.info("Setting up scan using ContinuousParameters");
 			lastFrameRead = 0;
-			numReadoutsPerSpectrum = getScanAxis().getContinuousParameters().getNumberDataPoints();
+			numReadoutsPerSpectrum = getTotalNumberOfPoints();
 			prepareDetectors(numReadoutsPerSpectrum);
 			collectOneSpectrum();
 		}
@@ -134,6 +134,12 @@ public class TurboXasScan extends ContinuousScan {
 
 		turboXasScannable.resetZebraArmConfigFlags(); // already called by atScanStart()
 		turboXasScannable.setDisarmZebraAtScanEnd(false); // don't disarm zebra after first timing group
+
+		// Calculate motor parameters for first timing group
+		turboXasMotorParams.setMotorParametersForTimingGroup(0);
+
+		// Set scannable with motor params (start, end pos, num steps etc)
+		turboXasScannable.setMotorParameters(turboXasMotorParams);
 
 		List<TurboSlitTimingGroup> timingGroups = turboXasMotorParams.getScanParameters().getTimingGroups();
 

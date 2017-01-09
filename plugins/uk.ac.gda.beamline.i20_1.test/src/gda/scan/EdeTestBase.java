@@ -18,9 +18,22 @@
 
 package gda.scan;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.eclipse.dawnsci.analysis.api.dataset.IDataset;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.IndexIterator;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
+import gda.TestHelpers;
+import gda.configuration.properties.LocalProperties;
 import gda.device.enumpositioner.DummyPositioner;
 import gda.device.scannable.ScannableMotor;
 
@@ -42,5 +55,66 @@ public class EdeTestBase {
 		shutter2.setName("Shutter");
 		shutter2.setPositions(new String[]{"In","Out"});
 		return shutter2;
+	}
+
+	public static void assertDimensions(String filename, String groupName, String dataName, int[] expectedDims) throws NexusException {
+		int[] shape = getDataset(filename, groupName, dataName).getShape();
+		for (int i = 0; i < expectedDims.length; i++) {
+			assertEquals(groupName+"/"+dataName, expectedDims[i], shape[i]);
+		}
+	}
+
+	public static IDataset getDataset(String nexusFilename, String groupName, String dataName) throws NexusException {
+		NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename);
+		try {
+			GroupNode group = file.getGroup("/entry1/"+groupName, false);
+			DataNode d = file.getData(group, dataName);
+			return d.getDataset().getSlice(null, null, null);
+		}catch(NexusException e){
+			String msg = "Problem opening nexus data group="+groupName+" data="+dataName;
+			throw new NexusException(msg+e);
+		}finally {
+			file.close();
+		}
+	}
+
+
+	protected class RangeValidator {
+		private double min, max;
+		private boolean checkMin, checkMax;
+		public RangeValidator(double min, double max, boolean checkMin, boolean checkMax) {
+			this.min = min; this.max = max;
+			this.checkMin = checkMin; this.checkMax = checkMax;
+		}
+		public boolean valueOk(double val) {
+			boolean minOk = checkMin ? val>=min : true;
+			boolean maxOk = checkMax ? val<=max : true;
+			return minOk && maxOk;
+		}
+		public String info() {
+			return "Range : "+min+" (check = "+checkMin+") ... "+max+" (check = "+checkMax+")";
+		}
+	};
+
+	// Check all values in a Dataset to make sure they are all within expected range
+	public static void checkDataValidRange(String filename, String groupName, String dataName, RangeValidator rangeValidator) throws NexusException {
+		Dataset dataset = (Dataset) getDataset(filename, groupName, dataName);
+		IndexIterator iter=dataset.getIterator();
+		while (iter.hasNext()) {
+			double val = dataset.getElementDoubleAbs(iter.index);
+			String message = "Data value "+val+" not within valid range at index = "+iter.index+"\n"+rangeValidator.info();
+			assertTrue(message, rangeValidator.valueOk(val));
+		}
+	}
+	protected String testDir;
+
+	protected void setup(Class<?> classType, String testName) throws Exception {
+		/* String testFolder = */TestHelpers.setUpTest(classType, testName, true);
+		LocalProperties.setScanSetsScanNumber(true);
+		LocalProperties.set("gda.scan.sets.scannumber", "true");
+		LocalProperties.set("gda.scanbase.firstScanNumber", "-1");
+		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusDataWriter");
+		LocalProperties.set("gda.nexus.createSRS", "false");
+		testDir = LocalProperties.getBaseDataDir();
 	}
 }
