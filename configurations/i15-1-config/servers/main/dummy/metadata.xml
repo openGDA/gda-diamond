@@ -28,6 +28,23 @@
 					<property name="propertyName" value="gda.facility.probe" />
 				</bean>
 
+				<!--
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="beamCurrent" />
+					<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="facilityMode" />
+					<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="fillMode" />
+					<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
+				</bean>
+				 -->
+
 				<!-- Metadata entry userid is not a StoredMetadataEntry, so its value cannot be set
 				<bean class="gda.data.metadata.PropertyMetadataEntry">
 					<property name="name" value="userid" />
@@ -39,24 +56,10 @@
 					<property name="name" value="federalid" />
 				</bean>
 
-<!--
-				<bean class="gda.data.metadata.PropertyMetadataEntry">
-					<property name="name" value="defVisit" />
-					<property name="propertyName" value="gda.defVisit" />
-				</bean>
- -->
-
 				<bean class="gda.data.metadata.IcatMetadataEntry">
 					<property name="name" value="investigation" />
-					<property name="query" value="id" />
+					<property name="query" value="id:investigation:id" />
 				</bean>
-
-<!--
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="visit" />
-					<property name="defEntryName" value="defVisit" />
-				</bean>
- -->
 
 				<bean class="gda.data.metadata.IcatMetadataEntry">
 					<property name="name" value="proposal" />
@@ -65,7 +68,7 @@
 
 				<bean class="gda.data.metadata.IcatMetadataEntry">
 					<property name="name" value="title" />
-					<property name="query" value="TITLE:investigation:id" />
+					<property name="query" value="TITLE" />
 				</bean>
 				
 				<bean class="gda.data.metadata.IcatMetadataEntry">

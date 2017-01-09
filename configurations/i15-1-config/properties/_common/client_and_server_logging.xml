@@ -8,18 +8,22 @@
 
     <!-- include file is relative to the application directory -->
 
-    <!-- address where the messages from Object Servers send to - the LogServer-->
-    <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
+	<!-- Appender to send log messages to the log server -->
+	<!-- http://logback.qos.ch/manual/appenders.html#SocketAppender -->
+    <appender name="LogServer" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>${gda.logserver.host}</RemoteHost>
         <Port>${gda.server.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
+		<queueSize>4096</queueSize>
     </appender>
     
-	<!-- Classes for which INFO messages are excessive-->
+	<!-- Classes for which INFO messages are excessive
+	 -->
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">			<level value="ERROR"/></logger>
 
-	<!-- Classes for which DEBUG messages are excessive-->
+	<!-- Classes for which DEBUG messages are excessive
+	 -->
 	<logger name="org.apache.activemq.transport.AbstractInactivityMonitor">				<level value="INFO"/></logger>
 	<logger name="org.eclipse.jetty.server">											<level value="INFO"/></logger>
 	<logger name="org.eclipse.jetty.servlet">											<level value="INFO"/></logger>
@@ -27,8 +31,10 @@
 	<logger name="org.eclipse.jetty.http">												<level value="INFO"/></logger>
 
 
-	<!-- Classes for which TRACE messages are excessive-->
+	<!-- Classes for which TRACE messages are excessive
+	 -->
 	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">           				<level value="DEBUG"/></logger>
 	<logger name="hdf.hdf5lib.H5">														<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.thread.PooledTaskRunner">           				<level value="DEBUG"/></logger>
 
 </included>

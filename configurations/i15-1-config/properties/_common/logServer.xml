@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- scan="true" allows this file to be modified live to change the logging configuration -->
+<!-- debug="true" logs the logback configuration -->
 <configuration scan="true" scanPeriod="10 seconds" debug="true">
+
 	<define scope="context" name="JVMNAME" class="gda.util.logging.JvmNamePropertyDefiner" />
 
     <!--  the include statement in the following java.properties file is not read so you need to reference both -->
@@ -9,17 +12,18 @@
     <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
     <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
 
-    <appender name="ServerDebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${gda.logs.dir}/gda_server.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}/"i15-1-config"] %logger - %m%n%rEx</pattern>
-        </encoder>
-    </appender>
+	<!-- http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+	<appender name="LogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${gda.logs.dir}/gda_server.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d %-5level [%property{HOSTNAME}/%property{GDA_SOURCE}/%property{JVMNAME}] %logger - %m%n%rEx</pattern>
+		</encoder>
+	</appender>
 
-    <appender name="RemoteLoggerListener" class="ch.qos.logback.classic.net.server.ServerSocketAppender">
+    <appender name="LogPanel" class="ch.qos.logback.classic.net.server.ServerSocketAppender">
         <port>${gda.logserver.out.port}</port>
         <!-- Limits the messages sent to log panels to the default messages shown. If you want to see DEBUG or TRACE
              messages in the log panel, set level to DEBUG or ALL -->
@@ -30,7 +34,11 @@
 
     <root>
         <level value="ALL"/>
-        <appender-ref ref="ServerDebugFILE"/>
-        <appender-ref ref="RemoteLoggerListener" />
+        <appender-ref ref="LogFile"/>
+        <appender-ref ref="LogPanel" />
      </root>
+
+	<!-- If this file exists, it allows facilites to customise logging -->
+	<include file="${gda.facility.dir}/properties/_common/log_server_customisation.xml" />
+
 </configuration>
