@@ -5,12 +5,12 @@
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="properties">
-			<bean class="uk.ac.gda.util.dictionary.MapBasedDictionary">
-				<property name="map">
+			<bean class="java.util.Hashtable">
+				<constructor-arg>
 					<map>
 						<entry key="SERVICE_NAME" value="mpx" />
 					</map>
-				</property>
+				</constructor-arg>
 			</bean>
 		</property>
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADPVSuffixes" />
