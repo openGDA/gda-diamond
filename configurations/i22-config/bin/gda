@@ -48,4 +48,24 @@ fi
 # before the gda-core script is invoked using the environment settings
 ######################################################################
 
+
+if [[ "$@" != *"stop"* ]]; then
+    if [ "${GDA_MODE}" == "live" ]; then
+        log=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../gda_logs)/gda_server.log
+    else
+        log=${GDA_WORKSPACE_PARENT}/i22_logs/gda_server.log
+    fi
+    w_id=xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5   # get current window id
+    
+    gnome-terminal --window \
+                   --hide-menubar \
+                   --working-directory=$here_dir \
+                   --title "GDA Server startup" \
+                   --geometry=100x30+10+10 \
+                   -e "./consoledump.sh $log" &
+    sleep 0.3s                                 # start the log dump giving it time to start the tail
+    
+    wmctrl -a -i $w_id                         # get the focus back from the new terminal for the zenity dialog
+fi
+
 source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
