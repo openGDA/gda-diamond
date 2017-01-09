@@ -154,17 +154,9 @@ print "Importing analysis commands (findpeak, findcentroid & enable scan data pr
 findpeak=FindScanPeak 
 findcentroid=FindScanCentroid 
 
+# Install standard scan processing
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-for processor in scan_processor.processors:
-    scan_processor.processors.remove(processor)
-peakdata=ExtractPeakParameters()
-scan_processor.processors.append(peakdata)
-gdascripts.scan.concurrentScanWrapper.PRINTTIME = False
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 scan_processor.rootNamespaceDict=globals()
-#scan_processor.duplicate_names = {'maxval':'maxpos', 'minval':'minpos'}
-#scan_processor.processors.append(Lcen())
-#scan_processor.processors.append(Rcen())
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
