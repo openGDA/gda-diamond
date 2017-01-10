@@ -10,8 +10,8 @@
 		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
 		<property name="axesToMove">
 			<list>
-				<value>T1X</value>
-				<value>T1Y</value>
+				<value>T1XF</value>
+				<value>T1YF</value>
 			</list>
 		</property>
 	</bean>
@@ -27,14 +27,8 @@
 		<property name="name" value="dummyMalcolm-01"/>
 		<property name="model" ref="malcolmModel01"/>
 		<property name="deviceInformation" ref="malcolmInfo01"/>
-		<!-- Whether this is the default device to use in a scan. Possibly should be set to true if/when we remove the Mandelbrot detector-->
+		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false"/>
-		<property name="axesToMove">
-			<array>
-				<value>T1X</value>
-				<value>T1Y</value>
-			</array>
-		</property>
 	</bean>
 
 	<!-- Dummy Malcolm Device 2 -->
@@ -44,8 +38,8 @@
 		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
 		<property name="axesToMove">
 			<list>
-				<value>T1X</value>
-				<value>T1Y</value>
+				<value>T1XF</value>
+				<value>T1YF</value>
 			</list>
 		</property>
 	</bean>
@@ -61,14 +55,8 @@
 		<property name="name" value="dummyMalcolm-02"/>
 		<property name="model" ref="malcolmModel02"/>
 		<property name="deviceInformation" ref="malcolmInfo02"/>
-		<!-- Whether this is the default device to use in a scan. Possibly should be set to true if/when we remove the Mandelbrot detector-->
+		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false"/>
-		<property name="axesToMove">
-			<array>
-				<value>T1X</value>
-				<value>T1Y</value>
-			</array>
-		</property>
 	</bean>
 
 </beans>
