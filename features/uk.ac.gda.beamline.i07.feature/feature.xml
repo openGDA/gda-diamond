@@ -62,10 +62,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
-   <includes
-         id="uk.ac.gda.dal.feature"
-         version="0.0.0"/>
-
    <plugin
          id="uk.ac.gda.beamline.i07"
          download-size="0"

@@ -46,15 +46,6 @@
          </view>
          <view
                closeable="true"
-               id="gda.dal.sdsview"
-               moveable="true"
-               relationship="stack"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
                id="gda.rcp.jythoneditorview"
                moveable="true"
                ratio="0.3"
