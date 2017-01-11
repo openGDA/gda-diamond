@@ -45,3 +45,8 @@ from gda.data.scan.datawriter import NexusDataWriter
 # Local property used bye NexusDataWriter to store name of metadata object
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 metashop = Finder.getInstance().find("metashop")
+
+# Misc. TurboXAS related beans 
+zebra_gatePulsePreparer=finder.find("zebra_gatePulsePreparer")
+zebra_device=finder.find("zebra_device")
+

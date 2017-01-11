@@ -24,6 +24,15 @@
 		<property name="name" value="zebra"/>
 	</bean>
 
+<!-- Zebra gate and pulse preparer bean. 12/1/2017 -->
+	<bean id="zebra_gatePulsePreparer" class="gda.device.zebra.ZebraGatePulsePreparer">
+		<property name="name" value="zebra_gatePulsePreparer" />
+		<property name="zebraDevice" ref="zebra_device" />	
+		<property name="positionTriggerEncoder" value="2" /> <!-- PC_ENC_3 -->
+		<property name="ttlOutputPort" value="31" />
+		<property name="positionTriggerTimeUnits" value="1" />  <!--  times in seconds --> 
+	</bean>
+
 <!-- TurboxXasScannable for driving turbo slits in a continuous scan. imh 23/5/2016 -->
 	<bean id="turbo_xas_slit" class="gda.device.scannable.TurboXasScannable">
 		<property name="motor" ref="turbo_slit_x_motor" />
@@ -41,29 +50,42 @@
 		</property>
 	</bean>
 
-	<bean id="turbo_xas_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
+	<bean id="CalMemory_testing" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="daserverForTfg" />
+		<property name="width" value="5" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+	<bean id="scaler_for_zebra" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
 				<value>time</value>
 				<value>I0</value>
 				<value>It</value>
-				<value>Iref</value>
+				<value>FF</value>
+				<value>topup</value>
 				<value>lnI0It</value>
 				<value>lnItIref</value>
 			</list>
 		</property>
-		<property name="scaler" ref="CalMemory" />
+		<property name="scaler" ref="CalMemory_testing" />
 		<property name="timer" ref="tfg" />
-		<property name="daserver" ref="DAServer" />
+		<property name="daserver" ref="daserverForTfg" />
+		<property name="ttlSocket" value="2" />
+		
 		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
+<!-- 		<property name="outputLogValues" value="true" /> -->
 		<property name="outputLogValues" value="true" />
 		<property name="TFGv2" value="true" />
-		<property name="numChannelsToRead" value="3" />
+		<property name="numChannelsToRead" value="4" />
+<!-- 		<property name="numChannelsToRead" value="3" /> -->
 		<property name="outputFormat">
 			<list>
-				<value>%.6g</value>
-				<value>%6.5g</value>
+				<value>%.8g</value>
+				<value>%8.8g</value>
+				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
 				<value>%9d</value>
@@ -72,22 +94,5 @@
 			</list>
 		</property>
 	</bean>
-
-<!--  Live mode b18 qexafs_energy  -->
-<!-- 	<bean id="qexafs_energy" class="gda.device.scannable.zebra.ZebraQexafsScannable"> -->
-<!-- 		<property name="motor" ref="turbo_slit_x_motor" /> -->
-<!-- 		<property name="lowerGdaLimits" value="-20" /> -->
-<!-- 		<property name="upperGdaLimits" value="20" /> -->
-<!-- 		<property name="outputFormat"> -->
-<!-- 			<list> -->
-<!-- 				<value>%.3f</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="accelPV" value="BL18B-OP-DCM-01:BRAGG:MPACCEL:RBV" /> -->
-<!-- 		<property name="xtalSwitchPV" value="BL18B-OP-DCM-01:XTAL_SWITCH" /> -->
-<!-- 		<property name="braggCurrentSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED" /> -->
-<!-- 		<property name="braggMaxSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED.DRVH" /> -->
-<!-- 		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" /> -->
-<!-- 	</bean> -->
 
 </beans>

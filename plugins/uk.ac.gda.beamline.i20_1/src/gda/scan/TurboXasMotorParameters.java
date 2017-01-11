@@ -41,11 +41,13 @@ public class TurboXasMotorParameters {
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasMotorParameters.class);
 
 	@XStreamAlias("TurboXasParameters")
-	TurboXasParameters scanParameters;
+	private TurboXasParameters scanParameters;
 
 	// These are all set using values from TurboXasScanParameters
 	private double scanStartPosition, scanEndPosition;
 	private double scanMotorSpeed;
+	private double returnMotorSpeed;
+
 	private double startPosition, endPosition, motorRampDistance;
 	private int    numReadoutsForScan;
 	private double positionStepsize;
@@ -76,6 +78,7 @@ public class TurboXasMotorParameters {
 
 	public void setDefaultMotorParams() {
 		motorMaxSpeed = 300;
+		returnMotorSpeed = 250;
 		motorTimeToVelocity = 0.015;
 		motorStabilisationDistance = 0.1;
 		motorHighLimit = 10000;
@@ -395,6 +398,14 @@ public class TurboXasMotorParameters {
 	 */
 	public double getScanMotorSpeed() {
 		return scanMotorSpeed;
+	}
+
+	public double getReturnMotorSpeed() {
+		return returnMotorSpeed;
+	}
+
+	public void setReturnMotorSpeed(double returnMotorSpeed) {
+		this.returnMotorSpeed = returnMotorSpeed;
 	}
 
 	public double getScanPositionRange() {

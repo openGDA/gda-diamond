@@ -110,7 +110,8 @@ public class TurboXasScanTest extends EdeTestBase {
 		scan.runScan();
 
 		String nxsFile = scan.getDataWriter().getCurrentFileName();
-		int[] expectedDims = new int[]{1, numReadouts};
+
+		int[] expectedDims = new int[]{1, numReadouts-1};
 		for(String name : bufferedScaler.getExtraNames()) {
 			assertDimensions(nxsFile, bufferedScaler.getName(), name, expectedDims);
 			checkDataValidRange(nxsFile, bufferedScaler.getName(), name, new RangeValidator(0, 1, true, false) );
@@ -146,7 +147,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		String nxsFile = scan.getDataWriter().getCurrentFileName();
 
 		// Check shape and content of scaler output (should be all >0 when not also producing lnI0It values)
-		int[] expectedDims = new int[]{numSpectra, numPointsPerSpectrum};
+		int[] expectedDims = new int[]{numSpectra, numPointsPerSpectrum-1};
 		for(String name : bufferedScaler.getExtraNames()) {
 			assertDimensions(nxsFile, bufferedScaler.getName(), name, expectedDims);
 			checkDataValidRange(nxsFile, bufferedScaler.getName(), name, new RangeValidator(0, 1, true, false) );

@@ -76,7 +76,7 @@ public class TurboXasParameters {
 		startEnergy = contparams.getStartPosition();
 		endEnergy = contparams.getEndPosition();
 
-		energyCalibrationPolynomial = "x";
+		energyCalibrationPolynomial = "";
 
 		// energy calibration poly is just motor position, so just set range from scan params:
 		energyCalibrationMinPosition = startEnergy*0.8;
@@ -137,6 +137,14 @@ public class TurboXasParameters {
 
 	public int getNumTimingGroups() {
 		return timingGroups != null ? timingGroups.size() : 0;
+	}
+
+	public int getTotalNumSpectra() {
+		int totNumSpectra = 0;
+		for (TurboSlitTimingGroup group : timingGroups) {
+			totNumSpectra += group.getNumSpectra();
+		}
+		return totNumSpectra;
 	}
 
 	public String getEnergyCalibrationPolynomial() {
