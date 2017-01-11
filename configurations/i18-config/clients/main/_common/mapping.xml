@@ -58,6 +58,15 @@
 		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
+				<property name="outerScannables">
+					<list>
+						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+							<constructor-arg name="name" value="energy" />
+							<constructor-arg name="model"><null /></constructor-arg>
+							<constructor-arg name="includeInScan" value="false"/>
+						</bean>
+					</list>
+				</property>
 			</bean>
 		</property>
 	</bean>
