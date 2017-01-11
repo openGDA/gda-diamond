@@ -7,9 +7,9 @@
   <property name="dataPort" value="20030"/>
   <property name="startupCommands">
    <list>
-    <value>~config2d</value>
-    <value>tfg setup-cc-mode scaler64</value>
-    <value>tfg setup-cc-chan -1 edge</value>
+      <value>tfg config "etfg0" tfg2</value>
+      <value>tfg setup-cc-mode scaler64</value>
+      <value>tfg setup-cc-chan -1 edge</value>
    </list>
   </property>
  </bean>
