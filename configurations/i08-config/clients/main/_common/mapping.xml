@@ -56,6 +56,11 @@
 							<constructor-arg name="model"><null /></constructor-arg>
 							<constructor-arg name="includeInScan" value="false" />
 						</bean>
+						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+							<constructor-arg name="name" value="pgm_energy" />
+							<constructor-arg name="model"><null /></constructor-arg>
+							<constructor-arg name="includeInScan" value="false" />
+						</bean>
 					</list>
 				</property>
 			</bean>
@@ -77,6 +82,7 @@
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
+		<property name="associatedAxis" ref="z_axis_name" />
 		<property name="beamSize" value="0.1" />
 	</bean>
 
@@ -87,10 +93,15 @@
 		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageInfo" />
 		<property name="service" ref="mapping_stage_info" />
 	</bean>
+
+	<!-- This interface commented out to allow switching between coarse & fine scans.
+		 Processing will pick information up from the Nexus file. -->
+	<!--
 	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="org.eclipse.scanning.api.ui.IStageScanConfiguration" />
 		<property name="service" ref="mapping_stage_info" />
 	</bean>
+	-->
 
 	<!-- The mapping region manager lists the choice of available region types and scan paths which are presented to
 	     the user in the mapping experiment view -->
