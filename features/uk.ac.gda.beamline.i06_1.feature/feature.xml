@@ -63,10 +63,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          version="0.0.0"/>
 
    <includes
-         id="uk.ac.gda.dal.feature"
-         version="0.0.0"/>
-
-   <includes
          id="uk.ac.gda.beamline.i06.feature"
          version="0.0.0"/>
 
