@@ -16,6 +16,13 @@
         http://www.diamond.ac.uk/schema/gda/corba
         http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
+    <bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
+        <property name="local" value="true"/>
+        <property name="motor" ref="dcm_energy_motor"/>
+        <property name="scalingFactor" value="1"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
     <bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
         <property name="local" value="true"/>
         <property name="motor" ref="dcm_bragg_motor"/>
@@ -40,12 +47,19 @@
         <property name="motor" ref="dcm_pitch_motor"/>
         <property name="protectionLevel" value="2"/>
     </bean>
+    <bean id="dcm_offset" class="gda.device.scannable.ScannableMotor">
+        <property name="local" value="true"/>
+		<property name="motor" ref="dcm_offset_motor"/>
+        <property name="protectionLevel" value="2"/>
+    </bean>
 
     <bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="local" value="true"/>
         <property name="groupMembers">
             <list>
+                <ref bean="dcm_energy"/>
                 <ref bean="dcm_pitch"/>
+                <ref bean="dcm_offset"/>
                 <ref bean="dcm_finepitch"/>
                 <ref bean="dcm_roll"/>
                 <ref bean="dcm_fineroll"/>
