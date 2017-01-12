@@ -25,24 +25,30 @@
 	</bean>
 
 	<!-- Malcolm Device 2 -->
+	<!--
 	<bean id="malcolmModel02" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="I08-SCAN02" />
 		<property name="exposureTime" value="0.02" />
 	</bean>
+	-->
 
+	<!--
 	<bean id="malcolmInfo02" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id" value="org.eclipse.scanning.example.malcolm.malcolmDevice02" />
 		<property name="label" value="I08 Malcolm Device 2" />
 		<property name="description" value="The default Malcolm device for beamline I08" />
-		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
+		<property name="icon" value=""/> TODO: we need an icon for malcolm
 	</bean>
+	-->
 
+	<!--
 	<bean id="malcolmDevice02" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="I08-SCAN02" />
 		<property name="model" ref="malcolmModel02" />
 		<property name="deviceInformation" ref="malcolmInfo02" />
-		<!-- Whether this is the default device to use in a scan -->
+		Whether this is the default device to use in a scan
 		<property name="activated" value="false" />
 	</bean>
+	-->
 
 </beans>

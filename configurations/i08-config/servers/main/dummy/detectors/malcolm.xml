@@ -10,8 +10,8 @@
 		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
 		<property name="axesToMove">
 			<list>
-				<value>T1XF</value>
-				<value>T1YF</value>
+				<value>T1X</value>
+				<value>T1Y</value>
 			</list>
 		</property>
 	</bean>
@@ -38,8 +38,8 @@
 		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
 		<property name="axesToMove">
 			<list>
-				<value>T1XF</value>
-				<value>T1YF</value>
+				<value>T1X</value>
+				<value>T1Y</value>
 			</list>
 		</property>
 	</bean>

@@ -7,23 +7,13 @@
 		Motors for T1 endstation
 	</description>
 
-	<bean id="T1XF_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL08I-EA-TABLE-01:XF" />
+	<bean id="T1X_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-EA-TABLE-01:X" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="T1XC_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL08I-EA-TABLE-01:XC" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="T1YF_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL08I-EA-TABLE-01:YF" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="T1YC_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL08I-EA-TABLE-01:YC" />
+	<bean id="T1Y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08I-EA-TABLE-01:Y" />
 		<property name="local" value="true" />
 	</bean>
 
