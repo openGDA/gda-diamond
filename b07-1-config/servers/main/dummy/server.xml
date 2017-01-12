@@ -13,7 +13,8 @@
 	<import resource="s3c.xml"/>
 	<import resource="s3c_femtos.xml" />
 	<import resource="s4c.xml"/>
-	
+	<import resource="s4c_femtos.xml" />
+
 	<!-- Mirrors -->
 	<import resource="m1c.xml"/>
 	<import resource="m3c.xml"/>
