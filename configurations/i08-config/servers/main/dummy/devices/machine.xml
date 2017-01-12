@@ -19,6 +19,8 @@
 				<constructor-arg value="545.353" />
 			</bean>
 		</property>
+		<property name="unit" value="s" />
+		<property name="outputFormat" value="%.3f" />
 	</bean>
 
 </beans>

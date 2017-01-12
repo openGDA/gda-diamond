@@ -7,6 +7,12 @@
 	<!-- Photodiode Detector -->
 
 	<bean id="photoDiode1" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="-2.0"/>
-	</bean> 
-</beans> 
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="-2.09336" />
+			</bean>
+		</property>
+		<property name="outputFormat" value="%.6f" />
+		<property name="unit" value="V" />
+	</bean>
+</beans>

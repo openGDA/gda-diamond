@@ -15,31 +15,61 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="d1" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="10.0"/>
-	</bean> 
-	
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="10.0" />
+			</bean>
+		</property>
+		<property name="outputFormat" value="%.4f" />
+	</bean>
+
 	<bean id="d2" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="10.0"/>
-	</bean> 
-	
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="10.0" />
+			</bean>
+		</property>
+		<property name="outputFormat" value="%.4f" />
+	</bean>
+
 	<bean id="d3" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="10.0"/>
-	</bean> 
-	
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="10.0" />
+			</bean>
+		</property>
+		<property name="outputFormat" value="%.4f" />
+	</bean>
+
 	<bean id="d4" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="10.0"/>
-	</bean> 
-	
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="10.0" />
+			</bean>
+		</property>
+		<property name="outputFormat" value="%.4f" />
+	</bean>
+
 	<bean id="d5" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="10.0"/>
-	</bean> 
-	
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="10.0" />
+			</bean>
+		</property>
+		<property name="outputFormat" value="%.4f" />
+	</bean>
+
 	<bean id="d6" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="10.0"/>
-	</bean> 
-	
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="10.0" />
+			</bean>
+		</property>
+		<property name="outputFormat" value="%.4f" />
+	</bean>
+
 	<bean id="shutter1" class="gda.device.enumpositioner.DummyPositioner">
 		<property name="positions">
 			<list>
@@ -49,5 +79,5 @@
 			</list>
 		</property>
 	</bean>
-	
-</beans> 
+
+</beans>
