@@ -53,6 +53,10 @@
 				<ref bean="s2c_ybottom_current" />
 				<ref bean="s2c_xring_current" />
 				<ref bean="s2c_xhall_current" />
+				<ref bean="s2c_ytop_current_av" />
+				<ref bean="s2c_ybottom_current_av" />
+				<ref bean="s2c_xring_current_av" />
+				<ref bean="s2c_xhall_current_av" />
 			</list>
 		</property>
 	</bean>
