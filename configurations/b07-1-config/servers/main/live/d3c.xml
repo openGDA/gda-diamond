@@ -93,17 +93,42 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="d3c_y" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL07C-DI-PHDGN-03:Y:MP" />
 	</bean>
-	
-	<bean id="d3c" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="d3c_y" />
-				<ref bean="d3c_cam"/>
-			</list>
+
+	<bean id="d3c_current" class="gda.device.currentamplifier.CalibratedAmplifier">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL07C-DI-PHDGN-03:I1:I" />
+		<property name="upperThreshold" value="9.5" />
+		<property name="autoGain" value="false" />
+		<property name="local" value="true" />
+		<property name="scalingAndOffset">
+			<bean class="gda.device.currentamplifier.GainWithScalingAndOffset">
+				<property name="pvName" value="BL07C-DI-PHDGN-03:I1:I:GAIN" />
+				<property name="gaintosando">
+					<ref bean="scaling_offset_map"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d3c_current_av" class="gda.device.currentamplifier.CalibratedAmplifier">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL07C-DI-PHDGN-03:I1:IAV" />
+		<property name="upperThreshold" value="9.5" />
+		<property name="autoGain" value="false" />
+		<property name="local" value="true" />
+		<property name="scalingAndOffset">
+			<bean class="gda.device.currentamplifier.GainWithScalingAndOffset">
+				<property name="pvName" value="BL07C-DI-PHDGN-03:I1:I:GAIN" />
+				<property name="gaintosando">
+					<ref bean="scaling_offset_map"/>
+				</property>
+			</bean>
 		</property>
 	</bean>
 
