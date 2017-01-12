@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="s4c_ytop_current" class="gda.device.scannable.DummyScannable" />
+	<bean id="s4c_ybottom_current" class="gda.device.scannable.DummyScannable" />
+	<bean id="s4c_xring_current" class="gda.device.scannable.DummyScannable" />
+	<bean id="s4c_xhall_current" class="gda.device.scannable.DummyScannable" />
+	<bean id="s4c_plate_current" class="gda.device.scannable.DummyScannable" />
+		
+	<bean id="s4c_ytop_current_av" class="gda.device.scannable.DummyScannable" />
+	<bean id="s4c_ybottom_current_av" class="gda.device.scannable.DummyScannable" />
+	<bean id="s4c_xring_current_av" class="gda.device.scannable.DummyScannable" />
+	<bean id="s4c_xhall_current_av" class="gda.device.scannable.DummyScannable" />
+	<bean id="s4c_plate_current_av" class="gda.device.scannable.DummyScannable" />
+		
+</beans>
