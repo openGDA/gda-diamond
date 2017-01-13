@@ -30,8 +30,9 @@
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
-	<import resource="rmi_imports.xml" />
-	<import resource="mapping.xml" />
-	<import resource="osgi_services.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/osgi_services.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/area_detector_controls.xml" />
 
 </beans>
