@@ -1,97 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-	
-	<!-- Objects that are not true dummies but access a simulated area detector -->
-	
-	<bean id="simCamBase" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:CAM:" />
-	</bean>
 
-	<bean id="simAdDriverPco1"	class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
-		<property name="basePvName" value="${WORKSTATION}-AD-SIM-01:CAM" />
+	<!-- Simulated area detector: can be aliased to stand in for any required area detector -->	
+
+ 	<bean id="sim_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:CAM:" />
 	</bean>
 
-	<bean id="simCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
-		<property name="restoreNumImagesAndImageMode" value="true" />
-		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
-				<property name="restoreTriggerMode" value="true" />
-				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-						<property name="restoreAcquireState" value="true" />
-						<property name="adBase" ref="simCamBase" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	
-	<bean id="simArr" class="gda.spring.V17NDArrayFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:ARR:" />
-	</bean>
-
-	<bean id="simStat" class="gda.spring.V17NDStatsFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:STAT:" />
-	</bean>
-
-	<bean id="simRoi" class="gda.spring.V17NDROIFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:ROI:" />
-	</bean>
-	
-	<bean id="simFfmpeg1" class="gda.spring.V17FfmpegStreamFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:MJPG:" />
-	</bean>
-
-	<bean id="simNdfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:HDF5:" />
-		<property name="resetToInitialValues" value="false" />
-		<property name="filePathConverter">
-			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i13/data" />
-				<property name="windowsSubString" value="d:\\i13\data" />
+	<bean id="sim_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:STAT:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="simNdfiletif" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:TIFF:" />
-		<property name="resetToInitialValues" value="false" />
-		<property name="filePathConverter">
-			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i13/data" />
-				<property name="windowsSubString" value="d:\\i13\data" />
+	<bean id="sim_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:ARR:" />
+				<property name="initialArrayPort" value="CAM.roi" />
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="simProc" class="gda.spring.V17NDProcessFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:PROC:" />
-	</bean>
-	
- 	<bean id="simRoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats" />
-		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI1:" />
-		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT1:" />
-		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
-				<property name="roi">
-					<bean class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
-						<constructor-arg value="0" />
-						<constructor-arg value="0" />
-						<constructor-arg value="1280" />
-						<constructor-arg value="960" />
-						<constructor-arg value="roi1" />
-					</bean>
-				</property>
+
+	<bean id="sim_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:HDF5:" />
+				<property name="initialArrayPort" value="CAM.stat" />
 			</bean>
 		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="sim" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
 	</bean>
-	
+
+	<bean id="sim_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:HDF5:" />
+		<property name="file" ref="sim_ndfile" />
+	</bean>
+
 </beans>

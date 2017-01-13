@@ -12,7 +12,6 @@
 	<import resource="beamlineEnergyController.xml" />
 	<import resource="GDAMetadata.xml" />
 	<import resource="imageProcessors.xml" />
-	<import resource="mapping_scan_server.xml" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
@@ -92,6 +91,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_mapping.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/xspress3_addetector.xml"/>
 	
 	<import resource="file:${gda.config}/devices/${gda.mode}/afg.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_vac_motors.xml"/>
@@ -164,6 +164,7 @@
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
 	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
 	<import resource="file:${gda.config}/devices/_common/maxipix.xml" />
+	<import resource="file:${gda.config}/devices/_common/xspress3_addetector.xml"/>
 
 	<!-- This is no longer present - T2 now contains beamstop but not the detector xyz motors -->
 	<!-- <import resource="file:${gda.config}/devices/_common/detector_stage_t2.xml" /> -->
@@ -191,5 +192,13 @@
 
 	<!-- Initialise Jython late on in case scripts use Spring beans -->
 	<import resource="jythonServerFacade.xml" />
+
+	<!--
+		Mapping scans
+		IMPORTANT: this will start processing the scanning queue.
+		Detectors must be created before doing this.
+		ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml"/>
 	
 </beans>
