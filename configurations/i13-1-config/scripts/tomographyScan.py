@@ -190,6 +190,7 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
 
 def reportJythonNamespaceMapping():
     jns=beamline_parameters.JythonNameSpaceMapping()
+        
     objectOfInterestSTEP = {}
     objectOfInterestSTEP['tomography_theta'] = jns.tomography_theta
     objectOfInterestSTEP['tomography_shutter'] = jns.tomography_shutter
@@ -197,6 +198,14 @@ def reportJythonNamespaceMapping():
     objectOfInterestSTEP['tomography_detector'] = jns.tomography_detector
     objectOfInterestSTEP['tomography_beammonitor'] = jns.tomography_beammonitor
 
+    objectOfInterestFLY = {}
+    objectOfInterestFLY['tomography_theta'] = jns.tomography_theta
+    objectOfInterestFLY['tomography_flyscan_theta'] = jns.tomography_flyscan_theta
+    objectOfInterestFLY['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterestFLY['tomography_translation'] = jns.tomography_translation
+    objectOfInterestFLY['tomography_flyscan_det'] = jns.tomography_flyscan_det
+    objectOfInterestFLY['tomography_flyscan_flat_dark_det'] = jns.tomography_flyscan_flat_dark_det
+    
     objectOfInterestXGI = {}
     objectOfInterestXGI['tomography_detector'] = jns.tomography_detector
     objectOfInterestXGI['tomography_theta'] = jns.tomography_theta
@@ -206,7 +215,7 @@ def reportJythonNamespaceMapping():
     objectOfInterestXGI['tomography_grating_translation_outer'] = jns.tomography_grating_translation_outer
     objectOfInterestXGI['tomography_grating_translation_inner'] = jns.tomography_grating_translation_inner
 
-    msg = "\n These mappings can be changed by editing a file named live_jythonNamespaceMapping, "
+    msg = "\n Any of these mappings can be changed by editing a file named live_jythonNamespaceMapping, "
     msg += "\n located in Scripts: Config/src (this can be done by beamline staff).\n"
 
     print "****** STEP-SCAN PRIMARY SETTINGS ******"
@@ -219,6 +228,16 @@ def reportJythonNamespaceMapping():
         idx += 1
     print "\n"
 
+    print "****** FLY-SCAN PRIMARY SETTINGS ******"
+    idx=1
+    for key, val in objectOfInterestFLY.iteritems():
+        name = "object undefined!"
+        if val is not None:
+            name = str(val.getName())
+        print "%i. %s = %s" %(idx, key, name)
+        idx += 1
+    print "\n"
+    
     print "****** XGI-SCAN PRIMARY SETTINGS ******"
     idx=1
     for key, val in objectOfInterestXGI.iteritems():
@@ -355,7 +374,7 @@ class PreScanRunnable(Runnable):
 perform a continuous tomogrpahy scan
 """
 def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=True):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False):
     """
     Function to collect a tomogram
      Arguments:
@@ -377,9 +396,9 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     tomography_flyscan_flat_dark_det=jns.tomography_flyscan_flat_dark_det
     savename=tomography_flyscan_flat_dark_det.name
     try:
-        tomodet=jns.tomodet
-        if tomodet is None:
-	        raise "tomodet is not defined in Jython namespace"
+        #tomodet=jns.tomodet
+        #if tomodet is None:
+	    #    raise "tomodet is not defined in Jython namespace"
 
         tomography_theta=jns.tomography_theta
         if tomography_theta is None:
@@ -406,9 +425,9 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         if meta_add is None:
             raise "meta_add is not defined in Jython namespace"
 
-        camera_stage = jns.cs1
-        if camera_stage is None:
-            raise "camera_stage is not defined in Jython namespace"
+        #camera_stage = jns.cs1
+        #if camera_stage is None:
+        #    raise "camera_stage is not defined in Jython namespace"
 
         sample_stage = jns.sample_stage
         if sample_stage is None:
@@ -420,7 +439,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         ionc_i_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(ionc_i)
 
 
-        meta_add( camera_stage)
+        #meta_add( camera_stage)
         meta_add( sample_stage)
                
 
@@ -463,7 +482,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         
 #        scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step, index_cont, image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
 #        scanObject3=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,ix, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        tomodet.stop()
+        #tomodet.stop()
         
 #        multiScanObj = MultiScan([darkFlatScan, scanObject, scanObject2,scanObject3])
         multiScanItems = []
@@ -493,7 +512,8 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         #turn camera back on
         tomography_flyscan_flat_dark_det.name = savename
         if setupForAlignment:
-            tomodet.setupForAlignment()
+            #tomodet.setupForAlignment()
+            pass
         handle_messages.log(None, "Error in tomoFlyScanScan", exceptionType, exception, traceback, True)
 
 
