@@ -18,22 +18,23 @@
 
 package gda.device.scannable;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+
 /**
  * Provides a simulation for the time until topup PV from the machine.
  */
 public class DummyTopupScannable extends ScannableBase implements Scannable {
 	private static final Logger logger = LoggerFactory.getLogger(DummyTopupScannable.class);
-	private double topupInterval = 600.0;
-	private double topupCount = topupInterval;
+	private double topupInterval = 600.0; // overall topup cycle including fill time
+	private double fillTime = 15.0; // the time of the topup fill itself
+	private double topupCount = topupInterval - fillTime; // count down to the start of the next fill
 	private Timer topupTimer;
 
 	public DummyTopupScannable() {
@@ -55,14 +56,16 @@ public class DummyTopupScannable extends ScannableBase implements Scannable {
 		@Override
 		public void run() {
 			topupCount = topupCount - 0.1;
+			notifyIObservers(DummyTopupScannable.this, topupCount);
 			if (topupCount <= 0.0) {
 				topupCount = 0.0;
 				try {
-					Thread.sleep(2000);
+					long fillTimeMs = (long) (fillTime * 1000);
+					Thread.sleep(fillTimeMs);
 				} catch (InterruptedException e) {
-					logger.error("Error sleeping for 2 seconds", e);
+					logger.error("Error sleeping for " + fillTime + " seconds", e);
 				}
-				topupCount = topupInterval;
+				topupCount = topupInterval - fillTime;
 			}
 			// logger.info("the topup time is " + topupCount);
 		}
