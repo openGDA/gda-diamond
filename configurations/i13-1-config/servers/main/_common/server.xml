@@ -91,6 +91,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_mapping.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
 	
 	<import resource="file:${gda.config}/devices/${gda.mode}/afg.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_vac_motors.xml"/>
@@ -169,6 +170,7 @@
 	
 	<import resource="file:${gda.config}/devices/_common/diffractometer.xml" />
 	<import resource="file:${gda.config}/devices/_common/afg.xml"/>
+	<import resource="file:${gda.config}/devices/_common/zebra.xml" />
 
 	<!-- <import resource="file:${gda.config}/devices/_common/mll.xml"/> -->
 
