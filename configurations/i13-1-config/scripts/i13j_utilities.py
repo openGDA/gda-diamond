@@ -140,3 +140,25 @@ def isLive():
     mode = LocalProperties.get("gda.mode")
     return mode =="live" or mode =="live_localhost"
 
+from gda.device.scannable import TopupChecker 
+from gda.device.monitor import EpicsMonitor
+
+machineTopupMonitor = EpicsMonitor()
+machineTopupMonitor.setName("machineTopupMonitor")
+machineTopupMonitor.setPvName("SR-CS-FILL-01:COUNTDOWN")
+machineTopupMonitor.configure()
+
+machineModeMonitor = EpicsMonitor()
+machineModeMonitor.setName("machineModeMonitor")
+machineModeMonitor.setPvName("CS-CS-MSTAT-01:MODE")
+machineModeMonitor.configure()
+
+topupMonitor = TopupChecker()
+topupMonitor.setName("topupMonitor")
+topupMonitor.setTolerance(2.0)
+topupMonitor.setWaittime(10.0)
+topupMonitor.setTimeout(600.0)
+topupMonitor.setMachineModeMonitor(machineModeMonitor)
+topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
+topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
+topupMonitor.configure() 
