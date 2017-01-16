@@ -20,7 +20,7 @@
 		<property name="motor" ref="T1ZC_motor" />
 	</bean>
 
-	<bean id="T1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="T1X" />

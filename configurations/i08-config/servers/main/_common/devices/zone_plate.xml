@@ -8,4 +8,13 @@
 		<property name="motor" ref="ZPZ_motor" />
 	</bean>
 
+	<bean id="zone_plate" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ZPZ" />
+			</list>
+		</property>
+	</bean>
+		
+
 </beans>

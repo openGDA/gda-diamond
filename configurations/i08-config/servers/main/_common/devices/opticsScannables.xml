@@ -17,6 +17,14 @@
 		<property name="motor" ref="idenergy_motor" />
 	</bean>
 
+	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="IDEnergy" />
+			</list>
+		</property>
+	</bean>
+
 <!--Frontend: Customized Aperture -->
 	<bean id="bda_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
