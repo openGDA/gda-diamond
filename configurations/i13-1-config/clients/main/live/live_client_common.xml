@@ -44,7 +44,7 @@
 		<property name="imageNDArrayPortInput" value="master.slaves"/>
 	</bean>
 
-	<bean class="java.util.Hashtable">
+	<bean id="excalibur_dictionary" class="java.util.Hashtable">
 		<constructor-arg>
 			<map>
 				<entry key="SERVICE_NAME" value="excalibur" />
