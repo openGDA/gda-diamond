@@ -14,16 +14,19 @@
 	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
 		<property name="position" value="Shutdown" />
 	</bean>
-
-	<bean id="machineTopupMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+	
+	<bean id="ringModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value">
-			<value type="double">600</value>
+			<value>VMX</value>
 		</property>
+	</bean>
+
+	<bean id="machineTopupMonitor" class="gda.device.scannable.DummyTopupScannable">
 	</bean>
 	
 	<bean id="machineTopupPeriod" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value">
-			<value type="double">600</value>
+			<value type="double">10</value>
 		</property>
 	</bean>
 	
