@@ -21,6 +21,11 @@
 		<property name="local" value="true"/>
 	</bean>
 
+	<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-OP-DCM-01:ENERGY"/>
+		<property name="local" value="true"/>
+	</bean>
+
 	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-DCM-01:BRAGG"/>
 		<property name="local" value="true"/>
@@ -28,6 +33,11 @@
 
 	<bean id="dcm_fineroll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-DCM-01:XTAL2:FROLL"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="dcm_offset_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-OP-DCM-01:OFFSET"/>
 		<property name="local" value="true"/>
 	</bean>
 

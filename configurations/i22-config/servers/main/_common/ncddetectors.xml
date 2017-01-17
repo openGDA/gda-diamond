@@ -41,7 +41,7 @@
     </bean>
 
     <bean class="uk.ac.gda.server.ncd.scannable.EnergyScannable" id="energy">
-        <property name="bragg" ref="dcm_bragg"/>
+        <property name="bragg" ref="dcm_energy"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
