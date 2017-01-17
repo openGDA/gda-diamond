@@ -132,47 +132,4 @@
 	<bean id="det1Y_motor" class="gda.device.motor.DummyMotor"/>
 
 	<bean id="det1Z_motor" class="gda.device.motor.DummyMotor"/>
-
-	<!-- -->
-
-	<bean id="pe1AD" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="peAD_config_base"/>
-		<property name="collectionStrategy" ref="pe_ContinuousCollectionStrategy" />
-		<property name="ndFile"  ref="pe_NDFileHDF5file"/>
-		<property name="ndArray" ref="peAD_summary_arr"/>
-		<property name="ndStats" ref="peAD_summary_stat"/>
-		<property name="fileWriter" ref="pe_hdf5_MultipleImagesPerHDF5FileWriter"/>
-	</bean>
-
-	<bean id="pe1AreaDetectorRunnableDeviceProxyModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name"                   value="pe1AD"/>
-		<property name="exposureTime"           value="0.1"/>
-	</bean>
-	<bean id="pe1AreaDetectorRunnableDeviceProxyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="name"        value="pe1AD"/>
-		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.pe1AreaDetectorRunnableDeviceProxyInfo"/>
-		<property name="label"       value="Perkin Elmer 1 Proxy (pe1AreaDetectorRunnableDeviceProxyInfo)"/>
-		<property name="description" value="Perkin Elmer 1 collection running from a Jython class"/>
-		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
-	</bean>
-	<bean id="pe1AreaDetectorRunnableDeviceProxy" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
-		<property name="name"        value="pe1AD"/>
-		<!-- 
-		<property name="model"             ref="pe1AreaDetectorRunnableDeviceProxyModel"/>
-		<property name="deviceInformation" ref="pe1AreaDetectorRunnableDeviceProxyInfo"/>
-		<property name="activated"         value="false"/>
-		 -->
-	</bean>
-	<!-- 
-	<bean id="pe1AreaDetectorRunnableDevice" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name"              value="pe1AD"/>
-		<property name="model"             ref="pe1AreaDetectorRunnableDeviceProxyModel"/>
-		<property name="deviceInformation" ref="pe1AreaDetectorRunnableDeviceProxyInfo"/>
-		<property name="activated"         value="false"/>
-	</bean>
-	 -->
-	<bean id="pe1AreaDetectorRunnableDeviceProxyFinder" class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
-		<property name="name"        	value="pe1AreaDetectorRunnableDeviceProxyFinder"/>
-		<property name="runnableDevice"	ref="pe1AreaDetectorRunnableDeviceProxy"/>
-	</bean>
 </beans>
