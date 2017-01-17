@@ -26,6 +26,9 @@
 	<import resource="d6c.xml"/>
 	<import resource="d7c.xml"/>
 	
+	<!-- Shutters -->
+	<import resource="shutter.xml"/>
+	
 	<!-- Simulated Area Detector -->
 	<import resource="adSimulator.xml"/>
 
