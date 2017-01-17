@@ -157,42 +157,29 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
 			energy_position = energy_position + step
 		print "Done"
 
-class CalibratedPerp(gda.device.scannable.PseudoDevice):
-	"""
-	    Purpose: To move perp at the right value when changing the energy. THE DCM needs to be calibrated first with foils.
-	"""
-	
-	'''
-	Values from prior to Feb '14
-	intercept = -1.8628
-	slope = 14.7664
-	
-	Values from prior to Nov '14
-	intercept = -0.4829
-	slope = 12.9295
-	'''
 
-	def __init__(self, name, perp):
+
+class CalibratedOffset(gda.device.scannable.PseudoDevice):
+	"""Set offset to 25 every time"""
+
+	def __init__(self, name, offset):
 		self.name = name
 		self.setInputNames([name])
-		self.perp = perp
-		self.intercept = -0.32111
-		self.slope = 12.78805
-		
+		self.offset_motor = offset
+
 	def isBusy(self):
-		""" This device is busy if perp is moving """
-		return self.perp.isBusy()
+		""" This device is busy if offset is moving """
+		return self.offset_motor.isBusy()
 
 	def getPosition(self):
-		""" Return the perp value"""
-		perp_position = float(self.perp.getPosition())
-		return perp_position
+		""" Return the offset value"""
+		offset_position = float(self.offset_motor.getPosition())
+		return offset_position
 	
 	def asynchronousMoveTo(self,X):
-		""" Moves to the perp value according to the energy supplied """
+		"""set to 25 offset compound motor need to be calibrated"""
 		
-		costheta = cos(asin(12.3985/(X*6.2712)))
-		self.perp.asynchronousMoveTo(self.slope/costheta+self.intercept)
+		self.offset_motor.asynchronousMoveTo(25)
 		
 		
 class CalibratedPitch(gda.device.scannable.PseudoDevice):
@@ -272,13 +259,10 @@ class PilatusThreshold(ScannableMotionBase):
 	def rawIsBusy(self):
 		return (self.timer()<self.waittime)
 
-pilthres = PilatusThreshold("pilthres", "BL22I-EA-PILAT-01:cam1")
-pilthresWAXS_L = PilatusThreshold("pilthresWAXS_L", "BL22I-EA-PILAT-03:cam1")
-calibrated_perp = CalibratedPerp("calibrated_perp", dcm_perp)
+pilthres = PilatusThreshold("pilthres", "BL22I-EA-PILAT-01:CAM")
+pilthresWAXS_L = PilatusThreshold("pilthresWAXS_L", "BL22I-EA-PILAT-03:CAM")
+calibrated_offset = CalibratedOffset("calibrated_offset", dcm_offset)
 calibrated_ID = CalibratedID("calibrated_ID", idgap_mm)
-bkeV = BraggInkeV("bkeV", dcm_bragg)
-bkeV.setProtectionLevel(3)
-energy.setBragg(bkeV)
 energy.clearScannables()
-for i in [calibrated_ID, calibrated_perp, pilthres, pilthresWAXS_L]:
+for i in [calibrated_ID, calibrated_offset, pilthres, pilthresWAXS_L]:
 	energy.addScannable(i)

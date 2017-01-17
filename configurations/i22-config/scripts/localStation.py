@@ -123,7 +123,7 @@ bslUtils.restore()
 print '\t%sconverting to BSL' %('' if bslUtils.isConvertingOn() else 'not ',)
 
 #run("BeamlineScripts/master.py")
-run(setupScriptDir +  "atten.py")
+# run(setupScriptDir +  "atten.py")
 run(setupScriptDir +  "rate.py")
 
 from gdascripts.pd.time_pds import actualTimeClass
