@@ -22,7 +22,5 @@
 
 	<import resource="device/all.xml"/>
 	<import resource="scannable/all.xml"/>
-<!-- 
 	<import resource="transient/all.xml"/>
- -->
 </beans>
