@@ -184,4 +184,8 @@
 		</property>
 	</bean>
 
+	<bean id="d5c_positioner" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL07C-DI-PHDGN-05" />
+	</bean>
+
 </beans>
