@@ -10,31 +10,45 @@
 			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
 		<property name="arguments">
 			<set>
+				<!-- s1c -->
 				<value>s1c_xcentre</value>
 				<value>s1c_xsize</value>
+				<!-- m1c -->
 				<value>m1c_x</value>
 				<value>m1c_x</value>
 				<value>m1c_pitch</value>
 				<value>m1c_roll</value>
 				<value>m1c_yaw</value>
+				<value>m1b_mask_temp</value>
+				<!-- s2c -->
 				<value>s2c_xcentre</value>
 				<value>s2c_xsize</value>
 				<value>s2c_ycentre</value>
 				<value>s2c_ysize</value>
+				<!-- pgm -->
 				<value>pgm_energy</value>
 				<value>pgm_cff</value>
 				<value>pgm_mirror_pitch</value>
 				<value>pgm_mirror_x</value>
+				<!-- s3c -->
 				<value>s3c_xcentre</value>
 				<value>s3c_xsize</value>
 				<value>s3c_ycentre</value>
 				<value>s3c_ysize</value>
+				<!-- m3c -->
 				<value>m3c_x</value>
 				<value>m3c_y</value>
 				<value>m3c_pitch</value>
 				<value>m3c_roll</value>
 				<value>m3c_yaw</value>
-				<value>m1b_mask_temp</value>
+				<!-- s4c -->
+				<value>s4c_xgap</value>
+				<value>s4c_xgapsize</value>
+				<value>s4c_ygap</value>
+				<value>s4c_ygapsize</value>
+				<value>s4c_z</value>
+				<!-- d7c -->
+				<value>d7c_y</value>
 			</set>
 		</property>
 	</bean>
