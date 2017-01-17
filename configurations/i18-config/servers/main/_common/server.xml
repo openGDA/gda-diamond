@@ -45,6 +45,7 @@
 	<import resource="metadata.xml" />
 	<import resource="motor_rmi_exports.xml" />
 	<import resource="new_scanning.xml" />
+	<import resource="beam_watchdogs.xml" />
 	<import resource="scannables.xml" />
 	<import resource="table1.xml" />
 	<import resource="table3.xml" />
