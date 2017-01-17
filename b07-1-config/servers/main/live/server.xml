@@ -30,6 +30,9 @@
 	<import resource="d7c.xml"/>
 	<import resource="d8c.xml"/>
 
+	<!-- Shutters -->
+	<import resource="shutter.xml"/>
+
 	<!-- Monocromators -->
 	<import resource="pgm.xml"/>
 
