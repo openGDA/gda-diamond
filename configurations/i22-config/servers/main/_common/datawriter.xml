@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:aop="http://www.springframework.org/schema/aop"
-		xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-		xmlns:tx="http://www.springframework.org/schema/tx"
-		xmlns:util="http://www.springframework.org/schema/util"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://www.springframework.org/schema/beans
-			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                        
-			http://www.springframework.org/schema/util
-			http://www.springframework.org/schema/util/spring-util-2.5.xsd                                 
-			http://www.springframework.org/schema/tx 
-			http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                                         
-			http://www.springframework.org/schema/aop 
-			http://www.springframework.org/schema/aop/spring-aop-2.5.xsd                                               
-			http://www.diamond.ac.uk/schema/gda/corba
-			http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-2.5.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.diamond.ac.uk/schema/gda/corba
+            http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
     <bean class="gda.data.scan.TwoDPlotListener" id="twodscan">
         <property name="plotPanel" value="Plot 2D"/>
     </bean>
-    
+
     <bean class="uk.ac.gda.server.ncd.data.ScanInformationTerminalLogger" id="scan2terminal">
         <property name="extractorList">
             <list>
@@ -41,7 +41,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables"/>
         <property name="arguments">
@@ -52,6 +52,162 @@
             </set>
         </property>
     </bean>
-    
+
     <bean class="gda.data.fileregistrar.ClientFileAnnouncer" id="sockpuppet"/>
+
+    <bean
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod"
+            value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+        <property name="arguments">
+            <map>
+                <entry key="energy">
+                    <bean
+                        class="uk.ac.gda.server.ncd.scannable.EnergyScannableWriter">
+                        <property name="paths">
+                            <list>
+                                <value>instrument:NXinstrument/monochromator:NXmonochromator/energy</value>
+                                <value>instrument:NXinstrument/insertion_device:NXinsertion_device/gap</value>
+                                <value>instrument:NXinstrument/monochromator:NXmonochromator/perp</value>
+                                <value>instrument:NXinstrument/pilthres</value>
+                                <value>instrument:NXinstrument/pilthresWAXS</value>
+                            </list>
+                        </property>
+                        <property name="units">
+                            <list>
+                                <value>keV</value>
+                                <value>mm</value>
+                                <value>mm</value>
+                                <value>keV</value>
+                                <value>keV</value>
+                            </list>
+                        </property>
+                        <property name="prerequisiteScannableNames">
+                            <list>
+                            </list>
+                        </property>
+                        <property name="uncertaintyFraction" value="1.14e-4" />
+                    </bean>
+                </entry>
+                <entry key="idgap_mm">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths"
+                            value="instrument:NXinstrument/insertion_device:NXinsertion_device/gap" />
+                        <property name="units" value="mm" />
+                    </bean>
+                </entry>
+                <entry key="s6_ysize">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths"
+                            value="instrument:NXinstrument/monochromator:NXmonochromator/exit_slit_size" />
+                        <property name="units" value="mm" />
+                        <property name="prerequisiteScannableNames">
+                            <list>
+                                <value>energy</value>
+                                <value>pgm_cff</value>
+                                <value>pgm_linedensity</value>
+                            </list>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="s6_xsize">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths"
+                            value="instrument:NXinstrument/monochromator:NXmonochromator/exit_slit_size_horizontal" />
+                        <property name="units" value="mm" />
+                        <property name="prerequisiteScannableNames">
+                            <list>
+                                <value>energy</value>
+                                <value>pgm_cff</value>
+                                <value>pgm_linedensity</value>
+                            </list>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="s2_ysize">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths"
+                            value="instrument:NXinstrument/monochromator:NXmonochromator/s2_vertical_slit_size" />
+                        <property name="units" value="mm" />
+                    </bean>
+                </entry>
+                <entry key="s2_xsize">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths"
+                            value="instrument:NXinstrument/monochromator:NXmonochromator/s2_horizontal_slit_size" />
+                        <property name="units" value="mm" />
+                    </bean>
+                </entry>
+                <entry key="pgm_linedensity">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths"
+                            value="instrument:NXinstrument/monochromator:NXmonochromator/grating:NXgrating/line_density" />
+                        <property name="units" value="1/mm" />
+                        <property name="prerequisiteScannableNames">
+                            <list>
+                            </list>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="cryostat">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths">
+                            <list>
+                                <value>sample:NXsample/temperature_demand</value>
+                                <value>sample:NXsample/cryostat_temperature</value>
+                                <value>sample:NXsample/temperature</value>
+                                <value>sample:NXsample/shield_temperature</value>
+                                <value>sample:NXsample/heater_percent</value>
+                                <value>sample:NXsample/heater_setting</value>
+                            </list>
+                        </property>
+                        <property name="units">
+                            <list>
+                                <value>K</value>
+                                <value>K</value>
+                                <value>K</value>
+                                <value>K</value>
+                                <value></value>
+                                <value></value>
+                            </list>
+                        </property>
+                        <property name="prerequisiteScannableNames">
+                            <list>
+                                <!-- <value>cff</value> -->
+                            </list>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="sample_name">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths" value="sample:NXsample/name" />
+                        <property name="prerequisiteScannableNames">
+                            <list>
+                                <!-- <value>cff</value> -->
+                            </list>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="sample_thickness">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths" value="sample:NXsample/thickness" />
+                        <property name="prerequisiteScannableNames">
+                            <list>
+                                <!-- <value>cff</value> -->
+                            </list>
+                        </property>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
 </beans>
