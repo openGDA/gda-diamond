@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- display message in Logger Server's console -->
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>INFO</level>
-    </filter>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level %logger{36} - %m %rEx%n</Pattern>
-        </layout>
-    </appender>
     <!-- Socket for forwarding log message to LogPanel in GDA Client or other viewers -->
     <appender name="SOCKET1" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>i22-ws001.diamond.ac.uk</RemoteHost>
@@ -43,49 +35,22 @@
             <pattern>%d %-5level %logger - %m %rEx %n</pattern>
         </layout>
     </appender>
-    <logger name="gda">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="gda.device.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.temperature.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.jython.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.oe.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.monitor.corba.impl">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.device.motor">
-        <level value="INFO"/>
-    </logger>
-    <logger name="httpclient.wire.content">
-        <level value="INFO"/>
-    </logger>
-    <logger name="org.apache.http">
-        <level value="INFO"/>
-    </logger>
-    <logger name="org.apache.commons.httpclient">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.data.nexus.extractor.NexusExtractor">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="gda.data.nexus.NexusFileWrapper">
-        <level value="DEBUG"/>
-    </logger>
-    <logger name="uk.ac.gda.server.ncd.detector.DAServer">
-        <level value="DEBUG"/>
-    </logger>
+    <logger name="gda" level="DEBUG"/>
+    <logger name="gda.device.corba.impl" level="INFO"/>
+    <logger name="gda.device.temperature.corba.impl" level="INFO"/>
+    <logger name="gda.jython.corba.impl" level="INFO"/>
+    <logger name="gda.oe.corba.impl" level="INFO"/>
+    <logger name="gda.device.monitor.corba.impl" level="INFO"/>
+    <logger name="gda.device.motor" level="INFO"/>
+    <logger name="httpclient.wire.content" level="INFO"/>
+    <logger name="org.apache.http" level="INFO"/>
+    <logger name="org.apache.commons.httpclient" level="INFO"/>
+    <logger name="gda.data.nexus.extractor.NexusExtractor" level="DEBUG"/>
+    <logger name="gda.data.nexus.NexusFileWrapper" level="DEBUG"/>
+    <logger name="uk.ac.gda.server.ncd.detector.DAServer" level="DEBUG"/>
 
     <root>
         <level value="All"/>
-        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="SOCKET1"/>
         <appender-ref ref="SOCKET2"/>
         <appender-ref ref="SOCKET7"/>

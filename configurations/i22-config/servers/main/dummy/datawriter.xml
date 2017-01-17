@@ -6,6 +6,23 @@
         <property name="directory" value="/tmp/i22-" />
         <property name="clientFileAnnouncer" ref="sockpuppet" />
     </bean>
-    
+
     <bean class="gda.data.scan.datawriter.DummyDataWriter" id="scan2elog" />
+        <bean id="autoPostProcessing" class="uk.ac.gda.server.ncd.data.scan.MetaDataProcessingScanListener">
+            <property name="detector" ref="ncddetectors"/>
+            <property name="runner">
+                    <bean class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
+                            <property name="scriptPath" value="/scratch/postProc"/>
+                    </bean>
+            </property>
+    </bean>
+
+    <bean id="bslConversion" class="uk.ac.gda.server.ncd.data.scan.MetaDataProcessingScanListener">
+            <property name="detector" ref="ncddetectors"/>
+            <property name="runner">
+                    <bean class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
+                            <property name="scriptPath" value="/scratch/postProc"/>
+                    </bean>
+            </property>
+    </bean>
 </beans>

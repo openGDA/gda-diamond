@@ -30,4 +30,20 @@
         <property name="refreshStubOnConnectFailure" value="true" />
     </bean>
 
+    <bean id="clientReferences" class="gda.device.FindableObjectHolder">
+        <property name="map">
+            <map>
+                <entry key="defaultPerspectives">
+                    <list value-type="java.lang.String">
+                        <value>gda.rcp.ncd.perspectives.SaxsProcessingPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.SaxsPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.WaxsPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.SetupPerspective</value>
+                        <value>uk.ac.gda.client.scripting.JythonPerspective</value>
+                    </list>
+                </entry>
+            </map>
+        </property>
+    </bean>
 </beans>

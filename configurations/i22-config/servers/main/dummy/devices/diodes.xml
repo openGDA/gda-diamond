@@ -44,4 +44,10 @@
 		<property name="scaling" value="0.5" />
 		<property name="description" value="test" />
 	</bean>
+
+    <bean id="qbpmgain" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
+		<property name="offset" value="10" />
+		<property name="scaling" value="0.5" />
+		<property name="description" value="test" />
+	</bean>
 </beans>

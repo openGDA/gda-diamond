@@ -27,6 +27,20 @@
    </extension>
 
    <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i22.I22StartupService">
+      </startup>
+   </extension>
+      <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="uk.ac.gda.beamline.i22.i22intro">
+      </intro>
+      <introProductBinding introId="uk.ac.gda.beamline.i22.i22intro" productId="uk.ac.gda.beamline.i22.product"/>
+   </extension>
+   <extension
           point="org.eclipse.ui.perspectiveExtensions">
     <perspectiveExtension targetID="*">
        <perspectiveShortcut
@@ -53,8 +67,12 @@
    <extension
       point="uk.ac.gda.client.dashboard.objects">
    <Scannable
-         name="bsdiode"
+         name="bs2diode"
          tooltip="beamstop diode reading.">
+   </Scannable>
+   <Scannable
+         name="d4d2"
+         tooltip="d4d2 diode reading.">
    </Scannable>
 </extension>
 <extension
@@ -63,6 +81,21 @@
          name="gda.client.max.size.cached.points"
          value="10000">
    </preference>
+</extension>
+<extension
+      point="org.eclipse.ui.intro.config">
+   <config
+         content="introContent.xml"
+         id="uk.ac.gda.beamline.i22.i22intro.config"
+         introId="uk.ac.gda.beamline.i22.i22intro">
+      <presentation
+            home-page-id="root"
+            standby-page-id="standby">
+         <implementation
+               kind="html">
+         </implementation>
+      </presentation>
+   </config>
 </extension>
       <extension
             point="org.eclipse.ui.menus">

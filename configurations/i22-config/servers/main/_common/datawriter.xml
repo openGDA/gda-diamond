@@ -53,8 +53,6 @@
         </property>
     </bean>
 
-    <bean class="gda.data.fileregistrar.ClientFileAnnouncer" id="sockpuppet"/>
-
     <bean
         class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="staticMethod"
@@ -209,5 +207,9 @@
                 </entry>
             </map>
         </property>
+    </bean>
+
+    <bean class="gda.data.fileregistrar.ClientFileAnnouncer" id="sockpuppet">
+        <property name="local" value="false"/>
     </bean>
 </beans>

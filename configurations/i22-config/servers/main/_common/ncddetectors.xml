@@ -60,7 +60,7 @@
         <property name="units" value="counts"/>
         <property name="channel" value="1"/>
         <property name="label" value="data"/>
-        <property name="scalingAndOffset" ref="d10d2gain"/>
+        <property name="scalingAndOffset" ref="qbpmgain"/>
     </bean>
 
     <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="It">
@@ -69,7 +69,7 @@
         <property name="units" value="counts"/>
         <property name="channel" value="3"/>
         <property name="label" value="data"/>
-        <property name="scalingAndOffset" ref="bs1diodegain"/>
+        <property name="scalingAndOffset" ref="bs2diodegain"/>
     </bean>
 
     <bean class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset" id="sao1">
