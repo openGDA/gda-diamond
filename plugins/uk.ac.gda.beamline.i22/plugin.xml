@@ -120,4 +120,71 @@
 		   </menu>
 		</menuContribution>
    </extension>
-</plugin>
+      <extension
+            point="org.eclipse.ui.activities">
+         <activity
+               id="uk.ac.gda.beamline.i22.disablePerspectives"
+               name="disable">
+            <enabledWhen>
+               <with variable="true">
+                  <equals value="false"/>
+               </with>
+            </enabledWhen>
+         </activity>
+         <!-- remove Debug perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.debug.ui.DebugPerspective">
+         </activityPatternBinding>
+         <!-- remove Java Browsing perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         </activityPatternBinding>
+         <!-- remove XML perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.wst.xml.ui.perspective">
+         </activityPatternBinding>
+         <!-- remove PyDev perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.python.pydev.ui.PythonPerspective">
+         </activityPatternBinding>
+         <!-- remove Java Type Hierarchy perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.jdt.ui.JavaHierarchyPerspective">
+         </activityPatternBinding>
+         <!-- remove Team Synchronizing perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.team.ui.TeamSynchronizingPerspective">
+         </activityPatternBinding>
+         <!-- remove Polling perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/uk.ac.diamond.scisoft.analysis.polling.perspective">
+         </activityPatternBinding>
+         <!-- remove Java perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.jdt.ui.JavaPerspective">
+         </activityPatternBinding>
+         <!-- remove Python perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/uk.ac.diamond.scisoft.jythonperspective">
+         </activityPatternBinding>
+         <!-- remove Object Viewer perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/gda.rcp.ovperspective">
+         </activityPatternBinding>
+         <!-- remove Resource perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.ui.resourcePerspective">
+         </activityPatternBinding>
+      </extension>
+  </plugin>
