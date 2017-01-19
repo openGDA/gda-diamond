@@ -20,7 +20,6 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.oe;bundle-version="1.0.0",
  uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
- uk.ac.gda.client.oe;bundle-version="1.0.0",
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
  uk.ac.gda.epics;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
