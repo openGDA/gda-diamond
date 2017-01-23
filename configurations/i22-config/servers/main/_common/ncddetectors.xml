@@ -60,7 +60,7 @@
         <property name="units" value="counts"/>
         <property name="channel" value="1"/>
         <property name="label" value="data"/>
-        <property name="scalingAndOffset" ref="qbpmgain"/>
+        <property name="scalingAndOffset" ref="d4d2gain"/>
     </bean>
 
     <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="It">
