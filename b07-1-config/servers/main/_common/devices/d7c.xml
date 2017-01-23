@@ -17,7 +17,7 @@
 	</bean>
 
 	<bean id="d7c_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d6c_y_motor" />
+		<property name="motor" ref="d7c_y_motor" />
 	</bean>
 
 </beans>
