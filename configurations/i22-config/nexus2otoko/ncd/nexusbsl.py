@@ -25,7 +25,7 @@ class NexusBSL:
 		self.entry = self.nxs_file.keys()[0]
 		self.instrument_name = 'DLS'
 		if 'name' in self.nxs_file[self.entry]['instrument']:
-			self.instrument_name += '-' + self.nxs_file.get('entry1/instrument/name')[0]
+			self.instrument_name += '-' + self.nxs_file.get('entry1/instrument/name').value
 		self._components = os.path.normpath(self.original_path).split(os.path.sep)
 		if 'file_time' in self.nxs_file.attrs:
 			self.file_time = datetime.strptime(self.nxs_file.attrs['file_time'][:-6], '%Y-%m-%dT%H:%M:%S')
@@ -54,7 +54,7 @@ class NexusBSL:
 	def _get_title(self):
 		for key in ['title', 'scan_command']:
 			if key in self.nxs_file[self.entry]:
-				return self.nxs_file[self.entry][key][...][0]
+				return str(self.nxs_file[self.entry][key][...])
 
 	def _get_detectors(self):
 		detectors = {}
