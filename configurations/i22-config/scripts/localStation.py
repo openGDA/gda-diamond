@@ -75,6 +75,9 @@ print "Pre-seeding listener dispatcher"
 finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
 finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 
+#finding post processing runner
+autoPostProcessing = finder.find('autoPostProcessing')
+
 #hexapod pivot
 #execfile(gdaScriptDir + "hexapod.py")
 
