@@ -8,6 +8,7 @@
 		<property name="maxPosition" value="376.1" />
 		<property name="position" value="32.25" />
 	 	<property name="unitString" value="mm"/>
+	 	<property name="speed" value="100"/>
 	 </bean>
 
 	<bean id="idenergy_motor" class="gda.device.motor.DummyMotor">
@@ -15,6 +16,7 @@
 		<property name="maxPosition" value="4400.0" />
 		<property name="position" value="724.18" />
 	 	<property name="unitString" value="eV"/>
+	 	<property name="speed" value="100"/>
 	</bean>
 
 	<bean id="bda_x_motor" class="gda.device.motor.DummyMotor">

@@ -19,6 +19,8 @@ from gda.jython.commands.GeneralCommands import ls_names, run, alias
 def ls_scannables():
     ls_names(Scannable)
 
+from gda.factory import Finder
+finder = Finder.getInstance()
 
 from ScannableInvertedValue import PositionInvertedValue
 photoDiode1Inverted = PositionInvertedValue("photoDiode1Inverted","photoDiode1")
@@ -69,5 +71,8 @@ LocalProperties.set("exafs.editor.overlay.Preference", "True")
 # For access to new mscan mapping scan command. imh 11/11/2016
 print "Adding mscan mapping scan command. Use help(mscan) to get information on how to use it."
 run('mapping_scan_commands.py')
+
+# Allow control of the function that maps energy to zone plate position
+energyFocusFunction = finder.find("energyFocusFunction") 
 
 print "Initialisation Complete";

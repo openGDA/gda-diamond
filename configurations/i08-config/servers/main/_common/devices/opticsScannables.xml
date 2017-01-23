@@ -16,11 +16,36 @@
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="idenergy_motor" />
 	</bean>
+	
+<!-- Function to convert energy to required position of zone plate (used in energyFocus below) -->
+	<bean id="energyFocusFunction" class="gda.function.LinearFunction">
+		<property name="interception" value="3090.8 um" />
+		<property name="slopeDividend" value="18.33 um" />
+		<property name="slopeDivisor" value="1.0 eV" />
+	</bean>
 
+<!-- Combined scannable to change energy & zone plate position to retain focus -->
+	<bean id="energyFocus" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="IDEnergy" />
+				<ref bean="ZPZ" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<ref bean="energyFocusFunction" />
+			</list>
+		</property>
+	</bean>
+
+<!-- Group ID-related scannables -->
 	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="IDEnergy" />
+				<ref bean="energyFocus" />
 			</list>
 		</property>
 	</bean>
