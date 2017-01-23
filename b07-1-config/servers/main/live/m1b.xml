@@ -16,14 +16,5 @@
 		<property name="poll" value="true"/>
 		<property name="sensitivity" value="2.0"/>
 	</bean>
-	
-	<bean id="m1b" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="m1b_mask_temp" />
-				<ref bean="m1b_mirror_temp" />
-			</list>
-		</property>
-	</bean>
 
 </beans>
