@@ -35,6 +35,20 @@
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
+
+      <perspectiveExtension
+            targetID="uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective">
+         <view
+               closeable="true"
+               id="uk.ac.gda.exafs.ui.dashboardView"
+               moveable="true"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"
+               showTitle="true"
+               visible="true">
+         </view>
+      </perspectiveExtension>
+
       <perspectiveExtension
             targetID="uk.ac.gda.microscopy.ExperimentPerspective">
 
@@ -100,6 +114,10 @@
    </extension>
    <extension
          point="uk.ac.gda.client.dashboard.objects">
+      <Scannable
+            name="IDEnergy"
+            tooltip="Insertion device energy">
+      </Scannable>
       <Scannable
             name="pgm_energy"
             tooltip="Plane Grating monochromator energy">
