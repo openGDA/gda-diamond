@@ -40,6 +40,22 @@
 		</property>
 	</bean>
 
+<!-- Combined scannable to change energy & zone plate position to retain focus -->
+	<bean id="energyFocusPGM" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="pgm_energy" />
+				<ref bean="ZPZ" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<ref bean="energyFocusFunction" />
+			</list>
+		</property>
+	</bean>
+
 <!-- Group ID-related scannables -->
 	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

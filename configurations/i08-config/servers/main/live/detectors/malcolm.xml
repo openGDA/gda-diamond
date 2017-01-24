@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Malcolm Device 1 -->
+	<!-- Malcolm sample scan -->
 	<bean id="malcolmModel01" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="I08-SCAN01" />
 		<property name="exposureTime" value="0.01" />
@@ -11,8 +11,8 @@
 
 	<bean id="malcolmInfo01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id" value="org.eclipse.scanning.example.malcolm.malcolmDevice01" />
-		<property name="label" value="I08 Malcolm Device 1" />
-		<property name="description" value="The default Malcolm device for beamline I08" />
+		<property name="label" value="Malcolm sample scan" />
+		<property name="description" value="X/Y sample scan using Malcolm" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
@@ -24,7 +24,7 @@
 		<property name="activated" value="false" />
 	</bean>
 
-	<!-- Malcolm Device 2 -->
+	<!-- Malcolm focus scan -->
 	<bean id="malcolmModel02" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="I08-SCAN02" />
 		<property name="exposureTime" value="0.02" />
@@ -32,8 +32,8 @@
 
 	<bean id="malcolmInfo02" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id" value="org.eclipse.scanning.example.malcolm.malcolmDevice02" />
-		<property name="label" value="I08 Malcolm Device 2" />
-		<property name="description" value="The default Malcolm device for beamline I08" />
+		<property name="label" value="Malcolm focus scan" />
+		<property name="description" value="Butterfly scan to find focus point, changing zone plate" />
 		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
 	</bean>
 
