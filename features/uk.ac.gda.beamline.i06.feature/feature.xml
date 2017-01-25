@@ -62,10 +62,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
-   <includes
-         id="uk.ac.gda.dal.feature"
-         version="0.0.0"/>
-
    <plugin
          id="uk.ac.gda.beamline.i06"
          download-size="0"
@@ -82,13 +78,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
    <plugin
          id="uk.ac.gda.client.nano"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.client.oe"
          download-size="0"
          install-size="0"
          version="0.0.0"
