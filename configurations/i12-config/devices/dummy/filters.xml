@@ -1,4 +1,3 @@
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -7,9 +6,9 @@
 	<bean id="f1" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Pos 1</value>
-				<value>Pos 2</value>
-				<value>Pos 3</value>
+				<value>2mm</value>
+				<value>clear</value>
+				<value>8mm</value>
 			</list>
 		</property>
 	</bean>
@@ -17,9 +16,9 @@
 	<bean id="f2" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Pos 1</value>
-				<value>Pos 2</value>
-				<value>Pos 3</value>
+				<value>1mm</value>
+				<value>clear</value>
+				<value>4mm</value>
 			</list>
 		</property>
 	</bean>

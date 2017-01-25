@@ -1,12 +1,33 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<!--  Define all the motors -->
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
 	<bean id="cam1_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-4.9840" />
+		<property name="maxPosition" value="5.0159" />
+		<property name="position" value="0.0030983" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
 	</bean>
+
 	<bean id="cam1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.5" />
+		<property name="maxPosition" value="349.0" />
+		<property name="position" value="224.63" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
 	</bean>
+
 	<bean id="cam1_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-99.0" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-96.070" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
 	</bean>
 	
 </beans>

@@ -4,25 +4,94 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!-- Define all the motors -->
-	<bean id="ssbase_x_motor" class="gda.device.motor.DummyMotor" />
-	
-	<bean id="ss1_y1_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ssbase_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1003.106" />
+		<property name="maxPosition" value="61.37" />
+		<property name="position" value="5.2" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
 
-	<bean id="ss1_phi_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ss1_y1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.2" />
+		<property name="maxPosition" value="51.0" />
+		<property name="position" value="21.997" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
 
-	<bean id="ss1_rx_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ss1_phi_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0" />
+		<property name="maxPosition" value="1.0" />
+		<property name="position" value="0.73" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
 
-	<bean id="ss1_rz_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ss1_rx_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-2.0" />
+		<property name="maxPosition" value="2.0" />
+		<property name="position" value="0.052" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
 
-	<bean id="ss1_y2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ss1_rz_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3.0" />
+		<property name="maxPosition" value="3.0" />
+		<property name="position" value="0.02" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
 
-	<bean id="ss1_y3_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ss1_y2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9.740" />
+		<property name="maxPosition" value="10.011" />
+		<property name="position" value="-1.249" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
 
-	<bean id="ss1_theta_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ss1_y3_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.2" />
+		<property name="maxPosition" value="52.8" />
+		<property name="position" value="25.002" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
 
-	<bean id="ss1_tx_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ss1_theta_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.7977e+308" />
+		<property name="maxPosition" value="1.7977e+308" />
+		<property name="position" value="17830" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
 
-	<bean id="ss1_tz_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ss1_tx_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10.0" />
+		<property name="position" value="3.4" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="ss1_tz_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10.0" />
+		<property name="position" value="0.6" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
 
 </beans>

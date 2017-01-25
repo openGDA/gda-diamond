@@ -3,17 +3,109 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="mc1_bragg_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="mc2_bragg_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="mc1_bragg_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5692.308" />
+		<property name="maxPosition" value="118.592" />
+		<property name="position" value="-1475.108" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mdeg"/>
+	</bean>
+
+	<bean id="mc2_bragg_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-47574.079" />
+		<property name="maxPosition" value="1011.921" />
+		<property name="position" value="-1476.246" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mdeg"/>
+	</bean>
+
 	<bean id="mc2_tilt_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="m_x_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="m_y1_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="m_y2_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="m_y3_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="mc2_z_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dcm1_bender_inboard_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dcm1_bender_outboard_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dcm2_bender_inboard_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dcm2_bender_outboard_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="m_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0" />
+		<property name="maxPosition" value="150.0" />
+		<property name="position" value="147.8" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="m_y1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-11.999" />
+		<property name="maxPosition" value="12.001" />
+		<property name="position" value="0.14" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="m_y2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-12.0" />
+		<property name="maxPosition" value="12.001" />
+		<property name="position" value="-0.003" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="m_y3_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.5" />
+		<property name="maxPosition" value="0.5" />
+		<property name="position" value="0.004" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="mc2_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="665.819" />
+		<property name="maxPosition" value="1898.0" />
+		<property name="position" value="947.552" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="dcm1_bender_inboard_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm1_bender_1" />
+		<property name="minPosition" value="-444.687" />
+		<property name="maxPosition" value="555.313" />
+		<property name="position" value="69.98" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="um"/>
+	</bean>
+
+	<bean id="dcm1_bender_outboard_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm1_bender_2" />
+		<property name="minPosition" value="-542.790" />
+		<property name="maxPosition" value="457.21" />
+		<property name="position" value="69.993" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="um"/>
+	</bean>
+
+	<bean id="dcm2_bender_inboard_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm2_bender_1" />
+		<property name="minPosition" value="-349.462" />
+		<property name="maxPosition" value="650.538" />
+		<property name="position" value="70.519" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="um"/>
+	</bean>
+
+	<bean id="dcm2_bender_outboard_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm2_bender_2" />
+		<property name="minPosition" value="-441.452" />
+		<property name="maxPosition" value="558.548" />
+		<property name="position" value="70.035" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="um"/>
+	</bean>
 
 </beans>
