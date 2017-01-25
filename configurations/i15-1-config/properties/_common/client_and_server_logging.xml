@@ -35,6 +35,7 @@
 	 -->
 	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">           				<level value="DEBUG"/></logger>
 	<logger name="hdf.hdf5lib.H5">														<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.ActiveMQSession">									<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.thread.PooledTaskRunner">           				<level value="DEBUG"/></logger>
 
 </included>

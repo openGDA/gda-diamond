@@ -63,30 +63,34 @@ try:
 
     cam1rgb = ProcessingDetectorWrapper   ("cam1rgb", cam1rgbRawNx, [], panel_name_rcp='Plot 1')
 
-    from mapping_scan_commands import mscan, detector, scan_request, submit, step, grid, circ, poly, rect
+    print "Created processing detectors"
 
+    from mapping_scan_commands import *
     print "Imported mapping_scan_commands"
+
+    pe1AreaDetectorRunnableDeviceProxyFinder = finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
+    pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    from jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
+    pe1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1AreaDetectorRunnableDeviceProxy)
+    pe1AreaDetectorRunnableDeviceProxy.setDelegate(pe1JythonAreaDetectorRunnableDeviceDelegate)
+    pe1AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured pe1AD detector"
 
     if dummy_mode:
         print "*"*80
-        print "Dummy mode specific setup"
+        print "Dummy mode specific setup - Start"
         print "*"*80
-        from jythonAreaDetectorRunnableDevice import JythonAreaDetectorRunnableDevice
-        pe1JythonAreaDetectorRunnableDevice = JythonAreaDetectorRunnableDevice()
-        print "pe1JythonAreaDetectorRunnableDevice=%r" % pe1JythonAreaDetectorRunnableDevice
 
-        global peAD
-        print "global peAD done."
-        print "peAD=%r" % peAD
+        pass
 
-        pe1AreaDetectorRunnableDeviceProxyFinder = finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
-        print "pe1AreaDetectorRunnableDeviceProxyFinder=%r" % pe1AreaDetectorRunnableDeviceProxyFinder
-        
-        pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
-        print "pe1AreaDetectorRunnableDeviceProxy=%r" % pe1AreaDetectorRunnableDeviceProxy
+        print "*"*80
+        print "Dummy mode specific setup - End"
+        print "*"*80
 
-        pe1AreaDetectorRunnableDeviceProxy.setRunnableDevice(pe1JythonAreaDetectorRunnableDevice)
-
+    else:
+        pass
 except:
     localStation_exception(sys.exc_info(), "in localStation")
 
