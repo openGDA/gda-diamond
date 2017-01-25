@@ -52,6 +52,16 @@ public class DummyTopupScannable extends ScannableBase implements Scannable {
 		return false;
 	}
 
+	public void setTopupInterval(double topupInterval) {
+		this.topupInterval = topupInterval;
+		this.topupCount = topupInterval - fillTime;
+	}
+
+	public void setFillTime(double fillTime) {
+		this.fillTime = fillTime;
+		this.topupCount = topupInterval - fillTime;
+	}
+
 	class CountDownTask extends TimerTask {
 		@Override
 		public void run() {
