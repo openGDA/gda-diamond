@@ -1,5 +1,6 @@
 #localStation.py
 #For beamline specific initialisation code.
+
 print "===================================================================";
 print "Performing Beanline I06 specific initialisation code (localStation.py).";
 print
@@ -8,18 +9,37 @@ import sys;
 from os import system;
 
 from gda.configuration.properties import LocalProperties
+from gda.jython.commands.GeneralCommands import alias
 import scisoftpy as dnp;
 
-# BLVI-110 GDA-5921: Work around ScanBase generating erroneous exceptions after default was changed from False to True:
-#LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False") # Removed in GDA-5863
+print "-"*100
+print "Set scan returns to the start positions on completion"
+print "   To set scan returns to its start positions on completion please do:"
+print "      >>>scansReturnToOriginalPositions=1"
+scansReturnToOriginalPositions=0;
+print
 
-# Get the locatation of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
+print "-"*100
+import i06shared.commands.dirFileCommands
+print i06shared.commands.dirFileCommands.__doc__
+from i06shared.commands.dirFileCommands import pwd,lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
+alias("pwd")
+alias("lwf")
+alias("nwf")
+alias("nfn")
+alias("setSubdirectory")
+alias("getSubdirectory")
+print
+
+
+
+# Get the location of the GDA beamline script directory
+gdaScriptDir = LocalProperties.get("gda.jython.gdaConfigScriptDir") + "/";
 
 # Get the location of the USERS script directory
 userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
 
-gdaDevScriptDir = LocalProperties.get("gda.jython.gdaDevScriptDir") + "/";
+gdaDevScriptDir = LocalProperties.get("gda.jython.gdaCoreScriptDir") + "/";
 
 try:
 	execfile(gdaScriptDir + "BeamlineI06/beamline.py");
