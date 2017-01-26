@@ -1,0 +1,4 @@
+#!/bin/bash
+
+gda --start logpanel
+gda --start client "$@"
