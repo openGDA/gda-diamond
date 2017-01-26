@@ -49,7 +49,7 @@ fi
 ######################################################################
 
 
-if [[ "$@" != *"stop"* ]]; then
+if [[ "$@" == *"servers"* ]] && [[ "$@" != *"stop"* ]]; then
     if [ "${GDA_MODE}" == "live" ]; then
         log=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../gda_logs)/gda_server.log
     else
