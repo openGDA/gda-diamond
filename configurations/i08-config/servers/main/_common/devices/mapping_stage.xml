@@ -8,24 +8,24 @@
 		The ScannableMotors representing an XY stage to be used for mapping scans
 	</description>
 
-	<bean id="T1X" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="T1X_motor" />
+	<bean id="SampleX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleX_motor" />
 	</bean>
 
-	<bean id="T1Y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="T1Y_motor" />
+	<bean id="SampleY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleY_motor" />
 	</bean>
 
-	<bean id="T1ZC" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="T1ZC_motor" />
+	<bean id="SampleCoarseZ" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleCoarseZ_motor" />
 	</bean>
 
 	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="T1X" />
-				<ref bean="T1Y" />
-				<ref bean="T1ZC" />
+				<ref bean="SampleX" />
+				<ref bean="SampleY" />
+				<ref bean="SampleCoarseZ" />
 			</list>
 		</property>
 	</bean>

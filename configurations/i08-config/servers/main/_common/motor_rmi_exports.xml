@@ -4,20 +4,20 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/T1X" />
-		<property name="service" ref="T1X" />
+		<property name="serviceName" value="gda/SampleX" />
+		<property name="service" ref="SampleX" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/T1Y" />
-		<property name="service" ref="T1Y" />
+		<property name="serviceName" value="gda/SampleY" />
+		<property name="service" ref="SampleY" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/T1ZC" />
-		<property name="service" ref="T1ZC" />
+		<property name="serviceName" value="gda/SampleCoarseZ" />
+		<property name="service" ref="SampleCoarseZ" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 

@@ -17,8 +17,8 @@
 	</description>
 
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
-	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="T1X"/></bean>
-	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="T1Y"/></bean>
+	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="SampleX"/></bean>
+	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="SampleY"/></bean>
 
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
@@ -61,7 +61,7 @@
 							<constructor-arg name="includeInScan" value="false" />
 						</bean>
 						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="ZPZ" />
+							<constructor-arg name="name" value="ZonePlateZ" />
 							<constructor-arg name="model"><null /></constructor-arg>
 							<constructor-arg name="includeInScan" value="false" />
 						</bean>

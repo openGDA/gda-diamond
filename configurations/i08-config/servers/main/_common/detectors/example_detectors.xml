@@ -15,8 +15,8 @@
 		<property name="maxImaginaryCoordinate" value="1.2"/>
 		<property name="name"                   value="mandelbrot"/>
 		<property name="exposureTime"           value="0.1"/>
-		<property name="realAxisName"           value="T1X"/>
-		<property name="imaginaryAxisName"      value="T1Y"/>
+		<property name="realAxisName"           value="SampleX"/>
+		<property name="imaginaryAxisName"      value="SampleY"/>
 	</bean>
 	<bean id="mandelbrotInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id"          value="org.eclipse.scanning.example.detector.mandelbrotDetectorSpring"/>

@@ -9,7 +9,7 @@
 		This allows dummy mapping scans to be performed relatively fast.
 	</description>
 
-	<bean id="T1X_motor" class="gda.device.motor.DummyMotor">
+	<bean id="SampleX_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1.0000e+05" />
 		<property name="maxPosition" value="1.0000e+05" />
 		<property name="position" value="0.047190" />
@@ -18,7 +18,7 @@
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
-	<bean id="T1Y_motor" class="gda.device.motor.DummyMotor">
+	<bean id="SampleY_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1.0000e+05" />
 		<property name="maxPosition" value="1.0000e+05" />
 		<property name="position" value="-2.9" />
@@ -27,7 +27,7 @@
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
-	<bean id="T1ZC_motor" class="gda.device.motor.DummyMotor">
+	<bean id="SampleCoarseZ_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-57.0" />
 		<property name="maxPosition" value="5.0" />
 		<property name="position" value="-56.693" />
