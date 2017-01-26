@@ -27,6 +27,7 @@ import gda.device.zebra.ZebraAreaDetectorPreparer;
 import gda.device.zebra.ZebraGatePulsePreparer;
 import gda.device.zebra.controller.Zebra;
 import gda.factory.FactoryException;
+import gda.scan.TrajectoryScanPreparer;
 import gda.scan.TurboXasMotorParameters;
 import gda.scan.TurboXasParameters;
 
@@ -52,6 +53,7 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	private boolean useAreaDetector = false;
 	private ZebraAreaDetectorPreparer zebraAreaDetectorPreparer;
+	private TrajectoryScanPreparer trajectoryScanPreparer;
 
 	private ZebraGatePulsePreparer zebraGatePulsePreparer;
 
@@ -231,9 +233,12 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	@Override
 	public double calculateEnergy(int frameIndex) throws DeviceException {
+		return motorParameters.getEnergyForPosition(calculatePosition(frameIndex));
+	}
+
+	public double calculatePosition(int frameIndex) {
 		double deltaPositionPerFrame = motorParameters.getScanPositionRange()/motorParameters.getNumReadoutsForScan();
-		double motorPosition = motorParameters.getScanStartPosition() + frameIndex*deltaPositionPerFrame;
-		return motorParameters.getEnergyForPosition(motorPosition);
+		return motorParameters.getScanStartPosition() + frameIndex*deltaPositionPerFrame;
 	}
 
 	/**
@@ -318,4 +323,11 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		this.zebraGatePulsePreparer = zebraTriggerPreparer;
 	}
 
+	public TrajectoryScanPreparer getTrajectoryScanPreparer() {
+		return trajectoryScanPreparer;
+	}
+
+	public void setTrajectoryScanPreparer(TrajectoryScanPreparer trajectoryScanPrepaper) {
+		this.trajectoryScanPreparer = trajectoryScanPrepaper;
+	}
 }

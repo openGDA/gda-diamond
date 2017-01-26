@@ -110,14 +110,15 @@ public class TurboXasScanTest extends EdeTestBase {
 		scan.runScan();
 
 		String nxsFile = scan.getDataWriter().getCurrentFileName();
-
-		int[] expectedDims = new int[]{1, numReadouts-1};
+		int numPointsPerSpectrum = numReadouts-1;
+		int[] expectedDims = new int[]{1, numPointsPerSpectrum};
 		for(String name : bufferedScaler.getExtraNames()) {
 			assertDimensions(nxsFile, bufferedScaler.getName(), name, expectedDims);
 			checkDataValidRange(nxsFile, bufferedScaler.getName(), name, new RangeValidator(0, 1, true, false) );
 		}
-		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_index", new int[]{numReadouts});
-		assertDimensions(nxsFile, bufferedScaler.getName(), "energy", new int[]{numReadouts});
+		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_index", new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), "energy", new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), "position", new int[]{numPointsPerSpectrum});
 	}
 
 	@Test
@@ -135,7 +136,8 @@ public class TurboXasScanTest extends EdeTestBase {
 		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 5));
 		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", 0.10, 0.0, 7));
 
-		int numPointsPerSpectrum = 1000;
+		int numReadouts = (int) ((parameters.getEndEnergy()-parameters.getStartEnergy())/parameters.getEnergyStep());
+		int numPointsPerSpectrum = numReadouts-1;
 		int numSpectra = 12;
 
 		TurboXasMotorParameters motorParameters = parameters.getMotorParameters();
@@ -147,7 +149,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		String nxsFile = scan.getDataWriter().getCurrentFileName();
 
 		// Check shape and content of scaler output (should be all >0 when not also producing lnI0It values)
-		int[] expectedDims = new int[]{numSpectra, numPointsPerSpectrum-1};
+		int[] expectedDims = new int[]{numSpectra, numPointsPerSpectrum};
 		for(String name : bufferedScaler.getExtraNames()) {
 			assertDimensions(nxsFile, bufferedScaler.getName(), name, expectedDims);
 			checkDataValidRange(nxsFile, bufferedScaler.getName(), name, new RangeValidator(0, 1, true, false) );
@@ -155,5 +157,23 @@ public class TurboXasScanTest extends EdeTestBase {
 		// Test frame index and energy datasets
 		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_index", new int[]{numPointsPerSpectrum});
 		assertDimensions(nxsFile, bufferedScaler.getName(), "energy", new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), "position", new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), "time_between_spectra", new int[]{numSpectra});
+	}
+
+	@Test
+	public void testTrajectoryScanPoints() {
+		TrajectoryScanPreparer trajScanPrep = new TrajectoryScanPreparer();
+		double delta=0.1, startPos=0, endPos=1;
+		trajScanPrep.addSpectrumToTrajectory(startPos, endPos, delta, delta, 1, 2, 2);
+		Double[] times = trajScanPrep.getTrajectoryTimesList().toArray(new Double[0]);
+		Double[] positions = trajScanPrep.getTrajectoryPositionsList().toArray(new Double[0]);
+
+		assertEquals(times.length, 8);
+		assertEquals(positions.length, 8);
+		Double[] expectedPositions = {startPos-delta, startPos, endPos, endPos+delta};
+		for(int i=0; i<positions.length; i++) {
+			assertEquals(positions[i], expectedPositions[i%4], 1e-6);
+		}
 	}
 }

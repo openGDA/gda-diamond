@@ -31,11 +31,18 @@
 		<property name="positionTriggerTimeUnits" value="1" />  <!--  times in seconds --> 
 	</bean>
 
+<!--  Trajectory scan preparer bean. 12/1/2017  -->
+	<bean id="trajscan_preparer" class="gda.scan.TrajectoryScanPreparer">
+		<property name="name" value="trajscan_preparer" />
+		<property name="pvBase" value="BL20J-MO-STEP-06:TC:" />
+	</bean>
+
 <!-- TurboxXasScannable for driving turbo slits in a continuous scan. imh 23/5/2016 -->
 	<bean id="turbo_xas_slit" class="gda.device.scannable.TurboXasScannable">
 		<property name="motor" ref="turbo_slit_x_motor" />
 		<property name="zebraDevice" ref="zebra_device" />	
 		<property name="zebraGatePulsePreparer" ref="zebra_gatePulsePreparer" />
+		<property name="trajectoryScanPreparer" ref="trajscan_preparer" />
 	</bean>
 	
 	

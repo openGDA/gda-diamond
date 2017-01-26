@@ -49,4 +49,5 @@ metashop = Finder.getInstance().find("metashop")
 # Misc. TurboXAS related beans 
 zebra_gatePulsePreparer=finder.find("zebra_gatePulsePreparer")
 zebra_device=finder.find("zebra_device")
+trajscan_preparer=finder.find("trajscan_preparer")
 
