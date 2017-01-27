@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ge_edxd" class="gda.device.detector.edxd.EDXDController">
+		<property name="deviceName" value="ge_xmap_dxp" />
+		<property name="numberOfElements" value="4" />
+	</bean>
+
+	<bean id="ge_edxdAlignment" class="gda.device.detector.edxd.EDXDAlignment">
+		<property name="edxdController" ref="ge_edxd" />
+		<property name="edxdCalibrationResourceHandler" ref="ge_edxdCalibrationResourceHandler" />
+		<property name="eh1" ref="camEH1" />
+		<property name="eh2" ref="camEH2" />
+	</bean>
+
+	<bean id="ge_edxdCalibrationResourceHandler"
+		class="uk.ac.gda.edxd.calibration.edxdcalibration.util.EdxdCalibrationResourceHandler">
+		<property name="fileLocation" value="${gda.var}/ge_edxdcalibration.ec" />
+	</bean>
+
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="gda/ge_edxdAlignment" />
+		<property name="service" ref="ge_edxdAlignment" />
+		<property name="serviceInterface" value="uk.ac.gda.edxd.common.IEdxdAlignment" />
+	</bean>
+</beans>

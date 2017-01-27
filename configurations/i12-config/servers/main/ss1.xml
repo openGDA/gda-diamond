@@ -87,7 +87,7 @@
 		<property name="tolerance" value="0.01" />
 		<property name="outputFormat">
 			<list>
-				<value>%.3f</value>
+				<value>%5.5g</value>
 			</list>
 		</property>
 	</bean>

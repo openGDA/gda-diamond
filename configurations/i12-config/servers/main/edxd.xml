@@ -6,7 +6,8 @@
 
 	<bean id="edxd" class="gda.device.detector.edxd.EDXDController">
 		<property name="deviceName" value="xmap_dxp" />
-		<property name="numberOfElements" value="24" />
+		<!-- <property name="numberOfElements" value="24" /> -->
+		<property name="numberOfElements" value="4" />
 	</bean>
 
 	<bean id="edxdAlignment" class="gda.device.detector.edxd.EDXDAlignment">
@@ -25,5 +26,10 @@
 		<property name="serviceName" value="gda/edxdAlignment" />
 		<property name="service" ref="edxdAlignment" />
 		<property name="serviceInterface" value="uk.ac.gda.edxd.common.IEdxdAlignment" />
+	</bean>
+	
+	<bean id="edxd1" class="gda.device.detector.edxd.EDXDController1">
+		<property name="deviceName" value="xmap_dxp" />
+		<property name="numberOfElements" value="24" />
 	</bean>
 </beans>

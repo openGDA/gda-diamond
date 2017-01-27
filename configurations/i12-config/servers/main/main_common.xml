@@ -28,6 +28,7 @@
 	<!-- Commonly commented in the simulation environment -->
 	<import resource="pixium2.xml" />
 	<import resource="edxd.xml" />
+	<!-- <import resource="ge_edxd.xml" /> -->
 	<import resource="eurotherm.xml" />
 
 	<import resource="t7.xml" />
@@ -35,8 +36,8 @@
 	<import resource="mono.xml" />
 
 	<!-- GigE cameras -->	
- 	<import resource="camMono1.xml" />
-	<import resource="camMono2.xml" />
+ 	<!-- <import resource="camMono1.xml" /> -->
+	<!-- <import resource="camMono2.xml" /> -->
 
 	<import resource="camEH1.xml" />
 	<import resource="camEH2.xml" />
@@ -57,6 +58,7 @@
 	<import resource="s1.xml" />
 	<!-- End of comment for simulation environment -->
 	<import resource="cam1.xml" />
+	<import resource="cam3.xml" />
 	<import resource="dummies.xml" />
 
 	<import resource="filters.xml" />
@@ -66,6 +68,7 @@
 	<import resource="s2_new.xml" />
 	<import resource="s3.xml" />
 	<import resource="s4.xml" />
+	<import resource="s5.xml" />
 	<import resource="scaler1.xml" />
 	<import resource="shutters.xml" />
 
@@ -74,6 +77,7 @@
 	<import resource="t4.xml" />
 	<import resource="t5.xml" />
 	<import resource="t8.xml" />
+	<import resource="xz.xml" />
 
 	<import resource="ss1.xml" />
 	<import resource="lut_energymodule.xml" />

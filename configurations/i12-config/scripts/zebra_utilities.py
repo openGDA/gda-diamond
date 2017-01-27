@@ -1,6 +1,7 @@
 from gda.jython.commands import GeneralCommands
 from gda.epics import CAClient
 from gda.factory import Finder
+import os
 
 finder = Finder.getInstance()
 
@@ -466,5 +467,52 @@ def setZebra3AfterPixiumFlyScan():
     # set IN2 (BL12I-EA-ZEBRA-03:SOFT_IN:B1) to OFF
     zebra3.setValue("SOFT",-1,"IN:B",1, 0)
 
+# def getZebraConfigFile(zebraID):
+#     if zebraID != 1 and zebraID != 2 and zebraID != 3:
+#         raise Exception("Invalid input zebra ID: %i " %(zebraID))    
+#     pvPrefix = "BL12I-EA-ZEBRA-0%i:" %(zebraID)
+#     pvName = pvPrefix + "CONFIG_FILE"
+#     print "pvName = %s " %(pvName)
+#     return CAClient.caget(pvName)
+    
 
+def setZebra2ModeFromConfigFile(mode):
+    # as recommended by Andy for Zebra1 
+    zebra.setValue("OUT",1,"LVDS",-1, 31)
+    
+    # 1 = STEP MODE; 2 = CONTINUOUS MODE
+    abspath = {1: "/dls_sw/i12/epics/zebra/default-step-z2.zeb", 2: "/dls_sw/i12/epics/zebra/default-continuous-z2.zeb"}
+    
+    if mode != 1 and mode != 2:
+        raise Exception("Invalid input mode for Zebra2: %i " %(mode))
+    
+    configFileAbsPath = abspath[mode]
+    if not os.path.exists(configFileAbsPath):
+        msg = "File %s cannot be used because it does not exist on file system." %(configFileAbsPath)
+        raise Exception(msg)
+    
+    CAClient.caputStringAsWaveform("BL12I-EA-ZEBRA-02:CONFIG_FILE", configFileAbsPath)
+    CAClient.caput("BL12I-EA-ZEBRA-02:CONFIG_READ.PROC", 1)
+    
+def setZebra3ModeFromConfigFile(mode):
+    
+    # 1 = STEP MODE; 2 = CONTINUOUS MODE; 3 = EXT CLOCK; 4 = IDLE
+    abspath = {}
+    abspath[1] = "/dls_sw/i12/epics/zebra/default-step-z3.zeb"
+    abspath[2] = "/dls_sw/i12/epics/zebra/default-continuous-z3.zeb"
+    abspath[3] = "/dls_sw/i12/epics/zebra/default-externalclock-z3.zeb"
+    abspath[4] = "/dls_sw/i12/epics/zebra/default-idle-z3.zeb"
+    
+    if not mode in [1, 2, 3, 4]:
+        raise Exception("Invalid input mode for Zebra3: %i " %(mode))
+    
+    configFileAbsPath = abspath[mode]
+    if not os.path.exists(configFileAbsPath):
+        msg = "File %s cannot be used because it does not exist on file system." %(configFileAbsPath)
+        raise Exception(msg)
+    
+    CAClient.caputStringAsWaveform("BL12I-EA-ZEBRA-03:CONFIG_FILE", configFileAbsPath)
+    CAClient.caput("BL12I-EA-ZEBRA-03:CONFIG_READ.PROC", 1)
+    
+    
 

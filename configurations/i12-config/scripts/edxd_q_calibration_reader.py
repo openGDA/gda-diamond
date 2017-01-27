@@ -28,10 +28,10 @@ def generate_element_q_axis(elements, element_number, size):
         result.append(a*i*i + b*i + c)
     return result
 
-def create_example_output(filename, nxsFileName, outputDir):
+def create_example_output(filename, nxsFileName, outputDir, nelements=24):
     datapoints = dnp.io.loadnexus(nxsFileName)
     elements = load_edxd_q_calibration_file(filename)
-    for i in range(1,24):
+    for i in range(1,nelements):
         data = datapoints.getLazyDataset("/entry1/EDXD_Element_%02i/data" % i)
         data = data.getSlice(None,None)
         counts = data.sum(0)
@@ -42,9 +42,9 @@ def create_example_output(filename, nxsFileName, outputDir):
         file.close()
         dnp.plot.line(dnp.array(axis), dnp.array(counts))
 
-def set_edxd_q_calibration(filename, detector):
+def set_edxd_q_calibration(filename, detector, nelements=24):
     vals = load_edxd_q_calibration_file(filename)
-    for i in range(0,23):
+    for i in range(0,nelements-1):
         q = dnp.array(generate_element_q_axis(vals, i+1, 4096))
         detector.getSubDetector(i).setQ(q.data)
 	print "setting detector element ", i

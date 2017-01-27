@@ -27,6 +27,8 @@ import gda.device.detector.NXDetectorData;
 import gda.device.detector.NexusDetector;
 import gda.device.epicsdevice.FindableEpicsDevice;
 import gda.device.epicsdevice.ReturnType;
+import gda.epics.LazyPVFactory;
+import gda.epics.PV;
 import gda.factory.Configurable;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
@@ -35,6 +37,7 @@ import gda.util.persistence.LocalObjectShelfManager;
 import gda.util.persistence.ObjectShelfException;
 import gda.util.persistence.LocalDatabase.LocalDatabaseException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +51,7 @@ import org.slf4j.LoggerFactory;
 public class EDXDController extends DetectorBase implements Configurable, NexusDetector {
 
 	// Setup the logging facilities
-	transient private static final Logger logger = LoggerFactory.getLogger(EDXDController.class);
+	transient protected static final Logger logger = LoggerFactory.getLogger(EDXDController.class);
 
 	protected static final int NUMBER_OF_ATTEMPTS = 5;
 	protected static final int NUMBER_OF_ELEMENTS = 24;
@@ -67,6 +70,10 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	protected List<EDXDElement> subDetectors = new ArrayList<EDXDElement>();
 
 	protected DeviceException collectData_Exception;
+	
+	private String prefix = "BL12I-EA-DET-03:";	
+	private String meanDeadTimePVName = "DeadTime";
+	private PV<Double> meanDeadTimePV;
 
 	/**
 	 * Basic constructor, nothing done in here, waiting for configure
@@ -115,6 +122,13 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	@Override
 	public void collectData() throws DeviceException {
 
+		for (int i = 0; i < subDetectors.size(); i++) {
+			if (!subDetectors.get(i).isQMapped()) {
+				throw new DeviceException(
+						"Q mapping needs to be set before collecting data; you may need to calibrate to generate calibration file");
+			}
+		}
+		
 		collectData_Exception = null;
 		// set the acquisition time
 		xmap.setValue("SETPRESETVALUE", "", collectionTime);
@@ -135,7 +149,8 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 				// now run the actual collection
 				// this has been seen to fail, so a loop trying a couple of times would probably be good
 				try {
-					xmap.setValue(null, "ACQUIRE", "", 1, (2 * collectionTime) + 5);
+//					xmap.setValue(null, "ACQUIRE", "", 1, (2 * collectionTime) + 5);
+					xmap.setValue(null, "ACQUIRE", "", 1, (24*60*60));
 				} catch (DeviceException e) {
 					logger.error(e.getMessage(), e);
 					collectData_Exception = e;
@@ -182,7 +197,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 		return false;
 	}
 
-	private void verifyData() throws DeviceException {
+	protected void verifyData() throws DeviceException {
 		// If there was a problem when acquiring the data
 		if (collectData_Exception != null) {
 			throw collectData_Exception;
@@ -279,7 +294,14 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 		data.setPlottableValue("edxd_mean_live_time", live_time_mean / dead_time_mean_elements);
 		data.setPlottableValue("edxd_max_dead_time", dead_time_max);
 		data.setPlottableValue("edxd_min_dead_time", dead_time_min);
-		data.setPlottableValue("edxd_mean_dead_time", dead_time_mean / dead_time_mean_elements);
+		//data.setPlottableValue("edxd_mean_dead_time", dead_time_mean / dead_time_mean_elements);
+		double edxd_mean_dead_time = dead_time_mean / dead_time_mean_elements;
+		try {
+			edxd_mean_dead_time = getMeanDeadTimePV().get();
+		} catch (IOException e) {
+			logger.error("Failed to get edxd_mean_dead_time", e);
+		}
+		data.setPlottableValue("edxd_mean_dead_time", edxd_mean_dead_time);
 		data.setPlottableValue("edxd_total_counts", (double) totalCounts);
 
 		// now perform the plotting
@@ -735,7 +757,7 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 	}
 
 	@SuppressWarnings("static-access")
-	private void updatePlots(DataSet[] plotds) throws DeviceException {
+	protected void updatePlots(DataSet[] plotds) throws DeviceException {
 		try{
 			
 			if(plotAllSpectra) {
@@ -777,4 +799,27 @@ public class EDXDController extends DetectorBase implements Configurable, NexusD
 		return numberOfElements;
 	}
 
+	public boolean isQMapped() {
+		for (int i = 0; i < subDetectors.size(); i++) {
+			if (!subDetectors.get(i).isQMapped()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+	
+	public PV<Double> getMeanDeadTimePV() {
+		if (meanDeadTimePV == null) {
+			meanDeadTimePV = LazyPVFactory.newDoublePV(getPrefix()+meanDeadTimePVName);
+		}
+		return meanDeadTimePV;
+	}
 }

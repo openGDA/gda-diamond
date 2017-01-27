@@ -1,0 +1,77 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<description>
+		There are 3 ways of configure EPICS access:
+		1. use Java content objects
+		provided by epics-x.x.x.jar to specify
+		'deviceName' property;
+		e.g. <!-- property 
+			name="deviceName" value="pixium.cam_ADBase"/ -->
+		2. set pvProvider property which in turn uses XMLPVProvider bean to
+		specify 'deviceName' property;
+		e.g. <!-- property name="pvProvider"> <bean 
+			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
+			value="pixium.cam_ADBase" /> </bean> </property -->
+		3. set base PV name property with field or sub-element being coded in
+		Java classes.
+		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" 
+			/ -->
+	</description>
+
+	<bean id="ge_edxdDxpModel" class="uk.ac.gda.epics.dxp.client.views.model.DXPModel">
+		<property name="statusViewController" ref="ge_edxdStatusViewController" />
+		<property name="basePVName" value="ME13C-EA-DET-01:" />
+	</bean>
+
+	<bean id="ge_edxdStatusViewController" class="uk.ac.gda.epics.dxp.client.views.StatusViewController">
+		<property name="dxpModel" ref="ge_edxdDxpModel" />
+	</bean>
+
+	<bean id="ge_edxdStatusViewHolder"
+		class="uk.ac.gda.epics.dxp.client.extensionfactories.EDXDStatusViewExecutableExtensionFactory">
+		<property name="viewPartName" value="ge_Status" />
+		<property name="statusViewController" ref="ge_edxdStatusViewController" />
+	</bean>
+
+	<!-- For EDXD Alignment -->
+	<bean id="ge_edxdAlignment" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ge_edxdAlignment" />
+		<property name="serviceInterface" value="uk.ac.gda.edxd.common.IEdxdAlignment" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="ge_checklistViewHolder"
+		class="uk.ac.gda.epics.dxp.client.extensionfactories.EdxdAlignmentViewExtensionFactory">
+		<property name="name" value="ge_edxdChecklist" />
+		<property name="viewPart" ref="ge_checklistView" />
+	</bean>
+	
+	<bean id="ge_frontEndCameraSetupHolder"
+		class="uk.ac.gda.epics.dxp.client.extensionfactories.EdxdAlignmentViewExtensionFactory">
+		<property name="name" value="ge_frontEndCamera" />
+		<property name="viewPart" ref="ge_frontendCameraView" />
+	</bean>
+	
+	<bean id="ge_checklistView" class="uk.ac.gda.epics.dxp.client.views.EDXDChecklistView">
+		<property name="edxdAlignment" ref="ge_edxdAlignment" />
+	</bean>
+
+	<bean id="ge_frontendCameraView" class="uk.ac.gda.epics.dxp.client.views.FrontEndCameraView">
+		<property name="edxdAlignment" ref="ge_edxdAlignment" />
+	</bean>
+
+	<bean id="ge_detectorSetupHolder"
+		class="uk.ac.gda.epics.dxp.client.extensionfactories.EdxdAlignmentViewExtensionFactory">
+		<property name="name" value="ge_detectorSetup" />
+		<property name="viewPart" ref="ge_detectorSetupView" />
+	</bean>
+
+	<bean id="ge_detectorSetupView" class="uk.ac.gda.epics.dxp.client.views.EDXDDetectorSetupView">
+		<property name="edxdAlignment" ref="ge_edxdAlignment" />
+	</bean>
+
+	<!-- -->
+</beans>

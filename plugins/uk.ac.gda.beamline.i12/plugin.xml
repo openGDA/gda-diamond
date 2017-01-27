@@ -147,6 +147,24 @@
       <menu
             label="Area Detectors">
          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="PCO Array"
+                style="push">
+             <parameter
+                name="org.eclipse.ui.views.showView.viewId"
+                value="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL12I-EA-DET-02@">
+             </parameter>
+         </command>
+         <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Pixium Array"
+                style="push">
+             <parameter
+                name="org.eclipse.ui.views.showView.viewId"
+                value="uk.ac.gda.epics.adviewer.twodArrayView:pv//Pixium//BL12I-EA-DET-10@">
+             </parameter>
+         </command>
+         <command
                commandId="org.eclipse.ui.views.showView"
                label="PCO MPeg"
                style="push">
@@ -156,7 +174,7 @@
             </parameter>
             <parameter
                   name="org.eclipse.ui.views.showView.secondaryId"
-                  value="i12PCO">
+                  value="pv//PCO//BL12I-EA-DET-02@">
             </parameter>
          </command>
       </menu>

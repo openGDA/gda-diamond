@@ -8,9 +8,9 @@
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<context:property-placeholder
-		location="file:${gda.dls-config}/properties/common.properties,
-		file:${gda.dls-config}/properties/logging.properties,
-		file:${gda.dls-config}/properties/live.properties,
+		location="file:${gda.install.git.loc}/gda-diamond.git/dls-config/properties/common/java.properties,
+		file:${gda.install.git.loc}/gda-diamond.git/dls-config/properties,
+		file:${gda.install.git.loc}/gda-diamond.git/dls-config/properties/live/java.properties,
 		file:${gda.config}/epics/live/epics.properties,
 		file:${gda.config}/properties/live/java.properties,
 		file:${gda.config}/properties/common.properties" />

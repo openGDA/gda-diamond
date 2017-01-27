@@ -306,12 +306,12 @@ class q_refinement() :
                         
         return
                         
-    def fitElementsFromFile(self,filename):
+    def fitElementsFromFile(self,filename, nelements=24):
         self.loadOldData(filename)
         
         print "File loaded sucsesfuly"
         
-        for i in range(24):
+        for i in range(nelements):
             try :
                 fit = self.fitElement(i,15,7)
                 print "Chisquared = %f" % fit.getChiSquared()
@@ -329,8 +329,8 @@ class q_refinement() :
             sleep(2)
             
             
-    def initialiseQAxis(self):
-        for i in range(24):
+    def initialiseQAxis(self, nelements=24):
+        for i in range(nelements):
             energys = DataSet(edxd.getSubDetector(i).getEnergyBins()) #@UndefinedVariable
             edxd.getSubDetector(i).setQ(energys.doubleArray()) #@UndefinedVariable
             

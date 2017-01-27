@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Define the scannable group -->
+	<bean id="xz_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="xz_x" />
+		<property name="motor" ref="xz_x_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+	<bean id="xz_z" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="xz_z" />
+		<property name="motor" ref="xz_z_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+	
+	<bean id="xz" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!-- Scannables in the group -->
+				<ref bean="xz_x" />	
+				<ref bean="xz_z" />	
+			</list>
+		</property>
+	</bean>
+
+</beans>

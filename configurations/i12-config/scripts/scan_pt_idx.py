@@ -7,7 +7,7 @@ class ScanPtIdx(PseudoDevice):
         self.setName(name)
         self.setInputNames([name])
         self.setExtraNames([])
-        self.setOutputFormat([])
+        self.setOutputFormat(["%d"])
         self.min_inc=min_inc
         self.step_size=step_size
         self.current_idx=min_inc
@@ -43,6 +43,7 @@ class ScanPtIdx(PseudoDevice):
         self.current_idx=self.min_inc
     
 zidx=ScanPtIdx('zidx')
+idx=ScanPtIdx('idx', min_inc=1)
 
 
 #from gda.device.scannable import PseudoDevice
@@ -121,4 +122,80 @@ class Facilitator(PseudoDevice):
 fussy=Facilitator('fussy')
 
 
+
+from gda.epics import CAClient 
+
+class ExcludeEarlyFrames(PseudoDevice):
+    # constructor
+    def __init__(self, name, pvname="BL12I-EA-DET-10:CAM:MotionBlur", pvvalue=0):
+        self.setName(name)
+        self.setInputNames([name])
+        self.setExtraNames([])
+        self.setOutputFormat(["%d"])
+        self.pvname=pvname
+        self.pvvalue=int(pvvalue)
+        self.cli=CAClient(pvname)
+        self.backup_pos=None
+        self.current_pos=None
+        
+    def reset(self):
+        if not self.cli.isConfigured():
+            self.cli.configure()
+        if self.backup_pos is not None:
+            self.cli.caput(self.backup_pos)
+            self.current_pos=self.backup_pos
+    
+    # returns the value this scannable represents
+    def rawGetPosition(self):
+        return self.current_pos
+
+    # Does the operation this Scannable represents
+    def rawAsynchronousMoveTo(self, new_position=False):
+        print "rawAsynchronousMoveTo"
+        if not self.cli.isConfigured():
+            self.cli.configure()
+        self.backup_pos=self.cli.caget() 
+        self.current_pos=self.backup_pos
+        
+        if new_position is not None:
+            self.current_pos=int(new_position)
+            self.cli.caput(self.cli.current_pos)
+        return
+
+    # Returns the status of this Scannable
+#    def rawIsBusy(self):
+#        #print "hello from rawIsBusy"
+#        sleep(1)
+#        return
+
+    def isBusy(self):
+        return False
+    
+    def atScanStart(self):
+        print "atScanStart"
+        if not self.cli.isConfigured():
+            self.cli.configure()
+        self.backup_pos=self.cli.caget() 
+        self.current_pos=self.backup_pos
+        #self.cli.caput(self.pvvalue)           # exclude early frames set to OFF
+
+    def atPointStart(self):
+        if not self.cli.isConfigured():
+            self.cli.configure()
+        self.cli.caput(self.pvvalue)
+        #pass
+        
+    def atPointEnd(self):
+        pass
+    
+    def stop(self):
+        self.reset()
+    
+    def atScanEnd(self):
+        self.reset()
+    
+    def atCommandFailure(self):
+        self.reset()
+    
+#earlyFramesINCLUDE=ExcludeEarlyFrames('earlyFramesINCLUDE', pvname="BL12I-EA-DET-10:CAM:MotionBlur", pvvalue=0)
 

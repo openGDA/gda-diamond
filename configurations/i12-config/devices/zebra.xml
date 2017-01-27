@@ -41,11 +41,13 @@
 		<constructor-arg ref="pco.cam" />
 		<constructor-arg ref="pco_hdf_adDriverPco" />
 		<property name="timeStamp" value="2"/>
+		<property name="triggerMode" value="EXTERNAL_ONLY"/>
 	</bean>
 		
 	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="flyScanDetector"/>
-		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+<!-- 		<property name="readOutTime" value=".05"/> readoutTime for PCO4000 is .2s fpr Edge use 50ms -->
+		<property name="readOutTime" value=".01"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
 		<property name="additionalPluginList">

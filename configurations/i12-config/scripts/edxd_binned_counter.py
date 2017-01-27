@@ -2,12 +2,14 @@ from gda.device.scannable import PseudoDevice
 
 class EdxdBinned(PseudoDevice):
     # constructor
-    def __init__(self, name, detector):
+    def __init__(self, name, detector, nelements=24):
         self.setName(name)
         self.setLevel(9)
-        self.detector = detector 
+        self.detector = detector
+        self.nelements = nelements 
         self.setInputNames(["count","start", "stop"])
-        self.setExtraNames(["e01","e02","e03","e04","e05","e06","e07","e08","e09","e10","e11","e12","e13","e14","e15","e16","e17","e18","e19","e20","e21","e22","e23", "e24"])
+        #self.setExtraNames(["e01","e02","e03","e04","e05","e06","e07","e08","e09","e10","e11","e12","e13","e14","e15","e16","e17","e18","e19","e20","e21","e22","e23", "e24"])
+        self.setExtraNames(["e%02d" %(i,) for i in range(1,self.nelements+1)])
         self.setOutputFormat(["%5.5g"])
         self.count = 10
         self.start = 0
@@ -17,7 +19,7 @@ class EdxdBinned(PseudoDevice):
     # returns the value this scannable represents
     def rawGetPosition(self):
         values = [self.count, self.start, self.end]
-        for i in range(24) :
+        for i in range(self.nelements) :
             values += [ self.data[i][self.start:self.end].sum() ]
         return values
 
@@ -32,4 +34,5 @@ class EdxdBinned(PseudoDevice):
 
     # Returns the status of this Scannable
     def rawIsBusy(self):
-         return self.detector.isBusy()
+        return self.detector.isBusy()
+     

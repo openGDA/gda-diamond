@@ -2,7 +2,7 @@
 Version=1.0
 Encoding=UTF-8
 Type=Application
-Exec=GDA_StartLogPanel
+Exec=gda_start_logpanel
 TryExec=
 Icon=/usr/share/icons/Bluecurve/48x48/apps/icon-logbook.png
 X-GNOME-DocPath=

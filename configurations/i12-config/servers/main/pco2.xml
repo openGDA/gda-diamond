@@ -87,6 +87,7 @@
 		<constructor-arg ref="pco.cam" />
 		<constructor-arg ref="pco_hdf_adDriverPco" />
 		<property name="timeStamp" value="2"/>
+		<property name="timeFormat" value="%.4f"/>
 	</bean>
 
 	<bean id="pco_hdf_adDriverPco"
@@ -111,6 +112,8 @@
 		<property name="storePerform" value="False"/>
 		<property name="boundaryAlign" value="0"/>
 		<property name="setChunking" value="True"/>
+		<property name="lazyOpen" value="true"/>
+		<property name="pathErrorSuppressed" value="true"></property>
 	</bean>
 
 <!-- 	<bean id="pco4000_dio_hdf" class="gda.device.detector.addetector.ADPco">

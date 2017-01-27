@@ -30,6 +30,7 @@
 	<import resource="tomoConfiguration.xml" />
 <!-- 	<import resource="tomoAlignment_dummy.xml" /> -->	
 	<import resource="edxd.xml" />
+	<!-- <import resource="ge_edxd.xml" /> -->
 
 	<bean id="mono2_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="Mono2 Camera Preview" />

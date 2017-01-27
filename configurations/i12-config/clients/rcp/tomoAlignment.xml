@@ -77,7 +77,7 @@
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TomoDetectorHandler">
 		<property name="camera" ref="pcoTomography" />
 		<!-- <property name="imageFilePath" value="/dls/i12/gdavar/" /> -->
-		<property name="imageFilePath" value="/dls/i12/data/2014/ee9811-1/tmp/tomoGUI/" />
+		<property name="imageFilePath" value="/dls/i12/data/2014/ee10569-1/tmp/tomoGUI/" />
 		<!--<property name="imageFilePath" value="/scratch/tomo/" /> -->
 		<property name="ffmjpegModel1" ref="pcoFfmjpeg1" />
 		<property name="ffmjpegModel2" ref="pcoFfmjpeg2" />
@@ -96,7 +96,7 @@
 		<property name="defaultNumOfDarkImages" value="5" />
 		<!--<property name="darkFilePath" value="/scratch/tomo/" /> -->
 		<!-- <property name="darkFilePath" value="/dls/i12/gdavar/" /> -->
-		<property name="darkFilePath" value="/dls/i12/data/2014/ee9811-1/tmp/tomoGUI/" />
+		<property name="darkFilePath" value="/dls/i12/data/2014/ee10569-1/tmp/tomoGUI/" />
 		<property name="darkImageFileName" value="darkImage" />
 		<property name="darkFileTemplate" value="%s%s.tif" />
 		<property name="defaultModule" value="1" />

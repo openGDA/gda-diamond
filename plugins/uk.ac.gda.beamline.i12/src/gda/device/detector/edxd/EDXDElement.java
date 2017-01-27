@@ -666,4 +666,7 @@ public class EDXDElement extends DetectorBase implements INeXusInfoWriteable {
 		this.q = q;
 	}
 	
+	public boolean isQMapped() {
+		return (q!=null);
+	}
 }

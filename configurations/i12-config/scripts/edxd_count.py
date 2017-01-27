@@ -5,19 +5,20 @@ finder = Finder.getInstance()
 
 class edxd_count(PseudoDevice):
     # constructor
-    def __init__(self, name, detector):
+    def __init__(self, name, detector, nelements=24):
         self.setName(name) 
         self.setLevel(9)
         self.setInputNames([name])
         self.setExtraNames([])
         self.setOutputFormat(["%5.5g"])
         self.edxd = detector
+        self.nelements = nelements
         # set up the cachanel
 
     # returns the value this scannable represents
     def rawGetPosition(self):
         total = 0
-        for i in range(24) :
+        for i in range(self.nelements) :
             total += self.edxd.getSubDetector(i).getEvents()
         return total
 

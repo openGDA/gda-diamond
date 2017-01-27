@@ -35,7 +35,9 @@ http://www.opengda.org
 -Dgda.mode=live
 -Xms512m
 -Xmx1024m
--XX:MaxPermSize=512m</vmArgs>
+-XX:MaxPermSize=512m
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false</vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
