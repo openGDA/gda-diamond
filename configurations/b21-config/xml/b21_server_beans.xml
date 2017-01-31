@@ -28,7 +28,6 @@
 			value="file:${gda.config}/properties/java.properties" />
 	</bean>
 
-	<import resource="b21_server_dummy.xml" />
 	<import resource="b21_server_devices.xml" />
 	<import resource="b21_server_ncd.xml" /> 
 	<import resource="b21_server_nexus.xml" /> 
