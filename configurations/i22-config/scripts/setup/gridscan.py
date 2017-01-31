@@ -1,9 +1,6 @@
 import sys
-import java.io.FileOutputStream as FileOutputStream
-import java.io.FileInputStream as FileInputStream
-import java.io.ObjectOutputStream as ObjectOutputStream
-import java.io.ObjectInputStream as ObjectInputStream
 import os.path
+from gda.util.persistence import LocalParameters
 import gda.configuration.properties.LocalProperties as lp
 
 from gda.data.scan.datawriter import DataWriterExtenderBase
@@ -39,13 +36,14 @@ class Grid(DataWriterExtenderBase):
 		extenders=[ex for ex in extenders if not "iAmAGridThingy" in dir(ex)]
 		extenders.append(self)
 		dwf.setDataWriterExtenders(extenders)
-		self.gridpreferencesStorage = lp.get("gda.var") + "mappingGridPreferences"
+		self.gridpreferencesStorage = LocalParameters.getXMLConfiguration('mappingGridPreferences')
+		self.gridpreferencesStorage.autoSave = True
 		try:
 			self.loadPreferences()
 		except Exception, e:
 			#print e
 			print "Using default grid preferences"
-			self.gridpreferences=GridPreferences()
+			self.gridpreferences = GridPreferences()
 	
 	def snap(self):
 		try:
@@ -204,18 +202,17 @@ class Grid(DataWriterExtenderBase):
 		self.snap()
 	
 	def loadPreferences(self):
-		if not os.path.isfile(self.gridpreferencesStorage):
-			raise Exception("No preferences saved")
-			
-		fileIn = FileInputStream(self.gridpreferencesStorage)
-		objIn = ObjectInputStream(fileIn)
-		self.gridpreferences = objIn.readObject()
-		objIn.close()
-		fileIn.close()
-			
+		gp = GridPreferences()
+		gps = self.gridpreferencesStorage
+		gp.setBeamlinePosX(gps.getDouble('beamlinePosX', 0))
+		gp.setBeamlinePosY(gps.getDouble('beamlinePosY', 0))
+		gp.setResolutionX(gps.getDouble('resolutionX', 1))
+		gp.setResolutionY(gps.getDouble('resolutionY', 1))
+		self.gridpreferences = gp
+
 	def savePreferences(self):
-		fileOut = FileOutputStream(self.gridpreferencesStorage)
-		objOut = ObjectOutputStream(fileOut)
-		objOut.writeObject(self.gridpreferences)
-		objOut.close()
-		fileOut.close()
+		gp = self.gridpreferences
+		gps = self.gridpreferencesStorage
+		for prop in ['beamlinePosX', 'beamlinePosY', 'resolutionX', 'resolutionY']:
+			if not gps.containsKey(prop) or gps.getDouble(prop) != getattr(gp, prop):
+				gps.setProperty(prop, getattr(gp, prop))
