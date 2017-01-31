@@ -24,7 +24,7 @@ import java.util.Properties;
 
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
-import org.eclipse.ui.intro.IIntroPart;
+import org.eclipse.ui.intro.IIntroManager;
 import org.eclipse.ui.intro.IIntroSite;
 import org.eclipse.ui.intro.config.IIntroAction;
 
@@ -33,12 +33,19 @@ import gda.factory.Finder;
 
 public class I22DefaultPerspectiveAction implements IIntroAction {
 
-	@SuppressWarnings("unchecked")
 	public I22DefaultPerspectiveAction() {
+	}
+
+	@SuppressWarnings("unchecked")//casting raw_defaults to defaults
+	@Override
+	public void run(IIntroSite site, Properties params) {
+		IIntroManager iMan = PlatformUI.getWorkbench().getIntroManager();
+		System.out.println(iMan.closeIntro(iMan.getIntro()));
+		closeAllPerspectives();
 		FindableObjectHolder holder = (FindableObjectHolder)Finder.getInstance().find("clientReferences");
 		List<String> defaults = null;
 		if (holder != null) {
-			Object raw_defaults = holder.get("defaultPerspectives");
+			Object raw_defaults = holder.get(params.get("p_set"));
 			if (raw_defaults instanceof List<?>) {
 				defaults = (List<String>)raw_defaults;
 			}
@@ -51,7 +58,7 @@ public class I22DefaultPerspectiveAction implements IIntroAction {
 					"gda.rcp.ncd.perspectives.NcdDetectorPerspective",
 					"gda.rcp.ncd.perspectives.SetupPerspective",
 					"uk.ac.gda.client.scripting.JythonPerspective"
-				});
+			});
 		}
 		for (String id : defaults) {
 			try {
@@ -62,10 +69,8 @@ public class I22DefaultPerspectiveAction implements IIntroAction {
 		}
 	}
 
-	@Override
-	public void run(IIntroSite site, Properties params) {
-		final IIntroPart introPart = PlatformUI.getWorkbench().getIntroManager().getIntro();
-		PlatformUI.getWorkbench().getIntroManager().closeIntro(introPart);
+	private void closeAllPerspectives() {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllPerspectives(true, false);
 	}
 
 }

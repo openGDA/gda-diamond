@@ -33,13 +33,36 @@
     <bean id="clientReferences" class="gda.device.FindableObjectHolder">
         <property name="map">
             <map>
-                <entry key="defaultPerspectives">
+                <entry key="transPerspectives">
                     <list value-type="java.lang.String">
-                        <value>gda.rcp.ncd.perspectives.SaxsProcessingPerspective</value>
-                        <value>gda.rcp.ncd.perspectives.SaxsPerspective</value>
-                        <value>gda.rcp.ncd.perspectives.WaxsPerspective</value>
-                        <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
                         <value>gda.rcp.ncd.perspectives.SetupPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.SaxsWaxsPerspective</value>
+                        <value>uk.ac.gda.client.scripting.JythonPerspective</value>
+                    </list>
+                </entry>
+                <entry key="giPerspectives">
+                    <list value-type="java.lang.String">
+                        <value>gda.rcp.ncd.perspectives.SetupPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.SaxsWaxsPerspective</value>
+                        <value>uk.ac.gda.client.scripting.JythonPerspective</value>
+                    </list>
+                </entry>
+                <entry key="mfPerspectives">
+                    <list value-type="java.lang.String">
+                        <value>gda.rcp.ncd.perspectives.SetupPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.SaxsPerspective</value>
+                        <value>uk.ac.gda.client.scripting.JythonPerspective</value>
+                    </list>
+                </entry>
+                <entry key="mapPerspectives">
+                    <list value-type="java.lang.String">
+                        <value>gda.rcp.ncd.perspectives.SetupPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.NcdDetectorPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.GridScanPerspective</value>
+                        <value>gda.rcp.ncd.perspectives.SaxsPerspective</value>
                         <value>uk.ac.gda.client.scripting.JythonPerspective</value>
                     </list>
                 </entry>
