@@ -40,8 +40,8 @@ import gda.data.metadata.Metadata;
 import gda.device.Device;
 import gda.device.DeviceException;
 import gda.factory.Finder;
-import gda.jython.IAllScanDataPointsObserver;
 import gda.jython.IJythonServerStatusObserver;
+import gda.jython.IScanDataPointObserver;
 import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
@@ -60,7 +60,7 @@ import uk.ac.gda.devices.vgscienta.SweptProgress;
  * A system status display panel updater, this contains all the logic, so the GUI class be edited by graphical SWT
  * layout editors without breaking functionality.
  */
-public class MetadataUpdater implements IObserver, IAllScanDataPointsObserver, IJythonServerStatusObserver, ICommandThreadObserver {
+public class MetadataUpdater implements IObserver, IScanDataPointObserver, IJythonServerStatusObserver, ICommandThreadObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(MetadataUpdater.class);
 
