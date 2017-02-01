@@ -730,22 +730,29 @@ try:
 				)
 			
 			before=set(metashop.getMetaScannables())
+			cant_find=[]
 			errors=[]
 			for scn_name in stdmetadatascannables:
 				try:
 					scn=finder.find(scn_name)
-					meta_add(scn)
+					try:
+						scn.getPosition()
+						meta_add(scn)
+					except:
+						errors.append(scn_name)
 				except:
-					errors.append(scn_name)
+					cant_find.append(scn_name)
 			after=set(metashop.getMetaScannables())
 			if (before-after):
-				simpleLog("Metadata scannables, removed:            " + " ".join(str(x.name) for x in before-after))
+				simpleLog("Metadata scannables,            removed: " + " ".join(str(x.name) for x in before-after))
 			if (after-before):
-				simpleLog("                     added:              " + " ".join(str(x.name) for x in after-before))
-			if (after):
-				simpleLog("                     current:            " + " ".join(str(x.name) for x in after))
+				simpleLog("                                  added: " + " ".join(str(x.name) for x in after-before))
+			if (cant_find):
+				simpleLog("                             can't find: " + " ".join(x for x in cant_find))
 			if (errors):
-				simpleLog("                     erroring:           " + " ".join(x for x in errors))
+				simpleLog("                               erroring: " + " ".join(x for x in errors))
+			if (after):
+				simpleLog("                                current: " + " ".join(str(x.name) for x in after))
 			#return ''
 
 		stdmeta()
