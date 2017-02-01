@@ -7,7 +7,7 @@
 		<property name="name" value="DataWriterFactory" />
 		<property name="dataWriterExtenders" >
 			<list>
-				<ref bean="FileRegistrar" />
+				<!-- <ref bean="FileRegistrar" /> -->
 			</list>
 		</property>
 	</bean>
