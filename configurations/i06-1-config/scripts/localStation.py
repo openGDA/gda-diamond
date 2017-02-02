@@ -2,7 +2,7 @@
 #For beamline specific initialisation code.
 
 print "===================================================================";
-print "Performing Beanline I06 specific initialisation code (localStation.py).";
+print "Performing Beanline I06-1 specific initialisation code (localStation.py).";
 print
 
 import sys;
@@ -10,7 +10,6 @@ from os import system;
 
 from gda.configuration.properties import LocalProperties
 from gda.jython.commands.GeneralCommands import alias
-import scisoftpy as dnp;
 
 print "-"*100
 print "Set scan returns to the start positions on completion"
@@ -18,19 +17,6 @@ print "   To set scan returns to its start positions on completion please do:"
 print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
-
-print "-"*100
-import i06shared.commands.dirFileCommands
-print i06shared.commands.dirFileCommands.__doc__
-from i06shared.commands.dirFileCommands import pwd,lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
-alias("pwd")
-alias("lwf")
-alias("nwf")
-alias("nfn")
-alias("setSubdirectory")
-alias("getSubdirectory")
-print
-
 
 
 # Get the location of the GDA beamline script directory
@@ -41,53 +27,13 @@ userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
 
 gdaDevScriptDir = LocalProperties.get("gda.jython.gdaCoreScriptDir") + "/";
 
-try:
-	execfile(gdaScriptDir + "BeamlineI06/beamline.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  beamline.py script error"
-	raise "Basic beamline script error";
+from i06shared.localStation import *
+
+from Beamline.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
+from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
 
 
 try:
-	#Setup the environment variables
-	from Diamond.Utility.Functions import *;
-	execfile(gdaScriptDir + "BeamlineI06/createAlias.py");
-	
-	#Performing the utility functions"
-	print "-------------------------------------------------------------------"
-	print "Setup the utility functions"
-	execfile(gdaScriptDir + "BeamlineI06/setTimers.py");
-	
-	print "-------------------------------------------------------------------"
-	print "Enable the CorrespondentDevice";
-	from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass;
-	print "-------------------------------------------------------------------"
-	print "Enable DeviceFunction";
-	from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass;
-	
-	#Set up the Diamond NumPy
-	print "-------------------------------------------------------------------"
-	print "Note: Use dnp (Diamond NumPy) from scisoftpy for data handling and plotting in GDA"
-	print "Note: Use help dnp for all commands"
-	print "Note: Use help <component> for help on all components ..." 
-	print "      (dnp.core, dnp.io, dnp.maths, dnp.plot, dnp.image)"
-	print "For example: "
-	print "		 To load data:  data=dnp.io.load(/full/path/to/data/file, formats=['srs'], asdict=True)"
-	print "		 To plot data:  dnp.plot.line(x, y)"
-	print "		 To plot image: dnp.plot.image(data)"
-	
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Serious errors when running the localstation.py"
-	logger.dump("---> ", exceptionType, exception, traceback)
-	
-try:
-	#Set up the 8512 scaler card
-	print "-------------------------------------------------------------------"
-	print "Set up the 8512 scaler card"
-	execfile(gdaScriptDir + "BeamlineI06/Scaler8512.py");
-	
 	#Set up the Patch Panel scaler card
 	print "-------------------------------------------------------------------"
 	print "Set up the Patch Panel scaler card"
