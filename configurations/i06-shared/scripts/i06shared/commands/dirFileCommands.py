@@ -1,18 +1,22 @@
 '''
-commands for directory/file operations: "
-   >>>pwd - return the current data directory"
-   >>>lwf - return the full path of the last working data file"
-   >>>nwf - return the full path of the next working data file"
-   >>>nfn - return the next data file number to be collected"
-   >>>setSubdirectory('test') - change data directory to a sub-directory named 'test', created first if not exist"
-   >>>getSubdirectory() - return the current sub-directory setting if exist"
-Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
+commands for directory/file operations: 
+
 '''
 from gda.data import PathConstructor, NumTracker
 from gda.factory import Finder
 import os
 import sys
-  
+
+print "-"*100
+print "commands for directory/file operations: "
+print "   >>>pwd - return the current data directory"
+print "   >>>lwf - return the full path of the last working data file"
+print "   >>>nwf - return the full path of the next working data file"
+print "   >>>nfn - return the next data file number to be collected"
+print "   >>>setSubdirectory('test') - change data directory to a sub-directory named 'test', created first if not exist"
+print "   >>>getSubdirectory() - return the current sub-directory setting if exist"
+print "Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
+ 
 # set up a nice method for getting the latest file path
 numTracker = NumTracker("scanbase_numtracker");
 finder=Finder.getInstance()
