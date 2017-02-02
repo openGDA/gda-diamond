@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba 
+	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<!-- Polarimeter Epics Positioners and Motors  -->
+	<!-- FrontPinhole Positioner -->
+	<bean id="FrontPinholePositioner" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="ALIGN1.POS" />
+	</bean>
+	
+	<!--  Rear Pinhole Positioner -->
+	<bean id="RearPinholePositioner" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="deviceName" value="ALIGN2.POS" />
+	</bean>
+	
+	<!--  Front Pinhole Motor   -->
+	<bean id="FrontPinholeMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ALIGN1.Z" />
+	</bean>
+	
+	<!--  Rear Pinhole Motor    -->
+	<bean id="RearPinholeMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ALIGN2.Z" />
+	</bean>
+
+	<!--  Retarder Motors    -->
+	<bean id="RetarderRotationMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="RET.ROT" />
+	</bean>
+	<bean id="RetarderTiltMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="RET.TILT" />
+	</bean>
+	
+	<!--  Polarimeter Analyser Motors    -->
+	<bean id="AnalyserRotationMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ANA.ROT" />
+	</bean>
+	<bean id="AnalyserTiltMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ANA.TILT" />
+	</bean>
+	<bean id="AnalyserTranslationMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ANA.TRANS" />
+	</bean>
+	<bean id="AnalyserDetectorMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="ANA.THETA" />
+	</bean>
+
+	
+</beans>
