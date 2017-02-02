@@ -4,5 +4,6 @@ jythonCache/
 /var
 /users
 *.class
+*.pyc
 
 scripts/Diamond
