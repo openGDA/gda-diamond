@@ -2,14 +2,8 @@
 #For beamline specific initialisation code.
 
 print "===================================================================";
-print "Performing Beanline I06-1 specific initialisation code (localStation.py).";
+print "Performing Beamline I06-1 specific initialisation code (localStation.py).";
 print
-
-import sys;
-from os import system;
-
-from gda.configuration.properties import LocalProperties
-from gda.jython.commands.GeneralCommands import alias
 
 print "-"*100
 print "Set scan returns to the start positions on completion"
@@ -18,27 +12,13 @@ print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
 
-
-# Get the location of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.jython.gdaConfigScriptDir") + "/";
-
-# Get the location of the USERS script directory
-userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
-
-gdaDevScriptDir = LocalProperties.get("gda.jython.gdaCoreScriptDir") + "/";
-
 from i06shared.localStation import *
 
 from Beamline.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
-
+from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2
 
 try:
-	#Set up the Patch Panel scaler card
-	print "-------------------------------------------------------------------"
-	print "Set up the Patch Panel scaler card"
-	execfile(gdaScriptDir + "BeamlineI06/PatchPanelScaler8512.py");
-
 	#Set the caxxsum for average current amplifier reading 
 	execfile(gdaScriptDir + "BeamlineI06/setCASum.py");
 except:

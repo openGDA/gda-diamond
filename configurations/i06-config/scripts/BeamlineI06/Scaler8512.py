@@ -1,13 +1,12 @@
 
-#from Diamond.PseudoDevices.Scaler8512DirectPV import ScalerChannelEpicsPVClass;
 from Diamond.PseudoDevices.Scaler8512Device import Scaler8512ChannelEpicsDeviceClass;
 
-#Define the Jython Class for scannalbe and monitor based on directly accessing EPICS PVs 
-#execfile("/home/xr56/Dev/gdaConfig/I06/scripts/enableScaler8512DirectPV.py")
-#execfile(gdaScriptDir + "Scaler8512.py");
+print "-"*100
+print "Set up the 8512 scaler card"
+print "Create scalar objects: 'ca11s','ca12s','ca13s','ca14s','ca21s','ca22s','ca23s','ca24s','ca31s','ca32s','ca33s','ca34s','ca41s','ca42s','ca43s','ca44s'"
+print "Create RAW scalar objects: 'ca11sr','ca12sr','ca13sr','ca14sr','ca21sr','ca22sr','ca23sr','ca24sr','ca31sr','ca32sr','ca33sr','ca34sr','ca41sr','ca42sr','ca43sr','ca44sr'"
 
 pvScalerTP='BL06I-DI-8512-01:PRESET';
-
 pvScalerCNT='BL06I-DI-8512-01:STARTCOUNT';
 
 pvCA11C = 'BL06I-DI-IAMP-01:I1C';
@@ -51,6 +50,8 @@ ca42s = Scaler8512ChannelEpicsDeviceClass('ca42s',pvScalerTP, pvScalerCNT, pvCA4
 ca43s = Scaler8512ChannelEpicsDeviceClass('ca43s',pvScalerTP, pvScalerCNT, pvCA43C);
 ca44s = Scaler8512ChannelEpicsDeviceClass('ca44s',pvScalerTP, pvScalerCNT, pvCA44C);
 
+scaler1=[ca11s,ca12s,ca13s,ca14s,ca21s,ca22s,ca23s,ca24s,ca31s,ca32s,ca33s,ca34s,ca41s,ca42s,ca43s,ca44s]
+
 #Use the scaler Raw count
 pvCA11CRAW = 'BL06I-DI-IAMP-01:I1C-RAW';
 pvCA12CRAW = 'BL06I-DI-IAMP-01:I2C-RAW';
@@ -92,5 +93,6 @@ ca42sr = Scaler8512ChannelEpicsDeviceClass('ca42sr',pvScalerTP, pvScalerCNT, pvC
 ca43sr = Scaler8512ChannelEpicsDeviceClass('ca43sr',pvScalerTP, pvScalerCNT, pvCA43CRAW);
 ca44sr = Scaler8512ChannelEpicsDeviceClass('ca44sr',pvScalerTP, pvScalerCNT, pvCA44CRAW);
 
+scalar1raw=[ca11sr,ca12sr,ca13sr,ca14sr,ca21sr,ca22sr,ca23sr,ca24sr,ca31sr,ca32sr,ca33sr,ca34sr,ca41sr,ca42sr,ca43sr,ca44sr]
 #del ca11s
 

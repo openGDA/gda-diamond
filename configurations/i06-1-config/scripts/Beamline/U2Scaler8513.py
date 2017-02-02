@@ -1,9 +1,10 @@
 
-#from Diamond.PseudoDevices.Scaler8512DirectPV import ScalerChannelEpicsPVClass;
 from Diamond.PseudoDevices.Scaler8512Device import Scaler8512ChannelEpicsDeviceClass;
-from Diamond.PseudoDevices.Scaler8512Device import DetectorIntegrationsDevice;
+print "-"*100
+print "Set up the Patch Panel U2 scaler card"
+print "Create RAW scalar objects: 'ca61sr','ca62sr','ca63sr','ca64sr','ca65sr','ca66sr','ca67sr','ca68sr'"
 
-#Both Patch Panel U1 and U2 use the same scaler preset/trigger signal from the same scaler card
+#Patch Panel U2 use the same scaler preset/trigger signal from the same scaler card
 pvPatchPanelScalerTP='BL06I-DI-8512-02:PRESET';
 pvPatchPanelScalerCNT='BL06I-DI-8512-02:STARTCOUNT';
 
@@ -27,19 +28,7 @@ ca66sr = Scaler8512ChannelEpicsDeviceClass('ca66sr',pvPatchPanelScalerTP, pvPatc
 ca67sr = Scaler8512ChannelEpicsDeviceClass('ca67sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA67CRAW);
 ca68sr = Scaler8512ChannelEpicsDeviceClass('ca68sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA68CRAW);
 
-
-#For Patch Panel U1
-#Use the scaler Raw count
-pvCA51CRAW = 'BL06I-EA-USER-01:SC1-RAW';
-pvCA52CRAW = 'BL06I-EA-USER-01:SC2-RAW';
-pvCA53CRAW = 'BL06I-EA-USER-01:SC3-RAW';
-pvCA54CRAW = 'BL06I-EA-USER-01:SC4-RAW';
-
-ca51sr = Scaler8512ChannelEpicsDeviceClass('ca51sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA51CRAW);
-ca52sr = Scaler8512ChannelEpicsDeviceClass('ca52sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA52CRAW);
-ca53sr = Scaler8512ChannelEpicsDeviceClass('ca53sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA53CRAW);
-ca54sr = Scaler8512ChannelEpicsDeviceClass('ca54sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA54CRAW);
-
+scaler2=[ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr]
 
 #acqtime = DetectorIntegrationsDevice('acqtime', [ca61sr]);
 #acqtime.addDetectors([ca11sr]);
