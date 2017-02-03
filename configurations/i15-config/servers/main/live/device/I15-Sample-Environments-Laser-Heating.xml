@@ -65,4 +65,10 @@
 	<bean id="laserpowerds" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL15I-EA-LASER-02:OUTPUTPOWER" />
 	</bean>
+
+<!-- See I15-214 & http://confluence.diamond.ac.uk/x/rgGwAg
+	<bean id="laserstartacqproc" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL15I-EA-HORIBA-01:STARTACQ.PROC" />
+	</bean>
+ -->
 </beans>
