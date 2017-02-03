@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2012-6/gdaApp/src/genericBeamlineSchema.xsd">
+
+	<!-- Extra Congiguration for the Polarimeter Control of Optics Group-->
+	<simpleMotor desc="Front pinhole" name="ALIGN1.Z">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor" pv="ME02P-MO-ALIGN-01:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Retarder rotation" name="RET.ROT">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor" pv="ME02P-MO-RET-01:ROT" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Retarder tilt" name="RET.TILT">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor" pv="ME02P-MO-RET-01:TILT" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Analyser rotation" name="ANA.ROT">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor" pv="ME02P-MO-ANA-01:ROT" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Analyser tilt" name="ANA.TILT">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor" pv="ME02P-MO-ANA-01:TILT" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Analyser translation" name="ANA.TRANS">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor" pv="ME02P-MO-ANA-01:TRANS" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Analyser detector" name="ANA.THETA">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor" pv="ME02P-MO-ANA-01:THETA" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Rear pinhole" name="ALIGN2.Z">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor" pv="ME02P-MO-ALIGN-02:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	
+	<positioner desc="Front pinhole positioner" name="ALIGN1.POS">
+		<SELECT IOC="BL06I-MO-IOC-03" desc="Position Selection" pv="ME02P-MO-ALIGN-01:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV IOC="BL06I-MO-IOC-03" desc="Done Moving Indicator" pv="ME02P-MO-ALIGN-01:MP:DMOV" ro="true" type="pv"/>
+		<ERROR IOC="BL06I-MO-IOC-03" desc="Error Indicator" pv="ME02P-MO-ALIGN-01:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS IOC="BL06I-MO-IOC-03" desc="In Position Indicator" pv="ME02P-MO-ALIGN-01:MP:INPOS" ro="true" type="pv"/>
+		<STOP IOC="BL06I-MO-IOC-03" desc="Stop Button" pv="ME02P-MO-ALIGN-01:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	<positioner desc="Rear pinhole positioner" name="ALIGN2.POS">
+		<SELECT IOC="BL06I-MO-IOC-03" desc="Position Selection" pv="ME02P-MO-ALIGN-02:MP:SELECT" ro="false" type="mbbinary"/>
+		<DMOV IOC="BL06I-MO-IOC-03" desc="Done Moving Indicator" pv="ME02P-MO-ALIGN-02:MP:DMOV" ro="true" type="pv"/>
+		<ERROR IOC="BL06I-MO-IOC-03" desc="Error Indicator" pv="ME02P-MO-ALIGN-02:MP:ERROR.K" ro="true" type="pv"/>
+		<INPOS IOC="BL06I-MO-IOC-03" desc="In Position Indicator" pv="ME02P-MO-ALIGN-02:MP:INPOS" ro="true" type="pv"/>
+		<STOP IOC="BL06I-MO-IOC-03" desc="Stop Button" pv="ME02P-MO-ALIGN-02:MP:STOP.PROC" ro="false" type="pv"/>
+	</positioner>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<simplePv desc="Hexapod Leg 1" name="HEXAPOD.LEG1">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Hexapod leg length" pv="ME02P-MO-BASE-01:MR11:EGUPS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Hexapod Leg 2" name="HEXAPOD.LEG2">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Hexapod leg length" pv="ME02P-MO-BASE-01:MR12:EGUPS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Hexapod Leg 3" name="HEXAPOD.LEG3">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Hexapod leg length" pv="ME02P-MO-BASE-01:MR13:EGUPS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Hexapod Leg 4" name="HEXAPOD.LEG4">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Hexapod leg length" pv="ME02P-MO-BASE-01:MR14:EGUPS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Hexapod Leg 5" name="HEXAPOD.LEG5">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Hexapod leg length" pv="ME02P-MO-BASE-01:MR15:EGUPS" ro="true" type="pv"/>
+	</simplePv>
+	<simplePv desc="Hexapod Leg 6" name="HEXAPOD.LEG6">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Hexapod leg length" pv="ME02P-MO-BASE-01:MR16:EGUPS" ro="true" type="pv"/>
+	</simplePv>
+	<simpleMotor desc="Hexapod X motor" name="HEXAPOD.X">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor Record" pv="ME02P-MO-BASE-01:S:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Hexapod Y motor" name="HEXAPOD.Y">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor Record" pv="ME02P-MO-BASE-01:S:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Hexapod Z motor" name="HEXAPOD.Z">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor Record" pv="ME02P-MO-BASE-01:S:Z" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Hexapod Pitch motor" name="HEXAPOD.PITCH">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor Record" pv="ME02P-MO-BASE-01:S:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Hexapod Yaw motor" name="HEXAPOD.YAW">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor Record" pv="ME02P-MO-BASE-01:S:YAW" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Hexapod Roll motor" name="HEXAPOD.ROLL">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor Record" pv="ME02P-MO-BASE-01:S:ROLL" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Hexapod Fine pitch motor" name="HEXAPOD.FPITCH">
+		<RECORD IOC="BL06I-MO-IOC-03" desc="Motor Record" pv="ME02P-MO-BASE-01:S:FINEPITCH" ro="false" type="motor"/>
+	</simpleMotor>
+
+</devices>
