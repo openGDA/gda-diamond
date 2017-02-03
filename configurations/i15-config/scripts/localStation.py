@@ -627,7 +627,15 @@ try:
 	else:
 		print "* Not installing example wirescanner *"
 
-	if True:
+	if False: """ TODO: Verify functionality before enabling.
+
+		Note that these were developed during a time when there was a fault with the orientation of one of the axes.
+		This fault is expected to be fixed during 2017 Shutdown 2, at which point, the calculations in this class
+		will no longer be valid.
+
+		Before enabling these scannables, you will need to verify that they still work if the axis modifications
+		haven't happened, or update the calculations if they have.
+		"""
 		from scannables.PerpendicularSampleMotion import PerpendicularSampleMotion, ParallelSampleMotion, HeightSampleMotion
 	
 		try:
