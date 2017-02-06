@@ -127,6 +127,13 @@
 		<property name="initialCompression" value="zlib" />
 	</bean>
 
+	<!-- Dummy Area Detector IOCs do not have secondary HDF writers so just use the primary -->
+
+	<bean id="peDark_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="pe_NDFileHDF5file" />
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
 	<!-- Detector Motors -->
 
 	<bean id="det1Y_motor" class="gda.device.motor.DummyMotor"/>
