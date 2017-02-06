@@ -1,5 +1,6 @@
 #Define some constant used:
-
+print "-"*100
+print "Setup constants in Jython namespace for beamline"
 #For valve control
 Close=CLOSE=cls='Close';
 Open=OPEN=opn='Open';

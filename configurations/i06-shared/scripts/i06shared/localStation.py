@@ -8,7 +8,6 @@ print
 import sys;
 
 from gda.configuration.properties import LocalProperties
-from gda.jython.commands.GeneralCommands import alias
 
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
@@ -19,24 +18,11 @@ userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
 gdaDevScriptDir = LocalProperties.get("gda.jython.gdaDevScriptDir") + "/";
 
 from i06shared.commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
-alias("pwd"); alias("lwf"); alias("nwf"); alias("nfn"); alias("setSubdirectory"); alias("getSubdirectory")
-print
-
 from i06shared.functions.aliasFunctions import setAlias, setGdaAlias  # @UnusedImport
-print
-print "-"*100
-print "Setup constants in Jython namespace"
 from i06shared.constant import *  # @UnusedWildImport
-
-print "Setup the utility functions"
-print
 from Diamond.Utility.Functions import logger, getScanNumber,incScanNumber,interruptable,removeDevices,getDevice,isDefaultDevice,removeDefaults,backupDefaults,restoreDefaults  # @UnusedImport
 from Diamond.Utility.setTimers import stopwatch,timekeeper,clock,lineTime,pointTime,waitTimer,timer,scanTimer,Timers,Dummies,dummyCounter  # @UnusedImport
-print "-"*100
-print "Enable CorrespondentDeviceClass - creating a scannable based on another scannable and forward and backward algorithms";
 from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass;  # @UnusedImport
-print "-"*100
-print "Enable DeviceFunctionClass - creating a scannable based on 2 other scannables and a function";
 from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass;  # @UnusedImport
 
 try:
@@ -57,11 +43,6 @@ except:
 	logger.dump("---> ", exceptionType, exception, traceback1)
 	
 try:
-	#Set up the Patch Panel scaler card
-	print "-------------------------------------------------------------------"
-	print "Set up the Patch Panel scaler card"
-	execfile(gdaScriptDir + "BeamlineI06/PatchPanelScaler8512.py");
-
 	#Set the caxxsum for average current amplifier reading 
 	execfile(gdaScriptDir + "BeamlineI06/setCASum.py");
 except:

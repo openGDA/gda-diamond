@@ -3,6 +3,7 @@ commands for directory/file operations:
 
 '''
 from gda.data import PathConstructor, NumTracker
+from gda.jython.commands.GeneralCommands import alias
 from gda.factory import Finder
 import os
 import sys
@@ -65,3 +66,4 @@ def setSubdirectory(dirname):
 def getSubdirectory():
     return finder.find("GDAMetadata").getMetadataValue("subdirectory")
 
+alias("pwd"); alias("lwf"); alias("nwf"); alias("nfn"); alias("setSubdirectory"); alias("getSubdirectory")
