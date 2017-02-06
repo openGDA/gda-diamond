@@ -106,6 +106,7 @@ except:
 
 print "*"*80
 print "Attempting to run localStationStaff.py from users script directory"
+print "*"*80
 try:
     run("localStationStaff")
     print "localStationStaff.py completed."
@@ -116,6 +117,7 @@ except:
 
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
+print "*"*80
 try:
     run("localStationUser")
     print "localStationUser.py completed."
