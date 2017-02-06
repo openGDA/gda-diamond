@@ -43,14 +43,6 @@ except:
 	logger.dump("---> ", exceptionType, exception, traceback1)
 
 from i06shared.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
-try:
-	#Set the caxxsum for average current amplifier reading 
-	execfile(gdaScriptDir + "BeamlineI06/setCASum.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Patch Panel Scaler Error "
-	logger.dump("---> ", exceptionType, exception, traceback)
-	
 
 try:
 	print "-------------------------------------------------------------------"
