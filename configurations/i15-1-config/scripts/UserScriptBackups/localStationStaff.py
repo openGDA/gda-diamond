@@ -757,7 +757,6 @@ try:
     pe1AreaDetectorRunnableDeviceProxy.setDelegate(pe1JythonAreaDetectorRunnableDeviceDelegate)
     pe1AreaDetectorRunnableDeviceProxy.register()
     
-    """
     pe1DarkAreaDetectorRunnableDeviceProxyFinder = finder.find("pe1DarkAreaDetectorRunnableDeviceProxyFinder")
     pe1DarkAreaDetectorRunnableDeviceProxy = pe1DarkAreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
@@ -765,7 +764,6 @@ try:
     pe1DarkJythonAreaDetectorRunnableDeviceDelegate = PeAdDarkTest(pe1DarkAreaDetectorRunnableDeviceProxy)
     pe1DarkAreaDetectorRunnableDeviceProxy.setDelegate(pe1DarkJythonAreaDetectorRunnableDeviceDelegate)
     pe1DarkAreaDetectorRunnableDeviceProxy.register()
-    """
 except:
     localStation_exception(sys.exc_info(), "in localStation")
 

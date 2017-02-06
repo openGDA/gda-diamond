@@ -11,56 +11,55 @@ class PeAdTest (AbstractAreaDetectorRunnableDeviceDelegate):
     logger = LoggerFactory.getLogger("PeAdTest");
     #sleepTime = 0.1 # Used to slow everything down so we can see what it is doing
 
-    #def __init__(self):
-    #    self.adBase = self.getRunnableDeviceProxy().getDetector().getAdBase()
-    #    self.ndFile = self.getRunnableDeviceProxy().getDetector().getNdFile()
+    def __init__(self, proxy):
+        AbstractAreaDetectorRunnableDeviceDelegate.__init__(self, proxy) # Must be first
+        self.logger.info("__init__({}, {})", self, proxy)
+        self.adBase = self.getRunnableDeviceProxy().getDetector().getAdBase()
+        self.ndFile = self.getRunnableDeviceProxy().getDetector().getNdFile()
 
     def waitFor(self,pv,value,checkTime=0.5,timeOut=30):
         """MBB: to use this do:
-            self.waitForAd("BL15J-EA-DET-01:HDF5:Capture",0,checkTime=1.,timeOut=30.)
+            self.waitForAd("BL15J-EA-DET-01:"+self.hdfPlugin+"Capture",0,checkTime=1.,timeOut=30.)
         """
         i = 0
         timeOut = int(float(timeOut) / float(checkTime))
         sleep(float(checkTime))
-        while str(caget(pv)) != str(value):
-            sleep(float(checkTime))
-            i += 1
+        pvValue = str(caget(pv))
+        message = "for "+ str(pv) + " to change to " + str(value) + " currently " + pvValue
+        self.logger.info("Wait "+message)
+        while pvValue != str(value):
             if i > timeOut:
-                raise NameError("waitFor timed out while waiting for "+ str(pv) + " to change to " + str(value)) 
+                message = "waitFor timed out while waiting " + message
+                self.logger.error(message)
+                raise Exception(message)
+            i += 1
+            sleep(float(checkTime))
+            pvValue = str(caget(pv))
+            message = "for "+ str(pv) + " to change to " + str(value) + " currently " + pvValue
+            self.logger.info("Waiting "+message)
 
     def preConfigure(self, info):
         self.logger.info("preConfigure({})", info)
-        
-        #self.adBase = self.getRunnableDeviceProxy().getDetector().getAdBase()
-        #self.ndFile = self.getRunnableDeviceProxy().getDetector().getNdFile()
+
         self.hdfPlugin = "HDF5:"
-        
-        """caput method"""
+
         caput("BL15J-EA-DET-01:PROC1:EnableCallbacks",0)
         caput("BL15J-EA-DET-01:PROC3:EnableCallbacks",0)
-        if caget("BL15J-EA-DET-01:HDF5:Capture") != "0":
-            caput("BL15J-EA-DET-01:HDF5:Capture",0)
-            self.waitFor("BL15J-EA-DET-01:HDF5:Capture",0,checkTime=1.,timeOut=30.)
-            self.logger.info("preConfigure({})", "File writer found to be busy. Waiting for file writer to reset...")
 
-        """GDA method"""
-        #if self.ndFile.getCapture() != 0:
-        #    self.ndFile.stopCapture()
-        #    sleep(1)
-        # Disable PROC3 callbacks
-        #self.adBase.getIntBySuffix("PROC3:EnableCallbacks");
-        #self.adBase.setIntBySuffix("PROC3:EnableCallbacks",0);
-        #self.adBase.getDoubleBySuffix("...:...");
-        #self.adBase.getStringBySuffix("...:...");
-        #sleep(sleepTime)
         AbstractAreaDetectorRunnableDeviceDelegate.preConfigure(self, info);
 
     def configure(self, model):
         self.logger.info("configure({})", model)
-        # Configure accumulating proc with the exposure time
-        
         self.model = model
-        
+
+        caput("BL15J-EA-DET-01:"+self.hdfPlugin+"EnableCallbacks",0)
+        if caget("BL15J-EA-DET-01:"+self.hdfPlugin+"Capture") != "0":
+            caput("BL15J-EA-DET-01:"+self.hdfPlugin+"Capture",0)
+            self.waitFor("BL15J-EA-DET-01:"+self.hdfPlugin+"Capture",0,checkTime=1.,timeOut=30.)
+            self.logger.info("preConfigure({})", "File writer found to be busy. Waiting for file writer to reset...")
+
+        # Configure accumulating proc with the exposure time
+
         acquirePeriod = float(caget("BL15J-EA-ZEBRA-02:DIV1_DIV"))/1000
         caput("BL15J-EA-DET-01:CAM:AcquirePeriod",acquirePeriod)
         exposureTime = model.getExposureTime()
@@ -71,7 +70,9 @@ class PeAdTest (AbstractAreaDetectorRunnableDeviceDelegate):
             caput("BL15J-EA-DET-01:PROC1:NumFilter",acquisitions)
             caput("BL15J-EA-DET-01:PROC3:NumFilter",acquisitions)
         else:
-            raise Exception("exposureTime time must be a multiple of the acquire period, currently "+str(acquirePeriod)+" s")
+            mesage = "exposureTime time must be a multiple of the acquire period, currently "+str(acquirePeriod)+" s"
+            self.logger.error(message)
+            raise Exception(message)
     
         #sleep(sleepTime)
         AbstractAreaDetectorRunnableDeviceDelegate.configure(self, model)
@@ -89,18 +90,15 @@ class PeAdTest (AbstractAreaDetectorRunnableDeviceDelegate):
         
         #self.adBase.setStringBySuffix(self.hdfPlugin+"FilePath", visitDir)
         uDir = map(ord,visitDir+u"\u0000")
-        caput("BL15J-EA-DET-01:HDF5:FilePath",uDir)
+        caput("BL15J-EA-DET-01:"+self.hdfPlugin+"FilePath",uDir)
         
         #self.adBase.setStringBySuffix(self.hdfPlugin+"FileName", self.fileName)
         uFile = map(ord,self.fileName+u"\u0000")
-        caput("BL15J-EA-DET-01:HDF5:FileName",uFile)
+        caput("BL15J-EA-DET-01:"+self.hdfPlugin+"FileName",uFile)
         
         
-        """caput method"""
-        caput("BL15J-EA-DET-01:HDF5:NumCapture",info.getSize())
+        caput("BL15J-EA-DET-01:"+self.hdfPlugin+"NumCapture",info.getSize())
         
-        """GDA method"""
-        #self.getRunnableDeviceProxy().getDetector().getNdFile().setNumCapture(info.getSize())
         #sleep(sleepTime)
         AbstractAreaDetectorRunnableDeviceDelegate.postConfigure(self, info);
 
@@ -186,18 +184,15 @@ class PeAdTest (AbstractAreaDetectorRunnableDeviceDelegate):
         winFile = winFullPath[18:]
         winFile = winFile[:-4]+"-pe1AD"
         uDir = map(ord,winDir+u"\u0000")
-        #caput("BL15J-EA-DET-01:HDF5:FilePath",uDir)
+        #caput("BL15J-EA-DET-01:"+self.hdfPlugin+"FilePath",uDir)
         uFile = map(ord,winFile+u"\u0000")
-        caput("BL15J-EA-DET-01:HDF5:FileName",uFile)
+        caput("BL15J-EA-DET-01:"+self.hdfPlugin+"FileName",uFile)
         """
-        caput("BL15J-EA-DET-01:HDF5:Capture",1)
+        caput("BL15J-EA-DET-01:"+self.hdfPlugin+"Capture",1)
         
         """ MBB: See my scanStart function in peAdTest-MBB.py
         
         converttoInternal() is the tried and trusted way to convert unix paths to windows paths.
-        
-        Also, self.adBase.setStringBySuffix() is much easier to use for strings than caput. You will need to
-        uncomment this classes __init__ function to use that though.
         """
         
         
@@ -232,26 +227,27 @@ class PeAdTest (AbstractAreaDetectorRunnableDeviceDelegate):
         self.logger.info("run({})", "Starting collection...")
         caput("BL15J-EA-DET-01:PROC1:ResetFilter",1)
         caput("BL15J-EA-DET-01:PROC3:ResetFilter",1)
-        caput("BL15J-EA-DET-01:HDF5:EnableCallbacks",1)
         nextArrayCounter = int(caget("BL15J-EA-DET-01:PROC3:ArrayCounter_RBV")) + acquisitions
-        nextFileCounter = int(caget("BL15J-EA-DET-01:HDF5:NumCaptured_RBV")) + 1
+        nextFileCounter = int(caget("BL15J-EA-DET-01:"+self.hdfPlugin+"NumCaptured_RBV")) + 1
+        caput("BL15J-EA-DET-01:"+self.hdfPlugin+"EnableCallbacks",1)
         caput("BL15J-EA-DET-01:PROC1:EnableCallbacks","1")
         caput("BL15J-EA-DET-01:PROC3:EnableCallbacks","1")
         
         self.logger.info("run({})", "Waiting for next array to be collected...")
         self.waitFor("BL15J-EA-DET-01:PROC3:ArrayCounter_RBV",nextArrayCounter,checkTime=acquirePeriod/10.,timeOut=exposureTime*3.)
         self.logger.info("run({})", "Array collected...")
-        caput("BL15J-EA-DET-01:PROC1:EnableCallbacks","0")
+        caput("BL15J-EA-DET-01:PROC1:EnableCallbacks","0") # Turn off to prevent hdf plugin getting extra frames
+        caput("BL15J-EA-DET-01:PROC3:EnableCallbacks","0")
         
         self.logger.info("run({})", "Waiting for next array to be written...")
-        self.waitFor("BL15J-EA-DET-01:HDF5:NumCaptured_RBV",nextFileCounter,checkTime=exposureTime/10.,timeOut=exposureTime*3.+2.)
+        self.waitFor("BL15J-EA-DET-01:"+self.hdfPlugin+"NumCaptured_RBV",nextFileCounter,checkTime=exposureTime/10.,timeOut=exposureTime*3.+2.)
         self.logger.info("run({})", "Array written...")
         
-        caput("BL15J-EA-DET-01:HDF5:EnableCallbacks","0")
+        caput("BL15J-EA-DET-01:"+self.hdfPlugin+"EnableCallbacks","0")
         
         caput("BL15J-EA-DET-01:PROC1:NumFilter","1")
         caput("BL15J-EA-DET-01:PROC1:ResetFilter","1")
-        caput("BL15J-EA-DET-01:PROC1:EnableCallbacks","1")
+        caput("BL15J-EA-DET-01:PROC1:EnableCallbacks","1") # Turn back on for visualisation
         
         #sleep(sleepTime)
         AbstractAreaDetectorRunnableDeviceDelegate.run(self, position)
@@ -274,6 +270,15 @@ class PeAdTest (AbstractAreaDetectorRunnableDeviceDelegate):
         self.logger.info("pointEnd({})", point)
         #sleep(1)
         AbstractAreaDetectorRunnableDeviceDelegate.pointEnd(self, point);
+
+    # writeComplete will most likely start after the next points pointStart
+    # but before the next points levelStart
+    
+    def writeComplete(self, info):
+        self.logger.info("writeComplete({})", info)
+        
+        #sleep(sleepTime)
+        AbstractAreaDetectorRunnableDeviceDelegate.writeComplete(self, info);
 
     def scanFinally(self, info):
         self.logger.info("scanFinally({})", info)
