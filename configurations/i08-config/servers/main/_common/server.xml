@@ -32,11 +32,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/zone_plate_motors.xml" />
 
-	<!-- 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_addetector.xml" />
  	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xmap_detector.xml" />
-	-->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
 
 	<!-- =========================================================== -->
@@ -50,11 +48,9 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" />
-	<!--
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xmap_detector.xml" />
-	-->
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />

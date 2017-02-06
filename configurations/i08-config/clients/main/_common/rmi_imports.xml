@@ -23,10 +23,12 @@
 	</bean>
 
 	<!-- XMAP detector -->
+	<!--
 	<bean id="xmap" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}xmap" />
 		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+	-->
 
 </beans>
