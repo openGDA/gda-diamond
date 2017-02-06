@@ -19,15 +19,6 @@ from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
 from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2
 
 try:
-	#Set the caxxsum for average current amplifier reading 
-	execfile(gdaScriptDir + "BeamlineI06/setCASum.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Patch Panel Scaler Error "
-	logger.dump("---> ", exceptionType, exception, traceback)
-	
-
-try:
 	print "-------------------------------------------------------------------"
 	print "Enable the multiple region scan";
 	execfile(gdaScriptDir + "BeamlineI06/setSpecialScans.py");
