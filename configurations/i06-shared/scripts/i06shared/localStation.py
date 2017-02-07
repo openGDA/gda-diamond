@@ -63,16 +63,7 @@ except:
 	logger.dump("---> ", exceptionType, exception, traceback)
 	
 from i06shared.usePGM import grating  # @UnusedImport
-
-try:
-	
-	print "-------------------------------------------------------------------"
-	print "Setup the Insertion Device controls";
-	execfile(gdaScriptDir + "BeamlineI06/useID.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Insertion Device Error "
-	logger.dump("---> ", exceptionType, exception, traceback)
+from i06shared.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
 	
 try:
 	print "-------------------------------------------------------------------"
