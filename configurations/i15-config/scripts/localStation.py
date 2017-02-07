@@ -627,7 +627,8 @@ try:
 	else:
 		print "* Not installing example wirescanner *"
 
-	if False: """ TODO: Verify functionality before enabling.
+	if False:
+		""" TODO: Verify functionality before enabling.
 
 		Note that these were developed during a time when there was a fault with the orientation of one of the axes.
 		This fault is expected to be fixed during 2017 Shutdown 2, at which point, the calculations in this class
