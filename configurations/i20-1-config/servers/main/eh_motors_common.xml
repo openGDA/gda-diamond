@@ -38,15 +38,15 @@
 		<property name="motor" ref="samenv_y_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
-	<bean id="sample_finex" class="gda.device.scannable.ScannableMotor">
+	<bean id="sample_topx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_topx_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
-	<bean id="sample_finey" class="gda.device.scannable.ScannableMotor">
+	<bean id="sample_topy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_topy_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
-	<bean id="sample_finez" class="gda.device.scannable.ScannableMotor">
+	<bean id="sample_topz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_topz_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
@@ -132,18 +132,18 @@
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/sample_finex" />
-		<property name="service" ref="sample_finex" />
+		<property name="serviceName" value="gda/sample_topx" />
+		<property name="service" ref="sample_topx" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/sample_finey" />
-		<property name="service" ref="sample_finey" />
+		<property name="serviceName" value="gda/sample_topy" />
+		<property name="service" ref="sample_topy" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/sample_finez" />
-		<property name="service" ref="sample_finez" />
+		<property name="serviceName" value="gda/sample_topz" />
+		<property name="service" ref="sample_topz" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">

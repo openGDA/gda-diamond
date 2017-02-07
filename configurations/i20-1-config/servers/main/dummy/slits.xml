@@ -24,8 +24,8 @@
 	<bean id="s2_yplus_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="s2_yminus_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="s4_hgap_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="s4_hoffset_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s3_hgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s3_hoffset_motor" class="gda.device.motor.DummyMotor" />
 
 	<!-- Turbo slits -->
 

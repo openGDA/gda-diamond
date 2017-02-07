@@ -170,16 +170,15 @@
 		</property>
 	</bean>
 
-<!-- keep these as s3 even though they use s4 motors since gui for SlitScan expects these scannables to be available... imh 7/7/2016-->
 	<bean id="s3_hgap" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s4_hgap_motor" />
+		<property name="motor" ref="s3_hgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false" />
 	</bean>
 	<bean id="s3_hoffset" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s4_hoffset_motor" />
+		<property name="motor" ref="s3_hoffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false" />
 	</bean>
