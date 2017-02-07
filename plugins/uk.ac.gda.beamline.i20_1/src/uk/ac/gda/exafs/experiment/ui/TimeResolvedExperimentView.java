@@ -18,10 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
-import gda.jython.IJythonServerStatusObserver;
-import gda.jython.InterfaceProvider;
-import gda.scan.ScanEvent;
-
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -54,6 +50,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.jaret.util.date.Interval;
+import gda.jython.IJythonServerStatusObserver;
+import gda.jython.InterfaceProvider;
+import gda.scan.ScanEvent;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
@@ -250,14 +249,14 @@ public class TimeResolvedExperimentView extends ViewPart {
 				@Override
 				public void run() {
 					if (changeCode instanceof ScanEvent) {
-						updateStartStopButtons((ScanEvent)changeCode);
+						updateGuiControlsForScanEvent((ScanEvent)changeCode);
 					}
 				}
 			});
 		}
 	};
 
-	private void updateStartStopButtons(ScanEvent changeCode) {
+	private void updateGuiControlsForScanEvent(ScanEvent changeCode) {
 		switch (changeCode.getLatestStatus()) {
 		case COMPLETED_AFTER_FAILURE:
 		case COMPLETED_AFTER_STOP:
@@ -268,13 +267,16 @@ public class TimeResolvedExperimentView extends ViewPart {
 		case TIDYING_UP_AFTER_STOP:
 		case COMPLETED_OKAY:
 			getModel().setScanning(false);
+			timingGroupSectionComposite.setUserControlsEnabled(true);
 			break;
 		case PAUSED:
 		case RUNNING:
 			getModel().setScanning(true);
+			timingGroupSectionComposite.setUserControlsEnabled(false);
 			break;
 		default:
 			getModel().setScanning(false);
+			timingGroupSectionComposite.setUserControlsEnabled(true);
 			break;
 		}
 	}
