@@ -45,13 +45,27 @@
 <!-- 		<property name="service" ref="xhDetectorData" /> -->
 <!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
 <!-- 	</bean> -->
-	
+
+<!-- XSpress3 added 18Nov2016 -->
+	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
+		<property name="controller" ref="xspress3Controller" />
+		<property name="numberOfChannelsToRead" value="4" />
+		<property name="writeHDF5Files" value="true" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspress3" />
+		<property name="service" ref="xspress3" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+	</bean>
+
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xh" />
 		<property name="service" ref="xh" />
 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
 	</bean>
- 	
+ 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xstrip" />
 		<property name="service" ref="xstrip" />

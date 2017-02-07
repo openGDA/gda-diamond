@@ -50,7 +50,9 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.eclipse.richbeans.widgets;bundle-version="1.0.0",
  org.eclipse.richbeans.xml;bundle-version="1.0.0",
  org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
- com.thoughtworks.xstream;bundle-version="1.2.1"
+ com.thoughtworks.xstream;bundle-version="1.2.1",
+ uk.ac.gda.devices.xspress3;bundle-version="1.0.0",
+ uk.ac.gda.devices.xspress3.epics;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: gda.device.detector,

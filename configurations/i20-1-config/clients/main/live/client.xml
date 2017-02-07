@@ -34,11 +34,36 @@
 <!-- 	</bean> -->
 
 <!-- Remove frelon when using xstrip... imh 15/10/2015 -->
-<!-- 	<bean id="frelon" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/frelon" /> -->
-<!-- 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
+	<bean id="frelon" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/frelon" />
+		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="d2cam_parameters" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="d3cam"/>
+		<property name="exposurePV" value="BL20J-DI-PHDGN-02:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL20J-DI-PHDGN-02:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL20J-DI-PHDGN-02:CAM:GAIN" />
+		<property name="acquirePV" value="BL20J-DI-PHDGN-02:CAM:Acquire" />
+		<property name="urlPV" value="BL20J-DI-PHDGN-02:MJPG:MJPG_URL_RBV" />
+	</bean>
+
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<ref bean= "d2cam_parameters"/>
+			</list>
+		</property>
+<!-- 		<property name="plotViewID" value="uk.ac.diamond.scisoft.analysis.rcp.plotView"/>	 -->
+		<property name="plotViewID" value="uk.ac.diamond.scisoft.analysis.rcp.plotView1" />
+		
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
 
 	<import resource="d10.xml" />
 

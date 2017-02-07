@@ -28,7 +28,9 @@
     <logger name="org.apache.commons">
         <level value="INFO"/>
     </logger>
-    
+  	<logger name="gda.device.impl.TangoDeviceLogger">
+        <level value="INFO"/>
+    </logger>
     <root>
         <level value="INFO"/>
         <appender-ref ref="SOCKET"/>
