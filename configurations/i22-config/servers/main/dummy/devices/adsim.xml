@@ -88,7 +88,7 @@
         <property name="initialFileTemplate" value="%s%s%d.h5" />
     </bean>
 
-    <bean id="adsim_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+    <bean id="adsim_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5ExtraDimension">
         <property name="basePVName" value="#{hostname}-AD-SIM-01:HDF5:" />
         <property name="file" ref="adsim_ndfile"/>
     </bean>
@@ -108,7 +108,7 @@
     </bean>
     <bean id="adsim" class="gda.device.detector.addetector.ADDetector">
         <property name="adBase" ref="adsim_adbase"/>
-        <property name=	"ndFile" ref="adsim_ndfile"/>
+        <property name="ndFile" ref="adsim_ndfile"/>
         <property name="ndArray" ref="adsim_ndarray"/>
         <property name="ndStats" ref="adsim_stats"/>
         <property name="fileWriter" ref="adsim_hdf5_writer" />
@@ -122,5 +122,11 @@
 <!--         <property name="computeStats" value="false" /> -->
 <!--         <property name="computeCentroid" value="false" /> -->
 <!--         <property name="exposureCompleteWhenFileIsVisible" value="True"/> -->
+    </bean>
+
+    <bean id="adcam" class="gda.device.detector.addetector.ADCameraDetector">
+        <property name="basePVName" value="#{hostname}-AD-SIM-01:"/>
+        <property name="array" ref="adsim_ndarray"/>
+        <property name="areaDetector" ref="adsim_adbase"/>
     </bean>
 </beans>
