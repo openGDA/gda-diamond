@@ -1,6 +1,6 @@
-
 from Diamond.PseudoDevices.PGM_Grating import PGM_GratingClass
 
+print "-"*100
 print "Enable the Grating Control on PGM";
 
 gratingGetPV = 'BL06I-OP-PGM-01:NLINES.VAL';
