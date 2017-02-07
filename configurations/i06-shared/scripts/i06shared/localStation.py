@@ -57,14 +57,12 @@ try:
 	print "-------------------------------------------------------------------"
 	print "Enable the Constant velocity scan on energy";
 	execfile(gdaScriptDir + "BeamlineI06/fastEnergyScan.py");
-	
-	print "-------------------------------------------------------------------"
-	print "Setup the PGM controls";
-	execfile(gdaScriptDir + "BeamlineI06/usePGM.py");
 except:
 	exceptionType, exception, traceback=sys.exc_info();
 	print "XXXXXXXXXX:  Energy Device Error "
 	logger.dump("---> ", exceptionType, exception, traceback)
+	
+from i06shared.usePGM import grating  # @UnusedImport
 
 try:
 	
