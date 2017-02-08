@@ -43,6 +43,7 @@ public abstract class EdeExperimentDataWriter {
 
 	protected String filenameTemplate = "";
 	protected EdeDetector theDetector;
+	private String sampleDetails;
 
 	protected final DoubleDataset energyDataSet;
 
@@ -131,5 +132,13 @@ public abstract class EdeExperimentDataWriter {
 	protected void log(String message) {
 		InterfaceProvider.getTerminalPrinter().print(message);
 		logger.info(message);
+	}
+
+	public void setSampleDetails(String sampleDetails) {
+		this.sampleDetails = sampleDetails;
+	}
+
+	public String getSampleDetails() {
+		return sampleDetails;
 	}
 }

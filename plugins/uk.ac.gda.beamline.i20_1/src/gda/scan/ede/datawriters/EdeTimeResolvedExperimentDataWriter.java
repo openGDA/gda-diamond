@@ -18,9 +18,11 @@
 
 package gda.scan.ede.datawriters;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,11 +99,18 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		if (detector.isEnergyCalibrationSet()) {
 			energyCalibration = detector.getEnergyCalibration().toString();
 		}
+		String sampleDetails = getSampleDetails();
 		timeResolvedNexusFileHelper.setDetectorName4Node(itScans[0].getDetector().getName());
-		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);
+		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration, sampleDetails);
 		timeResolvedNexusFileHelper.updateWithNormalisedData(writeAsciiData, writeInNewThread);
 
 		return itFilename;
+	}
+	private void setAsciiFilenames() {
+		File nexusFile = new File(nexusfileName);
+		String asciiFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusfileName);
+		i0Filename = asciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.I0_RAW_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
+
 	}
 
 	private void validateData(EdeDetector detector) throws Exception {

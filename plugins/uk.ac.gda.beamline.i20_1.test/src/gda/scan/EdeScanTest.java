@@ -33,6 +33,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
@@ -127,9 +129,15 @@ public class EdeScanTest extends EdeTestBase {
 		SingleSpectrumScan theExperiment = new SingleSpectrumScan(0.001, 0.005, 1, inOutBeamMotors, inOutBeamMotors,
 				"xh", "topup", shutter.getName());
 
+		String sampleDetails = "Sample details - single spectrum scan";
+		theExperiment.setSampleDetails(sampleDetails);
+
 		String filename = theExperiment.runExperiment();
 		testNumberColumnsInEDEFile(filename, 9);
 		testNexusStructure(theExperiment.getNexusFilename(), 1, 0);
+
+		// Check the sample details are set correctly in Nexus file
+		testSampleDetails(theExperiment.getNexusFilename(), sampleDetails);
 	}
 
 	@Test
@@ -271,6 +279,9 @@ public class EdeScanTest extends EdeTestBase {
 		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
 				xh.getName(), topupMonitor.getName(), shutter.getName(), "");
 
+		String sampleDetails = "Sample details - linear experiment with motor move";
+		theExperiment.setSampleDetails(sampleDetails);
+
 		EdeScanMotorPositions itPos = theExperiment.getItScanPositions();
 		itPos.setMotorToMoveDuringScan(xScannable);
 		itPos.setMotorPositionsDuringScan(1, 5, 5);
@@ -292,6 +303,9 @@ public class EdeScanTest extends EdeTestBase {
 
 		// check correct number of motor position values have been written
 		assertDimensions(theExperiment.getNexusFilename(), xh.getName(), xScannable.getName(), new int[] {numRawSpectra});
+
+		// Check the sample details are set correctly in Nexus file
+		testSampleDetails(theExperiment.getNexusFilename(), sampleDetails);
 	}
 
 	private void checkDetectorData(String nexusFilename, String detectorName, int numSpectra) throws NexusException {
@@ -467,6 +481,20 @@ public class EdeScanTest extends EdeTestBase {
 			}
 		}
 		assertEquals(numExpectedLines, numDataLines);
+	}
+
+	private void testSampleDetails(String nexusFilename, String expectedSampleDetails) throws Exception {
+		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusFilename);
+		try {
+			Map<String, Object> attributes = file.getAttributeValues();
+			Object[] attr = (Object[]) attributes.get("/entry1/metaData@"+EdeDataConstants.SAMPLE_DETAILS_NAME);
+			String sampleDetailsFromAttribute = attr[0].toString();
+			assertEquals(expectedSampleDetails,  sampleDetailsFromAttribute);
+			file.close();
+
+		} finally {
+			file.close();
+		}
 	}
 
 }

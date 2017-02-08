@@ -376,6 +376,7 @@ public abstract class EdeExperiment implements IObserver {
 	private String writeToFiles() throws Exception {
 		try {
 			writer = createFileWritter();
+			writer.setSampleDetails(sampleDetails);
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
 			writer.writeDataFile(theDetector);
 			logToJythonTerminal("Scan data written to file.");
