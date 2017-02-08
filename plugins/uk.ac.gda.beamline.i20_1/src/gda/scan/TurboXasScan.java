@@ -72,8 +72,6 @@ public class TurboXasScan extends ContinuousScan {
 	private TurboXasMotorParameters turboXasMotorParams;
 	private boolean useAreaDetector = false;
 	private boolean doTrajectoryScan = false;
-
-
 	private int numReadoutsPerSpectrum;
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
@@ -156,7 +154,7 @@ public class TurboXasScan extends ContinuousScan {
 		int totNumSpectra = getTotalNumSpectra();
 		lastFrameRead = 0;
 		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
-		prepareDetectors(numReadoutsPerSpectrum*totNumSpectra); //also arms it
+		prepareDetectors(numReadoutsPerSpectrum, totNumSpectra); //also arms it
 
 		// Create the trajectory scan profile
 		TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
@@ -192,6 +190,14 @@ public class TurboXasScan extends ContinuousScan {
 		turboXasScannable.atScanEnd();
  	}
 
+	@Override
+	protected void endScan() throws DeviceException, InterruptedException {
+		super.endScan();
+		for (BufferedDetector detector : getScanDetectors()) {
+			detector.stop();
+		}
+	}
+
 	/**
 	 * Collect multiple spectra by performing motor moves for several timing groups.
 	 * @throws Exception
@@ -223,7 +229,7 @@ public class TurboXasScan extends ContinuousScan {
 		// Do this once at beginning to avoid overhead of clearing out scaler memory etc for each spectra.
 		lastFrameRead = 0;
 		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
-		prepareDetectors(numReadoutsPerSpectrum*totNumSpectra);
+		prepareDetectors(numReadoutsPerSpectrum, totNumSpectra);
 
 		// Make new instance of detector readout runnable to collect detector data.
 		detectorReadoutRunnable = new DetectorReadoutRunnable();
@@ -268,8 +274,7 @@ public class TurboXasScan extends ContinuousScan {
 		turboXasScannable.atScanEnd();
  	}
 
-	public void prepareDetectors(int totNumReadouts) throws DeviceException, InterruptedException {
-
+	public void setScalerMode() throws DeviceException {
 		// Try to set scalert64 mode first, otherwise Scalers seem to return junk. imh 14/9/2016
 		BufferedDetector det = getScanDetectors()[0];
 		if ( det instanceof BufferedScaler ) {
@@ -278,6 +283,47 @@ public class TurboXasScan extends ContinuousScan {
 				logger.info("Problem setting Tfg to use scaler64 mode - scaler readout may not work correctly...");
 			}
 		}
+	}
+
+	private int numSpectraPerCycle;
+	private int numReadoutsPerCycle;
+	private int numCycles;
+	private int maxNumScalerFramesPerCycle = 250000;
+
+	/**
+	 * Prepare detectors for collection. The Tfg frames will be configured to use multiple cycles if
+	 * the total number of time frames required exceeds the number set by {@link #setMaxNumScalerFramesPerCycle(int)}.
+	 * This allows scaler memory to be cleared in after frames have been read and written to file, so they can be reused on next cycle.
+	 * (i.e. circular buffer)
+	 * @param numReadoutsPerSpectra
+	 * @param numSpectra
+	 * @throws DeviceException
+	 * @throws InterruptedException
+	 */
+	public void prepareDetectors(int numReadoutsPerSpectra, int numSpectra) throws DeviceException, InterruptedException {
+		setScalerMode();
+		int maxNumSpectraPerCycle = (int) Math.floor(maxNumScalerFramesPerCycle/numReadoutsPerSpectra);
+		numSpectraPerCycle = Math.min(numSpectra,  maxNumSpectraPerCycle);
+		numReadoutsPerCycle = numSpectraPerCycle*numReadoutsPerSpectra;
+
+		// Setup scaler memory to record all frames of data for all spectra across all timing groups
+		ContinuousParameters params = createContinuousParameters();
+		params.setNumberDataPoints(numReadoutsPerCycle);
+		numCycles = (int) Math.ceil((double)numSpectra*numReadoutsPerSpectra/numReadoutsPerCycle);
+
+		for (BufferedDetector detector : getScanDetectors() ) {
+			detector.clearMemory();
+			if (detector instanceof BufferedScaler) {
+				((BufferedScaler)detector).setNumCycles(numCycles);
+			}
+			detector.setContinuousParameters(params);
+			detector.setContinuousMode(true);
+			checkThreadInterrupted();
+		}
+	}
+
+	public void prepareDetectors(int totNumReadouts) throws DeviceException, InterruptedException {
+		setScalerMode();
 
 		// Setup scaler memory to record all frames of data for all spectra across all timing groups
 		ContinuousParameters params = createContinuousParameters();
@@ -442,11 +488,22 @@ public class TurboXasScan extends ContinuousScan {
 		return 1;
 	}
 
+	private void clearFrames(BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
+		// Clear scaler memory multiple cycles are being used.
+		if (numCycles>1) {
+			if (detector instanceof BufferedScaler) {
+				logger.debug("Clearing scaler memory frames {} to {}", lowFrame, highFrame);
+				((BufferedScaler)detector).clearMemoryFrames(lowFrame, highFrame);
+			}
+		}
+	}
+
 	protected Object[][] readDetector(BufferedDetector detector, int lowFrame, int highFrame) throws Exception, DeviceException {
 		NexusTreeProvider[][] detData = new NexusTreeProvider[1][];
 		logger.info("reading data from detectors from frames {} to {}", lowFrame, highFrame);
 
 		detData[0] = readFrames(detector, lowFrame, highFrame);
+		clearFrames(detector, lowFrame, highFrame-1);
 
 		logger.info("data read successfully");
 		return detData;
@@ -490,20 +547,34 @@ public class TurboXasScan extends ContinuousScan {
 			try {
 				while (numSpectraCollected < totalNumSpectraToCollect) {
 					int numAvailableFrames = detector.getNumberFrames();
-					int numNewFrames = numAvailableFrames-lastFrameRead;
 
 					// Break out of while loop if frames get cleared (e.g. due to 'stop scan' button being pressed)
-					if (numAvailableFrames==0) {
+					if (numAvailableFrames==0 && !detector.isBusy()) {
+						logger.debug("ReadoutThread : exiting (no frames left and detector not busy)");
 						break;
 					}
-					logger.debug("ReadoutThread : {} frames of data available, {} new frames", numAvailableFrames, numNewFrames);
+
+					// Last spectrum collected was final one in previous Tfg cycle - set last frame read to start of current cycle
+					if (lastFrameRead==numReadoutsPerCycle) {
+						lastFrameRead=0;
+					}
+
+					int numNewFrames = numAvailableFrames-lastFrameRead;
+
+					// Currently in next Tfg cycle; need to read last spectrum of previous cycle
+					if (lastFrameRead == numReadoutsPerCycle-numReadoutsPerSpectrum) {
+						// logger.debug("ReadoutThread : Read last spectrum of cycle");
+						numNewFrames = numFramesPerSpectrum;
+					}
+
+					logger.debug("ReadoutThread : {} frames of data available, {} new frames, last frame read = {}", numAvailableFrames, numNewFrames, lastFrameRead);
+
 					// Last spectrum has 1 less frame than the others (due to edge counting)
 					if (numSpectraCollected==totalNumSpectraToCollect-1) {
 						numNewFrames++;
 					}
 
 					if (numNewFrames>=numFramesPerSpectrum) {
-						logger.debug("ReadoutThread : collecting data for timing group {} spectrum number {}");
 
 						// Update timing group number and spectrum number for spectrum being read out
 						numSpectraCollectedForGroup++;
@@ -517,6 +588,8 @@ public class TurboXasScan extends ContinuousScan {
 						plotUpdater.setCurrentSpectrumNumber(numSpectraCollectedForGroup);
 
 						String msg = "\tTiming group "+(currentTimingGroupIndex+1)+" : spectrum "+(numSpectraCollectedForGroup)+" of "+timingGroups.get(currentTimingGroupIndex).getNumSpectra();
+
+						logger.debug("ReadoutThread : collecting data {}", msg);
 						InterfaceProvider.getTerminalPrinter().print(msg);
 
 						collectData(detector);
@@ -530,6 +603,7 @@ public class TurboXasScan extends ContinuousScan {
 				logger.debug("ReadoutThread finished.");
 			}
 		}
+
 		public int getNumSpectraCollected() {
 			return numSpectraCollected;
 		}
@@ -604,7 +678,7 @@ public class TurboXasScan extends ContinuousScan {
 		getDataWriter().addData(thisPoint);
 		thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
 
-		InterfaceProvider.getJythonServerNotifer().notifyServer(this, thisPoint); // for the CommandQueue
+		//InterfaceProvider.getJythonServerNotifer().notifyServer(this, thisPoint); // for the CommandQueue
 
 		plotUpdater.updateShowAll(thisPoint);
 
@@ -716,5 +790,30 @@ public class TurboXasScan extends ContinuousScan {
 
 	public void setDoTrajectoryScan(boolean doTrajectoryScan) {
 		this.doTrajectoryScan = doTrajectoryScan;
+	}
+
+	/** Number of spectra per Tfg cycle (calculated by {@link #prepareDetectors(int, int)}) **/
+	public int getNumSpectraPerCycle() {
+		return numSpectraPerCycle;
+	}
+
+	/** Number of spectra per Tfg cycle (calculated by {@link #prepareDetectors(int, int)}) **/
+	public int getNumReadoutsPerCycle() {
+		return numReadoutsPerCycle;
+	}
+	/** Number of Tfg cycles needed to record all spectra (calculated by {@link #prepareDetectors(int, int)}) **/
+	public int getNumCycles() {
+		return numCycles;
+	}
+
+	/** Get Maximum number of scaler frames of data that can be stored by Tfg **/
+	public int getMaxNumScalerFramesPerCycle() {
+		return maxNumScalerFramesPerCycle;
+	}
+
+	/** Set maximum number of scaler frames of data that can be stored by Tfg in single cycle
+	 * (should be less than total than can be stored by tfg, typically <1million **/
+	public void setMaxNumScalerFramesPerCycle(int maxNumScalerFramesPerCycle) {
+		this.maxNumScalerFramesPerCycle = maxNumScalerFramesPerCycle;
 	}
 }
