@@ -128,19 +128,9 @@
 		 -->
 	</bean>
 
-	<bean id="pe_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="pe_NDFileHDF5file" />
-		<property name="initialCompression" value="zlib" />
-	</bean>
-
 	<bean id="peDark_NDFileHDF5file" class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL15J-EA-DET-01:HDF5B:" />
 		<property name="resetToInitialValues" value="false" />
-	</bean>
-
-	<bean id="peDark_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="peDark_NDFileHDF5file" />
-		<property name="initialCompression" value="zlib" />
 	</bean>
 
 	<!-- Detector Motors -->

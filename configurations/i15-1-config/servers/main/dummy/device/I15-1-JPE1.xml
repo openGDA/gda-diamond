@@ -119,16 +119,12 @@
 		<!-- Dummy Area Detector IOCs are run on Linux so there is no need for a file converter -->
 	</bean>
 
-	<bean id="pe_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="pe_NDFileHDF5file" />
-		<property name="initialCompression" value="zlib" />
-	</bean>
-
 	<!-- Dummy Area Detector IOCs do not have secondary HDF writers so just use the primary -->
 
-	<bean id="peDark_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="pe_NDFileHDF5file" />
-		<property name="initialCompression" value="zlib" />
+	<bean id="peDark_NDFileHDF5file" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="${WORKSTATION:${HOSTNAME}}-AD-SIM-01:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+		<!-- Dummy Area Detector IOCs are run on Linux so there is no need for a file converter -->
 	</bean>
 
 	<!-- Detector Motors -->

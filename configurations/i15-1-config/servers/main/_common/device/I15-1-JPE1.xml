@@ -54,6 +54,16 @@
 
 	<!-- NXDetector file writers -->
 
+	<bean id="pe_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="pe_NDFileHDF5file" />
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
+	<bean id="peDark_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="peDark_NDFileHDF5file" />
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
 	<bean id="pe_hdf5_MultipleImagesPerHDF5FileWriter"
 			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pe_NDFileHDF5" />
