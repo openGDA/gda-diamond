@@ -19,5 +19,5 @@
 	<import resource="dataWriter.xml"/>
 	<import resource="terminal_logger.xml"/>
 	
-	
+	<corba:export namespace="${gda.factory.factoryName}"/>
 </beans>
