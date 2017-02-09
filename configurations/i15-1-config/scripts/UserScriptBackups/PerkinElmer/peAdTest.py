@@ -14,8 +14,8 @@ class PeAdTest (AbstractAreaDetectorRunnableDeviceDelegate):
     def __init__(self, proxy):
         AbstractAreaDetectorRunnableDeviceDelegate.__init__(self, proxy) # Must be first
         self.logger.info("__init__({}, {})", self, proxy)
-        self.adBase = self.getRunnableDeviceProxy().getDetector().getAdBase()
-        self.ndFile = self.getRunnableDeviceProxy().getDetector().getNdFile()
+        #self.adBase = self.getRunnableDeviceProxy().getDetector().getAdBase()
+        #self.ndFile = self.getRunnableDeviceProxy().getDetector().getNdFile()
 
     def waitFor(self,pv,value,checkTime=0.5,timeOut=30):
         """MBB: to use this do:
