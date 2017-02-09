@@ -67,7 +67,7 @@
 	<bean id="d7c_current2_av" class="gda.device.currentamplifier.CalibratedAmplifier">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL07C-DI-PHDGN-07:I1:IAV" />
+		<property name="pvName" value="BL07C-DI-PHDGN-07:I2:IAV" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
 		<property name="local" value="true" />
