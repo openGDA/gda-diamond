@@ -1,14 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba
         http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
- 		http://www.diamond.ac.uk/schema/gda/gda
-		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -39,14 +36,16 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/shutters.xml" />
 
 	<!-- optics -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/a1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/dcm.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/interferometer.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/kb1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m2.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s2.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/s4.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/a1.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m1.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m2.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/dcm.xml" />
 
 	<!-- diagnostics and shutters -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d1.xml" />
@@ -62,7 +61,8 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
 
-	<!-- sample stages -->
+	<!-- stages -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/detector_table.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
 
 	<!-- movable devices -->
@@ -81,14 +81,16 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/shutters.xml" />
 
 	<!-- optics -->
+	<import resource="file:${gda.config}/servers/main/_common/devices/a1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/dcm.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/interferometer.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/kb1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/m1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/m2.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/s1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/s2.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/s3.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/s4.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/a1.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/m1.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/m2.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/dcm.xml" />
 
 	<!-- diagnostics and shutters -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/d1.xml" />
@@ -105,7 +107,8 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xspress3_addetector.xml" />
 
-	<!-- sample stages -->
+	<!-- stages -->
+	<import resource="file:${gda.config}/servers/main/_common/devices/detector_table.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
 
 	<!-- Dummies -->

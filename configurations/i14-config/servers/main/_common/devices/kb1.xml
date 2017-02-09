@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- KB mirrors -->
+	<bean id="kbv1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbv1_pitch_motor" />
+	</bean>
+
+	<bean id="kbv1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbv1_roll_motor" />
+	</bean>
+
+	<bean id="kbh1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kbh1_pitch_motor" />
+	</bean>
+
+	<bean id="kb1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="kbv1_pitch" />
+				<ref bean="kbv1_roll" />
+				<ref bean="kbh1_pitch" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
