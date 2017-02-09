@@ -13,8 +13,9 @@ export GDA_NO_PROMPT=true
 # Set an environment variable to indicate we came through the remote startup script, so that we can error if we attempt to do this recursively
 export GDA_IN_REMOTE_STARTUP=true
 
-if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then 
-    ${here_dir}/../../bin/gda  --${SSH_ORIGINAL_COMMAND} --mode=live servers
+# The redirections to/from /dev/null should prevent the ssh command that calls this script from not returning
+if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then
+    ${here_dir}/../../bin/gda --${SSH_ORIGINAL_COMMAND} --mode=live servers < /dev/null > /dev/null 2>&1
 else
-    ${here_dir}/../../bin/gda --restart --mode=live servers
+    ${here_dir}/../../bin/gda --restart                 --mode=live servers < /dev/null > /dev/null 2>&1
 fi
