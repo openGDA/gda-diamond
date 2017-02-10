@@ -6,11 +6,8 @@ from Diamond.Scans.RegionalScan import RegionalScanClass
 from Diamond.Scans.CentroidScan import CentroidScanClass
 """
 
-#Usage
-mrscan=RegionalScanClass()
-alias('mrscan');
-
 #Usage:
+print "-"*100
 print "Use mrscan motor (R1, R2, ... R3) for multiple-region scan"
 print "where Rx is defined by a [start, stop, step] list"
 print "For example:"
@@ -19,6 +16,9 @@ print "Note that if there is only one region, a comma at the end of tuple is nec
 print "For example:"
 print "    mrscan testMotor1 ([0, 5, 1],) dummyCounter1 0.1"
 
+#Usage
+mrscan=RegionalScanClass()
+alias('mrscan');
 """
 del cscan
 cscan=CentroidScanClass()
