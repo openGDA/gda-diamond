@@ -1,10 +1,10 @@
 import sys;
 
 from gda.jython import InterfaceProvider;
+from gda.jython.commands.GeneralCommands import alias
 
 from Diamond.Utility.UtilFun import UtilFunctions
-from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass
-
+from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass, logger
 
 from Diamond.PseudoDevices.FastEnergyScan import FastEnergyScanControlClass, FastEnergyScanIDModeClass;
 from Diamond.PseudoDevices.FastEnergyScan import FastEnergyDeviceClass;
