@@ -8,7 +8,7 @@ from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass
 
 from Diamond.PseudoDevices.FastEnergyScan import FastEnergyScanControlClass, FastEnergyScanIDModeClass;
 from Diamond.PseudoDevices.FastEnergyScan import FastEnergyDeviceClass;
-from Diamond.PseudoDevices.FastEnergyScan import EpicsScandataDeviceClass;
+#from Diamond.PseudoDevices.FastEnergyScan import EpicsScandataDeviceClass;
 from Diamond.PseudoDevices.FastEnergyScan import EpicsWaveformDeviceClass;
 
 # Change rootPV to switch zacscan between IDs. (search for "switch zacscan" to find other changes needed)
