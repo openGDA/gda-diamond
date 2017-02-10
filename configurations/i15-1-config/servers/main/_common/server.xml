@@ -5,10 +5,10 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
+	<import resource="required_at_start.xml"/>
 
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+	<import resource="abstract_command_server.xml"/>
 
 	<bean id="script_paths" parent="common_script_paths"/>
 
@@ -18,7 +18,7 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
 	</bean>
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
+	<import resource="terminal_logger.xml" />
 
 	<import resource="device/all.xml"/>
 	<import resource="scannable/all.xml"/>

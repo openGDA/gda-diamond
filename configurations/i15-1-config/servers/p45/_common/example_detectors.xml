@@ -6,7 +6,7 @@
 	<!--  Malcolm Example -->
 	<!-- 
 	<bean id="dummyMalcolmModel" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name"                   value="Malcolm (Dummy)"/>
+		<property name="name"                   value="malcolm"/>
 		<property name="exposureTime"           value="0.1"/>
     </bean>
 	<bean id="dummyMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -16,7 +16,7 @@
 		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> <?ignore bundle must be on client for that, if it isn't a default icon is used ?>
 	</bean>
 	<bean id="dummyMalcolmDetector" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name"              value="Malcolm (Dummy)"/>
+		<property name="name"              value="malcolm"/>
 		<property name="model"             ref="dummyMalcolmModel"/>
 		<property name="deviceInformation" ref="dummyMalcolmInfo"/>
 		<property name="activated"         value="true"/> <?ignore This means it is activated as the default device to use in a scan ?>
@@ -52,7 +52,8 @@
 
 
 
-	<!--  Dark Image Example
+	<!--  Dark Image Example -->
+	<!--
 	<bean id="darkImageModel" class="org.eclipse.scanning.example.detector.DarkImageModel">
 		<property name="name"          value="dkExmpl"/>
 		<property name="columns"       value="64"/>
@@ -72,7 +73,8 @@
 	</bean>
 	 -->
 
-	<!--  Constant Velocity Example
+	<!--  Constant Velocity Example -->
+	<!--
 	<bean id="constantVelocityModel" class="org.eclipse.scanning.example.detector.ConstantVelocityModel">
 		<property name="name"           value="cvExmpl"/>
 		<property name="lineSize"       value="64"/>

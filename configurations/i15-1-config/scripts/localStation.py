@@ -72,11 +72,21 @@ try:
     pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
 
     from jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
+
     pe1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1AreaDetectorRunnableDeviceProxy)
     pe1AreaDetectorRunnableDeviceProxy.setDelegate(pe1JythonAreaDetectorRunnableDeviceDelegate)
     pe1AreaDetectorRunnableDeviceProxy.register()
 
     print "Configured pe1AD detector"
+
+    pe1DarkAreaDetectorRunnableDeviceProxyFinder = finder.find("pe1DarkAreaDetectorRunnableDeviceProxyFinder")
+    pe1DarkAreaDetectorRunnableDeviceProxy = pe1DarkAreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    pe1DarkJythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1DarkAreaDetectorRunnableDeviceProxy)
+    pe1DarkAreaDetectorRunnableDeviceProxy.setDelegate(pe1DarkJythonAreaDetectorRunnableDeviceDelegate)
+    pe1DarkAreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured pe1AD dark detector"
 
     if dummy_mode:
         print "*"*80
@@ -96,6 +106,7 @@ except:
 
 print "*"*80
 print "Attempting to run localStationStaff.py from users script directory"
+print "*"*80
 try:
     run("localStationStaff")
     print "localStationStaff.py completed."
@@ -106,6 +117,7 @@ except:
 
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
+print "*"*80
 try:
     run("localStationUser")
     print "localStationUser.py completed."
