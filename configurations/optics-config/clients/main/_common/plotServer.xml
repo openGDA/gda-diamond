@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
 		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 	
-	<gda:rmi-import
+ 	<gda:rmi-import
 		id="plot_server"
 		serviceUrl="${gda.rmi.prefix}plotserver"
 		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />

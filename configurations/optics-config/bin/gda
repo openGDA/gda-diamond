@@ -1,11 +1,10 @@
 #!/bin/bash
 # Expects a parameter line that can be passed on to the gda python script
 export GDA_DEBUG=TRUE
-source ../etc/live/optics_profile.sh
+export GDA_NO_PROMPT=true
 
 if [ ! -n "$BEAMLINE" ]; then
-  echo "ERROR: BEAMLINE not set" 1>&2
-  exit 1
+  source ../etc/live/optics_profile.sh
 fi
 
 here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
