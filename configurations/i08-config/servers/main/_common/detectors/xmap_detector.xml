@@ -1,10 +1,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+
+	<!-- Collection strategy -->
+	<bean id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm" class="gda.device.detector.nxdetector.xmap.collectionStrategy.XmapHardwareTriggeredCollectionStrategy">
+		<constructor-arg ref="edxdcontroller" />
+	</bean>
+
+	<!-- Separate the EPICs layer from the collection strategy -->	
+	<bean id="xbuffer" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPlugin">
+		<constructor-arg ref= "xbufferpv"/>
+	</bean>
+
+	<!-- Fluorescence detector -->
 	<bean id="xmapFluorescenceDetector" class="gda.device.detector.nxdetector.xmap.fluorescencedetector.XmapFluorescenceDetector">
 		<constructor-arg index="0" value="1" />
 		<property name="name" value="xmapFluorescenceDetector" />
@@ -15,14 +25,33 @@
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xmap" />
 		<property name="service" ref="xmapFluorescenceDetector" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+	</bean>
+
+	<!-- NX detector: underscore as it should be wrapped in the scanwrapper -->
+	<bean id="_xmap" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="xmap" />
+		<property name="hardwareTriggerProvider" value="#{stxmDummy.continuousMoveController}" />
+		<property name="collectionStrategy" ref="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xmap_hdf5filewriter_for_scans" />
+				<ref bean="xbuffer" />
+				<ref bean="xmaproistats1" />
+				<ref bean="xmaproistats2" />
+				<ref bean="xmaproistats3" />
+				<ref bean="xmaproistats4" />
+				<ref bean="xmaproistats5" />
+				<ref bean="xmaproistats6" />
+				<ref bean="xmaproistats7" />
+				<ref bean="xmaproistats8" />
+			</list>
+		</property>
 	</bean>
 
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller" ref="xmapcontroller" />
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list,
-			one value for each element -->
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list,	one value for each element -->
 		 <property name="eventProcessingTimes">
 			<list>
 				<value>1.7867731067630825e-08</value>
@@ -30,9 +59,36 @@
 		</property>
 		<property name="saveRawSpectrum" value="true" />
 		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/templates/Xia_parameters.xml" />
+		<property name="configFileName"	value="${gda.config}/templates/Xia_parameters.xml" />
 		<property name="sumAllElementData" value="true" />
 	</bean>
+
+	<!-- Runnable device - for mapping scans -->
+	<bean id="xmapModel" class="gda.device.detector.xmap.api.XmapRunnableDeviceModel">
+		<property name="name" value="xmapMca" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="xmapInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Xmap" />
+		<property name="description" value="Xmap detector" />
+	</bean>
+
+	<bean id="xmapRunnableDevice" class="gda.device.detector.xmap.XmapRunnableDevice" init-method="register">
+		<property name="name" value="xmapMca" />
+		<property name="model" ref="xmapModel" />
+		<property name="deviceInformation" ref="xmapInfo" />
+		<property name="activated" value="true" />
+	</bean>
+
+	<!-- Scannable group -->
+	<bean id="xmap" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xmapMca" />
+				<ref bean="_xmap" />
+			</list>
+		</property>
+	</bean>	
 
 </beans>

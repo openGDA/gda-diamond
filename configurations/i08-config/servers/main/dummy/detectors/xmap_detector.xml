@@ -3,20 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="xmap_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:HDF:" />
-		<property name="resetToInitialValues" value="false" />
-	</bean>
-
-	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" />
-	</bean>
 
 	<!-- NXDetector file writers -->
-
-	<bean id="xmap_hdf5filewriter_for_scans"
-		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="xmap_ndfilehdf5" />
+	<bean id="xmap_hdf5filewriter_for_scans" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="sim_hdf5" />
 		<property name="fileNameTemplate" value="xmap" />
 		<property name="filePathTemplate" value="$datadir$/" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
@@ -25,8 +15,7 @@
 		<property name="storeAttr" value="true" />
 		<property name="ndArrayPortVal" value="ADSIM.CAM" />
 		<property name="lazyOpen" value="true" />
-		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks
-			is 64 -->
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks	is 64 -->
 		<property name="FramesChunks" value="1" />
 		<property name="setChunking" value="false" />
 		<property name="writeErrorStatusSupported" value="true" />
@@ -34,7 +23,7 @@
 
 	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.DummyXmapMappingModeEpicsLayer">
 		<constructor-arg index="0" value="${WORKSTATION}-AD-SIM-01:" />
-		<property name="PixelsPerBuffer" value="10" />
+		<property name="pixelsPerBuffer" value="10" />
 	</bean>
 
 	<bean id="edxdcontroller" class="gda.device.detector.nxdetector.xmap.controller.DummyXmapAcquisitionBaseEpicsLayer">
@@ -42,28 +31,12 @@
 		<constructor-arg index="1" ref="xmapMapping" />
 	</bean>
 
-	<bean id="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm"
-		class="gda.device.detector.nxdetector.xmap.collectionStrategy.XmapHardwareTriggeredCollectionStrategy">
-		<constructor-arg ref="edxdcontroller" />
-	</bean>
-
-<!-- Separate the EPICs layer from the collection strategy though create two objects-->
-	 <bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPVs">
+	<!-- Separate the EPICs layer from the collection strategy -->	
+	<bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPVs">
 		<constructor-arg index="0" value="" />
 	</bean>
 
-	<bean id="xbuffer" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPlugin">
-		<constructor-arg ref= "xbufferpv"/>
-	</bean>
-
-<!-- Define ROIs
- Starting I08 simulated IOCs:
- cd /dls_sw/work/R3.14.12.3/support/BL08I-BUILDER/iocs/BL08I-TS-IOC-01
-export EPICS_CA_SERVER_PORT=6064
-export EPICS_CA_REPEATER_PORT=6065
-./bin/linux-x86_64/stBL08I-TS-IOC-01-gui &
-./bin/linux-x86_64/stBL08I-TS-IOC-01.sh 6064 -->
-
+	<!-- Define ROIs -->
 	<bean id="xmaproistats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="xmaproistats1" />
 		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI1:" />
@@ -136,28 +109,7 @@ export EPICS_CA_REPEATER_PORT=6065
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 	</bean>
 
-	<!-- underscore as it should be wrapped in the scanwrapper -->
-	<bean id="_xmap" class="gda.device.detector.HardwareTriggeredNXDetector">
-		<property name="name" value="xmap" />
-		<property name="hardwareTriggerProvider" value="#{stxmDummy.continuousMoveController}" />
-		<property name="collectionStrategy"
-			ref="xmap_nxcollectionstrategy_for_hardware_triggering_from_stxm" />
-		<property name="additionalPluginList">
-			<list>
-				<!-- <ref bean="xmap_hdf5filewriter_for_scans" />
-				<ref bean="xbuffer" /> -->
-				<ref bean="xmaproistats1" />
-				<ref bean="xmaproistats2" />
-				<ref bean="xmaproistats3" />
-				<ref bean="xmaproistats4" />
-				<ref bean="xmaproistats5" />
-				<ref bean="xmaproistats6" />
-				<!-- <ref bean="xmaproistats7" />
-				<ref bean="xmaproistats8" /> -->
-			</list>
-		</property>
-	</bean>
-
+	<!-- Controller -->
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
 		<property name="numberOfElements" value="10" />
 		<property name="numberOfBins" value="1024" />
