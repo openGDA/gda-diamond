@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="excalibur_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="excalibur_y_motor" />
+	</bean>
+
+	<bean id="excalibur_z" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="excalibur_z_motor" />
+	</bean>
+
+	<bean id="beam_stop_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="beam_stop_x_motor" />
+	</bean>
+
+	<bean id="beam_stop_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="beam_stop_y_motor" />
+	</bean>
+
+	<bean id="excalibur_motions" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="beam_stop_x" />
+				<ref bean="beam_stop_y" />
+				<ref bean="excalibur_y" />
+				<ref bean="excalibur_z" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>
