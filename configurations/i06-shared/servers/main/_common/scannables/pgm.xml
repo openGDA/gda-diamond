@@ -36,6 +36,11 @@
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="eV" />
 		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
 	</bean>
 	<bean id="pgmmx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorXMirror_PGM" />
@@ -54,12 +59,22 @@
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
 	</bean>
 	<bean id="pgmgratpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorPitchGrating_PGM" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
 	</bean>
 	<bean id="PGM" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">

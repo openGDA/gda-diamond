@@ -9,12 +9,22 @@
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="eV" />
 		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
 	</bean>
 	<bean id="iddpgmenergy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorEnergy_IDDPGM" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="eV" />
 		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
 	</bean>
 	<bean id="iddrpenergy0" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorEnergy_IDDRP" />
@@ -70,12 +80,22 @@
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="eV" />
 		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
 	</bean>
 	<bean id="idupgmenergy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorEnergy_IDUPGM" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="eV" />
 		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
 	</bean>
 	<bean id="idurpenergy0" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorEnergy_IDURP" />

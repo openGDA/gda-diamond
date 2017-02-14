@@ -47,12 +47,8 @@ from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
 from i06shared.scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,i06util  # @UnusedImport
 from i06shared.devices.usePGM import grating  # @UnusedImport
 from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
-	
+
 try:
-	print "-------------------------------------------------------------------"
-	print "Change the default output format to meet the beamline requirements"
-	execfile(gdaScriptDir + "BeamlineI06/setOutputFormat.py");
-	
 	print
 	print "===================================================================";
 	print "SRS scan data file header setup"

@@ -43,31 +43,61 @@
 	<bean id="m1leg1" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M1.LEG1" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m1leg2" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M1.LEG2" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m1leg3" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M1.LEG3" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m1leg4" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M1.LEG4" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m1leg5" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M1.LEG5" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m1leg6" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M1.LEG6" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 	
 </beans>

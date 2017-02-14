@@ -7,31 +7,61 @@
 	<bean id="m6leg1" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M6.LEG1" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m6leg2" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M6.LEG2" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m6leg3" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M6.LEG3" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m6leg4" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M6.LEG4" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m6leg5" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M6.LEG5" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<bean id="m6leg6" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M6.LEG6" />
 		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
 	</bean>
 
 	<!-- Switching Mirrow M6 Motors -->
