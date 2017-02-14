@@ -31,7 +31,7 @@
 	-->
 
 	<bean id="intf_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-0.01" />
+		<property name="minPosition" value="-30.0" />
 		<property name="maxPosition" value="33.75" />
 		<property name="position" value="-0.09" />
 		<property name="unitString" value="mm" />
@@ -39,7 +39,7 @@
 	</bean>
 
 	<bean id="intf_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-0.01" />
+		<property name="minPosition" value="-30.0" />
 		<property name="maxPosition" value="30.31" />
 		<property name="position" value="0.05" />
 		<property name="unitString" value="mm" />
