@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="xreyeStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="xreye_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); xreye_addetector.collectData()" />
+		<property name="buttonText" value="Start" />
+		<property name="group" value="Xray Eye" />
+	</bean>
+
+	<bean id="xreyeStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="xreye_addetector.stop()" />
+		<property name="buttonText" value="Stop" />
+		<property name="group" value="Xray Eye" />
+	</bean>
+
+	<bean name="xreyeControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="xreyeStart" />
+				<ref bean="xreyeStop" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
