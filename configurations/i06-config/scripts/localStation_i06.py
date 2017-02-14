@@ -17,7 +17,7 @@ userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
 #Set up the basic plotting objects
 print "-------------------------------------------------------------------"
 print "Note: Use image.open('/full/file/name') to plot image on the 'PEEM Image' panel"
-execfile(gdaScriptDir + "BeamlineI06/useImageUtility.py");
+#execfile(gdaScriptDir + "BeamlineI06/useImageUtility.py");
 
 # Setup Leem2000 before calling usePeem as leem_fov is needed by it.
 try:

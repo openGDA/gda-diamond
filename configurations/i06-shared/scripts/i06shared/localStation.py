@@ -2,20 +2,8 @@
 #For beamline specific initialisation code.
 
 print "===================================================================";
-print "Performing Beanline I06-shared initialisation code (localStation.py).";
+print "Performing Beamline I06-shared initialisation code (localStation.py).";
 print
-
-import sys;
-
-from gda.configuration.properties import LocalProperties
-
-# Get the locatation of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
-
-# Get the location of the USERS script directory
-userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
-
-gdaDevScriptDir = LocalProperties.get("gda.jython.gdaDevScriptDir") + "/";
 
 from i06shared.commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
 from i06shared.functions.aliasFunctions import setAlias, setGdaAlias  # @UnusedImport
@@ -38,6 +26,7 @@ try:
 	print "		 To plot image: dnp.plot.image(data)"
 	import scisoftpy as dnp;  # @UnusedImport
 except:
+	import sys
 	exceptionType, exception, traceback1=sys.exc_info();
 	print "Error:  import scisoftpy raise exceptions"
 	logger.dump("---> ", exceptionType, exception, traceback1)
@@ -47,52 +36,7 @@ from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
 from i06shared.scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,i06util  # @UnusedImport
 from i06shared.devices.usePGM import grating  # @UnusedImport
 from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
-
-try:
-	print
-	print "===================================================================";
-	print "SRS scan data file header setup"
-	execfile(gdaScriptDir + "BeamlineI06/setSrsDataFileHeader.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Errors when running the localstation.py"
-	logger.dump("---> ", exceptionType, exception, traceback)
-
-# Get the beamline branche name from the Object Factory Name property
-gdaObjectFactoryName = LocalProperties.get("gda.factory.factoryName")
-
-if gdaObjectFactoryName == 'I06':
-	print
-	print "===================================================================";
-	print "This is DLS Beamline I06 PEEM Line"
-	execfile(gdaScriptDir + "localStation_i06.py");
-	#Performing user specific initialisation code"
-	print
-	print "-------------------------------------------------------------------"
-	print "Performing user specific initialisation code for PEEM Line (MainLineUser.py)"
-	try:
-		execfile(userScriptDir + "MainLineUser.py");
-	except:
-		exceptionType, exception, traceback=sys.exc_info();
-		print "XXXXXXXXXX:  MainLineUser.py Error"
-		logger.dump("---> ", exceptionType, exception, traceback)
-
-elif gdaObjectFactoryName == 'I06-1':
-	print
-	print "===================================================================";
-	print "This is DLS Beamline I06 Branch Line"
-	execfile(gdaScriptDir + "localStation_i06-1.py");
-	print
-	print "-------------------------------------------------------------------"
-	print "Performing user specific initialisation code for Branch Line (BranchLineUser.py)"
-	try:
-		execfile(userScriptDir + "BranchLineUser.py");
-	except:
-		exceptionType, exception, traceback=sys.exc_info();
-		print "XXXXXXXXXX:  BranchLineUser.py Error"
-		logger.dump("---> ", exceptionType, exception, traceback)
-else:
-	print "Wrong Beamline Name"
+from i06shared.setSrsDataFileHeader import fileHeader,blList,idList,pgmList,energyList,slitList,commonMirrorList  # @UnusedImport
 
 print "==================================================================="; print; print;
 

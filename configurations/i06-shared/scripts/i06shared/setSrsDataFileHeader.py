@@ -21,6 +21,3 @@ commonMirrorList = [m1x, m1pitch, m1qg, m6x, m6yaw, m6pitch, m6qg]; fileHeader.a
 
 #fileHeader.remove([testMotor2]);
 add_default([fileHeader]);
-
-#To eLog the scan
-fileHeader.setScanLogger(i06);

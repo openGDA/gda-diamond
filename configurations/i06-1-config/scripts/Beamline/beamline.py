@@ -8,7 +8,6 @@ branchline=BeamlineFunctionClass('i06-1');
 branchline.setTerminalLogger();
 
 def lastscan():
-#    return i06.getLastSrsScanFile("tmp")
     return branchline.getLastScanFile();
 
 def setTitle(title):

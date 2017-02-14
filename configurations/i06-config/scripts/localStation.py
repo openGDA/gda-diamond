@@ -18,54 +18,9 @@ from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
 from BeamlineI06.Scaler8512 import ca11s,ca12s,ca13s,ca14s,ca21s,ca22s,ca23s,ca24s,ca31s,ca32s,ca33s,ca34s,ca41s,ca42s,ca43s,ca44s,ca11sr,ca12sr,ca13sr,ca14sr,ca21sr,ca22sr,ca23sr,ca24sr,ca31sr,ca32sr,ca33sr,ca34sr,ca41sr,ca42sr,ca43sr,ca44sr,scalar1raw,scaler1  # @UnusedImport
 from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @UnusedImport
 
-
-
-try:
-	print "-------------------------------------------------------------------"
-	print "Enable the multiple region scan";
-	execfile(gdaScriptDir + "BeamlineI06/setSpecialScans.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  mrscan Error "
-	logger.dump("---> ", exceptionType, exception, traceback)
-
-try:
-	print "-------------------------------------------------------------------"
-	print "Enable the Constant velocity scan on energy";
-	execfile(gdaScriptDir + "BeamlineI06/fastEnergyScan.py");
-	
-	print "-------------------------------------------------------------------"
-	print "Setup the PGM controls";
-	execfile(gdaScriptDir + "BeamlineI06/usePGM.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Energy Device Error "
-	logger.dump("---> ", exceptionType, exception, traceback)
-
-try:
-	
-	print "-------------------------------------------------------------------"
-	print "Setup the Insertion Device controls";
-	execfile(gdaScriptDir + "BeamlineI06/useID.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Insertion Device Error "
-	logger.dump("---> ", exceptionType, exception, traceback)
-	
-try:
-	print "-------------------------------------------------------------------"
-	print "Change the default output format to meet the beamline requirements"
-	execfile(gdaScriptDir + "BeamlineI06/setOutputFormat.py");
-	
-	print
-	print "===================================================================";
-	print "SRS scan data file header setup"
-	execfile(gdaScriptDir + "BeamlineI06/setSrsDataFileHeader.py");
-except:
-	exceptionType, exception, traceback=sys.exc_info();
-	print "XXXXXXXXXX:  Errors when running the localstation.py"
-	logger.dump("---> ", exceptionType, exception, traceback)
-
+#To eLog the scan
+from BeamlineI06.beamline import peemline
+fileHeader.setScanLogger(peemline);
 # Get the beamline branche name from the Object Factory Name property
 gdaObjectFactoryName = LocalProperties.get("gda.factory.factoryName")
 
