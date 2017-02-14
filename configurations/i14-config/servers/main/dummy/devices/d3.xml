@@ -10,9 +10,9 @@
 
 	<!-- Stick motor -->
 	<bean id="d3_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000.0" />
-		<property name="maxPosition" value="1000.0" />
-		<property name="position" value="24.7" />
+		<property name="minPosition" value="-145.0" />
+		<property name="maxPosition" value="1.0" />
+		<property name="position" value="-24.7" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
@@ -39,8 +39,9 @@
 
 	<bean id="d3_adc_scatter" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value">
-			<value type="java.lang.Integer">-12739</value>
+			<value type="double">641.0</value>
 		</property>
+		<property name="outputFormat" value="%.2f" />
 	</bean>
 
 	<!-- HDF5 file -->
