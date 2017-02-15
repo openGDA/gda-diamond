@@ -83,6 +83,7 @@ global finder, run, etl, prop, add_default, vararg_regex, \
 	hfm_x, hfm_y, hfm_pitch, hfm_curve, hfm_ellipticity, hfm_yaw, hfm_roll,\
 	s2ygap, s2ypos,\
 	qbpm2_x, qbpm2_y, qbpm2A, qbpm2B, qbpm2C, qbpm2D, qbpm2total,\
+	f2x,\
 	s4xpos, s4xgap, s4ypos, s4ygap, s4yaw, s4pitch,\
 	fsx, fsy,\
 	pinx, piny, pinz, pinpitch, pinyaw,\
@@ -712,6 +713,7 @@ try:
 				'hfm_x', 'hfm_y', 'hfm_pitch', 'hfm_curve', 'hfm_ellipticity', 'hfm_yaw', 'hfm_roll',
 				's2ygap', 's2ypos',
 				'qbpm2_x', 'qbpm2_y', 'qbpm2A', 'qbpm2B', 'qbpm2C', 'qbpm2D', 'qbpm2total',
+				'f2x',
 				's4xpos', 's4xgap', 's4ypos', 's4ygap', 's4yaw', 's4pitch',
 				'fsx', 'fsy',
 				'pinx', 'piny', 'pinz', 'pinpitch', 'pinyaw',
