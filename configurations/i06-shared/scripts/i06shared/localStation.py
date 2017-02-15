@@ -39,9 +39,6 @@ from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,u
 from i06shared.setSrsDataFileHeader import fileHeader,blList,idList,pgmList,energyList,slitList,commonMirrorList  # @UnusedImport
 
 print "==================================================================="; print; print;
-
-print "Creating i06ccd2 detector (from end of localStation.py)"
-#import scannables.detector.andormcd
-#i06ccd2 = scannables.detector.andormcd.AndorMCD('i06ccd2')
+print "I06 shared localStation.py completed successfully!"
 
 
