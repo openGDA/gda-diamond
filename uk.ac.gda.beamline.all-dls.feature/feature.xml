@@ -219,13 +219,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.px.swing"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.px.stac.bridge"
          download-size="0"
          install-size="0"
