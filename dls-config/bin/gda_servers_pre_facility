@@ -3,7 +3,7 @@ bashlog debug "gda_servers_pre_facility" "Entered"
 
 
 # Check that the user actually wants the servers restarted.
-if [[ -z "${GDA_NO_PROMPT-}" ]]; then
+if [[ -n "${DISPLAY:-}" && "${GDA_NO_PROMPT:-}" != true ]]; then
     if [[ "${GDA_MODE}" == "live" ]]; then
         icon_type="warning"
     else
