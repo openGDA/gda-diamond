@@ -21,10 +21,6 @@
 		<level value="INFO"/>
 	</logger>
 
-	<logger name="gda.px.sampleChanger.irelec">
-		<level value="INFO"/>
-	</logger>
-
 	<logger name="gdascripts.messages.handle_messages">
 		<level value="INFO" />
 	</logger>
