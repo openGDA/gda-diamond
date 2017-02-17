@@ -116,13 +116,10 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i14"
+            class="gda.rcp.views.ViewFactory:statusView"
             icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
             id="uk.ac.diamond.daq.microscopy.xraymicroscopyexperiment.ui.StatusView"
             name="Status">
-            <class class="uk.ac.gda.beamline.i14.views.I14StatusView">
-            	<parameter name="ringCurrentAlarmThreshold" value="50.0" />
-            	<parameter name="timeToRefillAlarmThreshold" value="30.0" />
-            </class>
       </view>
       <view
             allowMultiple="true"

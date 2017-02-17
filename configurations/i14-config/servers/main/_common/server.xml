@@ -26,7 +26,6 @@
 	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 
 	<!-- ID & front end -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/id.xml" />

@@ -21,11 +21,10 @@ package uk.ac.gda.beamline.i14.views;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
@@ -33,6 +32,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,32 +43,27 @@ import gda.jython.InterfaceProvider;
 import uk.ac.gda.dls.client.views.ReadonlyScannableComposite;
 import uk.ac.gda.dls.client.views.RunCommandComposite;
 
-
-public class I14StatusView extends ViewPart implements IExecutableExtension {
+/**
+ * Status view for I14, showing the status of the synchrotron, beamline and shutters.
+ * <p>
+ * A small amount of customisation is possible: the background of the "Ring current" and "Time to refill" fields can be
+ * set to turn red when the respective values drop below a certain value by setting ringCurrentAlarmThreshold and
+ * timeToRefillAlarmThreshold respectively. Additionally, the view title and icon may be changed.
+ * <p>
+ * This view should be created via I14StatusViewFactory, especially if you wish to set the alarm thresholds.
+ */
+public class I14StatusView extends ViewPart {
 
 	private static final Logger logger = LoggerFactory.getLogger(I14StatusView.class);
 	private final Map<String, Integer> colourMap = new HashMap<String, Integer>();
 	private final Finder finder = Finder.getInstance();
 	private final ICommandRunner commandRunner = InterfaceProvider.getCommandRunner();
 
+	private String name = "Status";
+	private String iconPlugin;
+	private String iconFilePath;
 	private Double ringCurrentAlarmThreshold;
 	private Double timeToRefillAlarmThreshold;
-
-	@Override
-	public void setInitializationData(IConfigurationElement cfig, String propertyName, Object data) {
-		super.setInitializationData(cfig, propertyName, data);
-
-		try {
-			if (propertyName == "class" && data instanceof Map<?, ?>) {
-				@SuppressWarnings("unchecked")
-				final Map<String, String> properties = (Map<String, String>) data;
-				ringCurrentAlarmThreshold = Double.valueOf(properties.get("ringCurrentAlarmThreshold"));
-				timeToRefillAlarmThreshold = Double.valueOf(properties.get("timeToRefillAlarmThreshold"));
-			}
-		} catch (Exception ex) {
-			logger.warn("Error setting alarm properties", ex);
-		}
-	}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -76,6 +71,8 @@ public class I14StatusView extends ViewPart implements IExecutableExtension {
 		RowLayoutFactory.fillDefaults().applyTo(parent);
 		parent.setBackground(new Color(Display.getDefault(), 237, 237, 237));
 
+		setPartName(name);
+		setIcon();
 		initialiseColourMap();
 
 		// Machine status
@@ -129,6 +126,18 @@ public class I14StatusView extends ViewPart implements IExecutableExtension {
 		createCommandComposite(grpEH2Nano, commandRunner, "Open/Close", "toggle_eh2_nano_shtr()", "EH2 Nano Open/Close", "Opens or closes EH2 Nano shutter");
 	}
 
+	private void setIcon() {
+		if (iconPlugin != null && iconFilePath != null) {
+			try {
+				final ImageDescriptor iconDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin(iconPlugin, iconFilePath);
+				setTitleImage(iconDescriptor.createImage());
+
+			} catch (Exception e) {
+			    logger.warn("Exception creating icon", e);
+			}
+		}
+	}
+
 	@Override
 	public void setFocus() {
 	}
@@ -162,6 +171,46 @@ public class I14StatusView extends ViewPart implements IExecutableExtension {
 		colourMap.put("Closed", 3);
 		colourMap.put("Close", 3);
 		colourMap.put("Reset", 8);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIconPlugin() {
+		return iconPlugin;
+	}
+
+	public void setIconPlugin(String iconPlugin) {
+		this.iconPlugin = iconPlugin;
+	}
+
+	public String getIconFilePath() {
+		return iconFilePath;
+	}
+
+	public void setIconFilePath(String iconFilePath) {
+		this.iconFilePath = iconFilePath;
+	}
+
+	public Double getRingCurrentAlarmThreshold() {
+		return ringCurrentAlarmThreshold;
+	}
+
+	public void setRingCurrentAlarmThreshold(Double ringCurrentAlarmThreshold) {
+		this.ringCurrentAlarmThreshold = ringCurrentAlarmThreshold;
+	}
+
+	public Double getTimeToRefillAlarmThreshold() {
+		return timeToRefillAlarmThreshold;
+	}
+
+	public void setTimeToRefillAlarmThreshold(Double timeToRefillAlarmThreshold) {
+		this.timeToRefillAlarmThreshold = timeToRefillAlarmThreshold;
 	}
 
 	/**
