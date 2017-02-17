@@ -21,9 +21,3 @@ def offset_harmonic(harmonic_file,offset):
     fout.writelines(AA)
     fout.close()
 
-# Usage example:
-#offset_harmonic('/dls_sw/i14/scripts/Harmonics/harmonic3_20160429.txt', 0.006)
-# or using relative path:
-#import os.path
-#harmonics_dir = os.path.dirname(os.path.realpath(__file__))
-#offset_harmonic(harmonics_dir + '/harmonic3_20160429.txt', 0.006)

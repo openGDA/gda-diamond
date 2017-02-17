@@ -39,7 +39,7 @@ from beamline.EpicsScannable import ExafsDetector
 #mypause=DummyDetector("mypause","s","%4.4f")
 
 # Combo scannable to move bragg and perp
-dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap)
+#dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap)
 
 # EXAFS scannable to record log(i0/it) from d4_diode2 and d3_diode1
 exafs_d4_scatter = ExafsDetector("exafs_scatter",d3_diode1,d4_diode1)

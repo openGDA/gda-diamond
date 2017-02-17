@@ -18,7 +18,7 @@ from shutter_control import toggle_oh1_shtr, toggle_oh2_shtr, toggle_oh3_shtr, t
 from i14_utilities import isLive
 
 # DCM control
-from beamline.dcm_enrg import *
+#from beamline.dcm_enrg import *
 from beamline.EpicsScannable import *
 from harmonics.offset_harmonic import *
 
