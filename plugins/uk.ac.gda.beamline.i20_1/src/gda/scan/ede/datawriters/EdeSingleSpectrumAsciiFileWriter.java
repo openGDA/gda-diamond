@@ -94,6 +94,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 				i0FinalScan, iRefFinalScan, theDetector, nexusfileName);
 		dataWriter.setWriteAsciiData( false ); // Don't write ascii data - single spectrum ascii data is different format and written by this.writeAsciiData().
 		dataWriter.setWriteInNewThread( false );
+		dataWriter.setSampleDetails(getSampleDetails());
 		dataWriter.writeDataFile( theDetector );
 	}
 
@@ -125,6 +126,11 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		FileWriter writer = new FileWriter(asciiFile);
 		log("Writing EDE format ascii file: " + asciiFilename);
 		writer.write("# " + this.getScannablesConfiguration());
+		// Add sample details
+		String sampleDetails = this.getSampleDetails();
+		if (sampleDetails!=null){
+			writer.write("# " + sampleDetails +"\n");
+		}
 		writer.write("# I0 Dark\n");
 		writer.write("# " + EdeDataConstants.TimingGroupMetadata.toMetadataString(createTimingGroupsMetaData(i0DarkScan.getScanParameters())[0]));
 		writer.write("# I0\n");

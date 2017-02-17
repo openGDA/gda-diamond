@@ -312,7 +312,11 @@ public class DummyXStripDAServer extends DummyDAServer {
 			} else if (next.equalsIgnoreCase("ext-trig-scan-only")) {
 				newGroup.waitForTriggerBeforeEveryScanExceptFirst = true;
 			} else if (next.equalsIgnoreCase("frame-time")) {
-				newGroup.frameTime = Long.valueOf(tokenizer.nextToken());
+				String token =  tokenizer.hasMoreElements() ? tokenizer.nextToken(): "";
+				if (token.length()==0 || token.equals("last"))
+					newGroup.frameTime = 0;
+				else
+					newGroup.frameTime = Long.valueOf(token);
 			}
 		}
 		if (!lastSeenInThisGroup) {

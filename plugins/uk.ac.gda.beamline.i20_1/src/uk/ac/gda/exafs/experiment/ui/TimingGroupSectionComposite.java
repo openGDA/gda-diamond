@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
-import gda.device.detector.frelon.FrelonCcdDetectorData;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -68,6 +66,7 @@ import org.slf4j.LoggerFactory;
 
 import com.swtdesigner.ResourceManager;
 
+import gda.device.detector.frelon.FrelonCcdDetectorData;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
@@ -371,18 +370,18 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		label = toolkit.createLabel(groupDetailsSectionComposite, "End time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
-		final Composite changableGroupDetailsSectionComposite = toolkit.createComposite(groupDetailsSectionComposite, SWT.NONE);
-		changableGroupDetailsSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
-		changableGroupDetailsSectionComposite.setLayoutData(gridData);
+//		final Composite changableGroupDetailsSectionComposite = toolkit.createComposite(groupDetailsSectionComposite, SWT.NONE);
+//		changableGroupDetailsSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+//		gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
+//		changableGroupDetailsSectionComposite.setLayoutData(gridData);
 
-		endTimeValueText = new NumberEditorControl(changableGroupDetailsSectionComposite, SWT.None, false);
+		endTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
 		endTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		endTimeValueFixedFlag = toolkit.createButton(changableGroupDetailsSectionComposite, "", SWT.CHECK);
-		endTimeValueFixedFlag.setImage(pin);
-		endTimeValueFixedFlag.setToolTipText("Fix end time value");
-		endTimeValueFixedFlag.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
+//		endTimeValueFixedFlag = toolkit.createButton(changableGroupDetailsSectionComposite, "", SWT.CHECK);
+//		endTimeValueFixedFlag.setImage(pin);
+//		endTimeValueFixedFlag.setToolTipText("Fix end time value");
+//		endTimeValueFixedFlag.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
 
 		label = toolkit.createLabel(groupDetailsSectionComposite, "Time per spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
@@ -723,9 +722,9 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 					new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
 					unitConverter));
 
-			groupBindings.add(dataBindingCtx.bindValue(
-					WidgetProperties.selection().observe(endTimeValueFixedFlag),
-					BeanProperties.value(TimingGroupUIModel.END_TIME_IS_LOCKED).observe(group)));
+//			groupBindings.add(dataBindingCtx.bindValue(
+//					WidgetProperties.selection().observe(endTimeValueFixedFlag),
+//					BeanProperties.value(TimingGroupUIModel.END_TIME_IS_LOCKED).observe(group)));
 
 			endTimeValueText.setModel(group, TimeIntervalDataModel.END_TIME_PROP_NAME);
 			endTimeValueText.setConverters(modelToTargetConverter, targetToModelConverter);
@@ -887,6 +886,22 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 	protected void disposeResource() {
 		model.removePropertyChangeListener(unitChangeListener);
 		pin.dispose();
+	}
+
+
+	public void setUserControlsEnabled(boolean enabled) {
+		NumberEditorControl[] controlsToEnableDisableDuringScan = {startTimeValueText, endTimeValueText,timePerSpectrumValueText,
+				noOfSpectrumValueText, integrationTimeValueText, accumulationReadoutTimeValueText, delayBeforeFristSpectrumValueText};
+
+		if (groupUnitSelectionCombo!=null) {
+			groupUnitSelectionCombo.getControl().setEnabled(enabled);
+		}
+
+		for(NumberEditorControl control : controlsToEnableDisableDuringScan) {
+			if (control!=null) {
+				control.setEditable(enabled);
+			}
+		}
 	}
 
 }

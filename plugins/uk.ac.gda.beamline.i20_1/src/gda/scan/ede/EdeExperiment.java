@@ -274,6 +274,10 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	private void addScansForExperiment() throws Exception {
+		Scannable motorToMoveDuringScan = getItScanPositions().getMotorToMoveDuringScan();
+		if (motorToMoveDuringScan != null && i0Position instanceof EdeScanMotorPositions) {
+			((EdeScanMotorPositions)i0Position).setMotorToMoveDuringScan(motorToMoveDuringScan);
+		}
 
 		double timeToTopup = getNextTopupTime();
 		i0ScanParameters.setUseFrameTime(false);
@@ -372,6 +376,7 @@ public abstract class EdeExperiment implements IObserver {
 	private String writeToFiles() throws Exception {
 		try {
 			writer = createFileWritter();
+			writer.setSampleDetails(sampleDetails);
 			logger.debug("EDE linear experiment writing its ascii and update nexus data files...");
 			writer.writeDataFile(theDetector);
 			logToJythonTerminal("Scan data written to file.");
@@ -688,5 +693,9 @@ public abstract class EdeExperiment implements IObserver {
 
 	public void setFastShutterName(String fastShutterName) {
 		this.fastShutterName = fastShutterName;
+	}
+
+	public EdeScanMotorPositions getItScanPositions() {
+		return (EdeScanMotorPositions)itPosition;
 	}
 }

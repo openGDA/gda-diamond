@@ -3,19 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="optics_shutter" class="gda.device.enumpositioner.EpicsValveCallback">
-		<property name="epicsRecordName" value="FE20I-PS-SHTR-02" />
-		<property name="outputFormat">
-			<list>
-				<value>%s</value>
-			</list>
-		</property>
-		<property name="inputNames">
-			<list>
-				<value>shutter1</value>
-			</list>
-		</property>
-	</bean>
+
 	<bean id="shutter1" class="gda.device.enumpositioner.EpicsValveCallback">
 		<property name="epicsRecordName" value="BL20J-PS-SHTR-01" />
 		<property name="outputFormat">

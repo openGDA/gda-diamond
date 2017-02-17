@@ -18,18 +18,6 @@
 
 package uk.ac.gda.exafs.ui.composites;
 
-import gda.data.nexus.extractor.NexusExtractor;
-import gda.data.nexus.extractor.NexusGroupData;
-import gda.device.DeviceException;
-import gda.device.detector.EdeDetector;
-import gda.device.detector.NXDetectorData;
-import gda.device.detector.frelon.FrelonCcdDetectorData;
-import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
-import gda.jython.JythonServerStatus;
-import gda.observable.IObserver;
-import gda.scan.ede.datawriters.EdeDataConstants;
-
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 import java.util.Date;
@@ -71,6 +59,20 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.swtdesigner.ResourceManager;
+
+import gda.data.nexus.extractor.NexusExtractor;
+import gda.data.nexus.extractor.NexusGroupData;
+import gda.device.DeviceException;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.NXDetectorData;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
+import gda.jython.InterfaceProvider;
+import gda.jython.Jython;
+import gda.jython.JythonServerStatus;
+import gda.observable.IObserver;
+import gda.scan.ede.datawriters.EdeDataConstants;
+import gda.scan.ede.datawriters.ScanDataHelper;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -84,8 +86,6 @@ import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 import uk.ac.gda.ui.components.NumberEditorControl;
-
-import com.swtdesigner.ResourceManager;
 
 public class XHControlComposite extends Composite implements IObserver {
 
@@ -723,7 +723,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		//get pixel corrected data from detector
 		NXDetectorData readout = (NXDetectorData) detector.readout();
 		final NexusGroupData ydata = readout.getData(detector.getName(), EdeDataConstants.DATA_COLUMN_NAME, NexusExtractor.SDSClassName);
-		final double[] counts=(double[]) ydata.getBuffer();
+		final double[] counts=(double[]) ScanDataHelper.extractDataFromNexusGroup(ydata).getBuffer();
+
 		//Note: scientist wanted the live mode always plot in pixels not energy.
 		//		final NexusGroupData xdata=readout.getData(detector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, NexusExtractor.SDSClassName);
 		//		final double[] energies=(double[]) xdata.getBuffer();

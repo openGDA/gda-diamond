@@ -94,13 +94,13 @@
 
 
 	<!-- Alignment stage x slit motors  -->
-	<bean id="s4_hgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-AL-SLITS-04:GAP" />
+	<bean id="s3_hgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-03:GAP" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s4_hoffset_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL20J-AL-SLITS-04:X" />
+	<bean id="s3_hoffset_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-AL-SLITS-03:X" />
 		<property name="local" value="true" />
 	</bean>
 
