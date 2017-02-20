@@ -14,7 +14,7 @@
 	<bean id="array1" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:ARR1:" />
 		<property name="pluginBase">
-			<bean class="uk.ac.gda.devices.vgscienta.i05_1.FakeNDPluginBaseForSwept">
+			<bean class="uk.ac.gda.devices.vgscienta.FakeNDPluginBaseForSwept">
 				<property name="basePVName" value="BL05I-EA-DET-01:ARR2:" />
 				<property name="analyser" ref="analyser" />
 			</bean>
@@ -24,7 +24,7 @@
 	<bean id="array2" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL05I-EA-DET-01:ARR2:" />
 		<property name="pluginBase">
-			<bean class="uk.ac.gda.devices.vgscienta.i05_1.FakeNDPluginBaseForSwept">
+			<bean class="uk.ac.gda.devices.vgscienta.FakeNDPluginBaseForSwept">
 				<property name="basePVName" value="BL05I-EA-DET-01:ARR2:" />
 				<property name="analyser" ref="analyser" />
 			</bean>
