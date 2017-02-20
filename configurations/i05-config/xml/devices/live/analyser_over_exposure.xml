@@ -5,17 +5,12 @@
 
 	<bean class="uk.ac.gda.devices.vgscienta.VGScientaOverExposureProtector">
 		<!-- PVs -->
-		<property name="valuePv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
-		<property name="warningPv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV.HIGH" />
-		<property name="alarmPv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV.HIHI" />
-		<!-- Exposure values -->
-		<property name="warningValue" value="750" />
-		<property name="alarmValue" value="900" />
+		<property name="basePv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
 		<!-- Delay time (ms) -->
 		<property name="delayTime" value="500" />
-		<!-- Close the shutter if over exposure is detected -->
-		<property name="alarmActionCommand" value="pos hr_shutter 'Close'" />
-		<property name="userMessage" value="Analyser over-exposure detected! The HR shutter has been closed.\nTo reopen the shutter run: pos hr_shutter 'Open'" />
+		<!-- Close the shutter and stop the scan, if over exposure is detected -->
+		<property name="alarmActionCommand" value="pos hr_shutter 'Close'; command_server.abortCommands('None')" />
+		<property name="userMessage" value="Analyser over-exposure detected! The HR shutter has been closed, and the scan has been aborted.\nTo reopen the shutter run: pos hr_shutter 'Open'" />
 	</bean>
 
 </beans>
