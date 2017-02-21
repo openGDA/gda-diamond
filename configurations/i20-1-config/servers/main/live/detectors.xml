@@ -53,41 +53,12 @@
 		<property name="replyTimeOut" value="5000" />
 	</bean>
 
-	<!--
-	<bean id="d10_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL20J-DI-PHDGN-10:CAM" />
+<!-- Xspress3 added 18Nov216 -->
+	<bean id="xspress3Controller"
+		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
+		<property name="epicsTemplate" value="BL20J-EA-DET-03" />
+		<property name="numberOfChannels" value="4"/>
 	</bean>
-
-	<bean id="d10_stats_pvs" class="ggda.device.detector.areadetector.v18.impl.NDStatsPVsImpl" factory-method="createFromBasePVName">
-		<constructor-arg value="ComputeCentroid"/>
-	</bean>
-
-	<bean id="d10_nxcollectionstrategy" class=gda.device.detector.addetector.triggering.SoftwareContinuous>
-		<constructor-arg ref="d10_stats_pvs" />
-		<constructor-arg value="0" />
-	</bean>
-
-	<bean id="d10_stats_plugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADTimeSeriesStatsPlugin">
-		<constructor-arg index="0" ref="d10_stats_pvs" />
-		<constructor-arg index="1" value="d10_stats_plugin" />
-		<property name="enabledCentroidStats">
-			<list>
-				<value type="gda.device.detector.areadetector.v18.NDStatsPVs$CentroidStat">CentroidX</value>
-				<value type="gda.device.detector.areadetector.v18.NDStatsPVs$CentroidStat">CentroidY</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="d10" class="gda.device.detector.NXDetector">
-		<property name="name" value="d10" />
-		<property name="collectionStrategy" ref="d10_nxcollectionstrategy"/>
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="d10_stats_plugin" />
-			</list>
-		</property>
-	</bean>
-	 -->
 
 	<import resource="file:${gda.config}/servers/main/live/xray_eyes.xml" />
 

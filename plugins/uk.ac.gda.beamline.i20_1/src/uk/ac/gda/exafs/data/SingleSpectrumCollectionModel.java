@@ -190,6 +190,8 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 					ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC), experimentDataModel.getIrefNoOfAccumulations()));
 		}
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNamePrefix(\"%s\");", experimentDataModel.getFileNamePrefix()));
+		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setSampleDetails(\"%s\");", experimentDataModel.getSampleDetails()));
+
 		return builder.toString();
 	}
 

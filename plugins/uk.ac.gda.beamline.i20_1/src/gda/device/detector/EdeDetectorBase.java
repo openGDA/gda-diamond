@@ -139,13 +139,16 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	protected NXDetectorData createNXDetectorData(int[] elements) {
-		//TODO sort out excluded string correction
 		double[] correctedData = performCorrections(elements, false)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
 		double[] energies = this.getEnergyForChannels();
 
 		thisFrame.addAxis(getName(), EdeDataConstants.ENERGY_COLUMN_NAME, setNexusCompression(new NexusGroupData(energies)), 1, 1, "eV", false);
-		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, setNexusCompression(new NexusGroupData(correctedData)), "eV", 1);
+
+		NexusGroupData detectorGroupData = new NexusGroupData(correctedData);
+		detectorGroupData.isDetectorEntryData = true;
+		detectorGroupData.compressionType = NexusFile.COMPRESSION_NONE;
+		thisFrame.addData(getName(), EdeDataConstants.DATA_COLUMN_NAME, detectorGroupData, "eV", 1);
 
 		// Add pixel axis. imh 8/12/2015
 		int count = 0;

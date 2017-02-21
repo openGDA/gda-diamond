@@ -30,7 +30,6 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.XhDetector;
 import gda.device.detector.xstrip.XhDetectorData;
@@ -38,7 +37,6 @@ import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.device.scannable.ScannableMotor;
-import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.factory.ObjectFactory;
 import gda.scan.ede.drivers.LinearExperimentDriver;
@@ -62,7 +60,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 	private static Map<String, Double> sampleStageMotorOutPositions = new HashMap<String, Double>();
 
 	@BeforeClass
-	public static void startup() throws FactoryException, DeviceException {
+	public static void startup() throws Exception {
 		// dummy daserver
 		daserver = new DummyXStripDAServer();
 		// detector

@@ -18,7 +18,9 @@
 
 package gda.scan.ede.position;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -31,6 +33,8 @@ import gda.jython.InterfaceProvider;
 public class EdeScanMotorPositions implements EdeScanPosition {
 	private final EdePositionType type;
 	private final Map<Scannable, Double> scannablePositions = new HashMap<Scannable, Double>();
+	private Scannable motorToMoveDuringScan;
+	private List<Double> motorPositionsDuringScan = new ArrayList<Double>();
 
 	public EdeScanMotorPositions(EdePositionType type, Map<String, Double> positions) throws DeviceException {
 		this.type = type;
@@ -40,6 +44,37 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 				throw new DeviceException("Unable to find scannable: " + scannablePositionEntry);
 			}
 			scannablePositions.put(scannable, scannablePositionEntry.getValue());
+		}
+	}
+
+	public void setMotorToMoveDuringScan(Scannable motorToMoveDuringScan) {
+		this.motorToMoveDuringScan = motorToMoveDuringScan;
+	}
+
+	public Scannable getMotorToMoveDuringScan() {
+		return motorToMoveDuringScan;
+	}
+
+	public void setMotorPositionsDuringScan(List<Double> motorPositionsDuringScan) {
+		this.motorPositionsDuringScan = motorPositionsDuringScan;
+	}
+
+	public List<Double> getMotorPositionsDuringScan() {
+		return motorPositionsDuringScan;
+	}
+
+	public void setMotorPositionsDuringScan(double startPos, double endPos, int numPoints) {
+		if (numPoints<2) {
+			numPoints=2;
+		}
+		double stepSize = (endPos-startPos)/(numPoints-1);
+
+		motorPositionsDuringScan = new ArrayList<Double>();
+		int count = 0;
+		while(count < numPoints) {
+			double posToAdd = startPos + count*stepSize;
+			motorPositionsDuringScan.add(posToAdd);
+			count++;
 		}
 	}
 

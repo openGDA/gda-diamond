@@ -74,6 +74,7 @@ import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 import gda.scan.ede.datawriters.EdeDataConstants;
+import gda.scan.ede.datawriters.ScanDataHelper;
 import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.I20_1PreferenceInitializer;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
@@ -724,7 +725,8 @@ public class XHControlComposite extends Composite implements IObserver {
 		//get pixel corrected data from detector
 		NXDetectorData readout = (NXDetectorData) detector.readout();
 		final NexusGroupData ydata = readout.getData(detector.getName(), EdeDataConstants.DATA_COLUMN_NAME, NexusExtractor.SDSClassName);
-		final double[] counts=(double[]) ydata.getBuffer();
+		final double[] counts=(double[]) ScanDataHelper.extractDataFromNexusGroup(ydata).getBuffer();
+
 		//Note: scientist wanted the live mode always plot in pixels not energy.
 		//		final NexusGroupData xdata=readout.getData(detector.getName(), EdeDataConstants.ENERGY_COLUMN_NAME, NexusExtractor.SDSClassName);
 		//		final double[] energies=(double[]) xdata.getBuffer();

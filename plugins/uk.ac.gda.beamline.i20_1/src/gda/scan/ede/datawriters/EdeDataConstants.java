@@ -56,10 +56,13 @@ public class EdeDataConstants {
 	public static final String LN_I0_IT_COLUMN_NAME = "lnI0It";
 	public static final String LN_I0_IT__FINAL_I0_COLUMN_NAME = "lnI0It_finalI0";
 	public static final String LN_I0_IT_AVG_I0S_COLUMN_NAME = "lnI0It_avgI0s";
+	public static final String LN_I0_IT_INTERP_I0S_COLUMN_NAME = "lnI0It_interpolatedI0";
+
 	public static final String IREF_FINAL_DATA_NAME = "iref_final";
 	public static final String LN_I0_IREF_COLUMN_NAME = "lnI0IRef";
 	public static final String LN_I0_IREF_FINAL_COLUMN_NAME = "lnI0IRef_final";
 	public static final String META_DATA_NAME = "metaData";
+	public static final String SAMPLE_DETAILS_NAME = "sample_details";
 	public static final String SCANNABLES_CONFIG_DATA_NAME = "config";
 
 	public static final String ASCII_FILE_EXTENSION = "dat";

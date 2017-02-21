@@ -22,10 +22,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
@@ -67,6 +70,7 @@ public class TimeResolvedDataFileHelper {
 	private DoubleDataset itNormalisedWithI0iData = null;
 	private DoubleDataset itNormalisedWithI0fData = null;
 	private DoubleDataset itNormalisedWithAvgI0iAndI0fData = null;
+	private DoubleDataset itNormalisedWithInterpolatedI0iAndI0fData = null;
 
 	private DoubleDataset timeAxisData;
 	private DoubleDataset groupAxisData;
@@ -130,7 +134,8 @@ public class TimeResolvedDataFileHelper {
 	}
 
 	public void createMetaDataEntries(TimingGroupMetadata[] i0TimingGroupMetaData, TimingGroupMetadata[] itTimingGroupMetaData,
-			TimingGroupMetadata[] i0ForRefTimingGroupMetaData, TimingGroupMetadata[] iRefTimingGroupMetaData, String scannablesConfiguration, String energyCalibrationDetails) throws Exception {
+			TimingGroupMetadata[] i0ForRefTimingGroupMetaData, TimingGroupMetadata[] iRefTimingGroupMetaData, String scannablesConfiguration,
+			String energyCalibrationDetails, String sampleDetails) throws Exception {
 		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusfileName);
 		try {
 			String parent = HierarchicalDataFileUtils.createParentEntry(file, META_DATA_PATH, Nexus.DATA);
@@ -155,7 +160,9 @@ public class TimeResolvedDataFileHelper {
 			}
 
 			file.setAttribute(parent, NexusUtils.LABEL, scannablesConfiguration);
-
+			if (StringUtils.isNotEmpty(sampleDetails)) {
+				file.setAttribute(parent, EdeDataConstants.SAMPLE_DETAILS_NAME, sampleDetails);
+			}
 			if (energyCalibrationDetails != null) {
 				file.setAttribute(parent, ENERGY_POLYNOMIAL, energyCalibrationDetails);
 			}
@@ -401,9 +408,12 @@ public class TimeResolvedDataFileHelper {
 		String scannablesDescription = file.getAttributeValue(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "@" + NexusUtils.LABEL);
 
 		String energyCalibrationDetails = file.getAttributeValue(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "@" + ENERGY_POLYNOMIAL);
-
 		if (energyCalibrationDetails != null) {
 			scannablesDescription += "\n# " + energyCalibrationDetails;
+		}
+		String sampleDetails = file.getAttributeValue(NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.META_DATA_NAME + "@" + EdeDataConstants.SAMPLE_DETAILS_NAME);
+		if (sampleDetails!=null) {
+			scannablesDescription += "\n# Sample details : "+sampleDetails;
 		}
 
 		// Create I0_raw
@@ -417,23 +427,10 @@ public class TimeResolvedDataFileHelper {
 					+ EdeDataConstants.I0_DARK_COLUMN_NAME + "\n");
 
 			writeSpectra( writer, "0", true, energyData,  i0iCorrectedDataSet, i0iDataSet, i0darkDataSet );
-			//			int numberOfSpectra = i0iDataSet.getShape()[0];
-			//			int numberOfChannels = i0iDataSet.getShape()[1];
-			//			for (int i = 0; i < numberOfSpectra; i++) {
-			//				for (int j = 0; j < numberOfChannels; j++) {
-			//					writer.write(String.format("0%d\t%d\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), i0iCorrectedDataSet.get(i, j), i0iDataSet.get(i, j), i0darkDataSet.get(i, j)));
-			//				}
-			//			}
+
 			if (i0fCorrectedDataSet != null) {
 				// Originally, i0iCorrectedDataSet values appear in *two* columns, should it not be i0iCorrectedDataSet and i0fCorrectedDataSet instead?
 				writeSpectra( writer, "1", true, energyData,  i0fCorrectedDataSet, i0fData, i0darkDataSet );
-				//				numberOfSpectra = i0fData.getShape()[0];
-				//				numberOfChannels = i0fData.getShape()[1];
-				//				for (int i = 0; i < numberOfSpectra; i++) {
-				//					for (int j = 0; j < numberOfChannels; j++) {
-				//						writer.write(String.format("1%d\t%d\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), i0fCorrectedDataSet.get(i, j), i0fCorrectedDataSet.get(i, j), i0darkDataSet.get(i, j)));
-				//					}
-				//				}
 			}
 		} catch (Exception e) {
 			logger.error("Unable to create " + filePathName, e);
@@ -442,8 +439,7 @@ public class TimeResolvedDataFileHelper {
 		}
 		itNormalisedWithI0iData.getShape();
 		DoubleDataset avgLogI0It = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
-		//				int numberOfSpectra = avgLogI0It.getShape()[0];
-		//				int numberOfChannels = avgLogI0It.getShape()[1];
+
 		// Create It_raw
 		metaData = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.IT_COLUMN_NAME);
 		filePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.IT_RAW_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
@@ -458,12 +454,7 @@ public class TimeResolvedDataFileHelper {
 
 			long startTime = System.nanoTime();
 			writeItRawSpectra( writer, energyData, itiCorrectedAvgData,  avgLogI0It, itiAvgData,  itDarkData );
-			//						for (int i = 0; i < numberOfSpectra; i++) {
-			//							for (int j = 0; j < numberOfChannels; j++) {
-			//								writer.write(String.format("%d\t%d\t%f\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), itiCorrectedAvgData.get(i,j) , avgLogI0It.get(i, j), itiAvgData.get(i,j) , itDarkData.get(0, j)));
-			//							}
-			//
-			//						}
+
 			writer.close();
 			long endTime = System.nanoTime();
 			logger.info( String.format("Raw It data write to Ascii took %.2f secs\n",(endTime-startTime)*1e-9) );
@@ -502,18 +493,7 @@ public class TimeResolvedDataFileHelper {
 			itavgWriter.write(header);
 			writeSpectra( itavgWriter, false, energyData, i0avg );
 			itavgWriter.close();
-			//			for (int i = 0; i < numberOfSpectra; i++) {
-			//				itiWriter.write( buildSpectraStringOld( decimalFormatter, i, energyData, avgLogI0It ) );
-			//				itffWriter.write( buildSpectraStringOld( decimalFormatter, i, energyData, i0f ) );
-			//				itavgWriter.write( buildSpectraStringOld( decimalFormatter, i, energyData, i0avg ) );
-			//				/*
-			//						for (int j = 0; j < numberOfChannels; j++) {
-			//							itiWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), avgLogI0It.get(i, j)));
-			//							itffWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), i0f.get(i, j)));
-			//							itavgWriter.write(String.format("%d\t%f\t%f\n", i, energyData.get(j), i0avg.get(i, j)));
-			//						}
-			//				 */
-			//			}
+
 			long endTime = System.nanoTime();
 			logger.info( String.format("Processed data write to Ascii took %.2f secs\n", (endTime-startTime)*1e-9) );
 		} catch (Exception e) {
@@ -526,8 +506,6 @@ public class TimeResolvedDataFileHelper {
 
 		if (iRefiNormalisedData != null) {
 			// Create IRef_raw
-			//			numberOfSpectra = iRefiNormalisedData.getShape()[0];
-			//			numberOfChannels = iRefiNormalisedData.getShape()[1];
 			metaData = getDataFromFile(file, META_DATA_PATH + EdeDataConstants.IREF_DATA_NAME);
 			filePathName = assciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.IREF_RAW_DATA_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
 			writer = new FileWriter(filePathName);
@@ -538,11 +516,7 @@ public class TimeResolvedDataFileHelper {
 						+ EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
 
 				writeSpectra( writer, true, energyData, iRefiCorrecteddata, iRefiNormalisedData, iRefidata, iRefDarkData);
-				//				for (int i = 0; i < numberOfSpectra; i++) {
-				//					for (int j = 0; j < numberOfChannels; j++) {
-				//						writer.write(String.format("%d\t%d\t%f\t%f\t%f\t%f\t%f\n", i, j, energyData.get(j), iRefiCorrecteddata.get(i,j) , iRefiNormalisedData.get(i, j), iRefidata.get(i,j) , iRefDarkData.get(i, j)));
-				//					}
-				//				}
+
 			} catch (Exception e) {
 				logger.error("Unable to create " + filePathName, e);
 			} finally {
@@ -557,12 +531,7 @@ public class TimeResolvedDataFileHelper {
 						+ EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\n");
 
 				writeSpectra( writer, false, energyData, iRefiNormalisedData);
-				//				for (int i = 0; i < numberOfSpectra; i++) {
-				//					writer.write( buildSpectraString(decimalFormatter, i, false, energyData, iRefiNormalisedData) );
-				//					for (int j = 0; j < numberOfChannels; j++) {
-				//						writer.write(String.format("0%d\t%f\t%f\n", i, energyData.get(j), iRefiNormalisedData.get(i, j)));
-				//					}
-				//				}
+
 			} catch (Exception e) {
 				logger.error("Unable to create " + filePathName, e);
 			} finally {
@@ -577,11 +546,7 @@ public class TimeResolvedDataFileHelper {
 							+ EdeDataConstants.LN_I0_IREF_COLUMN_NAME + "\n");
 
 					writeSpectra( writer, false, energyData, iReffNormalisedData );
-					//					for (int i = 0; i < numberOfSpectra; i++) {
-					//						for (int j = 0; j < numberOfChannels; j++) {
-					//							writer.write(String.format("1%d\t%f\t%f\n", i, energyData.get(j), iReffNormalisedData.get(i, j)));
-					//						}
-					//					}
+
 				} catch (Exception e) {
 					logger.error("Unable to create " + filePathName, e);
 				} finally {
@@ -631,6 +596,12 @@ public class TimeResolvedDataFileHelper {
 		if (itNormalisedWithAvgI0iAndI0fData != null) {
 			targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME + "/",	Nexus.DATA);
 			checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithAvgI0iAndI0fData, attributes);
+			addLinks(file, targetPath);
+		}
+
+		if (itNormalisedWithInterpolatedI0iAndI0fData != null) {
+			targetPath = HierarchicalDataFileUtils.createParentEntry(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_INTERP_I0S_COLUMN_NAME + "/",	Nexus.DATA);
+			checkCyclicDataAndAddData(file, targetPath, avgSpectraList, excludedCycles, itNormalisedWithInterpolatedI0iAndI0fData, attributes);
 			addLinks(file, targetPath);
 		}
 
@@ -710,14 +681,6 @@ public class TimeResolvedDataFileHelper {
 	private DoubleDataset getDataFromFile(IHierarchicalDataFile file, String path)
 			throws Exception {
 		return (DoubleDataset) H5Utils.getSet(file, path);
-		//		hdf.object.Dataset dataset = (hdf.object.Dataset) file.getData(path);
-		//		int[] dimension = new int[dataset.getDims().length];
-		//		long[] oriDimension = dataset.getDims();
-		//		for (int i = 0; i < dimension.length; i++) {
-		//			dimension[i] = (int) oriDimension[i];
-		//		}
-		//		double[] data = (double[]) dataset.getData();
-		//		return DatasetFactory.createFromObject(DoubleDataset.class, data, dimension);
 	}
 
 	private String getDetectorDataPath() {
@@ -730,147 +693,157 @@ public class TimeResolvedDataFileHelper {
 
 	private static class Index {
 		public final int start;
+		public int end;
 		public Index(int start) {
 			end = this.start = start;
 		}
-		public int end;
+		public Index(int start, int end) {
+			this.start = start;
+			this.end = end;
+		}
+		public Index(List<Integer> list) {
+			if (list!=null && list.size()>0) {
+				this.start = list.get(0);
+				this.end = list.get(list.size()-1);
+			} else {
+				this.start = this.end=-1;
+			}
+		}
+	}
+
+	private List<Integer> getIndicesOfMatchingValues(Dataset scanTypeData, Dataset posTypeData, EdeScanType scanType, EdePositionType posType ) {
+		return getIndicesOfMatchingValues(scanTypeData, posTypeData, scanType.getValue(), posType.getValue());
+	}
+
+	private List<Integer> getIndicesOfMatchingValues(Dataset dataset1, Dataset dataset2, int val1, int val2) {
+		List<Integer> indices = new ArrayList<Integer>();
+		int maxIndex = Math.min(dataset1.getSize(), dataset2.getSize());
+		for(int i=0; i<maxIndex; i++) {
+			if (dataset1.getInt(i) == val1 && dataset2.getInt(i) == val2) {
+				indices.add(i);
+			}
+		}
+		return indices;
+	}
+
+	private Integer getLastItem(List<Integer> items) {
+		if (items!=null) {
+			return items.get(items.size() - 1);
+		} else {
+			return null;
+		}
 	}
 
 	private void deriveTimingGroupsAndGenerateNormalisedData(IHierarchicalDataFile file) throws Exception {
 		DoubleDataset rawDataset = getDetectorDataFromFile(file, EdeDataConstants.DATA_COLUMN_NAME);
 		DoubleDataset frameDataset = getDetectorDataFromFile(file, EdeDataConstants.FRAME_COLUMN_NAME);
-		DoubleDataset timmingDataset = getDetectorDataFromFile(file, EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
+		DoubleDataset timingDataset = getDetectorDataFromFile(file, EdeDataConstants.TIMINGGROUP_COLUMN_NAME);
 		DoubleDataset cycleDataset = getDetectorDataFromFile(file, EdeDataConstants.CYCLE_COLUMN_NAME);
 		DoubleDataset beamInOutDataset = getDetectorDataFromFile(file, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
 		DoubleDataset itDataset = getDetectorDataFromFile(file, EdeDataConstants.IT_COLUMN_NAME);
+
 		if (rawDataset.getShape()[0] != frameDataset.getShape()[0] ||
-				rawDataset.getShape()[0] != timmingDataset.getShape()[0] ||
+				rawDataset.getShape()[0] != timingDataset.getShape()[0] ||
 				rawDataset.getShape()[0] != cycleDataset.getShape()[0] ||
 				rawDataset.getShape()[0] != beamInOutDataset.getShape()[0]) {
 			throw new Exception("Incompatible datasets");
 		}
 
-		Index i0darkDataSetIndex = null;
-
-		Index i0iDataSetIndex = null;
-
-		Index itDarkDataSetIndex = null;
-
-		Index itRawDataSetIndex = null;
-
-		Index i0fDataSetIndex = null;
-
+		// Set Iref Index to null (whether Iref data is present depends on scan type)
 		Index iRefdarkDataSetIndex = null;
-
 		Index i0ForIRefDataSetIndex = null;
-
 		Index iRefidataSetIndex = null;
-
 		Index iReffdataSetIndex = null;
 
-		int cycleCount = 0;
 		double cycleIndexValue = -1d;
-		int[] timingGroups = null;
 
-		int frameIndex = -1;
+		// Get indices in raw data of Light/Dark, Inbeam/Outbeam spectra...
+
+		// Spectra collected before It...
+		List<Integer> darkI0Indices = getIndicesOfMatchingValues(beamInOutDataset, itDataset, EdeScanType.DARK, EdePositionType.OUTBEAM);
+		List<Integer> darkItIndices = getIndicesOfMatchingValues(beamInOutDataset, itDataset, EdeScanType.DARK, EdePositionType.INBEAM);
+		List<Integer> darkIrefIndices = getIndicesOfMatchingValues(beamInOutDataset, itDataset, EdeScanType.DARK, EdePositionType.REFERENCE);
+		// light I0 spectra before *and* after It collection
+		List<Integer> lightI0Indices = getIndicesOfMatchingValues(beamInOutDataset, itDataset, EdeScanType.LIGHT, EdePositionType.OUTBEAM);
+
+		// Main It spectra
+		List<Integer> lightItIndices = getIndicesOfMatchingValues(beamInOutDataset, itDataset, EdeScanType.LIGHT, EdePositionType.INBEAM);
+		// Reference spectra
+		List<Integer> lightIrefIndices = getIndicesOfMatchingValues(beamInOutDataset, itDataset, EdeScanType.LIGHT, EdePositionType.REFERENCE);
+
+		// Out of beam -> I0 for Iref
+		List<Integer> lightIrefOutBeamIndices = getIndicesOfMatchingValues(beamInOutDataset, itDataset, EdeScanType.LIGHT, EdePositionType.OUTBEAM_REFERENCE);
 
 		for (int i = 0; i < rawDataset.getShape()[0]; i++) {
 			logger.info("Raw Dataset number: {}; Scan Type (0:DARK, 1:LIGHT): {}; Position Type (0:OUTBEAM, 1:INBEAM, 2:OUTBEAM_REFERENCE, 3:REFERENCE): {}.",i,beamInOutDataset.get(i), itDataset.get(i));
-			if (beamInOutDataset.get(i) == EdeScanType.DARK.getValue()) {
-				if (itDataset.get(i) == EdePositionType.OUTBEAM.getValue()) { // I0
-					if (i0darkDataSetIndex == null) {
-						i0darkDataSetIndex = new Index(i);
-					} else {
-						i0darkDataSetIndex.end = i;
-					}
-				} else if (itDataset.get(i) == EdePositionType.INBEAM.getValue()) { // It
-					if (itDarkDataSetIndex == null) {
-						itDarkDataSetIndex = new Index(i);
-					} else {
-						itDarkDataSetIndex.end = i;
-					}
-				} else { // For EdePositionType.REFERENCE IRef
-					if (iRefdarkDataSetIndex == null) { // I0 light is collected, so it is IRefDark
-						iRefdarkDataSetIndex = new Index(i);
-					} else {
-						iRefdarkDataSetIndex.end = i;
-					}
-				}
-			} else { // For EdeScanType.LIGHT
-				if (itDataset.get(i) == EdePositionType.OUTBEAM.getValue()) {
-					if (itRawDataSetIndex == null) {
-						if (i0iDataSetIndex == null) { // Must be before i, so it is I0Initial
-							i0iDataSetIndex = new Index(i);
-						} else {
-							i0iDataSetIndex.end = i;
-						}
-					} else {
-						if (i0fDataSetIndex == null) { // Must be after it now, so it is I0final
-							i0fDataSetIndex = new Index(i);
-						} else {
-							i0fDataSetIndex.end = i;
-						}
-					}
-				} else if (itDataset.get(i) == EdePositionType.INBEAM.getValue()) {
-					if (itRawDataSetIndex == null) {
-						itRawDataSetIndex = new Index(i);
-					} else {
-						itRawDataSetIndex.end = i;
-					}
-					if (cycleDataset.get(i) > cycleIndexValue) {
-						cycleIndexValue = cycleDataset.get(i);
-						cycleCount++;
-					}
+		}
 
-					// TODO Refactor to make it clear
-					// Deriving number of timingGroups and number of spectrum per group using i0iDataSet,
-					// assuming the there is one spectrum per group was collected for I0,
-					// since all cycles are the same we only need to do the first cycle
-					if (cycleCount == 1) {
-						if (timingGroups == null && i0iDataSetIndex != null) {
-							int derivedNumOfGroups = i0iDataSetIndex.end - i0iDataSetIndex.start + 1;
-							timingGroups = new int[derivedNumOfGroups];
-						}
-						if (timingGroups != null) {
-							if (frameDataset.get(i) == 0.0) {
-								frameIndex++;
-							}
-							timingGroups[frameIndex] = (int) frameDataset.get(i) + 1;
-						}
-					}
+		Index darkI0DataSetIndex = new Index(darkI0Indices);
+		Index darkItDataSetIndex = new Index(darkItIndices);
+		Index lightI0DataSetIndex = new Index(lightI0Indices.get(0));
+		// Adjust light I0 end index for multiple timing groups
+		int maxTimingGroupIndex = timingDataset.getInt( timingDataset.maxPos() );
+		int numTimingGroups = maxTimingGroupIndex+1;
+		lightI0DataSetIndex.end = lightI0DataSetIndex.start+numTimingGroups-1;
 
-				} else if (itDataset.get(i) == EdePositionType.REFERENCE.getValue()) {
-					if (itRawDataSetIndex == null) {
-						if (iRefidataSetIndex == null) {
-							iRefidataSetIndex = new Index(i);
-						} else {
-							iRefidataSetIndex.end = i;
-						}
-					} else {
-						if (iReffdataSetIndex == null) {
-							iReffdataSetIndex = new Index(i);
-						} else {
-							iReffdataSetIndex.end = i;
-						}
-					}
-				} else if (itDataset.get(i) == EdePositionType.OUTBEAM_REFERENCE.getValue()) {
-					if (i0ForIRefDataSetIndex == null) {
-						i0ForIRefDataSetIndex = new Index(i);
-					} else {
-						i0ForIRefDataSetIndex.end = i;
-					}
-				}
+		// Light I0 final (no final measurement for single spectrum)
+		Index lightI0FinalDataSetIndex = null;
+		if(lightI0Indices.size()==2*numTimingGroups){
+			lightI0FinalDataSetIndex = new Index(lightI0Indices.get(numTimingGroups));
+			lightI0FinalDataSetIndex.end = lightI0FinalDataSetIndex.start+numTimingGroups-1;
+		}
+
+		// Iref indices ...
+		if (darkIrefIndices.size()>0) {
+			iRefdarkDataSetIndex = new Index(darkIrefIndices);
+		}
+		if (lightIrefOutBeamIndices.size()>0) {
+			i0ForIRefDataSetIndex = new Index(lightIrefOutBeamIndices);
+		}
+		if (lightIrefIndices.size()==2) {
+			iRefidataSetIndex = new Index(lightIrefIndices.get(0));
+			iReffdataSetIndex = new Index(lightIrefIndices.get(1));
+		}
+
+		Index lightItDataSetIndex = new Index(lightItIndices.get(0), lightItIndices.get(lightItIndices.size()-1));
+
+
+		// If only 1 timing group, check for multiple It collections
+		if (numTimingGroups==1 && beamInOutDataset.getSize()>4) {
+			// Determine number of times It collection is repeated
+			int maxFrame = frameDataset.getInt(frameDataset.maxPos());
+			List<Integer> maxFrameIndices = getIndicesOfMatchingValues(beamInOutDataset, frameDataset, EdeScanType.LIGHT.getValue(), maxFrame);
+			int numRepeatedSpectra = maxFrameIndices.size();
+			numTimingGroups = numRepeatedSpectra;
+		}
+
+		int[] timingGroups = new int[numTimingGroups];
+
+		// Cycles
+		int frameIndex = -1;
+		int cycleCount = 0;
+		int maxCycle = -1;
+		for(Integer index : lightItIndices) {
+			if (cycleDataset.getInt(index) > maxCycle) {
+				maxCycle = cycleDataset.getInt(index);
+				cycleCount++;
+			}
+			if (frameDataset.get(index) == 0.0) {
+				frameIndex++;
+			}
+			if(frameIndex<timingGroups.length) {
+				timingGroups[frameIndex] = (int) frameDataset.get(index) + 1;
 			}
 		}
 
-		if (i0darkDataSetIndex != null) {
-			i0darkDataSet = getSlice(rawDataset, i0darkDataSetIndex);
+		if (darkI0DataSetIndex != null) {
+			i0darkDataSet = getSlice(rawDataset, darkI0DataSetIndex);
 		}
-		i0iDataSet = getSlice(rawDataset, i0iDataSetIndex);
+		i0iDataSet = getSlice(rawDataset, lightI0DataSetIndex);
 		i0iCorrectedDataSet = i0iDataSet.clone().isubtract(i0darkDataSet);
 
-		if (itDarkDataSetIndex !=null) {
-			itDarkData = getSlice(rawDataset, itDarkDataSetIndex);
+		if (darkItDataSetIndex !=null) {
+			itDarkData = getSlice(rawDataset, darkItDataSetIndex);
 		}
 
 		// IRef
@@ -888,7 +861,7 @@ public class TimeResolvedDataFileHelper {
 			}
 		}
 
-		itData = getSlice(rawDataset, itRawDataSetIndex);
+		itData = getSlice(rawDataset, lightItDataSetIndex);
 		convertToCycledData(itData, cycleCount);
 		itCorrectedDataSet = itData.clone();
 
@@ -900,14 +873,72 @@ public class TimeResolvedDataFileHelper {
 		}
 
 		itNormalisedWithI0iData = createNormalisedItData(i0iCorrectedDataSet, itCorrectedDataSet, timingGroups);
-		if(i0fDataSetIndex != null) {
-			i0fData = getSlice(rawDataset, i0fDataSetIndex);
+		if(lightI0FinalDataSetIndex != null) {
+			i0fData = getSlice(rawDataset, lightI0FinalDataSetIndex);
 			i0fCorrectedDataSet = i0fData.clone().isubtract(i0darkDataSet);
 			itNormalisedWithI0fData = createNormalisedItData(i0fCorrectedDataSet, itCorrectedDataSet, timingGroups);
 			i0iAndI0fCorrectedAvgData = i0iCorrectedDataSet.clone().iadd(i0fCorrectedDataSet).idivide(2);
 			itNormalisedWithAvgI0iAndI0fData = createNormalisedItData(i0iAndI0fCorrectedAvgData, itCorrectedDataSet, timingGroups);
+			itNormalisedWithInterpolatedI0iAndI0fData = createNormalisedItDataInterpolated(i0iCorrectedDataSet, i0fCorrectedDataSet, itCorrectedDataSet, timingGroups);
+		}
+	}
+
+	/**
+	 * Create normalised lnI0It using I0 linear interpolation between initial and final I0 spectra for each spectrum.
+	 * Interpolation fraction is indexOfCurrentSpectrum/sum(timingGroups).
+	 * Probably only really meaningful for single timing group, and if I0 initial and I0 final are within same topup cycle.
+	 * @param i0InitialCorrectedDataSet
+	 * @param i0FinalCorrectedDataSet
+	 * @param itCorrectedCycledData
+	 * @param timingGroups
+	 * @return
+	 */
+	private DoubleDataset createNormalisedItDataInterpolated(DoubleDataset i0InitialCorrectedDataSet, DoubleDataset i0FinalCorrectedDataSet, DoubleDataset itCorrectedCycledData, int[] timingGroups) {
+
+		int[] shape = itCorrectedCycledData.getShape();
+		int noOfCycles = shape[0];
+		int numberOfChannels = shape[2];
+		int totNumSpectraPerCycle = 0;
+		for(int i=0; i<timingGroups.length; i++) {
+			totNumSpectraPerCycle+=timingGroups[i];
 		}
 
+		DoubleDataset normalisedData = DatasetFactory.zeros(DoubleDataset.class, itCorrectedCycledData.getShape());
+		for (int cycle = 0; cycle < noOfCycles; cycle++) {
+			int spectraCountInCycle=0;
+			int lastSpectrumInGroup = 0;
+			int firstSpectrumInGroup = 0;
+			for (int groupIndex = 0; groupIndex < timingGroups.length; groupIndex++) {
+
+				int i0GroupIndexIndex = 0;
+				if (groupIndex<i0InitialCorrectedDataSet.getShape()[0]) {
+					i0GroupIndexIndex=groupIndex;
+				}
+				// Initial and final I0 for group :
+				DoubleDataset i0Dataset, i0FinalDataset;
+				i0Dataset = ((DoubleDataset) i0InitialCorrectedDataSet.getSlice(new int[]{i0GroupIndexIndex, 0},new int[]{i0GroupIndexIndex + 1, numberOfChannels}, null).squeeze());
+				i0FinalDataset = ((DoubleDataset) i0FinalCorrectedDataSet.getSlice(new int[]{i0GroupIndexIndex, 0},new int[]{i0GroupIndexIndex + 1, numberOfChannels}, null).squeeze());
+
+				// Change between initial and final I0 for each spectrum in cycle
+				Dataset deltaI0PerSpectrum = DatasetFactory.createFromObject(i0FinalDataset);
+				deltaI0PerSpectrum.isubtract(i0Dataset);
+
+				lastSpectrumInGroup += timingGroups[groupIndex];
+				for (int spectrumIndex = firstSpectrumInGroup; spectrumIndex < lastSpectrumInGroup; spectrumIndex++) {
+					DoubleDataset itDataset = ((DoubleDataset) itCorrectedCycledData.getSliceView(new int[]{cycle, spectrumIndex, 0}, new int[]{cycle + 1, spectrumIndex + 1, numberOfChannels}, null).squeeze());
+					double frac = (double)spectraCountInCycle/(totNumSpectraPerCycle-1.0);
+					for (int channel = 0; channel < numberOfChannels; channel++) {
+						// Get interpolated I0 value for channel :
+						double i0Interpolated = i0Dataset.get(channel)+ frac*deltaI0PerSpectrum.getDouble(channel);
+						double value = calcLnI0It(i0Interpolated, itDataset.getDouble(channel));
+						normalisedData.set(value, new int[]{cycle, spectrumIndex, channel});
+					}
+					spectraCountInCycle++;
+				}
+				firstSpectrumInGroup = spectraCountInCycle;
+			}
+		}
+		return normalisedData;
 	}
 
 	private void createAxisForNormalisedItData(IHierarchicalDataFile file, RangeData[] avgSpectraList) throws Exception {
@@ -918,6 +949,9 @@ public class TimeResolvedDataFileHelper {
 		for (int i = 0; i < noOfGroups; i++) {
 			totalSpectra += timingGroupMetaData[i].getNoOfFrames();
 		}
+		int totNumLightItSpectra = itData.getShape()[1];
+		totalSpectra = Math.max(totalSpectra, totNumLightItSpectra);
+
 		int totalAvgSpectra  = totalSpectra;
 		if (avgSpectraList != null) {
 			for (int i = 0; i < avgSpectraList.length; i++) {
@@ -964,6 +998,9 @@ public class TimeResolvedDataFileHelper {
 
 			if (i == totalSpectraUptoCurrentGroup) {
 				currentGroupIndex++;
+				if (currentGroupIndex>timingGroupMetaData.length-1) {
+					currentGroupIndex=0;
+				}
 				totalSpectraUptoCurrentGroup += timingGroupMetaData[currentGroupIndex].getNoOfFrames();
 			}
 			groupAxisData.set(currentGroupIndex, l++);
@@ -978,7 +1015,12 @@ public class TimeResolvedDataFileHelper {
 		int spectrum = 0;
 		for (int cycle = 0; cycle < noOfCycles; cycle++) {
 			for (int groupIndex = 0; groupIndex < timingGroups.length; groupIndex++) {
-				DoubleDataset darkDataset = ((DoubleDataset) itDarkData.getSlice(new int[]{groupIndex, 0},new int[]{groupIndex + 1, numberOfChannels}, null).squeeze());
+				DoubleDataset darkDataset;
+				if (groupIndex<itDarkData.getShape()[0]) {
+					darkDataset = ((DoubleDataset) itDarkData.getSlice(new int[]{groupIndex, 0},new int[]{groupIndex + 1, numberOfChannels}, null).squeeze());
+				} else {
+					darkDataset = ((DoubleDataset) itDarkData.getSlice(new int[]{0, 0},new int[]{1, numberOfChannels}, null).squeeze());
+				}
 				spectrumInCycle += timingGroups[groupIndex];
 				for (int spectrumIndex = spectrum; spectrumIndex < spectrumInCycle; spectrumIndex++) {
 					DoubleDataset itDataset = ((DoubleDataset) itData.getSliceView(new int[]{cycle, spectrumIndex, 0}, new int[]{cycle + 1, spectrumIndex + 1, numberOfChannels}, null).squeeze());
@@ -1000,7 +1042,12 @@ public class TimeResolvedDataFileHelper {
 		DoubleDataset normalisedData = DatasetFactory.zeros(DoubleDataset.class, itCorrectedCycledData.getShape());
 		for (int cycle = 0; cycle < noOfCycles; cycle++) {
 			for (int groupIndex = 0; groupIndex < timingGroups.length; groupIndex++) {
-				DoubleDataset i0Dataset = ((DoubleDataset) i0CorrectedDataSet.getSlice(new int[]{groupIndex, 0},new int[]{groupIndex + 1, numberOfChannels}, null).squeeze());
+				DoubleDataset i0Dataset;
+				if (groupIndex<i0CorrectedDataSet.getShape()[0]) {
+					i0Dataset = ((DoubleDataset) i0CorrectedDataSet.getSlice(new int[]{groupIndex, 0},new int[]{groupIndex + 1, numberOfChannels}, null).squeeze());
+				} else {
+					i0Dataset = ((DoubleDataset) i0CorrectedDataSet.getSlice(new int[]{0, 0},new int[]{1, numberOfChannels}, null).squeeze());
+				}
 				spectrumInCycle += timingGroups[groupIndex];
 				for (int spectrumIndex = spectrum; spectrumIndex < spectrumInCycle; spectrumIndex++) {
 					DoubleDataset itDataset = ((DoubleDataset) itCorrectedCycledData.getSliceView(new int[]{cycle, spectrumIndex, 0}, new int[]{cycle + 1, spectrumIndex + 1, numberOfChannels}, null).squeeze());
@@ -1043,7 +1090,10 @@ public class TimeResolvedDataFileHelper {
 	}
 
 	private DoubleDataset getSlice(DoubleDataset rawDataset, Index index) {
-		return (DoubleDataset) rawDataset.getSlice(new int[]{index.start, 0}, new int[]{index.end + 1, rawDataset.getShape()[1]}, null);
+		if (index.start>-1 && index.end>-1) {
+			return (DoubleDataset) rawDataset.getSlice(new int[]{index.start, 0}, new int[]{index.end + 1, rawDataset.getShape()[1]}, null);
+		} else
+			return null;
 	}
 
 	public boolean isTimeResolvedDataFile() throws Exception {

@@ -44,9 +44,11 @@ public class ExperimentDataModel extends UIObservableModel {
 	private boolean useNoOfAccumulationsForI0 = false;
 
 	public static final String FILE_NAME_PREFIX_PROP_NAME = "fileNamePrefix";
+	@Expose
 	private String fileNamePrefix;
 
-	private static final String SAMPLE_DETAILS_PROP_NAME = "sampleDetails";
+	public static final String SAMPLE_DETAILS_PROP_NAME = "sampleDetails";
+	@Expose
 	private String sampleDetails = "";
 
 	public double getI0IntegrationTime() {
@@ -101,7 +103,7 @@ public class ExperimentDataModel extends UIObservableModel {
 		this.firePropertyChange(FILE_NAME_PREFIX_PROP_NAME, this.fileNamePrefix, this.fileNamePrefix = fileNamePrefix);
 	}
 
-	public Object getSampleDetails() {
+	public String getSampleDetails() {
 		return sampleDetails;
 	}
 

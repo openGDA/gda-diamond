@@ -62,9 +62,13 @@
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
 		<property name="service" ref="plot_server" />
-	</bean>	
+	</bean>
 
-
+	<bean id="xspress3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/xspress3" />
+		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 
 	<import resource="file:${gda.config}/clients/main/AlignmentPerspectiveCompositeFactories.xml" />
 

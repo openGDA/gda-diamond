@@ -18,9 +18,11 @@
 
 package gda.scan.ede.datawriters;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
@@ -35,15 +37,6 @@ import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeTimeResolvedExperimentDataWriter.class);
-
-	public static final String NXDATA_LN_I0_IT_WITH_AVERAGED_I0 = "LnI0It_withAveragedI0";
-	public static final String NXDATA_LN_I0_IT_WITH_FINAL_I0 = "LnI0It_withFinalI0";
-	public static final String NXDATA_LN_I0_IT = "LnI0It";
-	public static final String NXDATA_CYCLE_LN_I0_IT_WITH_AVERAGED = "LnI0It_averaged";
-
-	public static final String IT_RAW_AVERAGEDI0_SUFFIX = "_It_raw_averagedi0";
-	public static final String IT_RAW_FINALI0_SUFFIX = "_It_raw_finali0";
-	public static final String IT_RAW_SUFFIX = "_It_raw";
 
 	protected final EnergyDispersiveExafsScan i0DarkScan;
 	protected final EnergyDispersiveExafsScan i0InitialLightScan;
@@ -107,11 +100,18 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		if (detector.isEnergyCalibrationSet()) {
 			energyCalibration = detector.getEnergyCalibration().toString();
 		}
+		String sampleDetails = getSampleDetails();
 		timeResolvedNexusFileHelper.setDetectorName4Node(itScans[0].getDetector().getName());
-		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration);
+		timeResolvedNexusFileHelper.createMetaDataEntries(i0ScanMetaData, itScanMetaData, i0ForIRefScanMetaData, irefScanMetaData, scannablesConfiguration, energyCalibration, sampleDetails);
 		timeResolvedNexusFileHelper.updateWithNormalisedData(writeAsciiData, writeInNewThread);
 
 		return itFilename;
+	}
+	private void setAsciiFilenames() {
+		File nexusFile = new File(nexusfileName);
+		String asciiFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusfileName);
+		i0Filename = asciiFolder + DataFileHelper.getFileNameWithSuffixAndExt(nexusFile, EdeDataConstants.I0_RAW_COLUMN_NAME, EdeDataConstants.ASCII_FILE_EXTENSION);
+
 	}
 
 	private void validateData(EdeDetector detector) throws Exception {

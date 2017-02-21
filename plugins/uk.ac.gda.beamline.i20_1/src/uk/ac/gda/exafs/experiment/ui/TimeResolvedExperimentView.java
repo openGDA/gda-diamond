@@ -18,9 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
-import gda.jython.IJythonServerStatusObserver;
-import gda.jython.InterfaceProvider;
-import gda.scan.ScanEvent;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -34,6 +31,8 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -54,6 +53,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.jaret.util.date.Interval;
+import gda.jython.IJythonServerStatusObserver;
+import gda.jython.InterfaceProvider;
+import gda.scan.ScanEvent;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
@@ -73,6 +75,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 	protected Button useExternalTriggerCheckbox;
 
 	private Button useFastShutterCheckbox;
+
+	private Text sampleDescText;
+
+	private Text prefixText;
 
 	private SampleStageMotorsComposite sampleMotorsComposite;
 
@@ -152,6 +158,22 @@ public class TimeResolvedExperimentView extends ViewPart {
 						return null;
 					}
 				});
+
+		// Update the filename in the model
+		prefixText.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				getModel().getExperimentDataModel().setFileNamePrefix(prefixText.getText());
+			}
+		});
+		// Update the sample description in the model
+		sampleDescText.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				getModel().getExperimentDataModel().setSampleDetails(sampleDescText.getText());
+			}
+		});
+
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_FAST_SHUTTER).observe(getModel()) );
 	}
@@ -186,7 +208,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		prefixNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		Label prefixLabel = toolkit.createLabel(prefixNameComposite, "File prefix", SWT.None);
 		prefixLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		final Text prefixText = toolkit.createText(prefixNameComposite, "", SWT.BORDER);
+		prefixText = toolkit.createText(prefixNameComposite, getModel().getExperimentDataModel().getFileNamePrefix(), SWT.BORDER);
 		prefixText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		Composite sampleDescComposite = toolkit.createComposite(dataCollectionSectionComposite, SWT.NONE);
@@ -194,7 +216,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		sampleDescComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		Label sampleDescLabel = toolkit.createLabel(sampleDescComposite, "Sample details", SWT.None);
 		sampleDescLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		final Text sampleDescText = toolkit.createText(sampleDescComposite, "", SWT.BORDER);
+		sampleDescText = toolkit.createText(sampleDescComposite,  getModel().getExperimentDataModel().getSampleDetails(), SWT.BORDER);
 		sampleDescText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		Button startAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Start", SWT.PUSH);
@@ -268,13 +290,16 @@ public class TimeResolvedExperimentView extends ViewPart {
 		case TIDYING_UP_AFTER_STOP:
 		case COMPLETED_OKAY:
 			getModel().setScanning(false);
+			timingGroupSectionComposite.setUserControlsEnabled(true);
 			break;
 		case PAUSED:
 		case RUNNING:
 			getModel().setScanning(true);
+			timingGroupSectionComposite.setUserControlsEnabled(false);
 			break;
 		default:
 			getModel().setScanning(false);
+			timingGroupSectionComposite.setUserControlsEnabled(true);
 			break;
 		}
 	}
