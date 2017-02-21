@@ -1,18 +1,12 @@
-from time import sleep
 from gda.device.scannable import ScannableBase
-
 from gda.epics import CAClient
-from gda.jython.commands.GeneralCommands import run, alias
+from gda.jython.commands.GeneralCommands import alias
+from Diamond.PseudoDevices.EpicsDevices import EpicsMonitorClass
+from peem.usePEEM import uvimaging, uvpreview
+from peem.usePEEM_tcpip import uv
 
-from Diamond.PseudoDevices.EpicsDevices import EpicsMonitorClass, EpicsLazyMonitorClass
-
-#try:
-#    del m4bend1g, m4bend2g, m5bend1g, m5bend2g
-#except:
-#    pass;
-#
-#exec('[m4bend1g, m4bend2g, m5bend1g, m5bend2g]=[None, None, None, None]')
-
+print "-"*100
+print "Enable KB Mirror objects: m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov"
 m4bend1g=EpicsMonitorClass('m4bend1gauge', 'BL06I-OP-KBM-01:HFM:USG:POLLVALUE', 'N', '%.3f');
 m4bend2g=EpicsMonitorClass('m4bend2gauge', 'BL06I-OP-KBM-01:HFM:DSG:POLLVALUE', 'N', '%.3f');
 m5bend1g=EpicsMonitorClass('m5bend1gauge', 'BL06I-OP-KBM-01:VFM:USG:POLLVALUE', 'N', '%.3f');
