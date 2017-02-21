@@ -30,8 +30,8 @@ class SampleStageMovements():
         
         # Transfer positions
         safe_z = 3100 # um The position to safely align x and y with the pins (move away from optics)
-        transfer_x = 140.0 # um
-        transfer_y = 5640.0 # um
+        transfer_x = 9.0 # um
+        transfer_y = 5220.0 # um
         transfer_z = 6800.0 # um
         transfer_pins_tolerance = 25 # um The soft limits are set +- this value when the stage is on the pins 
         transfer_azi = 0.0 # deg
@@ -80,7 +80,7 @@ class SampleStageMovements():
         measuring_x = 140.0 # um
         measuring_x_min = -7000.0 # um
         measuring_x_max = 6500.0 # um
-        measuring_y = 5640.0 # um
+        measuring_y = 5720.0 # um
         measuring_y_min = -7000.0 # um
         measuring_y_max = 6500.0 # um
         measuring_z = 3100.0 # um
