@@ -21,9 +21,23 @@ from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @Unu
 #To eLog the scan
 from BeamlineI06.beamline import peemline
 fileHeader.setScanLogger(peemline);
-# Get the beamline branche name from the Object Factory Name property
-gdaObjectFactoryName = LocalProperties.get("gda.factory.factoryName")
 
+from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx  # @UnusedImport
+from peem.usePEEM import roi1,roi2,roi3,roi4,uvroi,uvpreview,uvimaging,picture  # @UnusedImport
+
+from BeamlineI06.useS4 import s4ygap
+#To add branchline device position to the SRS file header
+peemMirrorList = [m3x, m3pitch, m3qg]; fileHeader.add(peemMirrorList);  # @UndefinedVariable
+peemDiodeList = [d5x, d6y, d7x, d7ax]; fileHeader.add(peemDiodeList);  # @UndefinedVariable
+peemExitSlitList = [s4y, s4ygap]; fileHeader.add(peemExitSlitList);  # @UndefinedVariable
+peemList = [psx, psy]; fileHeader.add(peemList);  # @UndefinedVariable
+#Group the hexapod legs into list
+m1legs = [m1leg1, m1leg2, m1leg3, m1leg4, m1leg5, m1leg6];  # @UndefinedVariable
+m6legs = [m6leg1, m6leg2, m6leg3, m6leg4, m6leg5, m6leg6];  # @UndefinedVariable
+m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
+
+from BeamlineI06.KBMirrors import m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov  # @UnusedImport
+ 
 if gdaObjectFactoryName == 'I06':
 	print
 	print "===================================================================";
@@ -40,20 +54,6 @@ if gdaObjectFactoryName == 'I06':
 		print "XXXXXXXXXX:  MainLineUser.py Error"
 		logger.dump("---> ", exceptionType, exception, traceback)
 
-elif gdaObjectFactoryName == 'I06-1':
-	print
-	print "===================================================================";
-	print "This is DLS Beamline I06 Branch Line"
-	execfile(gdaScriptDir + "localStation_i06-1.py");
-	print
-	print "-------------------------------------------------------------------"
-	print "Performing user specific initialisation code for Branch Line (BranchLineUser.py)"
-	try:
-		execfile(userScriptDir + "BranchLineUser.py");
-	except:
-		exceptionType, exception, traceback=sys.exc_info();
-		print "XXXXXXXXXX:  BranchLineUser.py Error"
-		logger.dump("---> ", exceptionType, exception, traceback)
 else:
 	print "Wrong Beamline Name"
 
