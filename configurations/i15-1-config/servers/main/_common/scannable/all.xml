@@ -4,6 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<import resource="dummy.xml"/>
+	<import resource="monitors.xml"/>
 	<import resource="filters.xml"/>
 
 	<!-- 
