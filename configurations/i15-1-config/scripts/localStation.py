@@ -88,6 +88,15 @@ try:
 
     print "Configured pe1AD dark detector"
 
+    adc1AreaDetectorRunnableDeviceProxyFinder = finder.find("adc1AreaDetectorRunnableDeviceProxyFinder")
+    adc1AreaDetectorRunnableDeviceProxy = adc1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    adc1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(adc1AreaDetectorRunnableDeviceProxy)
+    adc1AreaDetectorRunnableDeviceProxy.setDelegate(adc1JythonAreaDetectorRunnableDeviceDelegate)
+    adc1AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured adc1 detector"
+
     if dummy_mode:
         print "*"*80
         print "Dummy mode specific setup - Start"
