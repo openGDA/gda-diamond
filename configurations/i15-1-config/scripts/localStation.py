@@ -97,6 +97,24 @@ try:
 
     print "Configured adc1 detector"
 
+    cam1AreaDetectorRunnableDeviceProxyFinder = finder.find("cam1AreaDetectorRunnableDeviceProxyFinder")
+    cam1AreaDetectorRunnableDeviceProxy = cam1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    cam1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(cam1AreaDetectorRunnableDeviceProxy)
+    cam1AreaDetectorRunnableDeviceProxy.setDelegate(cam1JythonAreaDetectorRunnableDeviceDelegate)
+    cam1AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured cam1 detector"
+
+    cam2AreaDetectorRunnableDeviceProxyFinder = finder.find("cam2AreaDetectorRunnableDeviceProxyFinder")
+    cam2AreaDetectorRunnableDeviceProxy = cam2AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    cam2JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(cam2AreaDetectorRunnableDeviceProxy)
+    cam2AreaDetectorRunnableDeviceProxy.setDelegate(cam2JythonAreaDetectorRunnableDeviceDelegate)
+    cam2AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured cam2 detector"
+
     if dummy_mode:
         print "*"*80
         print "Dummy mode specific setup - Start"

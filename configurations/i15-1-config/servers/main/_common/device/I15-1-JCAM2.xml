@@ -128,7 +128,38 @@
 		<property name="fileWriter" ref="cam2_hdf5_MultipleImagesPerHDF5FileWriter"/>
 	</bean>
 
+	<bean id="cam2AD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="cam2AD_cam"/>
+		<property name="readArray" value="false"/>
+	</bean>
+
 	<!-- Scanning API -->
+
+	<bean id="cam2AreaDetectorRunnableDeviceProxyModel"
+			class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"              value="cam2AD"/>
+		<property name="exposureTime"      value="0.1"/>
+	</bean>
+	<bean id="cam2AreaDetectorRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="cam2AD"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.cam2AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Cam 2 Proxy (cam2AreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Cam 2 Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cam2AreaDetectorRunnableDeviceProxy"
+			class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"              value="cam2AD"/>
+		<property name="model"             ref="cam2AreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="cam2AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="cam2AreaDetectorRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="cam2AreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="cam2AreaDetectorRunnableDeviceProxy"/>
+	</bean>
 
 	<bean id="cam2uesdNexusModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 		<property name="name"                   value="cam2uesdRawAD"/>
