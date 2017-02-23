@@ -1,6 +1,6 @@
 
 from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass;
-
+print "-"*100
 print "Enable the Gap control of of I06 Exit Slits S4";
 
 #Enable the S4 Y Gap control in micrometer
