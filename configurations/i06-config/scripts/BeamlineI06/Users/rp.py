@@ -1,4 +1,6 @@
 import math;
+from time import sleep
+from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass
 print "Enable polarization selection"
 print "Available options:"
 print "     0   -->    horizontal polarization"
@@ -8,6 +10,8 @@ print "     3   -->    negative circular polarization"
 print "     4   -->    unknow polarization"
 print " "
 print "Example  -->    pos selPol 2"
+
+global iddtrp, iddbrp, iddgap,pgmenergy
 
 def iddrpWait(targetValue,targetError):
 	targetReachedTop = 0

@@ -1,5 +1,6 @@
 
 import math;
+from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass
 
 print "Enable the Gap control of of I06 Exit Slits S4";
 #####################################################################################
