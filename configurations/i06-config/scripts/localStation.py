@@ -11,7 +11,7 @@ print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
 
-from i06shared.localStation import *
+from i06shared.localStation import *  # @UnusedWildImport
 
 from BeamlineI06.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
@@ -37,30 +37,13 @@ m6legs = [m6leg1, m6leg2, m6leg3, m6leg4, m6leg5, m6leg6];  # @UndefinedVariable
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
 from BeamlineI06.KBMirrors import m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov  # @UnusedImport
- 
-if gdaObjectFactoryName == 'I06':
-	print
-	print "===================================================================";
-	print "This is DLS Beamline I06 PEEM Line"
-	execfile(gdaScriptDir + "localStation_i06.py");
-	#Performing user specific initialisation code"
-	print
-	print "-------------------------------------------------------------------"
-	print "Performing user specific initialisation code for PEEM Line (MainLineUser.py)"
-	try:
-		execfile(userScriptDir + "MainLineUser.py");
-	except:
-		exceptionType, exception, traceback=sys.exc_info();
-		print "XXXXXXXXXX:  MainLineUser.py Error"
-		logger.dump("---> ", exceptionType, exception, traceback)
-
-else:
-	print "Wrong Beamline Name"
+from BeamlineI06.Users.XEnergy.xenergy import ins_device,xenergy,offxenergy,xpol,xmode,offhar,detune,idxmcd,idxas,idd,idu  # @UnusedImport
+from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
+from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
 
 print "==================================================================="; print; print;
 
-print "Creating i06ccd2 detector (from end of localStation.py)"
-#import scannables.detector.andormcd
-#i06ccd2 = scannables.detector.andormcd.AndorMCD('i06ccd2')
+print "end of localStation.py for Beamline I06)"
+
 
 
