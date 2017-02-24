@@ -12,7 +12,7 @@ print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
 
-from i06shared.localStation import *
+from i06shared.localStation import *  # @UnusedWildImport
 
 from Beamline.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
@@ -23,6 +23,10 @@ from Beamline.beamline import branchline
 fileHeader.setScanLogger(branchline);
 
 from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
+#End Station Section
+
+##Magnet
+from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw  # @UnusedImport
 
 # Get the beamline branche name from the Object Factory Name property
 gdaObjectFactoryName = LocalProperties.get("gda.factory.factoryName")

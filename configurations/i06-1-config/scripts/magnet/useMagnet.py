@@ -3,11 +3,10 @@
 from Diamond.PseudoDevices.SuperconductingMagnet import SuperconductingMagnetClass, ModeMagnetClass;
 from Diamond.PseudoDevices.SuperconductingMagnet import CartesianMagnetClass, SphericalMagnetClass, SingleAxisMagnetClass;
 from Diamond.PseudoDevices.Flipper import FlipperClass, DichroicFlipperClass
-from gda.jython.commands.GeneralCommands import alias
 
 #The root EPICS PV for the superconducting magnet
 magRootPV = 'BL06J-EA-MAG-01';
-
+print "-"*100
 print "Note: Use object name 'scm' for the Superconducting Magenet control";
 scm = SuperconductingMagnetClass('scm', magRootPV);
 
