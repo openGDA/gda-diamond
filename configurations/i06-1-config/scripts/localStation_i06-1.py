@@ -12,23 +12,6 @@ from gda.configuration.properties import LocalProperties
 
 localStationErrorCount=0
 
-
-# Since the BeamlineFunctionClass is common between Main and Branch line, if
-# we want i06-1 elog messages to be written to the i06-1 eLog, we have to
-# override elogID here:
-i06.elogID="BLI06-1"
-
-# Get the locatation of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
-
-# Get the location of the USERS script directory
-userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
-
-#Enable the laser delay stage functions"
-#print "-------------------------------------------------------------------"
-#print "Enable the laser delay stage functions"
-#execfile(gdaScriptDir + "laserDelayStage.py");
-
 print "-------------------------------------------------------------------"
 enableSuperconductingMagnetControl=True
 if enableSuperconductingMagnetControl:
