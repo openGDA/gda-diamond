@@ -38,7 +38,7 @@ branchMirrorList = [m7x, m7pitch, m7qg]; fileHeader.add(branchMirrorList);
 branchDiodeList = [d9y, d10y, d11y]; fileHeader.add(branchDiodeList);
 branchExitSlitList = [s6y, s6ygap]; fileHeader.add(branchExitSlitList);
 from functionDevices.idivio import idio,ifio  # @UnusedImport
-
+from Beamline.waveplate3 import wp32
 
 if gdaObjectFactoryName == 'I06-1':
 	print
