@@ -27,23 +27,7 @@ from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2lock
 # Get the beamline branche name from the Object Factory Name property
 gdaObjectFactoryName = LocalProperties.get("gda.factory.factoryName")
 
-if gdaObjectFactoryName == 'I06':
-	print
-	print "===================================================================";
-	print "This is DLS Beamline I06 PEEM Line"
-	execfile(gdaScriptDir + "localStation_i06.py");
-	#Performing user specific initialisation code"
-	print
-	print "-------------------------------------------------------------------"
-	print "Performing user specific initialisation code for PEEM Line (MainLineUser.py)"
-	try:
-		execfile(userScriptDir + "MainLineUser.py");
-	except:
-		exceptionType, exception, traceback=sys.exc_info();
-		print "XXXXXXXXXX:  MainLineUser.py Error"
-		logger.dump("---> ", exceptionType, exception, traceback)
-
-elif gdaObjectFactoryName == 'I06-1':
+if gdaObjectFactoryName == 'I06-1':
 	print
 	print "===================================================================";
 	print "This is DLS Beamline I06 Branch Line"
