@@ -30,8 +30,8 @@
 				<value>pgm_cff</value>
 				<value>pgm_mirror_pitch</value>
 				<value>pgm_mirror_x</value>
-				<value>pgm_grating_pitch"</value>
-				<value>pgm_grating_x"</value>
+				<value>pgm_grating_pitch</value>
+				<value>pgm_grating_x</value>
 				<!-- s3c -->
 				<value>s3c_xcentre</value>
 				<value>s3c_xsize</value>
