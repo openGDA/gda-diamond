@@ -32,35 +32,16 @@ from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,mag
 ##Exit Slit
 from slits.useS6 import s6ygap, s6xgap  # @UnusedImport
 #Group the hexapod legs into list
-m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];
+m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];  # @UndefinedVariable
 #To add branchline device position to the SRS file header
-branchMirrorList = [m7x, m7pitch, m7qg]; fileHeader.add(branchMirrorList);
-branchDiodeList = [d9y, d10y, d11y]; fileHeader.add(branchDiodeList);
-branchExitSlitList = [s6y, s6ygap]; fileHeader.add(branchExitSlitList);
+branchMirrorList = [m7x, m7pitch, m7qg]; fileHeader.add(branchMirrorList);  # @UndefinedVariable
+branchDiodeList = [d9y, d10y, d11y]; fileHeader.add(branchDiodeList);  # @UndefinedVariable
+branchExitSlitList = [s6x, s6xgap, s6y, s6ygap]; fileHeader.add(branchExitSlitList);  # @UndefinedVariable
 from functionDevices.idivio import idio,ifio  # @UnusedImport
-from Beamline.waveplate3 import wp32
+from Beamline.waveplate3 import wp32  # @UnusedImport
 
-if gdaObjectFactoryName == 'I06-1':
-	print
-	print "===================================================================";
-	print "This is DLS Beamline I06 Branch Line"
-	execfile(gdaScriptDir + "localStation_i06-1.py");
-	print
-	print "-------------------------------------------------------------------"
-	print "Performing user specific initialisation code for Branch Line (BranchLineUser.py)"
-	try:
-		execfile(userScriptDir + "BranchLineUser.py");
-	except:
-		exceptionType, exception, traceback=sys.exc_info();
-		print "XXXXXXXXXX:  BranchLineUser.py Error"
-		logger.dump("---> ", exceptionType, exception, traceback)
-else:
-	print "Wrong Beamline Name"
+print "===================================================================";
+print " end of localStation.py"
 
-print "==================================================================="; print; print;
-
-print "Creating i06ccd2 detector (from end of localStation.py)"
-#import scannables.detector.andormcd
-#i06ccd2 = scannables.detector.andormcd.AndorMCD('i06ccd2')
 
 
