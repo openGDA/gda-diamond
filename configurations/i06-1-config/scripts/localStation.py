@@ -37,10 +37,8 @@ m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];
 branchMirrorList = [m7x, m7pitch, m7qg]; fileHeader.add(branchMirrorList);
 branchDiodeList = [d9y, d10y, d11y]; fileHeader.add(branchDiodeList);
 branchExitSlitList = [s6y, s6ygap]; fileHeader.add(branchExitSlitList);
+from functionDevices.idivio import idio,ifio  # @UnusedImport
 
-
-# Get the beamline branche name from the Object Factory Name property
-gdaObjectFactoryName = LocalProperties.get("gda.factory.factoryName")
 
 if gdaObjectFactoryName == 'I06-1':
 	print

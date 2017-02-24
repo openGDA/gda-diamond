@@ -1,5 +1,7 @@
+from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass
 
-print "To create the idio and ifio";
+print "-"*100
+print "To create objects: idio and ifio";
 
 idio = DeviceFunctionClass("idio", "ca61sr","ca62sr", "testFun1");
 

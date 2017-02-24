@@ -12,28 +12,6 @@ from gda.configuration.properties import LocalProperties
 
 localStationErrorCount=0
 
-try:
-    print "-------------------------------------------------------------------"
-    #print "Change the default output format to meet the branch line requirements"
-    execfile(gdaScriptDir + "BeamlineI06/setOutputFormat_i06-1.py");
-    
-except:
-    exceptionType, exception, traceback=sys.exc_info();
-    print "XXXXXXXXXX:  Errors when running the localstation_i06.py"
-    logger.dump("---> ", exceptionType, exception, traceback)
-    localStationErrorCount+=1
-
-print "-------------------------------------------------------------------"
-print "Set up idio and ifio"
-
-try:
-    execfile(gdaScriptDir + "BeamlineI06/idivio.py");
-except:
-    exceptionType, exception, traceback=sys.exc_info();
-    print "XXXXXXXXXX:  idivio Error "
-    logger.dump("---> ", exceptionType, exception, traceback)
-    localStationErrorCount+=1
-
 print "-------------------------------------------------------------------"
 print "Waveplate 3 (EC2) motor: wp32"
 
