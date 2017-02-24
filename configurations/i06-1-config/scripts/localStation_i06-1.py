@@ -13,17 +13,6 @@ from gda.configuration.properties import LocalProperties
 localStationErrorCount=0
 
 # try:
-#     #Enable Exit Slits S6 Gap Control s6ygap";
-#     #print "-------------------------------------------------------------------"
-#     print "Enable Slits S6 Gap Control s6ygap"
-#     execfile(gdaScriptDir + "BeamlineI06/useS6.py");
-# except:
-#     exceptionType, exception, traceback=sys.exc_info();
-#     print "XXXXXXXXXX:  Errors when running the s6ygap.py"
-#     logger.dump("---> ", exceptionType, exception, traceback)
-#     localStationErrorCount+=1
-
-# try:
 #     print "-------------------------------------------------------------------"
 #     print "Set up the m6qgmax routing"
 # 

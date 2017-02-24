@@ -29,6 +29,9 @@ from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2lock
 from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw  # @UnusedImport
 ##Pixis - there is a java object replement
 #from cameras.usePixis import pixis
+##Exit Slit
+from slits.useS6 import s6ygap, s6xgap  # @UnusedImport
+
 
 # Get the beamline branche name from the Object Factory Name property
 gdaObjectFactoryName = LocalProperties.get("gda.factory.factoryName")
