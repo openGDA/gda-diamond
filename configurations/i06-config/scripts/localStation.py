@@ -27,7 +27,7 @@ from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_obj
 from peem.usePEEM import roi1,roi2,roi3,roi4,uvroi,uvpreview,uvimaging,picture  # @UnusedImport
 
 from BeamlineI06.useS4 import s4ygap, s4xgap
-#To add branchline device position to the SRS file header
+#To add PEE line device position to the SRS file header
 peemMirrorList = [m3x, m3pitch, m3qg]; fileHeader.add(peemMirrorList);  # @UndefinedVariable
 peemDiodeList = [d5x, d6y, d7x, d7ax]; fileHeader.add(peemDiodeList);  # @UndefinedVariable
 peemExitSlitList = [s4x, s4xgap, s4y, s4ygap]; fileHeader.add(peemExitSlitList);  # @UndefinedVariable

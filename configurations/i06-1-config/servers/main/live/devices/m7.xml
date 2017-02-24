@@ -7,32 +7,56 @@
 	<bean id="m7leg1" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M7.LEG1" />
 		<property name="local" value="true"/>
-	</bean>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%10.6f</value>
+			</array>
+		</property>	</bean>
 
 	<bean id="m7leg2" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M7.LEG2" />
 		<property name="local" value="true"/>
-	</bean>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%10.6f</value>
+			</array>
+		</property>	</bean>
 
 	<bean id="m7leg3" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M7.LEG3" />
 		<property name="local" value="true"/>
-	</bean>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%10.6f</value>
+			</array>
+		</property>	</bean>
 
 	<bean id="m7leg4" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M7.LEG4" />
 		<property name="local" value="true"/>
-	</bean>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%10.6f</value>
+			</array>
+		</property>	</bean>
 
 	<bean id="m7leg5" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M7.LEG5" />
 		<property name="local" value="true"/>
-	</bean>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%10.6f</value>
+			</array>
+		</property>	</bean>
 
 	<bean id="m7leg6" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M7.LEG6" />
 		<property name="local" value="true"/>
-	</bean>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%10.6f</value>
+			</array>
+		</property>	</bean>
 
 	<!-- Branchline Focusing Mirrow M7 Motors -->
 	<bean id="MotorX_M7" class="gda.device.motor.EpicsMotor">

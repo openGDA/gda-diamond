@@ -33,6 +33,10 @@ from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,mag
 from slits.useS6 import s6ygap, s6xgap  # @UnusedImport
 #Group the hexapod legs into list
 m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];
+#To add branchline device position to the SRS file header
+branchMirrorList = [m7x, m7pitch, m7qg]; fileHeader.add(branchMirrorList);
+branchDiodeList = [d9y, d10y, d11y]; fileHeader.add(branchDiodeList);
+branchExitSlitList = [s6y, s6ygap]; fileHeader.add(branchExitSlitList);
 
 
 # Get the beamline branche name from the Object Factory Name property

@@ -64,7 +64,7 @@
 		<property name="deviceName" value="M1.LEG3" />
 		<property name="local" value="true"/>
 		<property name="outputFormat">
-			<array>
+			<array value-type="java.lang.String">
 				<value>%10.6f</value>
 			</array>
 		</property>
