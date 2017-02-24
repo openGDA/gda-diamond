@@ -31,6 +31,8 @@ from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,mag
 #from cameras.usePixis import pixis
 ##Exit Slit
 from slits.useS6 import s6ygap, s6xgap  # @UnusedImport
+#Group the hexapod legs into list
+m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];
 
 
 # Get the beamline branche name from the Object Factory Name property

@@ -7,6 +7,7 @@ from gda.jython.commands.Input import requestInput
 from gda.scan import PointsScan;
 
 import scisoftpy as dnp
+from Diamond.Utility.BeamlineFunctions import logger
 
 
 run("Diamond/Analysis/GaussianFitting");

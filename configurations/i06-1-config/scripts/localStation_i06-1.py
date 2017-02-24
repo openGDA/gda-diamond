@@ -12,26 +12,11 @@ from gda.configuration.properties import LocalProperties
 
 localStationErrorCount=0
 
-# try:
-#     print "-------------------------------------------------------------------"
-#     print "Set up the m6qgmax routing"
-# 
-#     execfile(gdaScriptDir + "BeamlineI06/m6qgmax.py");
-# except:
-#     exceptionType, exception, traceback=sys.exc_info();
-#     print "XXXXXXXXXX:  m6qgmax Error "
-#     logger.dump("---> ", exceptionType, exception, traceback)
-#     localStationErrorCount+=1
-
 try:
     print "-------------------------------------------------------------------"
     #print "Change the default output format to meet the branch line requirements"
     execfile(gdaScriptDir + "BeamlineI06/setOutputFormat_i06-1.py");
     
-    #Group the hexapod legs into list
-    m1legs = [m1leg1, m1leg2, m1leg3, m1leg4, m1leg5, m1leg6];
-    m6legs = [m6leg1, m6leg2, m6leg3, m6leg4, m6leg5, m6leg6];
-    m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];
 except:
     exceptionType, exception, traceback=sys.exc_info();
     print "XXXXXXXXXX:  Errors when running the localstation_i06.py"
