@@ -26,7 +26,7 @@ fileHeader.setScanLogger(peemline);
 from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx  # @UnusedImport
 from peem.usePEEM import roi1,roi2,roi3,roi4,uvroi,uvpreview,uvimaging,picture  # @UnusedImport
 
-from BeamlineI06.useS4 import s4ygap, s4xgap
+from slits.useS4 import s4ygap, s4xgap
 #To add PEE line device position to the SRS file header
 peemMirrorList = [m3x, m3pitch, m3qg]; fileHeader.add(peemMirrorList);  # @UndefinedVariable
 peemDiodeList = [d5x, d6y, d7x, d7ax]; fileHeader.add(peemDiodeList);  # @UndefinedVariable
