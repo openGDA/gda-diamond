@@ -37,6 +37,7 @@ from i06shared.scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,
 from i06shared.devices.usePGM import grating  # @UnusedImport
 from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
 from i06shared.setSrsDataFileHeader import fileHeader,blList,idList,pgmList,energyList,slitList,commonMirrorList  # @UnusedImport
+from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
 
 print "==================================================================="; print; print;
 print "I06 shared localStation.py completed successfully!"
