@@ -4,9 +4,10 @@
 from Diamond.Pixis.PixisDetector import PixisDetectorClass
 
 
-print "-------------------------------------------------------------------"
+print "-"*100
 ViewerPanelName = "Plot 2"
+adPixis='pixis1det'
 print "Create a GDA pseudo detector pixis to use the PIXIS AreaDetector adPixis"
-pixis = PixisDetectorClass("pixis", ViewerPanelName, 'adPixis');
+pixis = PixisDetectorClass("pixis", ViewerPanelName, adPixis);
 #pixis.connect();
 

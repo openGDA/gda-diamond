@@ -12,22 +12,6 @@ from gda.configuration.properties import LocalProperties
 
 localStationErrorCount=0
 
-#Setup the PIXIS Camera
-print "-------------------------------------------------------------------"
-enablePixisDetector=False
-# See also the server_pixis import in server_i06-1.xml
-if enablePixisDetector:
-    print "Set up the PIXIS"
-    try:
-        execfile(gdaScriptDir + "BeamlineI06/usePixis.py");
-    except:
-        exceptionType, exception, traceback=sys.exc_info();
-        print "XXXXXXXXXX:  Pixis Error "
-        logger.dump("---> ", exceptionType, exception, traceback)
-        localStationErrorCount+=1
-else:
-    print "Not enabled: PIXIS Detector."
-
 # try:
 #     #Enable Exit Slits S6 Gap Control s6ygap";
 #     #print "-------------------------------------------------------------------"
