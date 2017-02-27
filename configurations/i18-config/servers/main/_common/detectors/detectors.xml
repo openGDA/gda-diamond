@@ -21,6 +21,11 @@
 		<property name="dtcConfigFileName"
 			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
 		<property name="sumAllElementData" value="true" />
+		<property name="outputFormat">
+			<list>
+				<value>%5.6g</value>
+			</list>
+		</property>
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xspress2system" />
