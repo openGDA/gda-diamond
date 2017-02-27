@@ -25,6 +25,9 @@ fileHeader.setScanLogger(peemline);
 #PEEM End Station
 from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx  # @UnusedImport
 from peem.usePEEM import roi1,roi2,roi3,roi4,uvroi,uvpreview,uvimaging,picture  # @UnusedImport
+#the following line is only for TCPIP connection in GDA.
+from peem.uv_leem_reconnect import reconnect  # @UnusedImport
+from peem.idio_peem_rois import roi1io,roi2io,roi3io,roi4io  # @UnusedImport
 
 from slits.useS4 import s4ygap, s4xgap
 #To add PEE line device position to the SRS file header
