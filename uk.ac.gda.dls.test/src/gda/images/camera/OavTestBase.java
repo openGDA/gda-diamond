@@ -53,10 +53,10 @@ public abstract class OavTestBase {
 	}
 	
 	protected void setNewPropertiesForPhaseIWithRightHorizontalDirection() {
-		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION, "{{0;0;-1};{0;-1;0};{1;0;0}}");
+		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION, "{{0;0;1};{0;-1;0};{1;0;0}}");
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION, "clockwise");
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT, "true");
-		LocalProperties.set(LocalProperties.GDA_IMAGES_HORIZONTAL_DIRECTION, "right");
+		LocalProperties.set(LocalProperties.GDA_IMAGES_HORIZONTAL_DIRECTION, "left");
 	}
 	
 	protected void setNewPropertiesForI24() {
