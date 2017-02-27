@@ -41,16 +41,6 @@ public class UtilitiesTest extends OavTestBase {
 	}
 	
 	/**
-	 * Tests the Phase I calculations using an axis orientation matrix and
-	 * "left" horizontal direction.
-	 */
-	@Test
-	public void testPhaseICalculationsWithMatrixAndLeftHorizontalDirection() {
-		setNewPropertiesForPhaseIWithLeftHorizontalDirection();
-		doCalculationsForPhaseIWithLeftHorizontalDirection();
-	}
-	
-	/**
 	 * Tests the I24 calculations, using an axis orientation matrix.
 	 */
 	@Test

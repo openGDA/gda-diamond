@@ -39,11 +39,6 @@ public abstract class OavTestBase {
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT, null);
 	}
 
-	protected void setNewPropertiesForPhaseIWithRightHorizontalDirection() {
-		setNewPropertiesForPhaseIExceptHorizontalDirection();
-		LocalProperties.set(LocalProperties.GDA_IMAGES_HORIZONTAL_DIRECTION, "right");
-	}
-	
 	protected void doCalculationsForPhaseIWithRightHorizontalDirection() {
 		final double[] requested = arrayOf(10, 20, 30);
 
@@ -57,28 +52,11 @@ public abstract class OavTestBase {
 		checkMove(requested, 315,  14.1,  14.1, 10);
 	}
 	
-	protected void setNewPropertiesForPhaseIWithLeftHorizontalDirection() {
-		setNewPropertiesForPhaseIExceptHorizontalDirection();
-		LocalProperties.set(LocalProperties.GDA_IMAGES_HORIZONTAL_DIRECTION, "left");
-	}
-	
-	protected void doCalculationsForPhaseIWithLeftHorizontalDirection() {
-		final double[] requested = arrayOf(10, 20, 30);
-
-		checkMove(requested,   0,  20,     0,   -10);
-		checkMove(requested,  45,  14.1, -14.1, -10);
-		checkMove(requested,  90,   0,   -20,   -10);
-		checkMove(requested, 135, -14.1, -14.1, -10);
-		checkMove(requested, 180, -20,     0,   -10);
-		checkMove(requested, 225, -14.1,  14.1, -10);
-		checkMove(requested, 270,   0,    20,   -10);
-		checkMove(requested, 315,  14.1,  14.1, -10);
-	}
-	
-	private void setNewPropertiesForPhaseIExceptHorizontalDirection() {
+	protected void setNewPropertiesForPhaseIWithRightHorizontalDirection() {
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION, "{{0;1;0};{1;0;0};{0;0;1}}");
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION, "clockwise");
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT, "false");
+		LocalProperties.set(LocalProperties.GDA_IMAGES_HORIZONTAL_DIRECTION, "right");
 	}
 	
 	protected void setNewPropertiesForI24() {
