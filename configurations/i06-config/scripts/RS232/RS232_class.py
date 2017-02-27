@@ -1,5 +1,3 @@
-from java import lang
-from java.lang import System
 from time import sleep
 from gda.epics import CAClient
 # this is to support 2 branches of the beamline
