@@ -109,9 +109,9 @@ public class UtilitiesTest extends OavTestBase {
 		// (10, 20) pixel move from centre pixel position of (512, 384)
 		double[] actualMove = Utilities.calculateSampleStageMove(512+10, 384+20, 0);
 		// expect actual move of (20, 50) microns but horizontal direction is reversed, hence (-20, 50)
-		assertEquals(50,  actualMove[0], 0.001);
-		assertEquals(0,   actualMove[1], 0.001);
-		assertEquals(-20, actualMove[2], 0.001);
+		assertEquals(20,  actualMove[0], 0.001);
+		assertEquals(-50, actualMove[1], 0.001);
+		assertEquals(0,   actualMove[2], 0.001);
 	}
 	
 	/**

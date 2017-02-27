@@ -42,20 +42,20 @@ public abstract class OavTestBase {
 	protected void doCalculationsForPhaseIWithRightHorizontalDirection() {
 		final double[] requested = arrayOf(10, 20, 30);
 
-		checkMove(requested,   0,  20,     0,   10);
-		checkMove(requested,  45,  14.1, -14.1, 10);
-		checkMove(requested,  90,   0,   -20,   10);
-		checkMove(requested, 135, -14.1, -14.1, 10);
-		checkMove(requested, 180, -20,     0,   10);
-		checkMove(requested, 225, -14.1,  14.1, 10);
-		checkMove(requested, 270,   0,    20,   10);
-		checkMove(requested, 315,  14.1,  14.1, 10);
+		checkMove(requested,   0,  -10,  -20,     30   );
+		checkMove(requested,  45,  -10,  -35.4,   7.1  );
+		checkMove(requested,  90,  -10,  -30,    -20   );
+		checkMove(requested, 135,  -10,  -7.1,   -35.4 );
+		checkMove(requested, 180,  -10,   20,    -30   );
+		checkMove(requested, 225,  -10,   35.4,  -7.1  );
+		checkMove(requested, 270,  -10,   30,     20   );
+		checkMove(requested, 315,  -10,   7.1,    35.4 );
 	}
 	
 	protected void setNewPropertiesForPhaseIWithRightHorizontalDirection() {
-		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION, "{{0;1;0};{1;0;0};{0;0;1}}");
+		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION, "{{0;0;-1};{0;-1;0};{1;0;0}}");
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION, "clockwise");
-		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT, "false");
+		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT, "true");
 		LocalProperties.set(LocalProperties.GDA_IMAGES_HORIZONTAL_DIRECTION, "right");
 	}
 	
