@@ -33,7 +33,6 @@ import gda.analysis.numerical.integration.Integrate;
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 
 public class PowerCalulator {
 

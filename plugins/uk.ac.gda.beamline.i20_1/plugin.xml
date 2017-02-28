@@ -6,14 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 EDE">
+            name="GDA I20 EDE offline">
          <property
                name="appName"
-               value="GDA I20 EDE">
-         </property>
-         <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
+               value="GDA I20 EDE offline">
          </property>
          <property
                name="aboutImage"

@@ -57,7 +57,7 @@ import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
-import uk.ac.gda.exafs.data.AlignmentParametersModel;
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -424,8 +424,7 @@ public abstract class EdeExperiment implements IObserver {
 	private void addMetaData(XasAsciiNexusDataWriter dataWriter) {
 		StringBuilder metadataText = new StringBuilder();
 		// Alignment parameters
-		Object result = InterfaceProvider.getJythonNamespace()
-				.getFromJythonNamespace(AlignmentParametersModel.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
+		Object result = InterfaceProvider.getJythonNamespace().getFromJythonNamespace(ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
 		if (result != null && (result instanceof AlignmentParametersBean)) {
 			metadataText.append(result.toString());
 		}

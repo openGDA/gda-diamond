@@ -28,8 +28,6 @@ import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
 import gda.observable.IObserver;
 import uk.ac.gda.beans.ObservableModel;
-import uk.ac.gda.exafs.data.ClientConfig.EdeDataStore;
-import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 
 public class SlitsScanModel extends ObservableModel implements IObserver {
 

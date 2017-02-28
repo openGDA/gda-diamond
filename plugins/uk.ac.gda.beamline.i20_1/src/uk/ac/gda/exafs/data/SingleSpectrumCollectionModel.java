@@ -138,7 +138,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	}
 
 	private void loadSingleSpectrumData() {
-		SingleSpectrumCollectionModel singleSpectrumData = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumCollectionModel.class);
+		SingleSpectrumCollectionModel singleSpectrumData = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumCollectionModel.class);
 		if (singleSpectrumData == null) {
 			experimentDataModel = new ExperimentDataModel();
 			return;
@@ -156,7 +156,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	}
 
 	private void saveSingleSpectrumData() {
-		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, this);
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, this);
 	}
 
 	private String buildScanCommand() {

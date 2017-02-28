@@ -87,10 +87,10 @@ import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalCut;
 import uk.ac.gda.exafs.data.AlignmentParametersModel.CrystalType;
 import uk.ac.gda.exafs.data.AlignmentParametersModel.QValue;
-import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.PowerCalulator;
+import uk.ac.gda.exafs.data.ScannableSetup;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.ui.viewer.EnumPositionViewer;
 

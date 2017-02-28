@@ -59,8 +59,8 @@ import gda.scan.ede.TimeResolvedExperiment;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel.TimingGroupTimeBarRowModel;
@@ -203,7 +203,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	private void loadSavedGroups() {
 
-		TFGTrigger savedExternalTriggerSetting = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
+		TFGTrigger savedExternalTriggerSetting = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
 		if (savedExternalTriggerSetting == null) {
 			savedExternalTriggerSetting = new TFGTrigger();
 			try {
@@ -221,8 +221,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			}
 		});
 
-		TimingGroupUIModel[] savedGroups = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
-		ExperimentDataModel savedExperimentDataModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
+		TimingGroupUIModel[] savedGroups = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
+		ExperimentDataModel savedExperimentDataModel = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
 		if (savedExperimentDataModel == null) {
 			experimentDataModel = new ExperimentDataModel();
 		} else {
@@ -231,7 +231,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getI0IRefDataKey(), experimentDataModel);
+				EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getI0IRefDataKey(), experimentDataModel);
 			}
 		});
 		if (savedGroups == null) {
@@ -316,7 +316,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		newGroup.setAccumulationReadoutTime(INITIAL_ACCUMULATION_READOUT_TIME);
 		newGroup.setExternalTriggerAvailable(true);
 		newGroup.setExternalTriggerInputLemoNumber(InputTriggerLemoNumbers.ZERO);
-		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
 		return newGroup;
 	}
 
@@ -747,11 +747,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	public void setUseFastShutter(boolean useFastShutter) {
 		this.firePropertyChange(USE_FAST_SHUTTER, this.useFastShutter, this.useFastShutter = useFastShutter);
-		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getFastShutterDataKey(), useFastShutter );
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getFastShutterDataKey(), useFastShutter );
 	}
 
 	private void savePreferenceData() {
-		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getDataStoreKey(), groupList);
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getDataStoreKey(), groupList);
 	}
 
 	/**
@@ -762,7 +762,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private void loadFastShutterData() {
 		boolean useFastShutter = true;
 		try {
-			useFastShutter = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration( getFastShutterDataKey(), boolean.class );
+			useFastShutter = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration( getFastShutterDataKey(), boolean.class );
 		}
 		catch( NullPointerException e ) {
 			logger.info("Problem loading data for use fast shutter preference : ", e );
