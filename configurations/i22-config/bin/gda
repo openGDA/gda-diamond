@@ -55,7 +55,7 @@ if [[ "$@" == *"servers"* ]] && [[ "$@" != *"stop"* ]]; then
     else
         log=${GDA_WORKSPACE_PARENT}/i22_logs/gda_server.log
     fi
-    w_id=xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5   # get current window id
+    w_id=$(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5)   # get current window id
     
     gnome-terminal --window \
                    --hide-menubar \
