@@ -16,7 +16,7 @@ from i06shared.localStation import *  # @UnusedWildImport
 
 from Beamline.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
-from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2
+from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2  # @UnusedImport
 
 #To eLog the scan
 from Beamline.beamline import branchline
