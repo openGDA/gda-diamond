@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		This contains the definition of the processing detector. It is common between live and dummy modes
+		as its behaviour is determined by the consumer which is running on the machine where the GDA servers
+		are running. If running on a beamline control machine, it may use either the cluster, or a local
+		consumer depending on what is automatically stated up (usually by procserv).
+
+		If running in dummy mode, then you will need to start up a local consumer in order to use this detector, for instance: 
+
+		module load consumer
+		module load dawn/nightly
+		consumer start operations -uri tcp://localhost:61616
+	</description>
+
+	<!--  Processing Detector -->
+
+	<bean id="clusterProcessingModel" class="org.eclipse.scanning.api.device.models.ClusterProcessingModel">
+		<property name="name"           value="clusterProcessing"/>
+		<property name="detectorName"   value="mandelbrot"/> <?ignore Default only, any other detector can be selected. ?>
+    </bean>
+	<bean id="clusterProcessingInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label"       value="Cluster Processing Detector"/>
+		<property name="description" value="A device which submits a job to execute results processing."/>
+		<property name="icon"        value="org.eclipse.scanning.sequencer/icons/processing.png"/> 
+	</bean>
+	<bean id="clusterProcessingDevice" class="org.eclipse.scanning.sequencer.analysis.ClusterProcessingRunnableDevice" init-method="register">
+		<property name="name"              value="clusterProcessing"/>
+		<property name="model"             ref="clusterProcessingModel"/>
+		<property name="deviceInformation" ref="clusterProcessingInfo"/>
+		<property name="activated"         value="false"/> <?ignore true means this is activated as the default device to use in a scan. ?>
+	</bean>
+</beans>
