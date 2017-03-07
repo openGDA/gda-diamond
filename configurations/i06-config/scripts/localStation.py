@@ -30,6 +30,10 @@ from peem.uv_leem_reconnect import reconnect  # @UnusedImport
 from peem.idio_peem_rois import roi1io,roi2io,roi3io,roi4io  # @UnusedImport
 from peem.stv_obj_instance import stvobj  # @UnusedImport
 
+from RGA.rga4 import rgaPeem,rga4Ar,rga4CH4,rga4CO,rga4CO2,rga4H2,rga4H2O,rga4O2,rga4tot  # @UnusedImport
+from RGA.rga5 import rgaPreparation, rga5Ar,rga5CH4,rga5CO,rga5CO2,rga5H2,rga5H2O,rga5O2,rga5tot  # @UnusedImport
+
+
 from slits.useS4 import s4ygap, s4xgap
 #To add PEE line device position to the SRS file header
 peemMirrorList = [m3x, m3pitch, m3qg]; fileHeader.add(peemMirrorList);  # @UndefinedVariable
