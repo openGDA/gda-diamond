@@ -19,7 +19,7 @@
 package uk.ac.gda.exafs.experiment.ui.data;
 
 import uk.ac.gda.beans.ObservableModel;
-import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
+import uk.ac.gda.exafs.data.ScannableSetup;
 
 public class ExperimentMotorPostion extends ObservableModel {
 

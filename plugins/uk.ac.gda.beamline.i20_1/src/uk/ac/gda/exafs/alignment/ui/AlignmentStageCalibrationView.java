@@ -51,7 +51,8 @@ import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;
 import uk.ac.gda.exafs.data.ClientConfig;
-import uk.ac.gda.exafs.data.ClientConfig.ScannableSetup;
+import uk.ac.gda.exafs.data.EdeDataStore;
+import uk.ac.gda.exafs.data.ScannableSetup;
 import uk.ac.gda.exafs.ui.data.AlignmentStageModel;
 import uk.ac.gda.exafs.ui.data.ScannableMotorMoveObserver;
 import uk.ac.gda.ui.components.NumberEditorControl;
@@ -178,13 +179,13 @@ public class AlignmentStageCalibrationView extends ViewPart {
 	// Save alignment settings to persistence store.
 	private void saveAlignmentStageSettings() {
 		AlignmentStageModel model = getModelFromDevicePositions();
-		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), model);
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), model);
 	}
 
 	// Load alignment settings from persistence store.
 	private void loadAlignmentStageSettings() {
 		AlignmentStageModel model = new AlignmentStageModel();
-		model = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(this.getDataStoreKey(), AlignmentStageModel.class);
+		model = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(this.getDataStoreKey(), AlignmentStageModel.class);
 		setDevicePositionsFromModel( model );
 	}
 
@@ -220,7 +221,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 		alignmentStageComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		alignmentStageComposite.setLayout(new GridLayout(3, false));
 
-		Scannable scannable = ClientConfig.ScannableSetup.ALIGNMENT_STAGE.getScannable();
+		Scannable scannable = ScannableSetup.ALIGNMENT_STAGE.getScannable();
 		if (scannable instanceof AlignmentStage) {
 			alignmentStage = (AlignmentStage) scannable;
 

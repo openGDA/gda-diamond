@@ -36,10 +36,12 @@ import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.slf4j.Logger;
@@ -118,7 +120,7 @@ public class TimeResolvedToolPageHelper {
 
 	public void applyEnergyCalibrationToNexusFiles(File nexusFile, Display display, String energyCalibration, double[] value) throws Exception {
 		Shell shell = display.getActiveShell();
-		File[] selectedFiles = DataFileHelper.showMultipleFileSelectionDialog(shell, nexusFile.getParent());
+		File[] selectedFiles = showMultipleFileSelectionDialog(shell, nexusFile.getParent());
 		if (selectedFiles == null || selectedFiles.length < 1) {
 			return;
 		}
@@ -133,6 +135,29 @@ public class TimeResolvedToolPageHelper {
 			timeResolvedNexusFileHelper.replaceEnergy(energyCalibration, value);
 			FileUtils.copyFileToDirectory(new File(path), new File(dirToStoreCalibratedFiles));
 		}
+	}
+
+	public static File[] showMultipleFileSelectionDialog(Shell shell, String path) {
+		FileDialog fileDialog = new FileDialog(shell, SWT.MULTI);
+		fileDialog.setFilterNames(new String[] { "Nexus (*.nxs)" });
+		fileDialog.setFilterExtensions(new String[] { "*.nxs" });
+		fileDialog.setText("Select file to apply new energy calibration...");
+		String folder = path;
+		fileDialog.setFilterPath(folder);
+		if (fileDialog.open() != null) {
+			String[] filenames = fileDialog.getFileNames();
+			String filterPath = fileDialog.getFilterPath();
+			File[] selectedFiles = new File[filenames.length];
+			for (int i = 0; i < filenames.length; i++) {
+				if (filterPath != null && filterPath.trim().length() > 0) {
+					selectedFiles[i] = new File(filterPath, filenames[i]);
+				} else {
+					selectedFiles[i] = new File(filenames[i]);
+				}
+			}
+			return selectedFiles;
+		}
+		return null;
 	}
 
 	public void averageSpectrumAndExport(File nexusFile, Display display, SpectraRegionDataNode[] spectraRegionDataNode) {

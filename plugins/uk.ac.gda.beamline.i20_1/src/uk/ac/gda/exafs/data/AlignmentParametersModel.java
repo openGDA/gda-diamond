@@ -82,7 +82,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 
 	public static final String ELEMENT_ENERGY_PROP_NAME = "energy";
 
-	public static final String ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME = "beamlinealignmentresults";
+	public static final String ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME = ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME;
 	public static final String ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME = "beamlinealignmentparameters";
 
 	private static final String POWER_PROP_NAME = "power";
@@ -339,7 +339,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 			if ( edge != null )
 				absorptionEdgeString = edge.toString();
 
-			ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, this);
+			EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, this);
 		}
 	}
 
@@ -348,7 +348,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 	 * @since 8/4/2016
 	 */
 	public void loadAlignmentParametersFromStore() {
-		AlignmentParametersModel paramModel = ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, AlignmentParametersModel.class);
+		AlignmentParametersModel paramModel = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(ALIGNMENT_PARAMETERS_DATA_STORE_KEY, AlignmentParametersModel.class);
 		setFromModel( paramModel );
 		parametersLoaded = true;
 	}

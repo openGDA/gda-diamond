@@ -26,37 +26,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import org.apache.commons.io.FilenameUtils;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
 
 public class DataFileHelper {
 
 	private DataFileHelper() {}
-
-	public static File[] showMultipleFileSelectionDialog(Shell shell, String path) {
-		FileDialog fileDialog = new FileDialog(shell, SWT.MULTI);
-		fileDialog.setFilterNames(new String[] {"Nexus (*.nxs)"});
-		fileDialog.setFilterExtensions(new String[] {"*.nxs"});
-		fileDialog.setText("Select file to apply new energy calibration...");
-		String folder = path;
-		fileDialog.setFilterPath(folder);
-		if (fileDialog.open() != null) {
-			String[] filenames = fileDialog.getFileNames();
-			String filterPath = fileDialog.getFilterPath();
-			File[] selectedFiles = new File[filenames.length];
-			for (int i = 0; i < filenames.length; i++) {
-				if(filterPath != null && filterPath.trim().length() > 0) {
-					selectedFiles[i] = new File(filterPath, filenames[i]);
-				}
-				else {
-					selectedFiles[i] = new File(filenames[i]);
-				}
-			}
-			return selectedFiles;
-		}
-		return null;
-	}
 
 	private static String tempPath = System.getProperty("java.io.tmpdir");
 
