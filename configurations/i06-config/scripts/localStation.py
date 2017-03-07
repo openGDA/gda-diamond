@@ -28,6 +28,7 @@ from peem.usePEEM import roi1,roi2,roi3,roi4,uvroi,uvpreview,uvimaging,picture  
 #the following line is only for TCPIP connection in GDA.
 from peem.uv_leem_reconnect import reconnect  # @UnusedImport
 from peem.idio_peem_rois import roi1io,roi2io,roi3io,roi4io  # @UnusedImport
+from peem.stv_obj_instance import stvobj  # @UnusedImport
 
 from slits.useS4 import s4ygap, s4xgap
 #To add PEE line device position to the SRS file header
