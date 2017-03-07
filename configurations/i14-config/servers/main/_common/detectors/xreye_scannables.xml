@@ -36,6 +36,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="xreye_addetector" />
+				<ref bean="xreye_nxdetector" />
 				<ref bean="xreye_x" />
 				<ref bean="xreye_y" />
 				<ref bean="xreye_z" />
