@@ -50,8 +50,10 @@
 		<property name="local" value="true"/>
 	</bean>
 
+<!-- 
 	<bean id="srotMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:ROTARY" />
 		<property name="local" value="true"/>
 	</bean>
+ -->
 </beans>
