@@ -22,7 +22,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.ac.gda.exafs.data.ClientConfig;
+import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.experiment.ui.data.ExternalTriggerSetting;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 
@@ -44,7 +44,7 @@ public class ExternalTriggerDetailsWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		ClientConfig.EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(TimeResolvedExperimentModel.EXTERNAL_TRIGGER_DETAILS, externalTriggerSetting.getTfgTrigger());
 		//		logger.debug("Command to send\n" + externalTriggerSetting.getTfgTrigger().getTfgSetupGrupsCommandParameters(1, false));
 		return true;
 	}

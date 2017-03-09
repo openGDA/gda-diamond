@@ -45,6 +45,7 @@ import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorUnavailableException;
+import uk.ac.gda.exafs.data.ScannableSetup;
 import uk.ac.gda.exafs.data.SlitsScanModel;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
@@ -74,15 +75,15 @@ public class SlitsScanSection extends ResourceComposite {
 		slitsParametersSelectionComposite.setLayout(new GridLayout(2, false));
 		slitsParametersSection.setClient(slitsParametersSelectionComposite);
 		try{
-			Label lbl = toolkit.createLabel(slitsParametersSelectionComposite, ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getLabel(), SWT.NONE);
+			Label lbl = toolkit.createLabel(slitsParametersSelectionComposite, ScannableSetup.SLIT_3_HORIZONAL_GAP.getLabel(), SWT.NONE);
 			lbl.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
 
 			GridData gridDataForTxt = new GridData(SWT.FILL, GridData.CENTER, true, false);
 
 			NumberEditorControl txtGap = new NumberEditorControl(slitsParametersSelectionComposite, SWT.None, SlitsScanModel.getInstance(), SlitsScanModel.GAP_PROP_NAME, false);
-			txtGap.setUnit(ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText());
+			txtGap.setUnit(ScannableSetup.SLIT_3_HORIZONAL_GAP.getUnit().getText());
 			txtGap.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-			ScannableWrapper scannableWrapper = ClientConfig.ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableWrapper();
+			ScannableWrapper scannableWrapper = ScannableSetup.SLIT_3_HORIZONAL_GAP.getScannableWrapper();
 			if (scannableWrapper.getLowerLimit() != null && scannableWrapper.getUpperLimit() != null) {
 				txtGap.setRange(scannableWrapper.getLowerLimit(), scannableWrapper.getUpperLimit());
 			}

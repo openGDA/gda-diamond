@@ -34,7 +34,7 @@ import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
-import uk.ac.gda.exafs.data.AlignmentParametersModel;
+import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -119,8 +119,7 @@ public abstract class EdeExperimentDataWriter {
 				}
 			}
 			// Adding alignment parameters
-			Object result = InterfaceProvider.getJythonNamespace()
-					.getFromJythonNamespace(AlignmentParametersModel.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
+			Object result = InterfaceProvider.getJythonNamespace().getFromJythonNamespace(ClientConfig.ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
 			if (result != null && (result instanceof AlignmentParametersBean)) {
 				configBuilder.append("# " + result.toString() + "\n");
 			}

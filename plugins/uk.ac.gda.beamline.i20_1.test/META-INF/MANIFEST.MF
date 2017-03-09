@@ -5,7 +5,7 @@ Bundle-SymbolicName: uk.ac.gda.beamline.i20_1.test;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Fragment-Host: uk.ac.gda.beamline.i20_1;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  org.junit;bundle-version="[4.12.0,5.0.0)",
  uk.ac.diamond.org.powermock;bundle-version="[1.6.4,2.0.0)",
@@ -13,8 +13,11 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  javassist;bundle-version="[3.20.0,3.21.0)",
  org.objenesis;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
- uk.ac.diamond.org.springframework;bundle-version="4.0.6"
-Import-Package: gda.scan.ede.position,
+ uk.ac.diamond.org.springframework;bundle-version="4.0.6",
+ uk.ac.gda.epics
+Import-Package: gda.data.scan.datawriter,
+ gda.scan.ede.position,
  hdf.object,
+ org.eclipse.core.runtime;version="3.4.0",
  org.eclipse.dawnsci.hdf.object,
  org.eclipse.january.dataset
