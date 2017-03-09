@@ -21,7 +21,7 @@ fi
 
 # Define GDA_VAR
 if [[ "${GDA_MODE}" == "live" ]]; then
-    # GDA_VAR will point to something like /dls_sw/<beamline>/software/var/
+    # GDA_VAR will point to something like /dls_sw/<beamline>/software/gda_var
     export GDA_VAR=$(readlink -f ${GDA_WORKSPACE_PARENT}/../../gda_var)
 else
     export GDA_VAR=${GDA_WORKSPACE_PARENT}/gda_var_non_live
