@@ -1,3 +1,3 @@
 #! /bin/bash
 
-module load java/gda92
+module load java/gda93
