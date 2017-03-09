@@ -19,7 +19,7 @@
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
 	</bean>
-	<import resource="commandQueueProcessor.xml"/>
+	<import resource="file:${gda.config}/clients/main/_common/commandQueueProcessor.xml"/>
 
 	<corba:import namespace="i20-1" names="plot_server" />
 	
@@ -70,6 +70,6 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<import resource="file:${gda.config}/clients/main/AlignmentPerspectiveCompositeFactories.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/AlignmentPerspectiveCompositeFactories.xml" />
 
 </beans>

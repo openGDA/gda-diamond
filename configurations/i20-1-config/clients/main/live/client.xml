@@ -8,7 +8,7 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<import resource="file:${gda.config}/clients/main/client-common.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
 	
 <!-- 	<bean id="xhDetectorData" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
 <!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/xhDetectorData" /> -->
