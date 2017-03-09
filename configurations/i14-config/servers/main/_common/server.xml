@@ -61,6 +61,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_nxdetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/zebraControllers.xml" />
 
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/detector_table.xml" />
