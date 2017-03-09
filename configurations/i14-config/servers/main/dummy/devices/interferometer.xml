@@ -4,7 +4,6 @@
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!--
 	<bean id="stage1_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-18.3" />
 		<property name="maxPosition" value="19.2" />
@@ -28,7 +27,6 @@
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
-	-->
 
 	<bean id="intf_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-30.0" />
