@@ -10,17 +10,18 @@ sample_stage=t1_sx
 #hex_x  - hexapod sample table
 #ss1_X_dummy - a dummy motor used for testing
 #ss1_samplez - only use if going from -90 to 90. otherwise use ss1_x which is a virtual motor that takes acount of rotation
-tomography_translation=t1_sy
+#tomography_translation=t1_sy
 #tomography_translation=ss1_X
 #tomography_translation=t1_x
+tomography_translation=ss1_X_dummy
 
 #tomography_theta is the motor used to rotate the sample
 #Possible values:
 # ss1_rot - normal goniometer
 # p2r_rot - p2r
 #ss1_rot_dummy - a dummy motor used for testing
-#tomography_theta=t1_theta
-tomography_theta=ss1_rot_dummy
+tomography_theta=t1_theta
+#tomography_theta=ss1_rot_dummy
 #tomography_theta=grt_theta
 
 #tomography_optimizer is the device that checks if the beam current is of high enough value
@@ -52,16 +53,16 @@ tomography_time=actualTime
 tomography_beammonitor=ic1_rate
 
 #normal flyscan - uncomment the following 3 lines
-#tomography_flyscan_theta=zebraSM1
-#tomography_flyscan_det=flyScanDetector
-#tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
+tomography_flyscan_theta=zebraSM1
+tomography_flyscan_det=flyScanDetector
+tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
 
 #tomography_flyscan_det=flyScanDetectorTIF
 
 #connect p2r trigger to exposure out of PCO and connect that to Zebra TTL1. The busy is used by the tfg
-tomography_flyscan_det=p2r_flyScanDetector
-tomography_flyscan_flat_dark_det=p2r_flyScanFlatDarkDetector
-tomography_flyscan_theta=p2rSM1
+#tomography_flyscan_det=p2r_flyScanDetector
+#tomography_flyscan_flat_dark_det=p2r_flyScanFlatDarkDetector
+#tomography_flyscan_theta=p2rSM1
 
 
 # used for grating-interferometry step-scan
