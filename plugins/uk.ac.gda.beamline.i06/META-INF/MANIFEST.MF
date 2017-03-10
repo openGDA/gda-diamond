@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.devices.peem;bundle-version="1.0.0",
  uk.ac.gda.dls;bundle-version="1.0.0",
  uk.ac.gda.dls.client;bundle-version="1.0.0",
- uk.ac.gda.epics.adviewer;bundle-version="1.0.0"
+ uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
+ uk.ac.gda.devices.peem.client;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Diamond Light Source
