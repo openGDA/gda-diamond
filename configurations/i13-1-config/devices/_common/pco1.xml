@@ -81,7 +81,7 @@
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
-<!-- 	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+	<bean id="pco1_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco1_ndhdf5file" />
 		<property name="fileNameTemplate" value="pco1"/>
 		<property name="filePathTemplate" value="$datadir$"/>
@@ -93,10 +93,19 @@
 		<property name="framesChunks" value="0"/>
 		<property name="framesFlush" value="0"/>
 		<property name="lazyOpen" value="true"/>
-		property name="boundaryAlign" value="1048576"/
-		<property name="blocking" value="false"/> must be false otherwise PCO Event Driver driver crashes if framesChunks is 64
-		<property name="pathErrorSuppressed" value="true" />
-	</bean> -->
+		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+	</bean>
+
+	<bean id="pco1_sw_hdf_nochunking" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw_hdf_nochunking"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>	
 	
 	<!--  Use External Only triggering as otherwise the PCO EPICS driver will also send software triggers -->
 	<bean id="flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.PCOHWTriggerBase">
