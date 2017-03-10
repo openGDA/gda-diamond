@@ -1,0 +1,26 @@
+'''
+Script to run after the polarimeter is properly installed on beamline and EPICS IOC for it up and running.
+
+Created on 9 Mar 2017
+
+@author: fy65
+'''
+from gdascripts.configuration.properties.localProperties import LocalProperties
+
+global beanAdder
+
+gda_git_loc=LocalProperties.get(LocalProperties.GDA_GIT_LOC);
+# files for new bean definitions
+properties_definition_file=gda_git_loc+"/gda-mt.git/configurations/i06-shared/properties/_common/gdaProperties.xml"
+device_bean_definition_file=gda_git_loc+"/gda-mt.git/configurations/optics-config/servers/main/live/devices/polarimeter.xml"
+scannable_bean_definition_file=gda_git_loc+"/gda-mt.git/configurations/optics-config/servers/main/_common/scannables/polarimeter.xml"
+
+#add polarimeter beans to GDA server
+beanAdder.loadAdditionalBeans([properties_definition_file,device_bean_definition_file, scannable_bean_definition_file])
+
+#section to programmably inject referenced objects from parent context
+
+#import polarimeter scannable objects
+from polarimeter.polarimeterHexapod import hpx, hpy, hpz, hpa, hpb, hpc, hexapod  # @UnusedImport
+from polarimeter.polarimeterTemperatureMonitor import anatemp,rettemp  # @UnusedImport
+from polarimeter.Scaler8512 import ca1sr,ca2sr,ca3sr,ca4sr,ca5sr,ca6sr,ca7sr,ca8sr,scaler  # @UnusedImport

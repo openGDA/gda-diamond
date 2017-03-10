@@ -5,6 +5,7 @@
 	<projects>
 		<project>i06-shared</project>
 		<project>mt-config</project>
+		<project>uk.ac.gda.beamline.i06_1</project>
 		<project>uk.ac.gda.core</project>
 		<project>uk.ac.gda.dls</project>
 		<project>uk.ac.gda.dls.client</project>
