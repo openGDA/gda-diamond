@@ -14,7 +14,7 @@
       <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
 -Dgda.facility.dir=${project_loc:uk.ac.gda.dls/}/../dls-config
--Dgda.core.dir=${project_loc:uk.ac.gda.core/}/core-config
+-Dgda.core.dir=${project_loc:uk.ac.gda.core/}/../core-config
 -Dgda.config=${project_loc:i20-1-config}
 -Djava.library.path=${project_loc:uk.ac.gda.nexus)/lib/linux-x86_64
 -Dgda.propertiesFile=${project_loc:i20-1-config}/properties/dummy/dummy_instance_java.properties

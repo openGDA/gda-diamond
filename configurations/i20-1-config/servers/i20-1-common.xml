@@ -14,16 +14,7 @@
 
 <!-- Common for both all server and client configs on I20-1 -->
 
-	<!-- the only way to list more than one properties file -->
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
-				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
-			</list>
-		</property>
-	</bean>
+	<context:property-placeholder/>
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
