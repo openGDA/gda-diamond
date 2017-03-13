@@ -1,13 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!-- This seems a bit redundant in the new scanning but keeping it for now
-		to fit with the current ADDectector framework -->
 	<bean id="xsp3_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="xsp3_hdf5" />
 		<property name="fileTemplate" value="%s%s.hdf5" />
@@ -31,7 +26,6 @@
 	</bean>
 
 	<bean id="xsp3Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
 		<property name="label" value="Xspress3" />
 		<property name="description" value="Xspress3" />
 	</bean>

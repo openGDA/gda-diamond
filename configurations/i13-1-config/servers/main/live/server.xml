@@ -18,7 +18,6 @@
 	
 	<import resource="file:${gda.config}/devices/live/excalibur_shared.xml"/>
 	<import resource="file:${gda.config}/devices/live/excalibur.xml"/>
-	<import resource="file:${gda.config}/devices/live/excalibur_mapping.xml"/>
 
 	<!-- <import resource="file:${gda.config}/devices/live/vortex.xml"/> -->
 	<!-- <import resource="file:${gda.config}/devices/diamond_crl.xml"/> -->

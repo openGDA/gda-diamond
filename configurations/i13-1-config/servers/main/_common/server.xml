@@ -89,9 +89,10 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
-	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_mapping.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/xspress3_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/excalibur_addetector.xml"/>
 	
 	<import resource="file:${gda.config}/devices/${gda.mode}/afg.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_vac_motors.xml"/>
@@ -163,8 +164,10 @@
 	<import resource="file:${gda.config}/devices/_common/pco1.xml" />
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
 	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
+	<import resource="file:${gda.config}/devices/_common/merlin_addetector.xml" />
 	<import resource="file:${gda.config}/devices/_common/maxipix.xml" />
 	<import resource="file:${gda.config}/devices/_common/xspress3_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/_common/excalibur_addetector.xml"/>
 
 	<!-- This is no longer present - T2 now contains beamstop but not the detector xyz motors -->
 	<!-- <import resource="file:${gda.config}/devices/_common/detector_stage_t2.xml" /> -->

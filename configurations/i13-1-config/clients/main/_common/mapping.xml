@@ -34,12 +34,11 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
-				<!--
 	 			<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Merlin" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="merlin_mapping" />
+							<property name="name" value="merlin_addetector" />
 							<property name="exposureTime" value="0.002" />
 						</bean>
 					</constructor-arg>
@@ -49,13 +48,12 @@
 					<constructor-arg name="name" value="Excalibur" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="excalibur_mapping" />
-							<property name="exposureTime" value="0.002" />
+							<property name="name" value="excalibur_addetector" />
+							<property name="exposureTime" value="0.001" />
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
-				-->
  				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Xspress3" />
 					<constructor-arg name="model">
