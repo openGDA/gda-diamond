@@ -79,13 +79,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	//protected final TfgScaler injectionCounter;
 
-	protected boolean isSimulated = false;
-
 	private final ITerminalPrinter terminalPrinter;
 
 	private boolean smartstop=false;
-
-	private int spectrumNumberThisCollectionStoppedAt;
 
 	protected TimingGroup currentTimingGroup;
 
@@ -123,19 +119,12 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			allScannables.add(indexer);
 		}
 		super.setUp();
-		updateSimulated();
 
 		//injectionCounter = Finder.getInstance().find("injectionCounter");
 
 		terminalPrinter = InterfaceProvider.getTerminalPrinter();
 		useFastShutter = false;
 		fastShutter = null;
-	}
-
-	private void updateSimulated() {
-		if (SimulatedData.isLoaded()) {
-			isSimulated = true;
-		}
 	}
 
 	@Override
@@ -606,11 +595,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
 		NexusTreeProvider[][] detData = new NexusTreeProvider[1][];
 		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
-		if (isSimulated) {
-			detData[0] = SimulatedData.readSimulatedDataFromFile(lowFrame, highFrame, theDetector, this.getMotorPositions().getType(), this.getScanType());
-		} else {
-			detData[0] = theDetector.readFrames(lowFrame, highFrame);
-		}
+		detData[0] = theDetector.readFrames(lowFrame, highFrame);
 		logger.info("data read successfully");
 		return detData;
 	}
