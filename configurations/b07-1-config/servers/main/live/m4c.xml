@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m4c_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-OP-VRFM-01:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m4c_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-OP-VRFM-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m4c_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-OP-VRFM-01:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m4c_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-OP-VRFM-01:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m4c_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-OP-VRFM-01:YAW" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m4c_current1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL07C-OP-VRFM-01:I1:"/>
+		<property name="adcChannel" value="3" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="m4c_current2" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL07C-OP-VRFM-01:I2:"/>
+		<property name="adcChannel" value="4" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>
