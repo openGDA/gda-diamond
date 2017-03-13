@@ -17,7 +17,9 @@ from gdascripts.pd.time_pds import actualTimeClass
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/"
 gdascripts = LocalProperties.get("gda.install.git.loc") + "/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
 
-execfile(gdaScriptDir + "/installStandardScansWithProcessing.py");
+print "Installing standard scans with processing"
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
 
 execfile(gdascripts + "/pd/epics_pds.py");
 execfile(gdascripts + "/pd/dummy_pds.py");

@@ -18,6 +18,10 @@ from gdascripts.scannable.timerelated import TimeSinceScanStart
 gdaScriptDir = LocalProperties.get("gda.config")+"/scripts/"
 gdascripts = LocalProperties.get("gda.install.git.loc")+"/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
 
+print "Installing standard scans with processing"
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+
 execfile(gdascripts + "/pd/epics_pds.py");
 
 execfile(gdascripts + "/pd/time_pds.py");
@@ -64,8 +68,6 @@ caput_wait("BL05I-EA-DET-01:ARR1:EnableCallbacks",1, 1.0)
 import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
 from pathscanTable import pathscanTable
-
-execfile(gdaScriptDir + "/installStandardScansWithProcessing.py");
 
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
