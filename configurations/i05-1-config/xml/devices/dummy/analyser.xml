@@ -146,7 +146,8 @@
 	</bean>
 
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL05I-EA-DET-01:CAM:ELEMENT_SET"></property>
+		<property name="pvName" value="BL05I-EA-DET-01:CAM:ELEMENT_SET" />
+		<property name="outputFormat" value="%s" />
 	</bean>
 
 </beans>

@@ -125,6 +125,7 @@
 	<bean id="polarisation" class="uk.ac.gda.arpes.scannable.PolarisationScannable">
 		<property name="pgm" ref="pgm_energy" />
 		<property name="id" ref="id" />
+		<property name="outputFormat" value="%s" />
 	</bean>
 
 </beans>
