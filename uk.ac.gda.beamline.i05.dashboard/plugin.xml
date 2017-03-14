@@ -12,14 +12,6 @@
             name="Polling Dashboard"
             restorable="true">
       </view>
-         <view
-               category="uk.ac.gda.client.general.category"
-               class="uk.ac.gda.rcp.views.sample.SampleMetadataView"
-               icon="icons/sample.gif"
-               id="uk.ac.gda.arpes.ui.view.samplemetadata"
-               name="Sample and Scan Information"
-               restorable="true">
-         </view>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">

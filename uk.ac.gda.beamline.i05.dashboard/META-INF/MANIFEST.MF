@@ -25,5 +25,4 @@ Import-Package: org.eclipse.ui.intro.config,
  org.springframework.core;version="3.0.4",
  org.springframework.util;version="3.0.4"
 Export-Package: uk.ac.gda.rcp.views.dashboard,
- uk.ac.gda.rcp.views.dashboard.actions,
- uk.ac.gda.rcp.views.sample
+ uk.ac.gda.rcp.views.dashboard.actions
