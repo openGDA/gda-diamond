@@ -329,14 +329,20 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	# Configure single file filewriters first
 	
 	filePathTemplate="$datadir$/"
-	fileNameTemplate="$scan$-%s-%s" % (detector.name, sampleSuffix)
+	if detector.name in ("pe"):
+		fileNameTemplate="%s-%s-$scan$" % (detector.name, sampleSuffix)
+		print "%s detector now using filenames where detector and sample names come before scan number." % detector.name
+	else:
+		fileNameTemplate="$scan$-%s-%s" % (detector.name, sampleSuffix)
+		print "%s has not been tested with using filenames where detector and sample names come before scan number." % detector.name
+
 	fileTemplate="%s%s"
 	
 	if 'hdfwriter' in [p.getName() for p in detector.getPluginList()]:
 		detector.hdfwriter.setFileTemplate(fileTemplate+".hdf5")
 		detector.hdfwriter.setFilePathTemplate(filePathTemplate)
 		detector.hdfwriter.setFileNameTemplate(fileNameTemplate)
-		
+
 	# Then configure multi-file filewriters
 	
 	collectionStrategy = detector.getCollectionStrategy()
@@ -365,6 +371,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	
 	from gda.device.detector.odccd.collectionstrategy import ODCCDSingleExposure
 	if isinstance(collectionStrategy, ODCCDSingleExposure):
+		if "," in sampleSuffix:
+			raise Exception('Detector %r does not support commas in sampleSuffix: %s' % (detector.name, sampleSuffix))
 		filePathTemplate="$datadir$/_$scan$-%s-files-%s/" % (detector.name, sampleSuffix) # Atlas directories cannot start with a number.
 		collectionStrategy.setFileTemplate(fileTemplate+".img")
 		collectionStrategy.setFilePathTemplate(filePathTemplate)
