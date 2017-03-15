@@ -103,15 +103,6 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D7//BL14I-OP-DCAM-07@">
                </parameter>
             </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="XREYE Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//XREYE//BL14I-EA-XREYE-01:DET@">
-               </parameter>
-            </command>
          </menu>
       </menuContribution>
    </extension>
@@ -184,14 +175,6 @@
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D7//BL14I-OP-DCAM-07@"
             name="D7 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//XREYE//BL14I-EA-XREYE-01:DET@"
-            name="XREYE Array View"
             restorable="true">
       </view>
    </extension>

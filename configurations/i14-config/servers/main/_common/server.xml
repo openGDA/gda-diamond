@@ -59,7 +59,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/excalibur_motions.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xreye_nxdetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/zebraControllers.xml" />
 
@@ -107,7 +106,6 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/excalibur_motions.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_addetector.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_nxdetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xspress3_addetector.xml" />
 
