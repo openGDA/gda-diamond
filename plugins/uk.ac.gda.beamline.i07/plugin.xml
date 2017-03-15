@@ -92,7 +92,7 @@
          </view>
 -->
          <view
-               id="uk.ac.gda.exafs.ui.dashboardView"
+               id="uk.ac.gda.rcp.views.dashboardView"
                moveable="true"
                ratio="0.60"
                relationship="bottom"
@@ -106,7 +106,7 @@
                minimized="false"
                moveable="true"
                relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
+               relative="uk.ac.gda.rcp.views.dashboardView"
                showTitle="true"
                closeable="true"
                visible="true">
@@ -116,7 +116,7 @@
                minimized="false"
                moveable="true"
                relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
+               relative="uk.ac.gda.rcp.views.dashboardView"
                showTitle="true"
                closeable="true"
                visible="true">
