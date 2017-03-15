@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+	Definitions of calc record monitors.
+	
+	In addition to defining the pv, and normal scannable properties such as outputFormat, three other properties can be defined:
+	
+		unit		(The default is none)
+				This may be defined as a string
+
+		poll		(The default is false.)
+				When true causes getPosition() to always poll the data from hardware.
+
+		sensitivity	(The default is 0.0)
+				The percentage change required for observers to be notified.
+	</description>
+
+	<bean id="calc4a"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.A"/>
+	</bean>
+
+	<bean id="calc4b"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.B"/>
+	</bean>
+
+	<bean id="calc4c"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.C"/>
+	</bean>
+
+	<bean id="calc4d"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.D"/>
+	</bean>
+
+	<bean id="calc4e"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.E"/>
+	</bean>
+
+	<bean id="calc4f"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.F"/>
+	</bean>
+
+	<bean id="calc4g"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.G"/>
+	</bean>
+
+	<bean id="calc4h"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.H"/>
+	</bean>
+
+	<bean id="calc4i"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.I"/>
+	</bean>
+
+	<bean id="calc4j"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.J"/>
+	</bean>
+
+	<bean id="calc4k"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.K"/>
+	</bean>
+
+	<bean id="calc4l"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.L"/>
+	</bean>
+
+	<bean id="calc4m"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.M"/>
+	</bean>
+
+	<bean id="calc4n"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.N"/>
+	</bean>
+
+	<bean id="calc4o"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.O"/>
+	</bean>
+
+	<bean id="calc4p"
+			class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15J-EA-CALC-04.P"/>
+	</bean>
+
+</beans>
