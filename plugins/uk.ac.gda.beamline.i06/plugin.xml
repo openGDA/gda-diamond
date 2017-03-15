@@ -60,7 +60,7 @@
          </view>
          <view
                closeable="true"
-               id="uk.ac.gda.exafs.ui.dashboardView"
+               id="uk.ac.gda.rcp.views.dashboardView"
                moveable="true"
                relationship="stack"
                relative="org.eclipse.ui.navigator.ProjectExplorer"
@@ -141,7 +141,7 @@
          </view>
          <view
                closeable="true"
-               id="uk.ac.gda.exafs.ui.dashboardView"
+               id="uk.ac.gda.rcp.views.dashboardView"
                moveable="true"
                relationship="stack"
                relative="org.eclipse.ui.navigator.ProjectExplorer"
