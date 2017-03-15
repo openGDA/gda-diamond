@@ -17,11 +17,49 @@
 		<property name="group" value="Xray Eye" />
 	</bean>
 
+	<bean id="xsp3Start" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="xsp3_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); xsp3_addetector.collectData()" />
+		<property name="buttonText" value="Start" />
+		<property name="group" value="Xspress3" />
+	</bean>
+
+	<bean id="xsp3Stop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="xsp3_addetector.stop()" />
+		<property name="buttonText" value="Stop" />
+		<property name="group" value="Xspress3" />
+	</bean>
+
+ 	<bean id="stage1_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stage X" />
+		<property name="scannableName" value="stage1_x" />
+		<property name="group" value="Stage Controls" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+ 	<bean id="stage1_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stage Y" />
+		<property name="scannableName" value="stage1_y" />
+		<property name="group" value="Stage Controls" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+ 	<bean id="stage1_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stage Z" />
+		<property name="scannableName" value="stage1_z" />
+		<property name="group" value="Stage Controls" />
+		<property name="increment" value="0.1" />
+	</bean>
+
 	<bean name="xreyeControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
 				<ref bean="xreyeStart" />
 				<ref bean="xreyeStop" />
+				<ref bean="xsp3Start" />
+				<ref bean="xsp3Stop" />
+				<ref bean="stage1_x_control" />
+				<ref bean="stage1_y_control" />
+				<ref bean="stage1_z_control" />
 			</list>
 		</property>
 	</bean>
