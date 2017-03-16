@@ -4,73 +4,82 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="t1_sx_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1.0000e+10" />
-		<property name="maxPosition" value="9.9991e+08" />
+		<property name="minPosition" value="-3.0020e+05" />
+		<property name="maxPosition" value="8856" />
 		<property name="position" value="-1770.0" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="um" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_sy_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1.0000e+10" />
-		<property name="maxPosition" value="1.0000e+12" />
+		<property name="minPosition" value="-1.0e+10" />
+		<property name="maxPosition" value="1.0e+12" />
 		<property name="position" value="-2500.0" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="um" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_sz_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10094" />
-		<property name="maxPosition" value="10906" />
+		<property name="minPosition" value="-2.0152e+05" />
+		<property name="maxPosition" value="2.4849e+05" />
 		<property name="position" value="452.0" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="um" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-25.6" />
-		<property name="maxPosition" value="25.5" />
+		<property name="minPosition" value="0.7" />
+		<property name="maxPosition" value="7.0" />
 		<property name="position" value="3.8444" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10.4" />
-		<property name="maxPosition" value="5.0" />
+		<property name="minPosition" value="-13.4" />
+		<property name="maxPosition" value="10.0" />
 		<property name="position" value="-1.9043" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_z_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-55.0" />
+		<property name="minPosition" value="-15.41" />
 		<property name="maxPosition" value="55.0" />
 		<property name="position" value="-0.0003" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_pitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10.1" />
-		<property name="maxPosition" value="10.0" />
+		<property name="minPosition" value="-13.525" />
+		<property name="maxPosition" value="13.5" />
 		<property name="position" value="0.060055" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="deg" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_roll_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-0.6" />
-		<property name="maxPosition" value="0.6" />
+		<property name="minPosition" value="-15.425" />
+		<property name="maxPosition" value="15.375" />
 		<property name="position" value="0.16509" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="deg" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_theta_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-91.825" />
-		<property name="maxPosition" value="91.825" />
-		<property name="position" value="-86.3" />
+		<property name="minPosition" value="-361.0" />
+		<property name="maxPosition" value="-172.9" />
+		<property name="position" value="-286.3" />
+		<property name="speed" value="100" />
 		<property name="unitString" value="deg" />
 		<property name="local" value="true" />
 	</bean>
