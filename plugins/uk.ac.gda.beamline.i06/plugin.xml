@@ -25,9 +25,6 @@
          </property>    
       </product>
    </extension>
-   <extension
-         point="org.eclipse.ui.intro">
-   </extension>
 
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -215,6 +212,12 @@
             name="I06 Terminal"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@"
+            name="PCO Array View"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -228,6 +231,25 @@
             id="uk.ac.gda.beamline.i06.perspective.Experiment"
             name="Experiment Perspective">
       </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Area Detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="PCO Array"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@">
+               </parameter>
+            </command>
+         </menu>
+      </menuContribution>
    </extension>
 
    <!-- This won't work in 8.38, requires 8.40 or later
