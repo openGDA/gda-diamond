@@ -7,15 +7,17 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<context:property-placeholder/>
+	<context:property-placeholder />
 
-	<!-- Include the following lines to run with simulated area detector -->
-	<import resource="file:${gda.config}/devices/dummy/adSimulator.xml"/>
-    <!-- <import resource="file:${gda.config}/devices/dummy/pco1_ndplugins_sim.xml"/> -->
+	<import resource="file:${gda.config}/devices/dummy/adSimulator.xml" />
+
+	<!-- Include the following line to run with simulated area detector -->
+	<import resource="file:${gda.config}/devices/dummy/pco1_ndplugins_sim.xml" />
 
 	<!-- Include the following line to run with dummy area detector -->
-    <import resource="file:${gda.config}/devices/dummy/pco1_ndplugins.xml"/>
-	
+	<!-- <import resource="file:${gda.config}/devices/dummy/pco1_ndplugins.xml"/> -->
+
+
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
