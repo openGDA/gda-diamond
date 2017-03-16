@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<import resource="I15-1-CALC.xml"/>
 	<import resource="I15-1-JADC1.xml"/>
 	<import resource="I15-1-JBPM1.xml"/>
 	<import resource="I15-1-JBPM2.xml"/>
@@ -15,6 +16,7 @@
 	<import resource="I15-1-JLAUE.xml"/>
 	<import resource="I15-1-JM1.xml"/>
 	<import resource="I15-1-JPE1.xml"/>
+	<import resource="I15-1-JPE2.xml"/>
 	<!-- 
 	<import resource="I15-1-JPSL.xml"/>
 	 -->

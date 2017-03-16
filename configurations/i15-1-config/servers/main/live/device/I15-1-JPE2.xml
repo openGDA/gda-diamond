@@ -1,0 +1,117 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="pe2AD_config_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:CAM:" />
+	</bean>
+
+	<bean id="pe2AD_summary_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:ARR:" />
+	</bean>
+
+	<bean id="pe2AD_summary_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:STAT:" />
+	</bean>
+
+	<bean id="pe2AD_summary_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:ROI:" />
+	</bean>
+
+	<bean id="pe2AD_summary_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:MJPG:" />
+	</bean>
+
+	<bean id="pe2AD_summary_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
+
+	<bean id="pe2AD_summary_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:ROI1:" />
+	</bean>
+
+	<bean id="pe2AD_summary_roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:ROI2:" />
+	</bean>
+
+	<bean id="pe2AD_summary_roi3" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:ROI3:" />
+	</bean>
+
+	<bean id="pe2AD_summary_roi4" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:ROI4:" />
+	</bean>
+
+	<bean id="pe2AD_summary_roi5" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:ROI5:" />
+	</bean>
+
+	<bean id="pe2AD_summary_roi6" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:ROI6:" />
+	</bean>
+
+	<bean id="pe2AD_summary_proc1" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:PROC1:" />
+	</bean>
+
+	<bean id="pe2AD_summary_proc2" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:PROC2:" />
+	</bean>
+
+	<bean id="pe2AD_summary_proc3" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:PROC3:" />
+	</bean>
+
+	<bean id="pe2AD_summary_proc4" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:PROC4:" />
+	</bean>
+
+	<bean id="pe2AD_summary_proc5" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:PROC5:" />
+	</bean>
+
+	<bean id="pe2AD_summary_proc6" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:PROC6:" />
+	</bean>
+
+	<bean id="pe2AD_summary_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:STAT1:" />
+	</bean>
+
+	<bean id="pe2AD_summary_stat2" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:STAT2:" />
+	</bean>
+
+	<bean id="pe2AD_summary_stat3" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:STAT3:" />
+	</bean>
+
+	<bean id="pe2AD_summary_stat4" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:STAT4:" />
+	</bean>
+
+	<bean id="pe2AD_summary_stat5" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:STAT5:" />
+	</bean>
+
+	<bean id="pe2AD_summary_stat6" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:STAT6:" />
+	</bean>
+
+	<bean id="pe2_NDFileHDF5file" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="pe2Dark_NDFileHDF5file" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15J-EA-DET-02:HDF5B:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+</beans>
