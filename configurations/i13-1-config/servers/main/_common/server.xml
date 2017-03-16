@@ -60,7 +60,7 @@
 	
 	<!-- end of internal building / start of external building -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/optics_hutch4_shutter.xml"/>
-	<import resource="file:${gda.config}/devices/${gda.mode}/absorbers4.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/absorbers4.xml"/> -->
     <import resource="file:${gda.config}/devices/${gda.mode}/qcm_motors.xml"/> 
 	<import resource="file:${gda.config}/devices/${gda.mode}/experiment_hutch_shutter.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/d4.xml"/>

@@ -120,8 +120,8 @@ oh4_shtr
 oh4_shtr_cam
 
 #absorber4 temperatures
-ab4_t1
-ab4_t2
+#ab4_t1
+#ab4_t2
 
 #qcm
 qcm_bragg1
