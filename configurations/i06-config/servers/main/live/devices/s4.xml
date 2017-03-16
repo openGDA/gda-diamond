@@ -19,5 +19,15 @@
 		<property name="local" value="true"/>
 	</bean>
 
+	<bean id="MotorXSize_S4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-AL-SLITS-04:X:SIZE" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorYSize_S4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BL06I-AL-SLITS-04:Y:SIZE" />
+		<property name="local" value="true"/>
+	</bean>
+
 
 </beans>
