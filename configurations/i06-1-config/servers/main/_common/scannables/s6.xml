@@ -23,12 +23,26 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
+	<bean id="s6xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXSize_S6" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s6ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYSize_S6" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
 	<bean id="S6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="s6y" />
 				<ref bean="s6x" />
 				<ref bean="s6z" />
+				<ref bean="s6xgap" />
+				<ref bean="s6ygap" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
