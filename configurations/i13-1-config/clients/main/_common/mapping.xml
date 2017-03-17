@@ -17,8 +17,8 @@
 	</description>
 
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
-	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="ss1_X_dummy"/></bean>
-	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="ss1_rot_dummy"/></bean>
+	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="t1_sx"/></bean>
+	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="t1_sy"/></bean>
 
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
@@ -75,6 +75,24 @@
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
 			</list>
+		</property>
+		<property name="scanDefinition">
+			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
+				<property name="outerScannables">
+					<list>
+						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+							<constructor-arg name="name" value="t1_sz" />
+							<constructor-arg name="model"><null /></constructor-arg>
+							<constructor-arg name="includeInScan" value="false" />
+						</bean>
+						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+							<constructor-arg name="name" value="t1_theta" />
+							<constructor-arg name="model"><null /></constructor-arg>
+							<constructor-arg name="includeInScan" value="false" />
+						</bean>
+					</list>
+				</property>
+			</bean>
 		</property>
 	</bean>
 
