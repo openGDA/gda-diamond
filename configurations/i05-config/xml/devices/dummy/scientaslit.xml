@@ -4,13 +4,64 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="scientaslit" class="uk.ac.gda.devices.vgscienta.ManualEntranceSlit">
+	<bean id="scientaslit" class="uk.ac.gda.devices.vgscienta.DummyVGScientaEntranceSlit">
 		<property name="direction" value="vertical" />
-		<property name="label" value="manual slit values for testing" />
-		<property name="rawValue" value="666" />
-		<property name="shape" value="curved" />
-		<property name="sizeInMM" value="0.01" />
+		<property name="slits">
+			<list>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="100" />
+					<constructor-arg index="1" value="0.1" />
+					<constructor-arg index="2" value="curved" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="200" />
+					<constructor-arg index="1" value="0.1" />
+					<constructor-arg index="2" value="straight" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="300" />
+					<constructor-arg index="1" value="0.2" />
+					<constructor-arg index="2" value="curved" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="400" />
+					<constructor-arg index="1" value="0.2" />
+					<constructor-arg index="2" value="straight" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="500" />
+					<constructor-arg index="1" value="0.2" />
+					<constructor-arg index="2" value="straight" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="600" />
+					<constructor-arg index="1" value="0.3" />
+					<constructor-arg index="2" value="straight" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="700" />
+					<constructor-arg index="1" value="0.5" />
+					<constructor-arg index="2" value="straight" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="800" />
+					<constructor-arg index="1" value="0.8" />
+					<constructor-arg index="2" value="straight" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="850" />
+					<constructor-arg index="1" value="3.0" />
+					<constructor-arg index="2" value="hole" />
+				</bean>
+				<bean class="uk.ac.gda.devices.vgscienta.VGScientaEntranceSlit$EntranceSlit">
+					<constructor-arg index="0" value="900" />
+					<constructor-arg index="1" value="1.5" />
+					<constructor-arg index="2" value="straight" />
+				</bean>
+			</list>
+		</property>
 	</bean>
+
 
 	<bean class="gda.device.scannable.DummyUnitsScannable" id="analyser_slit">
 		<property name="name" value="analyser_slit" />
