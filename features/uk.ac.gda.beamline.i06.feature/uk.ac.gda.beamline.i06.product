@@ -4,13 +4,13 @@
 <product name="GDA for Diamond Light Source Beamline I06" uid="uk.ac.gda.beamline.i06.product" id="uk.ac.gda.beamline.i06.product" application="uk.ac.gda.client.application" version="9.3.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+      <image path="/uk.ac.gda.beamline.i06/icons/schematic_I06_sm.png"/>
       <text>
          GDA for DLS Beamone i06.
 
 Build id: 
 
-Copyright © 2009 Diamond Light Source Ltd.
+Copyright © 2009-2017 Diamond Light Source Ltd.
 
 http://www.opengda.org
       </text>
@@ -20,7 +20,8 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <programArgs>-consolelog</programArgs>
+      <programArgs>-consolelog
+      </programArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Declipse.pluginCustomization=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06/pluginCustomization.ini
@@ -37,7 +38,8 @@ http://www.opengda.org
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false</vmArgs>
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+      </vmArgs>
       <vmArgsLin>-client
 -Xms128m
 -Xmx1024m
@@ -47,8 +49,10 @@ http://www.opengda.org
 -XX:+DisableExplicitGC
 -XX:+UseGCOverheadLimit
 -XX:+UseParallelGC
--XX:ParallelGCThreads=8</vmArgsLin>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:ParallelGCThreads=8
+      </vmArgsLin>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
       <vmArgsWin>-client
 -Xms128m
 -Xmx1024m
@@ -58,14 +62,17 @@ http://www.opengda.org
 -XX:+DisableExplicitGC
 -XX:+UseGCOverheadLimit
 -XX:+UseParallelGC
--XX:ParallelGCThreads=8</vmArgsWin>
+-XX:ParallelGCThreads=8
+      </vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
       location="uk.ac.gda.beamline.i06"
-      handlerType="browser" />
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
    <launcher name="gda-i06">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <solaris/>

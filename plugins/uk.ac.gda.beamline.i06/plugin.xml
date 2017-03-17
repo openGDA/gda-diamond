@@ -6,10 +6,11 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA for Diamond Light Source Beamline I06">
+            description="GDA for Diamond Light Source Beamline I06 - Nanoscience"
+            name="I06 Nanoscience GDA">
          <property
                name="appName"
-               value="GDA for Diamond Light Source Beamline I06">
+               value="GDA for I06 Nanoscience">
          </property>
          <property
                name="preferenceCustomization"
@@ -21,7 +22,23 @@
          </property>
          <property
                name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+               value="icons/schematic_i06_sm.png">
+         </property>
+         <property
+               name="aboutText"
+               value="%aboutText">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,215,598,15">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="4,195,598,20">
          </property>    
       </product>
    </extension>
@@ -213,6 +230,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@"
             name="PCO Array View"
