@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Diamond Light Source Beamline I06-1 Plug-in
 Bundle-SymbolicName: uk.ac.gda.beamline.i06_1;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: uk.ac.gda.beamline.i06.Activator
+Bundle-Activator: uk.ac.gda.beamline.i06_1.Activator
 Require-Bundle: uk.ac.diamond.org.springframework;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="9.2.0",
  uk.ac.gda.common,
