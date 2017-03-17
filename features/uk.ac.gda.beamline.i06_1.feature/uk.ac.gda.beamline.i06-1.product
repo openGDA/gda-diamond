@@ -10,7 +10,7 @@
 
 Build id:
 
-Copyright © 2009 Diamond Light Source Ltd.
+Copyright © 2009 - 2017 Diamond Light Source Ltd.
 
 http://www.opengda.org
       </text>
@@ -70,7 +70,9 @@ http://www.opengda.org
 
    <splash
       location="uk.ac.gda.beamline.i06"
-      handlerType="browser" />
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
    <launcher name="gda-i06-1">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <solaris/>
