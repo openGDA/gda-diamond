@@ -10,7 +10,6 @@
 				<ref bean="d6c_y_positioner"/>
 				<ref bean="d6c_cam"/>
 				<ref bean="d6c_current"/>
-				<ref bean="d6c_current_av"/>
 			</list>
 		</property>
 	</bean>

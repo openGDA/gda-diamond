@@ -33,9 +33,7 @@
 				<ref bean="m3c_roll" />
 				<ref bean="m3c_yaw" />
 				<ref bean="m3c_current1"/>
-				<ref bean="m3c_current1_av"/>
 				<ref bean="m3c_current2"/>
-				<ref bean="m3c_current2_av"/>
 			</list>
 		</property>
 	</bean>

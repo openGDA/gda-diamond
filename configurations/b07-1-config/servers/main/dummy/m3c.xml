@@ -24,8 +24,6 @@
 	</bean>
 
 	<bean id="m3c_current1" class="gda.device.scannable.DummyScannable" />
-	<bean id="m3c_current1_av" class="gda.device.scannable.DummyScannable" />
 	<bean id="m3c_current2" class="gda.device.scannable.DummyScannable" />
-	<bean id="m3c_current2_av" class="gda.device.scannable.DummyScannable" />
 
 </beans>

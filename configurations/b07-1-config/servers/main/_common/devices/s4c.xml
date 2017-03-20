@@ -38,12 +38,7 @@
 				<ref bean="s4c_ybottom_current" />
 				<ref bean="s4c_xring_current" />
 				<ref bean="s4c_xhall_current" />
-				<ref bean="s4c_ytop_current_av" />
-				<ref bean="s4c_ybottom_current_av" />
-				<ref bean="s4c_xring_current_av" />
-				<ref bean="s4c_xhall_current_av" />
 				<ref bean="s4c_plate_current" />
-				<ref bean="s4c_plate_current_av" />
 			</list>
 		</property>
 	</bean>

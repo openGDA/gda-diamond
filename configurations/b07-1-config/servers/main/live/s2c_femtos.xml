@@ -22,44 +22,10 @@
 		</property>
 	</bean>
 	
-	<bean id="s2c_ytop_current_av" class="gda.device.currentamplifier.CalibratedAmplifier">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL07C-AL-SLITS-02:YPLUS:IAV" />
-		<property name="upperThreshold" value="9.5" />
-		<property name="autoGain" value="false" />
-		<property name="local" value="true" />
-		<property name="scalingAndOffset">
-			<bean class="gda.device.currentamplifier.GainWithScalingAndOffset">
-				<property name="pvName" value="BL07C-AL-SLITS-02:YPLUS:I:GAIN" />
-				<property name="gaintosando">
-					<ref bean="scaling_offset_map"/>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	
 	<bean id="s2c_ybottom_current" class="gda.device.currentamplifier.CalibratedAmplifier">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL07C-AL-SLITS-02:YMINUS:I" />
-		<property name="upperThreshold" value="9.5" />
-		<property name="autoGain" value="false" />
-		<property name="local" value="true" />
-		<property name="scalingAndOffset">
-			<bean class="gda.device.currentamplifier.GainWithScalingAndOffset">
-				<property name="pvName" value="BL07C-AL-SLITS-02:YMINUS:I:GAIN" />
-				<property name="gaintosando">
-					<ref bean="scaling_offset_map"/>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	
-	<bean id="s2c_ybottom_current_av" class="gda.device.currentamplifier.CalibratedAmplifier">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL07C-AL-SLITS-02:YMINUS:IAV" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
 		<property name="local" value="true" />
@@ -90,44 +56,10 @@
 		</property>
 	</bean>
 
-	<bean id="s2c_xring_current_av" class="gda.device.currentamplifier.CalibratedAmplifier">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL07C-AL-SLITS-02:XRING:IAV" />
-		<property name="upperThreshold" value="9.5" />
-		<property name="autoGain" value="false" />
-		<property name="local" value="true" />
-		<property name="scalingAndOffset">
-			<bean class="gda.device.currentamplifier.GainWithScalingAndOffset">
-				<property name="pvName" value="BL07C-AL-SLITS-02:XRING:I:GAIN" />
-				<property name="gaintosando">
-					<ref bean="scaling_offset_map"/>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	
 	<bean id="s2c_xhall_current" class="gda.device.currentamplifier.CalibratedAmplifier">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL07C-AL-SLITS-02:XHALL:I" />
-		<property name="upperThreshold" value="9.5" />
-		<property name="autoGain" value="false" />
-		<property name="local" value="true" />
-		<property name="scalingAndOffset">
-			<bean class="gda.device.currentamplifier.GainWithScalingAndOffset">
-				<property name="pvName" value="BL07C-AL-SLITS-02:XHALL:I:GAIN" />
-				<property name="gaintosando">
-					<ref bean="scaling_offset_map"/>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="s2c_xhall_current_av" class="gda.device.currentamplifier.CalibratedAmplifier">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvName" value="BL07C-AL-SLITS-02:XHALL:IAV" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
 		<property name="local" value="true" />
