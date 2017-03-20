@@ -27,6 +27,7 @@
 	<import resource="d5c.xml"/>
 	<import resource="d6c.xml"/>
 	<import resource="d7c.xml"/>
+	<import resource="d9c.xml"/>
 
 	<!-- Monocromator -->
 	<import resource="pgm.xml"/>
