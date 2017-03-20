@@ -6,7 +6,7 @@
 	<bean id="d9c" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="d9c_current"/>
+				<ref bean="d9c_foil"/>
 				<ref bean="d9c_cam" />
 			</list>
 		</property>
