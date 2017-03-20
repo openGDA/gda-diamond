@@ -9,7 +9,6 @@
 				<ref bean="d3c_y" />
 				<ref bean="d3c_cam"/>
 				<ref bean="d3c_current"/>
-				<ref bean="d3c_current_av"/>
 			</list>
 		</property>
 	</bean>

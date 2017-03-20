@@ -33,6 +33,5 @@
 	</bean>
 	
 	<bean id="d6c_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="d6c_current_av" class="gda.device.scannable.DummyScannable" />
 
 </beans>
