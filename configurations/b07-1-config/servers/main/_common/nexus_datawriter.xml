@@ -13,6 +13,8 @@
 				<!-- s1c -->
 				<value>s1c_xcentre</value>
 				<value>s1c_xsize</value>
+				<value>s1c_xpos</value>
+				<value>s1c_xneg</value>
 				<!-- m1c -->
 				<value>m1c_x</value>
 				<value>m1c_y</value>
