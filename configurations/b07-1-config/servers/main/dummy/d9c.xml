@@ -17,6 +17,6 @@
 		</property>
 	</bean>
 	
-	<bean id="d9c_current" class="gda.device.scannable.DummyScannable" />
+	<bean id="d9c_foil" class="gda.device.scannable.DummyScannable" />
 
 </beans>

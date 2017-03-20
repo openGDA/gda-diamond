@@ -28,5 +28,6 @@
 	</bean>
 
 	<bean id="d3c_current" class="gda.device.scannable.DummyScannable" />
+	<bean id="d3c_foil" class="gda.device.scannable.DummyScannable" />
 
 </beans>
