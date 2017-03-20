@@ -3,10 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar" init-method="register">
 		<property name="name" value="FileRegistrar" />
-		<property name="directory"
-			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
+		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
 	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
