@@ -82,7 +82,10 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam04_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
-	
+
+	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_addetector.xml"/>
+
 	<import resource="file:${gda.config}/devices/${gda.mode}/float1.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/float2.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/float3.xml" />
@@ -159,9 +162,6 @@
 	<!-- <import resource="file:${gda.config}/devices/_common/deben_rig.xml"/> -->
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
 	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
-		
-	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
-	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_mapping.xml"/>
 	
 	<!--  dummy motors for testing tomoscan  -->
 	<import resource="file:${gda.config}/devices/_common/tomoscan_dummies.xml" />
