@@ -110,6 +110,15 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D8C Cam1//BL07C-DI-PHDGN-08:DCAM1@">
                </parameter>
             </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="D9C Cam1"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D9C Cam1//BL07C-DI-PHDGN-09:DCAM1@">
+               </parameter>
+            </command>
          </menu>
       </menuContribution>
    </extension>
@@ -176,6 +185,13 @@
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D8C Cam1//BL07C-DI-PHDGN-08:DCAM1@"
             name="D8C Cam1 Array"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D9C Cam1//BL07C-DI-PHDGN-09:DCAM1@"
+            name="D9C Cam1 Array"
             restorable="true">
       </view>
    </extension>

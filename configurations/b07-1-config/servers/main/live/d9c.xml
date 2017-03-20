@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="d9c_current" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-PHDGN-09:I1:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- d9c cam 1 -->
+	<bean id="d9c_cam1_CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL07C-DI-PHDGN-09:DCAM1:CAM:" />
+	</bean>
+
+	<bean id="d9c_cam1_PlotServerRoiProvider"
+		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="D9C Cam1" /> <!-- This must match the string used in the view secondary ID -->
+		<constructor-arg value="2" /> <!-- Maximum number of ROIs -->
+	</bean>
+
+	<bean id="d9c_cam_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-09:DCAM1:ROI1:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-09:DCAM1:STAT1:" />
+		<property name="roiInputNdArrayPort" value="D9C.DCAM1.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d9c_cam1_PlotServerRoiProvider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d9c_cam_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats2" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-09:DCAM1:ROI2:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-09:DCAM1:STAT2:" />
+		<property name="roiInputNdArrayPort" value="D9C.DCAM1.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="d9c_cam1_PlotServerRoiProvider" />
+				<constructor-arg value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d9c_cam_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="d9c_cam"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL07C-DI-PHDGN-09:DCAM1:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d9c_cam1_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="d9c_cam1_CamBase" />
+								<property name="readoutTime" value="-1" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d9c_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="d9c_cam1_CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d9c_cam_RoiStats1" />
+				<ref bean="d9c_cam_RoiStats2" />
+				<ref bean="d9c_cam_Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
