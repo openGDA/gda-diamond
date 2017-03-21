@@ -148,7 +148,8 @@ public class Utilities {
 		}
 		
 		RealVector movement = MatrixUtils.createRealVector(new double[] {x, y, z});
-		return axisOrientationMatrix.operate(movement).getData();
+		RealVector beamlineMovement = axisOrientationMatrix.operate(movement);
+		return beamlineMovement.getData();
 	}
 
 	/**
