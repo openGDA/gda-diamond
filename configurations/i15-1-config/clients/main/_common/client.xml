@@ -17,8 +17,6 @@
 		</property>
 	</bean>
 
-	<import resource="MJPEG.xml" />
-
 	<!-- Although we should get filters from the server, for the moment include them directly in the client until the
 		 filter service is made into a remote service. -->
 	<import resource="../../../servers/main/_common/scannable/filters.xml"/>
