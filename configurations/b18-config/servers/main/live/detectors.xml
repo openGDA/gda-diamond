@@ -26,16 +26,24 @@
 		</property>
 	</bean>
 
-	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
-		<property name="epicsDeviceName" value="xmap_dxp" />
-		<property name="elementOffset" value="1" />
-		<property name="local" value="true" />
-		<property name="numberOfElements" value="4" />
-		<property name="hdf5" ref="hdf5" />
-	</bean>
+<!--  Remove Xmap related beans - detector no longer used. imh 2/8/2016 -->
+<!-- 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController"> -->
+<!-- 		<property name="epicsDeviceName" value="xmap_dxp" /> -->
+<!-- 		<property name="elementOffset" value="1" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 		<property name="numberOfElements" value="4" /> -->
+<!-- 		<property name="hdf5" ref="hdf5" /> -->
+<!-- 	</bean> -->
 
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
-		<property name="edxdControllerName" value="edxdcontroller" />
+<!-- 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController"> -->
+<!-- 		<property name="edxdControllerName" value="edxdcontroller" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+		<property name="numberOfElements" value="4" />
+		<property name="numberOfBins" value="1024" />
+		<property name="numberOfROIs" value="10" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -50,6 +58,8 @@
 			<list>
 				<value>~config</value>
 				<value>tfg setup-veto veto1-inv 1</value>
+				<!-- set number of frames -->
+<!-- 				<value>tfg config "etfg0" tfg2 max-frames 8192</value>  -->
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />
@@ -72,7 +82,7 @@
 		<property name="readStatus_pv" value="BL18B-EA-GEADC-01:READSTATUS" />
 		<property name="fifoEmpty_pv" value="BL18B-EA-GEADC-01:STATUSFIFOEMPTY_RBV" />
 		<property name="data_pv" value="BL18B-EA-GEADC-01:RAWDATA_1_RBV.VAL" />
-		
+
 	</bean>
 
 	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl">

@@ -132,15 +132,12 @@
 	</bean>
 	<bean id="s1x2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="S1X2_motor" />
-		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="s1y1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="S1Y1_motor" />
-		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="s1y2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="S1Y2_motor" />
-		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="s1xcentre" class="gda.device.scannable.TwoJawSlitPosition">
 		<property name="initialUserUnits" value="mm" />
@@ -507,35 +504,36 @@
 	<bean id="ln2" class="gda.device.scannable.Ln2Scannable" >
 		<property name="cryo" ref="cryo" />
 	</bean>
-
+	<bean id="user1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER1_motor" />
+		<property name="configureAtStartup" value="true"/>
+	</bean>
 	<bean id="user2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER2_motor" />
-		<property name="initialUserUnits" value="mm" />
+		<property name="configureAtStartup" value="true"/>
+	</bean>
+	<bean id="user3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="USER3_motor" />
 		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user4" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER4_motor" />
-		<property name="initialUserUnits" value="mm" />
 		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user5" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER5_motor" />
-		<property name="initialUserUnits" value="mm" />
 		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user6" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER6_motor" />
-		<property name="initialUserUnits" value="mm" />
 		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user7" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER7_motor" />
-		<property name="initialUserUnits" value="mm" />
 		<property name="configureAtStartup" value="true"/>
 	</bean>
 	<bean id="user8" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="USER8_motor" />
-		<property name="initialUserUnits" value="mm" />
 		<property name="configureAtStartup" value="true"/>
 	</bean>
 
@@ -544,7 +542,9 @@
 		<property name="local" value="true" />
 		<property name="groupMembers">
 			<list>
+				<ref bean="user1" />
 				<ref bean="user2" />
+				<ref bean="user3" />
 				<ref bean="user4" />
 				<ref bean="user5" />
 				<ref bean="user6" />
@@ -552,6 +552,31 @@
 				<ref bean="user8" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="last_gasfill" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="lastfillPressure_ionc1" />
+				<ref bean="lastfillGas_ionc1" />
+				<ref bean="lastfillPressure_ionc2" />
+				<ref bean="lastfillGas_ionc2" />
+				<ref bean="lastfillPressure_ionc3" />
+				<ref bean="lastfillGas_ionc3" />
+				<ref bean="lastfillPressure_ionc4" />
+				<ref bean="lastfillGas_ionc4" />
+			</list>
+		</property>
+	</bean>
+
+<!-- Detector rate gui status object (positions added by client)-->
+	<bean id="detectorRateGuiControl" class="gda.device.enumpositioner.DummyEnumPositioner">
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/detectorRateGuiControl" />
+		<property name="service" ref="detectorRateGuiControl" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 	</bean>
 
 <!-- RMI export the Stanford scannables -->

@@ -112,7 +112,9 @@
 
 	<bean id="SAM3Y_motor" class="gda.device.motor.DummyMotor" />
 
+	<bean id="USER1_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="USER2_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="USER3_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="USER4_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="USER5_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="USER6_motor" class="gda.device.motor.DummyMotor" />
