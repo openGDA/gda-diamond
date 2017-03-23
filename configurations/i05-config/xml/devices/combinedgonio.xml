@@ -12,7 +12,7 @@
 			</list>
 		</property>
 		<property name="calculator">
-			<bean class="uk.ac.gda.beamline.i05.scannable.salongCalculator" />
+			<bean class="uk.ac.gda.arpes.calculator.SaLongCalculator" />
 		</property>
 	</bean>
 
@@ -24,7 +24,7 @@
 			</list>
 		</property>
 		<property name="calculator">
-			<bean class="uk.ac.gda.beamline.i05.scannable.saperpCalculator" />
+			<bean class="uk.ac.gda.arpes.calculator.SaPerpCalculator" />
 		</property>
 	</bean>
 
