@@ -40,12 +40,12 @@
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+<!-- 	<bean class="gda.factory.corba.util.AdapterFactory"> -->
+<!-- 		<constructor-arg index="0" value="${gda.factory.factoryName}" /> -->
+<!-- 		<constructor-arg index="1"> -->
+<!-- 			<bean class="gda.spring.NetServiceFactoryBean" /> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
 
 	<bean id="twodplot" class="gda.data.scan.TwoDPlotListener">
 		<property name="plotPanel" value="2D Scan Plot" />
@@ -54,8 +54,8 @@
 	<import resource="datawriter.xml" />
 
 	<import resource="../../../xml/devices/${gda.mode}/i05_server_devices.xml" />
-	<corba:export namespace="${gda.factory.factoryName}" />
 	<import resource="gda_metadata.xml" />
 	<import resource="jython_server.xml" />
+	<corba:export namespace="${gda.beamline.name}" />
 
 </beans>
