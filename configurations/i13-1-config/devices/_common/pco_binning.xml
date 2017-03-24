@@ -15,7 +15,7 @@
 						<entry key="x4" value="4" />
 					</map>
 				</entry>
-				<entry key="PCO4000">
+				<entry key="PCO.Camera 4000">
 					<map key-type="java.lang.String" value-type="java.lang.Integer">
 						<entry key="x1" value="1" />
 						<entry key="x2" value="2" />
@@ -43,7 +43,7 @@
 						<entry key="x4" value="4" />
 					</map>
 				</entry>
-				<entry key="PCO4000">
+				<entry key="PCO.Camera 4000">
 					<map key-type="java.lang.String" value-type="java.lang.Integer">
 						<entry key="x1" value="1" />
 						<entry key="x2" value="2" />
