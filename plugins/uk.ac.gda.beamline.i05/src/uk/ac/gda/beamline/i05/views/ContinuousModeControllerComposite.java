@@ -48,7 +48,7 @@ import gda.observable.IObserver;
 import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
 
-public class ContinuousModeControllerComposite extends Composite {
+public class ContinuousModeControllerComposite extends Composite implements IObserver {
 
 	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerComposite.class);
 	private Combo lensModeCombo;
@@ -151,6 +151,7 @@ public class ContinuousModeControllerComposite extends Composite {
 			}
 		};
 		passEnergyCombo.addSelectionListener(passEnergyListener);
+		passEnergyCombo.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).create());
 
 		// Analyser Stop Button
 		stopButton = new Button(analyserGroup, SWT.DEFAULT);
@@ -242,9 +243,13 @@ public class ContinuousModeControllerComposite extends Composite {
 
 		// Connect observer to scannable.
 		psuModeScannable.addIObserver(psuModeObserver);
+
+		// Observe the analyser, to get start and stop events
+		analyser.addIObserver(this);
 	}
 
-	public void update(Object arg) {
+	@Override
+	public void update(Object source, Object arg) {
 		if (arg instanceof MotorStatus) {
 			running = MotorStatus.BUSY.equals(arg);
 			Display.getDefault().asyncExec(new Runnable() {
