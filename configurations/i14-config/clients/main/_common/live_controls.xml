@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
+	<!-- Xray Eye group -->
 	<bean id="xreyeStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="xreye_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); xreye_addetector.collectData()" />
 		<property name="buttonText" value="Start" />
@@ -29,6 +29,7 @@
 		<property name="group" value="Xspress3" />
 	</bean>
 
+	<!-- Sample stage group -->
  	<bean id="stage1_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage X" />
 		<property name="scannableName" value="stage1_x" />
@@ -50,7 +51,8 @@
 		<property name="increment" value="0.1" />
 	</bean>
 
-	<bean name="xreyeControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+	<!-- Overall control set -->
+	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
 				<ref bean="xreyeStart" />
