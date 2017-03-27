@@ -249,7 +249,10 @@ try:
 
 		from dcm_energy_mode import DcmEnergyMode
 		energy_mode = DcmEnergyMode()
-			
+
+	from dcm_yz import DcmFreezeYZ
+	dcm_freeze_yz = DcmFreezeYZ(isLive(), 'BL13I-OP-DCM-01:LOCKYZ')
+
 	from gda.device.scannable.scannablegroup import ScannableGroup
 	
 	#make ScanPointProvider
