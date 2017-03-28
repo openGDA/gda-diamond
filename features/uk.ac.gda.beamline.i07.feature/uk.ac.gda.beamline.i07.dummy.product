@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA for Diamond Light Source Beamline I07" uid="uk.ac.gda.beamline.i07.dummy.product" id="uk.ac.gda.beamline.i07.product" application="uk.ac.gda.client.application" version="8.60.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+      <text>
+         GDA for DLS Beamone i07.
+
+Build id: 
+
+Copyright © 2009 Diamond Light Source Ltd.
+
+http://www.opengda.org
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>
+-Dgda.mode=dummy
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Declipse.pluginCustomization=${project_loc:i07-config}/client/pluginCustomization.ini
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
+-Dgda.install.git.loc=${workspace_loc}_git
+-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.config=${project_loc:i07-config}
+-Dgda.group.dir=${project_loc:mt-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.var=${workspace_loc}/../gda_var_non_live
+-Djacorb.config.dir=${project_loc:i07-config}/properties/dummy/jacorb
+-Dgda.propertiesFile=${project_loc:i07-config}/properties/dummy/dummy_instance_java.properties
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i07-config}/properties/dummy/JCALibrary.properties
+-Dpython.cachedir=~/python.cachedir
+-client
+-Xms128m
+-Xmx1024m
+-XX:PermSize=512m
+-XX:MaxPermSize=786m
+-XX:MaxHeapFreeRatio=70
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsLin>-client
+-Xms128m
+-Xmx1024m
+-XX:PermSize=512m
+-XX:MaxPermSize=786m
+-XX:MaxHeapFreeRatio=70
+-XX:+DisableExplicitGC
+-XX:+UseGCOverheadLimit
+-XX:+UseParallelGC
+-XX:ParallelGCThreads=8</vmArgsLin>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsWin>-Xms512m
+-Xmx1024m
+-XX:PermSize=182m 
+-XX:MaxPermSize=786m</vmArgsWin>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i07"
+      handlerType="browser" />
+   <launcher name="gda-i07">
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="uk.ac.gda.client.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2009 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i07.feature"/>
+   </features>
+
+
+</product>
