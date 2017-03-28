@@ -20,7 +20,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-<!-- Not present 
+<!-- Not present
  	<bean id="fes1_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="fes1.xplus" />
 		<property name="local" value="true" />
@@ -37,17 +37,23 @@
 		<property name="deviceName" value="fes1.yminus" />
 		<property name="local" value="true" />
 	</bean>
- -->	
- 
-	<bean id="fshtr1" class="gda.device.enumpositioner.EpicsSimpleMbbinary"> 
-		<property name="deviceName" value="FE.SHTR1" /> 
-	</bean> 
-	<bean id="fshtr2" class="gda.device.enumpositioner.EpicsSimpleMbbinary"> 
-		<property name="deviceName" value="FE.SHTR2" /> 
-	</bean>  
-	
-	<bean id="fastmask" class="gda.device.enumpositioner.EpicsSimpleMbbinary"> 
-		<property name="deviceName" value="fastmask.shtr" /> 
-	</bean>  
-	
-</beans>	
+ -->
+
+	<bean id="fshtr1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="deviceName" value="FE.SHTR1" />
+	</bean>
+	<bean id="fshtr2" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="deviceName" value="FE.SHTR2" />
+	</bean>
+
+	<bean id="fastmask" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="deviceName" value="fastmask.shtr" />
+	</bean>
+
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
+		need events to be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE13I-PS-SHTR-02:STA" />
+	</bean>
+
+</beans>

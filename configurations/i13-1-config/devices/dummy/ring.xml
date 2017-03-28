@@ -30,4 +30,28 @@
 		<property name="value" value="Standby" />
 	</bean>
 
+	<!-- Monitors for watchdogs -->
+
+	<bean id="machineTopupMonitor" class="gda.device.scannable.DummyTopupScannable" />
+
+	<bean id="machineTopupPeriod" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">10</value>
+		</property>
+	</bean>
+
+	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Shutdown" />
+	</bean>
+
+	<bean id="ringModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="VMX" />
+	</bean>
+
+	<bean id="ringCurrentMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">300.0</value>
+		</property> 
+	</bean>
+
 </beans>
