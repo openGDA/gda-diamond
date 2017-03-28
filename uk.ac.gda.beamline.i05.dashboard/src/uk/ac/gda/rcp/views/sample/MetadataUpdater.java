@@ -53,7 +53,6 @@ import gda.observable.IObserver;
 import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanDataPoint;
 import gda.scan.ScanEvent;
-import uk.ac.gda.devices.vgscienta.FlexibleFrameDetector;
 import uk.ac.gda.devices.vgscienta.SweptProgress;
 
 /**
@@ -73,7 +72,6 @@ public class MetadataUpdater implements IObserver, IScanDataPointObserver, IJyth
 	private Date started;
 	private String lastFileName;
 	private int lastScanNumber;
-	private FlexibleFrameDetector analyser;
 
 	private class MetadataListener extends KeyAdapter implements FocusListener, IObserver {
 		private Text widget;
@@ -167,11 +165,6 @@ public class MetadataUpdater implements IObserver, IScanDataPointObserver, IJyth
 		jsf.addIObserver(this);
 		jsf.addScanEventObserver(this);
 		jsf.addCommandThreadObserver(this);
-
-		analyser = (FlexibleFrameDetector) Finder.getInstance().find("analyser");
-		if (analyser != null) {
-			analyser.addIObserver(this);
-		}
 
 		client.currentDirectory.setText(PathConstructor.createFromDefaultProperty());
 	}
