@@ -38,3 +38,5 @@ fi
 export GDA_INSTANCE_NAME=${BEAMLINE}        # default setting for single end station installations
 
 export  GDA_CLIENT=${GDA_WORKSPACE_PARENT}/client/gda-${GDA_INSTANCE_NAME}
+
+export GDA_JYTHON_SOCKET=9999
