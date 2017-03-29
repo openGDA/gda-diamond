@@ -46,10 +46,6 @@
          version="0.0.0"/>
 
    <includes
-         id="uk.ac.gda.beamline.i02.site"
-         version="0.0.0"/>
-
-   <includes
          id="uk.ac.gda.beamline.i03.site"
          version="0.0.0"/>
 
