@@ -39,9 +39,11 @@
 		<property name="motor" ref="sszMotor" />
 	</bean>
 
+<!-- 
 	<bean id="srot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="srotMotor" />
 	</bean>
+ -->
 
 	<bean id="sfab" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -55,7 +57,9 @@
 				<ref bean="sphi" />
 				<ref bean="ssx" />
 				<ref bean="ssz" />
+<!-- 
 				<ref bean="srot" />
+ -->
 			</list>
 		</property>
 	</bean>
