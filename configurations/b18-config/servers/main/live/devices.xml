@@ -384,8 +384,18 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="USER1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS1" />
+		<property name="local" value="true" />
+		<property name="configureAtStartup" value="false" />
+	</bean>
 	<bean id="USER2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18B-MO-USER-01:AXIS2" />
+		<property name="local" value="true" />
+		<property name="configureAtStartup" value="false" />
+	</bean>
+	<bean id="USER3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL18B-MO-USER-01:AXIS3" />
 		<property name="local" value="true" />
 		<property name="configureAtStartup" value="false" />
 	</bean>

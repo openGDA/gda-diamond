@@ -130,4 +130,10 @@
 		<property name="clientFileAnnouncerName" value="sockpuppet" />
 	</bean> -->
 
+	<bean id="detectorRateGuiControl" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}detectorRateGuiControl" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 </beans>

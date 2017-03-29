@@ -171,6 +171,22 @@
 						</list>
 					</property>
 				</bean>
+				<bean id="lastfill_ionc" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="Last ionchamber fill pressures (mBar) and gases: ionc1: %.4f (%s); ionc2: %.4f (%s); ionc3: %.4f (%s); ionc4: %.4f (%s)" />
+					<property name="labelValues">
+						<list>
+							<ref bean="lastfillPressure_ionc1" />
+							<ref bean="lastfillGas_ionc1" />
+							<ref bean="lastfillPressure_ionc2" />
+							<ref bean="lastfillGas_ionc2" />
+							<ref bean="lastfillPressure_ionc3" />
+							<ref bean="lastfillGas_ionc3" />
+							<ref bean="lastfillPressure_ionc4" />
+							<ref bean="lastfillGas_ionc4" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 		<!-- <property name="footer"> -->
@@ -226,7 +242,7 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
-				
+
 				<entry key="s2xcentre">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -347,7 +363,7 @@
 							value="instrument:NXinstrument/DoubleCrystal:NXcrystal/dcm_crystal" />
 					</bean>
 				</entry>
-				
+
 				<entry key="m2b">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -411,7 +427,7 @@
 							value="instrument:NXinstrument/HRMirror:NXmirror/hry2" />
 						<property name="units" value="mm" />
 					</bean>
-				</entry>				
+				</entry>
 				<entry key="hry">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -442,7 +458,7 @@
 							value="instrument:NXinstrument/HRMirror:NXmirror/hr_coating" />
 					</bean>
 				</entry>
-				
+
 				<entry key="i0_stanford_sensitivity">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -471,7 +487,7 @@
 							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/i0_stanford_offset_units" />
 					</bean>
 				</entry>
-				
+
 				<entry key="iref_stanford_sensitivity">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -500,7 +516,7 @@
 							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/iref_stanford_offset_units" />
 					</bean>
 				</entry>
-				
+
 				<entry key="it_stanford_sensitivity">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -529,7 +545,7 @@
 							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/it_stanford_offset_units" />
 					</bean>
 				</entry>
-	
+
 				<entry key="ringCurrent">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -544,6 +560,78 @@
 						<property name="paths"
 							value="instrument:NXinstrument/source:NXsource/energy" />
 						<property name="units" value="GeV" />
+					</bean>
+				</entry>
+
+				<entry key="lastfillPressure_ionc1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/GasFill:NXinstrument/lastfillPressure_ionc1" />
+						<property name="units" value="mBar" />
+					</bean>
+				</entry>
+
+				<entry key="lastfillPressure_ionc2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/GasFill:NXinstrument/lastfillPressure_ionc2" />
+						<property name="units" value="mBar" />
+					</bean>
+				</entry>
+
+				<entry key="lastfillPressure_ionc3">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/GasFill:NXinstrument/lastfillPressure_ionc3" />
+						<property name="units" value="mBar" />
+					</bean>
+				</entry>
+
+				<entry key="lastfillPressure_ionc4">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/GasFill:NXinstrument/lastfillPressure_ionc4" />
+						<property name="units" value="mBar" />
+					</bean>
+				</entry>
+
+				<entry key="lastfillGas_ionc1">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/GasFill:NXinstrument/lastfillGas_ionc1" />
+						<property name="units" value="mBar" />
+					</bean>
+				</entry>
+
+				<entry key="lastfillGas_ionc2">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/GasFill:NXinstrument/lastfillGas_ionc2" />
+						<property name="units" value="mBar" />
+					</bean>
+				</entry>
+
+				<entry key="lastfillGas_ionc3">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/GasFill:NXinstrument/lastfillGas_ionc3" />
+						<property name="units" value="mBar" />
+					</bean>
+				</entry>
+
+				<entry key="lastfillGas_ionc4">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/GasFill:NXinstrument/lastfillGas_ionc4" />
+						<property name="units" value="mBar" />
 					</bean>
 				</entry>
 			</map>
@@ -603,6 +691,14 @@
 				<value>it_stanford_offset_units</value>
 				<value>ringCurrent</value>
 				<value>ringEnergy</value>
+				<value>lastfillPressure_ionc1</value>
+				<value>lastfillPressure_ionc2</value>
+				<value>lastfillPressure_ionc3</value>
+				<value>lastfillPressure_ionc4</value>
+				<value>lastfillGas_ionc1</value>
+				<value>lastfillGas_ionc2</value>
+				<value>lastfillGas_ionc3</value>
+				<value>lastfillGas_ionc4</value>
 			</set>
 		</property>
 	</bean>
