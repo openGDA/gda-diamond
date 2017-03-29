@@ -1,6 +1,11 @@
 #!/bin/bash
 # This script is only invoked when user gda2 ssh's to the control machine. It is run by an entry in gda's ~/.ssh/authorized_keys
 
+################################################################################
+# This is only needed until cfengine can be updated with an authorized_keys
+# entry which calls /gda-diamond/dls-config/live/gda-servers-startup-script.sh
+################################################################################
+
 here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # This script is run as a single command by ssh, so we need to set up our environment
@@ -13,8 +18,9 @@ export GDA_NO_PROMPT=true
 # Set an environment variable to indicate we came through the remote startup script, so that we can error if we attempt to do this recursively
 export GDA_IN_REMOTE_STARTUP=true
 
-if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then 
-    ${here_dir}/gda  --${SSH_ORIGINAL_COMMAND} --mode=live servers
+# The redirections to/from /dev/null should prevent the ssh command that calls this script from not returning
+if [[ -n "${SSH_ORIGINAL_COMMAND}" ]]; then
+    ${here_dir}/gda --${SSH_ORIGINAL_COMMAND} --mode=live servers < /dev/null > /dev/null 2>&1
 else
-    ${here_dir}/gda --restart --mode=live servers
+    ${here_dir}/gda --restart                 --mode=live servers < /dev/null > /dev/null 2>&1
 fi
