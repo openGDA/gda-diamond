@@ -6,10 +6,11 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA for Diamond Light Source Beamline I06 Branch Line">
+            description="GDA for Diamond Light Source Beamline I06 Branch Line"
+            name="I06-1 Nanoscience GDA">
          <property
                name="appName"
-               value="GDA for Diamond Light Source Beamline I06 Branch Line">
+               value="GDA for I06-1 Nanoscience">
          </property>
          <property
                name="preferenceCustomization"
@@ -21,14 +22,27 @@
          </property>
          <property
                name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+               value="icons/schematic_i06_sm.png">
+         </property>
+         <property
+               name="aboutText"
+               value="%aboutText">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,215,598,15">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="4,195,598,20">
          </property>
       </product>
    </extension>
 
-   <extension
-         point="org.eclipse.ui.intro">
-   </extension>
 
 
 </plugin>

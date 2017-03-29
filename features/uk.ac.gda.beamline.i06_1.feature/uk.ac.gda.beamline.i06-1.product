@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I06-1" uid="uk.ac.gda.beamline.i06-1.product" id="uk.ac.gda.beamline.i06-1.product" application="uk.ac.gda.client.application" version="9.3.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I06-1" uid="uk.ac.gda.beamline.i06-1.product" id="uk.ac.gda.beamline.i06-1.product" application="uk.ac.gda.client.application" version="9.4.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -10,7 +10,7 @@
 
 Build id:
 
-Copyright © 2009 Diamond Light Source Ltd.
+Copyright © 2009 - 2017 Diamond Light Source Ltd.
 
 http://www.opengda.org
       </text>
@@ -70,7 +70,9 @@ http://www.opengda.org
 
    <splash
       location="uk.ac.gda.beamline.i06"
-      handlerType="browser" />
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
    <launcher name="gda-i06-1">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <solaris/>
