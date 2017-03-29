@@ -4,9 +4,11 @@ bashlog debug "gda_servers_post_instance" "Entered"
 # server machine in live mode, don't start the client on the server machine.
 if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
 
-  # look for the output file which will tell us when the servers have started or ssh process completing
-  bashlog debug "gda_servers_post_instance" "    .../bin/utils/lookForFile $OBJECT_SERVER_STARTUP_FILE $HOSTNAME $SERVERS_SSH_PID"
-  ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/utils/lookForFile $OBJECT_SERVER_STARTUP_FILE $HOSTNAME $SERVERS_SSH_PID
+  # If SERVERS_SSH_PID isn't defined then we will have already waited for the servers to start
+  if [ -n "${SERVERS_SSH_PID-}" ] ; then
+    # look for the output file which will tell us when the servers have started or ssh process completing
+    ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/utils/lookForFile $OBJECT_SERVER_STARTUP_FILE $HOSTNAME $SERVERS_SSH_PID
+  fi
 
   echo Moving GDA Log Panel...
   wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
