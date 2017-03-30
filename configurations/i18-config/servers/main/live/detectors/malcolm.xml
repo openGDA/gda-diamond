@@ -26,7 +26,7 @@
 		<property name="activated" value="false"/>
 	</bean>
 	<bean id="t1xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="id" value="I18-SCANFT"/>
+		<property name="name" value="I18-SCANFT"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="t1xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -42,7 +42,7 @@
 		<property name="activated" value="false"/>
 	</bean>
 	<bean id="t3xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="id" value="I18-SCAN03"/>
+		<property name="name" value="I18-SCAN03"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="t3xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
