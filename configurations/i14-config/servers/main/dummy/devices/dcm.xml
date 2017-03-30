@@ -39,4 +39,16 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<!-- dcm_enrg: live version is configured in Jython -->
+	<bean id="dcm_enrg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor">
+			<bean class="gda.device.motor.DummyMotor">
+				<property name="minPosition" value="4.8" />
+				<property name="maxPosition" value="26.0" />
+				<property name="position" value="5.3" />
+				<property name="local" value="true" />
+			</bean>
+		</property>
+	</bean>
+
 </beans>
