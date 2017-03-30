@@ -163,6 +163,7 @@
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
 	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
 	<import resource="file:${gda.config}/devices/_common/pco1_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/_common/example_detectors.xml"/>
 	
 	<!--  dummy motors for testing tomoscan  -->
 	<import resource="file:${gda.config}/devices/_common/tomoscan_dummies.xml" />
