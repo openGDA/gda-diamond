@@ -26,5 +26,9 @@
 		<property name="maxPosition" value="20.925" />
 		<property name="position" value="0.9508" />
 	</bean>
-	
-</beans>	
+
+	<bean id="portshutter" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Open" />
+	</bean>
+
+</beans>

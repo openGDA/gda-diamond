@@ -319,8 +319,8 @@ if not LocalProperties.check("gda.dummy.mode"):
 # pos afg_chan1_ampl 2.
 # pos afg_chan1_state "On"
 
-#import alignmentGui
-#tomodet = alignmentGui.TomoDet()
+import alignmentGui
+tomodet = alignmentGui.TomoDet()
 
 import tomographyScan
 from tomographyScan import reportTomo, showNormalisedImage

@@ -169,6 +169,9 @@
 	<import resource="file:${gda.config}/devices/_common/xspress3_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/_common/excalibur_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco1_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/_common/example_detectors.xml"/>
+
+	<!-- <import resource="file:${gda.config}/devices/_common/beam_watchdogs.xml"/> -->
 
 	<!-- This is no longer present - T2 now contains beamstop but not the detector xyz motors -->
 	<!-- <import resource="file:${gda.config}/devices/_common/detector_stage_t2.xml" /> -->
