@@ -73,6 +73,7 @@ def zacstop():
 
 alias("zacstop");
 
+from gda.jython.commands.ScannableCommands import pscan
 
 """
 	An External function to run the I06 energy constant velocity scan by using the  FastEnergyScanClass class
