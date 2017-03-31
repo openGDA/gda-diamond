@@ -97,5 +97,7 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="dcmorder" class="gda.device.scannable.DummyScannable" />
 
 </beans>
