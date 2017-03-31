@@ -72,11 +72,6 @@
 	<bean id="pgm_grating" class="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL05I-OP-PGM-01:GRATINGSELECT" />
 	</bean>
-	
-	<!-- PGM Grating Select -->
-	<bean id="pgm_grating" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="recordName" value="BL05I-OP-PGM-01:GRATINGSELECT" />
-	</bean>
 
 	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
