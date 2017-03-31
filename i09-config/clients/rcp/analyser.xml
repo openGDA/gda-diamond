@@ -79,6 +79,9 @@
 				<entry key="High" value="${gda.config}/lookupTables/high_elementset_table.txt"/>
 			</map>
 		</property>
+		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil" />
+		<property name="pgmEnergy" ref="pgmenergy" />
+		<property name="dcmEnergy" ref="dcmenergy" />
 	</bean>
 	
 	<bean id="sequenceviewfactory"
