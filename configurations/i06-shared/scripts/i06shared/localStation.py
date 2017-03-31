@@ -12,7 +12,7 @@ from Diamond.Utility.Functions import logger, getScanNumber,incScanNumber,interr
 from Diamond.Utility.setTimers import stopwatch,timekeeper,clock,lineTime,pointTime,waitTimer,timer,scanTimer,Timers,Dummies,dummyCounter  # @UnusedImport
 from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass;  # @UnusedImport
 from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass;  # @UnusedImport
-
+import __main__  # @UnresolvedImport
 try:
 	#Set up the Diamond NumPy
 	print "-------------------------------------------------------------------"
@@ -38,8 +38,8 @@ from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,u
 from i06shared.setSrsDataFileHeader import fileHeader,blList,idList,pgmList,energyList,slitList,commonMirrorList  # @UnusedImport
 from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
 #Group the hexapod legs into list
-m1legs = [m1leg1, m1leg2, m1leg3, m1leg4, m1leg5, m1leg6];  # @UndefinedVariable
-m6legs = [m6leg1, m6leg2, m6leg3, m6leg4, m6leg5, m6leg6];  # @UndefinedVariable
+m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
+m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
 
 print "==================================================================="; print; print;
 print "I06 shared localStation.py completed successfully!"
