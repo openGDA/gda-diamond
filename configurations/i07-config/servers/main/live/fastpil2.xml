@@ -31,6 +31,9 @@
 		<constructor-arg value="fastpil2" />
 		<property name="ndFile" ref="fastpil2_camserver_ndfile" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus2_path_template" />
+		<property name="filePathTemplate" value="$datadir$/pilatus2/$scan$" />
 	</bean>
 
 	<bean id="fastpil2_nxfilewriter_for_snaps"
@@ -39,6 +42,8 @@
 		<property name="ndFile" ref="fastpil2_camserver_ndfile" />
 		<property name="numTrackerExtension" value="fastpil2snaps" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="filePathTemplate" value="$datadir$/pilatus2" />
 	</bean>
 
 	 <bean id="fastpil2_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">

@@ -50,6 +50,9 @@
 		<constructor-arg value="fastpil1" />
 		<property name="ndFile" ref="fastpil1_camserver_ndfile" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus1_path_template" />
+		<property name="filePathTemplate" value="$datadir$/pilatus1/$scan$" />
 	</bean>
 
 	<bean id="fastpil1_nxfilewriter_for_snaps"
@@ -58,6 +61,8 @@
 		<property name="ndFile" ref="fastpil1_camserver_ndfile" />
 		<property name="numTrackerExtension" value="fastpil1snaps" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="filePathTemplate" value="$datadir$/pilatus1" />
 	</bean>
 
 	<!-- NXDetectors -->

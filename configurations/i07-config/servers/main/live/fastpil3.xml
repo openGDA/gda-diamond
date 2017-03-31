@@ -58,14 +58,13 @@
 		<constructor-arg value="fastpil3" />
 		<property name="ndFile" ref="fastpil3_camserver_ndfile" />
 		<property name="pathErrorSuppressed" value="true" />
-
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus3_path_template" />
+		<property name="filePathTemplate" value="$datadir$/pilatus3/$scan$" />
 		<!--
 		<property name="fileNumberAtScanStart" value="0" />
 		<property name="fileTemplateForReadout" value="%s%s00000_%05d.tif" />
 		-->
-		<property name="fileNumberAtScanStart" value="0" />
-		<property name="fileTemplate" value="%s%s.tif" />
-		<property name="fileTemplateForReadout" value="%s%s_%05d.tif" />
 	</bean>
 
 	<bean id="fastpil3_nxfilewriter_for_snaps"
@@ -74,6 +73,8 @@
 		<property name="ndFile" ref="fastpil3_camserver_ndfile" />
 		<property name="numTrackerExtension" value="fastpil3snaps" />
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="filePathTemplate" value="$datadir$/pilatus3" />
 	</bean>
 
 	<bean id="fastpil3_ndfile_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
