@@ -21,10 +21,10 @@
 
     <!-- PEEM UViewImage Detector-->
 	<!-- NOTE: Only one of uview or uviewnew should be commented out at any one time vvvvvv-->
-    <bean id="uviewnew" class="gda.device.detector.uviewnew.UViewImageDetector">
-        <property name="tracker" value="peem" />
-        <property name="imageDir" value="peem" />
-        <property name="address" value="i06-ws013" />
-        <property name="port" value="5570" />
-    </bean>
+<!--     <bean id="uviewnew" class="gda.device.detector.uviewnew.UViewImageDetector"> -->
+<!--         <property name="tracker" value="peem" /> -->
+<!--         <property name="imageDir" value="peem" /> -->
+<!--         <property name="address" value="i06-ws013" /> -->
+<!--         <property name="port" value="5570" /> -->
+<!--     </bean> -->
 </beans>

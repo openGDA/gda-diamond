@@ -1,8 +1,6 @@
 from time import sleep
 import os, stat, time;
 
-
-
 from gda.factory import Finder
 from gda.device.detector import DetectorBase
 from gda.device.detector.uviewnew.UViewController.ImageFile import ImageFormat
@@ -15,15 +13,15 @@ from gda.device import Detector
 
 from gda.analysis.io import JPEGLoader, TIFFImageLoader, PNGLoader
 from gda.analysis import ScanFileHolder
-from gda.analysis.functions.dataset import MakeMask;
+from uk.ac.diamond.scisoft.analysis.dataset.function import MakeMask;
 from gda.data import PathConstructor
 
-from gda.analysis import DataSet;
-from gda.analysis.utils import DatasetMaths;
+#from org.eclipse.january.dataset import DoubleDataset
+from org.eclipse.january.dataset import DatasetUtils
 
 from gda.analysis import RCPPlotter;
 
-import __main__ as gdamain
+import __main__ as gdamain  # @UnresolvedImport
 
 from gda.data import NumTracker
 
@@ -279,7 +277,7 @@ class UViewDetectorClass(DetectorBase):
 
 		if self.panel:
 			if self.logScale:
-				RCPPlotter.imagePlot(self.panel, DatasetMaths.lognorm(dataset)); #For RCP GUI
+				RCPPlotter.imagePlot(self.panel, DatasetUtils.lognorm(dataset)); #For RCP GUI
 			else:
 				RCPPlotter.imagePlot(self.panel, dataset); #For RCP GUI
 		else:

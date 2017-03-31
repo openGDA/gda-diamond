@@ -1,13 +1,17 @@
-from Diamond.Peem.UViewDetector import UViewDetectorRoiClass;
+from Peem.UViewDetector import UViewDetectorRoiClass;
 from Diamond.Analysis.Analyser import AnalyserWithRectangularROIClass;
 from Diamond.Analysis.Processors import MinMaxSumMeanDeviationProcessor;
+from peem.leem_instances import leem_fov, leem_obj, leem_stv
+from gda.scan import ConcurrentScan
+from gda.jython.commands.GeneralCommands import alias
 #from Diamond.Utility.UtilFun import UtilFunctions
 #from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 #from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 #from gda.analysis.io import PNGLoader, TIFFImageLoader
 
-global run, finder, alias, sleep, ConcurrentScan
-global testMotor1, psx, psy
+#global run, finder, alias, sleep, ConcurrentScan
+#global testMotor1, psx, psy
+import __main__  # @UnresolvedImport
 
 ViewerPanelName = "PEEM Image"
 
@@ -56,13 +60,13 @@ def acquireimagesdetector(detector, numberOfImages, newExpos):
 	for f in fl:
 		print f;
 
-global leem_fov
-global leem_stv
-global leem_obj
+
+
+
 def picture(tt):
 	uvimaging()
 	#	scan testMotor1 0 1 2 uv tt psx psy stv obj fov
-	pictureScan = ConcurrentScan([testMotor1, 0, 1, 2, uv, tt, psx, psy, leem_stv, leem_obj, leem_fov])
+	pictureScan = ConcurrentScan([__main__.testMotor1, 0, 1, 2, uv, tt, __main__.psx, __main__.psy, leem_stv, leem_obj, leem_fov])
 	pictureScan.runScan()
 	uvpreview();
 
