@@ -28,7 +28,8 @@ waitTimer=WaitTimerClass('waitTimer');
 timer=ScanTimerClass('timer');
 scanTimer=ScanTimerClass('scanTimer');
 
-Timers=ScannableGroup('Timers')
+Timers=ScannableGroup()
+Timers.setName('Timers')
 Timers.addGroupMember(clock);
 Timers.addGroupMember(stopwatch);
 Timers.addGroupMember(timekeeper);
@@ -45,9 +46,10 @@ dummyCounter2=SoftCounterClass('dummyCounter2');
 
 from Diamond.PseudoDevices.DummyShutter import DummyShutterClass
 dummyShutter = DummyShutterClass('dummyShutter', delayAfterOpening=0.5, delayAfterClosing=0);
-dummyCounter.addShutter(dummyShutter);
+#dummyCounter.addShutter(dummyShutter);
 
-Dummies=ScannableGroup("Dummies")
+Dummies=ScannableGroup()
+Dummies.setName("Dummies")
 Dummies.addGroupMember(dummyCounter);
 Dummies.addGroupMember(dummyCounter1);
 Dummies.addGroupMember(dummyCounter2);
