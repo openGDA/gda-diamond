@@ -123,7 +123,6 @@
 			<list>
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<ref bean="fastpil1_nxfilewriter_for_scans" />
-				<ref bean="fastpil1_hdf5filewriter" />
 				<ref bean="fastpil1_proc" />
 				<ref bean="fastpil1_roistat1" />
 				<ref bean="fastpil1_roistat2" />
