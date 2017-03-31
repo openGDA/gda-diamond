@@ -22,7 +22,7 @@ fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
 fastEnergy.filterByEnergy = False
 
 uuu=UtilFunctions();
-i06util=BeamlineFunctionClass();
+i06util=BeamlineFunctionClass("i06");
 
 
 #Do not change mode on startup
