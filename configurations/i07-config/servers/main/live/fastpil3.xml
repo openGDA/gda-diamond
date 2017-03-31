@@ -106,6 +106,7 @@
 	<bean id="fastpil3_plot_server_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
 		<constructor-arg value="Pilatus 3" />
 		<constructor-arg value="6" />
+		<property name="viewName" value="Pilatus 3 Array" />
 	</bean>
 
 	<bean id="fastpil3_freerun_controller" class="gda.device.detector.nxdetector.plugin.areadetector.ADPilatusFreerunControllerPlugin">
@@ -117,6 +118,15 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL07I-EA-PILAT-03:PROC:" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="fastpil3_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL07I-EA-PILAT-03:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL07I-EA-PILAT-03:ARR:" />
 			</bean>
 		</property>
 	</bean>
@@ -260,6 +270,13 @@
 				<constructor-arg value="5" />
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="pil3_plot_update"
+			class="gda.device.detector.areadetector.v17.ADArrayPlotUpdater">
+		<property name="name" value="pil3_plot_update" />
+		<property name="plotName" value="Pilatus 3 Array" />
+		<property name="arrayPlugin" ref="fastpil3_ndarray" />
 	</bean>
 
 </beans>

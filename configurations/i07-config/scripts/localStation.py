@@ -123,6 +123,20 @@ try_execfile("BeamlineI07/Users/MainHutch.py")
 try_execfile("BeamlineI07/htc_temp.py")
 htc = TemperatureSocketDevice('htc', 'localhost', 10002)
 
+print "=================================="
+print "* STARTING PILATUS ARRAY UPDATES *"
+print "=================================="
+print "Finder.getInstance().find('pilN_plot_update').start/stop()"
+for _updater in ["pil1_plot_update", "pil2_plot_update", "pil3_plot_update"]:
+	try:
+		Finder.getInstance().find(_updater).start()
+	except Exception, e:
+		print "Error starting " + _updater
+		print e
+print "=================================="
+print "* FINISHED PILATUS ARRAY UPDATES *"
+print "=================================="
+
 #pieX = pie.pieX
 #pieY = pie.pieY
 #pieZ = pie.pieZ
