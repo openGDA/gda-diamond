@@ -229,7 +229,7 @@ class BeamlineFunctionClass(object):
 		
 		tlFile = os.path.join(tlPath, newLoggerName);
 		tlpp=finder.find("terminallog_path_provider")
-		tlpp.setPath( str(tlFile) );
+		tlpp.setTemplate( str(tlFile) );
 
 	def getDataPath(self):
 		dataPath=PathConstructor.createFromDefaultProperty();
