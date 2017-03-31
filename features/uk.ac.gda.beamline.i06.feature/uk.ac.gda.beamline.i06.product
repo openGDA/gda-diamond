@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I06" uid="uk.ac.gda.beamline.i06.product" id="uk.ac.gda.beamline.i06.product" application="uk.ac.gda.client.application" version="9.4.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I06" uid="uk.ac.gda.beamline.i06.product" id="uk.ac.gda.beamline.i06.product" version="9.4.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.beamline.i06/icons/schematic_I06_sm.png"/>
@@ -24,21 +24,28 @@ http://www.opengda.org
       </programArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/client/i06/pluginCustomization.ini
+-Dgda.instance.dir=/dls_sw/i06/software/gda/config
+-Dgda.facility.dir=/dls_sw/i06/software/gda/workspace_git/gda-diamond.git/dls-config
+-Dgda.core.dir=/dls_sw/i06/software/gda/workspace_git/gda-core.git/core-config
+-Dgda.group.dir=/dls_sw/i06/software/gda/i06-shared
+-Declipse.pluginCustomization=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
 -Dgda.install.git.loc=/dls_sw/i06/software/gda/workspace_git
--Dgda.install.workspace.loc=/dls_sw/i06/software/gda
--Dgda.data=/dls/i06
--Dgda.var=/dls/i06/var
+-Dgda.install.workspace.loc=/dls_sw/i06/software/gda/workspace
+-Dgda.data=/dls/i06/data
+-Dgda.var=/dls_sw/i06/software/gda_versions/var
 -Dgda.logs.dir=/dls_sw/i06/logs
--Djacorb.config.dir=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/jacorb_i06
--Dgda.propertiesFile=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/java.properties_i06
+-Djacorb.config.dir=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/live/jacorb
+-Dgda.propertiesFile=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/live/live_instance_java.properties
 -Dgda.config=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/JCALibrary.properties
--Dpython.cachedir=~/python.cachedir
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06/software/gda/workspace_git/gda-mt.git/configurations/i06-config/properties/live/JCALibrary.properties
+-Dpython.cachedir=/dls_sw/i06/software/gda_versions/var/python.cachedir
+-Dgda.gui.beans.xml=/dls_sw/i06/software/gda/config/clients/main/live/client.xml
+-Dgda.mode=live
+-Xms256m
+-Xmx2048m
+-XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsLin>-client
 -Xms128m
@@ -112,5 +119,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i06.feature"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
