@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.config}/epics/live/BL06I-gda-interface.xml" />
+		<constructor-arg value="${gda.config}/xml/epics/BL06I-gda-interface.xml" />
 	</bean>
 
 </beans>

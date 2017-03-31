@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="accessControl.xml"/>
-	<import resource="accessCheckedPgmEnergy.xml"/>
 	<import resource="m3.xml"/>
 	<import resource="d5.xml"/>
 	<import resource="peemShutter.xml"/>
@@ -21,7 +20,7 @@
 	<import resource="u1.xml"/>
 	<import resource="userMotors.xml"/>
 	
-	<import resource="peemCamera1.xml"/>
+<!-- 	<import resource="peemCamera1.xml"/> -->
 	<import resource="peemStage.xml"/>
 	<import resource="peemExitSlit.xml"/>
 	<!-- Only one of the element below should be active at any one time -->

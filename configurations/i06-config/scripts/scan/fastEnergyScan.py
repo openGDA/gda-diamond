@@ -22,7 +22,7 @@ fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
 fastEnergy.filterByEnergy = False
 
 uuu=UtilFunctions();
-i06util=BeamlineFunctionClass();
+i06util=BeamlineFunctionClass("i06");
 
 
 #Do not change mode on startup
@@ -73,6 +73,7 @@ def zacstop():
 
 alias("zacstop");
 
+from gda.jython.commands.ScannableCommands import pscan
 
 """
 	An External function to run the I06 energy constant velocity scan by using the  FastEnergyScanClass class

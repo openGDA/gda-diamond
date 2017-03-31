@@ -1,18 +1,18 @@
 from gda.device.detector.uviewnew import UViewImageDetectorROI as UViewImageDetectorROINew
-from Diamond.Peem.UViewDetector import UViewDetectorClassNew;
+from Peem.UViewDetector import UViewDetectorClassNew;
 from gda.analysis.io import TIFFImageLoader
-
-global uviewnew, ViewerPanelName
+import __main__  # @UnresolvedImport
+from peem.usePEEM import ViewerPanelName
 
 #Setup the UView
 print "-------------------------------------------------------------------"
 print "CONFIGURING TCPIP UVIEW"
-uviewnew.configure()
+__main__.uviewnew.configure()
 print "TCPIP UVIEW CONFIGURED!"
 print "-------------------------------------------------------------------"
 
 ##Create a GDA pseudo device that use the UView detector client
-uv = UViewDetectorClassNew("uv", ViewerPanelName, uviewnew)
+uv = UViewDetectorClassNew("uv", ViewerPanelName, __main__.uviewnew)
 uv.setFileFormat('tiff16')
 imageLoader=TIFFImageLoader;
 uv.setAlive(False)
