@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="daserverForTfg" class="gda.device.detector.DummyDAServer">
+		<property name="local" value="True" />
+		<property name="host" value="localhost" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
+
+	<bean id="tfg" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="daserverForTfg" />
+	</bean>
+
+	<bean id="CalMemory" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="daserverForTfg" />
+		<property name="width" value="4" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+	<bean id="injectionCounter" class="gda.device.detector.countertimer.TfgScaler">
+		<property name="extraNames">
+			<list>
+				<value>Injections</value>
+			</list>
+		</property>
+		<property name="scaler" ref="CalMemory" />
+		<property name="timer" ref="tfg" />
+		<property name="timeChannelRequired" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="3" />
+		<property name="outputFormat">
+			<list>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
+				<value>%6.4g</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

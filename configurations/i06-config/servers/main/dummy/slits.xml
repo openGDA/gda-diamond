@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="s1_hgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_hoffset_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_vgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_voffset_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_xplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_xminus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_yplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_yminus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_xplus_motor_mm" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_xminus_motor_mm" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_yplus_motor_mm" class="gda.device.motor.DummyMotor" />
+	<bean id="s1_yminus_motor_mm" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s2_hgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_hoffset_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_vgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_voffset_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_xplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_xminus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_yplus_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s2_yminus_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="s3_hgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="s3_hoffset_motor" class="gda.device.motor.DummyMotor" />
+
+	<!-- Turbo slits -->
+
+	<bean id="ts_theta_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ts_hgap_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ts_hoffset_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ts_speed_motor" class="gda.device.motor.DummyMotor" />
+
+	<import resource="file:${gda.config}/servers/main/slits-common.xml" />
+
+</beans>
