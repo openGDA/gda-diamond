@@ -20,13 +20,15 @@
 	<import resource="../_common/server.xml"/>
 
 	<import resource="device/all.xml"/>
-<!-- 
-	<import resource="scannable/all.xml"/>
+<!-- transient devices not needed in dummy
+	<import resource="transient/all.xml"/>
  -->
 	<import resource="metadata.xml"/>
 	<import resource="terminal_logger.xml"/>
 
 	<import resource="../../p45/dummy/server.xml"/>
+
+	<!-- No Dummy FileRegistrar -->
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 
