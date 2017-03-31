@@ -270,10 +270,13 @@
 		<property name="deviceInformation" ref="peLegacyADnexusInfo"/>
 		<property name="activated"         value="false"/>
 	</bean>
-
-	<bean id="pe1AreaDetectorRunnableDeviceProxyModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+	
+	<bean id="pe1AreaDetectorRunnableDeviceProxyModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceExtendedModel">
 		<property name="name"                   value="pe1AD"/>
 		<property name="exposureTime"           value="0.1"/>
+		<!-- For the moment though, just use direct properties -->
+		<property name="stopBetweenPoints"      value="false"/>
+		<property name="runUserScripts"         value="false"/>
 	</bean>
 	<bean id="pe1AreaDetectorRunnableDeviceProxyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="name"        value="pe1AD"/>
