@@ -121,6 +121,9 @@ try_execfile("BeamlineI07/useDummyCam.py")
 
 try_execfile("BeamlineI07/useEuroThermo.py")
 
+# Replaces metadata set up in setSrsDataFileHeader.py
+try_execfile("BeamlineI07/configureMetadata.py")
+
 #try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
 try_execfile("BeamlineI07/Users/MainHutch.py")
 
