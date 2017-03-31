@@ -13,6 +13,7 @@ scansReturnToOriginalPositions=0;
 print
 
 from i06shared.localStation import *  # @UnusedWildImport
+from scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,i061util  # @UnusedImport
 
 from Beamline.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
