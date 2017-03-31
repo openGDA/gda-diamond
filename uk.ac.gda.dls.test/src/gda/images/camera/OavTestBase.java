@@ -39,7 +39,7 @@ public abstract class OavTestBase {
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT, null);
 	}
 
-	protected void doCalculationsForPhaseIWithRightHorizontalDirection() {
+	protected void doCalculationsForPhaseIWithLeftHorizontalDirection() {
 		final double[] requested = arrayOf(10, 20, 30);
 
 		checkMove(requested,   0,  -10,  -20,     30   );
@@ -52,7 +52,7 @@ public abstract class OavTestBase {
 		checkMove(requested, 315,  -10,   7.1,    35.4 );
 	}
 	
-	protected void setNewPropertiesForPhaseIWithRightHorizontalDirection() {
+	protected void setNewPropertiesForPhaseIWithLeftHorizontalDirection() {
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION, "{{0;0;1};{0;-1;0};{1;0;0}}");
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION, "clockwise");
 		LocalProperties.set(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT, "true");

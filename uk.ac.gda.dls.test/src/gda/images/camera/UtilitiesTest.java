@@ -35,9 +35,9 @@ public class UtilitiesTest extends OavTestBase {
 	 * "right" horizontal direction.
 	 */
 	@Test
-	public void testPhaseICalculationsWithMatrixAndRightHorizontalDirection() {
-		setNewPropertiesForPhaseIWithRightHorizontalDirection();
-		doCalculationsForPhaseIWithRightHorizontalDirection();
+	public void testPhaseICalculationsWithMatrixAndLeftHorizontalDirection() {
+		setNewPropertiesForPhaseIWithLeftHorizontalDirection();
+		doCalculationsForPhaseIWithLeftHorizontalDirection();
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class UtilitiesTest extends OavTestBase {
 
 	@Test
 	public void testCalculateSampleStageMove() {
-		setNewPropertiesForPhaseIWithRightHorizontalDirection();
+		setNewPropertiesForPhaseIWithLeftHorizontalDirection();
 		
 		File displayConfigFile = new File("testfiles/gda/images/camera/display.configuration");
 		BeamDataComponent component = new BeamDataComponent(displayConfigFile.getAbsolutePath());
