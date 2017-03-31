@@ -134,6 +134,7 @@
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<ref bean="fastpil1_nxfilewriter_for_scans" />
 				<ref bean="fastpil1_proc" />
+				<ref bean="fastpil1_stats" />
 				<ref bean="fastpil1_roistat1" />
 				<ref bean="fastpil1_roistat2" />
 				<ref bean="fastpil1_roistat3" />
@@ -154,6 +155,7 @@
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<ref bean="fastpil1_nxfilewriter_for_snaps" />
 				<ref bean="fastpil1_proc" />
+				<ref bean="fastpil1_stats" />
 				<ref bean="fastpil1_roistat1" />
 				<ref bean="fastpil1_roistat2" />
 				<ref bean="fastpil1_roistat3" />
@@ -162,6 +164,33 @@
 				<ref bean="fastpil1_roistat6" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="pil1_full_roi" class="gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI">
+		<constructor-arg value="0" />
+		<constructor-arg value="0" />
+		<constructor-arg value="487" />
+		<constructor-arg value="195" />
+		<constructor-arg value="pil1" />
+	</bean>
+
+	<!--
+	Stats for the full detector; we don't want to filter through a region, so we're not using
+	any of the ADRoiStatsPair stuff, instead we create the Stats plugin directly.
+	It expects a ROI Provider, which is used for the plugin "extra" name.
+	-->
+	<bean id="fastpil1_stats"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADTimeSeriesStatsPlugin"
+			factory-method="createFromBasePVName">
+		<constructor-arg value="pil1stats" />
+		<constructor-arg value="BL07I-EA-PILAT-01:STAT:" />
+		<constructor-arg>
+			<bean class="gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider">
+				<property name="roi" ref="pil1_full_roi" />
+			</bean>
+		</constructor-arg>
+		<property name="inputNDArrayPort" value="pilatus1.proc" />
+		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 	</bean>
 
 	<bean id="fastpil1_roistat1"
