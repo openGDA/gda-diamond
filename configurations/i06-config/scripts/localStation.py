@@ -12,12 +12,14 @@ print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
 import sys
-try:
-    execfile("/dls_sw/i06/software/gda/i06-shared/scripts/localStation.py");
-except:
-    exceptionType, exception, traceback=sys.exc_info();
-    print "Error:  execfile i06-shared 'localStation.py'"
-    logger.dump("---> ", exceptionType, exception, traceback)
+# try:
+#     execfile("/dls_sw/i06/software/gda/i06-shared/scripts/i06shared/localStation.py");
+# except:
+#     exceptionType, exception, traceback=sys.exc_info();
+#     print "Error:  execfile i06-shared 'localStation.py'"
+#     logger.dump("---> ", exceptionType, exception, traceback)
+
+from i06shared.localStation import *  # @UnusedWildImport
     
 from scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,i06util  # @UnusedImport
 
@@ -29,7 +31,7 @@ from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @Unu
 
 #To eLog the scan
 from BeamlineI06.beamline import peemline
-from i06shared.setSrsDataFileHeader import fileHeader
+#from i06shared.setSrsDataFileHeader import fileHeader
 fileHeader.setScanLogger(peemline)
 
 #PEEM End Station

@@ -2,6 +2,7 @@
 from Diamond.PseudoDevices.MetadataHeaderDevice import MetadataHeaderDeviceClass
 from gda.jython.commands.ScannableCommands import add_default
 from i06shared.devices.useID import denergy, uenergy
+from i06shared.devices.usePGM import grating
 
 fileHeader = MetadataHeaderDeviceClass("fileHeader");
 
@@ -14,7 +15,7 @@ blList = [__main__.beamenergy, __main__.ringcurrent]; fileHeader.add(blList);
 
 idList = [__main__.iddgap, __main__.iddtrp, __main__.iddbrp, __main__.idugap, __main__.idutrp, __main__.idubrp,__main__.pugap]; fileHeader.add(idList);
 
-pgmList = [__main__.pgmpitch, __main__.pgmgratpitch, __main__.cff, __main__.grating, __main__.pgmenergy]; fileHeader.add(pgmList);
+pgmList = [__main__.pgmpitch, __main__.pgmgratpitch, __main__.cff, grating, __main__.pgmenergy]; fileHeader.add(pgmList);
 
 energyList = [denergy, uenergy]; fileHeader.add(energyList);
 
