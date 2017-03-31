@@ -15,7 +15,7 @@ from gda.analysis.io import SRSLoader
 from gda.analysis import ScanFileHolder
 
 import scisoftpy as dnp
-from org.eclipse.january.dataset import Dataset
+#from org.eclipse.january.dataset import Dataset
 
 #####################################################################################
 
@@ -154,14 +154,10 @@ class SrsFileFilterClass(object):
 #This one actually do nothing due to changes on the scisoft again. --10130916
 	def trim(self, indices):
 		for (axisName, ds) in self.dataholder.items():
-			if isinstance(ds, Dataset) or isinstance(ds, dnp.jython.jycore.ndarray):
+			if isinstance(ds, dnp.jython.jycore.ndarray):
 				tds=ds.take(indices, 0);
-				if isinstance(ds, Dataset):
-					logger.logger.debug("FileFilter:trim:%r(%r): Adding %r" % (axisName, ds.getName(), len(indices)))
-					self.targetData.setAxis( ds.getName(), tds); # Why ds.getName() not axisName?
-				else:
-					logger.logger.debug("FileFilter:trim:%r: Adding %r from %r (%r): %r" % (axisName, len(indices), tds.__class__, tds._jdataset().__class__, tds))
-					self.targetData.setAxis( axisName, tds._jdataset()); # ndarray has no ds.getName()
+				logger.logger.debug("FileFilter:trim:%r: Adding %r from %r (%r): %r" % (axisName, len(indices), tds.__class__, tds._jdataset().__class__, tds))
+				self.targetData.setAxis( axisName, tds._jdataset()); # ndarray has no ds.getName()
 					# and setAxis needs the java dataset from inside the ndarray, not the ndarray
 			else:
 				logger.logger.debug("FileFilter:trim:%r: Is not a Dataset or ndarray: %r (%r)" % (axisName, ds, ds.__class__))
@@ -170,7 +166,7 @@ class SrsFileFilterClass(object):
 		for i in range( self.dataholder.getNumberOfAxis() ):
 			ds=self.dataholder.getAxis(i);
 #			tds=ds.take(indices, None); #works fine on 8.10, but not for 8.18
-			self.targetData.setAxis( ds.getName(), tds);
+			self.targetData.setAxis( ds.getName(), ds);
 		
 
 	def getIndices(self, ds, low, high):
