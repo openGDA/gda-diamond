@@ -33,7 +33,6 @@ except:
 
 from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
 from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
-from i06shared.scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,i06util  # @UnusedImport
 from i06shared.devices.usePGM import grating  # @UnusedImport
 from i06shared.devices.useID import iddpol,denergy,hdenergy,iddrpenergy,idupol,uenergy,huenergy,idurpenergy,duenergy,iddhar,iduhar  # @UnusedImport
 from i06shared.setSrsDataFileHeader import fileHeader,blList,idList,pgmList,energyList,slitList,commonMirrorList  # @UnusedImport
