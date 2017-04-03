@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.8.2.201610040608-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.8.3.201612191259-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -69,6 +69,7 @@
 		<config>clients/main/live/client.xml</config>
 		<config>clients/main/dummy/client.xml</config>
 		<config>clients/main/_common/client.xml</config>
+		<config>clients/main/_common/serverFileListener.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

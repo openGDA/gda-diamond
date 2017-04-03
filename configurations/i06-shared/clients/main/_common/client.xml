@@ -6,6 +6,8 @@
 	<import resource="plotServer.xml"/>
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
+	<import resource="serverFileListener.xml"/>
+	
 	
 	<!-- enable remote object access via client side AdapterFactory, to support gda.factory.Findable#find(name) in client codes -->
 	<bean class="gda.factory.corba.util.AdapterFactory">
@@ -17,5 +19,4 @@
 	
 	<!-- ensure all Findables have their name set (from ID attribute?) -->
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
 </beans>

@@ -13,6 +13,7 @@ from Diamond.Utility.setTimers import stopwatch,timekeeper,clock,lineTime,pointT
 from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass;  # @UnusedImport
 from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass;  # @UnusedImport
 import __main__  # @UnresolvedImport
+import sys
 try:
 	#Set up the Diamond NumPy
 	print "-------------------------------------------------------------------"
@@ -24,9 +25,9 @@ try:
 	print "		 To load data:  data=dnp.io.load(/full/path/to/data/file, formats=['srs'], asdict=True)"
 	print "		 To plot data:  dnp.plot.line(x, y)"
 	print "		 To plot image: dnp.plot.image(data)"
+	logger.simpleLog("sys.path = "+ str(sys.path))
 	import scisoftpy as dnp;  # @UnusedImport
 except:
-	import sys
 	exceptionType, exception, traceback1=sys.exc_info();
 	print "Error:  import scisoftpy raise exceptions"
 	logger.dump("---> ", exceptionType, exception, traceback1)
