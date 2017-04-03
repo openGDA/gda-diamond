@@ -47,13 +47,6 @@
         <property name="storedMetadataEntry" ref="title"/>
     </bean>
 
-
-    <bean class="gda.data.metadata.IntransparentLogFilePathProvider" id="logfilenameprovider">
-        <property name="storedMetadataEntry" ref="subdirectory"/>
-        <property name="pathTemplate" value="${gda.data}/$year$/$visit$/gda-console-$visit$.log"/>
-    </bean>
-
-
     <bean class="gda.data.metadata.SubdirectoryMetadataEntry" id="subdirectory">
         <property name="defaultValue" value=""/>
         <property name="defaultSubdirectory" value=""/>

@@ -40,5 +40,6 @@
     <import resource="new_scanning.xml"/>
     <import resource="devices/devices.xml"/>
     <import resource="ncddetectors.xml"/>
+    <import resource="terminal_logger.xml"/>
     <corba:export namespace="${gda.beamline.name}"/>
 </beans>
