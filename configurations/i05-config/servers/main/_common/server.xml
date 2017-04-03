@@ -9,9 +9,9 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.diamond.ac.uk/schema/gda/corba
-	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 	http://www.diamond.ac.uk/schema/gda/gda
-	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd" >
+	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd" >
 
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -25,7 +25,6 @@
 		</property>
 	</bean>
 
-	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
@@ -40,13 +39,6 @@
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
-
 	<bean id="twodplot" class="gda.data.scan.TwoDPlotListener">
 		<property name="plotPanel" value="2D Scan Plot" />
 	</bean>
@@ -54,8 +46,8 @@
 	<import resource="datawriter.xml" />
 
 	<import resource="../../../xml/devices/${gda.mode}/i05_server_devices.xml" />
-	<corba:export namespace="${gda.factory.factoryName}" />
 	<import resource="gda_metadata.xml" />
 	<import resource="jython_server.xml" />
+	<corba:export namespace="${gda.factory.factoryName}" />
 
 </beans>

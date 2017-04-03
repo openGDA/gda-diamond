@@ -22,7 +22,7 @@
 -Dgda.logs.dir=${workspace_loc}/../logs
 -Dgda.instance.dir=${project_loc:i05-config} 
 -Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:uk.ac.gda.core}
+-Dgda.core.dir=${project_loc:core-config}
 -Xms1g
 -Xmx4g
       </vmArgs>
