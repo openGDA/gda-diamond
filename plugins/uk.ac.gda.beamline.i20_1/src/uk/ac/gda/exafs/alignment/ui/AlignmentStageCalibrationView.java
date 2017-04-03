@@ -18,12 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.DeviceException;
-import gda.device.Scannable;
-import gda.device.scannable.AlignmentStage;
-import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -47,6 +41,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.scannable.AlignmentStage;
+import gda.device.scannable.AlignmentStageScannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;
@@ -151,6 +150,12 @@ public class AlignmentStageCalibrationView extends ViewPart {
 		model.setxShutter( AlignmentStageScannable.AlignmentStageDevice.shutter.getLocation().getxPosition() );
 		model.setyShutter( AlignmentStageScannable.AlignmentStageDevice.shutter.getLocation().getyPosition() );
 
+		model.setxHole2( AlignmentStageScannable.AlignmentStageDevice.hole2.getLocation().getxPosition() );
+		model.setyHole2( AlignmentStageScannable.AlignmentStageDevice.hole2.getLocation().getyPosition() );
+
+		model.setxLaser( AlignmentStageScannable.AlignmentStageDevice.laser.getLocation().getxPosition() );
+		model.setyLaser( AlignmentStageScannable.AlignmentStageDevice.laser.getLocation().getyPosition() );
+
 		return model;
 	}
 
@@ -174,6 +179,12 @@ public class AlignmentStageCalibrationView extends ViewPart {
 
 		AlignmentStageScannable.AlignmentStageDevice.shutter.getLocation().setxPosition( model.getxShutter() );
 		AlignmentStageScannable.AlignmentStageDevice.shutter.getLocation().setyPosition( model.getyShutter() );
+
+		AlignmentStageScannable.AlignmentStageDevice.hole2.getLocation().setxPosition( model.getxHole2() );
+		AlignmentStageScannable.AlignmentStageDevice.hole2.getLocation().setyPosition( model.getyHole2() );
+
+		AlignmentStageScannable.AlignmentStageDevice.laser.getLocation().setxPosition( model.getxLaser() );
+		AlignmentStageScannable.AlignmentStageDevice.laser.getLocation().setyPosition( model.getyLaser() );
 	}
 
 	// Save alignment settings to persistence store.
@@ -193,7 +204,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 	private void createControlsSection() throws Exception {
 		final Section section = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		toolkit.paintBordersFor(section);
-		section.setText("Calibration");
+		section.setText("Alignment stage");
 		toolkit.paintBordersFor(section);
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite sectionComposite = toolkit.createComposite(section, SWT.NONE);
@@ -208,14 +219,14 @@ public class AlignmentStageCalibrationView extends ViewPart {
 		ScannableSetup.ALIGNMENT_STAGE_X_POSITION.getScannable().addIObserver(moveObserver);
 		ScannableSetup.ALIGNMENT_STAGE_Y_POSITION.getScannable().addIObserver(moveObserver);
 
-		Button alignmentStageCalibrationButton = toolkit.createButton(sectionComposite, "Calibrate aligment stage", SWT.None);
-		alignmentStageCalibrationButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		alignmentStageCalibrationButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				// FIXME Complete implementation
-			}
-		});
+//		Button alignmentStageCalibrationButton = toolkit.createButton(sectionComposite, "Calibrate aligment stage", SWT.None);
+//		alignmentStageCalibrationButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+//		alignmentStageCalibrationButton.addListener(SWT.Selection, new Listener() {
+//			@Override
+//			public void handleEvent(Event event) {
+//				// FIXME Complete implementation
+//			}
+//		});
 
 		Composite alignmentStageComposite = toolkit.createComposite(sectionComposite, SWT.None);
 		alignmentStageComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -254,6 +265,25 @@ public class AlignmentStageCalibrationView extends ViewPart {
 
 			createXYControlsAndMoveButton(alignmentStageComposite,
 					AlignmentStageScannable.AlignmentStageDevice.hole,
+					AlignmentStageScannable.Location.X_POS_PROP_NAME,
+					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
+
+
+			// Hole2
+			label = toolkit.createLabel(alignmentStageComposite, "Hole2", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+			createXYControlsAndMoveButton(alignmentStageComposite,
+					AlignmentStageScannable.AlignmentStageDevice.hole2,
+					AlignmentStageScannable.Location.X_POS_PROP_NAME,
+					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
+
+			// Laser
+			label = toolkit.createLabel(alignmentStageComposite, "Laser", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+
+			createXYControlsAndMoveButton(alignmentStageComposite,
+					AlignmentStageScannable.AlignmentStageDevice.laser,
 					AlignmentStageScannable.Location.X_POS_PROP_NAME,
 					AlignmentStageScannable.Location.Y_POS_PROP_NAME);
 

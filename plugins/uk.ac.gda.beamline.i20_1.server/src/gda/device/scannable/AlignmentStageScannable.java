@@ -98,7 +98,9 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		eye, // x-ray eye
 		foil, // Reference foil
 		hole, // Hole, to be used on conjunction with a fast shutter in a separate location
-		shutter; // Fast shutter. In fact this is downstream to the rest and used in conjunction with the hole.
+		shutter, // Fast shutter. In fact this is downstream to the rest and used in conjunction with the hole.
+		laser, // Laser.
+		hole2; // Hole2
 
 		private Location location;
 
