@@ -60,7 +60,7 @@
 	<bean id="scaler_for_zebra" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
-				<value>time</value>
+				<value>frame_time</value>
 				<value>I0</value>
 				<value>It</value>
 				<value>FF</value>

@@ -22,7 +22,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.dawnsci.analysis.dataset.impl.Dataset;
+import org.eclipse.dawnsci.analysis.dataset.impl.DatasetFactory;
 import org.eclipse.dawnsci.analysis.dataset.impl.DoubleDataset;
+import org.eclipse.dawnsci.hdf5.H5Utils;
+import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
+import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,6 +107,7 @@ public class TurboXasScan extends ContinuousScan {
 			} else {
 				collectMultipleSpectra();
 			}
+			addTimeAxis();
 		} else {
 			logger.info("Setting up scan using ContinuousParameters");
 			lastFrameRead = 0;
@@ -189,6 +195,46 @@ public class TurboXasScan extends ContinuousScan {
 		// flags back to default values
 		turboXasScannable.atScanEnd();
  	}
+
+	/**
+	 * Add time axis to Nexus file. This is the start time of each spectrum relative the first spectrum,
+	 * calculated using 'time between spectra' and 'frame time'.
+	 * @throws Exception
+	 */
+	private void addTimeAxis() throws Exception {
+		IHierarchicalDataFile file = null;
+		try {
+			file = HierarchicalDataFactory.getWriter(getDataWriter().getCurrentFileName());
+
+			// Read 'frame_time' and 'time between spectra' datasets from Nexus file
+			String detectorEntry = "/entry1/"+getScanDetectors()[0].getName()+"/";
+			String frameTimeName = getFrameTimeFieldName();
+			Dataset times = H5Utils.getSet(file, detectorEntry + frameTimeName);
+			Dataset timeBetweenSpectra = H5Utils.getSet(file, detectorEntry + TIME_BETWEEN_SPECTRA_COLUMN_NAME);
+
+			// Create dataset to store start time of each spectrum
+			int numSpectra = times.getShape()[0];
+			int numReadouts = times.getShape()[1];
+			Dataset absoluteTime = DatasetFactory.zeros(new int[] { numSpectra, 1 }, times.getDtype());
+
+			// First spectrum starts at t=0
+			double timeAtSpectrumStart = 0;
+			absoluteTime.set(timeAtSpectrumStart, 0);
+
+			// Calculate start time for each spectrum
+			for (int i = 0; i < numSpectra - 1; i++) {
+				// Take slice along time for current spectrum, find sum and add to time-between-spectra
+				Dataset row = times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null);
+				double rowSum = new Double((Double) row.sum());
+				double timeForSpectra = rowSum + timeBetweenSpectra.getDouble(i);
+				timeAtSpectrumStart += timeForSpectra;
+				absoluteTime.set(timeAtSpectrumStart, i + 1, 0);
+			}
+			file.createDataset(TIME_COLUMN_NAME, absoluteTime, detectorEntry);
+		} finally {
+			file.close();
+		}
+	}
 
 	@Override
 	protected void endScan() throws DeviceException, InterruptedException {
@@ -406,6 +452,10 @@ public class TurboXasScan extends ContinuousScan {
 	private static final String POSITION_UNITS = "cm";
 
 
+	private String getFrameTimeFieldName() {
+		return getScanDetectors()[0].getExtraNames()[0];
+	}
+
 	private NXDetectorData createNXDetectorData(BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
 
 		int numFramesRead = highFrame - lowFrame;
@@ -451,6 +501,8 @@ public class TurboXasScan extends ContinuousScan {
 		// Names of data fields on the detector
 		String[] fieldNames = detector.getExtraNames();
 
+		String frameTimeName = getFrameTimeFieldName();
+
 		// Copy data for each field and add to detector data
 		INexusTree detTree = frame.getDetTree(detector.getName());
 		int maxField = Math.min(fieldNames.length, frameDataArray[0].length);
@@ -460,12 +512,12 @@ public class TurboXasScan extends ContinuousScan {
 				detData[i] = frameDataArray[i][fieldIndex];
 			}
 			String fieldName = fieldNames[fieldIndex];
-			String units = fieldName.equals(TIME_COLUMN_NAME) ? TIME_UNITS : COUNT_UNITS;
+			String units = fieldName.equals(frameTimeName) ? TIME_UNITS : COUNT_UNITS;
 			NXDetectorData.addData(detTree, fieldName, new NexusGroupData(detData), units, 1);
 		}
 
 		// Store the length of last timeframe as separate dataset ('time between spectra')
-		int timeFieldIndex = Arrays.asList(fieldNames).indexOf(TIME_COLUMN_NAME);
+		int timeFieldIndex = Arrays.asList(fieldNames).indexOf(frameTimeName);
 		if (timeFieldIndex>-1) {
 			double[] timeBetweenSpectra = new double[] {frameDataArray[numFrames-1][timeFieldIndex]};
 			NXDetectorData.addData(detTree, TIME_BETWEEN_SPECTRA_COLUMN_NAME, new NexusGroupData(timeBetweenSpectra), TIME_UNITS, 1);
