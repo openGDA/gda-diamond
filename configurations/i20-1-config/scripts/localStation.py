@@ -6,6 +6,7 @@ from gdascripts.utils import caget
 run("roi_control.py")
 run("gdascripts/javajythonutil.py")
 run("shutter_functions.py")
+run("frelon-functions.py")
 
 das = finder.find("DAServer")
 das4tfg=finder.find("daserverForTfg")
@@ -34,6 +35,9 @@ if LocalProperties.get("gda.mode") == "live":
     else:
         add_default([absorberChecker])
         add_default([shutterChecker])
+
+    resetFrelonToInternalTriggerMode();
+
 else:
     remove_default([absorberChecker])
 
@@ -46,8 +50,11 @@ from gda.data.scan.datawriter import NexusDataWriter
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 metashop = Finder.getInstance().find("metashop")
 
-# Misc. TurboXAS related beans 
+# Misc. TurboXAS related beans
 zebra_gatePulsePreparer=finder.find("zebra_gatePulsePreparer")
 zebra_device=finder.find("zebra_device")
 trajscan_preparer=finder.find("trajscan_preparer")
 
+print "Stopping tfg and setting it to use scaler64 collection mode"
+das4tfg.sendCommand("tfg stop")
+das4tfg.sendCommand("tfg setup-cc-mode scaler64");

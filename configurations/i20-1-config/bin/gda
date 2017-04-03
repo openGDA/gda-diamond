@@ -1,6 +1,9 @@
 #!/bin/bash
 # Expects a parameter line that can be passed on to the gda python script
 
+
+GDA_NO_PROMPT="y"
+
 here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 set -o nounset  # Turn on nounset
 set -o errexit  # Turn on errexit
