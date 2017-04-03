@@ -5,6 +5,8 @@ from gdascripts.metadata.metadata_commands import \
         meta_clear_alldynamical
 from gdascripts.scannable.installStandardScannableMetadataCollection import meta
 
+from BeamlineI07.regiontracker import ADRegionTracker
+
 # defined in mt-config required_at_start.xml
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 
@@ -62,6 +64,12 @@ diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2detselect,
         diff2prot, diff2dets4rot, diff2dets3rot, diff2basex, diff2basey,
         diff2basey1, diff2basey2, diff2basepitch]
 
+pil1_region_tracker = ADRegionTracker(
+        "pil1_region_tracker", fastpil1, "Pilatus 1 Array")
+pil2_region_tracker = ADRegionTracker(
+        "pil2_region_tracker", fastpil2, "Pilatus 2 Array")
+pil3_region_tracker = ADRegionTracker(
+        "pil3_region_tracker", fastpil3, "Pilatus 3 Array")
 
 metadata = []
 metadata += blList
@@ -81,6 +89,7 @@ metadata += dets4List
 metadata += dets3List
 metadata += mbs4List
 metadata += diff2List
+metadata += [pil1_region_tracker, pil2_region_tracker, pil3_region_tracker]
 
 meta_clear_alldynamical()
 for _m in metadata:
