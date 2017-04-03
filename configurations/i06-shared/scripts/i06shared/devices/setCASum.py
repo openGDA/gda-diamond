@@ -4,7 +4,8 @@ from Diamond.PseudoDevices.CASum import CurrentAmplifierSumClass;
 #ca11sum = CurrentAmplifierSumClass("ca11sum", "testMotor1");
 
 print "-"*100
-print("Set the sum and average reading of current amplifiers");
+print("Set the sum reading of current amplifiers:");
+print("    'ca11sum','ca12sum','ca13sum','ca14sum','ca21sum','ca22sum','ca23sum','ca24sum','ca31sum','ca32sum','ca33sum','ca34sum','ca41sum','ca42sum','ca43sum','ca44sum'");
 
 ca11sum = CurrentAmplifierSumClass("ca11sum", "ca11");
 ca12sum = CurrentAmplifierSumClass("ca12sum", "ca12");

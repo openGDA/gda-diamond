@@ -3,6 +3,7 @@ from Diamond.PseudoDevices.MetadataHeaderDevice import MetadataHeaderDeviceClass
 from gda.jython.commands.ScannableCommands import add_default
 from i06shared.devices.useID import denergy, uenergy
 from i06shared.devices.usePGM import grating
+print "-"*100
 
 fileHeader = MetadataHeaderDeviceClass("fileHeader");
 
