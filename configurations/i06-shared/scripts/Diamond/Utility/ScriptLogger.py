@@ -1,12 +1,11 @@
 
 from java.lang import Exception, InterruptedException
 
-from org.slf4j import LoggerFactory
+from org.slf4j import LoggerFactory  # @UnresolvedImport
 
 import traceback as traceback_mod;
 
 import gda;
-from gda.jython import InterfaceProvider;
 
 
 
@@ -22,11 +21,11 @@ class SinglePrint(object):
 			
 
 class Singleton(type):
-	def __init__(cls, name, bases, dict):
-		super(Singleton, cls).__init__(name, bases, dict)
+	def __init__(cls, name, bases, dict1):
+		super(Singleton, cls).__init__(name, bases, dict1)
 		cls.instance = None
 
-	def __call__(cls, *args, **kw):
+	def __call__(self, cls, *args, **kw):
 		if cls.instance is None:
 			cls.instance = super(Singleton, cls).__call__(*args, **kw)
 		return cls.instance
@@ -69,7 +68,7 @@ class ScriptLoggerClass(object):
 		else:
 			self.logger.info(msg);
 			
-		InterfaceProvider.getTerminalPrinter().print(shortmsg);
+		print shortmsg
 		if Raise:
 			if isinstance(msg, Exception):
 				raise msg;
