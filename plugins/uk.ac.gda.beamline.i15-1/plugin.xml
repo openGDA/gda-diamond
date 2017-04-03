@@ -98,14 +98,14 @@
                relationship="stack"
                relative="uk.ac.gda.client.liveplotview"/>
          <view
-               id="uk.ac.gda.exafs.ui.dashboardView"
+               id="uk.ac.gda.rcp.views.dashboardView"
                ratio="0.75f"
                relationship="right"
                relative="uk.ac.gda.client.liveplotview"/>
          <view
                id="org.dawb.workbench.plotting.views.toolPageView.fixed:org.dawnsci.plotting.histogram.histogram_tool_page_2"
                relationship="stack"
-               relative="uk.ac.gda.exafs.ui.dashboardView"
+               relative="uk.ac.gda.rcp.views.dashboardView"
                visible="false"/>
       </perspectiveExtension>
    </extension>
