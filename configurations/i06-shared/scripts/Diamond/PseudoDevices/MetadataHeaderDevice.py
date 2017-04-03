@@ -59,8 +59,10 @@ class MetadataHeaderDeviceClass(PseudoDevice):
 				newd = vars(gdamain)[nd];
 			elif (nd in vars(gdamain).values()):
 				newd = nd;
+			elif (nd in locals()):
+				continue
 			else:
-				print "Can not find the device with name: " + str(nd);
+				print "Can not find the device with name: " + str(nd.name)+" in __main__ scope";
 				continue;
 			if 'getPosition' not in dir(newd):
 				print "Device " + str(newd) + " does not have getPosition() method."
@@ -78,6 +80,8 @@ class MetadataHeaderDeviceClass(PseudoDevice):
 				newd = vars(gdamain)[nd];
 			elif (nd in vars(gdamain).values()):
 				newd = nd;
+			elif (nd in locals()):
+				continue
 			else:
 				print "Can not find the device with name: " + str(nd);
 				continue;
