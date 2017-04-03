@@ -1,7 +1,7 @@
 #localStation.py
 #For beamline specific initialisation code.
-
-print "===================================================================";
+print
+print "*"*80
 print "Performing Beamline I06-shared initialisation code (localStation.py).";
 print
 
@@ -13,24 +13,6 @@ from Diamond.Utility.setTimers import stopwatch,timekeeper,clock,lineTime,pointT
 from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass;  # @UnusedImport
 from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass;  # @UnusedImport
 import __main__  # @UnresolvedImport
-import sys
-try:
-	#Set up the Diamond NumPy
-	print "-------------------------------------------------------------------"
-	print "Note: Use dnp (Diamond NumPy) from scisoftpy for data handling and plotting in GDA"
-	print "Note: Use help dnp for all commands"
-	print "Note: Use help <component> for help on all components ..." 
-	print "      (dnp.core, dnp.io, dnp.maths, dnp.plot, dnp.image)"
-	print "For example: "
-	print "		 To load data:  data=dnp.io.load(/full/path/to/data/file, formats=['srs'], asdict=True)"
-	print "		 To plot data:  dnp.plot.line(x, y)"
-	print "		 To plot image: dnp.plot.image(data)"
-	logger.simpleLog("sys.path = "+ str(sys.path))
-	import scisoftpy as dnp;  # @UnusedImport
-except:
-	exceptionType, exception, traceback1=sys.exc_info();
-	print "Error:  import scisoftpy raise exceptions"
-	logger.dump("---> ", exceptionType, exception, traceback1)
 
 from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
 from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
@@ -42,7 +24,7 @@ from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1lock
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
 
-print "==================================================================="; print; print;
+print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
-
+print;print
 
