@@ -6,13 +6,13 @@
 
 	<!-- Branch Line Exit Slits S6 -->
 	<bean id="s6y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorXDisp_S6" />
+		<property name="motor" ref="MotorXGap_S6" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="s6x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorYDisp_S6" />
+		<property name="motor" ref="MotorYGap_S6" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />

@@ -4,18 +4,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Branchline Exit Slits S6 Motors -->
-	<bean id="MotorXDisp_S6" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S6.XDISP" />
+	<bean id="MotorXGap_S6" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06J-AL-SLITS-01:X:GAP" />
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="MotorYDisp_S6" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S6.YDISP" />
+	<bean id="MotorYGap_S6" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06J-AL-SLITS-01:Y:GAP" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="MotorZ_S6" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S6.Z" />
+		<property name="pvName" value="BL06J-AL-SLITS-01:Z" />
 		<property name="local" value="true"/>
 	</bean>
 
