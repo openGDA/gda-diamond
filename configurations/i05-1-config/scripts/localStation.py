@@ -54,9 +54,6 @@ execfile(gdaScriptDir + "/sampleStage.py")
 
 
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
-    # Enable callbacks on ARR1 to allow updating of detector plot
-    caput("BL05J-EA-DET-01:ARR:EnableCallbacks",1)
-
     # Run the beamline staff scripts
     print "==================================================================="
     print "Running i05-1 scripts."
