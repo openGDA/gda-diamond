@@ -42,7 +42,7 @@ public class LinearExperimentDriver extends ScanDriver {
 		detector = Finder.getInstance().find(detectorName);
 		topupMonitor = Finder.getInstance().find(topupMonitorName);
 		iTScanParameters = new EdeScanParameters();
-		iTScanParameters.setGroups(timingGroups);
+		iTScanParameters.setTimingGroups(timingGroups);
 		this.shutter2 = shutter2;
 	}
 

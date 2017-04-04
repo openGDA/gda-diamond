@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.ui.data;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -93,7 +94,7 @@ public class EdeScanParameters implements Serializable {
 
 	public static EdeScanParameters createEdeScanParameters(List<TimingGroup> groups) {
 		EdeScanParameters params = new EdeScanParameters();
-		params.setGroups(groups);
+		params.setTimingGroups(groups);
 		return params;
 	}
 
@@ -133,7 +134,7 @@ public class EdeScanParameters implements Serializable {
 
 	public EdeScanParameters(TimingGroup[] groups){
 		super();
-		setGroups(new Vector<TimingGroup>(Arrays.asList(groups)));
+		setTimingGroups(new Vector<TimingGroup>(Arrays.asList(groups)));
 	}
 
 	/**
@@ -149,7 +150,7 @@ public class EdeScanParameters implements Serializable {
 
 	public double getTotalTime() {
 		double totalTime = 0.0d;
-		for (TimingGroup group : getTimingGroups()) {
+		for (TimingGroup group : getGroups()) {
 			totalTime += (group.getTimePerFrame() * group.getNumberOfFrames()) + group.getPreceedingTimeDelay();
 		}
 		return totalTime;
@@ -163,10 +164,6 @@ public class EdeScanParameters implements Serializable {
 		timingGroups.add(newGroup);
 	}
 
-	public void setGroups(List<TimingGroup> group) {
-		timingGroups = group;
-	}
-
 	public void setNumberOfRepetitions(Integer numberOfRepetitions) {
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
@@ -175,11 +172,11 @@ public class EdeScanParameters implements Serializable {
 		return numberOfRepetitions;
 	}
 
-	public List<TimingGroup> getTimingGroups() {
-		return timingGroups;
-	}
-
 	public void setTimingGroups(List<TimingGroup> timingGroups) {
+		// Ensure that there is always a timing group, even if it's empty
+		if (timingGroups == null) {
+			timingGroups = new ArrayList<TimingGroup>();
+		}
 		this.timingGroups = timingGroups;
 	}
 

@@ -134,29 +134,34 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 	@Override
 	protected String buildScanCommand() {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import CyclicExperiment;");
-		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
-			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f, %d",
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
-					this.getExperimentDataModel().getI0NumberOfAccumulations()));
-		} else {
-			builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f",
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
-		}
-		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", %d, \'%s\');",
+		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + " = CyclicExperiment(%f",
+				ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
+
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", %d );\n",
 				TIMING_GROUPS_OBJ_NAME,
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
 				DetectorModel.SHUTTER_NAME,
-				this.getNoOfRepeatedGroups(),
-				gson.toJson(externalTriggerSetting.getTfgTrigger())));
-		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%d);", this.getNoOfSecPerSpectrumToPublish()));
-		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
-		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");", this.getExperimentDataModel().getSampleDetails()));
-		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			addIRefMethodCallStrToCommand(CYCLIC_EXPERIMENT_OBJ, builder);
-		}
+				this.getNoOfRepeatedGroups()));
+
+		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);\n", this.getNoOfSecPerSpectrumToPublish()));
+		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");\n", this.getExperimentDataModel().getFileNamePrefix()));
+		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");\n", this.getExperimentDataModel().getSampleDetails()));
+
+		// Add timing groups
+		addTimingGroupsMethodCallToCommand(CYCLIC_EXPERIMENT_OBJ, builder);
+
+		// Add number of I0 accumulations
+		addI0AccumulationMethodCallToCommand(CYCLIC_EXPERIMENT_OBJ, builder);
+
+		// Add external Tfg command
+		addItTriggerMethodCallToCommand(CYCLIC_EXPERIMENT_OBJ, builder);
+
+		// Add Iref commands
+		addIRefMethodCallStrToCommand(CYCLIC_EXPERIMENT_OBJ, builder);
+
 		builder.append(CYCLIC_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
 	}

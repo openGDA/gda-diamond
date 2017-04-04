@@ -18,6 +18,9 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.ScannableSetup;
 
@@ -74,6 +77,28 @@ public class SampleStageMotors extends ObservableModel {
 
 	public void setUseIref(boolean useIref) {
 		this.firePropertyChange(USE_IREF_PROP_NAME, this.useIref, this.useIref = useIref);
+	}
+
+
+	/**
+	 * Return map of motor name, position for specified motor position type.
+	 * @param type
+	 * @return map of motorname and position
+	 */
+	public Map<String,Double> getSelectedMotorsMap(ExperimentMotorPostionType type) {
+		Map<String,Double> map = new HashMap<String,Double>();
+		for (int i=0; i < selectedMotors.length; i++) {
+			double positionValue;
+			if (type == ExperimentMotorPostionType.I0) {
+				positionValue = selectedMotors[i].getTargetI0Position();
+			} else if (type == ExperimentMotorPostionType.It) {
+				positionValue = selectedMotors[i].getTargetItPosition();
+			} else {
+				positionValue = selectedMotors[i].getTargetIrefPosition();
+			}
+			map.put( selectedMotors[i].getScannableSetup().getScannableName(), positionValue);
+		}
+		return map;
 	}
 
 	public String getFormattedSelectedPositions(ExperimentMotorPostionType type) {

@@ -15,7 +15,8 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
  uk.ac.diamond.org.springframework;bundle-version="4.0.6",
  uk.ac.gda.epics;bundle-version="1.0.0"
-Import-Package: de.jaret.util.ui.timebars.model;version="1.48.0",
+Import-Package: com.thoughtworks.xstream,
+ de.jaret.util.ui.timebars.model;version="1.48.0",
  gda.data.scan.datawriter,
  gda.scan.ede.position,
  org.eclipse.core.runtime;version="3.4.0"

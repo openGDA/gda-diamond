@@ -33,12 +33,30 @@ import gda.jython.InterfaceProvider;
 public class EdeScanMotorPositions implements EdeScanPosition {
 	private final EdePositionType type;
 	private final Map<Scannable, Double> scannablePositions = new HashMap<Scannable, Double>();
-	private Scannable motorToMoveDuringScan;
-	private List<Double> motorPositionsDuringScan = new ArrayList<Double>();
+	private final Map<String, Double> positionMap;
 
+	private Scannable scannableToMoveDuringScan;
+	private String nameOfScannableToMoveDuringScan;
+	private List<Double> motorPositionsDuringScan = null;
+
+	/**
+	 * No-args constructor (added for serialisation)
+	 */
+	public EdeScanMotorPositions() {
+		type = null;
+		positionMap = null;
+	}
 	public EdeScanMotorPositions(EdePositionType type, Map<String, Double> positions) throws DeviceException {
 		this.type = type;
-		for (Entry<String, Double> scannablePositionEntry : positions.entrySet()) {
+		this.positionMap = positions;
+		setupScannablePositionMap();
+	}
+
+	public void setupScannablePositionMap() throws DeviceException {
+		if (positionMap==null) {
+			return;
+		}
+		for (Entry<String, Double> scannablePositionEntry : positionMap.entrySet()) {
 			Scannable scannable = Finder.getInstance().find(scannablePositionEntry.getKey());
 			if (scannable ==null) {
 				throw new DeviceException("Unable to find scannable: " + scannablePositionEntry);
@@ -47,12 +65,16 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 		}
 	}
 
-	public void setMotorToMoveDuringScan(Scannable motorToMoveDuringScan) {
-		this.motorToMoveDuringScan = motorToMoveDuringScan;
+	public void setScannableToMoveDuringScan(Scannable scannableToMoveDuringScan) {
+		this.scannableToMoveDuringScan = scannableToMoveDuringScan;
+		nameOfScannableToMoveDuringScan = scannableToMoveDuringScan.getName();
 	}
 
-	public Scannable getMotorToMoveDuringScan() {
-		return motorToMoveDuringScan;
+	public Scannable getScannableToMoveDuringScan() {
+		if (scannableToMoveDuringScan==null && nameOfScannableToMoveDuringScan!=null) {
+			scannableToMoveDuringScan=Finder.getInstance().find(nameOfScannableToMoveDuringScan);
+		}
+		return scannableToMoveDuringScan;
 	}
 
 	public void setMotorPositionsDuringScan(List<Double> motorPositionsDuringScan) {
@@ -80,6 +102,10 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 
 	public Map<Scannable, Double> getPositions() {
 		return scannablePositions;
+	}
+
+	public Map<String, Double> getPositionMap() {
+		return positionMap;
 	}
 
 	/**
