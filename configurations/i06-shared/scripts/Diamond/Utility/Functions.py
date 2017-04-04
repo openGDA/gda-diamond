@@ -1,6 +1,6 @@
 #Define a list of useful functions for beamline control
 
-import __main__ as gdamain
+import __main__ as gdamain  # @UnresolvedImport
 import cPickle as pickle;
 
 from gda.factory import Finder

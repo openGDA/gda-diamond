@@ -21,20 +21,20 @@ class SinglePrint(object):
 			
 
 class Singleton(type):
-	def __init__(cls, name, bases, dict1):
-		super(Singleton, cls).__init__(name, bases, dict1)
-		cls.instance = None
+	def __init__(self, name, bases, dict1):
+		super(Singleton, self).__init__(name, bases, dict1)
+		self.instance = None
 
-	def __call__(self, cls, *args, **kw):
-		if cls.instance is None:
-			cls.instance = super(Singleton, cls).__call__(*args, **kw)
-		return cls.instance
+	def __call__(self, *args, **kw):
+		if self.instance is None:
+			self.instance = super(Singleton, self).__call__(*args, **kw)
+		return self.instance
 
-class MyClass(object):
-	__metaclass__ = Singleton
-
-print MyClass()
-print MyClass()
+# class MyClass(object):
+# 	__metaclass__ = Singleton
+# 
+# print MyClass()
+# print MyClass()
 
 
 class ScriptLoggerClass(object):

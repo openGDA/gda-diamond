@@ -28,7 +28,7 @@ from BeamlineI06.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,se
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
 from BeamlineI06.Scaler8512 import ca11s,ca12s,ca13s,ca14s,ca21s,ca22s,ca23s,ca24s,ca31s,ca32s,ca33s,ca34s,ca41s,ca42s,ca43s,ca44s,ca11sr,ca12sr,ca13sr,ca14sr,ca21sr,ca22sr,ca23sr,ca24sr,ca31sr,ca32sr,ca33sr,ca34sr,ca41sr,ca42sr,ca43sr,ca44sr,scalar1raw,scaler1  # @UnusedImport
 from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @UnusedImport
-
+from slits.useS4 import news4xgap, news4ygap  # @UnusedImport
 #To eLog the scan
 from BeamlineI06.beamline import peemline
 #from i06shared.setSrsDataFileHeader import fileHeader
