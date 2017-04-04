@@ -96,12 +96,7 @@
 		<property name="energyStepPerPixel" value="0.0861" />
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 	</bean>
-	
-	<gda:rmi-export
-		service="analyser"
-		serviceName="gda/analyser"
-		serviceInterface="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
-		
+
 	<gda:rmi-export
 		service="analyser"
 		serviceName="gda/analyserRmi"

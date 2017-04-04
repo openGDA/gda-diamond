@@ -48,12 +48,6 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
 	<bean id="analyserRmi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}analyserRmi" />
 		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI" />

@@ -87,12 +87,7 @@
 		<property name="maxKE" value="1500" />
 		<property name="energyStepPerPixel" value="0.0861" />
 	</bean>
-	
-	<gda:rmi-export
-		service="analyser_old"
-		serviceName="gda/analyser"
-		serviceInterface="uk.ac.gda.devices.vgscienta.FlexibleFrameDetector" />
-		
+
 	<gda:rmi-export
 		service="analyser_old"
 		serviceName="gda/analyserRmi"
