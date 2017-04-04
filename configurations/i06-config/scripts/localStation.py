@@ -66,8 +66,7 @@ m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 from BeamlineI06.KBMirrors import m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov  # @UnusedImport
 from BeamlineI06.Users.XEnergy.xenergy import ins_device,xenergy,offxenergy,xpol,xmode,offhar,detune,idxmcd,idxas,idd,idu  # @UnusedImport
 
-print "==================================================================="; print; print;
-
+print "==================================================================="
 print "end of localStation.py for Beamline I06)"
 
 
