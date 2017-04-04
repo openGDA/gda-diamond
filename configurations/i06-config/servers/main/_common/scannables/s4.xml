@@ -5,13 +5,13 @@
 
 	<!-- Exit Slit S4 -->
 	<bean id="s4y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorXDisp_S4" />
+		<property name="motor" ref="MotorXGap_S4" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="s4x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorYDisp_S4" />
+		<property name="motor" ref="MotorYGap_S4" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />

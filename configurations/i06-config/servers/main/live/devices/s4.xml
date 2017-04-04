@@ -4,18 +4,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Exit Slits S4 Motors -->
-	<bean id="MotorXDisp_S4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XDISP" />
+	<bean id="MotorXGap_S4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-AL-SLITS-04:X:GAP" />
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="MotorYDisp_S4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YDISP" />
+	<bean id="MotorYGap_S4" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-AL-SLITS-04:Y:GAP" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="MotorZ_S4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.Z" />
+		<property name="pvName" value="BL06I-AL-SLITS-04:Z" />
 		<property name="local" value="true"/>
 	</bean>
 
