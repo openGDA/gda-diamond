@@ -18,7 +18,6 @@ from scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, f
 from Beamline.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
 from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2  # @UnusedImport
-
 #To eLog the scan
 from Beamline.beamline import branchline
 fileHeader.setScanLogger(branchline);
@@ -31,7 +30,7 @@ from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,mag
 ##Pixis - there is a java object replement
 #from cameras.usePixis import pixis
 ##Exit Slit
-from slits.useS6 import s6ygap, s6xgap  # @UnusedImport
+from slits.useS6 import news6xgap, news6ygap  # @UnusedImport
 #Group the hexapod legs into list
 m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];  # @UndefinedVariable
 #To add branchline device position to the SRS file header
