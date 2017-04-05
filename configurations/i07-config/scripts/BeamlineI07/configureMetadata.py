@@ -99,6 +99,20 @@ meta.readFromNexus = True
 meta.rootNamespaceDict = globals()
 meta.prepend_keys_with_scannable_names = False
 
+try_execfile("BeamlineI07/diffcalcmeta.py") # requires globals
+diffcalc_lattice = diffcalc_xtal_metadata("diffcalc_lattice", "diffcalc_object._ubcalc.getState()")
+diffcalc_u = diffcalc_matrix_metadata("diffcalc_u", "u", "diffcalc_object._ubcalc.getUMatrix().array")
+diffcalc_ub = diffcalc_matrix_metadata("diffcalc_ub", "ub", "diffcalc_object._ubcalc.getUBMatrix().array")
+
+meta_add(diffcalc_lattice)
+meta_add(diffcalc_u)
+meta_add(diffcalc_ub)
+
+from gdascripts.scannable.dummy import SingleInputStringDummy
+note = SingleInputStringDummy('note')
+
+meta_add(note)
+
 try:
     remove_default(fileHeader)
 except:

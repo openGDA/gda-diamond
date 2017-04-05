@@ -61,11 +61,3 @@ add_default([fileHeader]);
 
 pilatusHeader = MetadataHeaderDeviceClass("pilatusHeader");
 pilatusHeader.add( fileHeader.getDeviceList() );
-
-
-from gdascripts.scannable.dummy import SingleInputStringDummy
-note = SingleInputStringDummy('note')
-fileHeader.add([note])
-pilatusHeader.add([note])
-
-
