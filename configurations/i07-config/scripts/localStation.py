@@ -44,7 +44,7 @@ execfile(gdaScriptDir + "BeamlineI07/beamline.py")
 
 try_execfile("BeamlineI07/setTimers.py", "Setup the timers")
 
-try_execfile("BeamlineI07/setSpecialScans.py", "Enable the multiple region scan")
+try_execfile("BeamlineI07/setSpecialScans.py", "Setup scan commands")
 
 print "-------------------------------------------------------------------"
 print "Note: Use dnp (Diamond NumPy) from scisoftpy for data handling and plotting in GDA"

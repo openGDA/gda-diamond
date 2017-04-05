@@ -10,7 +10,7 @@
 peakFindMotors = []
 peakFindDetector = ""
 
-def peak(*args):
+def peak2(*args):
     global peakFindMotors, peakFindDetector
 
     (data, counts, headings, detectorName, motorNames, dispOnly) = peakFindCommon(args, "to peak in")
@@ -35,7 +35,7 @@ def peak(*args):
         busyString+=" False: \n\tsleep(0.2)"
         exec busyString
 
-def com(*args):
+def com2(*args):
     global peakFindMotors, peakFindDetector
 
     (data, counts, headings, detectorName, motorNames, dispOnly) = peakFindCommon(args, "to centre of mass in")
@@ -54,7 +54,7 @@ def com(*args):
 
     peakFindFracMove(data, motorUsedCol, headings, index, frac, motorNames, dispOnly)
 
-def cen(*args):
+def cen2(*args):
     global peakFindMotors, peakFindDetector
 
     (data, counts, headings, detectorName, motorNames, dispOnly) = peakFindCommon(args, "to centre of FWHM in")
@@ -258,7 +258,7 @@ def motorUsedCol(motor, headings):
         pass
     return headings.index(motor)
 
-alias("peak")
-alias("com")
-alias("cen")
+alias("peak2")
+alias("com2")
+alias("cen2")
 alias("half")
