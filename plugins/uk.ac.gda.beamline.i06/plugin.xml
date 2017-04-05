@@ -7,14 +7,10 @@
       <product
             application="uk.ac.gda.client.application"
             description="GDA for Diamond Light Source Beamline I06 - Nanoscience"
-            name="I06 Nanoscience GDA">
+            name="GDA for Diamond Light Source Beamline I06">
          <property
                name="appName"
-               value="GDA for I06 Nanoscience">
-         </property>
-         <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
+               value="GDA for Diamond Light Source Beamline I06">
          </property>
          <property
                name="windowImages"
@@ -22,11 +18,11 @@
          </property>
          <property
                name="aboutImage"
-               value="icons/schematic_i06_sm.png">
+               value="icons/schematic_I06_sm.png">
          </property>
          <property
                name="aboutText"
-               value="%aboutText">
+               value="GDA for DLS Beamone i06.&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009-2017 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
          </property>
          <property
                name="startupForegroundColor"
@@ -39,7 +35,11 @@
          <property
                name="startupMessageRect"
                value="4,195,598,20">
-         </property>    
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
       </product>
    </extension>
 
@@ -89,13 +89,22 @@
          </view>
          <view
                closeable="false"
-               id="uk.ac.gda.nano.views.PeemImageView"
+               id="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@"
+               minimized="false"
                moveable="true"
                ratio="0.5"
                relationship="right"
                relative="uk.ac.gda.client.liveplotview"
-               showTitle="true"
                visible="true">
+         </view>
+         <view
+               closeable="false"
+               id="uk.ac.gda.nano.views.PeemImageView"
+               minimized="false"
+               moveable="true"
+               relationship="stack"
+               relative="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@"
+               showTitle="true">
          </view>
          <view
                closeable="false"
