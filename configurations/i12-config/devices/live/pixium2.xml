@@ -65,7 +65,7 @@
 		<property name="initialExtraDimSizeX" value="0" />
 		<property name="initialExtraDimSizeY" value="0" />
 		<property name="initialNumRowChunks" value="2881" />
-		<property name="initialCompression" value="szip" />
+		<property name="initialCompression" value="zlib" />
 		<property name="initialNumBitOffset" value="0" />
 		<property name="initialNumBitPrecision" value="8" />
 		<property name="initialSzipNumPixels" value="16" />
@@ -105,7 +105,7 @@
 			</bean>
 		</property>
 		<property name="resetToInitialValues" value="false" />
-		<property name="pixium" value="true" />
+		<!-- <property name="pixium" value="true" /> -->
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/i12/data" />
