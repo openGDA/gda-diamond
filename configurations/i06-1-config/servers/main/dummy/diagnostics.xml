@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="d2" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+				<value>Screen</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="d2motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="d2_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d2motor" />
+	</bean>
+<!-- 	<bean id="d2_current" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="deviceName" value="D2.D1I" /> -->
+<!-- 	</bean> -->
+	<bean id="d2_gain" class="gda.device.enumpositioner.DummyPositioner">
+<!-- 		<property name="pvName" value="BL20J-DI-IAMP-01:GAIN" /> -->
+				<property name="positions">
+			<list>
+				<value>10^5 low noise</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="d3_screen" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="positions">
+			<list>
+				<value>Empty</value>
+				<value>Screen direct beam</value>
+				<value>Screen ME1 3mrad</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="d3motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="d3_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d3motor" />
+	</bean>
+
+<!-- 	<bean id="d5_current" class="gda.device.monitor.EpicsMonitor"> -->
+<!-- 		<property name="deviceName" value="D5.D1I" /> -->
+<!-- 	</bean> -->
+
+</beans>
