@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-	
+
 	<!-- slits -->
 	<import resource="s1.xml" />
 	<import resource="s2.xml" />
@@ -16,7 +16,7 @@
 	<import resource="d3.xml" />
 	<import resource="dj7.xml" />
 	<import resource="dj9.xml" />
-	
+
 	<!-- mirrors -->
 	<import resource="m1.xml" />
 	<import resource="m3mj6.xml" />
@@ -31,16 +31,13 @@
 
 	<!-- storage ring -->
 	<import resource="ring.xml" />
-	
+
 	<!-- shutters -->
 	<import resource="shtrj.xml"/>
-	
+
 	<!-- analyser -->
 	<import resource="scientaslit.xml" />
-	<import resource="analyser.xml"/>
-	<import resource="analyser_energy_range.xml"/>
-	<import resource="analyser_cam_only.xml"/>
-	
+
 	<!-- endstation -->
 	<import resource="sample_stage.xml"/>
 	<import resource="zone_plate.xml"/>
@@ -51,5 +48,5 @@
 	<import resource="microscope.xml"/>
 	<import resource="cryostat.xml"/>
 	<import resource="raw_sample_stage.xml"/>
-	
+
 </beans>

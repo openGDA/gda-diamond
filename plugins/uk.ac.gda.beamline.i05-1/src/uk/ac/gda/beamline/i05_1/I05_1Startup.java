@@ -39,12 +39,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.data.PathConstructor;
+import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
+import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
 import uk.ac.gda.util.io.FileUtils;
 
 public class I05_1Startup implements IStartup {
 	private static final Logger logger = LoggerFactory.getLogger(I05_1Startup.class);
+
+	private final IVGScientaAnalyserRMI analyser = Finder.getInstance().find("analyser");
 
 	@Override
 	public void earlyStartup() {
@@ -86,10 +90,14 @@ public class I05_1Startup implements IStartup {
 						logger.info("Perspective Activated: {}", page.getLabel());
 						logger.debug("iwbPage label: {}, perspective label: {}", page.getLabel(), perspective.getLabel());
 						// Check if a scan is running if not stop the analyser
-						if (JythonServerFacade.getInstance().getScanStatus() == Jython.IDLE) {
+						if (InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
 							logger.info("Perspective Activated: No scan running: Stop analyser");
-							// am is arpesmonitor python class so call stop
-							JythonServerFacade.getInstance().runCommand("am.stop()");
+							try {
+								// Stop the analyser and zero supplies
+								analyser.zeroSupplies();
+							} catch (Exception e) {
+								logger.error("Failed to stop analyser on perspective switch", e);
+							}
 						}
 
 						// PerspectiveListener to populate the editor with an initial sample .arpes analyser configuration

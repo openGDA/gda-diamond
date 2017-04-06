@@ -25,6 +25,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.RowLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -59,8 +60,9 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 	private Button shutterButton;
 	private IVGScientaAnalyserRMI analyser;
 
-	public I05_1ContinuousModeControllerComposite(Composite parent, IVGScientaAnalyserRMI analyser) {
+	public I05_1ContinuousModeControllerComposite(Composite parent, final IVGScientaAnalyserRMI analyser) {
 		super(parent, SWT.NONE);
+
 		this.analyser = analyser;
 
 		// Overall layout of groups
@@ -81,21 +83,24 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		GridDataFactory.swtDefaults().grab(true, false).applyTo(lensModeCombo);
 		// Setup lens modes and select currently selected one
 		lensModeCombo.setItems(analyser.getEnergyRange().getAllLensModes().toArray(new String[0]));
-		String activeLensMode = JythonServerFacade.getInstance().evaluateCommand("analyser.getLensMode()");
-		lensModeCombo.select(Arrays.asList(lensModeCombo.getItems()).indexOf(activeLensMode));
-
-		SelectionListener lensModeListener = new SelectionListener() {
+		try {
+			String activeLensMode = analyser.getLensMode();
+			lensModeCombo.select(Arrays.asList(lensModeCombo.getItems()).indexOf(activeLensMode));
+		} catch (Exception e) {
+			logger.error("Failed to get current lens mode", e);
+		}
+		lensModeCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Changing analyser lens mode to " + lensModeCombo.getText());
-				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensModeCombo.getText() + "\")");
+				try {
+					analyser.setLensMode(lensModeCombo.getText());
+				} catch (Exception ex) {
+					logger.error("Failed to change lens mode", ex);
+				}
 				updatePassEnergyCombo();
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		};
-		lensModeCombo.addSelectionListener(lensModeListener);
+		});
 
 		// Centre energy
 		NudgePositionerComposite centre_energyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
@@ -115,17 +120,21 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		startButton.setLayoutData(new GridData(100, SWT.DEFAULT));
 		startButton.setText("Start");
 		startButton.setToolTipText("Apply voltages and start acquiring");
-		SelectionListener startListener = new SelectionListener() {
+		startButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				JythonServerFacade.getInstance().runCommand("am.start()");
+				logger.debug("Starting continuous acquistion");
+				try {
+					// Need to reset lens mode and pass energy as they may have changed from the values
+					// Shown in this GUI so resend the settings
+					analyser.setLensMode(lensModeCombo.getText());
+					analyser.setPassEnergy(Integer.parseInt(passEnergyCombo.getText()));
+					analyser.startContinuious();
+				} catch (Exception ex) {
+					logger.error("Failed to start continuious acquisition", ex);
+				}
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// Do nothing
-			}
-		};
-		startButton.addSelectionListener(startListener);
+		});
 
 		// Analyser pass energy
 		Label passEnergyLabel = new Label(analyserGroup, SWT.NONE);
@@ -137,35 +146,35 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		updatePassEnergyCombo();
 
 		// Add listener to update analyser pass energy when changed
-		SelectionListener passEnergyListener = new SelectionListener() {
+		passEnergyCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Changing analyser pass energy to " + passEnergyCombo.getText());
-				JythonServerFacade.getInstance().runCommand("analyser.setPassEnergy(" + passEnergyCombo.getText() + ")");
+				try {
+					analyser.setPassEnergy(Integer.parseInt(passEnergyCombo.getText()));
+				} catch (Exception ex) {
+					logger.error("Failed to set pass energy", ex);
+				}
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// Do nothing
-			}
-		};
-		passEnergyCombo.addSelectionListener(passEnergyListener);
+		});
+		passEnergyCombo.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).create());
 
 		// Analyser Stop Button
 		stopButton = new Button(analyserGroup, SWT.DEFAULT);
 		stopButton.setLayoutData(new GridData(100, SWT.DEFAULT));
 		stopButton.setText("Stop");
 		stopButton.setToolTipText("Stop acquiring and zero supplies");
-		SelectionListener stopListener = new SelectionListener() {
+		stopButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//am stands for ArpesMonitor. So this stops the ARPES monitor.
-				JythonServerFacade.getInstance().runCommand("am.stop()");
+				logger.info("Stopping continuous acquistion");
+				try {
+					analyser.stop();
+				} catch (Exception ex) {
+					logger.error("Failed to stop analyser", ex);
+				}
 			}
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		};
-		stopButton.addSelectionListener(stopListener);
+		});
 
 		// Beamline group
 		Group beamlineGroup = new Group(this, SWT.NONE);
@@ -188,7 +197,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 		shutterButton.setText("Close Shutter");
 		shutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		shutterButton.setLayoutData(new GridData(100, SWT.DEFAULT));
-		SelectionListener shutterButtonListener = new SelectionListener() {
+		shutterButton.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				InterfaceProvider.getCommandRunner().runCommand("nano_shutter(1)");
@@ -196,8 +205,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
-		};
-		shutterButton.addSelectionListener(shutterButtonListener);
+		});
 
 		// Add an observer to the psu_mode scannable to automatically detect changes in EPICS and update the GUI
 		Scannable psuModeScannable = (Scannable) (Finder.getInstance().find("psu_mode"));
@@ -224,10 +232,15 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
+					// When running=true disable start and make selected (pressed)
 					startButton.setEnabled(!running);
 					startButton.setSelection(running);
+					// When running=true enable start and make unselected
 					stopButton.setEnabled(running);
 					stopButton.setSelection(!running);
+					// When running=true disable lens mode and pass energy changes
+					lensModeCombo.setEnabled(!running);
+					passEnergyCombo.setEnabled(!running);
 				}
 			});
 		}

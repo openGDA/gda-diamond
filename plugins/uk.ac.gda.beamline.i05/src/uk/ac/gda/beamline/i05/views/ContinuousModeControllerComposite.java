@@ -59,7 +59,7 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 	private Button shutterButton;
 	private IVGScientaAnalyserRMI analyser;
 
-	public ContinuousModeControllerComposite(Composite parent, IVGScientaAnalyserRMI analyser) {
+	public ContinuousModeControllerComposite(Composite parent, final IVGScientaAnalyserRMI analyser) {
 		super(parent, SWT.NONE);
 
 		this.analyser = analyser;
@@ -88,17 +88,18 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 		} catch (Exception e) {
 			logger.error("Failed to get current lens mode", e);
 		}
-
-
-		SelectionAdapter lensModeListener = new SelectionAdapter() {
+		lensModeCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Changing analyser lens mode to " + lensModeCombo.getText());
-				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensModeCombo.getText() + "\")");
+				try {
+					analyser.setLensMode(lensModeCombo.getText());
+				} catch (Exception ex) {
+					logger.error("Failed to change lens mode", ex);
+				}
 				updatePassEnergyCombo();
 			}
-		};
-		lensModeCombo.addSelectionListener(lensModeListener);
+		});
 
 		// Centre energy
 		NudgePositionerComposite centre_energyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
@@ -118,19 +119,21 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 		startButton.setLayoutData(new GridData(100, SWT.DEFAULT));
 		startButton.setText("Start");
 		startButton.setToolTipText("Apply voltages and start acquiring");
-		SelectionAdapter startListener = new SelectionAdapter() {
+		startButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				logger.info("Starting continuous acquistion");
-				// Need to reset lens mode and pass energy as they may have changed from the values
-				// Shown in this GUI so resend the settings
-				JythonServerFacade.getInstance().runCommand("analyser.setLensMode(\"" + lensModeCombo.getText() + "\")");
-				JythonServerFacade.getInstance().runCommand("analyser.setPassEnergy(" + passEnergyCombo.getText() + ")");
-				// am stands for ArpesMonitor. So this starts the ARPES monitor.
-				JythonServerFacade.getInstance().runCommand("am.start()");
+				logger.debug("Starting continuous acquistion");
+				try {
+					// Need to reset lens mode and pass energy as they may have changed from the values
+					// Shown in this GUI so resend the settings
+					analyser.setLensMode(lensModeCombo.getText());
+					analyser.setPassEnergy(Integer.parseInt(passEnergyCombo.getText()));
+					analyser.startContinuious();
+				} catch (Exception ex) {
+					logger.error("Failed to start continuious acquisition", ex);
+				}
 			}
-		};
-		startButton.addSelectionListener(startListener);
+		});
 
 		// Analyser pass energy
 		Label passEnergyLabel = new Label(analyserGroup, SWT.NONE);
@@ -142,15 +145,17 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 		updatePassEnergyCombo();
 
 		// Add listener to update analyser pass energy when changed
-		SelectionAdapter passEnergyListener = new SelectionAdapter() {
+		passEnergyCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Changing analyser pass energy to " + passEnergyCombo.getText());
-				JythonServerFacade.getInstance()
-						.runCommand("analyser.setPassEnergy(" + passEnergyCombo.getText() + ")");
+				try {
+					analyser.setPassEnergy(Integer.parseInt(passEnergyCombo.getText()));
+				} catch (Exception ex) {
+					logger.error("Failed to set pass energy", ex);
+				}
 			}
-		};
-		passEnergyCombo.addSelectionListener(passEnergyListener);
+		});
 		passEnergyCombo.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).create());
 
 		// Analyser Stop Button
@@ -158,15 +163,17 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 		stopButton.setLayoutData(new GridData(100, SWT.DEFAULT));
 		stopButton.setText("Stop");
 		stopButton.setToolTipText("Stop acquiring and zero supplies");
-		SelectionAdapter stopListener = new SelectionAdapter() {
+		stopButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Stopping continuous acquistion");
-				// am stands for ArpesMonitor. So this stops the ARPES monitor.
-				JythonServerFacade.getInstance().runCommand("am.stop()");
+				try {
+					analyser.stop();
+				} catch (Exception ex) {
+					logger.error("Failed to stop analyser", ex);
+				}
 			}
-		};
-		stopButton.addSelectionListener(stopListener);
+		});
 
 		// Beamline group
 		Group beamlineGroup = new Group(this, SWT.NONE);
@@ -189,14 +196,13 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 		shutterButton.setText("Close Shutter");
 		shutterButton.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		shutterButton.setLayoutData(new GridData(100, SWT.DEFAULT));
-		SelectionAdapter shutterButtonListener = new SelectionAdapter() {
+		shutterButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Closing beamline shutter");
 				InterfaceProvider.getCommandRunner().runCommand("hr_shutter(1)");
 			}
-		};
-		shutterButton.addSelectionListener(shutterButtonListener);
+		});
 
 		// Sample Translations
 		Group translationNpcGroup = new Group(this, SWT.NONE);

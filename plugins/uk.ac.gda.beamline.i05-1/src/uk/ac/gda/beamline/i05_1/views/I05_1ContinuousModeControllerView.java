@@ -26,12 +26,10 @@ public class I05_1ContinuousModeControllerView extends ViewPart implements IObse
 		if (analyserRmiList.isEmpty()) {
 			throw new RuntimeException("No analyser was found over RMI");
 		}
-		// TODO Might actually want to handle the case where more than on
+		// TODO Might actually want to handle the case where more than one analyser
 		IVGScientaAnalyserRMI analyserRMI = analyserRmiList.get(0);
-		analyser = (Device) Finder.getInstance().find("analyser");
-		if (analyser != null) {
-			analyser.addIObserver(this);
-		}
+		analyserRMI.addIObserver(this);
+
 		psu = (Device) Finder.getInstance().find("psu_mode");
 		if (psu != null) {
 			psu.addIObserver(this);
