@@ -7,7 +7,7 @@ export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the star
 # Set the value that the BEAMLINE environment variable should be to correctly start from this configuration
 # so it can be checked automatically to prevent accidental startup of the wrong beamline.
 
-EXPECTED_BEAMLINE_VALUE=i06
+EXPECTED_BEAMLINE_VALUE=i06-1
 
 # Initialise the workspace and config locations for a standard Diamond Light Source GDA 9 installation, if the
 # config tree contains the dls-config/bin folder. This will define the following environment variables which
