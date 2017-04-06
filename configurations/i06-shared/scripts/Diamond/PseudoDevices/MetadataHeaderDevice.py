@@ -59,7 +59,7 @@ class MetadataHeaderDeviceClass(PseudoDevice):
 				newd = vars(gdamain)[nd];
 			elif (nd in vars(gdamain).values()):
 				newd = nd;
-			elif (nd in locals()):
+			elif (nd in locals() or nd in globals()):
 				continue
 			else:
 				print "Can not find the device with name: " + str(nd.name)+" in __main__ scope";
@@ -80,10 +80,10 @@ class MetadataHeaderDeviceClass(PseudoDevice):
 				newd = vars(gdamain)[nd];
 			elif (nd in vars(gdamain).values()):
 				newd = nd;
-			elif (nd in locals()):
+			elif (nd in locals() or nd in globals()):
 				continue
 			else:
-				print "Can not find the device with name: " + str(nd);
+				print "Can not find the device with name: " + str(nd.name);
 				continue;
 			if newd in self.deviceList:
 				self.deviceList.remove(nd);
