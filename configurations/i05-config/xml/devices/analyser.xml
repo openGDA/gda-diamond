@@ -94,7 +94,7 @@
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
 		<property name="energyRange" ref="analyser_energy_range" />
 		<property name="maxKE" value="1000" />
-		<property name="energyStepPerPixel" value="0.0861" />
+		<property name="energyStepPerPixel" value="0.0810" />
 	</bean>
 	
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
