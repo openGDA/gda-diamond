@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+	<!--machine and front end -->
+	<bean id="ringCurrent" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="300" />
+	</bean>
+	<bean id="ringEnergy" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="3.00088" />
+	</bean>
+	<bean id="fillMode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Remote Fill</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>User</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="wiggler_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="wiggler_gap_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="frontend_aperture" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="frontend_aperture_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="absorber" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>	
+				<value>Open</value>
+			</list>
+		</property>
+	</bean>
+		
+<!-- rmi exports -->
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/wiggler_gap" />
+		<property name="service" ref="wiggler_gap" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/frontend_aperture" />
+		<property name="service" ref="frontend_aperture" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+</beans>
