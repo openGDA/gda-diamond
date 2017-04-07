@@ -74,6 +74,34 @@
 		</property>
 	</bean>
 
+	<bean id="fastpil2_ndpy" class="gda.device.detector.areadetector.v17.impl.NDPythonImpl">
+		<property name="basePVName" value="BL07I-EA-PILAT-02:PYP:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL07I-EA-PILAT-02:PYP:" />
+			</bean>
+		</property>
+		<property name="pythonParameters">
+			<map>
+				<entry key="Mask Count" value="Int1" />
+				<entry key="Mask File Index" value="Int2" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="fastpil2_py" class="gda.device.detector.nxdetector.plugin.areadetector.ADPythonPlugin">
+		<property name="inputPort" value="pilatus2.CAM" />
+		<property name="ndPython" ref="fastpil2_ndpy" />
+		<property name="pythonFile" value="${gda.config}/gda_external/ad_python_plugin.py" />
+		<property name="pythonClass" value="AdPythonProcess" />
+		<property name="parameterValues">
+			<map>
+				<entry key="Mask Count" value="0" />
+				<entry key="Mask File Index" value="2" />
+			</map>
+		</property>
+	</bean>
+
 	<bean id="fastpil2_proc" class="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin">
 		<constructor-arg value="proc2" />
 		<property name="inputPort" value="pilatus2.CAM" />
@@ -84,7 +112,6 @@
 		<property name="ndProcess" ref="fastpil2_ndprocess" />
 	</bean>
 
-
 	<bean id="_fastpil2" class="gda.device.detector.NXDetector">
 		<property name="name" value="_fastpil2" />
 		<property name="collectionStrategy" ref="fastpil2_nxcollectionstrategy" />
@@ -92,7 +119,7 @@
 			<list>
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<ref bean="fastpil2_nxfilewriter_for_scans" />
-				<ref bean="fastpil2_proc" />
+				<ref bean="fastpil2_py" />
 				<ref bean="fastpil2_stats" />
 				<ref bean="fastpil2_roistat1" />
 				<ref bean="fastpil2_roistat2" />
@@ -113,7 +140,7 @@
 			<list>
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<ref bean="fastpil2_nxfilewriter_for_snaps" />
-				<ref bean="fastpil2_proc" />
+				<ref bean="fastpil2_py" />
 				<ref bean="fastpil2_stats" />
 				<ref bean="fastpil2_roistat1" />
 				<ref bean="fastpil2_roistat2" />
@@ -148,7 +175,7 @@
 				<property name="roi" ref="pil2_full_roi" />
 			</bean>
 		</constructor-arg>
-		<property name="inputNDArrayPort" value="pilatus2.proc" />
+		<property name="inputNDArrayPort" value="pilatus2.pyp" />
 		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 	</bean>
 
@@ -157,7 +184,7 @@
 		<property name="pluginName" value="roistats1" />
 		<property name="baseRoiPVName" value="BL07I-EA-PILAT-02:ROI1:" />
 		<property name="baseStatsPVName" value="BL07I-EA-PILAT-02:STAT1:" />
-		<property name="roiInputNdArrayPort" value="pilatus2.proc" />
+		<property name="roiInputNdArrayPort" value="pilatus2.pyp" />
 		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 		<property name="roiProvider">
 			<bean
@@ -172,7 +199,7 @@
 		<property name="pluginName" value="roistats2" />
 		<property name="baseRoiPVName" value="BL07I-EA-PILAT-02:ROI2:" />
 		<property name="baseStatsPVName" value="BL07I-EA-PILAT-02:STAT2:" />
-		<property name="roiInputNdArrayPort" value="pilatus2.proc" />
+		<property name="roiInputNdArrayPort" value="pilatus2.pyp" />
 		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 		<property name="roiProvider">
 			<bean
@@ -187,7 +214,7 @@
 		<property name="pluginName" value="roistats3" />
 		<property name="baseRoiPVName" value="BL07I-EA-PILAT-02:ROI3:" />
 		<property name="baseStatsPVName" value="BL07I-EA-PILAT-02:STAT3:" />
-		<property name="roiInputNdArrayPort" value="pilatus2.proc" />
+		<property name="roiInputNdArrayPort" value="pilatus2.pyp" />
 		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 		<property name="roiProvider">
 			<bean
@@ -202,7 +229,7 @@
 		<property name="pluginName" value="roistats4" />
 		<property name="baseRoiPVName" value="BL07I-EA-PILAT-02:ROI4:" />
 		<property name="baseStatsPVName" value="BL07I-EA-PILAT-02:STAT4:" />
-		<property name="roiInputNdArrayPort" value="pilatus2.proc" />
+		<property name="roiInputNdArrayPort" value="pilatus2.pyp" />
 		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 		<property name="roiProvider">
 			<bean
@@ -217,7 +244,7 @@
 		<property name="pluginName" value="roistats5" />
 		<property name="baseRoiPVName" value="BL07I-EA-PILAT-02:ROI5:" />
 		<property name="baseStatsPVName" value="BL07I-EA-PILAT-02:STAT5:" />
-		<property name="roiInputNdArrayPort" value="pilatus2.proc" />
+		<property name="roiInputNdArrayPort" value="pilatus2.pyp" />
 		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 		<property name="roiProvider">
 			<bean
@@ -232,7 +259,7 @@
 		<property name="pluginName" value="roistats6" />
 		<property name="baseRoiPVName" value="BL07I-EA-PILAT-02:ROI6:" />
 		<property name="baseStatsPVName" value="BL07I-EA-PILAT-02:STAT6:" />
-		<property name="roiInputNdArrayPort" value="pilatus2.proc" />
+		<property name="roiInputNdArrayPort" value="pilatus2.pyp" />
 		<property name="enabledBasicStats" value="MaxValue,MaxX,MaxY,Total" />
 		<property name="roiProvider">
 			<bean

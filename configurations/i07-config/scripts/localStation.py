@@ -125,6 +125,29 @@ htc = TemperatureSocketDevice('htc', 'localhost', 10002)
 
 try_execfile("BeamlineI07/configureMetadata.py")
 
+print "============================="
+print "* SETTING UP MASK FUNCTIONS *"
+print "============================="
+try:
+	from BeamlineI07.admask import ADMaskWrapper
+	pv_template = "BL07I-EA-PILAT-0%d"
+	mask_location = "/dls_sw/i07/var/ad_%d_mask.npy"
+	pil1mask = ADMaskWrapper((pv_template+":CAM") % 1,
+			(pv_template+":ARR") % 1,
+			"pilatus1.CAM",
+			mask_location % 1)
+	pil2mask = ADMaskWrapper((pv_template+":CAM") % 2,
+			(pv_template+":ARR") % 2,
+			"pilatus2.CAM",
+			mask_location % 2)
+	pil3mask = ADMaskWrapper((pv_template+":CAM") % 3,
+			(pv_template+":ARR") % 3,
+			"pilatus3.CAM",
+			mask_location % 3)
+except Exception, e:
+	print "Error setting up Mask functions"
+	print e
+
 print "=================================="
 print "* STARTING PILATUS ARRAY UPDATES *"
 print "=================================="
