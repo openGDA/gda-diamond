@@ -7,7 +7,6 @@
 		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
 	<import resource="scannables/_all_scannables.xml"/>
-	<import resource="../../../../i06-shared/servers/main/_common/server.xml"/>
 	<import resource="terminal_logger.xml"/>
 	<import resource="beanAdder.xml"/>
 	
