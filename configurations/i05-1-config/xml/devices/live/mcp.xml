@@ -49,23 +49,28 @@
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="mcpCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
 		<property name="restoreNumImagesAndImageMode" value="true" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 				<property name="restoreTriggerMode" value="true" />
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-						<property name="restoreAcquireState" value="true" />
-						<property name="adBase" ref="mcpCamBase" />
-						<property name="readoutTime" value="-1" />
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="false" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="mcpCamBase" />
+								<property name="readoutTime" value="-1" />
+							</bean>
+						</property>
 					</bean>
 				</property>
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="abstractHdf5FilewriternNochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileNameTemplate" value="i05-1-$scan$-mcp" />
@@ -75,7 +80,6 @@
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" />
 	</bean>
-
 
 	<bean id="mcp" class="gda.device.detector.NXDetector">
 		<property name="name" value="mcp" />
