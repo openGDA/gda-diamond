@@ -16,10 +16,32 @@
 		<property name="viewName" value="Detector Plot" />
 		<property name="maximumActiveRois" value="1" />
 	</bean>
+	
+	<bean id="analyser_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="false" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="false" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="false" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="false" />
+								<property name="adBase" ref="area" />
+								<property name="readoutTime" value="-1" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
 
 	<bean id="analyser" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserCamOnly">
 		<property name="cpsRoiProvider" ref="analyser_roi_provider" />
 		<property name="controller" ref="controller" />
+		<property name="collectionStrategy" ref="analyser_collection_strategy" />
 		<property name="energyRange" ref="analyser_energy_range" />
 		<property name="adBase" ref="area" />
 		<property name="local" value="true" />
