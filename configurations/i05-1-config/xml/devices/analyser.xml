@@ -67,6 +67,13 @@
 		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:ArrayCounter_RBV" />
 	</bean>
 
+	<bean id="AnalyserSumLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
+		<property name="analyser" ref="analyser" />
+		<property name="plotName" value="Detector Sum Plot" />
+		<property name="arrayPV" value="BL05J-EA-DET-01:CAM:IMAGE" />
+		<property name="frameNumberPV" value="BL05J-EA-DET-01:CAM:ArrayCounter_RBV" />
+	</bean>
+
 	<bean id="AnalyserSweptLive" class="uk.ac.gda.devices.vgscienta.AnalyserLiveDataDispatcher">
 		<property name="analyser" ref="analyser" />
 		<property name="plotName" value="Swept Plot" />
