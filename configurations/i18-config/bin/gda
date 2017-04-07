@@ -13,8 +13,8 @@ EXPECTED_BEAMLINE_VALUE=i18
 # config tree contains the dls-config/bin folder. This will define the required config environment variables which
 # must all be set for the server and client to start successfully.
 
-here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-DLS_CONFIG_BIN_RELATIVE_PATH=${here_dir}/../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
+here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
+DLS_CONFIG_BIN_RELATIVE_PATH=${here_absolute_path}/../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
 
 if [[ -d ${DLS_CONFIG_BIN_RELATIVE_PATH} ]]; then
 
