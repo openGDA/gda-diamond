@@ -24,7 +24,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.propertiesFile=${project_loc:i14-config}/properties/dummy/dummy_instance_java.properties
 -Djacorb.config.dir=${project_loc:i14-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i14-config}/properties/dummy/JCALibrary.properties
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live
