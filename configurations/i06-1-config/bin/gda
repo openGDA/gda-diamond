@@ -52,7 +52,7 @@ export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/
 
 #export GDA_JYTHON_SOCKET=7777
 
-export GDA_NO_PROMPT=true
+#export GDA_NO_PROMPT=true
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings
