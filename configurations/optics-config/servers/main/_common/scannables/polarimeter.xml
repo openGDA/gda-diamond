@@ -5,6 +5,7 @@
 	<!-- Polarimeter ScannableMotors ******************************* -->
 	<!-- Front and Rear Pinhole -->
 	<bean id="FPSelection" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="FPSelection"/>
 		<property name="motor" ref="FrontPinholeMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
@@ -12,6 +13,7 @@
 	</bean>
 	
 	<bean id="RPSelection" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="RPSelection"/>
 		<property name="motor" ref="RearPinholeMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
@@ -19,6 +21,7 @@
 	</bean>
 
 	<bean id="Pinhole" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="Pinhole"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="FPSelection" />
@@ -30,12 +33,14 @@
 	
 	<!-- Retarder Till and Rotation-->
 	<bean id="RetTilt" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="RetTilt"/>
 		<property name="motor" ref="RetarderTiltMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
 	</bean>
 	<bean id="RetRotation" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="RetRotation"/>
 		<property name="motor" ref="RetarderRotationMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
@@ -43,6 +48,7 @@
 	</bean>
 	
 	<bean id="Retarder" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="Retarder"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="RetTilt" />
@@ -54,24 +60,28 @@
 	
 	<!-- Analyser Till, Rotation, Theta (Detector) and Translation  -->
 	<bean id="AnaTilt" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="AnaTilt"/>
 		<property name="motor" ref="AnalyserTiltMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
 	</bean>
 	<bean id="AnaRotation" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="AnaRotation"/>
 		<property name="motor" ref="AnalyserRotationMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
 	</bean>
 	<bean id="AnaDetector" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="AnaDetector"/>
 		<property name="motor" ref="AnalyserDetectorMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="Deg" />
 		<property name="hardwareUnitString" value="Deg" />
 	</bean>
 	<bean id="AnaTranslation" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="AnaTranslation"/>
 		<property name="motor" ref="AnalyserTranslationMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
@@ -80,6 +90,7 @@
 	
 
 	<bean id="Analyser" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="Analyser"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="AnaTilt" />
@@ -92,6 +103,7 @@
 	</bean>
 
 	<bean id="Polarimeter" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="Polarimeter"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="FPSelection" />
