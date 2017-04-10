@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<!-- s2 -->
+				<value>s2_x_centre</value>
+				<value>s2_x_size</value>
+				<value>s2_outboard</value>
+				<value>s2_inboard</value>
+				<!-- s3 -->
+				<value>s3_x_centre</value>
+				<value>s3_x_size</value>
+				<value>s3_y_centre</value>
+				<value>s3_y_size</value>
+				<!-- s4 -->
+				<value>s4_x_size</value>
+				<value>s4_y_size</value>
+				<!-- m1 -->
+				<value>m1_pitch</value>
+				<value>m1_x</value>
+				<value>m1_y</value>
+				<value>m1_mirror_stripe</value>
+				<!-- m2 -->
+				<value>m2_pitch</value>
+				<value>m2_x</value>
+				<value>m2_y</value>
+				<value>m2_mirror_stripe</value>
+				<!-- id & energy -->
+				<value>id_gap</value>
+				<value>dcm_enrg</value>
+			</set>
+		</property>
+	</bean>
+
+</beans>
