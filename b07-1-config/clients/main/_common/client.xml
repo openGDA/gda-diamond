@@ -2,8 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
-	
+
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list value-type="java.lang.String">
@@ -31,9 +30,16 @@
 		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	
+
 	<bean class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
+
+	<!-- Commented out by default as it requires bundles which currently live in gda-incubation -->
+	<!-- <bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
+		<property name="serviceInterface" value="uk.ac.diamond.daq.devices.specs.phoibos.api.ISpecsPhoibosAnalyser" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> -->
 
 </beans>
