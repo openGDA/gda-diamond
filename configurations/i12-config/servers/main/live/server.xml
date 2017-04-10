@@ -7,6 +7,10 @@
 		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.epics.interface.xml}" />
+	</bean>
+
 	<import resource="file:${gda.config}/devices/live/dac3.xml"/>
 	<import resource="file:${gda.config}/devices/live/I0eh1.xml"/>
 	<import resource="file:${gda.config}/devices/live/I0eh2.xml"/>
