@@ -43,6 +43,7 @@
 				<ref bean="dcmenergy" />
 				<ref bean="dcmlambda" />
 				<ref bean="dcmoffset" />
+				<ref bean="dcmorder" />
 				<ref bean="dcmtemp1" />
 				<ref bean="dcmtemp2" />
 				<ref bean="dcmtemp3" />
