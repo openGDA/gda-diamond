@@ -14,6 +14,7 @@ from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass; 
 from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass;  # @UnusedImport
 import __main__  # @UnresolvedImport
 
+from i06shared.devices.Scaler8512 import ca11s,ca12s,ca13s,ca14s,ca21s,ca22s,ca23s,ca24s,ca31s,ca32s,ca33s,ca34s,ca41s,ca42s,ca43s,ca44s,ca11sr,ca12sr,ca13sr,ca14sr,ca21sr,ca22sr,ca23sr,ca24sr,ca31sr,ca32sr,ca33sr,ca34sr,ca41sr,ca42sr,ca43sr,ca44sr,scalar1raw,scaler1  # @UnusedImport
 from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
 from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
 from i06shared.devices.usePGM import *  # @UnusedImport @UnusedWildImport
