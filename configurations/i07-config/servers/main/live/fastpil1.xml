@@ -43,6 +43,18 @@
 		<constructor-arg value=".02" />
 	</bean>
 
+	<bean id="fastpil1_multi_collectionstrategy"
+			class="gda.device.detector.addetector.triggering.MultipleExposurePerCollectionStandard">
+		<constructor-arg ref="pilatus1_adbase" />
+		<constructor-arg value="0.2" />
+	</bean>
+
+	<bean id="fastpil1_multi_snappingstrategy"
+			class="gda.device.detector.addetector.triggering.MultipleExposurePerCollectionStandard">
+		<constructor-arg ref="pilatus1_adbase" />
+		<constructor-arg value="0.2" />
+	</bean>
+
 	<!-- NXDetector file writers -->
 
 	<bean id="fastpil1_nxfilewriter_for_scans"
@@ -63,6 +75,28 @@
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="returnPathRelativeToDatadir" value="true" />
 		<property name="filePathTemplate" value="$datadir$/pilatus1" />
+	</bean>
+
+	<bean id="fastpil1_multi_nxfilewriter_for_scans"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="fastpil1" />
+		<property name="ndFile" ref="fastpil1_camserver_ndfile" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus1_multi_path_template" />
+		<property name="filePathTemplate" value="$datadir$/pilatus1/$scan$" />
+		<property name="waitForFileArrival" value="false" />
+	</bean>
+
+	<bean id="fastpil1_multi_nxfilewriter_for_snaps"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="fastpil1" />
+		<property name="ndFile" ref="fastpil1_camserver_ndfile" />
+		<property name="numTrackerExtension" value="fastpil1snaps" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="filePathTemplate" value="$datadir$/pilatus1" />
+		<property name="waitForFileArrival" value="false" />
 	</bean>
 
 	<!-- NXDetectors -->
@@ -187,6 +221,46 @@
 			<list>
 				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 				<ref bean="fastpil1_nxfilewriter_for_snaps" />
+				<ref bean="fastpil1_py" />
+				<ref bean="fastpil1_stats" />
+				<ref bean="fastpil1_roistat1" />
+				<ref bean="fastpil1_roistat2" />
+				<ref bean="fastpil1_roistat3" />
+				<ref bean="fastpil1_roistat4" />
+				<ref bean="fastpil1_roistat5" />
+				<ref bean="fastpil1_roistat6" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="_fastpil1_multi" class="gda.device.detector.NXDetector">
+		<property name="name" value="_fastpil1" />
+		<property name="collectionStrategy" ref="fastpil1_multi_collectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
+				<ref bean="fastpil1_multi_nxfilewriter_for_scans" />
+				<ref bean="fastpil1_py" />
+				<ref bean="fastpil1_stats" />
+				<ref bean="fastpil1_roistat1" />
+				<ref bean="fastpil1_roistat2" />
+				<ref bean="fastpil1_roistat3" />
+				<ref bean="fastpil1_roistat4" />
+				<ref bean="fastpil1_roistat5" />
+				<ref bean="fastpil1_roistat6" />
+				<ref bean="fastpil1_freerun_controller" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="fastpil1_multi" class="gda.device.detector.NXDetectorSnappingDecorator">
+		<constructor-arg ref="_fastpil1_multi" />
+		<property name="name" value="fastpil1_multi" />
+		<property name="snappingCollectionStrategy" ref="fastpil1_multi_snappingstrategy" />
+		<property name="snapperPluginList">
+			<list>
+				<bean class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
+				<ref bean="fastpil1_multi_nxfilewriter_for_snaps" />
 				<ref bean="fastpil1_py" />
 				<ref bean="fastpil1_stats" />
 				<ref bean="fastpil1_roistat1" />
