@@ -8,5 +8,8 @@
 		<property name="deviceName" value="D12.Y" />
 		<property name="local" value="true"/>
 	</bean>
+	<bean id="d12posn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL06J-DI-PHDGN-04:MP" />
+	</bean>
 
 </beans>
