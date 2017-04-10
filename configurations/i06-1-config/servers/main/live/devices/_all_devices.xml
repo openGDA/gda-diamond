@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="accessControl.xml"/>
-	<import resource="accessCheckedPgmEnergy.xml"/>
 	<import resource="d8.xml"/>
 	<import resource="branchShutter.xml"/>
 	<import resource="s6.xml"/>

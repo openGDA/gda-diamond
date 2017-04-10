@@ -41,7 +41,7 @@ from functionDevices.idivio import idio,ifio  # @UnusedImport
 from Beamline.waveplate3 import wp32  # @UnusedImport
 
 print "===================================================================";
-print " end of localStation.py"
+print " End of i06-1 localStation.py"
 
 
 
