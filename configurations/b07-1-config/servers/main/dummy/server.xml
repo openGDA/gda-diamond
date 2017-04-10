@@ -4,7 +4,7 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
 	<import resource="file_registrar.xml"/>
-	
+
 	<!-- Ring -->
 	<import resource="ring.xml"/>
 
@@ -42,10 +42,12 @@
 
 	<!-- Monocromators -->
 	<import resource="pgm.xml"/>
-	
+
 	<!-- Endstation -->
 	<import resource="sample_manipulator.xml"/>
-	
+	<!-- Commented out by default as it requires bundles which currently live in gda-incubation -->
+	<!-- <import resource="analyser.xml"/>  -->
+
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
