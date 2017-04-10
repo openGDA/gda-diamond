@@ -22,7 +22,7 @@ MY_WORKSPACE_PARENT=${MY_PATH%%/workspace_git*}
 CORE_SCRIPTS="$MY_WORKSPACE_PARENT/workspace_git/gda-core.git/core-config/bin"
 
 # Manage the target selection, populating $operation and $ARGS vaiables in the process (because using 'source')
-source "$CORE_SCRIPTS/gda_server_target_select.sh"
+#source "$CORE_SCRIPTS/gda_server_target_select.sh"
 
 # invoke the remote startup script from the control machine passing through the composite args
 gda $operation servers $ARGS
