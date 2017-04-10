@@ -19,7 +19,7 @@
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
 		<constructor-arg index="0" ref= "tfg"/>
 		<constructor-arg index="1" ref= "daserver"/>
-		<property name="numberOfChannels" value="10" />
+		<property name="numberOfChannels" value="8" />
 	</bean>
 
 </beans>

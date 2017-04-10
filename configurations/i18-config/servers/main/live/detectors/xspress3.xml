@@ -6,7 +6,7 @@
 	<bean id="xspress3Controller"
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
 		<property name="epicsTemplate" value="BL18I-EA-XSP3-01" />
-		<property name="numberOfChannels" value="10" />
+		<property name="numberOfChannels" value="8" />
 		<property name="epicsVersion2" value="true" />
 	</bean>
 
