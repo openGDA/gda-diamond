@@ -18,4 +18,11 @@
 		 -->
 		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
 	</bean>
+
+	<bean id="s1NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
+		<property name="name"              value="s1NeXusSlit"/>
+		<property name="x_gap"			   ref="s1gapX"/>
+		<property name="y_gap"			   ref="s1gapY"/>
+		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+	</bean>
 </beans>
