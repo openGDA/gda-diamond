@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <IonChambersBean>
-    <energy>3041.0</energy>
+    <energy>7400.0</energy>
     <ionChambers>
         <name>I0</name>
         <deviceName>counterTimer01</deviceName>
@@ -10,8 +10,8 @@
         <offset>1 pA</offset>
         <useGasProperties>true</useGasProperties>
         <gasType>Ar</gasType>
-        <percentAbsorption>15.0</percentAbsorption>
-        <pressure>0.23571918269170627</pressure>
+        <percentAbsorption>20.0</percentAbsorption>
+        <pressure>0.03018534475110039</pressure>
         <totalPressure>1.1</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
@@ -30,7 +30,7 @@
         <useGasProperties>true</useGasProperties>
         <gasType>Ar</gasType>
         <percentAbsorption>80.0</percentAbsorption>
-        <pressure>0.25652365384316483</pressure>
+        <pressure>0.21904118214590665</pressure>
         <totalPressure>1.1</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
@@ -49,7 +49,7 @@
         <useGasProperties>true</useGasProperties>
         <gasType>Ar</gasType>
         <percentAbsorption>80.0</percentAbsorption>
-        <pressure>0.23820053571151023</pressure>
+        <pressure>0.21904118214590665</pressure>
         <totalPressure>1.1</totalPressure>
         <ionChamberLength>30.0</ionChamberLength>
         <gas_fill1_period_box>100.0</gas_fill1_period_box>
