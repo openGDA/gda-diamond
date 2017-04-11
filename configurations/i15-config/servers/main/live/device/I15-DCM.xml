@@ -6,51 +6,51 @@
 	<!-- Energy -->
 
 	<bean id="DcmenergyMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.ENERGY" />
+		<property name="pvName" value="BL15I-OP-DCM-01:ENERGY" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Mixture -->
 
 	<bean id="Dcmxtl1rollMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.XTAL1ROLL" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:ROLL" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Dcmx1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.X1" />
+		<property name="pvName" value="BL15I-OP-DCM-01:X1" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<!-- 
 	<bean id="DcmpiezoMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.PIEZO" />
+		<property name="pvName" value="BL15I-OP-DCM-01:PIEZO" />
 		<property name="local" value="true"/>
 	</bean>
 	 -->
 
 	<bean id="Dcmxtl1yMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.XTAL1Y" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:Y" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Dcmxtl2yMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.XTAL2Y" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:Y" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Bragg1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.XTAL1THETA" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:THETA" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Bragg2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.XTAL2THETA" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:THETA" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Dcmxtl1zMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM.XTAL1Z" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:Z" />
 		<property name="local" value="true"/>
 	</bean>
 
@@ -59,91 +59,91 @@
 
 	<!-- 
 	<bean id="dcmx2t1" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X2T1" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:TEMP1" />
 	</bean>
 
 	<bean id="dcmx2t2" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X2T2" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:TEMP2" />
 	</bean>
 
 	<bean id="dcmx2t3" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X2T3" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:TEMP3" />
 	</bean>
 
 	<bean id="dcmx2t4" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X2T4" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:TEMP4" />
 	</bean>
 
 	<bean id="dcmx2t5" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X2T5" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:TEMP5" />
 	</bean>
 
 	<bean id="dcmx2t6" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X2T6" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:TEMP6" />
 	</bean>
 
 	<bean id="dcmx2yt" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X2YT" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:Y:TEMP" />
 	</bean>
 
 	<bean id="dcmx2thetat" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X2THETAT" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:THETA:TEMP" />
 	</bean>
 
 	<bean id="dcmx1zt" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X1ZT" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:Z:TEMP" />
 	</bean>
 
 	<bean id="dcmx1t1" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X1T1" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:TEMP1" />
 	</bean>
 
 	<bean id="dcmx1t2" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X1T2" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:TEMP2" />
 	</bean>
 
 	<bean id="dcmx1t3" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X1T3" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:TEMP3" />
 	</bean>
 
 	<bean id="dcmx1t4" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X1T4" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:TEMP4" />
 	</bean>
 
 	<bean id="dcmx1yt" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X1YT" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:Y:TEMP" />
 	</bean>
 
 	<bean id="dcmt1" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.T1" />
+		<property name="pvName" value="BL15I-OP-DCM-01:TEMP1" />
 	</bean>
 
 	<bean id="dcmt2" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.T2" />
+		<property name="pvName" value="BL15I-OP-DCM-01:TEMP2" />
 	</bean>
 
 	<bean id="dcmt3" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.T3" />
+		<property name="pvName" value="BL15I-OP-DCM-01:TEMP3" />
 	</bean>
 
 	<bean id="dcmt4" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.T4" />
+		<property name="pvName" value="BL15I-OP-DCM-01:TEMP4" />
 	</bean>
 
 	<bean id="dcmt5" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.T5" />
+		<property name="pvName" value="BL15I-OP-DCM-01:TEMP5" />
 	</bean>
 
 	<bean id="dcmt6" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.T6" />
+		<property name="pvName" value="BL15I-OP-DCM-01:TEMP6" />
 	</bean>
 
 	<bean id="dcmt7" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.T7" />
+		<property name="pvName" value="BL15I-OP-DCM-01:TEMP7" />
 	</bean>
 
 	<bean id="dcmx1thetat" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="DCM.X1THETAT" />
+		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:THETA:TEMP" />
 	</bean>
 	 -->
 </beans>

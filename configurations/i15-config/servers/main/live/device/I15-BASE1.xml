@@ -4,22 +4,22 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="Dr1jack1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.Y1" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:Y1" />
 	</bean>
 
 	<bean id="Dr1jack2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.Y2" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:Y2" />
 	</bean>
 
 	<bean id="Dr1jack3Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.Y3" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:Y3" />
 	</bean>
 
 	<bean id="Dr1TransXMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.BASEX" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:X" />
 	</bean>
 
 	<bean id="Dr1RotationMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.BASEROT" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:Ry" />
 	</bean>
 </beans>

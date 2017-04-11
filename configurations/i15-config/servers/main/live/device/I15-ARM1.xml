@@ -4,10 +4,10 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="Dr1deltaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.DELTA" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:ARM:DELTA" />
 	</bean>
 
 	<bean id="Dr1gammaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.GAMMA" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:ARM:GAMMA" />
 	</bean>
 </beans>
