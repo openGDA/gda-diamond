@@ -169,7 +169,7 @@ public class I05_1ContinuousModeControllerComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Stopping continuous acquistion");
 				try {
-					analyser.stop();
+					analyser.zeroSupplies();
 				} catch (Exception ex) {
 					logger.error("Failed to stop analyser", ex);
 				}
