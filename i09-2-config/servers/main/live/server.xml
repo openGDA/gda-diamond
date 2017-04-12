@@ -48,8 +48,10 @@
 	<import resource="topup.xml" />
 	<import resource="fast_shutter.xml" />
 
+	<!-- End station -->
 	<import resource="manipulator.xml" />
 	<import resource="es1.xml" />
+	<import resource="analyser.xml" />
 
 	<import resource="../main_common.xml" />
 </beans>
