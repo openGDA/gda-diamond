@@ -14,17 +14,32 @@
 		<property name="prefix" value="BL06I-EA-DET-01:CAM:" />
 	</bean>
 
-	<bean id="pcoCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
-		<property name="restoreAcquireTime" value="true" />
+	<bean id="pcocontroller" class="gda.device.detector.pco.PCOParameters" init-method="afterPropertiesSet">
+		<property name="pvName" value="BL06I-EA-DET-01:CAM:"/>
+		<property name="areaDetector" ref="pcoCamBase"/>
+	</bean>
+	
+	<bean id="pcoCollectionStrategy" class="gda.device.detector.pco.decorators.PCOADCModeDecorator">
+		<property name="restoreADCMode" value="true"/>
+		<property name="adcMode" value="0"/>
+		<property name="pcocontroller" ref="pcocontroller"/>
 		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
-				<property name="restoreNumImagesAndImageMode" value="true"/>
+			<bean class="gda.device.detector.pco.decorators.PCOConfigureAcquireTimeAcquirePeriodDecorator">
+				<property name="restoreAcquireTime" value="true" />
+				<property name="restoreAcquirePeriod" value="true"/>
+				<property name="acquiringDeadtime" value="0.1"/>
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+						<property name="restoreNumImagesAndImageMode" value="true"/>
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="pcoCamBase" />
-								<property name="restoreAcquireState" value="true"/>
+							<bean class="gda.device.detector.pco.decorators.PCOSoftwareTriggerModeDecorator">
+								<property name="decoratee">
+									<bean class="gda.device.detector.pco.decorators.PCOSoftwareStartStop">
+										<property name="adBase" ref="pcoCamBase" />
+										<property name="pcocontroller" ref="pcocontroller"/>
+										<property name="restoreAcquireState" value="true"/>
+									</bean>
+								</property>
 							</bean>
 						</property>
 					</bean>
