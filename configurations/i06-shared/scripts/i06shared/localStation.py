@@ -25,28 +25,6 @@ from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1lock
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
 
-# Set up the scan processing wrappers
-print "-"*100
-print "Set up standard scan processing"
-from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-scan_processor.rootNamespaceDict=globals()
-import gdascripts.utils #@UnusedImport
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
-
-scan_processor_normal_processes = scan_processor.processors
-scan_processor_empty_processes  = []
-
-def scan_processing_on():
-    scan_processor.processors = scan_processor_normal_processes
-
-def scan_processing_off():
-    scan_processor.processors = scan_processor_empty_processes
-
-print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    
-print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
-print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
-scan_processing_off()
-
 print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
 print;print
