@@ -50,10 +50,10 @@ class DiodeController(ScannableBase):
 		self.zebraFastShutter.forceOpenRelease()
 		closeEHShutter()
 
-	def rawGetPosition(self):
+	def getPosition(self):
 		return None
 
-	def rawIsBusy(self):
+	def isBusy(self):
 		return False
 
 """ Never implemented since switch to Geobrick
