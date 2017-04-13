@@ -18,7 +18,7 @@ class DetectorShield(ScannableBase):
         self.verbose = False
         self.ignoreFault = False
         
-        self.TIMEOUT=5
+        self.TIMEOUT=10
         
         self.FAULT=0
         self.OPEN=1
