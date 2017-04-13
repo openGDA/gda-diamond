@@ -20,8 +20,8 @@
 	<!-- mobile end station devices below -->
 	<import resource="endStationDD.xml"/>
 	<import resource="laser.xml"/>
-	<import resource="magnet.xml"/>
-	<import resource="mobilerack.xml"/>
-	<import resource="polarimeter.xml"/>
+<!-- 	<import resource="magnet.xml"/> -->
+<!-- 	<import resource="mobilerack.xml"/> -->
+<!-- 	<import resource="polarimeter.xml"/> -->
 	
 </beans>

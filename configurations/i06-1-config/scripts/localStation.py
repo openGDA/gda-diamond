@@ -26,7 +26,7 @@ from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2lock
 #End Station Section
 
 ##Magnet
-from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw  # @UnusedImport
+#from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw  # @UnusedImport
 ##Pixis - there is a java object replement
 #from cameras.usePixis import pixis
 ##Exit Slit
@@ -39,6 +39,34 @@ branchDiodeList = [d9y, d10y, d11y]; fileHeader.add(branchDiodeList);  # @Undefi
 branchExitSlitList = [s6x, s6xgap, s6y, s6ygap]; fileHeader.add(branchExitSlitList);  # @UndefinedVariable
 from functionDevices.idivio import idio,ifio  # @UnusedImport
 from Beamline.waveplate3 import wp32  # @UnusedImport
+
+print "-"*100
+print "Set up d12 position objects"
+def d12Out():
+    d12posn.moveTo("Out")  # @UndefinedVariable
+    print "Move completed"
+def d12Ti():
+    d12posn.moveTo("Ti")  # @UndefinedVariable
+    print "Move completed"
+def d12Co():
+    d12posn.moveTo("Co")  # @UndefinedVariable
+    print "Move completed"
+def d12Fe():
+    d12posn.moveTo("Fe")  # @UndefinedVariable
+    print "Move completed"
+def d12Ni():
+    d12posn.moveTo("Ni")  # @UndefinedVariable
+    print "Move completed"
+def d12Gd():
+    print "Move completed"
+    d12posn.moveTo("Gd")  # @UndefinedVariable
+from gda.jython.commands.GeneralCommands import alias    
+alias("d12Out")
+alias("d12Ti")
+alias("d12Co")
+alias("d12Fe")
+alias("d12Ni")
+alias("d12Gd")
 
 print "===================================================================";
 print " End of i06-1 localStation.py"

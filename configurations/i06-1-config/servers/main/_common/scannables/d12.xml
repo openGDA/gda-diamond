@@ -14,6 +14,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="d12y" />
+				<ref bean="d12posn"/>
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

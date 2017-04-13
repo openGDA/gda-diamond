@@ -22,9 +22,9 @@
 	<import resource="endStationDD.xml"/>
 	<import resource="dd_cam6.xml"/>
 	<import resource="laser.xml"/>
-	<import resource="mobilerack.xml"/>
-	<import resource="mobilerack_cam1.xml"/>
+<!-- 	<import resource="mobilerack.xml"/> -->
+<!-- 	<import resource="mobilerack_cam1.xml"/> -->
 	<import resource="pixis.xml"/>
-	<import resource="polarimeter.xml"/>
+<!-- 	<import resource="polarimeter.xml"/> -->
 	
 </beans>
