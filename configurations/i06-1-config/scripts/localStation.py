@@ -68,6 +68,28 @@ alias("d12Fe")
 alias("d12Ni")
 alias("d12Gd")
 
+# Set up the scan processing wrappers
+print "-"*100
+print "Set up standard scan processing"
+from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+import gdascripts.utils #@UnusedImport
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
+
+scan_processor_normal_processes = scan_processor.processors
+scan_processor_empty_processes  = []
+
+def scan_processing_on():
+    scan_processor.processors = scan_processor_normal_processes
+
+def scan_processing_off():
+    scan_processor.processors = scan_processor_empty_processes
+
+print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    
+print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
+print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
+scan_processing_off()
+
 print "===================================================================";
 print " End of i06-1 localStation.py"
 
