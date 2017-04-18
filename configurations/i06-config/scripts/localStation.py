@@ -35,6 +35,7 @@ fileHeader.setScanLogger(peemline)
 
 #PEEM End Station
 from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx  # @UnusedImport
+fileHeader.add([leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB])
 from peem.stv_obj_instance import stvobj  # @UnusedImport
 
 USE_UVIEW=False
