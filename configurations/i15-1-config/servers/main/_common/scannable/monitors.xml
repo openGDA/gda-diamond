@@ -3,26 +3,38 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
  
-	<!-- This is only an example
-	<bean id="s1Model" class="org.eclipse.scanning.example.scannable.MockScannableConfiguration">
-		<property name="xGapName"          value="s1gapX"/>
-		<property name="yGapName"          value="s1gapY"/>
-		<property name="xCentreName"       value="s1cenX"/>
-		<property name="yCentreName"       value="s1cenY"/>
-	</bean>
-	 -->
-	<bean id="s1MockNeXusSlit" class="org.eclipse.scanning.example.scannable.MockNeXusSlit" init-method="register">
-		<property name="name"              value="s1MockNeXusSlit"/>
-		<!-- This usn't used yet! 
-		<property name="model"             ref="s1Model"/>
-		 -->
-		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
-	</bean>
-
 	<bean id="s1NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
 		<property name="name"              value="s1NeXusSlit"/>
 		<property name="x_gap"			   ref="s1gapX"/>
 		<property name="y_gap"			   ref="s1gapY"/>
+		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+	</bean>
+
+	<bean id="s2NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
+		<property name="name"              value="s2NeXusSlit"/>
+		<property name="x_gap"			   ref="s2gapX"/>
+		<property name="y_gap"			   ref="s2gapY"/>
+		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+	</bean>
+
+	<bean id="s3NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
+		<property name="name"              value="s3NeXusSlit"/>
+		<property name="x_gap"			   ref="s3gapX"/>
+		<property name="y_gap"			   ref="s3gapY"/>
+		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+	</bean>
+
+	<bean id="s4NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
+		<property name="name"              value="s4NeXusSlit"/>
+		<property name="x_gap"			   ref="s4gapX"/>
+		<property name="y_gap"			   ref="s4gapY"/>
+		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+	</bean>
+
+	<bean id="s5NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
+		<property name="name"              value="s5NeXusSlit"/>
+		<property name="x_gap"			   ref="s5gapX"/>
+		<property name="y_gap"			   ref="s5gapY"/>
 		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
 	</bean>
 </beans>
