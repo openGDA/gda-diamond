@@ -383,7 +383,11 @@ if not USE_DIFFCALC:
 	psic.setInputNames(['psic'])
 else:
 	del sixc
-	run("startup_diffcalc")
+	import diffcalc
+	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
+	diffcalc_startup_script = os.path.join(diffcalc_root, 'startup', 'i16.py')
+	print "Starting Diffcalc by running: ", diffcalc_startup_script
+	run(diffcalc_startup_script)
 	exec("phi=euler.phi")
 	exec("chi=euler.chi")
 	exec("eta=euler.eta")
