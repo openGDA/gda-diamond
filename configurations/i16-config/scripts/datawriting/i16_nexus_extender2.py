@@ -468,18 +468,16 @@ class I16NexusExtender(DataWriterExtenderBase):
             metadataGroup = nFile.getGroup("/entry1/before_scan", False)
             self.writeTitle(nFile, entry, NEXUS_TITLE)
             if DIFFCALC is not None:
-                if DIFFCALC.ub._ubcalc._state.name is None:
+                if DIFFCALC.ub.ub.ubcalc._state.name is None:
                     print "** Require UB calculation to write sample information. **"
                     print "** Nexus file will not contain sample information. **"
                     crystalInfo = None
                 else:
-                    ubMat = DIFFCALC.ub._ubcalc.UB.tolist()
+                    ubMat = DIFFCALC.ub.ub.ubcalc.UB.tolist()
                     #diffcalc's UB matrix is scaled up by 2*PI
                     ubMat = [ [_u * 0.5/math.pi for _u in _r] for _r in ubMat ]
-                    xtal = DIFFCALC.ub._ubcalc._state.crystal
-                    #diffcalc gives lattice parameters in radians
-                    latParams = [ xtal._a1, xtal._a2, xtal._a3,
-                            xtal._alpha1 * RAD_TO_DEG, xtal._alpha2 * RAD_TO_DEG, xtal._alpha3 * RAD_TO_DEG ]
+                    xtal = DIFFCALC.ub.ub.ubcalc._state.crystal.getLattice()
+                    latParams = list(xtal[1:])
                     crystalInfo = (latParams, ubMat)
             else:
                 crystalInfo = self.parseCrystalInfo(nFile, metadataGroup)
