@@ -63,8 +63,9 @@ public class SingleSpectrumCollectionView extends ViewPart {
 
 	private Form form;
 
-
 	private Composite sampleStageSectionsParent;
+	private Text prefixText;
+	private Text sampleDescText;
 
 	private Binding sampleStageCompositeBinding;
 
@@ -78,15 +79,27 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		form.setText("Single spectrum");
 		Composite formParent = form.getBody();
 		try {
-			createRunCollectionButtons(formParent);
+			createSampleDetailsSection(formParent);
 			createSampleStageSections(formParent);
 			setupScannables();
 			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			createStartStopScanSection(formParent, toolkit, prefixText, sampleDescText);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
+	}
+
+	static public void createStartStopScanSection(Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
+		final Section startStopScanSection = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
+		startStopScanSection.setText("Scan run controls");
+		startStopScanSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		Composite startStopSectionComposite = toolkit.createComposite(startStopScanSection, SWT.NONE);
+		startStopSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+		startStopScanSection.setClient(startStopSectionComposite);
+		addCollectionControls(startStopSectionComposite, toolkit, prefixTextBox, descriptionTextBox );
 	}
 
 	/**
@@ -145,7 +158,18 @@ public class SingleSpectrumCollectionView extends ViewPart {
 				singleSpectrumDataModel.doStop();
 			}
 		});
+	}
 
+	/**
+	 * Refactored from {@link #addCollectionControls}
+	 * @since 18/4/2017
+	 * @param parent
+	 * @param toolkit
+	 */
+	private void addFastShutterControls( Composite parent, FormToolkit toolkit ) {
+		final DataBindingContext dataBindingCtx = new DataBindingContext();
+
+		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 
 		// Checkbox for fast shutter
 		Button useFastShutterCheckbox = toolkit.createButton(parent, "Use fast shutter", SWT.CHECK);
@@ -153,12 +177,9 @@ public class SingleSpectrumCollectionView extends ViewPart {
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
 				BeanProperties.value(SingleSpectrumCollectionModel.USE_FAST_SHUTTER_PROP_NAME).observe( singleSpectrumDataModel ) );
-
 	}
 
-	private void createRunCollectionButtons(Composite formParent) {
-		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
-
+	private void createSampleDetailsSection(Composite formParent) {
 		final Section dataCollectionSection = toolkit.createSection(formParent, ExpandableComposite.NO_TITLE);
 		dataCollectionSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		Composite dataCollectionSectionComposite = toolkit.createComposite(dataCollectionSection, SWT.NONE);
@@ -170,7 +191,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		prefixNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		Label prefixLabel = toolkit.createLabel(prefixNameComposite, "File prefix", SWT.None);
 		prefixLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		final Text prefixText = toolkit.createText(prefixNameComposite, "", SWT.BORDER);
+		prefixText = toolkit.createText(prefixNameComposite, "", SWT.BORDER);
 		prefixText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		Composite sampleDescComposite = toolkit.createComposite(dataCollectionSectionComposite, SWT.NONE);
@@ -178,51 +199,10 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		sampleDescComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 		Label sampleDescLabel = toolkit.createLabel(sampleDescComposite, "Sample details", SWT.None);
 		sampleDescLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		final Text sampleDescText = toolkit.createText(sampleDescComposite, "", SWT.BORDER);
+		sampleDescText = toolkit.createText(sampleDescComposite, "", SWT.BORDER);
 		sampleDescText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
-		addCollectionControls(dataCollectionSectionComposite, toolkit, prefixText, sampleDescText );
-
-		/*
-		Button startAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Start", SWT.PUSH);
-		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					singleSpectrumDataModel.doCollection(true, prefixText.getText(), sampleDescText.getText());
-				} catch (Exception e) {
-					UIHelper.showError("Unable to scan", e.getMessage());
-					logger.error("Unable to scan", e);
-				}
-			}
-		});
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(startAcquicitionButton),
-				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel),
-				null,
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						return (!(boolean) value);
-					}
-				});
-
-		Button stopAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Stop", SWT.PUSH);
-		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(stopAcquicitionButton),
-				BeanProperties.value(SingleSpectrumCollectionModel.SCANNING_PROP_NAME).observe(singleSpectrumDataModel));
-		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				singleSpectrumDataModel.doStop();
-			}
-		});
-		 */
+		addFastShutterControls(dataCollectionSectionComposite, toolkit);
 	}
 
 	private void setupScannables() {

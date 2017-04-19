@@ -22,6 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
@@ -57,6 +58,7 @@ import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
 import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
+import gda.scan.ede.position.EdeScanMotorPositions;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
@@ -207,7 +209,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	 * @return TimeResolvedExperimentParameters object
 	 * @throws DeviceException
 	 */
-	public TimeResolvedExperimentParameters getParametersBean() throws DeviceException {
+	public TimeResolvedExperimentParameters getParametersBeanFromCurrentSettings() throws DeviceException {
 		TimeResolvedExperimentParameters params = new TimeResolvedExperimentParameters();
 		params.setI0AccumulationTime( ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC) );
 		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
@@ -217,7 +219,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		params.setI0MotorPositions(SampleStageMotors.INSTANCE.getSelectedMotorsMap(ExperimentMotorPostionType.I0));
 		params.setItMotorPositions(SampleStageMotors.INSTANCE.getSelectedMotorsMap(ExperimentMotorPostionType.It));
 		params.setDetectorName(DetectorModel.INSTANCE.getCurrentDetector().getName());
-		params.setTopupMonitorName(DetectorModel.INSTANCE.getCurrentDetector().getName());
+		params.setTopupMonitorName(DetectorModel.TOPUP_CHECKER);
 		params.setBeamShutterScannableName(DetectorModel.SHUTTER_NAME);
 		params.setItTriggerOptions(externalTriggerSetting.getTfgTrigger());
 
@@ -242,18 +244,156 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return params;
 	}
 
-	private void loadSavedGroups() {
+	/**
+	 * Get motor position object from available SampleStageMotors that matches given motor name
+	 * @param motorName
+	 * @return ExperimentMotorPostion object from sample stage scannables whose name matches motorName
+	 */
+	private ExperimentMotorPostion getExperimentMotorPositionForName(String motorName) {
+		for (ExperimentMotorPostion expMotorPos : SampleStageMotors.scannables) {
+			if(expMotorPos.getScannableSetup().getScannableName().equals(motorName)) {
+				return expMotorPos;
+			}
+		}
+		return null;
+	}
 
-		TFGTrigger savedExternalTriggerSetting = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
-		if (savedExternalTriggerSetting == null) {
-			savedExternalTriggerSetting = new TFGTrigger();
+	/**
+	 * Return array of ExperimentMotorPositions from mapi0, it, iref motor positions stored in
+	 * a {@link TimeResolvedExperimentParameters} object
+	 * @param params TimeResolvedExperimentParameters
+	 * @return ExperimentMotorPositions[]
+	 */
+	private ExperimentMotorPostion[] getExperimentMotorPositions(TimeResolvedExperimentParameters params) {
+		Map<String, Double> i0PositionMap = ((EdeScanMotorPositions)params.getI0ScanPosition()).getPositionMap();
+		Map<String, Double> itPositionMap = ((EdeScanMotorPositions)params.getItScanPosition()).getPositionMap();
+
+		boolean useIref = params.getDoIref();
+		Map<String, Double> irefPositionMap = null;
+		if (useIref) {
+			irefPositionMap = ((EdeScanMotorPositions)params.getiRefScanPosition()).getPositionMap();
+		}
+		if (i0PositionMap==null || itPositionMap==null || (useIref && irefPositionMap==null)) {
+			return new ExperimentMotorPostion[0];
+		}
+
+		List<ExperimentMotorPostion> expMotorPosList = new ArrayList<ExperimentMotorPostion>();
+		for(String motorName : i0PositionMap.keySet()) {
+			Double i0Pos = i0PositionMap.get(motorName);
+			Double itPos = itPositionMap.get(motorName);
+
+			ExperimentMotorPostion expMotorPosition = getExperimentMotorPositionForName(motorName);
+			expMotorPosition.setTargetI0Position(i0Pos);
+			expMotorPosition.setTargetItPosition(itPos);
+
+			if (useIref) {
+				Double iRef = irefPositionMap.get(motorName);
+				expMotorPosition.setTargetIrefPosition(iRef);
+			}
+			expMotorPosList.add(expMotorPosition);
+		}
+		ExperimentMotorPostion[] motorPositions = expMotorPosList.toArray(new ExperimentMotorPostion[expMotorPosList.size()]);
+		return motorPositions;
+	}
+
+	/** Set current experiment model from TimeResolvedExperimentParameters object.
+	 * This updates the gui as well from property change events fired during the model update.
+	 * @param params
+	 */
+	public void setupFromParametersBean(TimeResolvedExperimentParameters params) {
+		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
+		experimentDataModel.setSampleDetails(params.getSampleDetails());
+		setUseFastShutter(params.getUseFastShutter());
+
+		setupExternalTriggerSettings(params.getItTriggerOptions());
+
+		double i0Time = ExperimentUnit.SEC.convertTo(params.getI0AccumulationTime(), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF);
+		experimentDataModel.setI0IntegrationTime(i0Time);
+		if (params.getI0NumAccumulations()>0) {
+			experimentDataModel.setI0NumberOfAccumulations(params.getI0NumAccumulations());
+			experimentDataModel.setUseNoOfAccumulationsForI0(true);
+		} else {
+			experimentDataModel.setUseNoOfAccumulationsForI0(false);
+		}
+
+		// IRef num accumulations, integration time
+		if (params.getDoIref()) {
+			double irefTime = ExperimentUnit.SEC.convertTo(params.getIrefIntegrationTime(), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF);
+			experimentDataModel.setIrefIntegrationTime(irefTime);
+			experimentDataModel.setIrefNoOfAccumulations(params.getIrefNoOfAccumulations());
+		}
+
+		ExperimentMotorPostion[] pos = getExperimentMotorPositions(params);
+		SampleStageMotors.INSTANCE.setUseIref(params.getDoIref());
+		SampleStageMotors.INSTANCE.setSelectedMotors(pos);
+
+		setTimingGroupUIModelFromList(params.getItTimingGroups());
+	}
+
+	/**
+	 * Create TiminGroupUI list used for UI setup from a list of TimingGroups
+	 * @param timingGroupList List<TimingGroup>
+	 */
+	protected void setTimingGroupUIModelFromList(List<TimingGroup> timingGroupList) {
+		// Don't clear all groups, (i.e. groupsList.clear()) since gui updates to reflect this (via listeners), and all the controls disappear.
+		// And they don't come back after list has been updated...
+
+		// Remove all but one of the ui timing groups.
+		while(groupList.size()>1) {
+			// indices of elements are reduced by 1 after removing 0th element, so just keep removing the first one to clear the list...
+			removeFromInternalGroupList((TimingGroupUIModel)groupList.get(0));
+		}
+
+		double startTime = 0;
+		double endTime = 0;
+		boolean firstGroup = true;
+		for (TimingGroup timingGroup : timingGroupList) {
+			TimingGroupUIModel uiTimingGroup =  null;
+			if (firstGroup) {
+				// Re-use first timing group
+				uiTimingGroup = (TimingGroupUIModel)groupList.get(0);
+			} else {
+				// Create new timing group
+				uiTimingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
+			}
+
+			uiTimingGroup.setName(timingGroup.getLabel());
+			uiTimingGroup.setUseExternalTrigger(timingGroup.isGroupTrig());
+			uiTimingGroup.setExternalTriggerAvailable(timingGroup.isGroupTrig());
+			uiTimingGroup.setNumberOfSpectrum(timingGroup.getNumberOfFrames());
+			uiTimingGroup.setNoOfAccumulations(timingGroup.getNumberOfScansPerFrame());
+			// Conversion factor to go from seconds to default experiment units (nano seconds) (i.e. 1e9)
+			double convertSecToNanoSec = ExperimentUnit.SEC.convertTo(1, ExperimentUnit.DEFAULT_EXPERIMENT_UNIT);
+			uiTimingGroup.setTimePerSpectrum(convertSecToNanoSec*timingGroup.getTimePerFrame());
+			uiTimingGroup.setIntegrationTime(convertSecToNanoSec*timingGroup.getTimePerScan());
+			uiTimingGroup.setDelay(convertSecToNanoSec*timingGroup.getPreceedingTimeDelay());
+			uiTimingGroup.setUseTopupChecker(timingGroup.getUseTopChecker());
+			startTime = endTime;
+			// endtime, including delay at end of group
+			endTime = startTime + convertSecToNanoSec*(timingGroup.getTimePerFrame()*timingGroup.getNumberOfFrames() + timingGroup.getPreceedingTimeDelay());
+			uiTimingGroup.resetInitialTime(startTime, endTime-startTime, timingGroup.getPreceedingTimeDelay(), convertSecToNanoSec*timingGroup.getTimePerFrame());
+
+			// enable external trigger button for first group only
+			uiTimingGroup.setExternalTriggerAvailable(firstGroup);
+
+			if (!firstGroup) {
+				uiTimingGroup.setExternalTriggerAvailable(false);
+				addToInternalGroupList(uiTimingGroup);
+			}
+			firstGroup = false;
+		}
+	}
+
+	private void setupExternalTriggerSettings(TFGTrigger tfgTrigger) {
+		if (tfgTrigger == null) {
+			tfgTrigger = new TFGTrigger();
 			try {
-				savedExternalTriggerSetting.getSampleEnvironment().add(savedExternalTriggerSetting.createNewSampleEnvEntry());
+				tfgTrigger.getSampleEnvironment().add(tfgTrigger.createNewSampleEnvEntry());
 			} catch (Exception e) {
 				logger.error("Unable to create sample environment entry", e);
 			}
 		}
-		externalTriggerSetting = new ExternalTriggerSetting(savedExternalTriggerSetting);
+		externalTriggerSetting = new ExternalTriggerSetting(tfgTrigger);
 
 		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(TFGTrigger.TOTAL_TIME_PROP_NAME, new PropertyChangeListener() {
 			@Override
@@ -261,6 +401,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				TimeResolvedExperimentModel.this.firePropertyChange(TOTAL_IT_COLLECTION_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
 			}
 		});
+	}
+
+	private void loadSavedGroups() {
+
+		TFGTrigger savedExternalTriggerSetting = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
+		setupExternalTriggerSettings(savedExternalTriggerSetting);
 
 		TimingGroupUIModel[] savedGroups = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		ExperimentDataModel savedExperimentDataModel = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
