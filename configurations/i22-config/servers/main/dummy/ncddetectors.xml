@@ -40,8 +40,8 @@
     </bean>
     <bean id="WaxsMemory" class="gda.device.memory.Gdscaler">
         <property name="daServerName" value="DAServer" />
-        <property name="width" value="512" />
-        <property name="height" value="1" />
+        <property name="width" value="64" />
+        <property name="height" value="64" />
         <property name="supportedDimensions">
             <list>
                 <value>16</value>
