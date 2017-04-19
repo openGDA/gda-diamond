@@ -60,6 +60,7 @@ public class TimeResolvedExperimentParameters {
 	// IRef parameters
 	private boolean doIref = false;
 	private Map<String, Double> iRefMotorPositions;
+	private EdeScanPosition irefScanPosition;
 	private double irefIntegrationTime;
 	private int i0ForIRefNoOfAccumulations;
 	private int irefNoOfAccumulations;
@@ -115,7 +116,7 @@ public class TimeResolvedExperimentParameters {
 		this.i0MotorPositions = i0MotorPositions;
 		i0ScanPosition = new EdeScanMotorPositions(EdePositionType.OUTBEAM, i0MotorPositions);
 	}
-	
+
 	public Map<String, Double> getItMotorPositions() {
 		return itMotorPositions;
 	}
@@ -166,7 +167,7 @@ public class TimeResolvedExperimentParameters {
 	public void setFastShutterName(String fastShutterName) {
 		this.fastShutterName = fastShutterName;
 	}
-	
+
 	// Iref parameters
 	public boolean getDoIref() {
 		return doIref;
@@ -177,8 +178,12 @@ public class TimeResolvedExperimentParameters {
 	public Map<String, Double> getiRefMotorPositions() {
 		return iRefMotorPositions;
 	}
-	public void setiRefMotorPositions(Map<String, Double> iRefMotorPositions) {
+	public void setiRefMotorPositions(Map<String, Double> iRefMotorPositions) throws DeviceException {
 		this.iRefMotorPositions = iRefMotorPositions;
+		irefScanPosition = new EdeScanMotorPositions(EdePositionType.REFERENCE, iRefMotorPositions);
+	}
+	public EdeScanPosition getiRefScanPosition() {
+		return irefScanPosition;
 	}
 	public double getIrefIntegrationTime() {
 		return irefIntegrationTime;
@@ -198,7 +203,7 @@ public class TimeResolvedExperimentParameters {
 	public void setIrefNoOfAccumulations(int irefNoOfAccumulations) {
 		this.irefNoOfAccumulations = irefNoOfAccumulations;
 	}
-	
+
 	public void setHideLemoFields(boolean hideLemoFields) {
 		this.hideLemoFields = hideLemoFields;
 	}
@@ -219,7 +224,7 @@ public class TimeResolvedExperimentParameters {
 		InputStream in = new FileInputStream(fname);
 		XStream xstream = getXStream();
 		TimeResolvedExperimentParameters newParams = (TimeResolvedExperimentParameters)xstream.fromXML(in);
-		
+
 		//Setup the I0, It scan position (maps with scannable motor as key and and position as the value)
 		EdeScanMotorPositions motorPos = new EdeScanMotorPositions();
 		try {
@@ -238,7 +243,6 @@ public class TimeResolvedExperimentParameters {
 		return newParams;
 	}
 
-	
 	/**
 	 * Serialize current object to xml file
 	 * @param filePath
@@ -260,9 +264,11 @@ public class TimeResolvedExperimentParameters {
 			logger.error(message,e);
 		}
 	}
-	
+
 	public static XStream getXStream() {
 		XStream xstream = new XStream();
+		xstream.setClassLoader(TimeResolvedExperimentParameters.class.getClassLoader());
+
 		xstream.omitField(ExplicitScanPositions.class , "xScannable");
 		xstream.omitField(ExplicitScanPositions.class , "yScannable");
 
@@ -277,19 +283,19 @@ public class TimeResolvedExperimentParameters {
 
 		xstream.omitField(TimeResolvedExperimentParameters.class,"i0MotorPositions");
 		xstream.omitField(TimeResolvedExperimentParameters.class,"itMotorPositions");
-		
+
 		// Class name aliases
 		xstream.alias("TriggerableObject" , TriggerableObject.class);
 		xstream.alias("TimingGroup",  TimingGroup.class);
 		xstream.alias("TimeResolvedExperimentParameters" , TimeResolvedExperimentParameters.class);
 		xstream.alias("EdeScanMotorPositions" , EdeScanMotorPositions.class);
-		
+
 		// Implicit list for timingGroup
 		xstream.addImplicitCollection(EdeScanParameters.class, "timingGroups");
-		
+
 		return xstream;
 	}
-	
+
 	// Remove some fields from TimingGroup and EdeScanParameters that relate to Xh/XStrip triggering options.
 	// These are not needed if using Frelon, helps to simplify xml output...
 	private void removeXhLemoTriggerFields(XStream xstream) {
@@ -312,21 +318,21 @@ public class TimeResolvedExperimentParameters {
 			xstream.omitField(TimingGroup.class, field);
 		}
 	}
-	
+
 	/**
 	 * Take new TimeResolvedExperimentParameters and set everything up (also for cyclic, if numberOfRepetitions >1)
 	 * @param params
 	 * @throws DeviceException
 	 */
-	static public TimeResolvedExperiment createTimeResolvedExperiment(TimeResolvedExperimentParameters params) throws DeviceException {		
-		
+	static public TimeResolvedExperiment createTimeResolvedExperiment(TimeResolvedExperimentParameters params) throws DeviceException {
+
 		TimeResolvedExperiment theExperiment = 	new TimeResolvedExperiment(params.getI0AccumulationTime(), params.getItTimingGroups(),
 													params.getI0MotorPositions(), params.getItMotorPositions(),
-													params.getDetectorName(), params.getTopupMonitorName(), params.getBeamShutterScannableName());			
+													params.getDetectorName(), params.getTopupMonitorName(), params.getBeamShutterScannableName());
 
 		// Set the Iref parameters
 		if (params.getDoIref()) {
-			theExperiment.setIRefParameters(params.getI0MotorPositions(), params.getiRefMotorPositions(), 
+			theExperiment.setIRefParameters(params.getI0MotorPositions(), params.getiRefMotorPositions(),
 					params.getIrefIntegrationTime(), params.getI0ForIRefNoOfAccumulations(),
 					params.getIrefIntegrationTime(), params.getIrefNoOfAccumulations());
 		}
@@ -339,10 +345,10 @@ public class TimeResolvedExperimentParameters {
 		if (params.getNumberOfRepetition()>1) {
 			theExperiment.setRepetitions(params.getNumberOfRepetition());
 		}
-		
+
 		return theExperiment;
 	}
-	
+
 	public TimeResolvedExperiment createTimeResolvedExperiment() throws DeviceException {
 		return createTimeResolvedExperiment(this);
 	}
