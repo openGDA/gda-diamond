@@ -1,57 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd                                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd                                                 http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-	<bean class="gda.device.monitor.DummyMonitor" id="stat1_maxx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat1_maxy"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat1_minx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat1_miny"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat1_min"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat1_max"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat1_mean"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat1_sum"/>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat1_maxx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat1_maxy">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat1_minx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat1_miny">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat1_min">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat1_max">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat1_mean">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat1_sum">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.monitor.DummyMonitor" id="stat2_maxx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat2_maxy"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat2_minx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat2_miny"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat2_min"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat2_max"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat2_mean"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat2_sum"/>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat2_maxx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat2_maxy">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat2_minx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat2_miny">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat2_min">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat2_max">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat2_mean">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat2_sum">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.monitor.DummyMonitor" id="stat3_maxx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat3_maxy"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat3_minx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat3_miny"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat3_min"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat3_max"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat3_mean"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat3_sum"/>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat3_maxx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat3_maxy">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat3_minx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat3_miny">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat3_min">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat3_max">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat3_mean">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat3_sum">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.monitor.DummyMonitor" id="stat4_maxx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat4_maxy"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat4_minx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat4_miny"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat4_min"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat4_max"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat4_mean"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat4_sum"/>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat4_maxx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat4_maxy">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat4_minx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat4_miny">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat4_min">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat4_max">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat4_mean">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat4_sum">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.monitor.DummyMonitor" id="stat5_maxx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat5_maxy"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat5_minx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat5_miny"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat5_min"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat5_max"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat5_mean"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat5_sum"/>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat5_maxx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat5_maxy">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat5_minx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat5_miny">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat5_min">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat5_max">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat5_mean">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat5_sum">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.monitor.DummyMonitor" id="stat6_maxx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat6_maxy"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat6_minx"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat6_miny"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat6_min"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat6_max"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat6_mean"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="stat6_sum"/>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat6_maxx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat6_maxy">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat6_minx">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat6_miny">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat6_min">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat6_max">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat6_mean">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="stat6_sum">
+		<property name="local" value="True" />
+	</bean>
 
 </beans>

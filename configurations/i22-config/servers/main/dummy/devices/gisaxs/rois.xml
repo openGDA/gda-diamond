@@ -1,27 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd                                 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd                                         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd                                                 http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-	<bean class="gda.device.scannable.DummyScannable" id="roi4_sizey"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi2_minx"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi2_sizex"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi2_miny"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi1_miny"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi5_sizex"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi6_minx"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi3_sizey"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi4_sizex"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi3_miny"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi5_minx"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi5_sizey"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi3_sizex"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi5_miny"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi1_sizey"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi4_miny"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi6_sizex"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi1_minx"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi1_sizex"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi2_sizey"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi3_minx"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi4_minx"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi6_miny"/>
-	<bean class="gda.device.scannable.DummyScannable" id="roi6_sizey"/>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	<bean class="gda.device.scannable.DummyScannable" id="roi4_sizey">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi2_minx">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi2_sizex">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi2_miny">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi1_miny">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi5_sizex">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi6_minx">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi3_sizey">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi4_sizex">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi3_miny">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi5_minx">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi5_sizey">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi3_sizex">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi5_miny">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi1_sizey">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi4_miny">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi6_sizex">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi1_minx">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi1_sizex">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi2_sizey">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi3_minx">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi4_minx">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi6_miny">
+		<property name="local" value="true" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="roi6_sizey">
+		<property name="local" value="true" />
+	</bean>
 </beans>

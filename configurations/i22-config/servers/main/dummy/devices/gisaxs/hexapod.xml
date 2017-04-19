@@ -10,52 +10,134 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="hexapod_yaw_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="hexapod_z_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="hexapod_roll_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="hexapod_x_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="hexapod_pitch_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="hexapod_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="hexapod_yaw_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="True" />
+	</bean>
+	<bean id="hexapod_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="True" />
+	</bean>
+	<bean id="hexapod_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="True" />
+	</bean>
+	<bean id="hexapod_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="True" />
+	</bean>
+	<bean id="hexapod_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="True" />
+	</bean>
+	<bean id="hexapod_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="True" />
+	</bean>
 
-    <bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_x" />
-    <bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_y"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_z"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_yaw"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_pitch"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_roll"/>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_x" >
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_y">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_z">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_yaw">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_pitch">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_OfP_roll">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l1temp"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l2temp"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l3temp"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l4temp"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l5temp"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l6temp"/>
-    
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg1"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg2"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg3"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg4"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg5"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg6"/>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l1temp">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l2temp">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l3temp">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l4temp">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l5temp">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_l6temp">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_x"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_y"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_z"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_pitch"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_roll"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_yaw"/>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg1">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg2">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg3">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg4">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg5">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_rawleg6">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_bothoffsets_x"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_bothoffsets_y"/>
-	<bean class="gda.device.scannable.DummyScannable" id="hexapod_bothoffsets_z"/>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_x">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_y">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_z">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_pitch">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_roll">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_UfM_yaw">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.controlpoint.DummyControlPoint" id="hexapod_rotate"/>
-	<bean class="gda.device.controlpoint.DummyControlPoint" id="hexapod_defer"/>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_bothoffsets_x">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_bothoffsets_y">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.scannable.DummyScannable" id="hexapod_bothoffsets_z">
+		<property name="local" value="True" />
+	</bean>
 
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_x"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_y"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_z"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_roll"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_yaw"/>
-	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_pitch"/>
+	<bean class="gda.device.controlpoint.DummyControlPoint" id="hexapod_rotate">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.controlpoint.DummyControlPoint" id="hexapod_defer">
+		<property name="local" value="True" />
+	</bean>
+
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_x">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_y">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_z">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_roll">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_yaw">
+		<property name="local" value="True" />
+	</bean>
+	<bean class="gda.device.monitor.DummyMonitor" id="hexapod_PiM_pitch">
+		<property name="local" value="True" />
+	</bean>
 </beans>
