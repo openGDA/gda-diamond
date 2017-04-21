@@ -19,6 +19,7 @@
 	<import resource="d7a.xml"/>
 	<import resource="u1.xml"/>
 	<import resource="userMotors.xml"/>
+	<import resource="fastScan.xml"/>
 	
 <!-- 	<import resource="peemCamera1.xml"/> -->
 	<import resource="peemStage.xml"/>

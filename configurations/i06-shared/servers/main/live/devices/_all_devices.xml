@@ -29,6 +29,5 @@
 	<import resource="ca3.xml"/>
 	<import resource="ca4.xml"/>
 <!-- 	<import resource="agilentADC.xml"/> -->
-	<import resource="fastScan.xml"/>
 	
 </beans>

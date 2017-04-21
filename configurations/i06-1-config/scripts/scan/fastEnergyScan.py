@@ -10,19 +10,24 @@ from Diamond.PseudoDevices.FastEnergyScan import FastEnergyScanControlClass, Fas
 from Diamond.PseudoDevices.FastEnergyScan import FastEnergyDeviceClass;
 #from Diamond.PseudoDevices.FastEnergyScan import EpicsScandataDeviceClass;
 from Diamond.PseudoDevices.FastEnergyScan import EpicsWaveformDeviceClass;
+from gda.configuration.properties import LocalProperties
+
+uuu=UtilFunctions();
+beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
+beamlineutil=BeamlineFunctionClass(beamline_name);
 
 # Change rootPV to switch zacscan between IDs. (search for "switch zacscan" to find other changes needed)
-rootPV = "BL06I-MO-FSCAN-01";
-#rootPV = "BL06I-MO-FSCAN-02";
+rootPV = "BL06J-MO-FSCAN-01";
+fastScanElementCounter="iddFastScanElementCounter"
+#rootPV = "BL06J-MO-FSCAN-02";
+#fastScanElementCounter="iduFastScanElementCounter"
 fesController = FastEnergyScanControlClass("fesController", rootPV);
 zacmode = FastEnergyScanIDModeClass("zacmode", fesController);
 #fesData = EpicsScandataDeviceClass("fesData", rootPV);
-fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio']);
+fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio'],elementCounter=fastScanElementCounter);
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
 fastEnergy.filterByEnergy = False
 
-uuu=UtilFunctions();
-i061util=BeamlineFunctionClass("i06-1");
 
 
 #Do not change mode on startup
@@ -41,10 +46,10 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
 		uuu.backupDefaults();
 		uuu.removeDefaults(['ca61sr', 'ca62sr','ca63sr','ca64sr','ca65sr','ca66sr']);
 
-		i061util.stopArchiving();
+		beamlineutil.stopArchiving();
 		fastEnergy.cvscan(startEnergy, endEnergy, scanTime, pointTime);
-		i061util.registerFileForArchiving( i061util.getLastScanFile() );
-		i061util.restoreArchiving();
+		beamlineutil.registerFileForArchiving( beamlineutil.getLastScanFile() );
+		beamlineutil.restoreArchiving();
 
 		uuu.restoreDefaults();
 		
@@ -57,7 +62,7 @@ alias("zacscan");
 def zacstop():
 	try:
 		fastEnergy.stop();
-		i061util.restoreArchiving();
+		beamlineutil.restoreArchiving();
 		InterfaceProvider.getCommandAborter().abortCommands()
 	except :
 		errortype, exception, traceback = sys.exc_info();

@@ -32,7 +32,7 @@ class FastEnergyScanControlClass(object):
 			self.device = device;
 			
 		def putCompleted(self, event):
-			if event.getStatus() != CAStatus.NORMAL:
+			if event.getStatus() != CAStatus.NORMAL:  # @UndefinedVariable
 				logger.simpleLog('Motor move failed!');
 				logger.simpleLog('Failed source: ' + event.getSource().getName());
 			else:
@@ -797,7 +797,7 @@ class SingleChannelEpicsScanDataDeviceClass(EpicsScandataDeviceClass):
 
 #######################################################
 class EpicsWaveformDeviceClass(PseudoDevice):
-	def __init__(self, name, rootPV, channelList, extraChannelList=[]):
+	def __init__(self, name, rootPV, channelList, extraChannelList=[], elementCounter="iddFastScanElementCounter"):
 
 		self.numberOfChannels=len(channelList);
 		self.setupEpics(rootPV);
@@ -820,7 +820,7 @@ class EpicsWaveformDeviceClass(PseudoDevice):
 		self.keyChannel=None;
 
 #		self.fastScanElementCounter = None;
-		self.fastScanElementCounter = Finder.getInstance().find("fastScanElementCounter");
+		self.fastScanElementCounter = Finder.getInstance().find(elementCounter);
 
 		self.reset();
 

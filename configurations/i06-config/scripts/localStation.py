@@ -21,7 +21,7 @@ import sys
 
 from i06shared.localStation import *  # @UnusedWildImport
     
-from scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,i06util  # @UnusedImport
+#from scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,beamlineutil  # @UnusedImport
 
 # customised resources for PEEM line
 from BeamlineI06.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
