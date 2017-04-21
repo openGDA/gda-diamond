@@ -49,14 +49,13 @@ else # all included as a parameter so start the logpanel, servers and client
 
     . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core --restart servers ${PARAMS} 
 
-    # look for the output file which will tell us when the servers have started
-    ${GDA_WORKSPACE_PARENT}/${GDA_FACILITY_CONFIG_rel}/bin/utils/lookForFile $OBJECT_SERVER_STARTUP_FILE $HOSTNAME
-    
-    zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
-    if [ $? == 0 ] ; then # 0=Ok, 1=Cancel
-      echo Starting GDA RCP Client...
-      echo
-      . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client &
-      for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
+    if [[ ${GDA_SERVERS_UP:-} == true ]] && [[ $PARAMS != *"--stop"* ]] ;then
+        zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
+        if [ $? == 0 ] ; then # 0=Ok, 1=Cancel
+          echo Starting GDA RCP Client...
+          echo
+          . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client &
+          for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
+        fi
     fi
 fi
