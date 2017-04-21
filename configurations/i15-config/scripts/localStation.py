@@ -46,6 +46,12 @@ from scannables.detectors.checkZebraScannable import ZebraPositionScannable #, Z
 zebraPositionScannable=ZebraPositionScannable('zebraPositionScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
 #zebraCheckScannable=ZebraCheckScannable(         'zebraCheckScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
 
+disableZebra2=True
+if disableZebra2:
+	beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController.setTriggeredControllers([])
+	# Remove the zebra2 reference from triggered detectors, while it's broken. This should also cause
+	# user_commands._rockScanParams() to remove all relevant scannables and controllers from rock scans.
+
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
 ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
