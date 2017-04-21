@@ -24,6 +24,7 @@ from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1lock
 #Group the hexapod legs into list
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
+from i06shared.scannables.mode_polarisation_energy_instances import *  # @UnusedWildImport
 
 print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
