@@ -44,8 +44,6 @@ fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'i
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
 fastEnergy.filterByEnergy = False
 
-import __main__ # @UnresolvedImport
-
 def zacscan(startEnergy, endEnergy, scanTime, pointTime):
     try:
         uuu.backupDefaults();
