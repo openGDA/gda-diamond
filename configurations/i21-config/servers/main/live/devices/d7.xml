@@ -10,12 +10,12 @@
 		<property name="local" value="true" />
 	</bean>
 	<!-- Femto -->
-	<bean id="d7femto1" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-DI-GAS-01:FEMTO1:I" />
+	<bean id="d7femto1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-DI-GAS-01:FEMTO1" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="d7femto2" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-DI-GAS-01:FEMTO2:I" />
+	<bean id="d7femto2" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-DI-GAS-01:FEMTO2" />
 		<property name="local" value="true" />
 	</bean>
 </beans>

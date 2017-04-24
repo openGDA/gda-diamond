@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- PGM control -->
+	<bean id="sgmHeightMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-SGM-01:HEIGHT" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sgmRollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-SGM-01:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sgmGratingTranslationMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-SGM-01:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sgmGratingPitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-SGM-01:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sgmWedgeOffsideMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-SGM-01:WDGO" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sgmWedgeNearsideMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-OP-SGM-01:WDGN" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

@@ -41,12 +41,12 @@
 	</bean>
 
 	<!-- Femto -->
-	<bean id="m4femto1" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-MO-POD-01:FEMTO1:I" />
+	<bean id="m4femto1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-MO-POD-01:FEMTO1" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="m4femto2" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-MO-POD-01:FEMTO2:I" />
+	<bean id="m4femto2" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-MO-POD-01:FEMTO2" />
 		<property name="local" value="true" />
 	</bean>
 

@@ -5,83 +5,94 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="m5lx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5lxTransMotor" />
+	<bean id="m5hqx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5hqxt" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m5ly" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5lyTransMotor" />
+	<bean id="m5hqy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5hqyt" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m5lz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5lzTransMotor" />
+	<bean id="m5hqz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5hqzt" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m5lpitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5lpitchMotor" />
+	<bean id="m5hqrx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5hqrxMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
 
-	<bean id="m5lyaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5lyawMotor" />
+	<bean id="m5hqry" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5hqryMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
 
-	<bean id="m5lroll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5lrollMotor" />
+	<bean id="m5hqrz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5hqrzMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
 
-
-	<bean id="m5rx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5rxTransMotor" />
+<!-- Right Mirror -->
+	<bean id="m5lqx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lqxt" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m5ry" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5ryTransMotor" />
+	<bean id="m5lqy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lqyt" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m5rz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5rzTransMotor" />
+	<bean id="m5lqz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lqzt" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m5rpitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5rpitchMotor" />
+	<bean id="m5lqrx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lqrxMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
 
-	<bean id="m5ryaw" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5ryawMotor" />
+	<bean id="m5lqry" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lqryMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
 
-	<bean id="m5rroll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5rrollMotor" />
+	<bean id="m5lqrz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5lqrzMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
 
+	<bean id="m5longy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5vstageMotor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m5tth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5rstageMotor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
 
 	<bean id="m5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="m5lx" />
-				<ref bean="m5ly" />
-				<ref bean="m5lz" />
-				<ref bean="m5lpitch" />
-				<ref bean="m5lyaw" />
-				<ref bean="m5lroll" />
-				<ref bean="m5rx" />
-				<ref bean="m5ry" />
-				<ref bean="m5rz" />
-				<ref bean="m5rpitch" />
-				<ref bean="m5ryaw" />
-				<ref bean="m5rroll" />
+				<ref bean="m5hqx" />
+				<ref bean="m5hqy" />
+				<ref bean="m5hqz" />
+				<ref bean="m5hqrx" />
+				<ref bean="m5hqry" />
+				<ref bean="m5hqrz" />
+				<ref bean="m5lqx" />
+				<ref bean="m5lqy" />
+				<ref bean="m5lqz" />
+				<ref bean="m5lqrx" />
+				<ref bean="m5lqry" />
+				<ref bean="m5lqrz" />
+				<ref bean="m5longy" />
+				<ref bean="m5tth" />
 			</list>
 		</property>
 		<property name="local" value="true" />

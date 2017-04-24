@@ -12,14 +12,11 @@
 
 	<bean id="pgmB2Shadow" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgmB2ShadowMotor" />
+		<property name="userUnits" value="" />
 	</bean>
 
 
 	<!-- real motors -->
-	<bean id="pgmMirrorPitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="pgmMirrorPitchMotor" />
-		<property name="userUnits" value="deg" />
-	</bean>
 
 	<bean id="pgmGratingPitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgmGratingPitchMotor" />
@@ -36,6 +33,11 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
+	<bean id="pgmMirrorPitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmMirrorPitchMotor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+
 
 	<!-- Group pgm-related objects -->	
  	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -49,6 +51,11 @@
 				<ref bean="pgmGratingPitch" />
 				<ref bean="pgmMirrorSelectReal" />
 				<ref bean="pgmGratingSelectReal" />
+				<ref bean="b2" />
+				<ref bean="cff" />
+				<ref bean="n_pgm" />
+				<ref bean="eref" />
+				<ref bean="m_pgm" />
 			</list>
 		</property>
 		<property name="local" value="true" />

@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- PGM control -->
+	<bean id="sgmy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sgmHeightMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="sgmroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sgmRollMotor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+
+	<bean id="sgmx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sgmGratingTranslationMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="sgmpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sgmGratingPitchMotor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+	
+	<!-- Group sgm-related objects -->	
+ 	<bean id="sgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sgmy" />
+				<ref bean="sgmroll" />
+				<ref bean="sgmx" />
+				<ref bean="sgmpitch" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+
+ </beans>

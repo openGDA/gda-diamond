@@ -16,7 +16,7 @@
 	<import resource="s2_motors.xml" />
 	<import resource="s3_femtos.xml" />
 	<import resource="s3_motors.xml" />
-	<import resource="s4_femtos.xml" />
+<!-- 	<import resource="s4_femtos.xml" /> -->
 	<import resource="s4_motors.xml" />
 	<import resource="s5_motors.xml" />
 	<import resource="s5_camera.xml" />
@@ -41,11 +41,12 @@
 	<import resource="m5.xml" />
 
 	<!-- PGM -->
-	<import resource="pgm.xml" />
 	
 	<!-- ID -->
 	<import resource="id.xml" />
+	<import resource="sgm.xml" />
 	
 	<import resource="smp.xml" />
 
+	<import resource="pgm.xml" />
 </beans>

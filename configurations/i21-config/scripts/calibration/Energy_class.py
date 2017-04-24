@@ -90,8 +90,12 @@ class BeamEnergy(ScannableMotionBase):
         if (self.getPolarisationMode()=="LH"):
             if (Ep<600 or Ep > 1000):
                 raise ValueError("Demanding energy must lie between 600 and 1000eV!")
-            # gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
-            gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
+            gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
+            #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
+            #gap = 18.522577 + 0.02399627*Ep #Corrected for VPG3 on 2017/02/15
+            #gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
+            #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
+            
             if (gap<20 or gap>70):
                 raise ValueError("Required Soft X-Ray ID idgap is out side allowable bound (20, 70)!")
         

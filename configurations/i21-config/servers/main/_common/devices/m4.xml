@@ -5,36 +5,36 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="m4xt" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4xTransMotor" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m4yt" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4yTransMotor" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m4zt" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4zTransMotor" />
 		<property name="userUnits" value="um"/>
 	</bean>
 
-	<bean id="m4xr" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4rx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4xRotMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
 
-	<bean id="m4yr" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4ry" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m2yRotMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
 
-	<bean id="m4zr" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4rz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4zRotMotor" />
 		<property name="userUnits" value="mdeg"/>
 	</bean>
-	<bean id="m4vs" class="gda.device.scannable.ScannableMotor">
+	<bean id="m4longy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m4VerticalStage" />
 		<property name="userUnits" value="mm"/>
 	</bean>
@@ -42,12 +42,13 @@
 	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="m4xt" />
-				<ref bean="m4yt" />
-				<ref bean="m4zt" />
-				<ref bean="m4xr" />
-				<ref bean="m4yr" />
-				<ref bean="m4zr" />
+				<ref bean="m4x" />
+				<ref bean="m4y" />
+				<ref bean="m4z" />
+				<ref bean="m4rx" />
+				<ref bean="m4ry" />
+				<ref bean="m4rz" />
+				<ref bean="m4longy" />
 				<ref bean="m4femto1" />
 				<ref bean="m4femto2" />
 			</list>
