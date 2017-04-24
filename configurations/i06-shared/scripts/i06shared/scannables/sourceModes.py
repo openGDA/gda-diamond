@@ -8,6 +8,10 @@ Created on 13 Apr 2017
 '''
 from gda.device.scannable import ScannableBase
 from gda.jython import InterfaceProvider
+from gda.configuration.properties import LocalProperties
+from java.io import File
+
+gda_git_loc = LocalProperties.get(LocalProperties.GDA_GIT_LOC)
 
 class SourceMode(ScannableBase):
     '''
@@ -23,7 +27,7 @@ class SourceMode(ScannableBase):
     '''
     SOURCE_MODES=['idd','idu','dpu','dmu']
     
-    def __init__(self, name, defaultmode=SourceMode.SOURCE_MODES[0]):
+    def __init__(self, name, defaultmode='idd'):
         '''
         Constructor - default source mode is 'idd'
         '''
@@ -40,14 +44,17 @@ class SourceMode(ScannableBase):
             return 
         self.amIBusy=True # need to block to ensure script run complete before any other actions
         if mode == SourceMode.SOURCE_MODES[0]:
-            locate_script = InterfaceProvider.getCommandRunner().locateScript("idd_fast_energy_scan.py")
-            InterfaceProvider.getCommandRunner().runScript(locate_script,"idd_fast_energy_scan")
+            scriptFile=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
+            scriptfile=File(scriptFile)
+            InterfaceProvider.getCommandRunner().runScript(scriptfile,"idd_fast_energy_scan")
         elif mode == SourceMode.SOURCE_MODES[1]:
-            locate_script = InterfaceProvider.getCommandRunner().locateScript("idu_fast_energy_scan.py")
-            InterfaceProvider.getCommandRunner().runScript(locate_script,"idu_fast_energy_scan")
+            scriptFile=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
+            scriptfile=File(scriptFile)
+            InterfaceProvider.getCommandRunner().runScript(scriptfile,"idu_fast_energy_scan")
         elif mode == SourceMode.SOURCE_MODES[2] or mode == SourceMode.SOURCE_MODES[3]:
-            locate_script = InterfaceProvider.getCommandRunner().locateScript("remove_zacscan.py")
-            InterfaceProvider.getCommandRunner().runScript(locate_script,"remove_zacscan")
+            scriptFile=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
+            scriptfile=File(scriptFile)
+            InterfaceProvider.getCommandRunner().runScript(scriptfile,"remove_zacscan")
         else:
             print "Input mode is wrong: legal values %s or [SourceModeScannable.d, SourceModeScannable.u, SourceModeScannable.dpu, SourceModeScannable.dmu]. Operation cancelled." % (SourceMode.SOURCE_MODES)
             raise ValueError("Input mode %s is not supported." % (str(mode)))
