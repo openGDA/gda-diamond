@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA I18 Beamline" id="uk.ac.gda.beamline.i18.debug.product" application="uk.ac.gda.client.application" version="9.3.0" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dgda.root=${project_loc:uk.ac.gda.core}/../
+-Dgda.config=${project_loc:i18-config}
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.logs.dir=${workspace_loc}/../logs
+-Dgda.instance.dir=${project_loc:i18-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.propertiesFile=${project_loc:i18-config}/properties/live/live_instance_java.properties
+-Djacorb.config.dir=${project_loc:i18-config}/properties/live/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i18-config}/properties/live/JCALibrary.properties
+-Dgda.mode=live
+-Dgda.client.jython.automatic.interpreter=1
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Xms512m
+-Xmx4g
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <launcher name="gda-i18">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i18.feature"/>
+   </features>
+
+
+</product>
