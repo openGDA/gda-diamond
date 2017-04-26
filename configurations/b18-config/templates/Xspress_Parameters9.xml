@@ -6,7 +6,7 @@
     <readoutMode>Scalers only</readoutMode>
     <editIndividualElements>false</editIndividualElements>
     <DetectorElement>
-        <name>Element0</name>
+        <name>Element_0</name>
         <number>0</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
@@ -18,7 +18,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element1</name>
+        <name>Element_1</name>
         <number>1</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
@@ -30,7 +30,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element2</name>
+        <name>Element_2</name>
         <number>2</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
@@ -42,7 +42,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element3</name>
+        <name>Element_3</name>
         <number>3</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
@@ -54,7 +54,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element4</name>
+        <name>Element_4</name>
         <number>4</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
@@ -66,7 +66,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element5</name>
+        <name>Element_5</name>
         <number>5</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
@@ -78,7 +78,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element6</name>
+        <name>Element_6</name>
         <number>6</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
@@ -90,7 +90,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element7</name>
+        <name>Element_7</name>
         <number>7</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
@@ -102,7 +102,7 @@
         </Region>
     </DetectorElement>
     <DetectorElement>
-        <name>Element8</name>
+        <name>Element_8</name>
         <number>8</number>
         <windowStart>621</windowStart>
         <windowEnd>657</windowEnd>
