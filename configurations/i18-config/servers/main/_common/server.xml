@@ -39,6 +39,7 @@
 	<import resource="detectors/qexafs.xml" />
 	<import resource="detectors/xspress3.xml" />
 	<import resource="detectors/xspress3_addetector.xml" />
+	<import resource="detectors/processing.xml" />
 	<import resource="converters.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="logging_script_controller.xml" />
