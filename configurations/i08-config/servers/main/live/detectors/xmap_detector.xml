@@ -137,6 +137,7 @@
 				<entry key="GETDYNRANGE4" value="BL08I-EA-DET-02:DXP4:DynamicRange_RBV" />
 				<entry key="GETNBINS" value="BL08I-EA-DET-02:MCA1:NBINS" />
 				<entry key="IGNOREGATE" value="BL08I-EA-DET-02:IgnoreGate" />
+				<entry key="MCA1" value="BL08I-EA-DET-02:MCA1" />
 				<entry key="PIXELADVANCEMODE" value="BL08I-EA-DET-02:PixelAdvanceMode" />
 				<entry key="PIXELSPERBUFFER" value="BL08I-EA-DET-02:PixelsPerBuffer" />
 				<entry key="PIXELSPERRUN" value="BL08I-EA-DET-02:PixelsPerRun" />
