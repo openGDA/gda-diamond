@@ -6,11 +6,12 @@
                       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<import resource="../../../properties/_common/gdaProperties.xml"/>
-	
-	<import resource="devices/_all.xml"/>
-
-	<!-- do not remove anything below here -->
-	<import resource="../_common/server.xml" />
+	<context:property-placeholder location="
+		file:${gda.core.dir}/properties/core_java.properties,
+		file:${gda.facility.dir}/properties/_common/common_facility_java.properties,
+		file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties,
+		file:${gda.config}/properties/_common/common_instance_java.properties,
+		file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties
+	"/>
 
 </beans>

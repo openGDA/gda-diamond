@@ -4,35 +4,26 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 		http://www.diamond.ac.uk/schema/gda/gda
 		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<gda:rmi-export
-		service="plot_server"
-		serviceName="gda/plotserver"
-		serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer" />
-	
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<import resource="plotServer.xml"/>	
 
 	<import resource="GDAMetadata.xml"/>
-
-	<!-- Replaces ScanDataStore -->
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-	</bean>
-
-	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase"/>
-	
-	<import resource="jythonServerFacade.xml" />
+	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
+	
+	<import resource="commandServer.xml" />
+	<import resource="terminal_logger.xml"/>
+	<import resource="dataArchieval.xml"/>
+	<import resource="dataWriter.xml"/>
 
 	<import resource="devices/_all.xml"/>
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	
 	<corba:export namespace="${gda.factory.factoryName}" />
 	
