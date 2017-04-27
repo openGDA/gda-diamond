@@ -18,17 +18,6 @@
 		<property name="motor" ref="blowerZ_motor" />
 	</bean>
 
-    <bean id="blower" class="gda.device.temperature.Eurotherm2K">
-        <property name="local" value="true"/>
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1000"/>
-        <property name="lowerTemp" value = "0"/>
-        <property name="controller" ref= "blower_controller"/>
-    </bean>
-
 	<bean id="sam" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
