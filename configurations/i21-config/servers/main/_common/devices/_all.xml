@@ -10,6 +10,7 @@
 	<import resource="s3.xml"/>
 	<import resource="s4.xml"/>
 	<import resource="s5.xml"/>
+<!-- 	<import resource="s6.xml"/> -->
 
 	<!-- diagnostic sticks -->
 	<import resource="dgn.xml" />
