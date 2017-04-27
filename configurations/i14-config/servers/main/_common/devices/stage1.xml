@@ -16,12 +16,22 @@
 		<property name="motor" ref="stage1_z_motor" />
 	</bean>
 
+	<bean id="stage1_x_fine" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage1_x_fine_motor" />
+	</bean>
+
+	<bean id="stage1_y_fine" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage1_y_fine_motor" />
+	</bean>
+
 	<bean id="stage1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="stage1_x" />
 				<ref bean="stage1_y" />
 				<ref bean="stage1_z" />
+				<ref bean="stage1_x_fine" />
+				<ref bean="stage1_y_fine" />
 			</list>
 		</property>
 	</bean>
