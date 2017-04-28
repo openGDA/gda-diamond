@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+	<bean id="sgmheightMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="sgmrollMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="sgmgratingtranslationMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="sgmgratingpitchMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="sgmlongxMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="sgmwedgeoffsideMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="sgmwedgenearsideMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>
