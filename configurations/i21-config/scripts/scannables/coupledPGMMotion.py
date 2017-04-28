@@ -63,7 +63,7 @@ class pgmEnergyScannable(ScannableMotionBase):
 
     def __init__(self, name, lineDensity1, pgmMirrorPitch1, pgmGratingPitch1):
         '''
-        Constenergy3=BeamEnergy("energy3",idscannable, idgap, energycff3,lut="IDCalibrationTable.txt")  # @UndefinedVariablructor
+        Constenergy3=BeamEnergy("energy3",idscannable, idgap, energyvpg3,lut="IDCalibrationTable.txt")  # @UndefinedVariablructor
         '''
         self.setName(name)
         self.mirrorPitch=pgmMirrorPitch1
@@ -100,46 +100,46 @@ class pgmEnergyScannable(ScannableMotionBase):
         return float(cos(float(self.gratingPitch.getPosition())*pi/180)/cos((2*float(self.mirrorPitch.getPosition())-float(self.gratingPitch.getPosition()))*pi/180))
     
 try:
-    cff1
+    vpg1cff
 except:
-    cff1=CoupledPGMMotion("cff1", 600*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+    vpg1cff=CoupledPGMMotion("vpg1cff", 600*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 try:
-    cff2
+    vpg2cff
 except:
-    cff2=CoupledPGMMotion("cff2", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+    vpg2cff=CoupledPGMMotion("vpg2cff", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 try:
-    cff3
+    vpg3cff
 except:
-    cff3=CoupledPGMMotion("cff3", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+    vpg3cff=CoupledPGMMotion("vpg3cff", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 
 try:
-    energycff1
+    energyvpg1cff
 except:
-    energycff1=pgmEnergyScannable("energycff1", 600*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+    energyvpg1cff=pgmEnergyScannable("energyvpg1cff", 600*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 
 try:
-    energycff2
+    energyvpg2cff
 except:
-    energycff2=pgmEnergyScannable("energycff2", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+    energyvpg2cff=pgmEnergyScannable("energyvpg2cff", 1000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 
 try:
-    energycff3
+    energyvpg3cff
 except:
-    energycff3=pgmEnergyScannable("energycff3", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
+    energyvpg3cff=pgmEnergyScannable("energyvpg3cff", 2000*1000, pgmMirrorPitch, pgmGratingPitch)  # @UndefinedVariable
 
 try:
    energy1
 except: 
-    #energy1=BeamEnergy("energy1",idscannable, idgap, energycff1,lut="IDCalibrationTable.txt")  # @UndefinedVariable
-    energy1=BeamEnergy("energy1",idscannable, idgap, energycff1)
+    #energy1=BeamEnergy("energy1",idscannable, idgap, energyvpg1,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+    energy1=BeamEnergy("energy1",idscannable, idgap, energyvpg1cff)
 try:
     energy2
 except:
-    #energy2=BeamEnergy("energy2",idscannable, idgap, energycff2,lut="IDCalibrationTable.txt")  # @UndefinedVariable
-    energy2=BeamEnergy("energy2",idscannable, idgap, energycff2)  # @UndefinedVariable
+    #energy2=BeamEnergy("energy2",idscannable, idgap, energyvpg2,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+    energy2=BeamEnergy("energy2",idscannable, idgap, energyvpg2cff)  # @UndefinedVariable
 try:
     energy3
 except:
-    #energy3=BeamEnergy("energy3",idscannable, idgap, energycff3,lut="IDCalibrationTable.txt")  # @UndefinedVariable
-    energy3=BeamEnergy("energy3",idscannable, idgap, energycff3)  # @UndefinedVariable
+    #energy3=BeamEnergy("energy3",idscannable, idgap, energyvpg3,lut="IDCalibrationTable.txt")  # @UndefinedVariable
+    energy3=BeamEnergy("energy3",idscannable, idgap, energyvpg3cff)  # @UndefinedVariable
 print "Finished running coupledPGMotion"

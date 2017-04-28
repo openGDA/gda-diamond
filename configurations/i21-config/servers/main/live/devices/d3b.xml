@@ -17,8 +17,8 @@
 	</bean>
 
 	<!-- Femto -->
-	<bean id="d3bfemto" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-DI-PHGDB-03:FEMTO1:I" />
+	<bean id="d3bfemto" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-DI-PHGDB-03:FEMTO1" />
 		<property name="local" value="true" />
 	</bean>
 	

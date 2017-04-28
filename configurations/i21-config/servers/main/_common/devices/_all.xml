@@ -39,10 +39,11 @@
 	<import resource="m5.xml" />
 	
 	<!-- PGM -->
-	<import resource="pgm.xml" />
 	
 	<!-- ID -->
 	<import resource="id.xml" />
+	<import resource="sgm.xml" />
 	<import resource="smp.xml" />
 
+	<import resource="pgm.xml" />
 </beans>

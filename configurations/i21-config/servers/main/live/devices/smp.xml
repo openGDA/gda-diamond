@@ -27,8 +27,32 @@
 	</bean>
 
 	<!-- Femto -->
-	<bean id="smpfemto" class="gda.device.monitor.EpicsMonitor">
+	<bean id="draincurrent" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO1:I" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="fy1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO2:I" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="straightdiode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO3:I" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="rotatingdiode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO4:I" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="fixdiode1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO5:I" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="fixdiode2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO6:I" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="tthdiode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO7:I" />
 		<property name="local" value="true" />
 	</bean>
 	

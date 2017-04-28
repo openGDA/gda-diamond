@@ -60,22 +60,6 @@ def pyenv(exe=None, path=None, ldpath=None):
     else:
         pyldpath = None
 
-    # add current package - the scisoftpy packages
-#     h, _t = _path.split(__file__)
-#     if '__pyclasspath__' in h:
-#         _h, t = _path.split(h)
-#         cp = [ p for p in _env['CLASSPATH'].split(os.pathsep) if not p.endswith('jar') ]
-#         for p in cp:
-#             f = _path.join(p, t)
-#             if _path.exists(f):
-#                 pkg = p
-#                 break
-#         else:
-#             raise RuntimeError, "Cannot find ScisoftPy in PYTHONPATH"
-#     else:
-#         pkg, _t = _path.split(h)
-#     pypath.insert(0, pkg)
-
     return pyexe, pypath, pyldpath
 
 

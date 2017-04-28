@@ -18,6 +18,8 @@ from time import sleep  # @UnusedImport
 
 import os
 from calibration.Energy_class import BeamEnergy
+from gda.jython.commands import GeneralCommands
+
 
 #global run
  
@@ -39,7 +41,7 @@ print "   >>>getSubdirectory() - return the current sub-directory setting if exi
 print "Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
 print "To create another sub-directory 'child-test' inside a sub-directory 'test', you must specify the full path as 'test/child-test' "
 # set up a nice method for getting the latest file path
-i11NumTracker = NumTracker("i21");
+i21NumTracker = NumTracker("scanbase_numtracker");
 finder=Finder.getInstance()
 
 # function to find the working directory
@@ -54,7 +56,7 @@ alias("pwd")
 def lwf():
     '''return the last working file path root'''
     cwd = PathConstructor.createFromDefaultProperty()
-    filenumber = i11NumTracker.getCurrentFileNumber();
+    filenumber = i21NumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber))
     
 alias("lwf")
@@ -63,7 +65,7 @@ alias("lwf")
 def nwf():
     '''query the next working file path root'''
     cwd = PathConstructor.createFromDefaultProperty()
-    filenumber = i11NumTracker.getCurrentFileNumber();
+    filenumber = i21NumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber+1))
     
 alias("nwf")
@@ -71,7 +73,7 @@ alias("nwf")
 # function to find the next scan number
 def nfn():
     '''query the next file number or scan number'''
-    filenumber = i11NumTracker.getCurrentFileNumber();
+    filenumber = i21NumTracker.getCurrentFileNumber();
     return filenumber+1
     
 alias("nfn")
@@ -90,7 +92,10 @@ def getSubdirectory():
 
 print
 
-
+def interruptable():
+    GeneralCommands.pause()
+    
+alias("interruptable")
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
@@ -112,6 +117,19 @@ from gdascripts.constants import * #@UnusedWildImport
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
+scan_processor_normal_processes = scan_processor.processors
+scan_processor_empty_processes  = []
+
+def scan_processing_on():
+    scan_processor.processors = scan_processor_normal_processes
+
+def scan_processing_off():
+    scan_processor.processors = scan_processor_empty_processes
+
+print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    
+print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
+print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
+scan_processing_on()
 
 print "Adding dummy devices x,y and z"
 dummies = ScannableGroup()
@@ -145,9 +163,16 @@ print
 
 from scannables.cleverAmplifier import CleverAmplifier
 print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2"
-cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
-cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
+d7femto1_neg = DisplayEpicsPVClass_neg('d7femto1_neg', d7femto1)  # @UndefinedVariable
+d7femto2_pos = DisplayEpicsPVClass_pos('d7femto2_pos', d7femto2)  # @UndefinedVariable
+
+cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1_neg, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2_pos, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+cleverm4femto1=CleverAmplifier("cleverm4femto1", m4femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+cleverm4femto2=CleverAmplifier("cleverm4femto2", m4femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 print
+
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -161,6 +186,27 @@ print "setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm "
 from metashop import *  # @UnusedWildImport
 import metashop  # @UnusedImport
 
+print "-----------------------------------------------------------------------------------------------------------------"
+print "Add meta data items"
+metadatalist=[s1hsize,s1vsize,m1x,m1pitch,m1height,s2hsize,s2vsize,m2x,m2pitch,m2height,s3hsize,s3vsize,  # @UndefinedVariable
+              pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,  # @UndefinedVariable
+              pgmGratingPitch,s5v1gap,s5v2gap, m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2,  # @UndefinedVariable
+              idgap,sapolar,sax,say,saz,saazimuth,draincurrent] #@UndefinedVariable
+m5list=[m5hqx,m5hqy,m5hqz,m5hqrx,m5hqry,m5hqrz,m5lqx,m5lqy,m5lqz,m5lqrx,m5lqry,m5lqrz,m5longy,m5tth]  # @UndefinedVariable
+meta_data_list= metadatalist+m5list
+# metadatalist=[s1, m1, s2, m2, s3, pgm, s5, m4, idgap, smp]  # @UndefinedVariable
+for each in meta_data_list:
+    meta_add(each)
+alias("meta_add")
+alias("meta_ll")
+alias("meta_ls")
+alias("meta_rm")
+
+from epics_scripts.pv_scannable_utils import createPVScannable
+pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
+pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
+
+b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
 

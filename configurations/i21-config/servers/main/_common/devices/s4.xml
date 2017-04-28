@@ -55,10 +55,10 @@
 				<ref bean="s4nearside" />
 				<ref bean="s4upper" />
 				<ref bean="s4lower" />
-				<ref bean="s4femto1" />
-				<ref bean="s4femto2" />
-				<ref bean="s4femto3" />
-				<ref bean="s4femto4" />
+<!-- 				<ref bean="s4femto1" /> -->
+<!-- 				<ref bean="s4femto2" /> -->
+<!-- 				<ref bean="s4femto3" /> -->
+<!-- 				<ref bean="s4femto4" /> -->
 			</list>
 		</property>
 		<property name="local" value="true" />

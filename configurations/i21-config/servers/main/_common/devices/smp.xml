@@ -6,7 +6,7 @@
 
 	<bean id="sapolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smprzMotor" />
-		<property name="userUnits" value="mdeg" />
+		<property name="userUnits" value="deg" />
 	</bean>
 
 	<bean id="sax" class="gda.device.scannable.ScannableMotor">
@@ -37,11 +37,13 @@
 				<ref bean="say" />
 				<ref bean="saz" />
 				<ref bean="saazimuth" />
-				<ref bean="smpfemto" />
-				<ref bean="smplcam1" />
-				<ref bean="smplcam2" />
-				<ref bean="smplcam3" />
-				<ref bean="smplcam1" />
+				<ref bean="draincurrent" />
+				<ref bean="fy1" />
+				<ref bean="straightdiode" />
+				<ref bean="rotatingdiode" />
+				<ref bean="fixdiode1" />
+				<ref bean="fixdiode2" />
+				<ref bean="tthdiode" />
 			</list>
 		</property>
 		<property name="local" value="true" />
