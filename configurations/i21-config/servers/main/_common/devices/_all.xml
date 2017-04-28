@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-
 	<!-- slits -->
 	<import resource="s1.xml"/>
 	<import resource="s2.xml"/>
@@ -11,6 +10,8 @@
 	<import resource="s4.xml"/>
 	<import resource="s5.xml"/>
 <!-- 	<import resource="s6.xml"/> -->
+<!-- 	<import resource="sgm.xml"/> -->
+<!-- 	<import resource="spectrometer.xml"/> -->
 
 	<!-- diagnostic sticks -->
 	<import resource="dgn.xml" />
