@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -258,7 +257,7 @@ public class TimeResolvedExperimentParameters {
 			BufferedWriter bufWriter = new BufferedWriter( new FileWriter(filePath) );
 			bufWriter.write( xmlString );
 			bufWriter.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			String message = "Problem saving serialized object to file "+filePath;
 			System.out.println( message+"\n"+e );
 			logger.error(message,e);
@@ -351,5 +350,36 @@ public class TimeResolvedExperimentParameters {
 
 	public TimeResolvedExperiment createTimeResolvedExperiment() throws DeviceException {
 		return createTimeResolvedExperiment(this);
+	}
+
+	/**
+	 * Create single spectrum scan (use first timing group for It settings)
+	 * @param params
+	 * @return
+	 * @throws DeviceException
+	 */
+	static public SingleSpectrumScan createSingleSpectrumScan(TimeResolvedExperimentParameters params) throws DeviceException {
+		List<TimingGroup> timingGroups = params.getItTimingGroups();
+		if (timingGroups==null || timingGroups.size()==0) {
+			return null;
+		}
+
+		// Use first timing group to get: It accumulation time, number of It accumulations and 'use topup' flag
+		double itAccumulationTimes = timingGroups.get(0).getTimePerScan();
+		int itNumAccumulations = timingGroups.get(0).getNumberOfScansPerFrame();
+		boolean useTopupChecker = timingGroups.get(0).getUseTopChecker();
+
+		SingleSpectrumScan theExperiment = new SingleSpectrumScan(params.getI0AccumulationTime(), params.getI0NumAccumulations(),
+				itAccumulationTimes, itNumAccumulations, params.getI0MotorPositions(), params.getItMotorPositions(),
+				params.getDetectorName(), params.getTopupMonitorName(), params.getBeamShutterScannableName() );
+
+		theExperiment.setUseFastShutter(params.getUseFastShutter());
+		theExperiment.setFastShutterName(params.getFastShutterName());
+		theExperiment.setUseTopupChecker(useTopupChecker);
+		return theExperiment;
+	}
+
+	public SingleSpectrumScan createSingleSpectrumScan() throws DeviceException {
+		return createSingleSpectrumScan(this);
 	}
 }

@@ -28,6 +28,8 @@ import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 import de.jaret.util.ui.timebars.model.TimeBarModel;
+import gda.device.DeviceException;
+import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
 
@@ -103,6 +105,18 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 			CyclicExperimentDataModel lastCycle = ((CyclicExperimentDataModel) cyclicTimeBarRowModel.getIntervals().get(cyclicTimeBarRowModel.getIntervals().size() - 1));
 			this.firePropertyChange(CYCLES_DURATION_PROP_NAME, cyclesDuration, cyclesDuration = lastCycle.getEndTime());
 		}
+	}
+
+	@Override
+	public TimeResolvedExperimentParameters getParametersBeanFromCurrentSettings() throws DeviceException {
+		TimeResolvedExperimentParameters params = super.getParametersBeanFromCurrentSettings();
+		params.setNumberOfRepetition(noOfRepeatedGroups);
+		return params;
+	}
+
+	@Override
+	public void setupFromParametersBean(TimeResolvedExperimentParameters params) {
+		setNoOfRepeatedGroups(params.getNumberOfRepetition());
 	}
 
 	public int getNoOfRepeatedGroups() {

@@ -19,9 +19,6 @@
 package uk.ac.gda.exafs.experiment.ui;
 
 
-import java.io.FileNotFoundException;
-
-import org.apache.commons.io.FilenameUtils;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -34,23 +31,15 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -60,18 +49,14 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.swtdesigner.ResourceManager;
-
 import de.jaret.util.date.Interval;
 import gda.device.DeviceException;
 import gda.jython.IJythonServerStatusObserver;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanEvent;
 import gda.scan.ede.TimeResolvedExperimentParameters;
-import gda.util.VisitPath;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
-import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 import uk.ac.gda.exafs.experiment.ui.data.SpectrumModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
@@ -174,21 +159,6 @@ public class TimeResolvedExperimentView extends ViewPart {
 					}
 				});
 
-		// Update the filename in the model
-		prefixText.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				getModel().getExperimentDataModel().setFileNamePrefix(prefixText.getText());
-			}
-		});
-		// Update the sample description in the model
-		sampleDescText.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				getModel().getExperimentDataModel().setSampleDetails(sampleDescText.getText());
-			}
-		});
-
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_FAST_SHUTTER).observe(getModel()) );
 	}
@@ -266,25 +236,26 @@ public class TimeResolvedExperimentView extends ViewPart {
 		});
 	}
 
-	private String lastLoadedSettingsFile = "";
-	private String lastSavedSettingsFile = "";
+	/**
+	 * Linear experiment specific implementation of SaveLoadButtons class
+	 * ('get' and 'set' parameters from/to gui)
+	 */
+	private class SaveLoadButtonsForLinearExperiment extends SaveLoadButtonsComposite {
 
-	private void setupFileDialog(FileDialog fileDialog, String filename) {
-		// Set filename filters
-		fileDialog.setFilterNames(new String[] { "xml files", "All Files (*.*)" });
-		fileDialog.setFilterExtensions(new String[] { "*.xml", "*.*" });
+		public SaveLoadButtonsForLinearExperiment(Composite parent, FormToolkit toolkit) {
+			super(parent, toolkit);
+		}
 
-		// Set path to file, use visit directory is filename is empty
-		if (filename!=null && !filename.isEmpty()) {
-			fileDialog.setFileName(filename);
-			if ( (fileDialog.getStyle()&SWT.SAVE) >0) {
-				fileDialog.setFilterPath(FilenameUtils.getFullPath(filename));
-				fileDialog.setFileName(FilenameUtils.getName(filename));
-			} else {
-				fileDialog.setFileName(filename);
-			}
-		} else {
-			fileDialog.setFilterPath(VisitPath.getVisitPath());
+		@Override
+		protected void saveParametersToFile(String filename) throws DeviceException {
+			TimeResolvedExperimentParameters params = getModel().getParametersBeanFromCurrentSettings();
+			params.saveToFile(filename);
+		}
+
+		@Override
+		protected void loadParametersFromFile(String filename) throws Exception {
+			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
+			getModel().setupFromParametersBean(params);
 		}
 	}
 
@@ -296,120 +267,17 @@ public class TimeResolvedExperimentView extends ViewPart {
 	 * @since 7/4/2017
 	 */
 	private void addLoadSaveButtons(final Composite parent) {
-		Label spacer = toolkit.createLabel(parent, "", SWT.None);
-
-		Composite composite = new Composite(parent, SWT.None);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(4, true));
-
-		//Load, save buttons
-		Label loadLabel = toolkit.createLabel(composite, "Load settings", SWT.None);
-		loadLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		Button loadFromXmlButton = toolkit.createButton(composite, "", SWT.PUSH);
-		loadFromXmlButton.setImage(ResourceManager.getImageDescriptor(TimeResolvedExperimentView.class,	"/icons/IMG_OPEN_MARKER.png").createImage());
-		loadFromXmlButton.setToolTipText("Load settings from an XML file");
-		loadFromXmlButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
-		loadFromXmlButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				showLoadParametersDialog();
-			}
-		});
-
-		Label saveLabel = toolkit.createLabel(composite, "Save settings", SWT.None);
-		saveLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-		Button saveToXmlButton = toolkit.createButton(composite, "", SWT.PUSH);
-		saveToXmlButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
-		saveToXmlButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_ETOOL_SAVE_EDIT));
-		saveToXmlButton.setToolTipText("Save current GUI settings to an XML file");
-		saveToXmlButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				showSaveParemetersDialog();
-			}
-		});
-	}
-
-	/**
-	 * Display dialog to allow parameters to be loaded from xml file and used
-	 * to setup current gui.
-	 */
-	private void showLoadParametersDialog() {
-		Display display = PlatformUI.getWorkbench().getDisplay();
-		try {
-			FileDialog fileDialog = new FileDialog(display.getActiveShell(), SWT.OPEN);
-			setupFileDialog(fileDialog, lastLoadedSettingsFile);
-			fileDialog.setText("Load scan settings");
-			String filename = fileDialog.open();
-			if (filename != null && !filename.isEmpty()) {
-				logger.info("Loading settings from xml file {}", filename);
-				TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
-				getModel().setupFromParametersBean(params);
-				lastLoadedSettingsFile = filename;
-				logger.info("Settings loaded OK");
-			}
-		} catch (FileNotFoundException e1) {
-			logger.error("Problem loading scan settings", e1);
-		}
-	}
-
-	/**
-	 * Display dialog to save current gui settings to to an xml file.
-	 */
-	private void showSaveParemetersDialog() {
-		Display display = PlatformUI.getWorkbench().getDisplay();
-		try {
-			FileDialog fileDialog = new FileDialog(display.getActiveShell(), SWT.SAVE);
-			setupFileDialog(fileDialog, lastSavedSettingsFile);
-			fileDialog.setText("Save scan settings");
-			String filename = fileDialog.open();
-			if (filename!=null && !filename.isEmpty()) {
-				logger.info("Saving scan settings to xml file {} ...", filename);
-				TimeResolvedExperimentParameters params = getModel().getParametersBeanFromCurrentSettings();
-				params.saveToFile(filename);
-				lastSavedSettingsFile = filename;
-				logger.info("Settings saved OK");
-			}
-		} catch (DeviceException e1) {
-			logger.error("Problem saving settings to file", e1);
-		}
+		SaveLoadButtonsForLinearExperiment saveLoadButtonsComposite = new SaveLoadButtonsForLinearExperiment(parent, toolkit);
 	}
 
 	private void createExperimentDetailsSection(Composite parent) {
-		final Section experimentDetailsSection = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
-		experimentDetailsSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		Composite experimentDetailsComposite = toolkit.createComposite(experimentDetailsSection, SWT.NONE);
-		experimentDetailsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
-		experimentDetailsSection.setClient(experimentDetailsComposite);
+		SampleDetailsSection sampleDetailComp = new SampleDetailsSection(parent, toolkit);
+		sampleDetailComp.bindWidgetsToModel(getModel().getExperimentDataModel());
 
-		// File prefix and sample details
-		Composite prefixNameComposite = toolkit.createComposite(experimentDetailsComposite, SWT.NONE);
-		prefixNameComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		prefixNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		Label prefixLabel = toolkit.createLabel(prefixNameComposite, "File prefix", SWT.None);
-		prefixLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		prefixText = toolkit.createText(prefixNameComposite, getModel().getExperimentDataModel().getFileNamePrefix(), SWT.BORDER);
-		prefixText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		prefixText = sampleDetailComp.getPrefixTextbox();
+		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 
-		Composite sampleDescComposite = toolkit.createComposite(experimentDetailsComposite, SWT.NONE);
-		sampleDescComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		sampleDescComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		Label sampleDescLabel = toolkit.createLabel(sampleDescComposite, "Sample details", SWT.None);
-		sampleDescLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		sampleDescText = toolkit.createText(sampleDescComposite,  getModel().getExperimentDataModel().getSampleDetails(), SWT.BORDER);
-		sampleDescText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-
-		// Binding to update filename prefix, sample details boxes when underlying model changes. imh 7/4/2017
-		// Are the listeners on the these textboxes still necessary to update the model from the gui, or is this binding here two-way?
-		dataBindingCtx.bindValue(WidgetProperties.text().observe(prefixText),
-				BeanProperties.value(ExperimentDataModel.FILE_NAME_PREFIX_PROP_NAME).observe(getModel().getExperimentDataModel()) );
-
-		dataBindingCtx.bindValue(WidgetProperties.text().observe(sampleDescText),
-				BeanProperties.value(ExperimentDataModel.SAMPLE_DETAILS_PROP_NAME).observe(getModel().getExperimentDataModel()) );
-
-		useFastShutterCheckbox = toolkit.createButton(experimentDetailsComposite, "Use fast shutter", SWT.CHECK);
+		useFastShutterCheckbox = toolkit.createButton(sampleDetailComp.getMainComposite(), "Use fast shutter", SWT.CHECK);
 		useFastShutterCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		//Sample stage motors

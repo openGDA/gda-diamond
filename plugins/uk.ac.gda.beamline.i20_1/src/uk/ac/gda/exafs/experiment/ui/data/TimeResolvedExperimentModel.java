@@ -22,7 +22,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
@@ -58,7 +57,6 @@ import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
 import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
-import gda.scan.ede.position.EdeScanMotorPositions;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
@@ -211,7 +209,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	 */
 	public TimeResolvedExperimentParameters getParametersBeanFromCurrentSettings() throws DeviceException {
 		TimeResolvedExperimentParameters params = new TimeResolvedExperimentParameters();
-		params.setI0AccumulationTime( ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC) );
+		params.setI0AccumulationTime(unit.getWorkingUnit().convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC));
 		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
 			params.setI0NumAccumulations(experimentDataModel.getI0NumberOfAccumulations());
 		}
@@ -232,7 +230,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			} else {
 				params.setI0ForIRefNoOfAccumulations(experimentDataModel.getIrefNoOfAccumulations());
 			}
-			params.setIrefIntegrationTime(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC));
+			params.setIrefIntegrationTime(unit.getWorkingUnit().convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC));
 			params.setIrefNoOfAccumulations(experimentDataModel.getIrefNoOfAccumulations());
 		}
 
@@ -244,57 +242,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return params;
 	}
 
-	/**
-	 * Get motor position object from available SampleStageMotors that matches given motor name
-	 * @param motorName
-	 * @return ExperimentMotorPostion object from sample stage scannables whose name matches motorName
-	 */
-	private ExperimentMotorPostion getExperimentMotorPositionForName(String motorName) {
-		for (ExperimentMotorPostion expMotorPos : SampleStageMotors.scannables) {
-			if(expMotorPos.getScannableSetup().getScannableName().equals(motorName)) {
-				return expMotorPos;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Return array of ExperimentMotorPositions from mapi0, it, iref motor positions stored in
-	 * a {@link TimeResolvedExperimentParameters} object
-	 * @param params TimeResolvedExperimentParameters
-	 * @return ExperimentMotorPositions[]
-	 */
-	private ExperimentMotorPostion[] getExperimentMotorPositions(TimeResolvedExperimentParameters params) {
-		Map<String, Double> i0PositionMap = ((EdeScanMotorPositions)params.getI0ScanPosition()).getPositionMap();
-		Map<String, Double> itPositionMap = ((EdeScanMotorPositions)params.getItScanPosition()).getPositionMap();
-
-		boolean useIref = params.getDoIref();
-		Map<String, Double> irefPositionMap = null;
-		if (useIref) {
-			irefPositionMap = ((EdeScanMotorPositions)params.getiRefScanPosition()).getPositionMap();
-		}
-		if (i0PositionMap==null || itPositionMap==null || (useIref && irefPositionMap==null)) {
-			return new ExperimentMotorPostion[0];
-		}
-
-		List<ExperimentMotorPostion> expMotorPosList = new ArrayList<ExperimentMotorPostion>();
-		for(String motorName : i0PositionMap.keySet()) {
-			Double i0Pos = i0PositionMap.get(motorName);
-			Double itPos = itPositionMap.get(motorName);
-
-			ExperimentMotorPostion expMotorPosition = getExperimentMotorPositionForName(motorName);
-			expMotorPosition.setTargetI0Position(i0Pos);
-			expMotorPosition.setTargetItPosition(itPos);
-
-			if (useIref) {
-				Double iRef = irefPositionMap.get(motorName);
-				expMotorPosition.setTargetIrefPosition(iRef);
-			}
-			expMotorPosList.add(expMotorPosition);
-		}
-		ExperimentMotorPostion[] motorPositions = expMotorPosList.toArray(new ExperimentMotorPostion[expMotorPosList.size()]);
-		return motorPositions;
-	}
 
 	/** Set current experiment model from TimeResolvedExperimentParameters object.
 	 * This updates the gui as well from property change events fired during the model update.
@@ -323,9 +270,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			experimentDataModel.setIrefNoOfAccumulations(params.getIrefNoOfAccumulations());
 		}
 
-		ExperimentMotorPostion[] pos = getExperimentMotorPositions(params);
-		SampleStageMotors.INSTANCE.setUseIref(params.getDoIref());
+		ExperimentMotorPostion[] pos = SampleStageMotors.INSTANCE.setupExperimentMotorTargetPositions(params);
 		SampleStageMotors.INSTANCE.setSelectedMotors(pos);
+		SampleStageMotors.INSTANCE.setUseIref(params.getDoIref());
 
 		setTimingGroupUIModelFromList(params.getItTimingGroups());
 	}
@@ -363,15 +310,15 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			uiTimingGroup.setNumberOfSpectrum(timingGroup.getNumberOfFrames());
 			uiTimingGroup.setNoOfAccumulations(timingGroup.getNumberOfScansPerFrame());
 			// Conversion factor to go from seconds to default experiment units (nano seconds) (i.e. 1e9)
-			double convertSecToNanoSec = ExperimentUnit.SEC.convertTo(1, ExperimentUnit.DEFAULT_EXPERIMENT_UNIT);
-			uiTimingGroup.setTimePerSpectrum(convertSecToNanoSec*timingGroup.getTimePerFrame());
-			uiTimingGroup.setIntegrationTime(convertSecToNanoSec*timingGroup.getTimePerScan());
-			uiTimingGroup.setDelay(convertSecToNanoSec*timingGroup.getPreceedingTimeDelay());
+			double convertSecWorkingUnit = ExperimentUnit.SEC.convertTo(1.0, ExperimentUnit.DEFAULT_EXPERIMENT_UNIT);
+			uiTimingGroup.setTimePerSpectrum(convertSecWorkingUnit*timingGroup.getTimePerFrame());
+			uiTimingGroup.setIntegrationTime(convertSecWorkingUnit*timingGroup.getTimePerScan());
+			uiTimingGroup.setDelay(convertSecWorkingUnit*timingGroup.getPreceedingTimeDelay());
 			uiTimingGroup.setUseTopupChecker(timingGroup.getUseTopChecker());
 			startTime = endTime;
 			// endtime, including delay at end of group
-			endTime = startTime + convertSecToNanoSec*(timingGroup.getTimePerFrame()*timingGroup.getNumberOfFrames() + timingGroup.getPreceedingTimeDelay());
-			uiTimingGroup.resetInitialTime(startTime, endTime-startTime, timingGroup.getPreceedingTimeDelay(), convertSecToNanoSec*timingGroup.getTimePerFrame());
+			endTime = startTime + convertSecWorkingUnit*(timingGroup.getTimePerFrame()*timingGroup.getNumberOfFrames() + timingGroup.getPreceedingTimeDelay());
+			uiTimingGroup.resetInitialTime(startTime, endTime-startTime, timingGroup.getPreceedingTimeDelay(), convertSecWorkingUnit*timingGroup.getTimePerFrame());
 
 			// enable external trigger button for first group only
 			uiTimingGroup.setExternalTriggerAvailable(firstGroup);

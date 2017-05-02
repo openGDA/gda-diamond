@@ -20,6 +20,8 @@ package uk.ac.gda.exafs.data;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -32,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.annotations.Expose;
 
+import gda.device.DeviceException;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -41,6 +44,7 @@ import gda.jython.JythonServerStatus;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeExperiment;
+import gda.scan.ede.TimeResolvedExperimentParameters;
 import gda.util.exafs.Element;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
@@ -49,6 +53,7 @@ import uk.ac.gda.exafs.experiment.ui.data.ExperimentMotorPostion;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors.ExperimentMotorPostionType;
+import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class SingleSpectrumCollectionModel extends ObservableModel {
 
@@ -135,6 +140,81 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 				}
 			}
 		});
+	}
+	/**
+	 * Create a new TimeResolvedExperimentParameters object from the current gui settings.
+	 * @return TimeResolvedExperimentParameters object
+	 * @throws DeviceException
+	 */
+	public TimeResolvedExperimentParameters getParametersBeanFromCurrentSettings() throws DeviceException {
+		TimeResolvedExperimentParameters params = new TimeResolvedExperimentParameters();
+
+		// Conversion factor from seconds to default experiment time unit (ns)
+		double conversion = ExperimentUnit.MILLI_SEC.convertTo(1.0, ExperimentUnit.SEC);
+
+		int numI0Accumulations;
+		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
+			numI0Accumulations = experimentDataModel.getI0NumberOfAccumulations();
+		} else {
+			numI0Accumulations = itNumberOfAccumulations;
+		}
+		params.setI0NumAccumulations(numI0Accumulations);
+		params.setI0AccumulationTime(conversion*experimentDataModel.getI0IntegrationTime());
+
+		// Create timing group for the It settings (one spectrum only)
+		TimingGroup timingGroup = new TimingGroup();
+		timingGroup.setTimePerScan(conversion*itIntegrationTime);
+		timingGroup.setNumberOfScansPerFrame(itNumberOfAccumulations);
+		timingGroup.setUseTopupChecker(useTopupCheckerForIt);
+		timingGroup.setNumberOfFrames(1); // single spectrum collection has 1 spectrum
+
+		List<TimingGroup> itTimingGroups = new ArrayList<TimingGroup>();
+		itTimingGroups.add(timingGroup);
+		params.setItTimingGroups(itTimingGroups);
+
+		params.setI0MotorPositions(SampleStageMotors.INSTANCE.getSelectedMotorsMap(ExperimentMotorPostionType.I0));
+		params.setItMotorPositions(SampleStageMotors.INSTANCE.getSelectedMotorsMap(ExperimentMotorPostionType.It));
+
+		if (SampleStageMotors.INSTANCE.isUseIref()) {
+			params.setItMotorPositions(SampleStageMotors.INSTANCE.getSelectedMotorsMap(ExperimentMotorPostionType.IRef));
+			params.setIrefNoOfAccumulations(experimentDataModel.getIrefNoOfAccumulations());
+			params.setIrefIntegrationTime(conversion*experimentDataModel.getIrefIntegrationTime());
+		}
+
+		params.setDetectorName(DetectorModel.INSTANCE.getCurrentDetector().getName());
+		params.setTopupMonitorName(DetectorModel.TOPUP_CHECKER);
+		params.setBeamShutterScannableName(DetectorModel.SHUTTER_NAME);
+
+		params.setUseFastShutter(useFastShutter);
+		params.setFileNamePrefix(experimentDataModel.getFileNamePrefix());
+		params.setSampleDetails(experimentDataModel.getSampleDetails());
+		return params;
+	}
+
+	public void setupFromParametersBean(TimeResolvedExperimentParameters params) {
+		//experimentDataModel = new ExperimentDataModel();
+		List<TimingGroup> timingGroups = params.getItTimingGroups();
+		TimingGroup group0 = timingGroups.get(0);
+
+		double conversion = ExperimentUnit.SEC.convertTo(1.0, ExperimentUnit.MILLI_SEC);
+
+		int numItAccum = group0.getNumberOfScansPerFrame();
+		int numI0Accum = params.getI0NumAccumulations();
+		boolean setI0Accum = numI0Accum!=numItAccum;
+		experimentDataModel.setUseNoOfAccumulationsForI0(setI0Accum);
+		experimentDataModel.setI0IntegrationTime(conversion*params.getI0AccumulationTime());
+
+		setItIntegrationTime(conversion*group0.getTimePerScan());
+		setItNumberOfAccumulations(numItAccum);
+		setUseTopupCheckerForIt(group0.getUseTopChecker());
+
+		ExperimentMotorPostion[] selectedMotors = SampleStageMotors.INSTANCE.setupExperimentMotorTargetPositions(params);
+		SampleStageMotors.INSTANCE.setSelectedMotors(selectedMotors);
+		SampleStageMotors.INSTANCE.setUseIref(params.getDoIref());
+
+		setUseFastShutter(params.getUseFastShutter());
+		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
+		experimentDataModel.setSampleDetails(params.getSampleDetails());
 	}
 
 	private void loadSingleSpectrumData() {
