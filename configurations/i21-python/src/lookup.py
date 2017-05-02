@@ -10,7 +10,7 @@ from lookupTable.Lookup2Dto2D import forwardLookup, reverseLookup
 
 parser = argparse.ArgumentParser(description="Process ID lookupTable for (gap, phase) <==> (polarisation, energy) in linear angular mode")
 parser.add_argument('--version', action='version', version='1.0.0')
-parser.add_argument('-f', action='store', dest='filename', help='the filename of the lookupTable table')
+parser.add_argument('-f', action='store', dest='filename', default='./lookupTable/LinearAngle.csv',help='the filename of the lookupTable table')
 subparsers = parser.add_subparsers(title='subcommands', description='valid subcommands', dest='subparser_name', help='specify what parameters are required as inputs')
 
 polarisationenergy_parser = subparsers.add_parser('polarisationenergy', help='lookupTable (polarisation, energy) pair')
