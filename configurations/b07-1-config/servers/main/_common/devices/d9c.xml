@@ -6,10 +6,16 @@
 	<bean id="d9c" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="d9c_y" />
+				<ref bean="d9c_y_positioner"/>
 				<ref bean="d9c_foil"/>
 				<ref bean="d9c_cam" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="d9c_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d9c_y_motor" />
 	</bean>
 
 </beans>
