@@ -48,5 +48,6 @@
 	<import resource="microscope.xml"/>
 	<import resource="cryostat.xml"/>
 	<import resource="raw_sample_stage.xml"/>
+	<import resource="user_patch_panel.xml"/>
 
 </beans>
