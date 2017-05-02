@@ -33,12 +33,14 @@ class IDLookup4LinearAngleMode():
     def getEnergyPolarisation(self, gap, phase):
         out=self.lookupGapPhase(gap, phase, filename=self.lut)
 #         return out # used in scisoftpy
-        return out.strip('\n')
+        out= [float(x.strip()) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
+        return out
     
     def getGapPhase(self, energy, polarisation):
         out=self.lookupPolarEnergy(polarisation, energy, filename=self.lut)
 #         return out # used in scisoftpy
-        return out.strip('\n')
+        out= [float(x.strip()) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
+        return out
     
     def stop(self):
         if self.lookupPolarEnergyCreatedInScanStart==True:
