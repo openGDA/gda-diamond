@@ -22,6 +22,7 @@
 	<import resource="m1c.xml"/>
 	<import resource="m3c.xml"/>
 	<import resource="m4c.xml"/>
+	<import resource="m5c.xml"/>
 
 	<!-- Diagnostics -->
 	<import resource="d1c.xml"/>
