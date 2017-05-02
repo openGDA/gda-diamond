@@ -108,7 +108,7 @@ def forwardLookup(gap, rowphase, filename="LinearAngle.csv"):
     points=[[t[0],t[1]] for t in datasetInCircle]
     values=[(t[2],t[3]) for t in datasetInCircle]
     value = griddata(points, values, testInstance[:2], method='linear')
-    return value[0]
+    return list(value[0])
 
 def reverseLookup(polarisation, energy, filename="LinearAngle.csv"):
     if not lookupTableLoaded or lookupTableFilename!=filename:
@@ -121,7 +121,7 @@ def reverseLookup(polarisation, energy, filename="LinearAngle.csv"):
     points=[[t[2],t[3]] for t in datasetInCircle]
     values=[(t[0],t[1]) for t in datasetInCircle]
     value = griddata(points, values, testInstance[2:], method='linear')
-    return value[0]
+    return list(value[0])
     
 def main():
     trainingSet=[]
