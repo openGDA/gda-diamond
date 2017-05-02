@@ -22,7 +22,7 @@ my_env = os.environ
 my_env["PYTHONPATH"] = python_path
 
 def lookupGapPhase(gap, rowphase):
-    stdoutdata, stderrdata=subprocess.Popen(["./lookup.py", "-f", lookup_file, "gaprowphase", str(idgap), str(rowphase)], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=lookup_module_dir, env=my_env).communicate()
+    stdoutdata, stderrdata=subprocess.Popen(["./lookup.py", "-f", lookup_file, "gaprowphase", str(gap), str(rowphase)], stdin=PIPE, stdout=PIPE, stderr=PIPE, cwd=lookup_module_dir, env=my_env).communicate()
     if stderrdata!='':
         print stderrdata
     return stdoutdata.strip('\n')
