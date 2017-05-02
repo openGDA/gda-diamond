@@ -53,6 +53,18 @@
 				<value>s4c_z</value>
 				<!-- d7c -->
 				<value>d7c_y</value>
+				<!-- m4c -->
+				<value>m4c_x</value>
+				<value>m4c_y</value>
+				<value>m4c_pitch</value>
+				<value>m4c_roll</value>
+				<value>m4c_yaw</value>
+				<!-- m5c -->
+				<value>m5c_x</value>
+				<value>m5c_y</value>
+				<value>m5c_pitch</value>
+				<value>m5c_roll</value>
+				<value>m5c_yaw</value>
 			</set>
 		</property>
 	</bean>
