@@ -114,12 +114,14 @@
 								<value>sample:NXsample/cryostat_temperature</value>
 								<value>sample:NXsample/temperature</value>
 								<value>sample:NXsample/shield_temperature</value>
+								<value>sample:NXsample/shield2_temperature</value>
 								<value>sample:NXsample/heater_percent</value>
 								<value>sample:NXsample/heater_setting</value>
 							</list>
 						</property>
 						<property name="units">
 							<list>
+								<value>K</value>
 								<value>K</value>
 								<value>K</value>
 								<value>K</value>
