@@ -1,8 +1,8 @@
 #!/bin/bash
-# Expects a parameter line that can be passed on to the gda python script
+# Expects a parameter line that can be passed on to the gda launch script
 # Also expects the BEAMLINE variable to be set
 
-export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the startup scripts
+#export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the startup scripts
 
 # Set the value that the BEAMLINE environment variable should be to correctly start from this configuration
 # so it can be checked automatically to prevent accidental startup of the wrong beamline.
@@ -13,8 +13,8 @@ EXPECTED_BEAMLINE_VALUE=i05-1
 # config tree contains the dls-config/bin folder. This will define the required config environment variables which
 # must all be set for the server and client to start successfully.
 
-here_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-DLS_CONFIG_BIN_RELATIVE_PATH=${here_dir}/../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
+here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
+DLS_CONFIG_BIN_RELATIVE_PATH=${here_absolute_path}/../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
 
 if [[ -d ${DLS_CONFIG_BIN_RELATIVE_PATH} ]]; then
 
@@ -26,49 +26,10 @@ fi
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
 
-# Source function to perform bash logging
-. ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/bashlog_function
 
-if [[ -z "${BEAMLINE-}" ]]; then
-    bashlog error "gda Bash script" '$BEAMLINE is not set (or is null) - exiting'
-    #echo 'gda Bash script: $BEAMLINE is not set (or is null) - exiting'
-    exit 2
-fi
-
-PARAMS=$@
-
-bashlog debug "gda Bash script" "Params = $@"
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings
 ######################################################################
 
-if [[ "$PARAMS" != *"all"* ]]; then # '--start all' or 'all' not used, so just operate on single component
-    # Pass control to the gda_core bash script
-    . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
-else # all included as a parameter so start the logpanel, servers and client
-    if [[ "$PARAMS" == *"--start all"* ]]; then
-        PARAMS="${PARAMS/--start all/}"
-    elif [[ "$PARAMS" == *"all"* ]]; then
-        PARAMS="${PARAMS/all/}"
-    fi
-
-    echo Ensure the Log panel is running...
-    . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core logpanel
-
-    echo
-    echo Making sure we want to restart GDA servers now...
-    echo
-
-    . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core --restart servers ${PARAMS}
-
-    if [[ ${GDA_SERVERS_UP:-} == true ]] && [[ $PARAMS != *"--stop"* ]] ;then
-        zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
-        if [ $? == 0 ] ; then # 0=Ok, 1=Cancel
-          echo Starting GDA RCP Client...
-          echo
-          . ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client &
-          for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
-        fi
-    fi
-fi
+source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
