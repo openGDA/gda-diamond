@@ -65,6 +65,12 @@
 				<value>m5c_pitch</value>
 				<value>m5c_roll</value>
 				<value>m5c_yaw</value>
+				<!-- sample manipulator -->
+				<value>sm_xp</value>
+				<value>sm_yp</value>
+				<value>sm_zp</value>
+				<value>sm_rotation</value>
+				
 			</set>
 		</property>
 	</bean>

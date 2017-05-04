@@ -43,6 +43,9 @@
 	<!-- Monocromators -->
 	<import resource="pgm.xml"/>
 	
+	<!-- Endstation -->
+	<import resource="sample_manipulator.xml"/>
+	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
