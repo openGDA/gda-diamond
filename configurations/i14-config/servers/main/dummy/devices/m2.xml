@@ -45,5 +45,9 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="m2_piezo" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="2.281" />
+	</bean>
 
 </beans>

@@ -29,4 +29,10 @@
 		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
 	</bean>
 
+	<bean id="m2_piezo" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL14I-OP-MIRR-02:PIEZO:MOV:WR" />
+		<property name="pvNameGetPoint" value="BL14I-OP-MIRR-02:PIEZO:POS:RD" />
+		<property name="local" value="true" />
+	</bean>
+
 </beans>

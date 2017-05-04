@@ -24,5 +24,17 @@
 		<property name="pvName" value="BL14I-OP-DCM-01:ENERGY" />
 		<property name="local" value="true" />
 	</bean>
+	
+	<bean id="dcm_pitch_piezo" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL14I-OP-DCM-01:PIEZO1" />
+		<property name="local" value="true" />
+		<property name="InputNames" value="dcm_pitch_piezo" />
+	</bean>	
+	
+	<bean id="dcm_roll_piezo" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL14I-OP-DCM-01:PIEZO2" />
+		<property name="local" value="true" />
+		<property name="InputNames" value="dcm_roll_piezo" />
+	</bean>	
 
 </beans>
