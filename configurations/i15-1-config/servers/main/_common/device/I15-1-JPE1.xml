@@ -278,6 +278,10 @@
 		<!-- For the moment though, just use direct properties -->
 		<property name="stopBetweenPoints"      value="true"/>
 		<property name="runUserScripts"         value="false"/>
+		<property name="darkAuto"               value="false"/>
+		<property name="darkFrequency"          value="1"/>
+		<property name="darkElapseTimeS"        value="1.0"/>
+		<property name="darkMinRelaxTimeS"      value="1.0"/>
 	</bean>
 	<bean id="pe1AreaDetectorRunnableDeviceProxyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="name"        value="pe1AD"/>
