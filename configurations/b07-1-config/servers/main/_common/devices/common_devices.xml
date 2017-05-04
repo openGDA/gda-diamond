@@ -35,5 +35,8 @@
 
 	<!-- Dummy devices -->
 	<import resource="dummy.xml"/>
+	
+	<!-- Endstation -->
+	<import resource="sample_manipulator.xml"/>
 
 </beans>
