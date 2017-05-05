@@ -12,7 +12,7 @@
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
 	<context:property-placeholder
-		location="file:${gda.config}/properties/${gda.mode}/synoptic.properties" />
+		location="file:${gda.config}/properties/${gda.mode}/live_instance_synoptic.properties" />
 
 	<gda:rbac />
 

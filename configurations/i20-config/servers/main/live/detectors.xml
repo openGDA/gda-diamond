@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<!-- 	<import resource="file:${gda.config}/servers/main/live/xspress0.xml" /> -->
-	<import resource="file:${gda.config}/servers/main/live/xspress1.xml" /> 
+	<import resource="file:${gda.config}/servers/main/live/xspress0.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/live/xspress1.xml" />  -->
 
 	<import resource="file:${gda.config}/servers/main/live/ionchambers.xml" />
 	
-	<import resource="file:${gda.config}/servers/main/live/1-element-xmap.xml" />
-<!-- 	<import resource="file:${gda.config}/servers/main/live/4-element-xmap.xml" />--> 
+<!-- 	<import resource="file:${gda.config}/servers/main/live/1-element-xmap.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/live/4-element-xmap.xml" /> 
 
 	<bean id="xspress2controller" class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
 		<property name="daServer" ref="DAServer" />

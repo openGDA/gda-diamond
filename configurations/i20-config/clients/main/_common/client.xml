@@ -94,6 +94,12 @@
 			value="gda.device.detector.FluorescentDetectorConfiguration" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
+	<bean id="vortexDetector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/vortexDetector" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>	
 
 	<bean id="ionc1_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/ionc1_stanford" />
@@ -111,4 +117,20 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+
+	<bean id="det_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/det_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> 
+	<bean id="det_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/det_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> 
+	<bean id="det_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/det_rot" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> 
 </beans>

@@ -48,7 +48,7 @@ if LocalProperties.get("gda.mode") == "live":
     xmapController = Finder.getInstance().find("xmapcontroller")
     from vortex_elements import VortexElements
     vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
-
+    vortexDetector = Finder.getInstance().find("vortexDetector")
 # xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 # xspressConfig.initialize()
 # alias("xspressConfig")
