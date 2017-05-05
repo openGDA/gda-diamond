@@ -24,9 +24,7 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="dcm_pitch" />
-				<ref bean="dcm_pitch_piezo" />
 				<ref bean="dcm_roll" />
-				<ref bean="dcm_roll_piezo" />
 				<ref bean="dcm_perp" />
 				<ref bean="dcm_bragg" />
 				<ref bean="dcm_energy" />

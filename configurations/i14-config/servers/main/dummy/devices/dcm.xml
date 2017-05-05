@@ -51,14 +51,4 @@
 		</property>
 	</bean>
 
-	<bean id="dcm_pitch_piezo" class="gda.device.scannable.DummyScannable">
-		<constructor-arg value="dcm_pitch_piezo" />
-		<constructor-arg value="0.42" />
-	</bean>	
-	
-	<bean id="dcm_roll_piezo" class="gda.device.scannable.DummyScannable">
-		<constructor-arg value="dcm_roll_piezo" />
-		<constructor-arg value="1.56" />
-	</bean>	
-
 </beans>
