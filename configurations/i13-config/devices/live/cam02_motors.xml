@@ -17,11 +17,8 @@
 		<property name="local" value="true" />
 	</bean>
 
- 	<bean id="cam02_objective" class="gda.device.enumpositioner.EpicsPneumaticCallback">
- 		<property name="name" value="cam02_objective" />
-		<property name="controlPv" value="BL13I-MO-CAM-02:TURRET:DEMAND"/>
-		<property name="statusPv" value="BL13I-MO-CAM-02:TURRET:CURRENTPOS"/>
-		<property name="statusPvIndicatesPositionOnly" value="true"/>
+ 	<bean id="cam02_objective" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL13I-MO-CAM-02:TURRET:MP" />
 	</bean>
 
 </beans>
