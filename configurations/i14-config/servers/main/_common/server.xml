@@ -65,6 +65,7 @@
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/detector_table.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/stage1.xml" />
 
 	<!-- movable devices -->
 	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/movable/me07m/all.xml" /> -->
@@ -112,6 +113,7 @@
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/detector_table.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/stage1.xml" />
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
