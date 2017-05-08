@@ -32,13 +32,13 @@
 	<bean id="cam02_objective" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>A</value>
-				<value>B</value>
-				<value>C</value>
-				<value>D</value>
-				<value>E</value>
-				<value>F</value>
-				<value>G</value>
+				<value>1.25x 500um CdWO4</value>
+				<value>2x 250um CdWO4</value>
+				<value>1.25x 500um CdWO4 II</value>
+				<value>2x 500um CdWO4</value>
+				<value>2x 500um CdWO4 II</value>
+				<value>4x 250um CdWO4</value>
+				<value>4x 150um CdWO4</value>
 			</list>
 		</property>
 	</bean>
