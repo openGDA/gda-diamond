@@ -111,8 +111,15 @@ public class B18SampleParametersTest {
 		}
 	}
 
+	// Class to allow access to protected methods in the validator for test
+	private class B18ValidatorForTest extends B18Validator {
+		public List<InvalidBeanMessage> validateB18SampleParametersForTest(B18SampleParameters s) {
+			return validateISampleParameters(s);
+		}
+	}
+
 	private void validate(B18SampleParameters s) {
-		List<InvalidBeanMessage> errors = new B18Validator().validateB18SampleParameters(s);
+		List<InvalidBeanMessage> errors = new B18ValidatorForTest().validateB18SampleParametersForTest(s);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());
 		}

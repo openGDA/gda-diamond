@@ -52,9 +52,15 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  */
 
 public class I20SampleParametersTest {
-	final static String testScratchDirectoryName =
+	private static final String testScratchDirectoryName =
 		TestUtils.generateDirectorynameFromClassname(I20SampleParametersTest.class.getCanonicalName());
 
+	// Class to allow access to protected methods in validator
+	private class I20ValidatorForTest extends I20Validator {
+		public List<InvalidBeanMessage> validateI20SampleParametersForTest(I20SampleParameters s) {
+			return validateISampleParameters(s);
+		}
+	}
 
 	public static I20SampleParameters createFromXML(String filename) throws Exception {
 		return (I20SampleParameters) XMLHelpers.createFromXML(I20SampleParameters.mappingURL, I20SampleParameters.class, I20SampleParameters.schemaURL,
@@ -139,7 +145,7 @@ public class I20SampleParametersTest {
 
 	private void isValidAndMatchesFile(I20SampleParameters expectedValue, String filename) throws Exception{
 		I20SampleParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/I20SampleParametersTest/" + filename);
-		List<InvalidBeanMessage> errors = new I20Validator().validateI20SampleParameters(s);
+		List<InvalidBeanMessage> errors = new I20ValidatorForTest().validateI20SampleParametersForTest(s);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());
 		}
@@ -296,7 +302,7 @@ public class I20SampleParametersTest {
 		}
 
 		I20SampleParameters s = createFromXML(testScratchDirectoryName + "SampleParameters_written.xml");
-		List<InvalidBeanMessage> errors = new I20Validator().validateI20SampleParameters(s);
+		List<InvalidBeanMessage> errors = new I20ValidatorForTest().validateI20SampleParametersForTest(s);
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());
 		}

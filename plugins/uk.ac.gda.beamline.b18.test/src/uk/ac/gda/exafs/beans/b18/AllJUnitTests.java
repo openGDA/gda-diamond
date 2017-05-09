@@ -29,7 +29,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	B18SampleParametersTest.class,
-	QEXAFSParametersTest.class
 })
 
 public class AllJUnitTests {
