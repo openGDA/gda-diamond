@@ -21,7 +21,7 @@
 -Declipse.pluginCustomization=${project_loc:i15-1-config}/clients/main/_common/pluginCustomization.ini
 -Dgda.client.jython.automatic.interpreter=1
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
--Xmx4096m
+-Xmx8192m
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
