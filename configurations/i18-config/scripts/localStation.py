@@ -8,7 +8,7 @@ from uk.ac.gda.client.microfocus.scan import MapSelector, MapFactory
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import DummyScannable
 from gda.device.scannable import TopupChecker
-from gda.device.scannable import I18BeamMonitor
+from gda.device.scannable import BeamMonitor
 from gda.device.scannable import DetectorFillingMonitorScannable
 from gda.factory import Finder
 from stageSelector import StageSelector
@@ -34,8 +34,10 @@ topupMonitor.setScannableToBeMonitored(machineTopupMonitor) # @UndefinedVariable
 topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
 topupMonitor.configure()
 
-beamMonitor = I18BeamMonitor(energy) # @UndefinedVariable
+beamMonitor = BeamMonitor()
 beamMonitor.setName("beamMonitor")
+beamMonitor.setShutterPVs(["FE18I-RS-ABSB-01:STA"])
+beamMonitor.setBeamlineEnergyWithGapScannable(energy) # @UndefinedVariable
 beamMonitor.setMachineModeMonitor(machineModeMonitor) # @UndefinedVariable
 beamMonitor.configure()
 

@@ -26,8 +26,8 @@ import gda.scan.EpicsTrajectoryScanController;
  */
 public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable {
 
-	I18BeamMonitor beamMonitor;
-	TopupChecker topupMonitor;
+	private BeamMonitor beamMonitor;
+	private TopupChecker topupMonitor;
 	private boolean isBidirectional;
 
 	public I18SingleTrajectoryScannable() {
@@ -64,7 +64,7 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 		super.continuousMoveComplete();
 	}
 
-	public I18BeamMonitor getBeamMonitor() {
+	public BeamMonitor getBeamMonitor() {
 		return beamMonitor;
 	}
 
@@ -73,7 +73,7 @@ public class I18SingleTrajectoryScannable extends EpicsSingleTrajectoryScannable
 	 *
 	 * @param beamMonitor
 	 */
-	public void setBeamMonitor(I18BeamMonitor beamMonitor) {
+	public void setBeamMonitor(BeamMonitor beamMonitor) {
 		this.beamMonitor = beamMonitor;
 	}
 
