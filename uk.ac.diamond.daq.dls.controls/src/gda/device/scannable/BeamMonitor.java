@@ -18,15 +18,16 @@
 
 package gda.device.scannable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.DeviceException;
+import gda.device.Scannable;
 import gda.epics.connection.EpicsChannelManager;
 import gda.epics.connection.EpicsController;
 import gda.epics.connection.InitializationListener;
 import gov.aps.jca.Channel;
 import gov.aps.jca.Channel.ConnectionState;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This will pause scans if the ring current goes below 1mA or if the front-end shutter is closed.
@@ -40,13 +41,14 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 	private static final Logger logger = LoggerFactory.getLogger(BeamMonitor.class);
 
 	private String ringCurrentPV = "SR21C-DI-DCCT-01:SIGNAL";
-	private String[] shutterPVs = new String[]{"FE18I-RS-ABSB-01:STA","FE18B-PS-SHTR-02:STA"};
+	private String[] shutterPVs;
 	private String[] modesToIgnore = new String[] { "Mach. Dev.", "Shutdown" };
 
 	private EpicsController controller;
 	private EpicsChannelManager channelManager;
 	private Channel[] portShutters;
 	private Channel ringCurrent;
+	private Scannable beamlineEnergyWithGapScannable;
 
 	public BeamMonitor() {
 		super();
@@ -124,6 +126,12 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 				throw new DeviceException(e.getMessage(), e);
 			}
 		}
+
+		if (beamlineEnergyWithGapScannable != null) {
+			// set energy to same value so idgap goes to correct position.
+			final Double beamlineEnergy = (Double) beamlineEnergyWithGapScannable.getPosition();
+			beamlineEnergyWithGapScannable.moveTo(beamlineEnergy);
+		}
 	}
 
 	protected boolean portShuttersAllOpen() {
@@ -134,7 +142,7 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 		}
 		return true; // only true if all open
 	}
-	
+
 	private boolean channelSaysOpen(Channel channelToTest){
 		try {
 			String value = controller.cagetString(channelToTest);
@@ -143,7 +151,7 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 			logger.error(e.getMessage(), e);
 			return true;
 		}
-		
+
 	}
 
 	protected boolean machineHasCurrent() {
@@ -182,5 +190,13 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 
 	public String getRingCurrentPV() {
 		return ringCurrentPV;
+	}
+
+	public Scannable getBeamlineEnergyWithGapScannable() {
+		return beamlineEnergyWithGapScannable;
+	}
+
+	public void setBeamlineEnergyWithGapScannable(Scannable beamlineEnergyWithGapScannable) {
+		this.beamlineEnergyWithGapScannable = beamlineEnergyWithGapScannable;
 	}
 }
