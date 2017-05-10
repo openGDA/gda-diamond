@@ -133,7 +133,7 @@ def openMarShield():
         typ, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Problem opening Detector shield - ", typ, exception, traceback)
 
-def closeMarShield():
+def closeMarShield():gda_server.2017-03-06.log.mbb2
     """
     Close Detector shield
     """

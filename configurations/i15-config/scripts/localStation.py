@@ -2,39 +2,23 @@ import sys;
 from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog # @UnusedImport
 
-#import localStationScripts.centreDac # @UnusedImport
-#import integrationTests # @UnusedImport
-#import CrysalisDataCollection # @UnusedImport
 from localStationScripts.pd_epicsdevice import Simple_PD_EpicsDevice
-#import ruby_scripts
 import gdascripts.pd.epics_pds # @UnusedImport
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gdascripts.pd.time_pds import waittime
 import gdascripts.utils # @UnusedImport
 from localStationScripts.pd_ratio import Simple_PD_Ratio
 from localStationScripts.baseTable import BaseTable
-#import dataDir
 from localStationScripts.shutterCommands import configure as shutterCommands_configure
-#import marAuxiliary # @UnusedImport
-#from marAuxiliary import closeMarShield as closeDetectorShield
-#from marAuxiliary import openMarShield as openDetectorShield
-#import ccdAuxiliary # @UnusedImport
 from localStationScripts.ccdScanMechanics import configure as ccdScanMechanics_configure
 from localStationScripts.ccdScanMechanics import setMaxVelocity # @UnusedImport
-#import ccdFloodCorrections
-#import ccdScripts # @UnusedImport
-#import pilatus_scripts # @UnusedImport
 from localStationScripts.operationalControl import configure as operationalControl_configure
 from localStationScripts.operationalControl import * # @UnusedWildImport
-#from dummy_scan_objects import SimpleDummyDetector
 from gda.configuration.properties import LocalProperties
 from gdascripts.parameters import beamline_parameters
 from gda.device.epicsdevice import ReturnType
 from gda.util import VisitPath
 from localStationScripts.constants import * # @UnusedWildImport
-#from dataPlot import dp # @UnusedImport
-#from meterCounterSetup import * # @UnusedWildImport
-#from scan_commands import scan
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
@@ -62,15 +46,7 @@ mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsSc
 from localStationScripts.detector_scan_commands import * # @UnusedWildImport
 from localStationScripts.user_commands import * # @UnusedWildImport
 from localStationScripts.centreProxy import * # @UnusedWildImport
-#from scanPeak import *
-#from diodeTime import * # @UnusedWildImport
-#from setGain import * # @UnusedWildImport
-#from marAuxiliary import marErase, resetMarScanNumber
-#from ccdAuxiliary import resetCCDScanNumber
-#from pilatus_scripts import resetPilatusScanNumber
 
-#from dataDir import setDir, setFullUserDir # @UnusedImport
-#from ccdFloodCorrections import exportMultiDark # @UnusedImport
 from gda.epics import CAClient
 
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
@@ -249,56 +225,6 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating cryojet scannable")
 
-	""" Remove old Epics Pilatus device
-	try:
-		import pd_pilatus
-		pilatus = pd_pilatus.Pilatus("pilatus", "BL15I-EA-PILAT-02:", "/dls/i15/data/currentdir/", "pil")
-	except:
-		localStation_exception(sys.exc_info(), "creating pilatus")
-
-	try:
-		from gda.analysis.io import PilatusTiffLoader #, SRSLoader
-
-		pildet = pd_pilatus.EpicsPilatus('pildet', 'BL15I-EA-PILAT-02:',"/dls/i15/data/currentdir/",'p','%s%s%d.tif')
-		#pil = ProcessingDetectorWrapper('pil', pildet, [], panel_name='Pilatus Plot', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-		pil = ProcessingDetectorWrapper('pil', pildet, [], panel_name='Pilatus Plot', panel_name_rcp='Plot 1', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-		pil.processors=[DetectorDataProcessorWithRoi('max', pil, [SumMaxPositionAndValue()], False)]
-		
-		pil.printNfsTimes = True
-		pil.display_image = True
-		pilpeak2d = DetectorDataProcessorWithRoi('pilpeak2d', pil, [TwodGaussianPeak()])
-		pilmax2d = DetectorDataProcessorWithRoi('pilmax2d', pil, [SumMaxPositionAndValue()])
-	except:
-		localStation_exception(sys.exc_info(), "creating new pilatus (pil...)")
-	"""
-
-	""" Remove ODCCD/Ruby/Atlas objects
-	try:
-		ccd = finder.find("ODCCD")
-	except:
-		localStation_exception(sys.exc_info(), "creating ccd")
-
-	try:
-		ruby = ruby_scripts.Ruby(ccd)
-	except:
-		localStation_exception(sys.exc_info(), "creating ruby")
-
-	try:
-		ruby.connectIfNeeded()
-	except:
-		localStation_exception(sys.exc_info(), "connecting ruby")
-
-	try:
-		atlas = ruby_scripts.Atlas(ccd)
-	except:
-		localStation_exception(sys.exc_info(), "creating atlas")
-	
-	try:
-		atlas.connectIfNeeded()
-	except:
-		localStation_exception(sys.exc_info(), "connecting ruby")
-	"""
-
 	try:
 		global pe
 		pe1 = ProcessingDetectorWrapper('pe1', pe, [], panel_name_rcp='Plot 1')
@@ -415,18 +341,8 @@ try:
 		localStation_exception(sys.exc_info(), "setting up aliases")
 
 	try:
-		#simpleLog("Create ETL detector objects, names: etl_lowlim, etl_uplim, etl_gain")
 		from localStationScripts.etl_detector import * #@UnusedWildImport
-		
-		#print "ETL detector control values are: "
-		#print "\tName  \t\tTarget   \tPosition"
-		#pd_initialValues = [(pd.getName(), pd.getTargetPosition(), pd.Units[0], pd.getPosition(), pd.Units[0]) for pd in pds]
-		#for pd_initialValue in pd_initialValues:
-		#	print "\t%s:\t%7.1f%s\t%7.1f%s" % pd_initialValue
-		#print
-
 		etl.setLevel(7)
-		#print "ETL detector level: %d" % etl.getLevel()
 	except:
 		localStation_exception(sys.exc_info(), "creating etl detector")
 
@@ -476,17 +392,6 @@ try:
 			localStation_exception(sys.exc_info(), "creating patch x7trig object")
 	else:
 		simpleLog("* Not creating patch x7trig objects *")
-	
-	"""
-	if False:
-		try:
-			from scannables.detectors.fastShutterDetector import FastShutterDetector
-			fsdet = FastShutterDetector('fsdet', atlas)
-		except:
-			localStation_exception(sys.exc_info(), "creating fsdet object")
-	else:
-		simpleLog("* Not creating fsdet object *")
-	"""
 	
 	try:
 		pe.hdfwriter.getNdFileHDF5().reset()
@@ -668,15 +573,9 @@ try:
 		localStation_exception(sys.exc_info(), "creating jythonNameMap & beamlineParameters")
 	
 	try:
-		#dataDir.configure(jythonNameMap, beamlineParameters)
 		shutterCommands_configure(jythonNameMap, beamlineParameters)
-		#marAuxiliary.configure(jythonNameMap, beamlineParameters)
 		operationalControl_configure(jythonNameMap, beamlineParameters)
-		#ccdAuxiliary.configure(jythonNameMap, beamlineParameters)
 		ccdScanMechanics_configure(jythonNameMap, beamlineParameters)
-		#ccdFloodCorrections.configure(jythonNameMap, beamlineParameters)
-		#ccdScripts.configure(jythonNameMap, beamlineParameters)
-		#pilatus_scripts.configure(jythonNameMap, beamlineParameters)
 	except:
 		localStation_exception(sys.exc_info(), "configuring scripts")
 	

@@ -153,42 +153,9 @@ def d4out():
 	d4x.moveTo(117)
 	d4y.moveTo(0)
 
-#def d4cryoIn(moveBeamStopOut=False):
-#	print """=============================================
-#PLEASE ENSURE THE DETECTOR SHIELD IS IN PLACE
-#============================================="""
-#	print "Beamstop cryobsx is at %f0.0000" % cryobsx()
-#	if moveBeamStopOut:
-#		ans = InputCommands.requestInput("Do you want to move cryobsx out 5mm? [y/n]:")
-#		if ans == 'y':
-#			print "Record the current cryobsx value so that you know where to return the beamstop later."
-#			print "Moving beamstop cryobsx out..."
-#			cryobsx(cryobsx()+5)
-#			print "Beamstop cryobsx out, now at %f0.0000" % cryobsx()
-#	d4cryoIn()
-
 def d4cryoIn():
 	print "Moving d4cryo in."
 	setState("D4cryo", "-RS-ABSB-04:CON", 1)
-
-#def d4cryoOut(moveBeamStopIn=False):
-#	print """=============================================
-#PLEASE ENSURE THE DETECTOR SHIELD IS IN PLACE
-#================================================================
-#Beamstop cryobsx is at %f0.0000""" % cryobsx()
-#	if moveBeamStopIn:
-#		ans = InputCommands.requestInput("Enter the value of the cryobsx position which you are certain blocks the beam:")
-#		cryobsx_pos = float(ans)
-#		print "Moving cryobsx to %f0.000" % cryobsx_pos
-#		cryobsx(cryobsx_pos)
-#		print "Beamstop cryobsx in, now at %f0.0000" % cryobsx()
-#		print """=============================================
-#WARNING: NOW CHECK THAT THE BEAMSTOP IS BLOCKING THE DIRECT BEAM
-#================================================================"""
-#		ans = InputCommands.requestInput("Do you want to move d4cryo out? [y/n]:")
-#		if not (ans == 'y'):
-#			return
-#	d4cryoOut()
 
 def d4cryoOut():
 	print "Moving d4cryo out."
