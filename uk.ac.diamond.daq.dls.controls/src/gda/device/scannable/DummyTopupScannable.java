@@ -25,17 +25,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
+import gda.device.Monitor;
 import gda.device.Scannable;
 
 /**
  * Provides a simulation for the time until topup PV from the machine.
  */
-public class DummyTopupScannable extends ScannableBase implements Scannable {
+public class DummyTopupScannable extends ScannableBase implements Scannable, Monitor {
 	private static final Logger logger = LoggerFactory.getLogger(DummyTopupScannable.class);
 	private double topupInterval = 600.0; // overall topup cycle including fill time
 	private double fillTime = 15.0; // the time of the topup fill itself
 	private double topupCount = topupInterval - fillTime; // count down to the start of the next fill
 	private Timer topupTimer;
+	private String unit = "";
+	private int elementCount = 1;
 
 	public DummyTopupScannable() {
 		topupTimer = new Timer();
@@ -62,7 +65,7 @@ public class DummyTopupScannable extends ScannableBase implements Scannable {
 		this.topupCount = topupInterval - fillTime;
 	}
 
-	class CountDownTask extends TimerTask {
+	private class CountDownTask extends TimerTask {
 		@Override
 		public void run() {
 			topupCount = topupCount - 0.1;
@@ -80,4 +83,23 @@ public class DummyTopupScannable extends ScannableBase implements Scannable {
 			// logger.info("the topup time is " + topupCount);
 		}
 	}
+
+	@Override
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	@Override
+	public int getElementCount() {
+		return elementCount;
+	}
+
+	public void setElementCount(int elementCount) {
+		this.elementCount = elementCount;
+	}
+
 }
