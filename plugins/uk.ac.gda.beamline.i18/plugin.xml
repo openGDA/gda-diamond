@@ -22,38 +22,6 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="uk.ac.gda.exafs.ui.XasScanParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/XasParametersIcon.png"
-            id="uk.ac.gda.exafs.ui.XasScanParametersEditor"
-            name="XAS Scan Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getXasContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.XanesScanParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/XanesParametersIcon.png"
-            id="uk.ac.gda.exafs.ui.XanesScanParametersEditor"
-            name="ANGLE Scan Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getXanesContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.client.microfocus.ui.editors.MicroFocusScanParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            id="uk.ac.gda.client.microfocus.ui.editors.MicroFocusScanParametersEditor"
-            name="MicroFocus Scan">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
             class="uk.ac.gda.exafs.ui.I18SampleParametersEditor"
             contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
             default="true"
@@ -63,57 +31,6 @@
          <contentTypeBinding
                contentTypeId="uk.ac.diamond.gda.client.exafs.getI18SampleContent">
          </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.DetectorParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/DetectorParametersIcon.png"
-            id="uk.ac.gda.exafs.ui.DetectorParametersEditor"
-            name="DetectorParameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getDetectorContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.OutputParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/OutputParametersIcon.png"
-            id="uk.ac.gda.exafs.ui.OutputParametersEditor"
-            name="Output Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getOutputContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.detector.vortex.VortexParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/ParametersEditorIcon.png"
-            id="uk.ac.gda.exafs.ui.VortexParametersEditor"
-            name="Vortex Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getVortexContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.detector.xspress.XspressParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            icon="icons/ParametersEditorIcon.png"
-            id="uk.ac.gda.exafs.ui.XspressParametersEditor"
-            name="Xspress Parameters">
-         <contentTypeBinding
-               contentTypeId="uk.ac.diamond.gda.client.exafs.getXspressContent">
-         </contentTypeBinding>
-      </editor>
-      <editor
-            class="uk.ac.gda.exafs.ui.QEXAFSParametersEditor"
-            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
-            default="true"
-            id="uk.ac.gda.exafs.ui.QEXAFSParametersEditor"
-            name="QEXAFS Parameters">
       </editor>
    </extension>
    <extension
@@ -126,92 +43,12 @@
             name="Sample Bean File Content"
             priority="high">
       </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.DetectorDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getDetectorContent"
-            name="Detector Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.OutputDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getOutputContent"
-            name="Output Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.XasDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getXasContent"
-            name="XAS Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.XanesDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getXanesContent"
-            name="XANES Bean File Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.microfocus.ui.describers.MicroFocusScanParametersDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent"
-            name="MicroFocus Scan Content"
-            priority="high">
-      </content-type>
-      <content-type
-            base-type="org.eclipse.core.runtime.xml"
-            describer="uk.ac.gda.exafs.ui.describers.QEXAFSParametersDescriber"
-            file-extensions="xml"
-            id="uk.ac.diamond.gda.client.exafs.getQexafsContent"
-            name="QEXAFS Bean File Content"
-            priority="high">
-      </content-type>
    </extension>
    <extension
          point="uk.ac.common.beans.factory">
       <bean
-            class="uk.ac.gda.beans.exafs.XasScanParameters"
-            describer="uk.ac.gda.exafs.ui.describers.XasDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.exafs.XanesScanParameters"
-            describer="uk.ac.gda.exafs.ui.describers.XanesDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.microfocus.MicroFocusScanParameters"
-            describer="uk.ac.gda.microfocus.ui.describers.MicroFocusScanParametersDescriber">
-      </bean>
-      <bean
             class="uk.ac.gda.beans.exafs.i18.I18SampleParameters"
             describer="uk.ac.gda.exafs.ui.describers.I18SampleParametersDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.exafs.DetectorParameters"
-            describer="uk.ac.gda.exafs.ui.describers.DetectorDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.exafs.OutputParameters"
-            describer="uk.ac.gda.exafs.ui.describers.OutputDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.exafs.QEXAFSParameters"
-            describer="uk.ac.gda.exafs.ui.describers.QEXAFSParametersDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.vortex.VortexParameters"
-            describer="uk.ac.gda.exafs.ui.describers.VortexDescriber">
-      </bean>
-      <bean
-            class="uk.ac.gda.beans.xspress.XspressParameters"
-            describer="uk.ac.gda.exafs.ui.describers.XspressDescriber">
       </bean>
    </extension>
    <extension
@@ -433,42 +270,6 @@
   <extension
          point="uk.ac.gda.richbeans.beantypes">
       <describer
-            bean="uk.ac.gda.beans.exafs.XasScanParameters"
-            commandId="uk.ac.gda.client.exafs.CopyXASCommand"
-            contentType="uk.ac.diamond.gda.client.exafs.getXasContent"
-            includeInNew="true"
-            name="XAS Scan"
-            template="XAS_Parameters"
-            type="Scan">
-      </describer>
-      <describer
-            bean="uk.ac.gda.beans.exafs.XanesScanParameters"
-            commandId="uk.ac.gda.client.exafs.CopyXANESCommand"
-            contentType="uk.ac.diamond.gda.client.exafs.getXanesContent"
-            includeInNew="true"
-            name="XANES Scan"
-            template="ANGLE_Parameters"
-            type="Scan">
-      </describer>
-      <describer
-            bean="uk.ac.gda.beans.microfocus.MicroFocusScanParameters"
-            commandId="uk.ac.gda.client.exafs.CopyMICROFOCUSCommand"
-            contentType="uk.ac.diamond.gda.client.microfocus.getMicroFocusContent"
-            includeInNew="true"
-            name="Micro Focus"
-            template="MicroFocus_Parameters"
-            type="Scan">
-      </describer>
-      <describer
-            bean="uk.ac.gda.beans.exafs.QEXAFSParameters"
-            commandId="uk.ac.gda.client.exafs.CopyQEXAFSCommand"
-            contentType="uk.ac.diamond.gda.client.exafs.getQexafsContent"
-            includeInNew="true"
-            name="QEXAFS Scan"
-            template="QEXAFS_Parameters"
-            type="Scan">
-      </describer>
-      <describer
             bean="uk.ac.gda.beans.exafs.i18.I18SampleParameters"
             commandId="uk.ac.gda.client.exafs.CopySampleCommand"
             contentType="uk.ac.diamond.gda.client.exafs.getI18SampleContent"
@@ -477,31 +278,6 @@
             template="Sample_Parameters"
             type="Sample">
       </describer> 
-      <describer
-            bean="uk.ac.gda.beans.exafs.SampleElements"
-            includeInNew="false"
-            name="Sample Elements"
-            template="Sample_Elements"
-            type="UNREGISTERED">
-      </describer>    
-      <describer
-            bean="uk.ac.gda.beans.exafs.DetectorParameters"
-            commandId="uk.ac.gda.client.exafs.CopyDetectorCommand"
-            contentType="uk.ac.diamond.gda.client.exafs.getDetectorContent"
-            includeInNew="true"
-            name="Detector"
-            template="Detector_Parameters"
-            type="Detector">
-      </describer>
-      <describer
-            bean="uk.ac.gda.beans.exafs.OutputParameters"
-            commandId="uk.ac.gda.client.exafs.CopyOutputCommand"
-            contentType="uk.ac.diamond.gda.client.exafs.getOutputContent"
-            includeInNew="true"
-            name="Output"
-            template="Output_Parameters"
-            type="Output">
-      </describer>
    </extension>
   <extension
         point="uk.ac.gda.microfocus.zScannableName">
