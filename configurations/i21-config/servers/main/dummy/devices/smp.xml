@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- motors -->
+	<bean id="smprzMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpxMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpzMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpazimuthMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="diodetthMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smptiltMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+	<!-- Femto -->
+	<bean id="draincurrent" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+	<bean id="fy1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+	<bean id="straightdiode" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+	<bean id="rotatingdiode" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+	<bean id="fixdiode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+	<bean id="fixdiode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+	<bean id="tthdiode" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.865</value>
+		</property>
+	</bean>
+	
+	<import resource="smpcam1.xml"/>
+	<import resource="smpcam2.xml"/>
+	<import resource="smpcam3.xml"/>
+	<import resource="smpcam4.xml"/>
+
+</beans>

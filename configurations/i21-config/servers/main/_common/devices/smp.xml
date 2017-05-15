@@ -28,6 +28,15 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
+	<bean id="satilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smptiltMotor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+	<bean id="diodetth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="diodetthMotor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+
 	<!-- Group d4-related objects -->	
  	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -37,6 +46,8 @@
 				<ref bean="say" />
 				<ref bean="saz" />
 				<ref bean="saazimuth" />
+				<ref bean="satilt" />
+				<ref bean="diodetth" />
 				<ref bean="draincurrent" />
 				<ref bean="fy1" />
 				<ref bean="straightdiode" />
