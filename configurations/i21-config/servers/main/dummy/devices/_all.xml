@@ -51,5 +51,6 @@
 	<import resource="smp.xml" />
 	<import resource="sgm.xml" />
 	<import resource="spectrometer.xml"/>
+	<import resource="andor.xml"/>
 
 </beans>
