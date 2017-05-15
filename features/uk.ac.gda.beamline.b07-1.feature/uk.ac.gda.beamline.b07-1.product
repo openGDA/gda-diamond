@@ -23,8 +23,8 @@
 -Dgda.instance.dir=${project_loc:b07-1-config} 
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
--Xms512m
--Xmx2048m
+-Xms1g
+-Xmx4g
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
