@@ -23,7 +23,7 @@
 	<bean id="samenv_topz_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="samenv_pitch_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="samenv_roll_motor" class="gda.device.motor.DummyMotor"/>
-
+	<bean id="samenv_yaw_motor" class="gda.device.motor.DummyMotor"/>
 
 	<bean id="detector_x_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="detector_y_motor" class="gda.device.motor.DummyMotor"/>

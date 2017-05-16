@@ -16,26 +16,11 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false" />
 	</bean>
-	<bean id="frelonfocus" class="gda.device.scannable.ScannableMotor">
+	<bean id="um3" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um3_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="freloniris" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="motor" ref="um4_motor" />
-		<property name="hardwareUnitString" value="deg" />
-		<property name="local" value="false" />
-	</bean>
-
-	<bean id="frelonrot" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="initialUserUnits" value="deg" />
-		<property name="motor" ref="um5_motor" />
-		<property name="hardwareUnitString" value="deg" />
 		<property name="local" value="false" />
 	</bean>
 	<bean id="um6" class="gda.device.scannable.ScannableMotor">
@@ -80,9 +65,7 @@
 			<list>
 				<ref bean="um1" />
 				<ref bean="um2" />
-				<ref bean="frelonfocus" />
-				<ref bean="freloniris" />
-				<ref bean="frelonrot" />
+				<ref bean="um3" />
 				<ref bean="um6" />
 				<ref bean="um7" />
 				<ref bean="um8" />
@@ -90,6 +73,30 @@
 				<ref bean="um10" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="frelonfocus" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="frelon_focus_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="freloniris" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="frelon_iris_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="frelonrot" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="motor" ref="frelon_rot_motor" />
+		<property name="hardwareUnitString" value="deg" />
+		<property name="local" value="false" />
 	</bean>
 
 	<!-- rmi exports -->
@@ -102,6 +109,11 @@
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/um2" />
 		<property name="service" ref="um2" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/um3" />
+		<property name="service" ref="um3" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
