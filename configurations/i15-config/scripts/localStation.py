@@ -693,7 +693,17 @@ except:
 	localStation_exception(sys.exc_info(), "in localStation")
 
 print "*"*80
-print "Attempting to run localStationUser.py from users script directory"
+print "Attempting to run localStationStaff.py from user scripts directory"
+try:
+	run("localStationStaff")
+	print "localStationStaff.py completed."
+except java.io.FileNotFoundException, e:
+	print "No localStationStaff.py found in user scripts directory"
+except:
+	localStation_exception(sys.exc_info(), "running localStationStaff user script")
+
+print "*"*80
+print "Attempting to run localStationUser.py from user scripts directory"
 try:
 	run("localStationUser")
 	print "localStationUser.py completed."
