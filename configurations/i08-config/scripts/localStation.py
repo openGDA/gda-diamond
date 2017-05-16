@@ -72,9 +72,7 @@ LocalProperties.set("exafs.editor.overlay.Preference", "True")
 print "Adding mscan mapping scan command. Use help(mscan) to get information on how to use it."
 run('mapping_scan_commands.py')
 
-# Allow control of the function that maps energy to zone plate position
-energyFocusFunction = finder.find("energyFocusFunction")
-energyFocusFunction.slopeDividend="-12.132765 um"
-energyFocusFunction.interception="25528.85 um"
+# Energy to zone plate position
+run('energyFocus.py')
 
 print "Initialisation Complete";

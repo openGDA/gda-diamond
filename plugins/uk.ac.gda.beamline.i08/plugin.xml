@@ -181,6 +181,16 @@
             </command>
          </menu>
       </menuContribution>
+      <menuContribution
+            locationURI="toolbar:uk.ac.gda.rcp.views.dashboardView">
+         <command
+               commandId="uk.ac.gda.beamline.i08.EditEnergyFocusFunction"
+               icon="icons/chart_line.png"
+               label="Edit Energy Focus Function"
+               style="push"
+               tooltip="Edit slope dividend and interception">
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.views">
@@ -190,5 +200,14 @@
             name="Xmap Fluorescence Detector"
             restorable="true">
       </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.gda.beamline.i08.energyfocus.EditEnergyFocusFunctionHandler"
+            description="Edit the slope dividend and interception"
+            id="uk.ac.gda.beamline.i08.EditEnergyFocusFunction"
+            name="Edit Energy Focus Function">
+      </command>
    </extension>
 </plugin>

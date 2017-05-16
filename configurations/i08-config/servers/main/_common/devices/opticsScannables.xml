@@ -16,11 +16,11 @@
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="idenergy_motor" />
 	</bean>
-	
+
 <!-- Function to convert energy to required position of zone plate (used in energyFocus below) -->
 	<bean id="energyFocusFunction" class="gda.function.LinearFunction">
-		<property name="interception" value="3090.8 um" />
-		<property name="slopeDividend" value="18.33 um" />
+		<property name="interception" value="0.0 um" />
+		<property name="slopeDividend" value="0.0 um" />
 		<property name="slopeDivisor" value="1.0 eV" />
 	</bean>
 
