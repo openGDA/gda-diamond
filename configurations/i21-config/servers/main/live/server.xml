@@ -6,7 +6,7 @@
                       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<import resource="../../../properties/_common/gdaProperties.xml"/>
+	<import resource="../../../properties/_common/gdaProperties.xml"
 	
 	<import resource="devices/_all.xml"/>
 

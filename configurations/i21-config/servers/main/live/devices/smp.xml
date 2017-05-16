@@ -25,7 +25,7 @@
 		<property name="pvName" value="BL21I-EA-SMPL-01:AZIMUTH" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="smpdioderingMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="diodetthMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:DRING" />
 		<property name="local" value="true" />
 	</bean>

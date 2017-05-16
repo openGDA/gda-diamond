@@ -12,5 +12,17 @@
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
-
+	<!-- Femto -->
+	<bean id="d7femto1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.235</value>
+		</property>
+	</bean>
+	<bean id="d7femto2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.235</value>
+		</property>
+	</bean>
 </beans>

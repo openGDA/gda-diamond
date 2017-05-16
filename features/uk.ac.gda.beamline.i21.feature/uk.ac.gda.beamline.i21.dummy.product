@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Beamline i21" uid="uk.ac.gda.beamline.i21.product" id="uk.ac.gda.beamline.i21.product" application="uk.ac.gda.client.application" version="9.4.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Beamline i21" uid="uk.ac.gda.beamline.i21.dummy.product" id="uk.ac.gda.beamline.i21.product" application="uk.ac.gda.client.application" version="9.4.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -18,22 +18,23 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.instance.dir=/dls_sw/i21/software/gda/config
--Dgda.facility.dir=/dls_sw/i21/software/gda/workspace_git/gda-diamond.git/dls-config
--Dgda.core.dir=/dls_sw/i21/software/gda/workspace_git/gda-core.git/core-config
--Dgda.group.dir=/dls_sw/i21/software/gda/workspace_git/gda-core.git/core-config/no-group
--Dgda.config=/dls_sw/i21/software/gda/config
--Dgda.propertiesFile=/dls_sw/i21/software/gda/config/properties/live/live_instance_java.properties
--Djacorb.config.dir=/dls_sw/i21/software/gda/config/properties/live/jacorb
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i21/software/gda/config/properties/live/JCALibrary.properties
--Declipse.pluginCustomization=/dls_sw/i21/software/gda/config/pluginCustomization.ini
--Dgda.install.git.loc=/dls_sw/i21/software/gda/workspace_git
--Dgda.install.workspace.loc=/dls_sw/i21/software/gda/workspace
--Dgda.logs.dir=/dls_sw/i21//logs
--Dgda.data=/dls/i21/data
--Dgda.gui.beans.xml=/dls_sw/i21/software/gda/config/clients/main/live/client.xml
--Dgda.var=/dls_sw/i21/software/gda_versions/var
--Dgda.mode=live
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Dgda.instance.dir=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config
+-Dgda.facility.dir=/scratch/gda/workspace_git/gda-diamond.git/dls-config
+-Dgda.core.dir=/scratch/gda/workspace_git/gda-core.git/core-config
+-Dgda.group.dir=/scratch/gda/workspace_git/gda-core.git/core-config/no-group
+-Dgda.config=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config
+-Dgda.propertiesFile=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/properties/dummy/live_instance_java.properties
+-Djacorb.config.dir=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/properties/dummy/JCALibrary.properties
+-Declipse.pluginCustomization=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/pluginCustomization.ini
+-Dgda.install.git.loc=/scratch/gda/workspace_git
+-Dgda.install.workspace.loc=/scratch/gda/workspace
+-Dgda.logs.dir=/scratch/logs
+-Dgda.data=/scratch/data
+-Dgda.gui.beans.xml=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/clients/main/dummy/client.xml
+-Dgda.var=/scratch/gda_versions/var
+-Dgda.mode=dummy
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Xms256m
@@ -87,5 +88,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i21.feature"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>

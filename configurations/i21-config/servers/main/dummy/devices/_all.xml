@@ -19,6 +19,7 @@
 	<import resource="s4_femtos.xml" />
 	<import resource="s4_motors.xml" />
 	<import resource="s5_motors.xml" />
+	<import resource="s6_motors.xml" />
 	
 	<!-- diagnostics -->
 	<import resource="dgn.xml" />
@@ -28,6 +29,7 @@
 	<import resource="d3b.xml" />
 	<import resource="d4.xml" />
 	<import resource="d7.xml" />
+	<import resource="d8.xml" />
 
 	<!-- pressure gauges -->
 	<import resource="pressureGauges.xml"/>
@@ -38,11 +40,17 @@
 	<!-- mirrors -->
 	<import resource="m1.xml" />
 	<import resource="m2.xml" />
+	<import resource="m4.xml" />
+	<import resource="m5.xml" />
 
 	<!-- PGM -->
 	<import resource="pgm.xml" />
 	
 	<!-- ID -->
 	<import resource="id.xml" />
+	<import resource="smp.xml" />
+	<import resource="sgm.xml" />
+	<import resource="spectrometer.xml"/>
+	<import resource="andor.xml"/>
 
 </beans>

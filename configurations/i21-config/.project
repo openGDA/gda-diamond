@@ -3,6 +3,7 @@
 	<name>i21-config</name>
 	<comment></comment>
 	<projects>
+		<project>diffcalc</project>
 		<project>i21-python</project>
 		<project>uk.ac.diamond.scisoft.jython</project>
 		<project>uk.ac.diamond.scisoft.python</project>

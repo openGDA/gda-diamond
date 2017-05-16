@@ -19,7 +19,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="sgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="specgamma" />
