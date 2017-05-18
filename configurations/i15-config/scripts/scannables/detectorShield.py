@@ -1,9 +1,14 @@
 from gda.device.scannable import ScannableBase
 from gdascripts.messages.handle_messages import simpleLog
+from gdascripts.parameters import beamline_parameters
 from gdascripts.scannable.epics.PvManager import PvManager
+from org.slf4j import LoggerFactory
+from time import sleep
 
 class DetectorShield(ScannableBase):
     def __init__(self, name, pvManager):
+        self.logger = LoggerFactory.getLogger("DetectorShield")
+
         self.name = name
         self.pvManager = PvManager() # Just to get PyDev completion
         self.pvManager = pvManager
@@ -18,7 +23,7 @@ class DetectorShield(ScannableBase):
         self.verbose = False
         self.ignoreFault = False
         
-        self.TIMEOUT=5
+        self.TIMEOUT=10
         
         self.FAULT=0
         self.OPEN=1
@@ -42,27 +47,93 @@ class DetectorShield(ScannableBase):
         return None
 
     def atScanStart(self):
-        self.openDetectorShield(suppressWait=True)
+        self.openDetectorShield(suppressWaitForOpen=True)
 
-    def openDetectorShield(self, suppressWait=False):
-        self.pvManager['CON'].caput(self.TIMEOUT, 0)
+    def openDetectorShield(self, suppressWaitForOpen=False):
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
+        self.waitForDiodeState()
         simpleLog("Detector Shield Opening...")
-        if not suppressWait:
+
+        self.pvManager['CON'].caput(self.TIMEOUT, 0)
+
+        if not suppressWaitForOpen:
             self.waitWhileBusy(self.TIMEOUT*2)
             simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
 
-    def atScanEnd(self):
-        self.closeDetectorShield(suppressWait=True)
+    def waitForDiodeState(self):
+        suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow = self._parameters()
+        if suppressOpenDiode == None:
+            return
+        
+        diodeValue=suppressOpenDiode.getPosition()
+        print "%r %r " % (suppressOpenWhenDiodeBelow >= diodeValue, diodeValue >= suppressOpenWhenDiodeAbove)
+        while (suppressOpenWhenDiodeBelow > diodeValue or diodeValue > suppressOpenWhenDiodeAbove):
+            msg = "The value of diode %r is %r which is outside of the range %r to %r, waiting before opening Detector Shield..." % (
+                suppressOpenDiode.name, diodeValue, suppressOpenWhenDiodeBelow, suppressOpenWhenDiodeAbove)
+            self.logger.info(msg)
+            print msg
+            sleep(10)
+            diodeValue=suppressOpenDiode.getPosition()
 
-    def closeDetectorShield(self, suppressWait=False):
-        self.pvManager['CON'].caput(self.TIMEOUT, 1)
+        self.logger.info("The value of diode %r is %r which is within the range %r to %r, opening Detector Shield..." % (
+                suppressOpenDiode.name, diodeValue, suppressOpenWhenDiodeBelow, suppressOpenWhenDiodeAbove))   
+
+    def _parameters(self):
+        suppressOpenDiode=self._parameter("exposeDetectorShieldSuppressOpenDiode",
+            " to define the diode which determines whether the detector shield can open.")
+        suppressOpenWhenDiodeAbove=self._parameter("exposeDetectorShieldSuppressOpenWhenDiodeAbove",
+            " to define the largest value which allows the detector shield to open.")
+        suppressOpenWhenDiodeBelow=self._parameter("exposeDetectorShieldSuppressOpenWhenDiodeBelow",
+            " to define the smallest value which allows the detector shield to open.")
+
+        if suppressOpenDiode==None and suppressOpenWhenDiodeAbove==None and suppressOpenWhenDiodeBelow==None:
+            msg = "No exposeDetectorShieldSuppressOpen parameters are defined, so the Detector shield will always open"
+            self.logger.warn(msg)
+            print msg
+            return None, None, None
+
+        elif suppressOpenDiode==None or suppressOpenWhenDiodeAbove==None or suppressOpenWhenDiodeBelow==None:
+            msg = "All three exposeDetectorShieldSuppressOpen parameters must be defined if any are"
+            self.logger.error(msg)
+            print msg
+            raise Exception(msg)
+
+        return suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow
+
+    def _parameter(self, parameter, help_text):
+        jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
+    
+        if jythonNameMap[parameter] == None:
+            msg = "%s not defined, please add %s='xx' to localStationUser.py%s" % (
+                parameter, parameter, help_text)
+            self.logger.warn(msg)
+            print msg
+            return None
+
+        if isinstance(jythonNameMap[parameter], str) or isinstance(jythonNameMap[parameter], unicode):
+            if jythonNameMap[jythonNameMap[parameter]]==None:
+                raise Exception('Cannot find %s in the jython namespace when trying to lookup %s' % (jythonNameMap[parameter], parameter))
+            self.logger.trace("Returning scannable defined by %s as '%s': %s" % (parameter, jythonNameMap[parameter], jythonNameMap[jythonNameMap[parameter]].name))
+            return jythonNameMap[jythonNameMap[parameter]]
+    
+        if isinstance(jythonNameMap[parameter], ScannableBase):
+            self.logger.trace("Returning scannable defined by %s as %s" % (parameter, jythonNameMap[parameter].name))
+        else:
+            self.logger.trace("Returning value defined by %s as %r" % (parameter, jythonNameMap[parameter]))
+
+        return jythonNameMap[parameter]
+
+    def atScanEnd(self):
+        self.closeDetectorShield(suppressWaitForClose=True)
+
+    def closeDetectorShield(self, suppressWaitForClose=False):
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
         else:
             simpleLog("Detector Shield Closing...")
-        if not suppressWait:
+        self.pvManager['CON'].caput(self.TIMEOUT, 1)
+        if not suppressWaitForClose:
             self.waitWhileBusy(self.TIMEOUT*2)
             simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
 
@@ -109,49 +180,3 @@ class DetectorShield(ScannableBase):
     def pfuncname(self):
         import traceback
         return "%s" % traceback.extract_stack()[-2][2]
-
-'''
-def openMarShield():
-    """
-    Open Detector shield
-    """
-    try:
-        status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
-        if (status == 0):
-            simpleLog("Detector shield already open")
-        else:
-            beamline.setValue("Top","-RS-ABSB-06:CON", 0)
-            
-            # wait and check shield has opened
-            sleep(3)
-            status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
-            if (status == 0):
-                simpleLog("Detector shield opened")
-            else:
-                simpleLog("Detector shield failed to open - status is: " + `status`)
-    except:
-        typ, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "Problem opening Detector shield - ", typ, exception, traceback)
-
-def closeMarShield():
-    """
-    Close Detector shield
-    """
-    try:
-        status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
-        if (status == 1):
-            simpleLog("Detector shield already closed")
-        else:
-            beamline.setValue("Top","-RS-ABSB-06:CON", 1)
-            
-            # wait and check shield has closed
-            sleep(3)
-            status = beamline.getValue(None,"Top","-RS-ABSB-06:CON")
-            if (status == 1):
-                simpleLog("Detector shield closed")
-            else:
-                simpleLog("Detector shield failed to close - status is: " + `status`)
-    except:
-        typ, exception, traceback = sys.exc_info()
-        handle_messages.log(None, "Problem closing mar shield - ", typ, exception, traceback)
-'''

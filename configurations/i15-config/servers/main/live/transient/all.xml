@@ -9,7 +9,7 @@
 
 	<import resource="I15-Cryostream.xml"/>
 	<import resource="I15-ETL.xml"/>
-	<import resource="I15-geo2.xml"/>
+	<import resource="../../dummy/transient/I15-geo2.xml"/>
 	<import resource="I15-Scaler.xml"/>
 	<import resource="I15-VCOLD.xml"/>
 	<!-- To convert to using dummy devices, prefix the resource files with ../../dummy/transient/ -->

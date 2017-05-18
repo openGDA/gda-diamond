@@ -9,6 +9,11 @@
 # environment before invoking the main gda script to get correct startup behaviour. Also please add "< /dev/null > /dev/null 2>&1"
 # to the end of the line that calls the gda script to prevent ssh from hanging incorrectly due to an unclosed stream.
 
+################################################################################
+# This is only needed until cfengine can be updated with an authorized_keys
+# entry which calls /gda-diamond/dls-config/live/gda-servers-startup-script.sh
+################################################################################
+
 
 
 # If you want any special behaviour add it above this line
