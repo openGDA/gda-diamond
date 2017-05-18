@@ -159,11 +159,6 @@ if installation.isLive():
 else:
     print "Running in dummy mode"
 
-
-
-
-
-
 print 
 
 from scannables.cleverAmplifier import CleverAmplifier
