@@ -19,6 +19,13 @@
 
 	<import resource="../_common/server.xml"/>
 
+	<!-- ADSIM detectors need to be configured with a short form hostname, since HOSTNAME is an FQDN we
+		 need to strip off the domain, if we haven't been configured with an explicit WORKSTATION variable.
+	 -->
+	<bean id="ADSIM_HOST" class="java.lang.String">
+	    <constructor-arg type="java.lang.String" value="${WORKSTATION:#{'${HOSTNAME}'.split('\.')[0]}}"/>
+	</bean>
+
 	<import resource="device/all.xml"/>
 <!-- transient devices not needed in dummy
 	<import resource="transient/all.xml"/>
