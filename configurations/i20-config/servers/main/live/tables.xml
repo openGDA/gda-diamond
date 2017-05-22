@@ -27,98 +27,39 @@
 		<property name="pvName" value="BL20I-MO-TABLE-03:X" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sample_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-MO-TABLE-03:Y" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-MO-TABLE-03:Z" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sample_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-MO-TABLE-03:PITCH" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sample_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-MO-TABLE-03:ROLL" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sample_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-MO-TABLE-03:ROT" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sample_fine_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-MO-TABLE-03:ROTF" />
 		<property name="local" value="true" />
 	</bean>
 
-
-
-	<bean id="table1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="table1_x_motor" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="table1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="table1_y_motor" />
-		<property name="local" value="false" />
-	</bean>
-
-	<bean id="table2_x" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="table2_x_motor" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="table2_y" class="gda.device.scannable.ScannableMotor">
-		<property name="protectionLevel" value="3" />
-		<property name="motor" ref="table2_y_motor" />
-		<property name="local" value="false" />
-	</bean>
-
-	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_x_motor" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_y_motor" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_z_motor" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="sample_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_pitch_motor" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="sample_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_roll_motor" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="sample_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_rot_motor" />
-		<property name="local" value="false" />
-	</bean>
-	<bean id="sample_fine_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="sample_fine_rot_motor" />
-		<property name="local" value="false" />
-	</bean>
-
 	<bean id="filterwheel" class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
 		<property name="recordName" value="BL20I-OP-ATTN-06:MP" />
-	</bean>
-	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/filterwheel" />
-		<property name="service" ref="filterwheel" />
-		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 	</bean>
 
 </beans>

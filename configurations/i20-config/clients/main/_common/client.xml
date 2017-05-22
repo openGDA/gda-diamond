@@ -117,20 +117,4 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-
-	<bean id="det_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/det_x" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> 
-	<bean id="det_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/det_y" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> 
-	<bean id="det_rot" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/det_rot" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> 
 </beans>
