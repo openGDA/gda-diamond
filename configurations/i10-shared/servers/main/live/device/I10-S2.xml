@@ -85,18 +85,18 @@
 
 	<!-- CAS Current Amplifier Controller, BPM Controller and BPM -->
 	
-	<!-- <bean id="s2_iamp_ctrl" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+	<!-- <bean id="s2_iamp_ctrl" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="S2.IAMP.CTRL"/>
+		<property name="local" value="true"/>
 	</bean> -->
 	
-	<bean id="s2_inten" class="gda.device.monitor.EpicsBeamPositionMonitor">
+	<bean id="s2_inten" class="gda.device.monitor.EpicsBpmController">
 		<property name="deviceName" value="S2.INTEN"/>
-		<property name="epicsConfiguration" ref="epicsConfig" />
 		<property name="local" value="true"/>
 	</bean>
 	
-	<!-- <bean id="s2_qbpm" class="gda.device.monitor.EpicsQuadrantBeamPositionMointor">
-		<property name="currAmpQuadName" value="s2_iamp_ctrl"/>
-		<property name="bpmName" value="s2_inten"/>
+	<!-- <bean id="s2_qbpm" class="gda.device.qbpm.EpicsQbpm">
+		<property name="currAmpController" ref="s2_iamp_ctrl"/>
+		<property name="bpmController" ref="s2_inten"/>
 	</bean> -->
 </beans>
