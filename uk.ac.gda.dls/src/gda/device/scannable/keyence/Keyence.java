@@ -24,7 +24,6 @@ import gda.device.scannable.ScannableBase;
 import gda.factory.Configurable;
 import gda.factory.FactoryException;
 import gda.factory.Findable;
-import gda.util.Sleep;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -454,8 +453,17 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 	
 	@Override
 	public void run() {
+		try {
+			runKeyence();
+		} catch (InterruptedException e) {
+			logger.error("Thread interrupted while running Keyence {}", getName(), e);
+			Thread.currentThread().interrupt();
+		}
+	}
+
+	private void runKeyence() throws InterruptedException {
 		while (true) {
-			Sleep.sleep(21987);
+			Thread.sleep(21987);
 			try {
 				cleanPipe();
 			} catch (IOException e) {

@@ -23,7 +23,6 @@ import gda.factory.Configurable;
 import gda.factory.FactoryException;
 import gda.factory.Findable;
 import gda.util.BusyFlag;
-import gda.util.Sleep;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -249,7 +248,6 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 		try {
 			logger.debug(getName() + ": sent command: " + msg);
 			socketChannel.write(encoder.encode(CharBuffer.wrap(command)));
-			Sleep.sleep(100);
 			cleanPipe();
 		} catch (SocketTimeoutException ex) {
 			// we do not get a reply for every action

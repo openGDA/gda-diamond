@@ -23,7 +23,6 @@ import gda.device.Motor;
 import gda.device.MotorException;
 import gda.device.MotorStatus;
 import gda.factory.Finder;
-import gda.util.Sleep;
 import gda.util.Unix;
 
 import java.awt.image.BufferedImage;
@@ -188,15 +187,21 @@ public class FirewireCamera extends CameraBase implements Camera {
 
 		for (i = 0; i < zoomSteps; i++) {
 			if (zoom == zoomPositions[i]) {
+				// TODO: allow tolerance in double comparison
 				try {
 					zoomMotor.setSpeedLevel(Motor.FAST);
 					zoomMotor.moveTo(zoomStepPositions[i]);
 					this.zoom = zoom;
 					while (zoomMotor.getStatus() == MotorStatus.BUSY) {
-						Sleep.sleep(100);
+						Thread.sleep(100);
 					}
 				} catch (MotorException e) {
 					logger.error("Error moving camera zoom motor");
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+					String msg = getName() + " - Thread interrupted waiting for camera to zoom";
+					logger.error(msg, e);
+					throw new DeviceException(msg, e);
 				}
 				break;
 			}
@@ -209,15 +214,22 @@ public class FirewireCamera extends CameraBase implements Camera {
 
 		for (i = 0; i < focusSteps; i++) {
 			if (focus == focusPositions[i]) {
+				// TODO: allow tolerance in double comparison
 				try {
 					focusMotor.setSpeedLevel(Motor.FAST);
 					focusMotor.moveTo(focusStepPositions[i]);
 					while (focusMotor.getStatus() == MotorStatus.BUSY) {
-						Sleep.sleep(100);
+						Thread.sleep(100);
 					}
 					this.focus = focus;
 				} catch (MotorException e) {
 					logger.error("Error moving camera zoom motor");
+					throw new DeviceException("Error moving camera zoom motor - {}", getName(), e);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+					String msg = getName() + " - Thread interrupted waiting for camera to focus";
+					logger.error(msg, e);
+					throw new DeviceException(msg, e);
 				}
 				break;
 			}
