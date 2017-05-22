@@ -32,7 +32,7 @@
 
 	<import resource="metadata.xml"/>
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar" init-method="register">
 		<property name="name" value="FileRegistrar" />
 		<property name="directory"
 			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />

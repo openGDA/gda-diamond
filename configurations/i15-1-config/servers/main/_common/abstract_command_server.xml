@@ -15,18 +15,20 @@
 		<property name="type" value="CONFIG" />
 	</bean>
 	
-	<bean id="mt_config_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-mt.git/configurations/mt-config/scripts" />
+	<bean id="dls_config_script_project" class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.install.git.loc}/gda-diamond.git/dls-config/scripts" />
 		<property name="name" value="Scripts: Config-MT" />
 		<property name="type" value="CONFIG" />
 	</bean>
 
+	<!-- jythonScriptPaths are only required for scripts paths which haven't been defined in an extension point -->
+	
 	<bean id="abstract_common_script_paths" abstract="true">
 		<property name="projects">
 			<list>
 				<ref bean="user_script_project" />
 				<ref bean="beamline_config_script_project" />
-				<ref bean="mt_config_script_project" />
+				<ref bean="dls_config_script_project" />
 			</list>
 		</property>
 		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />

@@ -593,25 +593,26 @@ def _rockScanParams(detector, exposeTime, fileName, rockMotor, rockCentre, rockA
 													 sampleSuffix=fileName, dark=False)
 	continuouslyScannableViaController, continuousMoveController = _configureConstantVelocityMove(
 													axis=rockMotor, detector=hardwareTriggeredNXDetector)
-	i0Monitor, continuousMonitorController = jythonNameMap.etlZebraScannableMonitor, jythonNameMap.zebra2ZebraMonitorController
-	fastShutterFeedback = jythonNameMap.fastShutterFeedbackScannableMonitor
+	if len(continuousMoveController.getTriggeredControllers()) > 0:
+		i0Monitor, continuousMonitorController = jythonNameMap.etlZebraScannableMonitor, jythonNameMap.zebra2ZebraMonitorController
+		fastShutterFeedback = jythonNameMap.fastShutterFeedbackScannableMonitor
+		zebra2info = ",\n %r,\n %r,\n %r" % (i0Monitor.name, fastShutterFeedback.name, continuousMonitorController.name)
+		zebra2params = [                     i0Monitor,      fastShutterFeedback,      continuousMonitorController]
+	else:
+		zebra2info = ""
+		zebra2params = []	
 
-	logger.info("_rockScanParams: [%r, %r, %r, %r,\n %r,\n %r, %r,\n %r,\n %r,\n %r]" % (
+	logger.info("_rockScanParams: [%r, %r, %r, %r,\n %r,\n %r, %r%s]" % (
 								  continuouslyScannableViaController.name, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController.name,
 								  hardwareTriggeredNXDetector.name, exposeTime,
-								  i0Monitor.name,
-								  fastShutterFeedback.name,
-								  continuousMonitorController.name
+								  zebra2info
 								))
 	# TODO: We should probably also check that lineMotor and rockMotor aren't both the same!'
 	sc1=ConstantVelocityScanLine([continuouslyScannableViaController, rockCentre, rockCentre, abs(2*rockAngle),
 								  continuousMoveController,
 								  hardwareTriggeredNXDetector, exposeTime,
-								  i0Monitor,
-								  fastShutterFeedback,
-								  continuousMonitorController,
-								])
+								]+zebra2params)
 	
 	return [sc1]
 

@@ -4,30 +4,30 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="HFMxMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.X" />
+		<property name="pvName" value="BL15I-OP-HFM-01:X" />
 	</bean>
 
 	<bean id="HFMyMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.Y" />
+		<property name="pvName" value="BL15I-OP-HFM-01:Y" />
 	</bean>
 
 	<bean id="HFMpitchMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.PITCH" />
+		<property name="pvName" value="BL15I-OP-HFM-01:PITCH" />
 	</bean>
 
 	<bean id="HFMyawMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.YAW" />
+		<property name="pvName" value="BL15I-OP-HFM-01:YAW" />
 	</bean>
 
 	<bean id="HFMrollMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.ROLL" />
+		<property name="pvName" value="BL15I-OP-HFM-01:ROLL" />
 	</bean>
 
 	<bean id="HFMcurveMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.CURVE" />
+		<property name="pvName" value="BL15I-OP-HFM-01:CURVE" />
 	</bean>
 
 	<bean id="HFMellipticityMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.ELLIP" />
+		<property name="pvName" value="BL15I-OP-HFM-01:ELLIP" />
 	</bean>
 </beans>
