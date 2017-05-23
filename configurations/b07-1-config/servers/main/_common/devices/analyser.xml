@@ -12,6 +12,7 @@
 			</bean>
 		</property>
 		<property name="photonEnergyProvider" ref="pgm_energy" />
+		<property name="prelensValve" ref="analyser_prelens_valve" />
 		<property name="workFunction" value="4.5" />
 		<!-- detectorEnergyWidth can be found by (analyser.endEnergy - analyser.startEnergy)/analyser.passEnergy -->
 		<property name="detectorEnergyWidth" value="0.06531314413818123" />
