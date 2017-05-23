@@ -65,10 +65,7 @@ das4tfg.sendCommand("tfg setup-cc-mode scaler64");
 
 # Set turboslit positions to use when operating as a 'shutter'. imh 21/4/2017
 if LocalProperties.get("gda.mode") == "live":
-    turbo_slit_shutter.clearValues()
-    turbo_slit_shutter.addValue("Open", "1")
-    turbo_slit_shutter.addValue("Close", "0")
-    turbo_slit_shutter.addValue("Reset", "0")
+    setTurboSlitShutterPositions(0, 1)
 
 # Set name of shutter to be operated when collecting dark current on ionchambers. imh 21/4/2017
 LocalProperties.set("gda.exafs.darkcurrent.shutter", turbo_slit_shutter.getName())
