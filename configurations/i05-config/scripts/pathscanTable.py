@@ -176,7 +176,7 @@ class pathscanTable:
             if ei!=0: pthStr +=","
             pthStr += "[" + ', '.join(["%6.4f" % v for v in e]) + "]"   ## \n
         scanStr += pthStr+") "
-        scanStr +="analyser 1"  # pathscan requires additonal argument, but in this context it is ignored
+        scanStr +="analyser"  # pathscan requires additonal argument, but in this context it is ignored
         print scanStr
         print
     
@@ -188,7 +188,7 @@ class pathscanTable:
             if ei!=0: pthStr +=","
             pthStr += "[" + ', '.join(["%6.4f" % v for v in e]) + "]"   ## \n
         scanStr += pthStr+") "
-        scanStr +="analyser 1"     # pathscan requires additonal argument, but in this context it is ignored
+        scanStr +="analyser"     # pathscan requires additonal argument, but in this context it is ignored
         return scanStr
 
     def go(self):
