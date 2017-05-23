@@ -19,6 +19,8 @@
 	<!-- GDA configuration split up by part type -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/slits-common.xml" />
+	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/attenuators.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors.xml" />
 
@@ -28,9 +30,14 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/tables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/tables-common.xml" />
+	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xes.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/xes-common.xml" />
+
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors-common.xml" />
+	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->

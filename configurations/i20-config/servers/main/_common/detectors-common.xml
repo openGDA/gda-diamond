@@ -41,4 +41,22 @@
 		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
 	</bean>
 
+<!-- 	FLuorescense detector wrapper for Vortex. imh 4/11/2016 -->
+	<bean id="vortexDetector" class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter" >
+		<constructor-arg index="0" ref="xmapMca" />
+		<constructor-arg index="1" value="1" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/vortexDetector" />
+		<property name="service" ref="vortexDetector" />
+		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+	</bean>
+	
+	
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspress2system" />
+		<property name="service" ref="xspress2system" />
+		<property name="serviceInterface"
+			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
+	</bean>
 </beans>

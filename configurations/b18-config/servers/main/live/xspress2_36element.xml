@@ -3,7 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="DAServer36" class="gda.device.detector.DAServer">
+<!--  DAServer for 36 element moved here from live/detectors.xml -->
+	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="local" value="True" />
 		<property name="host" value="b18-xspress1" />
 		<property name="port" value="1972" />
@@ -21,19 +22,19 @@
 
 	<!-- Time Frame Generator -->
 	<bean id="tfg36" class="gda.device.timer.Etfg">
-		<property name="daServer" ref="DAServer36" />
+		<property name="daServer" ref="DAServer" />
 	</bean>
 
 	<!-- Scaler channels -->
 	<bean id="CalMemory36" class="gda.device.memory.Scaler">
-		<property name="daServer" ref="DAServer36" />
+		<property name="daServer" ref="DAServer" />
 		<property name="width" value="4" />
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
 
 <!-- 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System"> -->
-<!-- 		<property name="daServer" ref="DAServer36" /> -->
+<!-- 		<property name="daServer" ref="DAServer" /> -->
 <!-- 		<property name="tfg" ref="tfg36" /> -->
 <!-- 		<property name="xspressSystemName" value="xsp1" /> -->
 
@@ -57,7 +58,7 @@
 	
 	<bean id="xspress2controller"
 		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
-		<property name="daServer" ref="DAServer36" />
+		<property name="daServer" ref="DAServer" />
 		<property name="tfg" ref="tfg36" />
 		<property name="xspressSystemName" value="xsp1" />
 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
