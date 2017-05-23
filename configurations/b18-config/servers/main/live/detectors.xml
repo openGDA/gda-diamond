@@ -47,25 +47,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
-
-		<property name="host" value="b18-xspress0" />
-
-<!-- 		<property name="host" value="b18-xspress1" /> -->
-		<property name="port" value="1972" />
-		<property name="startupCommands">
-			<list>
-				<value>~config</value>
-				<value>tfg setup-veto veto1-inv 1</value>
-				<!-- set number of frames -->
-<!-- 				<value>tfg config "etfg0" tfg2 max-frames 8192</value>  -->
-			</list>
-		</property>
-		<property name="dataPort" value="20030" />
-		<property name="replyTimeOut" value="5000" />
-	</bean>
-
 	<bean id="struckScaler" class="gda.device.detector.EpicsScaler">
 		<property name="pvName" value="BL18B-EA-DET-01:SCALER" />
 	</bean>

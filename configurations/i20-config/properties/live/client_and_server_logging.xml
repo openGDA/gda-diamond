@@ -56,6 +56,10 @@
 	<logger name="gda.epics.LazyPVFactory">
 		<level value="INFO" />
 	</logger>
-
+	
+	<!--  to avoid frequent 'Frame capture start' followed by 'SocketTimeOutException' when using 2d array view -->
+	<logger name="gda.images.camera.mjpeg.FrameCaptureTask">
+		<level value="INFO" />
+	</logger>
 
 </configuration>

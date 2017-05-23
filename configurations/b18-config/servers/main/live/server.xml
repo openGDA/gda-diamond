@@ -20,8 +20,8 @@
     <import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 
 <!-- To switch between 9 and 36 element Ge, comment out the unwanted detector below:     -->
-   <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress2_9element.xml" />
-<!--    <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress2_36element.xml" /> -->
+<!--   <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress2_9element.xml" /> -->
+    <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress2_36element.xml" />
 
 
 	<import resource="file:${gda.config}/servers/main/detectors.xml" />
@@ -37,3 +37,4 @@
 
 	<corba:export namespace="b18" />
 </beans>
+

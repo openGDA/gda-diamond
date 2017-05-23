@@ -51,10 +51,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 Beamline">
+            name="GDA I20 Offline">
          <property
                name="appName"
-               value="GDA I20 Beamline">
+               value="GDA I20 Offline">
          </property>
          <property
                name="aboutImage"
@@ -517,7 +517,7 @@
 	         allPopups="false"
 	         locationURI="menu:window?after=showView">
 	      <menu
-	            label="Area Detectors">
+	            label="Detectors">
 	         <command
 	               commandId="org.eclipse.ui.views.showView"
 	               label="medipix"
@@ -531,7 +531,85 @@
                value="medipix">
          </parameter>
 	         </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="XSpress2"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="xspress2system">
+             </parameter>
+          </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Vortex"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="vortexDetector">
+             </parameter>
+          </command>
 	      </menu>
+       <menu
+             label="Synoptic views">
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="XES stage"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="uk.ac.gda.ui.views.synoptic.XesStageView">
+             </parameter>
+          </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Sample stage"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="uk.ac.gda.ui.views.synoptic.SampleStageView">
+             </parameter>
+          </command>
+                    <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Xas table"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="uk.ac.gda.ui.views.synoptic.XasTableView">
+             </parameter>
+          </command>
+       </menu>
 	   </menuContribution>
 	</extension>
+ <extension
+       point="org.eclipse.ui.views">
+    <view
+          allowMultiple="true"
+          class="uk.ac.gda.ui.views.synoptic.SynopticView"
+          id="uk.ac.gda.ui.views.synoptic.SynopticView"
+          name="Synoptic View"
+          restorable="true">
+    </view>
+ </extension>
 </plugin>

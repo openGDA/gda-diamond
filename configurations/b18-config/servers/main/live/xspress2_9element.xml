@@ -30,6 +30,21 @@
 <!-- 		</property> -->
 <!-- 	</bean> -->
 
+<!--  DAServer for 9 element moved here from live/detectors.xml -->
+	<bean id="DAServer" class="gda.device.detector.DAServer">
+		<property name="local" value="True" />
+		<property name="host" value="b18-xspress0" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+				<value>tfg setup-veto veto1-inv 1</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
+
 <!-- Updated to use refactored Controller and Detector classes. imh 9/6/2016  -->
 
 	<bean id="xspress2controller_9element"

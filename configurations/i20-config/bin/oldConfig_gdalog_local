@@ -1,3 +1,0 @@
-#!/bin/bash
-. /gda_workspaces/i20_master_git/gda-diamond.git/dls-config/bin/loadjava.sh
-/gda_workspaces/i20_master_git/gda-core.git/uk.ac.gda.core/bin/gda --config=/gda_workspaces/i20_master_git/gda-dls-beamlines-xas.git/i20 --mode=dummy --restart logpanel
