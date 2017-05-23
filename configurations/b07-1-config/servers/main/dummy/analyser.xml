@@ -7,4 +7,15 @@
 		<property name="basePVName" value="TEST-SPECS-01:" />
 	</bean>
 
+	<bean id="analyser_prelens_valve" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
 </beans>
