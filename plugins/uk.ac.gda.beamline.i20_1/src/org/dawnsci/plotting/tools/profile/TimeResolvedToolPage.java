@@ -163,7 +163,7 @@ public class TimeResolvedToolPage extends AbstractToolPage implements IRegionLis
 	}
 
 	private String getDataFilePath(IImageTrace image) throws Exception {
-		IMetadata metaData = image.getData().getMetadata();
+		IMetadata metaData = image.getData().getFirstMetadata(IMetadata.class);
 		if (metaData != null) {
 			return metaData.getFilePath();
 		}
