@@ -1,35 +1,34 @@
 import sys
-# pathscanTable
+#
+#       pathscanTable
+#
 # Simple prototype for segmented path scan with a master (independent) motion axis
-# and several slave (dependent) motion axes. Specifying anchor coordinates between
+# and one or more slave (dependent) motion axes. Specifying anchor coordinates between
 # these segments defines the slave axis steps size from the given master step size. 
 #
-#  Example:
-#   import pathscanTable as pst
-#   p = pst.pathscanTable(mstrAxis='sapolar', mstrStep=2.0, mstrAnchors=[-5,-1,7])
-#   p.addSlvAxis(slvAxis='say', slvAnchors=[0.1, 0.2, 0.3])
-#   p              # prints the table and 
-#   p.printScan()  # prints the pathscan command for copy-paste
+# Sample program
+#   from pathscanTable import pathscanTable
+#   pst = pathscanTable(mstrAxis='sapolar', mstrStep=2.0, mstrAnchors=[-5,-1,7])
+#   pst.addSlvAxis(slvAxis='say', slvAnchors=[0.1, 0.2, 0.3])
+#   pst              # prints the table and 
+#   pst.printScan()  # prints the pathscan command for copy-paste
+#   pst.go()         # invoked the pathscan command directly
 #
 # Data structure is "picket fence", for n anchors points,  n + n-1 elements are
 # created, the latter recording the segments between the points (length, slope, numsteps, point values)
-# picket of picket fence has triplet dict {'d':distance, 's':step, 'n':numberOfSteps, 'l':listOfStepPositionValues}
-
+# picket of picket fence has 4-element dictionary {'d':distance, 's':step, 'n':numberOfSteps, 'l':listOfStepPositionValues}
+#
+# Sample data structure
 # mstrAnchors  =           [-20.0, {d: 24,   s:2.0,   n:1},   4.0, {d:  8,   s:2.0,   n:1},   12.0]
 # slvAnchors   = [ ['sax', [0.840, {d:0.008, s:0.001, n:1}, 0.848, {d:0.008, s:0.002, n:1},  0.856]],
 #                  ['say', [  8.0, {d: 1.2,  s:0.3,   n:1},   9.2, {d:  3,   s:0.5,   n:1},   11.2]] ]
 # invariant for all slvs axes: len(slvAnchors) = len(mstrAnchors)
 
 # DEPENDENCY: requires "uk.ac.gda.core/scripts/gdascripts/scan/pathscanCommand.py" to be run beforehand
-#from gda.device.scannable.scannablegroup import ScannableGroup
-#from gda.jython.commands.ScannableCommands import scan
-
-#def slvStepFromSlope(mstrDelta, slvDelta):
-#  tbd handle divide by zero
-#  return slvDelta/mstrDelta
+import gda.factory.Finder as Finder
+from gda.jython import JythonServerFacade
 
 debug = False
-
 
 def dirCmp(step, sv, end):          # compare in the direction of travel
     if step > 0.0:
@@ -55,7 +54,9 @@ def genRangeByCount(start, end, step, count):
     return fRng
 
 class pathscanTable:
-    ''' pathscanTable segmented scan '''
+    ''' pathscanTable class to represented segmented scan 
+        step size of slave scannables calculated from master scannable
+    '''
     mstrColWidth = 22  # width of master column  in ASCII table
     slvColWidth  = 21  # width of slave  columns in ASCII table
 
@@ -154,9 +155,6 @@ class pathscanTable:
         print self.mstrAnchors
         for r in self.slvAnchors: print r
 
-    # scan related methods
-    def printScan(self): self.printPathScan()
-
     def mkRanges(self):  # transpose suitable for pathscan
         mstrRange = []
         for ri,ida in enumerate(self.mstrAnchors):                   # traverse mstr picketfence
@@ -170,7 +168,7 @@ class pathscanTable:
         scnRanges = [mstrRange] + slvRanges
         return zip(*scnRanges)
         
-    def printPathScan(self):   # use the "pathscan" command defined in core/pathScanCommand.py
+    def printScan(self):   # use the "pathscan" command defined in core/pathScanCommand.py
         scanStr = "pathscan " 
         scanStr += "(%s, "% self.mstrAxis +', '.join([da[0] for da in self.slvAnchors])+") "
         pthStr = "("
@@ -178,44 +176,23 @@ class pathscanTable:
             if ei!=0: pthStr +=","
             pthStr += "[" + ', '.join(["%6.4f" % v for v in e]) + "]"   ## \n
         scanStr += pthStr+") "
-        scanStr +="analyser 1"     # pathscan requires additonal argument, but in this context it is ignored
+        scanStr +="analyser"  # pathscan requires additonal argument, but in this context it is ignored
         print scanStr
         print
+    
+    def makePathScan(self):   # use the "pathscan" command defined in core/pathScanCommand.py
+        scanStr = "pathscan " 
+        scanStr += "(%s, "% self.mstrAxis +', '.join([da[0] for da in self.slvAnchors])+") "
+        pthStr = "("
+        for ei,e in enumerate(self.mkRanges()):
+            if ei!=0: pthStr +=","
+            pthStr += "[" + ', '.join(["%6.4f" % v for v in e]) + "]"   ## \n
+        scanStr += pthStr+") "
+        scanStr +="analyser"     # pathscan requires additonal argument, but in this context it is ignored
+        return scanStr
 
-    def printScanCommandFull(self): # wrong: this does n X m scan
-        scanStr = "scan %s (" % self.mstrAxis
-        scanStr +="".join([ "%6.4f " % v for ri,ida in enumerate(self.mstrAnchors) if ri%2==1 for v in ida['l'] ])  # each of the rows, each of the positions
-        scanStr +=") "
-        for da in self.slvAnchors:
-            scanStr += "%s (" % da[0]
-            scanStr +="".join([ "%6.4f " % v for ri,dr in enumerate(da[1]) if ri%2==1 for v in dr['l'] ])  # each of the slves, each of the rows, each of the positions
-            scanStr +=") "
-        scanStr +="analyser"
-        print scanStr
-        print
-
-    def printScanCommandRanges(self):
-        for ri,ida in enumerate(self.mstrAnchors):                   # traverse mstr picketfence
-            if ri%2==1:
-                scanStr = "scan %s " % self.mstrAxis
-                scanStr += "%6.4f %6.4f %6.4f " % (self.mstrAnchors[ri-1], self.mstrAnchors[ri+1], self.mstrStep)
-                for di,da in enumerate(self.slvAnchors): scanStr += "%s %6.4f %6.4f %6.4f " % (da[0], da[1][ri-1] , da[1][ri+1], da[1][ri]['s'])
-                scanStr += "analyser "
-                print scanStr
-        print
-
-    # scanning
-    def configScan(): # use printPathScan-like loop to collect the following items for functional invocation of scan
-        self.sg = [self.mstrAxis] + [ da[0] for da in self.slvAnchors ]
-        self.path = self.mkRanges()
-        self.detector = globals()['analyser']  # from global name space! analyser  
-        self.args = None
-
-    def go(self, *args):
-        self.configScan()
-        self.sg = ScannableGroup()
-        for s in scannables: self.sg.addGroupMember(s)
-        self.sg.setName("pathgroup")
-        if args: scan([self.sg, self.path, self.detector]+list(args))
-        else:    scan([self.sg, self.path, self.detector])
+    def go(self):
+        psc = self.makePathScan()
+        JythonServerFacade.getInstance().runCommand(psc)
+        
 
