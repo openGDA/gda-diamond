@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ic_3602_c1" class="gda.device.scannable.DummyScannable">
+		<constructor-arg value="ic_3602_c1" />
+		<constructor-arg value="0.34" />
+	</bean>
+
+	<bean id="ic_3602_c2" class="gda.device.scannable.DummyScannable">
+		<constructor-arg value="ic_3602_c2" />
+		<constructor-arg value="0.06" />
+	</bean>
+
+	<bean id="ic_3602_c3" class="gda.device.scannable.DummyScannable">
+		<constructor-arg value="ic_3602_c3" />
+		<constructor-arg value="0.92" />
+	</bean>
+
+	<bean id="ic_3602_c4" class="gda.device.scannable.DummyScannable">
+		<constructor-arg value="ic_3602_c4" />
+		<constructor-arg value="0.364" />
+	</bean>
+
+</beans>
