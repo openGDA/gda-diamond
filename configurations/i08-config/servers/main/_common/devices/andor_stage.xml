@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="andor_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="andor_x_motor" />
+	</bean>
+
+	<bean id="andor_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="andor_y_motor" />
+	</bean>
+
+	<bean id="andor_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="andor_z_motor" />
+	</bean>
+
+	<bean id="andor_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="andor_x" />
+				<ref bean="andor_y" />
+				<ref bean="andor_z" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

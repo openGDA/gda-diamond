@@ -22,6 +22,24 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<bean id="andor_x" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}andor_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="andor_y" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}andor_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="andor_z" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}andor_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 	<!-- XMAP fluorescence detector -->
 	<bean id="xmap" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}xmap" />

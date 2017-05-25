@@ -25,6 +25,7 @@
 	<!-- =========================================================== -->
 	<!-- 	mode specific files -->
 	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/andor_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/diagnostics_and_shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics.xml" />
@@ -43,6 +44,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/processing.xml" />
 
+ 	<import resource="file:${gda.config}/servers/main/_common/devices/andor_stage.xml" />
  	<import resource="file:${gda.config}/servers/main/_common/devices/opticsScannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/stxmScannables.xml" />
