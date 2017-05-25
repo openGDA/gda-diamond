@@ -20,7 +20,7 @@
 		<property name="motor" ref="SampleCoarseZ_motor" />
 	</bean>
 
-	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="sample" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="SampleX" />

@@ -29,7 +29,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/photodiode.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/zone_plate_motors.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor.xml" />
@@ -43,8 +43,8 @@
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 
  	<import resource="file:${gda.config}/servers/main/_common/devices/opticsScannables.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/stxmScannables.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" />
