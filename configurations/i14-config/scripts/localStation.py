@@ -56,5 +56,6 @@ if isLive():
         print "No localStationUser run"
 else:
     print "Running in dummy mode"
+    run("setup_dummies.py")
 
 print "Initialisation Complete";
