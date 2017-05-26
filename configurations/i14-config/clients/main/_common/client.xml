@@ -27,6 +27,7 @@
 	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/osgi_services.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/view_factories.xml" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />

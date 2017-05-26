@@ -113,6 +113,9 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xreye_scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xspress3_addetector.xml" />
 
+	<!-- EXAFS -->
+	<import resource="file:${gda.config}/servers/main/_common/exafs/exafs.xml" />
+
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/detector_table.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
