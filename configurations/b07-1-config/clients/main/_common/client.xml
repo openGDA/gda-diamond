@@ -36,10 +36,10 @@
 	</bean>
 
 	<!-- Commented out by default as it requires bundles which currently live in gda-incubation -->
-	<!-- <bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
 		<property name="serviceInterface" value="uk.ac.diamond.daq.devices.specs.phoibos.api.ISpecsPhoibosAnalyser" />
 		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> -->
+	</bean>
 
 </beans>
