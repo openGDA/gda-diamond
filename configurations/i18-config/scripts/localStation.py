@@ -157,6 +157,8 @@ selectStage(1)
 from gda.scan import EpicsTrajectoryScanController
 EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000)
 
+from mapping_scan_commands import mscan, grid, detector
+
 print "Initialization Complete";
 
 print "****************************************"
