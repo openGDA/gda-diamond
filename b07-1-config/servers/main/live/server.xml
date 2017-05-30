@@ -45,7 +45,7 @@
 	<!-- Endstation -->
 	<import resource="sample_manipulator.xml"/>
 	<!-- Commented out by default as it requires bundles which currently live in gda-incubation -->
-	<!-- <import resource="analyser.xml"/>  -->
+	<import resource="analyser.xml"/>
 
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
