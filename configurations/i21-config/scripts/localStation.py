@@ -207,6 +207,9 @@ b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
 #DiffCalc
 from startup.i21 import *  # @UnusedWildImport
 
+#Mapping scan
+from mapping_scan_commands import *
+
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
 

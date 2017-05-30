@@ -5,10 +5,13 @@
 	<projects>
 		<project>diffcalc</project>
 		<project>i21-python</project>
+		<project>uk.ac.diamond.daq.detectors.addetector</project>
+		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
 		<project>uk.ac.diamond.scisoft.jython</project>
 		<project>uk.ac.diamond.scisoft.python</project>
 		<project>uk.ac.gda.beamline.synoptics</project>
 		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.devices.andor</project>
 		<project>uk.ac.gda.epics</project>
 	</projects>
 	<buildSpec>

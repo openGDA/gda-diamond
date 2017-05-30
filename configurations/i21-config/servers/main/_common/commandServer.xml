@@ -34,6 +34,11 @@
 					        <property name="name" value="Scripts: EPICS" />
 					        <property name="type" value="CORE" />
 					    </bean>
+					    <bean class="gda.jython.ScriptProject">
+					        <property name="path" value="${gda.install.git.loc}/scanning.git/org.eclipse.scanning.command/scripts" />
+					        <property name="name" value="Scripts: Scanning" />
+					        <property name="type" value="CORE" />
+					    </bean>
 					</list>
 				</property>
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py"/>
