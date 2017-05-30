@@ -159,7 +159,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		ScanDataPoint sdp = itScans[0].getData().get(spectrumIndex);
 		String sdpString = sdp.toDelimitedString();
 		int indexOfGroup = ArrayUtils.indexOf(sdp.getScannableHeader(), "Group");
-		String timingGroup = sdpString.split(ScanDataPoint.delimiter)[indexOfGroup];
+		String timingGroup = sdpString.split(ScanDataPoint.DELIMITER)[indexOfGroup];
 		return Integer.parseInt(timingGroup);
 	}
 
