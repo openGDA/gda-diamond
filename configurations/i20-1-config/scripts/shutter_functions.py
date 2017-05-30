@@ -24,3 +24,11 @@ def closeFastShutter():
     java.lang.Thread.sleep(4000)
     print fast_shutter.getPosition()
 
+
+def setTurboSlitShutterPositions(openPos, closePos) :
+    turbo_slit_shutter.clearValues()
+    turbo_slit_shutter.addValue("Open", str(openPos))
+    turbo_slit_shutter.addValue("Close", str(closePos))
+    turbo_slit_shutter.addValue("Reset", str(closePos))
+    print "turbo_slit_shutter : 'Open' position = ",str(openPos)," 'Close' position = ",str(closePos)
+    print "turbo_slit_shutter positions ",turbo_slit_shutter.getPositions()

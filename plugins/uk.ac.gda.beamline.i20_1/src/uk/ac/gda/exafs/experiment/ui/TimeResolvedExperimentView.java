@@ -31,15 +31,12 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Text;
@@ -53,9 +50,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.jaret.util.date.Interval;
+import gda.device.DeviceException;
 import gda.jython.IJythonServerStatusObserver;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanEvent;
+import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
@@ -105,7 +104,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 	protected void createSections(final SashForm parentComposite) {
 		createExperimentPropertiesComposite(parentComposite);
 		createTimeBarComposite(parentComposite);
-		parentComposite.setWeights(new int[] {5, 1});
+		createStartStopScanSection(parentComposite);
+		parentComposite.setWeights(new int[] {10, 2, 2});
 	}
 
 	protected TimeResolvedExperimentModel getModel() {
@@ -159,21 +159,6 @@ public class TimeResolvedExperimentView extends ViewPart {
 					}
 				});
 
-		// Update the filename in the model
-		prefixText.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				getModel().getExperimentDataModel().setFileNamePrefix(prefixText.getText());
-			}
-		});
-		// Update the sample description in the model
-		sampleDescText.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				getModel().getExperimentDataModel().setSampleDetails(sampleDescText.getText());
-			}
-		});
-
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_FAST_SHUTTER).observe(getModel()) );
 	}
@@ -194,35 +179,28 @@ public class TimeResolvedExperimentView extends ViewPart {
 		form.layout();
 	}
 
-	private void createExperimentDetailsSection(Composite parent) {
+	protected void createStartStopScanSection(Composite parent) {
+		final Section startStopScanSection = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
+		startStopScanSection.setText("Scan run controls and settings");
+		startStopScanSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		Composite startStopSectionComposite = toolkit.createComposite(startStopScanSection, SWT.NONE);
 
-		// Start stop buttons
-		final Section dataCollectionSection = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
-		dataCollectionSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		Composite dataCollectionSectionComposite = toolkit.createComposite(dataCollectionSection, SWT.NONE);
-		dataCollectionSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
-		dataCollectionSection.setClient(dataCollectionSectionComposite);
+		startStopSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
+		startStopScanSection.setClient(startStopSectionComposite);
 
-		Composite prefixNameComposite = toolkit.createComposite(dataCollectionSectionComposite, SWT.NONE);
-		prefixNameComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		prefixNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		Label prefixLabel = toolkit.createLabel(prefixNameComposite, "File prefix", SWT.None);
-		prefixLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		prefixText = toolkit.createText(prefixNameComposite, getModel().getExperimentDataModel().getFileNamePrefix(), SWT.BORDER);
-		prefixText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		addStartStopButtons(startStopSectionComposite);
+		addLoadSaveButtons(startStopSectionComposite);
+	}
 
-		Composite sampleDescComposite = toolkit.createComposite(dataCollectionSectionComposite, SWT.NONE);
-		sampleDescComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		sampleDescComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		Label sampleDescLabel = toolkit.createLabel(sampleDescComposite, "Sample details", SWT.None);
-		sampleDescLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		sampleDescText = toolkit.createText(sampleDescComposite,  getModel().getExperimentDataModel().getSampleDetails(), SWT.BORDER);
-		sampleDescText.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+	/**
+	 * Add buttons to start and stop a scan.
+	 * @param parent
+	 */
+	private void addStartStopButtons(final Composite parent) {
+		Button startScanButton = toolkit.createButton(parent, "Start scan", SWT.PUSH);
+		startScanButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		Button startAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Start", SWT.PUSH);
-		startAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		startAcquicitionButton.addListener(SWT.Selection, new Listener() {
+		startScanButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				try {
@@ -234,7 +212,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		});
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(startAcquicitionButton),
+				WidgetProperties.enabled().observe(startScanButton),
 				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(getModel()),
 				null,
 				new UpdateValueStrategy() {
@@ -244,24 +222,65 @@ public class TimeResolvedExperimentView extends ViewPart {
 					}
 				});
 
-		Button stopAcquicitionButton = toolkit.createButton(dataCollectionSectionComposite, "Stop", SWT.PUSH);
-		stopAcquicitionButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		Button stopScanButton = toolkit.createButton(parent, "Stop scan", SWT.PUSH);
+		stopScanButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		dataBindingCtx.bindValue(
-				WidgetProperties.enabled().observe(stopAcquicitionButton),
+				WidgetProperties.enabled().observe(stopScanButton),
 				BeanProperties.value(TimeResolvedExperimentModel.SCANNING_PROP_NAME).observe(getModel()));
-		stopAcquicitionButton.addListener(SWT.Selection, new Listener() {
+		stopScanButton.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
 				getModel().doStop();
 			}
 		});
+	}
 
-		useFastShutterCheckbox = toolkit.createButton(dataCollectionSectionComposite, "Use fast shutter", SWT.CHECK);
+	/**
+	 * Linear experiment specific implementation of SaveLoadButtons class
+	 * ('get' and 'set' parameters from/to gui)
+	 */
+	private class SaveLoadButtonsForLinearExperiment extends SaveLoadButtonsComposite {
+
+		public SaveLoadButtonsForLinearExperiment(Composite parent, FormToolkit toolkit) {
+			super(parent, toolkit);
+		}
+
+		@Override
+		protected void saveParametersToFile(String filename) throws DeviceException {
+			TimeResolvedExperimentParameters params = getModel().getParametersBeanFromCurrentSettings();
+			params.saveToFile(filename);
+		}
+
+		@Override
+		protected void loadParametersFromFile(String filename) throws Exception {
+			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
+			getModel().setupFromParametersBean(params);
+		}
+	}
+
+	/**
+	 * Add buttons to :
+	 * <li>Save current scan settings in gui to an xml file</li>
+	 * <li>Load settings from xml and update the gui</li>
+	 * @param parent parent composite
+	 * @since 7/4/2017
+	 */
+	private void addLoadSaveButtons(final Composite parent) {
+		SaveLoadButtonsForLinearExperiment saveLoadButtonsComposite = new SaveLoadButtonsForLinearExperiment(parent, toolkit);
+	}
+
+	private void createExperimentDetailsSection(Composite parent) {
+		SampleDetailsSection sampleDetailComp = new SampleDetailsSection(parent, toolkit);
+		sampleDetailComp.bindWidgetsToModel(getModel().getExperimentDataModel());
+
+		prefixText = sampleDetailComp.getPrefixTextbox();
+		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
+
+		useFastShutterCheckbox = toolkit.createButton(sampleDetailComp.getMainComposite(), "Use fast shutter", SWT.CHECK);
 		useFastShutterCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		//Sample stage motors
-
 		sampleMotorsComposite = new SampleStageMotorsComposite(parent, SWT.None, toolkit, true);
 	}
 

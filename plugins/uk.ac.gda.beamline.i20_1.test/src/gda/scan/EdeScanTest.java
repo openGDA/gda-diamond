@@ -35,9 +35,7 @@ import java.util.Map;
 
 import org.eclipse.dawnsci.hdf5.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf5.IHierarchicalDataFile;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusFile;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -45,6 +43,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.device.DeviceException;
 import gda.device.detector.StepScanEdeDetector;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.XhDetector;
@@ -60,10 +59,14 @@ import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.SingleSpectrumScan;
 import gda.scan.ede.TimeResolvedExperiment;
+import gda.scan.ede.TimeResolvedExperimentParameters;
 import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.ExplicitScanPositions;
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
+import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -126,7 +129,7 @@ public class EdeScanTest extends EdeTestBase {
 	public void testSingleSpectrumScan() throws Exception {
 		setup(EdeScanTest.class, "testSingleSpectrumScan");
 
-		SingleSpectrumScan theExperiment = new SingleSpectrumScan(0.001, 0.005, 1, inOutBeamMotors, inOutBeamMotors,
+		SingleSpectrumScan theExperiment = new SingleSpectrumScan(0.001, 1, 0.005, 1, inOutBeamMotors, inOutBeamMotors,
 				"xh", "topup", shutter.getName());
 
 		String sampleDetails = "Sample details - single spectrum scan";
@@ -277,13 +280,13 @@ public class EdeScanTest extends EdeTestBase {
 		groups.add(group1);
 
 		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
-				xh.getName(), topupMonitor.getName(), shutter.getName(), "");
+				xh.getName(), topupMonitor.getName(), shutter.getName());
 
 		String sampleDetails = "Sample details - linear experiment with motor move";
 		theExperiment.setSampleDetails(sampleDetails);
 
 		EdeScanMotorPositions itPos = theExperiment.getItScanPositions();
-		itPos.setMotorToMoveDuringScan(xScannable);
+		itPos.setScannableToMoveDuringScan(xScannable);
 		itPos.setMotorPositionsDuringScan(1, 5, 5);
 
 		// Check values of motor positions are correct
@@ -360,7 +363,7 @@ public class EdeScanTest extends EdeTestBase {
 		groups.add(group3);
 
 		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
-				xh.getName(), topupMonitor.getName(), shutter.getName(), "");
+				xh.getName(), topupMonitor.getName(), shutter.getName());
 		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
 		String filename = theExperiment.runExperiment();
 
@@ -384,9 +387,6 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	private void testNexusStructure(String nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
-		NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename);
-		// GroupNode g = file.getGroup("/entry1", false);
-
 		boolean checkForCycles = numberRepetitions>1;
 		if (numberRepetitions > 0){
 			// Scans with I0 measured before and after It
@@ -398,7 +398,6 @@ public class EdeScanTest extends EdeTestBase {
 			// numberRepetitions = 0 -> single spectrum scan (no final I0 measurement)
 			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
 		}
-		file.close();
 	}
 
 	private void assertLinearData(String nexusFilename, String groupName, int numberSpectra, boolean testForCycles) throws NexusException{
@@ -445,7 +444,7 @@ public class EdeScanTest extends EdeTestBase {
 		final int numberExpectedSpectra = getNumSpectra(groups);
 
 		CyclicExperiment theExperiment = new CyclicExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
-				"xh", "topup", shutter.getName(), numCycles, "");
+				"xh", "topup", shutter.getName(), numCycles);
 		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
 		String filename = theExperiment.runExperiment();
 //
@@ -497,4 +496,111 @@ public class EdeScanTest extends EdeTestBase {
 		}
 	}
 
+
+	private TFGTrigger getTfgTrigger() {
+		TFGTrigger triggerParams = new TFGTrigger();
+		// triggerParams.setDetector(xh);
+		triggerParams.getDetectorDataCollection().setTriggerDelay(0.1); // start time
+		triggerParams.getDetectorDataCollection().setTriggerPulseLength(0.001);
+		triggerParams.getDetectorDataCollection().setNumberOfFrames(5);
+		triggerParams.getDetectorDataCollection().setCollectionDuration(0.50688);
+		return triggerParams;
+	}
+
+	private TimeResolvedExperimentParameters getTimeResolvedExperimentParameters() throws DeviceException {
+		EdeScanParameters scanParams = new EdeScanParameters();
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(20);
+		group1.setTimePerScan(0.005);
+		group1.setTimePerFrame(0.02);
+		scanParams.addGroup(group1);
+
+		TFGTrigger tfgTrigger = getTfgTrigger();
+		TriggerableObject trigger1= tfgTrigger.createNewSampleEnvEntry( 0.0995, 2*1e-3, TriggerOutputPort.USR_OUT_2 );
+		tfgTrigger.getSampleEnvironment().add(trigger1);
+
+		LocalProperties.set("gda.nexus.createSRS", "true");
+
+		Map<String, Double> itPositionsMap = new HashMap<String, Double>();
+		itPositionsMap.put(xScannable.getName(), 10.12);
+		itPositionsMap.put(yScannable.getName(), 11.14);
+
+		Map<String, Double> i0PositionsMap = new HashMap<String, Double>();
+		i0PositionsMap.put(xScannable.getName(), 10.144);
+
+		EdeScanMotorPositions scanMotorPositions=new EdeScanMotorPositions(EdePositionType.INBEAM, itPositionsMap);
+		scanMotorPositions.setScannableToMoveDuringScan(yScannable);
+		scanMotorPositions.setMotorPositionsDuringScan(0,  10,  11);
+
+		TimeResolvedExperimentParameters allParams = new TimeResolvedExperimentParameters();
+		allParams.setFileNamePrefix("filename_prefix");
+		allParams.setSampleDetails("sample_details");
+		allParams.setI0AccumulationTime(1.11);
+		allParams.setI0NumAccumulations(17);
+		allParams.setItTimingGroups(scanParams.getGroups());
+		allParams.setItTriggerOptions(tfgTrigger);
+		allParams.setI0MotorPositions(i0PositionsMap);
+		allParams.setItMotorPositions(itPositionsMap);
+		allParams.setDetectorName(xh.getName());
+		allParams.setTopupMonitorName("topup");
+		allParams.setBeamShutterScannableName(shutter.getName());
+		allParams.setHideLemoFields(true);
+
+		return allParams;
+	}
+
+	@Test
+	public void testEdeScanIsSetCorrectlyFromParameters() throws Exception {
+		setup(EdeScanTest.class, "testEdeScanIsSetCorrectlyFromParameters");
+
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+
+		TimeResolvedExperiment tre = allParams.createTimeResolvedExperiment();
+
+		// Basic checks to make sure TimeResolvedExperiment has correct settings
+		assertEquals(tre.getI0ScanPositions().getPositionMap(), allParams.getI0MotorPositions() );
+		assertEquals(tre.getItScanPositions().getPositionMap(), allParams.getItMotorPositions() );
+		assertEquals(tre.getSampleDetails(), allParams.getSampleDetails());
+		assertEquals(tre.getFileNamePrefix(), allParams.getFileNamePrefix());
+		assertEquals(tre.getUseFastShutter(), allParams.getUseFastShutter());
+		assertEquals(tre.getFastShutterName(), allParams.getFastShutterName());
+
+		// Check the timing group
+		EdeScanParameters itScanParameters = tre.getItScanParameters();
+		assertEquals(itScanParameters.getGroups(), allParams.getItTimingGroups());
+		assertEquals(itScanParameters.getTotalNumberOfFrames(), allParams.getItTimingGroups().get(0).getNumberOfFrames());
+		assertEquals(tre.getItTriggerOptions(), allParams.getItTriggerOptions());
+	}
+
+	@Test
+	public void testTimeResolvedExperimentParametersSerializeOk() throws Exception {
+		setup(EdeScanTest.class, "testTimeResolvedExperimentParametersSerializeOk");
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		String origXmlString = allParams.toXML();
+
+		// Try to serialize and save to text file
+		String fname = "testTimeResolvedParameters.xml";
+		String dir = new File(testDir).getParent().toString();
+		String fullPathToFile = dir+"/"+fname;
+		allParams.saveToFile(fullPathToFile);
+
+		// Create new bean from xml file, compare with original
+		TimeResolvedExperimentParameters savedParams = TimeResolvedExperimentParameters.loadFromFile(fullPathToFile);
+		assertEquals(origXmlString, savedParams.toXML());
+	}
+
+	@Test
+	public void testEdeScanRunsFromParameters() throws Exception {
+		setup(EdeScanTest.class, "testEdeScanRunsFromParameters");
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
+		theExperiment.runExperiment();
+
+		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
+
+		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+	}
 }

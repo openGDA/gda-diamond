@@ -196,6 +196,7 @@ public class TurboXasParameters {
 	 */
 	static public XStream getXStream() {
 		XStream xstream = new XStream();
+		xstream.setClassLoader(TurboXasParameters.class.getClassLoader());
 		// Most of this can be done automatically from annotations in newer versions of XStream > 1.3...
 		Annotations.configureAliases(xstream,  TurboXasParameters.class );
 		Annotations.configureAliases(xstream,  TurboSlitTimingGroup.class );

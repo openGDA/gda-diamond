@@ -6,10 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 EDE offline">
+            name="GDA I20 EDE">
          <property
                name="appName"
-               value="GDA I20 EDE offline">
+               value="GDA I20 EDE">
          </property>
          <property
                name="aboutImage"
@@ -165,6 +165,13 @@
             name="Detector Temperatures"
             restorable="true">
       </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
+            class="uk.ac.gda.exafs.experiment.ui.TurboXasExperimentView"
+            id="uk.ac.gda.exafs.ui.views.turboXasExperimentView"
+            name="TurboXAS Experiment"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -178,6 +185,11 @@
             class="uk.ac.gda.exafs.ui.perspectives.ExperimentPerspective"
             id="uk.ac.gda.beamline.i20_1.ExperimentPerspective"
             name="EDE Experiment">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.exafs.ui.perspectives.TurboXasPerspective"
+            id="uk.ac.gda.beamline.i20_1.TurboXasPerspective"
+            name="TurboXAS experiment">
       </perspective>
    </extension>
    <extension point="org.eclipse.core.runtime.preferences">

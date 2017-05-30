@@ -70,14 +70,14 @@ public class FocusingView extends ViewPart {
 		form.getBody().setLayout(new TableWrapLayout());
 		toolkit.decorateFormHeading(form);
 		form.setText("Slits scan / Focusing");
-		SlitsScanSection slitsScanSection = new SlitsScanSection(form.getBody(), SWT.None);
-		slitsScanSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		//SlitsScanSection slitsScanSection = new SlitsScanSection(form.getBody(), SWT.None);
+		//slitsScanSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		DetectorROIsSection detectorROIsSection = new DetectorROIsSection(form.getBody(), SWT.None);
 		detectorROIsSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		try {
 			createFormSampleSection(form);
-			createFormBendSection(form);
-			createFormCurvatureSection(form);
+			//createFormBendSection(form);
+			//createFormCurvatureSection(form);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create scannable controls", e.getMessage());
 			logger.error("Unable to create scannable controls", e);

@@ -18,8 +18,13 @@
 
 package gda.scan.ede;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import gda.device.DeviceException;
 import gda.device.scannable.TopupChecker;
@@ -28,6 +33,10 @@ import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
+import gda.scan.ede.position.EdePositionType;
+import gda.scan.ede.position.EdeScanMotorPositions;
+import gda.scan.ede.position.EdeScanPosition;
+import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -48,32 +57,48 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	private double noOfSecPerSpectrumToPublish = DEFALT_NO_OF_SEC_PER_SPECTRUM_TO_PUBLISH;
 	private int totalNumberOfspectra;
 	private double totalTime;
+	private double i0accumulationTime;
 
 	public TimeResolvedExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, String itTriggerOptions) throws DeviceException {
-		super(itTimingGroups, itTriggerOptions, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
+			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+		super(itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
 				beamShutterScannableName);
+		this.i0accumulationTime = i0accumulationTime;
 		setDefaultI0Parameters(i0accumulationTime);
 		setupTimingGroups();
 	}
 
-	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
-			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, String itTriggerOptions) throws DeviceException {
-		this(i0accumulationTime, i0NoOfAccumulcation, EdeScanParameters.createEdeScanParameters(itTimingGroups),
-				i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
-				beamShutterScannableName,itTriggerOptions);
+	/**
+	 * Set number of accumulations for I0
+	 * @param numI0Accumulations
+	 * @throws DeviceException
+	 */
+	public void setNumberI0Accumulations(int numI0Accumulations) throws DeviceException {
+		List<TimingGroup> groups = i0ScanParameters.getGroups();
+		if (groups!=null && groups.size()>0) {
+			double accumulationTime = groups.get(0).getTimePerScan();
+			setCommonI0Parameters(accumulationTime, numI0Accumulations);
+		}
 	}
 
-	public TimeResolvedExperiment(double i0accumulationTime, int i0NoOfAccumulcation,
-			EdeScanParameters iTScanParameters, Map<String, Double> i0ScanableMotorPositions,
-			Map<String, Double> iTScanableMotorPositions, String detectorName, String topupMonitorName,
-			String beamShutterScannableName, String itTriggerOptions) throws DeviceException {
-		super(iTScanParameters, itTriggerOptions, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
-				beamShutterScannableName);
-		setCommonI0Parameters(i0accumulationTime, i0NoOfAccumulcation);
+	/**
+	 * Setup timing groups for It collection from list of groups (can be called after TimeREsolvedExperiment has been created)
+	 * @param timingGroups
+	 * @throws DeviceException
+	 */
+	public void setTimingGroups(List<TimingGroup> timingGroups) throws DeviceException {
+		itScanParameters = new EdeScanParameters();
+		itScanParameters.setTimingGroups(timingGroups);
+		setDefaultI0Parameters(i0accumulationTime);
 		setupTimingGroups();
+	}
+
+	private static Gson gson = new Gson();
+	public void setTimingGroups(String timingGroupsString) throws DeviceException {
+		Type listOfObjects = new TypeToken<List<TimingGroup>>(){}.getType();
+		List<TimingGroup> timingGroups = gson.fromJson(timingGroupsString, listOfObjects);
+		setTimingGroups(timingGroups);
 	}
 
 	private void setupTimingGroups() {
@@ -84,7 +109,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	@Override
 	protected boolean shouldPublishItScanData(EdeScanProgressBean progress) {
 		int current = 0;
-		List<TimingGroup> groups = itScans[0].getScanParameters().getTimingGroups();
+		List<TimingGroup> groups = itScans[0].getScanParameters().getGroups();
 		for (int i = 0; i < progress.getGroupNumOfThisSDP(); i++) {
 			current += groups.get(i).getNumberOfFrames();
 		}
@@ -265,6 +290,10 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		return numberOfRepetitions;
 	}
 
+	public void setRepetitions(int numberOfRepetitions) {
+		this.numberOfRepetitions = numberOfRepetitions;
+	}
+
 	@Override
 	protected EdeExperimentDataWriter createFileWritter() {
 		return new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
@@ -275,31 +304,6 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	protected boolean shouldRunItDark() {
 		return true; // TODO always true, so remove from the interface??
 	}
-
-	// These functions are now implemented in parent class (EdeExperiment)
-	//	@Override
-	//	protected double getTimeRequiredBeforeItCollection() {
-	//		//Time to move from current motor position to I0 position
-	//		double timeForI0Move = i0Position.getTimeToMove();
-	//		//Time to move from I0 to It position
-	//		double timeForItMove = ( (EdeScanMotorPositions) itPosition).getTimeToMove( (EdeScanMotorPositions)i0Position );
-	//		return itTriggerOptions.getTimePerSpectrum()*6 + timeForI0Move + timeForItMove;
-	//	}
-	//
-	//	@Override
-	//	protected double getTimeRequiredForItCollection() {
-	//		// itScanParameters.getTotalTime();
-	//		double totalTime = itScanParameters.getTotalNumberOfFrames();
-	//		return itTriggerOptions.getTotalTime() * numberOfRepetitions;
-	//	}
-
-	//	@Override
-	//	protected double getTimeRequiredAfterItCollection() {
-	//		// Time for move from It to I0 position
-	//		double timeForI0Move = ( (EdeScanMotorPositions) i0Position).getTimeToMove( (EdeScanMotorPositions)itPosition );
-	//
-	//		return itTriggerOptions.getTimePerSpectrum()*2 + timeForI0Move;
-	//	}
 
 	private int getCyclesForTopup() {
 		if (getTimeRequiredForItCollection() <= TOP_UP_TIME) {

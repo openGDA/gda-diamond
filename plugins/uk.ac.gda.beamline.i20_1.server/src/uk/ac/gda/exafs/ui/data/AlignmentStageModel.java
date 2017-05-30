@@ -18,9 +18,9 @@
 
 package uk.ac.gda.exafs.ui.data;
 
-import uk.ac.gda.beans.ObservableModel;
-
 import com.google.gson.annotations.Expose;
+
+import uk.ac.gda.beans.ObservableModel;
 
 public class AlignmentStageModel extends ObservableModel {
 	public static final AlignmentStageModel INSTANCE = new AlignmentStageModel();
@@ -59,6 +59,22 @@ public class AlignmentStageModel extends ObservableModel {
 	public static final String Y_SHUTTER_PROP_NAME = "yShutter";
 	@Expose
 	private double yShutter;
+
+	// Hole2
+	public static final String X_HOLE2_PROP_NAME = "xHole2";
+	@Expose
+	private double xHole2;
+	public static final String Y_HOLE2_PROP_NAME = "yHole2";
+	@Expose
+	private double yHole2;
+
+	// Laser
+	public static final String X_LASER_PROP_NAME = "xLaser";
+	@Expose
+	private double xLaser;
+	public static final String Y_LASER_PROP_NAME = "yLaser";
+	@Expose
+	private double yLaser;
 
 	public double getxXeye() {
 		return xXeye;
@@ -119,5 +135,29 @@ public class AlignmentStageModel extends ObservableModel {
 	}
 	public void setyShutter(double yShutter) {
 		this.yShutter = yShutter;
+	}
+	public double getxHole2() {
+		return xHole2;
+	}
+	public void setxHole2(double xHole2) {
+		this.xHole2 = xHole2;
+	}
+	public double getyHole2() {
+		return yHole2;
+	}
+	public void setyHole2(double yHole2) {
+		this.yHole2 = yHole2;
+	}
+	public double getxLaser() {
+		return xLaser;
+	}
+	public void setxLaser(double xLaser) {
+		this.xLaser = xLaser;
+	}
+	public double getyLaser() {
+		return yLaser;
+	}
+	public void setyLaser(double yLaser) {
+		this.yLaser = yLaser;
 	}
 }
