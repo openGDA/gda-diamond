@@ -35,6 +35,7 @@
 		<property name="scannableName" value="stage1_x" />
 		<property name="group" value="Stage Controls" />
 		<property name="increment" value="0.1" />
+		<property name="incrementTextWidth" value="60" />
 	</bean>
 
  	<bean id="stage1_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -42,6 +43,7 @@
 		<property name="scannableName" value="stage1_y" />
 		<property name="group" value="Stage Controls" />
 		<property name="increment" value="0.1" />
+		<property name="incrementTextWidth" value="60" />
 	</bean>
 
  	<bean id="stage1_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
@@ -49,6 +51,7 @@
 		<property name="scannableName" value="stage1_z" />
 		<property name="group" value="Stage Controls" />
 		<property name="increment" value="0.1" />
+		<property name="incrementTextWidth" value="60" />
 	</bean>
 
 	<!-- Overall control set -->
