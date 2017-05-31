@@ -273,6 +273,12 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	@Override
 	public void atScanEnd() {
+		try {
+			logger.info("Disarming Zebra at end of scan");
+			zebraDevice.pcDisarm();
+		} catch (Exception e) {
+			logger.error("Problem disarming zebra at scan end", e);
+		}
 		resetZebraArmConfigFlags();
 	}
 

@@ -7,6 +7,10 @@ run("roi_control.py")
 run("gdascripts/javajythonutil.py")
 run("shutter_functions.py")
 
+run("frelon_scan_runner.py")
+run("turboxas_scan_runner.py")
+
+
 das = finder.find("DAServer")
 das4tfg=finder.find("daserverForTfg")
 
@@ -18,6 +22,7 @@ def machineMode():
 # These scannables are checked before any scan data point
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
+    run("frelon-functions.py")
     # to speed up step scans
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
@@ -34,6 +39,9 @@ if LocalProperties.get("gda.mode") == "live":
     else:
         add_default([absorberChecker])
         add_default([shutterChecker])
+
+    resetFrelonToInternalTriggerMode();
+
 else:
     remove_default([absorberChecker])
 
@@ -46,8 +54,20 @@ from gda.data.scan.datawriter import NexusDataWriter
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 metashop = Finder.getInstance().find("metashop")
 
-# Misc. TurboXAS related beans 
+# Misc. TurboXAS related beans
 zebra_gatePulsePreparer=finder.find("zebra_gatePulsePreparer")
 zebra_device=finder.find("zebra_device")
 trajscan_preparer=finder.find("trajscan_preparer")
+
+print "Stopping tfg and setting it to use scaler64 collection mode"
+das4tfg.sendCommand("tfg stop")
+das4tfg.sendCommand("tfg setup-cc-mode scaler64");
+
+# Set turboslit positions to use when operating as a 'shutter'. imh 21/4/2017
+if LocalProperties.get("gda.mode") == "live":
+    setTurboSlitShutterPositions(0, 1)
+
+# Set name of shutter to be operated when collecting dark current on ionchambers. imh 21/4/2017
+LocalProperties.set("gda.exafs.darkcurrent.shutter", turbo_slit_shutter.getName())
+
 

@@ -46,6 +46,9 @@
 	<bean id="samenv_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-MO-TABLE-04:ROLL" />
 	</bean>
+	<bean id="samenv_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-TABLE-04:YAW" />
+	</bean>
 
 	<bean id="sample_x_motor" class="gda.device.motor.DummyMotor"/>
 <!-- 	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor"> -->

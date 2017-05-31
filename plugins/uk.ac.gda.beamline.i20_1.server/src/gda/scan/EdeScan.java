@@ -300,7 +300,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		if (motorPositions instanceof EdeScanMotorPositions) {
 			EdeScanMotorPositions scanMotorPositions = (EdeScanMotorPositions)motorPositions;
 			List<Double> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
-			motorToMoveDuringScan = scanMotorPositions.getMotorToMoveDuringScan();
+			motorToMoveDuringScan = scanMotorPositions.getScannableToMoveDuringScan();
 			boolean lightItScan = scanType == EdeScanType.LIGHT && motorPositions.getType() == EdePositionType.INBEAM;
 
 			if (lightItScan && motorToMoveDuringScan !=null && motorPositionsToScan != null && motorPositionsToScan.size()>0) {

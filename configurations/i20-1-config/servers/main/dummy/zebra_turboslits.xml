@@ -13,7 +13,12 @@
 
 <!-- Turbo slit x motor   -->
 	<bean id="turbo_slit_x_motor" class="gda.device.motor.DummyMotor" />
-
+	
+<!-- 	shutter using turbo slit. imh 21/4/2017-->
+	<bean id="turbo_slit_shutter" class="gda.device.enumpositioner.DummyPositioner">
+		<property name="name" value="turbo_slit_shutter" />
+	</bean>
+	
 	<bean id="turbo_slit_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="turbo_slit_x_motor" />
 		<property name="initialUserUnits" value="mm" />
@@ -60,7 +65,7 @@
 	<bean id="scaler_for_zebra" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
-				<value>time</value>
+				<value>frame_time</value>
 				<value>I0</value>
 				<value>It</value>
 				<value>FF</value>
@@ -73,7 +78,7 @@
 		<property name="timer" ref="tfg" />
 		<property name="daserver" ref="daserverForTfg" />
 		<property name="ttlSocket" value="2" />
-		
+
 		<property name="timeChannelRequired" value="true" />
 		<property name="darkCurrentRequired" value="false" />
 <!-- 		<property name="outputLogValues" value="true" /> -->

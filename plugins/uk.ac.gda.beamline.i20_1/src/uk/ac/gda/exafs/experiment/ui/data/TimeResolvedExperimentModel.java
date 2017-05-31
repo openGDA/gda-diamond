@@ -45,17 +45,18 @@ import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
+import gda.device.DeviceException;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.Jython;
-import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
 import gda.jython.scriptcontroller.Scriptcontroller;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
 import gda.scan.ede.TimeResolvedExperiment;
+import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.client.UIHelper;
@@ -201,18 +202,145 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return topupTimes;
 	}
 
-	private void loadSavedGroups() {
+	/**
+	 * Create a new TimeResolvedExperimentParameters object from the current gui settings.
+	 * @return TimeResolvedExperimentParameters object
+	 * @throws DeviceException
+	 */
+	public TimeResolvedExperimentParameters getParametersBeanFromCurrentSettings() throws DeviceException {
+		TimeResolvedExperimentParameters params = new TimeResolvedExperimentParameters();
+		params.setI0AccumulationTime(unit.getWorkingUnit().convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC));
+		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
+			params.setI0NumAccumulations(experimentDataModel.getI0NumberOfAccumulations());
+		}
+		params.setItTimingGroups(getTimingGroupList());
+		params.setI0MotorPositions(SampleStageMotors.INSTANCE.getSelectedMotorsMap(ExperimentMotorPostionType.I0));
+		params.setItMotorPositions(SampleStageMotors.INSTANCE.getSelectedMotorsMap(ExperimentMotorPostionType.It));
+		params.setDetectorName(DetectorModel.INSTANCE.getCurrentDetector().getName());
+		params.setTopupMonitorName(DetectorModel.TOPUP_CHECKER);
+		params.setBeamShutterScannableName(DetectorModel.SHUTTER_NAME);
+		params.setItTriggerOptions(externalTriggerSetting.getTfgTrigger());
 
-		TFGTrigger savedExternalTriggerSetting = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
-		if (savedExternalTriggerSetting == null) {
-			savedExternalTriggerSetting = new TFGTrigger();
+		params.setDoIref(SampleStageMotors.INSTANCE.isUseIref());
+		if (params.getDoIref()) {
+			params.setiRefMotorPositions(SampleStageMotors.INSTANCE.getSelectedMotorsMap(ExperimentMotorPostionType.IRef));
+
+			if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
+				params.setI0ForIRefNoOfAccumulations(experimentDataModel.getI0NumberOfAccumulations());
+			} else {
+				params.setI0ForIRefNoOfAccumulations(experimentDataModel.getIrefNoOfAccumulations());
+			}
+			params.setIrefIntegrationTime(unit.getWorkingUnit().convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC));
+			params.setIrefNoOfAccumulations(experimentDataModel.getIrefNoOfAccumulations());
+		}
+
+		params.setFileNamePrefix(experimentDataModel.getFileNamePrefix());
+		params.setSampleDetails(experimentDataModel.getSampleDetails());
+		params.setUseFastShutter(getUseFastShutter());
+		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
+
+		return params;
+	}
+
+
+	/** Set current experiment model from TimeResolvedExperimentParameters object.
+	 * This updates the gui as well from property change events fired during the model update.
+	 * @param params
+	 */
+	public void setupFromParametersBean(TimeResolvedExperimentParameters params) {
+		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
+		experimentDataModel.setSampleDetails(params.getSampleDetails());
+		setUseFastShutter(params.getUseFastShutter());
+
+		setupExternalTriggerSettings(params.getItTriggerOptions());
+
+		double i0Time = ExperimentUnit.SEC.convertTo(params.getI0AccumulationTime(), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF);
+		experimentDataModel.setI0IntegrationTime(i0Time);
+		if (params.getI0NumAccumulations()>0) {
+			experimentDataModel.setI0NumberOfAccumulations(params.getI0NumAccumulations());
+			experimentDataModel.setUseNoOfAccumulationsForI0(true);
+		} else {
+			experimentDataModel.setUseNoOfAccumulationsForI0(false);
+		}
+
+		// IRef num accumulations, integration time
+		if (params.getDoIref()) {
+			double irefTime = ExperimentUnit.SEC.convertTo(params.getIrefIntegrationTime(), ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF);
+			experimentDataModel.setIrefIntegrationTime(irefTime);
+			experimentDataModel.setIrefNoOfAccumulations(params.getIrefNoOfAccumulations());
+		}
+
+		ExperimentMotorPostion[] pos = SampleStageMotors.INSTANCE.setupExperimentMotorTargetPositions(params);
+		SampleStageMotors.INSTANCE.setSelectedMotors(pos);
+		SampleStageMotors.INSTANCE.setUseIref(params.getDoIref());
+
+		setTimingGroupUIModelFromList(params.getItTimingGroups());
+	}
+
+	/**
+	 * Create TiminGroupUI list used for UI setup from a list of TimingGroups
+	 * @param timingGroupList List<TimingGroup>
+	 */
+	protected void setTimingGroupUIModelFromList(List<TimingGroup> timingGroupList) {
+		// Don't clear all groups, (i.e. groupsList.clear()) since gui updates to reflect this (via listeners), and all the controls disappear.
+		// And they don't come back after list has been updated...
+
+		// Remove all but one of the ui timing groups.
+		while(groupList.size()>1) {
+			// indices of elements are reduced by 1 after removing 0th element, so just keep removing the first one to clear the list...
+			removeFromInternalGroupList((TimingGroupUIModel)groupList.get(0));
+		}
+
+		double startTime = 0;
+		double endTime = 0;
+		boolean firstGroup = true;
+		for (TimingGroup timingGroup : timingGroupList) {
+			TimingGroupUIModel uiTimingGroup =  null;
+			if (firstGroup) {
+				// Re-use first timing group
+				uiTimingGroup = (TimingGroupUIModel)groupList.get(0);
+			} else {
+				// Create new timing group
+				uiTimingGroup = new TimingGroupUIModel(spectraRowModel, unit.getWorkingUnit(), this);
+			}
+
+			uiTimingGroup.setName(timingGroup.getLabel());
+			uiTimingGroup.setUseExternalTrigger(timingGroup.isGroupTrig());
+			uiTimingGroup.setExternalTriggerAvailable(timingGroup.isGroupTrig());
+			uiTimingGroup.setNumberOfSpectrum(timingGroup.getNumberOfFrames());
+			uiTimingGroup.setNoOfAccumulations(timingGroup.getNumberOfScansPerFrame());
+			// Conversion factor to go from seconds to default experiment units (nano seconds) (i.e. 1e9)
+			double convertSecWorkingUnit = ExperimentUnit.SEC.convertTo(1.0, ExperimentUnit.DEFAULT_EXPERIMENT_UNIT);
+			uiTimingGroup.setTimePerSpectrum(convertSecWorkingUnit*timingGroup.getTimePerFrame());
+			uiTimingGroup.setIntegrationTime(convertSecWorkingUnit*timingGroup.getTimePerScan());
+			uiTimingGroup.setDelay(convertSecWorkingUnit*timingGroup.getPreceedingTimeDelay());
+			uiTimingGroup.setUseTopupChecker(timingGroup.getUseTopChecker());
+			startTime = endTime;
+			// endtime, including delay at end of group
+			endTime = startTime + convertSecWorkingUnit*(timingGroup.getTimePerFrame()*timingGroup.getNumberOfFrames() + timingGroup.getPreceedingTimeDelay());
+			uiTimingGroup.resetInitialTime(startTime, endTime-startTime, timingGroup.getPreceedingTimeDelay(), convertSecWorkingUnit*timingGroup.getTimePerFrame());
+
+			// enable external trigger button for first group only
+			uiTimingGroup.setExternalTriggerAvailable(firstGroup);
+
+			if (!firstGroup) {
+				uiTimingGroup.setExternalTriggerAvailable(false);
+				addToInternalGroupList(uiTimingGroup);
+			}
+			firstGroup = false;
+		}
+	}
+
+	private void setupExternalTriggerSettings(TFGTrigger tfgTrigger) {
+		if (tfgTrigger == null) {
+			tfgTrigger = new TFGTrigger();
 			try {
-				savedExternalTriggerSetting.getSampleEnvironment().add(savedExternalTriggerSetting.createNewSampleEnvEntry());
+				tfgTrigger.getSampleEnvironment().add(tfgTrigger.createNewSampleEnvEntry());
 			} catch (Exception e) {
 				logger.error("Unable to create sample environment entry", e);
 			}
 		}
-		externalTriggerSetting = new ExternalTriggerSetting(savedExternalTriggerSetting);
+		externalTriggerSetting = new ExternalTriggerSetting(tfgTrigger);
 
 		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(TFGTrigger.TOTAL_TIME_PROP_NAME, new PropertyChangeListener() {
 			@Override
@@ -220,6 +348,12 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				TimeResolvedExperimentModel.this.firePropertyChange(TOTAL_IT_COLLECTION_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
 			}
 		});
+	}
+
+	private void loadSavedGroups() {
+
+		TFGTrigger savedExternalTriggerSetting = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(EXTERNAL_TRIGGER_DETAILS, TFGTrigger.class);
+		setupExternalTriggerSettings(savedExternalTriggerSetting);
 
 		TimingGroupUIModel[] savedGroups = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getDataStoreKey(), TimingGroupUIModel[].class);
 		ExperimentDataModel savedExperimentDataModel = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getI0IRefDataKey(), ExperimentDataModel.class);
@@ -390,41 +524,80 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	protected String buildScanCommand() {
 		StringBuilder builder = new StringBuilder("from gda.scan.ede import TimeResolvedExperiment;");
 		// use %g format rather than %f for I0 and It integration times to avoid rounding to 0 for small values <1msec (i.e. requiring >6 decimal places). imh 7/12/2015
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%g ",
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%g",
 				ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)) );
-		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
-			builder.append(String.format(", %d", this.getExperimentDataModel().getI0NumberOfAccumulations()));
-		}
-		/*if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
-			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f, %d",
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC),
-					this.getExperimentDataModel().getI0NumberOfAccumulations()));
-		} else {
-			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + " = TimeResolvedExperiment(%f",
-					ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getI0IntegrationTime(), ExperimentUnit.SEC)));
-		}*/
-		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\", \'%s\');",
-				TIMING_GROUPS_OBJ_NAME,
+
+		builder.append(String.format(", %s, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\");\n",
+				"None",
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
 				DetectorModel.INSTANCE.getCurrentDetector().getName(),
 				DetectorModel.TOPUP_CHECKER,
-				DetectorModel.SHUTTER_NAME,
-				gson.toJson(externalTriggerSetting.getTfgTrigger())));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);", this.getNoOfSecPerSpectrumToPublish()));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");", this.getExperimentDataModel().getFileNamePrefix()));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");", this.getExperimentDataModel().getSampleDetails()));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setUseFastShutter(%s);", getUseFastShutter() ? "True" : "False" ) );
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFastShutterName(\"%s\");", DetectorModel.FAST_SHUTTER_NAME ) );
+				DetectorModel.SHUTTER_NAME));
 
-		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
-		}
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);\n", this.getNoOfSecPerSpectrumToPublish()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");\n", this.getExperimentDataModel().getFileNamePrefix()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");\n", this.getExperimentDataModel().getSampleDetails()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setUseFastShutter(%s);\n", getUseFastShutter() ? "True" : "False" ) );
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFastShutterName(\"%s\");\n", DetectorModel.FAST_SHUTTER_NAME ) );
+
+		// Add timing groups
+		addTimingGroupsMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+
+		// Add I0 accumulations
+		addI0AccumulationMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+
+		// Add external Tfg command
+		addItTriggerMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+
+		// Add Iref commands
+		addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+
 		builder.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
 	}
 
+	/**
+	 * Add call to set timing groups to command string
+	 * @param expObject
+	 * @param builder
+	 */
+	protected void addTimingGroupsMethodCallToCommand(String expObject, StringBuilder builder) {
+		// Setup timing groups
+		List<TimingGroup> groups = getTimingGroupList();
+		builder.append(expObject+".setTimingGroups(\'"+gson.toJson(groups)+"\');\n");
+	}
+
+	/**
+	 * Add call to set number of I0 accumulations to command string
+	 * @param expObject
+	 * @param builder
+	 */
+	protected void addI0AccumulationMethodCallToCommand(String expObject, StringBuilder builder) {
+		// Set number of I0 accumulations (if different from It accumulations)
+		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
+			builder.append(String.format(expObject + ".setNumberI0Accumulations(%d);\n", this.getExperimentDataModel().getI0NumberOfAccumulations()));
+		}
+	}
+
+	/**
+	 * Add call to set number Tfg trigger options to command string
+	 * @param expObject
+	 * @param builder
+	 */
+	protected void addItTriggerMethodCallToCommand(String expObject, StringBuilder builder) {
+		// Set number of I0 accumulations (if different from It accumulations)
+		if (this.getTimingGroupList().get(0).isGroupTrig()) {
+			String tfgTriggerString = gson.toJson(externalTriggerSetting.getTfgTrigger());
+			builder.append(String.format(expObject + ".setItTriggerOptions(\'%s\');\n", tfgTriggerString));
+		}
+	}
+
 	protected void addIRefMethodCallStrToCommand(String linearExperimentObj, StringBuilder builder) {
+		if (!SampleStageMotors.INSTANCE.isUseIref()) {
+			return;
+		}
+
 		int i0ForIRefNoOfAccumulations;
 		int irefNoOfAccumulations = this.getExperimentDataModel().getIrefNoOfAccumulations();
 		if (this.getExperimentDataModel().isUseNoOfAccumulationsForI0()) {
@@ -433,13 +606,51 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			i0ForIRefNoOfAccumulations = irefNoOfAccumulations;
 		}
 		double irefIntegrationTime = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT_FOR_I0_IREF.convertTo(this.getExperimentDataModel().getIrefIntegrationTime(), ExperimentUnit.SEC);
-		builder.append(String.format(linearExperimentObj + ".setIRefParameters(mapToJava(%s), mapToJava(%s), %g, %d, %g, %d);",
+		builder.append(String.format(linearExperimentObj + ".setIRefParameters(mapToJava(%s), mapToJava(%s), %g, %d, %g, %d);\n",
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
 				SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
 				irefIntegrationTime,
 				i0ForIRefNoOfAccumulations,
 				irefIntegrationTime,
 				irefNoOfAccumulations));
+	}
+
+	/**
+	 * Create list of timing groups from UI settings.
+	 * (Refactored from ScanJob class)
+	 * @since 10/3/2017
+	 */
+	protected List<TimingGroup> getTimingGroupList() {
+		final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
+
+		for (Object object : groupList) {
+			TimingGroupUIModel uiTimingGroup = (TimingGroupUIModel) object;
+			TimingGroup timingGroup = new TimingGroup();
+			timingGroup.setLabel(uiTimingGroup.getName());
+			timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
+			timingGroup.setNumberOfScansPerFrame(uiTimingGroup.getNoOfAccumulations());
+			timingGroup.setTimePerFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getTimePerSpectrum(), ExperimentUnit.SEC)); // convert to S
+			// integration time is always in milli sec
+			timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
+			timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
+			timingGroup.setGroupTrig(uiTimingGroup.isUseExternalTrigger());
+			timingGroup.setUseTopupChecker(uiTimingGroup.getUseTopupChecker());
+			// Set up lemo outs
+			setupLemoOuts(timingGroup);
+			timingGroups.add(timingGroup);
+		}
+		return timingGroups;
+	}
+
+	protected void setupLemoOuts(TimingGroup timingGroup) {
+		timingGroup.setOutLemo0(true);
+		timingGroup.setOutLemo1(true);
+		timingGroup.setOutLemo2(true);
+		timingGroup.setOutLemo3(true);
+		timingGroup.setOutLemo4(true);
+		timingGroup.setOutLemo5(true);
+		timingGroup.setOutLemo6(true);
+		timingGroup.setOutLemo7(true);
 	}
 
 	private class ScanJob extends Job implements IObserver {
@@ -518,31 +729,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			progressReportingJob.setUser(false);
 			currentNormalisedItData = null;
 			currentEnergyData = null;
-			//			TimeResolvedExperimentModel.this.setScanning(true);
 			try {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
-						// FIXME This scanning method needs to be improved
-						final Vector<TimingGroup> timingGroups = new Vector<TimingGroup>();
-
-						for (Object object : groupList) {
-							TimingGroupUIModel uiTimingGroup = (TimingGroupUIModel) object;
-							TimingGroup timingGroup = new TimingGroup();
-							timingGroup.setLabel(uiTimingGroup.getName());
-							timingGroup.setNumberOfFrames(uiTimingGroup.getNumberOfSpectrum());
-							timingGroup.setNumberOfScansPerFrame(uiTimingGroup.getNoOfAccumulations());
-							timingGroup.setTimePerFrame(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getTimePerSpectrum(), ExperimentUnit.SEC)); // convert to S
-							// integration time is always in milli sec
-							timingGroup.setTimePerScan(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getIntegrationTime(), ExperimentUnit.SEC)); // convert to S
-							timingGroup.setPreceedingTimeDelay(ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(uiTimingGroup.getDelay(), ExperimentUnit.SEC)); // convert to S
-							timingGroup.setGroupTrig(uiTimingGroup.isUseExternalTrigger());
-							timingGroup.setUseTopupChecker(uiTimingGroup.getUseTopupChecker());
-							// Set up lemo outs
-							setupLemoOuts(timingGroup);
-							timingGroups.add(timingGroup);
-						}
-						InterfaceProvider.getJythonNamespace().placeInJythonNamespace(TIMING_GROUPS_OBJ_NAME, timingGroups);
 						String scanCommand = buildScanCommand();
 						logger.info("Sending command: " + scanCommand);
 						InterfaceProvider.getCommandRunner().runCommand(scanCommand);
@@ -553,20 +743,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				UIHelper.showWarning("Scanning has stopped", e.getMessage());
 			} finally {
 				monitor.done();
-				//				TimeResolvedExperimentModel.this.setScanning(false);
 			}
 			return Status.OK_STATUS;
-		}
-
-		protected void setupLemoOuts(TimingGroup timingGroup) {
-			timingGroup.setOutLemo0(true);
-			timingGroup.setOutLemo1(true);
-			timingGroup.setOutLemo2(true);
-			timingGroup.setOutLemo3(true);
-			timingGroup.setOutLemo4(true);
-			timingGroup.setOutLemo5(true);
-			timingGroup.setOutLemo6(true);
-			timingGroup.setOutLemo7(true);
 		}
 
 		@Override

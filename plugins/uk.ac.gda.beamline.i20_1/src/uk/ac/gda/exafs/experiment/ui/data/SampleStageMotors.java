@@ -18,6 +18,13 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import gda.scan.ede.TimeResolvedExperimentParameters;
+import gda.scan.ede.position.EdeScanMotorPositions;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.data.ScannableSetup;
 
@@ -76,6 +83,28 @@ public class SampleStageMotors extends ObservableModel {
 		this.firePropertyChange(USE_IREF_PROP_NAME, this.useIref, this.useIref = useIref);
 	}
 
+
+	/**
+	 * Return map of motor name, position for specified motor position type.
+	 * @param type
+	 * @return map of motorname and position
+	 */
+	public Map<String,Double> getSelectedMotorsMap(ExperimentMotorPostionType type) {
+		Map<String,Double> map = new HashMap<String,Double>();
+		for (int i=0; i < selectedMotors.length; i++) {
+			double positionValue;
+			if (type == ExperimentMotorPostionType.I0) {
+				positionValue = selectedMotors[i].getTargetI0Position();
+			} else if (type == ExperimentMotorPostionType.It) {
+				positionValue = selectedMotors[i].getTargetItPosition();
+			} else {
+				positionValue = selectedMotors[i].getTargetIrefPosition();
+			}
+			map.put( selectedMotors[i].getScannableSetup().getScannableName(), positionValue);
+		}
+		return map;
+	}
+
 	public String getFormattedSelectedPositions(ExperimentMotorPostionType type) {
 		StringBuilder position = new StringBuilder();
 		position.append("{");
@@ -97,5 +126,60 @@ public class SampleStageMotors extends ObservableModel {
 		position.append("}");
 		return position.toString();
 	}
-}
 
+	/**
+	 * Get motor position object from available SampleStageMotors that matches given motor name
+	 * @param motorName
+	 * @return ExperimentMotorPostion object from sample stage scannables whose name matches motorName
+	 */
+	public ExperimentMotorPostion getMotorPositionForName(String motorName) {
+		for (ExperimentMotorPostion expMotorPos : SampleStageMotors.scannables) {
+			if(expMotorPos.getScannableSetup().getScannableName().equals(motorName)) {
+				return expMotorPos;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Return array of ExperimentMotorPositions from map of i0, it, iref motor positions stored in
+	 * a {@link TimeResolvedExperimentParameters} object.
+	 * @param params TimeResolvedExperimentParameters
+	 * @return ExperimentMotorPositions[]
+	 */
+	public ExperimentMotorPostion[] setupExperimentMotorTargetPositions(TimeResolvedExperimentParameters params) {
+		Map<String, Double> i0PositionMap = ((EdeScanMotorPositions)params.getI0ScanPosition()).getPositionMap();
+		Map<String, Double> itPositionMap = ((EdeScanMotorPositions)params.getItScanPosition()).getPositionMap();
+
+		boolean useIref = params.getDoIref();
+		Map<String, Double> irefPositionMap = null;
+		if (useIref) {
+			irefPositionMap = ((EdeScanMotorPositions)params.getiRefScanPosition()).getPositionMap();
+		}
+		if (i0PositionMap==null || itPositionMap==null || (useIref && irefPositionMap==null)) {
+			return new ExperimentMotorPostion[0];
+		}
+
+		List<ExperimentMotorPostion> expMotorPosList = new ArrayList<ExperimentMotorPostion>();
+		for(String motorName : i0PositionMap.keySet()) {
+			Double i0Pos = i0PositionMap.get(motorName);
+			Double itPos = itPositionMap.get(motorName);
+
+			ExperimentMotorPostion expMotorPosition = getMotorPositionForName(motorName);
+			if (expMotorPosition==null) {
+				continue;
+			}
+
+			expMotorPosition.setTargetI0Position(i0Pos);
+			expMotorPosition.setTargetItPosition(itPos);
+
+			if (useIref) {
+				Double iRef = irefPositionMap.get(motorName);
+				expMotorPosition.setTargetIrefPosition(iRef);
+			}
+			expMotorPosList.add(expMotorPosition);
+		}
+		ExperimentMotorPostion[] motorPositions = expMotorPosList.toArray(new ExperimentMotorPostion[expMotorPosList.size()]);
+		return motorPositions;
+	}
+}

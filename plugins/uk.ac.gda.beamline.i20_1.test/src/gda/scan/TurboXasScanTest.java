@@ -66,7 +66,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		bufferedScaler.setTFGv2(true);
 		bufferedScaler.setOutputLogValues(false);
 		bufferedScaler.setTimeChannelRequired(true);
-		bufferedScaler.setExtraNames(new String[] { "time", "I0", "It", "Iref" });
+		bufferedScaler.setExtraNames(new String[] { "frame_time", "I0", "It", "Iref" });
 		bufferedScaler.setFirstDataChannel(0);
 		bufferedScaler.setNumChannelsToRead(3);
 		bufferedScaler.setOutputFormat(new String[] { "%.5g", "%.5g", "%.5g", "%.5g", "%.5g" });
@@ -155,10 +155,12 @@ public class TurboXasScanTest extends EdeTestBase {
 			checkDataValidRange(nxsFile, bufferedScaler.getName(), name, new RangeValidator(0, 1, true, false) );
 		}
 		// Test frame index and energy datasets
-		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_index", new int[]{numPointsPerSpectrum});
 		assertDimensions(nxsFile, bufferedScaler.getName(), "energy", new int[]{numPointsPerSpectrum});
 		assertDimensions(nxsFile, bufferedScaler.getName(), "position", new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_index", new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_time", new int[]{numSpectra, numPointsPerSpectrum});
 		assertDimensions(nxsFile, bufferedScaler.getName(), "time_between_spectra", new int[]{numSpectra});
+		assertDimensions(nxsFile, bufferedScaler.getName(), "time", new int[]{numSpectra});
 	}
 
 	@Test

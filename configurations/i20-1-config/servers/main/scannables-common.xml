@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="alignment_stage" class="gda.device.scannable.AlignmentStageScannable">
@@ -14,13 +14,13 @@
 		<property name="scannableToBeMonitored" ref="topup" />
 		<property name="tolerance" value="10" />
 		<property name="timeout" value="30" />
-		<property name="waittime" value="10" />
+		<property name="waittime" value="5" />
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
 		<property name="local" value="true"/>
 		<property name="machineModeMonitor" ref="machineModeMonitor" />
 	</bean>
-	
+
 	<bean id="absorberChecker" class="gda.device.scannable.CheckingScannable">
 		<property name="scannable" ref="absorber" />
 		<property name="value" value="Open" />
@@ -28,14 +28,14 @@
 		<property name="pauseBeforePoint" value="true" />
 		<property name="local" value="true" />
 		<property name="machineModeMonitor" ref="machineModeMonitor" />
-		
+
 	</bean>
-	
+
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/alignment_stage" />
 		<property name="service" ref="alignment_stage" />
 		<property name="serviceInterface" value="gda.device.scannable.AlignmentStage" />
-	</bean>  
+	</bean>
 
 	<import resource="simpleScannables.xml"/>
 </beans>

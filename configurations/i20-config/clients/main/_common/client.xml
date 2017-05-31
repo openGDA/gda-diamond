@@ -101,19 +101,9 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
 
-	<bean id="ionc1_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/ionc1_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="ionc2_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/ionc2_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="ionc3_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/ionc3_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
+	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/detectorMonitorDataProvider" />
+		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 

@@ -18,10 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import gda.device.scannable.AlignmentStageScannable;
-import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
-import gda.device.scannable.AlignmentStageScannable.Location;
-
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -47,6 +43,9 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.scannable.AlignmentStageScannable;
+import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
+import gda.device.scannable.AlignmentStageScannable.Location;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.calibration.ui.EDECalibrationSection;
 import uk.ac.gda.exafs.data.ClientConfig;
@@ -88,14 +87,8 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 		toolkit.decorateFormHeading(form);
 		form.setText("Single spectrum / E calibration");
 		Composite formParent = form.getBody();
-		final Composite stageSelectionComposite = toolkit.createComposite(form.getHead());
-		stageSelectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-		switchWithSamplePositionButton = toolkit.createButton(stageSelectionComposite, "Use alignment stage for sample positions", SWT.CHECK);
-		switchWithSamplePositionButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		form.setHeadClient(stageSelectionComposite);
 
 		try {
-			createRunCollectionButtons(formParent);
 			createSampleStageSections(formParent);
 			createAlignmentSections(formParent);
 			setupScannables();
@@ -104,6 +97,7 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 			createSampleDetailsSection(formParent);
 			EDECalibrationSection eDECalibrationSection = new EDECalibrationSection(formParent, SWT.None);
 			eDECalibrationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			SingleSpectrumCollectionView.createStartStopScanSection(formParent, toolkit, null, null);
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
@@ -111,7 +105,7 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 	}
 
 	private void createSampleDetailsSection(Composite formParent) {
-		final Section sampleDetailsSection = toolkit.createSection(formParent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		final Section sampleDetailsSection = toolkit.createSection(formParent, ExpandableComposite.NO_TITLE);
 		sampleDetailsSection.setText("File");
 		sampleDetailsSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		Composite sectionComposite = toolkit.createComposite(sampleDetailsSection, SWT.NONE);
@@ -121,7 +115,7 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 
 		Label fileNameLabel = toolkit.createLabel(sectionComposite, "File name: ");
 		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		Text fileNameText = toolkit.createText(sectionComposite, "", SWT.None);
+		Text fileNameText = toolkit.createText(sectionComposite, "", SWT.BORDER);
 		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		fileNameText.setEditable(false);
 
@@ -138,16 +132,6 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 						return "";
 					}
 				});
-	}
-
-	private void createRunCollectionButtons(Composite formParent) {
-		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
-		Composite acquisitionButtonsComposite = toolkit.createComposite(formParent, SWT.NONE);
-		acquisitionButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		acquisitionButtonsComposite.setLayout(new GridLayout(2, true));
-		toolkit.paintBordersFor(acquisitionButtonsComposite);
-
-		SingleSpectrumCollectionView.addCollectionControls( acquisitionButtonsComposite, toolkit, null, null );
 	}
 
 	private void setupScannables() {
@@ -242,6 +226,11 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 	}
 
 	private void createSampleStageSections(Composite body) {
+		final Composite stageSelectionComposite = toolkit.createComposite(body);
+		stageSelectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+		switchWithSamplePositionButton = toolkit.createButton(stageSelectionComposite, "Use alignment stage for sample positions", SWT.CHECK);
+		switchWithSamplePositionButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+
 		sampleStageSectionsParent = new SampleStageMotorsComposite(body, SWT.None, toolkit);
 	}
 

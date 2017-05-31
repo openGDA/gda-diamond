@@ -124,7 +124,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	private Monitor topup;
 
-	protected final TFGTrigger itTriggerOptions;
+	protected TFGTrigger itTriggerOptions;
 
 	private static Gson gson = new Gson();
 
@@ -132,28 +132,37 @@ public abstract class EdeExperiment implements IObserver {
 	protected String fastShutterName;
 	protected Scannable fastShutter;
 
-	public EdeExperiment(List<TimingGroup> itTimingGroups, String itTriggerOptions,
+	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
-		this.itTriggerOptions = gson.fromJson(itTriggerOptions, TFGTrigger.class);
 		itScanParameters = new EdeScanParameters();
-		itScanParameters.setGroups(itTimingGroups);
-		setupExperiment(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
-				beamShutterScannableName);
+		itScanParameters.setTimingGroups(itTimingGroups);
+		this.itTriggerOptions = null;
+
+		i0Position = this.setPosition(EdePositionType.OUTBEAM, i0ScanableMotorPositions);
+		itPosition = this.setPosition(EdePositionType.INBEAM, iTScanableMotorPositions);
+
+		setupExperiment(detectorName, topupMonitorName, beamShutterScannableName);
 
 		useFastShutter = false;
 		fastShutter = null;
 	}
 
-	public EdeExperiment(EdeScanParameters itScanParameters, String itTriggerOptions,
-			Map<String, Double> i0ScanableMotorPositions,
-			Map<String, Double> iTScanableMotorPositions,
+	public EdeExperiment(EdeScanParameters itScanParameters, TFGTrigger itTriggerOptions,
+			EdeScanPosition i0ScanableMotorPositions,
+			EdeScanPosition iTScanableMotorPositions,
 			String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
+		this.itTriggerOptions = itTriggerOptions;
 		this.itScanParameters = itScanParameters;
-		this.itTriggerOptions = gson.fromJson(itTriggerOptions, TFGTrigger.class);
-		setupExperiment(i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
-				beamShutterScannableName);
+
+		i0Position = i0ScanableMotorPositions;
+		itPosition = iTScanableMotorPositions;
+
+		setupExperiment(detectorName, topupMonitorName, beamShutterScannableName);
+
+		useFastShutter = false;
+		fastShutter = null;
 	}
 
 	public void setIRefParameters(Map<String, Double> i0ForIRefScanableMotorPositions, Map<String, Double> iRefScanableMotorPositions,
@@ -182,11 +191,7 @@ public abstract class EdeExperiment implements IObserver {
 		runIRef = true;
 	}
 
-	private void setupExperiment(Map<String, Double> i0ScanableMotorPositions,
-			Map<String, Double> iTScanableMotorPositions, String detectorName, String topupMonitorName,
-			String beamShutterScannableName) throws DeviceException {
-		i0Position = this.setPosition(EdePositionType.OUTBEAM, i0ScanableMotorPositions);
-		itPosition = this.setPosition(EdePositionType.INBEAM, iTScanableMotorPositions);
+	private void setupExperiment(String detectorName, String topupMonitorName, String beamShutterScannableName) throws DeviceException {
 		theDetector  = Finder.getInstance().find(detectorName);
 		topup = (Monitor) getFindable(topupMonitorName);
 		beamLightShutter = (Scannable) getFindable(beamShutterScannableName);
@@ -274,9 +279,9 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	private void addScansForExperiment() throws Exception {
-		Scannable motorToMoveDuringScan = getItScanPositions().getMotorToMoveDuringScan();
+		Scannable motorToMoveDuringScan = getItScanPositions().getScannableToMoveDuringScan();
 		if (motorToMoveDuringScan != null && i0Position instanceof EdeScanMotorPositions) {
-			((EdeScanMotorPositions)i0Position).setMotorToMoveDuringScan(motorToMoveDuringScan);
+			((EdeScanMotorPositions)i0Position).setScannableToMoveDuringScan(motorToMoveDuringScan);
 		}
 
 		double timeToTopup = getNextTopupTime();
@@ -696,5 +701,25 @@ public abstract class EdeExperiment implements IObserver {
 
 	public EdeScanMotorPositions getItScanPositions() {
 		return (EdeScanMotorPositions)itPosition;
+	}
+	
+	public EdeScanMotorPositions getI0ScanPositions() {
+		return (EdeScanMotorPositions)i0Position;
+	}
+	
+	public EdeScanParameters getItScanParameters() {
+		return itScanParameters;
+	}
+	
+	public void setItTriggerOptions(String itTriggerOptionsString) {
+		this.itTriggerOptions = gson.fromJson(itTriggerOptionsString, TFGTrigger.class);
+	}
+	
+	public void setItTriggerOptions(TFGTrigger itTriggerOptions) {
+		this.itTriggerOptions = itTriggerOptions;
+	}
+	
+	public TFGTrigger getItTriggerOptions() {
+		return itTriggerOptions;
 	}
 }

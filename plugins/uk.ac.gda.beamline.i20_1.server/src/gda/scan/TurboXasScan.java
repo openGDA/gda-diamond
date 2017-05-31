@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.dawnsci.hdf.object.H5Utils;
+import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
@@ -103,11 +106,12 @@ public class TurboXasScan extends ContinuousScan {
 			} else {
 				collectMultipleSpectra();
 			}
+			addTimeAxis();
 		} else {
 			logger.info("Setting up scan using ContinuousParameters");
 			lastFrameRead = 0;
 			numReadoutsPerSpectrum = getTotalNumberOfPoints();
-			prepareDetectors(numReadoutsPerSpectrum);
+			prepareDetectors(numReadoutsPerSpectrum, 1);
 			collectOneSpectrum();
 		}
 
@@ -128,6 +132,15 @@ public class TurboXasScan extends ContinuousScan {
 		}
 		return totNumSpectra;
 	}
+
+	private DetectorReadoutRunnable getDetectorReadoutRunnable() {
+		DetectorReadoutRunnable runnable = new DetectorReadoutRunnable();
+		runnable.setNumFramesPerSpectrum(turboXasMotorParams.getNumReadoutsForScan());
+		runnable.setTotalNumSpectraToCollect(getTotalNumSpectra());
+		runnable.setDetector(getScanDetectors()[0]);
+		runnable.setTimingGroups(turboXasMotorParams.getScanParameters().getTimingGroups());
+		return runnable;
+	}
 	/**
 	 * Collect multiple spectra by performing motor moves for several timing groups.
 	 * @throws Exception
@@ -138,50 +151,47 @@ public class TurboXasScan extends ContinuousScan {
 
 		addMetaDataAtScanStart();
 
-		turboXasScannable.setMotorParameters(turboXasMotorParams);
+		// Set area detector flag (for timing, encoder position information)
 		turboXasScannable.setUseAreaDetector(useAreaDetector);
+		turboXasScannable.setMotorParameters(turboXasMotorParams);
+		// Calculate motor parameters for first timing group (i.e. positions and num readouts for spectrum)
+		turboXasMotorParams.setMotorParametersForTimingGroup(0);
+		// Move motor to scan start position to avoid following error, if motor is a long way from where it needs to be...
+		turboXasScannable.moveTo(turboXasMotorParams.getScanStartPosition());
 
 		// Configure the zebra
-		turboXasMotorParams.setMotorParametersForTimingGroup(0);
-		turboXasScannable.configureZebra();
-
+		turboXasScannable.configureZebra(); // would normally get called in ContinuousScan.prepareForContinuousMove()
 		// Arm zebra
 		Zebra zebra = turboXasScannable.getZebraDevice();
 		zebra.reset();
 		zebra.pcArm();
 
 		// Prepare detectors (BufferedScalers) for readout of all spectra
-		// Do this once at beginning to avoid overhead of clearing out scaler memory etc for each spectra.
-		int totNumSpectra = getTotalNumSpectra();
-		lastFrameRead = 0;
-		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
-		prepareDetectors(numReadoutsPerSpectrum, totNumSpectra); //also arms it
+		prepareDetectors();
 
 		// Create the trajectory scan profile
 		TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
+		trajScanPreparer.setDefaults();
+		trajScanPreparer.clearTrajectoryLists();
 		trajScanPreparer.addPointsForTimingGroups(turboXasMotorParams);
 		trajScanPreparer.sendProfileValues();
 		trajScanPreparer.setBuildProfile();
 		trajScanPreparer.setExecuteProfile();
 
-		// Make new instance of detector readout runnable to collect detector data.
-		detectorReadoutRunnable = new DetectorReadoutRunnable();
-		detectorReadoutRunnable.setNumFramesPerSpectrum(turboXasMotorParams.getNumReadoutsForScan());
-		detectorReadoutRunnable.setTotalNumSpectraToCollect(totNumSpectra);
-		detectorReadoutRunnable.setDetector(getScanDetectors()[0]);
-		detectorReadoutRunnable.setTimingGroups(turboXasMotorParams.getScanParameters().getTimingGroups());
-
 		// Wait until some points have been captured by zebra (i.e. motor has started moving)
 		while(zebra.getPCNumberOfPointsCaptured()==0) {
+			logger.info("Waiting for points to be captured by Zebra before starting data collection");
 			Thread.sleep(500);
 		}
 
 		// Start detector readout thread
+		detectorReadoutRunnable = getDetectorReadoutRunnable();
 		Thread detectorReadoutThread = new Thread(detectorReadoutRunnable);
 		detectorReadoutThread.start();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
 
+		// Wait at end for data collection thread to finish
 		int maxTimeoutMillis=5000;
 		while (!detectorReadoutRunnable.collectionFinished()) {
 			logger.info("Waiting {} ms for detector collection thread to finish...", maxTimeoutMillis);
@@ -190,6 +200,46 @@ public class TurboXasScan extends ContinuousScan {
 		// flags back to default values
 		turboXasScannable.atScanEnd();
  	}
+
+	/**
+	 * Add time axis to Nexus file. This is the start time of each spectrum relative the first spectrum,
+	 * calculated using 'time between spectra' and 'frame time'.
+	 * @throws Exception
+	 */
+	private void addTimeAxis() throws Exception {
+		IHierarchicalDataFile file = null;
+		try {
+			file = org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory.getWriter(getDataWriter().getCurrentFileName());
+
+			// Read 'frame_time' and 'time between spectra' datasets from Nexus file
+			String detectorEntry = "/entry1/"+getScanDetectors()[0].getName()+"/";
+			String frameTimeName = getFrameTimeFieldName();
+			Dataset times = H5Utils.getSet(file, detectorEntry + frameTimeName);
+			Dataset timeBetweenSpectra = H5Utils.getSet(file, detectorEntry + TIME_BETWEEN_SPECTRA_COLUMN_NAME);
+
+			// Create dataset to store start time of each spectrum
+			int numSpectra = times.getShape()[0];
+			int numReadouts = times.getShape()[1];
+			Dataset absoluteTime = DatasetFactory.zeros(DoubleDataset.class, numSpectra);
+
+			// First spectrum starts at t=0
+			double timeAtSpectrumStart = 0;
+			absoluteTime.set(timeAtSpectrumStart, 0);
+
+			// Calculate start time for each spectrum
+			for (int i = 0; i < numSpectra - 1; i++) {
+				// Take slice along time for current spectrum, find sum and add to time-between-spectra
+				Dataset row = times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null);
+				double rowSum = new Double((Double) row.sum());
+				double timeForSpectra = rowSum + timeBetweenSpectra.getDouble(i);
+				timeAtSpectrumStart += timeForSpectra;
+				absoluteTime.set(timeAtSpectrumStart, i + 1);
+			}
+			file.createDataset(TIME_COLUMN_NAME, absoluteTime, detectorEntry);
+		} finally {
+			file.close();
+		}
+	}
 
 	@Override
 	protected void endScan() throws DeviceException, InterruptedException {
@@ -209,63 +259,52 @@ public class TurboXasScan extends ContinuousScan {
 
 		addMetaDataAtScanStart();
 
-		turboXasScannable.resetZebraArmConfigFlags(); // already called by atScanStart()
-		turboXasScannable.setDisarmZebraAtScanEnd(false); // don't disarm zebra after first timing group
-
+		// Set area detector flag (for timing, encoder position information)
+		turboXasScannable.setUseAreaDetector(useAreaDetector);
+		turboXasScannable.setMotorParameters(turboXasMotorParams);
 		// Calculate motor parameters for first timing group
 		turboXasMotorParams.setMotorParametersForTimingGroup(0);
 
-		// Set scannable with motor params
-		turboXasScannable.setMotorParameters(turboXasMotorParams);
-
-		List<TurboSlitTimingGroup> timingGroups = turboXasMotorParams.getScanParameters().getTimingGroups();
-
-		// Determine total number of spectra across all timing groups -
-		int totNumSpectra = getTotalNumSpectra();
-
-		// Set area detector flag (for timing, encoder position information)
-		turboXasScannable.setUseAreaDetector(useAreaDetector);
-
 		// Prepare detectors (BufferedScalers) for readout of all spectra
-		// Do this once at beginning to avoid overhead of clearing out scaler memory etc for each spectra.
-		lastFrameRead = 0;
-		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
-		prepareDetectors(numReadoutsPerSpectrum, totNumSpectra);
+		prepareDetectors();
 
 		// Make new instance of detector readout runnable to collect detector data.
-		detectorReadoutRunnable = new DetectorReadoutRunnable();
-		detectorReadoutRunnable.setNumFramesPerSpectrum(turboXasMotorParams.getNumReadoutsForScan());
-		detectorReadoutRunnable.setTotalNumSpectraToCollect(totNumSpectra);
-		detectorReadoutRunnable.setDetector(getScanDetectors()[0]);
-		detectorReadoutRunnable.setTimingGroups(timingGroups);
+		detectorReadoutRunnable = getDetectorReadoutRunnable();
 
-		// Start detector readout thread
+		// Make detector readout thread (start it after first spectrum is available)
 		Thread detectorReadoutThread = new Thread(detectorReadoutRunnable);
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan...");
+
 		// Loop over timing groups...
+		List<TurboSlitTimingGroup> timingGroups = turboXasMotorParams.getScanParameters().getTimingGroups();
 		for (int i = 0; i < timingGroups.size(); i++) {
+			turboXasScannable.setDisarmZebraAtScanEnd(false); // don't disarm zebra after first timing group
+
 			logger.info("Setting motor parameters for timing group {} of {}", i+1, timingGroups.size());
 
 			// calculate and set the motor parameters for this timing group
 			turboXasMotorParams.setMotorParametersForTimingGroup(i);
 
-			// Set flags so we don't reconfigure and rearm zebra for next timing group or scan
-			// (each group has same number of readouts etc., only the motor speed changes)
-
 			// Loop over number of spectra (repetitions) ...
 			int numRepetitions = timingGroups.get(i).getNumSpectra();
 			for (int j = 0; j < numRepetitions; j++) {
 				logger.info("Collecting spectrum : repetition {} of {}", j+1, numRepetitions);
+
 				collectOneSpectrum();
+
 				// Start collection thread after first spectrum
 				if (i==0 && j==0) {
 					detectorReadoutThread.start();
 				}
+
+				// Set flags so we don't reconfigure and rearm zebra for next timing group or scan
+				// (each group has same number of readouts etc., only the motor speed changes)
 				turboXasScannable.setArmZebraAtScanStart(false);
 				turboXasScannable.setConfigZebraDuringPrepare(false);
 			}
 		}
+		// Wait at end for data collection thread to finish
 		int maxTimeoutMillis=5000;
 		while (!detectorReadoutRunnable.collectionFinished()) {
 			logger.info("Waiting {} ms for detector collection thread to finish...", maxTimeoutMillis);
@@ -290,6 +329,20 @@ public class TurboXasScan extends ContinuousScan {
 	private int numReadoutsPerCycle;
 	private int numCycles;
 	private int maxNumScalerFramesPerCycle = 250000;
+
+	/**
+	 * Prepare detectors (BufferedScalers) for readout of all spectra
+	 * Do this once at beginning to avoid overhead of clearing out scaler memory etc for each spectra.
+	 *
+	 * @throws DeviceException
+	 * @throws InterruptedException
+	 */
+	public void prepareDetectors() throws DeviceException, InterruptedException {
+		int totNumSpectra = getTotalNumSpectra();
+		lastFrameRead = 0;
+		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
+		prepareDetectors(numReadoutsPerSpectrum, totNumSpectra); //also arms it
+	}
 
 	/**
 	 * Prepare detectors for collection. The Tfg frames will be configured to use multiple cycles if
@@ -323,21 +376,6 @@ public class TurboXasScan extends ContinuousScan {
 		}
 	}
 
-	public void prepareDetectors(int totNumReadouts) throws DeviceException, InterruptedException {
-		setScalerMode();
-
-		// Setup scaler memory to record all frames of data for all spectra across all timing groups
-		ContinuousParameters params = createContinuousParameters();
-		params.setNumberDataPoints(totNumReadouts);
-
-		// prep the detectors
-		for (BufferedDetector detector : getScanDetectors() ) {
-			detector.clearMemory(); // Is it necessary to clear scaler memory each time (takes approx 0.3--0.4secs)
-			detector.setContinuousParameters(params);
-			detector.setContinuousMode(true);
-			checkThreadInterrupted();
-		}
-	}
 	/**
 	 * Set the ContinuousParameters (and TurboXasMotorParameters) to be used on the scan axis.
 	 */
@@ -407,6 +445,10 @@ public class TurboXasScan extends ContinuousScan {
 	private static final String POSITION_UNITS = "cm";
 
 
+	private String getFrameTimeFieldName() {
+		return getScanDetectors()[0].getExtraNames()[0];
+	}
+
 	private NXDetectorData createNXDetectorData(BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
 
 		int numFramesRead = highFrame - lowFrame;
@@ -452,6 +494,8 @@ public class TurboXasScan extends ContinuousScan {
 		// Names of data fields on the detector
 		String[] fieldNames = detector.getExtraNames();
 
+		String frameTimeName = getFrameTimeFieldName();
+
 		// Copy data for each field and add to detector data
 		INexusTree detTree = frame.getDetTree(detector.getName());
 		int maxField = Math.min(fieldNames.length, frameDataArray[0].length);
@@ -461,12 +505,12 @@ public class TurboXasScan extends ContinuousScan {
 				detData[i] = frameDataArray[i][fieldIndex];
 			}
 			String fieldName = fieldNames[fieldIndex];
-			String units = fieldName.equals(TIME_COLUMN_NAME) ? TIME_UNITS : COUNT_UNITS;
+			String units = fieldName.equals(frameTimeName) ? TIME_UNITS : COUNT_UNITS;
 			NXDetectorData.addData(detTree, fieldName, new NexusGroupData(detData), units, 1);
 		}
 
 		// Store the length of last timeframe as separate dataset ('time between spectra')
-		int timeFieldIndex = Arrays.asList(fieldNames).indexOf(TIME_COLUMN_NAME);
+		int timeFieldIndex = Arrays.asList(fieldNames).indexOf(frameTimeName);
 		if (timeFieldIndex>-1) {
 			double[] timeBetweenSpectra = new double[] {frameDataArray[numFrames-1][timeFieldIndex]};
 			NXDetectorData.addData(detTree, TIME_BETWEEN_SPECTRA_COLUMN_NAME, new NexusGroupData(timeBetweenSpectra), TIME_UNITS, 1);
@@ -562,8 +606,8 @@ public class TurboXasScan extends ContinuousScan {
 
 					int numNewFrames = numAvailableFrames-lastFrameRead;
 
-					// Currently in next Tfg cycle; need to read last spectrum of previous cycle
-					if (lastFrameRead == numReadoutsPerCycle-numReadoutsPerSpectrum) {
+					// Currently in next Tfg cycle (and numNewFrames=0); need to read last spectrum of previous cycle
+					if (numCycles>1 && lastFrameRead == numReadoutsPerCycle-numReadoutsPerSpectrum) {
 						// logger.debug("ReadoutThread : Read last spectrum of cycle");
 						numNewFrames = numFramesPerSpectrum;
 					}

@@ -43,22 +43,13 @@ public class SingleSpectrumScan extends EdeExperiment {
 
 	private boolean runItDark;
 
-	public SingleSpectrumScan(double i0accumulationTime, double iTAccumulationTime, int iTnoOfAccumulcation,
-			Map<String, Double> i0ScanableMotorPositions,
-			Map<String, Double> iTScanableMotorPositions,
-			String detectorName,
-			String topupMonitorName,
-			String beamShutterScannableName) throws DeviceException {
-		this(i0accumulationTime, iTnoOfAccumulcation, iTAccumulationTime, iTnoOfAccumulcation, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName);
-	}
-
 	public SingleSpectrumScan(double i0AccumulationTime, int i0NoOfAccumulcation, double iTaccumulationTime, int iTnoOfAccumulcation,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
 			String detectorName,
 			String topupMonitorName,
 			String beamShutterScannableName) throws DeviceException {
-		super(EdeScanParameters.createSingleFrameScan(iTaccumulationTime, iTnoOfAccumulcation), null,
+		super(EdeScanParameters.createSingleFrameScan(iTaccumulationTime, iTnoOfAccumulcation).getGroups(),
 				i0ScanableMotorPositions,
 				iTScanableMotorPositions,
 				detectorName,

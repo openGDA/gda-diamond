@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import gda.device.DeviceException;
-import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 /**
@@ -40,28 +39,10 @@ public class CyclicExperiment extends TimeResolvedExperiment {
 
 	public CyclicExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions, String itTriggerOptions)
+			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions)
 					throws DeviceException {
 		super(i0accumulationTime, itTimingGroups, i0ScanableMotorPositions, iTScanableMotorPositions, detectorName,
-				topupMonitorName, beamShutterScannableName, itTriggerOptions);
-		this.numberOfRepetitions = numberOfRepetitions;
-	}
-
-	public CyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, List<TimingGroup> itTimingGroups,
-			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetition, String itTriggerOptions)
-					throws DeviceException {
-		this(i0accumulationTime, i0NoOfAccumulcation, EdeScanParameters.createEdeScanParameters(itTimingGroups),
-				i0ScanableMotorPositions, iTScanableMotorPositions, detectorName, topupMonitorName,
-				beamShutterScannableName, numberOfRepetition, itTriggerOptions);
-	}
-
-	public CyclicExperiment(double i0accumulationTime, int i0NoOfAccumulcation, EdeScanParameters iTScanParameters,
-			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
-			String detectorName, String topupMonitorName, String beamShutterScannableName, int numberOfRepetitions, String itTriggerOptions)
-					throws DeviceException {
-		super(i0accumulationTime, i0NoOfAccumulcation, iTScanParameters, i0ScanableMotorPositions,
-				iTScanableMotorPositions, detectorName, topupMonitorName, beamShutterScannableName, itTriggerOptions);
+				topupMonitorName, beamShutterScannableName);
 		this.numberOfRepetitions = numberOfRepetitions;
 	}
 }

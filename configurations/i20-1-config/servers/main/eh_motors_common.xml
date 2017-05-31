@@ -58,6 +58,11 @@
 		<property name="motor" ref="samenv_roll_motor" />
 		<property name="initialUserUnits" value="deg" />
 	</bean>
+	<bean id="sample_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="samenv_yaw_motor" />
+		<property name="initialUserUnits" value="deg" />
+	</bean>
+	
 	<!-- T5 -->
 	<bean id="sample_tablex" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_tablex_motor" />

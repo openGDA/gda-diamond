@@ -18,9 +18,6 @@
 
 package gda.scan;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFileUtils;
@@ -32,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
+import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
 import gda.device.detector.EdeDetector;
@@ -40,6 +38,7 @@ import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.scannable.ScannableUtils;
+import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.EdeScanType;
@@ -76,15 +75,24 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	private final DAServer daServerForTriggeringWithTFG;
 	private final TFGTrigger triggeringParameters;
 	private final boolean shouldWaitForTopup;
+	private TfgScaler injectionCounter;
 
+	private Dataset topupScalerValueForSpectra = null;
+	private Dataset topupValueUsesScalers = null;
+	private TopupChecker topupCheckerMachine;
+	private double lastTimeTillTopup = 600.0;
+	private double timeAtTopupStart = lastTimeTillTopup;
 
-	public EdeScanWithTFGTrigger(EdeScanParameters scanParameters, TFGTrigger triggeringParameters, EdeScanPosition motorPositions, EdeScanType scanType,
-			EdeDetector theDetector, Integer repetitionNumber, Scannable shutter, boolean shouldWaitForTopup) {
+	public EdeScanWithTFGTrigger(EdeScanParameters scanParameters, TFGTrigger triggeringParameters,
+			EdeScanPosition motorPositions, EdeScanType scanType, EdeDetector theDetector, Integer repetitionNumber,
+			Scannable shutter, boolean shouldWaitForTopup) {
 		super(scanParameters, motorPositions, scanType, theDetector, repetitionNumber, shutter, null);
 
 		this.triggeringParameters = triggeringParameters;
 		this.shouldWaitForTopup = shouldWaitForTopup;
 		daServerForTriggeringWithTFG = Finder.getInstance().find("daserverForTfg");
+		injectionCounter = Finder.getInstance().find("injectionCounter");
+		topupCheckerMachine = (TopupChecker) Finder.getInstance().find("topupChecker");
 	}
 
 	public void doCollectionFrelon() throws Exception {
@@ -100,8 +108,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 		// start the detector running (it waits for a pulse from the eTFG)
 		logger.debug(toString() + " starting detector running...");
-		InterfaceProvider.getTerminalPrinter().print(
-				"Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+		InterfaceProvider.getTerminalPrinter().print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 
 		// Store orig. trigger mode setting
 		EdeFrelon detector=((EdeFrelon)theDetector);
@@ -113,6 +120,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 		// set to true (always want to use scalers to measure topup injections for Tfg Frelon scans)
 		triggeringParameters.setUseCountFrameScalers(true);
+
+		lastTimeTillTopup = getTimeUntilTopup();
 
 		// Multiple timing groups
 		for (Integer i = 0; i < scanParameters.getGroups().size(); i++) {
@@ -129,7 +138,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			// dropFirstFrame flag is set to 'true' (true by default)
 			int numberOfFrames = scanParameters.getTotalNumberOfFrames();
 
-			theDetector.setNumberScansInFrame( scansPerFrame );
+			theDetector.setNumberScansInFrame(scansPerFrame);
 
 			// i.e. Only drop first frame for non It collection (helps with TFG timing calculations).
 //			if ( numberOfFrames > 1 ) {
@@ -138,7 +147,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 //				( (EdeFrelon) theDetector).setDropFirstFrame( true );
 //			}
 			// EdeScanWithTfgTrigger is *only* used for Tfg triggered light It - *never* drop 1st frame! imh 5/5/2016
-			( (EdeFrelon) theDetector).setDropFirstFrame( false );
+			((EdeFrelon) theDetector).setDropFirstFrame(false);
 
 			triggeringParameters.getDetectorDataCollection().setNumberOfFrames(numberOfFrames);
 
@@ -156,8 +165,6 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 			// poll tfg and fetch data
 			pollDetectorAndFetchData();
-
-			addScalerFrameCounts( scansPerFrame, numberOfFrames );
 		}
 		detector.getLimaCcd().setAcqTriggerMode(acqTriggerMode);
 		detectorSettings.setTriggerMode(acqTriggerMode);
@@ -173,7 +180,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	 * @throws Exception
 	 * @since 6/5/2016
 	 */
-	private double [][] getScalerCountsForSpectra( double [][] scalerCountsForFrames, int numAccumulationsPerSpectra, int numSpectra ) throws Exception {
+	private double[][] getScalerCountsForSpectra(double[][] scalerCountsForFrames, int numAccumulationsPerSpectra, int numSpectra) throws Exception {
 		int numScalers = scalerCountsForFrames[0].length;
 		int numFrames = scalerCountsForFrames.length;
 
@@ -200,46 +207,55 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		return scalerCountsForSpectra;
 	}
 
-	/** Write dataset of topup scaler counts for each spectra to NeXus file.
-	 * Scaler count>0 for spectra indicates that topup injection was taking place at same time as spectrum was measured.
-	 * @param numAccumulationsPerSpectra
-	 * @param numSpectra
+	 /** Write dataset of topup scaler counts for each spectra to NeXus file.
+	  * Data is appended if a dataset to be written already exists in the file.
+	 *
 	 * @throws Exception
-	 * @since 6/5/2016
 	 */
-	private void addScalerFrameCounts(int numAccumulationsPerSpectra, int numSpectra ) throws Exception {
-		final TfgScaler injectionCounter = Finder.getInstance().find("injectionCounter");
-		if ( injectionCounter != null ) {
-			// Read scaler data : one value for each accumulation
-			int totNumFrames =  numAccumulationsPerSpectra * numSpectra;
-			double [][]scalerCounts = injectionCounter.readoutFrames(0,  totNumFrames );
+	private void addScalerFrameCountsToNexus() throws Exception {
+		if (topupScalerValueForSpectra == null || topupValueUsesScalers == null) {
+			return;
+		}
 
-			// Convert to scaler counts for each spectra (i.e. sum over accumulations for each spectra)
-			double [][]scalerCountsForSpectra = getScalerCountsForSpectra(scalerCounts, numAccumulationsPerSpectra, numSpectra );
-
-			if ( scalerCountsForSpectra == null )
-				return;
-
-			Dataset scalerDataset = DatasetFactory.createFromObject( scalerCountsForSpectra );
-
-			String fname = getDataWriter().getCurrentFileName();
-			IHierarchicalDataFile file = HierarchicalDataFactory.getWriter( fname );
-
+		String fname = getDataWriter().getCurrentFileName();
+		IHierarchicalDataFile file = null;
+		try {
+			file = HierarchicalDataFactory.getWriter(fname);
 			String targetPath = HierarchicalDataFileUtils.createParentEntry(file, "/entry1/" + theDetector.getName(), Nexus.DATA);
-
-			addDatasetToNexus( file, EdeDataConstants.SCALER_FRAME_COUNTS, targetPath, scalerDataset, null );
+			appendDataToNexus(file, EdeDataConstants.SCALER_FRAME_COUNTS, targetPath, DatasetFactory.createFromObject(topupScalerValueForSpectra));
+			appendDataToNexus(file, "is_topup_measured_from_scaler", targetPath, DatasetFactory.createFromObject(topupValueUsesScalers));
+			file.close();
+		} catch (Exception e) {
+			logger.error("Prolbem when writing topup scaler information to Nexus file", e);
+		}
+		if (file!=null) {
 			file.close();
 		}
 	}
 
-	private void addDatasetToNexus(IHierarchicalDataFile file, String dataName, String fullPath, Dataset data, Map<String, String> attributes) throws Exception {
+	/**
+	 * Append values to a dataset in Nexus file, one row of values at a time (1, 2-dimensional Datasets)
+	 * @param file
+	 * @param dataName
+	 * @param fullPath
+	 * @param data
+	 * @throws Exception
+	 */
+	private void appendDataToNexus(IHierarchicalDataFile file, String dataName, String fullPath, Dataset data) throws Exception {
 		long[] shape = H5Utils.getLong(data.getShape());
-		String insertedData = file.replaceDataset(dataName, Dataset.FLOAT64, shape, data.getBuffer(), fullPath);
-		if (attributes == null) {
-			return;
-		}
-		for (Entry<String, String> entry : attributes.entrySet()) {
-			file.setAttribute(insertedData, entry.getKey(), entry.getValue());
+		int numValues = (int) (shape.length == 2 ? shape[1]:1);
+		int numRows = (int) shape[0];
+		long[] rowShape = new long[]{numValues};
+		for(int i=0; i<numRows; i++) {
+			double[] values = new double[numValues];
+			if(numValues==1) {
+				values[0] = data.getDouble(i);
+			}else{
+				for(int j=0; j<numValues; j++) {
+					values[j] = data.getDouble(i,j);
+				}
+			}
+			String insertedData = file.appendDataset(dataName, Dataset.FLOAT64, rowShape, values, fullPath);
 		}
 	}
 
@@ -251,8 +267,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		else {
 			doCollectionOld();
 		}
-
-
+		addScalerFrameCountsToNexus();
 	}
 
 	//	@Override
@@ -318,7 +333,6 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 	}
 
-
 	private void startTFG() throws DeviceException {
 		daServerForTriggeringWithTFG.sendCommand("tfg start");
 	}
@@ -326,10 +340,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	@Override
 	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
 			ScanDataPoint thisPoint) throws DeviceException {
-		thisPoint.addDetector(theDetector);
-		//thisPoint.addDetector(injectionCounter);
-		thisPoint.addDetectorData(detData[0][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
-		//thisPoint.addDetectorData(detData[1][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(injectionCounter));
+
+		super.addDetectorsToScanDataPoint(lowFrame, detData, thisFrame, thisPoint);
 	}
 
 	@Override
@@ -337,11 +349,153 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		Object[][] detData = new Object[1][];
 		detData[0] = super.readDetectors(lowFrame, highFrame)[0];
 		//detData[1] = injectionCounter.readoutFrames(lowFrame, highFrame);
+
+		// Get the topup signal value for each spectrum, do in try-catch so
+		// that if anything goes wrong the spectra can still be collected as normal.
+		if (triggeringParameters.getUseCountFrameScalers()) {
+			try {
+				storeTopupValueForSpectra(lowFrame, highFrame);
+			} catch (Exception e) {
+				logger.warn("Problem getting topup signal data", e);
+			}
+		}
 		return detData;
 	}
 
 	@Override
 	public String toString() {
 		return "EDE It scan - type:" + scanType.toString() + " " + motorPositions.getType().toString();
+	}
+
+	/**
+	 * Store topup value for specified range of spectra.
+	 * Topup value is read from hardware (scalers) if topup is occuring or close to it; zeros are used otherwise.
+	 * This helps reduce overhead in the scan of repeated reading from scalers if topup is not actually happening.<p>
+	 * Values are stored in a dataset in memory and written to nexus file at the end of the scan by the
+	 * {@link #addScalerFrameCountsToNexus()} function called at the end of {@link #doCollection()}.
+	 *
+	 * @param lowFrame
+	 * @param highFrame
+	 * @throws DeviceException
+	 */
+	private void storeTopupValueForSpectra(int lowFrame, int highFrame) throws DeviceException {
+
+		if (topupScalerValueForSpectra == null || topupValueUsesScalers == null) {
+			prepareTopupDatasets();
+		}
+
+		boolean readFromScalers = readTopupFromScalers();
+		int numAccumulationsPerSpectrum = currentTimingGroup == null ? 1 : currentTimingGroup.getNumberOfScansPerFrame();
+		double[][] topupValuePerSpectra = getTopupValuesForSpectra(lowFrame, highFrame, numAccumulationsPerSpectrum, readFromScalers);
+		if (topupValuePerSpectra != null) {
+			if (topupValuePerSpectra.length!=highFrame-lowFrame+1) {
+				logger.debug("Number of frames of processed scaler values ({}) does not match number of spectra ({})", topupValuePerSpectra.length, highFrame-lowFrame+1);
+			}
+			int numValues = topupValuePerSpectra[0].length;
+			logger.debug("Storing scaler counts for spectra {} to {}", lowFrame, lowFrame+topupValuePerSpectra.length);
+			for (int i = 0; i < topupValuePerSpectra.length; i++) {
+				for (int j = 0; j < numValues; j++) {
+					topupScalerValueForSpectra.set(topupValuePerSpectra[i][j], lowFrame + i, j);
+				}
+				topupValueUsesScalers.set(readFromScalers, lowFrame + i);
+			}
+		}
+	}
+
+	private void prepareTopupDatasets() {
+		if (injectionCounter == null) {
+			logger.info("InjectionCounter not set - not storing topup spectra markers.");
+			return;
+		}
+		int totalNumSpectra = scanParameters.getTotalNumberOfFrames();
+		int numScalers = injectionCounter.getNumChannelsToRead();
+		topupScalerValueForSpectra = DatasetFactory.zeros(new int[] {totalNumSpectra, numScalers}, Dataset.FLOAT64);
+		topupValueUsesScalers = DatasetFactory.zeros(new int[] {totalNumSpectra}, Dataset.BOOL);
+	}
+
+	/**
+	 * Determine whether to read topup value from scalers.
+	 *
+	 * @return true if topup is happening or within a few seconds either side of it, false otherwise.
+	 * @throws DeviceException
+	 */
+	private boolean readTopupFromScalers() throws DeviceException {
+		final double waitTimeEitherSideOfTopup = topupCheckerMachine.getWaittime();
+
+		Double timeToTopup = getTimeUntilTopup();
+		if (timeToTopup > lastTimeTillTopup) {
+			timeAtTopupStart = timeToTopup;
+		}
+
+		lastTimeTillTopup = timeToTopup;
+		if (timeToTopup < waitTimeEitherSideOfTopup || timeToTopup > timeAtTopupStart - waitTimeEitherSideOfTopup) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @return Number of seconds until the next topup begins.
+	 * @throws DeviceException
+	 */
+	double getTimeUntilTopup() throws DeviceException {
+		Monitor monitoredScannable = topupCheckerMachine.getScannableToBeMonitored();
+		if (monitoredScannable != null) {
+			return ScannableUtils.getCurrentPositionArray(monitoredScannable)[0];
+		} else {
+			return 0.0;
+		}
+	}
+
+	/**
+	 * Get topup counts for specified range of spectra by reading scaler data from {@link #injectionCounter}.<p>
+	 * Each spectrum has {@code numAccumulationsPerSpectra} frames of scaler data;
+	 * Scaler values from {@link #injectionCounter} for each spectrum are summed together and returned as double array.
+	 * Reading from scalers only takes place if {@code readFromScalers}=true; otherwise the topupCounts array is filled with zeros..
+	 *
+	 * @param lowFrame
+	 * @param highFrame
+	 * @param numAccumulationsPerSpectra
+	 * @param readFromScalers if true read from hardware, if false return empty array of same size initialised with zeros
+	 * @return topupCounts
+	 */
+	private double[][] getTopupValuesForSpectra(int lowFrame, int highFrame, int numAccumulationsPerSpectra, boolean readFromScalers) {
+		if (injectionCounter == null || topupCheckerMachine == null) {
+			return null;
+		}
+
+		int totNumSpectra = highFrame - lowFrame + 1;
+		if (totNumSpectra == 0) {
+			return null;
+		}
+
+		try {
+			logger.debug("Getting topup counts for spectra {} to {}. Time to topup = {} secs, {} accumulations per spectrum",
+					lowFrame, highFrame, getTimeUntilTopup(), numAccumulationsPerSpectra);
+
+			if (!readFromScalers) {
+				logger.debug("Using dummy data (zeros)");
+				int numChannels = injectionCounter.getNumChannelsToRead();
+				return new double[totNumSpectra][numChannels];
+
+			} else {
+				int firstScalerFrameToRead = lowFrame * numAccumulationsPerSpectra;
+				int lastScalerFrameToRead = (highFrame + 1) * numAccumulationsPerSpectra;
+				logger.debug("Reading scaler frames {} to {}", firstScalerFrameToRead, lastScalerFrameToRead);
+
+				// Get scaler frame data from injectionCounter
+				Object[] detectorFrameData = injectionCounter.readoutFrames(firstScalerFrameToRead, lastScalerFrameToRead);
+				double[][] frameDataArray = (double[][]) detectorFrameData;
+				logger.debug("Frame data array {}", frameDataArray[0][0]);
+				// Sum over number of accumulations to find total counts for each spectrum
+				double[][] countsForSpectra= getScalerCountsForSpectra(frameDataArray, numAccumulationsPerSpectra, totNumSpectra);
+				logger.debug("Counts for spectra {}", countsForSpectra[0][0]);
+				return countsForSpectra;
+			}
+		} catch (Exception e) {
+			logger.error("Problem collecting topup signal data ", e);
+		}
+		return null;
 	}
 }

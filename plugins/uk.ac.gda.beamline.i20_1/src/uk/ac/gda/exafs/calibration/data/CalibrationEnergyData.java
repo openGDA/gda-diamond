@@ -24,7 +24,10 @@ import java.util.List;
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetUtils;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
 
+import gda.scan.ede.datawriters.EdeDataConstants;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
 
@@ -48,6 +51,9 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 	private final double[] refReferencePoints = new double[3];
 
 	private String xAxisName;
+
+	private static final String[] xValueDatasetNames = { EdeDataConstants.PIXEL_COLUMN_NAME, EdeDataConstants.STRIP_COLUMN_NAME, "position" };
+	private static final String yValueDatasetName = EdeDataConstants.LN_I0_IT_COLUMN_NAME;
 
 	public String getXAxisName() {
 		return xAxisName;
@@ -106,6 +112,62 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 		return endEnergy;
 	}
 
+
+	private void setDataFromNexusFile(IDataHolder dataHolder) throws Exception {
+
+		List<String> dataNames = Arrays.asList(dataHolder.getNames());
+		String dataNodePath = "";
+		String energyNodePath = "";
+
+		// Try to locate suitable datasets in Nexus file to use for x and y values
+		// (use last match found)
+		for (int i = 0; i < dataNames.size(); i++) {
+			String dataName = dataNames.get(i);
+
+			for (String xvalueDatasetName : xValueDatasetNames) {
+				if (dataName.endsWith(xvalueDatasetName)) {
+					energyNodePath = dataName;
+				}
+			}
+			if (dataName.endsWith(yValueDatasetName) || dataName.endsWith(yValueDatasetName+"/data")) {
+				dataNodePath = dataName;
+			}
+		}
+
+		String errorMessage = new String();
+		if (energyNodePath.isEmpty()) {
+			errorMessage += " Can't find any datasets called "+Arrays.toString(xValueDatasetNames)+" to use for for strip/pixel/position axis. ";
+		}
+		if (dataNodePath.isEmpty()) {
+			errorMessage += " Can't find dataset called "+yValueDatasetName+" dataset to use for for y axis values. ";
+		}
+		if (!errorMessage.isEmpty()) {
+			throw new Exception(errorMessage);
+		}
+
+		xAxisName = energyNodePath;
+		this.dataHolder = dataHolder;
+		energyNode = (Dataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
+		Dataset allData = (Dataset) dataHolder.getLazyDataset(dataNodePath).getSlice();
+
+		int[] shape = allData.getShape();
+
+		int numReadouts = shape[shape.length - 1];
+		int numRows = shape.length==1 ? 1 : shape[0];
+		dataNode = DatasetFactory.zeros(DoubleDataset.class, numReadouts);
+
+		if (numRows==1) {
+			dataNode.setSlice(allData, new int[] {0}, new int[] {numReadouts}, null);
+		} else {
+			// Average together lnI0It values if there are more than 1 rows of data available
+			for(int i=0; i<numRows; i++) {
+				Dataset row = allData.getSlice(new int[]{i, 0}, new int[]{i+1, numReadouts}, null).squeeze();
+				dataNode.iadd(row);
+			}
+			dataNode.imultiply(1.0/numRows);
+		}
+	}
+
 	protected void setData(String fileName, String energyNodePath, String dataNodePath) throws Exception {
 		if (fileName==null) {
 			return;
@@ -117,16 +179,21 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 				this.setManualCalibration(false);
 				return;
 			}
-			// Check to make sure named data for energy values is available, use first column from datafile if not found. imh 15/9/2016
-			List<String> dataNames = Arrays.asList(dataHolder.getNames());
-			if ( !dataNames.contains(energyNodePath) ) {
-				energyNodePath = dataNames.get(0);
-			}
-			xAxisName = energyNodePath;
+			if (fileName.endsWith(".nxs")) {
+				// Load datasets from Nexus file
+				setDataFromNexusFile(dataHolder);
+			} else {
+				// Check to make sure named data for energy values is available, use first column from datafile if not found.
+				List<String> dataNames = Arrays.asList(dataHolder.getNames());
+				if ( !dataNames.contains(energyNodePath) ) {
+					energyNodePath = dataNames.get(0);
+				}
+				xAxisName = energyNodePath;
 
-			this.dataHolder = dataHolder;
-			energyNode = DatasetUtils.sliceAndConvertLazyDataset(this.dataHolder.getLazyDataset(energyNodePath));
-			dataNode = DatasetUtils.sliceAndConvertLazyDataset(dataHolder.getLazyDataset(dataNodePath));
+				this.dataHolder = dataHolder;
+				energyNode = DatasetUtils.sliceAndConvertLazyDataset(this.dataHolder.getLazyDataset(energyNodePath));
+				dataNode = DatasetUtils.sliceAndConvertLazyDataset(dataHolder.getLazyDataset(dataNodePath));
+			}
 
 			setInitialEnergyRange(energyNode.min().doubleValue(), energyNode.max().doubleValue());
 			double mid = (double) energyNode.mean();
