@@ -110,6 +110,7 @@ class LinkamRampMaster4000(PseudoDevice, MonitorListener, Runnable, ScanPosition
         if self.currentramp == -1:
             return
         if not state == self.oldstate and state == 3:
+            print 'state changed from %d to %d' %(self.oldstate, state)
             self.nextRamp()
         self.oldstate = state
 
@@ -126,6 +127,7 @@ class LinkamRampMaster4000(PseudoDevice, MonitorListener, Runnable, ScanPosition
             wthread=Thread(RampWaitThread(self,rate),"WaitThread: "+self.getName())
             wthread.start()
             return
+        print 'Setting linkam rate to %.2f and limit to %.2f' %(rate, targettemp)
         self.linkam.setRate(rate)
         self.linkam.setLimit(targettemp)
         self.linkam.start()
