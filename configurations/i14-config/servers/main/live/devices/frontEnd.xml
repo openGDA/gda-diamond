@@ -12,4 +12,10 @@
 		<property name="local" value="true"/>
 	</bean>
 
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
+		need events to be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE14I-PS-SHTR-01:STA" />
+	</bean>
+
 </beans>
