@@ -50,8 +50,7 @@ class DummyThreshold:
 	def __init__(self, name):
 		self.name = name
 	def caget(self):
-		#when position cannot be accessed return NAN and print error
-		print THRESHOLD_ERROR %(self.name, self.name)
+		#when position cannot be accessed return NaN
 		return Double.NaN
 	def caput(self, newVal):
 		print THRESHOLD_ERROR %(self.name, self.name)
@@ -187,89 +186,12 @@ class CalibratedOffset(gda.device.scannable.PseudoDevice):
 		"""set to 25 offset compound motor need to be calibrated"""
 		
 		self.offset_motor.asynchronousMoveTo(25)
-		
-		
-class CalibratedPitch(gda.device.scannable.PseudoDevice):
-	"""
-	    Purpose: To move pitch at the right value when changing the energy. THE DCM needs to be calibrated first with foils.
-	"""
 
-	def __init__(self, name, pitch):
-		self.name = name
-		self.setInputNames([name])
-		self.pitch = pitch
-		self.intercept = 186.1418
-		self.coefficient = 17.0967
-		
-	def isBusy(self):
-		""" This device is busy if pitch is moving """
-		return self.pitch.isBusy()
-
-	def getPosition(self):
-		""" Return the pitch value"""
-		pitch_position = float(self.pitch.getPosition())
-		energy = exp((-pitch_position - self.intercept)/self.coefficient)
-		return energy 
-
-	def asynchronousMoveTo(self,X):
-		""" Moves to the perp value according to the energy supplied """
-		#self.pitch.moveTo(self.pitch.getPosition()-20)
-		self.pitch.moveTo(-1*(self.coefficient*log(X)+self.intercept)+20)
-		sleep(2)
-		self.pitch.asynchronousMoveTo(-1*(self.coefficient*log(X)+self.intercept))
-
-
-class PilatusThreshold(ScannableMotionBase):
-	def __init__(self, name, pvbase):
-		self.setName(name);
-		self.setInputNames([name])
-		self.setExtraNames([])
-		self.Units=['keV']
-		self.setOutputFormat(['%4.2f'])
-		self.setLevel(7)
-		self.timer=tictoc()
-		self.waitUntilTime = 0
-		self.demand = 0.0
-		self.gain = CAClient(pvbase+":GainMenu")
-		self.thres = CAClient(pvbase+":ThresholdEnergy")
-		self.gain.configure()
-		self.thres.configure()
-		self.gainranges = { 0 : [6.5, 19.7], 1 : [4.4, 14.0], 2 : [3.8, 11.4] }
-		self.thresholdtolerance = 0.1
-		self.waittime = 3
-
-	def rawGetPosition(self):
-		return float(self.thres.caget()) * 2.0
-
-	def rawAsynchronousMoveTo(self,newpos):
-		# gain
-		gain = int(self.gain.caget())
-		if newpos >= self.gainranges[gain][0] and newpos <= self.gainranges[gain][1]:
-			# gain ok
-			pass
-		else:
-			for i in self.gainranges.keys():
-				if newpos >= self.gainranges[i][0] and newpos <= self.gainranges[i][1]:
-					self.gain.caput(i)	
-					self.timer.reset()
-					break
-			# raise exception, value out of range
-		# threshold
-		thres = float(self.thres.caget())
-		if abs((thres * 2.0) - newpos) < newpos * self.thresholdtolerance:
-			# threshold ok
-			pass
-		else:
-			self.thres.caput(newpos / 2.0)
-			self.timer.reset()
-	
-	def rawIsBusy(self):
-		return (self.timer()<self.waittime)
 
 pilthres = PilatusThreshold("pilthres", "BL22I-EA-PILAT-01:CAM")
 pilthresWAXS_L = PilatusThreshold("pilthresWAXS_L", "BL22I-EA-PILAT-03:CAM")
 calibrated_offset = CalibratedOffset("calibrated_offset", dcm_offset)
 calibrated_ID = CalibratedID("calibrated_ID", idgap_mm)
-for i in [calibrated_ID, calibrated_offset, pilthres, pilthresWAXS_L]:
 energy.clearScannables()
+for i in [calibrated_ID, calibrated_offset, pilthres, pilthresWAXS_L]:
 	energy.addScannable(i)

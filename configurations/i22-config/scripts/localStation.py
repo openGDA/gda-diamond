@@ -10,7 +10,12 @@ import java
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep
+from gda.factory import Finder
 from gda.jython.commands.GeneralCommands import alias
+from setup.tfgsetup import setupTfg, fs
+
+alias('fs')
+
 
 from maskUtils import setMask, clearMask, currentMask
 
@@ -74,6 +79,9 @@ saxs_abs_cal = DetectorMeta("saxs_abs_cal", ncddetectors, "SAXS", "scaling_facto
 print "Pre-seeding listener dispatcher"
 finder.find("ncdlistener").monitorLive("Saxs Plot", "SAXS")
 finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
+
+#finding post processing runner
+autoPostProcessing = finder.find('autoPostProcessing')
 
 #hexapod pivot
 #execfile(gdaScriptDir + "hexapod.py")

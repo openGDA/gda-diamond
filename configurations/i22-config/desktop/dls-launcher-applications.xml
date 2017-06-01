@@ -10,10 +10,10 @@
     <button text="rdesktop biosaxs" command="/dls_sw/i22/software/gda/bin/biosaxspc"/>
     <button text="bimorph script" command="/dls_sw/i22/epics/scripts/fixbimorphs.py"/>
   </group>
-    <button text="I22 EPICS Synoptic" command="password_synoptic.sh" args="$PORT BL22I-gui dls-only" icon="I22__SCM.png"/>
+    <button text="I22 EPICS Synoptic" command="from_configure_ioc.sh" args="$PORT BL22I-gui" icon="I22__SCM.png"/>
     <button text="Start GDA Servers" command="/dls_sw/i22/software/gda/bin/gda --restart servers" icon="sgda.png"/>
     <button text="Start GDA Client" command=" /dls_sw/i22/software/gda/bin/gda --start client" icon="cgda.png"/>
-    <button text="Reset GDA Client" command=" /dls_sw/i22/software/gda/bin/gda --start client --reset" icon="cgda.png"/>
+    <button text="Start GDA Client (with reset)" command=" /dls_sw/i22/software/gda/bin/gda --start client --reset" icon="cgda.png"/>
     <button text="Start GDA Logpanel" command=" /dls_sw/i22/software/gda/bin/gda --start logpanel" icon="cgda.png"/>
     <button text="Webcams" command="/usr/bin/firefox -new-window /dls_sw/i22/software/gda/config/desktop/launchers/Webcams.html"/>
     <button text="I22 Troubleshooting" command="/usr/bin/firefox -new-window http://confluence.diamond.ac.uk/display/SCATTERWEB/Troubleshooting" icon="/dls_sw/i22/software/gda/config/desktop/troubleshooting.png"/>

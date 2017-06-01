@@ -107,8 +107,9 @@ class Grid(DataWriterExtenderBase):
 				pass
 			print "Scanning a %d by %d grid" % tuple(self.dimensions)
 			RCPPlotter.setupNewImageGrid(self.gridPanel,self.dimensions[0],self.dimensions[1])
-			spoints=tuple([x.tolist() for x in points.tolist()])
-			gdascans.Rscan()(self.positioner, spoints, self.ncddetectors, self.camera)
+			xpoints = sorted(set(x[0] for x in points))
+			ypoints = sorted(set(y[1] for y in points))
+			gdascans.Rscan()(self.positioner.x, tuple(xpoints), self.positioner.y, tuple(ypoints), self.ncddetectors, self.camera)
 		except:
 			type, exception, traceback = sys.exc_info()
 			self.scanrunning = False
@@ -163,9 +164,8 @@ class Grid(DataWriterExtenderBase):
 				except:
 					if isinstance(self.getSaxsDetector(), LastImageProvider):
 						ds=self.getSaxsDetector().readLastImage()
-				if not ds == None:
-					ds.setName("saxs at grid point (%d, %d)" % (pno/self.dimensions[0]+1,pno%self.dimensions[0]+1))
-					RCPPlotter.plotImageToGrid(self.gridPanel,ds,pno/self.dimensions[0],pno%self.dimensions[0],True)
+				if ds is not None:
+					RCPPlotter.plotImageToGrid(self.gridPanel,ds._jdataset(),pno/self.dimensions[0],pno%self.dimensions[0],True)
 		except:
 			type, exception, traceback = sys.exc_info()
 			handle_messages.log(None, "Error in grid_scan.addData", type, exception, traceback, False)		
