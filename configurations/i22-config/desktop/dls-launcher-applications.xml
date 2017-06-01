@@ -10,7 +10,7 @@
     <button text="rdesktop biosaxs" command="/dls_sw/i22/software/gda/bin/biosaxspc"/>
     <button text="bimorph script" command="/dls_sw/i22/epics/scripts/fixbimorphs.py"/>
   </group>
-    <button text="I22 EPICS Synoptic" command="password_synoptic.sh" args="$PORT BL22I-gui dls-only" icon="I22__SCM.png"/>
+    <button text="I22 EPICS Synoptic" command="from_configure_ioc.sh" args="$PORT BL22I-gui" icon="I22__SCM.png"/>
     <button text="Start GDA Servers" command="/dls_sw/i22/software/gda/bin/gda --restart servers" icon="sgda.png"/>
     <button text="Start GDA Client" command=" /dls_sw/i22/software/gda/bin/gda --start client" icon="cgda.png"/>
     <button text="Reset GDA Client" command=" /dls_sw/i22/software/gda/bin/gda --start client --reset" icon="cgda.png"/>
