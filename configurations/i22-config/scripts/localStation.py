@@ -11,6 +11,10 @@ from gda.configuration.properties import LocalProperties
 from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep
 from gda.jython.commands.GeneralCommands import alias
+from setup.tfgsetup import setupTfg, fs
+
+alias('fs')
+
 
 from maskUtils import setMask, clearMask, currentMask
 
