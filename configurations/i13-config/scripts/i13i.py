@@ -89,7 +89,7 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     > LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/raw")
     
 8.  How to close down the telnet for P2R
-    > p2r_rot.motor.smc.simc.bidiAsciiCommunicator.closeConnection()
+    > p2r_rot.motor.smc.bidiAsciiCommunicator.closeConnection()
     
 9.  How to set the ROI of the pco
     >tomodet.pco1_cam_base.minY=100
@@ -116,5 +116,6 @@ See http://confluence.diamond.ac.uk/display/BLXIIII/I13+Data+Acquisition+User+Gu
     Middle:		http://172.23.113.210/view/index.shtml
     Down Stream: 	http://172.23.113.211/view/index.shtml
 
-    
+14. For details of PCO cabling, please go to:
+    http://confluence.diamond.ac.uk/display/I13/EH1+Detector+Cables    
 """

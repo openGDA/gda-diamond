@@ -4,6 +4,7 @@ Performs software triggered tomography
 
 from time import sleep
 import datetime
+import os
 
 from pcoDetectorWrapper import PCODetectorWrapper
 from gda.jython.commands.ScannableCommands import inc, scan, pos, createConcurrentScan
@@ -309,7 +310,9 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
 
     tomography_detector=jns.tomography_normalisedImage_detector
     if tomography_detector is None:
-        raise "tomography_detector is not defined in Jython namespace"    
+        raise "tomography_detector is not defined in Jython namespace"
+    else:
+        print "tomography_detector = %s" %(tomography_detector.getName())    
     currentTheta=tomography_theta()
     tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, addNXEntry=False,autoAnalyse=False,tomography_detector=tomography_detector)
 
@@ -416,7 +419,7 @@ class PostScanRunnable(Runnable):
 perform a continuous tomography scan
 """
 def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, approxCOR=(None,None)):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, **kwargs):
     """
     Function to collect a tomogram
      Arguments:
@@ -439,6 +442,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         For example, use a pair (<finite float number>, None) to indicate a vertical rotation axis in the image (x,y) coordinates   
     """
     startTm = datetime.datetime.now()
+    atTomoFlyScanStart(**kwargs)
     logger = LoggerFactory.getLogger("tomographyScan.tomoFlyScan()")
     
     logger.debug("inBeamPosition: {}, outOfBeamPosition: {}, exposureTime: {}, "
@@ -580,7 +584,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 #        multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections backwards",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
         multiScanObj = MultiScanRunner(multiScanItems)
         #must pass fist scan to be run
-        addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name, approxCOR=approxCOR)
+        addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name, **kwargs)
         multiScanObj.runScan()
         tomography_shutter.moveTo("Close")
             
@@ -604,9 +608,13 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         tomography_flyscan_flat_dark_det.name = savename
         if setupForAlignment:
             tomodet.setupForAlignment()
+        if kwargs.has_key("sendDataToTemporaryDirectory") and (kwargs["sendDataToTemporaryDirectory"] is not None) and kwargs["sendDataToTemporaryDirectory"]:
+            print "*Restoring data path to the original data directory: %s" %(kwargs['data_path_saved'])
+            LocalProperties.set("gda.data.scan.datawriter.datadir", kwargs['data_path_saved'])
         handle_messages.log(None, "Error in tomoFlyScan", exceptionType, exception, traceback, True)
+        raise Exception("Error in tomoFlyScan" + repr(exception))
     finally :
-        atTomoFlyScanEnd()
+        atTomoFlyScanEnd(**kwargs)
         endTm = datetime.datetime.now()
         elapsedTm = endTm - startTm
         print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
@@ -617,7 +625,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
 perform a simple tomography scan
 """
 def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0, flatFieldInterval=0,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, flatFieldAngle=None, tomography_detector=None, approxCOR=(None,None), additionalScannables=[]):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=True, flatFieldAngle=None, tomography_detector=None, additionalScannables=[], **kwargs):
     """
     Function to collect a tomogram
  	Arguments:
@@ -638,7 +646,54 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         For example, use a pair (<finite float number>, None) to indicate a vertical rotation axis in the image (x,y) coordinates   
 
     """
-    startTm = datetime.datetime.now()
+    startTm = datetime.datetime.now();
+    print "Args START"
+    if not tomography_detector is None:
+        print "tomography_detector = %s" %(tomography_detector.getName()) 
+    print "inBeamPosition = %.3f" %(inBeamPosition)
+    print "outOfBeamPosition = %.3f" %(outOfBeamPosition)
+    print "exposureTime = %.3f" %(exposureTime)
+    print "start = %.3f" %(start)
+    print "stop = %.3f" %(stop)
+    print "step = %.3f" %(step)
+    
+    print "darkFieldInterval = %i" %(darkFieldInterval)
+    print "flatFieldInterval = %i" %(flatFieldInterval)
+    print "imagesPerDark = %i" %(imagesPerDark)
+    print "imagesPerFlat = %i" %(imagesPerFlat)
+    
+    print "min_i = %.3f" %(min_i)
+    
+    if addNXEntry:
+        print "addNXEntry = True"
+    else:
+        print "addNXEntry = False"
+    
+    if autoAnalyse:
+        print "autoAnalyse = True"
+    else:
+        print "autoAnalyse = False"
+        
+    if flatFieldAngle is None:
+        print "flatFieldAngle = None"
+    else:
+        print "flatFieldAngle = %s" %(str(flatFieldAngle))
+        
+    if tomography_detector is None:
+        print "tomography_detector = None"
+    else:
+        print "tomography_detector = %s" %(tomography_detector.getName())
+        
+    print "additionalScannables:"
+    print additionalScannables
+    
+    print "kwargs"
+    for k, v in kwargs.items():
+        print (k, v)
+        
+    print "Args END"
+        
+    atTomoScanStart(**kwargs)
     if flatFieldAngle is None:
         msg = "\n Each flat field will be taken at the most recent angle as the stage rotates during the scan, \n"
         msg += " with the first flat field being taken at the scan start angle of %.4f deg" %(start)
@@ -796,7 +851,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             
         scanObject=createConcurrentScan(scan_args)
         if addNXEntry:
-            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name, approxCOR=approxCOR)
+            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name, **kwargs)
         tomodet.stop()
         scanObject.runScan()
 
@@ -815,10 +870,22 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, True)
     finally:
+        atTomoScanEnd(**kwargs)
         endTm = datetime.datetime.now()
         elapsedTm = endTm - startTm
         print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
+def atTomoScanStart(**kwargs):
+    """
+    Function to perform beamline-specific tasks after fly scan, eg...
+    """
+    pass
+
+def atTomoScanEnd(**kwargs):
+    """
+    Function to perform beamline-specific tasks before fly scan, eg...
+    """
+    pass
 
 from gda.commandqueue import JythonScriptProgressProvider
 def updateProgress( percent, msg):
@@ -835,7 +902,7 @@ def ProcessScanParameters(scanParameterModelXML):
 
     scanXMLProcessor = ScanXMLProcessor();
     resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
-    parameters = resource.getContents().get(0);
+    parameters = resource.getContents().get(0); 
     jns=beamline_parameters.JythonNameSpaceMapping()
     additionalScannables=jns.tomography_additional_scannables
     setTitle(parameters.getTitle())
@@ -849,28 +916,53 @@ def ProcessScanParameters(scanParameterModelXML):
     print("Input (cor_x, cor_y) = (%s, %s)" %(str(cor_x), str(cor_y)))
     lin_stage, rot_stage = _process_scan_parameters_stages(parameters)
     if not lin_stage is None:
-        print("Using lin_stage: %s" %(lin_stage.getName()))
+        print("Input lin_stage: %s" %(lin_stage.getName()))
     if not rot_stage is None:
-        print("Using rot_stage: %s" %(rot_stage.getName()))
+        print("Input rot_stage: %s" %(rot_stage.getName()))
     
-    if (parameters.flyScan):
-        qFlyScanBatch(parameters.numFlyScans, parameters.title, parameters.flyScanDelay, 
-                      parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-                      darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                      imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI,
-                      extraFlatsAtEnd=parameters.extraFlatsAtEnd, approxCOR=(cor_x,cor_y))
-    else:
-        tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables, approxCOR=(cor_x,cor_y))
+    kwargs = {}
+    kwargs.update({'approxCOR': (cor_x, cor_y)})
+    kwargs.update({'detectorToSampleDistance': det_dist})
+    kwargs.update({'detectorToSampleDistanceUnits': "\'%s\'" %(det_dist_units)})
+    kwargs.update({'XPixelSize': x_pixel_size})
+    kwargs.update({'XPixelSizeUnits': "\'%s\'" %(x_pixel_size_units)})
+    kwargs.update({'YPixelSize': y_pixel_size})
+    kwargs.update({'YPixelSizeUnits': "\'%s\'" %(y_pixel_size_units)})
+    kwargs.update({'closeShutterAfterLastScan': parameters.closeShutterAfterLastScan})
+    kwargs.update({'sendDataToTemporaryDirectory': parameters.sendDataToTemporaryDirectory})
+    
+    if parameters.sendDataToTemporaryDirectory:
+        data_path_saved = LocalProperties.get("gda.data.scan.datawriter.datadir")
+        kwargs.update({'data_path_saved': "\'%s\'" %(data_path_saved)})
+        visit_tmp_path = os.path.join(getVisitPath(),'tmp')
+        LocalProperties.set("gda.data.scan.datawriter.datadir", visit_tmp_path)
+        print "Saving data to the throw-away TMP sub-directory! - %s!" %(visit_tmp_path)
+        
+    try:
+        if (parameters.flyScan):
+            qFlyScanBatch(parameters.numFlyScans, parameters.title, parameters.flyScanDelay, 
+                          parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
+                          darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
+                          imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI,
+                          extraFlatsAtEnd=parameters.extraFlatsAtEnd, **kwargs)
+        else:
+            tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
+                     darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
+                      imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables, **kwargs)
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        if parameters.sendDataToTemporaryDirectory:
+            print "*Restoring data path to the original data directory: %s" %(data_path_saved)
+            LocalProperties.get("gda.data.scan.datawriter.datadir", "\'%s\'" %(data_path_saved))
+        handle_messages.log(None, "Error in ProcessScanParameters", exceptionType, exception, traceback, True)
     updateProgress(100,"Done");
     
 
-def atTomoFlyScanEnd():
+def atTomoFlyScanEnd(**kwargs):
     """
     Function to tidy up anything that needs tidying up after a fly scan, eg
     setting the angular speed of p2r to 30 deg/sec 
-    """
+    """ 
     jns=beamline_parameters.JythonNameSpaceMapping()
     tomography_theta=jns.tomography_theta
     if tomography_theta is None:
@@ -887,22 +979,29 @@ def atTomoFlyScanEnd():
     if ("p2r" in tomography_flyscan_det_name) or ("p2r" in tomography_theta_name):
         #_p2r_telnet = tomography_theta.motor.smc.getBidiAsciiCommunicator()
         #p2rcvmc.bidiAsciiCommunicator.sendCmdNoReply
+        tomography_flyscan_theta = jns.tomography_flyscan_theta
         try:
             # set angular speed to some decent non-zero value
-            tomography_theta.setSpeed(30)
+            tomography_flyscan_theta.setSpeed(30)
             #_p2r_telnet.sendCmdNoReply("MMPOSITION")
         except:
             exceptionType, exception, traceback = sys.exc_info()
             handle_messages.log(None, "Error in atTomoFlyScanEnd", exceptionType, exception, traceback, True)
-            tomography_theta.motor.smc.bidiAsciiCommunicator.closeConnection()
+            tomography_flyscan_theta.motor.smc.bidiAsciiCommunicator.closeConnection()
             try:
                 # the 1st attempt is usually unsuccessful
-                tomography_theta.setSpeed(30)
+                tomography_flyscan_theta.setSpeed(30)
                 #_p2r_telnet.sendCmdNoReply("MMPOSITION")
             except:
                 # the 2nd attempt is usually successful
-                tomography_theta.setSpeed(30)
+                tomography_flyscan_theta.setSpeed(30)
                 #_p2r_telnet.sendCmdNoReply("MMPOSITION")
+                
+def atTomoFlyScanStart(**kwargs):
+    """
+    Function to perform beamline-specific tasks before fly scan, eg...
+    """
+    pass
 
 #tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
 #              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False)
@@ -1200,7 +1299,7 @@ def standardtomoScan():
         print "Error - points are not correct :" + `positions`
     return sc
 
-def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPosition, exposureTime=1., start=-90., stop=90., step=0.1, darkFieldInterval=0., flatFieldInterval=0., imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, approxCOR=(None,None)):
+def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPosition, exposureTime=1., start=-90., stop=90., step=0.1, darkFieldInterval=0., flatFieldInterval=0., imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, **kwargs):
     """
     Desc:
     Fn to submit a given number of identical tomoFlyScans to the queue for automatic execution with optional wait time between any two consecutive scans
@@ -1254,7 +1353,11 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     _args.append(("autoAnalyse", autoAnalyse))
     _args.append(("closeShutterAfterFlats", closeShutterAfterFlats))
     _args.append(("extraFlatsAtEnd", extraFlatsAtEnd))
-    _args.append(("approxCOR", approxCOR))
+    #_args.append(("approxCOR", approxCOR))
+    
+    _args_from_kwargs = []
+    _args_from_kwargs = [(k,v) for k, v in kwargs.iteritems()]
+    _args.extend(_args_from_kwargs) 
 
     def mysleep(secsToWait, v=True):
         if v:
@@ -1312,10 +1415,13 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
         #cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, title_tmp, None))
         cqp.addToTail(JythonCommandCommandProvider(cmd_tmp, cmd_desc_tmp, None)) 
     
-    # after all scans
+    # after all scans are finished
     set_title_saved_cmd = "setTitle(\"%s\")" %(title_saved)
     #print "set_title_saved_cmd = %s" %(set_title_saved_cmd)
-    batch_end_cmd = shutter_close_cmd + ";" + set_title_saved_cmd
+    if kwargs.has_key("closeShutterAfterLastScan") and (kwargs["closeShutterAfterLastScan"] is not None) and kwargs["closeShutterAfterLastScan"]:
+        batch_end_cmd = shutter_close_cmd + ";" + set_title_saved_cmd
+    else:
+        batch_end_cmd = set_title_saved_cmd
     print "batch_end_cmd = %s" %(batch_end_cmd)
     cqp.addToTail(JythonCommandCommandProvider(batch_end_cmd, batch_end_cmd, None))
     #shuttr_close_cmd = "%s.moveTo(\"%s\")" %(tomography_shutter.getName(), "Close")
@@ -1324,7 +1430,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     #cqp.addToTail(JythonCommandCommandProvider(tmp, tmp, None))
     
 def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, frames=1, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, approxCOR=(None,None), additionalScannables=[]):
+              imagesPerDark=20, imagesPerFlat=20, frames=1, min_i=-1., addNXEntry=True, autoAnalyse=True, tomography_detector=None, additionalScannables=[], **kwargs):
     """
     Function to collect a tomogram
      Arguments:
@@ -1490,7 +1596,7 @@ def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=
             
         scanObject=createConcurrentScan(scan_args)
         if addNXEntry:
-            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name, approxCOR)
+            addNXTomoSubentry(scanObject, tomography_detector.name, tomography_theta.name, **kwargs)
         tomodet.stop()
         scanObject.runScan()
 
@@ -1611,7 +1717,7 @@ def _process_scan_parameters_stages(parameters):
 def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
     if kwargs.has_key("approxCOR") and (kwargs["approxCOR"] is not None):
         approxCOR = kwargs["approxCOR"]
-        print "approxCOR:"
+        print "approxCOR = "
         print approxCOR
         if approxCOR[0] is None:
             nxLinkCreatorObj.setInstrument_detector_x_rotation_axis_pixel_position(float('nan'))
@@ -1628,8 +1734,7 @@ def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
         
     if kwargs.has_key("detectorToSampleDistance") and (kwargs["detectorToSampleDistance"] is not None):
         detectorToSampleDistance = kwargs["detectorToSampleDistance"]
-        print "detectorToSampleDistance:"
-        print detectorToSampleDistance
+        print "detectorToSampleDistance = %.3f" %(detectorToSampleDistance)
         if detectorToSampleDistance is None:
             nxLinkCreatorObj.setInstrument_detector_distance(float('nan'))
         else:
@@ -1639,8 +1744,7 @@ def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
     
     if kwargs.has_key("detectorToSampleDistanceUnits") and (kwargs["detectorToSampleDistanceUnits"] is not None):
         detectorToSampleDistanceUnits = kwargs["detectorToSampleDistanceUnits"]
-        print "detectorToSampleDistanceUnits:"
-        print detectorToSampleDistanceUnits
+        print "detectorToSampleDistanceUnits = "+ detectorToSampleDistanceUnits
         if detectorToSampleDistanceUnits is None or len(detectorToSampleDistanceUnits) == 0:
             nxLinkCreatorObj.setInstrument_detector_distance_units('undefined')
         else:
@@ -1650,8 +1754,7 @@ def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
     
     if kwargs.has_key("XPixelSize") and (kwargs["XPixelSize"] is not None):
         XPixelSize = kwargs["XPixelSize"]
-        print "XPixelSize:"
-        print XPixelSize
+        print "XPixelSize = %.3f" %(XPixelSize)
         if XPixelSize is None:
             nxLinkCreatorObj.setInstrument_detector_x_pixel_size(float('nan'))
         else:
@@ -1661,8 +1764,7 @@ def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
     
     if kwargs.has_key("XPixelSizeUnits") and (kwargs["XPixelSizeUnits"] is not None):
         XPixelSizeUnits = kwargs["XPixelSizeUnits"]
-        print "XPixelSizeUnits:"
-        print XPixelSizeUnits
+        print "XPixelSizeUnits = "+XPixelSizeUnits
         if XPixelSizeUnits is None or len(XPixelSizeUnits) == 0:
             nxLinkCreatorObj.setInstrument_detector_pixel_size_units('undefined')
         else:
@@ -1672,8 +1774,7 @@ def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
         
     if kwargs.has_key("YPixelSize") and (kwargs["YPixelSize"] is not None):
         YPixelSize = kwargs["YPixelSize"]
-        print "YPixelSize:"
-        print YPixelSize
+        print "YPixelSize = %.3f" %(YPixelSize)
         if YPixelSize is None:
             nxLinkCreatorObj.setInstrument_detector_y_pixel_size(float('nan'))
         else:
@@ -1683,8 +1784,7 @@ def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
     
     if kwargs.has_key("YPixelSizeUnits") and (kwargs["YPixelSizeUnits"] is not None):
         YPixelSizeUnits = kwargs["YPixelSizeUnits"]
-        print "YPixelSizeUnits:"
-        print YPixelSizeUnits
+        print "YPixelSizeUnits = "+YPixelSizeUnits
         if YPixelSizeUnits is None or len(YPixelSizeUnits) == 0:
             nxLinkCreatorObj.setInstrument_detector_pixel_size_units('undefined')
         else:
@@ -1695,3 +1795,12 @@ def _addNXTomoSubentryValues(nxLinkCreatorObj, **kwargs):
 def isLive():
     mode = LocalProperties.get("gda.mode")
     return mode =="live" or mode =="live_localhost"
+
+def getVisitPath():
+    data_path = LocalProperties.get("gda.data.scan.datawriter.datadir")
+    data_path_split = data_path.rsplit('/')
+    visit_path = '/'
+    for i in range(1,6):
+        visit_path = os.path.join(visit_path, data_path_split[i])
+    return visit_path
+

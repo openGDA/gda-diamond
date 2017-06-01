@@ -1,4 +1,4 @@
-#This file is used by beamline_parameters.jythonNamespaceMapping
+﻿#This file is used by beamline_parameters.jythonNamespaceMapping
 
 #tomography_translation is the motor used to move the sample out of the beam (x)
 #Possible values:
@@ -9,13 +9,14 @@
 #ss1_samplez - only use if going from -90 to 90. otherwise use ss1_x which is a virtual motor that takes account of rotation
 #ss1_sampley - to move the sample vertically
 #translate_x - translation table on which the sample stages are mounted, useful if using the hexapod
-#tomography_translation=hex_x
+#tomography_translation=hex_samplex
+tomography_translation=hex_x
 #tomography_translation=hex_y
 #tomography_translation=ss1_sampley #Vertical
 #tomography_translation=ss1_sampley
 #tomography_translation=ss1_X  #Base
 #tomography_translation=ss1_samplex
-tomography_translation=ss1_X_dummy
+#tomography_translation=ss1_X_dummy
 #tomography_translation=translate_x
 #tomography_translation=newport_3
 
@@ -81,28 +82,28 @@ tomography_beammonitor=ionc_i
 #tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
 
 
-#Collecting HDF data with flyscans writing to hdf with chunking set for maximum write speed
+#### Collecting HDF data with flyscans writing to hdf with chunking set for maximum write speed
 #tomography_flyscan_theta=zebraSM1	# to use mikos rot stage on Huber
-#tomography_flyscan_theta=zebraSM2	# to use slip-ring rot stage 
-tomography_flyscan_theta=debenSM3	# to use deben rot stage 
+tomography_flyscan_theta=zebraSM2	# to use slip-ring rot stage (hex_rot)
+#tomography_flyscan_theta=debenSM3	# to use deben rot stage 
 tomography_flyscan_det=flyScanDetectorNoChunking
 tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorNoChunking
 
 
-#Collecting TIFF data with flyscans
-#tomography_flyscan_theta=zebraSM1
+#### Collecting TIFF data with flyscans
 #tomography_flyscan_det=flyScanDetectorTIF
 #tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorTIF
 
-#connect p2r trigger to exposure out of PCO and connect that to Zebra TTL1. The busy is used by the tfg
+#### P2R Stage:
+#### Connect p2r trigger to exposure out of PCO and connect that to Zebra TTL1. The busy is used by the tfg
 #tomography_flyscan_theta=p2rSM1
 #tomography_flyscan_det=p2r_flyScanDetector
 #tomography_flyscan_flat_dark_det=p2r_flyScanFlatDarkDetector
 
 
-# used for grating-interferometry tomography step-scans
+#### GRATING Interferometer
+#### used for grating-interferometry tomography step-scans
 tomography_grating_translation=smar_x
-
 tomography_grating_translation_outer=smar_x
 tomography_grating_translation_inner=smar_y
 

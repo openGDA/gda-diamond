@@ -167,7 +167,7 @@ try:
 	from gda.factory import Finder
 	from gda.configuration.properties import LocalProperties
 
-	from i13i_utilities import wd, cfn, nfn, pwd, nwd, send_email
+	from i13i_utilities import wd, cfn, nfn, pwd, nwd, send_email, use_storage, report_storage
 	alias("wd")
 	alias("cfn")
 	alias("nfn")
@@ -289,6 +289,7 @@ try:
 	alias("reportJythonNamespaceMapping")
 	alias("reportTomo")
 	tomography_additional_scannables=[] #=[p2r_force, p2r_y]
+	from p2r_utilities import p2r_telnet
 
 	#for fast flyscans
 	if isLive():
@@ -339,6 +340,10 @@ try:
 		caput("BL13I-EA-DET-01:TIFF:CreateDirectory", 1)
 		caput("BL13I-EA-DET-01:TIFF:TempSuffix", ".tmp")
 
+		# Set ports of file-writing plugins 
+		caput("BL13I-EA-DET-01:TIFF:NDArrayPort", caget("BL13I-EA-DET-01:CAM:PortName_RBV"))
+		caput("BL13I-EA-DET-01:HDF5:NDArrayPort", caget("BL13I-EA-DET-01:CAM:PortName_RBV"))
+
 		run("localStationUser.py")
 
 		from deben import *
@@ -356,10 +361,12 @@ try:
 		createPVScannable('xgi_grat_y','BL13I-MO-SMAR-01:Y2.VAL')
 		createPVScannable('xgi_grat_z','BL13I-MO-SMAR-01:Z2.VAL')
 		
-		_stressTesting = True
+		_stressTesting = False
 		if _stressTesting:
 			from i13i_utilities import stressTest
 			LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
+
+                #use_storage("gpfs")
 except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)

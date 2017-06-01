@@ -3,6 +3,7 @@ import time
 import datetime
 import subprocess
 import csv
+import socket
 from time import sleep
 from gda.data import NumTracker
 from gdascripts.messages import handle_messages
@@ -119,7 +120,14 @@ def getVisitRootPath():
         visitRootpath = workDirpath
     return visitRootpath
 
-
+def getVisitPath():
+    data_path = LocalProperties.get("gda.data.scan.datawriter.datadir")
+    data_path_split = data_path.rsplit('/')
+    visit_path = '/'
+    for i in range(1,6):
+        visit_path = os.path.join(visit_path, data_path_split[i])
+    return visit_path
+    
 import smtplib
 from email.mime.text import MIMEText
 def send_email(whoto, subject, body):
@@ -539,5 +547,197 @@ def interruptable():
     Fn to facilitate making for-loops interruptable in GDA: need to call this fn in the 1st or the last line of a for-loop
     """
     GeneralCommands.pause()
+
+def use_storage(storage_name, notify=False, comment=''):
+    """
+    Fn to select a storage place, NetApp or GPGS01, for saving GDA scan files. After executing this command, any subsequent GDA scans will save their scan files on the selected storage.
+    Note: this command needs to be excuted again if GDA servers are re-started
+    
+    Arg(s)
+    storage_is (String) - short name of the storage place to be used for GDA saving scan files:
+        "na" - NetApp local storage 
+        "gpfs" - GPFS01 central storage
+    notify (boolean) - if True, a notification is sent to a number of stakelders
+    comment (String) - a user-provided justification for changing storage, to be included in all e-mail notifications to stakeholders   
+    """
+    #assert na or gpfs
+
+    now = time.strftime("%c")
+    notify = True
+    emails = []
+    emails.append('kaz.wanelik@diamond.ac.uk')
+#    emails.append('frederik.ferner@diamond.ac.uk')
+#    emails.append('andy.wilson@diamond.ac.uk')
+#    christoph on i13 / michael on i12?
+
+    detector_objs = {}
+    detector_objs.update({'flyScanDetectorNoChunking': 'flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(%s)'})
+
+    storage_name_ = storage_name.lower()
+    windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "t:\\i13\\data\\"}
+    storage = windowsSubString_dct[storage_name_]
+
+    # loop over objects in detectors_obj, finding each obj and then executing the corresponding command (handle failures gracefully without aborting the loop)
+    flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
+    print "Setting windowsSubString for %s to %s..." %(flyScanDetectorNoChunking.getName(), storage)
+    flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
+    print "Current windowsSubString = %s" %(flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString())
+
+    flyScanFlatDarkDetectorNoChunking = finder.find("flyScanFlatDarkDetectorNoChunking")
+    print "Setting windowsSubString for %s to %s..." %(flyScanFlatDarkDetectorNoChunking.getName(), storage)
+    flyScanFlatDarkDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
+    print "Current windowsSubString = %s" %(flyScanFlatDarkDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString())
+
+    # pco_hw_hdf, pco_hw_hdf_nochunking, pco_hw_tif, pco1_tif?  
+    # pco1_hw_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    # pco1_hw_hdf_nochunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    # pco1_hw_tif.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+
+    # need to undo .tmp (rsync) and suppressing some GDA error messages
+    # need to undo .tmp and suppressing some GDA error messages
+
+    if storage_name_ == "na":
+        #print "disable 'waiting for file to be created'"
+        #pixium10_tif.pluginList[1].waitForFileArrival=False
+        #print "disable 'Path does not exist on IOC'"
+        #pixium10_tif.pluginList[1].pathErrorSuppressed=True
+
+        #pco4000_dio_tif.setCheckFileExists(False)
+        #pco4000_dio_tif.fileWriter.pathErrorSuppressed=True
+        #pco4000_dio_hdf.pluginList[1].pathErrorSuppressed=True
+        
+        # i13
+        #pco1_hw_tif.pluginList[1].waitForFileArrival=False
+        #pco1_tif.pluginList[1].waitForFileArrival=False
+
+        flyScanDetectorNoChunking.getAdditionalPluginList()[0].pathErrorSuppressed=True
+        flyScanFlatDarkDetectorNoChunking.getAdditionalPluginList()[0].pathErrorSuppressed=True
+    elif storage_name_ == "gpfs":
+        #print "enable 'waiting for file to be created'"
+        #pixium10_tif.pluginList[1].waitForFileArrival=True
+        #print "enable 'Path does not exist on IOC'"
+        #pixium10_tif.pluginList[1].pathErrorSuppressed=False
+        
+        # i13
+        #pco1_hw_tif.pluginList[1].waitForFileArrival=True
+        #pco1_tif.pluginList[1].waitForFileArrival=True
+
+        #pco4000_dio_tif.setCheckFileExists(True)
+        #pco4000_dio_tif.fileWriter.pathErrorSuppressed=False
+        #pco4000_dio_hdf.pluginList[1].pathErrorSuppressed=False
+
+        flyScanDetectorNoChunking.getAdditionalPluginList()[0].pathErrorSuppressed=False
+        flyScanFlatDarkDetectorNoChunking.getAdditionalPluginList()[0].pathErrorSuppressed=False
+    else:
+        msg = "Unsupported storage mode: %s!" %(storage_name_)
+        print msg
+
+
+    pretty_print_dct = {'na': 'NetApp', 'gpfs': 'GPFS01'}
+
+    if notify and len(emails)>0:
+        print('Sending an e-mail notification to:')
+        for eml in emails:
+            print(eml) 
+        #send e-mail, specifying: time, visit's path (with beamline id)
+        storage_name = pretty_print_dct[storage_name_]
+        hst = socket.gethostname()
+        beamline = 'i13'
+        sbj = '%s: storage changed to %s.' %(beamline, storage_name)
+        filepath = pwd()+'.nxs'
+        visit_id = filepath
+        bdy = '%s: storage changed to %s for visit %s at %s.' %(beamline, storage_name, visit_id, now)
+        if len(comment)>0:
+            bdy += '\n' + comment
+        else:
+            bdy += ' No comment provided.'
+        send_email(emails, subject=sbj, body=bdy)
+
+    print "\n * Finished configuring beamline storage to %s!" %(storage_name_)
+    
+
+
+def report_storage():
+    """
+    Desc:
+    Fn to report current storage configuration for saving scan files on the beamline.
+    """
+    windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
+    
+    #curr_out_str = "Current windowsSubString for %s is %s (%s)."
+    curr_out_str = "%s is currently configured to use the %s storage (on %s)."
+    
+    # PCO TIFF detector objects
+    #pco4000_dio_tif = finder.find("pco4000_dio_tif")
+    #det_name = pco4000_dio_tif.getName()
+    #det_cfg = pco4000_dio_tif.getNdFile().getFilePathConverter().getWindowsSubString()
+    #det_drv = det_cfg.split(':')[0]
+    #print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
+    det_name = flyScanDetectorTIF.getName()
+    det_cfg = flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    flyScanFlatDarkDetectorTIF = finder.find("flyScanFlatDarkDetectorTIF")
+    det_name = flyScanFlatDarkDetectorTIF.getName()
+    det_cfg = flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    # PCO HDF detector objects
+    flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
+    det_name = flyScanDetectorNoChunking.getName()
+    det_cfg = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    flyScanFlatDarkDetectorNoChunking = finder.find("flyScanFlatDarkDetectorNoChunking")
+    det_name = flyScanFlatDarkDetectorNoChunking.getName()
+    det_cfg = flyScanFlatDarkDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    #pco4000_dio_hdf = finder.find("pco4000_dio_hdf")
+    #det_name = pco4000_dio_hdf.getName()
+    #det_cfg = pco4000_dio_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    #det_drv = det_cfg.split(':')[0]
+    #print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    #flyScanDetector, flyScanDetectorTIF
+    # pco1_hw_hdf_nochunking
+
+from gdascripts.scannable.beamokay import WaitWhileScannableBelowThresholdMonitorOnly, reprtime
+
+class WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback(WaitWhileScannableBelowThresholdMonitorOnly):
+    
+    def __init__(self, name, scannableToMonitor, minimumThreshold, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=0, emails=None):
+        WaitWhileScannableBelowThresholdMonitorOnly.__init__(self, name, scannableToMonitor, minimumThreshold, secondsBetweenChecks, secondsToWaitAfterBeamBackUp)
+        self.emails = emails
+        self.feedback_reqd_ = True 
+        
+    def handleStatusChange(self,status):
+        ixx = "i13" 
+        ## check for status change to provide feedback:
+        if status and self.lastStatus:
+            pass # still okay
+        if status and not self.lastStatus:
+            msg = "*** " + self.name + ": Beam back up at: " + reprtime() + ". Resuming scan in " + str(self.secondsToWaitAfterBeamBackUp) + "s..."
+            print(msg)
+            if len(self.emails) : send_email(whoto=self.emails, subject=ixx+": "+msg, body=msg)
+            self.lastStatus = True
+            sleep(self.secondsToWaitAfterBeamBackUp)
+            msg = "*** " + self.name + ":  Resuming scan now at " + reprtime()
+            if len(self.emails) : send_email(whoto=self.emails, subject=ixx+": "+msg, body=msg)
+            print(msg)
+        if not status and not self.lastStatus:
+            pass # beam still down
+        if not status and self.lastStatus:
+            msg = "*** " + self.name + ": Beam down at: " + reprtime() + " . Pausing scan..."
+            print(msg)
+            self.lastStatus = False
+            if len(self.emails) : send_email(whoto=self.emails, subject=ixx+": "+msg, body=msg)
+   
 
 print "Finished running i13i_utilities.py!"

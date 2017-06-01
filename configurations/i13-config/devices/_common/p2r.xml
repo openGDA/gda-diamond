@@ -7,6 +7,8 @@
 		<property name="bidiAsciiCommunicator" ref="p2r_telnet"></property>
 		<property name="zebra" ref="zebra"/>
 		<property name="mode" value="1"/>
+		<property name="pcPulseGateNotTrigger" value="false"/>
+		<property name="pcPulseTriggerWidth" value="0.01" />
 		<property name="local" value="true" />
 	</bean>
 

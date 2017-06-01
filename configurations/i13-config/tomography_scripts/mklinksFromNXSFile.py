@@ -346,20 +346,23 @@ def populateDirs(scanNumber_str, head, dark_dir, flat_dir, proj_dir, darks_dir, 
 	flat.tif in the sino/[scanNumber]/flat folder
 	"""
 
-	src_dark=tif_lst[dark_idx[0]][0]
+	#src_dark=tif_lst[dark_idx[0]][0]
+	src_dark=tif_lst[dark_idx[0]] #2 iii 17
 	#print "src_dark=%s"%src_dark
 
 	dst_dark="dark-sgl.tif"
 	dst_dark=head+os.sep+dark_dir+os.sep+dst_dark
 	createSoftLink(src_dark, dst_dark)
 
-	src_flat=tif_lst[flat_idx[0]][0]
+	#src_flat=tif_lst[flat_idx[0]][0]
+	src_flat=tif_lst[flat_idx[0]] #2 iii 17
 	dst_flat="flat-sgl.tif"
 	dst_flat=head+os.sep+flat_dir+os.sep+dst_flat
 	createSoftLink(src_flat, dst_flat)
 
 	#identify arguments to be used when calling makeLinks using the path of the first projection file
-	src_proj=tif_lst[proj_idx[0]][0]
+	#src_proj=tif_lst[proj_idx[0]][0]
+	src_proj=tif_lst[proj_idx[0]] #2 iii 17
 	refFilename=src_proj
 
 
@@ -1147,6 +1150,7 @@ def makeLinksForNXSFile(\
 	
 	try:
 		tif=nxsFileHandle[tifNXSPath]
+		print tif[0]
 	except Exception, ex:
 		raise Exception ("Error on trying to access paths to TIF images inside the input NeXus file: \n"+str(ex))
 
@@ -1186,7 +1190,10 @@ def makeLinksForNXSFile(\
 		print "len_tif=%s"%len_tif
 		print "len_imgNumber=%s"%len_imgNumber
 
-	path_to_first_tif = tif[0][0]
+	#path_to_first_tif = tif[0][0]
+	path_to_first_tif = tif[0]	#2 iii 17
+
+	print("path_to_first_tif = %s", path_to_first_tif)
 	idx_offset_src=os.path.basename(path_to_first_tif)
 	idx_offset_str = os.path.splitext(idx_offset_src)[0]
 	idx_offset_int = int(idx_offset_str)
@@ -1404,7 +1411,8 @@ def makeLinksForNXSFile(\
 			raise Exception(msg)
 	
 	# use the path of the first PROJ image file as a reference file path for identifying the corresponding scanNumber, etc
-	srcfile_proj=tif[ proj_idx[0] ][0]
+	#srcfile_proj=tif[ proj_idx[0] ][0]
+	srcfile_proj=tif[ proj_idx[0] ] #2 iii 17
 
 	inWidth=4008
 	inHeight=2672
