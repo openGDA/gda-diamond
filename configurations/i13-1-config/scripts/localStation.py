@@ -131,6 +131,11 @@ lens = scope1_turret
 import gdascripts.scannable.beamokay
 beamok = gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok",ic1,0.1)
 
+from i13j_utilities import WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback
+ebeamok = WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback("ebeamok",ic1,0.1,emails=['kaz.wanelik@diamond.ac.uk', 'silvia.cipiccia@diamond.ac.uk', 'darren.batey@diamond.ac.uk', 'xiaowen.shi@diamond.ac.uk', 'physicshome@gmail.com'])
+
+from i13j_utilities import ShutterDirector, CAShutterDirector, StepScanMinder
+#shutter_director = ShutterDirector('shutter_director', fs, delay_after_open_sec=0, delay_after_close_sec=0)
 
 #make ScanPointProvider
 import sample_stage_position_provider
@@ -440,10 +445,12 @@ except:
 print(section_sep)
 
 # for vortex to set Preset Mode to 'Real time' (the default is 'No preset')
-#caput("ME13C-EA-DET-01:PresetMode", 1)
+caput("ME13C-EA-DET-01:PresetMode", 1)
 
 #8/4/2014 pie725 not present
 #run("startup_pie725")
+
+shutter_director = ShutterDirector('shutter_director', delay_after_open_sec=0, delay_after_close_sec=0)
 
 print(section_sep)
 # localStationUser.py should be run at the very end of this localStation.py

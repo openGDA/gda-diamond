@@ -1,5 +1,6 @@
 from gda.data import NumTracker
 import os
+from time import sleep, strftime
 from gda.data import PathConstructor
 from gda.factory import Finder
 from gda.jython import InterfaceProvider
@@ -162,3 +163,205 @@ topupMonitor.setMachineModeMonitor(machineModeMonitor)
 topupMonitor.setScannableToBeMonitored(machineTopupMonitor)
 topupMonitor.setLevel(999) # so this is the last thing to be called before data is collected, to save time for motors to move
 topupMonitor.configure() 
+
+
+from gdascripts.scannable.beamokay import WaitWhileScannableBelowThresholdMonitorOnly, reprtime
+
+class WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback(WaitWhileScannableBelowThresholdMonitorOnly):
+    
+    def __init__(self, name, scannableToMonitor, minimumThreshold, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=0, ixx="i13-1", emails=None):
+        WaitWhileScannableBelowThresholdMonitorOnly.__init__(self, name, scannableToMonitor, minimumThreshold, secondsBetweenChecks, secondsToWaitAfterBeamBackUp)
+        self.emails = emails # list
+        self.emails_enabled = True
+        self.ixx = ixx   
+        
+    def handleStatusChange(self,status):
+        send_emails = self.emails_enabled and len(self.emails)
+        ## check for status change to provide feedback:
+        if status and self.lastStatus:
+            pass # still okay
+        if status and not self.lastStatus:
+            msg = "*** " + self.name + ": Beam back up at: " + reprtime() + ". Resuming scan in " + str(self.secondsToWaitAfterBeamBackUp) + "s..."
+            print(msg)
+            if send_emails : send_email(whoto=self.emails, subject=self.ixx+": "+msg, body=msg)
+            self.lastStatus = True
+            sleep(self.secondsToWaitAfterBeamBackUp)
+            msg = "*** " + self.name + ":  Resuming scan now at " + reprtime()
+            if send_emails : send_email(whoto=self.emails, subject=self.ixx+": "+msg, body=msg)
+            print(msg)
+        if not status and not self.lastStatus:
+            pass # beam still down
+        if not status and self.lastStatus:
+            msg = "*** " + self.name + ": Beam down at: " + reprtime() + ". Pausing scan..."
+            print(msg)
+            self.lastStatus = False
+            if len(self.emails) : send_email(whoto=self.emails, subject=self.ixx+": "+msg, body=msg)
+        
+
+from gda.device.scannable import ScannableBase
+class ShutterDirector(ScannableBase):
+    """
+    Class that opens the shutter before detector exposes and then shuts this shutter afterwards
+    """
+    def __init__(self, name, delegate, delay_after_open_sec=0, delay_after_close_sec=0):
+        self.name = name
+        self.inputNames = [name]
+        self.delegate = delegate        # the shutter Scannable to direct
+        self.delay_after_open_sec = delay_after_open_sec        # optional delay after issuing the open command
+        self.delay_after_close_sec = delay_after_close_sec      # optional delay after issuing the close command
+    
+    def _do_open_shutter(self):
+        self.delegate.moveTo('Open')
+        sleep(self.delay_after_open_sec)
+
+    def _do_close_shutter(self):
+        self.delegate.moveTo('Closed')
+        sleep(self.delay_after_close_sec) 
+        
+    def atLevelMoveStart(self):         # see atLevelMoveStart in Scannable
+        #print("atLevelMoveStart")
+        self._do_open_shutter()
+        
+    def isBusy(self):
+        #print("isBusy")
+        return self.delegate.isBusy()
+    
+    def atPointStart(self):             
+        #print("atPointStart")
+        #self._do_close_shutter()
+        self._do_open_shutter()
+        pass
+        
+    def atPointEnd(self):             # Called on every Scannable at the end of every data point...
+        #print("atPointEnd")
+        self._do_close_shutter()
+        pass
+
+    def atScanStart(self):
+        #print("atScanStart")
+        self.setLevel(self.delegate.getLevel())
+        self._do_open_shutter()
+        
+    def atScanEnd(self):
+        #print("atScanEnd")
+        self._do_close_shutter()
+        
+    def getPosition(self):
+        #print("getPosition")
+        if self.delegate.getPosition()=="Open":
+            return 0
+        else:
+            return 1
+    
+    def rawAsynchronousMoveTo(self,new_position):
+        #print("rawAsynchronousMoveTo")
+        pass
+
+from epics_scripts.pv_scannable_utils import caput, caget
+class CAShutterDirector(ScannableBase):
+    """
+    Class that opens the shutter before detector exposes and then shuts this shutter afterwards
+    """
+    def __init__(self, name, delegatePV, to_open_int=5, to_close_int=0, delay_after_open_sec=0, delay_after_close_sec=0):
+        self.name = name
+        self.inputNames = [name]
+        self.delegate = delegatePV        # the shutter Scannable to direct
+        self.to_open_int = to_open_int
+        self.to_close_int = to_close_int   
+        self.delay_after_open_sec = delay_after_open_sec        # optional delay after issuing the open command
+        self.delay_after_close_sec = delay_after_close_sec      # optional delay after issuing the close command
+    
+    def _do_open_shutter(self):
+        #self.delegate.moveTo('Open')
+        caput(self.delegate, self.to_open_int)
+        sleep(self.delay_after_open_sec)
+
+    def _do_close_shutter(self):
+        #self.delegate.moveTo('Closed')
+        caput(self.delegate, self.to_close_int)
+        sleep(self.delay_after_close_sec) 
+        
+    def atLevelMoveStart(self):         # see atLevelMoveStart in Scannable
+        #print("atLevelMoveStart")
+        self._do_open_shutter()
+        
+    def isBusy(self):
+        #print("isBusy")
+        #return self.delegate.isBusy()
+        return False
+    
+    def atPointStart(self):             
+        #print("atPointStart")
+        #self._do_close_shutter()
+        self._do_open_shutter()
+        pass
+        
+    def atPointEnd(self):             # Called on every Scannable at the end of every data point...
+        #print("atPointEnd")
+        self._do_close_shutter()
+        pass
+
+    def atScanStart(self):
+        #print("atScanStart")
+        #self.setLevel(self.delegate.getLevel())
+        self._do_open_shutter()
+        
+    def atScanEnd(self):
+        #print("atScanEnd")
+        self._do_close_shutter()
+        
+    def getPosition(self):
+        #print("getPosition")
+        out = caget(self.delegate)
+        #if self.delegate.getPosition()=="Open":
+        if out=='Open' or out==str(int(self.to_open_int)) or out==str(float(self.to_open_int)):
+            return 0
+        else:
+            return 1
+    
+    def rawAsynchronousMoveTo(self,new_position):
+        #print("rawAsynchronousMoveTo")
+        pass
+
+from gda.device.scannable import PseudoDevice
+class StepScanMinder(ScannableBase):
+    """
+    Class that...
+    """
+    def __init__(self, name, ixx="i13-1", every=3, emails=None):
+        self.name = name
+        self.inputNames = [name]
+        self.emails = emails                # list
+        self.emails_enabled = True
+        self.ixx = ixx
+        self.every = every
+        self.current_scan_pt_idx = 0
+        
+    def rawGetPosition(self):
+        return self.current_scan_pt_idx + 1
+    
+    def rawAsynchronousMoveTo(self, new_position):
+        self.every = int(-new_position) if new_position < 0 else int(new_position) 
+    
+    def isBusy(self):
+        return False   
+    
+    def atPointEnd(self):
+        self.current_scan_pt_idx += 1
+        send_emails = self.emails_enabled and len(self.emails) and (self.current_scan_pt_idx % self.every == 0)
+        if send_emails:
+            msg = "At scan point %i." %(self.current_scan_pt)
+            send_email(whoto=self.emails, subject=self.ixx+": "+msg, body=msg)
+        
+    def atScanStart(self):
+        self.current_scan_pt_idx = 0
+        
+    def atScanEnd(self):
+        # is this going to send a repeat e-mail?
+        msg = msg = "At scan point %i." %(self.current_scan_pt)
+        send_email(whoto=self.emails, subject=self.ixx+": "+msg, body=msg)
+        
+    def getPosition(self):
+        return self.delegate.getPosition()
+
+
