@@ -17,8 +17,6 @@ from setup.tfgsetup import setupTfg, fs
 alias('fs')
 
 
-from maskUtils import setMask, clearMask, currentMask
-
 # Get the locatation of the GDA beamline script directory
 gdaScriptDir = "/dls/i22/software/gda/config/scripts/"
 setupScriptDir = "setup/"
