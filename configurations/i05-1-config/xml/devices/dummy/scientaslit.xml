@@ -60,5 +60,20 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="analyser_slit">
+		<property name="name" value="analyser_slit" />
+		<property name="inputNames">
+			<list>
+				<value>analyser_slit</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3" />
+	</bean>
 
 </beans>
