@@ -54,9 +54,8 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-<!-- 	<import resource="live_mjpeg.xml"/> -->
-<!-- 	<import resource="stage_controls.xml"/> -->
-<!-- 	<import resource="mapping_experiment_bean_provider.xml"/> -->
-<!-- 	<import resource="mapping_region_manager.xml" /> -->
+	<!-- <import resource="live_mjpeg.xml"/> -->
+	<!-- <import resource="stage_controls.xml"/> -->
+	<import resource="mapping.xml" />
 
 </beans>
