@@ -17,11 +17,8 @@
                 <ref bean="subdirectory"/>
                 <ref bean="samplename"/>
                 <ref bean="title"/>
+                <ref bean="visit"/>
                 <ref bean="instrument.source.current"/>
-                <bean class="gda.data.metadata.StoredMetadataEntry" id="visit">
-                    <property name="name" value="visit"/>
-                    <property name="value" value=""/>
-                </bean>
                 <bean class="gda.data.metadata.PropertyMetadataEntry">
                     <property name="name" value="instrument"/>
                     <property name="propertyName" value="gda.instrument"/>
@@ -36,6 +33,11 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean id="visit" class="gda.data.metadata.StoredMetadataEntry">
+        <property name="name" value="visit"/>
+        <property name="value" value=""/>
     </bean>
 
     <bean class="gda.data.metadata.StoredScanMetadataEntry" id="title">

@@ -78,11 +78,25 @@
         <property name="detectorType" value="SAXS" />
         <property name="memory" ref="SaxsMemory" />
         <property name="pixelSize" value="0.000383" />
+        <property name="metaProviders">
+            <list>
+                <ref bean="saxs_mask" />
+                <ref bean="saxs_cal" />
+                <ref bean="saxs_bg" />
+            </list>
+        </property>
     </bean>
 
     <bean id="Pilatus2M_WAXS" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
         <property name="detectorType" value="WAXS" />
         <property name="memory" ref="WaxsMemory" />
+        <property name="metaProviders">
+            <list>
+                <ref bean="waxs_mask" />
+                <ref bean="waxs_cal" />
+                <ref bean="waxs_bg" />
+            </list>
+        </property>
     </bean>
 
 <!--     <bean id="Scaler" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector"> -->
