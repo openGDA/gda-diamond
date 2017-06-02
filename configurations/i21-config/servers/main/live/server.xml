@@ -9,6 +9,10 @@
 	<import resource="../../../properties/_common/gdaProperties.xml"
 	
 	<import resource="devices/_all.xml"/>
+	
+	<!-- add dummy motors from p45-config for solstice scanning testing-->
+	<import resource="file:${gda.config.project.p45}/servers/main/dummy/mapping_motors.xml"/>
+	<import resource="file:${gda.config.project.p45}/servers/main/dummy/det.xml"/>
 
 	<!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />

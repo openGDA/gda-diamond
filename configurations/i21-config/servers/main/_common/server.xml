@@ -25,6 +25,11 @@
 	<import resource="devices/_all.xml"/>
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	
+	<import resource="file:${gda.config.project.p45}/servers/main/_common/det.xml"/>
+	<import resource="file:${gda.config.project.p45}/servers/main/_common/mapping_motors.xml"/>
+	<import resource="file:${gda.config.project.p45}/servers/main/_common/example_detectors.xml"/>
+	<import resource="file:${gda.config.project.p45}/servers/main/_common/mandelbrot_detectors.xml"/>
+	
 	<corba:export namespace="${gda.factory.factoryName}" />
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
