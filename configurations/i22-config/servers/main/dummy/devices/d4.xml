@@ -13,4 +13,11 @@
     <bean id="d4motor_motor" class="gda.device.motor.DummyMotor">
         <property name="local" value="true" />
     </bean>
+    <bean id="d4d2" class="gda.device.monitor.DummyMonitor" />
+
+    <bean id="d4d2gain" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
+		<property name="offset" value="4" />
+		<property name="scaling" value="2" />
+		<property name="description" value="test" />
+	</bean>
 </beans>
