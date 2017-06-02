@@ -53,6 +53,18 @@
          id="org.eclipse.ecf.filetransfer.ssl.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.dawnsci.browser.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.scanning.event.queues.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="uk.ac.diamond.daq.mapping.ui.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i21"
          download-size="0"
