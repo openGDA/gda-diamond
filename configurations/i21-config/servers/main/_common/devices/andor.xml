@@ -1,9 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="andorCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true" />
@@ -74,7 +72,7 @@
 	</bean>
 
 	<bean id="andorInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-<!-- 		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" /> -->
+	 	<property name="id" value="org.eclipse.scanning.i21.andor.DeviceInformation" />
 		<property name="label" value="Andor" />
 		<property name="description" value="Andor" />
 	</bean>
@@ -86,4 +84,25 @@
 		<property name="activated" value="true" />
 	</bean>
 
+	<!-- Scannable group -->
+	<bean id="andor_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="andor" />
+				<ref bean="andor_addetector" />
+				<ref bean="andorADCSpeed" />
+				<ref bean="andorAccumulatePeriod" />
+				<ref bean="andorBinningSizeX" />
+				<ref bean="andorBinningSizeY" />
+				<ref bean="andorCoolerControl" />
+				<ref bean="andorCoolerTemperature" />
+				<ref bean="andorEMCCDGain" />
+				<ref bean="andorExtShutterTrigger" />
+				<ref bean="andorPreampGain" />
+				<ref bean="andorShutterMode" />
+				<ref bean="andorVerticalShiftAmplitude" />
+				<ref bean="andorVerticalShiftSpeed" />
+			</list>
+		</property>
+	</bean>
 </beans>

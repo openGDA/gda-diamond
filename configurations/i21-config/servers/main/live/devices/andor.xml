@@ -4,113 +4,201 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!-- Andor driver specific information for metadata -->
+	<bean id="andorAccumulatePeriod" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorAccumulatePeriod_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorShutterMode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorShutterMode"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorExtShutterTrigger" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorShutterExTTL"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorPreampGain" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorPreAmpGain_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorADCSpeed" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorADCSpeed_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorVerticalShiftSpeed" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorVSSpeed_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorVerticalShiftAmplitude" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorVSAmplitude_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorEMCCDGain" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorEMGain_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorCoolerTemperature" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:Temperature_RBV"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorCoolerControl" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorCooler"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+	<bean id="andorBinningSizeX" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:BinX_RBV"/>
+		<property name="local" value="true"/>
+		<property name="poll" value="true" />
+		<!-- <property name="outputFormat" value="%5.5g" />  -->
+	</bean>
+	<bean id="andorBinningSizeY" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-DET-01:CAM:BinY_RBV"/>
+		<property name="local" value="true"/>
+		<property name="poll" value="true" />
+		<!-- <property name="outputFormat" value="%5.5g" />  -->
+	</bean>
 
-	<!-- Area detector camera for NXDetector-->
-	<bean id="andorCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
-		<property name="restoreAcquireTime" value="true" />
-		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
-				<property name="restoreNumImagesAndImageMode" value="true"/>
-				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
-						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="andor_adbase" />
-								<property name="restoreAcquireState" value="true"/>
-							</bean>
-						</property>
-					</bean>
-				</property>
+<!-- Andor Area Detector EPICS Plugins -->
+	<bean id="andor_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL21I-EA-DET-01:CAM:" />
+	</bean>
+	<bean id="andor_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL21I-EA-DET-01:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-01:STAT:" />
+				<property name="initialArrayPort" value="ANDOR.cam" />
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="andorHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
-		<property name="ndFileHDF5" ref="andor_hdf5"/>
-		<property name="fileNameTemplate" value="andor"/>
-		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileTemplate" value="%s%s-%d.hdf" />
-		<property name="fileNumberAtScanStart" value="-1" />
-		<property name="setFileNameAndNumber" value="true" />
-		<property name="rowChunks" value="0" />
-		<property name="colChunks" value="0" />
-		<property name="framesChunks" value="1" />
-		<property name="framesFlush" value="1" />
-		<property name="storeAttr" value="true" />
-		<property name="lazyOpen" value="true" />
-		<property name="blocking" value="false" />
-		<property name="attrByDimSupported" value="true" />
-		<property name="attrByDim" value="true" />
-		<property name="pathErrorSuppressed" value="true" />
-	</bean>
-
-	<bean id="andor_darkandflatfields_proc"
-		class="gda.device.detector.nxdetector.andor.proc.FlatAndDarkFieldPlugin">
-		<constructor-arg ref="andor_adproc" />
-	</bean>
- 	<bean id="andor" class="gda.device.detector.NXDetector">
-		<property name="name" value="andor" />
-		<property name="collectionStrategy" ref="andorCollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="andorRoiStats1" />
-				<ref bean="andorRoiStats2" />
-				<ref bean="andorRoiStats3" />
-				<ref bean="andorRoiStats4" />
-				<ref bean="andorRoiStats5" />
-				<ref bean="andorRoiStats6" />
-				<ref bean="andorHdf5Filewriter" />
-				<ref bean="andor_darkandflatfields_proc" />
-			</list>
+	<bean id="andor_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL21I-EA-DET-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-01:ARR:" />
+				<property name="initialArrayPort" value="ANDOR.cam" />
+			</bean>
 		</property>
 	</bean>
+	<bean id="andor_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL21I-EA-DET-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL21I-EA-DET-01:HDF5:" />
+				<property name="initialArrayPort" value="ANDOR.rx" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="andor" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+	<bean id="andor_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL21I-EA-DET-01:HDF5:" />
+		<property name="file" ref="andor_ndfile" />
+	</bean>
+
 	
-<!-- ADDetector required by new scanning -->
-	<bean id="andor_addetector" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="andor_adbase" />
-		<property name="ndFile" ref="andor_hdf5" />
-		<property name="ndArray" ref="andor_ndarray" />
-		<property name="ndStats" ref="andor_stats" />
-		<property name="fileWriter" ref="andorHdf5Filewriter" />
+	<!-- Area detector Region of Interest (ROIs) -->
+	<bean id="andorPlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="ANDOR" />
+		<constructor-arg value="6" />
 	</bean>
-
-	<bean id="andorModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name" value="andor_addetector" />
-		<property name="exposureTime" value="0.1" />
+	<bean id="andorRoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats1" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI1:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
 	</bean>
-
-	<bean id="andorInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-<!-- 		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" /> -->
-		<property name="label" value="Andor" />
-		<property name="description" value="Andor" />
+	<bean id="andorRoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats2" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI2:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="1" />
+			</bean>
+		</property>
 	</bean>
-
-	<bean id="andor_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name" value="andor_addetector" />
-		<property name="model" ref="andorModel" />
-		<property name="deviceInformation" ref="andorInfo" />
-		<property name="activated" value="true" />
+	<bean id="andorRoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats3" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI3:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="2" />
+			</bean>
+		</property>
 	</bean>
-	
-<!-- Scannable group -->
-	<bean id="andor_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="andor" />
-				<ref bean="andor_addetector" />
-				<ref bean="andorADCSpeed" />
-				<ref bean="andorAccumulatePeriod" />
-				<ref bean="andorBinningSizeX" />
-				<ref bean="andorBinningSizeY" />
-				<ref bean="andorCoolerControl" />
-				<ref bean="andorCoolerTemperature" />
-				<ref bean="andorEMCCDGain" />
-				<ref bean="andorExtShutterTrigger" />
-				<ref bean="andorPreampGain" />
-				<ref bean="andorShutterMode" />
-				<ref bean="andorVerticalShiftAmplitude" />
-				<ref bean="andorVerticalShiftSpeed" />
-			</list>
+	<bean id="andorRoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats4" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI4:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="3" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="andorRoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats5" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI5:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="4" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="andorRoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats6" />
+		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI6:" />
+		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="ANDOR.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="5" />
+			</bean>
 		</property>
 	</bean>
 
