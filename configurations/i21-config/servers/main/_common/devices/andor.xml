@@ -85,24 +85,24 @@
 	</bean>
 
 	<!-- Scannable group -->
-	<bean id="andor_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="andor" />
-				<ref bean="andor_addetector" />
-				<ref bean="andorADCSpeed" />
-				<ref bean="andorAccumulatePeriod" />
-				<ref bean="andorBinningSizeX" />
-				<ref bean="andorBinningSizeY" />
-				<ref bean="andorCoolerControl" />
-				<ref bean="andorCoolerTemperature" />
-				<ref bean="andorEMCCDGain" />
-				<ref bean="andorExtShutterTrigger" />
-				<ref bean="andorPreampGain" />
-				<ref bean="andorShutterMode" />
-				<ref bean="andorVerticalShiftAmplitude" />
-				<ref bean="andorVerticalShiftSpeed" />
-			</list>
-		</property>
-	</bean>
+<!-- 	<bean id="andor_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup"> -->
+<!-- 		<property name="groupMembers"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="andor" /> -->
+<!-- 				<ref bean="andor_addetector" /> -->
+<!-- 				<ref bean="andorADCSpeed" /> -->
+<!-- 				<ref bean="andorAccumulatePeriod" /> -->
+<!-- 				<ref bean="andorBinningSizeX" /> -->
+<!-- 				<ref bean="andorBinningSizeY" /> -->
+<!-- 				<ref bean="andorCoolerControl" /> -->
+<!-- 				<ref bean="andorCoolerTemperature" /> -->
+<!-- 				<ref bean="andorEMCCDGain" /> -->
+<!-- 				<ref bean="andorExtShutterTrigger" /> -->
+<!-- 				<ref bean="andorPreampGain" /> -->
+<!-- 				<ref bean="andorShutterMode" /> -->
+<!-- 				<ref bean="andorVerticalShiftAmplitude" /> -->
+<!-- 				<ref bean="andorVerticalShiftSpeed" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 </beans>

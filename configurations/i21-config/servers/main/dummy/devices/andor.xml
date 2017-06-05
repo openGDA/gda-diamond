@@ -4,20 +4,206 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
- 	<bean id="andor" class="gda.device.detector.NXDetector">
-		<property name="name" value="andor" />
-		<property name="collectionStrategy" ref="simCollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="simRoiStats1" />
-				<ref bean="simRoiStats2" />
-				<ref bean="simRoiStats3" />
-				<ref bean="simRoiStats4" />
-				<ref bean="simRoiStats5" />
-				<ref bean="simRoiStats6" />
-				<ref bean="simHdf5Filewriter" />
-			</list>
+	<bean id="SWMRSimhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+
+<!-- Andor driver specific information for metadata -->
+<!-- 	<bean id="andorAccumulatePeriod" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="unit" value="s"/> -->
+<!-- 		<property name="value"> -->
+<!-- 			<value type="double">1.0</value> -->
+<!-- 		</property> -->
+<!-- 		<property name="lowerLimit" value="0.01" /> -->
+<!-- 		<property name="upperLimit" value="60.0" /> -->
+<!-- 		<property name="increment" value="0.1" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorShutterMode" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorShutterMode"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorExtShutterTrigger" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorShutterExTTL"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorPreampGain" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorPreAmpGain_RBV"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorADCSpeed" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorADCSpeed_RBV"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorVerticalShiftSpeed" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorVSSpeed_RBV"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorVerticalShiftAmplitude" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorVSAmplitude_RBV"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorEMCCDGain" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorEMGain_RBV"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorCoolerTemperature" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:Temperature_RBV"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorCoolerControl" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:AndorCooler"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		 <property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorBinningSizeX" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:BinX_RBV"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		<property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="andorBinningSizeY" class="gda.device.monitor.DummyEpicsMonitorDouble"> -->
+<!-- 		<property name="pvName" value="BL21I-EA-DET-01:CAM:BinY_RBV"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 		<property name="poll" value="true" /> -->
+<!-- 	</bean> -->
+
+<!-- Andor Area Detector EPICS Plugins -->
+	<bean id="andor_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:CAM:" />
+	</bean>
+	<bean id="andor_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:STAT:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
 		</property>
-	</bean>	
+	</bean>
+	<bean id="andor_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:ARR:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="andor_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:HDF5:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="andor" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+	<bean id="andor_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:HDF5:" />
+		<property name="file" ref="andor_ndfile" />
+	</bean>
+
+	
+	<!-- Area detector Region of Interest (ROIs) -->
+	<bean id="andorPlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="ANDOR" />
+		<constructor-arg value="6" />
+	</bean>
+	<bean id="andorRoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats1" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:ROI1:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="andorRoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats2" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:ROI2:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="1" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="andorRoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats3" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:ROI3:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="2" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="andorRoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats4" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:ROI4:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="3" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="andorRoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats5" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:ROI5:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="4" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="andorRoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andorRoiStats6" />
+		<property name="baseRoiPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:ROI6:" />
+		<property name="baseStatsPVName" value="#{ SWMRSimhostname.hostName.split('\.')[0] }-EA-DET-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="andorPlotServerRoiProvider" />
+				<constructor-arg value="5" />
+			</bean>
+		</property>
+	</bean>
 
 </beans>
