@@ -25,10 +25,10 @@
 	<import resource="devices/_all.xml"/>
 
 	<!-- dummy beans from p45-config, can be used for testing solstice scanning. -->
-	<import resource="../../../../../../p45-config/servers/main/_common/det.xml"/>
-	<import resource="../../../../../../p45-config/servers/main/_common/mapping_motors.xml"/>
-	<import resource="../../../../../../p45-config/servers/main/_common/example_detectors.xml"/>
-	<import resource="../../../../../../p45-config/servers/main/_common/mandelbrot_detectors.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/det.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/mapping_motors.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/example_detectors.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/mandelbrot_detectors.xml"/>
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<corba:export namespace="${gda.factory.factoryName}" />
@@ -37,5 +37,5 @@
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 --> 
-	<import resource="../../../../../../p45-config/servers/main/_common/solstice_scanning.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/solstice_scanning.xml"/>
 </beans>

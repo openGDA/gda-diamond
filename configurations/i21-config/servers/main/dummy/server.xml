@@ -8,10 +8,10 @@
 	<import resource="devices/_all.xml"/>
 
 	<!-- add dummy motors from p45-config  for solstice scanning testing-->
-	<import resource="../../../../../../p45-config/servers/main/dummy/mapping_motors.xml"/> <!-- Dummy motor -->
-	<import resource="../../../../../../p45-config/servers/main/dummy/mic.xml"/> <!-- EPICS SWMR IOC-->
-	<import resource="../../../../../../p45-config/servers/main/dummy/det.xml"/> <!-- Java Simulation -->
-	<import resource="../../../../../../p45-config/servers/main/_common/mic.xml"/>
+	<import resource="../../../../p45-config/servers/main/dummy/mapping_motors.xml"/> <!-- Dummy motor -->
+	<import resource="../../../../p45-config/servers/main/dummy/mic.xml"/> <!-- EPICS SWMR IOC-->
+	<import resource="../../../../p45-config/servers/main/dummy/det.xml"/> <!-- Java Simulation -->
+	<import resource="../../../../p45-config/servers/main/_common/mic.xml"/>
 
 <!-- do not remove anything below here -->
 	<import resource="../../../servers/main/_common/server.xml" />
